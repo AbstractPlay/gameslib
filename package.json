@@ -1,0 +1,43 @@
+{
+  "name": "@abstractplay/gameslib",
+  "version": "0.1.0",
+  "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "npm run build-ts && npm run tslint",
+    "build-ts": "tsc",
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "dist-dev": "webpack",
+    "dist-prod": "webpack --mode=production",
+    "full-dev": "npm run test && npm run build && npm run dist-dev",
+    "full-prod": "npm run test && npm run build && npm run dist-prod",
+    "distribute": "copy .\\test\\index.html D:\\xampp\\htdocs\\renderer && copy .\\dist\\APGames.js D:\\xampp\\htdocs\\renderer",
+    "quick": "npm run build-ts && npm run dist-dev && npm run distribute"
+  },
+  "repository": {
+    "type": "git",
+    "url": "AbstractPlay/gameslib"
+  },
+  "author": "Aaron Dalton <aaron@daltons.ca> (https://www.perlkonig.com/)",
+  "license": "MIT",
+  "keywords": [
+    "abstractplay",
+    "games"
+  ],
+  "private": true,
+  "devDependencies": {
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^9.0.0",
+    "chai": "^4.3.4",
+    "mocha": "^9.1.2",
+    "tslint": "^6.1.3",
+    "typescript": "^4.4.3",
+    "webpack": "^5.57.1",
+    "webpack-cli": "^4.8.0"
+  },
+  "dependencies": {
+    "dangraph": "^1.0.1"
+  }
+}

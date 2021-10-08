@@ -13,8 +13,9 @@
     "dist-prod": "webpack --mode=production",
     "full-dev": "npm run test && npm run build && npm run dist-dev",
     "full-prod": "npm run test && npm run build && npm run dist-prod",
-    "distribute": "copy .\\test\\index.html D:\\xampp\\htdocs\\renderer && copy .\\dist\\APGames.js D:\\xampp\\htdocs\\renderer",
-    "quick": "npm run build-ts && npm run dist-dev && npm run distribute"
+    "distribute": "copy .\\playground\\index.html D:\\xampp\\htdocs\\games && copy .\\dist\\APGames.js D:\\xampp\\htdocs\\games",
+    "quick": "npm run build-ts && npm run dist-dev && npm run distribute",
+    "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts"
   },
   "repository": {
     "type": "git",
@@ -28,16 +29,23 @@
   ],
   "private": true,
   "devDependencies": {
+    "@abstractplay/renderer": "github:abstractplay/renderer#v0.2.0",
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
     "chai": "^4.3.4",
+    "json-schema-to-typescript": "^10.1.5",
     "mocha": "^9.1.2",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.2.1",
     "tslint": "^6.1.3",
     "typescript": "^4.4.3",
     "webpack": "^5.57.1",
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
-    "dangraph": "^1.0.1"
+    "ajv": "^6.12.6",
+    "graphology": "^0.21.0",
+    "graphology-shortest-path": "^1.4.1",
+    "minmax-wt-alpha-beta-pruning": "^1.0.5"
   }
 }

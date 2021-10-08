@@ -7,3 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support library for rectangular grids created.
+- The game "Amazons" has been implemented, including rudimentary and very slow AI.

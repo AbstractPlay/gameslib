@@ -1,0 +1,106 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "$id": "https://www.abstractplay.com/schemas/gameinfo/1-0-0.json#",
+    "title": "AP Games Information",
+    "description": "When requested, the games library will produce the following information about requested games",
+    "definitions": {
+        "urllist": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "person": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "A description of the type of involvement this person has with the game",
+                    "enum": [
+                        "designer",
+                        "publisher",
+                        "coder",
+                        "other"
+                    ]
+                },
+                "name": {
+                    "description": "The person or organization name",
+                    "type": "string"
+                },
+                "urls": {
+                    "description": "List of URLs associated with this person or organization",
+                    "$ref": "#/definitions/urllist"
+                }
+            },
+            "required": ["name"]
+        },
+        "variant": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "The name of the variant",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "A short, unique string representing this variant",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "A Markdown-formatted description of the variant",
+                    "type": "string"
+                },
+                "group": {
+                    "description": "If present, variants of the same `group` are considered mutually exclusive",
+                    "type": "string"
+                }
+            },
+            "required": ["name", "uid"]
+        }
+    },
+    "type": "object",
+    "properties": {
+        "name": {
+            "description": "The name of the game",
+            "type": "string"
+        },
+        "uid": {
+            "description": "The unique code by which this game is referred to by the system. It's typically lowercase and devoid of whitespace and special characters. It should mirror the game name as much as possible.",
+            "type": "string"
+        },
+        "description": {
+            "description": "A Markdown-formatted description of the game, which can include a rules summary",
+            "type": "string"
+        },
+        "urls": {
+            "description": "List of URLs related to the game",
+            "$ref": "#/definitions/urllist"
+        },
+        "version": {
+            "description": "A string representing the version of the current implementation. The format of the string is irrelevant. Its main purpose is to identify incompatible game state representations. It should be changed whenever the internal game rep changes.",
+            "type": "string"
+        },
+        "people": {
+            "description": "The people and organizations involved in the game's creation",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/person"
+            }
+        },
+        "variants": {
+            "description": "A list of supported variants",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/variant"
+            }
+        },
+        "playercounts": {
+            "description": "A list of the supported player counts",
+            "type": "array",
+            "items": {
+                "type": "integer",
+                "minimum": 1
+            }
+        }
+    },
+    "required": ["name", "uid", "version", "playercounts"]
+}

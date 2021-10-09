@@ -1,0 +1,228 @@
+<!-- 
+    To use this in your own environment, build the `APRender.js` bundle and 
+    put it and this HTML file somewhere a browser can see it. You can then
+    render arbitrary JSON for testing.
+ -->
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>AP Game Tester</title>
+        <script src="./APRender.js"></script>
+        <script src="./APGames.js"></script>
+        <script src=" https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+        <script type="text/javascript">
+            /* Code for JSON parsing MAPs, from SO: https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map */
+            function replacer(key, value) {
+                if(value instanceof Map) {
+                  return {
+                    dataType: 'Map',
+                    value: Array.from(value.entries()), // or with spread: value: [...value]
+                  };
+                } else {
+                  return value;
+                }
+            }
+            function reviver(key, value) {
+            if(typeof value === 'object' && value !== null) {
+                if (value.dataType === 'Map') {
+                return new Map(value.value);
+                }
+            }
+            return value;
+            }
+
+            function renderGame() {
+                var myNode = document.getElementById("drawing");
+                while (myNode.lastChild) {
+                    myNode.removeChild(myNode.lastChild);
+                }                
+                var options = {divid: "drawing"};
+                var radio = document.querySelector('input[name="playerfill"]:checked').value;
+                if (radio === "blind") {
+                    options.colourBlind = true;
+                } else if (radio === "patterns") {
+                    options.patterns = true;
+                }
+                if (document.getElementById("rot180").checked) {
+                    options.rotate = 180;
+                }
+                var data = JSON.parse(window.sessionStorage.getItem("render"));
+                var canvas = APRender.render(data, options);
+                return false;
+            }
+
+            function populateMoveHistory() {
+                var history = window.sessionStorage.getItem("history");
+                if (history !== null) {
+                    var movelst = JSON.parse(history);
+                    var div = document.getElementById("moveHistory");
+                    div.innerHTML = movelst.join(", ");
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+                // Populate games list
+                var select = document.getElementById("selectGame");
+                APGames.gameinfo.forEach((v, k) => {
+                    var opt = document.createElement('option');
+                    opt.value = v.uid;
+                    opt.innerHTML = v.name;
+                    select.appendChild(opt);
+                });
+
+                // Listen for game selection change
+                select.addEventListener("change", (e) => {
+                    var infobox = document.getElementById("gameInfo");
+                    var info = APGames.gameinfo.get(select.value);
+                    if ( (info === undefined) || (info === null) ) {
+                        infobox.innerHTML = "";
+                    } else {
+                        var converter = new showdown.Converter();
+                        infobox.innerHTML = converter.makeHtml(info.description);    
+                    }
+                });
+
+                // Listen for game launch
+                document.getElementById("launch").addEventListener("click", () => {
+                    var game = APGames.GameFactory(select.value);
+                    window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                    window.sessionStorage.setItem("render", JSON.stringify(game.render()));
+                    window.sessionStorage.setItem("gamename", select.value);
+                    renderGame();
+                }, false);
+
+                // Listen for move button
+                document.getElementById("moveBtn").addEventListener("click", () => {
+                    var movebox = document.getElementById("moveEntry");
+                    var state = window.sessionStorage.getItem("state");
+                    if (state !== null) {
+                        var gamename = window.sessionStorage.getItem("gamename");
+                        var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
+                        try {
+                            game.move(movebox.value);
+                            var moves = [];
+                            var movehist = window.sessionStorage.getItem("history");
+                            if (movehist !== null) {
+                                moves = JSON.parse(movehist);
+                            }
+                            moves.push(movebox.value);
+                            movebox.value = "";
+                            window.sessionStorage.setItem("history", JSON.stringify(moves));
+                            window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                            window.sessionStorage.setItem("render", JSON.stringify(game.render()));
+                            renderGame();
+                        } catch (err) {
+                            alert("An error occurred. See the console for details");
+                            console.log("Game state: "+state);
+                            console.log("Error message:" + err.message);
+                        }
+                    }
+                });
+                
+                // Listen for AI buttons
+                document.getElementById("aiFast").addEventListener("click", () => {
+                    var gamename = window.sessionStorage.getItem("gamename");
+                    if (gamename !== null) {
+                        var depth = APGames.aiFast.get(gamename);
+                        if ( (depth !== undefined) && (depth !== null) ) {
+                            var movebox = document.getElementById("moveEntry");
+                            movebox.value = "thinking...";
+                            var state = window.sessionStorage.getItem("state");
+                            var factory = APGames.AIFactory(gamename);
+                            var move = factory.constructor.findmove(JSON.parse(state, reviver), depth);
+                            movebox.value = move;
+                        } else {
+                            alert("This game does not support fast AI.");
+                        }
+                    }
+                });
+
+                document.getElementById("aiSlow").addEventListener("click", () => {
+                    var gamename = window.sessionStorage.getItem("gamename");
+                    if (gamename !== null) {
+                        var depth = APGames.aiSlow.get(gamename);
+                        if ( (depth !== undefined) && (depth !== null) ) {
+                            var movebox = document.getElementById("moveEntry");
+                            movebox.value = "thinking...";
+                            var state = window.sessionStorage.getItem("state");
+                            var factory = APGames.AIFactory(gamename);
+                            var move = factory.constructor.findmove(JSON.parse(state, reviver), depth);
+                            movebox.value = move;
+                        } else {
+                            alert("This game does not support slow AI.");
+                        }
+                    }
+                });
+
+                // Listen for render setting change
+                document.getElementById("renderSettings").addEventListener("click", renderGame, false);
+
+                // If the page was refreshed, then let's at least remember the move history and game board
+                renderGame();
+                populateMoveHistory();
+            });
+        </script>
+    </head>
+    <body>
+        <h1>AP Game Tester</h1>
+        <section>
+            <p>Select a game below and click "Launch Game." A fresh board will appear and you can enter moves for all players. Some games will have an AI option as well. To start over, just click "Launch Game" again.</p>
+        </section>
+        <section>
+            <h2>Game Selection</h2>
+            <form>
+                <div>
+                    <select id="selectGame">
+                        <option name="empty"></option>
+                    </select>
+                </div>
+                <div id="gameInfo" style="width: 50%; margin-left: 2em"></div>
+                <button id="launch" name="launch" type="button">Launch Game</button>
+            </form>
+        </section>
+        <section>
+            <h2>Render Settings</h2>
+            <form>
+                <div>
+                    <input type="radio" id="fillStandard" name="playerfill" value="standard" checked>
+                    <label for="fillStandard">Standard colours (9 max)</label>
+
+                    <input type="radio" id="fillBlind" name="playerfill" value="blind">
+                    <label for="fillBlind">Colour-blind-friendly colours (4 max)</label>
+
+                    <input type="radio" id="fillPatterns" name="playerfill" value="patterns">
+                    <label for="fillPatterns">Black-and-white patterns (10 max)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="rot180" name="rotate">
+                    <label for="rot180">Rotate 180&deg;</label>
+                </div>
+                <button id="renderSettings" name="renderSettings" type="button">Update Settings</button>
+            </form>
+        </section>
+        <section>
+            <h2>Move History</h2>
+            <div id="moveHistory"></div>
+        </section>
+        <section style="columns: 2">
+            <h2>Play Area</h2>
+            <div>
+                <form>
+                    <div>
+                        <label for="moveEntry">Enter your move</label>
+                        <input id="moveEntry" type="text">
+                    </div>
+                    <div>
+                        <button id="moveBtn" name="moveBtn" type="button">Move</button>
+                    </div>
+                    <div>
+                        <p>"Fast" is measured in seconds. "Slow" can be measured in minutes. Don't click multiple times.</p>
+                        <button id="aiFast" name="aiFast" type="button">Let AI Decide (Fast)</button>
+                        <button id="aiSlow" name="aiSlow" type="button">Let AI Decide (Slow)</button><br>
+                    </div>
+                </form>
+            </div>    
+            <div id="drawing" style="padding: 0.5em"></div>
+        </section>
+    </body>
+</html>

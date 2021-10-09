@@ -10,6 +10,8 @@ import bidirectional from 'graphology-shortest-path/unweighted';
 const gameDesc:string = `# Amazons
 
 A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.
+
+The game tree for Amazons, especially early in the game, is enormous, so the AI is very rudimentary.
 `;
 
 type CellContents = 0 | 1 | 2;

@@ -1,5 +1,6 @@
 import { AmazonsGame, IAmazonsState } from "../games";
 import {minmax} from 'minmax-wt-alpha-beta-pruning';
+import { AIBase } from "./_base";
 
 const gameRules = {
     listMoves (state: IAmazonsState): string[] {
@@ -26,7 +27,7 @@ interface IAIResult {
     evaluation: number;
 }
 
-export class AmazonsAI {
+export class AmazonsAI extends AIBase {
     public static evaluate(state: IAmazonsState): number {
         const g = new AmazonsGame(state);
         const m1 = g.moves(1);
@@ -38,7 +39,11 @@ export class AmazonsAI {
         }
     }
 
-    public static findmove(state: IAmazonsState, plies: number = 10): IAIResult {
-        return minmax(state, gameRules, AmazonsAI.evaluate, plies);
+    public static findmove(state: IAmazonsState, plies: number): string {
+        const result: IAIResult =  minmax(state, gameRules, AmazonsAI.evaluate, plies);
+        if ( (result === undefined) || (! result.hasOwnProperty("bestMove")) || (result.bestMove === undefined) || (result.bestMove === null) ) {
+            throw new Error("No best move found. This should never happen.");
+        }
+        return result.bestMove;
     }
 }

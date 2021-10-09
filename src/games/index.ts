@@ -14,3 +14,10 @@ const games = new Map<string, typeof GameBase>();
 });
 export { games };
 
+export function GameFactory(game: string, state?: any): GameBase|undefined {
+    switch (game) {
+        case "amazons":
+            return new AmazonsGame(state);
+    }
+    return;
+}

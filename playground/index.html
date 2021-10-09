@@ -111,6 +111,7 @@
                             window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
                             window.sessionStorage.setItem("render", JSON.stringify(game.render()));
                             renderGame();
+                            populateMoveHistory();
                         } catch (err) {
                             alert("An error occurred. See the console for details");
                             console.log("Game state: "+state);

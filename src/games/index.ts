@@ -1,12 +1,13 @@
 import { APGamesInformation } from "../schemas/gameinfo";
 import { GameBase } from "./_base";
 import { AmazonsGame, IAmazonsState } from "./amazons";
+import { BlamGame, IBlamState } from "./blam";
 
-export { APGamesInformation, GameBase, AmazonsGame, IAmazonsState };
+export { APGamesInformation, GameBase, AmazonsGame, IAmazonsState, BlamGame, IBlamState };
 
-const games = new Map<string, typeof GameBase>();
+const games = new Map<string, typeof AmazonsGame | typeof BlamGame>();
 // Manually add each game to the following array
-[AmazonsGame].forEach((g) => {
+[AmazonsGame, BlamGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -14,10 +15,12 @@ const games = new Map<string, typeof GameBase>();
 });
 export { games };
 
-export function GameFactory(game: string, state?: any): GameBase|undefined {
+export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
     switch (game) {
         case "amazons":
-            return new AmazonsGame(state);
+            return new AmazonsGame(args[0]);
+        case "blam":
+            return new BlamGame(args[0], args[1]);
     }
     return;
 }

@@ -1,6 +1,7 @@
 import { AmazonsGame, IAmazonsState } from "../games";
 import {minmax} from 'minmax-wt-alpha-beta-pruning';
 import { AIBase } from "./_base";
+import { IAIResult } from ".";
 
 const gameRules = {
     listMoves (state: IAmazonsState): string[] {
@@ -20,11 +21,6 @@ const gameRules = {
             return -Infinity;
         }
     }
-}
-
-interface IAIResult {
-    bestMove: string|null;
-    evaluation: number;
 }
 
 export class AmazonsAI extends AIBase {

@@ -10,4 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support library for rectangular grids created.
-- The game "Amazons" has been implemented, including rudimentary and very slow AI.
+- The game "Amazons" has been implemented, including a rudimentary and very slow AI.
+- The game "Blam!" has been implemented, including a rudimentary AI.
+- Playground added.

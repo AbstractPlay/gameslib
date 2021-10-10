@@ -15,17 +15,17 @@ The game tree for Amazons, especially early in the game, is enormous, so the AI 
 `;
 
 type CellContents = 0 | 1 | 2;
+type playerid = 1|2;
 
 export interface IAmazonsState {
-    currplayer: 1|2;
+    currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
     gameover: boolean;
-    winner?: 1|2;
+    winner: playerid[];
 };
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
-export class AmazonsGame extends GameBase {
+export class AmazonsGame extends GameBase implements IAmazonsState {
     public static readonly gameinfo: APGamesInformation = {
         name: "Amazons",
         uid: "amazons",
@@ -40,6 +40,12 @@ export class AmazonsGame extends GameBase {
             }
         ]
     };
+    public static coords2algebraic(x: number, y: number): string {
+        return GameBase.coords2algebraic(x, y, 10);
+    }
+    public static algebraic2coords(cell: string): [number, number] {
+        return GameBase.algebraic2coords(cell, 10);
+    }
 
     private buildGraph(): UndirectedGraph {
         // Build the graph
@@ -81,29 +87,12 @@ export class AmazonsGame extends GameBase {
         return graph;
     }
 
-    public static coords2algebraic(x: number, y: number): string {
-        return columnLabels[x] + (10 - y).toString();
-    }
-
-    public static algebraic2coords(cell: string): [number, number] {
-        const pair: string[] = cell.split("");
-        const num = (pair.slice(1)).join("");
-        const x = columnLabels.indexOf(pair[0]);
-        if ( (x === undefined) || (x < 0) ) {
-            throw new Error(`The column label is invalid: ${pair[0]}`);
-        }
-        const y = parseInt(num, 10);
-        if ( (y === undefined) || (isNaN(y)) ) {
-            throw new Error(`The row label is invalid: ${pair[1]}`);
-        }
-        return [x, 10 - y];
-    }
-
-    public currplayer: 1|2;
+    public numplayers: number = 2;
+    public currplayer: playerid;
     public board: Map<string, CellContents>;
     public lastmove?: string;
     public gameover: boolean = false;
-    public winner?: 1|2;
+    public winner: playerid[] = [];
     public graph: UndirectedGraph;
 
     constructor(state?: IAmazonsState) {
@@ -113,6 +102,7 @@ export class AmazonsGame extends GameBase {
             this.board = new Map(state.board);
             this.lastmove = state.lastmove;
             this.gameover = state.gameover;
+            this.winner = [...state.winner];
         } else {
             this.currplayer = 1;
             this.board = new Map([
@@ -178,6 +168,11 @@ export class AmazonsGame extends GameBase {
         return allmoves;
     }
 
+    public randomMove(): string {
+        const moves = this.moves();
+        return moves[Math.floor(Math.random() * moves.length)];
+    }
+
     public move(m: string): AmazonsGame {
         const moves = this.moves();
         if (! moves.includes(m)) {
@@ -202,9 +197,9 @@ export class AmazonsGame extends GameBase {
         if (this.moves().length === 0) {
             this.gameover = true;
             if (this.currplayer === 1) {
-                this.winner = 2;
+                this.winner = [2];
             } else {
-                this.winner = 1;
+                this.winner = [1];
             }
         }
         return this.gameover;
@@ -213,9 +208,9 @@ export class AmazonsGame extends GameBase {
     public resign(player: 1|2): AmazonsGame {
         this.gameover = true;
         if (player === 1) {
-            this.winner = 2;
+            this.winner = [2];
         } else {
-            this.winner = 1;
+            this.winner = [1];
         }
         return this;
     }
@@ -226,7 +221,7 @@ export class AmazonsGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             gameover: this.gameover,
-            winner: this.winner
+            winner: [...this.winner]
         };
     }
 
@@ -371,5 +366,14 @@ export class AmazonsGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public status(): string {
+        if (this.areIsolated()) {
+            const t = this.territory();
+            return `The queens are now isolated.\n\n**Territory**\n\nFirst player: ${t[0]}\n\nSecond player: ${t[1]}\n`;
+        } else {
+            return "";
+        }
     }
 }

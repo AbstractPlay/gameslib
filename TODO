@@ -1,0 +1,3 @@
+- Implement "Blam!" variant "Overloaded"
+- Should there be a "results" variable to report in localized language what changed in the game state?
+- The AI appears to be broken at even plies, and does not always do what is expected. Need to evaluate whether this is the fault of the library, the game code, or some combination of both.

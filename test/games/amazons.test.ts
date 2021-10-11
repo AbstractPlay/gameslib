@@ -50,7 +50,8 @@ describe("Amazons", () => {
         const state: IAmazonsState = {
             currplayer: 1,
             gameover: false,
-            board: b
+            board: b,
+            winner: []
         };
         const g = new AmazonsGame(state);
         expect(g.areIsolated()).to.be.true;
@@ -72,7 +73,8 @@ describe("Amazons", () => {
         const state: IAmazonsState = {
             currplayer: 1,
             gameover: false,
-            board: b
+            board: b,
+            winner: []
         };
         const g = new AmazonsGame(state);
         const ts = g.territory();

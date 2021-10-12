@@ -161,6 +161,7 @@ export class MchessGame extends GameBase implements IMchessState {
     }
 
     public moves(player?: playerid): string[] {
+        if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
         }

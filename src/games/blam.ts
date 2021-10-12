@@ -44,14 +44,15 @@ export class BlamGame extends GameBase implements IBlamState {
                 name: "Jon Eargle"
             }
         ],
-        variants: [
-            {
-                uid: "overloaded",
-                name: "Overloaded",
-                description: "Placed pieces push adjacent pieces a number of spaces equal to their pip counts"
-            }
-        ]
     };
+        // variants: [
+        //     {
+        //         uid: "overloaded",
+        //         name: "Overloaded",
+        //         description: "Placed pieces push adjacent pieces a number of spaces equal to their pip counts"
+        //     }
+        // ]
+
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
     }

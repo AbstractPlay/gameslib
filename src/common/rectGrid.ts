@@ -84,6 +84,27 @@ export class RectGrid {
     }
 
     /**
+     * A helper for finding valid Chess knight moves from a given cell
+     *
+     * @param {number} x
+     * @param {number} y
+     * @returns {Array<[number, number]>}
+     * @memberof RectGrid
+     */
+    public knights(x: number, y: number): Array<[number, number]> {
+        const moves: Array<[number, number]> = [];
+
+        for (const matrix of [[1, -2], [-1, -2], [1, 2], [-1, 2], [2, -1], [2, 1], [-2, -1], [-2, 1]]) {
+            const newcell: [number, number] = [x + matrix[0], y + matrix[1]];
+            if (this.inBounds(...newcell)) {
+                moves.push(newcell);
+            }
+        }
+
+        return moves;
+    }
+
+    /**
      * Returns an array of cells between the starting cell and the edge of the board in the given direction.
      * Does not include the starting cell.
      *

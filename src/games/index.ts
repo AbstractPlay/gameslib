@@ -3,17 +3,19 @@ import { GameBase } from "./_base";
 import { AmazonsGame, IAmazonsState } from "./amazons";
 import { BlamGame, IBlamState } from "./blam";
 import { CannonGame, ICannonState } from "./cannon";
+import { MchessGame, IMchessState } from "./mchess";
 
 export {
     APGamesInformation, GameBase,
     AmazonsGame, IAmazonsState,
     BlamGame, IBlamState,
     CannonGame, ICannonState,
+    MchessGame, IMchessState
 };
 
-const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame>();
+const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame | typeof MchessGame>();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -24,11 +26,13 @@ export { games };
 export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
     switch (game) {
         case "amazons":
-            return new AmazonsGame(args[0]);
+            return new AmazonsGame(...args);
         case "blam":
-            return new BlamGame(args[0], args[1]);
+            return new BlamGame(args[0], ...args);
         case "cannon":
-            return new CannonGame(args[0]);
+            return new CannonGame(...args);
+        case "mchess":
+            return new MchessGame(...args);
     }
     return;
 }

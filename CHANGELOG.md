@@ -13,4 +13,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The game "Amazons" has been implemented, including a rudimentary and very slow AI.
 - The game "Blam!" has been implemented, including a rudimentary AI.
 - The game "Cannon" has been implemented, including a rudimentary AI.
+- The game "Martian Chess" (2-player only, including "Of Knights and Kings" variant) has been implemented, including a rudimentary AI.
 - Playground added.

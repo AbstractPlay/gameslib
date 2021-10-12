@@ -23,12 +23,12 @@
                 }
             }
             function reviver(key, value) {
-            if(typeof value === 'object' && value !== null) {
-                if (value.dataType === 'Map') {
-                return new Map(value.value);
+                if(typeof value === 'object' && value !== null) {
+                    if (value.dataType === 'Map') {
+                    return new Map(value.value);
+                    }
                 }
-            }
-            return value;
+                return value;
             }
 
             function renderGame() {
@@ -76,6 +76,7 @@
             document.addEventListener("DOMContentLoaded", function(event) {
                 // Populate games list
                 var select = document.getElementById("selectGame");
+                var varSelect = document.getElementById("selectVariant");
                 APGames.gameinfo.forEach((v, k) => {
                     var opt = document.createElement('option');
                     opt.value = v.uid;
@@ -86,12 +87,51 @@
                 // Listen for game selection change
                 select.addEventListener("change", (e) => {
                     var infobox = document.getElementById("gameInfo");
+                    var varInfobox = document.getElementById("varInfo");
+                    varInfobox.innerHTML = "";
                     var info = APGames.gameinfo.get(select.value);
                     if ( (info === undefined) || (info === null) ) {
                         infobox.innerHTML = "";
                     } else {
                         var converter = new showdown.Converter();
                         infobox.innerHTML = converter.makeHtml(info.description);    
+                    }
+                    if ( (info.variants !== undefined) && (info.variants.length > 0) ) {
+                        var varSelect = document.getElementById("selectVariant");
+                        info.variants.forEach((v) => {
+                            var opt = document.createElement('option');
+                            opt.value = v.uid;
+                            opt.innerHTML = v.name;
+                            varSelect.appendChild(opt);
+                        });
+                    } else {
+                        var varSelect = document.getElementById("selectVariant");
+                        while (varSelect.lastChild) {
+                            varSelect.removeChild(varSelect.lastChild);
+                        }
+                        var opt = document.createElement('option');
+                        opt.value = "empty";
+                        opt.innerHTML = "";
+                        varSelect.appendChild(opt);
+                    }
+                });
+
+                // Listen for variant selection change
+                varSelect.addEventListener("change", (e) => {
+                    var infobox = document.getElementById("varInfo");
+                    var info = APGames.gameinfo.get(select.value);
+                    if ( (varSelect.value !== undefined) && (varSelect.value !== null) && (varSelect.value !== "empty") ) {
+                        var variant;
+                        info.variants.forEach((v) => {
+                            if (v.uid === varSelect.value) {
+                                variant = v;
+                            }
+                        });
+                        var content = "**Variant: " + variant.name + "**\n\n" + variant.description;
+                        var converter = new showdown.Converter();
+                        infobox.innerHTML = converter.makeHtml(content);
+                    } else {
+                        infobox.innerHTML = "";
                     }
                 });
 
@@ -100,9 +140,17 @@
                     var info = APGames.gameinfo.get(select.value);
                     var game;
                     if (info.playercounts.length > 1) {
-                        game = APGames.GameFactory(select.value, 2);
+                        if ( (varSelect.value !== undefined) && (varSelect.value !== null) && (varSelect.value !== "empty") ) {
+                            game = APGames.GameFactory(select.value, 2, [varSelect.value]);
+                        } else {
+                            game = APGames.GameFactory(select.value, 2);
+                        }
                     } else {
-                        game = APGames.GameFactory(select.value);
+                        if ( (varSelect.value !== undefined) && (varSelect.value !== null) && (varSelect.value !== "empty") ) {
+                            game = APGames.GameFactory(select.value, undefined, [varSelect.value]);
+                        } else {
+                            game = APGames.GameFactory(select.value);
+                        }
                     }
                     window.sessionStorage.removeItem("history");
                     window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
@@ -257,9 +305,13 @@
                     <select id="selectGame">
                         <option name="empty"></option>
                     </select>
+                    <select id="selectVariant">
+                        <option name="empty"></option>
+                    </select>
                 </div>
                 <button id="launch" name="launch" type="button">Launch Game</button>
                 <div id="gameInfo" style="width: 50%; margin-left: 2em"></div>
+                <div id="varInfo" style="width: 50%; margin-left: 2em"></div>
             </form>
         </section>
         <section>

@@ -102,6 +102,24 @@ describe("RectGrid", () => {
         expect(adj).to.have.deep.members([[4,3], [5,4], [4,5], [3,4]]);
     });
 
+    it ("Knights: corner", () => {
+        const g = new RectGrid(8, 8);
+        const adj = g.knights(0,0);
+        expect(adj).to.have.deep.members([[2,1], [1,2]]);
+    });
+
+    it ("Knights: edge", () => {
+        const g = new RectGrid(8, 8);
+        const adj = g.knights(5,0);
+        expect(adj).to.have.deep.members([[7,1], [3,1], [4,2], [6,2]]);
+    });
+
+    it ("Knights: centre", () => {
+        const g = new RectGrid(8, 8);
+        const adj = g.knights(4,4);
+        expect(adj).to.have.deep.members([[3,2], [5,2], [6,3], [6,5], [3,6], [5,6], [2,3], [2,5]]);
+    });
+
     it ("Ray casting: edges outwards", () => {
         const g = new RectGrid(8, 8);
         let ray = g.ray(0, 0, "N");

@@ -165,19 +165,41 @@ describe("RectGrid", () => {
     });
 
     it ("Visibility: orthogonal", () => {
-        const g = new RectGrid(8, 8);
-        expect(g.isOrth(0, 0, 0, 1)).to.be.true;
-        expect(g.isOrth(0, 0, 1, 0)).to.be.true;
-        expect(g.isOrth(0, 0, 1, 1)).to.be.false;
-        expect(g.isOrth(0, 0, 0, 10)).to.be.false;
-        expect(g.isOrth(0, 0, 10, 0)).to.be.false;
+        expect(RectGrid.isOrth(0, 0, 0, 1)).to.be.true;
+        expect(RectGrid.isOrth(0, 0, 1, 0)).to.be.true;
+        expect(RectGrid.isOrth(0, 0, 1, 1)).to.be.false;
     });
 
     it ("Visiblity: diagonal", () => {
-        const g = new RectGrid(8, 8);
-        expect(g.isDiag(0, 0, 0, 1)).to.be.false;
-        expect(g.isDiag(0, 0, 1, 0)).to.be.false;
-        expect(g.isDiag(0, 0, 1, 1)).to.be.true;
-        expect(g.isDiag(0, 0, 10, 10)).to.be.false;
+        expect(RectGrid.isDiag(0, 0, 0, 1)).to.be.false;
+        expect(RectGrid.isDiag(0, 0, 1, 0)).to.be.false;
+        expect(RectGrid.isDiag(0, 0, 1, 1)).to.be.true;
     });
+
+    it ("Bearings", () => {
+        // exact
+        expect(RectGrid.bearing(0, 0, 0, -5)).to.equal("N");
+        expect(RectGrid.bearing(0, 0, 5, -5)).to.equal("NE");
+        expect(RectGrid.bearing(0, 0, 5, 0)).to.equal("E");
+        expect(RectGrid.bearing(0, 0, 5, 5)).to.equal("SE");
+        expect(RectGrid.bearing(0, 0, 0, 5)).to.equal("S");
+        expect(RectGrid.bearing(0, 0, -5, 5)).to.equal("SW");
+        expect(RectGrid.bearing(0, 0, -5, 0)).to.equal("W");
+        expect(RectGrid.bearing(0, 0, -5, -5)).to.equal("NW");
+        expect(RectGrid.bearing(0, 0, 0, 0)).to.be.undefined;
+
+        // offset
+        expect(RectGrid.bearing(0, 0, 7, -5)).to.equal("NE");
+        expect(RectGrid.bearing(0, 0, 7, 5)).to.equal("SE");
+        expect(RectGrid.bearing(0, 0, -7, 5)).to.equal("SW");
+        expect(RectGrid.bearing(0, 0, -7, -5)).to.equal("NW");
+    });
+
+    it ("Points between", () => {
+        expect(RectGrid.between(0, 0, 0, 0)).to.be.empty;
+        expect(RectGrid.between(0, 0, 0, 5)).to.have.deep.members([[0,1], [0,2], [0,3], [0,4]]);
+        expect(RectGrid.between(0, 0, 5, 0)).to.have.deep.members([[1,0], [2,0], [3,0], [4,0]]);
+        expect(RectGrid.between(0, 0, 5, 5)).to.have.deep.members([[1,1], [2,2], [3,3], [4,4]]);
+        expect(() => RectGrid.between(0, 0, 1, 5)).to.throw(Error);
+   });
 });

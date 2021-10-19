@@ -42,6 +42,101 @@ export class RectGrid {
     }
 
     /**
+     * Tells you the general direction one point is relative to another.
+     * Undefined if the two points are the same.
+     *
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
+     * @returns {(Directions|undefined)}
+     * @memberof RectGrid
+     */
+     public static bearing(x1: number, y1: number, x2: number, y2: number): Directions|undefined {
+        if ( (x1 === x2) && (y1 === y2) ) {
+            return undefined;
+        }
+
+        let dir = "";
+        if (y2 < y1) {
+            dir = "N";
+        } else if (y2 > y1) {
+            dir = "S"
+        }
+        if (x2 < x1) {
+            dir += "W";
+        } else if (x2 > x1) {
+            dir += "E";
+        }
+        return dir as Directions;
+    }
+
+    /**
+     * Only works when the two points are exactly orthogonal or diagonal to each other.
+     * Returns the list of points between them. Excludes the starting and ending points.
+     *
+     * This function ignores "in bounds."
+     *
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
+     * @returns {Array<[number, number]>}
+     * @memberof RectGrid
+     */
+    public static between(x1: number, y1: number, x2: number, y2: number): Array<[number, number]> {
+        if ( (! RectGrid.isOrth(x1, y1, x2, y2)) && (! RectGrid.isDiag(x1, y1, x2, y2)) ) {
+            throw new Error(`This function can only process coordinates that are directly orthogonal or diagonal to each other.`);
+        }
+        const dir = RectGrid.bearing(x1, y1, x2, y2);
+        if (dir === undefined) {
+            return [];
+        }
+
+        const between: Array<[number, number]> = [];
+        let pt: [number, number] = RectGrid.move(x1, y1, dir);
+        while ( (pt[0] !== x2) || (pt[1] !== y2) ) {
+            between.push(pt);
+            pt = RectGrid.move(...pt, dir);
+        }
+        return between;
+    }
+
+    /**
+     * Tells you if two points are orthogonal to each other
+     *
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
+     * @returns {boolean}
+     * @memberof RectGrid
+     */
+     public static isOrth(x1: number, y1: number, x2: number, y2: number): boolean {
+        if ( (x1 === x2) || (y1 === y2) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Tells you if two points are diagonal to each other
+     *
+     * @param {number} x1
+     * @param {number} y1
+     * @param {number} x2
+     * @param {number} y2
+     * @returns {boolean}
+     * @memberof RectGrid
+     */
+    public static isDiag(x1: number, y1: number, x2: number, y2: number): boolean {
+        if (Math.abs(x2 - x1) === Math.abs(y2 - y1)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Tells you if a given point is within the bounds of the grid.
      *
      * @param {number} x A value of 0 is the left-most column
@@ -122,43 +217,5 @@ export class RectGrid {
             [xNext, yNext] = RectGrid.move(xNext, yNext, dir);
         }
         return ray;
-    }
-
-    /**
-     * Tells you if two points are orthogonal to each other
-     *
-     * @param {number} x1
-     * @param {number} y1
-     * @param {number} x2
-     * @param {number} y2
-     * @returns {boolean}
-     * @memberof RectGrid
-     */
-    public isOrth(x1: number, y1: number, x2: number, y2: number): boolean {
-        if ( (this.inBounds(x1, y1)) && (this.inBounds(x2, y2)) ) {
-            if ( (x1 === x2) || (y1 === y2) ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Tells you if two points are diagonal to each other
-     *
-     * @param {number} x1
-     * @param {number} y1
-     * @param {number} x2
-     * @param {number} y2
-     * @returns {boolean}
-     * @memberof RectGrid
-     */
-    public isDiag(x1: number, y1: number, x2: number, y2: number): boolean {
-        if ( (this.inBounds(x1, y1)) && (this.inBounds(x2, y2)) ) {
-            if (Math.abs(x2 - x1) === Math.abs(y2 - y1)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

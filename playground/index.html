@@ -6,10 +6,12 @@
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>AP Game Tester</title>
         <script src="./APRender.js"></script>
         <script src="./APGames.js"></script>
         <script src=" https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
         <script type="text/javascript">
             /* Code for JSON parsing MAPs, from SO: https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map */
             function replacer(key, value) {
@@ -43,9 +45,12 @@
                 } else if (radio === "patterns") {
                     options.patterns = true;
                 }
-                if (document.getElementById("rot180").checked) {
-                    options.rotate = 180;
+                var rotval = parseInt(document.getElementById("rotation").value, 10);
+                if ( (rotval !== undefined) && (rotval !== null) && (!isNaN(rotval)) && (rotval !== 0) ) {
+                    options.rotate = rotval;
                 }
+                //options.height = "75%";
+                //options.width = "75%";
                 var state = window.sessionStorage.getItem("state");
                 if (state !== null) {
                     var gamename = window.sessionStorage.getItem("gamename");
@@ -62,9 +67,9 @@
 
                     // game status
                     var status = game.status();// + "\n\n* " + game.resultsHistory().map((x) => { return JSON.stringify(x); }).join("\n* ");
-                    var results = game.resultsHistory().reverse();
+                    var results = game.resultsHistory().reverse().slice(0, 5);
                     if (results.length > 0) {
-                        status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ");
+                        status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ") + "\n\n&hellip;";
                     }
                     var statusbox = document.getElementById("status");
                     var converter = new showdown.Converter();
@@ -260,70 +265,84 @@
     </head>
     <body>
         <h1>AP Game Tester</h1>
-        <section>
-            <p>Select a game below and click "Launch Game." A fresh board will appear and you can enter moves for all players. Some games will have an AI option as well. To start over, just click "Launch Game" again.</p>
-        </section>
-        <section>
-            <h2>Game Selection</h2>
-            <form>
-                <div>
-                    <select id="selectGame">
-                        <option name="empty"></option>
-                    </select>
-                    <select id="selectVariant">
-                        <option name="empty"></option>
-                    </select>
-                </div>
-                <button id="launch" name="launch" type="button">Launch Game</button>
-                <div id="gameInfo" style="width: 50%; margin-left: 2em"></div>
-                <div id="varInfo" style="width: 50%; margin-left: 2em"></div>
-            </form>
-        </section>
-        <section>
-            <h2>Render Settings</h2>
-            <form>
-                <div>
-                    <input type="radio" id="fillStandard" name="playerfill" value="standard" checked>
-                    <label for="fillStandard">Standard colours (9 max)</label>
-
-                    <input type="radio" id="fillBlind" name="playerfill" value="blind">
-                    <label for="fillBlind">Colour-blind-friendly colours (4 max)</label>
-
-                    <input type="radio" id="fillPatterns" name="playerfill" value="patterns">
-                    <label for="fillPatterns">Black-and-white patterns (10 max)</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="rot180" name="rotate">
-                    <label for="rot180">Rotate 180&deg;</label>
-                </div>
-                <button id="renderSettings" name="renderSettings" type="button">Update Settings</button>
-            </form>
-        </section>
-        <section>
-            <h2>Move History</h2>
-            <div id="moveHistory"></div>
-        </section>
-        <section style="columns: 2">
-            <h2>Play Area</h2>
-            <div>
-                <form>
-                    <div>
-                        <label for="moveEntry">Enter your move</label>
-                        <input id="moveEntry" type="text">
-                    </div>
-                    <div>
-                        <button id="moveBtn" name="moveBtn" type="button">Move</button>
-                        <button id="moveRandom" name="moveRandom" type="button">Make a random move</button>
-                    </div>
-                    <div>
-                        <p>"Fast" is measured in seconds. "Slow" takes longer, but it's usually less than a minute. Don't click multiple times.</p>
-                        <button id="aiFast" name="aiFast" type="button">Let AI Decide (Fast)</button>
-                        <button id="aiSlow" name="aiSlow" type="button">Let AI Decide (Slow)</button>
-                    </div>
-                </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section>
+                        <p>Select a game below and click "Launch Game." A fresh board will appear and you can enter moves for all players. Some games will have an AI option as well. To start over, just click "Launch Game" again.</p>
+                    </section>
+                    <section>
+                        <h2>Game Selection</h2>
+                        <form>
+                            <div>
+                                <select id="selectGame">
+                                    <option name="empty"></option>
+                                </select>
+                                <select id="selectVariant">
+                                    <option name="empty"></option>
+                                </select>
+                            </div>
+                            <button id="launch" name="launch" type="button">Launch Game</button>
+                            <div id="gameInfo" style="width: 50%; margin-left: 2em"></div>
+                            <div id="varInfo" style="width: 50%; margin-left: 2em"></div>
+                        </form>
+                    </section>            
+                </div>   
             </div>
-            <div id="status"></div>    
-            <div id="drawing" style="padding: 0.5em"></div>
-        </section>
+            <div class="row">
+                <div class="col-sm-12">
+                    <section>
+                        <h2>Render Settings</h2>
+                        <form>
+                            <div>
+                                <input type="radio" id="fillStandard" name="playerfill" value="standard" checked>
+                                <label for="fillStandard">Standard colours (9 max)</label>
+            
+                                <input type="radio" id="fillBlind" name="playerfill" value="blind">
+                                <label for="fillBlind">Colour-blind-friendly colours (4 max)</label>
+            
+                                <input type="radio" id="fillPatterns" name="playerfill" value="patterns">
+                                <label for="fillPatterns">Black-and-white patterns (10 max)</label>
+                            </div>
+                            <div>
+                                <label for="rotation">Rotate map (&deg;)</label>
+                                <input type="number" id="rotation" name="rotate">
+                            </div>
+                            <button id="renderSettings" name="renderSettings" type="button">Update Settings</button>
+                        </form>
+                    </section>
+                </div>
+            </div>
+            <div clas="row">
+                <div class="col-sm-12">
+                    <h2>Play Area</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <form>
+                        <div>
+                            <label for="moveEntry">Enter your move</label>
+                            <input id="moveEntry" type="text">
+                        </div>
+                        <div>
+                            <button id="moveBtn" name="moveBtn" type="button">Move</button>
+                            <button id="moveRandom" name="moveRandom" type="button">Make a random move</button>
+                        </div>
+                        <div>
+                            <p>"Fast" is measured in seconds. "Slow" takes longer, but it's usually less than a minute. Don't click multiple times.</p>
+                            <button id="aiFast" name="aiFast" type="button">Let AI Decide (Fast)</button>
+                            <button id="aiSlow" name="aiSlow" type="button">Let AI Decide (Slow)</button>
+                        </div>
+                    </form>
+                    <div id="drawing" style="vertical-align: top; max-height: 30em"></div>
+                </div>
+                <div class="col-sm">
+                    <h2>Move History</h2>
+                    <div id="moveHistory"></div>
+                    <h2>Status</h2>
+                    <div id="status"></div>    
+                </div>
+            </div>
+        </div>
     </body>
 </html>

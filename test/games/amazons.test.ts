@@ -55,6 +55,7 @@ describe("Amazons", () => {
             stack: [
                 {
                     _version: "",
+                    _results: [],
                     currplayer: 1,
                     gameover: false,
                     board: b,
@@ -87,6 +88,7 @@ describe("Amazons", () => {
             stack: [
                 {
                     _version: "",
+                    _results: [],
                     currplayer: 1,
                     gameover: false,
                     board: b,

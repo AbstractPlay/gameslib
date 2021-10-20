@@ -3,6 +3,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { Directions } from "../common";
+import { APMoveResult } from "../schemas/moveresults";
 // tslint:disable-next-line: no-var-requires
 const clone = require("rfdc/default");
 
@@ -71,7 +72,8 @@ export class BlamGame extends GameBase {
     public scores!: number[];
     public caps!: number[];
     public stashes!: Map<playerid, number[]>;
-    public stack: Array <IMoveState>;
+    public stack: Array<IMoveState>;
+    public results: Array<APMoveResult> = []
 
     constructor(state: number | IBlamState, variants?: string[]) {
         super();
@@ -79,6 +81,7 @@ export class BlamGame extends GameBase {
             this.numplayers = state;
             const fresh: IMoveState = {
                 _version: BlamGame.gameinfo.version,
+                _results: [],
                 currplayer: 1,
                 board: new Map(),
                 scores: [],
@@ -179,6 +182,7 @@ export class BlamGame extends GameBase {
             if (sum > 0) {
                 throw new Error(`Invalid move: ${m}. You can't pass if you have pieces to place.`);
             }
+            this.results = [{type: "pass"}];
         } else {
             // validate move
             const chars = m.split("");
@@ -207,6 +211,7 @@ export class BlamGame extends GameBase {
             this.board.set(cell, [this.currplayer, pip]);
             stash[pip - 1]--;
             this.stashes.set(this.currplayer, stash);
+            this.results = [{type: "place", location: cell, piece: pip.toString()}]
 
             // Look in each direction for adjacent pieces and recursively push down the line
             const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -232,6 +237,7 @@ export class BlamGame extends GameBase {
     }
 
     public push(start: [number, number], dir: Directions): void {
+        let scoreDelta = 0;
         // If there's a piece here, move it, pushing anything it its way
         if (this.board.has(BlamGame.coords2algebraic(...start))) {
             // Do the recursion, and then when it returns, move the piece
@@ -258,6 +264,7 @@ export class BlamGame extends GameBase {
                     }
                     stash[piece[1] - 1]++;
                     this.stashes.set(this.currplayer, stash);
+                    this.results.push({type: "reclaim", piece: piece[1].toString()});
                 // Otherwise, capture it (add it to the current player's score)
                 } else {
                     let score = this.scores[(this.currplayer as number) - 1];
@@ -270,11 +277,16 @@ export class BlamGame extends GameBase {
                     }
                     caps++;
                     this.caps[(this.currplayer as number) - 1] = caps;
+                    this.results.push({type: "capture", piece: piece[1].toString()});
                     score += piece[1];
+                    scoreDelta += piece[1];
                     this.scores[(this.currplayer as number) - 1] = score;
                 }
                 this.board.delete(cellStart);
             }
+        }
+        if (scoreDelta > 0) {
+            this.results.push({type: "deltaScore", delta: scoreDelta});
         }
     }
 
@@ -291,6 +303,7 @@ export class BlamGame extends GameBase {
         }
         // If we get here, then the game is truly over
         this.gameover = true;
+        this.results.push({type: "eog"});
         // Find the maximum score
         const maxscore = Math.max(...this.scores);
         // If the maxscore is unique, then we've found our winner
@@ -318,6 +331,7 @@ export class BlamGame extends GameBase {
                 this.winner = [...nTied];
             }
         }
+        this.results.push({type: "winners", players: [...this.winner]});
 
         if (this.winner === undefined) {
             throw new Error("A winner could not be determined. This should never happen.");
@@ -327,15 +341,18 @@ export class BlamGame extends GameBase {
     }
 
     public resign(player: playerid): BlamGame {
+        this.results = [{type: "resigned", player}]
         // If one person resigns, the others win together
         this.gameover = true;
+        this.results.push({type: "eog"});
         const winners: playerid[] = [];
         for (let n = 1; n <= this.numplayers; n++) {
             if (n as playerid !== player) {
                 winners.push(n as playerid);
             }
         }
-        this.winner = winners;
+        this.winner = [...winners];
+        this.results.push({type: "winners", players: [...this.winner]});
         this.saveState();
         return this;
     }
@@ -354,6 +371,7 @@ export class BlamGame extends GameBase {
     public moveState(): IMoveState {
         return {
             _version: BlamGame.gameinfo.version,
+            _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),

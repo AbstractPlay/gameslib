@@ -3,6 +3,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { Directions } from "../common";
+import { APMoveResult } from "../schemas/moveresults";
 // tslint:disable-next-line: no-var-requires
 // const clone = require("rfdc/default");
 
@@ -70,13 +71,15 @@ export class MchessGame extends GameBase {
     public winner: playerid[] = [];
     public variants?: string[];
     public scores!: number[];
-    public stack: Array <IMoveState>;
+    public stack: Array<IMoveState>;
+    public results: Array<APMoveResult> = [];
 
     constructor(state?: IMchessState, variants?: string[]) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
                 _version: MchessGame.gameinfo.version,
+                _results: [],
                 currplayer: 1,
                 board: new Map([
                     ["a8", 3], ["b8", 3], ["c8", 2],
@@ -181,7 +184,7 @@ export class MchessGame extends GameBase {
     }
 
     public moves(player?: playerid): string[] {
-        if (this.gameover) { return []; }
+        // if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
         }
@@ -319,9 +322,18 @@ export class MchessGame extends GameBase {
                     throw new Error("Malformed cell contents. This should never happen.");
                 }
                 this.scores[this.currplayer - 1] += toContents;
+                this.results = [
+                    {type: "move", from: fromCell, to: toCell},
+                    {type: "capture", piece: toContents.toString()},
+                    {type: "deltaScore", delta: toContents}
+                ];
+                this.board.set(toCell, fromContents);
+                this.board.delete(fromCell);
+                break;
             case "-":
                 this.board.set(toCell, fromContents);
                 this.board.delete(fromCell);
+                this.results = [{type: "move", from: fromCell, to: toCell}];
                 break;
             case "+":
                 if (toContents === undefined) {
@@ -332,6 +344,10 @@ export class MchessGame extends GameBase {
                 }
                 this.board.set(toCell, fromContents + toContents);
                 this.board.delete(fromCell);
+                this.results = [
+                    {type: "move", from: fromCell, to: toCell},
+                    {type: "promote", to: (fromContents + toContents).toString()}
+                ];
                 break;
             default:
                 throw new Error("Invalid move operator. This should never happen.");
@@ -375,6 +391,10 @@ export class MchessGame extends GameBase {
                     this.winner = [1];
                 }
             }
+            this.results.push(
+                {type: "eog"},
+                {type: "winners", players: [...this.winner]}
+            );
         }
 
         return this;
@@ -387,6 +407,11 @@ export class MchessGame extends GameBase {
         } else {
             this.winner = [1];
         }
+        this.results.push(
+            {type: "resigned", player},
+            {type: "eog"},
+            {type: "winners", players: [...this.winner]}
+        );
         this.saveState();
         return this;
     }
@@ -405,6 +430,7 @@ export class MchessGame extends GameBase {
     public moveState(): IMoveState {
         return {
             _version: MchessGame.gameinfo.version,
+            _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),

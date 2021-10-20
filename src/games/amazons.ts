@@ -5,6 +5,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { Directions } from "../common";
 import { UndirectedGraph } from "graphology";
 import bidirectional from 'graphology-shortest-path/unweighted';
+import { APMoveResult } from "../schemas/moveresults";
 
 const gameDesc:string = `# Amazons
 
@@ -96,7 +97,8 @@ export class AmazonsGame extends GameBase {
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public graph!: UndirectedGraph;
-    public stack: Array <IMoveState>;
+    public stack: Array<IMoveState>;
+    public results: Array<APMoveResult> = [];
 
     constructor(state?: IAmazonsState) {
         super();
@@ -110,6 +112,7 @@ export class AmazonsGame extends GameBase {
         } else {
             const fresh: IMoveState = {
                 _version: AmazonsGame.gameinfo.version,
+                _results: [],
                 currplayer: 1,
                 board: new Map([
                     ["d10", 2],
@@ -139,6 +142,7 @@ export class AmazonsGame extends GameBase {
         if (state === undefined) {
             throw new Error(`Could not load state index ${idx}`);
         }
+        this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
@@ -149,7 +153,7 @@ export class AmazonsGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        if (this.gameover) {return [];}
+        // if (this.gameover) {return [];}
 
         const grid = new RectGrid(10, 10);
         const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -255,6 +259,11 @@ export class AmazonsGame extends GameBase {
         } else {
             this.currplayer = 1;
         }
+        // Assign results, don't add to them
+        this.results = [
+            {type: "move", from: cells[0], to: cells[1]},
+            {type: "block", location: cells[2]}
+        ];
 
         this.checkEOG();
         this.saveState();
@@ -264,22 +273,29 @@ export class AmazonsGame extends GameBase {
     protected checkEOG(): AmazonsGame {
         if (this.moves().length === 0) {
             this.gameover = true;
+            // Here, though, we add to the results
+            this.results.push({type: "eog"});
             if (this.currplayer === 1) {
                 this.winner = [2];
             } else {
                 this.winner = [1];
             }
+            this.results.push({type: "winners", players: [...this.winner]});
         }
         return this;
     }
 
     public resign(player: 1|2): AmazonsGame {
+        // Assign the results as this is an independent state changer
+        this.results = [{type: "resigned", player}];
         this.gameover = true;
+        this.results.push({type: "eog"});
         if (player === 1) {
             this.winner = [2];
         } else {
             this.winner = [1];
         }
+        this.results.push({type: "winners", players: [...this.winner]});
 
         this.saveState();
         return this;
@@ -298,6 +314,7 @@ export class AmazonsGame extends GameBase {
     protected moveState(): IMoveState {
         return {
             _version: AmazonsGame.gameinfo.version,
+            _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board)

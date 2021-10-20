@@ -1,0 +1,192 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "$id": "https://www.abstractplay.com/schemas/moveresults/1-0-0.json#",
+    "title": "AP Move Result",
+    "description": "Written information about changes in game state after a move are encoded as a JSON object matching this schema. The goal is to then allow localized statements to be generated from them.",
+    "definitions": {
+    },
+    "type": "object",
+    "oneOf": [
+        {
+            "description": "Generic placement of a piece. You can optionally provide a precise location and a description of the piece.",
+            "properties": {
+                "type": {
+                    "enum": ["place"]
+                },
+                "location": {
+                    "type": "string"
+                },
+                "piece": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Generic movement of a piece. You can optionally provide description of the piece.",
+            "properties": {
+                "type": {
+                    "enum": ["move"]
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "piece": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "from", "to"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Generic capturing of a piece. You can optionally provide a precise location and a description of the captured piece.",
+            "properties": {
+                "type": {
+                    "enum": ["capture"]
+                },
+                "location": {
+                    "type": "string"
+                },
+                "piece": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Describes passing a turn.",
+            "properties": {
+                "type": {
+                    "enum": ["pass"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Describes a change in the current player's score",
+            "properties": {
+                "type": {
+                    "enum": ["deltaScore"]
+                },
+                "delta": {
+                    "type": "number"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Describes reclaiming one of your own pieces. Primarily used in the game Blam!",
+            "properties": {
+                "type": {
+                    "enum": ["reclaim"]
+                },
+                "piece": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Describes blocking off a space. Primarily used in the game Amazons.",
+            "properties": {
+                "type": {
+                    "enum": ["block"]
+                },
+                "location": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "location"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces the game has ended.",
+            "properties": {
+                "type": {
+                    "enum": ["eog"]
+                },
+                "reason": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces the winners of the game.",
+            "properties": {
+                "type": {
+                    "enum": ["winners"]
+                },
+                "players": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            },
+            "required": ["type", "players"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces a generic draw, usually in a two-player game.",
+            "properties": {
+                "type": {
+                    "enum": ["draw"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces someone voluntarily resigned.",
+            "properties": {
+                "type": {
+                    "enum": ["resigned"]
+                },
+                "player": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "player"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces someone was forcibly removed from the game.",
+            "properties": {
+                "type": {
+                    "enum": ["kicked"]
+                },
+                "player": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "player"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces the promotion of a piece to another.",
+            "properties": {
+                "type": {
+                    "enum": ["promote"]
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "to"],
+            "additionalProperties": false
+        }
+    ]
+}

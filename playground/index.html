@@ -61,10 +61,15 @@
                     div.innerHTML = movelst.map((x) => { return "[" + x.join(", ") + "]"; }).join(" ");
 
                     // game status
+                    var status = game.status();// + "\n\n* " + game.resultsHistory().map((x) => { return JSON.stringify(x); }).join("\n* ");
+                    var results = game.resultsHistory().reverse();
+                    if (results.length > 0) {
+                        status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ");
+                    }
                     var statusbox = document.getElementById("status");
                     var converter = new showdown.Converter();
-                    statusbox.innerHTML = converter.makeHtml(game.status());
-                    }
+                    statusbox.innerHTML = converter.makeHtml(status);
+                }
 
                 return false;
             }

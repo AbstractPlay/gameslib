@@ -1,16 +1,29 @@
 import { APGamesInformation } from '../schemas/gameinfo';
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
+import { APMoveResult } from '../schemas/moveresults';
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
+/**
+ * The minimum requirements of the individual game states.
+ *   - Must include the version ID of when it was generated
+ *   - A structured description of what changed in the game state
+ *
+ * @export
+ * @interface IIndividualState
+ */
 export interface IIndividualState {
     _version: string;
+    _results: APMoveResult[];
     [key: string]: any;
 }
 
 /**
  * All game states must have the same basic shape:
  *   - The name of the game the state represents (the UID from APGamesInformation)
+ *   - The number of players
+ *   - Any variants
+ *   - And an indication of whether the game is over and who won
  *   - A stack of individual states after each turn (free form, but must include the version identifier of when it was generated)
  *
  * @export
@@ -56,13 +69,13 @@ export abstract class GameBase  {
     public abstract gameover: boolean;
     public abstract numplayers: number;
     public abstract winner?: any[];
+    public abstract results: Array<APMoveResult>;
 
     public abstract move(move: string): GameBase;
     public abstract render(): APRenderRep;
     public abstract state(): any;
     protected abstract moveState(): any;
     public abstract load(idx: number): void;
-    protected abstract checkEOG(): GameBase;
 
     protected saveState(): void {
         this.stack.push(this.moveState());
@@ -86,5 +99,15 @@ export abstract class GameBase  {
             moves.push(round);
         }
         return moves;
+    }
+
+    public resultsHistory(): APMoveResult[][] {
+        const hist: APMoveResult[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                hist.push([...state._results]);
+            }
+        }
+        return hist;
     }
 }

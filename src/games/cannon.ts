@@ -4,6 +4,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
+import { APMoveResult } from "../schemas/moveresults";
 
 const gameDesc:string = `# Cannon
 
@@ -73,7 +74,8 @@ export class CannonGame extends GameBase {
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public placed: boolean = false;
-    public stack: Array <IMoveState>;
+    public stack: Array<IMoveState>;
+    public results: Array<APMoveResult> = []
 
     constructor(state?: ICannonState) {
         super();
@@ -87,6 +89,7 @@ export class CannonGame extends GameBase {
         } else {
             const fresh: IMoveState = {
                 _version: CannonGame.gameinfo.version,
+                _results: [],
                 currplayer: 1,
                 placed: false,
                 board: new Map([
@@ -146,7 +149,7 @@ export class CannonGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        if (this.gameover) { return []; }
+        // if (this.gameover) { return []; }
         const moves: string[] = []
         if (! this.placed) {
             const myhomes = homes.get(player);
@@ -281,16 +284,23 @@ export class CannonGame extends GameBase {
         if (m[0] === "x") {
             const cell = m.slice(1);
             this.board.delete(cell);
+            this.results = [{type: "capture", location: cell}]
         } else if ( (m.includes("-")) || (m.includes("x")) ) {
             const cells: string[] = m.split(new RegExp('[\-x]'));
             this.board.set(cells[1], this.board.get(cells[0])!);
             this.board.delete(cells[0]);
+            this.results = [{type: "move", from: cells[0], to: cells[1]}];
+            if (m.includes("x")) {
+                this.results = [{type: "capture", location: cells[1]}]
+            }
         } else {
             this.board.set(m, [this.currplayer, "t"]);
             if (this.currplayer === 2) {
                 this.placed = true;
             }
+            this.results = [{type: "place", location: m, piece: "town"}];
         }
+
         if (this.currplayer === 1) {
             this.currplayer = 2;
         } else {
@@ -313,6 +323,10 @@ export class CannonGame extends GameBase {
             if (towns.length < 2) {
                 this.gameover = true;
                 this.winner = [...towns];
+                this.results.push(
+                    {type: "eog"},
+                    {type: "winners", players: [...this.winner]}
+                );
             }
         }
 
@@ -325,6 +339,10 @@ export class CannonGame extends GameBase {
                 } else {
                     this.winner = [1];
                 }
+                this.results.push(
+                    {type: "eog"},
+                    {type: "winners", players: [...this.winner]}
+                );
             }
         }
 
@@ -338,6 +356,10 @@ export class CannonGame extends GameBase {
         } else {
             this.winner = [1];
         }
+        this.results = [
+            {type: "eog"},
+            {type: "winners", players: [...this.winner]}
+        ];
         this.saveState();
         return this;
     }
@@ -355,6 +377,7 @@ export class CannonGame extends GameBase {
     public moveState(): IMoveState {
         return {
             _version: CannonGame.gameinfo.version,
+            _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),

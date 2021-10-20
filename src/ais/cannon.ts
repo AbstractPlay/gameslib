@@ -15,7 +15,7 @@ const gameRules = {
     },
     terminalStateEval (state: ICannonState): number|null {
         const g = new CannonGame(state);
-        g.checkEOG();
+        // g.checkEOG();
         if (! g.gameover) {
             return null;
         } else {

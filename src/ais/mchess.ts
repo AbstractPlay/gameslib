@@ -18,7 +18,7 @@ const gameRules = {
     },
     terminalStateEval (state: IMchessState): number|null {
         const g = new MchessGame(state);
-        g.checkEOG();
+        // g.checkEOG();
         if (! g.gameover) {
             return null;
         } else {

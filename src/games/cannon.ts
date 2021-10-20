@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase } from "./_base";
+import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
@@ -19,13 +19,16 @@ const homes: Map<playerid, string[]> = new Map([
     [2, ["b10", "c10", "d10", "e10", "f10", "g10", "h10", "i10"]],
 ]);
 
-export interface ICannonState {
+export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
-    gameover: boolean;
-    winner: playerid[];
     placed: boolean;
+};
+
+export interface ICannonState extends IAPGameState {
+    winner: playerid[];
+    stack: Array<IMoveState>;
 };
 
 const dirsForward: Map<playerid, Directions[]> = new Map([
@@ -37,7 +40,7 @@ const dirsBackward: Map<playerid, Directions[]> = new Map([
     [2, ["N", "NW", "NE"]]
 ]);
 
-export class CannonGame extends GameBase implements ICannonState {
+export class CannonGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Cannon",
         uid: "cannon",
@@ -64,57 +67,79 @@ export class CannonGame extends GameBase implements ICannonState {
     }
 
     public numplayers: number = 2;
-    public currplayer: playerid;
-    public board: Map<string, CellContents>;
+    public currplayer!: playerid;
+    public board!: Map<string, CellContents>;
     public lastmove?: string;
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public placed: boolean = false;
+    public stack: Array <IMoveState>;
 
     constructor(state?: ICannonState) {
         super();
         if (state !== undefined) {
-            this.currplayer = state.currplayer;
-            this.board = new Map(state.board);
-            this.lastmove = state.lastmove;
+            if (state.game !== CannonGame.gameinfo.uid) {
+                throw new Error(`The Cannon game code cannot process a game of '${state.game}'.`);
+            }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.placed = state.placed;
+            this.stack = [...state.stack];
         } else {
-            this.currplayer = 1;
-            this.board = new Map([
-                ["a2", [1, "s"]],
-                ["a3", [1, "s"]],
-                ["a4", [1, "s"]],
-                ["c2", [1, "s"]],
-                ["c3", [1, "s"]],
-                ["c4", [1, "s"]],
-                ["e2", [1, "s"]],
-                ["e3", [1, "s"]],
-                ["e4", [1, "s"]],
-                ["g2", [1, "s"]],
-                ["g3", [1, "s"]],
-                ["g4", [1, "s"]],
-                ["i2", [1, "s"]],
-                ["i3", [1, "s"]],
-                ["i4", [1, "s"]],
-                ["b7", [2, "s"]],
-                ["b8", [2, "s"]],
-                ["b9", [2, "s"]],
-                ["d7", [2, "s"]],
-                ["d8", [2, "s"]],
-                ["d9", [2, "s"]],
-                ["f7", [2, "s"]],
-                ["f8", [2, "s"]],
-                ["f9", [2, "s"]],
-                ["h7", [2, "s"]],
-                ["h8", [2, "s"]],
-                ["h9", [2, "s"]],
-                ["j7", [2, "s"]],
-                ["j8", [2, "s"]],
-                ["j9", [2, "s"]],
-            ]);
+            const fresh: IMoveState = {
+                _version: CannonGame.gameinfo.version,
+                currplayer: 1,
+                placed: false,
+                board: new Map([
+                    ["a2", [1, "s"]],
+                    ["a3", [1, "s"]],
+                    ["a4", [1, "s"]],
+                    ["c2", [1, "s"]],
+                    ["c3", [1, "s"]],
+                    ["c4", [1, "s"]],
+                    ["e2", [1, "s"]],
+                    ["e3", [1, "s"]],
+                    ["e4", [1, "s"]],
+                    ["g2", [1, "s"]],
+                    ["g3", [1, "s"]],
+                    ["g4", [1, "s"]],
+                    ["i2", [1, "s"]],
+                    ["i3", [1, "s"]],
+                    ["i4", [1, "s"]],
+                    ["b7", [2, "s"]],
+                    ["b8", [2, "s"]],
+                    ["b9", [2, "s"]],
+                    ["d7", [2, "s"]],
+                    ["d8", [2, "s"]],
+                    ["d9", [2, "s"]],
+                    ["f7", [2, "s"]],
+                    ["f8", [2, "s"]],
+                    ["f9", [2, "s"]],
+                    ["h7", [2, "s"]],
+                    ["h8", [2, "s"]],
+                    ["h9", [2, "s"]],
+                    ["j7", [2, "s"]],
+                    ["j8", [2, "s"]],
+                    ["j9", [2, "s"]],
+                ])
+            };
+            this.stack = [fresh];
         }
+        this.load();
+    }
+
+    public load(idx: number = -1): void {
+        if (idx < 0) {
+            idx += this.stack.length;
+        }
+        if ( (idx < 0) || (idx >= this.stack.length) ) {
+            throw new Error("Could not load the requested state from the stack.");
+        }
+
+        const state = this.stack[idx];
+        this.currplayer = state.currplayer;
+        this.board = new Map(state.board);
+        this.lastmove = state.lastmove;
+        this.placed = state.placed;
     }
 
     public moves(player?: 1|2): string[] {
@@ -271,10 +296,12 @@ export class CannonGame extends GameBase implements ICannonState {
         } else {
             this.currplayer = 1;
         }
-        return this.checkEOG();
+        this.checkEOG();
+        this.saveState();
+        return this;
     }
 
-    public checkEOG(): CannonGame {
+    protected checkEOG(): CannonGame {
         // First check for eliminated town
         if (this.placed) {
             const towns: playerid[] = [];
@@ -311,16 +338,26 @@ export class CannonGame extends GameBase implements ICannonState {
         } else {
             this.winner = [1];
         }
+        this.saveState();
         return this;
     }
 
     public state(): ICannonState {
         return {
+            game: CannonGame.gameinfo.uid,
+            numplayers: 2,
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack]
+        };
+    }
+
+    public moveState(): IMoveState {
+        return {
+            _version: CannonGame.gameinfo.version,
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            gameover: this.gameover,
-            winner: [...this.winner],
             placed: this.placed
         };
     }

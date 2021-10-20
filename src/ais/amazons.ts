@@ -26,12 +26,10 @@ const gameRules = {
 export class AmazonsAI extends AIBase {
     public static evaluate(state: IAmazonsState): number {
         const g = new AmazonsGame(state);
-        const m1 = g.moves(1);
-        const m2 = g.moves(2);
         if (g.currplayer === 1) {
-            return m1.length - m2.length;
+            return g.moves(1).length;
         } else {
-            return m2.length - m1.length;
+            return g.moves(2).length;
         }
     }
 

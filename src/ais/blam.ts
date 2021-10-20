@@ -15,7 +15,7 @@ const gameRules = {
     },
     terminalStateEval (state: IBlamState): number|null {
         const g = new BlamGame(state);
-        g.checkEOG();
+        // g.checkEOG();
         if (! g.gameover) {
             return null;
         }

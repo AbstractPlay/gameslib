@@ -56,7 +56,7 @@ describe("Blam!", () => {
         g.stashes.set(2, [0,0,0]);
         g.scores = [10, 5];
         g.caps = [5, 10];
-        g.checkEOG();
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
@@ -66,7 +66,7 @@ describe("Blam!", () => {
         g.stashes.set(2, [0,0,0]);
         g.scores = [10, 10];
         g.caps = [5, 10];
-        g.checkEOG();
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
     });
@@ -76,7 +76,7 @@ describe("Blam!", () => {
         g.stashes.set(2, [0,0,0]);
         g.scores = [10, 10];
         g.caps = [10, 10];
-        g.checkEOG();
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1, 2]);
     });
@@ -88,7 +88,7 @@ describe("Blam!", () => {
         g.stashes.set(4, [0,0,0]);
         g.scores = [10, 9, 8, 7];
         g.caps = [10, 10, 10, 10];
-        g.checkEOG();
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
@@ -100,7 +100,7 @@ describe("Blam!", () => {
         g.stashes.set(4, [0,0,0]);
         g.scores = [10, 10, 8, 7];
         g.caps = [10, 11, 13, 12];
-        g.checkEOG();
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
     });
@@ -112,7 +112,7 @@ describe("Blam!", () => {
         g.stashes.set(4, [0,0,0]);
         g.scores = [10, 10, 8, 7];
         g.caps = [10, 10, 12, 14];
-        g.checkEOG();
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1, 2]);
     });

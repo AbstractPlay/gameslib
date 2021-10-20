@@ -46,31 +46,27 @@
                 if (document.getElementById("rot180").checked) {
                     options.rotate = 180;
                 }
-                var data = JSON.parse(window.sessionStorage.getItem("render"));
-                var canvas = APRender.render(data, options);
-
-                // Render everything else
-                populateMoveHistory();
-                populateStatus();
-                return false;
-            }
-
-            function populateMoveHistory() {
-                var history = window.sessionStorage.getItem("history");
-                if (history !== null) {
-                    var movelst = JSON.parse(history);
-                    var div = document.getElementById("moveHistory");
-                    div.innerHTML = movelst.join(", ");
-                }
-            }
-
-            function populateStatus() {
-                var statusbox = document.getElementById("status");
-                var gamename = window.sessionStorage.getItem("gamename");
                 var state = window.sessionStorage.getItem("state");
-                var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
-                var converter = new showdown.Converter();
-                statusbox.innerHTML = converter.makeHtml(game.status());
+                if (state !== null) {
+                    var gamename = window.sessionStorage.getItem("gamename");
+                    var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
+
+                    // game board
+                    var data = game.render();
+                    var canvas = APRender.render(data, options);
+
+                    // move history
+                    var movelst = game.moveHistory();
+                    var div = document.getElementById("moveHistory");
+                    div.innerHTML = movelst.map((x) => { return "[" + x.join(", ") + "]"; }).join(" ");
+
+                    // game status
+                    var statusbox = document.getElementById("status");
+                    var converter = new showdown.Converter();
+                    statusbox.innerHTML = converter.makeHtml(game.status());
+                    }
+
+                return false;
             }
 
             document.addEventListener("DOMContentLoaded", function(event) {
@@ -152,9 +148,7 @@
                             game = APGames.GameFactory(select.value);
                         }
                     }
-                    window.sessionStorage.removeItem("history");
                     window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
-                    window.sessionStorage.setItem("render", JSON.stringify(game.render()));
                     window.sessionStorage.setItem("gamename", select.value);
                     renderGame();
                 }, false);
@@ -168,22 +162,14 @@
                         var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
                         try {
                             game.move(movebox.value);
-                            var moves = [];
-                            var movehist = window.sessionStorage.getItem("history");
-                            if (movehist !== null) {
-                                moves = JSON.parse(movehist);
-                            }
-                            moves.push(movebox.value);
-                            movebox.value = "";
-                            window.sessionStorage.setItem("history", JSON.stringify(moves));
-                            window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
-                            window.sessionStorage.setItem("render", JSON.stringify(game.render()));
-                            renderGame();
                         } catch (err) {
                             alert("An error occurred. See the console for details");
                             console.log("Game state: "+state);
                             console.log("Error message:" + err.message);
                         }
+                        movebox.value = "";
+                        window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                        renderGame();
                     }
                 });
 
@@ -201,15 +187,7 @@
                             console.log("Game state: "+state);
                             console.log("Error message:" + err.message);
                         }
-                        var moves = [];
-                        var movehist = window.sessionStorage.getItem("history");
-                        if (movehist !== null) {
-                            moves = JSON.parse(movehist);
-                        }
-                        moves.push(move);
-                        window.sessionStorage.setItem("history", JSON.stringify(moves));
                         window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
-                        window.sessionStorage.setItem("render", JSON.stringify(game.render()));
                         renderGame();
                     }
                 });
@@ -232,17 +210,8 @@
                                 var factory = APGames.AIFactory(gamename);
                                 var move = factory.constructor.findmove(state, depth);
                                 game.move(move);
-                                var moves = [];
-                                var movehist = window.sessionStorage.getItem("history");
-                                if (movehist !== null) {
-                                    moves = JSON.parse(movehist);
-                                }
-                                moves.push(move);
-                                window.sessionStorage.setItem("history", JSON.stringify(moves));
                                 window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
-                                window.sessionStorage.setItem("render", JSON.stringify(game.render()));
                                 renderGame();
-                                //movebox.value = move;
                             } else {
                                 alert("This game does not support fast AI.");
                             }
@@ -267,17 +236,8 @@
                                 var factory = APGames.AIFactory(gamename);
                                 var move = factory.constructor.findmove(state, depth);
                                 game.move(move);
-                                var moves = [];
-                                var movehist = window.sessionStorage.getItem("history");
-                                if (movehist !== null) {
-                                    moves = JSON.parse(movehist);
-                                }
-                                moves.push(move);
-                                window.sessionStorage.setItem("history", JSON.stringify(moves));
                                 window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
-                                window.sessionStorage.setItem("render", JSON.stringify(game.render()));
                                 renderGame();    
-                                //movebox.value = move;
                             } else {
                                 alert("This game does not support slow AI.");
                             }

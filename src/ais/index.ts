@@ -23,6 +23,7 @@ export const fastGames: Map<string, number> = new Map([
     ["mchess", 5]
 ]);
 export const slowGames: Map<string, number> = new Map([
+    ["amazons", 2],
     ["blam", 5],
     ["cannon", 5],
     ["mchess", 7]

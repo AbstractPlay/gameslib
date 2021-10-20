@@ -1,5 +1,4 @@
-// import { IGame } from "./IGame";
-import { GameBase } from "./_base";
+import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -17,15 +16,18 @@ The game tree for Amazons, especially early in the game, is enormous, so the AI 
 type CellContents = 0 | 1 | 2;
 type playerid = 1|2;
 
-export interface IAmazonsState {
+interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
-    gameover: boolean;
+}
+
+export interface IAmazonsState extends IAPGameState {
     winner: playerid[];
+    stack: Array<IMoveState>;
 };
 
-export class AmazonsGame extends GameBase implements IAmazonsState {
+export class AmazonsGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Amazons",
         uid: "amazons",
@@ -88,34 +90,58 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
     }
 
     public numplayers: number = 2;
-    public currplayer: playerid;
-    public board: Map<string, CellContents>;
+    public currplayer!: playerid;
+    public board!: Map<string, CellContents>;
     public lastmove?: string;
     public gameover: boolean = false;
     public winner: playerid[] = [];
-    public graph: UndirectedGraph;
+    public graph!: UndirectedGraph;
+    public stack: Array <IMoveState>;
 
     constructor(state?: IAmazonsState) {
         super();
         if (state !== undefined) {
-            this.currplayer = state.currplayer;
-            this.board = new Map(state.board);
-            this.lastmove = state.lastmove;
+            if (state.game !== AmazonsGame.gameinfo.uid) {
+                throw new Error(`The Amazons game code cannot process a game of '${state.game}'.`);
+            }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
+            this.stack = [...state.stack];
         } else {
-            this.currplayer = 1;
-            this.board = new Map([
-                ["d10", 2],
-                ["g10", 2],
-                ["a7", 2],
-                ["j7", 2],
-                ["a4", 1],
-                ["j4", 1],
-                ["d1", 1],
-                ["g1", 1]
-            ]);
+            const fresh: IMoveState = {
+                _version: AmazonsGame.gameinfo.version,
+                currplayer: 1,
+                board: new Map([
+                    ["d10", 2],
+                    ["g10", 2],
+                    ["a7", 2],
+                    ["j7", 2],
+                    ["a4", 1],
+                    ["j4", 1],
+                    ["d1", 1],
+                    ["g1", 1]
+                ])
+            };
+            this.stack = [fresh];
         }
+        this.load();
+    }
+
+    public load(idx: number = -1): void {
+        if (idx < 0) {
+            idx += this.stack.length;
+        }
+        if ( (idx < 0) || (idx >= this.stack.length) ) {
+            throw new Error("Could not load the requested state from the stack.");
+        }
+
+        const state = this.stack[idx];
+        if (state === undefined) {
+            throw new Error(`Could not load state index ${idx}`);
+        }
+        this.currplayer = state.currplayer;
+        this.board = new Map(state.board);
+        this.lastmove = state.lastmove;
         this.graph = this.buildGraph();
     }
 
@@ -123,6 +149,8 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
         if (player === undefined) {
             player = this.currplayer;
         }
+        if (this.gameover) {return [];}
+
         const grid = new RectGrid(10, 10);
         const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
         // Find the player's pieces
@@ -174,10 +202,48 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
     }
 
     public move(m: string): AmazonsGame {
+        // Validate manually should be faster than generating a list of moves every time
         const moves = this.moves();
         if (! moves.includes(m)) {
             throw new Error(`Invalid move: ${m}\nRender rep:\n${JSON.stringify(this.render())}`);
         }
+
+        // // Manual move validation
+        // // Well formed
+        // if (! /^[a-j][0-9]+\-[a-j][0-9]+\/[a-j][0-9]+$/.test(m)) {
+        //     throw new Error(`Invalid move: ${m}\nRender rep:\n${JSON.stringify(this.render())}`);
+        // }
+        // const cells: string[] = m.split(new RegExp('[\-\/]'));
+
+        // // The starting pieces exists and is yours
+        // if (! this.board.has(cells[0])) {
+        //     throw new Error(`Invalid move: ${m}. There is no piece in the cell you requested.\nRender rep:\n${JSON.stringify(this.render())}`);
+        // }
+        // const piece = this.board.get(cells[0]);
+        // if (piece !== this.currplayer) {
+        //     throw new Error(`Invalid move: ${m}. It's not your turn.\nRender rep:\n${JSON.stringify(this.render())}`);
+        // }
+
+        // // The ending and block space are unoccupied (unless you're blocking your starting space)
+        // if (this.board.has(cells[1])) {
+        //     throw new Error(`Invalid move: ${m}. The ending space is occupied.\nRender rep:\n${JSON.stringify(this.render())}`);
+        // }
+        // if ( (this.board.has(cells[2])) && (cells[2] !== cells[0]) ) {
+        //     throw new Error(`Invalid move: ${m}. The space you're trying to block is occupied.\nRender rep:\n${JSON.stringify(this.render())}`);
+        // }
+
+        // // Get list of cells between each terminal and make sure they are empty
+        // const from = AmazonsGame.algebraic2coords(cells[0]);
+        // const to = AmazonsGame.algebraic2coords(cells[1]);
+        // const block = AmazonsGame.algebraic2coords(cells[2]);
+        // const between = [...RectGrid.between(...from, ...to), ...RectGrid.between(...to, ...block)];
+        // for (const pt of between) {
+        //     if ( (this.board.has(AmazonsGame.coords2algebraic(...pt))) && (AmazonsGame.coords2algebraic(...pt) !== cells[0]) ) {
+        //         throw new Error(`Invalid move: ${m}. You can't move or shoot through other pieces or blocks.\nRender rep:\n${JSON.stringify(this.render())}`);
+        //     }
+        // }
+
+        // Move valid, so change the state
         const cells: string[] = m.split(new RegExp('[\-\/]'));
         this.board.delete(cells[0]);
         this.board.set(cells[1], this.currplayer);
@@ -190,10 +256,12 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
             this.currplayer = 1;
         }
 
+        this.checkEOG();
+        this.saveState();
         return this;
     }
 
-    public checkEOG(): boolean {
+    protected checkEOG(): AmazonsGame {
         if (this.moves().length === 0) {
             this.gameover = true;
             if (this.currplayer === 1) {
@@ -202,7 +270,7 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
                 this.winner = [1];
             }
         }
-        return this.gameover;
+        return this;
     }
 
     public resign(player: 1|2): AmazonsGame {
@@ -212,16 +280,27 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
         } else {
             this.winner = [1];
         }
+
+        this.saveState();
         return this;
     }
 
     public state(): IAmazonsState {
         return {
+            game: AmazonsGame.gameinfo.uid,
+            numplayers: 2,
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack]
+        };
+    }
+
+    protected moveState(): IMoveState {
+        return {
+            _version: AmazonsGame.gameinfo.version,
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board),
-            gameover: this.gameover,
-            winner: [...this.winner]
+            board: new Map(this.board)
         };
     }
 
@@ -237,9 +316,12 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
 
     public areIsolated(): boolean {
         const pieces = this.findPieces();
-        // Test if any queens are connected
+        // Test if any opposing queens are connected
         for (let from = 0; from < pieces.length - 1; from++) {
             for (let to = from + 1; to < pieces.length; to++) {
+                if (this.board.get(pieces[from]) === this.board.get(pieces[to])) {
+                    continue;
+                }
                 const path = bidirectional(this.graph, pieces[from], pieces[to]);
                 if (path !== null) {
                     return false;
@@ -250,11 +332,11 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
     }
 
     public territory(): [number, number] {
-        const t: [number, number] = [0, 0];
         const pieces = this.findPieces();
+        const countedOne: Set<string> = new Set();
+        const countedTwo: Set<string> = new Set();
         pieces.forEach((start) => {
             const player = this.board.get(start);
-            const counted: Set<string> = new Set();
             const toCheck: Set<string> = new Set([start]);
             const visited: Set<string> = new Set();
             while (toCheck.size > 0) {
@@ -266,20 +348,17 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
                     adjs.forEach((adj) => {
                         if (! this.board.has(adj)) {
                             toCheck.add(adj);
-                            counted.add(adj);
+                            if (player === 1) {
+                                countedOne.add(adj);
+                            } else {
+                                countedTwo.add(adj);
+                            }
                         }
                     });
                 }
             }
-            if (player === 1) {
-                t[0] += counted.size;
-            } else if (player === 2) {
-                t[1] += counted.size;
-            } else {
-                throw new Error("Could not attribute territory to a single player. This should never happen.");
-            }
         });
-        return t;
+        return [countedOne.size, countedTwo.size];
     }
 
     public render(): APRenderRep {
@@ -369,6 +448,9 @@ export class AmazonsGame extends GameBase implements IAmazonsState {
     }
 
     public status(): string {
+        if (this.gameover) {
+            return `**GAME OVER**\n\nWinner: ${this.winner}\n\n`;
+        }
         if (this.areIsolated()) {
             const t = this.territory();
             return `The queens are now isolated.\n\n**Territory**\n\nFirst player: ${t[0]}\n\nSecond player: ${t[1]}\n`;

@@ -114,24 +114,25 @@ describe("Cannon", () => {
         m = g.moves(1);
         expect(m).to.not.include.members(["e4-e7", "e6-e3", "xe8", "xe9", "xe2", "xe1"]);
     });
-    it ("Game ends properly", () => {
-        let g = new CannonGame();
-        g.checkEOG();
-        expect(g.gameover).to.be.false;
-        g.placed = true;
-        g.board.set("a2", [1, "t"]);
-        g.checkEOG();
-        expect(g.gameover).to.be.true;
-        expect(g.winner).to.have.members([1]);
-        g = new CannonGame();
-        g.placed = true;
-        g.board.clear();
-        g.board.set("a2", [1, "t"]);
-        g.board.set("a10", [2, "t"]);
-        g.board.set("d5", [2, "s"]);
-        g.checkEOG();
-        expect(g.gameover).to.be.true;
-        expect(g.winner).to.have.members([2]);
-    });
+    // it ("Game ends properly", () => {
+    //     let g = new CannonGame();
+    //     // g.board.set("b1", [1, "t"]);
+    //     // g.checkEOG();
+    //     g.placed = true;
+    //     g.move("b1")
+    //     expect(g.gameover).to.be.true;
+    //     expect(g.winner).to.have.members([1]);
+    //     g = new CannonGame();
+    //     g.placed = true;
+    //     g.board.clear();
+    //     g.board.set("a2", [1, "t"]);
+    //     g.board.set("a10", [2, "t"]);
+    //     g.currplayer = 2;
+    //     g.move("d5");
+    //     // g.board.set("d5", [2, "s"]);
+    //     // g.checkEOG();
+    //     expect(g.gameover).to.be.true;
+    //     expect(g.winner).to.have.members([2]);
+    // });
 });
 

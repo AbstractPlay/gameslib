@@ -1,4 +1,4 @@
-import { GameBase } from "./_base";
+import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -19,18 +19,19 @@ interface ILooseObj {
 
 export type playerid = 1|2;
 
-export interface IMchessState {
-    numplayers: number;
+export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, number>;
     lastmove?: string;
-    gameover: boolean;
-    winner: playerid[];
-    variants?: string[];
     scores: number[];
 };
 
-export class MchessGame extends GameBase implements IMchessState {
+export interface IMchessState extends IAPGameState {
+    winner: playerid[];
+    stack: Array<IMoveState>;
+};
+
+export class MchessGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Martian Chess",
         uid: "mchess",
@@ -61,42 +62,61 @@ export class MchessGame extends GameBase implements IMchessState {
         return GameBase.algebraic2coords(cell, 8);
     }
 
-    public numplayers: number;
-    public currplayer: playerid;
-    public board: Map<string, number>;
+    public numplayers: number = 2;
+    public currplayer: playerid = 1;
+    public board!: Map<string, number>;
     public lastmove?: string;
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public variants?: string[];
-    public scores: number[];
+    public scores!: number[];
+    public stack: Array <IMoveState>;
 
     constructor(state?: IMchessState, variants?: string[]) {
         super();
         if (state === undefined) {
-            this.numplayers = 2;
-            this.currplayer = 1;
-            this.board = new Map([
-                ["a8", 3], ["b8", 3], ["c8", 2],
-                ["a7", 3], ["b7", 2], ["c7", 1],
-                ["a6", 2], ["b6", 1], ["c6", 1],
-                ["d1", 3], ["c1", 3], ["b1", 2],
-                ["d2", 3], ["c2", 2], ["b2", 1],
-                ["d3", 2], ["c3", 1], ["b3", 1]
-            ]);
+            const fresh: IMoveState = {
+                _version: MchessGame.gameinfo.version,
+                currplayer: 1,
+                board: new Map([
+                    ["a8", 3], ["b8", 3], ["c8", 2],
+                    ["a7", 3], ["b7", 2], ["c7", 1],
+                    ["a6", 2], ["b6", 1], ["c6", 1],
+                    ["d1", 3], ["c1", 3], ["b1", 2],
+                    ["d2", 3], ["c2", 2], ["b2", 1],
+                    ["d3", 2], ["c3", 1], ["b3", 1]
+                ]),
+                scores: [0, 0]
+            };
             if ( (variants !== undefined) && (variants.length === 1) && (variants[0] === "ofkk") ) {
                 this.variants = ["ofkk"];
             }
-            this.scores = [0, 0];
+            this.stack = [fresh];
         } else {
-            this.numplayers = state.numplayers;
-            this.currplayer = state.currplayer;
-            this.variants = state.variants;
-            this.board = new Map(state.board);
-            this.lastmove = state.lastmove;
+            if (state.game !== MchessGame.gameinfo.uid) {
+                throw new Error(`The Martian Chess engine cannot process a game of '${state.game}'.`);
+            }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.scores = [...state.scores];
+            this.variants = state.variants;
+            this.stack = [...state.stack];
         }
+        this.load();
+    }
+
+    public load(idx: number = -1): void {
+        if (idx < 0) {
+            idx += this.stack.length;
+        }
+        if ( (idx < 0) || (idx >= this.stack.length) ) {
+            throw new Error("Could not load the requested state from the stack.");
+        }
+
+        const state = this.stack[idx];
+        this.currplayer = state.currplayer;
+        this.board = new Map(state.board);
+        this.lastmove = state.lastmove;
+        this.scores = [...state.scores];
     }
 
     /**
@@ -325,11 +345,12 @@ export class MchessGame extends GameBase implements IMchessState {
         }
         this.currplayer = newplayer as playerid;
 
-        // this.checkEOG();
-        return this.checkEOG();
+        this.checkEOG();
+        this.saveState();
+        return this;
     }
 
-    public checkEOG(): MchessGame {
+    protected checkEOG(): MchessGame {
         const rowsTop = ["5", "6", "7", "8"];
         let countTop = 0;
         let countBottom = 0;
@@ -366,18 +387,27 @@ export class MchessGame extends GameBase implements IMchessState {
         } else {
             this.winner = [1];
         }
+        this.saveState();
         return this;
     }
 
     public state(): IMchessState {
         return {
+            game: MchessGame.gameinfo.uid,
             numplayers: this.numplayers,
+            variants: this.variants,
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack]
+        };
+    }
+
+    public moveState(): IMoveState {
+        return {
+            _version: MchessGame.gameinfo.version,
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            gameover: this.gameover,
-            winner: [...this.winner],
-            variants: this.variants,
             scores: [...this.scores]
         };
     }

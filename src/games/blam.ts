@@ -1,4 +1,4 @@
-import { GameBase } from "./_base";
+import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -17,20 +17,21 @@ interface ILooseObj {
     [key: string]: any;
 }
 
-export interface IBlamState {
-    numplayers: number;
+interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, [playerid, number]>;
     lastmove?: string;
-    gameover: boolean;
-    winner: playerid[];
-    variants?: string[];
     scores: number[];
     caps: number[];
     stashes: Map<playerid, number[]>;
+}
+
+export interface IBlamState extends IAPGameState {
+    winner: playerid[];
+    stack: Array<IMoveState>;
 };
 
-export class BlamGame extends GameBase implements IBlamState {
+export class BlamGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Blam!",
         uid: "blam",
@@ -60,47 +61,68 @@ export class BlamGame extends GameBase implements IBlamState {
         return GameBase.algebraic2coords(cell, 8);
     }
 
-    public numplayers: number;
-    public currplayer: playerid;
-    public board: Map<string, [playerid, number]>;
+    public numplayers!: number;
+    public currplayer!: playerid;
+    public board!: Map<string, [playerid, number]>;
     public lastmove?: string;
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public variants?: string[];
-    public scores: number[];
-    public caps: number[];
-    public stashes: Map<playerid, number[]>;
+    public scores!: number[];
+    public caps!: number[];
+    public stashes!: Map<playerid, number[]>;
+    public stack: Array <IMoveState>;
 
     constructor(state: number | IBlamState, variants?: string[]) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
-            this.currplayer = 1;
-            this.board = new Map();
+            const fresh: IMoveState = {
+                _version: BlamGame.gameinfo.version,
+                currplayer: 1,
+                board: new Map(),
+                scores: [],
+                caps: [],
+                stashes: new Map()
+            };
             if ( (variants !== undefined) && (variants.length === 1) && (variants[0] === "overloaded") ) {
                 this.variants = ["overloaded"];
             }
-            this.scores = [];
-            this.caps = [];
-            this.stashes = new Map();
-            for (let pid = 1; pid <= this.numplayers; pid++) {
-                this.scores.push(0);
-                this.caps.push(0);
-                this.stashes.set(pid as playerid, [5,5,5]);
+            for (let pid = 1; pid <= state; pid++) {
+                fresh.scores.push(0);
+                fresh.caps.push(0);
+                fresh.stashes.set(pid as playerid, [5,5,5]);
             }
+            this.stack = [fresh];
         } else {
+            if (state.game !== BlamGame.gameinfo.uid) {
+                throw new Error(`The Blam! game code cannot process a game of '${state.game}'.`);
+            }
             this.numplayers = state.numplayers;
-            this.currplayer = state.currplayer;
             this.variants = state.variants;
-            this.board = new Map(state.board);
-            this.stashes = clone(state.stashes);
-            this.lastmove = state.lastmove;
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.scores = [...state.scores];
-            this.caps = [...state.caps];
+            this.stack = [...state.stack];
         }
+        this.load();
     }
+
+    public load(idx: number = -1): void {
+        if (idx < 0) {
+            idx += this.stack.length;
+        }
+        if ( (idx < 0) || (idx >= this.stack.length) ) {
+            throw new Error("Could not load the requested state from the stack.");
+        }
+
+        const state = this.stack[idx];
+        this.currplayer = state.currplayer;
+        this.board = new Map(state.board);
+        this.stashes = clone(state.stashes);
+        this.lastmove = state.lastmove;
+        this.scores = [...state.scores];
+        this.caps = [...state.caps];
+}
 
     public moves(player?: playerid): string[] {
         if (player === undefined) {
@@ -204,8 +226,9 @@ export class BlamGame extends GameBase implements IBlamState {
         }
         this.currplayer = newplayer as playerid;
 
-        // this.checkEOG();
-        return this.checkEOG();
+        this.checkEOG();
+        this.saveState();
+        return this;
     }
 
     public push(start: [number, number], dir: Directions): void {
@@ -255,7 +278,7 @@ export class BlamGame extends GameBase implements IBlamState {
         }
     }
 
-    public checkEOG(): BlamGame {
+    protected checkEOG(): BlamGame {
         for (let n = 1; n <= this.numplayers; n++) {
             const stash = this.stashes.get(n as playerid);
             if ( (stash === undefined) || (stash.length !== 3) ) {
@@ -313,18 +336,27 @@ export class BlamGame extends GameBase implements IBlamState {
             }
         }
         this.winner = winners;
+        this.saveState();
         return this;
     }
 
     public state(): IBlamState {
         return {
+            game: BlamGame.gameinfo.uid,
             numplayers: this.numplayers,
+            variants: this.variants,
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack]
+        };
+    }
+
+    public moveState(): IMoveState {
+        return {
+            _version: BlamGame.gameinfo.version,
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            gameover: this.gameover,
-            winner: [...this.winner],
-            variants: this.variants,
             scores: [...this.scores],
             caps: [...this.caps],
             stashes: clone(this.stashes)

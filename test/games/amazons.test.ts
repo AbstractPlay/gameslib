@@ -48,10 +48,19 @@ describe("Amazons", () => {
             b.set(AmazonsGame.coords2algebraic(5, row), 0);
         }
         const state: IAmazonsState = {
-            currplayer: 1,
+            game: "amazons",
+            numplayers: 2,
             gameover: false,
-            board: b,
-            winner: []
+            winner: [],
+            stack: [
+                {
+                    _version: "",
+                    currplayer: 1,
+                    gameover: false,
+                    board: b,
+                    winner: []
+                }
+            ]
         };
         const g = new AmazonsGame(state);
         expect(g.areIsolated()).to.be.true;
@@ -71,10 +80,19 @@ describe("Amazons", () => {
             b.set(AmazonsGame.coords2algebraic(5, row), 0);
         }
         const state: IAmazonsState = {
-            currplayer: 1,
+            game: "amazons",
+            numplayers: 2,
             gameover: false,
-            board: b,
-            winner: []
+            winner: [],
+            stack: [
+                {
+                    _version: "",
+                    currplayer: 1,
+                    gameover: false,
+                    board: b,
+                    winner: []
+                }
+            ]
         };
         const g = new AmazonsGame(state);
         const ts = g.territory();
@@ -99,6 +117,8 @@ describe("Amazons", () => {
         expect(() => g.move("d1-e2/c2")).to.throw(Error, "Invalid move");
         expect(() => g.move("d1-e2/g2")).to.throw(Error, "Invalid move");
         expect(() => g.move("d1-e2/h2")).to.throw(Error, "Invalid move");
+        expect(() => g.move("a4-a5/a4")).to.not.throw;
+        expect(() => g.move("a4-a5/a3")).to.not.throw;
     });
 });
 

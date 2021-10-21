@@ -1,12 +1,12 @@
 import { APGamesInformation } from "../schemas/gameinfo";
-import { GameBase } from "./_base";
+import { GameBase, IAPGameState } from "./_base";
 import { AmazonsGame, IAmazonsState } from "./amazons";
 import { BlamGame, IBlamState } from "./blam";
 import { CannonGame, ICannonState } from "./cannon";
 import { MchessGame, IMchessState } from "./mchess";
 
 export {
-    APGamesInformation, GameBase,
+    APGamesInformation, GameBase, IAPGameState,
     AmazonsGame, IAmazonsState,
     BlamGame, IBlamState,
     CannonGame, ICannonState,

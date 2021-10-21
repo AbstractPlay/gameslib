@@ -130,7 +130,7 @@ export class CannonGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): void {
+    public load(idx: number = -1): CannonGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -143,6 +143,7 @@ export class CannonGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.placed = state.placed;
+        return this;
     }
 
     public moves(player?: 1|2): string[] {

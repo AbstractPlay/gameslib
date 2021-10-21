@@ -34,7 +34,7 @@ export interface IAPGameState {
     numplayers: number;
     variants?: string[];
     gameover: boolean;
-    winner: any[];
+    winner: number[];
     stack: Array<IIndividualState>;
 }
 
@@ -73,12 +73,21 @@ export abstract class GameBase  {
 
     public abstract move(move: string): GameBase;
     public abstract render(): APRenderRep;
-    public abstract state(): any;
+    public abstract state(): IAPGameState;
+    public abstract load(idx: number): GameBase;
+    public abstract resign(player: number): GameBase;
     protected abstract moveState(): any;
-    public abstract load(idx: number): void;
 
     protected saveState(): void {
         this.stack.push(this.moveState());
+    }
+
+    public undo(): GameBase {
+        if (this.stack.length < 1) {
+            throw new Error("You can't undo the initial game state");
+        }
+        this.stack.pop();
+        return this;
     }
 
     public moveHistory(): string[][] {

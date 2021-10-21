@@ -107,7 +107,7 @@ export class MchessGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): void {
+    public load(idx: number = -1): MchessGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -120,6 +120,7 @@ export class MchessGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
+        return this;
     }
 
     /**

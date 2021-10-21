@@ -130,7 +130,7 @@ export class AmazonsGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): void {
+    public load(idx: number = -1): AmazonsGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -147,6 +147,7 @@ export class AmazonsGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.graph = this.buildGraph();
+        return this;
     }
 
     public moves(player?: 1|2): string[] {

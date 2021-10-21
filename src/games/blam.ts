@@ -110,7 +110,7 @@ export class BlamGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): void {
+    public load(idx: number = -1): BlamGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -125,7 +125,8 @@ export class BlamGame extends GameBase {
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
         this.caps = [...state.caps];
-}
+        return this;
+    }
 
     public moves(player?: playerid): string[] {
         if (player === undefined) {

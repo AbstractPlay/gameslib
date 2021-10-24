@@ -94,9 +94,19 @@ The `resign` function accepts a player number and removes that person from the g
 Functions:
 * `moveHistory() => string[][]`
 * `resultsHistory() => APMoveResult[][]`
+* `genRecord(data: IRecordDetails) => APGameRecord | undefined`
 
-At any point during a game, you can request a compilation of all the moves made using `moveHistory()`. It returns a list of moves grouped by "round," meaning in a two player game, each array will contain the first and second player's moves together. **This is not the same as a formal game report.** Once the records and ranking module is implemented and API stabilized, methods will be added to generate supported formats.
+At any point during a game, you can request a compilation of all the moves made using `moveHistory()`. It returns a list of moves grouped by "round," meaning in a two player game, each array will contain the first and second player's moves together. **This is not the same as a formal game report (described further below).**
 
 Sometimes things happen in a game that are not easily rendered on a static graphical representation. To make it easier to report to players what happened during a move, and to make future analysis of games easier, each move generates one more more "results," described in the schema `moveresults.json` in the `/schemas` folder. the `resultsHistory()` method returns a complete list of results for each move of the game.
 
 Results are things like `place` (for placing a piece), `deltaScore` (representing a change in the current player's score), and `eog` (signalling the game ended in this move). This sort of structured data can then be translated into localized written descriptions of state changes that make up a written game log.
+
+Formal game reports that match the RecRanks schema can be generated once the game has concluded through the `genRecord()` method. Because of the separation between the API logic and the game logic, there is a fair bit of metadata the server needs to give the game object to complete the report:
+
+* the game's unique ID
+* identifying information on each player (name, unique ID, and whether they are an AI)
+* dates the game started and ended
+* any event information
+
+Yes, it would be just as simple to generate the reports on the API server and just request the pieces it needs from the game code. That may yet happen. For now, though, record generation lives here.

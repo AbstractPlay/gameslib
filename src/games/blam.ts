@@ -451,7 +451,7 @@ export class BlamGame extends GameBase {
     }
 
     public status(): string {
-        let status = "";
+        let status = super.status();
 
         status += "**Stashes**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {
@@ -469,15 +469,14 @@ export class BlamGame extends GameBase {
             status += `Player ${n}: ${score} (${caps} pieces)\n\n`;
         }
 
-        if (this.gameover) {
-            status += "**GAME OVER**\n\n";
-            const winners = this.winner;
-            if (winners === undefined) {
-                throw new Error("Winners should never be undefined if Gameover is true.");
-            }
-            status += `Winner: ${(winners.map((e) => {return e.toString();})).join(", ")}\n`;
-        }
-
         return status;
+    }
+
+    protected getPlayerScore(player: number): number | undefined {
+        return this.scores[player - 1];
+    }
+
+    protected getMoveList(): any[] {
+        return this.getMovesAndResults(["place", "capture", "pass"]);
     }
 }

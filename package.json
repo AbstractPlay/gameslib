@@ -29,6 +29,7 @@
   ],
   "private": true,
   "devDependencies": {
+    "@abstractplay/recranks": "file:../recranks",
     "@abstractplay/renderer": "file:../renderer",
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",

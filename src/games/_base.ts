@@ -1,6 +1,7 @@
 import { APGamesInformation } from '../schemas/gameinfo';
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from '../schemas/moveresults';
+import { APGameRecord } from "@abstractplay/recranks/src";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -38,6 +39,29 @@ export interface IAPGameState {
     stack: Array<IIndividualState>;
 }
 
+interface IPlayerDetails {
+    name: string;
+    uid: string;
+    isai: boolean;
+}
+
+/**
+ * To generate a game record, the game needs certain details from the API server.
+ * This interface defines what that data is.
+ *
+ * @export
+ * @interface IRecordDetails
+ */
+export interface IRecordDetails {
+    uid: string;                // The game's unique ID
+    players: IPlayerDetails[];  // Information about each player, in play order
+    dateStart: Date;            // Date the game started
+    dateEnd: Date;              // Date the game ended
+    unrated: boolean;           // Whether or not the game is explicitly flagged as unrated
+    event?: string;             // Optional event name this game is part of
+    round?: string;             // Optional round identifier within the event
+}
+
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;
     public static info(): string {
@@ -59,10 +83,6 @@ export abstract class GameBase  {
             throw new Error(`The row label is invalid: ${pair[1]}`);
         }
         return [x, height - y];
-    }
-
-    public status(): string {
-        return "";
     }
 
     public abstract stack: Array<IIndividualState>;
@@ -88,6 +108,13 @@ export abstract class GameBase  {
         }
         this.stack.pop();
         return this;
+    }
+
+    public status(): string {
+        if (this.gameover) {
+            return `**GAME OVER**\n\nWinner: ${this.winner}\n\n`;
+        }
+        return "";
     }
 
     public moveHistory(): string[][] {
@@ -118,5 +145,104 @@ export abstract class GameBase  {
             }
         }
         return hist;
+    }
+
+    protected getVariants(): string[] | undefined {
+        return undefined;
+    }
+
+    protected getPlayerScore(player: number): number | undefined {
+        return undefined;
+    }
+
+    protected getPlayerResult(player: number): number | undefined {
+        if (! this.gameover) {
+            return undefined;
+        }
+        if (this.winner!.includes(player)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    protected getMoveList(): any[] {
+        return this.moveHistory();
+    }
+
+    protected getMovesAndResults(exclude?: string[]): any[] {
+        if (exclude === undefined) {
+            exclude = [];
+        }
+        const moves = this.moveHistory();
+        const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
+        const results = this.resultsHistory();
+        if (moveCount !== results.length) {
+            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0]}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1]}, Last result: ${JSON.stringify(results[results.length - 1])}`);
+        }
+        const combined = [];
+        for (let i = 0; i < moves.length; i++) {
+            const node = [];
+            for (let j = 0; j < this.numplayers; j++) {
+                if (moves[i].length >= j + 1) {
+                    const move = moves[i][j];
+                    const result = results[(i * this.numplayers) + j];
+                    const filtered = result.filter((obj) => {
+                        return ! exclude!.includes(obj.type);
+                    });
+                    if (filtered.length > 0) {
+                        node.push({
+                            move,
+                            result: filtered
+                        });
+                    } else {
+                        node.push(move);
+                    }
+                }
+            }
+            combined.push(node);
+        }
+        return combined;
+    }
+
+    public genRecord(data: IRecordDetails): APGameRecord | undefined {
+        if (! this.gameover) {
+            return undefined;
+        }
+
+        const gameinfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
+        const rec: APGameRecord = {
+            header: {
+                game: {
+                    name: gameinfo.name,
+                    variants: this.getVariants()
+                },
+                event: data.event,
+                round: data.round,
+                site: {
+                    name: "Abstract Play",
+                    gameid: data.uid
+                },
+                "date-start": data.dateStart.toISOString(),
+                "date-end": data.dateEnd.toISOString(),
+                "date-generated": new Date().toISOString(),
+                unrated: data.unrated,
+                // @ts-ignore
+                players: []
+            },
+            moves: this.getMoveList()
+        };
+
+        for (let i = 0; i < data.players.length; i++) {
+            rec.header.players.push({
+                name: data.players[i].name,
+                userid: data.players[i].uid,
+                is_ai: data.players[i].isai,
+                score: this.getPlayerScore(i + 1),
+                result: this.getPlayerResult(i + 1)!
+            });
+        }
+
+        return rec;
     }
 }

@@ -529,14 +529,4 @@ export class CannonGame extends GameBase {
 
         return rep;
     }
-
-    public status(): string {
-        let ret = "";
-        // ret += this.moves().join(", ") + "\n\n";
-        if (this.gameover) {
-            ret += "**GAME OVER**\n\n"
-            ret += "Winner: " + this.winner.join(", ");
-        }
-        return ret;
-    }
 }

@@ -1,3 +1,4 @@
 - Implement "Blam!" variant "Overloaded"
 - Should there be a "results" variable to report in localized language what changed in the game state?
 - The AI appears to be broken at even plies, and does not always do what is expected. Need to evaluate whether this is the fault of the library, the game code, or some combination of both.
+- It's also possible to have the API server generate the reports and just request specific pieces of information from game code. Because I'm the one working on the game and RecRanks code and not the API server, I put the code here. Reconsider in the future.

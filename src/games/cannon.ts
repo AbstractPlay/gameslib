@@ -147,6 +147,9 @@ export class CannonGame extends GameBase {
     }
 
     public moves(player?: 1|2): string[] {
+        if (this.gameover) {
+            return [];
+        }
         if (player === undefined) {
             player = this.currplayer;
         }
@@ -278,6 +281,9 @@ export class CannonGame extends GameBase {
     }
 
     public move(m: string): CannonGame {
+        if (this.gameover) {
+            throw new Error("You cannot make moves in concluded games.");
+        }
         if (! this.moves().includes(m)) {
             throw new Error(`Invalid move ${m}`);
         }
@@ -285,21 +291,21 @@ export class CannonGame extends GameBase {
         if (m[0] === "x") {
             const cell = m.slice(1);
             this.board.delete(cell);
-            this.results = [{type: "capture", location: cell}]
+            this.results = [{type: "capture", where: cell}]
         } else if ( (m.includes("-")) || (m.includes("x")) ) {
             const cells: string[] = m.split(new RegExp('[\-x]'));
             this.board.set(cells[1], this.board.get(cells[0])!);
             this.board.delete(cells[0]);
             this.results = [{type: "move", from: cells[0], to: cells[1]}];
             if (m.includes("x")) {
-                this.results = [{type: "capture", location: cells[1]}]
+                this.results = [{type: "capture", where: cells[1]}]
             }
         } else {
             this.board.set(m, [this.currplayer, "t"]);
             if (this.currplayer === 2) {
                 this.placed = true;
             }
-            this.results = [{type: "place", location: m, piece: "town"}];
+            this.results = [{type: "place", where: m, what: "town"}];
         }
 
         if (this.currplayer === 1) {

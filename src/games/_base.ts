@@ -137,6 +137,30 @@ export abstract class GameBase  {
         return moves;
     }
 
+    public moveHistoryWithSequence(): [number, string][][] {
+        const moves: [number, string][][] = [];
+        for (let i = 1; i < this.stack.length; i += this.numplayers) {
+            const round: [number, string][] = [];
+            for (let j = 0; j < this.numplayers; j++) {
+                const idx = i + j;
+                if (idx >= this.stack.length) {
+                    break;
+                }
+                const state = this.stack[idx];
+                if (! state.hasOwnProperty("lastmove")) {
+                    throw new Error("No `lastmove` property found.");
+                }
+                const prevState = this.stack[idx - 1];
+                if (! prevState.hasOwnProperty("currplayer")) {
+                    throw new Error("You can't produce a move list with sequence numbers unless `currplayer` is defined in the move's state.");
+                }
+                round.push([prevState.currplayer, state.lastmove]);
+            }
+            moves.push(round);
+        }
+        return moves;
+    }
+
     public resultsHistory(): APMoveResult[][] {
         const hist: APMoveResult[][] = [];
         for (const state of this.stack) {
@@ -197,6 +221,45 @@ export abstract class GameBase  {
                         });
                     } else {
                         node.push(move);
+                    }
+                }
+            }
+            combined.push(node);
+        }
+        return combined;
+    }
+
+    protected getMovesAndResultsWithSequence(exclude?: string[]): any[] {
+        if (exclude === undefined) {
+            exclude = [];
+        }
+        const moves = this.moveHistoryWithSequence();
+        const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
+        const results = this.resultsHistory();
+        if (moveCount !== results.length) {
+            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0]}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1]}, Last result: ${JSON.stringify(results[results.length - 1])}`);
+        }
+        const combined = [];
+        for (let i = 0; i < moves.length; i++) {
+            const node = [];
+            for (let j = 0; j < this.numplayers; j++) {
+                if (moves[i].length >= j + 1) {
+                    const move = moves[i][j];
+                    const result = results[(i * this.numplayers) + j];
+                    const filtered = result.filter((obj) => {
+                        return ! exclude!.includes(obj.type);
+                    });
+                    if (filtered.length > 0) {
+                        node.push({
+                            sequence: move[0],
+                            move: move[1],
+                            result: filtered
+                        });
+                    } else {
+                        node.push({
+                            sequence: move[0],
+                            move: move[1]
+                        });
                     }
                 }
             }

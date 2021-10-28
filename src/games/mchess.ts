@@ -185,7 +185,7 @@ export class MchessGame extends GameBase {
     }
 
     public moves(player?: playerid): string[] {
-        // if (this.gameover) { return []; }
+        if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
         }
@@ -299,6 +299,9 @@ export class MchessGame extends GameBase {
     }
 
     public move(m: string): MchessGame {
+        if (this.gameover) {
+            throw new Error("You cannot make moves in concluded games.");
+        }
         if (! this.moves().includes(m)) {
             throw new Error(`Invalid move: ${m}`);
         }
@@ -325,7 +328,7 @@ export class MchessGame extends GameBase {
                 this.scores[this.currplayer - 1] += toContents;
                 this.results = [
                     {type: "move", from: fromCell, to: toCell},
-                    {type: "capture", piece: toContents.toString()},
+                    {type: "capture", what: toContents.toString()},
                     {type: "deltaScore", delta: toContents}
                 ];
                 this.board.set(toCell, fromContents);

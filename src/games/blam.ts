@@ -129,6 +129,9 @@ export class BlamGame extends GameBase {
     }
 
     public moves(player?: playerid): string[] {
+        if (this.gameover) {
+            return [];
+        }
         if (player === undefined) {
             player = this.currplayer;
         }
@@ -173,6 +176,9 @@ export class BlamGame extends GameBase {
     }
 
     public move(m: string): BlamGame {
+        if (this.gameover) {
+            throw new Error("You cannot make moves in concluded games.");
+        }
         if (m.toLowerCase() === "pass") {
             // validate move
             const stash = this.stashes.get(this.currplayer);
@@ -212,7 +218,7 @@ export class BlamGame extends GameBase {
             this.board.set(cell, [this.currplayer, pip]);
             stash[pip - 1]--;
             this.stashes.set(this.currplayer, stash);
-            this.results = [{type: "place", location: cell, piece: pip.toString()}]
+            this.results = [{type: "place", where: cell, what: pip.toString()}]
 
             // Look in each direction for adjacent pieces and recursively push down the line
             const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -265,7 +271,7 @@ export class BlamGame extends GameBase {
                     }
                     stash[piece[1] - 1]++;
                     this.stashes.set(this.currplayer, stash);
-                    this.results.push({type: "reclaim", piece: piece[1].toString()});
+                    this.results.push({type: "reclaim", what: piece[1].toString()});
                 // Otherwise, capture it (add it to the current player's score)
                 } else {
                     let score = this.scores[(this.currplayer as number) - 1];
@@ -278,7 +284,7 @@ export class BlamGame extends GameBase {
                     }
                     caps++;
                     this.caps[(this.currplayer as number) - 1] = caps;
-                    this.results.push({type: "capture", piece: piece[1].toString()});
+                    this.results.push({type: "capture", what: piece[1].toString()});
                     score += piece[1];
                     scoreDelta += piece[1];
                     this.scores[(this.currplayer as number) - 1] = score;

@@ -154,7 +154,7 @@ export class AmazonsGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        // if (this.gameover) {return [];}
+        if (this.gameover) {return [];}
 
         const grid = new RectGrid(10, 10);
         const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
@@ -207,6 +207,9 @@ export class AmazonsGame extends GameBase {
     }
 
     public move(m: string): AmazonsGame {
+        if (this.gameover) {
+            throw new Error("You cannot make moves in concluded games.");
+        }
         // Validate manually should be faster than generating a list of moves every time
         const moves = this.moves();
         if (! moves.includes(m)) {
@@ -263,7 +266,7 @@ export class AmazonsGame extends GameBase {
         // Assign results, don't add to them
         this.results = [
             {type: "move", from: cells[0], to: cells[1]},
-            {type: "block", location: cells[2]}
+            {type: "block", where: cells[2]}
         ];
 
         this.checkEOG();

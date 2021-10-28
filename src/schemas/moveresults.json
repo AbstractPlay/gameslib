@@ -13,10 +13,10 @@
                 "type": {
                     "enum": ["place"]
                 },
-                "location": {
+                "where": {
                     "type": "string"
                 },
-                "piece": {
+                "what": {
                     "type": "string"
                 }
             },
@@ -35,7 +35,7 @@
                 "to": {
                     "type": "string"
                 },
-                "piece": {
+                "what": {
                     "type": "string"
                 }
             },
@@ -48,10 +48,10 @@
                 "type": {
                     "enum": ["capture"]
                 },
-                "location": {
+                "where": {
                     "type": "string"
                 },
-                "piece": {
+                "what": {
                     "type": "string"
                 }
             },
@@ -87,7 +87,7 @@
                 "type": {
                     "enum": ["reclaim"]
                 },
-                "piece": {
+                "what": {
                     "type": "string"
                 }
             },
@@ -100,11 +100,11 @@
                 "type": {
                     "enum": ["block"]
                 },
-                "location": {
+                "where": {
                     "type": "string"
                 }
             },
-            "required": ["type", "location"],
+            "required": ["type", "where"],
             "additionalProperties": false
         },
         {
@@ -186,6 +186,111 @@
                 }
             },
             "required": ["type", "to"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces a player's elimination",
+            "properties": {
+                "type": {
+                    "enum": ["eliminated"]
+                },
+                "who": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "who"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces the creation of a homeworld",
+            "properties": {
+                "type": {
+                    "enum": ["homeworld"]
+                },
+                "stars": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "ship": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "stars", "ship", "name"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Announces a discovery",
+            "properties": {
+                "type": {
+                    "enum": ["discover"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                },
+                "called": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Converting a pieces into something else (but not a `promotion`)",
+            "properties": {
+                "type": {
+                    "enum": ["convert"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "into": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "what", "into"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Sacrificing a piece",
+            "properties": {
+                "type": {
+                    "enum": ["sacrifice"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "what"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Catastrophe triggered (Homeworlds specific)",
+            "properties": {
+                "type": {
+                    "enum": ["catastrophe"]
+                },
+                "where": {
+                    "type": "string"
+                },
+                "trigger": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "where"],
             "additionalProperties": false
         }
     ]

@@ -11,19 +11,19 @@
 export type APMoveResult =
   | {
       type: "place";
-      location?: string;
-      piece?: string;
+      where?: string;
+      what?: string;
     }
   | {
       type: "move";
       from: string;
       to: string;
-      piece?: string;
+      what?: string;
     }
   | {
       type: "capture";
-      location?: string;
-      piece?: string;
+      where?: string;
+      what?: string;
     }
   | {
       type: "pass";
@@ -34,11 +34,11 @@ export type APMoveResult =
     }
   | {
       type: "reclaim";
-      piece?: string;
+      what?: string;
     }
   | {
       type: "block";
-      location: string;
+      where: string;
     }
   | {
       type: "eog";
@@ -63,4 +63,36 @@ export type APMoveResult =
       type: "promote";
       from?: string;
       to: string;
+    }
+  | {
+      type: "eliminated";
+      who: string;
+    }
+  | {
+      type: "homeworld";
+      stars: string[];
+      ship: string;
+      name: string;
+    }
+  | {
+      type: "discover";
+      what?: string;
+      where?: string;
+      called?: string;
+    }
+  | {
+      type: "convert";
+      what: string;
+      into: string;
+      where?: string;
+    }
+  | {
+      type: "sacrifice";
+      what: string;
+      where?: string;
+    }
+  | {
+      type: "catastrophe";
+      where: string;
+      trigger?: string;
     };

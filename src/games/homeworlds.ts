@@ -3,6 +3,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
+import { reviver } from "../common/serialization";
 
 const gameDesc:string = `# Homeworlds
 
@@ -104,12 +105,13 @@ export class HomeworldsGame extends GameBase {
     public lastmove?: string;
     public gameover: boolean = false;
     public winner: playerid[] = [];
-    public stack: Array<IMoveState>;
+    public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private actions!: IActionTracker;
     private eliminated: Seat[] = [];
+    public variants: string[] = [];
 
-    constructor(state: number | IHomeworldsState) {
+    constructor(state: number | IHomeworldsState | string) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
@@ -122,6 +124,9 @@ export class HomeworldsGame extends GameBase {
             };
             this.stack = [fresh];
         } else {
+            if (typeof state === "string") {
+                state = JSON.parse(state, reviver) as IHomeworldsState;
+            }
             if (state.game !== HomeworldsGame.gameinfo.uid) {
                 throw new Error(`The Homeworlds game code cannot process a game of '${state.game}'.`);
             }
@@ -129,7 +134,13 @@ export class HomeworldsGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
-        }
+
+            // Now recursively "Objectify" the subclasses
+            this.stack.map((s) => {
+                s.stash = Object.assign(new Stash(this.numplayers + 1), s.stash);
+                s.systems = s.systems.map(sys => System.deserialize(sys));
+            });
+            }
         this.load();
     }
 
@@ -853,6 +864,7 @@ export class HomeworldsGame extends GameBase {
         return {
             game: HomeworldsGame.gameinfo.uid,
             numplayers: this.numplayers,
+            variants: [...this.variants],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]

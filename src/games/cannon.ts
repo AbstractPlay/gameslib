@@ -5,6 +5,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
+import { reviver } from "../common/serialization";
 
 const gameDesc:string = `# Cannon
 
@@ -74,12 +75,16 @@ export class CannonGame extends GameBase {
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public placed: boolean = false;
-    public stack: Array<IMoveState>;
+    public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
+    public variants: string[] = [];
 
-    constructor(state?: ICannonState) {
+    constructor(state?: ICannonState | string) {
         super();
         if (state !== undefined) {
+            if (typeof state === "string") {
+                state = JSON.parse(state, reviver) as ICannonState;
+            }
             if (state.game !== CannonGame.gameinfo.uid) {
                 throw new Error(`The Cannon game code cannot process a game of '${state.game}'.`);
             }
@@ -375,6 +380,7 @@ export class CannonGame extends GameBase {
         return {
             game: CannonGame.gameinfo.uid,
             numplayers: 2,
+            variants: [...this.variants],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]

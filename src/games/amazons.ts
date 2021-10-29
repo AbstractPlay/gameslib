@@ -6,6 +6,7 @@ import { Directions } from "../common";
 import { UndirectedGraph } from "graphology";
 import bidirectional from 'graphology-shortest-path/unweighted';
 import { APMoveResult } from "../schemas/moveresults";
+import { reviver } from "../common/serialization";
 
 const gameDesc:string = `# Amazons
 
@@ -97,12 +98,16 @@ export class AmazonsGame extends GameBase {
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public graph!: UndirectedGraph;
-    public stack: Array<IMoveState>;
+    public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public variants: string[] = [];
 
-    constructor(state?: IAmazonsState) {
+    constructor(state?: IAmazonsState | string) {
         super();
         if (state !== undefined) {
+            if (typeof state === "string") {
+                state = JSON.parse(state, reviver) as IAmazonsState;
+            }
             if (state.game !== AmazonsGame.gameinfo.uid) {
                 throw new Error(`The Amazons game code cannot process a game of '${state.game}'.`);
             }
@@ -309,6 +314,7 @@ export class AmazonsGame extends GameBase {
         return {
             game: AmazonsGame.gameinfo.uid,
             numplayers: 2,
+            variants: [],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]

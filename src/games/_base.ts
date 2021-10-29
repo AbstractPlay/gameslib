@@ -2,6 +2,7 @@ import { APGamesInformation } from '../schemas/gameinfo';
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
+import { replacer } from '../common/serialization';
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -33,7 +34,7 @@ export interface IIndividualState {
 export interface IAPGameState {
     game: string;
     numplayers: number;
-    variants?: string[];
+    variants: string[];
     gameover: boolean;
     winner: number[];
     stack: Array<IIndividualState>;
@@ -88,8 +89,9 @@ export abstract class GameBase  {
     public abstract stack: Array<IIndividualState>;
     public abstract gameover: boolean;
     public abstract numplayers: number;
-    public abstract winner?: any[];
+    public abstract winner: any[];
     public abstract results: Array<APMoveResult>;
+    public abstract variants: string[];
 
     public abstract move(move: string): GameBase;
     public abstract render(): APRenderRep;
@@ -307,5 +309,9 @@ export abstract class GameBase  {
         }
 
         return rec;
+    }
+
+    public serialize(): string {
+        return JSON.stringify(this.state(), replacer);
     }
 }

@@ -1,7 +1,6 @@
 <!-- 
-    To use this in your own environment, build the `APRender.js` bundle and 
-    put it and this HTML file somewhere a browser can see it. You can then
-    render arbitrary JSON for testing.
+    To use this in your own environment, build the `APRender.js` and `APGames.js` bundles
+    and put them and this HTML file somewhere a browser can see it. 
  -->
 <html lang="en">
     <head>
@@ -13,26 +12,6 @@
         <script src=" https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
         <script type="text/javascript">
-            /* Code for JSON parsing MAPs, from SO: https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map */
-            function replacer(key, value) {
-                if(value instanceof Map) {
-                  return {
-                    dataType: 'Map',
-                    value: Array.from(value.entries()), // or with spread: value: [...value]
-                  };
-                } else {
-                  return value;
-                }
-            }
-            function reviver(key, value) {
-                if(typeof value === 'object' && value !== null) {
-                    if (value.dataType === 'Map') {
-                    return new Map(value.value);
-                    }
-                }
-                return value;
-            }
-
             function renderGame() {
                 var myNode = document.getElementById("drawing");
                 while (myNode.lastChild) {
@@ -54,7 +33,7 @@
                 var state = window.sessionStorage.getItem("state");
                 if (state !== null) {
                     var gamename = window.sessionStorage.getItem("gamename");
-                    var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
+                    var game = APGames.GameFactory(gamename, state);
 
                     // game board
                     var data = game.render();
@@ -66,7 +45,7 @@
                     div.innerHTML = movelst.map((x) => { return "[" + x.join(", ") + "]"; }).join(" ");
 
                     // game status
-                    var status = game.status();// + "\n\n* " + game.resultsHistory().map((x) => { return JSON.stringify(x); }).join("\n* ");
+                    var status = game.status();
                     var results = game.resultsHistory().reverse().slice(0, 5);
                     if (results.length > 0) {
                         status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ") + "\n\n&hellip;";
@@ -158,7 +137,7 @@
                             game = APGames.GameFactory(select.value);
                         }
                     }
-                    window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                    window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.setItem("gamename", select.value);
                     renderGame();
                 }, false);
@@ -169,7 +148,7 @@
                     var state = window.sessionStorage.getItem("state");
                     if (state !== null) {
                         var gamename = window.sessionStorage.getItem("gamename");
-                        var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
+                        var game = APGames.GameFactory(gamename, state);
                         try {
                             game.move(movebox.value);
                         } catch (err) {
@@ -178,7 +157,7 @@
                             console.log("Error message:" + err.message);
                         }
                         movebox.value = "";
-                        window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                        window.sessionStorage.setItem("state", game.serialize());
                         renderGame();
                     }
                 });
@@ -188,7 +167,11 @@
                     var state = window.sessionStorage.getItem("state");
                     if (state !== null) {
                         var gamename = window.sessionStorage.getItem("gamename");
-                        var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
+                        var game = APGames.GameFactory(gamename, state);
+                        if (typeof game.moves !== 'function') {
+                            alert("This game doesn't support random moves.")
+                            return;
+                        }
                         try {
                             var move = game.randomMove();
                             game.move(move);
@@ -197,7 +180,7 @@
                             console.log("Game state: "+state);
                             console.log("Error message:" + err.message);
                         }
-                        window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                        window.sessionStorage.setItem("state", game.serialize());
                         renderGame();
                     }
                 });
@@ -207,20 +190,19 @@
                     var state = window.sessionStorage.getItem("state");
                     if (state !== null) {
                         var gamename = window.sessionStorage.getItem("gamename");
-                        var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
+                        var game = APGames.GameFactory(gamename, state);
                         if (gamename !== null) {
                             var depth = APGames.aiFast.get(gamename);
                             if ( (depth !== undefined) && (depth !== null) ) {
                                 var movebox = document.getElementById("moveEntry");
-                                var state = JSON.parse(window.sessionStorage.getItem("state"), reviver);
-                                if ( (state.numplayers !== undefined) && (state.numplayers !== 2) ) {
+                                if ( (game.numplayers !== undefined) && (game.numplayers !== 2) ) {
                                     alert("AI only works with 2-player games.");
                                     return false;
                                 }
                                 var factory = APGames.AIFactory(gamename);
-                                var move = factory.constructor.findmove(state, depth);
+                                var move = factory.constructor.findmove(game.state(), depth);
                                 game.move(move);
-                                window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                                window.sessionStorage.setItem("state", game.serialize());
                                 renderGame();
                             } else {
                                 alert("This game does not support fast AI.");
@@ -233,20 +215,19 @@
                     var state = window.sessionStorage.getItem("state");
                     if (state !== null) {
                         var gamename = window.sessionStorage.getItem("gamename");
-                        var game = APGames.GameFactory(gamename, JSON.parse(state, reviver));
+                        var game = APGames.GameFactory(gamename, state);
                         if (gamename !== null) {
                             var depth = APGames.aiSlow.get(gamename);
                             if ( (depth !== undefined) && (depth !== null) ) {
                                 var movebox = document.getElementById("moveEntry");
-                                var state = JSON.parse(window.sessionStorage.getItem("state"), reviver);
-                                if ( (state.numplayers !== undefined) && (state.numplayers !== 2) ) {
+                                if ( (game.numplayers !== undefined) && (game.numplayers !== 2) ) {
                                     alert("AI only works with 2-player games.");
                                     return false;
                                 }
                                 var factory = APGames.AIFactory(gamename);
-                                var move = factory.constructor.findmove(state, depth);
+                                var move = factory.constructor.findmove(game.state(), depth);
                                 game.move(move);
-                                window.sessionStorage.setItem("state", JSON.stringify(game.state(), replacer));
+                                window.sessionStorage.setItem("state", game.serialize());
                                 renderGame();    
                             } else {
                                 alert("This game does not support slow AI.");

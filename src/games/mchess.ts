@@ -4,6 +4,7 @@ import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
+import { reviver } from "../common/serialization";
 // tslint:disable-next-line: no-var-requires
 // const clone = require("rfdc/default");
 
@@ -69,12 +70,12 @@ export class MchessGame extends GameBase {
     public lastmove?: string;
     public gameover: boolean = false;
     public winner: playerid[] = [];
-    public variants?: string[];
+    public variants: string[] = [];
     public scores!: number[];
-    public stack: Array<IMoveState>;
+    public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IMchessState, variants?: string[]) {
+    constructor(state?: IMchessState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
@@ -96,6 +97,9 @@ export class MchessGame extends GameBase {
             }
             this.stack = [fresh];
         } else {
+            if (typeof state === "string") {
+                state = JSON.parse(state, reviver) as IMchessState;
+            }
             if (state.game !== MchessGame.gameinfo.uid) {
                 throw new Error(`The Martian Chess engine cannot process a game of '${state.game}'.`);
             }

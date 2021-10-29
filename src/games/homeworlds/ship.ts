@@ -1,6 +1,12 @@
 import { Seat, Colour, Size } from "../homeworlds";
 
-export class Ship {
+export interface IShip {
+    owner: Seat;
+    colour: Colour;
+    size: Size;
+}
+
+export class Ship implements IShip {
     public owner: Seat;
     public colour: Colour;
     public readonly size: Size;

@@ -1,5 +1,5 @@
 import { Star, Seat, Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds";
-import { Ship } from "./ship";
+import { Ship, IShip } from "./ship";
 
 interface ISysRender {
     name: string;
@@ -7,7 +7,14 @@ interface ISysRender {
     seat?: Seat;
 }
 
-export class System {
+export interface ISystem {
+    name: string;
+    owner?: Seat;
+    stars: Star[];
+    ships: IShip[];
+}
+
+export class System implements ISystem {
     public readonly name: string;
     public owner?: Seat;
     public stars: Star[];
@@ -21,6 +28,14 @@ export class System {
             return false;
         }
         return true;
+    }
+
+    public static deserialize(json: ISystem): System {
+        const newsys = new System(json.name, json.stars, json.owner);
+        for (const s of json.ships) {
+            newsys.dock(new Ship(s.colour, s.size, s.owner));
+        }
+        return newsys;
     }
 
     constructor(name: string, stars: Star[], owner?: Seat, checkStars: boolean = true) {

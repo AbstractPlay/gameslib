@@ -40,9 +40,13 @@ All games implement a core set of features, which make up the public API.
 ### State
 
 Functions:
-* `state() => IAPGameState` 
+
+* `serialize() => string`
+* `state() => IAPGameState`
 * `load(idx?: number = -1) => GameBase`
 * `render() => APRenderRep`
+
+The `serialize()` function is how to persist states. It produces a simple string that can be stored. It abstracts away any nuances of the internal representation (e.g., "replacer" or "reviver" helpers). The resulting string can then be passed to the constructor to rehydrate.
 
 The `state()` function will return an object of type `IAPGameState`, described below:
 
@@ -63,7 +67,7 @@ export interface IIndividualState {
 }
 ```
 
-If you wish to persist game state, this is what you save. Editing the state object should never be done except for manipulating the stack. Changing the `variants`, for example, would fully corrupt the game record.
+Editing the state object should never be done except for manipulating the stack. Changing the `variants`, for example, would fully corrupt the game record.
 
 * `game` is the uid of the game the state represents. Trying to load a saved state into the wrong game code will throw an error.
 * `numplayers` tells you how many players are involved in this particular game instance.
@@ -79,6 +83,7 @@ You can get a graphical representation of the loaded state using the `render()` 
 ### Game Play
 
 Functions:
+
 * `move(m: string) => GameBase`
 * `undo() => GameBase`
 * `resign(player: number) => GameBase`
@@ -92,6 +97,7 @@ The `resign` function accepts a player number and removes that person from the g
 ### Game History
 
 Functions:
+
 * `moveHistory() => string[][]`
 * `resultsHistory() => APMoveResult[][]`
 * `genRecord(data: IRecordDetails) => APGameRecord | undefined`

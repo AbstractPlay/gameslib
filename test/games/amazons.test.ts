@@ -50,6 +50,7 @@ describe("Amazons", () => {
         const state: IAmazonsState = {
             game: "amazons",
             numplayers: 2,
+            variants: [],
             gameover: false,
             winner: [],
             stack: [
@@ -83,6 +84,7 @@ describe("Amazons", () => {
         const state: IAmazonsState = {
             game: "amazons",
             numplayers: 2,
+            variants: [],
             gameover: false,
             winner: [],
             stack: [

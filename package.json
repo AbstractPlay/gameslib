@@ -1,6 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -47,6 +47,7 @@
     "ajv": "^6.12.6",
     "graphology": "^0.21.0",
     "graphology-shortest-path": "^1.4.1",
+    "js-combinatorics": "^1.5.4",
     "minmax-wt-alpha-beta-pruning": "^1.0.5",
     "rfdc": "^1.3.0"
   }

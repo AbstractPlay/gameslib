@@ -565,6 +565,17 @@ describe("Homeworlds", () => {
         g.stash.remove("Y", 2);
         expect(() => g.move("build y1 north, catastrophe north john")).to.throw(HWError.CMD_CATA_INVALID);
 
+        // But let you write out the colour in full
+        g = new HomeworldsGame(2);
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
+        north = g.systems.find(s => s.owner === "N");
+        north!.dock(new Ship("Y", 2, "N"));
+        g.stash.remove("Y", 2);
+        north!.dock(new Ship("Y", 2, "N"));
+        g.stash.remove("Y", 2);
+        expect(() => g.move("build y1 north, catastrophe north yellow")).to.not.throw(HWError.CMD_CATA_INVALID);
+
         // still have actions
         g = new HomeworldsGame(2);
         g.move("homeworld g3 b2 y3");

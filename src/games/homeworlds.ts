@@ -4,6 +4,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
 import { reviver } from "../common/serialization";
+import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 
 const gameDesc:string = `# Homeworlds
 
@@ -225,6 +226,7 @@ export class HomeworldsGame extends GameBase {
         this.systems = state.systems.map(s => s.clone());
         this.stash = state.stash.clone();
         this.lastmove = state.lastmove;
+        this.results = [...state._results];
         return this;
     }
 
@@ -238,7 +240,260 @@ export class HomeworldsGame extends GameBase {
         }
     }
 
-    public move(m: string): HomeworldsGame {
+    public randomMove(): string {
+        const moves = this.moves();
+        return moves[Math.floor(Math.random() * moves.length)];
+    }
+
+    public moves(player?: playerid): string[] {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const movelst: string[] = [];
+
+        const myseat = this.player2seat(player);
+        const mysys = this.systems.find(s => s.owner === myseat);
+        if (mysys === undefined) {
+            // HOMEWORLDS command only
+            const sizes = [...new Permutation("123", 2)].map(x => [...x, "3"]);
+            const colours = [...new Permutation("GBR"), ...new Permutation("GBY")];
+            for (const size of sizes) {
+                for (const colour of colours) {
+                    const cmd = `homeworld ${colour[0]}${size[0]} ${colour[1]}${size[1]} ${colour[2]}${size[2]}`;
+                    const cloned = this.clone();
+                    try {
+                        cloned.move(cmd);
+                    } catch {
+                        continue;
+                    }
+                    movelst.push(cmd);
+                }
+            }
+        } else {
+            const allmoves: string[] = [];
+            // All other possible moves
+            // First let's do the non-sacrifice moves (move & discover, build, trade, attack)
+            const tmpMoves: string[] = this.movesMove(player);
+            const tmpTrade: string[] = this.movesTrade(player);
+            const tmpBuild: string[] = this.movesBuild(player);
+            const tmpAttack: string[] = this.movesAttack(player);
+            const tmpSacrifice: string[] = this.movesSacrifice(player);
+
+            allmoves.push(...tmpMoves, ...tmpTrade, ...tmpBuild, ...tmpAttack, ...tmpSacrifice);
+            for (const cmd of allmoves) {
+                const cloned = this.clone();
+                try {
+                    cloned.move(cmd);
+                } catch {
+                    continue;
+                }
+                movelst.push(cmd);
+            }
+            // Append optional catastrophes
+            // For each valid move
+            for (const m of movelst) {
+                // Do the partial move
+                const newg = new HomeworldsGame(this.serialize());
+                newg.move(m, true);
+                // Get a list of valid catastrophes
+                const catas: string[] = [];
+                for (const sys of newg.systems) {
+                    for (const c of ["R" as Colour, "G" as Colour, "B" as Colour, "Y" as Colour]) {
+                        if (sys.canCatastrophe(c)) {
+                            catas.push(`catastrophe ${sys.name} ${c}`);
+                        }
+                    }
+                }
+                if (catas.length > 0) {
+                    // Make a PowerSet of catstrophe combinations
+                    const it = new PowerSet(catas);
+                    for (const c of [...it]) {
+                        // Append those to this move
+                        if (c.length > 0) {
+                            const newmove = [m, ...c].join(", ");
+                            const myg = new HomeworldsGame(this.serialize());
+                            try {
+                                myg.move(newmove);
+                            } catch {
+                                continue;
+                            }
+                            movelst.push(newmove);
+                        }
+                    }
+                }
+            }
+        }
+        return movelst;
+    }
+
+    // These subfunctions don't actually validate the final move set. That's done in `moves()`.
+    // These just generate the reasonable largest set of possible moves, to be collated and validated later.
+    private genName(length: number = 5): string {
+        let name: string = Math.random().toString(16).substr(2, length);
+        let found = this.systems.find(s => s.name === name);
+        while (found !== undefined) {
+            name = Math.random().toString(16).substr(2, length);
+            found = this.systems.find(s => s.name === name);
+        }
+        return name;
+    }
+
+    private movesMove(player: playerid, validateTech: boolean = true): string[] {
+        const final: Set<string> = new Set<string>();
+        const myseat = this.player2seat(player);
+
+        // Generate a single discovered system name
+        const newname = this.genName();
+
+        for (const sys of this.systems) {
+            if ( (validateTech) && (! sys.hasTech("Y", myseat)) ) {
+                continue;
+            }
+            for (const ship of sys.ships.filter(s => s.owner === myseat)) {
+                // First movement between existing systems
+                const others = this.systems.filter(s => s.name !== sys.name);
+                for (const other of others) {
+                    if (sys.isConnected(other)) {
+                        final.add(`move ${ship.colour}${ship.size} ${sys.name} ${other.name}`);
+                    }
+                }
+                // Now discover the new system
+                const stars: [Colour, Size][] = [...new CartesianProduct("RGBY", "123")].map(x => [x[0] as Colour, parseInt(x[1], 10) as Size]);
+                for (const star of stars) {
+                    const newsys = new System(newname, [star]);
+                    if (sys.isConnected(newsys)) {
+                        final.add(`discover ${ship.colour}${ship.size} ${sys.name} ${star.join("")} ${newname}`);
+                        final.add(`move ${ship.colour}${ship.size} ${sys.name} ${newname}`);
+                    }
+                }
+            }
+        }
+        return [...final.values()];
+    }
+
+    private movesTrade(player: playerid, validateTech: boolean = true): string[] {
+        const final: Set<string> = new Set<string>();
+        const myseat = this.player2seat(player);
+
+        for (const sys of this.systems) {
+            if ( (validateTech) && (! sys.hasTech("B", myseat)) ) {
+                continue;
+            }
+            for (const ship of sys.ships.filter(s => s.owner === myseat)) {
+                for (const c of ["R", "G", "B", "Y"]) {
+                    if (c === ship.colour) {
+                        continue;
+                    }
+                    final.add(`trade ${ship.colour}${ship.size} ${c} ${sys.name}`);
+                }
+            }
+        }
+        return [...final.values()];
+    }
+
+    private movesBuild(player: playerid, validateTech: boolean = true): string[] {
+        const final: string[] = [];
+        const myseat = this.player2seat(player);
+
+        for (const sys of this.systems) {
+            if ( (validateTech) && (! sys.hasTech("G", myseat)) ) {
+                continue;
+            }
+            const existing: Set<Colour> = new Set<Colour>(sys.ships.filter(s => s.owner === myseat).map(s => s.colour));
+            for (const c of existing) {
+                final.push(`build ${c} ${sys.name}`);
+            }
+        }
+        return final;
+    }
+
+    private movesAttack(player: playerid, validateTech: boolean = true): string[] {
+        const final: Set<string> = new Set<string>();
+        const myseat = this.player2seat(player);
+
+        for (const sys of this.systems) {
+            if ( (validateTech) && (! sys.hasTech("R", myseat)) ) {
+                continue;
+            }
+            const enemies: Ship[] = sys.ships.filter(s => s.owner !== myseat);
+            for (const enemy of enemies) {
+                final.add(`attack ${enemy.id()} ${sys.name}`);
+            }
+        }
+        return [...final.values()];
+    }
+
+    private movesSacrifice(player: playerid): string[] {
+        const final: Set<string> = new Set<string>();
+        const myseat = this.player2seat(player);
+
+        for (const sys of this.systems) {
+            const myships: Ship[] = sys.ships.filter(s => s.owner === myseat);
+            for (const ship of myships) {
+                const step = `sacrifice ${ship.id().slice(0,2)} ${sys.name}`;
+                for (const m of this.recurseSacrifice([step], player, ship.colour, ship.size)) {
+                    final.add(m);
+                }
+            }
+        }
+        return [...final.values()];
+    }
+
+    private recurseSacrifice(moves: string[], player: playerid, tech: Colour, depth: number): string[] {
+        const movelst: string[] = [];
+        // Clone the game object
+        const myg = new HomeworldsGame(this.serialize());
+        // Make the partial move (it might not be valid, so return empty string if so)
+        try {
+            myg.move(moves.join(", "), true);
+        } catch {
+            return [];
+        }
+        // Explore the current state for possibilities
+        let possibilities: string[];
+        switch (tech) {
+            case "R":
+                possibilities = myg.movesAttack(player, false);
+                break;
+            case "G":
+                possibilities = myg.movesBuild(player, false);
+                break;
+            case "B":
+                possibilities = myg.movesTrade(player, false);
+                break;
+            case "Y":
+                possibilities = myg.movesMove(player, false);
+                break;
+            default:
+                throw new Error(`Unrecognized tech '${tech}'. This should never happen.`);
+        }
+        possibilities.push("pass");
+        // For each of those possibilities
+        for (const p of possibilities) {
+            // recurse further
+            if (depth > 1) {
+                movelst.push(...this.recurseSacrifice([...moves, p], player, tech, depth - 1));
+            // or just return
+            } else {
+                const lst = [...moves, p];
+                // move all passes to the end
+                const passes = lst.filter(x => x === "pass");
+                const others = lst.filter(x => x !== "pass");
+                movelst.push([...others, ...passes].join(", "));
+            }
+        }
+        return movelst;
+    }
+
+    /**
+     * The `partial` flag leaves the object in an invalid state. It should only be used on a disposable object,
+     * or you should call `load()` before finalizing the move.
+     *
+     * @param m The move string itself
+     * @param partial A signal that you're just exploring the move; don't do end-of-move processing
+     * @returns [HomeworldsGame]
+     */
+    public move(m: string, partial: boolean = false): HomeworldsGame {
         if (this.gameover) {
             throw new Error(HomeworldsErrors.MOVE_GAMEOVER);
         }
@@ -306,6 +561,9 @@ export class HomeworldsGame extends GameBase {
             }
         }
         this.lastmove = mFormatted.join(", ");
+        if (partial) {
+            return this;
+        }
 
         // You have to account for all your actions
         if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
@@ -445,7 +703,10 @@ export class HomeworldsGame extends GameBase {
         }
         // tslint:disable-next-line: prefer-const
         let [ship, fromSystem, newStar, newName] = args;
-        ship = ship.toUpperCase() + this.player2seat();
+        ship = ship.toUpperCase();
+        if (ship.length === 2) {
+            ship += this.player2seat();
+        }
         newStar = newStar.toUpperCase();
         const [c, s] = newStar.split("");
         const starObj: Star = [c as Colour, parseInt(s, 10) as Size];
@@ -644,7 +905,7 @@ export class HomeworldsGame extends GameBase {
         // Change the ship's colour
         shipObj.colour = newColour as Colour;
 
-        this.results.push({type: "convert", what: oldShip.slice(0, 2), into: shipObj.id().slice(0, 2)});
+        this.results.push({type: "convert", what: oldShip.slice(0, 2), into: shipObj.id().slice(0, 2), where: system.name});
         return this;
     }
 
@@ -743,7 +1004,7 @@ export class HomeworldsGame extends GameBase {
         }
         // tslint:disable-next-line: prefer-const
         let [systemName, colour] = args;
-        colour = colour.toUpperCase();
+        colour = colour[0].toUpperCase();
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
@@ -937,6 +1198,82 @@ export class HomeworldsGame extends GameBase {
             }
         }
 
+        let annotations: any[] = [];
+        const seen: Set<string> = new Set<string>();
+        for (const r of this.results) {
+            if (r.type === "move") {
+                if (! seen.has(r.from)) {
+                    seen.add(r.from);
+                    annotations.push({system: r.from, action: 4});
+                }
+                if (! seen.has(r.to)) {
+                    seen.add(r.to);
+                    annotations.push({system: r.to, action: 4});
+                }
+            } else if (r.type === "capture") {
+                if (! seen.has(r.where!)) {
+                    seen.add(r.where!);
+                    annotations.push({system: r.where!, action: 1});
+                }
+            } else if (r.type === "convert") {
+                if (! seen.has(r.where!)) {
+                    seen.add(r.where!);
+                    annotations.push({system: r.where!, action: 2});
+                }
+            } else if (r.type === "place") {
+                if (! seen.has(r.where!)) {
+                    seen.add(r.where!);
+                    annotations.push({system: r.where!, action: 3});
+                }
+            } else if (r.type === "sacrifice") {
+                if (! seen.has(r.where!)) {
+                    seen.add(r.where!);
+                    let action: number;
+                    switch (r.what[0]) {
+                        case "R":
+                            action = 1;
+                            break;
+                        case "B":
+                            action = 2;
+                            break;
+                        case "G":
+                            action = 3;
+                            break;
+                        case "Y":
+                            action = 4;
+                            break;
+                        default:
+                            throw new Error(`Unrecognized result: ${r}`);
+                    }
+                    annotations.push({system: r.where!, action});
+                }
+            } else if (r.type === "catastrophe") {
+                if (! seen.has(r.where!)) {
+                    seen.add(r.where!);
+                    let action: number;
+                    switch (r.trigger) {
+                        case "R":
+                            action = 1;
+                            break;
+                        case "B":
+                            action = 2;
+                            break;
+                        case "G":
+                            action = 3;
+                            break;
+                        case "Y":
+                            action = 4;
+                            break;
+                        default:
+                            throw new Error(`Unrecognized result: ${r}`);
+                    }
+                    annotations.push({system: r.where!, action});
+                }
+            }
+        }
+        // Remove any nonexistent systems from the list
+        annotations = annotations.filter(n => this.systems.find(s => s.name === n.system) !== undefined);
+
         // Build rep
         const rep: APRenderRep =  {
             renderer: "homeworlds",
@@ -948,6 +1285,10 @@ export class HomeworldsGame extends GameBase {
             areas: [this.stash.render()],
             legend: myLegend
         };
+        if (annotations.length > 0) {
+            // @ts-ignore
+            rep.annotations = annotations;
+        }
 
         return rep;
     }
@@ -958,5 +1299,9 @@ export class HomeworldsGame extends GameBase {
         } else {
             return this.getMovesAndResults();
         }
+    }
+
+    public clone(): HomeworldsGame {
+        return new HomeworldsGame(this.serialize());
     }
 }

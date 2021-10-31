@@ -35,7 +35,7 @@ const gameRules = {
 
 export class BlamAI extends AIBase {
     /**
-     * The Blam AI prefers first of all having more players than anybody else.
+     * The Blam AI prefers first of all having more pieces than anybody else.
      * After that, it values score, then number of captured pieces.
      */
     public static evaluate(state: IBlamState): number {
@@ -51,15 +51,8 @@ export class BlamAI extends AIBase {
             stashcounts[k - 1] = v.reduce((a, b) => {return a + b;});
         });
 
-        // Calculate piece advantage compared with highest (or next highest) player
         const mystash = stashcounts[g.currplayer - 1];
-        delete stashcounts[g.currplayer - 1];
-        const maxstash = Math.max(...stashcounts);
-        const diff = mystash - maxstash;
-        if (Math.abs(diff) > 1) {
-            score += (diff * wtPieces)
-        }
-
+        score += mystash * wtPieces
         score += g.scores[g.currplayer - 1] * wtScore;
         score += g.caps[g.currplayer - 1] * wtCaps;
 

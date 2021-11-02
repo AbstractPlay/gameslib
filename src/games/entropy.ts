@@ -419,7 +419,7 @@ export class EntropyGame extends GameBase {
                         });
                     } else {
                         // tslint:disable-next-line: prefer-const
-                        let [x, y] = EntropyGame.algebraic2coords(move);
+                        let [x, y] = EntropyGame.algebraic2coords(move.slice(3));
                         if (i === 0) { x += 7; }
                         rep.annotations!.push({
                             type: "enter",

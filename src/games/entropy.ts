@@ -204,6 +204,7 @@ export class EntropyGame extends GameBase {
                 }
                 theirboard[i].set(moves[i], next);
                 this.results.push({type: "place", what: next, where: moves[i]});
+                this.lastmove[i] = `(${next})` + this.lastmove[i];
             }
         }
 

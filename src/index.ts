@@ -9,4 +9,5 @@ const gameinfo: Map<string, APGamesInformation> = new Map();
 games.forEach((v, k) => {
     gameinfo.set(k, v.gameinfo);
 });
-export {gameinfo};
+const gameinfoSorted: APGamesInformation[] = [...games.values()].sort((a, b) => {return a.gameinfo.name.localeCompare(b.gameinfo.name);}).map(a => a.gameinfo);
+export {gameinfo, gameinfoSorted};

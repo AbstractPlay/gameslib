@@ -94,7 +94,7 @@ export abstract class GameBase  {
     public abstract variants: string[];
 
     public abstract move(move: string): GameBase;
-    public abstract render(): APRenderRep;
+    public abstract render(perspective?: any): APRenderRep;
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract resign(player: number): GameBase;

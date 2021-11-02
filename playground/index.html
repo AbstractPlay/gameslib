@@ -62,10 +62,10 @@
                 // Populate games list
                 var select = document.getElementById("selectGame");
                 var varSelect = document.getElementById("selectVariant");
-                APGames.gameinfo.forEach((v, k) => {
+                APGames.gameinfoSorted.forEach((g) => {
                     var opt = document.createElement('option');
-                    opt.value = v.uid;
-                    opt.innerHTML = v.name;
+                    opt.value = g.uid;
+                    opt.innerHTML = g.name;
                     select.appendChild(opt);
                 });
 

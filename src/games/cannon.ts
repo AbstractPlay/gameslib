@@ -290,10 +290,15 @@ export class CannonGame extends GameBase {
     }
 
     public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 4)
-            return move + '-' + coord;
-        else
+        if (move.length > 0 && move.length < 4) {
+            if (move === coord)
+                return 'x' + coord;
+            else
+                return move + '-' + coord;
+        }
+        else {
             return coord;
+        }
     }
 
     public move(m: string): CannonGame {

@@ -303,8 +303,25 @@ export class MchessGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        // TBD
-        return "";
+        if (piece === '')
+            return String.fromCharCode(97 + col) + (8 - row).toString();
+        else
+            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    }
+
+    public clicked(move: string, coord: string): string {
+        if (move.length > 0 && move.length < 3) {
+            if (coord.length === 2)
+                return move + '-' + coord;
+            else
+                return move + coord;
+        }
+        else {
+            if (coord.length === 2)
+                return coord;
+            else
+                return coord.substring(1, 3);
+        }
     }
 
     public move(m: string): MchessGame {

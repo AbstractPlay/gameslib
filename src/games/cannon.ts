@@ -286,8 +286,14 @@ export class CannonGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        // TBD
-        return "";
+        return String.fromCharCode(97 + col) + (10 - row).toString();
+    }
+
+    public clicked(move: string, coord: string): string {
+        if (move.length > 0 && move.length < 4)
+            return move + '-' + coord;
+        else
+            return coord;
     }
 
     public move(m: string): CannonGame {

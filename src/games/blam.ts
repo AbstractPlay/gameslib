@@ -180,14 +180,25 @@ export class BlamGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        // TBD
-        return "";
+        return String.fromCharCode(97 + col) + (8 - row).toString();
+    }
+
+    public clicked(move: string, coord: string): string {
+        if (move.length === 1)
+            return move + coord;
+        else
+            return coord;
     }
 
     public move(m: string): BlamGame {
         if (this.gameover) {
             throw new Error("You cannot make moves in concluded games.");
         }
+
+        if (! /^(pass|[123][a-h][1-8])$/.test(m)) {
+            throw new Error(`Invalid move: ${m}. Move should be <pip><to>, e.g. '3e4'.`);
+        }
+
         if (m.toLowerCase() === "pass") {
             // validate move
             const stash = this.stashes.get(this.currplayer);
@@ -203,7 +214,7 @@ export class BlamGame extends GameBase {
             // validate move
             const chars = m.split("");
             const pip = parseInt(chars[0], 10);
-            if ( (pip === undefined) || (pip === null) || (pip < 1) || (pip > 3) ) {
+            if ( isNaN(pip) || (pip === undefined) || (pip === null) || (pip < 1) || (pip > 3) ) {
                 throw new Error(`Invalid move: ${m}. The pip value is not valid.`);
             }
             const stash = this.stashes.get(this.currplayer);

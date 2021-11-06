@@ -98,6 +98,7 @@ export abstract class GameBase  {
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract resign(player: number): GameBase;
+    public abstract click(row: number, col: number, piece: string): string;
     protected abstract moveState(): any;
 
     protected saveState(): void {

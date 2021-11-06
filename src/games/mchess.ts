@@ -302,6 +302,11 @@ export class MchessGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
+    public click(row: number, col: number, piece: string): string {
+        // TBD
+        return "";
+    }
+
     public move(m: string): MchessGame {
         if (this.gameover) {
             throw new Error("You cannot make moves in concluded games.");

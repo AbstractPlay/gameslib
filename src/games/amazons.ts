@@ -211,53 +211,72 @@ export class AmazonsGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
+    public click(row: number, col: number, piece: string): string {
+        return String.fromCharCode(97 + col) + (10 - row).toString();
+    }
+
+    public clicked(move: string, coord: string): string {
+        if (move.length > 0 && move.length < 5)
+            return move + '-' + coord;
+        else if (move.length >= 5 && move.length < 8)
+            return move + '/' + coord;
+        else
+            return coord;
+    }
+
     public move(m: string): AmazonsGame {
         if (this.gameover) {
             throw new Error("You cannot make moves in concluded games.");
         }
         // Validate manually should be faster than generating a list of moves every time
+        /*
         const moves = this.moves();
         if (! moves.includes(m)) {
             throw new Error(`Invalid move: ${m}\nRender rep:\n${JSON.stringify(this.render())}`);
         }
+        */
 
-        // // Manual move validation
-        // // Well formed
-        // if (! /^[a-j][0-9]+\-[a-j][0-9]+\/[a-j][0-9]+$/.test(m)) {
-        //     throw new Error(`Invalid move: ${m}\nRender rep:\n${JSON.stringify(this.render())}`);
-        // }
-        // const cells: string[] = m.split(new RegExp('[\-\/]'));
+        // Manual move validation
+        // Well formed
 
-        // // The starting pieces exists and is yours
-        // if (! this.board.has(cells[0])) {
-        //     throw new Error(`Invalid move: ${m}. There is no piece in the cell you requested.\nRender rep:\n${JSON.stringify(this.render())}`);
-        // }
-        // const piece = this.board.get(cells[0]);
-        // if (piece !== this.currplayer) {
-        //     throw new Error(`Invalid move: ${m}. It's not your turn.\nRender rep:\n${JSON.stringify(this.render())}`);
-        // }
+        if (! /^[a-j][0-9]+\-[a-j][0-9]+\/[a-j][0-9]+$/.test(m)) {
+            throw new Error(`Invalid move: ${m}. Move should be <from>-<to>/<block>.`);
+        }
+        const cells: string[] = m.split(new RegExp('[\-\/]'));
 
-        // // The ending and block space are unoccupied (unless you're blocking your starting space)
-        // if (this.board.has(cells[1])) {
-        //     throw new Error(`Invalid move: ${m}. The ending space is occupied.\nRender rep:\n${JSON.stringify(this.render())}`);
-        // }
-        // if ( (this.board.has(cells[2])) && (cells[2] !== cells[0]) ) {
-        //     throw new Error(`Invalid move: ${m}. The space you're trying to block is occupied.\nRender rep:\n${JSON.stringify(this.render())}`);
-        // }
+        // The starting pieces exists and is yours
+        if (! this.board.has(cells[0])) {
+            throw new Error(`Invalid move: ${m}. There is no piece at ${cells[0]}.`);
+        }
+        const piece = this.board.get(cells[0]);
+        if (piece !== this.currplayer) {
+            throw new Error(`Invalid move: ${m}. The piece at ${cells[0]} is not yours.`);
+        }
 
-        // // Get list of cells between each terminal and make sure they are empty
-        // const from = AmazonsGame.algebraic2coords(cells[0]);
-        // const to = AmazonsGame.algebraic2coords(cells[1]);
-        // const block = AmazonsGame.algebraic2coords(cells[2]);
-        // const between = [...RectGrid.between(...from, ...to), ...RectGrid.between(...to, ...block)];
-        // for (const pt of between) {
-        //     if ( (this.board.has(AmazonsGame.coords2algebraic(...pt))) && (AmazonsGame.coords2algebraic(...pt) !== cells[0]) ) {
-        //         throw new Error(`Invalid move: ${m}. You can't move or shoot through other pieces or blocks.\nRender rep:\n${JSON.stringify(this.render())}`);
-        //     }
-        // }
+        // The ending and block space are unoccupied (unless you're blocking your starting space)
+        if (this.board.has(cells[1])) {
+            throw new Error(`Invalid move: ${m}. You can't move to ${cells[1]}, there is already a piece there.`);
+        }
+        if ( (this.board.has(cells[2])) && (cells[2] !== cells[0]) ) {
+            throw new Error(`Invalid move: ${m}. You can not block ${cells[2]}, it is already occupied.`);
+        }
+
+        // Get list of cells between each terminal and make sure they are empty
+        const from = AmazonsGame.algebraic2coords(cells[0]);
+        const to = AmazonsGame.algebraic2coords(cells[1]);
+        const block = AmazonsGame.algebraic2coords(cells[2]);
+        if ((! RectGrid.isOrth(...from, ...to)) && (! RectGrid.isDiag(...from, ...to)))
+            throw new Error(`Invalid move: ${m}. ${cells[1]} isn't on an orthogonal or diagonal line from ${cells[0]}.`)
+        if ((! RectGrid.isOrth(...to, ...block)) && (! RectGrid.isDiag(...to, ...block)))
+            throw new Error(`Invalid move: ${m}. ${cells[2]} isn't on an orthogonal or diagonal line from ${cells[1]}.`)
+        const between = [...RectGrid.between(...from, ...to), ...RectGrid.between(...to, ...block)];
+        for (const pt of between) {
+            if ( (this.board.has(AmazonsGame.coords2algebraic(...pt))) && (AmazonsGame.coords2algebraic(...pt) !== cells[0]) ) {
+                throw new Error(`Invalid move: ${m}. You can't move or shoot through other pieces or blocks.`);
+            }
+        }
 
         // Move valid, so change the state
-        const cells: string[] = m.split(new RegExp('[\-\/]'));
         this.board.delete(cells[0]);
         this.board.set(cells[1], this.currplayer);
         this.board.set(cells[2], 0);

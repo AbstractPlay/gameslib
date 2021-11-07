@@ -285,6 +285,22 @@ export class CannonGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
+    public click(row: number, col: number, piece: string): string {
+        return String.fromCharCode(97 + col) + (10 - row).toString();
+    }
+
+    public clicked(move: string, coord: string): string {
+        if (move.length > 0 && move.length < 4) {
+            if (move === coord)
+                return 'x' + coord;
+            else
+                return move + '-' + coord;
+        }
+        else {
+            return coord;
+        }
+    }
+
     public move(m: string): CannonGame {
         if (this.gameover) {
             throw new Error("You cannot make moves in concluded games.");

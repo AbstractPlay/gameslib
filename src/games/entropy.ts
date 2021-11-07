@@ -164,6 +164,16 @@ export class EntropyGame extends GameBase {
         return `${move1}, ${move2}`;
     }
 
+    public click(row: number, col: number, piece: string): string {
+        // TBD
+        return "";
+    }
+
+    public clicked(move: string, coord: string): string {
+        // TBD
+        return "";
+    }
+
     public move(m: string): EntropyGame {
         if (this.gameover) {
             throw new Error("You cannot make moves in concluded games.");

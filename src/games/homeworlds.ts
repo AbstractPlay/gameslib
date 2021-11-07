@@ -485,6 +485,16 @@ export class HomeworldsGame extends GameBase {
         return movelst;
     }
 
+    public click(row: number, col: number, piece: string): string {
+        // TBD
+        return "";
+    }
+
+    public clicked(move: string, coord: string): string {
+        // TBD
+        return "";
+    }
+
     /**
      * The `partial` flag leaves the object in an invalid state. It should only be used on a disposable object,
      * or you should call `load()` before finalizing the move.

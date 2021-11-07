@@ -98,6 +98,11 @@ export abstract class GameBase  {
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract resign(player: number): GameBase;
+    // Function for turning what is returned from the svg upon a click into a coordinate.
+    public abstract click(row: number, col: number, piece: string): string;
+    // Function for combining a partial move with a clicked coordinate.
+    public abstract clicked(move: string, coord: string): string;
+
     protected abstract moveState(): any;
 
     protected saveState(): void {

@@ -4,7 +4,7 @@ import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common/serialization";
+import { reviver } from "../common";
 // tslint:disable-next-line: no-var-requires
 const clone = require("rfdc/default");
 

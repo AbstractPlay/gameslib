@@ -2,7 +2,7 @@ import { APGamesInformation } from '../schemas/gameinfo';
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
-import { replacer } from '../common/serialization';
+import { replacer } from '../common';
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 

@@ -6,7 +6,7 @@ import { Directions } from "../common";
 import { UndirectedGraph } from "graphology";
 import bidirectional from 'graphology-shortest-path/unweighted';
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common/serialization";
+import { reviver } from "../common";
 
 const gameDesc:string = `# Amazons
 

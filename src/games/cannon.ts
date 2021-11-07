@@ -5,7 +5,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common/serialization";
+import { reviver } from "../common";
 
 const gameDesc:string = `# Cannon
 

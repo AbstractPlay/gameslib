@@ -1,5 +1,6 @@
 export function shuffle(lst: Array<any>): Array<any> {
-    let remaining = lst.length;
+    const working = [...lst];
+    let remaining = working.length;
 
     // While there remain elements to shuffle…
     while (remaining) {
@@ -8,10 +9,10 @@ export function shuffle(lst: Array<any>): Array<any> {
         const randomIdx = Math.floor(Math.random() * remaining--);
 
         // And swap it with the current element.
-        const t = lst[remaining];
-        lst[remaining] = lst[randomIdx];
-        lst[randomIdx] = t;
+        const t = working[remaining];
+        working[remaining] = working[randomIdx];
+        working[randomIdx] = t;
     }
 
-    return [...lst];
+    return working;
 }

@@ -292,6 +292,25 @@
             },
             "required": ["type", "where"],
             "additionalProperties": false
+        },
+        {
+            "description": "Describes consequential movement, like eruptions in Volcano",
+            "properties": {
+                "type": {
+                    "enum": ["eject"]
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "what": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "from", "to"],
+            "additionalProperties": false
         }
     ]
 }

@@ -12,7 +12,15 @@
         <script src=" https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
         <script type="text/javascript">
-            function renderGame() {
+            function boardClick(row, col, piece) {
+                console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
+            }
+
+            function boardClickVolcano(row, col, piece) {
+                renderGame(col, row);
+            }
+
+            function renderGame(...args) {
                 var myNode = document.getElementById("drawing");
                 while (myNode.lastChild) {
                     myNode.removeChild(myNode.lastChild);
@@ -28,15 +36,25 @@
                 if ( (rotval !== undefined) && (rotval !== null) && (!isNaN(rotval)) && (rotval !== 0) ) {
                     options.rotate = rotval;
                 }
+                if (document.getElementById("annotate").checked) {
+                    options.showAnnotations = true;
+                } else {
+                    options.showAnnotations = false;
+                }
+                options.boardClick = boardClick;
                 //options.height = "75%";
                 //options.width = "75%";
                 var state = window.sessionStorage.getItem("state");
                 if (state !== null) {
                     var gamename = window.sessionStorage.getItem("gamename");
+                    if (gamename === "volcano") {
+                        options.boardClick = boardClickVolcano;
+                    }
                     var game = APGames.GameFactory(gamename, state);
 
                     // game board
-                    var data = game.render();
+                    var data = game.render(...args);
+                    // console.log(JSON.stringify(data));
                     var canvas = APRender.render(data, options);
 
                     // move history
@@ -59,6 +77,17 @@
             }
 
             document.addEventListener("DOMContentLoaded", function(event) {
+                /*
+                // Listen to mouse movements
+                var drawing = document.getElementById("drawing");
+                drawing.addEventListener("mousemove", (e) => {
+                    var drawRect = document.getElementById("boardOne").getBoundingClientRect();
+                    var x = e.clientX;
+                    var y = e.clientY;
+                    console.log("(" + (x - drawRect.left) + ", " + (y - drawRect.top) + ")");
+                });
+                */
+
                 // Populate games list
                 var select = document.getElementById("selectGame");
                 var varSelect = document.getElementById("selectVariant");
@@ -288,6 +317,10 @@
                             <div>
                                 <label for="rotation">Rotate map (&deg;)</label>
                                 <input type="number" id="rotation" name="rotate">
+                            </div>
+                            <div>
+                                <label for="annotate">Show annotations?</label>
+                                <input type="checkbox" id="annotate" name="annotate" checked>
                             </div>
                             <button id="renderSettings" name="renderSettings" type="button">Update Settings</button>
                         </form>

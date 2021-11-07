@@ -95,4 +95,10 @@ export type APMoveResult =
       type: "catastrophe";
       where: string;
       trigger?: string;
+    }
+  | {
+      type: "eject";
+      from: string;
+      to: string;
+      what?: string;
     };

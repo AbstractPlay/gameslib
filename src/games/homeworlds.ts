@@ -3,7 +3,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
-import { reviver } from "../common/serialization";
+import { reviver } from "../common";
 import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 
 const gameDesc:string = `# Homeworlds

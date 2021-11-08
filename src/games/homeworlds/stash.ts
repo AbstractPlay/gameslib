@@ -10,6 +10,7 @@ interface IStashContents {
 }
 
 interface IRendered {
+    type: string;
     R: string;
     B: string;
     G: string;
@@ -31,7 +32,7 @@ export class Stash {
     }
 
     public render(): IRendered {
-        const ret: IRendered = {R: "", G: "", B: "", Y: ""};
+        const ret: IRendered = {type: "globalStash", R: "", G: "", B: "", Y: ""};
         for (const c of ["R" as Colour, "G" as Colour, "B" as Colour, "Y" as Colour]) {
             for (const s of [0, 1, 2]) {
                 for (let i = 0; i < this.contents[c][s]; i++) {

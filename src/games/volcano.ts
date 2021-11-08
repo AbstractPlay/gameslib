@@ -258,6 +258,19 @@ export class VolcanoGame extends GameBase {
     }
     */
 
+    public click(row: number, col: number, piece: string): string {
+        return String.fromCharCode(97 + col) + (10 - row).toString();
+    }
+
+    public clicked(move: string, coord: string): string {
+        if (move.length > 0 && move.length < 4) {
+            return move + '-' + coord;
+        }
+        else {
+            return coord;
+        }
+    }
+
     /**
      * The `partial` flag leaves the object in an invalid state. It should only be used on a disposable object,
      * or you should call `load()` before finalizing the move.

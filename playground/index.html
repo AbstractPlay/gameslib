@@ -47,7 +47,7 @@
                 var state = window.sessionStorage.getItem("state");
                 if (state !== null) {
                     var gamename = window.sessionStorage.getItem("gamename");
-                    if (gamename === "volcano") {
+                    if ( (gamename === "volcano") || (gamename === "mvolcano") ) {
                         options.boardClick = boardClickVolcano;
                     }
                     var game = APGames.GameFactory(gamename, state);
@@ -55,6 +55,7 @@
                     // game board
                     var data = game.render(...args);
                     // console.log(JSON.stringify(data));
+                    // console.log(game.serialize());
                     var canvas = APRender.render(data, options);
 
                     // move history

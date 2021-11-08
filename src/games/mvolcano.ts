@@ -3,11 +3,14 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, RectGrid } from "../common";
+import { CartesianProduct } from "js-combinatorics";
 // import { RectGrid } from "../common";
+// tslint:disable-next-line: no-var-requires
+const clone = require("rfdc/default");
 
-const gameDesc:string = `# Volcano
+const gameDesc:string = `# Mega-Volcano
 
-An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.
+An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour (or all three white pieces). Scores are then calculated. Highest score wins.
 `;
 
 interface ILooseObj {
@@ -31,11 +34,11 @@ interface IOrganizedCaps {
 
 export type playerid = 1|2;
 export type Size = 1|2|3;
-export type Colour = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN"|"PK";
+export type Colour = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN"|"WH";
 export type CellContents = [Colour, Size];
-const colours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN", "PK"];
+const colours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN"];
 
-const clone = (items: any) => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
+// const clone = (items: any) => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -45,41 +48,19 @@ export interface IMoveState extends IIndividualState {
     captured: [CellContents[], CellContents[]];
 };
 
-export interface IVolcanoState extends IAPGameState {
+export interface IMvolcanoState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-function hasContiguous(inlst: string[], width: number = 5): boolean {
-    for (let i = 0; i < inlst.length; i++) {
-        const iN = i - width;
-        if ( (iN > 0) && (inlst[iN] === inlst[i]) ) {
-            return true;
-        }
-        const iE = i + 1;
-        if ( (iE < inlst.length) && (inlst[iE] === inlst[i]) ) {
-            return true;
-        }
-        const iS = i + width;
-        if ( (iS < inlst.length) && (inlst[iS] === inlst[i]) ) {
-            return true;
-        }
-        const iW = i - 1;
-        if ( (iW > 0) && (inlst[iW] === inlst[i]) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-export class VolcanoGame extends GameBase {
+export class MvolcanoGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Volcano",
-        uid: "volcano",
+        name: "Mega-Volcano",
+        uid: "mvolcano",
         playercounts: [2],
-        version: "20211104",
+        version: "20211107",
         description: gameDesc,
-        urls: ["https://www.looneylabs.com/content/volcano"],
+        urls: ["http://www.wunderland.com/WTS/Kristin/Games/Volcano.html#MegaVolcano"],
         people: [
             {
                 type: "designer",
@@ -89,10 +70,10 @@ export class VolcanoGame extends GameBase {
         ]
     };
     public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 5);
+        return GameBase.coords2algebraic(x, y, 6);
     }
     public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 5);
+        return GameBase.algebraic2coords(cell, 6);
     }
 
     public numplayers: number = 2;
@@ -109,46 +90,34 @@ export class VolcanoGame extends GameBase {
     public results: Array<APMoveResult> = [];
 
     public static newBoard(): Array<Array<CellContents[]>> {
-        let order: string[] = shuffle([...colours, ...colours, ...colours]);
-        order.push(order[12]);
-        order[12] = "-";
-        while (hasContiguous(order)) {
-            order = shuffle([...colours, ...colours, ...colours]);
-            order.push(order[12]);
-            order[12] = "-";
-        }
-        order.splice(12, 1);
+        const order: string[] = shuffle([...colours, ...colours, ...colours, ...colours, ...colours, "WH"]);
         const board: Array<Array<CellContents[]>> = [];
-        for (let row = 0; row < 5; row++) {
+        for (let row = 0; row < 6; row++) {
             const node: Array<CellContents[]> = [];
-            for (let col = 0; col < 5; col++) {
-                if ( (row === 2) && (col === 2) ) {
-                    node.push([]);
-                } else {
-                    const colour = order.pop() as Colour;
-                    node.push([[colour, 1], [colour, 2], [colour, 3]]);
-                }
+            for (let col = 0; col < 6; col++) {
+                const colour = order.pop() as Colour;
+                node.push([[colour, 1], [colour, 2], [colour, 3]]);
             }
             board.push(node);
         }
         return board;
     }
 
-    constructor(state?: IVolcanoState | string, variants?: string[]) {
+    constructor(state?: IMvolcanoState | string, variants?: string[]) {
         super();
         if (state === undefined) {
-            this.board = VolcanoGame.newBoard();
+            this.board = MvolcanoGame.newBoard();
             this.caps = new Set();
-            for (let row = 0; row < 5; row++) {
-                for (let col = 0; col < 5; col++) {
+            for (let row = 0; row < 6; row++) {
+                for (let col = 0; col < 6; col++) {
                     const cell = this.board[row][col];
-                    if ( (cell !== undefined) && (cell.length > 0) && ( (cell[0][0] === "RD") || (cell[0][0] === "OG") ) ) {
-                        this.caps.add(VolcanoGame.coords2algebraic(col, row));
+                    if ( (cell !== undefined) && (cell.length > 0) && (cell[0][0] === "RD") ) {
+                        this.caps.add(MvolcanoGame.coords2algebraic(col, row));
                     }
                 }
             }
             const fresh: IMoveState = {
-                _version: VolcanoGame.gameinfo.version,
+                _version: MvolcanoGame.gameinfo.version,
                 _results: [],
                 currplayer: 1,
                 board: this.board,
@@ -158,9 +127,9 @@ export class VolcanoGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IVolcanoState;
+                state = JSON.parse(state, reviver) as IMvolcanoState;
             }
-            if (state.game !== VolcanoGame.gameinfo.uid) {
+            if (state.game !== MvolcanoGame.gameinfo.uid) {
                 throw new Error(`The Martian Chess engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
@@ -171,7 +140,7 @@ export class VolcanoGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): VolcanoGame {
+    public load(idx: number = -1): MvolcanoGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -279,90 +248,68 @@ export class VolcanoGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [VolcanoGame]
      */
-     public move(m: string, partial: boolean = false): VolcanoGame {
+     public move(m: string, partial: boolean = false): MvolcanoGame {
         if (this.gameover) {
             throw new Error("You cannot make moves in concluded games.");
         }
 
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
-        const grid = new RectGrid(5, 5);
+        const grid = new RectGrid(6, 6);
         this.erupted = false;
-        let powerPlay = false;
         this.results = [];
         for (const move of moves) {
             const [from, to] = move.split("-");
-            const [toX, toY] = VolcanoGame.algebraic2coords(to);
-            if ( (from === undefined) || (to === undefined) || (to.length !== 2) || (from.length < 2) || (from.length > 3) ) {
+            const [toX, toY] = MvolcanoGame.algebraic2coords(to);
+            if ( (from === undefined) || (to === undefined) || (to.length !== 2) || (from.length !== 2) ) {
                 throw new Error(`Malformed move ${move}`);
             }
-            // This is a regular cap move
-            if (from.length === 2) {
-                if (this.erupted) {
-                    throw new Error("You can't keep moving after causing an eruption.");
-                }
-                const [fromX, fromY] = VolcanoGame.algebraic2coords(from);
-                if (! this.caps.has(from)) {
-                    throw new Error("You can only move caps.");
-                }
-                if (this.caps.has(to)) {
-                    throw new Error("You can't move caps on top of other caps.");
-                }
-                if ( (Math.abs(fromX - toX) > 1) || (Math.abs(fromY - toY) > 1) ) {
-                    throw new Error("Caps can only move one space at a time.");
-                }
-                this.results.push({type: "move", from, to});
-                // detect eruption
-                const dir = RectGrid.bearing(fromX, fromY, toX, toY);
-                if (dir === undefined) {
-                    throw new Error("You have to move a cap at least one space.");
-                }
-                const ray = grid.ray(toX, toY, dir);
-                if ( (ray.length > 0) && (! this.caps.has(VolcanoGame.coords2algebraic(...ray[0]))) && (this.board[fromY][fromX].length > 0) ) {
-                    // Eruption triggered
-                    for (const r of ray ) {
-                        const cell = VolcanoGame.coords2algebraic(...r);
-                        if (this.caps.has(cell)) {
-                            break;
-                        }
-                        const piece = this.board[fromY][fromX].pop();
-                        if (piece === undefined) {
-                            break;
-                        }
-                        // check for capture
-                        const boardTo = this.board[r[1]][r[0]];
-                        this.results.push({type: "eject", from, to: cell, what: piece.join("")});
-                        // captured
-                        if ( (boardTo.length > 0) && (boardTo[boardTo.length - 1][1] === piece[1]) ) {
-                            this.captured[this.currplayer - 1].push(piece);
-                            this.results.push({type: "capture", what: piece.join(""), where: cell});
-                        // otherwise just move the piece
-                        } else {
-                            boardTo.push(piece);
-                        }
-                    }
-                    this.erupted = true;
-                }
-                this.caps.delete(from);
-                this.caps.add(to);
-            // This is a power play
-            } else {
-                if (powerPlay) {
-                    throw new Error("You can only make one power play on your turn.");
-                }
-                const colour = (from[0] + from[1]).toUpperCase();
-                const size = parseInt(from[2], 10);
-                const idx = (this.captured[this.currplayer - 1]).findIndex(p => p[0] === colour && p[1] === size);
-                if (idx < 0) {
-                    throw new Error(`You don't have a piece ${colour}${size} in your stash of captured pieces.`);
-                }
-                this.captured[this.currplayer - 1].splice(idx, 1);
-                if (this.caps.has(to)) {
-                    throw new Error("You can't place a piece on top of a cap.");
-                }
-                this.board[toY][toX].push([colour as Colour, size as Size]);
-                this.results.push({type: "place", what: from, where: to});
-                powerPlay = true;
+            if (this.erupted) {
+                throw new Error("You can't keep moving after causing an eruption.");
             }
+            const [fromX, fromY] = MvolcanoGame.algebraic2coords(from);
+            if (! this.caps.has(from)) {
+                throw new Error("You can only move caps.");
+            }
+            if (this.caps.has(to)) {
+                throw new Error("You can't move caps on top of other caps.");
+            }
+            if ( (Math.abs(fromX - toX) > 1) || (Math.abs(fromY - toY) > 1) ) {
+                throw new Error("Caps can only move one space at a time.");
+            }
+            this.results.push({type: "move", from, to});
+            // detect eruption
+            const dir = RectGrid.bearing(fromX, fromY, toX, toY);
+            if (dir === undefined) {
+                throw new Error("You have to move a cap at least one space.");
+            }
+            const ray = grid.ray(toX, toY, dir);
+            if ( (ray.length > 0) && (! this.caps.has(MvolcanoGame.coords2algebraic(...ray[0]))) && (this.board[fromY][fromX].length > 0) ) {
+                // Eruption triggered
+                for (const r of ray ) {
+                    const cell = MvolcanoGame.coords2algebraic(...r);
+                    if (this.caps.has(cell)) {
+                        break;
+                    }
+                    const piece = this.board[fromY][fromX].pop();
+                    if (piece === undefined) {
+                        break;
+                    }
+                    // check for capture
+                    const boardTo = this.board[r[1]][r[0]];
+                    this.results.push({type: "eject", from, to: cell, what: piece.join("")});
+                    // captured
+                    if ( (boardTo.length > 0) && (boardTo[boardTo.length - 1][1] === piece[1]) ) {
+                        this.captured[this.currplayer - 1].push(piece);
+                        this.results.push({type: "capture", what: piece.join(""), where: cell});
+                    // otherwise just move the piece
+                    } else {
+                        boardTo.push(piece);
+                    }
+                }
+                this.erupted = true;
+            }
+            this.caps.delete(from);
+            this.caps.add(to);
         }
 
         if (partial) {
@@ -386,38 +333,86 @@ export class VolcanoGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): VolcanoGame {
+    protected checkEOG(): MvolcanoGame {
         let prevplayer = this.currplayer - 1;
         if (prevplayer < 1) {
             prevplayer = this.numplayers;
         }
-        const org = this.organizeCaps(prevplayer as playerid);
-        if ( (org.triosMono.length === 3) || (org.triosMono.length + org.triosMixed.length === 5) ) {
+        const pile = this.captured[prevplayer - 1];
+        // Check for all white pieces
+        const whites = pile.filter(p => p[0] === "WH");
+        if (whites.length === 3) {
             this.gameover = true;
             this.winner = [prevplayer as playerid];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
             );
+        } else {
+            const coloursCapped = new Set<Colour>(pile.map(p => p[0]));
+            coloursCapped.delete("WH");
+            if (coloursCapped.size === 7) {
+                this.gameover = true;
+                this.results.push({type: "eog"});
+                const score1 = this.getPlayerScore(1);
+                const score2 = this.getPlayerScore(2);
+                if ( (score1 === undefined) || (score2 === undefined) ) {
+                    throw new Error("Scores could not be determined after the game ended. This should never happen.");
+                }
+                if (score1 > score2) {
+                    this.winner = [1];
+                } else if (score1 < score2) {
+                    this.winner = [2];
+                } else {
+                    this.winner = [1, 2];
+                }
+                this.results.push({type: "winners", players: [...this.winner]});
+            }
         }
         return this;
     }
 
-    public organizeCaps(player: playerid = 1): IOrganizedCaps {
-        const org: IOrganizedCaps = {
+    public getPlayerScore(indata: number | IOrganizedCaps): number {
+        let org: IOrganizedCaps;
+        if (typeof indata === "number") {
+            org = this.organizeCaps(indata as playerid);
+        } else {
+            org = indata;
+        }
+        let score = 0;
+        score += 7 * org.triosMono.length;
+        score += 5 * org.triosMixed.length;
+        for (const stack of org.partialsMono) {
+            score += stack.length;
+        }
+        for (const stack of org.partialsMixed) {
+            score += stack.length;
+        }
+        score += org.miscellaneous.length;
+        return score;
+    }
+
+        public organizeCaps(indata: playerid | CellContents[] = 1): IOrganizedCaps {
+        let pile: CellContents[];
+        if (Array.isArray(indata)) {
+            pile = [...indata];
+        } else {
+            pile = [...(this.captured[indata - 1])];
+        }
+
+        let org: IOrganizedCaps = {
             triosMono: [],
             partialsMono: [],
             triosMixed: [],
             partialsMixed: [],
             miscellaneous: []
         };
-
-        const pile = [...this.captured[player - 1]];
         const stacks: CellContents[][] = [];
 
-        const lgs = pile.filter(x => x[1] === 3);
-        const mds = pile.filter(x => x[1] === 2);
-        const sms = pile.filter(x => x[1] === 1);
+        const whites = pile.filter(x => x[0] === "WH");
+        const lgs = pile.filter(x => x[1] === 3 && x[0] !== "WH");
+        const mds = pile.filter(x => x[1] === 2 && x[0] !== "WH");
+        const sms = pile.filter(x => x[1] === 1 && x[0] !== "WH");
         // Put each large in a stack and then look for a matching medium and small
         // This will find all monochrome trios
         while (lgs.length > 0) {
@@ -481,35 +476,92 @@ export class VolcanoGame extends GameBase {
         // Now all you should have are loose smalls, add those
         stacks.push(...sms.map(x => [x]));
 
-        // Validate that all the pieces in the original pile are now found in the stack structure
-        const pieces: CellContents[] = stacks.reduce((accumulator, value) => accumulator.concat(value), []);
-        if (pieces.length !== this.captured[player - 1].length) {
-            throw new Error("Stack lengths don't match. This should never happen.");
-        }
+        // And add any whites to this as well
+        stacks.push(...whites.map(x => [x]));
+
+        // // Validate that all the pieces in the original pile are now found in the stack structure
+        // const pieces: CellContents[] = stacks.reduce((accumulator, value) => accumulator.concat(value), []);
+        // if (pieces.length !== pile.length) {
+        //     throw new Error("Stack lengths don't match. This should never happen.");
+        // }
 
         // Categorize each stack
         for (const stack of stacks) {
             if (stack.length === 3) {
                 if ((new Set(stack.map(c => c[0]))).size === 1) {
-                    org.triosMono.push(stack);
+                    org.triosMono.push(clone(stack));
                 } else {
-                    org.triosMixed.push(stack);
+                    org.triosMixed.push(clone(stack));
                 }
             } else if (stack.length === 2) {
                 if ((new Set(stack.map(c => c[0]))).size === 1) {
-                    org.partialsMono.push(stack);
+                    org.partialsMono.push(clone(stack));
                 } else {
-                    org.partialsMixed.push(stack);
+                    org.partialsMixed.push(clone(stack));
                 }
             } else {
-                org.miscellaneous.push(...stack);
+                org.miscellaneous.push(...clone(stack));
+            }
+        }
+
+        if (whites.length > 0) {
+            let highestScore = this.getPlayerScore(org);
+            const colourSet: string[][] = [];
+            // tslint:disable-next-line: prefer-for-of
+            for (let i = 0; i < whites.length; i++) {
+                colourSet.push([...colours]);
+            }
+            const replacements = [...new CartesianProduct(...colourSet)];
+            const sizes = whites.map(w => w[1]);
+            for (const r of replacements) {
+                const newpieces: CellContents[] = [];
+                for (let i = 0; i < r.length; i++) {
+                    newpieces.push([r[i] as Colour, sizes[i]])
+                }
+                const newpile = [...pile.filter(p => p[0] !== "WH"), ...newpieces];
+                const neworg = this.organizeCaps(newpile);
+                const newscore = this.getPlayerScore(neworg);
+                if (newscore > highestScore) {
+                    // Find the replacement pieces and make them white again
+                    for (const newpiece of newpieces) {
+                        let found = false;
+                        for (const key of ["triosMono", "triosMixed", "partialsMono", "partialsMixed"] as const) {
+                            for (const stack of neworg[key]) {
+                                const i = stack.findIndex(p => p[0] === newpiece[0] && p[1] === newpiece[1]);
+                                if (i >= 0) {
+                                    found = true;
+                                    stack[i][0] = "WH";
+                                    break;
+                                }
+                            }
+                            if (found) {
+                                break;
+                            }
+                        }
+                        // If still not found, check the miscellaneous key
+                        if (! found) {
+                            const i = neworg.miscellaneous.findIndex(p => p[0] === newpiece[0] && p[1] === newpiece[1]);
+                            if (i >= 0) {
+                                found = true;
+                                neworg.miscellaneous[i][0] = "WH";
+                            }
+                        }
+                        // At this point, something has gone horribly wrong
+                        if (! found) {
+                            throw new Error("Could not find the replacement piece. This should never happen.");
+                        }
+                    }
+
+                    org = clone(neworg);
+                    highestScore = newscore;
+                }
             }
         }
 
         return org;
     }
 
-    public resign(player: playerid): VolcanoGame {
+    public resign(player: playerid): MvolcanoGame {
         this.gameover = true;
         if (player === 1) {
             this.winner = [2];
@@ -525,9 +577,9 @@ export class VolcanoGame extends GameBase {
         return this;
     }
 
-    public state(): IVolcanoState {
+    public state(): IMvolcanoState {
         return {
-            game: VolcanoGame.gameinfo.uid,
+            game: MvolcanoGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -538,7 +590,7 @@ export class VolcanoGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: VolcanoGame.gameinfo.version,
+            _version: MvolcanoGame.gameinfo.version,
             _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
@@ -551,13 +603,13 @@ export class VolcanoGame extends GameBase {
     public render(expandCol?: number, expandRow?: number): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
-        for (let row = 0; row < 5; row++) {
+        for (let row = 0; row < 6; row++) {
             const rownode: string[][] = [];
-            for (let col = 0; col < 5; col++) {
+            for (let col = 0; col < 6; col++) {
                 let cellnode: string[] = [];
                 if (this.board[row][col] !== undefined) {
                     cellnode = [...this.board[row][col]!.map(c => c.join(""))];
-                    const cell = VolcanoGame.coords2algebraic(col, row);
+                    const cell = MvolcanoGame.coords2algebraic(col, row);
                     if (this.caps.has(cell)) {
                         cellnode.push("X");
                     }
@@ -621,40 +673,71 @@ export class VolcanoGame extends GameBase {
                 player: n+1
             };
         }
-
-        const list: object[] = []
-        for (const colour of [...colours].sort((a, b) => a.localeCompare(b))) {
-            list.push({piece: colour + "3", name: colour})
-        }
-        const key = {placement: "right", textPosition: "outside", list};
-
+        // Now add the white pieces
+        myLegend.WH1 = {
+            name: "pyramid-up-small-upscaled",
+            colour: "#fff",
+            opacity
+        };
+        myLegend.WH2 = {
+            name: "pyramid-up-medium-upscaled",
+            colour: "#fff",
+            opacity
+        };
+        myLegend.WH3 = {
+            name: "pyramid-up-large-upscaled",
+            colour: "#fff",
+            opacity
+        };
+        myLegend.WH1N = {
+            name: "pyramid-flat-small",
+            colour: "#fff"
+        };
+        myLegend.WH2N = {
+            name: "pyramid-flat-medium",
+            colour: "#fff"
+        };
+        myLegend.WH3N = {
+            name: "pyramid-flat-large",
+            colour: "#fff"
+        };
+        myLegend.WH1c = {
+            name: "pyramid-flattened-small",
+            colour: "#fff"
+        };
+        myLegend.WH2c = {
+            name: "pyramid-flattened-medium",
+            colour: "#fff"
+        };
+        myLegend.WH3c = {
+            name: "pyramid-flattened-large",
+            colour: "#fff"
+        };
 
         // Build rep
         const rep: APRenderRep =  {
             renderer: "stacking-expanding",
             board: {
                 style: "squares",
-                width: 5,
-                height: 5
+                width: 6,
+                height: 6
             },
             legend: myLegend,
-            // @ts-ignore
-            key,
             // @ts-ignore
             pieces
         };
 
         const areas = [];
-        if ( (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 5) && (expandRow < 5) && (this.board[expandRow][expandCol] !== undefined) ) {
+        if ( (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 6) && (expandRow < 6) && (this.board[expandRow][expandCol] !== undefined) ) {
             const cell: string[] = this.board[expandRow][expandCol]!.map(c => `${c.join("")}N`);
-            const cellname = VolcanoGame.coords2algebraic(expandCol, expandRow);
+            const cellname = MvolcanoGame.coords2algebraic(expandCol, expandRow);
             if (this.caps.has(cellname)) {
                 cell.push("XN")
             }
             if (cell !== undefined) {
                 areas.push({
                     type: "expandedColumn",
-                    cell: VolcanoGame.coords2algebraic(expandCol, expandRow),
+                    cell: MvolcanoGame.coords2algebraic(expandCol, expandRow),
                     stack: cell
                 });
             }
@@ -688,15 +771,15 @@ export class VolcanoGame extends GameBase {
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {
-                    const [fromX, fromY] = VolcanoGame.algebraic2coords(move.from);
-                    const [toX, toY] = VolcanoGame.algebraic2coords(move.to);
+                    const [fromX, fromY] = MvolcanoGame.algebraic2coords(move.from);
+                    const [toX, toY] = MvolcanoGame.algebraic2coords(move.to);
                     rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "eject") {
-                    const [fromX, fromY] = VolcanoGame.algebraic2coords(move.from);
-                    const [toX, toY] = VolcanoGame.algebraic2coords(move.to);
+                    const [fromX, fromY] = MvolcanoGame.algebraic2coords(move.from);
+                    const [toX, toY] = MvolcanoGame.algebraic2coords(move.to);
                     rep.annotations!.push({type: "eject", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
-                    const [x, y] = VolcanoGame.algebraic2coords(move.where!);
+                    const [x, y] = MvolcanoGame.algebraic2coords(move.where!);
                     rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
@@ -706,7 +789,13 @@ export class VolcanoGame extends GameBase {
     }
 
     public status(): string {
-        const status = super.status();
+        let status = super.status();
+
+        status += "**Scores**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            const score = this.getPlayerScore(n);
+            status += `Player ${n}: ${score}\n\n`;
+        }
 
         return status;
     }
@@ -715,7 +804,7 @@ export class VolcanoGame extends GameBase {
         return this.getMovesAndResults(["move"]);
     }
 
-    public clone(): VolcanoGame {
-        return new VolcanoGame(this.serialize());
+    public clone(): MvolcanoGame {
+        return new MvolcanoGame(this.serialize());
     }
 }

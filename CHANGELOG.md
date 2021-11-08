@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   
   This is the first simultaneous game. The engine itself does not accept partial moves. All players' moves must be submitted at the same time. This adds complexity to the API server, which must store partial moves for a time, but prevents the hidden information being stored and transmitted by the game state, which is visible to the client browser.
 - Added the modern Volcano, which differs from what was implemented on SDG.
-- Added click handler for Volcano to the playground.
+- Added the original Mega-Volcano.
+- Added click handler for Volcano and Mega-Volcano to the playground.
 - Added the `showAnnotations` toggle to the playground.
 - Added a new `eject` move result to signal consequential movement (e.g., eruptions in Volcano).
 

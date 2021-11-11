@@ -13,7 +13,8 @@ describe("Homeworlds", () => {
             R: "111222333",
             B: "111222333",
             G: "111222333",
-            Y: "111222333"
+            Y: "111222333",
+            type: "globalStash"
         };
         expect(s.render()).to.deep.equal(obj);
     });

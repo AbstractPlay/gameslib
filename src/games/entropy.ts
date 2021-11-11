@@ -471,4 +471,8 @@ export class EntropyGame extends GameBase {
         status += `Player 2: ${this.score(2)}\n\n`;
         return status;
     }
+
+    public clone(): EntropyGame {
+        return new EntropyGame(this.serialize());
+    }
 }

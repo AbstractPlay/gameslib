@@ -504,4 +504,8 @@ export class AmazonsGame extends GameBase {
             return "";
         }
     }
+
+    public clone(): AmazonsGame {
+        return new AmazonsGame(this.serialize());
+    }
 }

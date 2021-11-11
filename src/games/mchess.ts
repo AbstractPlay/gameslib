@@ -631,4 +631,8 @@ export class MchessGame extends GameBase {
     protected getPlayerScore(player: number): number | undefined {
         return this.scores[player - 1];
     }
+
+    public clone(): MchessGame {
+        return new MchessGame(this.serialize());
+    }
 }

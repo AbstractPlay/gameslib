@@ -505,4 +505,8 @@ export class BlamGame extends GameBase {
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "capture", "pass"]);
     }
+
+    public clone(): BlamGame {
+        return new BlamGame(this.serialize());
+    }
 }

@@ -59,6 +59,22 @@
             "additionalProperties": false
         },
         {
+            "description": "Taking a piece from the board but not a capture (so usually your own piece)",
+            "properties": {
+                "type": {
+                    "enum": ["take"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "from"],
+            "additionalProperties": false
+        },
+        {
             "description": "Describes passing a turn.",
             "properties": {
                 "type": {
@@ -182,6 +198,9 @@
                     "type": "string"
                 },
                 "to": {
+                    "type": "string"
+                },
+                "where": {
                     "type": "string"
                 }
             },

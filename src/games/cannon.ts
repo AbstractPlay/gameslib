@@ -557,4 +557,8 @@ export class CannonGame extends GameBase {
 
         return rep;
     }
+
+    public clone(): CannonGame {
+        return new CannonGame(this.serialize());
+    }
 }

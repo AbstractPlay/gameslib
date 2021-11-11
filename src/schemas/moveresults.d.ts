@@ -26,6 +26,11 @@ export type APMoveResult =
       what?: string;
     }
   | {
+      type: "take";
+      what?: string;
+      from: string;
+    }
+  | {
       type: "pass";
     }
   | {
@@ -63,6 +68,7 @@ export type APMoveResult =
       type: "promote";
       from?: string;
       to: string;
+      where?: string;
     }
   | {
       type: "eliminated";

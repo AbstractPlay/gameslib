@@ -4,6 +4,7 @@ import { BlamAI } from "./blam";
 import { CannonAI } from "./cannon";
 import { MchessAI } from "./mchess";
 import { HomeworldsAI } from "./homeworlds";
+import { ChaseAI } from "./chase";
 
 export interface IAIResult {
     bestMove: string|null;
@@ -14,7 +15,7 @@ export interface IAI {
     findmove: (state: any, depth: number) => string;
 }
 
-export { AIBase, AmazonsAI, BlamAI, CannonAI, MchessAI, HomeworldsAI };
+export { AIBase, AmazonsAI, BlamAI, CannonAI, MchessAI, HomeworldsAI, ChaseAI };
 
 export const supportedGames: string[] = ["amazons"];
 export const fastGames: Map<string, number> = new Map([
@@ -22,14 +23,16 @@ export const fastGames: Map<string, number> = new Map([
     ["blam", 3],
     ["cannon", 3],
     ["mchess", 5],
-    ["homeworlds", 4]
+    ["homeworlds", 4],
+    ["chase", 1],
 ]);
 export const slowGames: Map<string, number> = new Map([
     ["amazons", 2],
     ["blam", 5],
     ["cannon", 5],
     ["mchess", 7],
-    ["homeworlds", 6]
+    ["homeworlds", 6],
+    ["chase", 2],
 ]);
 
 export function AIFactory(game: string): AIBase|undefined {
@@ -44,6 +47,8 @@ export function AIFactory(game: string): AIBase|undefined {
             return new MchessAI();
         case "homeworlds":
             return new HomeworldsAI();
+        case "chase":
+            return new ChaseAI();
     }
     return;
 }

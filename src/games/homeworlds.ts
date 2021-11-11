@@ -5,6 +5,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
 import { reviver } from "../common";
 import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
+import { UserFacingError } from "../common";
+import i18next from "i18next";
 
 const gameDesc:string = `# Homeworlds
 
@@ -505,7 +507,7 @@ export class HomeworldsGame extends GameBase {
      */
     public move(m: string, partial: boolean = false): HomeworldsGame {
         if (this.gameover) {
-            throw new Error(HomeworldsErrors.MOVE_GAMEOVER);
+            throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVE_GAMEOVER"));
         }
         /*
          * Valid commands
@@ -567,7 +569,7 @@ export class HomeworldsGame extends GameBase {
                     this.cmdPass(...tokens.slice(1));
                     break;
                 default:
-                    throw new Error(HomeworldsErrors.MOVE_UNRECOGNIZED);
+                    throw new UserFacingError(HomeworldsErrors.MOVE_UNRECOGNIZED, i18next.t("apgames:MOVE_UNRECOGNIZED", {cmd}));
             }
         }
         this.lastmove = mFormatted.join(", ");
@@ -577,7 +579,7 @@ export class HomeworldsGame extends GameBase {
 
         // You have to account for all your actions
         if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
-            throw new Error(HomeworldsErrors.MOVE_MOREACTIONS);
+            throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:MOVE_MOREACTIONS"));
         }
 
         // You can't cause yourself to lose
@@ -586,7 +588,7 @@ export class HomeworldsGame extends GameBase {
             throw new Error("Could not find your home system. This should never happen at this point.");
         }
         if ( (home.stars.length === 0) || (home.countShips(this.player2seat()) === 0) ) {
-            throw new Error(HomeworldsErrors.MOVE_SELFELIMINATE);
+            throw new UserFacingError(HomeworldsErrors.MOVE_SELFELIMINATE, i18next.t("apgames:MOVE_SELFELIMINATE"));
         }
 
         // Check for any home systems where the player no longer owns any ships
@@ -632,14 +634,14 @@ export class HomeworldsGame extends GameBase {
         const home = this.systems.find(s => s.owner === this.player2seat());
         args = args.map(a => a.toUpperCase());
         if (home !== undefined) {
-            throw new Error(HomeworldsErrors.CMD_HOME_DOUBLE);
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_DOUBLE, i18next.t("apgames:CMD_HOME_DOUBLE"));
         }
         if (args.length < 3) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         for (const arg of args) {
             if ( (arg !== "*") && (arg !== "-") && (! arg.match(/^[RBGY][123]$/)) ) {
-                throw new Error(HomeworldsErrors.CMD_STARSHIP_NAME);
+                throw new UserFacingError(HomeworldsErrors.CMD_STARSHIP_NAME, i18next.t("apgames:CMD_STARSHIP_NAME", {arg}));
             }
         }
         let overridden = false;
@@ -648,21 +650,21 @@ export class HomeworldsGame extends GameBase {
             overridden = true;
         }
         if ( (! overridden) && (args.includes("-")) ) {
-            throw new Error(HomeworldsErrors.CMD_HOME_SINGLE);
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SINGLE, i18next.t("apgames:CMD_HOME_SINGLE"));
         }
         if ( (! overridden) && (! args[2].endsWith("3")) ) {
-            throw new Error(HomeworldsErrors.CMD_HOME_SMALLSHIP);
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SMALLSHIP, i18next.t("apgames:CMD_HOME_SMALLSHIP"));
         }
         if ( (! overridden) && (args[0][1] === args[1][1]) ) {
-            throw new Error(HomeworldsErrors.CMD_HOME_SAMESIZE);
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SAMESIZE, i18next.t("apgames:CMD_HOME_SAMESIZE"));
         }
         const colours = args.filter(a => a.length === 2).map(a => a[0]);
         const unique = colours.filter((value, index) => colours.indexOf(value) === index)
         if ( (! overridden) && (unique.length < 3) ) {
-            throw new Error(HomeworldsErrors.CMD_HOME_COLOURS);
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_COLOURS, i18next.t("apgames:CMD_HOME_COLOURS"));
         }
         if ( (! overridden) && ( (! unique.includes("B")) || (! unique.includes("G")) ) ) {
-            throw new Error(HomeworldsErrors.CMD_HOME_TECHS);
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_TECHS, i18next.t("apgames:CMD_HOME_TECHS"));
         }
 
         const separated: ([Colour, Size]|"-")[] = args.map((a) => {
@@ -695,7 +697,7 @@ export class HomeworldsGame extends GameBase {
             const theirs = rhoSystem.stars.map(s => s[1]).sort();
             const mine = system.stars.map(s => s[1]).sort();
             if ( (! overridden) && (mine.length === theirs.length) && (mine.filter(s => !theirs.includes(s)).length === 0) ) {
-                throw new Error(HomeworldsErrors.CMD_HOME_RHO);
+                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO, i18next.t("apgames:CMD_HOME_RHO"));
             }
         }
 
@@ -709,7 +711,7 @@ export class HomeworldsGame extends GameBase {
     private cmdDiscover(...args: string[]): HomeworldsGame {
         // discover ship fromSystem star newName
         if (args.length < 4) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         // tslint:disable-next-line: prefer-const
         let [ship, fromSystem, newStar, newName] = args;
@@ -723,27 +725,27 @@ export class HomeworldsGame extends GameBase {
 
         const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
         if (oldSystem === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: fromSystem}));
         }
 
         if (this.actions.Y === 0) {
             if (this.actions.free === 0) {
-                throw new Error(HomeworldsErrors.CMD_NOACTIONS);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:CMD_NOACTIONS", {context: "Y"}));
             } else if (! oldSystem.hasTech("Y", this.player2seat())) {
-                throw new Error(HomeworldsErrors.CMD_NOTECH);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:CMD_NOTECH", {context: "Y"}));
             }
         }
         this.spendAction("Y");
 
         if (! System.nameValid(newName)) {
-            throw new Error(HomeworldsErrors.SYSTEM_BADNAME);
+            throw new UserFacingError(HomeworldsErrors.SYSTEM_BADNAME, i18next.t("apgames:SYSTEM_BADNAME", {name: newName}));
         }
         const names = this.systems.map(sys => sys.name.toLowerCase());
         if (names.includes(newName.toLowerCase())) {
-            throw new Error(HomeworldsErrors.CMD_DISC_DOUBLE);
+            throw new UserFacingError(HomeworldsErrors.CMD_DISC_DOUBLE, i18next.t("apgames:CMD_DISC_DOUBLE", {name: newName}));
         }
         if (! oldSystem.hasShip(ship)) {
-            throw new Error(HomeworldsErrors.SYSTEM_NOSHIP);
+            throw new UserFacingError(HomeworldsErrors.SYSTEM_NOSHIP, i18next.t("apgames:SYSTEM_NOSHIP", {ship, system: oldSystem.name}));
         }
 
         // Allocate star
@@ -766,7 +768,7 @@ export class HomeworldsGame extends GameBase {
         // Instantiate system
         const newSystem = new System(newName, [starObj]);
         if (! oldSystem.isConnected(newSystem)) {
-            throw new Error(HomeworldsErrors.CMD_MOVE_CONNECTION);
+            throw new UserFacingError(HomeworldsErrors.CMD_MOVE_CONNECTION, i18next.t("apgames:CMD_MOVE_CONNECTION", {from: oldSystem.name, to: newSystem.name}));
         }
         newSystem.dock(shipObj);
         this.addSystem(newSystem);
@@ -779,7 +781,7 @@ export class HomeworldsGame extends GameBase {
     private cmdMove(...args: string[]): HomeworldsGame {
         // move ship fromSystem toSystem
         if (args.length < 3) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         // tslint:disable-next-line: prefer-const
         let [ship, fromSystem, toSystem] = args;
@@ -787,27 +789,27 @@ export class HomeworldsGame extends GameBase {
 
         const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
         if (oldSystem === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: fromSystem}));
         }
         const newSystem = this.systems.find(sys => sys.name.toLowerCase() === toSystem.toLowerCase());
         if (newSystem === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: toSystem}));
         }
         if (! oldSystem.isConnected(newSystem)) {
-            throw new Error(HomeworldsErrors.CMD_MOVE_CONNECTION);
+            throw new UserFacingError(HomeworldsErrors.CMD_MOVE_CONNECTION, i18next.t("apgames:CMD_MOVE_CONNECTION", {from: fromSystem, to: toSystem}));
         }
 
         if (this.actions.Y === 0) {
             if (this.actions.free === 0) {
-                throw new Error(HomeworldsErrors.CMD_NOACTIONS);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:CMD_NOACTIONS", {context: "Y"}));
             } else if (! oldSystem.hasTech("Y", this.player2seat())) {
-                throw new Error(HomeworldsErrors.CMD_NOTECH);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:CMD_NOTECH", {context: "Y"}));
             }
         }
         this.spendAction("Y");
 
         if (! oldSystem.hasShip(ship)) {
-            throw new Error(HomeworldsErrors.SYSTEM_NOSHIP);
+            throw new UserFacingError(HomeworldsErrors.SYSTEM_NOSHIP, i18next.t("apgames:SYSTEM_NOSHIP", {ship}));
         }
 
         // Undock the ship
@@ -835,7 +837,7 @@ export class HomeworldsGame extends GameBase {
     private cmdBuild(...args: string[]): HomeworldsGame {
         // build shipColour inSystem
         if (args.length < 2) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         // tslint:disable-next-line: prefer-const
         let [shipColour, systemName] = args;
@@ -846,26 +848,26 @@ export class HomeworldsGame extends GameBase {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (this.actions.G === 0) {
             if (this.actions.free === 0) {
-                throw new Error(HomeworldsErrors.CMD_NOACTIONS);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:CMD_NOACTIONS", {context: "G"}));
             } else if (! system.hasTech("G", this.player2seat())) {
-                throw new Error(HomeworldsErrors.CMD_NOTECH);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:CMD_NOTECH", {context: "G"}));
             }
         }
         this.spendAction("G");
 
         if (! system.ownsShipColour(shipColour as Colour, this.player2seat())) {
-            throw new Error(HomeworldsErrors.CMD_BUILD_TEMPLATE);
+            throw new UserFacingError(HomeworldsErrors.CMD_BUILD_TEMPLATE, i18next.t("apgames:CMD_BUILD_TEMPLATE", {colour: shipColour}));
         }
 
         // allocate the ship from the stash
         const newsize = this.stash.takeSmallest(shipColour as Colour);
         if (newsize === undefined) {
-            throw new Error(HomeworldsErrors.STASH_EMPTY);
+            throw new UserFacingError(HomeworldsErrors.STASH_EMPTY, i18next.t("apgames:STASH_EMPTY", {colour: shipColour}));
         }
         // dock it
         const ship = new Ship(shipColour as Colour, newsize, this.player2seat());
@@ -878,7 +880,7 @@ export class HomeworldsGame extends GameBase {
     private cmdTrade(...args: string[]): HomeworldsGame {
         // trade oldShip newColour inSystem
         if (args.length < 3) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         // tslint:disable-next-line: prefer-const
         let [oldShip, newColour, systemName] = args;
@@ -890,18 +892,18 @@ export class HomeworldsGame extends GameBase {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (newColour[0] === oldShip[0]) {
-            throw new Error(HomeworldsErrors.CMD_TRADE_DOUBLE);
+            throw new UserFacingError(HomeworldsErrors.CMD_TRADE_DOUBLE, i18next.t("apgames:CMD_TRADE_DOUBLE"));
         }
 
         if (this.actions.B === 0) {
             if (this.actions.free === 0) {
-                throw new Error(HomeworldsErrors.CMD_NOACTIONS);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:CMD_NOACTIONS", {context: "B"}));
             } else if (! system.hasTech("B", this.player2seat())) {
-                throw new Error(HomeworldsErrors.CMD_NOTECH);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:CMD_NOTECH", {context: "B"}));
             }
         }
         this.spendAction("B");
@@ -922,7 +924,7 @@ export class HomeworldsGame extends GameBase {
     private cmdAttack(...args: string[]): HomeworldsGame {
         // attack ship inSystem
         if (args.length < 2) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         // tslint:disable-next-line: prefer-const
         let [enemyShip, systemName] = args;
@@ -932,27 +934,27 @@ export class HomeworldsGame extends GameBase {
             enemyShip += this.getRHO();
         }
         if (enemyShip.length !== 3) {
-            throw new Error(HomeworldsErrors.CMD_ATK_OWNER);
+            throw new UserFacingError(HomeworldsErrors.CMD_ATK_OWNER, i18next.t("apgames:CMD_ATK_OWNER"));
         }
         if (enemyShip[enemyShip.length - 1] === this.player2seat()) {
-            throw new Error(HomeworldsErrors.CMD_ATK_SELF);
+            throw new UserFacingError(HomeworldsErrors.CMD_ATK_SELF, i18next.t("apgames:CMD_ATK_SELF"));
         }
         const enemySize = parseInt(enemyShip[1], 10);
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (system.getLargestShip(this.player2seat()) < enemySize) {
-            throw new Error(HomeworldsErrors.CMD_ATK_SIZE);
+            throw new UserFacingError(HomeworldsErrors.CMD_ATK_SIZE, i18next.t("apgames:CMD_ATK_SIZE", {target: enemyShip}));
         }
 
         if (this.actions.R === 0) {
             if (this.actions.free === 0) {
-                throw new Error(HomeworldsErrors.CMD_NOACTIONS);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:CMD_NOACTIONS", {context: "R"}));
             } else if (! system.hasTech("R", this.player2seat())) {
-                throw new Error(HomeworldsErrors.CMD_NOTECH);
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:CMD_NOTECH", {context: "R"}));
             }
         }
         this.spendAction("R");
@@ -968,7 +970,7 @@ export class HomeworldsGame extends GameBase {
     private cmdSacrifice(...args: string[]): HomeworldsGame {
         // sacrifice ship inSystem
         if (args.length < 2) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         // tslint:disable-next-line: prefer-const
         let [myShip, systemName] = args;
@@ -976,11 +978,11 @@ export class HomeworldsGame extends GameBase {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (this.actions.free === 0) {
-            throw new Error(HomeworldsErrors.CMD_NOACTIONS);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:CMD_NOACTIONS"));
         }
         this.spendAction();
 
@@ -1010,7 +1012,7 @@ export class HomeworldsGame extends GameBase {
     private cmdCatastrophe(...args: string[]): HomeworldsGame {
         // catastrophe inSystem colour
         if (args.length < 2) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
         // tslint:disable-next-line: prefer-const
         let [systemName, colour] = args;
@@ -1018,15 +1020,15 @@ export class HomeworldsGame extends GameBase {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new Error(HomeworldsErrors.CMD_NOSYSTEM);
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:CMD_NOSYSTEM", {system: systemName}));
         }
 
         if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
-            throw new Error(HomeworldsErrors.CMD_CATA_ACTIONS);
+            throw new UserFacingError(HomeworldsErrors.CMD_CATA_ACTIONS, i18next.t("apgames:CMD_CATA_ACTIONS"));
         }
 
         if (! system.canCatastrophe(colour as Colour)) {
-            throw new Error(HomeworldsErrors.CMD_CATA_INVALID);
+            throw new UserFacingError(HomeworldsErrors.CMD_CATA_INVALID, i18next.t("apgames:CMD_CATA_INVALID", {colour, system: system.name}));
         }
 
         // Get list of casualties
@@ -1055,11 +1057,11 @@ export class HomeworldsGame extends GameBase {
     private cmdPass(...args: string[]): HomeworldsGame {
         // pass number?
         if (args.length > 1) {
-            throw new Error(HomeworldsErrors.CMD_PARAMETERS);
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:CMD_PARAMETERS"));
         }
 
         if (this.actions.free > 0) {
-            throw new Error(HomeworldsErrors.CMD_PASS_FREE);
+            throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:CMD_PASS_FREE"));
         }
 
         if (args[0] === "*") {
@@ -1083,7 +1085,7 @@ export class HomeworldsGame extends GameBase {
                 } else if (this.actions.Y > 0) {
                     this.actions.Y--;
                 } else {
-                    throw new Error(HomeworldsErrors.CMD_PASS_TOOMANY);
+                    throw new UserFacingError(HomeworldsErrors.CMD_PASS_TOOMANY, i18next.t("apgames:CMD_PASS_TOOMANY"));
                 }
             }
         }
@@ -1095,7 +1097,7 @@ export class HomeworldsGame extends GameBase {
     private addSystem(sys: System): HomeworldsGame {
         const names = this.systems.map(s => s.name.toLowerCase());
         if (names.includes(sys.name.toLowerCase())) {
-            throw new Error(HomeworldsErrors.CMD_DISC_DOUBLE);
+            throw new UserFacingError(HomeworldsErrors.CMD_DISC_DOUBLE, i18next.t("apgames:CMD_DISC_DOUBLE", {system: sys.name}));
         }
         this.systems.push(sys);
         return this;

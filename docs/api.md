@@ -12,10 +12,11 @@ In the browser, simply load `APGames.js` via a `<script>` tag. From within Node,
 
 ## API
 
-The API currently consists of only one variable and one function:
+The API currently consists of only one variable and two functions:
 
 * `gameinfo`: This variable contains the full details on all implemented games.
 * `GameFactory`: This function accepts a game's `uid` an optional list of constructor arguments and returns an instance of that game object.
+* `addResource`: This incorporates the library's i18next translations into the client environment.
 
 ### `gameinfo`
 
@@ -32,6 +33,17 @@ The games are self-documenting. The variable itself is an ES6 `Map` of game uid 
 ### `GameFactory`
 
 This function is how you instantiate a particular game. Pass it the game's `uid` and any constructor parameters to receive the game instance. Passing it an existing state object (described more below) is how you load a game in progress. Otherwise you'll get a brand new game.
+
+### `addResource`
+
+This is how to get long-form, localized messages from the games library. A list of supported locales is available in the exported variable `supportedLocales: string[]`.
+
+* If you're using i18next on your front end, do the following after initializing: `const i18n = APGames.addResource(lang); const { t } = i18n;`. This will merge the library's translations with yours under the `apgames` namespace.
+* If you're not using i18next yourself, then simply call `APGames.addResource(lang)` at the beginning and every time the user changes their language. The library will use it's own i18next instance.
+
+The only errors that are translated are those that could realistically be triggered by player input. They are captured using a specific error class, which inherits from `Error`, with the name `UserFacingError`. The `message` property is just an error code used internally by the library. The property `client` contains the localized string.
+
+All other errors are just standard `Error` objects with a `message` suitable for the developers.
 
 ## The Game Object
 

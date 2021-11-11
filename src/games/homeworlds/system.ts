@@ -1,5 +1,7 @@
 import { Star, Seat, Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds";
 import { Ship, IShip } from "./ship";
+import { UserFacingError } from "../../common";
+import i18next from "i18next";
 
 interface ISysRender {
     name: string;
@@ -46,7 +48,7 @@ export class System implements ISystem {
             }
         }
         if (! System.nameValid(name)) {
-            throw new Error(HWErrors.SYSTEM_BADNAME);
+            throw new UserFacingError(HWErrors.SYSTEM_BADNAME, i18next.t("apgames:SYSTEM_BADNAME", {name}));
         }
 
         this.name = name;
@@ -63,9 +65,9 @@ export class System implements ISystem {
 
     public dock(ship: Ship): System {
         if ( (this.isHome()) && (this.ships.length >= 16)) {
-            throw new Error(HWErrors.SYSTEM_FULL);
+            throw new UserFacingError(HWErrors.SYSTEM_FULL, i18next.t("apgames:SYSTEM_FULL", {system: this.name}));
         } else if (this.ships.length >= 24) {
-            throw new Error(HWErrors.SYSTEM_FULL);
+            throw new UserFacingError(HWErrors.SYSTEM_FULL, i18next.t("apgames:SYSTEM_FULL", {system: this.name}));
         }
         this.ships.push(ship);
         return this;
@@ -74,7 +76,7 @@ export class System implements ISystem {
     public undock(ship: string): Ship {
         const idx = this.ships.findIndex(x => x.id() === ship);
         if (idx < 0) {
-            throw new Error(HWErrors.SYSTEM_NOSHIP);
+            throw new UserFacingError(HWErrors.SYSTEM_NOSHIP, i18next.t("apgames:SYSTEM_NOSHIP", {ship}));
         }
         const shipObj = this.ships[idx];
         this.ships.splice(idx, 1);
@@ -92,7 +94,7 @@ export class System implements ISystem {
     public getShip(shipID: string): Ship {
         const ship = this.ships.find(x => x.id() === shipID);
         if (ship === undefined) {
-            throw new Error(HWErrors.SYSTEM_NOSHIP);
+            throw new UserFacingError(HWErrors.SYSTEM_NOSHIP, i18next.t("apgames:SYSTEM_NOSHIP", {ship: shipID}));
         }
         return ship;
     }
@@ -161,7 +163,7 @@ export class System implements ISystem {
 
     public catastrophe(c: Colour): System {
         if (! this.canCatastrophe(c)) {
-            throw new Error(HWErrors.CMD_CATA_INVALID);
+            throw new UserFacingError(HWErrors.CMD_CATA_INVALID, i18next.t("apgames:CMD_CATA_INVALID", {colour: c, system: this.name}));
         }
 
         this.stars = [...this.stars.filter(x => x[0] !== c)];

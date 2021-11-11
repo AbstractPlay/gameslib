@@ -1,4 +1,6 @@
 import { Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds";
+import { UserFacingError } from "../../common";
+import i18next from "i18next";
 // tslint:disable-next-line: no-var-requires
 const deepclone = require("rfdc/default");
 
@@ -53,7 +55,7 @@ export class Stash {
 
     public remove(c: Colour, s: Size): Stash {
         if (this.contents[c][s-1] < 1) {
-            throw new Error(HWErrors.STASH_EMPTY);
+            throw new UserFacingError(HWErrors.STASH_EMPTY, i18next.t("apgames:STASH_EMPTY"));
         }
         this.contents[c][s-1]--;
         return this;

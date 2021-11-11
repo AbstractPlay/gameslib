@@ -78,6 +78,9 @@
             }
 
             document.addEventListener("DOMContentLoaded", function(event) {
+                //const i18n = APGames.addResource("en");
+                //const { t } = i18n;
+                APGames.addResource("fr");
                 /*
                 // Listen to mouse movements
                 var drawing = document.getElementById("drawing");
@@ -182,9 +185,12 @@
                         try {
                             game.move(movebox.value);
                         } catch (err) {
-                            alert("An error occurred. See the console for details");
+                            if (err.name === "UserFacingError") {
+                                alert (err.client);
+                            } else {
+                                alert("An error occurred: " + err.message);
+                            }
                             console.log("Game state: "+state);
-                            console.log("Error message:" + err.message);
                         }
                         movebox.value = "";
                         window.sessionStorage.setItem("state", game.serialize());
@@ -206,9 +212,12 @@
                             var move = game.randomMove();
                             game.move(move);
                         } catch (err) {
-                            alert("An error occurred. See the console for details");
+                            if (err.name === "UserFacingError") {
+                                alert (err.client);
+                            } else {
+                                alert("An error occurred: " + err.message);
+                            }
                             console.log("Game state: "+state);
-                            console.log("Error message:" + err.message);
                         }
                         window.sessionStorage.setItem("state", game.serialize());
                         renderGame();

@@ -4,7 +4,8 @@ import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common";
+import { reviver, UserFacingError } from "../common";
+import i18next from "i18next";
 // tslint:disable-next-line: no-var-requires
 const clone = require("rfdc/default");
 
@@ -143,7 +144,7 @@ export class BlamGame extends GameBase {
         const pieces: number[] = [];
         const stash = this.stashes.get(player);
         if ( (stash === undefined) || (stash.length !== 3) ) {
-            throw new Error("Malformed stash. This should never happen.");
+            throw new Error("Malformed stash.");
         }
         [0, 1, 2].forEach((n) => {
             if (stash[n] > 0) {
@@ -192,22 +193,22 @@ export class BlamGame extends GameBase {
 
     public move(m: string): BlamGame {
         if (this.gameover) {
-            throw new Error("You cannot make moves in concluded games.");
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         if (! /^(pass|[123][a-h][1-8])$/.test(m)) {
-            throw new Error(`Invalid move: ${m}. Move should be <pip><to>, e.g. '3e4'.`);
+            throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam:MOVES_SYNTAX", {move: m}));
         }
 
         if (m.toLowerCase() === "pass") {
             // validate move
             const stash = this.stashes.get(this.currplayer);
             if ( (stash === undefined) || (stash.length !== 3)) {
-                throw new Error("Malformed stash. This should never happen.");
+                throw new Error("Malformed stash.");
             }
             const sum = stash.reduce((a, b) => {return a + b;});
             if (sum > 0) {
-                throw new Error(`Invalid move: ${m}. You can't pass if you have pieces to place.`);
+                throw new UserFacingError("MOVES_NOPASS", i18next.t("apgames:blam:MOVES_NOPASS"));
             }
             this.results = [{type: "pass"}];
         } else {
@@ -215,23 +216,24 @@ export class BlamGame extends GameBase {
             const chars = m.split("");
             const pip = parseInt(chars[0], 10);
             if ( isNaN(pip) || (pip === undefined) || (pip === null) || (pip < 1) || (pip > 3) ) {
-                throw new Error(`Invalid move: ${m}. The pip value is not valid.`);
+                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam:MOVES_SYNTAX", {move: m}));
             }
             const stash = this.stashes.get(this.currplayer);
             if ( (stash === undefined) || (stash.length !== 3)) {
-                throw new Error("Malformed stash. This should never happen.");
+                throw new Error("Malformed stash.");
             }
             if (stash[pip - 1] <= 0) {
-                throw new Error(`Invalid move: ${m}. The player does not have a piece of that size to place.`);
+                throw new UserFacingError("MOVES_NOPIECE", i18next.t("apgames:blam:MOVES_NOPIECE", {piece: pip}));
             }
             const cell = chars[1] + chars[2];
             const coords = BlamGame.algebraic2coords(cell);
             const grid = new RectGrid(8, 8);
             if (! grid.inBounds(...coords)) {
-                throw new Error(`Invalid move: ${m}. The cell is not on the board.`);
+                // This is here, but it really should never happen given the regexp earlier on.
+                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam:MOVES_SYNTAX", {move: m}));
             }
             if (this.board.has(cell)) {
-                throw new Error(`Invalid move: ${m}. The cell is already occupied.`);
+                throw new UserFacingError("MOVES_OCCUPIED", i18next.t("apgames:MOVES_OCCUPIED", {cell}));
             }
 
             // place the piece
@@ -275,7 +277,7 @@ export class BlamGame extends GameBase {
             const cellStart = BlamGame.coords2algebraic(...start);
             const piece = this.board.get(cellStart);
             if (piece === undefined) {
-                throw new Error("Trying to move a nonexistent piece. This should never happen.");
+                throw new Error("Trying to move a nonexistent piece.");
             }
             // If the next cell is in bounds, move the piece
             if (grid.inBounds(...adj)) {
@@ -287,7 +289,7 @@ export class BlamGame extends GameBase {
                 if (piece[0] === this.currplayer) {
                     const stash = this.stashes.get(this.currplayer);
                     if ( (stash === undefined) || (stash.length !== 3)) {
-                        throw new Error("Malformed stash. This should never happen.");
+                        throw new Error("Malformed stash.");
                     }
                     stash[piece[1] - 1]++;
                     this.stashes.set(this.currplayer, stash);
@@ -296,11 +298,11 @@ export class BlamGame extends GameBase {
                 } else {
                     let score = this.scores[(this.currplayer as number) - 1];
                     if (score === undefined) {
-                        throw new Error("Malformed score. This should never happen.");
+                        throw new Error("Malformed score.");
                     }
                     let caps = this.caps[(this.currplayer as number) - 1];
                     if (caps === undefined) {
-                        throw new Error("Malformed caps. This should never happen.");
+                        throw new Error("Malformed caps.");
                     }
                     caps++;
                     this.caps[(this.currplayer as number) - 1] = caps;
@@ -321,7 +323,7 @@ export class BlamGame extends GameBase {
         for (let n = 1; n <= this.numplayers; n++) {
             const stash = this.stashes.get(n as playerid);
             if ( (stash === undefined) || (stash.length !== 3) ) {
-                throw new Error("Malformed stash. This should never happen.");
+                throw new Error("Malformed stash.");
             }
             const sum = stash.reduce((a, b) => {return a + b;});
             if (sum > 0) {
@@ -361,7 +363,7 @@ export class BlamGame extends GameBase {
         this.results.push({type: "winners", players: [...this.winner]});
 
         if (this.winner === undefined) {
-            throw new Error("A winner could not be determined. This should never happen.");
+            throw new Error("A winner could not be determined.");
         }
 
         return this;
@@ -421,7 +423,7 @@ export class BlamGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell);
                     if (contents === undefined) {
-                        throw new Error("Malformed cell contents. This should never happen.");
+                        throw new Error("Malformed cell contents.");
                     }
                     pieces.push("P" + contents[0].toString() + contents[1].toString());
                 } else {
@@ -483,7 +485,7 @@ export class BlamGame extends GameBase {
         for (let n = 1; n <= this.numplayers; n++) {
             const stash = this.stashes.get(n as playerid);
             if ( (stash === undefined) || (stash.length !== 3) ) {
-                throw new Error("Malformed stash. This should never happen.");
+                throw new Error("Malformed stash.");
             }
             status += `Player ${n}: ${stash[0]} small, ${stash[1]} medium, ${stash[2]} large\n\n`;
         }

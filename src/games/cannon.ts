@@ -5,7 +5,8 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common";
+import { reviver, UserFacingError } from "../common";
+import i18next from "i18next";
 
 const gameDesc:string = `# Cannon
 
@@ -163,7 +164,7 @@ export class CannonGame extends GameBase {
         if (! this.placed) {
             const myhomes = homes.get(player);
             if (myhomes === undefined) {
-                throw new Error("Malformed homes. This should never happen.");
+                throw new Error("Malformed homes.");
             }
             moves.push(...myhomes);
         } else {
@@ -175,7 +176,7 @@ export class CannonGame extends GameBase {
                     // forward motion
                     const dirs = dirsForward.get(player);
                     if (dirs === undefined) {
-                        throw new Error("Malformed directions. This should never happen.");
+                        throw new Error("Malformed directions.");
                     }
                     dirs.forEach((d) => {
                         const [x, y] = RectGrid.move(...currCell, d);
@@ -211,7 +212,7 @@ export class CannonGame extends GameBase {
                             if ( (contents !== undefined) && (contents[0] !== player) ) {
                                 const back = dirsBackward.get(player);
                                 if (back === undefined) {
-                                    throw new Error("Malformed directions. This should never happen.");
+                                    throw new Error("Malformed directions.");
                                 }
                                 for (const d of back) {
                                     const ray = grid.ray(...currCell, d);
@@ -244,7 +245,7 @@ export class CannonGame extends GameBase {
                                 const c1 = this.board.get(raycells[0]);
                                 const c2 = this.board.get(raycells[1]);
                                 if ( (c1 === undefined) || (c2 === undefined) ) {
-                                    throw new Error("Invalid cell contents. This should never happen.");
+                                    throw new Error("Invalid cell contents.");
                                 }
                                 if ( (c1[0] === player) && (c1[1] === "s") && (c2[0] === player) && (c2[1] === "s") ) {
                                     // Move this piece into the empty space
@@ -303,10 +304,10 @@ export class CannonGame extends GameBase {
 
     public move(m: string): CannonGame {
         if (this.gameover) {
-            throw new Error("You cannot make moves in concluded games.");
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         if (! this.moves().includes(m)) {
-            throw new Error(`Invalid move ${m}`);
+            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
         }
         this.lastmove = m;
         if (m[0] === "x") {
@@ -426,7 +427,7 @@ export class CannonGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell);
                     if (contents === undefined) {
-                        throw new Error("Malformed board contents. This should never happen.");
+                        throw new Error("Malformed board contents.");
                     }
                     if (contents[0] === 1) {
                         if (contents[1] === "s") {
@@ -441,7 +442,7 @@ export class CannonGame extends GameBase {
                             pstr += "Z";
                         }
                     } else {
-                        throw new Error("Unrecognized cell contents. This should never happen.");
+                        throw new Error("Unrecognized cell contents.");
                     }
                 } else {
                     pstr += "-";

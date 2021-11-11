@@ -37,7 +37,7 @@ export class RectGrid {
             case "NW":
                 return [x - dist, y - dist];
             default:
-                throw new Error(`Unrecognized direction given (${dir}). This should never happen.`);
+                throw new Error(`Unrecognized direction given (${dir}).`);
         }
     }
 

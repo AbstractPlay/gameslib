@@ -2,7 +2,8 @@ import { APGamesInformation } from '../schemas/gameinfo';
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
-import { replacer } from '../common';
+import { replacer, UserFacingError } from '../common';
+import i18next from "i18next";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -112,7 +113,7 @@ export abstract class GameBase  {
 
     public undo(): GameBase {
         if (this.stack.length < 1) {
-            throw new Error("You can't undo the initial game state");
+            throw new UserFacingError("INITIAL_UNDO", i18next.t("apgames:INITIAL_UNDO"));
         }
         this.stack.pop();
         return this;

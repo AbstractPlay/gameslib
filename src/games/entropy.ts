@@ -5,8 +5,8 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common";
-import { shuffle } from "../common";
+import { reviver, shuffle, UserFacingError } from "../common";
+import i18next from "i18next";
 
 const gameDesc:string = `# Entropy
 
@@ -176,15 +176,15 @@ export class EntropyGame extends GameBase {
 
     public move(m: string): EntropyGame {
         if (this.gameover) {
-            throw new Error("You cannot make moves in concluded games.");
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/,\s*/);
         if (moves.length !== 2) {
-            throw new Error("Did not find moves for both players. Moves must be submitted simultaneously.");
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if (! this.moves((i + 1) as playerid).includes(moves[i])) {
-                throw new Error(`Invalid move ${moves[i]}`);
+                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
             }
         }
         this.lastmove = [...moves];
@@ -210,7 +210,7 @@ export class EntropyGame extends GameBase {
                 this.results.push({type: "move", from, to});
             } else {
                 if (next === undefined) {
-                    throw new Error("Could not find a piece to place. This should never happen.");
+                    throw new Error("Could not find a piece to place.");
                 }
                 theirboard[i].set(moves[i], next);
                 this.results.push({type: "place", what: next, where: moves[i]});

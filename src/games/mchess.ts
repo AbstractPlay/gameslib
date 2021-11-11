@@ -4,7 +4,8 @@ import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common";
+import { reviver, UserFacingError } from "../common";
+import i18next from "i18next";
 // tslint:disable-next-line: no-var-requires
 // const clone = require("rfdc/default");
 
@@ -177,7 +178,7 @@ export class MchessGame extends GameBase {
         } else {
             const nextContents = this.board.get(nextCell);
             if (nextContents === undefined) {
-                throw new Error("Could not find cell contents. This should never happen.");
+                throw new Error("Could not find cell contents.");
             }
             for (const size of [2, 3]) {
                 if ( (currContents + nextContents === size) && (this.countPieces(size, player) === 0) ) {
@@ -227,7 +228,7 @@ export class MchessGame extends GameBase {
                             }
                         });
                     } else {
-                        throw new Error("Unrecognized game mode. This should never happen.");
+                        throw new Error("Unrecognized game mode.");
                     }
                 } else if (v === 2) {
                     // Default, move in straight lines like a Chess rook
@@ -257,7 +258,7 @@ export class MchessGame extends GameBase {
                             }
                         });
                     } else {
-                        throw new Error("Unrecognized game mode. This should never happen.");
+                        throw new Error("Unrecognized game mode.");
                     }
                 } else if (v === 3) {
                     for (const dir of ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]) {
@@ -276,7 +277,7 @@ export class MchessGame extends GameBase {
                         }
                     }
                 } else {
-                    throw new Error("Unrecognized piece. This should never happen.")
+                    throw new Error("Unrecognized piece.")
                 }
             }
         });
@@ -285,7 +286,7 @@ export class MchessGame extends GameBase {
         if ( (this.lastmove !== undefined) && ( (this.lastmove.includes("-")) || (this.lastmove.includes("x")) ) ) {
             const cells = this.lastmove.split(/[\-x]/);
             if ( (cells === undefined) || (cells.length !== 2) ) {
-                throw new Error("Malformed move encountered. This should never happen.");
+                throw new Error("Malformed move encountered.");
             }
             const mirror = `${cells[1]}-${cells[0]}`;
             const idx = moves.indexOf(mirror);
@@ -326,30 +327,30 @@ export class MchessGame extends GameBase {
 
     public move(m: string): MchessGame {
         if (this.gameover) {
-            throw new Error("You cannot make moves in concluded games.");
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         if (! this.moves().includes(m)) {
-            throw new Error(`Invalid move: ${m}`);
+            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
         }
 
         const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
         const match = m.match(rMove);
         if (match === null) {
-            throw new Error("Malformed move encountered. This should never happen.");
+            throw new Error("Malformed move encountered.");
         }
         const fromCell = match[1];
         const operator = match[2];
         const toCell = match[3];
         const fromContents = this.board.get(fromCell);
         if (fromContents === undefined) {
-            throw new Error("Malformed cell contents. This should never happen.");
+            throw new Error("Malformed cell contents.");
         }
         const toContents = this.board.get(toCell);
 
         switch (operator) {
             case "x":
                 if (toContents === undefined) {
-                    throw new Error("Malformed cell contents. This should never happen.");
+                    throw new Error("Malformed cell contents.");
                 }
                 this.scores[this.currplayer - 1] += toContents;
                 this.results = [
@@ -367,10 +368,10 @@ export class MchessGame extends GameBase {
                 break;
             case "+":
                 if (toContents === undefined) {
-                    throw new Error("Malformed cell contents. This should never happen.");
+                    throw new Error("Malformed cell contents.");
                 }
                 if (fromContents + toContents > 3) {
-                    throw new Error("Invalid field promotion. This should never happen.");
+                    throw new Error("Invalid field promotion.");
                 }
                 this.board.set(toCell, fromContents + toContents);
                 this.board.delete(fromCell);
@@ -380,7 +381,7 @@ export class MchessGame extends GameBase {
                 ];
                 break;
             default:
-                throw new Error("Invalid move operator. This should never happen.");
+                throw new Error("Invalid move operator.");
         }
 
         // update currplayer
@@ -482,7 +483,7 @@ export class MchessGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell);
                     if (contents === undefined) {
-                        throw new Error("Malformed cell contents. This should never happen.");
+                        throw new Error("Malformed cell contents.");
                     }
                     let owner = "1";
                     if (rowsTop.includes(cell.slice(1))) {
@@ -531,7 +532,7 @@ export class MchessGame extends GameBase {
             const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
             const match = this.lastmove.match(rMove);
             if (match === null) {
-                throw new Error("Malformed move encountered. This should never happen.");
+                throw new Error("Malformed move encountered.");
             }
             const fromCell = match[1];
             const fromxy = MchessGame.algebraic2coords(fromCell);
@@ -585,7 +586,7 @@ export class MchessGame extends GameBase {
                     ];
                     break;
                 default:
-                    throw new Error("Invalid move operator. This should never happen.");
+                    throw new Error("Invalid move operator.");
             }
         }
 

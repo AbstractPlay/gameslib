@@ -1,5 +1,12 @@
 {
-    "MOVE_GAMEOVER": "You cannot make moves in concluded games",
+    "INITIAL_UNDO": "You can't undo the initial starting position of the game.",
+    "MOVES_GAMEOVER": "You cannot make moves in concluded games",
+    "MOVES_INVALID": "The move '{{move}}' is invalid. Please check the rules and try again.",
+    "blam:MOVES_SYNTAX": "Invalid move syntax. Enter the size followed by the cell (e.g., 3e4).",
+    "blam:MOVES_NOPASS": "You may not pass if you have pieces to place.",
+    "blam:MOVES_NOPIECE": "You don't have a {{piece}} piece to place.",
+    "MOVES_OCCUPIED": "The cell {{cell}} is already occupied.",
+    "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time.",
     "MOVE_UNRECOGNIZED": "Unrecognized command: {{cmd}}.",
     "MOVE_MOREACTIONS": "You still have actions to spend.",
     "MOVE_SELFELIMINATE": "You may not eliminate yourself.",
@@ -36,5 +43,13 @@
     "CMD_CATA_INVALID": "There is no overpopulation of {{colour}} in the {{system}} system.",
     "CMD_PASS_FREE": "You may not pass your free action.",
     "CMD_PASS_TOOMANY": "You tried to pass more actions than you have remaining.",
-    "SYSTEM_FULL": "The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24."
+    "SYSTEM_FULL": "The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24.",
+    "volcano:MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
+    "volcano:MOVES_CAPS_ONLY": "You may only move caps.",
+    "volcano:MOVES_DOUBLE_CAP": "Nothing may be placed on top of a cap.",
+    "volcano:MOVES_TOO_FAR": "Caps may only be moved one space at a time.",
+    "volcano:MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
+    "volcano:MOVES_MUST_ERUPT": "You must continue moving until you cause an eruption.",
+    "volcano:MOVES_ONE_POWERPLAY": "You may only make one power play per turn.",
+    "volcano:MOVES_NOPIECE": "You don't have a {{piece}} piece in your stash to place."
 }

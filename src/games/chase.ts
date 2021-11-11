@@ -3,7 +3,8 @@ import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver } from "../common";
+import { reviver, UserFacingError } from "../common";
+import i18next from "i18next";
 // tslint:disable-next-line: no-var-requires
 const deepclone = require("rfdc/default");
 
@@ -344,7 +345,7 @@ export class ChaseGame extends GameBase {
                 for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
                     const v = ChaseGame.vector(x, y, dir as CompassDirection).vector;
                     if (v.length !== 1) {
-                        throw new Error("Something went wrong finding a neighbour cell. This should never happen.");
+                        throw new Error("Something went wrong finding a neighbour cell.");
                     }
                     possible.add(`${v[0][0]},${v[0][1]}`);
                 }
@@ -480,7 +481,7 @@ export class ChaseGame extends GameBase {
     // Only use it on cloned objects, or call `load` before submitting the final move.
     public move(m: string, partial: boolean = false): ChaseGame {
         if (this.gameover) {
-            throw new Error("You cannot make moves in concluded games.");
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -493,7 +494,7 @@ export class ChaseGame extends GameBase {
             if (check.length === 1) {
                 m = check[0];
             } else {
-                throw new Error(`Invalid move: ${m}\nRender rep:\n${JSON.stringify(this.render())}\nState:\n${this.serialize()}`);
+                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID"));
             }
         }
         let working = m;
@@ -504,7 +505,7 @@ export class ChaseGame extends GameBase {
         if (working.startsWith("{")) {
             const match = working.match(/^{(\S+)}/);
             if (match === null) {
-                throw new Error("Could not extract balance information. This should never happen.");
+                throw new Error("Could not extract balance information.");
             }
             const balances = match[1].split(",");
             const playerPieces = [...this.board.entries()].filter(e => e[1][0] === this.currplayer);

@@ -2,7 +2,8 @@ import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, shuffle, RectGrid } from "../common";
+import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
+import i18next from "i18next";
 // import { RectGrid } from "../common";
 
 const gameDesc:string = `# Volcano
@@ -161,7 +162,7 @@ export class VolcanoGame extends GameBase {
                 state = JSON.parse(state, reviver) as IVolcanoState;
             }
             if (state.game !== VolcanoGame.gameinfo.uid) {
-                throw new Error(`The Martian Chess engine cannot process a game of '${state.game}'.`);
+                throw new Error(`The Volcano engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -281,7 +282,7 @@ export class VolcanoGame extends GameBase {
      */
      public move(m: string, partial: boolean = false): VolcanoGame {
         if (this.gameover) {
-            throw new Error("You cannot make moves in concluded games.");
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
@@ -293,28 +294,28 @@ export class VolcanoGame extends GameBase {
             const [from, to] = move.split("-");
             const [toX, toY] = VolcanoGame.algebraic2coords(to);
             if ( (from === undefined) || (to === undefined) || (to.length !== 2) || (from.length < 2) || (from.length > 3) ) {
-                throw new Error(`Malformed move ${move}`);
+                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID"));
             }
             // This is a regular cap move
             if (from.length === 2) {
                 if (this.erupted) {
-                    throw new Error("You can't keep moving after causing an eruption.");
+                    throw new UserFacingError("MOVES_AFTER_EUPTION", i18next.t("apgames:volcano:MOVES_AFTER_ERUPTION"));
                 }
                 const [fromX, fromY] = VolcanoGame.algebraic2coords(from);
                 if (! this.caps.has(from)) {
-                    throw new Error("You can only move caps.");
+                    throw new UserFacingError("MOVES_CAPS_ONLY", i18next.t("apgames:volcano:MOVES_CAPS_ONLY"));
                 }
                 if (this.caps.has(to)) {
-                    throw new Error("You can't move caps on top of other caps.");
+                    throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano:MOVES_DOUBLE_CAP"));
                 }
                 if ( (Math.abs(fromX - toX) > 1) || (Math.abs(fromY - toY) > 1) ) {
-                    throw new Error("Caps can only move one space at a time.");
+                    throw new UserFacingError("MOVES_TOO_FAR", i18next.t("apgames:volcano:MOVES_TOO_FAR"));
                 }
                 this.results.push({type: "move", from, to});
                 // detect eruption
                 const dir = RectGrid.bearing(fromX, fromY, toX, toY);
                 if (dir === undefined) {
-                    throw new Error("You have to move a cap at least one space.");
+                    throw new UserFacingError("MOVES_ONE_SPACE", i18next.t("apgames:volcano:MOVES_ONE_SPACE"));
                 }
                 const ray = grid.ray(toX, toY, dir);
                 if ( (ray.length > 0) && (! this.caps.has(VolcanoGame.coords2algebraic(...ray[0]))) && (this.board[fromY][fromX].length > 0) ) {
@@ -347,17 +348,17 @@ export class VolcanoGame extends GameBase {
             // This is a power play
             } else {
                 if (powerPlay) {
-                    throw new Error("You can only make one power play on your turn.");
+                    throw new UserFacingError("MOVES_ONE_POWERPLAY", i18next.t("apgames:volcano:MOVES_ONE_POWERPLAY"));
                 }
                 const colour = (from[0] + from[1]).toUpperCase();
                 const size = parseInt(from[2], 10);
                 const idx = (this.captured[this.currplayer - 1]).findIndex(p => p[0] === colour && p[1] === size);
                 if (idx < 0) {
-                    throw new Error(`You don't have a piece ${colour}${size} in your stash of captured pieces.`);
+                    throw new UserFacingError("MOVES_NOPIECE", i18next.t("apgames:volcano:MOVES_NOPIECE", {piece: `${colour}${size}`}));
                 }
                 this.captured[this.currplayer - 1].splice(idx, 1);
                 if (this.caps.has(to)) {
-                    throw new Error("You can't place a piece on top of a cap.");
+                    throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano:MOVES_DOUBLE_CAP"));
                 }
                 this.board[toY][toX].push([colour as Colour, size as Size]);
                 this.results.push({type: "place", what: from, where: to});
@@ -370,7 +371,7 @@ export class VolcanoGame extends GameBase {
         }
 
         if (! this.erupted) {
-            throw new Error("You can't stop moving until you cause an eruption.");
+            throw new UserFacingError("MOVES_MUST_ERUPT", i18next.t("apgames:volcano:MOVES_MUST_ERUPT"));
         }
 
         // update currplayer
@@ -484,7 +485,7 @@ export class VolcanoGame extends GameBase {
         // Validate that all the pieces in the original pile are now found in the stack structure
         const pieces: CellContents[] = stacks.reduce((accumulator, value) => accumulator.concat(value), []);
         if (pieces.length !== this.captured[player - 1].length) {
-            throw new Error("Stack lengths don't match. This should never happen.");
+            throw new Error("Stack lengths don't match.");
         }
 
         // Categorize each stack

@@ -1,5 +1,12 @@
 {
-    "MOVE_GAMEOVER": "[FR] You cannot make moves in concluded games",
+    "INITIAL_UNDO": "[FR] You can't undo the initial starting position of the game.",
+    "MOVES_GAMEOVER": "[FR] You cannot make moves in concluded games",
+    "MOVES_INVALID": "[FR] The move '{{move}}' is invalid. Please check the rules and try again.",
+    "blam:MOVES_SYNTAX": "[FR] Invalid move syntax. Enter the size followed by the cell (e.g., 3e4).",
+    "blam:MOVES_NOPASS": "[FR] You may not pass if you have pieces to place.",
+    "blam:MOVES_NOPIECE": "[FR] You don't have a {{piece}} piece to place.",
+    "MOVES_OCCUPIED": "[FR] The cell {{cell}} is already occupied.",
+    "MOVES_SIMULTANEOUS_PARTIAL": "[FR] In simultaneous games, both players' moves must be submitted at the same time.",
     "MOVE_UNRECOGNIZED": "[FR] Unrecognized command: {{cmd}}.",
     "MOVE_MOREACTIONS": "[FR] You still have actions to spend.",
     "MOVE_SELFELIMINATE": "[FR] You may not eliminate yourself.",
@@ -36,5 +43,13 @@
     "CMD_CATA_INVALID": "[FR] There is no overpopulation of {{colour}} in the {{system}} system.",
     "CMD_PASS_FREE": "[FR] You may not pass your free action.",
     "CMD_PASS_TOOMANY": "[FR] You tried to pass more actions than you have remaining.",
-    "SYSTEM_FULL": "[FR] The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24."
+    "SYSTEM_FULL": "[FR] The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24.",
+    "volcano:MOVES_AFTER_ERUPTION": "[FR] You may not continue moving after causing an eruption.",
+    "volcano:MOVES_CAPS_ONLY": "[FR] You may only move caps.",
+    "volcano:MOVES_DOUBLE_CAP": "[FR] Nothing may be placed on top of a cap.",
+    "volcano:MOVES_TOO_FAR": "[FR] Caps may only be moved one space at a time.",
+    "volcano:MOVES_ONE_SPACE": "[FR] Caps may only be moved one space at a time.",
+    "volcano:MOVES_MUST_ERUPT": "[FR] You must continue moving until you cause an eruption.",
+    "volcano:MOVES_ONE_POWERPLAY": "[FR] You may only make one power play per turn.",
+    "volcano:MOVES_NOPIECE": "[FR] You don't have a {{piece}} piece in your stash to place."
 }

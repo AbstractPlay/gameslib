@@ -2,8 +2,9 @@ import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, shuffle, RectGrid } from "../common";
+import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import { CartesianProduct } from "js-combinatorics";
+import i18next from "i18next";
 // import { RectGrid } from "../common";
 // tslint:disable-next-line: no-var-requires
 const clone = require("rfdc/default");
@@ -130,7 +131,7 @@ export class MvolcanoGame extends GameBase {
                 state = JSON.parse(state, reviver) as IMvolcanoState;
             }
             if (state.game !== MvolcanoGame.gameinfo.uid) {
-                throw new Error(`The Martian Chess engine cannot process a game of '${state.game}'.`);
+                throw new Error(`The Mega-Volcano engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -250,7 +251,7 @@ export class MvolcanoGame extends GameBase {
      */
      public move(m: string, partial: boolean = false): MvolcanoGame {
         if (this.gameover) {
-            throw new Error("You cannot make moves in concluded games.");
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
@@ -261,26 +262,26 @@ export class MvolcanoGame extends GameBase {
             const [from, to] = move.split("-");
             const [toX, toY] = MvolcanoGame.algebraic2coords(to);
             if ( (from === undefined) || (to === undefined) || (to.length !== 2) || (from.length !== 2) ) {
-                throw new Error(`Malformed move ${move}`);
+                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move}));
             }
             if (this.erupted) {
-                throw new Error("You can't keep moving after causing an eruption.");
+                throw new UserFacingError("MOVES_AFTER_ERUPTION", i18next.t("apgames:volcano:MOVES_AFTER_ERUPTION"));
             }
             const [fromX, fromY] = MvolcanoGame.algebraic2coords(from);
             if (! this.caps.has(from)) {
-                throw new Error("You can only move caps.");
+                throw new UserFacingError("MOVES_CAPS_ONLY", i18next.t("apgames:volcano:MOVES_CAPS_ONLY"));
             }
             if (this.caps.has(to)) {
-                throw new Error("You can't move caps on top of other caps.");
+                throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano:MOVES_DOUBLE_CAP"));
             }
             if ( (Math.abs(fromX - toX) > 1) || (Math.abs(fromY - toY) > 1) ) {
-                throw new Error("Caps can only move one space at a time.");
+                throw new UserFacingError("MOVES_TOO_FAR", i18next.t("apgames:volcano:MOVES_TOO_FAR"));
             }
             this.results.push({type: "move", from, to});
             // detect eruption
             const dir = RectGrid.bearing(fromX, fromY, toX, toY);
             if (dir === undefined) {
-                throw new Error("You have to move a cap at least one space.");
+                throw new UserFacingError("MOVES_ONE_SPACE", i18next.t("apgames:volcano:MOVES_ONE_SPACE"));
             }
             const ray = grid.ray(toX, toY, dir);
             if ( (ray.length > 0) && (! this.caps.has(MvolcanoGame.coords2algebraic(...ray[0]))) && (this.board[fromY][fromX].length > 0) ) {
@@ -317,7 +318,7 @@ export class MvolcanoGame extends GameBase {
         }
 
         if (! this.erupted) {
-            throw new Error("You can't stop moving until you cause an eruption.");
+            throw new UserFacingError("MOVES_MUST_ERUPT", i18next.t("apgames:volcano:MOVES_MUST_ERUPT"));
         }
 
         // update currplayer
@@ -357,7 +358,7 @@ export class MvolcanoGame extends GameBase {
                 const score1 = this.getPlayerScore(1);
                 const score2 = this.getPlayerScore(2);
                 if ( (score1 === undefined) || (score2 === undefined) ) {
-                    throw new Error("Scores could not be determined after the game ended. This should never happen.");
+                    throw new Error("Scores could not be determined after the game ended.");
                 }
                 if (score1 > score2) {
                     this.winner = [1];
@@ -548,7 +549,7 @@ export class MvolcanoGame extends GameBase {
                         }
                         // At this point, something has gone horribly wrong
                         if (! found) {
-                            throw new Error("Could not find the replacement piece. This should never happen.");
+                            throw new Error("Could not find the replacement piece.");
                         }
                     }
 

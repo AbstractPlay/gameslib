@@ -507,7 +507,7 @@ export class HomeworldsGame extends GameBase {
      */
     public move(m: string, partial: boolean = false): HomeworldsGame {
         if (this.gameover) {
-            throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVE_GAMEOVER"));
+            throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVES_GAMEOVER"));
         }
         /*
          * Valid commands

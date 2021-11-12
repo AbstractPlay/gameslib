@@ -299,23 +299,23 @@ export class VolcanoGame extends GameBase {
             // This is a regular cap move
             if (from.length === 2) {
                 if (this.erupted) {
-                    throw new UserFacingError("MOVES_AFTER_EUPTION", i18next.t("apgames:volcano:MOVES_AFTER_ERUPTION"));
+                    throw new UserFacingError("MOVES_AFTER_EUPTION", i18next.t("apgames:volcano.MOVES_AFTER_ERUPTION"));
                 }
                 const [fromX, fromY] = VolcanoGame.algebraic2coords(from);
                 if (! this.caps.has(from)) {
-                    throw new UserFacingError("MOVES_CAPS_ONLY", i18next.t("apgames:volcano:MOVES_CAPS_ONLY"));
+                    throw new UserFacingError("MOVES_CAPS_ONLY", i18next.t("apgames:volcano.MOVES_CAPS_ONLY"));
                 }
                 if (this.caps.has(to)) {
-                    throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano:MOVES_DOUBLE_CAP"));
+                    throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano.MOVES_DOUBLE_CAP"));
                 }
                 if ( (Math.abs(fromX - toX) > 1) || (Math.abs(fromY - toY) > 1) ) {
-                    throw new UserFacingError("MOVES_TOO_FAR", i18next.t("apgames:volcano:MOVES_TOO_FAR"));
+                    throw new UserFacingError("MOVES_TOO_FAR", i18next.t("apgames:volcano.MOVES_TOO_FAR"));
                 }
                 this.results.push({type: "move", from, to});
                 // detect eruption
                 const dir = RectGrid.bearing(fromX, fromY, toX, toY);
                 if (dir === undefined) {
-                    throw new UserFacingError("MOVES_ONE_SPACE", i18next.t("apgames:volcano:MOVES_ONE_SPACE"));
+                    throw new UserFacingError("MOVES_ONE_SPACE", i18next.t("apgames:volcano.MOVES_ONE_SPACE"));
                 }
                 const ray = grid.ray(toX, toY, dir);
                 if ( (ray.length > 0) && (! this.caps.has(VolcanoGame.coords2algebraic(...ray[0]))) && (this.board[fromY][fromX].length > 0) ) {
@@ -348,17 +348,17 @@ export class VolcanoGame extends GameBase {
             // This is a power play
             } else {
                 if (powerPlay) {
-                    throw new UserFacingError("MOVES_ONE_POWERPLAY", i18next.t("apgames:volcano:MOVES_ONE_POWERPLAY"));
+                    throw new UserFacingError("MOVES_ONE_POWERPLAY", i18next.t("apgames:volcano.MOVES_ONE_POWERPLAY"));
                 }
                 const colour = (from[0] + from[1]).toUpperCase();
                 const size = parseInt(from[2], 10);
                 const idx = (this.captured[this.currplayer - 1]).findIndex(p => p[0] === colour && p[1] === size);
                 if (idx < 0) {
-                    throw new UserFacingError("MOVES_NOPIECE", i18next.t("apgames:volcano:MOVES_NOPIECE", {piece: `${colour}${size}`}));
+                    throw new UserFacingError("MOVES_NOPIECE", i18next.t("apgames:volcano.MOVES_NOPIECE", {piece: `${colour}${size}`}));
                 }
                 this.captured[this.currplayer - 1].splice(idx, 1);
                 if (this.caps.has(to)) {
-                    throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano:MOVES_DOUBLE_CAP"));
+                    throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano.MOVES_DOUBLE_CAP"));
                 }
                 this.board[toY][toX].push([colour as Colour, size as Size]);
                 this.results.push({type: "place", what: from, where: to});
@@ -371,7 +371,7 @@ export class VolcanoGame extends GameBase {
         }
 
         if (! this.erupted) {
-            throw new UserFacingError("MOVES_MUST_ERUPT", i18next.t("apgames:volcano:MOVES_MUST_ERUPT"));
+            throw new UserFacingError("MOVES_MUST_ERUPT", i18next.t("apgames:volcano.MOVES_MUST_ERUPT"));
         }
 
         // update currplayer
@@ -714,6 +714,69 @@ export class VolcanoGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move"]);
+    }
+
+    public chatLog(players: string[]): string[][] {
+        // move, eject, capture, eog, resign, winners
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [];
+                let otherPlayer = state.currplayer + 1;
+                if (otherPlayer > this.numplayers) {
+                    otherPlayer = 1;
+                }
+                let name: string = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+                const moves = state._results.filter(r => r.type === "move" || r.type === "place");
+                node.push(i18next.t("apresults:MOVE.multiple", {player: name, moves: moves.map(m => {
+                    if (m.type === "move") {
+                        return `${m.from}-${m.to}`;
+                    } else if (m.type === "place") {
+                        return `${m.what}-${m.where}`;
+                    } else {
+                        throw new Error("Should never happen.");
+                    }
+                }).join(", ")}));
+                const eruptions = state._results.filter(r => r.type === "eject");
+                // @ts-ignore
+                node.push(i18next.t("apresults:ERUPTIONS", {eruptions: eruptions.map(m => m.what).join(", ")}));
+                const captures = state._results.filter(r => r.type === "capture");
+                if (captures.length > 0) {
+                    // @ts-ignore
+                    node.push(i18next.t("apresults:CAPTURE.noperson.multiple", {capped: captures.map(m => m.what).join(", ")}));
+                }
+                for (const r of state._results) {
+                    switch (r.type) {
+                        case "eog":
+                            node.push(i18next.t("apresults:EOG"));
+                            break;
+                        case "resigned":
+                            let rname = `Player ${r.player}`;
+                            if (r.player <= players.length) {
+                                rname = players[r.player - 1]
+                            }
+                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                            break;
+                        case "winners":
+                            const names: string[] = [];
+                            for (const w of r.players) {
+                                if (w <= players.length) {
+                                    names.push(players[w - 1]);
+                                } else {
+                                    names.push(`Player ${w}`);
+                                }
+                            }
+                            node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                            break;
+                    }
+                }
+                result.push(node);
+            }
+        }
+        return result;
     }
 
     public clone(): VolcanoGame {

@@ -611,7 +611,7 @@ export class ChaseGame extends GameBase {
             // Otherwise, recurse
             } else {
                 this.board.set(cell, piece);
-                const result: APMoveResult = {type: "eject", from: cell, to: ""};
+                const result: APMoveResult = {type: "eject", what: nPiece![1].toString(), from: cell, to: ""};
                 const [x, y] = ChaseGame.algebraic2coords(cell);
                 const {vector: chainv, finalDir: d} = ChaseGame.vector(x, y, dir);
                 const [xNext, yNext] = chainv[0];
@@ -826,6 +826,80 @@ export class ChaseGame extends GameBase {
         }
 
         return status;
+    }
+
+    public chatLog(players: string[]): string[][] {
+        // eog, resign, winners, convert, capture, eject, move, take, place
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [];
+                let otherPlayer = state.currplayer + 1;
+                if (otherPlayer > this.numplayers) {
+                    otherPlayer = 1;
+                }
+                let name: string = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+
+                const moves = state._results.filter(r => r.type === "move");
+                if (moves.length > 0) {
+                    const first = moves[0];
+                    const last = moves[moves.length - 1];
+                    const rest = moves.slice(0, moves.length - 1);
+                    if ( moves.length > 2) {
+                        // @ts-ignore
+                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from, to: last.to, through: rest.map(r => r.to).join(", ")}));
+                    } else {
+                        // @ts-ignore
+                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from, to: last.to}));
+                    }
+                }
+                for (const r of state._results) {
+                    switch (r.type) {
+                        case "capture":
+                            node.push(i18next.t("apresults:CAPTURE.complete", {player: name, what: r.what, where: r.where}));
+                            break;
+                        case "eject":
+                            node.push(i18next.t("apresults:MOVE.push", {what: r.what, from: r.from, to: r.to}));
+                            break;
+                        case "convert":
+                            node.push(i18next.t("apresults:CONVERT.complete", {player: name, what: r.what, into: r.into, where: r.where}));
+                            break;
+                        case "take":
+                            node.push(i18next.t("apresults:TAKE.chase", {what: r.what}));
+                            break;
+                        case "place":
+                            node.push(i18next.t("apresults:PLACE.chase", {what: r.what, where: r.where}));
+                            break;
+                        case "eog":
+                            node.push(i18next.t("apresults:EOG"));
+                            break;
+                        case "resigned":
+                            let rname = `Player ${r.player}`;
+                            if (r.player <= players.length) {
+                                rname = players[r.player - 1]
+                            }
+                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                            break;
+                        case "winners":
+                            const names: string[] = [];
+                            for (const w of r.players) {
+                                if (w <= players.length) {
+                                    names.push(players[w - 1]);
+                                } else {
+                                    names.push(`Player ${w}`);
+                                }
+                            }
+                            node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                            break;
+                        }
+                }
+                result.push(node);
+            }
+        }
+        return result;
     }
 
     public clone(): ChaseGame {

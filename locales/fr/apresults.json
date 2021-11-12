@@ -1,0 +1,56 @@
+{
+    "CAPTURE": {
+        "complete": "[FR{{player}} captured a {{what}} at {{where}}.",
+        "noperson": {
+            "multiple": "[FRThe following pieces were captured: {{capped}}.",
+            "nowhere": "[FRA {{what}} was captured."
+        },
+        "nowhat": "[FR{{player}} captured a piece at {{where}}."
+    },
+    "CONVERT": {
+        "complete": "[FR{{player}} turned a {{what}} into a {{into}} at {{where}}."
+    },
+    "EOG": "[FRThe game has ended.",
+    "ERUPTIONS": "[FRThe following pieces erupted: {{eruptions}}.",
+    "homeworlds": {
+        "BUILD": "[FR{{player}} build a {{what}} in the {{where}} system.",
+        "CAPTURE": "[FR{{player}} captured a {{what}} in the {{where}} system.",
+        "CATASTROPHE": "[FRAn overpopulation of {{colour}} led to a catastrophe in {{where}}.",
+        "CONVERT": "[FR{{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
+        "DISCOVER": "[FR{{player}} discovered a new {{what}} system and named it {{name}}.",
+        "ESTABLISH": "[FRA {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
+        "MOVE": "[FR{{player}} flew their {{what}} from {{from}} to {{to}}.",
+        "PASS": "[FR{{player}} passed an action.",
+        "SACRIFICE": "[FR{{player}} sacrificed a {{what}} in the {{where}} system."
+    },
+    "MOVE": {
+        "amazons": "[FR{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        "chase": "[FR{{player}} moved from {{from}} to {{to}} (through {{through}}).",
+        "complete": "[FR{{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "multiple": "[FR{{player}} made the following moves: {{moves}}.",
+        "nowhat": "[FR{{player}} moved from {{from}} to {{to}}.",
+        "push": "[FRA {{what}} was pushed from {{from}} to {{to}}."
+    },
+    "PASS": {
+        "entropy": "[FR{{player}} chose not to move any pieces this turn.",
+        "simple": "[FR{{player}} passed."
+    },
+    "PLACE": {
+        "cannon": "[FR{{player}} placed their town at {{where}}.",
+        "chase": "[FRThe chamber spit out a {{what}} at {{where}}.",
+        "complete": "[FR{{player}} placed a {{what}} at {{where}}."
+    },
+    "PROMOTE": {
+        "mchess": "[FRA {{into}} was created as a result."
+    },
+    "RECLAIM": {
+        "noperson": "[FRA {{what}} was reclaimed."
+    },
+    "RESIGN": "[FR{{player}} has resigned.",
+    "SCORE_REPORT": "[FR{{player}}'s score is now {{score}}.",
+    "TAKE": {
+        "chase": "[FRA {{what}} was fed to the chamber."
+    },
+    "WINNERS_one": "[FRThe following player won: {{winners}}.",
+    "WINNERS_other": "[FRThe following players won: {{winners}}."
+}

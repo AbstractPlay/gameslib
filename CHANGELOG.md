@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added click handler for Volcano and Mega-Volcano to the playground.
 - Added the `showAnnotations` toggle to the playground.
 - Added a new `eject` move result to signal consequential movement (e.g., eruptions in Volcano).
+- i18n is working! Error messages and game chat logs can now all be translated.
 
 ## [0.2.1] - 2021-10-31
 

@@ -773,7 +773,7 @@ export class HomeworldsGame extends GameBase {
         newSystem.dock(shipObj);
         this.addSystem(newSystem);
 
-        this.results.push({type: "discover", called: newSystem.name});
+        this.results.push({type: "discover", called: newSystem.name, what: newSystem.stars[0].join("")});
         this.results.push({type: "move", from: oldSystem.name, to: newSystem.name, what: shipObj.id().slice(0, 2)});
         return this;
     }
@@ -1311,6 +1311,78 @@ export class HomeworldsGame extends GameBase {
         } else {
             return this.getMovesAndResults();
         }
+    }
+
+    public chatLog(players: string[]): string[][] {
+        // eog, resign, winners, homeworld, discover, move, place, convert, capture, sacrifice, catastrophe, pass
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [];
+                let otherPlayer = state.currplayer + 1;
+                if (otherPlayer > this.numplayers) {
+                    otherPlayer = 1;
+                }
+                let name: string = `Player ${otherPlayer} (${this.player2seat(otherPlayer as playerid)})`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1] + ` (${this.player2seat(otherPlayer as playerid)})`;
+                }
+                for (const r of state._results) {
+                    switch (r.type) {
+                        case "homeworld":
+                            node.push(i18next.t("apresults:homeworlds.ESTABLISH", {player: name, name: r.name, ship: r.ship, stars: r.stars.join("+")}));
+                            break;
+                        case "discover":
+                            node.push(i18next.t("apresults:homeworlds.DISCOVER", {player: name, name: r.called, what: r.what}));
+                            break;
+                        case "move":
+                            node.push(i18next.t("apresults:homeworlds.MOVE", {player: name, from: r.from, to: r.to, what: r.what}));
+                            break;
+                        case "place":
+                            node.push(i18next.t("apresults:homeworlds.BUILD", {player: name, where: r.where, what: r.what}));
+                            break;
+                        case "convert":
+                            node.push(i18next.t("apresults:homeworlds.CONVERT", {player: name, what: r.what, into: r.into, where: r.where}));
+                            break;
+                        case "capture":
+                            node.push(i18next.t("apresults:homeworlds.CAPTURE", {player: name, where: r.where, what: r.what}));
+                            break;
+                        case "sacrifice":
+                            node.push(i18next.t("apresults:homeworlds.SACRIFICE", {player: name, where: r.where, what: r.what}));
+                            break;
+                        case "catastrophe":
+                            node.push(i18next.t("apresults:homeworlds.CATASTROPHE", {player: name, where: r.where, colour: r.trigger}));
+                            break;
+                        case "pass":
+                            node.push(i18next.t("apresults:homeworlds.PASS", {player: name}));
+                            break;
+                        case "eog":
+                            node.push(i18next.t("apresults:EOG"));
+                            break;
+                        case "resigned":
+                            let rname = `Player ${r.player}`;
+                            if (r.player <= players.length) {
+                                rname = players[r.player - 1]
+                            }
+                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                            break;
+                        case "winners":
+                            const names: string[] = [];
+                            for (const w of r.players) {
+                                if (w <= players.length) {
+                                    names.push(players[w - 1]);
+                                } else {
+                                    names.push(`Player ${w}`);
+                                }
+                            }
+                            node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                            break;
+                    }
+                }
+                result.push(node);
+            }
+        }
+        return result;
     }
 
     public clone(): HomeworldsGame {

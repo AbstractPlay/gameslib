@@ -38,7 +38,7 @@ This function is how you instantiate a particular game. Pass it the game's `uid`
 
 This is how to get long-form, localized messages from the games library. A list of supported locales is available in the exported variable `supportedLocales: string[]`.
 
-* If you're using i18next on your front end, do the following after initializing: `const i18n = APGames.addResource(lang); const { t } = i18n;`. This will merge the library's translations with yours under the `apgames` namespace.
+* If you're using i18next on your front end, do the following after initializing: `const i18n = APGames.addResource(lang); const { t } = i18n;`. This will merge the library's translations with yours under the `apgames` and `apresults` namespaces.
 * If you're not using i18next yourself, then simply call `APGames.addResource(lang)` at the beginning and every time the user changes their language. The library will use it's own i18next instance.
 
 The only errors that are translated are those that could realistically be triggered by player input. They are captured using a specific error class, which inherits from `Error`, with the name `UserFacingError`. The `message` property is just an error code used internally by the library. The property `client` contains the localized string.
@@ -112,6 +112,7 @@ Functions:
 
 * `moveHistory() => string[][]`
 * `resultsHistory() => APMoveResult[][]`
+* `chatLog(players: string[]) => string[]`
 * `genRecord(data: IRecordDetails) => APGameRecord | undefined`
 
 At any point during a game, you can request a compilation of all the moves made using `moveHistory()`. It returns a list of moves grouped by "round," meaning in a two player game, each array will contain the first and second player's moves together. **This is not the same as a formal game report (described further below).**
@@ -119,6 +120,8 @@ At any point during a game, you can request a compilation of all the moves made 
 Sometimes things happen in a game that are not easily rendered on a static graphical representation. To make it easier to report to players what happened during a move, and to make future analysis of games easier, each move generates one more more "results," described in the schema `moveresults.json` in the `/schemas` folder. the `resultsHistory()` method returns a complete list of results for each move of the game.
 
 Results are things like `place` (for placing a piece), `deltaScore` (representing a change in the current player's score), and `eog` (signalling the game ended in this move). This sort of structured data can then be translated into localized written descriptions of state changes that make up a written game log.
+
+A localized chat log can also be generated. Optionally pass the function `chatLog()` the names of the players, in play order, and a narrative, translated record of the game results will be returned.
 
 Formal game reports that match the RecRanks schema can be generated once the game has concluded through the `genRecord()` method. Because of the separation between the API logic and the game logic, there is a fair bit of metadata the server needs to give the game object to complete the report:
 

@@ -3,8 +3,10 @@ import { APMoveResult } from './schemas/moveresults';
 import { games, GameFactory, IAPGameState, GameBase } from "./games";
 import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGames as aiSlow } from './ais';
 import i18next from "i18next";
-import enResources from "../locales/en/apgames.json"
-import frResources from "../locales/fr/apgames.json";
+import enGames from "../locales/en/apgames.json"
+import frGames from "../locales/fr/apgames.json";
+import enResults from "../locales/en/apresults.json"
+import frResults from "../locales/fr/apresults.json";
 
 export {GameFactory, IAPGameState, APMoveResult, APGamesInformation, AIFactory, aiSupported, aiFast, aiSlow, GameBase};
 
@@ -20,10 +22,16 @@ export function addResource(lang?: string) {
     if (i18next.isInitialized) {
         // i18next already exists
         if (!i18next.hasResourceBundle("en", "apgames")) {
-            i18next.addResourceBundle("en", "apgames", enResources);
+            i18next.addResourceBundle("en", "apgames", enGames);
+        }
+        if (!i18next.hasResourceBundle("en", "apresults")) {
+            i18next.addResourceBundle("en", "apresults", enResults);
         }
         if (!i18next.hasResourceBundle("fr", "apgames")) {
-            i18next.addResourceBundle("fr", "apgames", frResources);
+            i18next.addResourceBundle("fr", "apgames", frGames);
+        }
+        if (!i18next.hasResourceBundle("fr", "apresults")) {
+            i18next.addResourceBundle("fr", "apresults", frResults);
         }
         if (lang) {
             i18next.changeLanguage(lang);
@@ -36,10 +44,12 @@ export function addResource(lang?: string) {
             initImmediate: false,
             resources: {
             en: {
-                apgames: enResources,
+                apgames: enGames,
+                apresults: enResults,
             },
             fr: {
-                apgames: frResources,
+                apgames: frGames,
+                apresults: frResults,
             },
         },
         });

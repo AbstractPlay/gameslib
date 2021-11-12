@@ -197,7 +197,7 @@ export class BlamGame extends GameBase {
         }
 
         if (! /^(pass|[123][a-h][1-8])$/.test(m)) {
-            throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam:MOVES_SYNTAX", {move: m}));
+            throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam.MOVES_SYNTAX", {move: m}));
         }
 
         if (m.toLowerCase() === "pass") {
@@ -208,7 +208,7 @@ export class BlamGame extends GameBase {
             }
             const sum = stash.reduce((a, b) => {return a + b;});
             if (sum > 0) {
-                throw new UserFacingError("MOVES_NOPASS", i18next.t("apgames:blam:MOVES_NOPASS"));
+                throw new UserFacingError("MOVES_NOPASS", i18next.t("apgames:blam.MOVES_NOPASS"));
             }
             this.results = [{type: "pass"}];
         } else {
@@ -216,21 +216,21 @@ export class BlamGame extends GameBase {
             const chars = m.split("");
             const pip = parseInt(chars[0], 10);
             if ( isNaN(pip) || (pip === undefined) || (pip === null) || (pip < 1) || (pip > 3) ) {
-                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam:MOVES_SYNTAX", {move: m}));
+                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam.MOVES_SYNTAX", {move: m}));
             }
             const stash = this.stashes.get(this.currplayer);
             if ( (stash === undefined) || (stash.length !== 3)) {
                 throw new Error("Malformed stash.");
             }
             if (stash[pip - 1] <= 0) {
-                throw new UserFacingError("MOVES_NOPIECE", i18next.t("apgames:blam:MOVES_NOPIECE", {piece: pip}));
+                throw new UserFacingError("MOVES_NOPIECE", i18next.t("apgames:blam.MOVES_NOPIECE", {piece: pip}));
             }
             const cell = chars[1] + chars[2];
             const coords = BlamGame.algebraic2coords(cell);
             const grid = new RectGrid(8, 8);
             if (! grid.inBounds(...coords)) {
                 // This is here, but it really should never happen given the regexp earlier on.
-                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam:MOVES_SYNTAX", {move: m}));
+                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam.MOVES_SYNTAX", {move: m}));
             }
             if (this.board.has(cell)) {
                 throw new UserFacingError("MOVES_OCCUPIED", i18next.t("apgames:MOVES_OCCUPIED", {cell}));
@@ -265,7 +265,7 @@ export class BlamGame extends GameBase {
         return this;
     }
 
-    public push(start: [number, number], dir: Directions): void {
+    private push(start: [number, number], dir: Directions): void {
         let scoreDelta = 0;
         // If there's a piece here, move it, pushing anything it its way
         if (this.board.has(BlamGame.coords2algebraic(...start))) {
@@ -282,6 +282,7 @@ export class BlamGame extends GameBase {
             // If the next cell is in bounds, move the piece
             if (grid.inBounds(...adj)) {
                 this.board.set(BlamGame.coords2algebraic(...adj), piece);
+                this.results.push({type: "move", from: cellStart, to: BlamGame.coords2algebraic(...adj), what: piece[1].toString()});
                 this.board.delete(cellStart);
             // Otherwise it's off the board and is either captured or reclaimed
             } else {
@@ -463,16 +464,19 @@ export class BlamGame extends GameBase {
         };
 
         // Add annotations
-        if ( (this.lastmove !== undefined) && (this.lastmove !== "pass") ) {
-            const coords = BlamGame.algebraic2coords(this.lastmove.slice(1));
-            rep.annotations = [
-                {
-                    type: "enter",
-                    targets: [
-                        {col: coords[0], row: coords[1]},
-                    ]
+        if (this.stack[this.stack.length - 1]._results.length > 0) {
+            // @ts-ignore
+            rep.annotations = [];
+            for (const move of this.stack[this.stack.length - 1]._results) {
+                if (move.type === "place") {
+                    const [toX, toY] = BlamGame.algebraic2coords(move.where!);
+                    rep.annotations!.push({type: "enter", targets: [{row: toY, col: toX}]});
+                } else if (move.type === "move") {
+                    const [fromX, fromY] = BlamGame.algebraic2coords(move.from);
+                    const [toX, toY] = BlamGame.algebraic2coords(move.to);
+                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 }
-            ];
+            }
         }
 
         return rep;
@@ -506,6 +510,69 @@ export class BlamGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "capture", "pass"]);
+    }
+
+    public chatLog(players: string[]): string[][] {
+        // eog, resign, winners, pass, place, reclaim, capture, deltaScore
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [];
+                let otherPlayer = state.currplayer + 1;
+                if (otherPlayer > this.numplayers) {
+                    otherPlayer = 1;
+                }
+                let name: string = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+                for (const r of state._results) {
+                    switch (r.type) {
+                        case "pass":
+                            node.push(i18next.t("apresults:PASS.simple", {player: name}));
+                            break;
+                        case "place":
+                            node.push(i18next.t("apresults:PLACE.complete", {player: name, what: r.what, where: r.where}));
+                            break;
+                        case "move":
+                            node.push(i18next.t("apresults:MOVE.push", {what: r.what, from: r.from, to: r.to}));
+                            break;
+                        case "reclaim":
+                            node.push(i18next.t("apresults:RECLAIM.noperson", {what: r.what}));
+                            break;
+                        case "capture":
+                            node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {what: r.what}));
+                            break;
+                        case "eog":
+                            node.push(i18next.t("apresults:EOG"));
+                            break;
+                            case "resigned":
+                                let rname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    rname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "winners":
+                                const names: string[] = [];
+                                for (const w of r.players) {
+                                    if (w <= players.length) {
+                                        names.push(players[w - 1]);
+                                    } else {
+                                        names.push(`Player ${w}`);
+                                    }
+                                }
+                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                break;
+                        }
+                }
+                if (state._results.find(r => r.type === "deltaScore") !== undefined) {
+                    node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: state.scores[otherPlayer - 1]}));
+                }
+                result.push(node);
+            }
+        }
+        return result;
     }
 
     public clone(): BlamGame {

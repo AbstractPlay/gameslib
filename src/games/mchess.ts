@@ -354,7 +354,7 @@ export class MchessGame extends GameBase {
                 }
                 this.scores[this.currplayer - 1] += toContents;
                 this.results = [
-                    {type: "move", from: fromCell, to: toCell},
+                    {type: "move", what: fromContents.toString(), from: fromCell, to: toCell},
                     {type: "capture", what: toContents.toString()},
                     {type: "deltaScore", delta: toContents}
                 ];
@@ -364,7 +364,7 @@ export class MchessGame extends GameBase {
             case "-":
                 this.board.set(toCell, fromContents);
                 this.board.delete(fromCell);
-                this.results = [{type: "move", from: fromCell, to: toCell}];
+                this.results = [{type: "move", what: fromContents.toString(), from: fromCell, to: toCell}];
                 break;
             case "+":
                 if (toContents === undefined) {
@@ -376,7 +376,7 @@ export class MchessGame extends GameBase {
                 this.board.set(toCell, fromContents + toContents);
                 this.board.delete(fromCell);
                 this.results = [
-                    {type: "move", from: fromCell, to: toCell},
+                    {type: "move", what: fromContents.toString(), from: fromCell, to: toCell},
                     {type: "promote", to: (fromContents + toContents).toString()}
                 ];
                 break;
@@ -632,6 +632,64 @@ export class MchessGame extends GameBase {
     protected getPlayerScore(player: number): number | undefined {
         return this.scores[player - 1];
     }
+
+    public chatLog(players: string[]): string[][] {
+        // eog, resign, winners, move, capture, promote, deltaScore
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [];
+                let otherPlayer = state.currplayer + 1;
+                if (otherPlayer > this.numplayers) {
+                    otherPlayer = 1;
+                }
+                let name: string = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+                for (const r of state._results) {
+                    switch (r.type) {
+                        case "move":
+                            node.push(i18next.t("apresults:MOVE.complete", {player: name, what: r.what, from: r.from, to: r.to}));
+                            break;
+                        case "promote":
+                            node.push(i18next.t("apresults:PROMOTE.mchess", {into: r.to}));
+                            break;
+                        case "capture":
+                            node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {what: r.what}));
+                            break;
+                        case "eog":
+                            node.push(i18next.t("apresults:EOG"));
+                            break;
+                            case "resigned":
+                                let rname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    rname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "winners":
+                                const names: string[] = [];
+                                for (const w of r.players) {
+                                    if (w <= players.length) {
+                                        names.push(players[w - 1]);
+                                    } else {
+                                        names.push(`Player ${w}`);
+                                    }
+                                }
+                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                break;
+                        }
+                }
+                if (state._results.find(r => r.type === "deltaScore") !== undefined) {
+                    node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: state.scores[otherPlayer - 1]}));
+                }
+                result.push(node);
+            }
+        }
+        return result;
+    }
+
 
     public clone(): MchessGame {
         return new MchessGame(this.serialize());

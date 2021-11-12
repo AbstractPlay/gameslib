@@ -65,9 +65,16 @@
 
                     // game status
                     var status = game.status();
-                    var results = game.resultsHistory().reverse().slice(0, 5);
-                    if (results.length > 0) {
-                        status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ") + "\n\n&hellip;";
+                    if (typeof game.chatLog === "function") {
+                        var results = game.chatLog(["Alice", "Bob"]).reverse().slice(0, 5).map(e => e.join(" "));
+                        if (results.length > 0) {
+                            status += "\n\n* " + results.join("\n* ") + "\n\n&hellip;";
+                        }    
+                    } else {
+                        var results = game.resultsHistory().reverse().slice(0, 5);
+                        if (results.length > 0) {
+                            status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ") + "\n\n&hellip;";
+                        }    
                     }
                     var statusbox = document.getElementById("status");
                     var converter = new showdown.Converter();
@@ -80,7 +87,7 @@
             document.addEventListener("DOMContentLoaded", function(event) {
                 //const i18n = APGames.addResource("en");
                 //const { t } = i18n;
-                APGames.addResource("fr");
+                APGames.addResource("en");
                 /*
                 // Listen to mouse movements
                 var drawing = document.getElementById("drawing");

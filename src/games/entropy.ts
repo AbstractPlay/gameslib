@@ -472,6 +472,65 @@ export class EntropyGame extends GameBase {
         return status;
     }
 
+    public chatLog(players: string[]): string[][] {
+        // move, place, pass, eog, resign, winners
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [];
+                if (state._results.length >= 2) {
+                    for (let p = 0; p < 2; p++) {
+                        let name = `Player ${p + 1}`;
+                        if (players.length >= p + 1) {
+                            name = players[p];
+                        }
+                        const r = state._results[p];
+                        switch (r.type) {
+                            case "move":
+                                node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
+                                break;
+                            case "place":
+                                node.push(i18next.t("apresults:PLACE.complete", {player: name, what: r.what, where: r.where}));
+                                break;
+                            case "pass":
+                                node.push(i18next.t("apresults:PASS.entropy", {player: name}));
+                                break;
+                        }
+                    }
+                }
+                if (state._results.length > 2) {
+                    for (const r of state._results) {
+                        switch (r.type) {
+                            case "eog":
+                                node.push(i18next.t("apresults:EOG"));
+                                break;
+                            case "resigned":
+                                let rname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    rname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "winners":
+                                const names: string[] = [];
+                                for (const w of r.players) {
+                                    if (w <= players.length) {
+                                        names.push(players[w - 1]);
+                                    } else {
+                                        names.push(`Player ${w}`);
+                                    }
+                                }
+                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                break;
+                        }
+                    }
+                }
+                result.push(node);
+            }
+        }
+        return result;
+    }
+
     public clone(): EntropyGame {
         return new EntropyGame(this.serialize());
     }

@@ -100,6 +100,7 @@ export abstract class GameBase  {
     public abstract load(idx: number): GameBase;
     public abstract resign(player: number): GameBase;
     public abstract clone(): GameBase;
+    public abstract chatLog(players?: string[]): string[][];
     // Function for turning what is returned from the svg upon a click into a coordinate.
     public abstract click(row: number, col: number, piece: string): string;
     // Function for combining a partial move with a clicked coordinate.

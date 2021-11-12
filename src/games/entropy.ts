@@ -339,7 +339,7 @@ export class EntropyGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(player?: playerid): APRenderRep {
         // Build piece string
         let pstr: string = "";
         for (let row = 0; row < 7; row++) {
@@ -365,13 +365,39 @@ export class EntropyGame extends GameBase {
         }
         pstr = pstr.replace(/\-{14}/g, "_");
 
+        const board = {
+            style: "entropy",
+            orientation: "vertical",
+        };
+        if (player !== undefined) {
+            // @ts-ignore
+            board.boardOne = {};
+            // @ts-ignore
+            board.boardTwo = {};
+            if (player === 1) {
+                if (this.phase === "order") {
+                    // @ts-ignore
+                    board.boardTwo.occluded = true;
+                } else {
+                    // @ts-ignore
+                    board.boardOne.occluded = true;
+                }
+            } else {
+                if (this.phase === "order") {
+                    // @ts-ignore
+                    board.boardOne.occluded = true;
+                } else {
+                    // @ts-ignore
+                    board.boardTwo.occluded = true;
+                }
+            }
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             renderer: "entropy",
-            board: {
-                style: "entropy",
-                orientation: "vertical"
-            },
+            // @ts-ignore
+            board,
             legend: {
                 A: {
                     name: "piece",

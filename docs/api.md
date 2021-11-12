@@ -112,7 +112,7 @@ Functions:
 
 * `moveHistory() => string[][]`
 * `resultsHistory() => APMoveResult[][]`
-* `chatLog(players: string[]) => string[]`
+* `chatLog(players: string[]) => string[][]`
 * `genRecord(data: IRecordDetails) => APGameRecord | undefined`
 
 At any point during a game, you can request a compilation of all the moves made using `moveHistory()`. It returns a list of moves grouped by "round," meaning in a two player game, each array will contain the first and second player's moves together. **This is not the same as a formal game report (described further below).**

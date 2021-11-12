@@ -5,20 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.0] - 2021-11-12
 
 ### Added
 
+#### New Games
 - Entropy game added. This includes move generation but not AI. Hopefully AI will be doable later.
   
   This is the first simultaneous game. The engine itself does not accept partial moves. All players' moves must be submitted at the same time. This adds complexity to the API server, which must store partial moves for a time, but prevents the hidden information being stored and transmitted by the game state, which is visible to the client browser.
 - Added the modern Volcano, which differs from what was implemented on SDG.
 - Added the original Mega-Volcano.
 - Added Chase! Phew!
-- Added click handler for Volcano and Mega-Volcano to the playground.
-- Added the `showAnnotations` toggle to the playground.
-- Added a new `eject` move result to signal consequential movement (e.g., eruptions in Volcano).
+
+#### Other Features
 - i18n is working! Error messages and game chat logs can now all be translated.
+- Added a new `eject` move result to signal consequential movement (e.g., eruptions in Volcano).
+- Added the `showAnnotations` toggle to the playground.
+- Added click handler for Volcano and Mega-Volcano to the playground.
 
 ## [0.2.1] - 2021-10-31
 

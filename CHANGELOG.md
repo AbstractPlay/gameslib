@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added Abande, with move generation and AI.
+- Added Cephalopod, with move generation and AI (and snubsquare board).
 
 ## [0.3.0] - 2021-11-12
 

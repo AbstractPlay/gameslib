@@ -4,42 +4,44 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-import { IGraph, SquareGraph, SnubSquareGraph, HexTriGraph } from "../common/graphs";
-// tslint:disable-next-line: no-var-requires
-const deepclone = require("rfdc/default");
+import { IGraph, SquareOrthGraph, SnubSquareGraph } from "../common/graphs";
+import { Permutation, PowerSet } from "js-combinatorics";
 
-const gameDesc:string = `# Abande
+const gameDesc:string = `# Cephalopod
 
-Abande is an original abstract game of connected pieces. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. All three board styles are available.
+A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.
+
+The default board is a 5x5 square. Only orthogonal connections are counted. A 5x5 snubsquare board is also available, with all connections active.
 `;
 
-export type playerid = 1|2;
+type playerid = 1|2;
+type Value = 1|2|3|4|5|6;
+type CellContents = [playerid, Value];
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
-    board: Map<string, playerid[]>;
+    board: Map<string, CellContents>;
     lastmove?: string;
-    pieces: [number, number];
 };
 
-export interface IAbandeState extends IAPGameState {
+export interface ICephalopodState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class AbandeGame extends GameBase {
+export class CephalopodGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Abande",
-        uid: "abande",
+        name: "Cephalopod",
+        uid: "ceph",
         playercounts: [2],
-        version: "20211112",
+        version: "20211113",
         description: gameDesc,
-        urls: ["https://spielstein.com/games/abande/rules"],
+        urls: ["http://www.marksteeregames.com/Cephalopod_rules.pdf"],
         people: [
             {
                 type: "designer",
-                name: "Dieter Stein",
-                urls: ["https://spielstein.com/"]
+                name: "Mark Steere",
+                urls: ["http://www.marksteeregames.com/"]
             }
         ],
         variants: [
@@ -49,18 +51,12 @@ export class AbandeGame extends GameBase {
                 group: "board",
                 description: "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
             },
-            {
-                uid: "hex",
-                name: "Board: Hexagonal",
-                group: "board",
-                description: "A 37-space hexagonal board."
-            }
         ]
     };
 
     public numplayers: number = 2;
     public currplayer: playerid = 1;
-    public board!: Map<string, playerid[]>;
+    public board!: Map<string, CellContents>;
     public pieces!: [number, number];
     public lastmove?: string;
     public graph!: IGraph;
@@ -70,30 +66,27 @@ export class AbandeGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IAbandeState | string, variants?: string[]) {
+    constructor(state?: ICephalopodState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
-                _version: AbandeGame.gameinfo.version,
+                _version: CephalopodGame.gameinfo.version,
                 _results: [],
                 currplayer: 1,
                 board: new Map(),
-                pieces: [18, 18],
             };
             if ( (variants !== undefined) && (variants.length === 1) ) {
                 if (variants[0] === "snub") {
                     this.variants = ["snub"];
-                } else if (variants[0] === "hex") {
-                    this.variants = ["hex"];
                 }
             }
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IAbandeState;
+                state = JSON.parse(state, reviver) as ICephalopodState;
             }
-            if (state.game !== AbandeGame.gameinfo.uid) {
-                throw new Error(`The Abande engine cannot process a game of '${state.game}'.`);
+            if (state.game !== CephalopodGame.gameinfo.uid) {
+                throw new Error(`The Cephalopod engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -103,7 +96,7 @@ export class AbandeGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): AbandeGame {
+    public load(idx: number = -1): CephalopodGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -115,103 +108,64 @@ export class AbandeGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
-        this.pieces = [...state.pieces];
         this.buildGraph();
         return this;
     }
 
-    private buildGraph(): AbandeGame {
+    private buildGraph(): CephalopodGame {
         if (this.variants.includes("snub")) {
-            this.graph = new SnubSquareGraph(7, 7);
-        } else if (this.variants.includes("hex")) {
-            this.graph = new HexTriGraph(4, 7);
+            this.graph = new SnubSquareGraph(5, 5);
         } else {
-            this.graph = new SquareGraph(7, 7);
+            this.graph = new SquareOrthGraph(5, 5);
         }
         return this;
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(player?: playerid, permissive: boolean = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
         }
 
-        // If the board is empty, place a piece anywhere
-        if (this.board.size === 0) {
-            return this.graph.listCells() as string[];
-        }
-
         const moves: string[] = [];
-        // If you still have pieces, place a piece next to any existing piece
-        if (this.pieces[player - 1] > 0) {
-            for (const cell of this.board.keys()) {
-                const neighbours = this.graph.neighbours(cell);
-                for (const n of neighbours) {
-                    if (! this.board.has(n)) {
-                        moves.push(n);
+        // Look at each empty cell
+        const cells = this.graph.listCells() as string[];
+        for (const cell of cells) {
+            if (! this.board.has(cell)) {
+                const captures: string[] = [];
+                // Get list of occupied neighbours
+                const nCells = this.graph.neighbours(cell);
+                const neighbours = [...this.board.entries()].filter(e => nCells.includes(e[0])).map(e => [e[0], e[1][1]] as [string, number]);
+                // Build a powerset of those neighbours
+                const pset = new PowerSet(neighbours);
+                for (const set of pset) {
+                    // Every set that is length 2 or longer and that sums to <=6 is a capture
+                    if (set.length > 1) {
+                        const sum = set.map(e => e[1]).reduce((a, b) => a + b);
+                        if (sum <= 6) {
+                            // If `permissive`, then add every permutation of captured pieces
+                            if (permissive) {
+                                const caps = [...set.map(e => e[0])];
+                                const perms = new Permutation(caps);
+                                for (const p of perms) {
+                                    captures.push(`${cell}=${p.join("+")}`);
+                                }
+                            } else {
+                                captures.push(`${cell}=${set.map(e => e[0]).join("+")}`);
+                            }
+                        }
                     }
                 }
-            }
-        // If you don't have any pieces in hand, then passing is allowed
-        } else {
-            moves.push("pass");
-        }
-
-        // If the first player has placed two pieces, then movements are allowed
-        if (this.pieces[0] <= 16) {
-            const playerPieces = [...this.board.entries()].filter(e => e[1][e[1].length - 1] === player);
-            for (const [cell, stack] of playerPieces) {
-                const neighbours = this.graph.neighbours(cell);
-                for (const n of neighbours) {
-                    const cloned: AbandeGame = Object.assign(new AbandeGame(), deepclone(this));
-                    cloned.buildGraph();
-                    // If it's empty, go for it
-                    if (! this.board.has(n)) {
-                        cloned.board.delete(cell);
-                        cloned.board.set(n, [...stack]);
-                    } else {
-                        const contents = this.board.get(n);
-                        if (contents === undefined) {
-                            throw new Error("Cell was undefined");
-                        }
-                        // If it's an enemy stack and the stack is no more than 3, go for it
-                        if ( (stack.length + contents.length <= 3) && (contents[contents.length - 1] !== player) ) {
-                            cloned.board.delete(cell);
-                            cloned.board.set(n, [...contents, ...stack]);
-                        // Otherwise, move on
-                        } else {
-                            continue;
-                        }
-                    }
-                    // If connected, this is a possible move
-                    if (cloned.isConnected()) {
-                        moves.push(`${cell}-${n}`);
-                    }
+                // If there are no captures, just place a 1
+                if (captures.length > 0) {
+                    moves.push(...captures);
+                } else {
+                    moves.push(cell);
                 }
             }
         }
 
         return moves;
-    }
-
-    public isConnected(): boolean {
-        const seen: Set<string> = new Set();
-        const todo: string[] = [[...this.board.keys()][0]];
-        while (todo.length > 0) {
-            const cell = todo.pop();
-            if (cell === undefined) {
-                throw new Error("Cell was undefined.");
-            }
-            seen.add(cell);
-            const neighbours = this.graph.neighbours(cell);
-            for (const n of neighbours) {
-                if ( (this.board.has(n)) && (! seen.has(n)) ) {
-                    todo.push(n);
-                }
-            }
-        }
-        return seen.size === this.board.size;
     }
 
     public randomMove(): string {
@@ -242,44 +196,36 @@ export class AbandeGame extends GameBase {
         }
     }
 
-    public move(m: string): AbandeGame {
+    public move(m: string): CephalopodGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! this.moves().includes(m)) {
+        if (! this.moves(undefined, true).includes(m)) {
             throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
         }
 
         this.results = [];
+        // capture
+        if (m.includes("=")) {
+            const [cell, rest] = m.split("=");
+            const caps = rest.split("+");
+            const sum = [...this.board.entries()].filter(e => caps.includes(e[0])).map(e => e[1][1] as number).reduce((a, b) => a + b);
+            if (sum > 6) {
+                throw new Error("Invalid capture. Sum greater than 6.");
+            }
+            this.board.set(cell, [this.currplayer, sum as Value]);
+            this.results.push({type: "place", what: sum.toString(), where: cell});
+            for (const cap of caps) {
+                const contents = this.board.get(cap);
+                this.results.push({type: "capture", what: contents![1].toString(), where: cap});
+                this.board.delete(cap);
+            }
         // placement
-        if (m.length === 2) {
-            this.board.set(m, [this.currplayer]);
-            this.pieces[this.currplayer - 1]--;
-            this.results.push({type: "place", where: m});
-        // movement
-        } else if (m.includes("-")) {
-            const [from, to] = m.split("-");
-            const fContents = this.board.get(from);
-            if (fContents === undefined) {
-                throw new Error("Could not fetch board contents");
-            }
-            this.board.delete(from);
-            if (this.board.has(to)) {
-                const tContents = this.board.get(to);
-                if (tContents === undefined) {
-                    throw new Error(`Could not fetch board contents.`);
-                }
-                this.board.set(to, [...tContents, ...fContents]);
-            } else {
-                this.board.delete(from);
-                this.board.set(to, [...fContents]);
-            }
-            this.results.push({type: "move", from, to});
-        // otherwise this was a "pass" and we can just move on
         } else {
-            this.results.push({type: "pass"});
+            this.board.set(m, [this.currplayer, 1]);
+            this.results.push({type: "place", what: "1", where: m});
         }
 
         // update currplayer
@@ -295,8 +241,8 @@ export class AbandeGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): AbandeGame {
-        if ( (this.lastmove === "pass") && (this.stack[this.stack.length - 1].lastmove === "pass") ) {
+    protected checkEOG(): CephalopodGame {
+        if (this.board.size === this.graph.listCells().length) {
             this.gameover = true;
             const score1 = this.getPlayerScore(1);
             const score2 = this.getPlayerScore(2);
@@ -305,7 +251,7 @@ export class AbandeGame extends GameBase {
             } else if (score1 < score2) {
                 this.winner = [2];
             } else {
-                this.winner = [1, 2];
+                throw new Error("Draws shouldn't be possible.");
             }
             this.results.push(
                 {type: "eog"},
@@ -316,7 +262,7 @@ export class AbandeGame extends GameBase {
         return this;
     }
 
-    public resign(player: playerid): AbandeGame {
+    public resign(player: playerid): CephalopodGame {
         this.gameover = true;
         if (player === 1) {
             this.winner = [2];
@@ -332,9 +278,9 @@ export class AbandeGame extends GameBase {
         return this;
     }
 
-    public state(): IAbandeState {
+    public state(): ICephalopodState {
         return {
-            game: AbandeGame.gameinfo.uid,
+            game: CephalopodGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -345,91 +291,115 @@ export class AbandeGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: AbandeGame.gameinfo.version,
+            _version: CephalopodGame.gameinfo.version,
             _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            pieces: [...this.pieces],
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        const pieces: string[][] = [];
+        const letters: string = "AB";
         const cells = this.graph.listCells(true);
         for (const row of cells) {
-            if (pstr.length > 0) {
-                pstr += "\n";
-            }
-            const pieces: string[] = [];
+            const node: string[] = [];
             for (const cell of row) {
                 if (this.board.has(cell)) {
-                    let str = this.board.get(cell)!.join("");
-                    str = str.replace(/1/g, "A");
-                    str = str.replace(/2/g, "B");
-                    pieces.push(str);
+                    const [owner, value] = this.board.get(cell)!;
+                    node.push(`${letters[owner - 1]}${value}`);
                 } else {
-                    pieces.push("-");
+                    node.push("");
                 }
             }
-            pstr += pieces.join(",");
+            pieces.push(node);
         }
+        let pstr: string = pieces.map(r => r.join(",")).join("\n");
+        pstr = pstr.replace(/\n,{4}\n/g, "\n_\n");
 
         // Build rep
         let board = {
-            style: "vertex-cross",
-            width: 7,
-            height: 7,
+            style: "squares",
+            width: 5,
+            height: 5,
         }
-        if (this.variants.includes("hex")) {
-            board = {
-                style: "hex-of-tri",
-                // @ts-ignore
-                minWidth: 4,
-                maxWidth: 7,
-            };
-        } else if (this.variants.includes("snub")) {
+        if (this.variants.includes("snub")) {
             board = {
                 style: "snubsquare",
-                width: 7,
-                height: 7,
+                width: 5,
+                height: 5,
             };
         }
         const rep: APRenderRep =  {
-            renderer: "stacking-offset",
             // @ts-ignore
             board,
             legend: {
-                A: {
-                    name: "piece",
+                A1: {
+                    name: "d6-1",
                     player: 1
                 },
-                B: {
-                    name: "piece",
+                A2: {
+                    name: "d6-2",
+                    player: 1
+                },
+                A3: {
+                    name: "d6-3",
+                    player: 1
+                },
+                A4: {
+                    name: "d6-4",
+                    player: 1
+                },
+                A5: {
+                    name: "d6-5",
+                    player: 1
+                },
+                A6: {
+                    name: "d6-6",
+                    player: 1
+                },
+                B1: {
+                    name: "d6-1",
                     player: 2
-                }
+                },
+                B2: {
+                    name: "d6-2",
+                    player: 2
+                },
+                B3: {
+                    name: "d6-3",
+                    player: 2
+                },
+                B4: {
+                    name: "d6-4",
+                    player: 2
+                },
+                B5: {
+                    name: "d6-5",
+                    player: 2
+                },
+                B6: {
+                    name: "d6-6",
+                    player: 2
+                },
             },
             pieces: pstr
         };
 
         // Add annotations
-        // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
-                if (move.type === "move") {
-                    const [fromX, fromY] = this.graph.algebraic2coords(move.from);
-                    const [toX, toY] = this.graph.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                if (move.type === "capture") {
+                    const [x, y] = this.graph.algebraic2coords(move.where!);
+                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
                 }
-            }
-            if (rep.annotations!.length === 0) {
-                delete rep.annotations;
             }
         }
 
@@ -441,12 +411,6 @@ export class AbandeGame extends GameBase {
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += "**Pieces In Hand**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.pieces[n - 1];
-            status += `Player ${n}: ${pieces}\n\n`;
         }
 
         status += "**Scores**\n\n";
@@ -464,7 +428,7 @@ export class AbandeGame extends GameBase {
         }
         const vars: string[] = [];
         for (const v of this.variants) {
-            for (const rec of AbandeGame.gameinfo.variants!) {
+            for (const rec of CephalopodGame.gameinfo.variants!) {
                 if (v === rec.uid) {
                     vars.push(rec.name);
                     break;
@@ -479,28 +443,11 @@ export class AbandeGame extends GameBase {
     }
 
     public getPlayerScore(player: number): number {
-        let score = 0;
-        for (const cell of this.board.keys()) {
-            const contents = this.board.get(cell);
-            if (contents === undefined) {
-                throw new Error("Could not fetch cell contents");
-            }
-            if (contents[contents.length - 1] === player) {
-                const neighbours = this.graph.neighbours(cell);
-                for (const n of neighbours) {
-                    const nContents = this.board.get(n);
-                    if ( (nContents !== undefined) && (nContents[nContents.length - 1] !== player) ) {
-                        score += contents.length;
-                        break;
-                    }
-                }
-            }
-        }
-        return score;
+        return [...this.board.values()].filter(v => v[0] === player).length;
     }
 
     public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, place, move
+        // eog, resign, winners, place, capture
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
@@ -515,14 +462,11 @@ export class AbandeGame extends GameBase {
                 }
                 for (const r of state._results) {
                     switch (r.type) {
-                        case "move":
-                            node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
-                            break;
                         case "place":
-                            node.push(i18next.t("apresults:PLACE.nowhat", {player: name, where: r.where}));
+                            node.push(i18next.t("apresults:PLACE.complete", {player: name, what: r.what, where: r.where}));
                             break;
-                        case "pass":
-                            node.push(i18next.t("apresults:PASS.simple", {player: name}));
+                        case "capture":
+                            node.push(i18next.t("apresults:CAPTURE.noperson.simple", {what: r.what, where: r.where}));
                             break;
                         case "eog":
                             node.push(i18next.t("apresults:EOG"));
@@ -553,7 +497,7 @@ export class AbandeGame extends GameBase {
         return result;
     }
 
-    public clone(): AbandeGame {
-        return new AbandeGame(this.serialize());
+    public clone(): CephalopodGame {
+        return new CephalopodGame(this.serialize());
     }
 }

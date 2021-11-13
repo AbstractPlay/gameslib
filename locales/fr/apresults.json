@@ -3,7 +3,8 @@
         "complete": "[FR{{player}} captured a {{what}} at {{where}}.",
         "noperson": {
             "multiple": "[FRThe following pieces were captured: {{capped}}.",
-            "nowhere": "[FRA {{what}} was captured."
+            "nowhere": "[FRA {{what}} was captured.",
+            "simple": ""
         },
         "nowhat": "[FR{{player}} captured a piece at {{where}}."
     },

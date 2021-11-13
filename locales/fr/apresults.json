@@ -38,7 +38,8 @@
     "PLACE": {
         "cannon": "[FR{{player}} placed their town at {{where}}.",
         "chase": "[FRThe chamber spit out a {{what}} at {{where}}.",
-        "complete": "[FR{{player}} placed a {{what}} at {{where}}."
+        "complete": "[FR{{player}} placed a {{what}} at {{where}}.",
+        "nowhat": ""
     },
     "PROMOTE": {
         "mchess": "[FRA {{into}} was created as a result."
@@ -52,5 +53,6 @@
         "chase": "[FRA {{what}} was fed to the chamber."
     },
     "WINNERS_one": "[FRThe following player won: {{winners}}.",
+    "WINNERS_many": "",
     "WINNERS_other": "[FRThe following players won: {{winners}}."
 }

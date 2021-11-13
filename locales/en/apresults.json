@@ -38,7 +38,8 @@
     "PLACE": {
         "cannon": "{{player}} placed their town at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
-        "complete": "{{player}} placed a {{what}} at {{where}}."
+        "complete": "{{player}} placed a {{what}} at {{where}}.",
+        "nowhat": "{{player}} placed a piece at {{where}}."
     },
     "PROMOTE": {
         "mchess": "A {{into}} was created as a result."

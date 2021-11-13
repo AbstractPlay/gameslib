@@ -152,8 +152,11 @@
                                 variant = v;
                             }
                         });
-                        var content = "**Variant: " + variant.name + "**\n\n" + variant.description;
-                        var converter = new showdown.Converter();
+                        var content = "";
+                        var converter = new showdown.Converter();    
+                        if (variant !== undefined) {
+                            content = "**Variant: " + variant.name + "**\n\n" + variant.description;
+                        }
                         infobox.innerHTML = converter.makeHtml(content);
                     } else {
                         infobox.innerHTML = "";

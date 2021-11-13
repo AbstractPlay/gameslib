@@ -54,7 +54,7 @@ export class BlamGame extends GameBase {
                 name: "Jon Eargle"
             }
         ],
-        flags: ["player-stashes", "scores"]
+        flags: ["player-stashes", "scores", "automove"]
     };
         // variants: [
         //     {

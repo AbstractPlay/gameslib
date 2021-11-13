@@ -52,6 +52,7 @@ export interface APGamesInformation {
     | "limited-pieces"
     | "shared-pieces"
     | "player-stashes"
+    | "automove"
   )[];
   [k: string]: unknown;
 }

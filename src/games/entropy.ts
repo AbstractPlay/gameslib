@@ -52,7 +52,8 @@ export class EntropyGame extends GameBase {
                 type: "designer",
                 name: "Eric Solomon"
             }
-        ]
+        ],
+        flags: ["simultaneous", "shared-pieces", "perspective", "scores"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 7);

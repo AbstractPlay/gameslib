@@ -55,7 +55,8 @@ export class AbandeGame extends GameBase {
                 group: "board",
                 description: "A 37-space hexagonal board."
             }
-        ]
+        ],
+        flags: ["limited-pieces", "scores"]
     };
 
     public numplayers: number = 2;

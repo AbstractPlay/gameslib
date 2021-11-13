@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added Abande, with move generation and AI.
+- Added `flags` to the `gameinfo` schema to signal to the front-end various features that may need special support.
 
 ## [0.3.0] - 2021-11-12
 

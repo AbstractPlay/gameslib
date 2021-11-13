@@ -48,6 +48,7 @@ export class BlamGame extends GameBase {
                 name: "Jon Eargle"
             }
         ],
+        flags: ["limited-pieces", "scores"]
     };
         // variants: [
         //     {

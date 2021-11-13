@@ -629,7 +629,7 @@ export class MchessGame extends GameBase {
         return this.getMovesAndResults(["move", "capture"]);
     }
 
-    protected getPlayerScore(player: number): number | undefined {
+    public getPlayerScore(player: number): number | undefined {
         return this.scores[player - 1];
     }
 

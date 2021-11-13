@@ -29,6 +29,17 @@ The games are self-documenting. The variable itself is an ES6 `Map` of game uid 
 * a list of people involved in the game
 * a list of supported player counts
 * a list of supported variants
+* a list of flags, the presence of absence of which signal features that may require special handling
+
+Current flags are the following:
+
+* `simultaneous`: signals that moves for all players must be submitted at once. The front-end will need to store partial moves until all players have submitted.
+* `perspective`: signals that the game can adjust the rendered image for a player's perspective. Pass a player number (i.e., 1, 2, etc.) to the `render()` function.
+* `stacking-expanding`: signals that the game uses the `stacking-expanding` renderer. Pass the clicked-upon column and row to `render()` to display the expanded stack in the rendered image.
+* `scores`: signals that players have scores. The front end can use `getPlayerScore(playerid: number) => number` to fetch scores.
+* `limited-pieces`: signals that players have a limited number of pieces, the number of which should be displayed to the players. Use `getPlayerPieces(playerid: number) => number` to fetch the number of pieces the given player has at the moment.
+* `player-stashes`: signals that players have their own pyramid stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number.
+* `shared-pieces`: signals that players don't own any pieces, so the front end can omit any display that links players to colours.
 
 ### `GameFactory`
 

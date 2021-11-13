@@ -415,7 +415,6 @@ export class AbandeGame extends GameBase {
         };
 
         // Add annotations
-        // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
@@ -477,6 +476,10 @@ export class AbandeGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "place"]);
+    }
+
+    public getPlayerPieces(player: number): number {
+        return this.pieces[player - 1];
     }
 
     public getPlayerScore(player: number): number {

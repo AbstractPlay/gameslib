@@ -236,8 +236,8 @@ export class EntropyGame extends GameBase {
         if ( (this.board1.size === 49) && (this.board2.size === 49) ) {
             this.gameover = true;
             this.results.push({type: "eog"});
-            const score1 = this.score(1);
-            const score2 = this.score(2);
+            const score1 = this.getPlayerScore(1);
+            const score2 = this.getPlayerScore(2);
             if (score1 > score2) {
                 this.winner = [1];
                 this.results.push({type: "winners", players: [1]});
@@ -252,7 +252,7 @@ export class EntropyGame extends GameBase {
         return this;
     }
 
-    private score(player: playerid): number {
+    public getPlayerScore(player: playerid): number {
         let score = 0;
         let board = this.board1;
         if (player === 2) {
@@ -494,8 +494,8 @@ export class EntropyGame extends GameBase {
         status += `**Pieces still in the bag**: ${Object.entries(this.bagContents()).sort((a, b) => { return a[0].localeCompare(b[0]); }).map(p => p.join(": ")).join(", ")}\n\n`;
 
         status += "**Scores**\n\n";
-        status += `Player 1: ${this.score(1)}\n\n`;
-        status += `Player 2: ${this.score(2)}\n\n`;
+        status += `Player 1: ${this.getPlayerScore(1)}\n\n`;
+        status += `Player 2: ${this.getPlayerScore(2)}\n\n`;
         return status;
     }
 

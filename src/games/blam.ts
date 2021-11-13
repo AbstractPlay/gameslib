@@ -29,6 +29,12 @@ interface IMoveState extends IIndividualState {
     stashes: Map<playerid, number[]>;
 }
 
+interface IPlayerStash {
+    small: number;
+    medium: number;
+    large: number;
+}
+
 export interface IBlamState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
@@ -48,7 +54,7 @@ export class BlamGame extends GameBase {
                 name: "Jon Eargle"
             }
         ],
-        flags: ["limited-pieces", "scores"]
+        flags: ["player-stashes", "scores"]
     };
         // variants: [
         //     {
@@ -505,7 +511,15 @@ export class BlamGame extends GameBase {
         return status;
     }
 
-    protected getPlayerScore(player: number): number | undefined {
+    public getPlayerStash(player: number): IPlayerStash | undefined {
+        const stash = this.stashes.get(player as playerid);
+        if (stash !== undefined) {
+            return {small: stash[0], medium: stash[1], large: stash[2]} as IPlayerStash;
+        }
+        return;
+    }
+
+    public getPlayerScore(player: number): number | undefined {
         return this.scores[player - 1];
     }
 

@@ -44,7 +44,15 @@ export interface APGamesInformation {
   /**
    * A list of flags used by the front end to signal the presence or absence of a particular feature.
    */
-  flags?: ("simultaneous" | "perspective" | "stacking-expanding" | "scores" | "limited-pieces" | "shared-pieces")[];
+  flags?: (
+    | "simultaneous"
+    | "perspective"
+    | "stacking-expanding"
+    | "scores"
+    | "limited-pieces"
+    | "shared-pieces"
+    | "player-stashes"
+  )[];
   [k: string]: unknown;
 }
 export interface Person {

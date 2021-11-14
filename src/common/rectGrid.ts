@@ -136,6 +136,10 @@ export class RectGrid {
         return false;
     }
 
+    public static distance(x1: number, y1: number, x2: number, y2: number): number {
+        return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));
+    }
+
     /**
      * Tells you if a given point is within the bounds of the grid.
      *

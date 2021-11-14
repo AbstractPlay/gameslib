@@ -8,6 +8,7 @@ import { ChaseAI } from "./chase";
 import { AbandeAI } from "./abande";
 import { CephalopodAI } from "./ceph";
 import { LinesOfActionAI } from "./loa";
+import { PikemenAI } from "./pikemen";
 
 export interface IAIResult {
     bestMove: string|null;
@@ -18,7 +19,7 @@ export interface IAI {
     findmove: (state: any, depth: number) => string;
 }
 
-export { AIBase, AmazonsAI, BlamAI, CannonAI, MchessAI, HomeworldsAI, ChaseAI, AbandeAI, CephalopodAI, LinesOfActionAI };
+export { AIBase, AmazonsAI, BlamAI, CannonAI, MchessAI, HomeworldsAI, ChaseAI, AbandeAI, CephalopodAI, LinesOfActionAI, PikemenAI };
 
 export const supportedGames: string[] = ["amazons"];
 export const fastGames: Map<string, number> = new Map([
@@ -31,6 +32,7 @@ export const fastGames: Map<string, number> = new Map([
     ["abande", 2],
     ["ceph", 4],
     ["loa", 4],
+    ["pikemen", 3],
 ]);
 export const slowGames: Map<string, number> = new Map([
     ["amazons", 2],
@@ -42,6 +44,7 @@ export const slowGames: Map<string, number> = new Map([
     ["abande", 3],
     ["ceph", 5],
     ["loa", 5],
+    ["pikemen", 4],
 ]);
 
 export function AIFactory(game: string): AIBase|undefined {
@@ -64,6 +67,8 @@ export function AIFactory(game: string): AIBase|undefined {
             return new CephalopodAI();
         case "loa":
             return new LinesOfActionAI();
+        case "pikemen":
+            return new PikemenAI();
     }
     return;
 }

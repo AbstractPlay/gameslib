@@ -330,6 +330,25 @@
             },
             "required": ["type", "from", "to"],
             "additionalProperties": false
+        },
+        {
+            "description": "Describes the reorientation of a piece in place.",
+            "properties": {
+                "type": {
+                    "enum": ["orient"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                },
+                "facing": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "facing"],
+            "additionalProperties": false
         }
     ]
 }

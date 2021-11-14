@@ -11,7 +11,7 @@ import i18next from "i18next";
 
 const gameDesc:string = `# Martian Chess
 
-An Icehouse game for 2 or 4 players played on a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points. A variant called 'Of Knights and Kings' changes the way Pawns and Drones move to create a very different strategic game.
+A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points. A variant called 'Of Knights and Kings' changes the way Pawns and Drones move to create a very different strategic game.
 
 While the game is playable by four players (or different numbers with odd-shaped boards), this implementation only supports two players.
 `;

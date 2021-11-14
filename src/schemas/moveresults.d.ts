@@ -107,4 +107,10 @@ export type APMoveResult =
       from: string;
       to: string;
       what?: string;
+    }
+  | {
+      type: "orient";
+      what?: string;
+      where?: string;
+      facing: string;
     };

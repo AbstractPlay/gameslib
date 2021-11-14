@@ -1,13 +1,13 @@
 {
     "CAPTURE": {
         "complete": "{{player}} captured a {{what}} at {{where}}.",
+        "minimal": "A piece was captured.",
         "noperson": {
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhere": "A {{what}} was captured.",
             "simple": "A {{what}} was captured at {{where}}."
         },
-        "nowhat": "{{player}} captured a piece at {{where}}.",
-        "minimal": "A piece was captured."
+        "nowhat": "{{player}} captured a piece at {{where}}."
     },
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}."
@@ -32,6 +32,9 @@
         "multiple": "{{player}} made the following moves: {{moves}}.",
         "nowhat": "{{player}} moved from {{from}} to {{to}}.",
         "push": "A {{what}} was pushed from {{from}} to {{to}}."
+    },
+    "ORIENT": {
+        "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
     },
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",

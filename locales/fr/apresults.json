@@ -1,6 +1,7 @@
 {
     "CAPTURE": {
         "complete": "[FR{{player}} captured a {{what}} at {{where}}.",
+        "minimal": "",
         "noperson": {
             "multiple": "[FRThe following pieces were captured: {{capped}}.",
             "nowhere": "[FRA {{what}} was captured.",
@@ -31,6 +32,9 @@
         "multiple": "[FR{{player}} made the following moves: {{moves}}.",
         "nowhat": "[FR{{player}} moved from {{from}} to {{to}}.",
         "push": "[FRA {{what}} was pushed from {{from}} to {{to}}."
+    },
+    "ORIENT": {
+        "nowhat": ""
     },
     "PASS": {
         "entropy": "[FR{{player}} chose not to move any pieces this turn.",

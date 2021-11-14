@@ -486,7 +486,7 @@ export class ChaseGame extends GameBase {
         // Normalize
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        m = m.replace(/([a-z]+)$/, (match) => {return match.toUpperCase();});
+        m = m.replace(/\([a-z]+\)$/, (match) => {return match.toUpperCase();});
         const moves = this.moves();
         if (! moves.includes(m)) {
             // Check to see if the direction just wasn't specified because it wasn't necessary

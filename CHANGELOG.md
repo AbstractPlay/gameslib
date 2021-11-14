@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added Abande, with move generation and AI.
 - Added Cephalopod, with move generation and AI (and snubsquare board).
+- Added Lines of Action. It's the 9x9 black hole variant, with an optional Scrambled Eggs initial layout.
 
 ## [0.3.0] - 2021-11-12
 

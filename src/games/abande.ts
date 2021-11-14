@@ -414,7 +414,6 @@ export class AbandeGame extends GameBase {
         };
 
         // Add annotations
-        // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             // @ts-ignore
             rep.annotations = [];

@@ -11,6 +11,7 @@ import { MvolcanoGame, IMvolcanoState } from "./mvolcano";
 import { ChaseGame, IChaseState } from "./chase";
 import { AbandeGame, IAbandeState } from "./abande";
 import { CephalopodGame, ICephalopodState } from "./ceph";
+import { LinesOfActionGame, ILinesOfActionState } from "./loa";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -25,14 +26,16 @@ export {
     ChaseGame, IChaseState,
     AbandeGame, IAbandeState,
     CephalopodGame, ICephalopodState,
+    LinesOfActionGame, ILinesOfActionState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
                               typeof MchessGame | typeof HomeworldsGame | typeof EntropyGame |
                               typeof VolcanoGame | typeof MvolcanoGame | typeof ChaseGame |
-                              typeof AbandeGame | typeof CephalopodGame>();
+                              typeof AbandeGame | typeof CephalopodGame | typeof LinesOfActionGame>();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame,
+    ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -64,6 +67,8 @@ export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
             return new AbandeGame(...args);
         case "ceph":
             return new CephalopodGame(...args);
+        case "loa":
+            return new LinesOfActionGame(...args);
     }
     return;
 }

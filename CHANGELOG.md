@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added `flags` to the `gameinfo` schema to signal to the front-end various features that may need special support. See documentation for details.d
 - Added Abande, with move generation and AI.
 - Added Cephalopod, with move generation and AI (and snubsquare board).
 - Added Lines of Action. It's the 9x9 black hole variant, with an optional Scrambled Eggs initial layout. Supports move generation and stupid AI.

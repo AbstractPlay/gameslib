@@ -56,7 +56,8 @@ export class MchessGame extends GameBase {
                 group: "movement",
                 description: "Pawns move like Chess kings, and drones move like Chess knights."
             }
-        ]
+        ],
+        flags: ["scores"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -629,7 +630,7 @@ export class MchessGame extends GameBase {
         return this.getMovesAndResults(["move", "capture"]);
     }
 
-    protected getPlayerScore(player: number): number | undefined {
+    public getPlayerScore(player: number): number | undefined {
         return this.scores[player - 1];
     }
 

@@ -185,7 +185,7 @@ export abstract class GameBase  {
         return undefined;
     }
 
-    protected getPlayerScore(player: number): number | undefined {
+    public  getPlayerScore(player: number): number | undefined {
         return undefined;
     }
 

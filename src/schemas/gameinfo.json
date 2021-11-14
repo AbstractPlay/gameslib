@@ -100,6 +100,13 @@
                 "type": "integer",
                 "minimum": 1
             }
+        },
+        "flags": {
+            "description": "A list of flags used by the front end to signal the presence or absence of a particular feature.",
+            "type": "array",
+            "items": {
+                "enum": ["simultaneous", "perspective", "stacking-expanding", "scores", "limited-pieces", "shared-pieces", "player-stashes", "automove", "no-moves"]
+            }
         }
     },
     "required": ["name", "uid", "version", "playercounts"]

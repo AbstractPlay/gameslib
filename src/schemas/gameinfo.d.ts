@@ -41,6 +41,20 @@ export interface APGamesInformation {
    * A list of the supported player counts
    */
   playercounts: number[];
+  /**
+   * A list of flags used by the front end to signal the presence or absence of a particular feature.
+   */
+  flags?: (
+    | "simultaneous"
+    | "perspective"
+    | "stacking-expanding"
+    | "scores"
+    | "limited-pieces"
+    | "shared-pieces"
+    | "player-stashes"
+    | "automove"
+    | "no-moves"
+  )[];
   [k: string]: unknown;
 }
 export interface Person {

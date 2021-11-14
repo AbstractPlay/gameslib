@@ -54,6 +54,7 @@ export interface APGamesInformation {
     | "player-stashes"
     | "automove"
     | "no-moves"
+    | "multistep"
   )[];
   [k: string]: unknown;
 }

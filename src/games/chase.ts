@@ -477,9 +477,7 @@ export class ChaseGame extends GameBase {
             return coord;
     }
 
-    // The `partial` flag leaves the object in an invalid state.
-    // Only use it on cloned objects, or call `load` before submitting the final move.
-    public move(m: string, partial: boolean = false): ChaseGame {
+    public move(m: string): ChaseGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

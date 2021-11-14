@@ -88,7 +88,7 @@ export class VolcanoGame extends GameBase {
                 urls: ["http://www.wunderland.com/WTS/Kristin/Kristin.html"]
             }
         ],
-        flags: ["shared-pieces", "stacking-expanding", "no-moves"]
+        flags: ["shared-pieces", "stacking-expanding", "no-moves", "multistep"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);

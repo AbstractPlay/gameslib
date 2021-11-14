@@ -59,7 +59,8 @@ export class PikemenGame extends GameBase {
                 group: "eog",
                 description: "The game doesn't end until you have 15 points worth of enemy soldiers."
             }
-        ]
+        ],
+        flags: ["scores"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

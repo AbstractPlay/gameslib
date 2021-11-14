@@ -51,7 +51,8 @@ export class CephalopodGame extends GameBase {
                 group: "board",
                 description: "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
             },
-        ]
+        ],
+        flags: ["scores"]
     };
 
     public numplayers: number = 2;

@@ -41,7 +41,7 @@ Current flags are the following:
 * `player-stashes`: signals that players have their own pyramid stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number.
 * `shared-pieces`: signals that players don't own any pieces, so the front end can omit any display that links players to colours.
 * `automove`: signals that it is possible or even common for a player to only have one movement choice (most usually "pass"). The processor should consider checking for that possibility and making that single move automatically, to keep things moving quickly.
-* `nomoves`: signals that the game cannot produce a list of possible moves. In all other games, you can use `moves(player?: number) => string[]` to get a list of valid moves.
+* `no-moves`: signals that the game cannot produce a list of possible moves. In all other games, you can use `moves(player?: number) => string[]` to get a list of valid moves.
 
 ### `GameFactory`
 

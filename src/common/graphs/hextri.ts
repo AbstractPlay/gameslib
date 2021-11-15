@@ -116,4 +116,71 @@ export class HexTriGraph implements IGraph {
     public path(from: string, to: string): string[] | null {
         return bidirectional(this.graph, from, to);
     }
+
+    public move(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", dist: number = 1): [number, number] | undefined {
+        const midrow = Math.floor(this.height / 2);
+        let xNew = x;
+        let yNew = y;
+        switch (dir) {
+            case "NE":
+                if (y <= midrow) {
+                    yNew--;
+                } else {
+                    yNew--;
+                    xNew++
+                }
+                break;
+            case "E":
+                xNew++;
+                break;
+            case "SE":
+                if (y >= midrow) {
+                    yNew++;
+                } else {
+                    yNew++;
+                    xNew++;
+                }
+                break;
+            case "SW":
+                if (y < midrow) {
+                    yNew++;
+                } else {
+                    yNew++;
+                    xNew--;
+                }
+                break;
+            case "W":
+                xNew--;
+                break;
+            case "NW":
+                if (y <= midrow) {
+                    yNew--;
+                    xNew--;
+                } else {
+                    yNew--
+                }
+                break;
+            default:
+                throw new Error("Invalid direction requested.");
+        }
+        if ( (yNew < 0) || (yNew >= this.height) ) {
+            return undefined;
+        }
+        const delta = this.maxwidth - this.minwidth;
+        const rowWidth = this.minwidth + (midrow - Math.abs(delta - yNew));
+        if ( (xNew < 0) || (xNew >= rowWidth) ) {
+            return undefined;
+        }
+        return [xNew, yNew];
+    }
+
+    public ray(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW"): [number, number][] {
+        const cells: [number, number][] = [];
+        let next = this.move(x, y, dir);
+        while (next !== undefined) {
+            cells.push(next);
+            next = this.move(...next, dir);
+        }
+        return cells;
+    }
 }

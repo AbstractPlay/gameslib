@@ -5,17 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0] - 2021-11-15
 
 ### Added
 
-- Added `flags` to the `gameinfo` schema to signal to the front-end various features that may need special support. See documentation for details.d
+- Added `flags` to the `gameinfo` schema to signal to the front-end various features that may need special support. See documentation for details.
 - Added Abande, with move generation and AI.
+- Added Attangle, with move generation and AI.
+- Added Ordo, with move generation and very, very slow AI (need to optimize move generation).
 - Added Cephalopod, with move generation and AI (and snubsquare board).
 - Added Lines of Action. It's the 9x9 black hole variant, with an optional Scrambled Eggs initial layout. Supports move generation and stupid AI.
 - Added Pikemen, with move generation and brain-dead AI.
-- Added Ordo, with move generation and very, very slow AI (need to optimize move generation).
-- Added Attangle, with move generation and AI.
 
 ## [0.3.0] - 2021-11-12
 

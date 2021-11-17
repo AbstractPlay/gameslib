@@ -443,6 +443,28 @@ export class OrdoGame extends GameBase {
                 style: "squares-checkered",
                 width: 10,
                 height: 8,
+                markers: [
+                    {
+                        type: "shading",
+                        colour: 2,
+                        points: [
+                            {row: 0, col: 0},
+                            {row: 0, col: 10},
+                            {row: 1, col: 10},
+                            {row: 1, col: 0}
+                        ]
+                    },
+                    {
+                        type: "shading",
+                        colour: 1,
+                        points: [
+                            {row: 7, col: 0},
+                            {row: 7, col: 10},
+                            {row: 8, col: 10},
+                            {row: 8, col: 0}
+                        ]
+                    }
+                ]
             },
             legend: {
                 A: {

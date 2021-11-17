@@ -361,7 +361,7 @@ export class AttangleGame extends GameBase {
             style: "hex-of-tri",
             minWidth: 4,
             maxWidth: 7,
-            markers: [{row: 3, col: 3}]
+            markers: [{type: "dots", points: [{row: 3, col: 3}]}]
         }
         if (this.variants.includes("grand")) {
             const markers = voids[1].map(v => {
@@ -372,7 +372,9 @@ export class AttangleGame extends GameBase {
                 style: "hex-of-tri",
                 minWidth: 5,
                 maxWidth: 9,
-                markers
+                markers: [
+                    {type: "dots", points: markers}
+                ]
             };
         }
         const rep: APRenderRep =  {

@@ -167,27 +167,21 @@ export class AbandeGame extends GameBase {
                 for (const n of neighbours) {
                     const cloned: AbandeGame = Object.assign(new AbandeGame(), deepclone(this));
                     cloned.buildGraph();
-                    // If it's empty, go for it
-                    if (! this.board.has(n)) {
-                        cloned.board.delete(cell);
-                        cloned.board.set(n, [...stack]);
-                    } else {
-                        const contents = this.board.get(n);
+                    // You can't move to empty spaces, only spaces occupied by opponents
+                    if (cloned.board.has(n)) {
+                        const contents = cloned.board.get(n);
                         if (contents === undefined) {
                             throw new Error("Cell was undefined");
                         }
-                        // If it's an enemy stack and the stack is no more than 3, go for it
+                        // If it's an enemy stack and the stack is no more than 3, try it
                         if ( (stack.length + contents.length <= 3) && (contents[contents.length - 1] !== player) ) {
                             cloned.board.delete(cell);
                             cloned.board.set(n, [...contents, ...stack]);
-                        // Otherwise, move on
-                        } else {
-                            continue;
+                            // If connected, this is a possible move
+                            if (cloned.isConnected()) {
+                                moves.push(`${cell}-${n}`);
+                            }
                         }
-                    }
-                    // If connected, this is a possible move
-                    if (cloned.isConnected()) {
-                        moves.push(`${cell}-${n}`);
                     }
                 }
             }

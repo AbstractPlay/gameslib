@@ -10,7 +10,7 @@ const deepclone = require("rfdc/default");
 
 const gameDesc:string = `# Abande
 
-Abande is an original abstract game of connected pieces. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. All three board styles are available.
+Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.
 `;
 
 export type playerid = 1|2;

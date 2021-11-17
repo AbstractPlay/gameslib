@@ -11,7 +11,7 @@ const deepclone = require("rfdc/default");
 
 const gameDesc:string = `# Attangle
 
-Attangle is another in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The "Grand Attangle" variant is also implemented.
+Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The "Grand Attangle" variant is also implemented.
 `;
 
 export type playerid = 1|2;

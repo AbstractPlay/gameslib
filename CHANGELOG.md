@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added Accasta, with move generation and very slow AI (large move tree).
 - Added Epaminondas, with move generation and slow AI. I also added the "stones" variant proposed by Néstor Romeral Andrés.
+- Added Taiji (superior variant of Tonga), with three board sizes, three scoring options, and the "Tonga" variant that allows diagonal placement.
 
 ## [0.4.0] - 2021-11-15
 

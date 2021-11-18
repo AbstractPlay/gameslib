@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added Accasta, with move generation and very slow AI (large move tree).
+- Added Epaminondas, with move generation and slow AI. I also added the "stones" variant proposed by Néstor Romeral Andrés.
 
 ## [0.4.0] - 2021-11-15
 

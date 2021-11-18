@@ -2,6 +2,8 @@
     "CAPTURE": {
         "complete": "{{player}} captured a {{what}} at {{where}}.",
         "minimal": "A piece was captured.",
+        "multiple_one": "A piece was captured.",
+        "multiple_other": "{{count}} pieces were captured.",
         "noperson": {
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhere": "A {{what}} was captured.",

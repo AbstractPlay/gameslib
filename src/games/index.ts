@@ -16,6 +16,7 @@ import { PikemenGame, IPikemenState } from "./pikemen";
 import { OrdoGame, IOrdoState } from "./ordo";
 import { AttangleGame, IAttangleState } from "./attangle";
 import { AccastaGame, IAccastaState } from "./accasta";
+import { EpamGame, IEpamState } from "./epam";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -35,6 +36,7 @@ export {
     OrdoGame, IOrdoState,
     AttangleGame, IAttangleState,
     AccastaGame, IAccastaState,
+    EpamGame, IEpamState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -42,11 +44,11 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VolcanoGame | typeof MvolcanoGame | typeof ChaseGame |
                               typeof AbandeGame | typeof CephalopodGame | typeof LinesOfActionGame |
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
-                              typeof AccastaGame>();
+                              typeof AccastaGame | typeof EpamGame>();
 // Manually add each game to the following array
 [AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame,
     ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame,
-    AccastaGame].forEach((g) => {
+    AccastaGame, EpamGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -88,6 +90,8 @@ export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
             return new AttangleGame(...args);
         case "accasta":
             return new AccastaGame(...args);
+        case "epam":
+            return new EpamGame(...args);
     }
     return;
 }

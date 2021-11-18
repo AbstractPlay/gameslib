@@ -12,6 +12,7 @@ import { PikemenAI } from "./pikemen";
 import { OrdoAI } from "./ordo";
 import { AttangleAI } from "./attangle";
 import { AccastaAI } from "./accasta";
+import { EpamAI } from "./epam";
 
 export interface IAIResult {
     bestMove: string|null;
@@ -23,7 +24,7 @@ export interface IAI {
 }
 
 export { AIBase, AmazonsAI, BlamAI, CannonAI, MchessAI, HomeworldsAI, ChaseAI, AbandeAI,
-         CephalopodAI, LinesOfActionAI, PikemenAI, OrdoAI, AttangleAI, AccastaAI };
+         CephalopodAI, LinesOfActionAI, PikemenAI, OrdoAI, AttangleAI, AccastaAI, EpamAI };
 
 export const supportedGames: string[] = ["amazons"];
 export const fastGames: Map<string, number> = new Map([
@@ -40,6 +41,7 @@ export const fastGames: Map<string, number> = new Map([
     ["ordo", 1],
     ["attangle", 4],
     ["accasta", 1],
+    ["epam", 2],
 ]);
 export const slowGames: Map<string, number> = new Map([
     ["amazons", 2],
@@ -54,6 +56,7 @@ export const slowGames: Map<string, number> = new Map([
     ["pikemen", 4],
     ["ordo", 2],
     ["attangle", 5],
+    ["epam", 3],
 ]);
 
 export function AIFactory(game: string): AIBase|undefined {
@@ -84,6 +87,8 @@ export function AIFactory(game: string): AIBase|undefined {
             return new AttangleAI();
         case "accasta":
             return new AccastaAI();
+        case "epam":
+            return new EpamAI();
     }
     return;
 }

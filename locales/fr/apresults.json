@@ -2,6 +2,9 @@
     "CAPTURE": {
         "complete": "[FR{{player}} captured a {{what}} at {{where}}.",
         "minimal": "",
+        "multiple_one": "",
+        "multiple_many": "",
+        "multiple_other": "",
         "noperson": {
             "multiple": "[FRThe following pieces were captured: {{capped}}.",
             "nowhere": "[FRA {{what}} was captured.",

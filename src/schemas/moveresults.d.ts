@@ -24,6 +24,7 @@ export type APMoveResult =
       type: "capture";
       where?: string;
       what?: string;
+      count?: number;
     }
   | {
       type: "take";

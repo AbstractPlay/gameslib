@@ -53,6 +53,9 @@
                 },
                 "what": {
                     "type": "string"
+                },
+                "count": {
+                    "type": "number"
                 }
             },
             "required": ["type"],

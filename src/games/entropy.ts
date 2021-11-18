@@ -166,13 +166,14 @@ export class EntropyGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        // TBD
-        return "";
+        return String.fromCharCode(97 + col) + (7 - row).toString();
     }
 
     public clicked(move: string, coord: string): string {
-        // TBD
-        return "";
+        if (move.length > 0 && move.length < 5)
+            return move + '-' + coord;
+        else
+            return coord;
     }
 
     public move(m: string, partial: boolean = false): EntropyGame {

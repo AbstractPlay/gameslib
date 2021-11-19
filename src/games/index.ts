@@ -21,6 +21,7 @@ import { TaijiGame, ITaijiState } from "./taiji";
 import { BreakthroughGame, IBreakthroughState } from "./breakthrough";
 import { FabrikGame, IFabrikState } from "./fabrik";
 import { ManalathGame, IManalathState } from "./manalath";
+import { UrbinoGame, IUrbinoState } from "./urbino";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -45,6 +46,7 @@ export {
     BreakthroughGame, IBreakthroughState,
     FabrikGame, IFabrikState,
     ManalathGame, IManalathState,
+    UrbinoGame, IUrbinoState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -53,11 +55,11 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AbandeGame | typeof CephalopodGame | typeof LinesOfActionGame |
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
                               typeof AccastaGame | typeof EpamGame | typeof TaijiGame | typeof BreakthroughGame |
-                              typeof FabrikGame | typeof ManalathGame>();
+                              typeof FabrikGame | typeof ManalathGame | typeof UrbinoGame>();
 // Manually add each game to the following array
 [AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame,
     ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame,
-    AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame].forEach((g) => {
+    AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -109,6 +111,8 @@ export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
             return new FabrikGame(...args);
         case "manalath":
             return new ManalathGame(...args);
+        case "urbino":
+            return new UrbinoGame(...args);
     }
     return;
 }

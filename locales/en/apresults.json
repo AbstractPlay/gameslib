@@ -61,7 +61,13 @@
         "complete": "{{player}} placed a {{what}} at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",
-        "theirs": "{{player}} placed an enemy piece at {{where}."
+        "theirs": "{{player}} placed an enemy piece at {{where}}.",
+        "urbino": {
+            "house": "{{player}} placed a house at {{where}}.",
+            "palace": "{{player}} placed a palace at {{where}}.",
+            "tower": "{{player}} placed a tower at {{where}}.",
+            "worker": "{{player}} placed an architect at {{where}}."
+        }
     },
     "PROMOTE": {
         "mchess": "A {{into}} was created as a result."

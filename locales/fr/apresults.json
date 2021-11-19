@@ -64,7 +64,13 @@
         "complete": "[FR{{player}} placed a {{what}} at {{where}}.",
         "mine": "",
         "nowhat": "",
-        "theirs": ""
+        "theirs": "",
+        "urbino": {
+            "house": "",
+            "palace": "",
+            "tower": "",
+            "worker": ""
+        }
     },
     "PROMOTE": {
         "mchess": "[FRA {{into}} was created as a result."

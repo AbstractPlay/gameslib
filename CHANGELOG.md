@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Breakthrough, with move generation an stupid AI. Also included the "Bombardment" variant.
 - Added Fabrik, including the "Arbeiter" variant. It includes move generation but no AI. The move tree is too big for too long.
 - Added Manalath, including move generation but no AI.
+- Added Urbino, with move generation but no AI. Includes the "Monuments" variant.
 
 ## [0.4.0] - 2021-11-15
 

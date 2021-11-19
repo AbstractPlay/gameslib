@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Epaminondas, with move generation and slow AI. I also added the "stones" variant proposed by Néstor Romeral Andrés.
 - Added Taiji (superior variant of Tonga), with three board sizes, three scoring options, and the "Tonga" variant that allows diagonal placement.
 - Added Breakthrough, with move generation an stupid AI. Also included the "Bombardment" variant.
+- Added Fabrik, including the "Arbeiter" variant. It includes move generation but no AI. The move tree is too big for too long.
 
 ## [0.4.0] - 2021-11-15
 

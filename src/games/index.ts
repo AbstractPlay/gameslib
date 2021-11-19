@@ -20,6 +20,7 @@ import { EpamGame, IEpamState } from "./epam";
 import { TaijiGame, ITaijiState } from "./taiji";
 import { BreakthroughGame, IBreakthroughState } from "./breakthrough";
 import { FabrikGame, IFabrikState } from "./fabrik";
+import { ManalathGame, IManalathState } from "./manalath";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -43,6 +44,7 @@ export {
     TaijiGame, ITaijiState,
     BreakthroughGame, IBreakthroughState,
     FabrikGame, IFabrikState,
+    ManalathGame, IManalathState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -51,11 +53,11 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AbandeGame | typeof CephalopodGame | typeof LinesOfActionGame |
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
                               typeof AccastaGame | typeof EpamGame | typeof TaijiGame | typeof BreakthroughGame |
-                              typeof FabrikGame>();
+                              typeof FabrikGame | typeof ManalathGame>();
 // Manually add each game to the following array
 [AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame,
     ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame,
-    AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame].forEach((g) => {
+    AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -105,6 +107,8 @@ export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
             return new BreakthroughGame(...args);
         case "fabrik":
             return new FabrikGame(...args);
+        case "manalath":
+            return new ManalathGame(...args);
     }
     return;
 }

@@ -62,7 +62,9 @@
         "cannon": "[FR{{player}} placed their town at {{where}}.",
         "chase": "[FRThe chamber spit out a {{what}} at {{where}}.",
         "complete": "[FR{{player}} placed a {{what}} at {{where}}.",
-        "nowhat": ""
+        "mine": "",
+        "nowhat": "",
+        "theirs": ""
     },
     "PROMOTE": {
         "mchess": "[FRA {{into}} was created as a result."

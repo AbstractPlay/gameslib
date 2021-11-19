@@ -114,4 +114,14 @@ export type APMoveResult =
       what?: string;
       where?: string;
       facing: string;
+    }
+  | {
+      type: "detonate";
+      what?: string;
+      where?: string;
+    }
+  | {
+      type: "destroy";
+      what?: string;
+      where?: string;
     };

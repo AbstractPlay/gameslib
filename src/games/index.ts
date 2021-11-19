@@ -18,6 +18,7 @@ import { AttangleGame, IAttangleState } from "./attangle";
 import { AccastaGame, IAccastaState } from "./accasta";
 import { EpamGame, IEpamState } from "./epam";
 import { TaijiGame, ITaijiState } from "./taiji";
+import { BreakthroughGame, IBreakthroughState } from "./breakthrough";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -39,6 +40,7 @@ export {
     AccastaGame, IAccastaState,
     EpamGame, IEpamState,
     TaijiGame, ITaijiState,
+    BreakthroughGame, IBreakthroughState
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -46,11 +48,11 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VolcanoGame | typeof MvolcanoGame | typeof ChaseGame |
                               typeof AbandeGame | typeof CephalopodGame | typeof LinesOfActionGame |
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
-                              typeof AccastaGame | typeof EpamGame | typeof TaijiGame>();
+                              typeof AccastaGame | typeof EpamGame | typeof TaijiGame | typeof BreakthroughGame>();
 // Manually add each game to the following array
 [AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame,
     ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame,
-    AccastaGame, EpamGame, TaijiGame].forEach((g) => {
+    AccastaGame, EpamGame, TaijiGame, BreakthroughGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -96,6 +98,8 @@ export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
             return new EpamGame(...args);
         case "taiji":
             return new TaijiGame(...args);
+        case "breakthrough":
+            return new BreakthroughGame(...args);
     }
     return;
 }

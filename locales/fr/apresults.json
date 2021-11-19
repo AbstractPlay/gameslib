@@ -15,6 +15,21 @@
     "CONVERT": {
         "complete": "[FR{{player}} turned a {{what}} into a {{into}} at {{where}}."
     },
+    "DESTROY": {
+        "enemy": {
+            "minimal_one": "",
+            "minimal_many": "",
+            "minimal_other": ""
+        },
+        "friendly": {
+            "minimal_one": "",
+            "minimal_many": "",
+            "minimal_other": ""
+        }
+    },
+    "DETONATE": {
+        "nowhat": ""
+    },
     "EOG": "[FRThe game has ended.",
     "ERUPTIONS": "[FRThe following pieces erupted: {{eruptions}}.",
     "homeworlds": {

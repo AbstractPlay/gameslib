@@ -352,6 +352,38 @@
             },
             "required": ["type", "facing"],
             "additionalProperties": false
+        },
+        {
+            "description": "Describes the detonation of a piece.",
+            "properties": {
+                "type": {
+                    "enum": ["detonate"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Describes generic destruction of a piece.",
+            "properties": {
+                "type": {
+                    "enum": ["destroy"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
         }
     ]
 }

@@ -6,4 +6,4 @@
 - Entropy: Player-specific rendering
 - Entropy: Remaining pieces added to render
 
-- List of SDG games still to migrate: acity, archimedes, break, complica, fanorona, focus, frames, garden, mirador, phutball, qy, realm, reaper, scribe, soccer, strings, wyke. This is based on looking at games in the top quartile of "most played of all time," games played recently, and game ratings by players. Grand total is 34 games (17 already coded, 17 in the queue). Nothing is guaranteed. A nomination process will be instituted at some point.
+- List of SDG games still to migrate: acity, archimedes, complica, fanorona, focus, frames, garden, mirador, phutball, qy, realm, reaper, scribe, soccer, strings, wyke. This is based on looking at games in the top quartile of "most played of all time," games played recently, and game ratings by players. Grand total is 34 games (18 already coded, 16 in the queue). Nothing is guaranteed. A nomination process will be instituted at some point.

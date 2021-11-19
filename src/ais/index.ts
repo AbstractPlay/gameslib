@@ -14,6 +14,7 @@ import { AttangleAI } from "./attangle";
 import { AccastaAI } from "./accasta";
 import { EpamAI } from "./epam";
 import { TaijiAI } from "./taiji";
+import { BreakthroughAI } from "./breakthrough";
 
 export interface IAIResult {
     bestMove: string|null;
@@ -26,7 +27,7 @@ export interface IAI {
 
 export { AIBase, AmazonsAI, BlamAI, CannonAI, MchessAI, HomeworldsAI, ChaseAI, AbandeAI,
          CephalopodAI, LinesOfActionAI, PikemenAI, OrdoAI, AttangleAI, AccastaAI, EpamAI,
-         TaijiAI };
+         TaijiAI, BreakthroughAI };
 
 export const supportedGames: string[] = ["amazons"];
 export const fastGames: Map<string, number> = new Map([
@@ -45,6 +46,7 @@ export const fastGames: Map<string, number> = new Map([
     ["accasta", 1],
     ["epam", 2],
     ["taiji", 2],
+    ["breakthrough", 5],
 ]);
 export const slowGames: Map<string, number> = new Map([
     ["amazons", 2],
@@ -61,6 +63,7 @@ export const slowGames: Map<string, number> = new Map([
     ["attangle", 5],
     ["epam", 3],
     ["taiji", 3],
+    ["breakthrough", 6],
 ]);
 
 export function AIFactory(game: string): AIBase|undefined {
@@ -95,6 +98,8 @@ export function AIFactory(game: string): AIBase|undefined {
             return new EpamAI();
         case "taiji":
             return new TaijiAI();
+        case "breakthrough":
+            return new BreakthroughAI();
     }
     return;
 }

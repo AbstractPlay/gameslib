@@ -1,5 +1,6 @@
 import { UndirectedGraph } from "graphology";
 import bidirectional from 'graphology-shortest-path/unweighted';
+import { Directions } from "..";
 import { IGraph } from "./IGraph";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -82,5 +83,25 @@ export class SquareOrthGraph implements IGraph {
 
     public path(from: string, to: string): string[] | null {
         return bidirectional(this.graph, from, to);
+    }
+
+    public bearing(from: string, to: string): Directions {
+        const [xFrom, yFrom] = this.algebraic2coords(from);
+        const [xTo, yTo] = this.algebraic2coords(to);
+        let dstr = "";
+        if (yTo > yFrom) {
+            dstr += "S";
+        } else if (yTo < yFrom) {
+            dstr += "N";
+        }
+        if (xTo > xFrom) {
+            dstr += "E";
+        } else if (xTo < xFrom) {
+            dstr += "W";
+        }
+        if (dstr === "") {
+            throw new Error("Could not determine bearing");
+        }
+        return dstr as Directions;
     }
 }

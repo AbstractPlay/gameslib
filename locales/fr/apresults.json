@@ -1,4 +1,7 @@
 {
+    "BLOCK": {
+        "between": ""
+    },
     "CAPTURE": {
         "complete": "[FR{{player}} captured a {{what}} at {{where}}.",
         "minimal": "",

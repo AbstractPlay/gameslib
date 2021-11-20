@@ -114,16 +114,26 @@
             "additionalProperties": false
         },
         {
-            "description": "Describes blocking off a space. Primarily used in the game Amazons.",
+            "description": "Describes blocking off a space or the area between two spaces.",
             "properties": {
                 "type": {
                     "enum": ["block"]
                 },
                 "where": {
+                    "description": "Use this for blocking off a single space",
                     "type": "string"
+                },
+                "between": {
+                    "description": "Use this to block between two spaces",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
                 }
             },
-            "required": ["type", "where"],
+            "required": ["type"],
             "additionalProperties": false
         },
         {

@@ -1,4 +1,7 @@
 {
+    "BLOCK": {
+        "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}."
+    },
     "CAPTURE": {
         "complete": "{{player}} captured a {{what}} at {{where}}.",
         "minimal": "A piece was captured.",

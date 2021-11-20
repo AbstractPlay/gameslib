@@ -44,7 +44,14 @@ export type APMoveResult =
     }
   | {
       type: "block";
-      where: string;
+      /**
+       * Use this for blocking off a single space
+       */
+      where?: string;
+      /**
+       * Use this to block between two spaces
+       */
+      between?: [string, string];
     }
   | {
       type: "eog";

@@ -54,7 +54,7 @@ export class FabrikGame extends GameBase {
                 description: "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
             }
         ],
-        flags: ["multistep"]
+        flags: ["multistep", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 11);

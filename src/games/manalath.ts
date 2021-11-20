@@ -45,7 +45,8 @@ export class ManalathGame extends GameBase {
                 name: "Néstor Romeral Andrés",
                 urls: ["http://nestorgames.com/"]
             }
-        ]
+        ],
+        flags: ["automove"]
     };
 
     public numplayers: number = 2;

@@ -64,7 +64,7 @@ export class UrbinoGame extends GameBase {
                 description: "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
             }
         ],
-        flags: ["multistep", "player-stashes"]
+        flags: ["multistep", "player-stashes", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 9);

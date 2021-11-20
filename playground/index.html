@@ -14,12 +14,11 @@
         <script type="text/javascript">
             function boardClick(row, col, piece) {
                 console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
-                //var gamename = window.sessionStorage.getItem("gamename");
-                //var game = APGames.GameFactory(gamename, state);
-                //var movebox = document.getElementById("moveEntry");
-                //if (movebox.value.length > 0) {
-                //    game.clicked()
-                //}
+                var state = window.sessionStorage.getItem("state");
+                var gamename = window.sessionStorage.getItem("gamename");
+                var game = APGames.GameFactory(gamename, state);
+                var movebox = document.getElementById("moveEntry");
+                movebox.value = game.clicked(movebox.value, [col, row])
             }
 
             function boardClickVolcano(row, col, piece) {

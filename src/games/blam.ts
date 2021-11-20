@@ -188,14 +188,48 @@ export class BlamGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        return String.fromCharCode(97 + col) + (8 - row).toString();
+        return BlamGame.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length === 1)
-            return move + coord;
-        else
-            return coord;
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = BlamGame.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = BlamGame.coords2algebraic(x, y);
+            }
+            // If you click on an occupied cell, clear the entry
+            if (this.board.has(cell)) {
+                return "";
+            }
+            if (move.length > 0) {
+                const match = move.match(/^(\d)([a-z][0-9])$/);
+                if (match !== null) {
+                    let num = parseInt(match[1], 10);
+                    const prev = match[2];
+                    if (prev === cell) {
+                       num++;
+                       if (num > 3) { num = 1; }
+                       return `${num}${cell}`;
+                    } else {
+                        return `1${cell}`;
+                    }
+                } else {
+                    return `1${cell}`;
+                }
+            } else {
+                return `1${cell}`;
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
+        }
     }
 
     public move(m: string): BlamGame {

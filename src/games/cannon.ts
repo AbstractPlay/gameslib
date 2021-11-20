@@ -287,18 +287,49 @@ export class CannonGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        return String.fromCharCode(97 + col) + (10 - row).toString();
+        return CannonGame.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 4) {
-            if (move === coord)
-                return 'x' + coord;
-            else
-                return move + '-' + coord;
-        }
-        else {
-            return coord;
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = CannonGame.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = CannonGame.coords2algebraic(x, y);
+            }
+            if (move === "") {
+                if ( (this.board.has(cell)) && (this.board.get(cell)![1] === "s") ) {
+                    return cell;
+                } else if (! this.placed) {
+                    return cell;
+                } else {
+                    return "";
+                }
+            } else {
+                if (! this.placed) {
+                    return cell;
+                }
+                if ( (move === cell) && (this.board.has(cell)) && (this.board.get(cell)![1] === "s") ) {
+                    return `x${cell}`;
+                }
+                const [prev, rest] = move.split(/[x-]/);
+                if ( (prev === cell) || (rest === cell) ) {
+                    return cell;
+                } else if (this.board.has(cell)) {
+                    return `${prev}x${cell}`;
+                } else {
+                    return `${prev}-${cell}`;
+                }
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
         }
     }
 

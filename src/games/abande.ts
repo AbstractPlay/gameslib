@@ -214,26 +214,39 @@ export class AbandeGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    // Will need to be made aware of the different board types
     public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+        return this.graph.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
-        }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = this.graph.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = this.graph.coords2algebraic(x, y);
+            }
+            if (move.length > 0) {
+                if (move.includes("-")) {
+                    return cell;
+                }
+                const [xPrev, yPrev] = this.graph.algebraic2coords(move);
+                if (Math.max(Math.abs(x - xPrev), Math.abs(y - yPrev)) === 1) {
+                    return `${move}-${cell}`;
+                } else {
+                    return cell;
+                }
+            } else {
+                return cell;
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
         }
     }
 

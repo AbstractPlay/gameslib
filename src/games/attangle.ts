@@ -192,26 +192,49 @@ export class AttangleGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    // Will need to be made aware of the different board types
     public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+        return this.graph.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
-        }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = this.graph.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = this.graph.coords2algebraic(x, y);
+            }
+            // If you click on an empty cell, that overrides everything
+            if (! this.board.has(cell)) {
+                return cell;
+            }
+            if (move.length > 0) {
+                const [one, two, target] = move.split(/[,-]/);
+                // If you've clicked on an empty cell and are now clicking on an existing one, start fresh
+                if ( (one !== undefined) && (! this.board.has(one)) ) {
+                    return cell;
+                // If the existing cell has a piece, then compose
+                } else if ( (one !== undefined) && (this.board.has(one)) && (two === undefined) && (this.board.has(cell)) ) {
+                    return `${one},${cell}`;
+                // If you have two existing pieces and are clicking on a third, compose
+                } else if ( (one !== undefined) && (this.board.has(one)) && (two !== undefined) && (this.board.has(two)) && (this.board.has(cell)) ) {
+                    return `${one},${two}-${cell}`;
+                } else if ( (target !== undefined) && (this.board.has(cell)) ) {
+                    return `${one},${two}-${cell}`;
+                } else {
+                    return move;
+                }
+            } else {
+                return cell;
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
         }
     }
 

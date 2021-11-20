@@ -165,18 +165,49 @@ export class BreakthroughGame extends GameBase {
             return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
-        }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = BreakthroughGame.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = BreakthroughGame.coords2algebraic(x, y);
+            }
+            if (move.length > 0) {
+                if ( (this.variants.includes("bombardment")) && (move === cell) ) {
+                    return `x${cell}`;
+                } else if (move.startsWith("x")) {
+                    return cell;
+                }
+                let prev = move;
+                if (move.includes("-")) {
+                    prev = move.split("-")[0];
+                }
+                const [xPrev, yPrev] = BreakthroughGame.algebraic2coords(prev);
+                if (Math.max(Math.abs(x - xPrev), Math.abs(y - yPrev)) === 1) {
+                    if (this.board.has(cell)) {
+                        return `${prev}x${cell}`;
+                    } else {
+                        return `${prev}-${cell}`;
+                    }
+                } else if (this.board.has(cell)) {
+                    return cell;
+                } else {
+                    return "";
+                }
+            } else if (this.board.has(cell)) {
+                return cell;
+            } else {
+                return "";
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
         }
     }
 

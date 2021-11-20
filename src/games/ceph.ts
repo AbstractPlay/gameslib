@@ -176,24 +176,43 @@ export class CephalopodGame extends GameBase {
 
     // Will need to be made aware of the different board types
     public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+        return this.graph.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
-        }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = this.graph.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = this.graph.coords2algebraic(x, y);
+            }
+            if (move === "") {
+                if (this.board.has(cell)) {
+                    return "";
+                } else {
+                    return cell;
+                }
+            } else {
+                // Reset entire move by clicking on empty cell
+                if (! this.board.has(cell)) {
+                    return cell;
+                }
+                const [prev, rest] = move.split("=");
+                if (rest === undefined) {
+                    return `${prev}=${cell}`;
+                } else {
+                    return `${prev}=${rest}+${cell}`;
+                }
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
         }
     }
 

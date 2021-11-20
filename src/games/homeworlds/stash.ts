@@ -55,7 +55,7 @@ export class Stash {
 
     public remove(c: Colour, s: Size): Stash {
         if (this.contents[c][s-1] < 1) {
-            throw new UserFacingError(HWErrors.STASH_EMPTY, i18next.t("apgames:STASH_EMPTY"));
+            throw new UserFacingError(HWErrors.STASH_EMPTY, i18next.t("apgames:homeworlds.STASH_EMPTY"));
         }
         this.contents[c][s-1]--;
         return this;

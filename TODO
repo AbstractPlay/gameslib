@@ -1,6 +1,7 @@
 ✔ Should there be a "results" variable to report in localized language what changed in the game state? @done(21-11-07 08:52)
 - The AI appears to be broken at even plies, and does not always do what is expected. Need to evaluate whether this is the fault of the library, the game code, or some combination of both.
 - It's also possible to have the API server generate the reports and just request specific pieces of information from game code. Because I'm the one working on the game and RecRanks code and not the API server, I put the code here. Reconsider in the future.
+- Make game descriptions translatable. We could remove the embedded heading and just leave the styling to the front end. Just have the blurb, all on one line or with encoded newlines, and only basic Markdown?
 
 - Blam!: Implement variant "Overloaded"
 - Entropy: Player-specific rendering
@@ -8,4 +9,4 @@
 
 - List of SDG games still to migrate: acity, archimedes, complica, fanorona, focus, frames, garden, mirador, phutball, qy, realm, reaper, scribe, soccer, strings, wyke. This is based on looking at games in the top quartile of "most played of all time," games played recently, and game ratings by players. Grand total is 34 games (18 already coded, 16 in the queue). Nothing is guaranteed. A nomination process will be instituted at some point.
 
-- Click handling still to do: Accasta, Chase
+- Click handling to revisit: Accasta, Chase

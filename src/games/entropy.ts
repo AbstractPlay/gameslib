@@ -166,16 +166,17 @@ export class EntropyGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        // TBD
-        return "";
+        return String.fromCharCode(97 + col) + (7 - row).toString();
     }
 
     public clicked(move: string, coord: string): string {
-        // TBD
-        return "";
+        if (move.length > 0 && move.length < 5)
+            return move + '-' + coord;
+        else
+            return coord;
     }
 
-    public move(m: string): EntropyGame {
+    public move(m: string, partial: boolean = false): EntropyGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -184,7 +185,7 @@ export class EntropyGame extends GameBase {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
-            if (! this.moves((i + 1) as playerid).includes(moves[i])) {
+            if (! ((partial && moves[i] === '') || this.moves((i + 1) as playerid).includes(moves[i]))) {
                 throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
             }
         }
@@ -209,7 +210,7 @@ export class EntropyGame extends GameBase {
                 myboard[i].set(to, piece);
                 myboard[i].delete(from);
                 this.results.push({type: "move", from, to});
-            } else {
+            } else if (! (partial && moves[i] === '')) {
                 if (next === undefined) {
                     throw new Error("Could not find a piece to place.");
                 }
@@ -219,16 +220,18 @@ export class EntropyGame extends GameBase {
             }
         }
 
-        if (this.phase === "chaos") {
-            this.phase = "order";
-        } else {
-            this.phase = "chaos";
-        }
-        // shuffle bag after placing
-        this.bag = shuffle(this.bag);
+        if (! partial) {
+            if (this.phase === "chaos") {
+                this.phase = "order";
+            } else {
+                this.phase = "chaos";
+            }
+            // shuffle bag after placing
+            this.bag = shuffle(this.bag);
 
-        this.checkEOG();
-        this.saveState();
+            this.checkEOG();
+            this.saveState();
+        }
         return this;
     }
 
@@ -438,7 +441,7 @@ export class EntropyGame extends GameBase {
             rep.annotations = [];
             for (let i = 0; i < 2; i++) {
                 const move = this.lastmove[i];
-                if (move !== "pass") {
+                if (move !== "pass" && move !== '') {
                     if (move.includes("-")) {
                         const [from, to] = move.split("-");
                         // tslint:disable-next-line: prefer-const

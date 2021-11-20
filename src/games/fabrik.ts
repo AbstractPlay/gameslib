@@ -185,24 +185,46 @@ export class FabrikGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+        return FabrikGame.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
-        }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = FabrikGame.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = FabrikGame.coords2algebraic(x, y);
+            }
+            if ( (this.board.has(cell)) && (this.board.get(cell)!.toString().length === 2) ) {
+                return cell;
+            } else if (this.board.has(cell)) {
+                return "";
+            }
+            if (move === "") {
+                if (this.board.size < 2) {
+                    return cell;
+                } else {
+                    return "";
+                }
+            } else {
+                const [prev,rest] = move.split(/[-,]/);
+                if ( (prev !== undefined) && (this.board.has(prev)) && (rest === undefined) ) {
+                    return `${prev}-${cell}`;
+                } else if ( (prev !== undefined) && (this.board.has(prev)) && (rest !== undefined) && (! this.board.has(rest)) ) {
+                    return `${prev}-${rest},${cell}`
+                } else {
+                    return move;
+                }
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
         }
     }
 

@@ -239,24 +239,43 @@ export class EpamGame extends GameBase {
     }
 
     public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+        return EpamGame.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
-        }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+    public clicked(move: string, coord: string | [number, number]): string {
+        try {
+            let x: number | undefined;
+            let y: number | undefined;
+            let cell: string | undefined;
+            if (typeof coord === "string") {
+                cell = coord;
+                [x, y] = EpamGame.algebraic2coords(cell);
+            } else {
+                [x, y] = coord;
+                cell = EpamGame.coords2algebraic(x, y);
+            }
+            if (move === "") {
+                if (this.board.has(cell)) {
+                    return cell;
+                } else if ( (this.variants.includes("stones")) && (this.stones.length < 3) ) {
+                    return cell;
+                } else {
+                    return "";
+                }
+            } else {
+                const [prev,rest] = move.split(/[-x]/);
+                if ( (cell === prev) || (cell === rest) ) {
+                    return cell;
+                } else if (this.board.has(cell)) {
+                    return `${prev}x${cell}`;
+                } else {
+                    return `${prev}-${cell}`;
+                }
+            }
+        } catch {
+            // tslint:disable-next-line: no-console
+            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
+            return move;
         }
     }
 

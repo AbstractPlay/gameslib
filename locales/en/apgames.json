@@ -51,10 +51,12 @@
     "validation": {
         "_general": {
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
+            "EMPTYSTRING": "No input provided to validate.",
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
             "NONEXISTENT": "Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
+            "UNCONTROLLED": "You cannot move pieces you don't control.",
             "VALID_MOVE": "Looks like a valid move."
         },
         "abande": {
@@ -63,11 +65,17 @@
             "INVALIDPASS": "You cannot pass while you have pieces in hand.",
             "MOVE2CONTROLLED": "You cannot capture your own stacks.",
             "MOVE2EMPTY": "You cannot move to empty spaces.",
-            "PARTIAL": "It's possible you're trying to move a stack. Click on the destination.",
+            "PARTIAL": "It's possible you're trying to move a stack. Provide the destination.",
             "TOOEARLY": "You cannot move until the second player has placed two pieces.",
             "TOOHIGH": "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
-            "TRIPLESTACK": "You cannot move triple stacks.",
-            "UNCONTROLLED": "You cannot move stacks you don't control."
+            "TRIPLESTACK": "You cannot move triple stacks."
+        },
+        "amazons": {
+            "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
+            "OCCUPIED": "The cell {{where}} is already occupied.",
+            "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
+            "POTENTIAL_MOVE": "So far so good. Provide the space you want to move to.",
+            "STRAIGHTLINE": "You can only move and block in straight lines."
         }
     },
     "volcano": {

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -212,94 +212,166 @@ export class AmazonsGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return AmazonsGame.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = AmazonsGame.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = AmazonsGame.coords2algebraic(x, y);
-            }
+            let newmove = "";
+            const cell = AmazonsGame.coords2algebraic(col, row);
             if (this.board.has(cell)) {
-                return cell;
+                newmove = cell;
             }
             if (move.length > 0) {
-                const [from, to, block] = move.split(/[-\/]/);
+                const [from, to,] = move.split(/[-\/]/);
                 if ( (from !== undefined) && (to === undefined) ) {
-                    return `${from}-${cell}`;
+                    newmove = `${from}-${cell}`;
                 } else if ( (from !== undefined) && (to !== undefined) ) {
-                    return `${from}-${to}/${cell}`;
-                } else if ( (block !== undefined) && (this.board.has(cell)) ) {
-                    return cell;
+                    newmove = `${from}-${to}/${cell}`;
                 } else {
-                    return move;
+                    newmove = move;
                 }
-            } else {
-                return "";
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            if (newmove.length > 0) {
+                const result = this.validateMove(newmove) as IClickResult;
+                if ( (result.state === undefined) || (result.state === -1) ) {
+                    result.move = "";
+                } else {
+                    result.move = newmove;
+                }
+                return result;
+            } else {
+                return {move: "", message: ""} as IClickResult;
+            }
+        } catch (e) {
+            return {
+                move,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
+            }
         }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        if (m.length === 0) {
+            result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
+            return result;
+        }
+        const [from, to, block] = m.split(/[-\/]/);
+        // validate coordinates
+        for (const cell of [from, to, block]) {
+            if (cell !== undefined) {
+                try {
+                    AmazonsGame.algebraic2coords(cell);
+                } catch {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                    return result
+                }
+            }
+        }
+        if (from !== undefined) {
+            // trying to move a nonexistent piece
+            if (! this.board.has(from)) {
+                result.state = -1;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result
+            }
+            // trying to move a piece you don't own
+            if (this.board.get(from)! !== this.currplayer) {
+                result.state = -1;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result
+            }
+            // possible start of a move
+            if (to === undefined) {
+                result.state = 0;
+                result.message = i18next.t("apgames:validation.amazons.POTENTIAL_MOVE");
+                return result
+            }
+        }
+
+        const grid = new RectGrid(10, 10);
+        if (to !== undefined) {
+            const [xFrom, yFrom] = AmazonsGame.algebraic2coords(from);
+            const [xTo, yTo] = AmazonsGame.algebraic2coords(to);
+            // destination is empty
+            if (this.board.has(to)) {
+                result.state = -1;
+                result.message = i18next.t("apgames:validation.amazons.OCCUPIED", {where: to});
+                return result;
+            }
+            // destination is in a straight line
+            // `dir` can't be undefined because we already checked the destination is empty
+            const dir = RectGrid.bearing(xFrom, yFrom, xTo, yTo)!;
+            const ray = grid.ray(xFrom, yFrom, dir).map(pt => AmazonsGame.coords2algebraic(...pt));
+            if (! ray.includes(to)) {
+                result.state = -1;
+                result.message = i18next.t("apgames:validation.amazons.STRAIGHTLINE");
+                return result;
+            }
+            // nothing in the way
+            for (const cell of ray) {
+                if (cell === to) { break; }
+                if (this.board.has(cell)) {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation.amazons.OBSTRUCTED", {from, to, obstruction: cell});
+                    return result;
+                }
+            }
+            // possible partial
+            if (block === undefined) {
+                result.state = 0;
+                result.message = i18next.t("apgames:validation.amazons.POTENTIAL_BLOCK");
+                return result
+            }
+        }
+
+        if (block !== undefined) {
+            const [xTo, yTo] = AmazonsGame.algebraic2coords(to);
+            const [xBlock, yBlock] = AmazonsGame.algebraic2coords(block);
+            // destination is empty, unless you're blocking your starting space
+            if ( (this.board.has(block)) && (block !== from) ) {
+                result.state = -1;
+                result.message = i18next.t("apgames:validation.amazons.OCCUPIED", {where: block});
+                return result;
+            }
+            // destination is in a straight line
+            // `dir` can't be undefined because we already checked the destination is empty
+            const dir = RectGrid.bearing(xTo, yTo, xBlock, yBlock)!;
+            const ray = grid.ray(xTo, yTo, dir).map(pt => AmazonsGame.coords2algebraic(...pt));
+            if (! ray.includes(block)) {
+                result.state = -1;
+                result.message = i18next.t("apgames:validation.amazons.STRAIGHTLINE");
+                return result;
+            }
+            // nothing in the way, except potentially the moving piece
+            for (const cell of ray) {
+                if (cell === block) { break; }
+                if ( (this.board.has(cell)) && (cell !== from) ) {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation.amazons.OBSTRUCTED", {from, to, obstruction: cell});
+                    return result;
+                }
+            }
+
+            // looks good
+            result.state = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result
+        }
+
+        return result;
     }
 
     public move(m: string): AmazonsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        // Validate manually should be faster than generating a list of moves every time
-        const moves = this.moves();
-        if (! moves.includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        const validation = this.validateMove(m);
+        if ( (validation.state === undefined) || (validation.state < 1) ) {
+            throw new UserFacingError("VALIDATION_GENERAL", validation.message)
         }
-
-        // Manual move validation
-        // // Well formed
-        // if (! /^[a-j][0-9]+\-[a-j][0-9]+\/[a-j][0-9]+$/.test(m)) {
-        //     throw new Error(`Invalid move: ${m}. Move should be <from>-<to>/<block>.`);
-        // }
-        // const cells: string[] = m.split(new RegExp('[\-\/]'));
-
-        // // The starting pieces exists and is yours
-        // if (! this.board.has(cells[0])) {
-        //     throw new Error(`Invalid move: ${m}. There is no piece at ${cells[0]}.`);
-        // }
-        // const piece = this.board.get(cells[0]);
-        // if (piece !== this.currplayer) {
-        //     throw new Error(`Invalid move: ${m}. The piece at ${cells[0]} is not yours.`);
-        // }
-
-        // // The ending and block space are unoccupied (unless you're blocking your starting space)
-        // if (this.board.has(cells[1])) {
-        //     throw new Error(`Invalid move: ${m}. You can't move to ${cells[1]}, there is already a piece there.`);
-        // }
-        // if ( (this.board.has(cells[2])) && (cells[2] !== cells[0]) ) {
-        //     throw new Error(`Invalid move: ${m}. You can not block ${cells[2]}, it is already occupied.`);
-        // }
-
-        // // Get list of cells between each terminal and make sure they are empty
-        // const from = AmazonsGame.algebraic2coords(cells[0]);
-        // const to = AmazonsGame.algebraic2coords(cells[1]);
-        // const block = AmazonsGame.algebraic2coords(cells[2]);
-        // if ((! RectGrid.isOrth(...from, ...to)) && (! RectGrid.isDiag(...from, ...to)))
-        //     throw new Error(`Invalid move: ${m}. ${cells[1]} isn't on an orthogonal or diagonal line from ${cells[0]}.`)
-        // if ((! RectGrid.isOrth(...to, ...block)) && (! RectGrid.isDiag(...to, ...block)))
-        //     throw new Error(`Invalid move: ${m}. ${cells[2]} isn't on an orthogonal or diagonal line from ${cells[1]}.`)
-        // const between = [...RectGrid.between(...from, ...to), ...RectGrid.between(...to, ...block)];
-        // for (const pt of between) {
-        //     if ( (this.board.has(AmazonsGame.coords2algebraic(...pt))) && (AmazonsGame.coords2algebraic(...pt) !== cells[0]) ) {
-        //         throw new Error(`Invalid move: ${m}. You can't move or shoot through other pieces or blocks.`);
-        //     }
-        // }
 
         // Move valid, so change the state
         const cells: string[] = m.split(new RegExp('[\-\/]'));

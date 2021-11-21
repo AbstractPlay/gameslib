@@ -1,92 +1,92 @@
 {
     "BLOCK": {
-        "between": ""
+        "between": "[FR]{{player}} erected a fence between {{cell1}} and {{cell2}}."
     },
     "CAPTURE": {
-        "complete": "[FR{{player}} captured a {{what}} at {{where}}.",
-        "minimal": "",
-        "multiple_one": "",
+        "complete": "[FR]{{player}} captured a {{what}} at {{where}}.",
+        "minimal": "[FR]A piece was captured.",
+        "multiple_one": "[FR]A piece was captured.",
         "multiple_many": "",
-        "multiple_other": "",
+        "multiple_other": "[FR]{{count}} pieces were captured.",
         "noperson": {
-            "multiple": "[FRThe following pieces were captured: {{capped}}.",
-            "nowhere": "[FRA {{what}} was captured.",
-            "simple": ""
+            "multiple": "[FR]The following pieces were captured: {{capped}}.",
+            "nowhere": "[FR]A {{what}} was captured.",
+            "simple": "[FR]A {{what}} was captured at {{where}}."
         },
-        "nowhat": "[FR{{player}} captured a piece at {{where}}."
+        "nowhat": "[FR]{{player}} captured a piece at {{where}}."
     },
     "CONVERT": {
-        "complete": "[FR{{player}} turned a {{what}} into a {{into}} at {{where}}."
+        "complete": "[FR]{{player}} turned a {{what}} into a {{into}} at {{where}}."
     },
     "DESTROY": {
         "enemy": {
-            "minimal_one": "",
+            "minimal_one": "[FR]{{count}} enemy piece was destroyed.",
             "minimal_many": "",
-            "minimal_other": ""
+            "minimal_other": "[FR]{{count}} enemy pieces were destroyed."
         },
         "friendly": {
-            "minimal_one": "",
+            "minimal_one": "[FR]{{count}} friendly piece was destroyed.",
             "minimal_many": "",
-            "minimal_other": ""
+            "minimal_other": "[FR]{{count}} friendly pieces were destroyed."
         }
     },
     "DETONATE": {
-        "nowhat": ""
+        "nowhat": "[FR]{{player}} detonated a piece at {{where}}."
     },
-    "EOG": "[FRThe game has ended.",
-    "ERUPTIONS": "[FRThe following pieces erupted: {{eruptions}}.",
+    "EOG": "[FR]The game has ended.",
+    "ERUPTIONS": "[FR]The following pieces erupted: {{eruptions}}.",
     "homeworlds": {
-        "BUILD": "[FR{{player}} build a {{what}} in the {{where}} system.",
-        "CAPTURE": "[FR{{player}} captured a {{what}} in the {{where}} system.",
-        "CATASTROPHE": "[FRAn overpopulation of {{colour}} led to a catastrophe in {{where}}.",
-        "CONVERT": "[FR{{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
-        "DISCOVER": "[FR{{player}} discovered a new {{what}} system and named it {{name}}.",
-        "ESTABLISH": "[FRA {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
-        "MOVE": "[FR{{player}} flew their {{what}} from {{from}} to {{to}}.",
-        "PASS": "[FR{{player}} passed an action.",
-        "SACRIFICE": "[FR{{player}} sacrificed a {{what}} in the {{where}} system."
+        "BUILD": "[FR]{{player}} build a {{what}} in the {{where}} system.",
+        "CAPTURE": "[FR]{{player}} captured a {{what}} in the {{where}} system.",
+        "CATASTROPHE": "[FR]An overpopulation of {{colour}} led to a catastrophe in {{where}}.",
+        "CONVERT": "[FR]{{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
+        "DISCOVER": "[FR]{{player}} discovered a new {{what}} system and named it {{name}}.",
+        "ESTABLISH": "[FR]A {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
+        "MOVE": "[FR]{{player}} flew their {{what}} from {{from}} to {{to}}.",
+        "PASS": "[FR]{{player}} passed an action.",
+        "SACRIFICE": "[FR]{{player}} sacrificed a {{what}} in the {{where}} system."
     },
     "MOVE": {
-        "amazons": "[FR{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
-        "chase": "[FR{{player}} moved from {{from}} to {{to}} (through {{through}}).",
-        "complete": "[FR{{player}} moved a {{what}} from {{from}} to {{to}}.",
-        "multiple": "[FR{{player}} made the following moves: {{moves}}.",
-        "nowhat": "[FR{{player}} moved from {{from}} to {{to}}.",
-        "push": "[FRA {{what}} was pushed from {{from}} to {{to}}."
+        "amazons": "[FR]{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        "chase": "[FR]{{player}} moved from {{from}} to {{to}} (through {{through}}).",
+        "complete": "[FR]{{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "multiple": "[FR]{{player}} made the following moves: {{moves}}.",
+        "nowhat": "[FR]{{player}} moved from {{from}} to {{to}}.",
+        "push": "[FR]A {{what}} was pushed from {{from}} to {{to}}."
     },
     "ORIENT": {
-        "nowhat": ""
+        "nowhat": "[FR]{{player}} turned a piece at {{where}} to face {{facing}}."
     },
     "PASS": {
-        "entropy": "[FR{{player}} chose not to move any pieces this turn.",
-        "simple": "[FR{{player}} passed."
+        "entropy": "[FR]{{player}} chose not to move any pieces this turn.",
+        "simple": "[FR]{{player}} passed."
     },
     "PLACE": {
-        "cannon": "[FR{{player}} placed their town at {{where}}.",
-        "chase": "[FRThe chamber spit out a {{what}} at {{where}}.",
-        "complete": "[FR{{player}} placed a {{what}} at {{where}}.",
-        "mine": "",
-        "nowhat": "",
-        "theirs": "",
+        "cannon": "[FR]{{player}} placed their town at {{where}}.",
+        "chase": "[FR]The chamber spit out a {{what}} at {{where}}.",
+        "complete": "[FR]{{player}} placed a {{what}} at {{where}}.",
+        "mine": "[FR]{{player}} placed one of their own pieces at {{where}}.",
+        "nowhat": "[FR]{{player}} placed a piece at {{where}}.",
+        "theirs": "[FR]{{player}} placed an enemy piece at {{where}}.",
         "urbino": {
-            "house": "",
-            "palace": "",
-            "tower": "",
-            "worker": ""
+            "house": "[FR]{{player}} placed a house at {{where}}.",
+            "palace": "[FR]{{player}} placed a palace at {{where}}.",
+            "tower": "[FR]{{player}} placed a tower at {{where}}.",
+            "worker": "[FR]{{player}} placed an architect at {{where}}."
         }
     },
     "PROMOTE": {
-        "mchess": "[FRA {{into}} was created as a result."
+        "mchess": "[FR]A {{into}} was created as a result."
     },
     "RECLAIM": {
-        "noperson": "[FRA {{what}} was reclaimed."
+        "noperson": "[FR]A {{what}} was reclaimed."
     },
-    "RESIGN": "[FR{{player}} has resigned.",
-    "SCORE_REPORT": "[FR{{player}}'s score is now {{score}}.",
+    "RESIGN": "[FR]{{player}} has resigned.",
+    "SCORE_REPORT": "[FR]{{player}}'s score is now {{score}}.",
     "TAKE": {
-        "chase": "[FRA {{what}} was fed to the chamber."
+        "chase": "[FR]A {{what}} was fed to the chamber."
     },
-    "WINNERS_one": "[FRThe following player won: {{winners}}.",
+    "WINNERS_one": "[FR]The following player won: {{winners}}.",
     "WINNERS_many": "",
-    "WINNERS_other": "[FRThe following players won: {{winners}}."
+    "WINNERS_other": "[FR]The following players won: {{winners}}."
 }

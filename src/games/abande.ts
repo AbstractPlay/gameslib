@@ -275,7 +275,7 @@ export class AbandeGame extends GameBase {
                 // stack you don't control
                 if (contents[contents.length - 1] !== this.currplayer) {
                     result.state = -1;
-                    result.message = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED", {where: m});
                     return result;
                 }
                 // triple stack
@@ -345,7 +345,7 @@ export class AbandeGame extends GameBase {
             const fContents = this.board.get(from)!;
             if (fContents[fContents.length - 1] !== this.currplayer) {
                 result.state = -1;
-                result.message = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", {where: m});
                 return result;
             }
             // tried to move to an empty space

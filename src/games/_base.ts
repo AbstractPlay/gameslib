@@ -56,8 +56,7 @@ export interface IAPGameState {
  */
  export interface IValidationResult {
     state?: -1|0|1;
-    error?: string;
-    message?: string;
+    message: string;
 }
 
 /**
@@ -142,14 +141,14 @@ export abstract class GameBase  {
         return {
             move,
             state: -1,
-            error: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
+            message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
         };
     }
 
     public validateMove(move: string): IValidationResult {
         return {
             state: -1,
-            error: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
+            message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
         };
     }
 

@@ -54,11 +54,13 @@
             "GENERIC": "",
             "INVALIDCELL": "",
             "NONEXISTENT": "",
-            "NOPIECES": ""
+            "NOPIECES": "",
+            "VALID_MOVE": ""
         },
         "abande": {
             "DISCONNECTEDMOVE": "",
             "DISCONNECTEDPLACE": "",
+            "INVALIDPASS": "",
             "MOVE2CONTROLLED": "",
             "MOVE2EMPTY": "",
             "PARTIAL": "",

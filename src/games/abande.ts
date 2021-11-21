@@ -242,20 +242,31 @@ export class AbandeGame extends GameBase {
         } catch (e) {
             return {
                 move,
-                error: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
             }
         }
     }
 
     public validateMove(m: string): IValidationResult {
-        const result: IValidationResult = {};
+        const result: IValidationResult = {message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const allcells = this.graph.listCells() as string[];
-        // Placements first
-        if (! m.includes("-")) {
+        // Pass first
+        if (m === "pass") {
+            // can only pass if you have no pieces in hand
+            if (this.pieces[this.currplayer - 1] > 0) {
+                result.state = -1;
+                result.message = i18next.t("apgames:validation.abande.INVALIDPASS");
+                return result;
+            }
+            result.state = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        // Then placements
+        } else if (! m.includes("-")) {
             // Invalid cell
             if (! allcells.includes(m)) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
                 return result;
             }
             // Already occupied
@@ -264,19 +275,19 @@ export class AbandeGame extends GameBase {
                 // stack you don't control
                 if (contents[contents.length - 1] !== this.currplayer) {
                     result.state = -1;
-                    result.error = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
+                    result.message = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
                     return result;
                 }
                 // triple stack
                 if (contents.length === 3) {
                     result.state = -1;
-                    result.error = i18next.t("apgames:validation.abande.TRIPLESTACK", {where: m});
+                    result.message = i18next.t("apgames:validation.abande.TRIPLESTACK", {where: m});
                     return result;
                 }
                 // too early
                 if (this.pieces[1] > 16) {
                     result.state = -1;
-                    result.error = i18next.t("apgames:validation.abande.TOOEARLY");
+                    result.message = i18next.t("apgames:validation.abande.TOOEARLY");
                     return result;
                 }
                 // possible success
@@ -287,7 +298,7 @@ export class AbandeGame extends GameBase {
             // No pieces to place
             if (this.pieces[this.currplayer - 1] < 1) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation._general.NOPIECES");
+                result.message = i18next.t("apgames:validation._general.NOPIECES");
                 return result;
             }
             // disconnected placement
@@ -302,57 +313,58 @@ export class AbandeGame extends GameBase {
                 }
                 if (! connected) {
                     result.state = -1;
-                    result.error = i18next.t("apgames:validation.abande.DISCONNECTEDPLACE", {where: m});
+                    result.message = i18next.t("apgames:validation.abande.DISCONNECTEDPLACE", {where: m});
                     return result;
                 }
             }
 
             // Apparently successful
             result.state = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         } else {
             const [from, to] = m.split("-");
             // invalid coordinates
             if (! allcells.includes(from)) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
                 return result;
             }
             if (! allcells.includes(to)) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
                 return result;
             }
             // Cell is empty
             if (! this.board.has(from)) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
                 return result;
             }
             // You don't control the moving stack
             const fContents = this.board.get(from)!;
             if (fContents[fContents.length - 1] !== this.currplayer) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
+                result.message = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
                 return result;
             }
             // tried to move to an empty space
             if (! this.board.has(to)) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation.abande.MOVE2EMPTY", {from, to});
+                result.message = i18next.t("apgames:validation.abande.MOVE2EMPTY", {from, to});
                 return result;
             }
             const tContents = this.board.get(to)!;
             // tried to move on top of your own piece
             if (tContents[tContents.length - 1] === this.currplayer) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation.abande.MOVE2CONTROLLED", {from, to});
+                result.message = i18next.t("apgames:validation.abande.MOVE2CONTROLLED", {from, to});
                 return result;
             }
             // tried to move and create a stack that's too high
             if (fContents.length + tContents.length > 3) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation.abande.TOOHIGH", {from, to});
+                result.message = i18next.t("apgames:validation.abande.TOOHIGH", {from, to});
                 return result;
             }
             // tried to move in a way that caused disconnection
@@ -360,18 +372,19 @@ export class AbandeGame extends GameBase {
             cloned.board.delete(from);
             if (! cloned.isConnected()) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation.abande.DISCONNECTEDMOVE", {from, to});
+                result.message = i18next.t("apgames:validation.abande.DISCONNECTEDMOVE", {from, to});
                 return result;
             }
             // You can't move until the first player has placed two stones
             if (this.pieces[1] > 16) {
                 result.state = -1;
-                result.error = i18next.t("apgames:validation.abande.TOOEARLY");
+                result.message = i18next.t("apgames:validation.abande.TOOEARLY");
                 return result;
             }
 
             // Apparently successful
             result.state = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
     }
@@ -382,8 +395,10 @@ export class AbandeGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+
+        const validation = this.validateMove(m);
+        if ( (validation.state === undefined) || (validation.state < 1) ) {
+            throw new UserFacingError("VALIDATION_GENERAL", validation.message)
         }
 
         this.results = [];

@@ -54,11 +54,13 @@
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
             "NONEXISTENT": "Trying to move a piece or stack that doesn't exist at {{where}}.",
-            "NOPIECES": "You have no pieces to place."
+            "NOPIECES": "You have no pieces to place.",
+            "VALID_MOVE": "Looks like a valid move."
         },
         "abande": {
             "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
             "DISCONNECTEDPLACE": "Placing a piece at {{where}} would disconnect the band.",
+            "INVALIDPASS": "You cannot pass while you have pieces in hand.",
             "MOVE2CONTROLLED": "You cannot capture your own stacks.",
             "MOVE2EMPTY": "You cannot move to empty spaces.",
             "PARTIAL": "It's possible you're trying to move a stack. Click on the destination.",

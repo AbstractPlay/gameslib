@@ -20,16 +20,11 @@
                 var movebox = document.getElementById("moveEntry");
                 var result = game.handleClick(movebox.value, row, col);
                 movebox.value = result.move;
-                var resultStr = "";
-                if (result.state !== undefined) {
-                    resultStr += '<p>Status code: ' + result.state + '</p>';
+                var colour = "#f00";
+                if ( (result.state !== undefined) && (result.state >= 0) ) {
+                    colour = "#0f0";
                 }
-                if (result.error !== undefined) {
-                    resultStr += '<p>Error message: ' + result.error + '</p>';
-                }
-                if (result.message !== undefined) {
-                    resultStr += '<p>Status message: ' + result.message + '</p>';
-                }
+                var resultStr = '<p style="color: '+ colour +'">' + result.message + '</p>';
                 var statusbox = document.getElementById("clickstatus");
                 statusbox.innerHTML = resultStr;
             }
@@ -214,7 +209,9 @@
                             game.move(movebox.value);
                         } catch (err) {
                             if (err.name === "UserFacingError") {
-                                alert (err.client);
+                                var resultStr = '<p style="color: #f00">ERROR: ' + err.client + '</p>';
+                                var statusbox = document.getElementById("clickstatus");
+                                statusbox.innerHTML = resultStr;
                             } else {
                                 alert("An error occurred: " + err.message);
                             }
@@ -241,7 +238,9 @@
                             game.move(move);
                         } catch (err) {
                             if (err.name === "UserFacingError") {
-                                alert (err.client);
+                                var resultStr = '<p style="color: #f00">ERROR: ' + err.client + '</p>';
+                                var statusbox = document.getElementById("clickstatus");
+                                statusbox.innerHTML = resultStr;
                             } else {
                                 alert("An error occurred: " + err.message);
                             }

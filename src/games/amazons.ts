@@ -43,7 +43,8 @@ export class AmazonsGame extends GameBase {
                 type: "designer",
                 name: "Walter Zamkauskas"
             }
-        ]
+        ],
+        flags: ["multistep"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);
@@ -285,6 +286,7 @@ export class AmazonsGame extends GameBase {
             if (to === undefined) {
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = false;
                 result.message = i18next.t("apgames:validation.amazons.POTENTIAL_MOVE");
                 return result
             }
@@ -322,6 +324,7 @@ export class AmazonsGame extends GameBase {
             if (block === undefined) {
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.amazons.POTENTIAL_BLOCK");
                 return result
             }
@@ -365,7 +368,9 @@ export class AmazonsGame extends GameBase {
         return result;
     }
 
-    public move(m: string): AmazonsGame {
+    // The `partial` flag leaves the game object in an invalid state
+    // Only use on a cloned object, or call `load()` before processing the final move
+    public move(m: string, partial: boolean = false): AmazonsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -377,12 +382,31 @@ export class AmazonsGame extends GameBase {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
 
+        if (partial) {
+            if ( (result.complete !== undefined) && (result.complete >= 0) ) {
+                const [f, t, b] = m.split(/[-\/]/);
+                if ( (f === undefined) || (t === undefined) ) {
+                    throw new Error(`The move '${m}' is not a valid partial.`)
+                }
+                this.board.delete(f);
+                this.board.set(t, this.currplayer);
+                this.results = [{type: "move", from: f, to: t}];
+                if (b !== undefined) {
+                    this.board.set(b, 0);
+                    this.results.push({type: "block", where: b})
+                }
+            } else {
+                throw new Error(`The move '${m}' is not a valid partial.`)
+            }
+            return this;
+        }
+
         // Move valid, so change the state
-        const cells: string[] = m.split(new RegExp('[\-\/]'));
-        this.board.delete(cells[0]);
-        this.board.set(cells[1], this.currplayer);
-        this.board.set(cells[2], 0);
-        this.graph.dropNode(cells[2]);
+        const [from, to, block] = m.split(/[-\/]/);
+        this.board.delete(from);
+        this.board.set(to, this.currplayer);
+        this.board.set(block, 0);
+        this.graph.dropNode(block);
         this.lastmove = m;
         if (this.currplayer === 1) {
             this.currplayer = 2;
@@ -391,8 +415,8 @@ export class AmazonsGame extends GameBase {
         }
         // Assign results, don't add to them
         this.results = [
-            {type: "move", from: cells[0], to: cells[1]},
-            {type: "block", where: cells[2]}
+            {type: "move", from, to},
+            {type: "block", where: block}
         ];
 
         this.checkEOG();

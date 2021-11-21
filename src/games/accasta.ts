@@ -549,6 +549,13 @@ export class AccastaGame extends GameBase {
         }
 
         this.results = [];
+
+        if (partial) {
+            if ( (result.complete === undefined) || (result.complete < 0) || ( (result.canrender !== undefined) && (result.canrender === false) ) ) {
+                throw new Error(`The move '${m}' is not a valid partial.`)
+            }
+        }
+
         const [cell, moves] = m.split(":");
         const steps = moves.split(",");
         for (const step of steps) {
@@ -578,6 +585,8 @@ export class AccastaGame extends GameBase {
             }
             this.results.push({type: "move", from: cell, to: destination});
         }
+
+        if (partial) { return this; }
 
         // update currplayer
         this.lastmove = m;

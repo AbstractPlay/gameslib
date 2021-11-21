@@ -1,10 +1,10 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-import { IGraph, HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs";
 // tslint:disable-next-line: no-var-requires
 const deepclone = require("rfdc/default");
 
@@ -53,13 +53,14 @@ export class AccastaGame extends GameBase {
                 description: "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
             },
         ],
+        flags: ["multistep"]
     };
 
     public numplayers: number = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents[]>;
     public lastmove?: string;
-    public graph: IGraph = new HexTriGraph(4, 7);
+    public graph: HexTriGraph = new HexTriGraph(4, 7);
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -250,37 +251,301 @@ export class AccastaGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    // Will need to be made aware of the different board types
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    public handleClick(move: string, row: number, col: number, piece: string): IClickResult {
+        try {
+            const cell = this.graph.coords2algebraic(col, row);
+            const index = parseInt(piece, 10);
+            if ( (isNaN(index)) && (this.board.has(cell)) ) {
+                throw new Error("Invalid index passed");
+            }
+            let newmove: string = "";
+            if (move.length === 0) {
+                if (this.board.has(cell)) {
+                    const contents = this.board.get(cell)!;
+                    if (index === 0) {
+                        newmove = `${cell}:`
+                    } else {
+                        const numpieces = contents.length - index;
+                        newmove = `${cell}:${numpieces}`
+                    }
+                } else {
+                    return {move: "", message: ""} as IClickResult;
+                }
+            } else {
+                const [source, moves] = move.split(":");
+                const steps = moves.split(",");
+                const last = steps[steps.length - 1];
+                const lastComplete = ( (last !== undefined) && (/^\d?[-\+]/.test(last)) );
+                if (lastComplete) {
+                    // If they're clicking on the source cell, assume they are selecting a new index
+                    if (cell === source) {
+                        // If the last move used up all the pieces, then this is an error; just return the move
+                        if (/^[-\+]/.test(last)) {
+                            newmove = move;
+                        } else {
+                            // If selecting the rest of the stack, things are simple
+                            if (index === 0) {
+                                newmove = `${move},`;
+                            } else {
+                                // first calculate how many pieces have already been accounted for (no validation, just counting)
+                                let prevcount = 0;
+                                for (const step of steps) {
+                                    const match = step.match(/^(\d+)/);
+                                    if (match !== null) {
+                                        prevcount += parseInt(match[1], 10);
+                                    }
+                                }
+                                const contents = this.board.get(cell)!;
+                                const numpieces = contents.length - index - prevcount;
+                                newmove = `${move},${numpieces}`;
+                            }
+                        }
+                    // If they are clicking on a different cell, start the move over again
+                    } else {
+                        // Set a new source
+                        if (this.board.has(cell)) {
+                            const contents = this.board.get(cell)!;
+                            if (index === 0) {
+                                newmove = `${cell}:`
+                            } else {
+                                const numpieces = contents.length - index;
+                                newmove = `${cell}:${numpieces}`
+                            }
+                        // Or something weird; just preserve the move
+                        } else {
+                            newmove = move;
+                        }
+                    }
+                // The previous step is incomplete
+                } else {
+                    // If you click on the source, assume something was wrong with the previous step and discard it
+                    if (cell === source) {
+                        const newsteps = steps.slice(0, steps.length - 1);
+                        // If selecting the rest of the stack, things are simple
+                        if (index === 0) {
+                            if (newsteps.length === 0) {
+                                newmove = `${source}:`;
+                            } else {
+                                newmove = `${source}:${newsteps.join(",")},`;
+                            }
+                        } else {
+                            // first calculate how many pieces have already been accounted for (no validation, just counting)
+                            let prevcount = 0;
+                            for (const step of newsteps) {
+                                const match = step.match(/^(\d+)/);
+                                if (match !== null) {
+                                    prevcount += parseInt(match[1], 10);
+                                }
+                            }
+                            const contents = this.board.get(cell)!;
+                            const numpieces = contents.length - index - prevcount;
+                            if (newsteps.length === 0) {
+                                newmove = `${source}:${numpieces}`
+                            } else {
+                                newmove = `${source}:${newsteps.join(",")},${numpieces}`
+                            }
+                        }
+                    // otherwise, assume you're trying to move there
+                    } else {
+                        if (this.board.has(cell)) {
+                            newmove = `${move}+${cell}`;
+                        } else {
+                            newmove = `${move}-${cell}`;
+                        }
+                    }
+                }
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = move;
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const allcells = this.graph.listCells() as string[];
+
+        const [source, moves] = m.split(":");
+
+        // source exists
+        if (! allcells.includes(source)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: source});
+            return result
         }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+        // source has pieces
+        if (! this.board.has(source)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: source});
+            return result
         }
+        // source is controlled by player
+        const sourceContents = this.board.get(source)!;
+        if (sourceContents[sourceContents.length - 1][1] !== this.currplayer) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+            return result
+        }
+
+        // If there are no moves, then assume they are moving the entire stack
+        if (moves === undefined) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.accasta.PARTIAL_FULLSTACK");
+            return result;
+        }
+
+        let steps = moves.split(",");
+        const last = steps[steps.length - 1];
+        const lastComplete = ( (last !== undefined) && (/^\d?[-\+]/.test(last)) );
+
+        // If the last move is incomplete, process the rest of the moves first
+        if (! lastComplete) {
+            steps = steps.slice(0, steps.length - 1);
+        }
+
+        // Validate each step along the way
+        let stack: CellContents[] = deepclone(sourceContents);
+        const cloned = this.clone();
+        for (const step of steps) {
+            const [num, destination] = step.split(/[-\+]/);
+            let subsize: number;
+            if (num === undefined) {
+                subsize = stack.length;
+            } else {
+                subsize = parseInt(num, 10);
+            }
+
+            if ( (destination === undefined) || (! allcells.includes(destination)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: destination});
+                return result
+            }
+
+            // does the stack even have pieces at the moment
+            if (stack.length === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.accasta.SOURCE_EMPTY", {move: m, source, step});
+                return result;
+            }
+
+            // do you control the top piece of the stack at this moment?
+            if (stack[stack.length - 1][1] !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+            let maxDistance = distances.get(stack[stack.length - 1][0])!
+            if (cloned.variants.includes("pari")) {
+                maxDistance = stack.filter(p => p[1] === this.currplayer).length;
+            }
+            // unobstructed line of sight
+            let seen = false;
+            let ray: string[] = [];
+            // indiscriminate ray casting because I'm exhausted and don't want to write a `bearing` function for HexTris
+            for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
+                ray = cloned.graph.ray(...this.graph.algebraic2coords(source), dir).map(pt => cloned.graph.coords2algebraic(...pt));
+                if (ray.includes(destination)) {
+                    seen = true;
+                    break;
+                }
+            }
+            if (! seen) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NOLOS", {from: source, to: destination});
+                return result;
+            }
+            const idx = ray.findIndex(s => s === destination);
+            ray = ray.slice(0, idx + 1);
+            for (const cell of ray) {
+                if ( (cloned.board.has(cell)) && (cell !== destination) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: source, to: destination, obstruction: cell});
+                    return result;
+                }
+            }
+            if (ray.length > maxDistance) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.accasta.TOOFAR", {move: m, step});
+                return result;
+            }
+
+            // Update the cloned game state for the next step
+            const substack = [...stack.slice(stack.length - subsize)];
+            if (cloned.board.has(destination)) {
+                const toContents = cloned.board.get(destination)!;
+                if (toContents.length + subsize > 6) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.accasta.TOOHIGH", {move: m, step});
+                    return result;
+                }
+                cloned.board.set(destination, [...toContents, ...substack]);
+            } else {
+                cloned.board.set(destination, [...substack]);
+            }
+            stack = [...stack.slice(0, stack.length - subsize)];
+            if (stack.length === 0) {
+                cloned.board.delete(source);
+            } else {
+                cloned.board.set(source, [...stack])
+            }
+        }
+
+        // If the last move isn't complete, then process it now
+        if (! lastComplete) {
+            if ( (last === undefined) || (last === "") ) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.accasta.PARTIAL_FULLSTACK");
+                return result;
+            } else {
+                const numpieces = parseInt(last, 10);
+                if ( (isNaN(numpieces)) || (numpieces === stack.length) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.accasta.INVALID_SIZE", {move: m, step: last});
+                    return result;
+                }
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.accasta.PARTIAL_SUBSTACK", {count: numpieces});
+                return result;
+            }
+        // Otherwise, we have a valid move at this point
+        } else {
+            result.valid = true;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            // If the stack is empty, or if we don't own the top piece, then we're truly done
+            if ( (stack.length === 0) || (stack[stack.length - 1][1] !== cloned.currplayer) ) {
+                result.complete = 1;
+            // otherwise more moves are possible
+            } else {
+                result.complete = 0;
+                result.canrender = true;
+            }
+        }
+
+        return result;
     }
 
-    public move(m: string): AccastaGame {
+    public move(m: string, partial: boolean = false): AccastaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
 
         this.results = [];
@@ -398,7 +663,7 @@ export class AccastaGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         const pstr: string[][][] = [];
-        const cells = this.graph.listCells(true);
+        const cells = this.graph.listCells(true) as string[][];
         for (const row of cells) {
             const pieces: string[][] = [];
             for (const cell of row) {
@@ -413,12 +678,17 @@ export class AccastaGame extends GameBase {
         }
 
         // Build rep
+        // let offset = 0.13;
+        // if (this.variants.length === 0) {
+        //     offset = 0.2;
+        // }
         const rep: APRenderRep =  {
             renderer: "stacking-offset",
             board: {
                 style: "hex-of-tri",
                 minWidth: 4,
                 maxWidth: 7,
+                stackOffset: 0.2,
                 markers: [
                     {
                         type: "shading",

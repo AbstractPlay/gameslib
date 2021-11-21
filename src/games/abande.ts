@@ -218,7 +218,7 @@ export class AbandeGame extends GameBase {
         return this.graph.coords2algebraic(col, row);
     }
 
-    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.graph.coords2algebraic(col, row);
             let newmove: string = "";
@@ -243,7 +243,7 @@ export class AbandeGame extends GameBase {
             return {
                 move,
                 valid: false,
-                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
             }
         }
     }

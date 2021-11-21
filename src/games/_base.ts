@@ -145,7 +145,7 @@ export abstract class GameBase  {
         this.stack.push(this.moveState());
     }
 
-    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         return {
             move,
             valid: false,

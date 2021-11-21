@@ -192,7 +192,7 @@ export class AttangleGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.graph.coords2algebraic(col, row);
             let newmove: string = "";
@@ -229,7 +229,7 @@ export class AttangleGame extends GameBase {
             return {
                 move,
                 valid: false,
-                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
             }
         }
     }
@@ -320,14 +320,14 @@ export class AttangleGame extends GameBase {
                                 }
                                 if (! seen) {
                                     result.valid = false;
-                                    result.message = i18next.t("apgames:validation.attangle.NOLOS", {from: cell, to: target});
+                                    result.message = i18next.t("apgames:validation._general.NOLOS", {from: cell, to: target});
                                     return result;
                                 }
                                 for (const next of ray) {
                                     if (next === target) {break;}
                                     if (this.board.has(next)) {
                                         result.valid = false;
-                                        result.message = i18next.t("apgames:validation.attangle.OBSTRUCTED", {from: cell, to: target, obstruction: next});
+                                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: cell, to: target, obstruction: next});
                                         return result;
                                     }
                                 }

@@ -213,7 +213,7 @@ export class AmazonsGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
             const cell = AmazonsGame.coords2algebraic(col, row);
@@ -245,7 +245,7 @@ export class AmazonsGame extends GameBase {
             return {
                 move,
                 valid: false,
-                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
             }
         }
     }
@@ -316,7 +316,7 @@ export class AmazonsGame extends GameBase {
                 if (cell === to) { break; }
                 if (this.board.has(cell)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.amazons.OBSTRUCTED", {from, to, obstruction: cell});
+                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
                     return result;
                 }
             }
@@ -353,7 +353,7 @@ export class AmazonsGame extends GameBase {
                 if (cell === block) { break; }
                 if ( (this.board.has(cell)) && (cell !== from) ) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.amazons.OBSTRUCTED", {from, to, obstruction: cell});
+                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
                     return result;
                 }
             }

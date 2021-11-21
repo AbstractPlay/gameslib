@@ -54,8 +54,10 @@
             "EMPTYSTRING": "",
             "GENERIC": "[FR]A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "[FR]Could not find the cell {{cell}} on the board.",
+            "NOLOS": "",
             "NONEXISTENT": "[FR]Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "[FR]You have no pieces to place.",
+            "OBSTRUCTED": "",
             "SELFCAPTURE": "",
             "UNCONTROLLED": "",
             "VALID_MOVE": "[FR]Looks like a valid move."
@@ -71,8 +73,17 @@
             "TOOHIGH": "[FR]Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
             "TRIPLESTACK": "[FR]You cannot move triple stacks."
         },
+        "accasta": {
+            "INVALID_SIZE": "",
+            "PARTIAL_FULLSTACK": "",
+            "PARTIAL_SUBSTACK_one": "",
+            "PARTIAL_SUBSTACK_many": "",
+            "PARTIAL_SUBSTACK_other": "",
+            "SOURCE_EMPTY": "",
+            "TOOFAR": "",
+            "TOOHIGH": ""
+        },
         "amazons": {
-            "OBSTRUCTED": "",
             "OCCUPIED": "",
             "POTENTIAL_BLOCK": "",
             "POTENTIAL_MOVE": "",
@@ -81,8 +92,6 @@
         "attangle": {
             "EMPTYCAPTURE": "",
             "MOVE2EMPTY": "",
-            "NOLOS": "",
-            "OBSTRUCTED": "",
             "ONVOID": "",
             "POTENTIAL_ONE": "",
             "POTENTIAL_TWO": "",

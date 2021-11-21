@@ -18,7 +18,7 @@
                 var gamename = window.sessionStorage.getItem("gamename");
                 var game = APGames.GameFactory(gamename, state);
                 var movebox = document.getElementById("moveEntry");
-                var result = game.handleClick(movebox.value, row, col);
+                var result = game.handleClick(movebox.value, row, col, piece);
                 movebox.value = result.move;
                 var colour = "#f00";
                 if (result.valid) {

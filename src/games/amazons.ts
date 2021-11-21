@@ -383,7 +383,7 @@ export class AmazonsGame extends GameBase {
         }
 
         if (partial) {
-            if ( (result.complete !== undefined) && (result.complete >= 0) ) {
+            if ( (result.complete !== undefined) && (result.complete >= 0) || result.canrender === true ) {
                 const [f, t, b] = m.split(/[-\/]/);
                 if ( (f === undefined) || (t === undefined) ) {
                     throw new Error(`The move '${m}' is not a valid partial.`)

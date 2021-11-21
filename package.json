@@ -14,7 +14,9 @@
     "full-dev": "npm run test && npm run build && npm run dist-dev",
     "full-prod": "npm run test && npm run build && npm run dist-prod",
     "distribute": "copy .\\playground\\index.html D:\\xampp\\htdocs\\games && copy .\\dist\\APGames.js D:\\xampp\\htdocs\\games",
+    "distribute2": "copy .\\playground\\index.html C:\\Projects\\AbstractPlay\\playground\\games && copy .\\dist\\APGames.js C:\\Projects\\AbstractPlay\\playground\\games",
     "quick": "npm run build-ts && npm run dist-dev && npm run distribute",
+    "quick2": "npm run build-ts && npm run dist-dev && npm run distribute2",
     "extract": "i18next 'src/**/*.ts'",
     "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts"
   },

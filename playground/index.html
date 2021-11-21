@@ -21,7 +21,7 @@
                 var result = game.handleClick(movebox.value, row, col);
                 movebox.value = result.move;
                 var colour = "#f00";
-                if ( (result.state !== undefined) && (result.state >= 0) ) {
+                if (result.valid) {
                     colour = "#0f0";
                 }
                 var resultStr = '<p style="color: '+ colour +'">' + result.message + '</p>';

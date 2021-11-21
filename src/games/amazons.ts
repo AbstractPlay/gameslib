@@ -231,7 +231,7 @@ export class AmazonsGame extends GameBase {
             }
             if (newmove.length > 0) {
                 const result = this.validateMove(newmove) as IClickResult;
-                if ( (result.state === undefined) || (result.state === -1) ) {
+                if (! result.valid) {
                     result.move = "";
                 } else {
                     result.move = newmove;
@@ -243,13 +243,14 @@ export class AmazonsGame extends GameBase {
         } catch (e) {
             return {
                 move,
+                valid: false,
                 message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
             }
         }
     }
 
     public validateMove(m: string): IValidationResult {
-        const result: IValidationResult = {message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
             result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
             return result;
@@ -261,7 +262,7 @@ export class AmazonsGame extends GameBase {
                 try {
                     AmazonsGame.algebraic2coords(cell);
                 } catch {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result
                 }
@@ -270,19 +271,20 @@ export class AmazonsGame extends GameBase {
         if (from !== undefined) {
             // trying to move a nonexistent piece
             if (! this.board.has(from)) {
-                result.state = -1;
+                result.valid = false;
                 result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
                 return result
             }
             // trying to move a piece you don't own
             if (this.board.get(from)! !== this.currplayer) {
-                result.state = -1;
+                result.valid = false;
                 result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                 return result
             }
             // possible start of a move
             if (to === undefined) {
-                result.state = 0;
+                result.valid = true;
+                result.complete = -1;
                 result.message = i18next.t("apgames:validation.amazons.POTENTIAL_MOVE");
                 return result
             }
@@ -294,7 +296,7 @@ export class AmazonsGame extends GameBase {
             const [xTo, yTo] = AmazonsGame.algebraic2coords(to);
             // destination is empty
             if (this.board.has(to)) {
-                result.state = -1;
+                result.valid = false;
                 result.message = i18next.t("apgames:validation.amazons.OCCUPIED", {where: to});
                 return result;
             }
@@ -303,7 +305,7 @@ export class AmazonsGame extends GameBase {
             const dir = RectGrid.bearing(xFrom, yFrom, xTo, yTo)!;
             const ray = grid.ray(xFrom, yFrom, dir).map(pt => AmazonsGame.coords2algebraic(...pt));
             if (! ray.includes(to)) {
-                result.state = -1;
+                result.valid = false;
                 result.message = i18next.t("apgames:validation.amazons.STRAIGHTLINE");
                 return result;
             }
@@ -311,14 +313,15 @@ export class AmazonsGame extends GameBase {
             for (const cell of ray) {
                 if (cell === to) { break; }
                 if (this.board.has(cell)) {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation.amazons.OBSTRUCTED", {from, to, obstruction: cell});
                     return result;
                 }
             }
             // possible partial
             if (block === undefined) {
-                result.state = 0;
+                result.valid = true;
+                result.complete = -1;
                 result.message = i18next.t("apgames:validation.amazons.POTENTIAL_BLOCK");
                 return result
             }
@@ -329,7 +332,7 @@ export class AmazonsGame extends GameBase {
             const [xBlock, yBlock] = AmazonsGame.algebraic2coords(block);
             // destination is empty, unless you're blocking your starting space
             if ( (this.board.has(block)) && (block !== from) ) {
-                result.state = -1;
+                result.valid = false;
                 result.message = i18next.t("apgames:validation.amazons.OCCUPIED", {where: block});
                 return result;
             }
@@ -338,7 +341,7 @@ export class AmazonsGame extends GameBase {
             const dir = RectGrid.bearing(xTo, yTo, xBlock, yBlock)!;
             const ray = grid.ray(xTo, yTo, dir).map(pt => AmazonsGame.coords2algebraic(...pt));
             if (! ray.includes(block)) {
-                result.state = -1;
+                result.valid = false;
                 result.message = i18next.t("apgames:validation.amazons.STRAIGHTLINE");
                 return result;
             }
@@ -346,14 +349,15 @@ export class AmazonsGame extends GameBase {
             for (const cell of ray) {
                 if (cell === block) { break; }
                 if ( (this.board.has(cell)) && (cell !== from) ) {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation.amazons.OBSTRUCTED", {from, to, obstruction: cell});
                     return result;
                 }
             }
 
             // looks good
-            result.state = 1;
+            result.valid = true;
+            result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result
         }
@@ -368,9 +372,9 @@ export class AmazonsGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const validation = this.validateMove(m);
-        if ( (validation.state === undefined) || (validation.state < 1) ) {
-            throw new UserFacingError("VALIDATION_GENERAL", validation.message)
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
 
         // Move valid, so change the state

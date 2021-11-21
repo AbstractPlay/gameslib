@@ -199,8 +199,7 @@ export class AttangleGame extends GameBase {
             // If you click on an empty cell, that overrides everything
             if (! this.board.has(cell)) {
                 newmove = cell;
-            }
-            if (move.length > 0) {
+            } else if (move.length > 0) {
                 const [one, two, target] = move.split(/[,-]/);
                 // If you've clicked on an empty cell and are now clicking on an existing one, start fresh
                 if ( (one !== undefined) && (! this.board.has(one)) ) {
@@ -220,7 +219,7 @@ export class AttangleGame extends GameBase {
                 newmove = cell;
             }
             const result = this.validateMove(newmove) as IClickResult;
-            if ( (result.state === undefined) || (result.state === -1) ) {
+            if (! result.valid) {
                 result.move = "";
             } else {
                 result.move = newmove;
@@ -229,13 +228,14 @@ export class AttangleGame extends GameBase {
         } catch (e) {
             return {
                 move,
+                valid: false,
                 message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
             }
         }
     }
 
     public validateMove(m: string): IValidationResult {
-        const result: IValidationResult = {message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const allcells = this.graph.listCells() as string[];
         let vs = voids[0];
         if (this.variants.includes("grand")) {
@@ -247,7 +247,7 @@ export class AttangleGame extends GameBase {
         for (const cell of [one, two, target]) {
             if (cell !== undefined) {
                 if (! allcells.includes(cell)) {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result
                 }
@@ -260,19 +260,20 @@ export class AttangleGame extends GameBase {
                 const c1 = this.board.get(one)!;
                 // you don't control the stack
                 if (c1[c1.length - 1] !== this.currplayer) {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                     return result;
                 }
                 // the stack is too large
                 if (c1.length > 2) {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation.attangle.TRIPLESTACK");
                     return result;
                 }
                 if (two === undefined) {
                     // possible start of capture
-                    result.state = 0;
+                    result.valid = true;
+                    result.complete = -1;
                     result.message = i18next.t("apgames:validation.attangle.POTENTIAL_ONE");
                     return result;
                 } else {
@@ -280,24 +281,25 @@ export class AttangleGame extends GameBase {
                         const c2 = this.board.get(two)!;
                         // you don't control the stack
                         if (c2[c2.length - 1] !== this.currplayer) {
-                            result.state = -1;
+                            result.valid = false;
                             result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                             return result;
                         }
                         // the stack is too large
                         if (c2.length > 2) {
-                            result.state = -1;
+                            result.valid = false;
                             result.message = i18next.t("apgames:validation.attangle.TRIPLESTACK");
                             return result;
                         }
                         if (target === undefined) {
                             // possible start of capture
-                            result.state = 0;
+                            result.valid = true;
+                            result.complete = -1;
                             result.message = i18next.t("apgames:validation.attangle.POTENTIAL_TWO");
                             return result;
                         } else {
                             if (! this.board.has(target)) {
-                                result.state = -1;
+                                result.valid = false;
                                 result.message = i18next.t("apgames:validation.attangle.MOVE2EMPTY");
                                 return result;
                             }
@@ -317,14 +319,14 @@ export class AttangleGame extends GameBase {
                                     }
                                 }
                                 if (! seen) {
-                                    result.state = -1;
+                                    result.valid = false;
                                     result.message = i18next.t("apgames:validation.attangle.NOLOS", {from: cell, to: target});
                                     return result;
                                 }
                                 for (const next of ray) {
                                     if (next === target) {break;}
                                     if (this.board.has(next)) {
-                                        result.state = -1;
+                                        result.valid = false;
                                         result.message = i18next.t("apgames:validation.attangle.OBSTRUCTED", {from: cell, to: target, obstruction: next});
                                         return result;
                                     }
@@ -332,23 +334,24 @@ export class AttangleGame extends GameBase {
                             }
                             // you control the target
                             if (c3[c3.length - 1] === this.currplayer) {
-                                result.state = -1;
+                                result.valid = false;
                                 result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
                                 return result;
                             }
                             // combined stack is too large
                             if (c1.length + c2.length + c3.length > 4) {
-                                result.state = -1;
+                                result.valid = false;
                                 result.message = i18next.t("apgames:validation.attangle.TOOHIGH");
                                 return result;
                             }
                             // valid capture
-                            result.state = 1;
+                            result.valid = true;
+                            result.complete = 1;
                             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                             return result;
                         }
                     } else {
-                        result.state = -1;
+                        result.valid = false;
                         result.message = i18next.t("apgames:validation.attangle.EMPTYCAPTURE", {where: two});
                         return result;
                     }
@@ -356,24 +359,25 @@ export class AttangleGame extends GameBase {
             } else {
                 // placing on a void
                 if (vs.includes(one)) {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation.attangle.ONVOID");
                     return result;
                 }
                 // no more pieces to place
                 if (this.pieces[this.currplayer - 1] < 1) {
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation._general.NOPIECES");
                     return result;
                 }
                 if (two === undefined) {
                     // must be a placement
-                    result.state = 1;
+                    result.valid = true;
+                    result.complete = 1;
                     result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                     return result;
                 } else {
                     // the first cell can't be empty if the second is defined
-                    result.state = -1;
+                    result.valid = false;
                     result.message = i18next.t("apgames:validation.attangle.EMPTYCAPTURE", {where: one});
                     return result;
                 }
@@ -389,9 +393,9 @@ export class AttangleGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        const validation = this.validateMove(m);
-        if ( (validation.state === undefined) || (validation.state < 1) ) {
-            throw new UserFacingError("VALIDATION_GENERAL", validation.message)
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
 
         this.results = [];

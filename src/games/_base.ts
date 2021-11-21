@@ -42,21 +42,29 @@ export interface IAPGameState {
 }
 
 /**
- * move: The new result that should be placed in the move entry area
- * error: If the last click was ignored for some reason, this will tell you why.
- * state: This describes how the game engine currently views the returned move:
- *   - 1 means the move is recognized as complete and could be submitted as is.
- *   - 0 means the move is partially complete (essentially, there's at least one complete recognized move that *starts* with the given text)
- *   - -1 means the move is wholly invalid; the most common example of this is a simple empty string
- *   - Undefined means something went terribly wrong. `error` should always be populated in this instance with a localized message.
- * message: If the `state` is 0, this should be populated to give the user some idea of what they need to do next. Even if the `state` is 1, if it could be expanded upon, tell them that too.
+ * valid: A simple boolean that tells you whether the move to this point is valid, even if only partially so.
+ *        See `message` for details.
+ * message: A localized message that explains the state of the move at this point.
+ * complete?: This describes how the game engine currently views the returned move's completeness:
+ *            It is only present if `valid` is true.
+ *   - 1 means the move is recognized as wholly complete. No further interaction by the user could
+ *     reasonably be expected (other than starting over). Implies `canrender`.
+ *   - -1 means the move is definitively incomplete and would be rejected if submitted as is.
+ *   - 0 is in between. It signals that the move *could* be processed as is, but it indicates that
+ *     other moves may still be possible.
+ * canrender?: A simple boolean that will only ever be `true` for games flagged as `multistep`, and will only
+ *             ever be present if `valid` is true. It asserts that the move to this point would be accepted
+ *             by the game engine as partial and would result in an updated `APRenderRep` that may be helpful
+ *             to the user.
  *
  * @export
  * @interface IValidationResult
  */
  export interface IValidationResult {
-    state?: -1|0|1;
+    valid: boolean;
     message: string;
+    complete?: -1|0|1;   // implies canrender
+    canrender?: boolean; // implies valid
 }
 
 /**
@@ -140,14 +148,14 @@ export abstract class GameBase  {
     public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
         return {
             move,
-            state: -1,
+            valid: false,
             message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
         };
     }
 
     public validateMove(move: string): IValidationResult {
         return {
-            state: -1,
+            valid: false,
             message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
         };
     }

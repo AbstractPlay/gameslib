@@ -48,6 +48,26 @@
     "MOVES_INVALID": "[FRThe move '{{move}}' is invalid. Please check the rules and try again.",
     "MOVES_OCCUPIED": "[FRThe cell {{cell}} is already occupied.",
     "MOVES_SIMULTANEOUS_PARTIAL": "[FRIn simultaneous games, both players' moves must be submitted at the same time.",
+    "validation": {
+        "_general": {
+            "DEFAULT_HANDLER": "",
+            "GENERIC": "",
+            "INVALIDCELL": "",
+            "NONEXISTENT": "",
+            "NOPIECES": ""
+        },
+        "abande": {
+            "DISCONNECTEDMOVE": "",
+            "DISCONNECTEDPLACE": "",
+            "MOVE2CONTROLLED": "",
+            "MOVE2EMPTY": "",
+            "PARTIAL": "",
+            "TOOEARLY": "",
+            "TOOHIGH": "",
+            "TRIPLESTACK": "",
+            "UNCONTROLLED": ""
+        }
+    },
     "volcano": {
         "MOVES_AFTER_ERUPTION": "[FRYou may not continue moving after causing an eruption.",
         "MOVES_CAPS_ONLY": "[FRYou may only move caps.",

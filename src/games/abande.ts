@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -218,35 +218,161 @@ export class AbandeGame extends GameBase {
         return this.graph.coords2algebraic(col, row);
     }
 
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = this.graph.algebraic2coords(cell);
+            const cell = this.graph.coords2algebraic(col, row);
+            let newmove: string = "";
+            if (move.length === 0) {
+                newmove = cell;
             } else {
-                [x, y] = coord;
-                cell = this.graph.coords2algebraic(x, y);
-            }
-            if (move.length > 0) {
-                if (move.includes("-")) {
-                    return cell;
-                }
-                const [xPrev, yPrev] = this.graph.algebraic2coords(move);
-                if (Math.max(Math.abs(x - xPrev), Math.abs(y - yPrev)) === 1) {
-                    return `${move}-${cell}`;
+                const [from,] = move.split("-");
+                if ( (from !== undefined) && (this.board.has(from)) && (this.board.has(cell)) ) {
+                    newmove = `${from}-${cell}`;
                 } else {
-                    return cell;
+                    newmove = cell;
                 }
-            } else {
-                return cell;
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            const result = this.validateMove(newmove) as IClickResult;
+            if ( (result.state === undefined) || (result.state === -1) ) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                error: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
+            }
+        }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {};
+        const allcells = this.graph.listCells() as string[];
+        // Placements first
+        if (! m.includes("-")) {
+            // Invalid cell
+            if (! allcells.includes(m)) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                return result;
+            }
+            // Already occupied
+            if (this.board.has(m)) {
+                const contents = this.board.get(m)!;
+                // stack you don't control
+                if (contents[contents.length - 1] !== this.currplayer) {
+                    result.state = -1;
+                    result.error = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
+                    return result;
+                }
+                // triple stack
+                if (contents.length === 3) {
+                    result.state = -1;
+                    result.error = i18next.t("apgames:validation.abande.TRIPLESTACK", {where: m});
+                    return result;
+                }
+                // too early
+                if (this.pieces[1] > 16) {
+                    result.state = -1;
+                    result.error = i18next.t("apgames:validation.abande.TOOEARLY");
+                    return result;
+                }
+                // possible success
+                result.state = 0;
+                result.message = i18next.t("apgames:validation.abande.PARTIAL");
+                return result;
+            }
+            // No pieces to place
+            if (this.pieces[this.currplayer - 1] < 1) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation._general.NOPIECES");
+                return result;
+            }
+            // disconnected placement
+            if (this.board.size > 0) {
+                const neighbours = this.graph.neighbours(m);
+                let connected = false;
+                for (const n of neighbours) {
+                    if (this.board.has(n)) {
+                        connected = true;
+                        break;
+                    }
+                }
+                if (! connected) {
+                    result.state = -1;
+                    result.error = i18next.t("apgames:validation.abande.DISCONNECTEDPLACE", {where: m});
+                    return result;
+                }
+            }
+
+            // Apparently successful
+            result.state = 1;
+            return result;
+        } else {
+            const [from, to] = m.split("-");
+            // invalid coordinates
+            if (! allcells.includes(from)) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            if (! allcells.includes(to)) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                return result;
+            }
+            // Cell is empty
+            if (! this.board.has(from)) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // You don't control the moving stack
+            const fContents = this.board.get(from)!;
+            if (fContents[fContents.length - 1] !== this.currplayer) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation.abande.UNCONTROLLED", {where: m});
+                return result;
+            }
+            // tried to move to an empty space
+            if (! this.board.has(to)) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation.abande.MOVE2EMPTY", {from, to});
+                return result;
+            }
+            const tContents = this.board.get(to)!;
+            // tried to move on top of your own piece
+            if (tContents[tContents.length - 1] === this.currplayer) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation.abande.MOVE2CONTROLLED", {from, to});
+                return result;
+            }
+            // tried to move and create a stack that's too high
+            if (fContents.length + tContents.length > 3) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation.abande.TOOHIGH", {from, to});
+                return result;
+            }
+            // tried to move in a way that caused disconnection
+            const cloned = this.clone();
+            cloned.board.delete(from);
+            if (! cloned.isConnected()) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation.abande.DISCONNECTEDMOVE", {from, to});
+                return result;
+            }
+            // You can't move until the first player has placed two stones
+            if (this.pieces[1] > 16) {
+                result.state = -1;
+                result.error = i18next.t("apgames:validation.abande.TOOEARLY");
+                return result;
+            }
+
+            // Apparently successful
+            result.state = 1;
+            return result;
         }
     }
 

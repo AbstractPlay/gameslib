@@ -18,7 +18,20 @@
                 var gamename = window.sessionStorage.getItem("gamename");
                 var game = APGames.GameFactory(gamename, state);
                 var movebox = document.getElementById("moveEntry");
-                movebox.value = game.clicked(movebox.value, [col, row])
+                var result = game.handleClick(movebox.value, row, col);
+                movebox.value = result.move;
+                var resultStr = "";
+                if (result.state !== undefined) {
+                    resultStr += '<p>Status code: ' + result.state + '</p>';
+                }
+                if (result.error !== undefined) {
+                    resultStr += '<p>Error message: ' + result.error + '</p>';
+                }
+                if (result.message !== undefined) {
+                    resultStr += '<p>Status message: ' + result.message + '</p>';
+                }
+                var statusbox = document.getElementById("clickstatus");
+                statusbox.innerHTML = resultStr;
             }
 
             function boardClickVolcano(row, col, piece) {
@@ -363,6 +376,7 @@
                             <label for="moveEntry">Enter your move</label>
                             <input id="moveEntry" type="text">
                         </div>
+                        <div id="clickstatus"></div>
                         <div>
                             <button id="moveBtn" name="moveBtn" type="button">Move</button>
                             <button id="moveRandom" name="moveRandom" type="button">Make a random move</button>

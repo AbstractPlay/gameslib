@@ -41,6 +41,36 @@ export interface IAPGameState {
     stack: Array<IIndividualState>;
 }
 
+/**
+ * move: The new result that should be placed in the move entry area
+ * error: If the last click was ignored for some reason, this will tell you why.
+ * state: This describes how the game engine currently views the returned move:
+ *   - 1 means the move is recognized as complete and could be submitted as is.
+ *   - 0 means the move is partially complete (essentially, there's at least one complete recognized move that *starts* with the given text)
+ *   - -1 means the move is wholly invalid; the most common example of this is a simple empty string
+ *   - Undefined means something went terribly wrong. `error` should always be populated in this instance with a localized message.
+ * message: If the `state` is 0, this should be populated to give the user some idea of what they need to do next. Even if the `state` is 1, if it could be expanded upon, tell them that too.
+ *
+ * @export
+ * @interface IValidationResult
+ */
+ export interface IValidationResult {
+    state?: -1|0|1;
+    error?: string;
+    message?: string;
+}
+
+/**
+ * Subset of IValidationResult. Just adds what the client is expected to put into the move box.
+ * move: The new result that should be placed in the move entry area
+ *
+ * @export
+ * @interface IClickResult
+ */
+export interface IClickResult extends IValidationResult {
+    move: string;
+}
+
 interface IPlayerDetails {
     name: string;
     uid: string;
@@ -101,15 +131,26 @@ export abstract class GameBase  {
     public abstract resign(player: number): GameBase;
     public abstract clone(): GameBase;
     public abstract chatLog(players?: string[]): string[][];
-    // Function for turning what is returned from the svg upon a click into a coordinate.
-    public abstract click(row: number, col: number, piece: string): string;
-    // Function for combining a partial move with a clicked coordinate.
-    public abstract clicked(move: string, coord: string): string;
 
     protected abstract moveState(): any;
 
     protected saveState(): void {
         this.stack.push(this.moveState());
+    }
+
+    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
+        return {
+            move,
+            state: -1,
+            error: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
+        };
+    }
+
+    public validateMove(move: string): IValidationResult {
+        return {
+            state: -1,
+            error: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
+        };
     }
 
     public undo(): GameBase {

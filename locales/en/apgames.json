@@ -48,6 +48,26 @@
     "MOVES_INVALID": "The move '{{move}}' is invalid. Please check the rules and try again.",
     "MOVES_OCCUPIED": "The cell {{cell}} is already occupied.",
     "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time.",
+    "validation": {
+        "_general": {
+            "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
+            "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
+            "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
+            "NONEXISTENT": "Trying to move a piece or stack that doesn't exist at {{where}}.",
+            "NOPIECES": "You have no pieces to place."
+        },
+        "abande": {
+            "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
+            "DISCONNECTEDPLACE": "Placing a piece at {{where}} would disconnect the band.",
+            "MOVE2CONTROLLED": "You cannot capture your own stacks.",
+            "MOVE2EMPTY": "You cannot move to empty spaces.",
+            "PARTIAL": "It's possible you're trying to move a stack. Click on the destination.",
+            "TOOEARLY": "You cannot move until the second player has placed two pieces.",
+            "TOOHIGH": "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
+            "TRIPLESTACK": "You cannot move triple stacks.",
+            "UNCONTROLLED": "You cannot move stacks you don't control."
+        }
+    },
     "volcano": {
         "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
         "MOVES_CAPS_ONLY": "You may only move caps.",

@@ -67,7 +67,7 @@
             "MOVE2CONTROLLED": "You cannot capture your own stacks.",
             "MOVE2EMPTY": "You cannot move to empty spaces.",
             "PARTIAL": "It's possible you're trying to move a stack. Provide the destination.",
-            "TOOEARLY": "You cannot move until the second player has placed two pieces.",
+            "TOOEARLY": "You cannot move until the first player has placed two pieces.",
             "TOOHIGH": "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
             "TRIPLESTACK": "You cannot move triple stacks."
         },

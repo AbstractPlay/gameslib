@@ -380,7 +380,7 @@ export class AbandeGame extends GameBase {
                 return result;
             }
             // You can't move until the first player has placed two stones
-            if (this.pieces[1] > 16) {
+            if (this.pieces[0] > 16) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.abande.TOOEARLY");
                 return result;

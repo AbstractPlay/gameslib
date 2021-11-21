@@ -1,10 +1,10 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-import { IGraph, HexTriGraph } from "../common/graphs";
+import { HexTriGraph } from "../common/graphs";
 import { Combination } from "js-combinatorics";
 // tslint:disable-next-line: no-var-requires
 const deepclone = require("rfdc/default");
@@ -60,7 +60,7 @@ export class AttangleGame extends GameBase {
     public board!: Map<string, playerid[]>;
     public pieces!: [number, number];
     public lastmove?: string;
-    public graph!: IGraph;
+    public graph!: HexTriGraph;
     public gameover: boolean = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -192,50 +192,194 @@ export class AttangleGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return this.graph.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, index?: number): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = this.graph.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = this.graph.coords2algebraic(x, y);
-            }
+            const cell = this.graph.coords2algebraic(col, row);
+            let newmove: string = "";
             // If you click on an empty cell, that overrides everything
             if (! this.board.has(cell)) {
-                return cell;
+                newmove = cell;
             }
             if (move.length > 0) {
                 const [one, two, target] = move.split(/[,-]/);
                 // If you've clicked on an empty cell and are now clicking on an existing one, start fresh
                 if ( (one !== undefined) && (! this.board.has(one)) ) {
-                    return cell;
+                    newmove = cell;
                 // If the existing cell has a piece, then compose
                 } else if ( (one !== undefined) && (this.board.has(one)) && (two === undefined) && (this.board.has(cell)) ) {
-                    return `${one},${cell}`;
+                    newmove = `${one},${cell}`;
                 // If you have two existing pieces and are clicking on a third, compose
                 } else if ( (one !== undefined) && (this.board.has(one)) && (two !== undefined) && (this.board.has(two)) && (this.board.has(cell)) ) {
-                    return `${one},${two}-${cell}`;
+                    newmove = `${one},${two}-${cell}`;
                 } else if ( (target !== undefined) && (this.board.has(cell)) ) {
-                    return `${one},${two}-${cell}`;
+                    newmove = `${one},${two}-${cell}`;
                 } else {
-                    return move;
+                    newmove = move;
                 }
             } else {
-                return cell;
+                newmove = cell;
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            const result = this.validateMove(newmove) as IClickResult;
+            if ( (result.state === undefined) || (result.state === -1) ) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, index, emessage: (e as Error).message})
+            }
         }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const allcells = this.graph.listCells() as string[];
+        let vs = voids[0];
+        if (this.variants.includes("grand")) {
+            vs = voids[1];
+        }
+
+        const [one, two, target] = m.split(/[,-]/);
+        // validate coordinates
+        for (const cell of [one, two, target]) {
+            if (cell !== undefined) {
+                if (! allcells.includes(cell)) {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                    return result
+                }
+            }
+        }
+        // placements & partial captures
+        if (one !== undefined) {
+            // possible start of a capture
+            if (this.board.has(one)) {
+                const c1 = this.board.get(one)!;
+                // you don't control the stack
+                if (c1[c1.length - 1] !== this.currplayer) {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                    return result;
+                }
+                // the stack is too large
+                if (c1.length > 2) {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation.attangle.TRIPLESTACK");
+                    return result;
+                }
+                if (two === undefined) {
+                    // possible start of capture
+                    result.state = 0;
+                    result.message = i18next.t("apgames:validation.attangle.POTENTIAL_ONE");
+                    return result;
+                } else {
+                    if (this.board.has(two)) {
+                        const c2 = this.board.get(two)!;
+                        // you don't control the stack
+                        if (c2[c2.length - 1] !== this.currplayer) {
+                            result.state = -1;
+                            result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                            return result;
+                        }
+                        // the stack is too large
+                        if (c2.length > 2) {
+                            result.state = -1;
+                            result.message = i18next.t("apgames:validation.attangle.TRIPLESTACK");
+                            return result;
+                        }
+                        if (target === undefined) {
+                            // possible start of capture
+                            result.state = 0;
+                            result.message = i18next.t("apgames:validation.attangle.POTENTIAL_TWO");
+                            return result;
+                        } else {
+                            if (! this.board.has(target)) {
+                                result.state = -1;
+                                result.message = i18next.t("apgames:validation.attangle.MOVE2EMPTY");
+                                return result;
+                            }
+                            const c3 = this.board.get(target)!;
+                            // unobstructed line of sight
+                            for (const cell of [one, two]) {
+                                const [x, y] = this.graph.algebraic2coords(cell);
+                                // Doing indiscrimnate ray casting because I'm tired today and can't
+                                // figure out how to make a `bearing` function work in a HexTri graph.
+                                let seen = false;
+                                let ray: string[] = [];
+                                for (const dir of ["NE","E","SE","SW","W","NW"] as const) {
+                                    ray = this.graph.ray(x, y, dir).map(pt => this.graph.coords2algebraic(...pt));
+                                    if (ray.includes(target)) {
+                                        seen = true;
+                                        break;
+                                    }
+                                }
+                                if (! seen) {
+                                    result.state = -1;
+                                    result.message = i18next.t("apgames:validation.attangle.NOLOS", {from: cell, to: target});
+                                    return result;
+                                }
+                                for (const next of ray) {
+                                    if (next === target) {break;}
+                                    if (this.board.has(next)) {
+                                        result.state = -1;
+                                        result.message = i18next.t("apgames:validation.attangle.OBSTRUCTED", {from: cell, to: target, obstruction: next});
+                                        return result;
+                                    }
+                                }
+                            }
+                            // you control the target
+                            if (c3[c3.length - 1] === this.currplayer) {
+                                result.state = -1;
+                                result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                                return result;
+                            }
+                            // combined stack is too large
+                            if (c1.length + c2.length + c3.length > 4) {
+                                result.state = -1;
+                                result.message = i18next.t("apgames:validation.attangle.TOOHIGH");
+                                return result;
+                            }
+                            // valid capture
+                            result.state = 1;
+                            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                            return result;
+                        }
+                    } else {
+                        result.state = -1;
+                        result.message = i18next.t("apgames:validation.attangle.EMPTYCAPTURE", {where: two});
+                        return result;
+                    }
+                }
+            } else {
+                // placing on a void
+                if (vs.includes(one)) {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation.attangle.ONVOID");
+                    return result;
+                }
+                // no more pieces to place
+                if (this.pieces[this.currplayer - 1] < 1) {
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation._general.NOPIECES");
+                    return result;
+                }
+                if (two === undefined) {
+                    // must be a placement
+                    result.state = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                } else {
+                    // the first cell can't be empty if the second is defined
+                    result.state = -1;
+                    result.message = i18next.t("apgames:validation.attangle.EMPTYCAPTURE", {where: one});
+                    return result;
+                }
+            }
+        }
+        return result;
     }
 
     public move(m: string): AttangleGame {
@@ -244,8 +388,10 @@ export class AttangleGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! this.moves(undefined, true).includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+
+        const validation = this.validateMove(m);
+        if ( (validation.state === undefined) || (validation.state < 1) ) {
+            throw new UserFacingError("VALIDATION_GENERAL", validation.message)
         }
 
         this.results = [];

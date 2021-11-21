@@ -56,6 +56,7 @@
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
             "NONEXISTENT": "Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
+            "SELFCAPTURE": "You cannot capture your own pieces.",
             "UNCONTROLLED": "You cannot move pieces you don't control.",
             "VALID_MOVE": "Looks like a valid move."
         },
@@ -76,6 +77,17 @@
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "You can only move and block in straight lines."
+        },
+        "attangle": {
+            "EMPTYCAPTURE": "One of the cells involved with the capture doesn't have any pieces in it.",
+            "MOVE2EMPTY": "You cannot capture empty cells.",
+            "NOLOS": "There is no line of sight between {{from}} and {{to}}.",
+            "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
+            "ONVOID": "You cannot place pieces on voids (the spaces marked with a black dot).",
+            "POTENTIAL_ONE": "This could potentially be a capture. Provide the location of the second stack.",
+            "POTENTIAL_TWO": "This could potentially be a capture. Provide the target location.",
+            "TOOHIGH": "The combined stack after the capture will be too high.",
+            "TRIPLESTACK": "Triple stacks cannot participate in captures."
         }
     },
     "volcano": {

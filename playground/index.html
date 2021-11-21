@@ -1,6 +1,6 @@
-<!-- 
+<!--
     To use this in your own environment, build the `APRender.js` and `APGames.js` bundles
-    and put them and this HTML file somewhere a browser can see it. 
+    and put them and this HTML file somewhere a browser can see it.
  -->
 <html lang="en">
     <head>
@@ -37,7 +37,7 @@
                 var myNode = document.getElementById("drawing");
                 while (myNode.lastChild) {
                     myNode.removeChild(myNode.lastChild);
-                }                
+                }
                 var options = {divid: "drawing"};
                 var radio = document.querySelector('input[name="playerfill"]:checked').value;
                 if (radio === "blind") {
@@ -82,12 +82,12 @@
                         var results = game.chatLog(["Alice", "Bob"]).reverse().slice(0, 5).map(e => e.join(" "));
                         if (results.length > 0) {
                             status += "\n\n* " + results.join("\n* ") + "\n\n&hellip;";
-                        }    
+                        }
                     } else {
                         var results = game.resultsHistory().reverse().slice(0, 5);
                         if (results.length > 0) {
                             status += "\n\n* " + results.map((x) => { return JSON.stringify(x); }).join("\n* ") + "\n\n&hellip;";
-                        }    
+                        }
                     }
                     var statusbox = document.getElementById("status");
                     var converter = new showdown.Converter();
@@ -132,7 +132,7 @@
                         infobox.innerHTML = "";
                     } else {
                         var converter = new showdown.Converter();
-                        infobox.innerHTML = converter.makeHtml(info.description);    
+                        infobox.innerHTML = converter.makeHtml(info.description);
                     }
                     if ( (info.variants !== undefined) && (info.variants.length > 0) ) {
                         var varSelect = document.getElementById("selectVariant");
@@ -166,7 +166,7 @@
                             }
                         });
                         var content = "";
-                        var converter = new showdown.Converter();    
+                        var converter = new showdown.Converter();
                         if (variant !== undefined) {
                             content = "**Variant: " + variant.name + "**\n\n" + variant.description;
                         }
@@ -205,9 +205,11 @@
                     if (state !== null) {
                         var gamename = window.sessionStorage.getItem("gamename");
                         var game = APGames.GameFactory(gamename, state);
+                        var waserror = false;
                         try {
                             game.move(movebox.value);
                         } catch (err) {
+                            waserror = true;
                             if (err.name === "UserFacingError") {
                                 var resultStr = '<p style="color: #f00">ERROR: ' + err.client + '</p>';
                                 var statusbox = document.getElementById("clickstatus");
@@ -216,6 +218,11 @@
                                 alert("An error occurred: " + err.message);
                             }
                             console.log("Game state: "+state);
+                        }
+                        if (! waserror) {
+                            movebox.value = "";
+                            var statusbox = document.getElementById("clickstatus");
+                            statusbox.innerHTML = "";
                         }
                         window.sessionStorage.setItem("state", game.serialize());
                         renderGame();
@@ -249,7 +256,7 @@
                         renderGame();
                     }
                 });
-                
+
                 // Listen for AI buttons
                 document.getElementById("aiFast").addEventListener("click", () => {
                     var state = window.sessionStorage.getItem("state");
@@ -293,7 +300,7 @@
                                 var move = factory.constructor.findmove(game.state(), depth);
                                 game.move(move);
                                 window.sessionStorage.setItem("state", game.serialize());
-                                renderGame();    
+                                renderGame();
                             } else {
                                 alert("This game does not support slow AI.");
                             }
@@ -332,8 +339,8 @@
                             <div id="gameInfo" style="width: 50%; margin-left: 2em"></div>
                             <div id="varInfo" style="width: 50%; margin-left: 2em"></div>
                         </form>
-                    </section>            
-                </div>   
+                    </section>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
@@ -343,10 +350,10 @@
                             <div>
                                 <input type="radio" id="fillStandard" name="playerfill" value="standard" checked>
                                 <label for="fillStandard">Standard colours (9 max)</label>
-            
+
                                 <input type="radio" id="fillBlind" name="playerfill" value="blind">
                                 <label for="fillBlind">Colour-blind-friendly colours (4 max)</label>
-            
+
                                 <input type="radio" id="fillPatterns" name="playerfill" value="patterns">
                                 <label for="fillPatterns">Black-and-white patterns (10 max)</label>
                             </div>
@@ -391,7 +398,7 @@
                     <h2>Move History</h2>
                     <div id="moveHistory"></div>
                     <h2>Status</h2>
-                    <div id="status"></div>    
+                    <div id="status"></div>
                 </div>
             </div>
         </div>

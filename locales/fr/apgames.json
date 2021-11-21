@@ -56,6 +56,7 @@
             "INVALIDCELL": "[FR]Could not find the cell {{cell}} on the board.",
             "NONEXISTENT": "[FR]Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "[FR]You have no pieces to place.",
+            "SELFCAPTURE": "",
             "UNCONTROLLED": "",
             "VALID_MOVE": "[FR]Looks like a valid move."
         },
@@ -76,6 +77,17 @@
             "POTENTIAL_BLOCK": "",
             "POTENTIAL_MOVE": "",
             "STRAIGHTLINE": ""
+        },
+        "attangle": {
+            "EMPTYCAPTURE": "",
+            "MOVE2EMPTY": "",
+            "NOLOS": "",
+            "OBSTRUCTED": "",
+            "ONVOID": "",
+            "POTENTIAL_ONE": "",
+            "POTENTIAL_TWO": "",
+            "TOOHIGH": "",
+            "TRIPLESTACK": ""
         }
     },
     "volcano": {

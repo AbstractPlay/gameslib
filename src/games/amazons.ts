@@ -299,7 +299,7 @@ export class AmazonsGame extends GameBase {
             // destination is empty
             if (this.board.has(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.amazons.OCCUPIED", {where: to});
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
                 return result;
             }
             // destination is in a straight line
@@ -336,7 +336,7 @@ export class AmazonsGame extends GameBase {
             // destination is empty, unless you're blocking your starting space
             if ( (this.board.has(block)) && (block !== from) ) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.amazons.OCCUPIED", {where: block});
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: block});
                 return result;
             }
             // destination is in a straight line

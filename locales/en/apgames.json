@@ -1,9 +1,4 @@
 {
-    "blam": {
-        "MOVES_NOPASS": "You may not pass if you have pieces to place.",
-        "MOVES_NOPIECE": "You don't have a {{piece}} piece to place.",
-        "MOVES_SYNTAX": "Invalid move syntax. Enter the size followed by the cell (e.g., 3e4)."
-    },
     "homeworlds": {
         "CMD_ATK_OWNER": "In games with more than two players, you have to always specify the owner of the ship you are attacking.",
         "CMD_ATK_SELF": "You may not attack yourself.",
@@ -46,19 +41,19 @@
     "INITIAL_UNDO": "You can't undo the initial starting position of the game.",
     "MOVES_GAMEOVER": "You cannot make moves in concluded games",
     "MOVES_INVALID": "The move '{{move}}' is invalid. Please check the rules and try again.",
-    "MOVES_OCCUPIED": "The cell {{cell}} is already occupied.",
     "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time.",
     "validation": {
         "_general": {
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
             "EMPTYSTRING": "No input provided to validate.",
-            "FAILSAFE": "The move {{move}} passed validation but does not appear to be a legal move. Please inform the administrator.",
+            "FAILSAFE": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
             "NOLOS": "There is no line of sight between {{from}} and {{to}}.",
             "NONEXISTENT": "Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
             "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
+            "OCCUPIED": "The cell {{where}} is already occupied.",
             "SELFCAPTURE": "You cannot capture your own pieces.",
             "UNCONTROLLED": "You cannot move pieces you don't control.",
             "VALID_MOVE": "Looks like a valid move."
@@ -84,7 +79,6 @@
             "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high."
         },
         "amazons": {
-            "OCCUPIED": "The cell {{where}} is already occupied.",
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "You can only move and block in straight lines."
@@ -97,6 +91,11 @@
             "POTENTIAL_TWO": "This could potentially be a capture. Provide the target location.",
             "TOOHIGH": "The combined stack after the capture will be too high.",
             "TRIPLESTACK": "Triple stacks cannot participate in captures."
+        },
+        "blam": {
+            "BADSYNTAX": "Invalid syntax: {{move}}. It should a the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
+            "MOVES_NOPASS": "You cannot pass while you have pieces to place.",
+            "NOPIECE": "You do not have a piece of size {{size}} to place."
         }
     },
     "volcano": {

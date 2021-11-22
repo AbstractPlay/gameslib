@@ -1,9 +1,4 @@
 {
-    "blam": {
-        "MOVES_NOPASS": "[FR]You may not pass if you have pieces to place.",
-        "MOVES_NOPIECE": "[FR]You don't have a {{piece}} piece to place.",
-        "MOVES_SYNTAX": "[FR]Invalid move syntax. Enter the size followed by the cell (e.g., 3e4)."
-    },
     "homeworlds": {
         "CMD_ATK_OWNER": "[FR]In games with more than two players, you have to always specify the owner of the ship you are attacking.",
         "CMD_ATK_SELF": "[FR]You may not attack yourself.",
@@ -46,7 +41,6 @@
     "INITIAL_UNDO": "[FR]You can't undo the initial starting position of the game.",
     "MOVES_GAMEOVER": "[FR]You cannot make moves in concluded games",
     "MOVES_INVALID": "[FR]The move '{{move}}' is invalid. Please check the rules and try again.",
-    "MOVES_OCCUPIED": "[FR]The cell {{cell}} is already occupied.",
     "MOVES_SIMULTANEOUS_PARTIAL": "[FR]In simultaneous games, both players' moves must be submitted at the same time.",
     "validation": {
         "_general": {
@@ -59,6 +53,7 @@
             "NONEXISTENT": "[FR]Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "[FR]You have no pieces to place.",
             "OBSTRUCTED": "",
+            "OCCUPIED": "",
             "SELFCAPTURE": "",
             "UNCONTROLLED": "",
             "VALID_MOVE": "[FR]Looks like a valid move."
@@ -85,7 +80,6 @@
             "TOOHIGH": ""
         },
         "amazons": {
-            "OCCUPIED": "",
             "POTENTIAL_BLOCK": "",
             "POTENTIAL_MOVE": "",
             "STRAIGHTLINE": ""
@@ -98,6 +92,11 @@
             "POTENTIAL_TWO": "",
             "TOOHIGH": "",
             "TRIPLESTACK": ""
+        },
+        "blam": {
+            "BADSYNTAX": "",
+            "MOVES_NOPASS": "",
+            "NOPIECE": ""
         }
     },
     "volcano": {

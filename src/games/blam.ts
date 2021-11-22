@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -187,26 +187,24 @@ export class BlamGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return BlamGame.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = BlamGame.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = BlamGame.coords2algebraic(x, y);
-            }
+            const cell = BlamGame.coords2algebraic(col, row);
+            let newmove: string = "";
             // If you click on an occupied cell, clear the entry
             if (this.board.has(cell)) {
-                return "";
+                return {move: "", message: ""} as IClickResult;
             }
+            const stash = this.stashes.get(this.currplayer)!;
+            if (stash.reduce((a, b) => a + b) === 0) {
+                return {
+                    move: "pass",
+                    valid: true,
+                    complete: 1,
+                    message: i18next.t("apgames:validation._general.NOPIECES"),
+                } as IClickResult;
+            }
+            const lowest = stash.findIndex(n => n > 0) + 1;
             if (move.length > 0) {
                 const match = move.match(/^(\d)([a-z][0-9])$/);
                 if (match !== null) {
@@ -215,21 +213,89 @@ export class BlamGame extends GameBase {
                     if (prev === cell) {
                        num++;
                        if (num > 3) { num = 1; }
-                       return `${num}${cell}`;
+                       while (stash[num - 1] === 0) {
+                        num++;
+                        if (num > 3) { num = 1; }
+                       }
+                       newmove = `${num}${cell}`;
                     } else {
-                        return `1${cell}`;
+                        newmove = `${lowest}${cell}`;
                     }
                 } else {
-                    return `1${cell}`;
+                    newmove = `${lowest}${cell}`;
                 }
             } else {
-                return `1${cell}`;
+                newmove = `${lowest}${cell}`;
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
         }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const stash = this.stashes.get(this.currplayer)!;
+
+        // check for "pass" first
+        if (m === "pass") {
+            if (stash.reduce((a, b) => a + b) === 0) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blam.MOVES_NOPASS")
+                return result;
+            }
+        }
+
+        const match = m.match(/^([123])([a-h][1-8])$/);
+        if (match === null) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.blam.BADSYNTAX", {move: m});
+            return result;
+        }
+        const size = parseInt(match[1], 10);
+        const cell = match[2];
+        // cell exists
+        try {
+            BlamGame.algebraic2coords(cell)
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell})
+            return result;
+        }
+        // have piece to place
+        if (stash[size - 1] === 0) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.blam.NOPIECE", {size});
+            return result;
+        }
+        // space is empty
+        if (this.board.has(cell)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+            return result;
+        }
+
+        // Looks good
+        result.valid = true;
+        result.complete = 1;
+        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        return result;
     }
 
     public move(m: string): BlamGame {
@@ -237,45 +303,26 @@ export class BlamGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        if (! /^(pass|[123][a-h][1-8])$/.test(m)) {
-            throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam.MOVES_SYNTAX", {move: m}));
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+        if (! this.moves().includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         if (m.toLowerCase() === "pass") {
-            // validate move
-            const stash = this.stashes.get(this.currplayer);
-            if ( (stash === undefined) || (stash.length !== 3)) {
-                throw new Error("Malformed stash.");
-            }
-            const sum = stash.reduce((a, b) => {return a + b;});
-            if (sum > 0) {
-                throw new UserFacingError("MOVES_NOPASS", i18next.t("apgames:blam.MOVES_NOPASS"));
-            }
             this.results = [{type: "pass"}];
         } else {
             // validate move
             const chars = m.split("");
             const pip = parseInt(chars[0], 10);
-            if ( isNaN(pip) || (pip === undefined) || (pip === null) || (pip < 1) || (pip > 3) ) {
-                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam.MOVES_SYNTAX", {move: m}));
-            }
-            const stash = this.stashes.get(this.currplayer);
-            if ( (stash === undefined) || (stash.length !== 3)) {
-                throw new Error("Malformed stash.");
-            }
-            if (stash[pip - 1] <= 0) {
-                throw new UserFacingError("MOVES_NOPIECE", i18next.t("apgames:blam.MOVES_NOPIECE", {piece: pip}));
-            }
+            const stash = this.stashes.get(this.currplayer)!;
             const cell = chars[1] + chars[2];
             const coords = BlamGame.algebraic2coords(cell);
             const grid = new RectGrid(8, 8);
-            if (! grid.inBounds(...coords)) {
-                // This is here, but it really should never happen given the regexp earlier on.
-                throw new UserFacingError("MOVES_SYNTAX", i18next.t("apgames:blam.MOVES_SYNTAX", {move: m}));
-            }
-            if (this.board.has(cell)) {
-                throw new UserFacingError("MOVES_OCCUPIED", i18next.t("apgames:MOVES_OCCUPIED", {cell}));
-            }
 
             // place the piece
             this.board.set(cell, [this.currplayer, pip]);
@@ -517,6 +564,9 @@ export class BlamGame extends GameBase {
                     const [toX, toY] = BlamGame.algebraic2coords(move.to);
                     rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 }
+            }
+            if (rep.annotations!.length === 0) {
+                delete rep.annotations;
             }
         }
 

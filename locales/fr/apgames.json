@@ -44,11 +44,13 @@
     "MOVES_SIMULTANEOUS_PARTIAL": "[FR]In simultaneous games, both players' moves must be submitted at the same time.",
     "validation": {
         "_general": {
+            "CAPTURE4MOVE": "",
             "DEFAULT_HANDLER": "[FR]This is the default handler and should never be called directly. Please inform the administrator.",
             "EMPTYSTRING": "",
             "FAILSAFE": "",
             "GENERIC": "[FR]A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "[FR]Could not find the cell {{cell}} on the board.",
+            "MOVE4CAPTURE": "",
             "NOLOS": "",
             "NONEXISTENT": "[FR]Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "[FR]You have no pieces to place.",
@@ -97,6 +99,14 @@
             "BADSYNTAX": "",
             "MOVES_NOPASS": "",
             "NOPIECE": ""
+        },
+        "breakthrough": {
+            "BADVARIANT": "",
+            "DIAGONAL_CAPTURES": "",
+            "NOCAPTURES": "",
+            "ONLY_FORWARD": "",
+            "PARTIAL": "",
+            "TOOFAR": ""
         }
     },
     "volcano": {

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -158,67 +158,224 @@ export class BreakthroughGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = BreakthroughGame.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = BreakthroughGame.coords2algebraic(x, y);
-            }
+            const cell = BreakthroughGame.coords2algebraic(col, row);
+            let newmove: string = "";
             if (move.length > 0) {
                 if ( (this.variants.includes("bombardment")) && (move === cell) ) {
-                    return `x${cell}`;
+                    newmove = `x${cell}`;
                 } else if (move.startsWith("x")) {
-                    return cell;
-                }
-                let prev = move;
-                if (move.includes("-")) {
-                    prev = move.split("-")[0];
-                }
-                const [xPrev, yPrev] = BreakthroughGame.algebraic2coords(prev);
-                if (Math.max(Math.abs(x - xPrev), Math.abs(y - yPrev)) === 1) {
-                    if (this.board.has(cell)) {
-                        return `${prev}x${cell}`;
-                    } else {
-                        return `${prev}-${cell}`;
-                    }
-                } else if (this.board.has(cell)) {
-                    return cell;
+                    newmove = cell;
                 } else {
-                    return "";
+                    let prev = move;
+                    if (move.includes("-")) {
+                        prev = move.split("-")[0];
+                    }
+                    const [xPrev, yPrev] = BreakthroughGame.algebraic2coords(prev);
+                    if (Math.max(Math.abs(col - xPrev), Math.abs(row - yPrev)) === 1) {
+                        if (this.board.has(cell)) {
+                            if (this.board.get(cell)! !== this.currplayer) {
+                                newmove = `${prev}x${cell}`;
+                            } else {
+                                newmove = cell;
+                            }
+                        } else {
+                            newmove = `${prev}-${cell}`;
+                        }
+                    } else if (this.board.has(cell)) {
+                        newmove = cell;
+                    } else {
+                        return {move: "", message: ""} as IClickResult;
+                    }
                 }
             } else if (this.board.has(cell)) {
-                return cell;
+                newmove = cell;
             } else {
-                return "";
+                return {move: "", message: ""} as IClickResult;
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
         }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // Bombardments first
+        if (m.startsWith("x")) {
+            // variant active
+            if (! this.variants.includes("bombardment")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.breakthrough.BADVARIANT");
+                return result;
+            }
+            const cell = m.slice(1);
+            // valid cell
+            try {
+                BreakthroughGame.algebraic2coords(cell);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                return result;
+            }
+            // cell has a piece
+            if (! this.board.has(cell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: cell});
+                return result;
+            }
+            // that piece belongs to you
+            if (this.board.get(cell)! !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+
+            // looks good
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        // partials first
+        if ( (! m.includes("-")) && (! m.includes("x")) ) {
+            // valid cell
+            try {
+                BreakthroughGame.algebraic2coords(m);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                return result;
+            }
+            // cell has a piece
+            if (! this.board.has(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: m});
+                return result;
+            }
+            // that piece belongs to you
+            if (this.board.get(m)! !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+
+            // looks good
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.breakthrough.PARTIAL");
+            return result;
+        }
+
+        // full moves
+        const [from, to] = m.split(/[-x]/);
+        // cells valid
+        for (const cell of [from, to]) {
+            try {
+                BreakthroughGame.algebraic2coords(cell);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                return result;
+            }
+        }
+        // `from` has a piece
+        if (! this.board.has(from)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+            return result;
+        }
+        // that piece belongs to you
+        if (this.board.get(from)! !== this.currplayer) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+            return result;
+        }
+        const [xFrom, yFrom] = BreakthroughGame.algebraic2coords(from);
+        const [xTo, yTo] = BreakthroughGame.algebraic2coords(to);
+        // Only move one space
+        for (const pair of [[xFrom, xTo], [yFrom, yTo]]) {
+            if (Math.abs(pair[0] - pair[1]) > 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.breakthrough.TOOFAR");
+                return result;
+            }
+        }
+        // Moving in the right direction
+        if ( ( (this.currplayer === 1) && (yTo >= yFrom) ) || ( (this.currplayer === 2) && (yTo <= yFrom) ) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.breakthrough.ONLY_FORWARD");
+            return result;
+        }
+
+        if (m.includes("-")) {
+            // is the space empty
+            if (this.board.has(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: to});
+                return result;
+            }
+        } else {
+            // captures not allowed in "Bombardment" variant
+            if (this.variants.includes("bombardment")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.breakthrough.NOCAPTURES", {where: to});
+                return result;
+            }
+            // capture moves must be in diagonal direction
+            if (Math.abs(xFrom - xTo) !== 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.breakthrough.DIAGONAL_CAPTURES", {where: to});
+                return result;
+
+            }
+            // is there a piece to capture
+            if (! this.board.has(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: to});
+                return result;
+            }
+            // is it an enemy piece
+            if (this.board.get(to)! === this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                return result;
+            }
+        }
+
+        // Looks good
+        result.valid = true;
+        result.complete = 1;
+        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        return result;
     }
 
     public move(m: string): BreakthroughGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
         if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         this.results = [];

@@ -44,11 +44,13 @@
     "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time.",
     "validation": {
         "_general": {
+            "CAPTURE4MOVE": "You signalled a capture, but there's no piece at {{where}}.",
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
             "EMPTYSTRING": "No input provided to validate.",
             "FAILSAFE": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
+            "MOVE4CAPTURE": "You signalled a regular move, but {{where}} is occupied.",
             "NOLOS": "There is no line of sight between {{from}} and {{to}}.",
             "NONEXISTENT": "Trying to move a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
@@ -96,6 +98,14 @@
             "BADSYNTAX": "Invalid syntax: {{move}}. It should a the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
             "MOVES_NOPASS": "You cannot pass while you have pieces to place.",
             "NOPIECE": "You do not have a piece of size {{size}} to place."
+        },
+        "breakthrough": {
+            "BADVARIANT": "Bombardment moves are only allowed when that variant is active.",
+            "DIAGONAL_CAPTURES": "Captures may only be made in a forward-diagonal direction.",
+            "NOCAPTURES": "Captures are not allowed in the 'Bombardment' variant.",
+            "ONLY_FORWARD": "Pieces may only move forward.",
+            "PARTIAL": "Provide the destination.",
+            "TOOFAR": "Pieces can only move one space at a time."
         }
     },
     "volcano": {

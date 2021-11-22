@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Fabrik, including the "Arbeiter" variant. It includes move generation but no AI. The move tree is too big for too long.
 - Added Manalath, including move generation but no AI.
 - Added Urbino, with move generation but no AI. Includes the "Monuments" variant.
+- Extended validation and click handling added to the following:
+  - Abande
+  - Accasta
+  - Amazons
+  - Attangle
+  - Blam!
+  - Breakthrough
 
 ## [0.4.0] - 2021-11-15
 
@@ -36,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### New Games
 
 - Entropy game added. This includes move generation but not AI. Hopefully AI will be doable later.
-  
+
   This is the first simultaneous game. The engine itself does not accept partial moves. All players' moves must be submitted at the same time. This adds complexity to the API server, which must store partial moves for a time, but prevents the hidden information being stored and transmitted by the game state, which is visible to the client browser.
 - Added the modern Volcano, which differs from what was implemented on SDG (no move generation or AI).
 - Added the original Mega-Volcano (no move generation or AI).

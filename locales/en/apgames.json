@@ -52,6 +52,7 @@
         "_general": {
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
             "EMPTYSTRING": "No input provided to validate.",
+            "FAILSAFE": "The move {{move}} passed validation but does not appear to be a legal move. Please inform the administrator.",
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
             "NOLOS": "There is no line of sight between {{from}} and {{to}}.",

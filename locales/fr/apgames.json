@@ -52,6 +52,7 @@
         "_general": {
             "DEFAULT_HANDLER": "[FR]This is the default handler and should never be called directly. Please inform the administrator.",
             "EMPTYSTRING": "",
+            "FAILSAFE": "",
             "GENERIC": "[FR]A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "[FR]Could not find the cell {{cell}} on the board.",
             "NOLOS": "",

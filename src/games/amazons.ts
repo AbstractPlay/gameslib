@@ -381,6 +381,9 @@ export class AmazonsGame extends GameBase {
         if (! result.valid) {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
+        if (! this.moves().includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
 
         if (partial) {
             if ( (result.complete !== undefined) && (result.complete >= 0) || result.canrender === true ) {

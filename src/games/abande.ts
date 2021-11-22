@@ -405,6 +405,9 @@ export class AbandeGame extends GameBase {
         if (! result.valid) {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
+        if (! this.moves().includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
 
         this.results = [];
         // placement

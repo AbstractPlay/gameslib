@@ -397,6 +397,9 @@ export class AttangleGame extends GameBase {
         if (! result.valid) {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
+        if (! this.moves(undefined, true).includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
 
         this.results = [];
         if (m.includes("-")) {

@@ -79,7 +79,8 @@
             "PARTIAL_SUBSTACK_other": "Looks like you want to move the top {{count}} pieces from the stack. Provide the destination.",
             "SOURCE_EMPTY": "In the move '{{move}}', when you come to the step '{{step}}', you don't have any pieces left to move.",
             "TOOFAR": "In the move '{{move}}', the step '{{step}}' tries to move further than it is allowed.",
-            "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high."
+            "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high.",
+            "MORE_THAN_THREE": "In the move '{{move}}', the step '{{step}}' would create a stack with more than 3 pieces of the same color."
         },
         "amazons": {
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",

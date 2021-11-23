@@ -353,7 +353,7 @@ export class AmazonsGame extends GameBase {
                 if (cell === block) { break; }
                 if ( (this.board.has(cell)) && (cell !== from) ) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
+                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: to, to: block, obstruction: cell});
                     return result;
                 }
             }
@@ -381,9 +381,6 @@ export class AmazonsGame extends GameBase {
         if (! result.valid) {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
 
         if (partial) {
             if ( (result.complete !== undefined) && (result.complete >= 0) || result.canrender === true ) {
@@ -402,6 +399,9 @@ export class AmazonsGame extends GameBase {
                 throw new Error(`The move '${m}' is not a valid partial.`)
             }
             return this;
+        }
+        if (! this.moves().includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         // Move valid, so change the state

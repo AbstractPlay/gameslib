@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -52,7 +52,7 @@ export class CephalopodGame extends GameBase {
                 description: "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
             },
         ],
-        flags: ["scores"]
+        flags: ["scores", "multistep"]
     };
 
     public numplayers: number = 2;
@@ -174,56 +174,192 @@ export class CephalopodGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    // Will need to be made aware of the different board types
-    public click(row: number, col: number, piece: string): string {
-        return this.graph.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = this.graph.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = this.graph.coords2algebraic(x, y);
-            }
+            const cell = this.graph.coords2algebraic(col, row);
+            let newmove = "";
             if (move === "") {
                 if (this.board.has(cell)) {
-                    return "";
+                    return {move: "", message: ""} as IClickResult;
                 } else {
-                    return cell;
+                    newmove = cell;
                 }
             } else {
                 // Reset entire move by clicking on empty cell
                 if (! this.board.has(cell)) {
-                    return cell;
-                }
-                const [prev, rest] = move.split("=");
-                if (rest === undefined) {
-                    return `${prev}=${cell}`;
+                    newmove = cell;
                 } else {
-                    return `${prev}=${rest}+${cell}`;
+                    const [prev, rest] = move.split("=");
+                    if (rest === undefined) {
+                        newmove = `${prev}=${cell}`;
+                    } else {
+                        newmove = `${prev}=${rest}+${cell}`;
+                    }
                 }
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
         }
     }
 
-    public move(m: string): CephalopodGame {
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const allcells = this.graph.listCells(false) as string[];
+
+        // partial: precapture
+        if (! m.includes("=")) {
+            // cell is valid
+            if (! allcells.includes(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                return result;
+            }
+            // cell is empty
+            if (this.board.has(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
+                return result;
+            }
+            // are captures possible
+            let cancap = false;
+            // Get list of occupied neighbours
+            const nCells = this.graph.neighbours(m);
+            const neighbours = [...this.board.entries()].filter(e => nCells.includes(e[0])).map(e => [e[0], e[1][1]] as [string, number]);
+            // Build a powerset of those neighbours
+            const pset = new PowerSet(neighbours);
+            for (const set of pset) {
+                // Every set that is length 2 or longer and that sums to <=6 is a capture
+                if (set.length > 1) {
+                    const sum = set.map(e => e[1]).reduce((a, b) => a + b);
+                    if (sum <= 6) {
+                        cancap = true;
+                        break;
+                    }
+                }
+            }
+            if (cancap) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.ceph.PARTIAL_PRECAP");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        // capture in progress
+        } else {
+            const [source, rest] = m.split("=");
+            const caps = rest.split("+");
+            // validate caps
+            let pipcount = 0;
+            const allcaps = new Set();
+            const nCells = this.graph.neighbours(source);
+            for (const cap of caps) {
+                // valid cell
+                if (! allcells.includes(cap)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: cap});
+                    return result;
+                }
+                // is a neighbour
+                if (! nCells.includes(cap)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ceph.NOTADJACENT", {cell: cap});
+                    return result;
+                }
+                // occupied
+                if (! this.board.has(cap)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {cell: m});
+                    return result;
+                }
+                // pipcount <= 6
+                pipcount += this.board.get(cap)![1];
+                // Not duplicated
+                if (allcaps.has(cap)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ceph.DUPLICATECAP", {cell: m});
+                    return result;
+                } else {
+                    allcaps.add(cap);
+                }
+            }
+            if (pipcount > 6) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ceph.TOOHIGH");
+                return result;
+            }
+
+            // only one die so far
+            if (caps.length < 2) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.ceph.PARTIAL_ONECAP");
+                return result;
+            }
+            let capcount = 0;
+            // Get list of occupied neighbours
+            const neighbours = [...this.board.entries()].filter(e => nCells.includes(e[0])).map(e => [e[0], e[1][1]] as [string, number]);
+            // Build a powerset of those neighbours
+            const pset = new PowerSet(neighbours);
+            for (const set of pset) {
+                // Every set that is length 2 or longer and that sums to <=6 is a capture
+                if (set.length > 1) {
+                    const sum = set.map(e => e[1]).reduce((a, b) => a + b);
+                    if (sum <= 6) {
+                        capcount++;
+                    }
+                }
+            }
+            // complete but more are possible
+            if (capcount > 1) {
+                result.valid = true;
+                result.complete = 0;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            // fully complete
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
+
+        return result;
+    }
+
+    public move(m: string, partial: boolean = false): CephalopodGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
         if (! this.moves(undefined, true).includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
+        if (partial) {
+            if ( (result.complete === undefined) || (result.complete < 0) || ( (result.canrender !== undefined) && (result.canrender === false) ) ) {
+                throw new Error(`The move '${m}' is not a valid partial.`)
+            }
         }
 
         this.results = [];
@@ -247,6 +383,8 @@ export class CephalopodGame extends GameBase {
             this.board.set(m, [this.currplayer, 1]);
             this.results.push({type: "place", what: "1", where: m});
         }
+
+        if (partial) {return this;}
 
         // update currplayer
         this.lastmove = m;

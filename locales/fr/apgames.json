@@ -107,6 +107,13 @@
             "ONLY_FORWARD": "",
             "PARTIAL": "",
             "TOOFAR": ""
+        },
+        "ceph": {
+            "DUPLICATECAP": "",
+            "NOTADJACENT": "",
+            "PARTIAL_ONECAP": "",
+            "PARTIAL_PRECAP": "",
+            "TOOHIGH": ""
         }
     },
     "volcano": {

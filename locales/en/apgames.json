@@ -52,10 +52,11 @@
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
             "MOVE4CAPTURE": "You signalled a regular move, but {{where}} is occupied.",
             "NOLOS": "There is no line of sight between {{from}} and {{to}}.",
-            "NONEXISTENT": "Trying to move a piece or stack that doesn't exist at {{where}}.",
+            "NONEXISTENT": "Trying to interact with a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
             "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
             "OCCUPIED": "The cell {{where}} is already occupied.",
+            "SAME_FROM_TO": "The 'from' and 'to' cells have to be different.",
             "SELFCAPTURE": "You cannot capture your own pieces.",
             "UNCONTROLLED": "You cannot move pieces you don't control.",
             "VALID_MOVE": "Looks like a valid move."
@@ -106,6 +107,19 @@
             "ONLY_FORWARD": "Pieces may only move forward.",
             "PARTIAL": "Provide the destination.",
             "TOOFAR": "Pieces can only move one space at a time."
+        },
+        "cannon": {
+            "BAD_RETREAT": "Pieces can only retreat if they are adjacent to at least one enemy piece.",
+            "FIXED_TOWNS": "Towns cannot be moved.",
+            "FORWARD_ONLY": "Pieces can only move forward, unless capturing laterally or retreating.",
+            "HOMECELL": "You can only place your town on your home row, and not on the corners.",
+            "LATERAL_MOVEMENT": "Pieces can only move laterally when capturing.",
+            "NOCANNON_CAPTURE": "This piece is not in range of any of your cannons.",
+            "NOCANNON_MOVE": "There is no cannon along which to move that piece that way.",
+            "PARTIAL": "Provide a destination.",
+            "RETREAT_DISTANCE": "You must retreat two full spaces.",
+            "TOOFAR": "You can only move one space at a time, unless retreating.",
+            "UNCONTROLLED": "You can't control enemy pieces. If you're trying to capture it by cannon, click it again."
         },
         "ceph": {
             "DUPLICATECAP": "You can't capture the same piece more than once.",

@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
@@ -280,60 +280,340 @@ export class CannonGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return CannonGame.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = CannonGame.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = CannonGame.coords2algebraic(x, y);
-            }
+            const cell = CannonGame.coords2algebraic(col, row);
+            let newmove = "";
             if (move === "") {
-                if ( (this.board.has(cell)) && (this.board.get(cell)![1] === "s") ) {
-                    return cell;
+                if (this.board.has(cell)) {
+                    newmove = cell;
                 } else if (! this.placed) {
-                    return cell;
+                    newmove = cell;
                 } else {
-                    return "";
+                    return {move: "", message: ""} as IClickResult;
                 }
             } else {
                 if (! this.placed) {
-                    return cell;
-                }
-                if ( (move === cell) && (this.board.has(cell)) && (this.board.get(cell)![1] === "s") ) {
-                    return `x${cell}`;
-                }
-                const [prev, rest] = move.split(/[x-]/);
-                if ( (prev === cell) || (rest === cell) ) {
-                    return cell;
-                } else if (this.board.has(cell)) {
-                    return `${prev}x${cell}`;
+                    newmove = cell;
+                } else if ( (move === cell) && (this.board.has(cell)) && (this.board.get(cell)![0] !== this.currplayer) ) {
+                    newmove = `x${cell}`;
                 } else {
-                    return `${prev}-${cell}`;
+                    const [from, to] = move.split(/[x-]/);
+                    if ( (from === cell) || (to === cell) ) {
+                        newmove = cell;
+                    } else if (this.board.has(cell)) {
+                        newmove = `${from}x${cell}`;
+                    } else {
+                        newmove = `${from}-${cell}`;
+                    }
                 }
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
         }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const grid = new RectGrid(10, 10);
+
+        // First deal with town placement
+        if (! this.placed) {
+            const myhomes = homes.get(this.currplayer)!;
+            if (! myhomes.includes(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.cannon.HOMECELL");
+                return result;
+            }
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        // cannon capture
+        if (m.startsWith("x")) {
+            const cell = m.slice(1);
+            // cell is occupied
+            if (! this.board.has(cell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: cell});
+                return result;
+            }
+            // it belongs to the enemy
+            if (this.board.get(cell)![0] === this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                return result;
+            }
+            // it is in range of one of your cannons
+            const [x, y] = CannonGame.algebraic2coords(cell);
+            const mysoldiers = [...this.board.entries()].filter(e => (e[1][0] === this.currplayer) && (e[1][1] === "s") ).map(e => e[0]);
+            let inrange = false;
+            for (const dir of alldirs) {
+                const ray = grid.ray(x, y, dir).map(pt => CannonGame.coords2algebraic(...pt));
+                if (ray.length >= 4) {
+                    // first cell must be empty
+                    if (this.board.has(ray[0])) {
+                        continue;
+                    }
+                    // second cell might be empty too
+                    let startidx = 1;
+                    if (! this.board.has(ray[1])) {
+                        // but now we have to make sure the ray is at least 5 cells long
+                        if (ray.length < 5) {
+                            continue;
+                        }
+                        startidx = 2;
+                    }
+                    // remaning three must be your soldiers
+                    let iscannon = true;
+                    for (let i = startidx; i < startidx + 3; i++) {
+                        if (! mysoldiers.includes(ray[i])) {
+                            iscannon = false;
+                            break;
+                        }
+                    }
+                    if (iscannon) {
+                        inrange = true;
+                        break;
+                    }
+                }
+            }
+            if (! inrange) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.cannon.NOCANNON_CAPTURE", {where: cell});
+                return result;
+            }
+
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+
+        // move or capture
+        } else if ( (m.includes("-")) || (m.includes("x")) ) {
+            const [from, to] = m.split(/[-x]/);
+            // both cells are valid
+            for (const cell of [from, to]) {
+                try {
+                    CannonGame.algebraic2coords(cell);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                    return result;
+                }
+            }
+            // both cells are different
+            if (from === to) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
+                return result;
+            }
+            // from is occupied
+            if (! this.board.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // It belongs to you
+            if (this.board.get(from)![0] !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+            // It's a soldier
+            if (this.board.get(from)![1] !== "s") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.cannon.FIXED_TOWNS");
+                return result;
+            }
+            // Correct operator was used
+            if ( (m.includes("-")) && (this.board.has(to)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: to});
+                return result;
+            }
+            if ( (m.includes("x")) && (! this.board.has(to)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: to});
+                return result;
+            }
+            const [xFrom, yFrom] = CannonGame.algebraic2coords(from);
+            const [xTo, yTo] = CannonGame.algebraic2coords(to);
+            const bearing = RectGrid.bearing(xFrom, yFrom, xTo, yTo)!;
+            const neighbours = grid.adjacencies(xFrom, yFrom).map(pt => CannonGame.coords2algebraic(...pt));
+            const adjEnemies = [...this.board.entries()].filter(e => neighbours.includes(e[0]) && e[1][0] !== this.currplayer).map(e => e[0]);
+            const forward = dirsForward.get(this.currplayer)!;
+            const backward = dirsBackward.get(this.currplayer)!;
+
+            // cannon moves first
+            if (Math.max(Math.abs(xFrom - xTo), Math.abs(yFrom - yTo)) === 3) {
+                const ray = grid.ray(xFrom, yFrom, bearing).map(pt => CannonGame.coords2algebraic(...pt));
+                if (ray.length < 3) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.NOCANNON_MOVE");
+                    return result;
+                }
+                // first two cells must be your own soldiers
+                for (const cell of [ray[0], ray[1]]) {
+                    if ( (! this.board.has(cell)) || (this.board.get(cell)![0] !== this.currplayer) || (this.board.get(cell)![1] !== "s") ) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.cannon.NOCANNON_MOVE");
+                        return result;
+                    }
+                }
+                // third cell must be empty
+                if (this.board.has(ray[2])) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.NOCANNON_MOVE");
+                    return result;
+                }
+
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+
+            // retreats
+            } else if (backward.includes(bearing)) {
+                // reason to retreat
+                if (adjEnemies.length === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.BAD_RETREAT");
+                    return result;
+                }
+                // Correct distance
+                if (Math.abs(yFrom - yTo) !== 2) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.RETREAT_DISTANCE");
+                    return result;
+                }
+                // no obstruction
+                const next = CannonGame.coords2algebraic(...RectGrid.move(xFrom, yFrom, bearing));
+                if (this.board.has(next)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: next});
+                    return result;
+                }
+
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+
+            // validate sideways motion
+            } else if ( (bearing === "E") || (bearing === "W") ) {
+                // the space is adjacent
+                if (Math.abs(xFrom - xTo) !== 1) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.TOOFAR");
+                    return result;
+                }
+                // There's a piece present
+                if (! this.board.has(to)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.LATERAL_MOVEMENT");
+                    return result;
+                }
+                // the captured piece is an enemy
+                if (this.board.get(to)![0] === this.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                    return result;
+                }
+
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+
+            // forward motion
+            } else {
+                // correct direction
+                if (! forward.includes(bearing)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.FORWARD_ONLY");
+                    return result;
+                }
+                // space is adjacent
+                if (Math.abs(yFrom - yTo) !== 1) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.TOOFAR");
+                    return result;
+                }
+
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+
+        // single cell
+        } else {
+            // cell is valid
+            try {
+                CannonGame.algebraic2coords(m);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                return result;
+            }
+            // the cell is occupied
+            if (! this.board.has(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: m});
+                return result;
+            }
+            // The cell is yours
+            if (this.board.get(m)![0] !== this.currplayer) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.cannon.UNCONTROLLED");
+                return result;
+            }
+            // The cell is a soldier
+            if (this.board.get(m)![1] === "t") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.cannon.FIXED_TOWNS");
+                return result;
+            }
+
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.cannon.PARTIAL");
+            return result;
+        }
+
+        return result;
     }
 
     public move(m: string): CannonGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
+        if (! this.moves().includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
+
         this.lastmove = m;
         if (m[0] === "x") {
             const cell = m.slice(1);

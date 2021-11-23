@@ -44,20 +44,21 @@
     "MOVES_SIMULTANEOUS_PARTIAL": "[FR]In simultaneous games, both players' moves must be submitted at the same time.",
     "validation": {
         "_general": {
-            "CAPTURE4MOVE": "",
+            "CAPTURE4MOVE": "[FR]You signalled a capture, but there's no piece at {{where}}.",
             "DEFAULT_HANDLER": "[FR]This is the default handler and should never be called directly. Please inform the administrator.",
-            "EMPTYSTRING": "",
-            "FAILSAFE": "",
+            "EMPTYSTRING": "[FR]No input provided to validate.",
+            "FAILSAFE": "[FR]The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
             "GENERIC": "[FR]A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "[FR]Could not find the cell {{cell}} on the board.",
-            "MOVE4CAPTURE": "",
-            "NOLOS": "",
-            "NONEXISTENT": "[FR]Trying to move a piece or stack that doesn't exist at {{where}}.",
+            "MOVE4CAPTURE": "[FR]You signalled a regular move, but {{where}} is occupied.",
+            "NOLOS": "[FR]There is no line of sight between {{from}} and {{to}}.",
+            "NONEXISTENT": "[FR]Trying to interact with a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "[FR]You have no pieces to place.",
-            "OBSTRUCTED": "",
-            "OCCUPIED": "",
-            "SELFCAPTURE": "",
-            "UNCONTROLLED": "",
+            "OBSTRUCTED": "[FR]There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
+            "OCCUPIED": "[FR]The cell {{where}} is already occupied.",
+            "SAME_FROM_TO": "[FR]The 'from' and 'to' cells have to be different.",
+            "SELFCAPTURE": "[FR]You cannot capture your own pieces.",
+            "UNCONTROLLED": "[FR]You cannot move pieces you don't control.",
             "VALID_MOVE": "[FR]Looks like a valid move."
         },
         "abande": {
@@ -72,48 +73,60 @@
             "TRIPLESTACK": "[FR]You cannot move triple stacks."
         },
         "accasta": {
-            "INVALID_SIZE": "",
-            "PARTIAL_FULLSTACK": "",
-            "PARTIAL_SUBSTACK_one": "",
-            "PARTIAL_SUBSTACK_many": "",
-            "PARTIAL_SUBSTACK_other": "",
-            "SOURCE_EMPTY": "",
-            "TOOFAR": "",
-            "TOOHIGH": ""
+            "INVALID_SIZE": "[FR]In the move '{{move}}', the step '{{step}}' contains an invalid number of pieces to move. Remember that if you're removing the entire stack, omit the number altogether.",
+            "PARTIAL_FULLSTACK": "[FR]Looks like you want to move an entire stack. Provide the destination.",
+            "PARTIAL_SUBSTACK_one": "[FR]Looks like you want to move the top piece from the stack. Provide the destination.",
+            "PARTIAL_SUBSTACK_other": "[FR]Looks like you want to move the top {{count}} pieces from the stack. Provide the destination.",
+            "SOURCE_EMPTY": "[FR]In the move '{{move}}', when you come to the step '{{step}}', you don't have any pieces left to move.",
+            "TOOFAR": "[FR]In the move '{{move}}', the step '{{step}}' tries to move further than it is allowed.",
+            "TOOHIGH": "[FR]In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high."
         },
         "amazons": {
-            "POTENTIAL_BLOCK": "",
-            "POTENTIAL_MOVE": "",
-            "STRAIGHTLINE": ""
+            "POTENTIAL_BLOCK": "[FR]So far so good. Provide the space you want to block.",
+            "POTENTIAL_MOVE": "[FR]So far so good. Provide the space you want to move to.",
+            "STRAIGHTLINE": "[FR]You can only move and block in straight lines."
         },
         "attangle": {
-            "EMPTYCAPTURE": "",
-            "MOVE2EMPTY": "",
-            "ONVOID": "",
-            "POTENTIAL_ONE": "",
-            "POTENTIAL_TWO": "",
-            "TOOHIGH": "",
-            "TRIPLESTACK": ""
+            "EMPTYCAPTURE": "[FR]One of the cells involved with the capture doesn't have any pieces in it.",
+            "MOVE2EMPTY": "[FR]You cannot capture empty cells.",
+            "ONVOID": "[FR]You cannot place pieces on voids (the spaces marked with a black dot).",
+            "POTENTIAL_ONE": "[FR]This could potentially be a capture. Provide the location of the second stack.",
+            "POTENTIAL_TWO": "[FR]This could potentially be a capture. Provide the target location.",
+            "TOOHIGH": "[FR]The combined stack after the capture will be too high.",
+            "TRIPLESTACK": "[FR]Triple stacks cannot participate in captures."
         },
         "blam": {
-            "BADSYNTAX": "",
-            "MOVES_NOPASS": "",
-            "NOPIECE": ""
+            "BADSYNTAX": "[FR]Invalid syntax: {{move}}. It should a the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
+            "MOVES_NOPASS": "[FR]You cannot pass while you have pieces to place.",
+            "NOPIECE": "[FR]You do not have a piece of size {{size}} to place."
         },
         "breakthrough": {
-            "BADVARIANT": "",
-            "DIAGONAL_CAPTURES": "",
-            "NOCAPTURES": "",
-            "ONLY_FORWARD": "",
-            "PARTIAL": "",
-            "TOOFAR": ""
+            "BADVARIANT": "[FR]Bombardment moves are only allowed when that variant is active.",
+            "DIAGONAL_CAPTURES": "[FR]Captures may only be made in a forward-diagonal direction.",
+            "NOCAPTURES": "[FR]Captures are not allowed in the 'Bombardment' variant.",
+            "ONLY_FORWARD": "[FR]Pieces may only move forward.",
+            "PARTIAL": "[FR]Provide the destination.",
+            "TOOFAR": "[FR]Pieces can only move one space at a time."
+        },
+        "cannon": {
+            "BAD_RETREAT": "[FR]Pieces can only retreat if they are adjacent to at least one enemy piece.",
+            "FIXED_TOWNS": "[FR]Towns cannot be moved.",
+            "FORWARD_ONLY": "[FR]Pieces can only move forward, unless capturing laterally or retreating.",
+            "HOMECELL": "[FR]You can only place your town on your home row, and not on the corners.",
+            "LATERAL_MOVEMENT": "[FR]Pieces can only move laterally when capturing.",
+            "NOCANNON_CAPTURE": "[FR]This piece is not in range of any of your cannons.",
+            "NOCANNON_MOVE": "[FR]There is no cannon along which to move that piece that way.",
+            "PARTIAL": "[FR]Provide a destination.",
+            "RETREAT_DISTANCE": "[FR]You must retreat two full spaces.",
+            "TOOFAR": "[FR]You can only move one space at a time, unless retreating.",
+            "UNCONTROLLED": "[FR]You can't control enemy pieces. If you're trying to capture it by cannon, click it again."
         },
         "ceph": {
-            "DUPLICATECAP": "",
-            "NOTADJACENT": "",
-            "PARTIAL_ONECAP": "",
-            "PARTIAL_PRECAP": "",
-            "TOOHIGH": ""
+            "DUPLICATECAP": "[FR]You can't capture the same piece more than once.",
+            "NOTADJACENT": "[FR]You can only capture pieces orthogonally adjacent to your placed piece.",
+            "PARTIAL_ONECAP": "[FR]Select at least one more adjacent piece to capture.",
+            "PARTIAL_PRECAP": "[FR]Select a piece to capture.",
+            "TOOHIGH": "[FR]The pieces you capture cannot total more than six."
         }
     },
     "volcano": {

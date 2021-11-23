@@ -488,6 +488,14 @@ export class AccastaGame extends GameBase {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.accasta.TOOHIGH", {move: m, step});
                     return result;
+                } else {
+                    const mylen = [...toContents, ...substack].filter(p => p[1] === this.currplayer).length;
+                    const theirlen = substack.length + toContents.length - mylen;
+                    if ( (mylen > 3) || (theirlen > 3) ) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.accasta.MORE_THAN_THREE", {move: m, step});
+                        return result;
+                    }
                 }
                 cloned.board.set(destination, [...toContents, ...substack]);
             } else {

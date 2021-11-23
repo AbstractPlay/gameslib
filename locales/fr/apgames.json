@@ -79,7 +79,8 @@
             "PARTIAL_SUBSTACK_other": "",
             "SOURCE_EMPTY": "",
             "TOOFAR": "",
-            "TOOHIGH": ""
+            "TOOHIGH": "",
+            "MORE_THAN_THREE": ""
         },
         "amazons": {
             "POTENTIAL_BLOCK": "",

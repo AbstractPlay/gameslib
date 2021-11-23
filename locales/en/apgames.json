@@ -107,6 +107,13 @@
             "ONLY_FORWARD": "Pieces may only move forward.",
             "PARTIAL": "Provide the destination.",
             "TOOFAR": "Pieces can only move one space at a time."
+        },
+        "ceph": {
+            "DUPLICATECAP": "You can't capture the same piece more than once.",
+            "NOTADJACENT": "You can only capture pieces orthogonally adjacent to your placed piece.",
+            "PARTIAL_ONECAP": "Select at least one more adjacent piece to capture.",
+            "PARTIAL_PRECAP": "Select a piece to capture.",
+            "TOOHIGH": "The pieces you capture cannot total more than six."
         }
     },
     "volcano": {

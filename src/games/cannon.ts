@@ -216,16 +216,10 @@ export class CannonGame extends GameBase {
                                 }
                                 for (const d of back) {
                                     const ray = grid.ray(...currCell, d);
-                                    if (ray.length >= 1) {
-                                        const cellRetreat = CannonGame.coords2algebraic(...ray[0]);
-                                        if (this.board.has(cellRetreat)) {
-                                            continue;
-                                        }
-                                        moves.push(`${k}-${cellRetreat}`);
-                                    }
                                     if (ray.length >= 2) {
+                                        const cellBetween = CannonGame.coords2algebraic(...ray[0]);
                                         const cellRetreat = CannonGame.coords2algebraic(...ray[1]);
-                                        if (! this.board.has(cellRetreat)) {
+                                        if ( (! this.board.has(cellBetween)) && (! this.board.has(cellRetreat)) ) {
                                             moves.push(`${k}-${cellRetreat}`);
                                         }
                                     }

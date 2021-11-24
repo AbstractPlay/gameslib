@@ -16,9 +16,15 @@ This implementation provides a simultaneous environment where each player has th
 `;
 
 type playerid = 1|2;
-type CellContents = "A"|"B"|"C"|"D"|"E"|"F"|"G";
+type CellContents = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN";
+const allColours: CellContents[] = ["RD","BU","GN","YE","VT","OG","BN"]
 type Phases = "order"|"chaos";
-const startBag: string = "AAAAAAABBBBBBBCCCCCCCDDDDDDDEEEEEEEFFFFFFFGGGGGGG";
+const startBag: CellContents[] = [];
+for (const colour of allColours) {
+    for (let i = 0; i < 7; i++) {
+        startBag.push(colour);
+    }
+}
 
 interface ICountObj {
     [key: string]: number;
@@ -91,7 +97,7 @@ export class EntropyGame extends GameBase {
                 _version: EntropyGame.gameinfo.version,
                 _results: [],
                 lastmove: [],
-                bag: shuffle(startBag.split("")),
+                bag: shuffle(startBag),
                 board1: new Map(),
                 board2: new Map(),
                 phase: "chaos"
@@ -350,24 +356,24 @@ export class EntropyGame extends GameBase {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
-            let contents1: string = "";
-            let contents2: string = "";
+            const contents1: string[] = [];
+            const contents2: string[] = [];
             for (let col = 0; col < 7; col++) {
                 const cell = EntropyGame.coords2algebraic(col, row);
                 if (this.board1.has(cell)) {
-                    contents1 += this.board1.get(cell);
+                    contents1.push(this.board1.get(cell)!);
                 } else {
-                    contents1 += "-";
+                    contents1.push("");
                 }
                 if (this.board2.has(cell)) {
-                    contents2 += this.board2.get(cell);
+                    contents2.push(this.board2.get(cell)!);
                 } else {
-                    contents2 += "-";
+                    contents2.push("");
                 }
             }
-            pstr += contents1 + contents2;
+            pstr += [...contents1, ...contents2].join(",");
         }
-        pstr = pstr.replace(/\-{14}/g, "_");
+        pstr = pstr.replace(/\n,{13}(?=\n)/g, "\n_");
 
         const board = {
             style: "entropy",
@@ -403,31 +409,31 @@ export class EntropyGame extends GameBase {
             // @ts-ignore
             board,
             legend: {
-                A: {
+                RD: {
                     name: "piece",
                     player: 1
                 },
-                B: {
+                BU: {
                     name: "piece",
                     player: 2
                 },
-                C: {
+                GN: {
                     name: "piece",
                     player: 3
                 },
-                D: {
+                YE: {
                     name: "piece",
                     player: 4
                 },
-                E: {
+                VT: {
                     name: "piece",
                     player: 5
                 },
-                F: {
+                OG: {
                     name: "piece",
                     player: 6
                 },
-                G: {
+                BN: {
                     name: "piece",
                     player: 7
                 }
@@ -435,7 +441,6 @@ export class EntropyGame extends GameBase {
             pieces: pstr
         };
 
-        // Add annotations
         if ( (this.lastmove !== undefined) && (this.lastmove.length === 2) ) {
             // @ts-ignore
             rep.annotations = [];
@@ -459,7 +464,7 @@ export class EntropyGame extends GameBase {
                         });
                     } else {
                         // tslint:disable-next-line: prefer-const
-                        let [x, y] = EntropyGame.algebraic2coords(move.slice(3));
+                        let [x, y] = EntropyGame.algebraic2coords(move.slice(4));
                         if (i === 0) { x += 7; }
                         rep.annotations!.push({
                             type: "enter",

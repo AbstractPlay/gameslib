@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -165,6 +165,7 @@ export class EpamGame extends GameBase {
                         // Add it to the list and continue
                         } else if (! this.board.has(next)) {
                             moves.push(`${cell}-${next}`);
+                            continue;
                         } else {
                             // If it's occupied by a friendly, abort
                             if (this.board.get(next)! === player) {
@@ -174,8 +175,8 @@ export class EpamGame extends GameBase {
                                 const enemyPhalanx = this.phalanx(next, dir, false)!;
                                 if (enemyPhalanx.length < phalanx.length) {
                                     moves.push(`${cell}x${next}`);
-                                    break;
                                 }
+                                break;
                             }
                         }
                     }
@@ -199,7 +200,7 @@ export class EpamGame extends GameBase {
      * @returns {(string[] | undefined)}
      * @memberof EpamGame
      */
-    private phalanx(start: string, dir: Directions, wantmoves: boolean = true): string[] | undefined {
+    public phalanx(start: string, dir: Directions, wantmoves: boolean = true): string[] | undefined {
         const phalanx: string[] = [start];
         const player = this.board.get(start)!;
         const grid = new RectGrid(14, 12);
@@ -238,44 +239,193 @@ export class EpamGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return EpamGame.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = EpamGame.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = EpamGame.coords2algebraic(x, y);
-            }
+            const cell = EpamGame.coords2algebraic(col, row);
+            let newmove = "";
             if (move === "") {
                 if (this.board.has(cell)) {
-                    return cell;
+                    newmove = cell;
                 } else if ( (this.variants.includes("stones")) && (this.stones.length < 3) ) {
-                    return cell;
+                    newmove = cell;
                 } else {
-                    return "";
+                    return {move: "", message: ""} as IClickResult;
                 }
             } else {
                 const [prev,rest] = move.split(/[-x]/);
                 if ( (cell === prev) || (cell === rest) ) {
-                    return cell;
-                } else if (this.board.has(cell)) {
-                    return `${prev}x${cell}`;
+                    newmove = cell;
+                } else if ( (this.board.has(cell)) && (this.board.get(cell)! !== this.currplayer) ) {
+                    newmove = `${prev}x${cell}`;
+                } else if (! this.board.has(cell)) {
+                    newmove = `${prev}-${cell}`;
                 } else {
-                    return `${prev}-${cell}`;
+                    return {move: "", message: ""} as IClickResult;
                 }
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // moves and captures
+        if ( (m.includes("-")) || (m.includes("x")) ) {
+            const [from, to] = m.split(/[-x]/);
+            // cells are valid
+            for (const cell of [from, to]) {
+                try {
+                    EpamGame.algebraic2coords(cell);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                    return result;
+                }
+            }
+            const [xFrom, yFrom] = EpamGame.algebraic2coords(from);
+            const [xTo, yTo] = EpamGame.algebraic2coords(to);
+
+            // both cells are different
+            if (from === to) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
+                return result;
+            }
+            // from is occupied
+            if (! this.board.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // from is yours
+            if (this.board.get(from)! !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+            // correct operator was used
+            if ( (m.includes("-")) && (this.board.has(to)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: to});
+                return result;
+            }
+            if ( (m.includes("x")) && (! this.board.has(to)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: to});
+                return result;
+            }
+            // cells are directly orthogonal or diagonal
+            if ( (! RectGrid.isOrth(xFrom, yFrom, xTo, yTo)) && (! RectGrid.isDiag(xFrom, yFrom, xTo, yTo)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.epam.STRAIGHTLINE");
+                return result;
+            }
+            // Now gather data on the phalanx
+            const bearing = RectGrid.bearing(xFrom, yFrom, xTo, yTo);
+            const phalanx = this.phalanx(from, bearing!, true);
+            if (phalanx === undefined) {
+                throw new Error("Could not find a phalanx. This really should not be happening at this point.");
+            }
+            const head = phalanx[phalanx.length - 1];
+            const [xHead, yHead] = EpamGame.algebraic2coords(head);
+            // distance is appropriate
+            const distance = RectGrid.distance(xHead, yHead, xTo, yTo);
+            if (distance > phalanx.length) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.epam.TOOFAR", {tail: from, head, to, distance});
+                return result;
+            }
+            // no obstructions
+            if (this.stones.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: head, to, obstruction: to});
+                return result;
+            }
+            const between = RectGrid.between(xHead, yHead, xTo, yTo).map(pt => EpamGame.coords2algebraic(...pt));
+            for (const cell of between) {
+                if ( (this.board.has(cell)) || (this.stones.includes(cell)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: head, to, obstruction: cell});
+                    return result;
+                }
+            }
+
+            // for captures
+            if (m.includes("x")) {
+                // must be an enemy piece
+                if (this.board.get(to)! === this.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                    return result;
+                }
+                // opposing phalanx must be smaller than yours
+                const otherPhalanx = this.phalanx(to, bearing!, false);
+                if (otherPhalanx!.length >= phalanx.length) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.epam.INSUFFICIENT_FORCES");
+                    return result;
+                }
+            }
+
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+
+        // otherwise, partials or stone placement
+        } else {
+            // valid cell
+            try {
+                EpamGame.algebraic2coords(m);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                return result;
+            }
+            if (! this.board.has(m)) {
+                if ( (this.variants.includes("stones")) && (this.stones.length < 3) ) {
+                    const [,y] = EpamGame.algebraic2coords(m);
+                    if ( (y >= 3) && (y <= 8) ) {
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    } else {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.epam.STONES");
+                        return result;
+                    }
+                } else {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.epam.NOPLACEMENT");
+                    return result;
+                }
+            } else {
+                // stone is yours
+                if (this.board.get(m)! !== this.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                    return result;
+                } else {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.message = i18next.t("apgames:validation.epam.PARTIAL");
+                    return result;
+                }
+            }
         }
     }
 
@@ -283,10 +433,15 @@ export class EpamGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
         if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         this.results = [];
@@ -325,7 +480,7 @@ export class EpamGame extends GameBase {
             this.results.push({type: "move", from, to});
         } else {
             this.stones.push(m);
-            this.results.push({type: "place", what: "stone", where: m});
+            this.results.push({type: "place", where: m});
         }
 
 
@@ -557,7 +712,7 @@ export class EpamGame extends GameBase {
                             captureCount++;
                             break;
                         case "place":
-                            node.push(i18next.t("apresults:PLACE.complete", {player: name, what: r.what, where: r.where}));
+                            node.push(i18next.t("apresults:PLACE.epam", {player: name, where: r.where}));
                             break;
                         case "eog":
                             node.push(i18next.t("apresults:EOG"));

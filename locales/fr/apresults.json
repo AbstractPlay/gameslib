@@ -65,6 +65,7 @@
         "cannon": "[FR]{{player}} placed their town at {{where}}.",
         "chase": "[FR]The chamber spit out a {{what}} at {{where}}.",
         "complete": "[FR]{{player}} placed a {{what}} at {{where}}.",
+        "epam": "",
         "mine": "[FR]{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "[FR]{{player}} placed a piece at {{where}}.",
         "theirs": "[FR]{{player}} placed an enemy piece at {{where}}.",

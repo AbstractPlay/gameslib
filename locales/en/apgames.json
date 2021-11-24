@@ -128,6 +128,14 @@
             "PARTIAL_ONECAP": "Select at least one more adjacent piece to capture.",
             "PARTIAL_PRECAP": "Select a piece to capture.",
             "TOOHIGH": "The pieces you capture cannot total more than six."
+        },
+        "epam": {
+            "INSUFFICIENT_FORCES": "When capturing, your phalanx must have more pieces than the captured phalanx.",
+            "NOPLACEMENT": "You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",
+            "PARTIAL": "Select where you want the *head* of the phalanx to end its movement.",
+            "STONES": "Stones can only be placed in the middle six rows.",
+            "STRAIGHTLINE": "You can only move in straight lines.",
+            "TOOFAR": "The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces."
         }
     },
     "volcano": {

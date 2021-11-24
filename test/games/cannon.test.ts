@@ -85,16 +85,16 @@ describe("Cannon", () => {
         g.board.set("d5", [1, "s"]);
         g.board.set("d6", [2, "s"]);
         let m = g.moves(1);
-        expect(m).to.have.members(["d5xd6", "d5-c6", "d5-e6", "d5-d4", "d5-d3", "d5-c4", "d5-b3", "d5-e4", "d5-f3"]);
+        expect(m).to.have.members(["d5xd6", "d5-c6", "d5-e6", "d5-d3", "d5-b3", "d5-f3"]);
         m = g.moves(2);
-        expect(m).to.have.members(["d6xd5", "d6-c5", "d6-e5", "d6-d7", "d6-d8", "d6-c7", "d6-b8", "d6-e7", "d6-f8"]);
+        expect(m).to.have.members(["d6xd5", "d6-c5", "d6-e5", "d6-d8", "d6-b8", "d6-f8"]);
         g.board.clear();
         g.board.set("d5", [1, "s"]);
         g.board.set("d4", [2, "s"]);
         m = g.moves(1);
-        expect(m).to.have.members(["d5-c6", "d5-d6", "d5-e6", "d5-c4", "d5-b3", "d5-e4", "d5-f3"]);
+        expect(m).to.have.members(["d5-c6", "d5-d6", "d5-e6", "d5-b3", "d5-f3"]);
         m = g.moves(2);
-        expect(m).to.have.members(["d4-c3", "d4-d3", "d4-e3", "d4-c5", "d4-b6", "d4-e5", "d4-f6"]);
+        expect(m).to.have.members(["d4-c3", "d4-d3", "d4-e3", "d4-b6", "d4-f6"]);
     });
     it ("Cannons work properly", () => {
         const g = new CannonGame();

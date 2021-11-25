@@ -137,6 +137,14 @@
             "STONES": "",
             "STRAIGHTLINE": "",
             "TOOFAR": ""
+        },
+        "fabrik": {
+            "INVALID_PASS": "",
+            "INVALID_PLACEMENT": "",
+            "MUST_PASS_PLAY": "",
+            "NOPLACEMENTS": "",
+            "PARTIAL_MOVE": "",
+            "PARTIAL_PLACE": ""
         }
     },
     "volcano": {

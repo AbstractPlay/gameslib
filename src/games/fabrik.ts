@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -184,51 +184,236 @@ export class FabrikGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return FabrikGame.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string | [number, number]): string {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            let x: number | undefined;
-            let y: number | undefined;
-            let cell: string | undefined;
-            if (typeof coord === "string") {
-                cell = coord;
-                [x, y] = FabrikGame.algebraic2coords(cell);
-            } else {
-                [x, y] = coord;
-                cell = FabrikGame.coords2algebraic(x, y);
-            }
-            if ( (this.board.has(cell)) && (this.board.get(cell)!.toString().length === 2) ) {
-                return cell;
-            } else if (this.board.has(cell)) {
-                return "";
-            }
+            const cell = FabrikGame.coords2algebraic(col, row);
+            let newmove = "";
             if (move === "") {
-                if (this.board.size < 2) {
-                    return cell;
+                // if all workers have been placed
+                if (this.board.size >= 2) {
+                    // empty space could be a placement because movement is optional
+                    if (! this.board.has(cell)) {
+                        if (this.findPoints().includes(cell)) {
+                            newmove = cell;
+                        } else {
+                            return {move: "", message: ""} as IClickResult;
+                        }
+                    } else {
+                        // occupied space must be a worker
+                        if (this.board.get(cell)!.toString().length === 2) {
+                            newmove = cell;
+                        } else {
+                            return {move: "", message: ""} as IClickResult;
+                        }
+                    }
+                // otherwise, early phases
                 } else {
-                    return "";
+                    // only empty spaces can be clicked
+                    if (! this.board.has(cell)) {
+                        newmove = cell;
+                    } else {
+                        return {move: "", message: ""} as IClickResult;
+                    }
                 }
             } else {
-                const [prev,rest] = move.split(/[-,]/);
-                if ( (prev !== undefined) && (this.board.has(prev)) && (rest === undefined) ) {
-                    return `${prev}-${cell}`;
-                } else if ( (prev !== undefined) && (this.board.has(prev)) && (rest !== undefined) && (! this.board.has(rest)) ) {
-                    return `${prev}-${rest},${cell}`
-                } else {
-                    return move;
+                const [from,to,place] = move.split(/[-,]/);
+                if (this.board.size <= 2) {
+                    if (! this.board.has(cell)) {
+                        newmove = cell;
+                    } else {
+                        newmove = move;
+                    }
+                } else if (place !== undefined) {
+                    // if you're clicking on a valid empty cell, replace it
+                    const g = this.clone();
+                    g.board.set(to, this.board.get(from)!)
+                    g.board.delete(from);
+                    if (g.findPoints().includes(place)) {
+                        newmove = `${from}-${to},${cell}`;
+                    // otherwise, change nothing
+                    } else {
+                        newmove = move;
+                    }
+                } else if (to !== undefined) {
+                    const g = this.clone();
+                    g.board.set(to, this.board.get(from)!)
+                    g.board.delete(from);
+                    // if to is defined and you're clicking on a valid cell, assume placement
+                    if (g.findPoints().includes(cell)) {
+                        newmove = `${from}-${to},${cell}`;
+                    } else {
+                        newmove = move;
+                    }
+                } else { // from *has* to be defined if move itself has content
+                    // if you click on an empty cell, assume movement
+                    if ( (this.board.has(from)) && (! this.board.has(cell)) ) {
+                        newmove = `${from}-${cell}`;
+                    } else if (! this.board.has(from)) {
+                        newmove = cell;
+                    } else {
+                        newmove = move;
+                    }
                 }
             }
-        } catch {
-            // tslint:disable-next-line: no-console
-            console.info(`The click handler couldn't process the click:\nMove: ${move}, Coord: ${coord}.`);
-            return move;
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
         }
     }
 
-    // The partial flag enabled dynamic connection checking.
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // validate "pass" first of all
+        if (m === "pass") {
+            if ( (this.board.size !== 2) || (this.currplayer !== 1) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fabrik.INVALID_PASS");
+                return result;
+            }
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        const [from, to, place] = m.split(/[-,]/);
+
+        if (from !== undefined) {
+            // valid cell
+            try {
+                FabrikGame.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            // from currently contains a worker you control
+            if (! this.board.has(from)) {
+                if (this.board.size < 2) {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                }
+                // If this is a valid placement point, assume that
+                if (this.findPoints().includes(from)) {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                }
+
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // First move after placing workers has to be a placement or pass
+            if (this.board.size === 2) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fabrik.MUST_PASS_PLAY");
+                return result;
+            }
+
+            if (this.variants.includes("arbeiter")) {
+                const controlled = parseInt(this.currplayer.toString() + this.currplayer.toString(), 10);
+                if (this.board.get(from)! !== controlled) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                    return result;
+                }
+            } else {
+                if (this.board.get(from)!.toString().length !== 2) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                    return result;
+                }
+            }
+            // if this is it, then this is a valid partial
+            if (to === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.fabrik.PARTIAL_MOVE");
+                return result;
+            }
+        }
+
+        let points: string[] | undefined;
+        if (to !== undefined) {
+            // valid cell
+            try {
+                FabrikGame.algebraic2coords(to);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                return result;
+            }
+            // to is empty
+            if (this.board.has(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
+                return result;
+            }
+            // there are valid placements from here
+            const g = this.clone();
+            g.board.set(to, this.board.get(from)!);
+            g.board.delete(from);
+            points = g.findPoints();
+            if (points.length === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fabrik.NOPLACEMENTS");
+                return result;
+            }
+            // If this is it, this is a valid partial
+            if (place === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.fabrik.PARTIAL_PLACE");
+                return result;
+            }
+        }
+
+        if (place !== undefined ) {
+            if (points === undefined) {
+                throw new Error("Valid placements were not calculated. This should never happen.");
+            }
+            // valid cell
+            try {
+                FabrikGame.algebraic2coords(place);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: place});
+                return result;
+            }
+            // This is a valid placement
+            if (! points.includes(place)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fabrik.INVALID_PLACEMENT", {where: place});
+                return result;
+            }
+
+            // we're good
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        return result;
+    }
+
+    // The partial flag enables dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, partial: boolean = false): FabrikGame {
         if (this.gameover) {
@@ -236,10 +421,14 @@ export class FabrikGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
         if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         this.results = [];

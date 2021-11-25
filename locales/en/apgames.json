@@ -136,6 +136,14 @@
             "STONES": "Stones can only be placed in the middle six rows.",
             "STRAIGHTLINE": "You can only move in straight lines.",
             "TOOFAR": "The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces."
+        },
+        "fabrik": {
+            "INVALID_PASS": "You may only pass the turn immediately after the second worker has been placed.",
+            "INVALID_PLACEMENT": "The cell {{where}} is not visible to both workers.",
+            "MUST_PASS_PLAY": "The first turn after the second worker has been placed must be a pass or placement.",
+            "NOPLACEMENTS": "You cannot move the workers such that you have no valid placements available.",
+            "PARTIAL_MOVE": "Provide the destination.",
+            "PARTIAL_PLACE": "Choose a cell to place a piece in."
         }
     },
     "volcano": {

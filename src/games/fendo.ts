@@ -575,21 +575,27 @@ export class FendoGame extends GameBase {
         // Now look for movement
         } else if (m.includes("-")) {
             const [from, target] = m.split("-");
-            const to = target.slice(0, target.length - 1);
-            const dir = target[target.length - 1] as Directions;
+            let to = target;
+            let dir: Directions | undefined;
+            if (/[NESW]$/.test(target)) {
+                to = target.slice(0, target.length - 1);
+                dir = target[target.length - 1] as Directions;
+            }
             let path = this.naivePath(from, to);
             if (path === null) {
                 path = this.graph.path(from, to);
             }
             this.board.delete(from);
             this.board.set(to, this.currplayer);
-            const neighbour = this.graph.coords2algebraic(...RectGrid.move(...this.graph.algebraic2coords(to), dir));
-            this.fences.push([to, neighbour]);
-            this.graph.graph.dropEdge(to, neighbour);
             for (let i = 0; i < path!.length - 1; i++) {
                 this.results.push({type: "move", from: path![i], to: path![i+1]});
             }
-            this.results.push({type: "block", between: [to, neighbour]});
+            if (dir !== undefined) {
+                const neighbour = this.graph.coords2algebraic(...RectGrid.move(...this.graph.algebraic2coords(to), dir));
+                this.fences.push([to, neighbour]);
+                this.graph.graph.dropEdge(to, neighbour);
+                this.results.push({type: "block", between: [to, neighbour]});
+            }
         // Otherwise it's placement
         } else {
             this.board.set(m, this.currplayer);

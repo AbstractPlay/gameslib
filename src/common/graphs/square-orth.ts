@@ -85,7 +85,7 @@ export class SquareOrthGraph implements IGraph {
         return bidirectional(this.graph, from, to);
     }
 
-    public bearing(from: string, to: string): Directions {
+    public bearing(from: string, to: string): Directions | undefined {
         const [xFrom, yFrom] = this.algebraic2coords(from);
         const [xTo, yTo] = this.algebraic2coords(to);
         let dstr = "";
@@ -100,7 +100,7 @@ export class SquareOrthGraph implements IGraph {
             dstr += "W";
         }
         if (dstr === "") {
-            throw new Error("Could not determine bearing");
+            return undefined;
         }
         return dstr as Directions;
     }

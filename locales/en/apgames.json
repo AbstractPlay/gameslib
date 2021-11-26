@@ -144,6 +144,19 @@
             "NOPLACEMENTS": "You cannot move the workers such that you have no valid placements available.",
             "PARTIAL_MOVE": "Provide the destination.",
             "PARTIAL_PLACE": "Choose a cell to place a piece in."
+        },
+        "fendo": {
+            "DUPLICATE_FENCE": "A fence already exists between these two cells.",
+            "INVALID_DESTINATION": "You cannot reach {{to}} from {{from}}. Remember that pieces can only make one ninety-degree turn as they move.",
+            "INVALID_DIRECTION": "The direction {{dir}} is not valid. It must 'N', 'E', 'S', or 'W'.",
+            "INVALID_FENCE": "Placing a fence here would either create an empty closed area or create multiple open areas.",
+            "INVALID_PASS": "You may not pass if you have moves available.",
+            "NO_EDGE_FENCES": "You may not place fences on the edge of the board.",
+            "ONLY_MOVE_OPEN": "You may only move pieces in open areas.",
+            "PARTIAL_FENCE": "Provide the direction where you wish to place a fence. If clicking, click on the adjacent cell you want to block.",
+            "PARTIAL_MOVE": "Provide the destination.",
+            "PLACE_IN_OPEN": "You may only place pieces in the open area.",
+            "PLACE_IN_RANGE": "You may only place pieces that are within one regular move of an existing piece."
         }
     },
     "volcano": {

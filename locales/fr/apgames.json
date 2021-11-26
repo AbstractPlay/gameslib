@@ -145,6 +145,19 @@
             "NOPLACEMENTS": "",
             "PARTIAL_MOVE": "",
             "PARTIAL_PLACE": ""
+        },
+        "fendo": {
+            "DUPLICATE_FENCE": "",
+            "INVALID_DESTINATION": "",
+            "INVALID_DIRECTION": "",
+            "INVALID_FENCE": "",
+            "INVALID_PASS": "",
+            "NO_EDGE_FENCES": "",
+            "ONLY_MOVE_OPEN": "",
+            "PARTIAL_FENCE": "",
+            "PARTIAL_MOVE": "",
+            "PLACE_IN_OPEN": "",
+            "PLACE_IN_RANGE": ""
         }
     },
     "volcano": {

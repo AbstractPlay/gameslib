@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -51,7 +51,7 @@ export class FendoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["limited-pieces", "scores", "automove"]
+        flags: ["limited-pieces", "scores", "automove", "multistep"]
     };
 
     public numplayers: number = 2;
@@ -131,32 +131,8 @@ export class FendoGame extends GameBase {
         if (areas.open.length > 1) {
             throw new Error("There should never be more than one open area.");
         }
-        const open = areas.open[0];
 
-        // Get a list of valid moves for all your pieces in the open area
-        // We will use this list for both move types
-        const mypieces = [...this.board.entries()].filter(e => (e[1] === player) && (open.has(e[0]))).map(e => e[0]);
-        const empties = [...open].filter(cell => ! this.board.has(cell));
-        const validTargets: Map<string, string[]> = new Map();
-        for (const piece of mypieces) {
-            for (const target of empties) {
-                let path = this.naivePath(piece, target);
-                if (path === null) {
-                    path = this.graph.path(piece, target);
-                }
-                if (path !== null) {
-                    // Path can't have more than one turn, nor can it contain any pieces except the first one
-                    if ( (this.countTurns(path) <= 1) && ([...this.board.keys()].filter(cell => path!.includes(cell)).length === 1) ) {
-                        if (validTargets.has(piece)) {
-                            const lst = validTargets.get(piece)!;
-                            validTargets.set(piece, [...lst, target]);
-                        } else {
-                            validTargets.set(piece, [target]);
-                        }
-                    }
-                }
-            }
-        }
+        const validTargets = this.genTargets(player, areas.open[0]);
         const uniqueTargets: Set<string> = new Set(...validTargets.values());
 
         // You can enter a piece into the open area within one move of a friendly piece
@@ -190,6 +166,34 @@ export class FendoGame extends GameBase {
         }
 
         return moves;
+    }
+
+    private genTargets(player: playerid, open: Set<string>): Map<string, string[]> {
+        // Get a list of valid moves for all your pieces in the open area
+        // We will use this list for both move types
+        const mypieces = [...this.board.entries()].filter(e => (e[1] === player) && (open.has(e[0]))).map(e => e[0]);
+        const empties = [...open].filter(cell => ! this.board.has(cell));
+        const validTargets: Map<string, string[]> = new Map();
+        for (const piece of mypieces) {
+            for (const target of empties) {
+                let path = this.naivePath(piece, target);
+                if (path === null) {
+                    path = this.graph.path(piece, target);
+                }
+                if (path !== null) {
+                    // Path can't have more than one turn, nor can it contain any pieces except the first one
+                    if ( (this.countTurns(path) <= 1) && ([...this.board.keys()].filter(cell => path!.includes(cell)).length === 1) ) {
+                        if (validTargets.has(piece)) {
+                            const lst = validTargets.get(piece)!;
+                            validTargets.set(piece, [...lst, target]);
+                        } else {
+                            validTargets.set(piece, [target]);
+                        }
+                    }
+                }
+            }
+        }
+        return validTargets;
     }
 
     /**
@@ -329,30 +333,223 @@ export class FendoGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    // Will need to be made aware of the different board types
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = this.graph.coords2algebraic(col, row);
+            const openArea = this.getAreas().open[0];
+            let newmove = "";
+            if (move === "") {
+                // clicking on an empty space must be a placement
+                if (! this.board.has(cell)) {
+                    // must be in the open area
+                    if (openArea.has(cell)) {
+                        newmove = cell;
+                    } else {
+                        // otherwise do nothing
+                        return {move: "", message: ""} as IClickResult;
+                    }
+                // otherwise it must be a move
+                } else {
+                    if ( (this.board.get(cell)! === this.currplayer) && (openArea.has(cell)) ) {
+                        newmove = cell;
+                    } else {
+                        // otherwise do nothing
+                        return {move: "", message: ""} as IClickResult;
+                    }
+                }
+            } else {
+                // Already moved; need to place fence
+                if (move.includes("-")) {
+                    // assume bearing of cell they clicked on relative to target
+                    const [from, target] = move.split("-");
+                    let to = target;
+                    if (/[NESW]$/.test(to)) {
+                        to = to.slice(0, to.length - 1);
+                    }
+                    let bearing = this.graph.bearing(to, cell);
+                    if (bearing !== undefined) {
+                        bearing = bearing.toString().slice(0, 1) as Directions;
+                        newmove = `${from}-${to}${bearing}`;
+                    } else {
+                        newmove = `${from}-${to}`;
+                    }
+                // otherwise looking for destination
+                } else {
+                    // Only checking that destination is empty and in open area
+                    if ( (! this.board.has(cell)) && (openArea.has(cell)) ) {
+                        newmove = `${move}-${cell}`;
+                    } else {
+                        newmove = move;
+                    }
+                }
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        if (m === "pass") {
+            if (this.moves().includes("pass")) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fendo.INVALID_PASS");
+                return result;
+            }
         }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+
+        const [from, target] = m.split("-");
+        let to = target;
+        let dir: Directions | undefined;
+        if (/[NESW]$/.test(m)) {
+            to = target.slice(0, target.length - 1);
+            dir = target.slice(target.length - 1) as Directions;
         }
+        const allcells = this.graph.listCells(false) as string[];
+
+        if (from !== undefined) {
+            const areas = this.getAreas();
+            const open = areas.open[0];
+            const allTargets = this.genTargets(this.currplayer, open);
+            const uniqueTargets = new Set(...allTargets.values());
+            // cell is valid
+            if (! allcells.includes(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+
+            // if cell is empty, assume placement
+            if (! this.board.has(from)) {
+                // if `to` is defined, then we have a problem
+                if (to !== undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                    return result;
+                }
+                // in the open area
+                if (! open.has(from)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.fendo.PLACE_IN_OPEN");
+                    return result;
+                }
+                // placement in range
+                if (! uniqueTargets.has(from)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.fendo.PLACE_IN_RANGE");
+                    return result;
+                }
+                // The player has pieces to place
+                if (this.pieces[this.currplayer - 1] === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NOPIECES");
+                    return result;
+                }
+
+                // we're good
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+
+            // otherwise, it has to be movement
+            } else {
+                // in the open area
+                if (! open.has(from)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.fendo.ONLY_MOVE_OPEN");
+                    return result;
+                }
+                if (to !== undefined) {
+                    // target is valid
+                    const targets = allTargets.get(from);
+                    if ( (targets === undefined) || (! targets.includes(to)) ) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.fendo.INVALID_DESTINATION", {from, to});
+                        return result;
+                    }
+                    if (dir !== undefined) {
+                        // `dir` is valid value
+                        if (! ["N", "E", "S", "W"].includes(dir)) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.fendo.INVALID_DIRECTION", {dir});
+                            return result;
+                        }
+                        // fence is between two cells
+                        const grid = new RectGrid(7, 7);
+                        const [x, y] = this.graph.algebraic2coords(to);
+                        const ray = grid.ray(x, y, dir).map(pt => this.graph.coords2algebraic(...pt));
+                        if (ray.length === 0) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.fendo.NO_EDGE_FENCES");
+                            return result;
+                        }
+                        // fence doesn't already exist
+                        const next = ray[0];
+                        const fence = this.fences.find(pair => pair.includes(to) && pair.includes(next));
+                        if (fence !== undefined) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.fendo.DUPLICATE_FENCE");
+                            return result;
+                        }
+                        // placing the fence doesn't violate any rules
+                        // Make the move, set the fence, and test that the result is valid
+                        const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this));
+                        cloned.buildGraph();
+                        cloned.board.delete(from);
+                        cloned.board.set(to, this.currplayer);
+                        cloned.graph.graph.dropEdge(to, next);
+                        const clonedAreas = cloned.getAreas();
+                        if ( (clonedAreas.empty.length > 0) || (clonedAreas.open.length > 1) ) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.fendo.INVALID_FENCE");
+                            return result;
+                        }
+
+                        // valid move
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    } else {
+                        // good enough for a partial success
+                        result.valid = true;
+                        result.complete = -1;
+                        result.canrender = true;
+                        result.message = i18next.t("apgames:validation.fendo.PARTIAL_FENCE");
+                        return result;
+                    }
+                } else {
+                    // good enough for a partial success
+                    result.valid = true;
+                    result.complete = -1;
+                    result.message = i18next.t("apgames:validation.fendo.PARTIAL_MOVE");
+                    return result;
+                }
+            }
+        }
+
+        return result;
     }
 
-    public move(m: string): FendoGame {
+    public move(m: string, partial: boolean = false): FendoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -361,8 +558,14 @@ export class FendoGame extends GameBase {
         if (m !== "pass") {
             m = m.replace(/[a-z]+$/, (match) => {return match.toUpperCase();});
         }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+        if ( (! partial) && (! this.moves().includes(m)) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         this.results = [];
@@ -393,6 +596,8 @@ export class FendoGame extends GameBase {
             this.pieces[this.currplayer - 1]--;
             this.results.push({type: "place", where: m})
         }
+
+        if (partial) { return this; }
 
         // update currplayer
         this.lastmove = m;

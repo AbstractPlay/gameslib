@@ -27,6 +27,14 @@
                 var resultStr = '<p style="color: '+ colour +'">' + result.message + '</p>';
                 var statusbox = document.getElementById("clickstatus");
                 statusbox.innerHTML = resultStr;
+                if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete === 1) ) {
+                    game.move(result.move, true);
+                    var interim = JSON.stringify(game.render());
+                    window.sessionStorage.setItem("interim", interim);
+                } else {
+                    window.sessionStorage.removeItem("interim");
+                }
+                renderGame();
             }
 
             function boardClickVolcano(row, col, piece) {
@@ -66,8 +74,11 @@
                     var game = APGames.GameFactory(gamename, state);
 
                     // game board
-                    var data = game.render(...args);
-                    // console.log(JSON.stringify(data));
+                    var data = JSON.parse(window.sessionStorage.getItem("interim"));
+                    if (data === null) {
+                        data = game.render(...args);
+                    }
+                    //console.log(JSON.stringify(data));
                     // console.log(game.serialize());
                     var canvas = APRender.render(data, options);
 
@@ -225,6 +236,7 @@
                             statusbox.innerHTML = "";
                         }
                         window.sessionStorage.setItem("state", game.serialize());
+                        window.sessionStorage.removeItem("interim");
                         renderGame();
                     }
                 });

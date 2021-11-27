@@ -6,7 +6,7 @@ import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import i18next from "i18next";
 // import { RectGrid } from "../common";
 
-const gameDesc:string = `# Volcano
+const gameDesc = `# Volcano
 
 An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.
 `;
@@ -36,7 +36,8 @@ export type Colour = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN"|"PK";
 export type CellContents = [Colour, Size];
 const colours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN", "PK"];
 
-const clone = (items: any) => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+const clone = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -51,7 +52,7 @@ export interface IVolcanoState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-function hasContiguous(inlst: string[], width: number = 5): boolean {
+const hasContiguous = (inlst: string[], width = 5): boolean => {
     for (let i = 0; i < inlst.length; i++) {
         const iN = i - width;
         if ( (iN > 0) && (inlst[iN] === inlst[i]) ) {
@@ -97,13 +98,13 @@ export class VolcanoGame extends GameBase {
         return GameBase.algebraic2coords(cell, 5);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Array<Array<CellContents[]>>;
     public caps!: Set<string>;
     public lastmove?: string;
-    public erupted: boolean = false;
-    public gameover: boolean = false;
+    public erupted = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public captured: [CellContents[], CellContents[]] = [[], []];
@@ -111,11 +112,11 @@ export class VolcanoGame extends GameBase {
     public results: Array<APMoveResult> = [];
 
     public static newBoard(): Array<Array<CellContents[]>> {
-        let order: string[] = shuffle([...colours, ...colours, ...colours]);
+        let order: string[] = shuffle([...colours, ...colours, ...colours]) as string[];
         order.push(order[12]);
         order[12] = "-";
         while (hasContiguous(order)) {
-            order = shuffle([...colours, ...colours, ...colours]);
+            order = shuffle([...colours, ...colours, ...colours]) as string[];
             order.push(order[12]);
             order[12] = "-";
         }
@@ -136,7 +137,7 @@ export class VolcanoGame extends GameBase {
         return board;
     }
 
-    constructor(state?: IVolcanoState | string, variants?: string[]) {
+    constructor(state?: IVolcanoState | string) {
         super();
         if (state === undefined) {
             this.board = VolcanoGame.newBoard();
@@ -173,7 +174,7 @@ export class VolcanoGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): VolcanoGame {
+    public load(idx = -1): VolcanoGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -183,95 +184,15 @@ export class VolcanoGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = clone(state.board);
+        this.board = clone(state.board) as Array<Array<CellContents[]>>;
         this.lastmove = state.lastmove;
-        this.captured = clone(state.captured);
+        this.captured = clone(state.captured) as [CellContents[], CellContents[]];
         this.caps = new Set(state.caps);
         return this;
     }
 
     // Giving up on move generation for now. It simply takes too long, even after
     // eliminating obvious circularity.
-    /*
-    public moves(player?: playerid): string[] {
-        if (player === undefined) {
-            player = this.currplayer;
-        }
-        return this.recurseMoves([], player);
-    }
-
-    private recurseMoves(movelst: string[], player: playerid): string[] {
-        // tslint:disable-next-line: no-console
-        console.log(`Recursing ${movelst}`);
-        const grid = new RectGrid(5, 5);
-        const moves: string[] = [];
-        const pps: (string|undefined)[] = [undefined];
-        // Get list of possible power plays
-        for (const captured of this.captured[player - 1]) {
-            for (const uncapped of this.getUncapped()) {
-                pps.push(`${captured.join("")}-${uncapped}`);
-            }
-        }
-        for (const pp of pps) {
-            if (pp !== undefined) {
-                movelst.push(pp);
-            }
-            for (const cap of this.caps) {
-                const [capX, capY] = VolcanoGame.algebraic2coords(cap);
-                for (const adj of grid.adjacencies(capX, capY)) {
-                    const adjCell = VolcanoGame.coords2algebraic(...adj);
-                    if (! this.caps.has(adjCell)) {
-                        movelst.push(`${cap}-${adjCell}`);
-                        const g = this.clone();
-                        const result = g.move(movelst.join(", "), true);
-                        if (result.erupted) {
-                            moves.push(movelst.join(", "));
-                        } else {
-                            // Don't recurse if this has reversed a previous move
-                            // Also don't recurse if you've made this particular move twice before
-                            const reversed = `${adjCell}-${cap}`;
-                            const repeats = movelst.filter(m => m === `${cap}-${adjCell}`);
-                            if ( (! movelst.includes(reversed)) && (repeats.length <= 1) ) {
-                                moves.push(...g.recurseMoves(movelst, player));
-                            }
-                        }
-                        movelst.pop();
-                    }
-                }
-            }
-            if (pp !== undefined) {
-                movelst.pop();
-            }
-        }
-        return moves;
-    }
-
-    private getUncapped(): string[] {
-        const cells: string[] = [];
-        for (let row = 0; row < 5; row++) {
-            for (let col = 0; col < 5; col++) {
-                const cell = VolcanoGame.coords2algebraic(col, row);
-                if (! this.caps.has(cell)) {
-                    cells.push(cell);
-                }
-            }
-        }
-        return cells;
-    }
-    */
-
-    public click(row: number, col: number, piece: string): string {
-        return String.fromCharCode(97 + col) + (10 - row).toString();
-    }
-
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 4) {
-            return move + '-' + coord;
-        }
-        else {
-            return coord;
-        }
-    }
 
     /**
      * The `partial` flag leaves the object in an invalid state. It should only be used on a disposable object,
@@ -281,7 +202,7 @@ export class VolcanoGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [VolcanoGame]
      */
-     public move(m: string, partial: boolean = false): VolcanoGame {
+     public move(m: string, partial = false): VolcanoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -544,9 +465,9 @@ export class VolcanoGame extends GameBase {
             _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: clone(this.board),
+            board: clone(this.board) as Array<Array<CellContents[]>>,
             caps: new Set(this.caps),
-            captured: clone(this.captured)
+            captured: clone(this.captured) as [CellContents[], CellContents[]]
         };
     }
 
@@ -692,14 +613,14 @@ export class VolcanoGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = VolcanoGame.algebraic2coords(move.from);
                     const [toX, toY] = VolcanoGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "eject") {
                     const [fromX, fromY] = VolcanoGame.algebraic2coords(move.from);
                     const [toX, toY] = VolcanoGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "eject", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "eject", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     const [x, y] = VolcanoGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -727,7 +648,7 @@ export class VolcanoGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }
@@ -736,18 +657,18 @@ export class VolcanoGame extends GameBase {
                     if (m.type === "move") {
                         return `${m.from}-${m.to}`;
                     } else if (m.type === "place") {
-                        return `${m.what}-${m.where}`;
+                        return `${m.what!}-${m.where!}`;
                     } else {
                         throw new Error("Should never happen.");
                     }
                 }).join(", ")}));
                 const eruptions = state._results.filter(r => r.type === "eject");
                 // @ts-ignore
-                node.push(i18next.t("apresults:ERUPTIONS", {eruptions: eruptions.map(m => m.what).join(", ")}));
+                node.push(i18next.t("apresults:ERUPTIONS", {eruptions: eruptions.map(m => m.what as string).join(", ")}));
                 const captures = state._results.filter(r => r.type === "capture");
                 if (captures.length > 0) {
                     // @ts-ignore
-                    node.push(i18next.t("apresults:CAPTURE.noperson.multiple", {capped: captures.map(m => m.what).join(", ")}));
+                    node.push(i18next.t("apresults:CAPTURE.noperson.multiple", {capped: captures.map(m => m.what as string).join(", ")}));
                 }
                 for (const r of state._results) {
                     switch (r.type) {

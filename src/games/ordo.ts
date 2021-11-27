@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions } from "../common";
 import i18next from "i18next";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Ordo
+const gameDesc = `# Ordo
 
 Ordo is a "get to your opponent's home row" game in which you must always keep your pieces connected. Pieces can move singly, but also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.
 `;
@@ -56,17 +58,17 @@ export class OrdoGame extends GameBase {
         return GameBase.algebraic2coords(cell, 8);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IOrdoState | string, variants?: string[]) {
+    constructor(state?: IOrdoState | string) {
         super();
         if (state === undefined) {
             const board = new Map<string, playerid>();
@@ -103,7 +105,7 @@ export class OrdoGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): OrdoGame {
+    public load(idx = -1): OrdoGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -118,7 +120,7 @@ export class OrdoGame extends GameBase {
         return this;
     }
 
-    public moves(player?: playerid, permissive: boolean = false): string[] {
+    public moves(player?: playerid, permissive = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
@@ -230,7 +232,7 @@ export class OrdoGame extends GameBase {
 
         // Test each move to make sure the group is still connected
         return moves.filter(m => {
-            const g: OrdoGame = Object.assign(new OrdoGame(), deepclone(this));
+            const g: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
             const p = g.currplayer;
             g.move(m, true);
             return g.isConnected(p);
@@ -266,7 +268,7 @@ export class OrdoGame extends GameBase {
 
     // The partial flag enabled dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
-    public move(m: string, partial: boolean = false): OrdoGame {
+    public move(m: string, partial = false): OrdoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -411,7 +413,7 @@ export class OrdoGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 8; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -487,10 +489,10 @@ export class OrdoGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = OrdoGame.algebraic2coords(move.from);
                     const [toX, toY] = OrdoGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     const [x, y] = OrdoGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -538,7 +540,7 @@ export class OrdoGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

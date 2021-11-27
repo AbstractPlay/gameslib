@@ -8,7 +8,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Entropy
+const gameDesc = `# Entropy
 
 Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. Chaos, of course, attempts to thwart Order whenever possible.
 
@@ -68,13 +68,13 @@ export class EntropyGame extends GameBase {
         return GameBase.algebraic2coords(cell, 7);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public board1!: Map<string, CellContents>;
     public board2!: Map<string, CellContents>;
     public bag!: CellContents[];
     public phase!: Phases;
     public lastmove: string[] = [];
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
@@ -97,7 +97,7 @@ export class EntropyGame extends GameBase {
                 _version: EntropyGame.gameinfo.version,
                 _results: [],
                 lastmove: [],
-                bag: shuffle(startBag),
+                bag: shuffle(startBag) as CellContents[],
                 board1: new Map(),
                 board2: new Map(),
                 phase: "chaos"
@@ -107,7 +107,7 @@ export class EntropyGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): EntropyGame {
+    public load(idx = -1): EntropyGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -171,18 +171,7 @@ export class EntropyGame extends GameBase {
         return `${move1}, ${move2}`;
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return String.fromCharCode(97 + col) + (7 - row).toString();
-    }
-
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 5)
-            return move + '-' + coord;
-        else
-            return coord;
-    }
-
-    public move(m: string, partial: boolean = false): EntropyGame {
+    public move(m: string, partial = false): EntropyGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -233,7 +222,7 @@ export class EntropyGame extends GameBase {
                 this.phase = "chaos";
             }
             // shuffle bag after placing
-            this.bag = shuffle(this.bag);
+            this.bag = shuffle(this.bag) as CellContents[];
 
             this.checkEOG();
             this.saveState();
@@ -351,7 +340,7 @@ export class EntropyGame extends GameBase {
 
     public render(player?: playerid): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 7; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -387,17 +376,21 @@ export class EntropyGame extends GameBase {
             if (player === 1) {
                 if (this.phase === "order") {
                     // @ts-ignore
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardTwo.occluded = true;
                 } else {
                     // @ts-ignore
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardOne.occluded = true;
                 }
             } else {
                 if (this.phase === "order") {
                     // @ts-ignore
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardOne.occluded = true;
                 } else {
                     // @ts-ignore
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardTwo.occluded = true;
                 }
             }
@@ -449,13 +442,13 @@ export class EntropyGame extends GameBase {
                 if (move !== "pass" && move !== '') {
                     if (move.includes("-")) {
                         const [from, to] = move.split("-");
-                        // tslint:disable-next-line: prefer-const
+                        // eslint-disable-next-line prefer-const
                         let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
                         if (i === 1) { xFrom += 7; }
-                        // tslint:disable-next-line: prefer-const
+                        // eslint-disable-next-line prefer-const
                         let [xTo, yTo] = EntropyGame.algebraic2coords(to);
                         if (i === 1) { xTo += 7; }
-                        rep.annotations!.push({
+                        rep.annotations.push({
                             type: "move",
                             targets: [
                                 {col: xFrom, row: yFrom},
@@ -463,10 +456,10 @@ export class EntropyGame extends GameBase {
                             ]
                         });
                     } else {
-                        // tslint:disable-next-line: prefer-const
+                        // eslint-disable-next-line prefer-const
                         let [x, y] = EntropyGame.algebraic2coords(move.slice(4));
                         if (i === 0) { x += 7; }
-                        rep.annotations!.push({
+                        rep.annotations.push({
                             type: "enter",
                             targets: [
                                 {col: x, row: y}

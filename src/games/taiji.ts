@@ -5,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Taiji
+const gameDesc = `# Taiji
 
 Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.
 
@@ -72,16 +72,16 @@ export class TaijiGame extends GameBase {
         flags: ["scores"]
     };
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public boardSize: number = 9;
+    public boardSize = 9;
 
     constructor(state?: ITaijiState | string, variants?: string[]) {
         super();
@@ -122,7 +122,7 @@ export class TaijiGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): TaijiGame {
+    public load(idx = -1): TaijiGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -293,7 +293,7 @@ export class TaijiGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -343,7 +343,7 @@ export class TaijiGame extends GameBase {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const [x, y] = TaijiGame.algebraic2coords(move.where!, this.boardSize);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -435,7 +435,7 @@ export class TaijiGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

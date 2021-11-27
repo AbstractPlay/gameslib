@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, AllDirections } from "../common";
+import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Fabrik
+const gameDesc = `# Fabrik
 
 In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The "Arbeiter" variant gives each player control over a specific worker.
 `;
@@ -63,11 +65,11 @@ export class FabrikGame extends GameBase {
         return GameBase.algebraic2coords(cell, 11);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -102,7 +104,7 @@ export class FabrikGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): FabrikGame {
+    public load(idx = -1): FabrikGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -160,13 +162,13 @@ export class FabrikGame extends GameBase {
             }
             let workers: string[] = [];
             if (this.variants.includes("arbeiter")) {
-                workers = [...this.board.entries()].filter(e => e[1].toString() === `${player}${player}`).map(e => e[0]);
+                workers = [...this.board.entries()].filter(e => e[1].toString() === `${player!.toString()}${player!.toString()}`).map(e => e[0]);
             } else {
                 workers = [...this.board.entries()].filter(e => e[1].toString().length === 2).map(e => e[0]);
             }
             const pairs = new CartesianProduct(workers, empties);
             for (const pair of pairs) {
-                const g: FabrikGame = Object.assign(new FabrikGame(), deepclone(this));
+                const g: FabrikGame = Object.assign(new FabrikGame(), deepclone(this) as FabrikGame);
                 const contents = g.board.get(pair[0])!;
                 g.board.delete(pair[0]);
                 g.board.set(pair[1], contents);
@@ -415,7 +417,7 @@ export class FabrikGame extends GameBase {
 
     // The partial flag enables dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
-    public move(m: string, partial: boolean = false): FabrikGame {
+    public move(m: string, partial = false): FabrikGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -509,7 +511,7 @@ export class FabrikGame extends GameBase {
         const grid = new RectGrid(11,11);
         for (const cell of pieces) {
             const [x, y] = FabrikGame.algebraic2coords(cell);
-            for (const dir of AllDirections) {
+            for (const dir of allDirections) {
                 const ray = grid.ray(x, y, dir);
                 let len = 1;
                 for (const pt of ray) {
@@ -537,7 +539,7 @@ export class FabrikGame extends GameBase {
             for (let i = 0; i < 2; i++) {
                 const worker = workers[i];
                 const [x, y] = FabrikGame.algebraic2coords(worker);
-                for (const dir of AllDirections) {
+                for (const dir of allDirections) {
                     const ray = grid.ray(x, y, dir).map(pt => FabrikGame.coords2algebraic(...pt));
                     for (const next of ray) {
                         if (! this.board.has(next)) {
@@ -592,7 +594,7 @@ export class FabrikGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 11; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -678,13 +680,13 @@ export class FabrikGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = FabrikGame.algebraic2coords(move.from);
                     const [toX, toY] = FabrikGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = FabrikGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 delete rep.annotations;
             }
         }
@@ -732,7 +734,7 @@ export class FabrikGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

@@ -9,8 +9,8 @@ const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 /**
  * The minimum requirements of the individual game states.
- *   - Must include the version ID of when it was generated
- *   - A structured description of what changed in the game state
+ * - Must include the version ID of when it was generated
+ * - A structured description of what changed in the game state
  *
  * @export
  * @interface IIndividualState
@@ -23,11 +23,11 @@ export interface IIndividualState {
 
 /**
  * All game states must have the same basic shape:
- *   - The name of the game the state represents (the UID from APGamesInformation)
- *   - The number of players
- *   - Any variants
- *   - And an indication of whether the game is over and who won
- *   - A stack of individual states after each turn (free form, but must include the version identifier of when it was generated)
+ * - The name of the game the state represents (the UID from APGamesInformation)
+ * - The number of players
+ * - Any variants
+ * - And an indication of whether the game is over and who won
+ * - A stack of individual states after each turn (free form, but must include the version identifier of when it was generated)
  *
  * @export
  * @interface IBaseGameState
@@ -43,19 +43,19 @@ export interface IAPGameState {
 
 /**
  * valid: A simple boolean that tells you whether the move to this point is valid, even if only partially so.
- *        See `message` for details.
+ * See `message` for details.
  * message: A localized message that explains the state of the move at this point.
  * complete?: This describes how the game engine currently views the returned move's completeness:
- *            It is only present if `valid` is true.
- *   - 1 means the move is recognized as wholly complete. No further interaction by the user could
- *     reasonably be expected (other than starting over). Implies `canrender`.
- *   - -1 means the move is definitively incomplete and would be rejected if submitted as is.
- *   - 0 is in between. It signals that the move *could* be processed as is, but it indicates that
- *     other moves may still be possible.
+ * It is only present if `valid` is true.
+ * - 1 means the move is recognized as wholly complete. No further interaction by the user could
+ * reasonably be expected (other than starting over). Implies `canrender`.
+ * - -1 means the move is definitively incomplete and would be rejected if submitted as is.
+ * - 0 is in between. It signals that the move *could* be processed as is, but it indicates that
+ * other moves may still be possible.
  * canrender?: A simple boolean that will only ever be `true` for games flagged as `multistep`, and will only
- *             ever be present if `valid` is true. It asserts that the move to this point would be accepted
- *             by the game engine as partial and would result in an updated `APRenderRep` that may be helpful
- *             to the user.
+ * ever be present if `valid` is true. It asserts that the move to this point would be accepted
+ * by the game engine as partial and would result in an updated `APRenderRep` that may be helpful
+ * to the user.
  *
  * @export
  * @interface IValidationResult
@@ -142,9 +142,11 @@ export abstract class GameBase  {
     protected abstract moveState(): any;
 
     protected saveState(): void {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         this.stack.push(this.moveState());
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         return {
             move,
@@ -153,6 +155,7 @@ export abstract class GameBase  {
         };
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public validateMove(move: string): IValidationResult {
         return {
             valid: false,
@@ -170,7 +173,7 @@ export abstract class GameBase  {
 
     public status(): string {
         if (this.gameover) {
-            return `**GAME OVER**\n\nWinner: ${this.winner}\n\n`;
+            return `**GAME OVER**\n\nWinner: ${this.winner.join(", ")}\n\n`;
         }
         return "";
     }
@@ -188,7 +191,7 @@ export abstract class GameBase  {
                 if (! state.hasOwnProperty("lastmove")) {
                     throw new Error("No `lastmove` property found.");
                 }
-                round.push(state.lastmove);
+                round.push(state.lastmove as string);
             }
             moves.push(round);
         }
@@ -212,7 +215,7 @@ export abstract class GameBase  {
                 if (! prevState.hasOwnProperty("currplayer")) {
                     throw new Error("You can't produce a move list with sequence numbers unless `currplayer` is defined in the move's state.");
                 }
-                round.push([prevState.currplayer, state.lastmove]);
+                round.push([prevState.currplayer as number, state.lastmove as string]);
             }
             moves.push(round);
         }
@@ -233,7 +236,8 @@ export abstract class GameBase  {
         return undefined;
     }
 
-    public  getPlayerScore(player: number): number | undefined {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public getPlayerScore(player: number): number | undefined {
         return undefined;
     }
 
@@ -241,7 +245,7 @@ export abstract class GameBase  {
         if (! this.gameover) {
             return undefined;
         }
-        if (this.winner!.includes(player)) {
+        if (this.winner.includes(player)) {
             return 1;
         } else {
             return 0;
@@ -252,15 +256,12 @@ export abstract class GameBase  {
         return this.moveHistory();
     }
 
-    protected getMovesAndResults(exclude?: string[]): any[] {
-        if (exclude === undefined) {
-            exclude = [];
-        }
+    protected getMovesAndResults(exclude: string[] = []): any[] {
         const moves = this.moveHistory();
         const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
         const results = this.resultsHistory();
         if (moveCount !== results.length) {
-            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0]}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1]}, Last result: ${JSON.stringify(results[results.length - 1])}`);
+            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0].join("|")}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1].join("|")}, Last result: ${JSON.stringify(results[results.length - 1])}`);
         }
         const combined = [];
         for (let i = 0; i < moves.length; i++) {
@@ -270,7 +271,7 @@ export abstract class GameBase  {
                     const move = moves[i][j];
                     const result = results[(i * this.numplayers) + j];
                     const filtered = result.filter((obj) => {
-                        return ! exclude!.includes(obj.type);
+                        return ! exclude.includes(obj.type);
                     });
                     if (filtered.length > 0) {
                         node.push({
@@ -287,15 +288,12 @@ export abstract class GameBase  {
         return combined;
     }
 
-    protected getMovesAndResultsWithSequence(exclude?: string[]): any[] {
-        if (exclude === undefined) {
-            exclude = [];
-        }
+    protected getMovesAndResultsWithSequence(exclude: string[] = []): any[] {
         const moves = this.moveHistoryWithSequence();
         const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
         const results = this.resultsHistory();
         if (moveCount !== results.length) {
-            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0]}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1]}, Last result: ${JSON.stringify(results[results.length - 1])}`);
+            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0].join("|")}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1].join("|")}, Last result: ${JSON.stringify(results[results.length - 1])}`);
         }
         const combined = [];
         for (let i = 0; i < moves.length; i++) {
@@ -305,7 +303,7 @@ export abstract class GameBase  {
                     const move = moves[i][j];
                     const result = results[(i * this.numplayers) + j];
                     const filtered = result.filter((obj) => {
-                        return ! exclude!.includes(obj.type);
+                        return ! exclude.includes(obj.type);
                     });
                     if (filtered.length > 0) {
                         node.push({
@@ -331,6 +329,7 @@ export abstract class GameBase  {
             return undefined;
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const gameinfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
         const rec: APGameRecord = {
             header: {
@@ -351,6 +350,7 @@ export abstract class GameBase  {
                 // @ts-ignore
                 players: []
             },
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             moves: this.getMoveList()
         };
 
@@ -358,9 +358,10 @@ export abstract class GameBase  {
             rec.header.players.push({
                 name: data.players[i].name,
                 userid: data.players[i].uid,
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 is_ai: data.players[i].isai,
                 score: this.getPlayerScore(i + 1),
-                result: this.getPlayerResult(i + 1)!
+                result: this.getPlayerResult(i + 1) || -Infinity
             });
         }
 

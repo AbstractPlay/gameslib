@@ -90,7 +90,7 @@ export class HexTriGraph implements IGraph {
         return graph;
     }
 
-    public listCells(ordered: boolean = false): string[] | string[][] {
+    public listCells(ordered = false): string[] | string[][] {
         if (! ordered) {
             return this.graph.nodes();
         } else {
@@ -117,47 +117,47 @@ export class HexTriGraph implements IGraph {
         return bidirectional(this.graph, from, to);
     }
 
-    public move(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", dist: number = 1): [number, number] | undefined {
+    public move(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", dist = 1): [number, number] | undefined {
         const midrow = Math.floor(this.height / 2);
         let xNew = x;
         let yNew = y;
         switch (dir) {
             case "NE":
                 if (y <= midrow) {
-                    yNew--;
+                    yNew -= dist;
                 } else {
-                    yNew--;
-                    xNew++
+                    yNew -= dist;
+                    xNew += dist
                 }
                 break;
             case "E":
-                xNew++;
+                xNew += dist;
                 break;
             case "SE":
                 if (y >= midrow) {
-                    yNew++;
+                    yNew += dist;
                 } else {
-                    yNew++;
-                    xNew++;
+                    yNew += dist;
+                    xNew += dist;
                 }
                 break;
             case "SW":
                 if (y < midrow) {
-                    yNew++;
+                    yNew += dist;
                 } else {
-                    yNew++;
-                    xNew--;
+                    yNew += dist;
+                    xNew -= dist;
                 }
                 break;
             case "W":
-                xNew--;
+                xNew -= dist;
                 break;
             case "NW":
                 if (y <= midrow) {
-                    yNew--;
-                    xNew--;
+                    yNew -= dist;
+                    xNew -= dist;
                 } else {
-                    yNew--
+                    yNew -= dist
                 }
                 break;
             default:

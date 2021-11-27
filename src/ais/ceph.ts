@@ -4,16 +4,16 @@ import { AIBase } from "./_base";
 import { IAIResult } from ".";
 
 const gameRules = {
-    listMoves (state: ICephalopodState): string[] {
+    listMoves: (state: ICephalopodState): string[] => {
         const g = new CephalopodGame(state);
         return g.moves();
     },
-    nextState (state: ICephalopodState, move: string): ICephalopodState {
+    nextState: (state: ICephalopodState, move: string): ICephalopodState => {
         const g = new CephalopodGame(state);
         g.move(move);
         return g.state();
     },
-    terminalStateEval (state: ICephalopodState): number|null {
+    terminalStateEval: (state: ICephalopodState): number|null => {
         const g = new CephalopodGame(state);
         // g.checkEOG();
         if (! g.gameover) {
@@ -27,18 +27,19 @@ const gameRules = {
     }
 }
 
-export class CephalopodAI extends AIBase {
-    /**
-     * Purely score.
-     *
-     */
-    public static evaluate(state: ICephalopodState): number {
-        const g = new CephalopodGame(state);
-        return g.getPlayerScore(g.currplayer)
-    }
+/**
+ * Purely score.
+ *
+ */
+const evaluate = (state: ICephalopodState): number => {
+    const g = new CephalopodGame(state);
+    return g.getPlayerScore(g.currplayer)
+}
 
+export class CephalopodAI extends AIBase {
     public static findmove(state: ICephalopodState, plies: number): string {
-        const result: IAIResult =  minmax(state, gameRules, CephalopodAI.evaluate, plies);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const result: IAIResult =  minmax(state, gameRules, evaluate, plies);
         if ( (result === undefined) || (! result.hasOwnProperty("bestMove")) || (result.bestMove === undefined) || (result.bestMove === null) ) {
             throw new Error("No best move found. This should never happen.");
         }

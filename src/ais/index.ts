@@ -66,7 +66,8 @@ export const slowGames: Map<string, number> = new Map([
     ["breakthrough", 6],
 ]);
 
-export function AIFactory(game: string): AIBase|undefined {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const AIFactory = (game: string): AIBase|undefined => {
     switch (game) {
         case "amazons":
             return new AmazonsAI();

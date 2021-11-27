@@ -1,4 +1,5 @@
-export function shuffle(lst: Array<any>): Array<any> {
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+export const shuffle = (lst: Array<any>): Array<any> => {
     const working = [...lst];
     let remaining = working.length;
 

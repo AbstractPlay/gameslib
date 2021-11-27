@@ -8,7 +8,7 @@ import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 import { UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Homeworlds
+const gameDesc = `# Homeworlds
 
 An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for domination. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponents.
 
@@ -23,6 +23,7 @@ export type Star = [Colour, Size];
 
 // This should only include public-facing errors.
 // Errors that should never happen can be omitted.
+// eslint-disable-next-line no-shadow
 export const enum HomeworldsErrors {
     STASH_EMPTY = "STASH_EMPTY",                // Attempting to take a piece when one is not available
     SYSTEM_BADNAME = "SYSTEM_BADNAME",          // The system name does not meet the requirements
@@ -107,7 +108,7 @@ export class HomeworldsGame extends GameBase {
     public systems: System[] = [];
     public stash!: Stash;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
@@ -216,7 +217,7 @@ export class HomeworldsGame extends GameBase {
         return undefined;
     }
 
-    public load(idx: number = -1): HomeworldsGame {
+    public load(idx = -1): HomeworldsGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -331,7 +332,7 @@ export class HomeworldsGame extends GameBase {
 
     // These subfunctions don't actually validate the final move set. That's done in `moves()`.
     // These just generate the reasonable largest set of possible moves, to be collated and validated later.
-    private genName(length: number = 5): string {
+    private genName(length = 5): string {
         let name: string = Math.random().toString(16).substr(2, length);
         let found = this.systems.find(s => s.name === name);
         while (found !== undefined) {
@@ -341,7 +342,7 @@ export class HomeworldsGame extends GameBase {
         return name;
     }
 
-    private movesMove(player: playerid, validateTech: boolean = true): string[] {
+    private movesMove(player: playerid, validateTech = true): string[] {
         const final: Set<string> = new Set<string>();
         const myseat = this.player2seat(player);
 
@@ -374,7 +375,7 @@ export class HomeworldsGame extends GameBase {
         return [...final.values()];
     }
 
-    private movesTrade(player: playerid, validateTech: boolean = true): string[] {
+    private movesTrade(player: playerid, validateTech = true): string[] {
         const final: Set<string> = new Set<string>();
         const myseat = this.player2seat(player);
 
@@ -394,7 +395,7 @@ export class HomeworldsGame extends GameBase {
         return [...final.values()];
     }
 
-    private movesBuild(player: playerid, validateTech: boolean = true): string[] {
+    private movesBuild(player: playerid, validateTech = true): string[] {
         const final: string[] = [];
         const myseat = this.player2seat(player);
 
@@ -410,7 +411,7 @@ export class HomeworldsGame extends GameBase {
         return final;
     }
 
-    private movesAttack(player: playerid, validateTech: boolean = true): string[] {
+    private movesAttack(player: playerid, validateTech = true): string[] {
         const final: Set<string> = new Set<string>();
         const myseat = this.player2seat(player);
 
@@ -467,8 +468,6 @@ export class HomeworldsGame extends GameBase {
             case "Y":
                 possibilities = myg.movesMove(player, false);
                 break;
-            default:
-                throw new Error(`Unrecognized tech '${tech}'. This should never happen.`);
         }
         possibilities.push("pass");
         // For each of those possibilities
@@ -488,16 +487,6 @@ export class HomeworldsGame extends GameBase {
         return movelst;
     }
 
-    public click(row: number, col: number, piece: string): string {
-        // TBD
-        return "";
-    }
-
-    public clicked(move: string, coord: string): string {
-        // TBD
-        return "";
-    }
-
     /**
      * The `partial` flag leaves the object in an invalid state. It should only be used on a disposable object,
      * or you should call `load()` before finalizing the move.
@@ -506,7 +495,7 @@ export class HomeworldsGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [HomeworldsGame]
      */
-    public move(m: string, partial: boolean = false): HomeworldsGame {
+    public move(m: string, partial = false): HomeworldsGame {
         if (this.gameover) {
             throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -617,7 +606,7 @@ export class HomeworldsGame extends GameBase {
             }
             if (this.stack.length > this.numplayers) {
                 while (this.systems.find(s => s.owner === this.player2seat(newplayer as playerid)) === undefined) {
-                    newplayer = (newplayer as number) + 1;
+                    newplayer = (newplayer ) + 1;
                     if (newplayer > this.numplayers) {
                         newplayer = 1;
                     }
@@ -714,7 +703,7 @@ export class HomeworldsGame extends GameBase {
         if (args.length < 4) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
-        // tslint:disable-next-line: prefer-const
+        // eslint-disable-next-line prefer-const
         let [ship, fromSystem, newStar, newName] = args;
         ship = ship.toUpperCase();
         if (ship.length === 2) {
@@ -784,7 +773,7 @@ export class HomeworldsGame extends GameBase {
         if (args.length < 3) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
-        // tslint:disable-next-line: prefer-const
+        // eslint-disable-next-line prefer-const
         let [ship, fromSystem, toSystem] = args;
         ship = ship.toUpperCase() + this.player2seat();
 
@@ -840,7 +829,7 @@ export class HomeworldsGame extends GameBase {
         if (args.length < 2) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
-        // tslint:disable-next-line: prefer-const
+        // eslint-disable-next-line prefer-const
         let [shipColour, systemName] = args;
         shipColour = shipColour.toUpperCase();
         if (shipColour.length > 1) {
@@ -883,7 +872,7 @@ export class HomeworldsGame extends GameBase {
         if (args.length < 3) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
-        // tslint:disable-next-line: prefer-const
+        // eslint-disable-next-line prefer-const
         let [oldShip, newColour, systemName] = args;
         oldShip = oldShip.toUpperCase() + this.player2seat();
         newColour = newColour.toUpperCase();
@@ -927,7 +916,7 @@ export class HomeworldsGame extends GameBase {
         if (args.length < 2) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
-        // tslint:disable-next-line: prefer-const
+        // eslint-disable-next-line prefer-const
         let [enemyShip, systemName] = args;
         enemyShip = enemyShip.toUpperCase();
         // If only two characters long, but only one opponent, imply the size of the ship
@@ -973,7 +962,7 @@ export class HomeworldsGame extends GameBase {
         if (args.length < 2) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
-        // tslint:disable-next-line: prefer-const
+        // eslint-disable-next-line prefer-const
         let [myShip, systemName] = args;
         myShip = myShip.toUpperCase() + this.player2seat();
 
@@ -1015,7 +1004,7 @@ export class HomeworldsGame extends GameBase {
         if (args.length < 2) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
-        // tslint:disable-next-line: prefer-const
+        // eslint-disable-next-line prefer-const
         let [systemName, colour] = args;
         colour = colour[0].toUpperCase();
 
@@ -1256,13 +1245,13 @@ export class HomeworldsGame extends GameBase {
                             action = 4;
                             break;
                         default:
-                            throw new Error(`Unrecognized result: ${r}`);
+                            throw new Error(`Unrecognized result: ${r.what[0]}`);
                     }
                     annotations.push({system: r.where!, action});
                 }
             } else if (r.type === "catastrophe") {
-                if (! seen.has(r.where!)) {
-                    seen.add(r.where!);
+                if (! seen.has(r.where)) {
+                    seen.add(r.where);
                     let action: number;
                     switch (r.trigger) {
                         case "R":
@@ -1278,13 +1267,14 @@ export class HomeworldsGame extends GameBase {
                             action = 4;
                             break;
                         default:
-                            throw new Error(`Unrecognized result: ${r}`);
+                            throw new Error(`Unrecognized result: ${r.trigger || "UNDEFINED"}`);
                     }
-                    annotations.push({system: r.where!, action});
+                    annotations.push({system: r.where, action});
                 }
             }
         }
         // Remove any nonexistent systems from the list
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         annotations = annotations.filter(n => this.systems.find(s => s.name === n.system) !== undefined);
 
         // Build rep
@@ -1324,7 +1314,7 @@ export class HomeworldsGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer} (${this.player2seat(otherPlayer as playerid)})`;
+                let name = `Player ${otherPlayer} (${this.player2seat(otherPlayer as playerid)})`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1] + ` (${this.player2seat(otherPlayer as playerid)})`;
                 }

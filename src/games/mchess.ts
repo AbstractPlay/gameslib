@@ -6,10 +6,8 @@ import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// tslint:disable-next-line: no-var-requires
-// const clone = require("rfdc/default");
 
-const gameDesc:string = `# Martian Chess
+const gameDesc = `# Martian Chess
 
 A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points. A variant called 'Of Knights and Kings' changes the way Pawns and Drones move to create a very different strategic game.
 
@@ -66,11 +64,11 @@ export class MchessGame extends GameBase {
         return GameBase.algebraic2coords(cell, 8);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, number>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public scores!: number[];
@@ -113,7 +111,7 @@ export class MchessGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): MchessGame {
+    public load(idx = -1): MchessGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -473,7 +471,7 @@ export class MchessGame extends GameBase {
     public render(): APRenderRep {
         const rowsTop = ["5", "6", "7", "8"];
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 8; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -644,7 +642,7 @@ export class MchessGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

@@ -2,10 +2,10 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Directions, AllDirections, OppositeDirections } from "../common";
+import { RectGrid, reviver, UserFacingError, Directions, allDirections, oppositeDirections } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Epaminondas
+const gameDesc = `# Epaminondas
 
 Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.
 `;
@@ -55,11 +55,11 @@ export class EpamGame extends GameBase {
         return GameBase.algebraic2coords(cell, 12);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -106,7 +106,7 @@ export class EpamGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): EpamGame {
+    public load(idx = -1): EpamGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -146,7 +146,7 @@ export class EpamGame extends GameBase {
         const grid = new RectGrid(14, 12);
         const pieces = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
         for (const cell of pieces) {
-            for (const dir of AllDirections) {
+            for (const dir of allDirections) {
                 const phalanx = this.phalanx(cell, dir);
                 if (phalanx !== undefined) {
                     const head = phalanx[phalanx.length - 1];
@@ -200,7 +200,7 @@ export class EpamGame extends GameBase {
      * @returns {(string[] | undefined)}
      * @memberof EpamGame
      */
-    public phalanx(start: string, dir: Directions, wantmoves: boolean = true): string[] | undefined {
+    public phalanx(start: string, dir: Directions, wantmoves = true): string[] | undefined {
         const phalanx: string[] = [start];
         const player = this.board.get(start)!;
         const grid = new RectGrid(14, 12);
@@ -452,7 +452,7 @@ export class EpamGame extends GameBase {
             const [xFrom, yFrom] = EpamGame.algebraic2coords(from);
             const [xTo, yTo] = EpamGame.algebraic2coords(to);
             const dir = RectGrid.bearing(xFrom, yFrom, xTo, yTo)!;
-            const oppDir = OppositeDirections.get(dir)!;
+            const oppDir = oppositeDirections.get(dir)!;
             const reverseRay = [to, ...grid.ray(xTo, yTo, oppDir).map(r => EpamGame.coords2algebraic(...r))];
             const phalanx = this.phalanx(from, dir)!;
             let enemyPhalanx: string[] | undefined;
@@ -565,7 +565,7 @@ export class EpamGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 12; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -644,13 +644,13 @@ export class EpamGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = EpamGame.algebraic2coords(move.from);
                     const [toX, toY] = EpamGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     const [x, y] = EpamGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "place") {
                     const [x, y] = EpamGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -698,7 +698,7 @@ export class EpamGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

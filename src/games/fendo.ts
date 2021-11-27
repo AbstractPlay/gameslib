@@ -1,16 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, OppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
+import { Directions, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const clonelst = (items: any) => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+const clonelst = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);
 
-const gameDesc:string = `# Fendo
+const gameDesc = `# Fendo
 
 In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.
 `;
@@ -54,20 +57,20 @@ export class FendoGame extends GameBase {
         flags: ["limited-pieces", "scores", "automove", "multistep"]
     };
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public pieces!: [number, number];
     public fences!: [string, string][];
     public lastmove?: string;
     public graph!: SquareOrthGraph;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IFendoState | string, variants?: string[]) {
+    constructor(state?: IFendoState | string) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
@@ -94,7 +97,7 @@ export class FendoGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): FendoGame {
+    public load(idx = -1): FendoGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -107,7 +110,7 @@ export class FendoGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.pieces = [...state.pieces];
-        this.fences = clonelst(state.fences);
+        this.fences = clonelst(state.fences) as [string, string][];
         this.buildGraph();
         return this;
     }
@@ -147,15 +150,15 @@ export class FendoGame extends GameBase {
                 const neighbours = this.graph.neighbours(target);
                 for (const n of neighbours) {
                     // Make the move, set the fence, and test that the result is valid
-                    const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this));
+                    const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this) as FendoGame);
                     cloned.buildGraph();
                     cloned.board.delete(from);
                     cloned.board.set(target, player);
                     cloned.graph.graph.dropEdge(target, n);
                     const clonedAreas = cloned.getAreas();
                     if ( (clonedAreas.empty.length === 0) && (clonedAreas.open.length <= 1) ) {
-                        const bearing = this.graph.bearing(target, n);
-                        moves.push(`${from}-${target}${bearing}`)
+                        const bearing = this.graph.bearing(target, n)!;
+                        moves.push(`${from}-${target}${bearing.toString()}`)
                     }
                 }
             }
@@ -247,7 +250,7 @@ export class FendoGame extends GameBase {
             // Cast a ray from `from` in the first direction
             const ray1 = grid.ray(xFrom, yFrom, pair[0]).map(pt => this.graph.coords2algebraic(...pt));
             // Cast a ray from to in the opposite of the second direction
-            const opposite = OppositeDirections.get(pair[1])!;
+            const opposite = oppositeDirections.get(pair[1])!;
             const ray2 = grid.ray(xTo, yTo, opposite).map(pt => this.graph.coords2algebraic(...pt));
             // Find the intersection point
             const intersection = ray1.filter(cell => ray2.includes(cell));
@@ -511,7 +514,7 @@ export class FendoGame extends GameBase {
                         }
                         // placing the fence doesn't violate any rules
                         // Make the move, set the fence, and test that the result is valid
-                        const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this));
+                        const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this) as FendoGame);
                         cloned.buildGraph();
                         cloned.board.delete(from);
                         cloned.board.set(to, this.currplayer);
@@ -549,7 +552,7 @@ export class FendoGame extends GameBase {
         return result;
     }
 
-    public move(m: string, partial: boolean = false): FendoGame {
+    public move(m: string, partial = false): FendoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -681,13 +684,13 @@ export class FendoGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             pieces: [...this.pieces],
-            fences: clonelst(this.fences),
+            fences: clonelst(this.fences) as [string, string][],
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         const cells = this.graph.listCells(true);
         for (const row of cells) {
             if (pstr.length > 0) {
@@ -757,13 +760,13 @@ export class FendoGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 delete rep.annotations;
             }
         }
@@ -840,7 +843,7 @@ export class FendoGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }
@@ -852,10 +855,10 @@ export class FendoGame extends GameBase {
                     const rest = moves.slice(0, moves.length - 1);
                     if ( moves.length > 2) {
                         // @ts-ignore
-                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from, to: last.to, through: rest.map(r => r.to).join(", ")}));
+                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from as string, to: last.to as string, through: rest.map(r => r.to as string).join(", ")}));
                     } else {
                         // @ts-ignore
-                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from, to: last.to}));
+                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from as string, to: last.to as string}));
                     }
                 }
 

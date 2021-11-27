@@ -9,7 +9,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Amazons
+const gameDesc = `# Amazons
 
 A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.
 
@@ -93,11 +93,11 @@ export class AmazonsGame extends GameBase {
         return graph;
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, CellContents>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public graph!: UndirectedGraph;
     public stack!: Array<IMoveState>;
@@ -137,7 +137,7 @@ export class AmazonsGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): AmazonsGame {
+    public load(idx = -1): AmazonsGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -370,7 +370,7 @@ export class AmazonsGame extends GameBase {
 
     // The `partial` flag leaves the game object in an invalid state
     // Only use on a cloned object, or call `load()` before processing the final move
-    public move(m: string, partial: boolean = false): AmazonsGame {
+    public move(m: string, partial = false): AmazonsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -515,7 +515,7 @@ export class AmazonsGame extends GameBase {
             const toCheck: Set<string> = new Set([start]);
             const visited: Set<string> = new Set();
             while (toCheck.size > 0) {
-                const cell = toCheck.values().next().value;
+                const cell = toCheck.values().next().value as string;
                 toCheck.delete(cell);
                 if (! visited.has(cell)) {
                     visited.add(cell);
@@ -538,7 +538,7 @@ export class AmazonsGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 10; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -624,7 +624,7 @@ export class AmazonsGame extends GameBase {
 
     public status(): string {
         if (this.gameover) {
-            return `**GAME OVER**\n\nWinner: ${this.winner}\n\n`;
+            return `**GAME OVER**\n\nWinner: ${this.winner.join(", ")}\n\n`;
         }
         if (this.areIsolated()) {
             const t = this.territory();
@@ -644,7 +644,7 @@ export class AmazonsGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }
@@ -652,7 +652,7 @@ export class AmazonsGame extends GameBase {
                 const block = state._results.find(r => r.type === "block");
                 if ( (move !== undefined) && (block !== undefined) ) {
                     // @ts-ignore
-                    node.push(i18next.t("apresults:MOVE.amazons", {player: name, from: move.from, to: move.to, block: block.where}));
+                    node.push(i18next.t("apresults:MOVE.amazons", {player: name, from: move.from as string, to: move.to as string, block: block.where as string}));
                 }
                 for (const r of state._results) {
                     switch (r.type) {

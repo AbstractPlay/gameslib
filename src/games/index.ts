@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { APGamesInformation } from "../schemas/gameinfo";
 import { GameBase, IAPGameState } from "./_base";
 import { AmazonsGame, IAmazonsState } from "./amazons";
@@ -69,7 +70,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
 });
 export { games };
 
-export function GameFactory(game: string, ...args: any[]): GameBase|undefined {
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const GameFactory = (game: string, ...args: any[]): GameBase|undefined => {
     switch (game) {
         case "amazons":
             return new AmazonsGame(...args);

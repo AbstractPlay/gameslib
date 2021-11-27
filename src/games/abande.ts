@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -5,25 +7,25 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { IGraph, SquareGraph, SnubSquareGraph, HexTriGraph } from "../common/graphs";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Abande
+const gameDesc = `# Abande
 
 Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.
 `;
 
-export type playerid = 1|2;
+export type playerID = 1|2;
 
 export interface IMoveState extends IIndividualState {
-    currplayer: playerid;
-    board: Map<string, playerid[]>;
+    currplayer: playerID;
+    board: Map<string, playerID[]>;
     lastmove?: string;
     pieces: [number, number];
 };
 
 export interface IAbandeState extends IAPGameState {
-    winner: playerid[];
+    winner: playerID[];
     stack: Array<IMoveState>;
 };
 
@@ -59,14 +61,14 @@ export class AbandeGame extends GameBase {
         flags: ["limited-pieces", "scores"]
     };
 
-    public numplayers: number = 2;
-    public currplayer: playerid = 1;
-    public board!: Map<string, playerid[]>;
+    public numplayers = 2;
+    public currplayer: playerID = 1;
+    public board!: Map<string, playerID[]>;
     public pieces!: [number, number];
     public lastmove?: string;
     public graph!: IGraph;
-    public gameover: boolean = false;
-    public winner: playerid[] = [];
+    public gameover = false;
+    public winner: playerID[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
@@ -104,7 +106,7 @@ export class AbandeGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): AbandeGame {
+    public load(idx = -1): AbandeGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -114,7 +116,7 @@ export class AbandeGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board);
+        this.board = deepclone(state.board) as Map<string, playerID[]>;
         this.lastmove = state.lastmove;
         this.pieces = [...state.pieces];
         this.buildGraph();
@@ -132,7 +134,7 @@ export class AbandeGame extends GameBase {
         return this;
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(player?: playerID): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
@@ -165,6 +167,7 @@ export class AbandeGame extends GameBase {
             for (const [cell, stack] of playerPieces) {
                 const neighbours = this.graph.neighbours(cell);
                 for (const n of neighbours) {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     const cloned: AbandeGame = Object.assign(new AbandeGame(), deepclone(this));
                     cloned.buildGraph();
                     // You can't move to empty spaces, only spaces occupied by opponents
@@ -214,14 +217,10 @@ export class AbandeGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        return this.graph.coords2algebraic(col, row);
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.graph.coords2algebraic(col, row);
-            let newmove: string = "";
+            let newmove = "";
             if (move.length === 0) {
                 newmove = cell;
             } else {
@@ -445,7 +444,7 @@ export class AbandeGame extends GameBase {
         if (newplayer > this.numplayers) {
             newplayer = 1;
         }
-        this.currplayer = newplayer as playerid;
+        this.currplayer = newplayer as playerID;
 
         this.checkEOG();
         this.saveState();
@@ -473,7 +472,7 @@ export class AbandeGame extends GameBase {
         return this;
     }
 
-    public resign(player: playerid): AbandeGame {
+    public resign(player: playerID): AbandeGame {
         this.gameover = true;
         if (player === 1) {
             this.winner = [2];
@@ -506,14 +505,14 @@ export class AbandeGame extends GameBase {
             _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board),
+            board: deepclone(this.board) as Map<string, playerID[]>,
             pieces: [...this.pieces],
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         const cells = this.graph.listCells(true);
         for (const row of cells) {
             if (pstr.length > 0) {
@@ -578,13 +577,13 @@ export class AbandeGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 delete rep.annotations;
             }
         }
@@ -669,7 +668,7 @@ export class AbandeGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

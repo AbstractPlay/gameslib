@@ -4,16 +4,16 @@ import { AIBase } from "./_base";
 import { IAIResult } from ".";
 
 const gameRules = {
-    listMoves (state: IAbandeState): string[] {
+    listMoves: (state: IAbandeState): string[] => {
         const g = new AbandeGame(state);
         return g.moves();
     },
-    nextState (state: IAbandeState, move: string): IAbandeState {
+    nextState: (state: IAbandeState, move: string): IAbandeState => {
         const g = new AbandeGame(state);
         g.move(move);
         return g.state();
     },
-    terminalStateEval (state: IAbandeState): number|null {
+    terminalStateEval: (state: IAbandeState): number|null => {
         const g = new AbandeGame(state);
         // g.checkEOG();
         if (! g.gameover) {
@@ -33,18 +33,19 @@ const gameRules = {
     }
 }
 
-export class AbandeAI extends AIBase {
-    /**
-     * Purely score.
-     *
-     */
-    public static evaluate(state: IAbandeState): number {
-        const g = new AbandeGame(state);
-        return g.getPlayerScore(g.currplayer)
-    }
+/**
+ * Purely score.
+ *
+ */
+const evaluate = (state: IAbandeState): number => {
+    const g = new AbandeGame(state);
+    return g.getPlayerScore(g.currplayer)
+};
 
+export class AbandeAI extends AIBase {
     public static findmove(state: IAbandeState, plies: number): string {
-        const result: IAIResult =  minmax(state, gameRules, AbandeAI.evaluate, plies);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const result: IAIResult =  minmax(state, gameRules, evaluate, plies);
         if ( (result === undefined) || (! result.hasOwnProperty("bestMove")) || (result.bestMove === undefined) || (result.bestMove === null) ) {
             throw new Error("No best move found. This should never happen.");
         }

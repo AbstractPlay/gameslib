@@ -10,8 +10,8 @@ export type DirectionsCardinal = "N" | "E" | "S" | "W";
 export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";
 export type Directions = DirectionsCardinal | DirectionsDiagonal;
 
-export const AllDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-export const OppositeDirections: Map<Directions, Directions> = new Map([
+export const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+export const oppositeDirections: Map<Directions, Directions> = new Map([
     ["N", "S"], ["NE", "SW"], ["E", "W"], ["SE", "NW"],
     ["S", "N"], ["SW", "NE"], ["W", "E"], ["NW", "SE"]
 ]);

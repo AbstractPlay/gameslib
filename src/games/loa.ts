@@ -5,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Lines of Action
+const gameDesc = `# Lines of Action
 
 A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. This implementation uses a 9x9 board and has a "black hole" in the centre of it. Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw. The "Scrambled Eggs" initial layout variant is supported.
 `;
@@ -53,11 +53,11 @@ export class LinesOfActionGame extends GameBase {
         return GameBase.algebraic2coords(cell, 9);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -103,7 +103,7 @@ export class LinesOfActionGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): LinesOfActionGame {
+    public load(idx = -1): LinesOfActionGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -322,7 +322,7 @@ export class LinesOfActionGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 9; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -382,10 +382,10 @@ export class LinesOfActionGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = LinesOfActionGame.algebraic2coords(move.from);
                     const [toX, toY] = LinesOfActionGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     const [x, y] = LinesOfActionGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -433,7 +433,7 @@ export class LinesOfActionGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

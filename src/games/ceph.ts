@@ -7,7 +7,7 @@ import i18next from "i18next";
 import { IGraph, SquareOrthGraph, SnubSquareGraph } from "../common/graphs";
 import { Permutation, PowerSet } from "js-combinatorics";
 
-const gameDesc:string = `# Cephalopod
+const gameDesc = `# Cephalopod
 
 A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.
 
@@ -55,13 +55,13 @@ export class CephalopodGame extends GameBase {
         flags: ["scores", "multistep"]
     };
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
     public pieces!: [number, number];
     public lastmove?: string;
     public graph!: IGraph;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -97,7 +97,7 @@ export class CephalopodGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): CephalopodGame {
+    public load(idx = -1): CephalopodGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -122,7 +122,7 @@ export class CephalopodGame extends GameBase {
         return this;
     }
 
-    public moves(player?: playerid, permissive: boolean = false): string[] {
+    public moves(player?: playerid, permissive = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
@@ -343,7 +343,7 @@ export class CephalopodGame extends GameBase {
         return result;
     }
 
-    public move(m: string, partial: boolean = false): CephalopodGame {
+    public move(m: string, partial = false): CephalopodGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -460,7 +460,7 @@ export class CephalopodGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         const pieces: string[][] = [];
-        const letters: string = "AB";
+        const letters = "AB";
         const cells = this.graph.listCells(true);
         for (const row of cells) {
             const node: string[] = [];
@@ -553,10 +553,10 @@ export class CephalopodGame extends GameBase {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "capture") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -614,7 +614,7 @@ export class CephalopodGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

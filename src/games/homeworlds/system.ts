@@ -40,7 +40,7 @@ export class System implements ISystem {
         return newsys;
     }
 
-    constructor(name: string, stars: Star[], owner?: Seat, checkStars: boolean = true) {
+    constructor(name: string, stars: Star[], owner?: Seat, checkStars = true) {
         // Only home systems can have two stars
         if (checkStars) {
             if ( (stars.length > 1) && (owner === undefined) ) {

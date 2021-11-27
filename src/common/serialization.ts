@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* Code for JSON parsing MAPs, from SO: https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map */
 // Added "Set" code myself
 
-export function replacer(key: any, value: any) {
+export const replacer = (key: any, value: any) => {
     if (value instanceof Map) {
         return {
             dataType: 'Map',
@@ -17,7 +20,7 @@ export function replacer(key: any, value: any) {
     }
 }
 
-export function reviver(key: any, value: any) {
+export const reviver = (key: any, value: any) => {
     if (typeof value === 'object' && value !== null) {
         if (value.dataType === 'Map') {
             return new Map(value.value);

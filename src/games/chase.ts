@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { CompassDirection, defineGrid, extendHex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -5,10 +7,10 @@ import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Chase
+const gameDesc = `# Chase
 
 Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (it's "speed"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.
 `;
@@ -36,6 +38,7 @@ interface IVector {
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 const hexDirs = ["NE", "E", "SE", "SW", "W", "NW"];
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const Hex = extendHex({
     offset: 1,
     orientation: "pointy"
@@ -117,7 +120,7 @@ export class ChaseGame extends GameBase {
      * @returns {[number, number][]}
      * @memberof ChaseGame
      */
-     public static vector(x: number, y: number, dir: CompassDirection, distance: number = 1): IVector {
+     public static vector(x: number, y: number, dir: CompassDirection, distance = 1): IVector {
         if (! hexDirs.includes(dir)) {
             throw new Error(`Invalid direction passed for a pointy hex: ${dir}`);
         }
@@ -135,7 +138,7 @@ export class ChaseGame extends GameBase {
         while (distance > 0) {
             // First use the library to find a neighbour
             // If it's valid, we're good.
-            const neighbours = hexGrid.neighborsOf(hex!, dir);
+            const neighbours = hexGrid.neighborsOf(hex, dir);
             if ( (neighbours !== undefined) && (Array.isArray(neighbours)) && (neighbours.filter(n => n !== undefined).length === 1) ) {
                 hex = neighbours.filter(n => n !== undefined)[0];
                 cells.push([hex.x, hex.y]);
@@ -145,28 +148,28 @@ export class ChaseGame extends GameBase {
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet NE from row 0.");
                 }
-                cells.push([hex!.x, hex!.y]);
+                cells.push([hex.x, hex.y]);
                 dir = "SE" as CompassDirection;
             } else if ( (hex.y === 0) && (dir === "NW") ) {
                 hex = hexGrid.get([hex.x, hex.y + 1]);
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet NW from row 0.");
                 }
-                cells.push([hex!.x, hex!.y]);
+                cells.push([hex.x, hex.y]);
                 dir = "SW" as CompassDirection;
             } else if ( (hex.y === 8) && (dir === "SE") ) {
                 hex = hexGrid.get([(hex.x + 1) % 9, hex.y - 1]);
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet SE from row 8.");
                 }
-                cells.push([hex!.x, hex!.y]);
+                cells.push([hex.x, hex.y]);
                 dir = "NE" as CompassDirection;
             } else if ( (hex.y === 8) && (dir === "SW") ) {
                 hex = hexGrid.get([hex.x, hex.y - 1]);
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet SW from row 8.");
                 }
-                cells.push([hex!.x, hex!.y]);
+                cells.push([hex.x, hex.y]);
                 dir = "NW" as CompassDirection;
             // Then check for wraparound
             } else if ( (hex.x === 0) && (dir === "W") ) {
@@ -174,39 +177,39 @@ export class ChaseGame extends GameBase {
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound W from column 0.");
                 }
-                cells.push([hex!.x, hex!.y])
+                cells.push([hex.x, hex.y])
             } else if ( (hex.x === 0) && (dir === "NW") ) {
                 hex = hexGrid.get([8, hex.y - 1]);
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound NW from column 0.");
                 }
-                cells.push([hex!.x, hex!.y])
+                cells.push([hex.x, hex.y])
             } else if ( (hex.x === 0) && (dir === "SW") ) {
                 hex = hexGrid.get([8, hex.y + 1]);
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound SW from column 0.");
                 }
-                cells.push([hex!.x, hex!.y])
+                cells.push([hex.x, hex.y])
             } else if ( (hex.x === 8) && (dir === "E") ) {
                 hex = hexGrid.get([0, hex.y]);
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound E from column 8.");
                 }
-                cells.push([hex!.x, hex!.y]);
+                cells.push([hex.x, hex.y]);
             } else if ( (hex.x === 8) && (dir === "NE") ) {
                 hex = hexGrid.get([0, hex.y - 1]);
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound NE from column 8.");
                 }
-                cells.push([hex!.x, hex!.y]);
+                cells.push([hex.x, hex.y]);
             } else if ( (hex.x === 8) && (dir === "SE") ) {
                 hex = hexGrid.get([0, hex.y + 1]);
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound SE from column 8.");
                 }
-                cells.push([hex!.x, hex!.y]);
+                cells.push([hex.x, hex.y]);
             } else {
-                throw new Error(`Something went horribly wrong while calculating a movement vector. This should never happen.\nStart: ${x},${y}, Curr: ${hex}, Dir: ${dir}, Distance: ${distance}`);
+                throw new Error(`Something went horribly wrong while calculating a movement vector. This should never happen.\nStart: ${x},${y}, Curr: ${hex.toString()}, Dir: ${dir}, Distance: ${distance}`);
             }
             distance--;
         }
@@ -216,11 +219,11 @@ export class ChaseGame extends GameBase {
         };
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, CellContents>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
@@ -269,7 +272,7 @@ export class ChaseGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): ChaseGame {
+    public load(idx = -1): ChaseGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -283,7 +286,7 @@ export class ChaseGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board);
+        this.board = deepclone(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
        return this;
     }
@@ -302,7 +305,7 @@ export class ChaseGame extends GameBase {
         if (balanceMoves.length > 0) {
             // For each balance move, execute it and then check for other moves
             for (const balances of balanceMoves) {
-                const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this));
+                const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
                 const playerPieces = [...cloned.board.entries()].filter(e => e[1][0] === player);
                 const speed: number = playerPieces.map(p => p[1][1] as number).reduce((a, b) => a + b);
                 let delta  = 25 - speed;
@@ -448,9 +451,9 @@ export class ChaseGame extends GameBase {
                 if (l[1][1] + delta <= 6) {
                     moves.push([...sofar, l[0]])
                 } else {
-                    const clone = Object.assign(new ChaseGame(), deepclone(this));
-                    const piece = clone.board.get(l[0]);
-                    piece![1] = 6;
+                    const clone = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+                    const piece = clone.board.get(l[0])!;
+                    piece[1] = 6;
                     moves.push(...clone.recurseBalance(player, [...sofar, l[0]]))
                 }
             }
@@ -461,20 +464,6 @@ export class ChaseGame extends GameBase {
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
-    }
-
-    // These click handlers will need adjusting to handle the complicated notation
-    public click(row: number, col: number, piece: string): string {
-        return ChaseGame.coords2algebraic(col, row);
-    }
-
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 5)
-            return move + '-' + coord;
-        else if (move.length >= 5 && move.length < 8)
-            return move + '/' + coord;
-        else
-            return coord;
     }
 
     public move(m: string): ChaseGame {
@@ -694,14 +683,14 @@ export class ChaseGame extends GameBase {
             _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board)
+            board: deepclone(this.board) as Map<string, CellContents>
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
         const pieces: string[][] = [];
-        const letters: string = "AB";
+        const letters = "AB";
         for (let row = 0; row < 9; row++) {
             const node: string[] = [];
             for (let col = 0; col < 9; col++) {
@@ -792,20 +781,20 @@ export class ChaseGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = ChaseGame.algebraic2coords(move.from);
                     const [toX, toY] = ChaseGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", arrow: false, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", arrow: false, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "eject") {
                     const [fromX, fromY] = ChaseGame.algebraic2coords(move.from);
                     const [toX, toY] = ChaseGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "eject", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "eject", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = ChaseGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "capture") {
                     const [x, y] = ChaseGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "convert") {
                     const [x, y] = ChaseGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -836,7 +825,7 @@ export class ChaseGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }
@@ -848,10 +837,10 @@ export class ChaseGame extends GameBase {
                     const rest = moves.slice(0, moves.length - 1);
                     if ( moves.length > 2) {
                         // @ts-ignore
-                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from, to: last.to, through: rest.map(r => r.to).join(", ")}));
+                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from as string, to: last.to as string, through: rest.map(r => r.to as string).join(", ")}));
                     } else {
                         // @ts-ignore
-                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from, to: last.to}));
+                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from as string, to: last.to as string}));
                     }
                 }
                 for (const r of state._results) {

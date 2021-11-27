@@ -61,7 +61,7 @@ export class SquareOrthGraph implements IGraph {
         return graph;
     }
 
-    public listCells(ordered: boolean = false): string[] | string[][] {
+    public listCells(ordered = false): string[] | string[][] {
         if (! ordered) {
             return this.graph.nodes();
         } else {

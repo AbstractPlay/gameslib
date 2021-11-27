@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -6,10 +8,10 @@ import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
 import { Combination } from "js-combinatorics";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Attangle
+const gameDesc = `# Attangle
 
 Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The "Grand Attangle" variant is also implemented.
 `;
@@ -55,13 +57,13 @@ export class AttangleGame extends GameBase {
         flags: ["limited-pieces"]
     };
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid[]>;
     public pieces!: [number, number];
     public lastmove?: string;
     public graph!: HexTriGraph;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -101,7 +103,7 @@ export class AttangleGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): AttangleGame {
+    public load(idx = -1): AttangleGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -111,7 +113,7 @@ export class AttangleGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board);
+        this.board = deepclone(state.board) as Map<string, playerid[]>;
         this.lastmove = state.lastmove;
         this.pieces = [...state.pieces];
         this.buildGraph();
@@ -127,7 +129,7 @@ export class AttangleGame extends GameBase {
         return this;
     }
 
-    public moves(player?: playerid, permissive: boolean = false): string[] {
+    public moves(player?: playerid, permissive = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
@@ -153,7 +155,7 @@ export class AttangleGame extends GameBase {
             const [xEnemy, yEnemy] = this.graph.algebraic2coords(enemy);
             const potentials: string[] = [];
             for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
-                const ray = (this.graph as HexTriGraph).ray(xEnemy, yEnemy, dir);
+                const ray = this.graph.ray(xEnemy, yEnemy, dir);
                 for (const [x, y] of ray) {
                     const cell = this.graph.coords2algebraic(x, y);
                     if (this.board.has(cell)) {
@@ -195,7 +197,7 @@ export class AttangleGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.graph.coords2algebraic(col, row);
-            let newmove: string = "";
+            let newmove = "";
             // If you click on an empty cell, that overrides everything
             if (! this.board.has(cell)) {
                 newmove = cell;
@@ -505,14 +507,14 @@ export class AttangleGame extends GameBase {
             _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board),
+            board: deepclone(this.board) as Map<string, playerid[]>,
             pieces: [...this.pieces],
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         const cells = this.graph.listCells(true);
         for (const row of cells) {
             if (pstr.length > 0) {
@@ -578,13 +580,13 @@ export class AttangleGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 delete rep.annotations;
             }
         }
@@ -642,7 +644,7 @@ export class AttangleGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

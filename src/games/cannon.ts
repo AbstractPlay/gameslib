@@ -8,7 +8,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Cannon
+const gameDesc = `# Cannon
 
 A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a "cannon" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.
 `;
@@ -69,13 +69,13 @@ export class CannonGame extends GameBase {
         return GameBase.algebraic2coords(cell, 10);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, CellContents>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
-    public placed: boolean = false;
+    public placed = false;
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
@@ -136,7 +136,7 @@ export class CannonGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): CannonGame {
+    public load(idx = -1): CannonGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -722,7 +722,7 @@ export class CannonGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 10; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -874,7 +874,7 @@ export class CannonGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Pikemen
+const gameDesc = `# Pikemen
 
 A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.
 
@@ -69,11 +71,11 @@ export class PikemenGame extends GameBase {
         return GameBase.algebraic2coords(cell, 8);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public scores!: number[];
@@ -120,7 +122,7 @@ export class PikemenGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): PikemenGame {
+    public load(idx = -1): PikemenGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -130,7 +132,7 @@ export class PikemenGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board);
+        this.board = deepclone(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
         return this;
@@ -315,14 +317,14 @@ export class PikemenGame extends GameBase {
             _results: [...this.results],
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board),
+            board: deepclone(this.board) as Map<string, CellContents>,
             scores: [...this.scores]
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 8; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -364,7 +366,7 @@ export class PikemenGame extends GameBase {
         for (const player of [1, 2]) {
             for (const size of [1, 2, 3]) {
                 for (const dir of rotations.entries()) {
-                    // tslint:disable-next-line: no-shadowed-variable
+                    // eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow
                     const node: ILooseObj = {
                         name: "pyramid-flat-" + sizeNames[size - 1],
                         player,
@@ -399,18 +401,18 @@ export class PikemenGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = PikemenGame.algebraic2coords(move.from);
                     const [toX, toY] = PikemenGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     const [x, y] = PikemenGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
             // Only if there were no moves or captures do I want to signal a reorientation
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 for (const move of this.stack[this.stack.length - 1]._results) {
                     if (move.type === "orient") {
                         const [x, y] = PikemenGame.algebraic2coords(move.where!);
-                        rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                        rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                     }
                 }
             }
@@ -469,7 +471,7 @@ export class PikemenGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }
@@ -520,3 +522,4 @@ export class PikemenGame extends GameBase {
         return new PikemenGame(this.serialize());
     }
 }
+

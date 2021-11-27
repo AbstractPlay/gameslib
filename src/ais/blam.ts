@@ -4,16 +4,16 @@ import { AIBase } from "./_base";
 import { IAIResult } from ".";
 
 const gameRules = {
-    listMoves (state: IBlamState): string[] {
+    listMoves: (state: IBlamState): string[] => {
         const g = new BlamGame(state);
         return g.moves();
     },
-    nextState (state: IBlamState, move: string): IBlamState {
+    nextState: (state: IBlamState, move: string): IBlamState => {
         const g = new BlamGame(state);
         g.move(move);
         return g.state();
     },
-    terminalStateEval (state: IBlamState): number|null {
+    terminalStateEval: (state: IBlamState): number|null => {
         const g = new BlamGame(state);
         // g.checkEOG();
         if (! g.gameover) {
@@ -33,34 +33,36 @@ const gameRules = {
     }
 }
 
+/**
+ * The Blam AI prefers first of all having more pieces than anybody else.
+ * After that, it values score, then number of captured pieces.
+ */
+const evaluate = (state: IBlamState): number => {
+    let score = 0;
+    const wtPieces = 5; // The number of points extra pieces are worth
+    const wtScore = 1;  // The weighting you give the score
+    const wtCaps = 0.5; // The weighting you give the number of capped pieces
+
+    const g = new BlamGame(state);
+    // Get stash counts for each player
+    const stashcounts: number[] = [];
+    g.stashes.forEach((v, k) => {
+        stashcounts[k - 1] = v.reduce((a, b) => {return a + b;});
+    });
+
+    const mystash = stashcounts[g.currplayer - 1];
+    score += mystash * wtPieces
+    score += g.scores[g.currplayer - 1] * wtScore;
+    score += g.caps[g.currplayer - 1] * wtCaps;
+
+    return score;
+}
+
+
 export class BlamAI extends AIBase {
-    /**
-     * The Blam AI prefers first of all having more pieces than anybody else.
-     * After that, it values score, then number of captured pieces.
-     */
-    public static evaluate(state: IBlamState): number {
-        let score = 0;
-        const wtPieces = 5; // The number of points extra pieces are worth
-        const wtScore = 1;  // The weighting you give the score
-        const wtCaps = 0.5; // The weighting you give the number of capped pieces
-
-        const g = new BlamGame(state);
-        // Get stash counts for each player
-        const stashcounts: number[] = [];
-        g.stashes.forEach((v, k) => {
-            stashcounts[k - 1] = v.reduce((a, b) => {return a + b;});
-        });
-
-        const mystash = stashcounts[g.currplayer - 1];
-        score += mystash * wtPieces
-        score += g.scores[g.currplayer - 1] * wtScore;
-        score += g.caps[g.currplayer - 1] * wtCaps;
-
-        return score;
-    }
-
     public static findmove(state: IBlamState, plies: number): string {
-        const result: IAIResult =  minmax(state, gameRules, BlamAI.evaluate, plies);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const result: IAIResult =  minmax(state, gameRules, evaluate, plies);
         if ( (result === undefined) || (! result.hasOwnProperty("bestMove")) || (result.bestMove === undefined) || (result.bestMove === null) ) {
             throw new Error("No best move found. This should never happen.");
         }

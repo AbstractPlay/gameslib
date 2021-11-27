@@ -5,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions } from "../common";
 import i18next from "i18next";
 
-const gameDesc:string = `# Breakthrough
+const gameDesc = `# Breakthrough
 
 One of the simplest "get to your opponent's home row" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a "Bombardment" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.
 `;
@@ -58,11 +58,11 @@ export class BreakthroughGame extends GameBase {
         return GameBase.algebraic2coords(cell, 8);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -102,7 +102,7 @@ export class BreakthroughGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): BreakthroughGame {
+    public load(idx = -1): BreakthroughGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -161,7 +161,7 @@ export class BreakthroughGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = BreakthroughGame.coords2algebraic(col, row);
-            let newmove: string = "";
+            let newmove = "";
             if (move.length > 0) {
                 if ( (this.variants.includes("bombardment")) && (move === cell) ) {
                     newmove = `x${cell}`;
@@ -488,7 +488,7 @@ export class BreakthroughGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 8; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -539,16 +539,16 @@ export class BreakthroughGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = BreakthroughGame.algebraic2coords(move.from);
                     const [toX, toY] = BreakthroughGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     const [x, y] = BreakthroughGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "detonate") {
                     const [x, y] = BreakthroughGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "destroy") {
                     const [x, y] = BreakthroughGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "exit", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -596,7 +596,7 @@ export class BreakthroughGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

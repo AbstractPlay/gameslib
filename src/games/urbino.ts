@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, AllDirections } from "../common";
+import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Urbino
+const gameDesc = `# Urbino
 
 In Urbino, one manipulates architects (like in his game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the "Monuments" variant.
 `;
@@ -17,7 +19,7 @@ export type playerid = 0|1|2;
 export type Size = 0|1|2|3;
 export type CellContents = [playerid, Size];
 
-const AllMonuments: Map<string, number> = new Map([["111", 3], ["212", 5], ["323", 8]]);
+const allMonuments: Map<string, number> = new Map([["111", 3], ["212", 5], ["323", 8]]);
 
 interface IPointEntry {
     row: number;
@@ -73,11 +75,11 @@ export class UrbinoGame extends GameBase {
         return GameBase.algebraic2coords(cell, 9);
     }
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -114,7 +116,7 @@ export class UrbinoGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): UrbinoGame {
+    public load(idx = -1): UrbinoGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -126,7 +128,7 @@ export class UrbinoGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
-        this.pieces = deepclone(state.pieces);
+        this.pieces = deepclone(state.pieces) as [[number,number,number],[number,number,number]];
         return this;
     }
 
@@ -177,7 +179,7 @@ export class UrbinoGame extends GameBase {
             const workers: string[] = [...this.board.entries()].filter(e => e[1][0] === 0).map(e => e[0]);
             const pairs = new CartesianProduct(workers, empties);
             for (const pair of pairs) {
-                const g: UrbinoGame = Object.assign(new UrbinoGame(), deepclone(this));
+                const g: UrbinoGame = Object.assign(new UrbinoGame(), deepclone(this) as UrbinoGame);
                 const contents = g.board.get(pair[0])!;
                 g.board.delete(pair[0]);
                 g.board.set(pair[1], contents);
@@ -217,7 +219,7 @@ export class UrbinoGame extends GameBase {
                 }
 
                 // Now check for district restrictions
-                const g: UrbinoGame = Object.assign(new UrbinoGame(), deepclone(this));
+                const g: UrbinoGame = Object.assign(new UrbinoGame(), deepclone(this) as UrbinoGame);
                 if ( (from !== undefined) && (to !== undefined) ) {
                     g.board.delete(from);
                     g.board.set(to, [0,0]);
@@ -341,7 +343,7 @@ export class UrbinoGame extends GameBase {
 
     // The partial flag enabled dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
-    public move(m: string, partial: boolean = false): UrbinoGame {
+    public move(m: string, partial = false): UrbinoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -469,11 +471,11 @@ export class UrbinoGame extends GameBase {
             }
             const myblock = district.find(d => d[0] === player)!;
             if (myblock === undefined) {
-                throw new Error(`Error finding "myblock" (player ${player}) from the district ${district}.`);
+                throw new Error(`Error finding "myblock".`);
             }
             const theirblock = district.find(d => d[0] === otherPlayer)!;
             if (theirblock === undefined) {
-                throw new Error(`Error finding "theirblock" (player ${otherPlayer}) from the district ${district}.`);
+                throw new Error(`Error finding "theirblock".`);
             }
             const myscore = this.scoreBlock(myblock[1]);
             const theirscore = this.scoreBlock(theirblock[1]);
@@ -552,8 +554,8 @@ export class UrbinoGame extends GameBase {
                 const ray = grid.ray(x, y, dir).map(pt => UrbinoGame.coords2algebraic(...pt));
                 if ( (ray.length >= 2) && (block.has(ray[0])) && (block.has(ray[1])) ) {
                     const str = `${this.board.get(cell)![1]}${this.board.get(ray[0])![1]}${this.board.get(ray[1])![1]}`;
-                    if (AllMonuments.has(str)) {
-                        bonus = Math.max(bonus, AllMonuments.get(str)!);
+                    if (allMonuments.has(str)) {
+                        bonus = Math.max(bonus, allMonuments.get(str)!);
                     }
                 }
             }
@@ -571,7 +573,7 @@ export class UrbinoGame extends GameBase {
                 for (let i = 0; i < 2; i++) {
                     const worker = workers[i];
                     const [x, y] = UrbinoGame.algebraic2coords(worker);
-                    for (const dir of AllDirections) {
+                    for (const dir of allDirections) {
                         const ray = grid.ray(x, y, dir).map(pt => UrbinoGame.coords2algebraic(...pt));
                         for (const next of ray) {
                             if (! this.board.has(next)) {
@@ -622,13 +624,13 @@ export class UrbinoGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            pieces: deepclone(this.pieces),
+            pieces: deepclone(this.pieces) as [[number,number,number],[number,number,number]],
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 9; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -726,13 +728,13 @@ export class UrbinoGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = UrbinoGame.algebraic2coords(move.from);
                     const [toX, toY] = UrbinoGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = UrbinoGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 delete rep.annotations;
             }
         }
@@ -794,7 +796,7 @@ export class UrbinoGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

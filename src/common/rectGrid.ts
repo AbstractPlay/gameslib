@@ -18,7 +18,7 @@ export class RectGrid {
      * @param {number} dist Distance to travel
      * @returns {[number, number]} Represents the new point
      */
-    public static move(x: number, y: number, dir: Directions, dist: number = 1): [number, number] {
+    public static move(x: number, y: number, dir: Directions, dist = 1): [number, number] {
         switch (dir) {
             case "N":
                 return [x, y - dist];
@@ -36,8 +36,6 @@ export class RectGrid {
                 return [x - dist, y];
             case "NW":
                 return [x - dist, y - dist];
-            default:
-                throw new Error(`Unrecognized direction given (${dir}).`);
         }
     }
 
@@ -164,7 +162,7 @@ export class RectGrid {
      * @returns {Array<[number, number]>}
      * @memberof RectGrid
      */
-    public adjacencies(x: number, y: number, diag: boolean = true): Array<[number, number]> {
+    public adjacencies(x: number, y: number, diag = true): Array<[number, number]> {
         const adj: Array<[number, number]> = [];
         const dirs: Directions[] = ["N", "E", "S", "W"];
         if (diag) {

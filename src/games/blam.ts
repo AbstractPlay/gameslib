@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
@@ -6,10 +8,10 @@ import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const clone = require("rfdc/default");
 
-const gameDesc:string = `# Blam!
+const gameDesc = `# Blam!
 
 An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.
 `;
@@ -75,7 +77,7 @@ export class BlamGame extends GameBase {
     public currplayer!: playerid;
     public board!: Map<string, [playerid, number]>;
     public lastmove?: string;
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public scores!: number[];
@@ -122,7 +124,7 @@ export class BlamGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): BlamGame {
+    public load(idx = -1): BlamGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -133,7 +135,7 @@ export class BlamGame extends GameBase {
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.stashes = clone(state.stashes);
+        this.stashes = clone(state.stashes) as Map<playerid, number[]>;
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
         this.caps = [...state.caps];
@@ -190,7 +192,7 @@ export class BlamGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = BlamGame.coords2algebraic(col, row);
-            let newmove: string = "";
+            let newmove = "";
             // If you click on an occupied cell, clear the entry
             if (this.board.has(cell)) {
                 return {move: "", message: ""} as IClickResult;
@@ -425,7 +427,7 @@ export class BlamGame extends GameBase {
         // Find the maximum score
         const maxscore = Math.max(...this.scores);
         // If the maxscore is unique, then we've found our winner
-        const map: Map<number, number> = this.scores.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+        const map: Map<number, number> = this.scores.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map<number, number>());
         if (map.size === this.scores.length) {
             const n = this.scores.indexOf(maxscore);
             this.winner = [(n + 1) as playerid];
@@ -441,7 +443,7 @@ export class BlamGame extends GameBase {
                 caps.push(this.caps[n - 1])
             }
             const maxcaps = Math.max(...caps);
-            const capmap: Map<number, number> = caps.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
+            const capmap: Map<number, number> = caps.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map<number, number>());
             if (capmap.size === nTied.length) {
                 const n = this.caps.indexOf(maxcaps);
                 this.winner = [(n + 1) as playerid];
@@ -495,13 +497,13 @@ export class BlamGame extends GameBase {
             board: new Map(this.board),
             scores: [...this.scores],
             caps: [...this.caps],
-            stashes: clone(this.stashes)
+            stashes: clone(this.stashes) as Map<playerid, number[]>
         };
     }
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr: string = "";
+        let pstr = "";
         for (let row = 0; row < 8; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -558,14 +560,14 @@ export class BlamGame extends GameBase {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const [toX, toY] = BlamGame.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: toY, col: toX}]});
+                    rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}]});
                 } else if (move.type === "move") {
                     const [fromX, fromY] = BlamGame.algebraic2coords(move.from);
                     const [toX, toY] = BlamGame.algebraic2coords(move.to);
-                    rep.annotations!.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 }
             }
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 delete rep.annotations;
             }
         }
@@ -621,7 +623,7 @@ export class BlamGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

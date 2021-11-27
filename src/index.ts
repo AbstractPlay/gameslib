@@ -18,7 +18,7 @@ const gameinfoSorted: APGamesInformation[] = [...games.values()].sort((a, b) => 
 export {gameinfo, gameinfoSorted};
 
 export const supportedLocales: string[] = ["en", "fr"];
-export function addResource(lang?: string) {
+export const addResource = (lang?: string) => {
     if (i18next.isInitialized) {
         // i18next already exists
         if (!i18next.hasResourceBundle("en", "apgames")) {
@@ -34,11 +34,11 @@ export function addResource(lang?: string) {
             i18next.addResourceBundle("fr", "apresults", frResults);
         }
         if (lang) {
-            i18next.changeLanguage(lang);
+            void i18next.changeLanguage(lang);
         }
     } else {
         // i18next isn't in the host, so use it ourselves
-        i18next.init({
+        void i18next.init({
             lng: lang,
             ns: ["apgames"],
             initImmediate: false,

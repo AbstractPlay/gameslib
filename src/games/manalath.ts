@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IIndividualState } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -5,10 +7,10 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-// tslint:disable-next-line: no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc:string = `# Manalath
+const gameDesc = `# Manalath
 
 Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!
 `;
@@ -49,18 +51,18 @@ export class ManalathGame extends GameBase {
         flags: ["automove"]
     };
 
-    public numplayers: number = 2;
+    public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public lastmove?: string;
     public graph: HexTriGraph = new HexTriGraph(5, 9);
-    public gameover: boolean = false;
+    public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IManalathState | string, variants?: string[]) {
+    constructor(state?: IManalathState | string) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
@@ -85,7 +87,7 @@ export class ManalathGame extends GameBase {
         this.load();
     }
 
-    public load(idx: number = -1): ManalathGame {
+    public load(idx = -1): ManalathGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -120,7 +122,7 @@ export class ManalathGame extends GameBase {
             }
         }
         const valid = moves.filter(m => {
-            const g: ManalathGame = Object.assign(new ManalathGame(), deepclone(this));
+            const g: ManalathGame = Object.assign(new ManalathGame(), deepclone(this) as ManalathGame);
             g.buildGraph();
             g.move(m, true);
             const groups1 = g.getGroups(1);
@@ -162,7 +164,7 @@ export class ManalathGame extends GameBase {
         }
     }
 
-    public move(m: string, partial: boolean = false): ManalathGame {
+    public move(m: string, partial = false): ManalathGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -365,10 +367,10 @@ export class ManalathGame extends GameBase {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
-                    rep.annotations!.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
-            if (rep.annotations!.length === 0) {
+            if (rep.annotations.length === 0) {
                 delete rep.annotations;
             }
         }
@@ -416,7 +418,7 @@ export class ManalathGame extends GameBase {
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
-                let name: string = `Player ${otherPlayer}`;
+                let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }

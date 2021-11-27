@@ -158,6 +158,10 @@
             "PARTIAL_MOVE": "",
             "PLACE_IN_OPEN": "",
             "PLACE_IN_RANGE": ""
+        },
+        "loa": {
+            "NOT_IN_RANGE": "",
+            "PARTIAL": ""
         }
     },
     "volcano": {

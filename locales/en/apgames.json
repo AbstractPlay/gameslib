@@ -157,6 +157,10 @@
             "PARTIAL_MOVE": "Provide the destination.",
             "PLACE_IN_OPEN": "You may only place pieces in the open area.",
             "PLACE_IN_RANGE": "You may only place pieces that are within one regular move of an existing piece."
+        },
+        "loa": {
+            "NOT_IN_RANGE": "You cannot reach {{to}} from {{from}}.",
+            "PARTIAL": "Select your destination."
         }
     },
     "volcano": {

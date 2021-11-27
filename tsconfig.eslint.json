@@ -6,6 +6,7 @@
         ".eslintrc.js"
     ],
     "exclude": [
-        "src/schemas/**/*.ts"
+        "src/schemas/**/*.ts",
+        "bin/*"
     ]
   }

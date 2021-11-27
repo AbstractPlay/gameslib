@@ -265,6 +265,7 @@
                             console.log("Game state: "+state);
                         }
                         window.sessionStorage.setItem("state", game.serialize());
+                        window.sessionStorage.removeItem("interim");
                         renderGame();
                     }
                 });
@@ -287,6 +288,7 @@
                                 var move = factory.constructor.findmove(game.state(), depth);
                                 game.move(move);
                                 window.sessionStorage.setItem("state", game.serialize());
+                                window.sessionStorage.removeItem("interim");
                                 renderGame();
                             } else {
                                 alert("This game does not support fast AI.");
@@ -312,6 +314,7 @@
                                 var move = factory.constructor.findmove(game.state(), depth);
                                 game.move(move);
                                 window.sessionStorage.setItem("state", game.serialize());
+                                window.sessionStorage.removeItem("interim");
                                 renderGame();
                             } else {
                                 alert("This game does not support slow AI.");

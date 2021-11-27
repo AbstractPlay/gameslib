@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -44,7 +44,8 @@ export class LinesOfActionGame extends GameBase {
                 group: "setup",
                 description: "Pieces are interspersed with each other instead of starting together on opposite sides of the board."
             }
-        ]
+        ],
+        flags: ["multistep"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 9);
@@ -62,6 +63,7 @@ export class LinesOfActionGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
     constructor(state?: ILinesOfActionState | string, variants?: string[]) {
         super();
@@ -181,36 +183,182 @@ export class LinesOfActionGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    private findPoints(start: string): string[] | undefined {
+        if (! this.board.has(start)) {
+            return undefined;
+        }
+        const targets: string[] = [];
+        const grid = new RectGrid(9, 9);
+        const [x, y] = LinesOfActionGame.algebraic2coords(start);
+        for (const pair of [["N", "S"] as const, ["E", "W"] as const, ["NE", "SW"] as const, ["NW", "SE"] as const]) {
+            const ray1 = grid.ray(x, y, pair[0]).map(pt => LinesOfActionGame.coords2algebraic(...pt));
+            const ray2 = grid.ray(x, y, pair[1]).map(pt => LinesOfActionGame.coords2algebraic(...pt));
+            const combined: string[] = [start, ...ray1, ...ray2];
+            const numPieces = [...this.board.entries()].filter(e => combined.includes(e[0])).length;
+            for (const ray of [ray1, ray2]) {
+                if (ray.length >= numPieces) {
+                    const next = ray[numPieces - 1];
+                    if ( (! this.board.has(next)) || (this.board.get(next) !== this.currplayer) ) {
+                        // check for obstructions
+                        let blocked = false;
+                        for (const mid of ray.slice(0, numPieces - 1)) {
+                            if ( (this.board.has(mid)) && (this.board.get(mid) !== this.currplayer) ) {
+                                blocked = true;
+                                break;
+                            }
+                        }
+                        if (! blocked) {
+                            targets.push(next);
+                        }
+                    }
+                }
+            }
+        }
+        return targets;
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
-        }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = LinesOfActionGame.coords2algebraic(col, row);
+            let newmove = "";
+            if (move.length > 0) {
+                let prev = move;
+                if (move.includes("-")) {
+                    prev = move.split("-")[0];
+                }
+                // If you clicked on the previous cell, clear the move
+                if (cell === prev) {
+                    return {move: "", message: ""} as IClickResult;
+                // otherwise, see if clicked cell is a valid move
+                } else {
+                    const pts = this.findPoints(prev)!;
+                    if (pts.includes(cell)) {
+                        if (this.board.has(cell)) {
+                            newmove = `${prev}x${cell}`;
+                        } else {
+                            newmove = `${prev}-${cell}`;
+                        }
+                    // if it's a friendly piece, just switch to that piece instead
+                    } else if ( (this.board.has(cell)) && (this.board.get(cell) === this.currplayer) ) {
+                        newmove = cell;
+                    }
+                }
+            } else if ( (this.board.has(cell)) && (this.board.get(cell) === this.currplayer) ) {
+                newmove = cell;
+            } else {
+                return {move: "", message: ""} as IClickResult;
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
         }
     }
 
-    public move(m: string): LinesOfActionGame {
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const [from, to] = m.split(/[-x]/);
+        if (from !== undefined) {
+            // cell is valid
+            try {
+                LinesOfActionGame.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            // cell is occupied
+            if (! this.board.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // cell is yours
+            if (this.board.get(from) !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", {cell: from});
+                return result;
+            }
+
+            // if no `to`, we're a good partial
+            if (to === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.loa.PARTIAL");
+                return result;
+            } else {
+                // cell is valid
+                try {
+                    LinesOfActionGame.algebraic2coords(to);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                    return result;
+                }
+                // cell is in range
+                const pts = this.findPoints(from);
+                if ( (pts === undefined) || (! pts.includes(to)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.loa.NOT_IN_RANGE", {from, to});
+                    return result;
+                }
+                // cell is not yours
+                if ( (this.board.has(to)) && (this.board.get(to) === this.currplayer) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                    return result;
+                }
+
+                // we're good
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
+        return result;
+    }
+
+    public move(m: string, partial = false): LinesOfActionGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+        if ( (! partial) && (! this.moves().includes(m)) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
+
+        // if partial, just set the points and get out
+        if ( (partial) && (! m.includes("-")) && (! m.includes("x")) ) {
+            const [cell,] = m.split(/[-x]/);
+            const pts = this.findPoints(cell);
+            if (pts !== undefined) {
+                this._points = pts.map(c => LinesOfActionGame.algebraic2coords(c));
+            } else {
+                this._points = [];
+            }
+            return this;
+        // otherwise delete the points and process the full move
+        } else {
+            this._points = [];
         }
 
         this.results = [];
@@ -225,6 +373,8 @@ export class LinesOfActionGame extends GameBase {
         } else if (m.includes("x")) {
             this.results.push({type: "capture", where: to})
         }
+
+        if (partial) { return this; }
 
         // update currplayer
         this.lastmove = m;
@@ -375,9 +525,19 @@ export class LinesOfActionGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if ( (this.stack[this.stack.length - 1]._results.length > 0) || (this._points.length > 0) ){
             // @ts-ignore
             rep.annotations = [];
+
+            if (this._points.length > 0) {
+                const points = [];
+                for (const cell of this._points) {
+                    points.push({row: cell[1], col: cell[0]});
+                }
+                // @ts-ignore
+                rep.annotations.push({type: "dots", targets: points});
+            }
+
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = LinesOfActionGame.algebraic2coords(move.from);

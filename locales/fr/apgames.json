@@ -162,6 +162,11 @@
         "loa": {
             "NOT_IN_RANGE": "",
             "PARTIAL": ""
+        },
+        "manalath": {
+            "BAD_PASS": "",
+            "INVALID_COLOUR": "",
+            "OVERSIZED_GROUP": ""
         }
     },
     "volcano": {

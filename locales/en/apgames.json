@@ -161,6 +161,11 @@
         "loa": {
             "NOT_IN_RANGE": "You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "Select your destination."
+        },
+        "manalath": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INVALID_COLOUR": "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
+            "OVERSIZED_GROUP": "This would create a group of more than five pieces."
         }
     },
     "volcano": {

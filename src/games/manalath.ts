@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -124,7 +124,12 @@ export class ManalathGame extends GameBase {
         const valid = moves.filter(m => {
             const g: ManalathGame = Object.assign(new ManalathGame(), deepclone(this) as ManalathGame);
             g.buildGraph();
-            g.move(m, true);
+            const cell = m.slice(0, m.length - 1);
+            let owner: playerid = 1;
+            if (m[m.length - 1] === "b") {
+                owner = 2;
+            }
+            g.board.set(cell, owner);
             const groups1 = g.getGroups(1);
             const groups2 = g.getGroups(2);
             return ( (groups1.filter(grp => grp.size > 5).length === 0) && (groups2.filter(grp => grp.size > 5)) );
@@ -142,36 +147,124 @@ export class ManalathGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = this.graph.coords2algebraic(col, row);
+            let newmove = "";
+            // If you click on an occupied cell, clear the entry
+            if (this.board.has(cell)) {
+                return {move: "", message: ""} as IClickResult;
+            }
+            if (move.length > 0) {
+                const prev = move.slice(0, move.length - 1);
+                const colour = move[move.length - 1];
+                if (prev === cell) {
+                    if (colour === "w") {
+                        newmove = `${cell}b`;
+                    } else {
+                        newmove = `${cell}w`;
+                    }
+                } else {
+                    newmove = `${cell}w`;
+                }
+            } else {
+                newmove = `${cell}w`;
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = newmove;
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // pass first
+        if (m === "pass") {
+            const moves = this.moves();
+            if ( (moves.length === 1) && (moves[0] === "pass") ) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.manalath.BAD_PASS");
+                return result;
+            }
         }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+
+        const cell = m.slice(0, m.length - 1);
+        let colour: playerid;
+        if (m[m.length - 1] === "w") {
+            colour = 1;
+        } else if (m[m.length - 1] === "b") {
+            colour = 2;
+        } else {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.manalath.INVALID_COLOUR", {colour: m[m.length - 1]});
+            return result;
         }
+
+        // valid cell
+        try {
+            this.graph.algebraic2coords(cell);
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+            return result;
+        }
+        // cell is empty
+        if (this.board.has(cell)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+            return result;
+        }
+        // doesn't create oversized group
+        const g: ManalathGame = Object.assign(new ManalathGame(), deepclone(this) as ManalathGame);
+        g.buildGraph();
+        g.board.set(cell, colour);
+        const groups = g.getGroups(colour);
+        for (const group of groups) {
+            if (group.size > 5) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.manalath.OVERSIZED_GROUP");
+                return result;
+            }
+        }
+
+        // we're good
+        result.valid = true;
+        result.complete = 0;
+        result.canrender = true;
+        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+
+        return result;
     }
 
     public move(m: string, partial = false): ManalathGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+        if (! this.moves().includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         this.results = [];

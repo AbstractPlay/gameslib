@@ -8,11 +8,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc = `# Cannon
-
-A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a "cannon" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.
-`;
-
 type playerid = 1|2;
 type pieceid = "s" | "t";
 type CellContents = [playerid, pieceid];
@@ -49,7 +44,8 @@ export class CannonGame extends GameBase {
         uid: "cannon",
         playercounts: [2],
         version: "20211010",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.cannon")
+        description: "apgames:descriptions.cannon",
         urls: [
             "https://nestorgames.com/rulebooks/CANNON_EN.pdf",
             "http://superdupergames.org/rules/cannon.pdf",

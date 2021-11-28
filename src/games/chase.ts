@@ -10,11 +10,6 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Chase
-
-Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (it's "speed"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.
-`;
-
 type playerid = 1|2;
 type Speed = 1|2|3|4|5|6;
 type CellContents = [playerid, Speed];
@@ -75,7 +70,8 @@ export class ChaseGame extends GameBase {
         uid: "chase",
         playercounts: [2],
         version: "20211009",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.chase")
+        description: "apgames:descriptions.chase",
         urls: ["https://en.wikipedia.org/wiki/Chase_(board_game)", "https://boardgamegeek.com/boardgame/316/chase"],
         people: [
             {

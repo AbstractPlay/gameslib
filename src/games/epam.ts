@@ -5,11 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions, allDirections, oppositeDirections } from "../common";
 import i18next from "i18next";
 
-const gameDesc = `# Epaminondas
-
-Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.
-`;
-
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -30,7 +25,8 @@ export class EpamGame extends GameBase {
         uid: "epam",
         playercounts: [2],
         version: "20211117",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.epam")
+        description: "apgames:descriptions.epam",
         urls: ["http://www.logicmazes.com/games/epam.html"],
         people: [
             {
@@ -44,7 +40,8 @@ export class EpamGame extends GameBase {
                 uid: "stones",
                 name: "Stumbling Blocks",
                 group: "setup",
-                description: "In this variant, the players place three impassable stones in the middle of the board."
+                // i18next.t("apgames:variants.epam.stones")
+                description: "apgames:variants.epam.stones",
             }
         ]
     };

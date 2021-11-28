@@ -6,11 +6,6 @@ import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import i18next from "i18next";
 // import { RectGrid } from "../common";
 
-const gameDesc = `# Volcano
-
-An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.
-`;
-
 interface ILooseObj {
     [key: string]: any;
 }
@@ -80,7 +75,8 @@ export class VolcanoGame extends GameBase {
         uid: "volcano",
         playercounts: [2],
         version: "20211104",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.volcano")
+        description: "apgames:descriptions.volcano",
         urls: ["https://www.looneylabs.com/content/volcano"],
         people: [
             {

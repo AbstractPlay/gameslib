@@ -8,13 +8,6 @@ import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 import { UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc = `# Homeworlds
-
-An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for domination. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponents.
-
-Because the open nature of the Abstract Play service makes hidden information challenging, the good and evil mechanic of the original rules is not supported. The win condition is instead what's called "Sinister Homeworlds." You only win by defeating the opponent to your left. If someone else does that, the game continues but your left-hand opponent now shifts clockwise.
-`;
-
 export type playerid = 1|2|3|4;
 export type Colour = "R"|"B"|"G"|"Y";
 export type Seat = "N"|"E"|"S"|"W";
@@ -88,7 +81,8 @@ export class HomeworldsGame extends GameBase {
         uid: "homeworlds",
         playercounts: [2,3,4],
         version: "20211024",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.homeworlds")
+        description: "apgames:descriptions.homeworlds",
         urls: [
             "https://www.looneylabs.com/rules/homeworlds",
             "http://www.ginohn.com/wunder201005/games/Homeworlds/HomeworldsRules.html",

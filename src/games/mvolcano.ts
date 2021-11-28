@@ -10,11 +10,6 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const clone = require("rfdc/default");
 
-const gameDesc = `# Mega-Volcano
-
-An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour (or all three white pieces). Scores are then calculated. Highest score wins.
-`;
-
 interface ILooseObj {
     [key: string]: any;
 }
@@ -61,7 +56,8 @@ export class MvolcanoGame extends GameBase {
         uid: "mvolcano",
         playercounts: [2],
         version: "20211107",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.mvolcano")
+        description: "apgames:descriptions.mvolcano",
         urls: ["http://www.wunderland.com/WTS/Kristin/Games/Volcano.html#MegaVolcano"],
         people: [
             {

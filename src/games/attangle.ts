@@ -11,11 +11,6 @@ import { Combination } from "js-combinatorics";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Attangle
-
-Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The "Grand Attangle" variant is also implemented.
-`;
-
 export type playerid = 1|2;
 const voids: string[][] = [["d4"], ["h4", "g2", "f7", "e5", "d2", "c6", "b3"]]
 
@@ -37,7 +32,8 @@ export class AttangleGame extends GameBase {
         uid: "attangle",
         playercounts: [2],
         version: "20211114",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.attangle")
+        description: "apgames:descriptions.attangle",
         urls: ["https://spielstein.com/games/attangle/rules", "https://spielstein.com/games/attangle/rules/grand-attangle"],
         people: [
             {
@@ -51,7 +47,8 @@ export class AttangleGame extends GameBase {
                 uid: "grand",
                 name: "Grand Attangle",
                 group: "board",
-                description: "Played on a larger board, with more voids, and the goal now is to create five triple stacks."
+                // i18next.t("apgames:variants.attangle.grand")
+                description: "apgames:variants.attangle.grand",
             },
         ],
         flags: ["limited-pieces"]

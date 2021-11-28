@@ -8,13 +8,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc = `# Entropy
-
-Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. Chaos, of course, attempts to thwart Order whenever possible.
-
-This implementation provides a simultaneous environment where each player has their own Order board. Each player places a piece on their opponent's Order board and then makes a move on their own board, players acting as both Order and Chaos at the same time. The player with the greatest score wins! Since both players share the same randomized pool of pieces, this approach gives the cleanest measure of skill.
-`;
-
 type playerid = 1|2;
 type CellContents = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN";
 const allColours: CellContents[] = ["RD","BU","GN","YE","VT","OG","BN"]
@@ -49,7 +42,8 @@ export class EntropyGame extends GameBase {
         uid: "entropy",
         playercounts: [2],
         version: "20211101",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.entropy")
+        description: "apgames:descriptions.entropy",
         urls: [
             "https://boardgamegeek.com/boardgame/1329/hyle",
         ],

@@ -9,11 +9,6 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Ordo
-
-Ordo is a "get to your opponent's home row" game in which you must always keep your pieces connected. Pieces can move singly, but also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.
-`;
-
 export type playerid = 1|2;
 
 const dirsForward: Directions[][] = [["W", "NW", "N", "NE", "E"], ["E", "SE", "S", "SW", "W"]];
@@ -41,7 +36,8 @@ export class OrdoGame extends GameBase {
         uid: "ordo",
         playercounts: [2],
         version: "20211114",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.ordo")
+        description: "apgames:descriptions.ordo",
         urls: ["https://spielstein.com/games/ordo"],
         people: [
             {

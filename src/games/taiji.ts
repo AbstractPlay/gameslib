@@ -5,17 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-const gameDesc = `# Taiji
-
-Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.
-
-**Variants**
-
-- The default board size is 9x9, but 7x7 and 11x11 versions are also available.
-- The default win condition is the size of your two largest groups, but at the beginning of the game you can agree on looking at only one or three groups.
-- The default rule is no diagonal placement. The "Tonga" variant allows it, however.
-`;
-
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -35,7 +24,8 @@ export class TaijiGame extends GameBase {
         uid: "taiji",
         playercounts: [2],
         version: "20211118",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.taiji")
+        description: "apgames:descriptions.taiji",
         urls: ["https://boardgamegeek.com/boardgame/31926/taiji", "https://nestorgames.com/rulebooks/TAIJIDELUXE_EN.pdf"],
         people: [
             {

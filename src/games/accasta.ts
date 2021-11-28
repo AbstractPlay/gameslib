@@ -10,11 +10,6 @@ import { HexTriGraph } from "../common/graphs";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Accasta
-
-Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the "Pari" variant, the movement is determined by how many friendly pieces are in the stack.
-`;
-
 export type playerid = 1|2;
 export type Piece = "C"|"H"|"S";
 export type CellContents = [Piece, playerid]
@@ -39,7 +34,8 @@ export class AccastaGame extends GameBase {
         uid: "accasta",
         playercounts: [2],
         version: "20211116",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.accasta")
+        description: "apgames:descriptions.accasta",
         urls: ["https://spielstein.com/games/accasta"],
         people: [
             {
@@ -52,7 +48,8 @@ export class AccastaGame extends GameBase {
             {
                 uid: "pari",
                 name: "Accasta Pari",
-                description: "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
+                // i18next.t("apgames:variants.accasta.pari")
+                description: "apgames:variants.accasta.pari"
             },
         ],
         flags: ["multistep"]

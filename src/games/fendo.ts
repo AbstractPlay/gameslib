@@ -13,11 +13,6 @@ const deepclone = require("rfdc/default");
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const clonelst = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);
 
-const gameDesc = `# Fendo
-
-In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.
-`;
-
 export type playerid = 1|2;
 
 export interface IAreas {
@@ -45,7 +40,8 @@ export class FendoGame extends GameBase {
         uid: "fendo",
         playercounts: [2],
         version: "20211119",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.fendo")
+        description: "apgames:descriptions.fendo",
         urls: ["https://spielstein.com/games/fendo", "https://boardgamegeek.com/boardgame/159333/fendo"],
         people: [
             {

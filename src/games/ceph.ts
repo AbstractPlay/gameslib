@@ -7,13 +7,6 @@ import i18next from "i18next";
 import { IGraph, SquareOrthGraph, SnubSquareGraph } from "../common/graphs";
 import { Permutation, PowerSet } from "js-combinatorics";
 
-const gameDesc = `# Cephalopod
-
-A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.
-
-The default board is a 5x5 square. Only orthogonal connections are counted. A 5x5 snubsquare board is also available, with all connections active.
-`;
-
 type playerid = 1|2;
 type Value = 1|2|3|4|5|6;
 type CellContents = [playerid, Value];
@@ -35,7 +28,8 @@ export class CephalopodGame extends GameBase {
         uid: "ceph",
         playercounts: [2],
         version: "20211113",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.ceph")
+        description: "apgames:descriptions.ceph",
         urls: ["http://www.marksteeregames.com/Cephalopod_rules.pdf"],
         people: [
             {
@@ -49,7 +43,8 @@ export class CephalopodGame extends GameBase {
                 uid: "snub",
                 name: "Board: Snub Square",
                 group: "board",
-                description: "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+                // i18next.t("apgames:variants.ceph.snub")
+                description: "apgames:variants.ceph.snub"
             },
         ],
         flags: ["scores", "multistep"]

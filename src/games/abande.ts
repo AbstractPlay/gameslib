@@ -10,11 +10,6 @@ import { IGraph, SquareGraph, SnubSquareGraph, HexTriGraph } from "../common/gra
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Abande
-
-Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.
-`;
-
 export type playerID = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -35,7 +30,8 @@ export class AbandeGame extends GameBase {
         uid: "abande",
         playercounts: [2],
         version: "20211112",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.abande")
+        description: "apgames:descriptions.abande",
         urls: ["https://spielstein.com/games/abande/rules"],
         people: [
             {
@@ -49,13 +45,15 @@ export class AbandeGame extends GameBase {
                 uid: "snub",
                 name: "Board: Snub Square",
                 group: "board",
-                description: "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+                // i18next.t("apgames:variants.abande.snub")
+                description: "apgames:variants.abande.snub",
             },
             {
                 uid: "hex",
                 name: "Board: Hexagonal",
                 group: "board",
-                description: "A 37-space hexagonal board."
+                // i18next.t("apgames:variants.abande.hex")
+                description: "apgames:variants.abande.hex",
             }
         ],
         flags: ["limited-pieces", "scores"]

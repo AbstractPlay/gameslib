@@ -10,11 +10,6 @@ import { CartesianProduct } from "js-combinatorics";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Urbino
-
-In Urbino, one manipulates architects (like in his game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the "Monuments" variant.
-`;
-
 export type playerid = 0|1|2;
 export type Size = 0|1|2|3;
 export type CellContents = [playerid, Size];
@@ -50,7 +45,8 @@ export class UrbinoGame extends GameBase {
         uid: "urbino",
         playercounts: [2],
         version: "20211119",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.urbino")
+        description: "apgames:descriptions.urbino",
         urls: ["https://spielstein.com/games/urbino"],
         people: [
             {
@@ -63,7 +59,8 @@ export class UrbinoGame extends GameBase {
             {
                 uid: "monuments",
                 name: "Monuments",
-                description: "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
+                // i18next.t("apgames:variants.urbino.monuments")
+                description: "apgames:variants.urbino.monuments"
             }
         ],
         flags: ["multistep", "player-stashes", "automove"]

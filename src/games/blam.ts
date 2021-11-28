@@ -11,11 +11,6 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const clone = require("rfdc/default");
 
-const gameDesc = `# Blam!
-
-An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.
-`;
-
 export type playerid = 1|2|3|4;
 
 interface ILooseObj {
@@ -48,7 +43,8 @@ export class BlamGame extends GameBase {
         uid: "blam",
         playercounts: [2,3,4],
         version: "20211009",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.blam")
+        description: "apgames:descriptions.blam",
         urls: ["http://invisible-city.com/content/blam"],
         people: [
             {

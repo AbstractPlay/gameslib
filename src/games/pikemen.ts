@@ -9,13 +9,6 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Pikemen
-
-A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.
-
-While the game is technically playable by three and four players, this implementation only supports two players.
-`;
-
 interface ILooseObj {
     [key: string]: any;
 }
@@ -45,7 +38,8 @@ export class PikemenGame extends GameBase {
         uid: "pikemen",
         playercounts: [2],
         version: "20211114",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.pikemen")
+        description: "apgames:descriptions.pikemen",
         urls: ["http://playagaingames.com/games/pikemen/"],
         people: [
             {
@@ -59,7 +53,8 @@ export class PikemenGame extends GameBase {
                 uid: "15pts",
                 name: "Longer Game: 15 points",
                 group: "eog",
-                description: "The game doesn't end until you have 15 points worth of enemy soldiers."
+                // i18next.t("apgames:variants.pikemen.15pts")
+                description: "apgames:variants.pikemen.15pts"
             }
         ],
         flags: ["scores"]

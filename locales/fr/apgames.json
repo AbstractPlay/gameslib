@@ -1,4 +1,29 @@
 {
+    "descriptions": {
+        "abande": "[FR]Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
+        "accasta": "[FR]Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
+        "amazons": "[FR]A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
+        "attangle": "[FR]Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
+        "blam": "[FR]An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
+        "breakthrough": "[FR]One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
+        "cannon": "[FR]A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
+        "ceph": "[FR]A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.\n\nThe default board is a 5x5 square. Only orthogonal connections are counted. A 5x5 snubsquare board is also available, with all connections active.",
+        "chase": "[FR]Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (it's \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
+        "entropy": "[FR]Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. Chaos, of course, attempts to thwart Order whenever possible.\n\nThis implementation provides a simultaneous environment where each player has their own Order board. Each player places a piece on their opponent's Order board and then makes a move on their own board, players acting as both Order and Chaos at the same time. The player with the greatest score wins! Since both players share the same randomized pool of pieces, this approach gives the cleanest measure of skill.",
+        "epam": "[FR]Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
+        "fabrik": "[FR]In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The \"Arbeiter\" variant gives each player control over a specific worker.",
+        "fendo": "[FR]In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.",
+        "homeworlds": "[FR]An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for domination. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponents.\n\nBecause the open nature of the Abstract Play service makes hidden information challenging, the good and evil mechanic of the original rules is not supported. The win condition is instead what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues but your left-hand opponent now shifts clockwise.",
+        "loa": "[FR]A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. This implementation uses a 9x9 board and has a \"black hole\" in the centre of it. Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw. The \"Scrambled Eggs\" initial layout variant is supported.",
+        "manalath": "[FR]Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
+        "mchess": "[FR]A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points. A variant called \"Of Knights and Kings\" changes the way Pawns and Drones move to create a very different strategic game.\n\nWhile the game is playable by four players (or different numbers with odd-shaped boards), this implementation only supports two players.",
+        "mvolcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour (or all three white pieces). Scores are then calculated. Highest score wins.",
+        "ordo": "[FR]Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly, but also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
+        "pikemen": "[FR]A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
+        "taiji": "[FR]Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.\n\n**Variants**\n\n- The default board size is 9x9, but 7x7 and 11x11 versions are also available.\n- The default win condition is the size of your two largest groups, but at the beginning of the game you can agree on looking at only one or three groups.\n- The default rule is no diagonal placement. The \"Tonga\" variant allows it, however.",
+        "urbino": "[FR]In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
+        "volcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios."
+    },
     "homeworlds": {
         "CMD_ATK_OWNER": "[FR]In games with more than two players, you have to always specify the owner of the ship you are attacking.",
         "CMD_ATK_SELF": "[FR]You may not attack yourself.",
@@ -77,7 +102,6 @@
             "MORE_THAN_THREE": "[FR]In the move '{{move}}', the step '{{step}}' would create a stack with more than 3 pieces of the same color.",
             "PARTIAL_FULLSTACK": "[FR]Looks like you want to move an entire stack. Provide the destination.",
             "PARTIAL_SUBSTACK_one": "[FR]Looks like you want to move the top piece from the stack. Provide the destination.",
-            "PARTIAL_SUBSTACK_many": "",
             "PARTIAL_SUBSTACK_other": "[FR]Looks like you want to move the top {{count}} pieces from the stack. Provide the destination.",
             "SOURCE_EMPTY": "[FR]In the move '{{move}}', when you come to the step '{{step}}', you don't have any pieces left to move.",
             "TOOFAR": "[FR]In the move '{{move}}', the step '{{step}}' tries to move further than it is allowed.",
@@ -131,42 +155,78 @@
             "TOOHIGH": "[FR]The pieces you capture cannot total more than six."
         },
         "epam": {
-            "INSUFFICIENT_FORCES": "",
-            "NOPLACEMENT": "",
-            "PARTIAL": "",
-            "STONES": "",
-            "STRAIGHTLINE": "",
-            "TOOFAR": ""
+            "INSUFFICIENT_FORCES": "[FR]When capturing, your phalanx must have more pieces than the captured phalanx.",
+            "NOPLACEMENT": "[FR]You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",
+            "PARTIAL": "[FR]Select where you want the *head* of the phalanx to end its movement.",
+            "STONES": "[FR]Stones can only be placed in the middle six rows.",
+            "STRAIGHTLINE": "[FR]You can only move in straight lines.",
+            "TOOFAR": "[FR]The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces."
         },
         "fabrik": {
-            "INVALID_PASS": "",
-            "INVALID_PLACEMENT": "",
-            "MUST_PASS_PLAY": "",
-            "NOPLACEMENTS": "",
-            "PARTIAL_MOVE": "",
-            "PARTIAL_PLACE": ""
+            "INVALID_PASS": "[FR]You may only pass the turn immediately after the second worker has been placed.",
+            "INVALID_PLACEMENT": "[FR]The cell {{where}} is not visible to both workers.",
+            "MUST_PASS_PLAY": "[FR]The first turn after the second worker has been placed must be a pass or placement.",
+            "NOPLACEMENTS": "[FR]You cannot move the workers such that you have no valid placements available.",
+            "PARTIAL_MOVE": "[FR]Provide the destination.",
+            "PARTIAL_PLACE": "[FR]Choose a cell to place a piece in."
         },
         "fendo": {
-            "DUPLICATE_FENCE": "",
-            "INVALID_DESTINATION": "",
-            "INVALID_DIRECTION": "",
-            "INVALID_FENCE": "",
-            "INVALID_PASS": "",
-            "NO_EDGE_FENCES": "",
-            "ONLY_MOVE_OPEN": "",
-            "PARTIAL_FENCE": "",
-            "PARTIAL_MOVE": "",
-            "PLACE_IN_OPEN": "",
-            "PLACE_IN_RANGE": ""
+            "DUPLICATE_FENCE": "[FR]A fence already exists between these two cells.",
+            "INVALID_DESTINATION": "[FR]You cannot reach {{to}} from {{from}}. Remember that pieces can only make one ninety-degree turn as they move.",
+            "INVALID_DIRECTION": "[FR]The direction {{dir}} is not valid. It must 'N', 'E', 'S', or 'W'.",
+            "INVALID_FENCE": "[FR]Placing a fence here would either create an empty closed area or create multiple open areas.",
+            "INVALID_PASS": "[FR]You may not pass if you have moves available.",
+            "NO_EDGE_FENCES": "[FR]You may not place fences on the edge of the board.",
+            "ONLY_MOVE_OPEN": "[FR]You may only move pieces in open areas.",
+            "PARTIAL_FENCE": "[FR]Provide the direction where you wish to place a fence. If clicking, click on the adjacent cell you want to block.",
+            "PARTIAL_MOVE": "[FR]Provide the destination.",
+            "PLACE_IN_OPEN": "[FR]You may only place pieces in the open area.",
+            "PLACE_IN_RANGE": "[FR]You may only place pieces that are within one regular move of an existing piece."
         },
         "loa": {
-            "NOT_IN_RANGE": "",
-            "PARTIAL": ""
+            "NOT_IN_RANGE": "[FR]You cannot reach {{to}} from {{from}}.",
+            "PARTIAL": "[FR]Select your destination."
         },
         "manalath": {
-            "BAD_PASS": "",
-            "INVALID_COLOUR": "",
-            "OVERSIZED_GROUP": ""
+            "BAD_PASS": "[FR]You may not pass if legal moves are available.",
+            "INVALID_COLOUR": "[FR]The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
+            "OVERSIZED_GROUP": "[FR]This would create a group of more than five pieces."
+        }
+    },
+    "variants": {
+        "abande": {
+            "hex": "[FR]A 37-space hexagonal board.",
+            "snub": "[FR]A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+        },
+        "accasta": {
+            "pari": "[FR]Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
+        },
+        "attangle": {
+            "grand": "[FR]Played on a larger board, with more voids, and the goal now is to create five triple stacks."
+        },
+        "breakthrough": {
+            "bombardment": "[FR]Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it."
+        },
+        "ceph": {
+            "snub": "[FR]A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+        },
+        "epam": {
+            "stones": "[FR]In this variant, the players place three impassable stones in the middle of the board."
+        },
+        "fabrik": {
+            "arbeiter": "[FR]Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
+        },
+        "loa": {
+            "scrambled": "[FR]Pieces are interspersed with each other instead of starting together on opposite sides of the board."
+        },
+        "mchess": {
+            "ofkk": "[FR]Pawns move like Chess kings, and drones move like Chess knights."
+        },
+        "pikemen": {
+            "15pts": "[FR]The game doesn't end until you have 15 points worth of enemy soldiers."
+        },
+        "urbino": {
+            "monuments": "[FR]Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
         }
     },
     "volcano": {

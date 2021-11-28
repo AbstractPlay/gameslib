@@ -5,11 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions } from "../common";
 import i18next from "i18next";
 
-const gameDesc = `# Breakthrough
-
-One of the simplest "get to your opponent's home row" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a "Bombardment" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.
-`;
-
 export type playerid = 1|2;
 
 const dirsForward: Directions[][] = [["NW", "N", "NE"], ["SE", "S", "SW"]];
@@ -31,7 +26,8 @@ export class BreakthroughGame extends GameBase {
         uid: "breakthrough",
         playercounts: [2],
         version: "20211118",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.breakthrough")
+        description: "apgames:descriptions.breakthrough",
         urls: ["https://en.wikipedia.org/wiki/Breakthrough_(board_game)", "http://www.di.fc.ul.pt/~jpn/gv/bombardment.htm"],
         people: [
             {
@@ -47,7 +43,8 @@ export class BreakthroughGame extends GameBase {
             {
                 uid: "bombardment",
                 name: "Bombardment",
-                description: "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it."
+                // i18next.t("apgames:variants.breakthrough.bombardment")
+                description: "apgames:variants.breakthrough.bombardment"
             }
         ]
     };

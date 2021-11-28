@@ -10,11 +10,6 @@ import { CartesianProduct } from "js-combinatorics";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Fabrik
-
-In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The "Arbeiter" variant gives each player control over a specific worker.
-`;
-
 export type playerid = 1|2;
 export type CellContents = 1|2|11|22;
 
@@ -40,7 +35,8 @@ export class FabrikGame extends GameBase {
         uid: "fabrik",
         playercounts: [2],
         version: "20211118",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.fabrik")
+        description: "apgames:descriptions.fabrik",
         urls: ["https://spielstein.com/games/fabrik"],
         people: [
             {
@@ -53,7 +49,8 @@ export class FabrikGame extends GameBase {
             {
                 uid: "arbeiter",
                 name: "Arbeiter",
-                description: "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
+                // i18next.t("apgames:variants.fabrik.arbeiter")
+                description: "apgames:variants.fabrik.arbeiter"
             }
         ],
         flags: ["multistep", "automove"]

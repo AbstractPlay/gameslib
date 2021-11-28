@@ -5,11 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions } from "../common";
 import i18next from "i18next";
 
-const gameDesc = `# Lines of Action
-
-A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. This implementation uses a 9x9 board and has a "black hole" in the centre of it. Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw. The "Scrambled Eggs" initial layout variant is supported.
-`;
-
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -29,7 +24,8 @@ export class LinesOfActionGame extends GameBase {
         uid: "loa",
         playercounts: [2],
         version: "20211113",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.loa")
+        description: "apgames:descriptions.loa",
         urls: ["https://en.wikipedia.org/wiki/Lines_of_Action"],
         people: [
             {
@@ -42,7 +38,8 @@ export class LinesOfActionGame extends GameBase {
                 uid: "scrambled",
                 name: "Scrambled Eggs",
                 group: "setup",
-                description: "Pieces are interspersed with each other instead of starting together on opposite sides of the board."
+                // i18next.t("apgames:variants.loa.scrambled")
+                description: "apgames:variants.loa.scrambled"
             }
         ],
         flags: ["multistep"]

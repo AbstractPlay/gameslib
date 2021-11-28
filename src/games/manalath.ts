@@ -10,11 +10,6 @@ import { HexTriGraph } from "../common/graphs";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-const gameDesc = `# Manalath
-
-Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!
-`;
-
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -34,7 +29,8 @@ export class ManalathGame extends GameBase {
         uid: "manalath",
         playercounts: [2],
         version: "20211118",
-        description: gameDesc,
+        // i18next.t("apgames:descriptions.manalath")
+        description: "apgames:descriptions.manalath",
         urls: ["https://spielstein.com/games/manalath/rules"],
         people: [
             {

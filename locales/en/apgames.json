@@ -202,6 +202,9 @@
             "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
             "MOVES_CAPS_ONLY": "You may only move caps.",
             "MOVES_DOUBLE_CAP": "Nothing may be placed on top of a cap.",
+            "MOVES_MUST_ERUPT": "You must continue moving until you cause an eruption.",
+            "MOVES_NOPIECE": "You don't have a {{piece}} piece in your stash to place.",
+            "MOVES_ONE_POWERPLAY": "You may only make one power play per turn.",
             "MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
             "PARTIAL_ERUPTION": "Keep moving caps until you cause an eruption.",
             "PARTIAL_MOVE": "Select the destination."
@@ -242,15 +245,5 @@
         "urbino": {
             "monuments": "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
         }
-    },
-    "volcano": {
-        "MOVES_AFTER_ERUPTION": "",
-        "MOVES_CAPS_ONLY": "",
-        "MOVES_DOUBLE_CAP": "",
-        "MOVES_MUST_ERUPT": "",
-        "MOVES_NOPIECE": "",
-        "MOVES_ONE_POWERPLAY": "",
-        "MOVES_ONE_SPACE": "",
-        "MOVES_TOO_FAR": ""
     }
 }

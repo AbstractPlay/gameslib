@@ -395,7 +395,7 @@ export class MvolcanoGame extends GameBase {
         }
 
         if (! this.erupted) {
-            throw new UserFacingError("MOVES_MUST_ERUPT", i18next.t("apgames:volcano.MOVES_MUST_ERUPT"));
+            throw new UserFacingError("MOVES_MUST_ERUPT", i18next.t("apgames:validation.volcano.MOVES_MUST_ERUPT"));
         }
 
         // update currplayer

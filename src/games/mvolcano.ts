@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -153,7 +153,158 @@ export class MvolcanoGame extends GameBase {
         this.lastmove = state.lastmove;
         this.captured = clone(state.captured) as [CellContents[], CellContents[]];
         this.caps = new Set(state.caps);
+        this.results = [...state._results];
         return this;
+    }
+
+    // Because of how many moves are possible and all the rerendering that is happening,
+    // be super conservative with error handling. Don't nuke entire move strings if you can help it.
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = MvolcanoGame.coords2algebraic(col, row);
+            const grid = new RectGrid(6, 6);
+            const moves = move.split(/\s*[\n,;\/\\]\s*/);
+            let lastmove = moves.pop();
+            if (lastmove === undefined) {
+                lastmove = "";
+            } else if (lastmove.includes("-")) {
+                moves.push(lastmove);
+                lastmove = "";
+            }
+            // Assume all previous moves are valid
+            // Update the caps
+            const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this) as MvolcanoGame);
+            for (const m of moves) {
+                const [from, to] = m.split("-");
+                cloned.caps.delete(from);
+                cloned.caps.add(to);
+            }
+            let newmove = "";
+            if (lastmove.length === 0) {
+                // cell has a cap
+                if (cloned.caps.has(cell)) {
+                    newmove = cell;
+                } else {
+                    return {move, message: ""} as IClickResult;
+                }
+            } else {
+                const [from,] = lastmove.split("-");
+                if (from === cell) {
+                    return {move: moves.join(","), message: ""} as IClickResult;
+                } else {
+                    const neighbours = grid.adjacencies(...MvolcanoGame.algebraic2coords(from), true).map(pt => MvolcanoGame.coords2algebraic(...pt));
+                    if ( (neighbours.includes(cell)) && (! cloned.caps.has(cell)) ) {
+                        newmove = `${from}-${cell}`;
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
+                }
+            }
+            const result = this.validateMove([...moves, newmove].join(",")) as IClickResult;
+            if (! result.valid) {
+                result.move = move;
+            } else {
+                if (newmove.length > 0) {
+                    result.move = [...moves, newmove].join(",");
+                } else {
+                    result.move = moves.join(",");
+                }
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this) as MvolcanoGame);
+        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const grid = new RectGrid(6, 6);
+        let erupted = false;
+        for (const move of moves) {
+            const [from, to] = move.split("-");
+            if (from !== undefined) {
+                let xFrom: number; let yFrom: number;
+                // valid cell
+                try {
+                    [xFrom, yFrom] = MvolcanoGame.algebraic2coords(from);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                    return result;
+                }
+                // already erupted
+                if (erupted) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.volcano.MOVES_AFTER_ERUPTION");
+                    return result;
+                }
+                // moving a cap
+                if (! cloned.caps.has(from)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.volcano.MOVES_CAPS_ONLY");
+                    return result;
+                }
+                if (to === undefined) {
+                    // valid partial
+                    result.valid = true;
+                    result.complete = -1;
+                    result.message = i18next.t("apgames:validation.volcano.PARTIAL_MOVE");
+                    return result;
+                } else {
+                    // valid cell
+                    let xTo: number; let yTo: number;
+                    try {
+                        [xTo, yTo] = MvolcanoGame.algebraic2coords(to);
+                    } catch {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                        return result;
+                    }
+                    // no pre-existing cap
+                    if (cloned.caps.has(to)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.volcano.MOVES_DOUBLE_CAP");
+                        return result;
+                    }
+                    // only one space
+                    const neighbours = grid.adjacencies(xFrom, yFrom).map(pt => MvolcanoGame.coords2algebraic(...pt));
+                    if (! neighbours.includes(to)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.volcano.MOVES_ONE_SPACE");
+                        return result;
+                    }
+                    // detect eruption
+                    const dir = RectGrid.bearing(xFrom, yFrom, xTo, yTo)!;
+                    const ray = grid.ray(xTo, yTo, dir);
+                    if ( (ray.length > 0) && (! cloned.caps.has(MvolcanoGame.coords2algebraic(...ray[0]))) && (cloned.board[yFrom][xFrom].length > 0) ) {
+                        erupted = true;
+                    }
+                }
+            }
+            // If we get here, this move is valid, so move the caps and try the next one
+            cloned.caps.delete(from);
+            cloned.caps.add(to);
+        }
+        // If we get here, all the moves are valid
+        if (erupted) {
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        } else {
+            result.valid = true;
+            result.complete = -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.volcano.PARTIAL_ERUPTION");
+            return result;
+        }
     }
 
     // Giving up on move generation for now. It simply takes too long, even after
@@ -172,34 +323,42 @@ export class MvolcanoGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
         const grid = new RectGrid(6, 6);
         this.erupted = false;
         this.results = [];
         for (const move of moves) {
+            if ( (partial) && (! move.includes("-")) ) { continue; }
             const [from, to] = move.split("-");
             const [toX, toY] = MvolcanoGame.algebraic2coords(to);
             if ( (from === undefined) || (to === undefined) || (to.length !== 2) || (from.length !== 2) ) {
-                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move}));
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
             if (this.erupted) {
-                throw new UserFacingError("MOVES_AFTER_ERUPTION", i18next.t("apgames:volcano.MOVES_AFTER_ERUPTION"));
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
             const [fromX, fromY] = MvolcanoGame.algebraic2coords(from);
             if (! this.caps.has(from)) {
-                throw new UserFacingError("MOVES_CAPS_ONLY", i18next.t("apgames:volcano.MOVES_CAPS_ONLY"));
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
             if (this.caps.has(to)) {
-                throw new UserFacingError("MOVES_DOUBLE_CAP", i18next.t("apgames:volcano.MOVES_DOUBLE_CAP"));
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
             if ( (Math.abs(fromX - toX) > 1) || (Math.abs(fromY - toY) > 1) ) {
-                throw new UserFacingError("MOVES_TOO_FAR", i18next.t("apgames:volcano.MOVES_TOO_FAR"));
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
             this.results.push({type: "move", from, to});
             // detect eruption
             const dir = RectGrid.bearing(fromX, fromY, toX, toY);
             if (dir === undefined) {
-                throw new UserFacingError("MOVES_ONE_SPACE", i18next.t("apgames:volcano.MOVES_ONE_SPACE"));
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
             const ray = grid.ray(toX, toY, dir);
             if ( (ray.length > 0) && (! this.caps.has(MvolcanoGame.coords2algebraic(...ray[0]))) && (this.board[fromY][fromX].length > 0) ) {
@@ -519,7 +678,7 @@ export class MvolcanoGame extends GameBase {
         };
     }
 
-    public render(expandCol?: number, expandRow?: number): APRenderRep {
+    public render(expandCol = 0, expandRow = 0): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 6; row++) {
@@ -685,10 +844,12 @@ export class MvolcanoGame extends GameBase {
         }
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        // if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            // for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = MvolcanoGame.algebraic2coords(move.from);
                     const [toX, toY] = MvolcanoGame.algebraic2coords(move.to);

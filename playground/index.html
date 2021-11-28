@@ -69,7 +69,7 @@
                 if (state !== null) {
                     var gamename = window.sessionStorage.getItem("gamename");
                     if ( (gamename === "volcano") || (gamename === "mvolcano") ) {
-                        options.boardClick = boardClickVolcano;
+                        options.boardHover = boardClickVolcano;
                     }
                     var game = APGames.GameFactory(gamename, state);
 
@@ -111,7 +111,8 @@
             document.addEventListener("DOMContentLoaded", function(event) {
                 //const i18n = APGames.addResource("en");
                 //const { t } = i18n;
-                APGames.addResource("en");
+                var i18n = APGames.addResource("en");
+                var { t } = i18n;
                 /*
                 // Listen to mouse movements
                 var drawing = document.getElementById("drawing");
@@ -143,7 +144,7 @@
                         infobox.innerHTML = "";
                     } else {
                         var converter = new showdown.Converter();
-                        infobox.innerHTML = converter.makeHtml(info.description);
+                        infobox.innerHTML = converter.makeHtml(t(info.description));
                     }
                     if ( (info.variants !== undefined) && (info.variants.length > 0) ) {
                         var varSelect = document.getElementById("selectVariant");
@@ -179,7 +180,7 @@
                         var content = "";
                         var converter = new showdown.Converter();
                         if (variant !== undefined) {
-                            content = "**Variant: " + variant.name + "**\n\n" + variant.description;
+                            content = "**Variant: " + variant.name + "**\n\n" + t(variant.description);
                         }
                         infobox.innerHTML = converter.makeHtml(content);
                     } else {
@@ -206,6 +207,7 @@
                     }
                     window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.setItem("gamename", select.value);
+                    window.sessionStorage.removeItem("interim");
                     renderGame();
                 }, false);
 

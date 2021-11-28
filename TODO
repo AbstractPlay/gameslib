@@ -10,3 +10,4 @@
 - List of SDG games still to migrate: acity, archimedes, complica, fanorona, focus, frames, garden, mirador, phutball, qy, realm, reaper, scribe, soccer, strings, wyke. This is based on looking at games in the top quartile of "most played of all time," games played recently, and game ratings by players. Grand total is 34 games (18 already coded, 16 in the queue). Nothing is guaranteed. A nomination process will be instituted at some point.
 
 - Fix Amazons partial rendering (annotations missing). While I'm at it, triple check there are no other games using this old way of annotating.
+- Apparently rotating the board disables the click handlers. Figure that out.

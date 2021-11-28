@@ -74,7 +74,7 @@
             "EMPTYSTRING": "No input provided to validate.",
             "FAILSAFE": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
-            "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
+            "INVALIDCELL": "Could not find the cell '{{cell}}' on the board.",
             "MOVE4CAPTURE": "You signalled a regular move, but {{where}} is occupied.",
             "NO_MOVES": "The piece at {{where}} does not have any legal moves.",
             "NOLOS": "There is no line of sight between {{from}} and {{to}}.",
@@ -197,6 +197,14 @@
             "INVALID_MOVE": "You're either trying to move too far or jump another piece.",
             "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
             "PARTIAL": "Select a destination."
+        },
+        "volcano": {
+            "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
+            "MOVES_CAPS_ONLY": "You may only move caps.",
+            "MOVES_DOUBLE_CAP": "Nothing may be placed on top of a cap.",
+            "MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
+            "PARTIAL_ERUPTION": "Keep moving caps until you cause an eruption.",
+            "PARTIAL_MOVE": "Select the destination."
         }
     },
     "variants": {
@@ -236,13 +244,13 @@
         }
     },
     "volcano": {
-        "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
-        "MOVES_CAPS_ONLY": "You may only move caps.",
-        "MOVES_DOUBLE_CAP": "Nothing may be placed on top of a cap.",
-        "MOVES_MUST_ERUPT": "You must continue moving until you cause an eruption.",
-        "MOVES_NOPIECE": "You don't have a {{piece}} piece in your stash to place.",
-        "MOVES_ONE_POWERPLAY": "You may only make one power play per turn.",
-        "MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
-        "MOVES_TOO_FAR": "Caps may only be moved one space at a time."
+        "MOVES_AFTER_ERUPTION": "",
+        "MOVES_CAPS_ONLY": "",
+        "MOVES_DOUBLE_CAP": "",
+        "MOVES_MUST_ERUPT": "",
+        "MOVES_NOPIECE": "",
+        "MOVES_ONE_POWERPLAY": "",
+        "MOVES_ONE_SPACE": "",
+        "MOVES_TOO_FAR": ""
     }
 }

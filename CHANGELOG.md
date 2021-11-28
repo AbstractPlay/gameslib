@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Lines of Action
   - Manalath
   - Martian Chess
+  - Mega-Volcano
 
 ## [0.4.0] - 2021-11-15
 

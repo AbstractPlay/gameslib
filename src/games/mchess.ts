@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
@@ -25,6 +25,21 @@ export interface IMchessState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
+const isMine = (row: number | string, player: playerid): boolean => {
+    let y: number;
+    if (typeof row === "string") {
+        [,y] = MchessGame.algebraic2coords(row);
+    } else {
+        y = row;
+    }
+    if ( (y < 4) && (player === 2) ) {
+        return true;
+    } else if ( (y >= 4) && (player === 1) ) {
+        return true;
+    }
+    return false;
+}
+
 export class MchessGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Martian Chess",
@@ -47,10 +62,10 @@ export class MchessGame extends GameBase {
                 name: "Of Knights and Kings",
                 group: "movement",
                 // i18next.t("apgames:variants.mchess.ofkk")
-                description: "Pawns move like Chess kings, and drones move like Chess knights."
+                description: "apgames:variants.mchess.ofkk",
             }
         ],
-        flags: ["scores"],
+        flags: ["scores", "multistep"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -69,6 +84,7 @@ export class MchessGame extends GameBase {
     public scores!: number[];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
     constructor(state?: IMchessState | string, variants?: string[]) {
         super();
@@ -225,10 +241,10 @@ export class MchessGame extends GameBase {
                         throw new Error("Unrecognized game mode.");
                     }
                 } else if (v === 2) {
-                    // Default, move in straight lines like a Chess rook
+                    // Default, move in straight lines like a Chess rook, 1 or 2 spaces only
                     if ( (this.variants === undefined) || (! this.variants.includes("ofkk")) ) {
                         for (const dir of ["N", "E", "S", "W"]) {
-                            const ray = grid.ray(...curr, dir as Directions);
+                            const ray = grid.ray(...curr, dir as Directions).slice(0, 2);
                             for (const next of ray) {
                                 const nextCell = MchessGame.coords2algebraic(...next);
                                 const move = this.moveType(k, nextCell, v, player!);
@@ -297,34 +313,277 @@ export class MchessGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = MchessGame.coords2algebraic(col, row);
+            let newmove = "";
+            if (move.length === 0) {
+                if ( (! this.board.has(cell)) || (! isMine(row, this.currplayer)) ) {
+                    return {move: "", message: ""} as IClickResult;
+                } else {
+                    newmove = cell;
+                }
+            } else {
+                const [from,] = move.split(/[-x\+]/);
+                if (from === cell) {
+                    return {move: "", message: ""} as IClickResult;
+                }
+                if (! this.board.has(cell)) {
+                    newmove = `${from}-${cell}`;
+                } else if (isMine(cell, this.currplayer)) {
+                    newmove = `${from}+${cell}`;
+                } else {
+                    newmove = `${from}x${cell}`;
+                }
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        const [from, to] = m.split(/[-x\+]/);
+
+        if (from !== undefined) {
+            // valid cell
+            try {
+                MchessGame.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            // occupied
+            if (! this.board.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // yours
+            if (! isMine(from, this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+
+            if (to === undefined) {
+                // are there valid targets for this piece
+                const pts = this.findPoints(from).map(pt => MchessGame.coords2algebraic(...pt));
+                if (pts.length === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NO_MOVES", {where: from});
+                    return result;
+                }
+
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.mchess.PARTIAL");
+                return result;
+            } else {
+                // valid cell
+                try {
+                    MchessGame.algebraic2coords(to);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                    return result;
+                }
+                // make sure target is valid
+                const pts = this.findPoints(from).map(pt => MchessGame.coords2algebraic(...pt));
+                if (! pts.includes(to)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.mchess.INVALID_MOVE");
+                    return result;
+                }
+                // if empty, we're good
+                if (! this.board.has(to)) {
+                    // make sure correct operator was used
+                    if ( (m.includes("x")) || (m.includes("+")) ) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: to});
+                        return result;
+                    }
+
+                    // valid move
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                } else {
+                    // correct operator
+                    if (m.includes("-")) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: to});
+                        return result;
+                    }
+
+                    // if it's an enemy piece, we're good
+                    if (! isMine(to, this.currplayer)) {
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    } else {
+                        // valid promotion
+                        const calcMove = this.moveType(from, to, this.board.get(from)!, this.currplayer);
+                        if ( (calcMove === undefined) || (! calcMove.includes("+")) ) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.mchess.INVALID_PROMOTION", {where: to});
+                            return result;
+                        }
+
+                        // we're good
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    }
+                }
+            }
         }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
-        }
+
+        return result;
     }
 
-    public move(m: string): MchessGame {
+    private findPoints(cell: string): [number, number][] {
+        const points: [number, number][] = [];
+        if (this.board.has(cell)) {
+            const grid = new RectGrid(4, 8);
+            const [x, y] = MchessGame.algebraic2coords(cell);
+            const piece = this.board.get(cell)!;
+            if (this.variants.includes("ofkk")) {
+                switch (piece) {
+                    case 1:
+                        // chess king
+                        for (const next of grid.adjacencies(x, y, true)) {
+                            const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
+                            if (move !== undefined) {
+                                points.push(next)
+                            }
+                        }
+                        break;
+                    case 2:
+                        // chess knights
+                        for (const next of grid.knights(x, y)) {
+                            const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
+                            if (move !== undefined) {
+                                points.push(next)
+                            }
+                        }
+                        break;
+                    case 3:
+                        // chess queen
+                        for (const dir of ["N", "NE", "E", "SE", "S", "SW", "W", "NW"] as const) {
+                            for (const next of grid.ray(x, y, dir)) {
+                                const nextCell = MchessGame.coords2algebraic(...next);
+                                if (! this.board.has(nextCell)) {
+                                    points.push(next);
+                                } else {
+                                    const move = this.moveType(cell, nextCell, piece, this.currplayer);
+                                    if (move !== undefined) {
+                                        points.push(next)
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                }
+            } else {
+                switch (piece) {
+                    case 1:
+                        // just diagonal adjacencies
+                        for (const next of grid.adjacencies(x, y, true).filter(pt => (pt[0] !== x) && (pt[1] !== y))) {
+                            const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
+                            if (move !== undefined) {
+                                points.push(next)
+                            }
+                        }
+                        break;
+                    case 2:
+                        // orthogonally 2 or 3 spaces
+                        for (const dir of ["N", "E", "S", "W"] as const) {
+                            const ray = grid.ray(x, y, dir).slice(0, 2);
+                            for (const next of ray) {
+                                const nextCell = MchessGame.coords2algebraic(...next);
+                                if (! this.board.has(nextCell)) {
+                                    points.push(next);
+                                } else {
+                                    const move = this.moveType(cell, nextCell, piece, this.currplayer);
+                                    if (move !== undefined) {
+                                        points.push(next)
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    case 3:
+                        // chess queen
+                        for (const dir of ["N", "NE", "E", "SE", "S", "SW", "W", "NW"] as const) {
+                            for (const next of grid.ray(x, y, dir)) {
+                                const nextCell = MchessGame.coords2algebraic(...next);
+                                if (! this.board.has(nextCell)) {
+                                    points.push(next);
+                                } else {
+                                    const move = this.moveType(cell, nextCell, piece, this.currplayer);
+                                    if (move !== undefined) {
+                                        points.push(next)
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+        return points;
+    }
+
+    public move(m: string, partial = false): MchessGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+        if ( (! partial) && (! this.moves().includes(m)) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
+
+        // if partial, just set the points and get out
+        if ( (partial) && (! m.includes("-")) && (! m.includes("x")) && (! m.includes("+")) ) {
+            const pts = this.findPoints(m);
+            if (pts !== undefined) {
+                this._points = pts;
+            } else {
+                this._points = [];
+            }
+            return this;
+        // otherwise delete the points and process the full move
+        } else {
+            this._points = [];
         }
 
         const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
@@ -581,6 +840,20 @@ export class MchessGame extends GameBase {
                     break;
                 default:
                     throw new Error("Invalid move operator.");
+            }
+        }
+
+        if (this._points.length > 0) {
+            const points = [];
+            for (const cell of this._points) {
+                points.push({row: cell[1], col: cell[0]});
+            }
+            if (rep.hasOwnProperty("annotations")) {
+                // @ts-ignore
+                rep.annotations.push({type: "dots", targets: points});
+            } else {
+                // @ts-ignore
+                rep.annotations = [{type: "dots", targets: points}];
             }
         }
 

@@ -76,6 +76,7 @@
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell {{cell}} on the board.",
             "MOVE4CAPTURE": "You signalled a regular move, but {{where}} is occupied.",
+            "NO_MOVES": "The piece at {{where}} does not have any legal moves.",
             "NOLOS": "There is no line of sight between {{from}} and {{to}}.",
             "NONEXISTENT": "Trying to interact with a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
@@ -191,6 +192,11 @@
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INVALID_COLOUR": "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
             "OVERSIZED_GROUP": "This would create a group of more than five pieces."
+        },
+        "mchess": {
+            "INVALID_MOVE": "You're either trying to move too far or jump another piece.",
+            "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
+            "PARTIAL": "Select a destination."
         }
     },
     "variants": {

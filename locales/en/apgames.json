@@ -198,6 +198,14 @@
             "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
             "PARTIAL": "Select a destination."
         },
+        "ordo": {
+            "DISCONNECTED": "That move would leave your pieces disconnected.",
+            "DISORGANIZED": "Moves must be \"organized,\" meaning that the destination cell must be orthogonal to the first cell in the ordo.",
+            "INVALID_ORDO": "The ordo '{{ordo}}' is not valid. Ordos are groups of pieces connected in a straight, orthogonal line.",
+            "INVALID_ORDO_MOVE": "The ordo '{{ordo}}' cannot move to {{destination}}. This is usually because of an obstruction.",
+            "PARTIAL": "Select a destination.",
+            "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
+        },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
             "MOVES_CAPS_ONLY": "You may only move caps.",

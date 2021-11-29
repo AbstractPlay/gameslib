@@ -199,6 +199,14 @@
             "INVALID_PROMOTION": "",
             "PARTIAL": ""
         },
+        "ordo": {
+            "DISCONNECTED": "",
+            "DISORGANIZED": "",
+            "INVALID_ORDO": "",
+            "INVALID_ORDO_MOVE": "",
+            "PARTIAL": "",
+            "WRONG_DIRECTION": ""
+        },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "",
             "MOVES_CAPS_ONLY": "",

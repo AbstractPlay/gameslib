@@ -216,6 +216,10 @@
             "UPRIGHT_MOVEMENT": "",
             "USELESS_ORIENTATION": ""
         },
+        "taiji": {
+            "ADJACENT": "",
+            "PARTIAL": ""
+        },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "",
             "MOVES_CAPS_ONLY": "",

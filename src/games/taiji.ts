@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation, Variant } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -59,7 +59,7 @@ export class TaijiGame extends GameBase {
                 name: "Tonga (Diagonal Placement)"
             },
         ],
-        flags: ["scores"]
+        flags: ["scores", "multistep"]
     };
 
     public numplayers = 2;
@@ -124,6 +124,7 @@ export class TaijiGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.results = [...state._results];
         this.boardSize = 9;
         if (this.variants.includes("7x7")) {
             this.boardSize = 7;
@@ -169,46 +170,148 @@ export class TaijiGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = TaijiGame.coords2algebraic(col, row, this.boardSize);
+            let newmove = "";
+            // clicking on an occupied space resets
+            if (this.board.has(cell)) {
+                return {move: "", message: ""} as IClickResult;
+            }
+            if (move.length === 0) {
+                // place a light piece
+                newmove = cell;
+            } else {
+                const [light,] = move.split(",");
+                // if you clicked on the same space as before, just move your light piece
+                if (cell === light) {
+                    newmove = cell;
+                } else {
+                    const [x, y] = TaijiGame.algebraic2coords(light, this.boardSize);
+                    const grid = new RectGrid(this.boardSize, this.boardSize);
+                    const neighbours = grid.adjacencies(x, y, true).map(pt => TaijiGame.coords2algebraic(...pt, this.boardSize));
+                    if (neighbours.includes(cell)) {
+                        // place a dark piece if adjacent to light
+                        newmove = `${light},${cell}`;
+                    // otherwise, assume they want to replace the light piece at the new location
+                    } else {
+                        newmove = cell;
+                    }
+                }
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        const [light, dark] = m.split(",");
+        if (light === undefined) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
+            return result;
         }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+
+        // valid cell
+        let xLight: number; let yLight: number;
+        try {
+            [xLight, yLight] = TaijiGame.algebraic2coords(light, this.boardSize);
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: light});
+            return result;
+        }
+        // is empty
+        if (this.board.has(light)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: light});
+            return result;
+        }
+
+        if (dark === undefined) {
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.taiji.PARTIAL");
+            return result;
+        } else {
+            // valid cell
+            try {
+                TaijiGame.algebraic2coords(dark, this.boardSize);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: dark});
+                return result;
+            }
+            // is empty
+            if (this.board.has(dark)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: dark});
+                return result;
+            }
+            // is adjacent
+            let neighbours: string[];
+            const grid = new RectGrid(this.boardSize, this.boardSize);
+            if (this.variants.includes("tonga")) {
+                neighbours = grid.adjacencies(xLight, yLight, true).map(pt => TaijiGame.coords2algebraic(...pt, this.boardSize));
+            } else {
+                neighbours = grid.adjacencies(xLight, yLight, false).map(pt => TaijiGame.coords2algebraic(...pt, this.boardSize));
+            }
+            if (! neighbours.includes(dark)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.taiji.ADJACENT");
+                return result;
+            }
+
+            // valid full move
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
         }
     }
 
-    public move(m: string): TaijiGame {
+    public move(m: string, partial = false): TaijiGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+        if ( (! partial) && (! this.moves().includes(m)) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         this.results = [];
         const [left, right] = m.split(",");
         this.board.set(left, 1);
-        this.board.set(right, 2);
-        this.results.push(
-            {type: "place", where: left},
-            {type: "place", where: right},
-        );
+        this.results.push({type: "place", where: left});
+        if (right !== undefined) {
+            this.board.set(right, 2);
+            this.results.push({type: "place", where: right});
+        }
+
+        if (partial) { return this; }
 
         // update currplayer
         this.lastmove = m;
@@ -327,10 +430,12 @@ export class TaijiGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        // if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            // for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = TaijiGame.algebraic2coords(move.where!, this.boardSize);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

@@ -215,6 +215,10 @@
             "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
         },
+        "taiji": {
+            "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
+            "PARTIAL": "Select where you will place the dark piece."
+        },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
             "MOVES_CAPS_ONLY": "You may only move caps.",

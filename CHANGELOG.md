@@ -20,24 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### New Features
 
-- Extended validation and click handling added to the following:
-  - Abande
-  - Accasta
-  - Amazons
-  - Attangle
-  - Blam!
-  - Breakthrough
-  - Cannon
-  - Cephalopod
-  - Epaminondas
-  - Fabrik
-  - Fendo
-  - Lines of Action
-  - Manalath
-  - Martian Chess
-  - Mega-Volcano
-  - Ordo
-  - Volcano
+- Click handling, including extensive validation and localized error messages, has been added to all games except for the following:
+  - Chase
+  - Entropy
+  - Homeworlds
+  - Taiji
+  - Urbino
 
 ## [0.4.0] - 2021-11-15
 

@@ -272,6 +272,14 @@
                     }
                 });
 
+                // Listen for clear move button
+                document.getElementById("moveClear").addEventListener("click", () => {
+                    window.sessionStorage.removeItem("interim");
+                    var movebox = document.getElementById("moveEntry");
+                    movebox.value = "";
+                    renderGame();
+                });
+
                 // Listen for AI buttons
                 document.getElementById("aiFast").addEventListener("click", () => {
                     var state = window.sessionStorage.getItem("state");
@@ -402,6 +410,7 @@
                         <div>
                             <button id="moveBtn" name="moveBtn" type="button">Move</button>
                             <button id="moveRandom" name="moveRandom" type="button">Make a random move</button>
+                            <button id="moveClear" name="moveClear" type="button">Clear move</button>
                         </div>
                         <div>
                             <p>"Fast" is measured in seconds. "Slow" takes longer, but it's usually less than a minute. Don't click multiple times.</p>

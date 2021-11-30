@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError } from "../common";
+import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -57,7 +57,7 @@ export class PikemenGame extends GameBase {
                 description: "apgames:variants.pikemen.15pts"
             }
         ],
-        flags: ["scores"]
+        flags: ["scores", "multistep"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -130,6 +130,7 @@ export class PikemenGame extends GameBase {
         this.board = deepclone(state.board) as Map<string, CellContents>;
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
+        this.results = [...state._results];
         return this;
     }
 
@@ -185,37 +186,268 @@ export class PikemenGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = PikemenGame.coords2algebraic(col, row);
+            let newmove = "";
+            if (move.length === 0) {
+                // only if it's your own piece
+                if ( (this.board.has(cell)) && (this.board.get(cell)![0] === this.currplayer) ) {
+                    // if it's upright, go straight to reorientation
+                    if (this.board.get(cell)![2] === "U") {
+                        newmove = `${cell}()`;
+                    // otherwise, wait for signal
+                    } else {
+                        newmove = cell;
+                    }
+                } else {
+                    return {move: "", message: ""} as IClickResult;
+                }
+            } else {
+                const [from, to] = move.split(/[-x]/);
+                let last = from;
+                if (to !== undefined) {
+                    last = to;
+                }
+                // if in reorientation mode
+                if (last.endsWith(")")) {
+                    const start = move.slice(0, 2);
+                    // if clicking on yourself, stand up
+                    if (cell === start) {
+                        last = `${start}(U)`;
+                    } else {
+                        const [xStart, yStart] = PikemenGame.algebraic2coords(start);
+                        const bearing = RectGrid.bearing(xStart, yStart, col, row)!;
+                        last = `${start}(${bearing.toString()})`;
+                    }
+                }
+
+                // If there is no `to`
+                if (to === undefined) {
+                    // If we reoriented, we're done
+                    if (last.endsWith(")")) {
+                        newmove = last;
+                    // Otherwise, we must be moving/capturing/reorienting
+                    } else {
+                        if (cell === last) {
+                            newmove = `${last}()`;
+                        } else if (! this.board.has(cell)) {
+                            newmove = `${last}-${cell}`;
+                        } else if (this.board.get(cell)![0] !== this.currplayer) {
+                            newmove = `${last}x${cell}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    }
+
+                // If there is a `to`
+                } else {
+                    // If we reoriented, replace `to` and we're done
+                    if (last.endsWith(")")) {
+                        if (move.includes("-")) {
+                            newmove = `${from}-${last}`;
+                        } else {
+                            newmove = `${from}x${last}`;
+                        }
+                    // Otherwise, something is wrong
+                    } else {
+                        // if you clicked on the target cell, you want to reorient
+                        if (cell === to) {
+                            newmove = `${move}(U)`;
+                        } else {
+                            const [xStart, yStart] = PikemenGame.algebraic2coords(to);
+                            const bearing = RectGrid.bearing(xStart, yStart, col, row)!;
+                            newmove = `${move}(${bearing.toString()})`;
+                        }
+                    }
+                }
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        const [from, to] = m.split(/[-x]/);
+
+        if (from === undefined) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
+            return result;
         }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+
+        const fromCell = from.slice(0, 2);
+        // valid cell
+        try {
+            PikemenGame.algebraic2coords(fromCell);
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: fromCell});
+            return result;
+        }
+        // cell is occupied
+        if (! this.board.has(fromCell)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: fromCell});
+            return result;
+        }
+        // piece is yours
+        if (this.board.get(fromCell)![0] !== this.currplayer) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+            return result;
+        }
+
+        // just a reorientation or partial
+        if (to === undefined) {
+            // complete reorientation
+            if ( (from.endsWith(")")) && (! from.endsWith("()")) ) {
+                // valid facing
+                const match = from.match(/\(([NESWU]+)\)$/);
+                if ( (match === null) || (! orientations.includes(match[1])) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.pikemen.BAD_FACING", {segment: from});
+                    return result;
+                }
+                const facing = match[1] as Facing;
+                // facing is different than existing
+                if (facing === this.board.get(fromCell)![2]) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.pikemen.USELESS_ORIENTATION");
+                    return result;
+                }
+
+                // we're good
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+
+            // partial
+            } else {
+                if (from.endsWith("()")) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.message = i18next.t("apgames:validation.pikemen.PARTIAL_ORIENT");
+                    return result;
+                } else {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.message = i18next.t("apgames:validation.pikemen.PARTIAL_PREMOVE");
+                    return result;
+                }
+            }
+
+        // movement/capture, possibly partial
+        } else {
+            const toCell = to.slice(0, 2);
+            // valid cell
+            try {
+                PikemenGame.algebraic2coords(toCell);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: toCell});
+                return result;
+            }
+            // piece isn't upright
+            const facing = this.board.get(fromCell)![2];
+            if (facing === "U") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pikemen.UPRIGHT_MOVEMENT");
+                return result;
+            }
+            // piece can see the target cell
+            const grid = new RectGrid(8, 8);
+            const ray = grid.ray(...PikemenGame.algebraic2coords(fromCell), facing as Directions).map(pt => PikemenGame.coords2algebraic(...pt));
+            if (! ray.includes(toCell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NOLOS", {from: fromCell, to: toCell});
+                return result;
+            }
+            // no obstructions
+            for (const cell of ray) {
+                if (cell === toCell) {break;}
+                if (this.board.has(cell)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: fromCell, to: toCell, obstruction: cell});
+                    return result;
+                }
+            }
+            // target isn't yours
+            const contents = this.board.get(toCell);
+            if ( (contents !== undefined) && (contents[0] === this.currplayer) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                return result;
+            }
+            // correct operator was used
+            if ( (m.includes("-")) && (this.board.has(toCell)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: toCell});
+                return result;
+            }
+            if ( (m.includes("x")) && (! this.board.has(toCell)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: toCell});
+                return result;
+            }
+            // if capture, check legality
+            if (m.includes("x")) {
+                if (contents![2] === "U") {
+                    if (this.board.get(fromCell)![1] <= contents![1]) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.pikemen.TOOSMALL");
+                        return result;
+                    }
+                }
+            }
+
+            // we're good
+            // if contains reorientation, we're completely done
+            if (m.endsWith(")")) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            // otherwise, give partial message and `complete` 0
+            } else {
+                result.valid = true;
+                result.complete = 0;
+                result.message = i18next.t("apgames:validation.pikemen.PARTIAL_FINAL");
+                return result;
+            }
         }
     }
 
-    public move(m: string): PikemenGame {
+    public move(m: string, partial = false): PikemenGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         m = m.replace(/\([a-z]+\)$/, (match) => {return match.toUpperCase();});
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        }
+        if ( (! partial) && (! this.moves().includes(m)) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         this.results = [];
@@ -245,6 +477,8 @@ export class PikemenGame extends GameBase {
             contents![2] = dir as Facing;
             this.results.push({type: "orient", where: target, facing: dir});
         }
+
+        if (partial) { return this; }
 
         // update currplayer
         this.lastmove = m;
@@ -389,10 +623,12 @@ export class PikemenGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        // if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            // for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = PikemenGame.algebraic2coords(move.from);
                     const [toX, toY] = PikemenGame.algebraic2coords(move.to);

@@ -207,6 +207,15 @@
             "PARTIAL": "",
             "WRONG_DIRECTION": ""
         },
+        "pikemen": {
+            "BAD_FACING": "",
+            "PARTIAL_FINAL": "",
+            "PARTIAL_ORIENT": "",
+            "PARTIAL_PREMOVE": "",
+            "TOOSMALL": "",
+            "UPRIGHT_MOVEMENT": "",
+            "USELESS_ORIENTATION": ""
+        },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "",
             "MOVES_CAPS_ONLY": "",

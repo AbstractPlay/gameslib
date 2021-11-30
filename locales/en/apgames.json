@@ -206,6 +206,15 @@
             "PARTIAL": "Select a destination.",
             "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
         },
+        "pikemen": {
+            "BAD_FACING": "The following move segment had an unrecognizeable facing: {{segment}}.",
+            "PARTIAL_FINAL": "The move is valid. If you wish to reorient one last time, click on the cell you want to point towards, or click on the piece itself to stand upright.",
+            "PARTIAL_ORIENT": "Select the cell you want to point the piece towards.",
+            "PARTIAL_PREMOVE": "Select a destination, or select the piece again to reorient.",
+            "TOOSMALL": "Upright pieces can only be captured by larger pieces.",
+            "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
+            "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
+        },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
             "MOVES_CAPS_ONLY": "You may only move caps.",

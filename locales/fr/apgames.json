@@ -220,6 +220,20 @@
             "ADJACENT": "",
             "PARTIAL": ""
         },
+        "urbino": {
+            "INVALID_PASS": "",
+            "INVALID_PLACE_CELL": "",
+            "INVALID_PLACE_PIECE": {
+                "house": "",
+                "palace": "",
+                "tower": ""
+            },
+            "INVALID_PLACE_PIECE_pSize": "",
+            "MUST_PASS_PLAY": "",
+            "NOPLACEMENTS": "",
+            "PARTIAL_MOVE": "",
+            "PARTIAL_PLACE": ""
+        },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "",
             "MOVES_CAPS_ONLY": "",

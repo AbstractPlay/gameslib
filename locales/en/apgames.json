@@ -73,7 +73,7 @@
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
             "EMPTYSTRING": "No input provided to validate.",
             "FAILSAFE": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
-            "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
+            "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nStack: {{estack}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell '{{cell}}' on the board.",
             "MOVE4CAPTURE": "You signalled a regular move, but {{where}} is occupied.",
             "NO_MOVES": "The piece at {{where}} does not have any legal moves.",
@@ -218,6 +218,19 @@
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
             "PARTIAL": "Select where you will place the dark piece."
+        },
+        "urbino": {
+            "INVALID_PASS": "You may only pass the turn immediately after the second architect has been placed.",
+            "INVALID_PLACE_CELL": "The cell {{where}} is not visible to both architects.",
+            "INVALID_PLACE_PIECE": {
+                "house": "You may not place a house here because it would create multiple districts of one colour.",
+                "palace": "You may not place a palace here either because there is a palace adjacent or it would create multiple districts of one colour.",
+                "tower": "You may not place a tower here either because there is a tower adjacent or it would create multiple districts of one colour."
+            },
+            "MUST_PASS_PLAY": "The first turn after the second worker has been placed must be a pass or placement.",
+            "NOPLACEMENTS": "You cannot move the workers such that you have no valid placements available.",
+            "PARTIAL_MOVE": "Provide the destination.",
+            "PARTIAL_PLACE": "Choose a cell to place a piece in."
         },
         "volcano": {
             "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -126,6 +126,7 @@ export class UrbinoGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.pieces = deepclone(state.pieces) as [[number,number,number],[number,number,number]];
+        this.results = [...state._results];
         return this;
     }
 
@@ -237,6 +238,66 @@ export class UrbinoGame extends GameBase {
         }
     }
 
+    /**
+     * Validates whether a particular sized piece can be placed at a particular cell.
+     * It does not validate whether that cell is valid given worker placement, or
+     * whether you have the piece to place, or even if the placement cell is empty.
+     *
+     * @private
+     * @param {string} cell
+     * @param {number} size
+     * @returns {boolean}
+     * @memberof UrbinoGame
+     */
+    private validPlacement(cell: string, size: Size, player: playerid): boolean {
+        // Are there adjacency restrictions
+        if (size > 1) {
+            const [x, y] = UrbinoGame.algebraic2coords(cell);
+            const grid = new RectGrid(9, 9);
+            const adjs = grid.adjacencies(x, y, false).map(pt => UrbinoGame.coords2algebraic(...pt));
+            for (const adj of adjs) {
+                if ( (this.board.has(adj)) && (this.board.get(adj)![1] === size) ) {
+                    return false;
+                }
+            }
+        }
+
+        // Now check for district restrictions
+        const g: UrbinoGame = Object.assign(new UrbinoGame(), deepclone(this) as UrbinoGame);
+        g.board.set(cell, [player, size])
+        const district = g.getDistrict(cell);
+        if (district.length > 2) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * With the given worker placement, check each possible placement until at least
+     * one is found. Otherwise return false after checking them all.
+     *
+     * @private
+     * @param {playerid} [player]
+     * @returns {boolean}
+     * @memberof UrbinoGame
+     */
+    private anyValidPlacement(player?: playerid): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const pts = this.findPoints();
+        for (const pt of pts) {
+            for (let size = 0; size < 3; size++) {
+                if (this.pieces[player - 1][size] > 0) {
+                    if (this.validPlacement(pt, (size + 1) as Size, player)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private getAllDistricts(): [playerid, Set<string>][][] {
         const districts: [playerid, Set<string>][][] = [];
         let allPieces = [...this.board.entries()].filter(e => e[1][0] !== 0).map(e => e[0]);
@@ -316,26 +377,289 @@ export class UrbinoGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public click(row: number, col: number, piece: string): string {
-        if (piece === '')
-            return String.fromCharCode(97 + col) + (8 - row).toString();
-        else
-            return 'x' + String.fromCharCode(97 + col) + (8 - row).toString();
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cell = UrbinoGame.coords2algebraic(col, row);
+            let newmove = "";
+            const stash = this.pieces[this.currplayer - 1];
+            let smallest: number | undefined;
+            for (let i = 0; i < 3; i++) {
+                if (stash[i] > 0) {
+                    smallest = i + 1;
+                    break;
+                }
+            }
+            if (move === "") {
+                // if all workers have been placed
+                if (this.board.size >= 2) {
+                    // empty space could be a placement because movement is optional
+                    if (! this.board.has(cell)) {
+                        if (smallest === undefined) {
+                            newmove = "pass";
+                        } else if (this.findPoints().includes(cell)) {
+                            newmove = `${smallest}${cell}`;
+                        } else {
+                            return {move: "", message: ""} as IClickResult;
+                        }
+                    } else {
+                        // occupied space must be a worker
+                        if (this.board.get(cell)![0] === 0) {
+                            newmove = cell;
+                        } else {
+                            return {move: "", message: ""} as IClickResult;
+                        }
+                    }
+                // otherwise, early phases
+                } else {
+                    // only empty spaces can be clicked
+                    if (! this.board.has(cell)) {
+                        newmove = cell;
+                    } else {
+                        return {move: "", message: ""} as IClickResult;
+                    }
+                }
+            } else {
+                const [from,to,place] = move.split(/[-,]/);
+                if ( (this.board.size <= 2) && (from.length === 2) ) {
+                    if (! this.board.has(cell)) {
+                        newmove = cell;
+                    } else {
+                        newmove = move;
+                    }
+                } else if ( (place !== undefined) || (from.length > 2) ) {
+                    let pSize: number; let pCell: string;
+                    if (from.length > 2) {
+                        pSize = parseInt(from[0], 10);
+                        pCell = from.slice(1);
+                    } else {
+                        pSize = parseInt(place[0], 10);
+                        pCell = place.slice(1);
+                    }
+                    // if you have no more pieces, passing is your only option
+                    if (smallest === undefined) {
+                        newmove = "pass";
+                    // if you're clicking on the same space, increment the piece size
+                    } else if (cell === pCell) {
+                        let next: number = pSize + 1;
+                        if (next > 3) { next = 1;}
+                        // not an infinite loop because there must at least be one `pSize` piece to have gotten this far
+                        while ( (stash[next - 1] === 0) || (! this.validPlacement(pCell, next as Size, this.currplayer)) ) {
+                            next++;
+                            if (next > 3) { next = 1;}
+                        }
+                        if (from.length > 2) {
+                            newmove = `${next}${pCell}`;
+                        } else {
+                            newmove = `${from}-${to},${next}${pCell}`;
+                        }
+                    // if you're clicking on a valid empty cell, replace it, starting with the smallest piece
+                    } else {
+                        const g = this.clone();
+                        g.board.set(to, this.board.get(from)!)
+                        g.board.delete(from);
+                        if (g.findPoints().includes(place)) {
+                            newmove = `${from}-${to},${smallest}${cell}`;
+                        // otherwise, change nothing
+                        } else {
+                            newmove = move;
+                        }
+                    }
+                } else if (to !== undefined) {
+                    const g = this.clone();
+                    g.board.set(to, this.board.get(from)!)
+                    g.board.delete(from);
+                    // if you have no more pieces, passing is your only option
+                    if (smallest === undefined) {
+                        newmove = "pass";
+                    // if to is defined and you're clicking on a valid cell, assume placement
+                    } else if (g.findPoints().includes(cell)) {
+                        newmove = `${from}-${to},${smallest}${cell}`;
+                    // otherwise, assume you want to move the worker again
+                    } else {
+                        newmove = `${from}-${cell}`;
+                    }
+                } else { // from *has* to be defined if move itself has content
+                    if (smallest === undefined) {
+                        newmove = "pass";
+                    // if you click on an empty cell, assume movement
+                    } else if ( (this.board.has(from)) && (! this.board.has(cell)) ) {
+                        newmove = `${from}-${cell}`;
+                    } else if (! this.board.has(from)) {
+                        newmove = `${smallest}${cell}`;
+                    } else {
+                        newmove = move;
+                    }
+                }
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message, estack: (e as Error).stack})
+            }
+        }
     }
 
-    public clicked(move: string, coord: string): string {
-        if (move.length > 0 && move.length < 3) {
-            if (coord.length === 2)
-                return move + '-' + coord;
-            else
-                return move + coord;
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // validate "pass" first of all
+        if (m === "pass") {
+            if (! this.moves().includes("pass")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.urbino.INVALID_PASS");
+                return result;
+            }
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
         }
-        else {
-            if (coord.length === 2)
-                return coord;
-            else
-                return coord.substring(1, 3);
+
+        const [from, to, place] = m.split(/[-,]/);
+
+        // if `from.length > 2`, then this is a placement without movement, so process later
+        if ( (from !== undefined) && (from.length === 2) ) {
+            // valid cell
+            try {
+                UrbinoGame.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            // from currently contains a worker you control
+            if (! this.board.has(from)) {
+                if (this.board.size < 2) {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                }
+
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // First move after placing workers has to be a placement or pass
+            if (this.board.size === 2) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.urbino.MUST_PASS_PLAY");
+                return result;
+            }
+
+            if (this.board.get(from)![0] !== 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+
+            // if this is it, then this is a valid partial
+            if (to === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.urbino.PARTIAL_MOVE");
+                return result;
+            }
         }
+
+        if (to !== undefined) {
+            // valid cell
+            try {
+                UrbinoGame.algebraic2coords(to);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                return result;
+            }
+            // to is empty
+            if (this.board.has(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
+                return result;
+            }
+            // there are valid placements from here
+            const g = this.clone();
+            g.board.set(to, this.board.get(from)!);
+            g.board.delete(from);
+            if (! g.anyValidPlacement()) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.urbino.NOPLACEMENTS");
+                return result;
+            }
+            // If this is it, this is a valid partial
+            if (place === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.urbino.PARTIAL_PLACE");
+                return result;
+            }
+        }
+
+        // Combining these keeps the placement code in one place
+        // If `from.length > 2`, then `place` should be undefined
+        if ( (place !== undefined ) || (from.length > 2) ) {
+            let pSize: Size; let pCell: string;
+            if (place !== undefined) {
+                pSize = parseInt(place[0], 10) as Size;
+                pCell = place.slice(1);
+            } else {
+                pSize = parseInt(from[0], 10) as Size;
+                pCell = from.slice(1);
+            }
+            const g = this.clone();
+            if (place !== undefined) {
+                g.board.set(to, this.board.get(from)!);
+                g.board.delete(from);
+            }
+            const points = g.findPoints();
+            // valid cell
+            try {
+                UrbinoGame.algebraic2coords(pCell);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: pCell});
+                return result;
+            }
+            // This cell exists in the list of possible points
+            if (! points.includes(pCell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.urbino.INVALID_PLACE_CELL", {where: pCell});
+                return result;
+            }
+            // This piece can legally go here
+            if (! g.validPlacement(pCell, pSize, this.currplayer)) {
+                result.valid = false;
+                switch (pSize) {
+                    case 1:
+                        result.message = i18next.t("apgames:validation.urbino.INVALID_PLACE_PIECE.house", {where: pCell});
+                        break;
+                    case 2:
+                        result.message = i18next.t("apgames:validation.urbino.INVALID_PLACE_PIECE.tower", {where: pCell});
+                        break;
+                    case 3:
+                        result.message = i18next.t("apgames:validation.urbino.INVALID_PLACE_PIECE.palace", {where: pCell});
+                        break;
+                }
+                return result;
+            }
+
+            // we're good
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        return result;
     }
 
     // The partial flag enabled dynamic connection checking.
@@ -357,8 +681,6 @@ export class UrbinoGame extends GameBase {
         // Look for movement first
         if (m.includes("-")) {
             const [from, to, place] = m.split(/[,-]/);
-            const piece = parseInt(place[0], 10) as Size;
-            const cell = place.slice(1);
             const contents = this.board.get(from)!;
             this.board.delete(from);
             this.board.set(to, contents);
@@ -367,6 +689,8 @@ export class UrbinoGame extends GameBase {
                 throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
             }
             if (place !== undefined) {
+                const piece = parseInt(place[0], 10) as Size;
+                const cell = place.slice(1);
                 this.board.set(cell, [this.currplayer, piece]);
                 this.pieces[this.currplayer - 1][piece - 1]--;
                 this.results.push({type: "place", what: piece.toString(), where: cell});
@@ -718,10 +1042,12 @@ export class UrbinoGame extends GameBase {
         }
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        // if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            // for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = UrbinoGame.algebraic2coords(move.from);
                     const [toX, toY] = UrbinoGame.algebraic2coords(move.to);

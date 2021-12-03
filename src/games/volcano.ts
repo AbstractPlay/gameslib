@@ -32,7 +32,7 @@ export type playerid = 1|2;
 export type Size = 1|2|3;
 export type Colour = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN"|"PK";
 export type CellContents = [Colour, Size];
-const colours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN", "PK"];
+const allColours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN", "PK"];
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const clone = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
@@ -111,11 +111,11 @@ export class VolcanoGame extends GameBase {
     public results: Array<APMoveResult> = [];
 
     public static newBoard(): Array<Array<CellContents[]>> {
-        let order: string[] = shuffle([...colours, ...colours, ...colours]) as string[];
+        let order: string[] = shuffle([...allColours, ...allColours, ...allColours]) as string[];
         order.push(order[12]);
         order[12] = "-";
         while (hasContiguous(order)) {
-            order = shuffle([...colours, ...colours, ...colours]) as string[];
+            order = shuffle([...allColours, ...allColours, ...allColours]) as string[];
             order.push(order[12]);
             order[12] = "-";
         }
@@ -716,50 +716,50 @@ export class VolcanoGame extends GameBase {
         };
 
         const opacity = 0.75;
-        for (let n = 0; n < colours.length; n++) {
-            myLegend[colours[n] + "1"] = {
+        for (let n = 0; n < allColours.length; n++) {
+            myLegend[allColours[n] + "1"] = {
                 name: "pyramid-up-small-upscaled",
                 player: n+1,
                 opacity
             };
-            myLegend[colours[n] + "2"] = {
+            myLegend[allColours[n] + "2"] = {
                 name: "pyramid-up-medium-upscaled",
                 player: n+1,
                 opacity
             };
-            myLegend[colours[n] + "3"] = {
+            myLegend[allColours[n] + "3"] = {
                 name: "pyramid-up-large-upscaled",
                 player: n+1,
                 opacity
             };
-            myLegend[colours[n] + "1N"] = {
+            myLegend[allColours[n] + "1N"] = {
                 name: "pyramid-flat-small",
                 player: n+1
             };
-            myLegend[colours[n] + "2N"] = {
+            myLegend[allColours[n] + "2N"] = {
                 name: "pyramid-flat-medium",
                 player: n+1
             };
-            myLegend[colours[n] + "3N"] = {
+            myLegend[allColours[n] + "3N"] = {
                 name: "pyramid-flat-large",
                 player: n+1
             };
-            myLegend[colours[n] + "1c"] = {
+            myLegend[allColours[n] + "1c"] = {
                 name: "pyramid-flattened-small",
                 player: n+1
             };
-            myLegend[colours[n] + "2c"] = {
+            myLegend[allColours[n] + "2c"] = {
                 name: "pyramid-flattened-medium",
                 player: n+1
             };
-            myLegend[colours[n] + "3c"] = {
+            myLegend[allColours[n] + "3c"] = {
                 name: "pyramid-flattened-large",
                 player: n+1
             };
         }
 
         const list: object[] = []
-        for (const colour of [...colours].sort((a, b) => a.localeCompare(b))) {
+        for (const colour of [...allColours].sort((a, b) => a.localeCompare(b))) {
             list.push({piece: colour + "3", name: colour})
         }
         const key = {placement: "right", textPosition: "outside", list};
@@ -842,6 +842,58 @@ export class VolcanoGame extends GameBase {
                 }
             }
         }
+
+        return rep;
+    }
+
+    public renderColumn(col: number, row: number): APRenderRep {
+        const areas = [];
+        const pieces = this.board[row][col];
+        const cell: string[] = pieces.map(c => `${c.join("")}N`);
+        const cellname = VolcanoGame.coords2algebraic(col, row);
+        if (this.caps.has(cellname)) {
+            cell.push("XN")
+        }
+        if (cell !== undefined) {
+            areas.push({
+                type: "expandedColumn",
+                cell: VolcanoGame.coords2algebraic(col, row),
+                stack: cell
+            });
+        }
+
+        const myLegend: ILooseObj = {
+            "XN": {
+                "name": "pyramid-flat-small",
+                "colour": "#000"
+            },
+        };
+        const seen: Set<string> = new Set();
+        for(const piece of pieces) {
+            const key = piece.join("") + "N";
+            if (seen.has(key)) { continue; }
+            seen.add(key);
+            let name: string;
+            if (piece[1] === 1) {
+                name = "pyramid-flat-small";
+            } else if (piece[1] === 2) {
+                name = "pyramid-flat-medium";
+            } else {
+                name = "pyramid-flat-large";
+            }
+            const player = allColours.findIndex(c => c === piece[0]) + 1;
+            myLegend[key] = {name,player};
+        }
+
+        // Build rep
+        const rep: APRenderRep =  {
+            renderer: "stacking-expanding",
+            board: null,
+            legend: myLegend,
+            pieces: null,
+            // @ts-ignore
+            areas
+        };
 
         return rep;
     }

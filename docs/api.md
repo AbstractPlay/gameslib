@@ -35,7 +35,7 @@ Current flags are the following:
 
 * `simultaneous`: signals that moves for all players must be submitted at once. The front-end will need to store partial moves until all players have submitted.
 * `perspective`: signals that the game can adjust the rendered image for a player's perspective. Pass a player number (i.e., 1, 2, etc.) to the `render()` function.
-* `stacking-expanding`: signals that the game uses the `stacking-expanding` renderer. Pass the clicked-upon column and row to `render()` to display the expanded stack in the rendered image.
+* `stacking-expanding`: signals that the game uses the `stacking-expanding` renderer. Pass the clicked-upon column and row to `render()` to display the expanded stack in the rendered image. Or call `renderColumn()` with the column and row to receive a separate render JSON just representing the expanded stack.
 * `scores`: signals that players have scores. The front end can use `getPlayerScore(playerid: number) => number` to fetch scores.
 * `limited-pieces`: signals that players have a limited number of pieces, the number of which should be displayed to the players. Use `getPlayerPieces(playerid: number) => number` to fetch the number of pieces the given player has at the moment. Mutually exclusive with `player-stashes`.
 * `player-stashes`: signals that players have their own pyramid stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number. Mutually exclusive with `limited-pieces`;

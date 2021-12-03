@@ -33,7 +33,7 @@ export type playerid = 1|2;
 export type Size = 1|2|3;
 export type Colour = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN"|"WH";
 export type CellContents = [Colour, Size];
-const colours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN"];
+const allColours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN"];
 
 // const clone = (items: any) => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
 
@@ -89,7 +89,7 @@ export class MvolcanoGame extends GameBase {
     public results: Array<APMoveResult> = [];
 
     public static newBoard(): Array<Array<CellContents[]>> {
-        const order: string[] = shuffle([...colours, ...colours, ...colours, ...colours, ...colours, "WH"]) as string[];
+        const order: string[] = shuffle([...allColours, ...allColours, ...allColours, ...allColours, ...allColours, "WH"]) as string[];
         const board: Array<Array<CellContents[]>> = [];
         for (let row = 0; row < 6; row++) {
             const node: Array<CellContents[]> = [];
@@ -587,7 +587,7 @@ export class MvolcanoGame extends GameBase {
             const colourSet: string[][] = [];
             // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for (let i = 0; i < whites.length; i++) {
-                colourSet.push([...colours]);
+                colourSet.push([...allColours]);
             }
             const replacements = [...new CartesianProduct(...colourSet)];
             const sizes = whites.map(w => w[1]);
@@ -678,7 +678,7 @@ export class MvolcanoGame extends GameBase {
         };
     }
 
-    public render(expandCol = 0, expandRow = 0): APRenderRep {
+    public render(expandCol?: number, expandRow?: number): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 6; row++) {
@@ -710,43 +710,43 @@ export class MvolcanoGame extends GameBase {
         };
 
         const opacity = 0.75;
-        for (let n = 0; n < colours.length; n++) {
-            myLegend[colours[n] + "1"] = {
+        for (let n = 0; n < allColours.length; n++) {
+            myLegend[allColours[n] + "1"] = {
                 name: "pyramid-up-small-upscaled",
                 player: n+1,
                 opacity
             };
-            myLegend[colours[n] + "2"] = {
+            myLegend[allColours[n] + "2"] = {
                 name: "pyramid-up-medium-upscaled",
                 player: n+1,
                 opacity
             };
-            myLegend[colours[n] + "3"] = {
+            myLegend[allColours[n] + "3"] = {
                 name: "pyramid-up-large-upscaled",
                 player: n+1,
                 opacity
             };
-            myLegend[colours[n] + "1N"] = {
+            myLegend[allColours[n] + "1N"] = {
                 name: "pyramid-flat-small",
                 player: n+1
             };
-            myLegend[colours[n] + "2N"] = {
+            myLegend[allColours[n] + "2N"] = {
                 name: "pyramid-flat-medium",
                 player: n+1
             };
-            myLegend[colours[n] + "3N"] = {
+            myLegend[allColours[n] + "3N"] = {
                 name: "pyramid-flat-large",
                 player: n+1
             };
-            myLegend[colours[n] + "1c"] = {
+            myLegend[allColours[n] + "1c"] = {
                 name: "pyramid-flattened-small",
                 player: n+1
             };
-            myLegend[colours[n] + "2c"] = {
+            myLegend[allColours[n] + "2c"] = {
                 name: "pyramid-flattened-medium",
                 player: n+1
             };
-            myLegend[colours[n] + "3c"] = {
+            myLegend[allColours[n] + "3c"] = {
                 name: "pyramid-flattened-large",
                 player: n+1
             };
@@ -864,6 +864,58 @@ export class MvolcanoGame extends GameBase {
                 }
             }
         }
+
+        return rep;
+    }
+
+    public renderColumn(col: number, row: number): APRenderRep {
+        const areas = [];
+        const pieces = this.board[row][col];
+        const cell: string[] = pieces.map(c => `${c.join("")}N`);
+        const cellname = MvolcanoGame.coords2algebraic(col, row);
+        if (this.caps.has(cellname)) {
+            cell.push("XN")
+        }
+        if (cell !== undefined) {
+            areas.push({
+                type: "expandedColumn",
+                cell: MvolcanoGame.coords2algebraic(col, row),
+                stack: cell
+            });
+        }
+
+        const myLegend: ILooseObj = {
+            "XN": {
+                "name": "pyramid-flat-small",
+                "colour": "#000"
+            },
+        };
+        const seen: Set<string> = new Set();
+        for(const piece of pieces) {
+            const key = piece.join("") + "N";
+            if (seen.has(key)) { continue; }
+            seen.add(key);
+            let name: string;
+            if (piece[1] === 1) {
+                name = "pyramid-flat-small";
+            } else if (piece[1] === 2) {
+                name = "pyramid-flat-medium";
+            } else {
+                name = "pyramid-flat-large";
+            }
+            const player = allColours.findIndex(c => c === piece[0]) + 1;
+            myLegend[key] = {name,player};
+        }
+
+        // Build rep
+        const rep: APRenderRep =  {
+            renderer: "stacking-expanding",
+            board: null,
+            legend: myLegend,
+            pieces: null,
+            // @ts-ignore
+            areas
+        };
 
         return rep;
     }

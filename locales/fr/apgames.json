@@ -156,6 +156,11 @@
             "PARTIAL_PRECAP": "[FR]Select a piece to capture.",
             "TOOHIGH": "[FR]The pieces you capture cannot total more than six."
         },
+        "entropy": {
+            "INVALID_MOVEMENT": "",
+            "PARTIAL": "",
+            "STRAIGHT_LINES": ""
+        },
         "epam": {
             "INSUFFICIENT_FORCES": "[FR]When capturing, your phalanx must have more pieces than the captured phalanx.",
             "NOPLACEMENT": "[FR]You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",

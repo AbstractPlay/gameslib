@@ -155,14 +155,6 @@ export abstract class GameBase  {
         };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public validateMove(move: string): IValidationResult {
-        return {
-            valid: false,
-            message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
-        };
-    }
-
     public undo(): GameBase {
         if (this.stack.length < 1) {
             throw new UserFacingError("INITIAL_UNDO", i18next.t("apgames:INITIAL_UNDO"));

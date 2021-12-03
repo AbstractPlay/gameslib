@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { RectGrid } from "../common";
@@ -165,6 +165,172 @@ export class EntropyGame extends GameBase {
         return `${move1}, ${move2}`;
     }
 
+    public handleClickSimultaneous(move: string, row: number, col: number, player: playerid, piece?: string): IClickResult {
+        try {
+            const cell = EntropyGame.coords2algebraic(col, row);
+            let myboard = this.board1;
+            if (player === 2) {
+                myboard = this.board2;
+            }
+            let theirboard = this.board2;
+            if (player === 2) {
+                theirboard = this.board1;
+            }
+            let newmove = "";
+            if (move.length === 0) {
+                if ( (this.phase === "order") && (myboard.has(cell)) ) {
+                    newmove = cell;
+                } else if ( (this.phase === "chaos") && (! theirboard.has(cell)) ) {
+                    newmove = cell;
+                } else {
+                    return {move: "", message: ""} as IClickResult;
+                }
+            } else {
+                const [from,] = move.split("-");
+                if (this.phase === "order") {
+                    if (cell === from) {
+                        return {move: "", message: ""} as IClickResult;
+                    } else if (! myboard.has(cell)) {
+                        newmove = `${from}-${cell}`;
+                    } else {
+                        newmove = cell;
+                    }
+                } else {
+                    if (cell === from) {
+                        return {move: "", message: ""} as IClickResult;
+                    } else if (! theirboard.has(cell)) {
+                        newmove = cell;
+                    }
+                }
+            }
+            const result = this.validateMove(newmove, player) as IClickResult;
+            if (! result.valid) {
+                result.move = "";
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
+    }
+
+    public validateMove(m: string, player: playerid): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // pass is always valid in ORDER phase
+        if ( (m === "pass") && (this.phase === "order") ) {
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        let myboard = this.board1;
+        if (player === 2) {
+            myboard = this.board2;
+        }
+        let theirboard = this.board2;
+        if (player === 2) {
+            theirboard = this.board1;
+        }
+
+        const [from, to] = m.split("-");
+        if (this.phase === "chaos") {
+            if (to !== undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.entropy.INVALID_MOVEMENT");
+                return result;
+            }
+            // valid cell
+            try {
+                EntropyGame.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            // cell is empty
+            if (theirboard.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: from});
+                return result;
+            }
+
+            // valid final move
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        } else {
+            // valid cell
+            let xFrom: number; let yFrom: number;
+            try {
+                [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            // cell is occupied
+            if (! myboard.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // if no `to`
+            if (to === undefined) {
+                // valid partial
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.entropy.PARTIAL");
+                return result;
+            } else {
+                // valid cell
+                let xTo: number; let yTo: number;
+                try {
+                    [xTo, yTo] = EntropyGame.algebraic2coords(to);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                    return result;
+                }
+                // final cell is empty
+                if (myboard.has(to)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
+                    return result;
+                }
+                // straight lines only
+                const bearing = RectGrid.bearing(xFrom, yFrom, xTo, yTo);
+                if ( (bearing === undefined) || (bearing.length !== 1) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.entropy.STRAIGHT_LINES");
+                    return result;
+                }
+                // no obstructions
+                const between = RectGrid.between(xFrom, yFrom, xTo, yTo).map(pt => EntropyGame.coords2algebraic(...pt));
+                for (const cell of between) {
+                    if (myboard.has(cell)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
+                        return result;
+                    }
+                }
+
+                // valid complete move
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
+    }
+
     public move(m: string, partial = false): EntropyGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -174,10 +340,20 @@ export class EntropyGame extends GameBase {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
-            if (! ((partial && moves[i] === '') || this.moves((i + 1) as playerid).includes(moves[i]))) {
-                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+            if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
+                continue;
+            }
+            moves[i] = moves[i].toLowerCase();
+            moves[i] = moves[i].replace(/\s+/g, "");
+            const result = this.validateMove(moves[i], (i + 1) as playerid);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
+
         this.lastmove = [...moves];
         const myboard = [this.board1, this.board2];
         const theirboard = [this.board2, this.board1];

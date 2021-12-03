@@ -37,6 +37,31 @@
                 renderGame();
             }
 
+            function boardClickSimultaneous(row, col, piece) {
+                console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
+                var state = window.sessionStorage.getItem("state");
+                var gamename = window.sessionStorage.getItem("gamename");
+                var game = APGames.GameFactory(gamename, state);
+                var movebox = document.getElementById("moveEntry");
+                var result = game.handleClickSimultaneous(movebox.value, row, col, 1, piece);
+                movebox.value = result.move;
+                var colour = "#f00";
+                if (result.valid) {
+                    colour = "#0f0";
+                }
+                var resultStr = '<p style="color: '+ colour +'">' + result.message + '</p>';
+                var statusbox = document.getElementById("clickstatus");
+                statusbox.innerHTML = resultStr;
+                if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
+                    game.move(result.move + ",", true);
+                    var interim = JSON.stringify(game.render());
+                    window.sessionStorage.setItem("interim", interim);
+                } else {
+                    window.sessionStorage.removeItem("interim");
+                }
+                renderGame();
+            }
+
             function boardClickVolcano(row, col, piece) {
                 renderGame(col, row);
             }
@@ -70,6 +95,9 @@
                     var gamename = window.sessionStorage.getItem("gamename");
                     if ( (gamename === "volcano") || (gamename === "mvolcano") ) {
                         options.boardHover = boardClickVolcano;
+                    }
+                    if (gamename === "entropy") {
+                        options.boardClick = boardClickSimultaneous;
                     }
                     var game = APGames.GameFactory(gamename, state);
 

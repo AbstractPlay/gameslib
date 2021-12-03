@@ -155,6 +155,11 @@
             "PARTIAL_PRECAP": "Select a piece to capture.",
             "TOOHIGH": "The pieces you capture cannot total more than six."
         },
+        "entropy": {
+            "INVALID_MOVEMENT": "You cannot move pieces in the CHAOS phase.",
+            "PARTIAL": "Select a destination.",
+            "STRAIGHT_LINES": "Pieces may only be moved in straight horizontal or vertical lines."
+        },
         "epam": {
             "INSUFFICIENT_FORCES": "When capturing, your phalanx must have more pieces than the captured phalanx.",
             "NOPLACEMENT": "You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",
@@ -220,7 +225,7 @@
             "PARTIAL": "Select where you will place the dark piece."
         },
         "urbino": {
-            "INVALID_PASS": "You may only pass the turn immediately after the second architect has been placed.",
+            "INVALID_PASS": "You may only pass if you have no other moves available.",
             "INVALID_PLACE_CELL": "The cell {{where}} is not visible to both architects.",
             "INVALID_PLACE_PIECE": {
                 "house": "You may not place a house here because it would create multiple districts of one colour.",

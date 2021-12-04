@@ -235,7 +235,7 @@ export class VolcanoGame extends GameBase {
                     if (cloned.caps.has(cell)) {
                         newmove = cell;
                     } else {
-                        return {move, message: ""} as IClickResult;
+                        return {move, message: i18next.t("apgames:validation.volcano.MOVES_CAPS_ONLY")} as IClickResult;
                     }
                 }
             } else {
@@ -262,6 +262,7 @@ export class VolcanoGame extends GameBase {
                     }
                 }
             }
+            console.log(newmove);
             const result = this.validateMove([...moves, newmove].join(",")) as IClickResult;
             if (! result.valid) {
                 result.move = move;
@@ -322,12 +323,17 @@ export class VolcanoGame extends GameBase {
                         result.message = i18next.t("apgames:validation.volcano.MOVES_ONE_POWERPLAY");
                         return result;
                     }
+                    if (from.length < 3) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.volcano.BAD_FROM", {from: `${from}`});
+                        return result;
+                    }
                     const colour = (from[0] + from[1]).toUpperCase();
                     const size = parseInt(from[2], 10);
                     const idx = (cloned.captured[cloned.currplayer - 1]).findIndex(p => p[0] === colour && p[1] === size);
                     if (idx < 0) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:validation.volcano.MOVES_NOPIECE", {piece: `${colour}${size}`});
+                        result.message = i18next.t("apgames:validation.volcano.MOVES_NOPIECE", {piece: `${from}`});
                         return result;
                     }
                     powerplay = true;
@@ -684,7 +690,7 @@ export class VolcanoGame extends GameBase {
         };
     }
 
-    public render(expandCol = 0, expandRow = 0): APRenderRep {
+    public render(expandCol = undefined, expandRow = undefined): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 5; row++) {

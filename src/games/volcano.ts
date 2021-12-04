@@ -262,7 +262,6 @@ export class VolcanoGame extends GameBase {
                     }
                 }
             }
-            console.log(newmove);
             const result = this.validateMove([...moves, newmove].join(",")) as IClickResult;
             if (! result.valid) {
                 result.move = move;

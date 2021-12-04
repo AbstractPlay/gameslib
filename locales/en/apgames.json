@@ -246,7 +246,8 @@
             "MOVES_ONE_POWERPLAY": "You may only make one power play per turn.",
             "MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
             "PARTIAL_ERUPTION": "Keep moving caps until you cause an eruption.",
-            "PARTIAL_MOVE": "Select the destination."
+            "PARTIAL_MOVE": "Select the destination.",
+            "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash."
         }
     },
     "variants": {

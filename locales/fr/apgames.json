@@ -248,7 +248,8 @@
             "MOVES_ONE_POWERPLAY": "",
             "MOVES_ONE_SPACE": "",
             "PARTIAL_ERUPTION": "",
-            "PARTIAL_MOVE": ""
+            "PARTIAL_MOVE": "",
+            "BAD_FROM": ""
         }
     },
     "variants": {

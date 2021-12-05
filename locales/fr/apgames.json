@@ -190,6 +190,45 @@
             "PLACE_IN_OPEN": "[FR]You may only place pieces in the open area.",
             "PLACE_IN_RANGE": "[FR]You may only place pieces that are within one regular move of an existing piece."
         },
+        "homeworlds": {
+            "attack": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": ""
+            },
+            "build": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": ""
+            },
+            "catastrophe": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": ""
+            },
+            "discover": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": "",
+                "PARTIAL_THREEARGS": "",
+                "PARTIAL_TWOARGS": ""
+            },
+            "homeworld": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": "",
+                "PARTIAL_TWOARGS": ""
+            },
+            "move": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": "",
+                "PARTIAL_TWOARGS": ""
+            },
+            "sacrifice": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": ""
+            },
+            "trade": {
+                "PARTIAL_NOARGS": "",
+                "PARTIAL_ONEARG": "",
+                "PARTIAL_TWOARGS": ""
+            }
+        },
         "loa": {
             "NOT_IN_RANGE": "[FR]You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "[FR]Select your destination."

@@ -23,7 +23,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `renderColumn(col: number, row: number): APRenderRep` function to all `stacking-expanding` games. This will return a separate JSON render for *just* the expanded stack.
 - Click handling, including extensive validation and localized error messages, has been added to all games except for the following:
   - Chase
-  - Homeworlds
 
 ## [0.4.0] - 2021-11-15
 

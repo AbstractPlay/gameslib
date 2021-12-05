@@ -285,11 +285,11 @@ describe("Homeworlds", () => {
         // malformed command
         expect(() => g.move("trade y1")).to.throw(HWError.CMD_PARAMETERS);
         // invalid system
-        expect(() => g.move("trade y1 b John")).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("trade y1 John b")).to.throw(HWError.CMD_NOSYSTEM);
         // same colour
-        expect(() => g.move("trade y1 y north")).to.throw(HWError.CMD_TRADE_DOUBLE);
+        expect(() => g.move("trade y1 north y")).to.throw(HWError.CMD_TRADE_DOUBLE);
         // success
-        expect(() => g.move("trade y1 b north")).to.not.throw();
+        expect(() => g.move("trade y1 north b")).to.not.throw();
         expect(north!.hasShip("B1N")).to.be.true;
         expect(north!.hasShip("Y1N")).to.be.false;
 
@@ -302,9 +302,9 @@ describe("Homeworlds", () => {
         g.stash.remove("Y", 1);
         g.stash.remove("B", 1);
         g.stash.remove("B", 1);
-        expect(() => g.move("trade y1 b north")).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("trade y1 north b")).to.throw(HWError.STASH_EMPTY);
         // adding the size doesn't change the outcome
-        expect(() => g.move("trade y1 b2 north")).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("trade y1 north b2")).to.throw(HWError.STASH_EMPTY);
 
         // no actions
         g = new HomeworldsGame(2);
@@ -313,7 +313,7 @@ describe("Homeworlds", () => {
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.stash.remove("Y", 1);
-        expect(() => g.move("trade y1 b north, trade b1 y north")).to.throw(HWError.CMD_NOACTIONS);
+        expect(() => g.move("trade y1 north b, trade b1 north y")).to.throw(HWError.CMD_NOACTIONS);
 
         // no tech
         g = new HomeworldsGame(2);
@@ -322,7 +322,7 @@ describe("Homeworlds", () => {
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.stash.remove("Y", 1);
-        expect(() => g.move("trade y1 b north")).to.throw(HWError.CMD_NOTECH);
+        expect(() => g.move("trade y1 north b")).to.throw(HWError.CMD_NOTECH);
     });
     it ("CMD: Attack", () => {
         let g = new HomeworldsGame(2);
@@ -634,7 +634,7 @@ describe("Homeworlds", () => {
         south!.dock(new Ship("R", 3, "W"));
         expect(() => g.move("build y north")).to.not.throw();
         expect(() => g.move("build r east")).to.not.throw();
-        expect(() => g.move("trade r3 y south")).to.not.throw();
+        expect(() => g.move("trade r3 south y")).to.not.throw();
         expect(() => g.move("attack y3s south")).to.not.throw();
         expect(g.gameover).to.be.false;
         expect(g.systems.find(s => s.owner === "S")).to.be.undefined;

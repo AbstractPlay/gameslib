@@ -93,6 +93,13 @@ module.exports = {
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/prefer-namespace-keyword": "error",
+        "@typescript-eslint/restrict-template-expressions": [
+            "error",
+            {
+                allowBoolean: true,
+                allowNullish: true,
+            }
+        ],
         "@typescript-eslint/triple-slash-reference": [
             "error",
             {

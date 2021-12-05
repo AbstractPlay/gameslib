@@ -31,8 +31,8 @@
                     game.move(result.move, true);
                     var interim = JSON.stringify(game.render());
                     window.sessionStorage.setItem("interim", interim);
-                } else {
-                    window.sessionStorage.removeItem("interim");
+                //} else {
+                //    window.sessionStorage.removeItem("interim");
                 }
                 renderGame();
             }
@@ -131,6 +131,22 @@
                     var statusbox = document.getElementById("status");
                     var converter = new showdown.Converter();
                     statusbox.innerHTML = converter.makeHtml(status);
+
+                    // populate move list
+                    var select = document.getElementById("moveList");
+                    if ("moves" in game) {
+                        while (select.lastChild) {
+                            select.removeChild(select.lastChild);
+                        }
+                        /*
+                        game.moves().forEach((m) => {
+                            var opt = document.createElement('option');
+                            opt.value = m;
+                            opt.innerHTML = m;
+                            select.appendChild(opt);
+                        });
+                        */
+                    }
                 }
 
                 return false;
@@ -439,6 +455,12 @@
                             <button id="moveBtn" name="moveBtn" type="button">Move</button>
                             <button id="moveRandom" name="moveRandom" type="button">Make a random move</button>
                             <button id="moveClear" name="moveClear" type="button">Clear move</button>
+                        </div>
+                        <div>
+                            <label for="moveList">List of possible moves</label>
+                            <select id="moveList">
+                                <option name="empty"></option>
+                            </select>
                         </div>
                         <div>
                             <p>"Fast" is measured in seconds. "Slow" takes longer, but it's usually less than a minute. Don't click multiple times.</p>

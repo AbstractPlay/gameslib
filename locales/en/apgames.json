@@ -189,6 +189,45 @@
             "PLACE_IN_OPEN": "You may only place pieces in the open area.",
             "PLACE_IN_RANGE": "You may only place pieces that are within one regular move of an existing piece."
         },
+        "homeworlds": {
+            "attack": {
+                "PARTIAL_NOARGS": "Select a ship to attack.",
+                "PARTIAL_ONEARG": "Select the system where the ship is found."
+            },
+            "build": {
+                "PARTIAL_NOARGS": "Select a ship colour from the global stash. The size you select doesn't matter.",
+                "PARTIAL_ONEARG": "Select the system in which to place the new ship."
+            },
+            "catastrophe": {
+                "PARTIAL_NOARGS": "Select the overpopulated system.",
+                "PARTIAL_ONEARG": "Select the colour that is overpopulated."
+            },
+            "discover": {
+                "PARTIAL_NOARGS": "Select a ship to move.",
+                "PARTIAL_ONEARG": "Select the system where the ship is found.",
+                "PARTIAL_THREEARGS": "Give the new system a name.",
+                "PARTIAL_TWOARGS": "Select a star from the global stash."
+            },
+            "homeworld": {
+                "PARTIAL_NOARGS": "Select your first star from the global stash.",
+                "PARTIAL_ONEARG": "Select a second star from the global stash.",
+                "PARTIAL_TWOARGS": "Select a colony ship from the global stash."
+            },
+            "move": {
+                "PARTIAL_NOARGS": "Select a ship to move.",
+                "PARTIAL_ONEARG": "Select the system in which the ship is found.",
+                "PARTIAL_TWOARGS": "Select the system you want to move to."
+            },
+            "sacrifice": {
+                "PARTIAL_NOARGS": "Select the ship to sacrifice.",
+                "PARTIAL_ONEARG": "Select the system where the ship is found."
+            },
+            "trade": {
+                "PARTIAL_NOARGS": "Select a ship to convert.",
+                "PARTIAL_ONEARG": "Select the system where the ship is found.",
+                "PARTIAL_TWOARGS": "Select the new colour."
+            }
+        },
         "loa": {
             "NOT_IN_RANGE": "You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "Select your destination."

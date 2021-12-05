@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -238,6 +238,13 @@ export class HomeworldsGame extends GameBase {
         }
     }
 
+    private countActions(): number {
+        if (this.actions !== undefined) {
+            return this.actions.free + this.actions.R + this.actions.G + this.actions.B + this.actions.Y;
+        }
+        return 0;
+    }
+
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
@@ -382,7 +389,7 @@ export class HomeworldsGame extends GameBase {
                     if (c === ship.colour) {
                         continue;
                     }
-                    final.add(`trade ${ship.colour}${ship.size} ${c} ${sys.name}`);
+                    final.add(`trade ${ship.colour}${ship.size} ${sys.name} ${c}`);
                 }
             }
         }
@@ -482,6 +489,345 @@ export class HomeworldsGame extends GameBase {
     }
 
     /**
+     * Determines if an isolated command is complete based solely on number of arguments.
+     * Used by the click handler to contextualize a received click.
+     *
+     * @private
+     * @param {string} cmd
+     * @returns {boolean}
+     * @memberof HomeworldsGame
+     */
+    private isCmdComplete(cmd: string): boolean {
+        if ( (cmd === undefined) || (cmd === "") ) {
+            return true;
+        }
+
+        /*
+         * Valid commands
+         *   - homeworld star1 star2 ship [*]
+         *   - discover ship fromSystem star newName
+         *   - move ship fromSystem toSystem
+         *   - build ship inSystem
+         *   - trade oldShip inSystem newColour
+         *   - attack ship inSystem
+         *   - sacrifice ship inSystem
+         *   - catastrophe inSystem colour
+         *   - pass number?
+         */
+        const [keyword, ...args] = cmd.split(/\s+/);
+        if ( (keyword === "homeworld") && (args.length >= 3) ) {
+            return true;
+        }
+        if ( (keyword === "discover") && (args.length >= 4) ) {
+            return true;
+        }
+        if ( (keyword === "move") && (args.length >= 3) ) {
+            return true;
+        }
+        if ( (keyword === "build") && (args.length >= 2) ) {
+            return true;
+        }
+        if ( (keyword === "trade") && (args.length >= 3) ) {
+            return true;
+        }
+        if ( (keyword === "attack") && (args.length >= 2) ) {
+            return true;
+        }
+        if ( (keyword === "sacrifice") && (args.length >= 2) ) {
+            return true;
+        }
+        if ( (keyword === "catastrophe") && (args.length >= 2) ) {
+            return true;
+        }
+        if ( (keyword === "pass") && (args.length >= 0) ) {
+            return true;
+        }
+        return false;
+    }
+
+    public handleClick(move: string, row: number, col: number, piece: string): IClickResult {
+        try {
+            // get move context
+            let moves: string[] = [];
+            if ( (move !== undefined) && (move !== "") ) {
+                moves = move.split(/\s*[\n,;\/\\]\s*/);
+            }
+            const myseat = this.player2seat(this.currplayer);
+            const mysys = this.systems.find(s => s.owner === myseat);
+            let lastmove = "";
+            if (moves.length > 0) {
+                lastmove = moves[moves.length - 1];
+            }
+            const [lastcmd, ...lastargs] = lastmove.split(/\s+/);
+            const complete = this.isCmdComplete(lastmove);
+            // if the move is incomplete, remove it from the stack because the handler will rebuild it
+            if (! complete) { moves.pop(); }
+
+            // get click context
+            let system: string | undefined;
+            let ship: string | undefined;
+            if (row < 0) {
+                if (piece.startsWith("_")) {
+                    system = piece;
+                } else {
+                    ship = piece;
+                }
+            } else {
+                [system, ship] = piece.split("|");
+                const match = system.match(/\(([NESW])\)$/);
+                if (match !== null) {
+                    system = this.seat2name(match[1] as Seat);
+                }
+            }
+
+            // process
+            let newmove = "";
+
+            // Starting fresh
+            if (complete) {
+                // if you don't have a homeworld, create one
+                if (mysys === undefined) {
+                    // if you clicked on a global stash piece, place it as the first star
+                    if (ship !== undefined) {
+                        newmove = `homeworld ${ship.slice(0, 2)}`;
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
+                } else {
+                    // if you clicked on a ship or star, assume you are selecting a move type
+                    if (ship !== undefined) {
+                        if (ship[0] === "R") {
+                            newmove = `attack`;
+                        } else if (ship[0] === "G") {
+                            newmove = `build`;
+                        } else if (ship[0] === "B") {
+                            newmove = `trade`;
+                        } else if (ship[0] === "Y") {
+                            newmove = `move`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    } else {
+                        if (system !== undefined) {
+                            if (system === "_sacrifice") {
+                                newmove = `sacrifice`;
+                            } else if (system === "_pass") {
+                                newmove = `pass`;
+                            } else if (! system.startsWith("_")) {
+                                newmove = `catastrophe ${system}`
+                            } else {
+                                return {move, message: ""} as IClickResult;
+                            }
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    }
+                }
+            // Otherwise, adding to an incomplete command
+            } else {
+                if (lastcmd === "homeworld") {
+                    if (ship !== undefined) {
+                        newmove = `homeworld ${lastargs.join(" ")} ${ship.slice(0, 2)}`;
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
+                } else if (lastcmd === "discover") {
+                    if ( (row < 0) && (ship !== undefined) ) {
+                        newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${this.genName()}`;
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
+                } else if (lastcmd === "move") {
+                    // need to select a ship
+                    if (lastargs.length === 0) {
+                        if ( (row >= 0) && (system !== undefined) && (ship !== undefined) ) {
+                            newmove = `move ${ship.slice(0,2)} ${system}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    // otherwise need to select target system
+                    } else {
+                        // "Here be dragons"?
+                        if ( (row < 0) && (system === "_uncharted") ) {
+                            newmove = `discover ${lastargs.join(" ")}`;
+                        // otherwise, simple move
+                        } else if ( (row >= 0) && (system !== undefined) ) {
+                            newmove = `move ${lastargs.join(" ")} ${system}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    }
+                } else if (lastcmd === "build") {
+                    // expect a ship from the global stash only
+                    if (lastargs.length === 0) {
+                        if ( (row < 0) && (ship !== undefined) ) {
+                            newmove = `build ${ship[0]}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    // otherwise expect a system
+                    } else {
+                        if ( (row >= 0) && (system !== undefined) ) {
+                            newmove = `build ${lastargs.join(" ")} ${system}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    }
+                } else if (lastcmd === "trade") {
+                    // expect a ship in a specific system
+                    if (lastargs.length === 0) {
+                        if ( (row >= 0) && (ship !== undefined) && (system !== undefined) ) {
+                            newmove = `trade ${ship.slice(0,2)} ${system}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    // expect a colour
+                    } else {
+                        if (ship !== undefined) {
+                            newmove = `trade ${lastargs.join(" ")} ${ship[0]}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    }
+                } else if (lastcmd === "attack") {
+                    if ( (row >= 0) && (system !== undefined) && (ship !== undefined) && (ship.length === 3) ) {
+                        newmove = `attack ${ship} ${system}`;
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
+                } else if (lastcmd === "sacrifice") {
+                    if ( (row >= 0) && (system !== undefined) && (ship !== undefined) ) {
+                        newmove = `sacrifice ${ship.slice(0,2)} ${system}`;
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
+                } else if (lastcmd === "catastrophe") {
+                    if (ship !== undefined) {
+                        newmove = `catastrophe ${lastargs.join(" ")} ${ship[0]}`;
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
+                } else {
+                    return {move, message: ""} as IClickResult;
+                }
+            }
+
+            let compiled = newmove;
+            if (moves.length > 0) {
+                compiled = [...moves, newmove].join(", ");
+            }
+           const result = this.validateMove(compiled) as IClickResult;
+            if (! result.valid) {
+                result.move = move;
+            } else {
+                result.move = compiled;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        const keywords: string[] = ["homeworld", "discover", "move", "build", "trade", "attack", "sacrifice", "catastrophe", "pass"];
+        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const cloned = this.clone();
+
+        cloned.actions = {free: 1, R: 0, B: 0, G: 0, Y: 0};
+        const LHO = cloned.getLHO();
+        if ( (LHO === undefined) && (cloned.stack.length > cloned.numplayers) ) {
+            throw new Error("Could not find a LHO even after all homeworlds have been established. This should never happen.");
+        }
+
+        let subResult: IValidationResult | undefined;
+        for (let i = 0; i < moves.length; i++) {
+        // for (const move of moves) {
+            const move = moves[i];
+            // skip empty orders
+            if (move.match(/^\s*$/)) {
+                continue;
+            }
+
+            const todate = moves.slice(0, i).join(",");
+            cloned.load();
+            cloned.move(todate, true);
+
+            const tokens: string[] = move.split(/\s+/);
+            const cmd = keywords.find(x => x.startsWith(tokens[0].toLowerCase()));
+            switch (cmd) {
+                case "homeworld":
+                    subResult = cloned.validateHomeworld(...tokens.slice(1));
+                    break;
+                case "discover":
+                    subResult = cloned.validateDiscover(...tokens.slice(1));
+                    break;
+                case "move":
+                    subResult = cloned.validateMovement(...tokens.slice(1));
+                    break;
+                case "build":
+                    subResult = cloned.validateBuild(...tokens.slice(1));
+                    break;
+                case "trade":
+                    subResult = cloned.validateTrade(...tokens.slice(1));
+                    break;
+                case "attack":
+                    subResult = cloned.validateAttack(...tokens.slice(1));
+                    break;
+                case "sacrifice":
+                    subResult = cloned.validateSacrifice(...tokens.slice(1));
+                    break;
+                case "catastrophe":
+                    subResult = cloned.validateCatastrophe(...tokens.slice(1));
+                    break;
+                case "pass":
+                    subResult = cloned.validatePass(...tokens.slice(1));
+                    break;
+                default:
+                    subResult = {
+                        valid: false,
+                        message: i18next.t("apgames:homeworlds.MOVE_UNRECOGNIZED", {cmd})
+                    };
+            }
+        }
+        if ( (subResult !== undefined) && ( (! subResult.valid) || ( (subResult.complete !== undefined) && (subResult.complete < 0) ) ) ) {
+            return subResult;
+        }
+        // If we've gotten this far, each individual command was valid and complete
+
+        // You have to account for all your actions
+        if ( (cloned.actions.R > 0) || (cloned.actions.B > 0) || (cloned.actions.G > 0) || (cloned.actions.Y > 0) || (cloned.actions.free > 0) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:homeworlds.MOVE_MOREACTIONS");
+            return result;
+        }
+
+        // You can't cause yourself to lose
+        if (! m.startsWith("homeworld")) {
+            const home = cloned.systems.find(s => s.owner === cloned.player2seat());
+            if (home === undefined) {
+                throw new Error("Could not find your home system. This should never happen at this point.");
+            }
+            if ( (home.stars.length === 0) || (home.countShips(cloned.player2seat()) === 0) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE");
+                return result;
+            }
+        }
+
+        // fully validated move set
+        result.valid = true;
+        result.complete = 0;
+        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        return result;
+    }
+
+    /**
      * The `partial` flag leaves the object in an invalid state. It should only be used on a disposable object,
      * or you should call `load()` before finalizing the move.
      *
@@ -499,14 +845,14 @@ export class HomeworldsGame extends GameBase {
          *   - discover ship fromSystem star newName
          *   - move ship fromSystem toSystem
          *   - build ship inSystem
-         *   - trade oldShip newColour inSystem
+         *   - trade oldShip inSystem newColour
          *   - attack ship inSystem
          *   - sacrifice ship inSystem
          *   - catastrophe inSystem colour
          *   - pass number?
          */
         const keywords: string[] = ["homeworld", "discover", "move", "build", "trade", "attack", "sacrifice", "catastrophe", "pass"];
-        const moves = m.split(/[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;\/\\]\s*/);
         this.actions = {free: 1, R: 0, B: 0, G: 0, Y: 0};
         const LHO = this.getLHO();
         if ( (LHO === undefined) && (this.stack.length > this.numplayers) ) {
@@ -692,6 +1038,130 @@ export class HomeworldsGame extends GameBase {
         return this;
     }
 
+    private validateHomeworld(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // homeworld star1 star2 ship [*]
+        const home = this.systems.find(s => s.owner === this.player2seat());
+        args = args.map(a => a.toUpperCase());
+        if (home !== undefined) {
+            result.valid = false;
+            result.message = i18next.t("apgames:homeworlds.CMD_HOME_DOUBLE");
+            return result;
+        }
+        if (args.length < 3) {
+            // valid star/ship designations
+            for (const arg of args) {
+                if ( (arg !== "*") && (arg !== "-") && (! arg.match(/^[RBGY][123]$/)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_STARSHIP_NAME", {arg});
+                    return result;
+                }
+            }
+
+            // valid partial
+            // return message based on number of arguments
+            result.valid = true;
+            result.complete = -1;
+            switch (args.length) {
+                case 0:
+                    result.message = i18next.t("apgames:validation.homeworlds.homeworld.PARTIAL_NOARGS");
+                    break;
+                case 1:
+                    result.message = i18next.t("apgames:validation.homeworlds.homeworld.PARTIAL_ONEARG");
+                    break;
+                case 2:
+                    result.message = i18next.t("apgames:validation.homeworlds.homeworld.PARTIAL_TWOARGS");
+                    break;
+            }
+            return result;
+        } else {
+            for (const arg of args) {
+                if ( (arg !== "*") && (arg !== "-") && (! arg.match(/^[RBGY][123]$/)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_STARSHIP_NAME", {arg});
+                    return result;
+                }
+            }
+            let overridden = false;
+            if (args[args.length - 1] === "*") {
+                args.pop();
+                overridden = true;
+            }
+            if ( (! overridden) && (args.includes("-")) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_HOME_SINGLE");
+                return result;
+            }
+            if ( (! overridden) && (! args[2].endsWith("3")) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP");
+                return result;
+            }
+            if ( (! overridden) && (args[0][1] === args[1][1]) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_HOME_SAMESIZE");
+                return result;
+            }
+            const colours = args.filter(a => a.length === 2).map(a => a[0]);
+            const unique = colours.filter((value, index) => colours.indexOf(value) === index)
+            if ( (! overridden) && (unique.length < 3) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_HOME_COLOURS");
+                return result;
+            }
+            if ( (! overridden) && ( (! unique.includes("B")) || (! unique.includes("G")) ) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_HOME_TECHS");
+                return result;
+            }
+
+            const cloned = this.clone();
+            const separated: ([Colour, Size]|"-")[] = args.map((a) => {
+                if (a === "-") {
+                    return a;
+                } else {
+                    const [c, s] = a.split("");
+                    return [c as Colour, parseInt(s, 10) as Size];
+                }
+            });
+            const stars: [Colour, Size][] = [];
+            for (const arg of [separated[0], separated[1]]) {
+                if (arg === "-") {
+                    continue;
+                }
+                cloned.stash.remove(...arg);
+                stars.push(arg);
+            }
+            const system = new System(cloned.seat2name(), stars, cloned.player2seat());
+            cloned.stash.remove(...separated[2] as [Colour, Size]);
+            system.dock(new Ship(...separated[2] as [Colour, Size], cloned.player2seat()));
+
+            // One last check; easier to do after all the systems are created
+            if (cloned.currplayer > 1) {
+                const rho = cloned.getRHO();
+                const rhoSystem = cloned.systems.find(s => s.owner === rho);
+                if (rhoSystem === undefined) {
+                    throw new Error("Could not find a right-hand opponent. This should never happen.");
+                }
+                const theirs = rhoSystem.stars.map(s => s[1]).sort();
+                const mine = system.stars.map(s => s[1]).sort();
+                if ( (! overridden) && (mine.length === theirs.length) && (mine.filter(s => !theirs.includes(s)).length === 0) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_HOME_RHO");
+                    return result;
+                }
+            }
+            this.spendAction();
+
+            // valid complete move
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+    }
+
     private cmdDiscover(...args: string[]): HomeworldsGame {
         // discover ship fromSystem star newName
         if (args.length < 4) {
@@ -762,6 +1232,123 @@ export class HomeworldsGame extends GameBase {
         return this;
     }
 
+    private validateDiscover(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // discover ship fromSystem star newName
+        if (args.length < 4) {
+
+            // eslint-disable-next-line prefer-const
+            let [ship, fromSystem] = args;
+            if ( (ship !== undefined) && (fromSystem !== undefined) ) {
+                ship = ship.toUpperCase();
+                if (ship.length === 2) {
+                    ship += this.player2seat();
+                }
+                const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
+                if (oldSystem === undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                    return result;
+                }
+                if (this.actions.Y === 0) {
+                    if (this.actions.free === 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                        return result;
+                    } else if (! oldSystem.hasTech("Y", this.player2seat())) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                        return result;
+                    }
+                }
+            }
+
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            switch (args.length) {
+                case 0:
+                    result.message = i18next.t("apgames:validation.homeworlds.discover.PARTIAL_NOARGS");
+                    break;
+                case 1:
+                    result.message = i18next.t("apgames:validation.homeworlds.discover.PARTIAL_ONEARG");
+                    break;
+                case 2:
+                    result.message = i18next.t("apgames:validation.homeworlds.discover.PARTIAL_TWOARGS");
+                    break;
+                case 3:
+                    result.message = i18next.t("apgames:validation.homeworlds.discover.PARTIAL_THREEARGS");
+                    break;
+            }
+            return result;
+        } else {
+            // eslint-disable-next-line prefer-const
+            let [ship, fromSystem, newStar, newName] = args;
+            ship = ship.toUpperCase();
+            if (ship.length === 2) {
+                ship += this.player2seat();
+            }
+            newStar = newStar.toUpperCase();
+            const [c, s] = newStar.split("");
+            const starObj: Star = [c as Colour, parseInt(s, 10) as Size];
+
+            const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
+            if (oldSystem === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                return result;
+            }
+
+            if (this.actions.Y === 0) {
+                if (this.actions.free === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                    return result;
+                } else if (! oldSystem.hasTech("Y", this.player2seat())) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                    return result;
+                }
+            }
+            this.spendAction("Y");
+
+            if (! System.nameValid(newName)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.SYSTEM_BADNAME", {name: newName});
+                return result;
+            }
+            const names = this.systems.map(sys => sys.name.toLowerCase());
+            if (names.includes(newName.toLowerCase())) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_DISC_DOUBLE", {name: newName});
+                return result;
+            }
+            if (! oldSystem.hasShip(ship)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship, system: oldSystem.name});
+                return result;
+            }
+            const newSystem = new System(newName, [starObj]);
+            if (! oldSystem.isConnected(newSystem)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_MOVE_CONNECTION", {from: oldSystem.name, to: newSystem.name});
+                return result;
+            }
+
+            // valid complete move
+            result.valid = true;
+            if (this.countActions() > 0) {
+                result.complete = -1;
+                result.canrender = true;
+            } else {
+                result.complete = 0;
+            }
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+    }
+
     private cmdMove(...args: string[]): HomeworldsGame {
         // move ship fromSystem toSystem
         if (args.length < 3) {
@@ -818,6 +1405,110 @@ export class HomeworldsGame extends GameBase {
         return this;
     }
 
+    private validateMovement(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // move ship fromSystem toSystem
+        if (args.length < 3) {
+            // eslint-disable-next-line prefer-const
+            let [ship, fromSystem] = args;
+            if ( (ship !== undefined) && (fromSystem !== undefined) ) {
+                ship = ship.toUpperCase() + this.player2seat();
+                const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
+                if (oldSystem === undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                    return result;
+                }
+                if (this.actions.Y === 0) {
+                    if (this.actions.free === 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                        return result;
+                    } else if (! oldSystem.hasTech("Y", this.player2seat())) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                        return result;
+                    }
+                }
+                if (! oldSystem.hasShip(ship)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship});
+                    return result;
+                }
+            }
+
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            switch (args.length) {
+                case 0:
+                    result.message = i18next.t("apgames:validation.homeworlds.move.PARTIAL_NOARGS");
+                    break;
+                case 1:
+                    result.message = i18next.t("apgames:validation.homeworlds.move.PARTIAL_ONEARG");
+                    break;
+                case 2:
+                    result.message = i18next.t("apgames:validation.homeworlds.move.PARTIAL_TWOARGS");
+                    break;
+            }
+            return result;
+
+        } else {
+            // eslint-disable-next-line prefer-const
+            let [ship, fromSystem, toSystem] = args;
+            ship = ship.toUpperCase() + this.player2seat();
+
+            const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
+            if (oldSystem === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                return result;
+            }
+            const newSystem = this.systems.find(sys => sys.name.toLowerCase() === toSystem.toLowerCase());
+            if (newSystem === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: toSystem});
+                return result;
+            }
+            if (! oldSystem.isConnected(newSystem)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_MOVE_CONNECTION", {from: fromSystem, to: toSystem});
+                return result;
+            }
+
+            if (this.actions.Y === 0) {
+                if (this.actions.free === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                    return result;
+                } else if (! oldSystem.hasTech("Y", this.player2seat())) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                    return result;
+                }
+            }
+            this.spendAction("Y");
+
+            if (! oldSystem.hasShip(ship)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship});
+                return result;
+            }
+
+            // valid complete move
+            result.valid = true;
+            if (this.countActions() > 0) {
+                result.complete = -1;
+                result.canrender = true;
+            } else {
+                result.complete = 0;
+            }
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+    }
+
     private cmdBuild(...args: string[]): HomeworldsGame {
         // build shipColour inSystem
         if (args.length < 2) {
@@ -861,13 +1552,74 @@ export class HomeworldsGame extends GameBase {
         return this;
     }
 
+    private validateBuild(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // build shipColour inSystem
+        if (args.length < 2) {
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            if (args.length === 0) {
+                result.message = i18next.t("apgames:validation.homeworlds.build.PARTIAL_NOARGS");
+            } else if (args.length === 1) {
+                result.message = i18next.t("apgames:validation.homeworlds.build.PARTIAL_ONEARG");
+            }
+            return result;
+        } else {
+            // eslint-disable-next-line prefer-const
+            let [shipColour, systemName] = args;
+            shipColour = shipColour.toUpperCase();
+            if (shipColour.length > 1) {
+                shipColour = shipColour[0];
+            }
+
+            const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
+            if (system === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                return result;
+            }
+
+            if (this.actions.G === 0) {
+                if (this.actions.free === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "G"});
+                    return result;
+                } else if (! system.hasTech("G", this.player2seat())) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "G"});
+                    return result;
+                }
+            }
+            this.spendAction("G");
+
+            if (! system.ownsShipColour(shipColour as Colour, this.player2seat())) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_BUILD_TEMPLATE", {colour: shipColour});
+                return result;
+            }
+
+            // valid complete move
+            result.valid = true;
+            if (this.countActions() > 0) {
+                result.complete = -1;
+                result.canrender = true;
+            } else {
+                result.complete = 0;
+            }
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+    }
+
     private cmdTrade(...args: string[]): HomeworldsGame {
-        // trade oldShip newColour inSystem
+        // trade oldShip inSystem newColour
         if (args.length < 3) {
             throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
-        let [oldShip, newColour, systemName] = args;
+        let [oldShip, systemName, newColour] = args;
         oldShip = oldShip.toUpperCase() + this.player2seat();
         newColour = newColour.toUpperCase();
         if (newColour.length > 1) {
@@ -903,6 +1655,93 @@ export class HomeworldsGame extends GameBase {
 
         this.results.push({type: "convert", what: oldShip.slice(0, 2), into: shipObj.id().slice(0, 2), where: system.name});
         return this;
+    }
+
+    private validateTrade(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // trade oldShip inSystem newColour
+        if (args.length < 3) {
+            // eslint-disable-next-line prefer-const
+            let [oldShip, systemName] = args;
+            if ( (oldShip !== undefined) && (systemName !== undefined) ) {
+                oldShip = oldShip.toUpperCase() + this.player2seat();
+                const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
+                if (system === undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                    return result;
+                }
+                if (this.actions.B === 0) {
+                    if (this.actions.free === 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "B"});
+                        return result;
+                    } else if (! system.hasTech("B", this.player2seat())) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "B"});
+                        return result;
+                    }
+                }
+            }
+
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            if (args.length === 0) {
+                result.message = i18next.t("apgames:validation.homeworlds.trade.PARTIAL_NOARGS");
+            } else if (args.length === 1) {
+                result.message = i18next.t("apgames:validation.homeworlds.trade.PARTIAL_ONEARG");
+            } else if (args.length === 2) {
+                result.message = i18next.t("apgames:validation.homeworlds.trade.PARTIAL_TWOARGS");
+            }
+            return result;
+        } else {
+            // eslint-disable-next-line prefer-const
+            let [oldShip, systemName, newColour] = args;
+            oldShip = oldShip.toUpperCase() + this.player2seat();
+            newColour = newColour.toUpperCase();
+            if (newColour.length > 1) {
+                newColour = newColour[0];
+            }
+
+            const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
+            if (system === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                return result;
+            }
+
+            if (newColour[0] === oldShip[0]) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_TRADE_DOUBLE");
+                return result;
+            }
+
+            if (this.actions.B === 0) {
+                if (this.actions.free === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "B"});
+                    return result;
+                } else if (! system.hasTech("B", this.player2seat())) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "B"});
+                    return result;
+                }
+            }
+            this.spendAction("B");
+
+            // valid complete move
+            result.valid = true;
+            if (this.countActions() > 0) {
+                result.complete = -1;
+                result.canrender = true;
+            } else {
+                result.complete = 0;
+            }
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
     }
 
     private cmdAttack(...args: string[]): HomeworldsGame {
@@ -951,6 +1790,79 @@ export class HomeworldsGame extends GameBase {
         return this;
     }
 
+    private validateAttack(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // attack ship inSystem
+        if (args.length < 2) {
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            if (args.length === 0) {
+                result.message = i18next.t("apgames:validation.homeworlds.attack.PARTIAL_NOARGS");
+            } else if (args.length === 1) {
+                result.message = i18next.t("apgames:validation.homeworlds.attack.PARTIAL_ONEARG");
+            }
+            return result;
+        } else {
+            // eslint-disable-next-line prefer-const
+            let [enemyShip, systemName] = args;
+            enemyShip = enemyShip.toUpperCase();
+            // If only two characters long, but only one opponent, imply the size of the ship
+            if ( (enemyShip.length === 2) && (this.numplayers === 2) ) {
+                enemyShip += this.getRHO();
+            }
+            if (enemyShip.length !== 3) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_ATK_OWNER");
+                return result;
+            }
+            if (enemyShip[enemyShip.length - 1] === this.player2seat()) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_ATK_SELF");
+                return result;
+            }
+            const enemySize = parseInt(enemyShip[1], 10);
+
+            const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
+            if (system === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                return result;
+            }
+
+            if (system.getLargestShip(this.player2seat()) < enemySize) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_ATK_SIZE", {target: enemyShip});
+                return result;
+            }
+
+            if (this.actions.R === 0) {
+                if (this.actions.free === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "R"});
+                    return result;
+                } else if (! system.hasTech("R", this.player2seat())) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "R"});
+                    return result;
+                }
+            }
+            this.spendAction("R");
+
+            // valid complete move
+            result.valid = true;
+            if (this.countActions() > 0) {
+                result.complete = -1;
+                result.canrender = true;
+            } else {
+                result.complete = 0;
+            }
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+    }
+
     private cmdSacrifice(...args: string[]): HomeworldsGame {
         // sacrifice ship inSystem
         if (args.length < 2) {
@@ -991,6 +1903,53 @@ export class HomeworldsGame extends GameBase {
 
         this.results.push({type: "sacrifice", what: ship.id().slice(0, 2), where: system.name});
         return this;
+    }
+
+    private validateSacrifice(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // sacrifice ship inSystem
+        if (args.length < 2) {
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            if (args.length === 0) {
+                result.message = i18next.t("apgames:validation.homeworlds.sacrifice.PARTIAL_NOARGS");
+            } else if (args.length === 1) {
+                result.message = i18next.t("apgames:validation.homeworlds.sacrifice.PARTIAL_ONEARG");
+            }
+            return result;
+        } else {
+            // eslint-disable-next-line prefer-const
+            let [myShip, systemName] = args;
+            myShip = myShip.toUpperCase() + this.player2seat();
+
+            const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
+            if (system === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                return result;
+            }
+
+            if (this.actions.free === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS");
+                return result;
+            }
+            this.spendAction();
+            this.actions[myShip[0] as Colour] = parseInt(myShip[1], 10);
+
+            // valid complete move
+            result.valid = true;
+            if (this.countActions() > 0) {
+                result.complete = -1;
+                result.canrender = true;
+            } else {
+                result.complete = 0;
+            }
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
     }
 
     private cmdCatastrophe(...args: string[]): HomeworldsGame {
@@ -1038,6 +1997,52 @@ export class HomeworldsGame extends GameBase {
         return this;
     }
 
+    private validateCatastrophe(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // catastrophe inSystem colour
+        if (args.length < 2) {
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            if (args.length === 0) {
+                result.message = i18next.t("apgames:validation.homeworlds.catastrophe.PARTIAL_NOARGS");
+            } else if (args.length === 1) {
+                result.message = i18next.t("apgames:validation.homeworlds.catastrophe.PARTIAL_ONEARG");
+            }
+            return result;
+        } else {
+            // eslint-disable-next-line prefer-const
+            let [systemName, colour] = args;
+            colour = colour[0].toUpperCase();
+
+            const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
+            if (system === undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                return result;
+            }
+
+            if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_CATA_ACTIONS");
+                return result;
+            }
+
+            if (! system.canCatastrophe(colour as Colour)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_CATA_INVALID", {colour, system: system.name});
+                return result;
+            }
+
+            // valid complete move
+            result.valid = true;
+            result.complete = 0;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+    }
+
     private cmdPass(...args: string[]): HomeworldsGame {
         // pass number?
         if (args.length > 1) {
@@ -1076,6 +2081,62 @@ export class HomeworldsGame extends GameBase {
 
         this.results.push({type: "pass"});
         return this;
+    }
+
+    private validatePass(...args: string[]): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        // pass number?
+        if (args.length > 1) {
+            result.valid = false;
+            result.message = i18next.t("apgames:homeworlds.CMD_PARAMETERS");
+            return result;
+        }
+
+        if (this.actions.free > 0) {
+            result.valid = false;
+            result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
+            return result;
+        }
+
+        if (args[0] === "*") {
+            this.actions.R = 0;
+            this.actions.B = 0;
+            this.actions.G = 0;
+            this.actions.Y = 0;
+        } else {
+            let num = 1;
+            if (args.length > 0) {
+                num = parseInt(args[0], 10);
+            }
+
+            for (let i = 0; i < num; i++) {
+                if (this.actions.R > 0) {
+                    this.actions.R--;
+                } else if (this.actions.B > 0) {
+                    this.actions.B--;
+                } else if (this.actions.G > 0) {
+                    this.actions.G--;
+                } else if (this.actions.Y > 0) {
+                    this.actions.Y--;
+                } else {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY");
+                    return result;
+                }
+            }
+        }
+
+        // valid complete move
+        result.valid = true;
+        if (this.countActions() > 0) {
+            result.complete = -1;
+            result.canrender = true;
+        } else {
+            result.complete = 0;
+        }
+        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        return result;
     }
 
     private addSystem(sys: System): HomeworldsGame {

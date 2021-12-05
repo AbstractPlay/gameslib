@@ -260,7 +260,7 @@ export class FendoGame extends GameBase {
             // Test
             let valid = true;
             for (let i = 0; i < path.length - 1; i++) {
-                if (! this.graph.graph.hasEdge(path[i], path[i+1])) {
+                if ( (! this.graph.graph.hasEdge(path[i], path[i+1])) || (this.board.has(path[i+1])) ) {
                     valid = false;
                     break;
                 }

@@ -6,6 +6,7 @@ import { Ship, System, Stash } from "./homeworlds/";
 import { reviver } from "../common";
 import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 import { UserFacingError } from "../common";
+import { wng } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2|3|4;
@@ -333,22 +334,12 @@ export class HomeworldsGame extends GameBase {
 
     // These subfunctions don't actually validate the final move set. That's done in `moves()`.
     // These just generate the reasonable largest set of possible moves, to be collated and validated later.
-    private genName(length = 5): string {
-        let name: string = Math.random().toString(16).substr(2, length);
-        let found = this.systems.find(s => s.name === name);
-        while (found !== undefined) {
-            name = Math.random().toString(16).substr(2, length);
-            found = this.systems.find(s => s.name === name);
-        }
-        return name;
-    }
-
     private movesMove(player: playerid, validateTech = true): string[] {
         const final: Set<string> = new Set<string>();
         const myseat = this.player2seat(player);
 
         // Generate a single discovered system name
-        const newname = this.genName();
+        const newname = wng();
 
         for (const sys of this.systems) {
             if ( (validateTech) && (! sys.hasTech("Y", myseat)) ) {
@@ -633,7 +624,7 @@ export class HomeworldsGame extends GameBase {
                     }
                 } else if (lastcmd === "discover") {
                     if ( (row < 0) && (ship !== undefined) ) {
-                        newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${this.genName()}`;
+                        newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${wng()}`;
                     } else {
                         return {move, message: ""} as IClickResult;
                     }
@@ -648,8 +639,8 @@ export class HomeworldsGame extends GameBase {
                     // otherwise need to select target system
                     } else {
                         // "Here be dragons"?
-                        if ( (row < 0) && (system === "_uncharted") ) {
-                            newmove = `discover ${lastargs.join(" ")}`;
+                        if ( (row < 0) && (system === undefined) && (ship !== undefined) ) {
+                            newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${wng()}`;
                         // otherwise, simple move
                         } else if ( (row >= 0) && (system !== undefined) ) {
                             newmove = `move ${lastargs.join(" ")} ${system}`;

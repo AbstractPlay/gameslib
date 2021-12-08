@@ -3,8 +3,9 @@ import { reviver, replacer } from "./serialization";
 import { shuffle } from "./shuffle";
 import { UserFacingError } from "./errors";
 import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph } from "./graphs";
+import { wng } from "./namegenerator";
 
-export { RectGrid, reviver, replacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph };
+export { RectGrid, reviver, replacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, wng };
 
 export type DirectionsCardinal = "N" | "E" | "S" | "W";
 export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";

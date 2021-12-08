@@ -216,7 +216,7 @@
             "move": {
                 "PARTIAL_NOARGS": "Select a ship to move.",
                 "PARTIAL_ONEARG": "Select the system in which the ship is found.",
-                "PARTIAL_TWOARGS": "Select the system you want to move to."
+                "PARTIAL_TWOARGS": "Select the system you want to move to, or select a piece from the global stash to discover a new system."
             },
             "sacrifice": {
                 "PARTIAL_NOARGS": "Select the ship to sacrifice.",

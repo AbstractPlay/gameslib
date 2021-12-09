@@ -218,12 +218,14 @@ export class TaijiGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        const [light, dark] = m.split(",");
-        if (light === undefined) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.taiji.INITIAL_INSTRUCTIONS");
             return result;
         }
+
+        const [light, dark] = m.split(",");
 
         // valid cell
         let xLight: number; let yLight: number;

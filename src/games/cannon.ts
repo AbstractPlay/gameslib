@@ -324,6 +324,17 @@ export class CannonGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const grid = new RectGrid(10, 10);
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            if (this.placed) {
+                result.message = i18next.t("apgames:validation.cannon.INITIAL_INSTRUCTIONS", {context: "placed"});
+            } else {
+                result.message = i18next.t("apgames:validation.cannon.INITIAL_INSTRUCTIONS", {context: "towns"});
+            }
+            return result;
+        }
+
         // First deal with town placement
         if (! this.placed) {
             const myhomes = homes.get(this.currplayer)!;

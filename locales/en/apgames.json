@@ -71,7 +71,6 @@
         "_general": {
             "CAPTURE4MOVE": "You signalled a capture, but there's no piece at {{where}}.",
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
-            "EMPTYSTRING": "No input provided to validate.",
             "FAILSAFE": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nStack: {{estack}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "Could not find the cell '{{cell}}' on the board.",
@@ -90,6 +89,7 @@
         "abande": {
             "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
             "DISCONNECTEDPLACE": "Placing a piece at {{where}} would disconnect the band.",
+            "INITIAL_INSTRUCTIONS": "Place a piece on an empty space connected to the other pieces.",
             "INVALIDPASS": "You cannot pass while you have pieces in hand.",
             "MOVE2CONTROLLED": "You cannot capture your own stacks.",
             "MOVE2EMPTY": "You cannot move to empty spaces.",
@@ -99,6 +99,7 @@
             "TRIPLESTACK": "You cannot move triple stacks."
         },
         "accasta": {
+            "INITIAL_INSTRUCTIONS": "Select the bottom piece of the substack you wish to move.",
             "INVALID_SIZE": "In the move '{{move}}', the step '{{step}}' contains an invalid number of pieces to move. Remember that if you're removing the entire stack, omit the number altogether.",
             "MORE_THAN_THREE": "In the move '{{move}}', the step '{{step}}' would create a stack with more than 3 pieces of the same color.",
             "PARTIAL_FULLSTACK": "Looks like you want to move an entire stack. Provide the destination.",
@@ -109,12 +110,14 @@
             "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high."
         },
         "amazons": {
+            "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "You can only move and block in straight lines."
         },
         "attangle": {
             "EMPTYCAPTURE": "One of the cells involved with the capture doesn't have any pieces in it.",
+            "INITIAL_INSTRUCTIONS": "Place a piece on an empty cell (that doesn't have a dot on it) or select an existing piece to start a capture.",
             "MOVE2EMPTY": "You cannot capture empty cells.",
             "ONVOID": "You cannot place pieces on voids (the spaces marked with a black dot).",
             "POTENTIAL_ONE": "This could potentially be a capture. Provide the location of the second stack.",
@@ -124,12 +127,14 @@
         },
         "blam": {
             "BADSYNTAX": "Invalid syntax: {{move}}. It should a the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
+            "INITIAL_INSTRUCTIONS": "Select an empty space. Clicking multiple times will cycle through the piece sizes in your stash.",
             "MOVES_NOPASS": "You cannot pass while you have pieces to place.",
             "NOPIECE": "You do not have a piece of size {{size}} to place."
         },
         "breakthrough": {
             "BADVARIANT": "Bombardment moves are only allowed when that variant is active.",
             "DIAGONAL_CAPTURES": "Captures may only be made in a forward-diagonal direction.",
+            "INITIAL_INSTRUCTIONS": "Select one of your pawns.",
             "NOCAPTURES": "Captures are not allowed in the 'Bombardment' variant.",
             "ONLY_FORWARD": "Pieces may only move forward.",
             "PARTIAL": "Provide the destination.",
@@ -140,6 +145,8 @@
             "FIXED_TOWNS": "Towns cannot be moved.",
             "FORWARD_ONLY": "Pieces can only move forward, unless capturing laterally or retreating.",
             "HOMECELL": "You can only place your town on your home row, and not on the corners.",
+            "INITIAL_INSTRUCTIONS_placed": "Select one of your soldiers to move or an enemy piece to capture by cannon fire.",
+            "INITIAL_INSTRUCTIONS_towns": "Select a cell along the back row to place your town.",
             "LATERAL_MOVEMENT": "Pieces can only move laterally when capturing.",
             "NOCANNON_CAPTURE": "This piece is not in range of any of your cannons.",
             "NOCANNON_MOVE": "There is no cannon along which to move that piece that way.",
@@ -150,17 +157,22 @@
         },
         "ceph": {
             "DUPLICATECAP": "You can't capture the same piece more than once.",
+            "INITIAL_INSTRUCTIONS": "Select an empty cell.",
             "NOTADJACENT": "You can only capture pieces orthogonally adjacent to your placed piece.",
             "PARTIAL_ONECAP": "Select at least one more adjacent piece to capture.",
             "PARTIAL_PRECAP": "Select a piece to capture.",
             "TOOHIGH": "The pieces you capture cannot total more than six."
         },
         "entropy": {
+            "INITIAL_INSTRUCTIONS_chaos": "Select an empty cell on your opponent's board to place the next piece.",
+            "INITIAL_INSTRUCTIONS_order": "Select a piece on your board to move, or pass.",
             "INVALID_MOVEMENT": "You cannot move pieces in the CHAOS phase.",
             "PARTIAL": "Select a destination.",
             "STRAIGHT_LINES": "Pieces may only be moved in straight horizontal or vertical lines."
         },
         "epam": {
+            "INITIAL_INSTRUCTIONS_move": "Select the tail of the phalanx you wish to move.",
+            "INITIAL_INSTRUCTIONS_stones": "Place a stone in an empty space in the middle six rows.",
             "INSUFFICIENT_FORCES": "When capturing, your phalanx must have more pieces than the captured phalanx.",
             "NOPLACEMENT": "You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",
             "PARTIAL": "Select where you want the *head* of the phalanx to end its movement.",
@@ -169,6 +181,9 @@
             "TOOFAR": "The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces."
         },
         "fabrik": {
+            "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you can pass if your opponent just placed the second worker.",
+            "INITIAL_INSTRUCTIONS_fresh": "Place a worker in an empty cell.",
+            "INITIAL_INSTRUCTIONS_inprogress": "Select a worker to move, or select an empty cell in sight to place a piece.",
             "INVALID_PASS": "You may only pass the turn immediately after the second worker has been placed.",
             "INVALID_PLACEMENT": "The cell {{where}} is not visible to both workers.",
             "MUST_PASS_PLAY": "The first turn after the second worker has been placed must be a pass or placement.",
@@ -178,6 +193,7 @@
         },
         "fendo": {
             "DUPLICATE_FENCE": "A fence already exists between these two cells.",
+            "INITIAL_INSTRUCTIONS": "Select a piece to move or an empty space to place a piece.",
             "INVALID_DESTINATION": "You cannot reach {{to}} from {{from}}. Remember that pieces can only make one ninety-degree turn as they move.",
             "INVALID_DIRECTION": "The direction {{dir}} is not valid. It must 'N', 'E', 'S', or 'W'.",
             "INVALID_FENCE": "Placing a fence here would either create an empty closed area or create multiple open areas.",
@@ -213,6 +229,8 @@
                 "PARTIAL_ONEARG": "Select a second star from the global stash.",
                 "PARTIAL_TWOARGS": "Select a colony ship from the global stash."
             },
+            "INITIAL_INSTRUCTIONS_fresh": "You need to establish a homeworld. Choose a piece from the global stash to be your first star.",
+            "INITIAL_INSTRUCTIONS_inprogress": "Select any ship or star to do the action of that colour, or select the \"Sacrifice\" button below the global stash.",
             "move": {
                 "PARTIAL_NOARGS": "Select a ship to move.",
                 "PARTIAL_ONEARG": "Select the system in which the ship is found.",
@@ -229,29 +247,37 @@
             }
         },
         "loa": {
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
             "NOT_IN_RANGE": "You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "Select your destination."
         },
         "manalath": {
             "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece. Select it again to cycle through the colours.",
             "INVALID_COLOUR": "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
             "OVERSIZED_GROUP": "This would create a group of more than five pieces."
         },
         "mchess": {
+            "INITIAL_INSTRUCTIONS": "Select a piece on your side of the board to move.",
             "INVALID_MOVE": "You're either trying to move too far or jump another piece.",
             "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
             "PARTIAL": "Select a destination."
         },
+        "mvolcano": {
+            "INITIAL_INSTRUCTIONS": "Select a cap to move."
+        },
         "ordo": {
             "DISCONNECTED": "That move would leave your pieces disconnected.",
             "DISORGANIZED": "Moves must be \"organized,\" meaning that the destination cell must be orthogonal to the first cell in the ordo.",
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move or start an ordo.",
             "INVALID_ORDO": "The ordo '{{ordo}}' is not valid. Ordos are groups of pieces connected in a straight, orthogonal line.",
             "INVALID_ORDO_MOVE": "The ordo '{{ordo}}' cannot move to {{destination}}. This is usually because of an obstruction.",
-            "PARTIAL": "Select a destination.",
+            "PARTIAL": "Select a destination or select a second piece to form an ordo.",
             "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
         },
         "pikemen": {
             "BAD_FACING": "The following move segment had an unrecognizeable facing: {{segment}}.",
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
             "PARTIAL_FINAL": "The move is valid. If you wish to reorient one last time, click on the cell you want to point towards, or click on the piece itself to stand upright.",
             "PARTIAL_ORIENT": "Select the cell you want to point the piece towards.",
             "PARTIAL_PREMOVE": "Select a destination, or select the piece again to reorient.",
@@ -261,9 +287,13 @@
         },
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
-            "PARTIAL": "Select where you will place the dark piece."
+            "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
+            "PARTIAL": "Place the dark piece in an adjacent empty space."
         },
         "urbino": {
+            "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you may pass if your opponent just placed the second architect.",
+            "INITIAL_INSTRUCTIONS_fresh": "Place an architect in an empty cell.",
+            "INITIAL_INSTRUCTIONS_inprogress": "Select an architect to move or select a cell in sight to place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available.",
             "INVALID_PLACE_CELL": "The cell {{where}} is not visible to both architects.",
             "INVALID_PLACE_PIECE": {
@@ -277,6 +307,8 @@
             "PARTIAL_PLACE": "Choose a cell to place a piece in."
         },
         "volcano": {
+            "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",
+            "INITIAL_INSTRUCTIONS": "Select a cap to move or a piece from your captured pile to place on the board.",
             "MOVES_AFTER_ERUPTION": "You may not continue moving after causing an eruption.",
             "MOVES_CAPS_ONLY": "You may only move caps.",
             "MOVES_DOUBLE_CAP": "Nothing may be placed on top of a cap.",
@@ -285,8 +317,7 @@
             "MOVES_ONE_POWERPLAY": "You may only make one power play per turn.",
             "MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
             "PARTIAL_ERUPTION": "Keep moving caps until you cause an eruption.",
-            "PARTIAL_MOVE": "Select the destination.",
-            "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash."
+            "PARTIAL_MOVE": "Select the destination."
         }
     },
     "variants": {

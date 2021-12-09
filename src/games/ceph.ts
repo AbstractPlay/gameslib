@@ -212,6 +212,13 @@ export class CephalopodGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const allcells = this.graph.listCells(false) as string[];
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.ceph.INITIAL_INSTRUCTIONS");
+            return result;
+        }
+
         // partial: precapture
         if (! m.includes("=")) {
             // cell is valid

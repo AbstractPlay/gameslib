@@ -241,6 +241,13 @@ export class AttangleGame extends GameBase {
             vs = voids[1];
         }
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.attangle.INITIAL_INSTRUCTIONS")
+            return result;
+        }
+
         const [one, two, target] = m.split(/[,-]/);
         // validate coordinates
         for (const cell of [one, two, target]) {

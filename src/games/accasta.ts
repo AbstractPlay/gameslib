@@ -374,6 +374,13 @@ export class AccastaGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const allcells = this.graph.listCells() as string[];
 
+        if (m === "") {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.accasta.INITIAL_INSTRUCTIONS")
+            return result;
+        }
+
         const [source, moves] = m.split(":");
 
         // source exists

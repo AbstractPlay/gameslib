@@ -492,186 +492,187 @@ export class OrdoGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (m === "") {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.ordo.INITIAL_INSTRUCTIONS");
+            return result;
+        }
+
         const [left, right] = m.split(/[-x]/);
-        if (left !== undefined) {
-            // is left-hand an ordo
-            if (left.includes(":")) {
-                const [cell1, cell2] = left.split(":");
-                // valid cells
-                for (const cell of [cell1, cell2]) {
-                    try {
-                        OrdoGame.algebraic2coords(cell);
-                    } catch {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
-                        return result;
-                    }
-                }
-                // valid ordo
-                if (! this.isOrdo(cell1, cell2)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.ordo.INVALID_ORDO", {ordo: left});
-                    return result;
-                }
-                // your ordo
-                if (this.board.get(cell1)! !== this.currplayer) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
-                    return result;
-                }
-
-                // if there's no `right`, then valid partial
-                if (right === undefined) {
-                    result.valid = true;
-                    result.complete = -1;
-                    result.message = i18next.t("apgames:validation.ordo.PARTIAL");
-                    return result;
-                } else {
-                    // valid cell
-                    try {
-                        OrdoGame.algebraic2coords(right);
-                    } catch {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: right});
-                        return result;
-                    }
-                    // move is "organized"
-                    if (! RectGrid.isOrth(...OrdoGame.algebraic2coords(cell1), ...OrdoGame.algebraic2coords(right)) ) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.ordo.DISORGANIZED", {move: m});
-                        return result;
-                    }
-                    // can the ordo move there (it's not obstructed)
-                    if (! this.canOrdoMove(cell1, cell2, right)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.ordo.INVALID_ORDO_MOVE", {ordo: left, destination: right});
-                        return result;
-                    }
-                    // direction is correct
-                    const dirs: Directions[] = ["E", "W"]; // E/W movement always allowed
-                    dirs.push(dirsOrthForward[this.currplayer - 1]); // as is forward motion
-                    if (! this.isConnected(this.currplayer)) {
-                        dirs.push(dirsOrthBackward[this.currplayer - 1]); // only if disconnected
-                    }
-                    const bearing = RectGrid.bearing(...OrdoGame.algebraic2coords(cell1), ...OrdoGame.algebraic2coords(right));
-                    if ( (bearing === undefined) || (! dirs.includes(bearing)) ) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.ordo.WRONG_DIRECTION", {from: cell1, to: right});
-                        return result;
-                    }
-                    // connection test
-                    const ordoStart = this.getOrdo(cell1, cell2);
-                    const ordoEnd = this.getMovedOrdo(cell1, cell2, right);
-                    if ( (ordoStart === undefined) || (ordoEnd === undefined) ) {
-                        throw new Error("An error occured while calculating ordos.");
-                    }
-                    const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
-                    for (const cell of ordoStart) {
-                        cloned.board.delete(cell);
-                    }
-                    for (const cell of ordoEnd) {
-                        cloned.board.set(cell, this.currplayer);
-                    }
-                    if (! cloned.isConnected(this.currplayer)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.ordo.DISCONNECTED");
-                        return result;
-                    }
-
-                    // valid complete move
-                    result.valid = true;
-                    result.complete = 1;
-                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-                    return result;
-                }
-
-            // otherwise it's a single cell
-            } else {
-                // valid cell
+        // is left-hand an ordo
+        if (left.includes(":")) {
+            const [cell1, cell2] = left.split(":");
+            // valid cells
+            for (const cell of [cell1, cell2]) {
                 try {
-                    OrdoGame.algebraic2coords(left);
+                    OrdoGame.algebraic2coords(cell);
                 } catch {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: left});
-                    return result;
-                }
-                // occupied
-                if (! this.board.has(left)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: left});
-                    return result;
-                }
-                // yours
-                if (this.board.get(left)! !== this.currplayer) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
-                    return result;
-                }
-
-                // if no `right`, valid partial
-                if (right === undefined) {
-                    result.valid = true;
-                    result.complete = -1;
-                    result.message = i18next.t("apgames:validation.ordo.PARTIAL");
-                    return result;
-                } else {
-                    // valid cell
-                    try {
-                        OrdoGame.algebraic2coords(right);
-                    } catch {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: right});
-                        return result;
-                    }
-                    // correct operator used
-                    if ( (m.includes("x")) && (! this.board.has(right)) ) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: right});
-                        return result;
-                    }
-                    if ( (m.includes("-")) && (this.board.has(right)) ) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: right});
-                        return result;
-                    }
-                    // enemy piece
-                    if ( (this.board.has(right)) && (this.board.get(right)! === this.currplayer) ) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
-                        return result;
-                    }
-                    // direction is correct
-                    const dirs: Directions[] = dirsForward[this.currplayer - 1];
-                    if (! this.isConnected(this.currplayer)) {
-                        dirs.push(...dirsBackward[this.currplayer - 1]);
-                    }
-                    const bearing = RectGrid.bearing(...OrdoGame.algebraic2coords(left), ...OrdoGame.algebraic2coords(right));
-                    if ( (bearing === undefined) || (! dirs.includes(bearing)) ) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.ordo.WRONG_DIRECTION", {from: left, to: right});
-                        return result;
-                    }
-                    // connection test
-                    const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
-                    cloned.board.delete(left);
-                    cloned.board.set(right, this.currplayer);
-                    if (! cloned.isConnected(this.currplayer)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.ordo.DISCONNECTED");
-                        return result;
-                    }
-
-                    // valid move
-                    result.valid = true;
-                    result.complete = 1;
-                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result;
                 }
             }
+            // valid ordo
+            if (! this.isOrdo(cell1, cell2)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ordo.INVALID_ORDO", {ordo: left});
+                return result;
+            }
+            // your ordo
+            if (this.board.get(cell1)! !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+
+            // if there's no `right`, then valid partial
+            if (right === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.ordo.PARTIAL");
+                return result;
+            } else {
+                // valid cell
+                try {
+                    OrdoGame.algebraic2coords(right);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: right});
+                    return result;
+                }
+                // move is "organized"
+                if (! RectGrid.isOrth(...OrdoGame.algebraic2coords(cell1), ...OrdoGame.algebraic2coords(right)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ordo.DISORGANIZED", {move: m});
+                    return result;
+                }
+                // can the ordo move there (it's not obstructed)
+                if (! this.canOrdoMove(cell1, cell2, right)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ordo.INVALID_ORDO_MOVE", {ordo: left, destination: right});
+                    return result;
+                }
+                // direction is correct
+                const dirs: Directions[] = ["E", "W"]; // E/W movement always allowed
+                dirs.push(dirsOrthForward[this.currplayer - 1]); // as is forward motion
+                if (! this.isConnected(this.currplayer)) {
+                    dirs.push(dirsOrthBackward[this.currplayer - 1]); // only if disconnected
+                }
+                const bearing = RectGrid.bearing(...OrdoGame.algebraic2coords(cell1), ...OrdoGame.algebraic2coords(right));
+                if ( (bearing === undefined) || (! dirs.includes(bearing)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ordo.WRONG_DIRECTION", {from: cell1, to: right});
+                    return result;
+                }
+                // connection test
+                const ordoStart = this.getOrdo(cell1, cell2);
+                const ordoEnd = this.getMovedOrdo(cell1, cell2, right);
+                if ( (ordoStart === undefined) || (ordoEnd === undefined) ) {
+                    throw new Error("An error occured while calculating ordos.");
+                }
+                const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
+                for (const cell of ordoStart) {
+                    cloned.board.delete(cell);
+                }
+                for (const cell of ordoEnd) {
+                    cloned.board.set(cell, this.currplayer);
+                }
+                if (! cloned.isConnected(this.currplayer)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ordo.DISCONNECTED");
+                    return result;
+                }
+
+                // valid complete move
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+
+        // otherwise it's a single cell
         } else {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
-            return result;
+            // valid cell
+            try {
+                OrdoGame.algebraic2coords(left);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: left});
+                return result;
+            }
+            // occupied
+            if (! this.board.has(left)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: left});
+                return result;
+            }
+            // yours
+            if (this.board.get(left)! !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+
+            // if no `right`, valid partial
+            if (right === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.ordo.PARTIAL");
+                return result;
+            } else {
+                // valid cell
+                try {
+                    OrdoGame.algebraic2coords(right);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: right});
+                    return result;
+                }
+                // correct operator used
+                if ( (m.includes("x")) && (! this.board.has(right)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: right});
+                    return result;
+                }
+                if ( (m.includes("-")) && (this.board.has(right)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: right});
+                    return result;
+                }
+                // enemy piece
+                if ( (this.board.has(right)) && (this.board.get(right)! === this.currplayer) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                    return result;
+                }
+                // direction is correct
+                const dirs: Directions[] = dirsForward[this.currplayer - 1];
+                if (! this.isConnected(this.currplayer)) {
+                    dirs.push(...dirsBackward[this.currplayer - 1]);
+                }
+                const bearing = RectGrid.bearing(...OrdoGame.algebraic2coords(left), ...OrdoGame.algebraic2coords(right));
+                if ( (bearing === undefined) || (! dirs.includes(bearing)) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ordo.WRONG_DIRECTION", {from: left, to: right});
+                    return result;
+                }
+                // connection test
+                const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
+                cloned.board.delete(left);
+                cloned.board.set(right, this.currplayer);
+                if (! cloned.isConnected(this.currplayer)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.ordo.DISCONNECTED");
+                    return result;
+                }
+
+                // valid move
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
         }
     }
 

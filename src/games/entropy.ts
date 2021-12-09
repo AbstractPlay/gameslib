@@ -222,6 +222,17 @@ export class EntropyGame extends GameBase {
     public validateMove(m: string, player: playerid): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            if (this.phase === "order") {
+                result.message = i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: "order"});
+            } else {
+                result.message = i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: "chaos"});
+            }
+            return result;
+        }
+
         // pass is always valid in ORDER phase
         if ( (m === "pass") && (this.phase === "order") ) {
             result.valid = true;

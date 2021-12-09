@@ -510,6 +510,19 @@ export class UrbinoGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            if (this.board.size < 2) {
+                result.message = i18next.t("apgames:validation.urbino.INITIAL_INSTRUCTIONS", {context: "fresh"});
+            } else if (this.board.size === 2) {
+                result.message = i18next.t("apgames:validation.urbino.INITIAL_INSTRUCTIONS", {context: "first"});
+            } else {
+                result.message = i18next.t("apgames:validation.urbino.INITIAL_INSTRUCTIONS", {context: "inprogress"});
+            }
+            return result;
+        }
+
         // validate "pass" first of all
         if (m === "pass") {
             if (! this.moves().includes("pass")) {

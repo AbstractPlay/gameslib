@@ -726,6 +726,20 @@ export class HomeworldsGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (m.length === 0) {
+            const myseat = this.player2seat(this.currplayer);
+            const mysys = this.systems.find(s => s.owner === myseat);
+
+            result.valid = true;
+            result.complete = -1;
+            if (mysys === undefined) {
+                result.message = i18next.t("apgames:validation.homeworlds.INITIAL_INSTRUCTIONS", {context: "fresh"});
+            } else {
+                result.message = i18next.t("apgames:validation.homeworlds.INITIAL_INSTRUCTIONS", {context: "inprogress"});
+            }
+            return result;
+        }
+
         const keywords: string[] = ["homeworld", "discover", "move", "build", "trade", "attack", "sacrifice", "catastrophe", "pass"];
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
         const cloned = this.clone();

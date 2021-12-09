@@ -71,7 +71,6 @@
         "_general": {
             "CAPTURE4MOVE": "[FR]You signalled a capture, but there's no piece at {{where}}.",
             "DEFAULT_HANDLER": "[FR]This is the default handler and should never be called directly. Please inform the administrator.",
-            "EMPTYSTRING": "[FR]No input provided to validate.",
             "FAILSAFE": "[FR]The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
             "GENERIC": "[FR]A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INVALIDCELL": "[FR]Could not find the cell {{cell}} on the board.",
@@ -90,6 +89,7 @@
         "abande": {
             "DISCONNECTEDMOVE": "[FR]A move from {{from}} to {{to}} would disconnect the band.",
             "DISCONNECTEDPLACE": "[FR]Placing a piece at {{where}} would disconnect the band.",
+            "INITIAL_INSTRUCTIONS": "",
             "INVALIDPASS": "[FR]You cannot pass while you have pieces in hand.",
             "MOVE2CONTROLLED": "[FR]You cannot capture your own stacks.",
             "MOVE2EMPTY": "[FR]You cannot move to empty spaces.",
@@ -99,6 +99,7 @@
             "TRIPLESTACK": "[FR]You cannot move triple stacks."
         },
         "accasta": {
+            "INITIAL_INSTRUCTIONS": "",
             "INVALID_SIZE": "[FR]In the move '{{move}}', the step '{{step}}' contains an invalid number of pieces to move. Remember that if you're removing the entire stack, omit the number altogether.",
             "MORE_THAN_THREE": "[FR]In the move '{{move}}', the step '{{step}}' would create a stack with more than 3 pieces of the same color.",
             "PARTIAL_FULLSTACK": "[FR]Looks like you want to move an entire stack. Provide the destination.",
@@ -110,12 +111,14 @@
             "TOOHIGH": "[FR]In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high."
         },
         "amazons": {
+            "INITIAL_INSTRUCTIONS": "",
             "POTENTIAL_BLOCK": "[FR]So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "[FR]So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "[FR]You can only move and block in straight lines."
         },
         "attangle": {
             "EMPTYCAPTURE": "[FR]One of the cells involved with the capture doesn't have any pieces in it.",
+            "INITIAL_INSTRUCTIONS": "",
             "MOVE2EMPTY": "[FR]You cannot capture empty cells.",
             "ONVOID": "[FR]You cannot place pieces on voids (the spaces marked with a black dot).",
             "POTENTIAL_ONE": "[FR]This could potentially be a capture. Provide the location of the second stack.",
@@ -125,12 +128,14 @@
         },
         "blam": {
             "BADSYNTAX": "[FR]Invalid syntax: {{move}}. It should a the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
+            "INITIAL_INSTRUCTIONS": "",
             "MOVES_NOPASS": "[FR]You cannot pass while you have pieces to place.",
             "NOPIECE": "[FR]You do not have a piece of size {{size}} to place."
         },
         "breakthrough": {
             "BADVARIANT": "[FR]Bombardment moves are only allowed when that variant is active.",
             "DIAGONAL_CAPTURES": "[FR]Captures may only be made in a forward-diagonal direction.",
+            "INITIAL_INSTRUCTIONS": "",
             "NOCAPTURES": "[FR]Captures are not allowed in the 'Bombardment' variant.",
             "ONLY_FORWARD": "[FR]Pieces may only move forward.",
             "PARTIAL": "[FR]Provide the destination.",
@@ -141,6 +146,8 @@
             "FIXED_TOWNS": "[FR]Towns cannot be moved.",
             "FORWARD_ONLY": "[FR]Pieces can only move forward, unless capturing laterally or retreating.",
             "HOMECELL": "[FR]You can only place your town on your home row, and not on the corners.",
+            "INITIAL_INSTRUCTIONS_placed": "",
+            "INITIAL_INSTRUCTIONS_towns": "",
             "LATERAL_MOVEMENT": "[FR]Pieces can only move laterally when capturing.",
             "NOCANNON_CAPTURE": "[FR]This piece is not in range of any of your cannons.",
             "NOCANNON_MOVE": "[FR]There is no cannon along which to move that piece that way.",
@@ -151,17 +158,22 @@
         },
         "ceph": {
             "DUPLICATECAP": "[FR]You can't capture the same piece more than once.",
+            "INITIAL_INSTRUCTIONS": "",
             "NOTADJACENT": "[FR]You can only capture pieces orthogonally adjacent to your placed piece.",
             "PARTIAL_ONECAP": "[FR]Select at least one more adjacent piece to capture.",
             "PARTIAL_PRECAP": "[FR]Select a piece to capture.",
             "TOOHIGH": "[FR]The pieces you capture cannot total more than six."
         },
         "entropy": {
+            "INITIAL_INSTRUCTIONS_chaos": "",
+            "INITIAL_INSTRUCTIONS_order": "",
             "INVALID_MOVEMENT": "",
             "PARTIAL": "",
             "STRAIGHT_LINES": ""
         },
         "epam": {
+            "INITIAL_INSTRUCTIONS_move": "",
+            "INITIAL_INSTRUCTIONS_stones": "",
             "INSUFFICIENT_FORCES": "[FR]When capturing, your phalanx must have more pieces than the captured phalanx.",
             "NOPLACEMENT": "[FR]You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",
             "PARTIAL": "[FR]Select where you want the *head* of the phalanx to end its movement.",
@@ -170,6 +182,9 @@
             "TOOFAR": "[FR]The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces."
         },
         "fabrik": {
+            "INITIAL_INSTRUCTIONS_first": "",
+            "INITIAL_INSTRUCTIONS_fresh": "",
+            "INITIAL_INSTRUCTIONS_inprogress": "",
             "INVALID_PASS": "[FR]You may only pass the turn immediately after the second worker has been placed.",
             "INVALID_PLACEMENT": "[FR]The cell {{where}} is not visible to both workers.",
             "MUST_PASS_PLAY": "[FR]The first turn after the second worker has been placed must be a pass or placement.",
@@ -179,6 +194,7 @@
         },
         "fendo": {
             "DUPLICATE_FENCE": "[FR]A fence already exists between these two cells.",
+            "INITIAL_INSTRUCTIONS": "",
             "INVALID_DESTINATION": "[FR]You cannot reach {{to}} from {{from}}. Remember that pieces can only make one ninety-degree turn as they move.",
             "INVALID_DIRECTION": "[FR]The direction {{dir}} is not valid. It must 'N', 'E', 'S', or 'W'.",
             "INVALID_FENCE": "[FR]Placing a fence here would either create an empty closed area or create multiple open areas.",
@@ -214,6 +230,8 @@
                 "PARTIAL_ONEARG": "",
                 "PARTIAL_TWOARGS": ""
             },
+            "INITIAL_INSTRUCTIONS_fresh": "",
+            "INITIAL_INSTRUCTIONS_inprogress": "",
             "move": {
                 "PARTIAL_NOARGS": "",
                 "PARTIAL_ONEARG": "",
@@ -230,22 +248,29 @@
             }
         },
         "loa": {
+            "INITIAL_INSTRUCTIONS": "",
             "NOT_IN_RANGE": "[FR]You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "[FR]Select your destination."
         },
         "manalath": {
             "BAD_PASS": "[FR]You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "",
             "INVALID_COLOUR": "[FR]The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
             "OVERSIZED_GROUP": "[FR]This would create a group of more than five pieces."
         },
         "mchess": {
+            "INITIAL_INSTRUCTIONS": "",
             "INVALID_MOVE": "",
             "INVALID_PROMOTION": "",
             "PARTIAL": ""
         },
+        "mvolcano": {
+            "INITIAL_INSTRUCTIONS": ""
+        },
         "ordo": {
             "DISCONNECTED": "",
             "DISORGANIZED": "",
+            "INITIAL_INSTRUCTIONS": "",
             "INVALID_ORDO": "",
             "INVALID_ORDO_MOVE": "",
             "PARTIAL": "",
@@ -253,6 +278,7 @@
         },
         "pikemen": {
             "BAD_FACING": "",
+            "INITIAL_INSTRUCTIONS": "",
             "PARTIAL_FINAL": "",
             "PARTIAL_ORIENT": "",
             "PARTIAL_PREMOVE": "",
@@ -262,9 +288,13 @@
         },
         "taiji": {
             "ADJACENT": "",
+            "INITIAL_INSTRUCTIONS": "",
             "PARTIAL": ""
         },
         "urbino": {
+            "INITIAL_INSTRUCTIONS_first": "",
+            "INITIAL_INSTRUCTIONS_fresh": "",
+            "INITIAL_INSTRUCTIONS_inprogress": "",
             "INVALID_PASS": "",
             "INVALID_PLACE_CELL": "",
             "INVALID_PLACE_PIECE": {
@@ -279,6 +309,8 @@
             "PARTIAL_PLACE": ""
         },
         "volcano": {
+            "BAD_FROM": "",
+            "INITIAL_INSTRUCTIONS": "",
             "MOVES_AFTER_ERUPTION": "",
             "MOVES_CAPS_ONLY": "",
             "MOVES_DOUBLE_CAP": "",
@@ -287,8 +319,7 @@
             "MOVES_ONE_POWERPLAY": "",
             "MOVES_ONE_SPACE": "",
             "PARTIAL_ERUPTION": "",
-            "PARTIAL_MOVE": "",
-            "BAD_FROM": ""
+            "PARTIAL_MOVE": ""
         }
     },
     "variants": {

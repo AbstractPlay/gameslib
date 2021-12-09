@@ -153,20 +153,8 @@
             }
 
             document.addEventListener("DOMContentLoaded", function(event) {
-                //const i18n = APGames.addResource("en");
-                //const { t } = i18n;
                 var i18n = APGames.addResource("en");
                 var { t } = i18n;
-                /*
-                // Listen to mouse movements
-                var drawing = document.getElementById("drawing");
-                drawing.addEventListener("mousemove", (e) => {
-                    var drawRect = document.getElementById("boardOne").getBoundingClientRect();
-                    var x = e.clientX;
-                    var y = e.clientY;
-                    console.log("(" + (x - drawRect.left) + ", " + (y - drawRect.top) + ")");
-                });
-                */
 
                 // Populate games list
                 var select = document.getElementById("selectGame");
@@ -252,6 +240,10 @@
                     window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.setItem("gamename", select.value);
                     window.sessionStorage.removeItem("interim");
+                    var result = game.validateMove("");
+                    var resultStr = '<p style="color: #0f0">' + result.message + '</p>';
+                    var statusbox = document.getElementById("clickstatus");
+                    statusbox.innerHTML = resultStr;
                     renderGame();
                 }, false);
 
@@ -278,8 +270,10 @@
                         }
                         if (! waserror) {
                             movebox.value = "";
+                            var result = game.validateMove("");
+                            var resultStr = '<p style="color: #0f0">' + result.message + '</p>';
                             var statusbox = document.getElementById("clickstatus");
-                            statusbox.innerHTML = "";
+                            statusbox.innerHTML = resultStr;
                         }
                         window.sessionStorage.setItem("state", game.serialize());
                         window.sessionStorage.removeItem("interim");

@@ -279,6 +279,17 @@ export class EpamGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            if ( (this.variants.includes("stones")) && (this.stones.length < 3) ) {
+                result.message = i18next.t("apgames:validation.epam.INITIAL_INSTRUCTIONS", {context: "stones"});
+            } else {
+                result.message = i18next.t("apgames:validation.epam.INITIAL_INSTRUCTIONS", {context: "move"});
+            }
+            return result;
+        }
+
         // moves and captures
         if ( (m.includes("-")) || (m.includes("x")) ) {
             const [from, to] = m.split(/[-x]/);

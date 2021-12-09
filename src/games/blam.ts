@@ -246,6 +246,13 @@ export class BlamGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const stash = this.stashes.get(this.currplayer)!;
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.blam.INITIAL_INSTRUCTIONS")
+            return result;
+        }
+
         // check for "pass" first
         if (m === "pass") {
             if (stash.reduce((a, b) => a + b) === 0) {

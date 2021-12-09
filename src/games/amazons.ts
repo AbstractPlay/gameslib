@@ -247,7 +247,9 @@ export class AmazonsGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
-            result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.amazons.INITIAL_INSTRUCTIONS")
             return result;
         }
         const [from, to, block] = m.split(/[-\/]/);

@@ -281,14 +281,14 @@ export class PikemenGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        const [from, to] = m.split(/[-x]/);
-
-        if (from === undefined) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.EMPTYSTRING");
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.pikemen.INITIAL_INSTRUCTIONS");
             return result;
         }
 
+        const [from, to] = m.split(/[-x]/);
         const fromCell = from.slice(0, 2);
         // valid cell
         try {

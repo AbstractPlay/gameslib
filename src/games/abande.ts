@@ -248,6 +248,14 @@ export class AbandeGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const allcells = this.graph.listCells() as string[];
+
+        if (m === "") {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.abande.INITIAL_INSTRUCTIONS")
+            return result;
+        }
+
         // Pass first
         if (m === "pass") {
             // can only pass if you have no pieces in hand

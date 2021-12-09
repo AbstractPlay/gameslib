@@ -185,6 +185,13 @@ export class ManalathGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.manalath.INITIAL_INSTRUCTIONS");
+            return result;
+        }
+
         // pass first
         if (m === "pass") {
             const moves = this.moves();

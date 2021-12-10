@@ -164,6 +164,19 @@
             "PARTIAL_PRECAP": "[FR]Select a piece to capture.",
             "TOOHIGH": "[FR]The pieces you capture cannot total more than six."
         },
+        "chase": {
+            "BALANCE_LOWEST": "",
+            "DISTANT_EXCHANGE": "",
+            "INITIAL_INSTRUCTIONS_balanced": "",
+            "INITIAL_INSTRUCTIONS_imbalanced": "",
+            "MULTIPLE_PATHS": "",
+            "NOCHANGE_EXCHANGE": "",
+            "NOPATH": "",
+            "PARTIAL_BALANCE": "",
+            "PARTIAL_EXCHANGE": "",
+            "PARTIAL_MOVE": "",
+            "UNEQUAL_EXCHANGE": ""
+        },
         "entropy": {
             "INITIAL_INSTRUCTIONS_chaos": "",
             "INITIAL_INSTRUCTIONS_order": "",

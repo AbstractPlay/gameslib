@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { CompassDirection, defineGrid, extendHex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IIndividualState } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -111,7 +111,7 @@ export class ChaseGame extends GameBase {
      * @private
      * @param {number} x
      * @param {number} y
-     * @param {Directions} dir
+     * @param {CompassDirection} dir
      * @param {number} distance
      * @returns {[number, number][]}
      * @memberof ChaseGame
@@ -332,27 +332,32 @@ export class ChaseGame extends GameBase {
         return moves;
     }
 
+    private neighbours(x: number, y: number): [number, number][] {
+        const neighbours: [number, number][] = [];
+        if ( (x === 0) || (x === 8) ) {
+            // manually look for neighbours to account for wraparound, accounting for duplicates
+            const possible: Set<string> = new Set();
+            for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
+                const v = ChaseGame.vector(x, y, dir as CompassDirection).vector;
+                if (v.length !== 1) {
+                    throw new Error("Something went wrong finding a neighbour cell.");
+                }
+                possible.add(`${v[0][0]},${v[0][1]}`);
+            }
+            neighbours.push(...[...possible.values()].map(v => v.split(",").map(n => parseInt(n, 10))).map(p => [p[0], p[1]] as [number, number]));
+        } else {
+            // otherwise, just use the library function
+            neighbours.push(...hexGrid.neighborsOf(Hex(x, y)).filter(h => h !== undefined).map(h => [h.x, h.y] as [number,number]));
+        }
+        return neighbours;
+    }
+
     private movesExchanges(player: playerid): string[] {
         const moves: string[] = [];
         const playerPieces = [...this.board.entries()].filter(e => e[1][0] === player);
         for (const piece of playerPieces) {
             const [x, y] = ChaseGame.algebraic2coords(piece[0]);
-            const neighbours: [number,number][] = [];
-            if ( (x === 0) || (x === 8) ) {
-                // manually look for neighbours to account for wraparound, accounting for duplicates
-                const possible: Set<string> = new Set();
-                for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
-                    const v = ChaseGame.vector(x, y, dir as CompassDirection).vector;
-                    if (v.length !== 1) {
-                        throw new Error("Something went wrong finding a neighbour cell.");
-                    }
-                    possible.add(`${v[0][0]},${v[0][1]}`);
-                }
-                neighbours.push(...[...possible.values()].map(v => v.split(",").map(n => parseInt(n, 10))).map(p => [p[0], p[1]] as [number, number]));
-            } else {
-                // otherwise, just use the library function
-                neighbours.push(...hexGrid.neighborsOf(Hex(x, y)).filter(h => h !== undefined).map(h => [h.x, h.y] as [number,number]));
-            }
+            const neighbours = this.neighbours(x, y);
             for (const n of neighbours) {
                 const exs: [string, number][][] = [];
                 const nCell = ChaseGame.coords2algebraic(...n);
@@ -457,12 +462,452 @@ export class ChaseGame extends GameBase {
         return moves;
     }
 
+    private totalSpeed(player?: playerid): number {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        return [...this.board.entries()]
+            .filter(e => e[1][0] === player)
+            .map(p => p[1][1] as number)
+            .reduce((a, b) => a + b);
+    }
+
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    public move(m: string): ChaseGame {
+    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        try {
+            const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+            const cell = ChaseGame.coords2algebraic(col, row);
+            let newmove = "";
+            const speed = cloned.totalSpeed();
+            if (move === "") {
+                if (! cloned.board.has(cell)) {
+                    return {move: "", message: ""} as IClickResult;
+                } else {
+                    if (speed < 25) {
+                        newmove = `{${cell}}`;
+                    } else {
+                        newmove = cell;
+                    }
+                }
+            } else {
+                // if move contains balancing
+                let balancing = false;
+                if (move.includes("{")) {
+                    balancing = true;
+                    // See if given balance move is complete
+                    const match = move.match(/^\{(\S+)\}/);
+                    if (match !== null) {
+                        const balance = match[1];
+                        const allBalances = cloned.recurseBalance(cloned.currplayer).map(lst => lst.join(","));
+                        if (allBalances.includes(balance)) {
+                            balancing = false;
+                            cloned.executeBalance(balance.split(","));
+                        }
+                    }
+                }
+                if (balancing) {
+                    const match = move.match(/^\{(\S+)\}/);
+                    if (match !== null) {
+                        const balance = match[1];
+                        const cells = balance.split(",");
+                        newmove = `{${[...cells, cell].join(",")}}`;
+                    }
+                } else {
+                    let balance = "";
+                    let sofar = move;
+                    if (move.includes("}")) {
+                        [balance, sofar] = move.split("}");
+                        balance += "}";
+                    }
+                    // fresh move
+                    if ( (sofar === undefined) || (sofar.length === 0) ) {
+                        // You can only click your own pieces to start
+                        if ( (cloned.board.has(cell)) && (cloned.board.get(cell)![0] === cloned.currplayer) ) {
+                            newmove = balance + cell;
+                        } else {
+                            return {move: "", message: ""} as IClickResult;
+                        }
+                    // you've only clicked on a single cell so far
+                    } else if (sofar.length === 2) {
+                        // if you've clicked on the same cell twice, go into exchange mode
+                        if (sofar === cell) {
+                            newmove = `${balance}${cell}=`;
+                        // if you clicked on an enemy piece, capture
+                        } else if ( (cloned.board.has(cell)) && (cloned.board.get(cell)![0] !== cloned.currplayer) ) {
+                            newmove = `${balance}${sofar}x${cell}`;
+                        // otherwise, it's a move
+                        } else {
+                            newmove = `${balance}${sofar}-${cell}`;
+                        }
+                    // if it's a move or capture
+                    } else if ( (sofar.includes("-")) || (sofar.includes("x")) ) {
+                        const [left,] = sofar.split(/[x-]/);
+                        // if you clicked on an enemy piece, capture
+                        if ( (cloned.board.has(cell)) && (cloned.board.get(cell)![0] !== cloned.currplayer) ) {
+                            newmove = `${balance}${left}x${cell}`;
+                        // otherwise, it's a move
+                        } else {
+                            newmove = `${balance}${left}-${cell}`;
+                        }
+                    // if it's an exchange move
+                    } else if (sofar.includes("=")) {
+                        // if it ends with an equals sign, then we're selecting a second cell
+                        if (sofar.endsWith("=")) {
+                            // You can only select your own cells at this point
+                            if ( (cloned.board.has(cell)) && (cloned.board.get(cell)![0] === cloned.currplayer) ) {
+                                const prevcell = sofar.slice(0, 2);
+                                let prevspeed: number = cloned.board.get(prevcell)![1];
+                                let thisspeed: number = cloned.board.get(cell)![1];
+                                const totalspeed = prevspeed + thisspeed;
+                                prevspeed++;
+                                if (prevspeed > 6) {
+                                    prevspeed = totalspeed - 6;
+                                }
+                                thisspeed = totalspeed - prevspeed;
+                                newmove = `${balance}${prevcell}=${prevspeed},${cell}=${thisspeed}`;
+                            } else {
+                                return {move: "", message: ""} as IClickResult;
+                            }
+                        // otherwise we already have two cells
+                        } else {
+                            const [left, right] = sofar.split(",");
+                            const [lCell, lSpeedStr] = left.split("=");
+                            const [rCell, rSpeedStr] = right.split("=");
+                            let lSpeed = parseInt(lSpeedStr, 10);
+                            let rSpeed = parseInt(rSpeedStr, 10);
+                            const totalspeed = lSpeed + rSpeed;
+                            // clicking on one of the two cells cycles the values
+                            if (cell === lCell) {
+                                lSpeed++;
+                                if (lSpeed > 6) {
+                                    lSpeed = totalspeed - 6;
+                                }
+                                rSpeed = totalspeed - lSpeed;
+                                newmove = `${balance}${lCell}=${lSpeed},${rCell}=${rSpeed}`;
+                            } else if (cell === rCell) {
+                                rSpeed++;
+                                if (rSpeed > 6) {
+                                    rSpeed = totalspeed - 6;
+                                }
+                                lSpeed = totalspeed - rSpeed;
+                                newmove = `${balance}${lCell}=${lSpeed},${rCell}=${rSpeed}`;
+                            // otherwise reject the click
+                            } else {
+                                return {move: "", message: ""} as IClickResult;
+                            }
+                        }
+                    // unknown, so just reject the click
+                    } else {
+                        return {move: "", message: ""} as IClickResult;
+                    }
+                }
+            }
+            const result = this.validateMove(newmove) as IClickResult;
+            if (! result.valid) {
+                result.move = move;
+            } else {
+                result.move = newmove;
+            }
+            return result;
+        } catch (e) {
+            return {
+                move,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+            }
+        }
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+
+        if (m === "") {
+            result.valid = true;
+            result.complete = -1;
+            if (cloned.totalSpeed() < 25) {
+                const delta = 25 - cloned.totalSpeed();
+                result.message = i18next.t("apgames:validation.chase.INITIAL_INSTRUCTIONS", {context: "imbalanced", delta});
+            } else {
+                result.message = i18next.t("apgames:validation.chase.INITIAL_INSTRUCTIONS", {context: "balanced"});
+            }
+            return result;
+        }
+
+        let balance = "";
+        let rest = m;
+        if (m.includes("}")) {
+            [balance, rest] = m.split("}");
+            balance = balance.slice(1);
+        }
+
+        // validate any balances
+        if ( (balance !== undefined) && (balance.length > 0) ) {
+            const cells = balance.split(",");
+            for (const cell of cells) {
+                // valid cell
+                try {
+                    ChaseGame.algebraic2coords(cell);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                    return result;
+                }
+                // contains your piece
+                if (! cloned.board.has(cell)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: cell});
+                    return result;
+                }
+                if (cloned.board.get(cell)![0] !== cloned.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED", {cell});
+                    return result;
+                }
+                // is one of the lowest speed pieces
+                const minspeed = Math.min(...[...cloned.board.entries()].filter(e => e[1][0] === cloned.currplayer).map(e => e[1][1]));
+                const mincells = [...cloned.board.entries()].filter(e => e[1][0] === cloned.currplayer && e[1][1] === minspeed).map(e => e[0]);
+                if (! mincells.includes(cell)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.chase.BALANCE_LOWEST", {where: cell});
+                    return result;
+                }
+                // apply this specific balance before continuing
+                const delta = 25 - cloned.totalSpeed();
+                const val = cloned.board.get(cell)!;
+                if (val[1] + delta > 6) {
+                    val[1] = 6;
+                } else {
+                    val[1] += delta;
+                }
+                cloned.board.set(cell, val);
+            }
+
+            // if this is it, valid partial
+            if ( (rest === undefined) || (rest.length === 0) ) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                if (cloned.totalSpeed() < 25) {
+                    const delta = 25 - cloned.totalSpeed();
+                    result.message = i18next.t("apgames:validation.chase.PARTIAL_BALANCE", {delta});
+                } else {
+                    result.message = i18next.t("apgames:validation.chase.INITIAL_INSTRUCTIONS", {context: "balanced"});
+                }
+                return result;
+            }
+        }
+
+        // Is this an exchange move
+        if (rest.includes("=")) {
+            if (! rest.includes(",")) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.chase.PARTIAL_EXCHANGE");
+                return result;
+            }
+            const [left, right] = rest.split(",");
+            const [lCell, lSpeedStr] = left.split("=");
+            const lSpeed = parseInt(lSpeedStr, 10);
+            const [rCell, rSpeedStr] = right.split("=");
+            const rSpeed = parseInt(rSpeedStr, 10);
+            const totalSpeed = lSpeed + rSpeed;
+
+            for (const cell of [lCell, rCell]) {
+                // valid cell
+                try {
+                    ChaseGame.algebraic2coords(cell);
+                 } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                    return result;
+                }
+                // occupied
+                if (! cloned.board.has(cell)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: cell});
+                    return result;
+                }
+                // yours
+                if (cloned.board.get(cell)![0] !== cloned.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                    return result;
+                }
+            }
+            // cells are adjacent
+            const neighbours = this.neighbours(...ChaseGame.algebraic2coords(lCell)).map(pt => ChaseGame.coords2algebraic(...pt));
+            if (! neighbours.includes(rCell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.chase.DISTANT_EXCHANGE", {left: lCell, right: rCell});
+                return result;
+            }
+
+            const lOrigSpeed: number = cloned.board.get(lCell)![1];
+            const rOrigSpeed: number = cloned.board.get(rCell)![1];
+            const origTotalSpeed = lOrigSpeed + rOrigSpeed
+            if (origTotalSpeed !== totalSpeed) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.chase.UNEQUAL_EXCHANGE", {original: origTotalSpeed, proposed: totalSpeed});
+                return result;
+            }
+            if ( (lSpeed === lOrigSpeed) || (rSpeed === rOrigSpeed) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.chase.NOCHANGE_EXCHANGE");
+                return result;
+            }
+
+            // valid move
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+
+        // it must be a move or capture
+        } else {
+            const [from, right] = rest.split(/[-x]/);
+            // valid cell
+            try {
+                ChaseGame.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                return result;
+            }
+            // occupied
+            if (! cloned.board.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                return result;
+            }
+            // yours
+            if (cloned.board.get(from)![0] !== cloned.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                return result;
+            }
+
+            if ( (right === undefined) || (right.length === 0) ) {
+                // valid partial
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.chase.PARTIAL_MOVE");
+                return result;
+            }
+
+            let to = right;
+            let dir: CompassDirection | undefined;
+            if (right.length > 2) {
+                to = right.slice(0, 2);
+                dir = right.slice(2) as CompassDirection;
+            }
+
+            // valid cell
+            try {
+                ChaseGame.algebraic2coords(to);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                return result;
+            }
+            // correct operator
+            if ( (m.includes("-")) && (cloned.board.has(to)) && (cloned.board.get(to)![0] !== cloned.currplayer) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: to});
+                return result;
+            }
+            if ( (m.includes("x")) && ( (! cloned.board.has(to)) || (cloned.board.get(to)![0] === cloned.currplayer) ) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: to});
+                return result;
+            }
+
+            const speed = cloned.board.get(from)![1];
+            // if a direction was given, that's the only thing to validate
+            if (dir !== undefined) {
+                const path = ChaseGame.vector(...ChaseGame.algebraic2coords(from), dir, speed).vector.map(v => ChaseGame.coords2algebraic(...v));
+                if (path[path.length - 1] !== to) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.chase.NOPATH", {from, to});
+                    return result;
+                }
+                for (const cell of path.slice(0, path.length - 1)) {
+                    if (cloned.board.has(cell)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
+                        return result;
+                    }
+                }
+
+                // valid move
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+
+            // otherwise calculate all possible targets and paths for this piece
+            } else {
+                const paths: string[][] = [];
+                for (const d of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
+                    paths.push(ChaseGame.vector(...ChaseGame.algebraic2coords(from), d as CompassDirection, speed).vector.map(v => ChaseGame.coords2algebraic(...v)))
+                }
+                const validPaths = paths.filter(p => p[p.length - 1] === to);
+                if (validPaths.length === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.chase.NOPATH", {from, to});
+                    return result;
+                }
+                const uniquePaths = new Set(validPaths.map(p => p.join("")));
+                if (uniquePaths.size > 1) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.chase.MULTIPLE_PATHS", {from, to});
+                    return result;
+                }
+                const path = validPaths[0];
+                for (const cell of path.slice(0, path.length - 1)) {
+                    if (cloned.board.has(cell)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
+                        return result;
+                    }
+                }
+
+                // valid move
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
+    }
+
+    // This should only be called on cloned objects. It's for convenience only and does no validation or reporting.
+    private executeBalance(cells: string[]): ChaseGame {
+        for (const cell of cells) {
+            const delta = 25 - this.totalSpeed();
+            if (delta > 0) {
+                const val = this.board.get(cell);
+                if (val === undefined) {
+                    throw new Error("You tried to balance an empty cell.");
+                }
+                if (val[1] + delta > 6) {
+                    val[1] = 6;
+                } else {
+                    val[1] += delta;
+                }
+                this.board.set(cell, val);
+            } else {
+                break;
+            }
+        }
+        return this;
+    }
+
+    public move(m: string, partial = false): ChaseGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -470,16 +915,24 @@ export class ChaseGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         m = m.replace(/([a-z]+)$/, (match) => {return match.toUpperCase();});
-        const moves = this.moves();
-        if (! moves.includes(m)) {
-            // Check to see if the direction just wasn't specified because it wasn't necessary
-            const check = moves.filter(x => x.startsWith(m));
-            if (check.length === 1) {
-                m = check[0];
-            } else {
-                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID"));
-            }
+
+        const result = this.validateMove(m);
+        if (! result.valid) {
+            throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
+        const moves = this.moves();
+        // Add direction if missing and unambiguous
+        const check = moves.filter(x => x.startsWith(m));
+        if (check.length === 1) {
+            m = check[0];
+        }
+
+        if ( (! partial) && (! moves.includes(m)) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        }
+
         let working = m;
         this.results = [];
 
@@ -514,6 +967,7 @@ export class ChaseGame extends GameBase {
 
         // Exchanges next
         if (working.includes("=")) {
+            if ( (partial) && (! working.includes(",")) ) { return this; }
             const [left, right] = working.split(",");
             const [lcell, lval] = left.split("=");
             const [rcell, rval] = right.split("=");
@@ -533,6 +987,7 @@ export class ChaseGame extends GameBase {
             rpiece![1] = parseInt(rval, 10) as Speed;
         // otherwise, movement/capture
         } else {
+            if ( (partial) && (! working.includes("-")) && (! working.includes("x")) ) { return this; }
             const match = working.match(/^([a-z][0-9])[-x]([a-z][0-9])([NESW]+)$/);
             if (match === null) {
                 throw new Error("Error occurred extracting the various parts of the move.");
@@ -567,6 +1022,8 @@ export class ChaseGame extends GameBase {
             this.board.delete(from);
             this.recurseMove(to, [...pFrom], finalDir);
         }
+
+        if (partial) { return this; }
 
         this.lastmove = m;
         if (this.currplayer === 1) {
@@ -801,8 +1258,7 @@ export class ChaseGame extends GameBase {
     public status(): string {
         let status = super.status();
 
-        const playerPieces = [...this.board.entries()].filter(e => e[1][0] === this.currplayer).sort((a, b) => a[1][1] - b[1][1]);
-        const speed: number = playerPieces.map(p => p[1][1] as number).reduce((a, b) => a + b);
+        const speed = this.totalSpeed();
         if (speed < 25) {
             const delta = 25 - speed;
             status += `**Current player is imbalanced by ${delta} speed.**\n\n`;

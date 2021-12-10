@@ -3,6 +3,7 @@
         "abande": "[FR]Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
         "accasta": "[FR]Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "amazons": "[FR]A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
+        "archimedes": "",
         "attangle": "[FR]Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "blam": "[FR]An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "breakthrough": "[FR]One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
@@ -115,6 +116,12 @@
             "POTENTIAL_BLOCK": "[FR]So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "[FR]So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "[FR]You can only move and block in straight lines."
+        },
+        "archimedes": {
+            "INITIAL_INSTRUCTIONS": "",
+            "MUST_MOVE": "",
+            "PARTIAL": "",
+            "SELF_OCCUPATION": ""
         },
         "attangle": {
             "EMPTYCAPTURE": "[FR]One of the cells involved with the capture doesn't have any pieces in it.",

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.5.0] - 2021-12-10
 
 ### Added
 
@@ -20,8 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### New Features
 
-- Added `renderColumn(col: number, row: number): APRenderRep` function to all `stacking-expanding` games. This will return a separate JSON render for *just* the expanded stack.
 - Click handling, including extensive validation and localized error messages, has been added to all games!
+- Added `renderColumn(col: number, row: number): APRenderRep` function to all `stacking-expanding` games. This will return a separate JSON render for *just* the expanded stack. This should greatly improve performance.
 
 ## [0.4.0] - 2021-11-15
 

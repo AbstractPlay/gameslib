@@ -623,11 +623,9 @@ export class PikemenGame extends GameBase {
         };
 
         // Add annotations
-        // if (this.stack[this.stack.length - 1]._results.length > 0) {
         if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            // for (const move of this.stack[this.stack.length - 1]._results) {
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = PikemenGame.algebraic2coords(move.from);
@@ -640,7 +638,7 @@ export class PikemenGame extends GameBase {
             }
             // Only if there were no moves or captures do I want to signal a reorientation
             if (rep.annotations.length === 0) {
-                for (const move of this.stack[this.stack.length - 1]._results) {
+                for (const move of this.results) {
                     if (move.type === "orient") {
                         const [x, y] = PikemenGame.algebraic2coords(move.where!);
                         rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

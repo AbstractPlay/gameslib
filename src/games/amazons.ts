@@ -588,31 +588,28 @@ export class AmazonsGame extends GameBase {
         };
 
         // Add annotations
-        if (this.lastmove !== undefined) {
-            const cells: string[] = this.lastmove.split(new RegExp('[\-\/]'));
-            if (cells.length !== 3) {
-                throw new Error(`Malformed last move: ${this.lastmove}`);
-            }
-            const [xFrom, yFrom] = AmazonsGame.algebraic2coords(cells[0]);
-            const [xTo, yTo] = AmazonsGame.algebraic2coords(cells[1]);
-            const [xArrow, yArrow] = AmazonsGame.algebraic2coords(cells[2]);
-            rep.annotations = [
-                {
-                    type: "move",
-                    targets: [
-                        {col: xTo, row: yTo},
-                        {col: xArrow, row: yArrow}
-                    ],
-                    style: "dashed"
-                },
-                {
-                    type: "move",
-                    targets: [
-                        {col: xFrom, row: yFrom},
-                        {col: xTo, row: yTo}
-                    ]
+        if (this.results.length > 0) {
+            // @ts-ignore
+            rep.annotations = [];
+            let fromX: number|undefined; let fromY: number|undefined;
+            let toX: number|undefined; let toY: number|undefined;
+            let xArrow: number|undefined; let yArrow: number|undefined;
+
+            for (const move of this.results) {
+                if (move.type === "move") {
+                    [fromX, fromY] = AmazonsGame.algebraic2coords(move.from);
+                    [toX, toY] = AmazonsGame.algebraic2coords(move.to);
+                } else if (move.type === "block") {
+                    [xArrow, yArrow] = AmazonsGame.algebraic2coords(move.where!);
                 }
-            ];
+            }
+
+            if ( (fromX !== undefined) && (fromY !== undefined) && (toX !== undefined) && (toY !== undefined) ) {
+                rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                if ( (xArrow !== undefined) && (yArrow !== undefined) ) {
+                    rep.annotations.push({type: "move", style: "dashed", targets: [{row: toY, col: toX}, {row: yArrow, col: xArrow}]});
+                }
+            }
         }
 
         return rep;

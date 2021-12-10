@@ -107,6 +107,7 @@ export class FendoGame extends GameBase {
         this.lastmove = state.lastmove;
         this.pieces = [...state.pieces];
         this.fences = clonelst(state.fences) as [string, string][];
+        this.results = [...state._results];
         this.buildGraph();
         return this;
     }
@@ -756,10 +757,10 @@ export class FendoGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);

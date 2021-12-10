@@ -114,6 +114,7 @@ export class LinesOfActionGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.results = [...state._results];
         return this;
     }
 
@@ -530,7 +531,7 @@ export class LinesOfActionGame extends GameBase {
         };
 
         // Add annotations
-        if ( (this.stack[this.stack.length - 1]._results.length > 0) || (this._points.length > 0) ){
+        if ( (this.results.length > 0) || (this._points.length > 0) ){
             // @ts-ignore
             rep.annotations = [];
 
@@ -543,7 +544,7 @@ export class LinesOfActionGame extends GameBase {
                 rep.annotations.push({type: "dots", targets: points});
             }
 
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = LinesOfActionGame.algebraic2coords(move.from);
                     const [toX, toY] = LinesOfActionGame.algebraic2coords(move.to);

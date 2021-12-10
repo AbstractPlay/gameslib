@@ -95,6 +95,7 @@ export class ManalathGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.results = [...state._results];
         this.buildGraph();
         return this;
     }
@@ -457,10 +458,10 @@ export class ManalathGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

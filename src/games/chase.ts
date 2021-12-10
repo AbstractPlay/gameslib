@@ -566,6 +566,8 @@ export class ChaseGame extends GameBase {
                                 prevspeed++;
                                 if (prevspeed > 6) {
                                     prevspeed = totalspeed - 6;
+                                } else if (prevspeed >= totalspeed) {
+                                    prevspeed = 1;
                                 }
                                 thisspeed = totalspeed - prevspeed;
                                 newmove = `${balance}${prevcell}=${prevspeed},${cell}=${thisspeed}`;
@@ -585,6 +587,8 @@ export class ChaseGame extends GameBase {
                                 lSpeed++;
                                 if (lSpeed > 6) {
                                     lSpeed = totalspeed - 6;
+                                } else if (lSpeed >= totalspeed) {
+                                    lSpeed = 1;
                                 }
                                 rSpeed = totalspeed - lSpeed;
                                 newmove = `${balance}${lCell}=${lSpeed},${rCell}=${rSpeed}`;
@@ -592,6 +596,8 @@ export class ChaseGame extends GameBase {
                                 rSpeed++;
                                 if (rSpeed > 6) {
                                     rSpeed = totalspeed - 6;
+                                } else if (rSpeed >= totalspeed) {
+                                    rSpeed = 1;
                                 }
                                 lSpeed = totalspeed - rSpeed;
                                 newmove = `${balance}${lCell}=${lSpeed},${rCell}=${rSpeed}`;
@@ -1227,10 +1233,10 @@ export class ChaseGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = ChaseGame.algebraic2coords(move.from);
                     const [toX, toY] = ChaseGame.algebraic2coords(move.to);

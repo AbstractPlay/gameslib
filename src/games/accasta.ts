@@ -143,6 +143,7 @@ export class AccastaGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = deepclone(state.board) as Map<string, CellContents[]>;
         this.lastmove = state.lastmove;
+        this.results = [...state._results];
         return this;
     }
 
@@ -775,10 +776,12 @@ export class AccastaGame extends GameBase {
         }
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        // if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            // for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);

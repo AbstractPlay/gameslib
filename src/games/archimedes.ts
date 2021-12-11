@@ -522,7 +522,8 @@ export class ArchimedesGame extends GameBase {
                 AHome: {
                     name: "piecepack-suit-anchors",
                     player: 1,
-                    opacity: 0.5
+                    opacity: 0.5,
+                    scale: 0.85,
                 },
                 B: {
                     name: "piece",
@@ -531,7 +532,8 @@ export class ArchimedesGame extends GameBase {
                 BHome: {
                     name: "piecepack-suit-anchors",
                     player: 2,
-                    opacity: 0.5
+                    opacity: 0.5,
+                    scale: 0.85,
                 },
             },
             pieces: pstr

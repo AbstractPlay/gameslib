@@ -25,6 +25,7 @@ import { ManalathGame, IManalathState } from "./manalath";
 import { UrbinoGame, IUrbinoState } from "./urbino";
 import { FendoGame, IFendoState } from "./fendo";
 import { ArchimedesGame, IArchimedesState } from "./archimedes";
+import { ZolaGame, IZolaState } from "./zola";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -52,6 +53,7 @@ export {
     UrbinoGame, IUrbinoState,
     FendoGame, IFendoState,
     ArchimedesGame, IArchimedesState,
+    ZolaGame, IZolaState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -61,12 +63,12 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
                               typeof AccastaGame | typeof EpamGame | typeof TaijiGame | typeof BreakthroughGame |
                               typeof FabrikGame | typeof ManalathGame | typeof UrbinoGame | typeof FendoGame |
-                              typeof ArchimedesGame>();
+                              typeof ArchimedesGame | typeof ZolaGame>();
 // Manually add each game to the following array
 [AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame,
     ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame,
     AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame,
-    ArchimedesGame].forEach((g) => {
+    ArchimedesGame, ZolaGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -125,6 +127,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|undefined =>
             return new FendoGame(...args);
         case "archimedes":
             return new ArchimedesGame(...args);
+        case "zola":
+            return new ZolaGame(...args);
     }
     return;
 }

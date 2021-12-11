@@ -23,7 +23,8 @@
         "pikemen": "[FR]A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "taiji": "[FR]Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.\n\n**Variants**\n\n- The default board size is 9x9, but 7x7 and 11x11 versions are also available.\n- The default win condition is the size of your two largest groups, but at the beginning of the game you can agree on looking at only one or three groups.\n- The default rule is no diagonal placement. The \"Tonga\" variant allows it, however.",
         "urbino": "[FR]In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
-        "volcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios."
+        "volcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
+        "zola": ""
     },
     "homeworlds": {
         "CMD_ATK_OWNER": "[FR]In games with more than two players, you have to always specify the owner of the ship you are attacking.",
@@ -340,6 +341,12 @@
             "MOVES_ONE_SPACE": "",
             "PARTIAL_ERUPTION": "",
             "PARTIAL_MOVE": ""
+        },
+        "zola": {
+            "DISTANCE_CAPTURES": "",
+            "DISTANCE_NONCAPTURES": "",
+            "INITIAL_INSTRUCTIONS": "",
+            "PARTIAL": ""
         }
     },
     "variants": {

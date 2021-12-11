@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added the game Archimedes, with move generation and AI.
+- Added the game Zola, with move generation and AI.
 
 ## [0.5.0] - 2021-12-10
 

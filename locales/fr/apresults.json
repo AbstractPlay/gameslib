@@ -5,6 +5,8 @@
     "CAPTURE": {
         "complete": "[FR]{{player}} captured a {{what}} at {{where}}.",
         "minimal": "[FR]A piece was captured.",
+        "monkey_queen": "",
+        "monkey_single": "",
         "multiple_one": "[FR]A piece was captured.",
         "multiple_many": "",
         "multiple_other": "[FR]{{count}} pieces were captured.",
@@ -50,6 +52,8 @@
         "amazons": "[FR]{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "chase": "[FR]{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "complete": "[FR]{{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "monkey_queen": "",
+        "monkey_single": "",
         "multiple": "[FR]{{player}} made the following moves: {{moves}}.",
         "nowhat": "[FR]{{player}} moved from {{from}} to {{to}}.",
         "push": "[FR]A {{what}} was pushed from {{from}} to {{to}}."

@@ -5,6 +5,8 @@
     "CAPTURE": {
         "complete": "{{player}} captured a {{what}} at {{where}}.",
         "minimal": "A piece was captured.",
+        "monkey_queen": "A queen was captured.",
+        "monkey_single": "A singleton was captured.",
         "multiple_one": "A piece was captured.",
         "multiple_other": "{{count}} pieces were captured.",
         "noperson": {
@@ -47,6 +49,8 @@
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "monkey_queen": "{{player}} moved their queen from {{from}} to {{to}}.",
+        "monkey_single": "{{player}} moved a singleton from {{from}} to {{to}}.",
         "multiple": "{{player}} made the following moves: {{moves}}.",
         "nowhat": "{{player}} moved from {{from}} to {{to}}.",
         "push": "A {{what}} was pushed from {{from}} to {{to}}."

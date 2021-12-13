@@ -55,6 +55,7 @@ export interface APGamesInformation {
     | "automove"
     | "no-moves"
     | "multistep"
+    | "pie"
   )[];
   [k: string]: unknown;
 }

@@ -394,6 +394,25 @@
             },
             "required": ["type"],
             "additionalProperties": false
+        },
+        {
+            "description": "Bearing pieces off the board",
+            "properties": {
+                "type": {
+                    "enum": ["bearoff"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "edge": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "from"],
+            "additionalProperties": false
         }
     ]
 }

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added the game Archimedes, with move generation and AI.
 - Added the game Zola, with move generation and AI.
 - Added the game Monkey Queen, with move generation and AI.
+- Added the game Dipole, with move generation and AI.
 - Added `pie` flag to signal games where the front end should give the second player a chance to change seats after the first move.
 
 ## [0.5.0] - 2021-12-10

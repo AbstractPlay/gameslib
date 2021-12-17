@@ -131,4 +131,10 @@ export type APMoveResult =
       type: "destroy";
       what?: string;
       where?: string;
+    }
+  | {
+      type: "bearoff";
+      what?: string;
+      from: string;
+      edge?: string;
     };

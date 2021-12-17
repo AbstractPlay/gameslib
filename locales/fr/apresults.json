@@ -1,4 +1,9 @@
 {
+    "BEAROFF": {
+        "complete_one": "",
+        "complete_many": "",
+        "complete_other": ""
+    },
     "BLOCK": {
         "between": "[FR]{{player}} erected a fence between {{cell1}} and {{cell2}}."
     },
@@ -13,6 +18,9 @@
         "noperson": {
             "multiple": "[FR]The following pieces were captured: {{capped}}.",
             "nowhere": "[FR]A {{what}} was captured.",
+            "nowhere_one": "",
+            "nowhere_many": "",
+            "nowhere_other": "",
             "simple": "[FR]A {{what}} was captured at {{where}}."
         },
         "nowhat": "[FR]{{player}} captured a piece at {{where}}."
@@ -52,6 +60,9 @@
         "amazons": "[FR]{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "chase": "[FR]{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "complete": "[FR]{{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "complete_one": "",
+        "complete_many": "",
+        "complete_other": "",
         "monkey_queen": "",
         "monkey_single": "",
         "multiple": "[FR]{{player}} made the following moves: {{moves}}.",

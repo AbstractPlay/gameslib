@@ -18,6 +18,7 @@ import { BreakthroughAI } from "./breakthrough";
 import { ArchimedesAI } from "./archimedes";
 import { ZolaAI } from "./zola";
 import { MonkeyQueenAI } from "./monkey";
+import { DipoleAI } from "./dipole";
 
 export interface IAIResult {
     bestMove: string|null;
@@ -30,7 +31,7 @@ export interface IAI {
 
 export { AIBase, AmazonsAI, BlamAI, CannonAI, MchessAI, HomeworldsAI, ChaseAI, AbandeAI,
          CephalopodAI, LinesOfActionAI, PikemenAI, OrdoAI, AttangleAI, AccastaAI, EpamAI,
-         TaijiAI, BreakthroughAI, ArchimedesAI, ZolaAI, MonkeyQueenAI };
+         TaijiAI, BreakthroughAI, ArchimedesAI, ZolaAI, MonkeyQueenAI, DipoleAI };
 
 export const supportedGames: string[] = ["amazons"];
 export const fastGames: Map<string, number> = new Map([
@@ -53,6 +54,7 @@ export const fastGames: Map<string, number> = new Map([
     ["archimedes", 3],
     ["zola", 4],
     ["monkey", 3],
+    ["dipole", 4],
 ]);
 export const slowGames: Map<string, number> = new Map([
     ["amazons", 2],
@@ -73,6 +75,7 @@ export const slowGames: Map<string, number> = new Map([
     ["archimedes", 4],
     ["zola", 5],
     ["monkey", 4],
+    ["dipole", 5],
 ]);
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -116,6 +119,8 @@ export const AIFactory = (game: string): AIBase|undefined => {
             return new ZolaAI();
         case "monkey":
             return new MonkeyQueenAI();
+        case "dipole":
+            return new DipoleAI();
     }
     return;
 }

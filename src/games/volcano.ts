@@ -696,7 +696,7 @@ export class VolcanoGame extends GameBase {
         };
     }
 
-    public render(expandCol = undefined, expandRow = undefined): APRenderRep {
+    public render(expandCol:number | undefined = undefined, expandRow:number | undefined = undefined): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 5; row++) {
@@ -770,11 +770,11 @@ export class VolcanoGame extends GameBase {
             };
         }
 
-        const list: object[] = []
-        for (const colour of [...allColours].sort((a, b) => a.localeCompare(b))) {
-            list.push({piece: colour + "3", name: colour})
-        }
-        const key = {placement: "right", textPosition: "outside", list};
+        // const list: object[] = []
+        // for (const colour of [...allColours].sort((a, b) => a.localeCompare(b))) {
+        //     list.push({piece: colour + "3", name: colour})
+        // }
+        // const key = {placement: "right", textPosition: "outside", list};
 
 
         // Build rep
@@ -786,8 +786,8 @@ export class VolcanoGame extends GameBase {
                 height: 5
             },
             legend: myLegend,
-            // @ts-ignore
-            key,
+            // // @ts-ignore
+            // key,
             // @ts-ignore
             pieces
         };

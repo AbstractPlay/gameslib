@@ -1,4 +1,8 @@
 {
+    "BEAROFF": {
+        "complete_one": "{{player}} bore off one piece from {{from}}.",
+        "complete_other": "{{player}} bore off {{count}} pieces from {{from}}."
+    },
     "BLOCK": {
         "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}."
     },
@@ -12,6 +16,8 @@
         "noperson": {
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhere": "A {{what}} was captured.",
+            "nowhere_one": "One piece was captured.",
+            "nowhere_other": "{{count}} pieces were captured.",
             "simple": "A {{what}} was captured at {{where}}."
         },
         "nowhat": "{{player}} captured a piece at {{where}}."
@@ -49,6 +55,8 @@
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "complete_one": "{{player}} moved one piece from {{from}} to {{to}}.",
+        "complete_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
         "monkey_queen": "{{player}} moved their queen from {{from}} to {{to}}.",
         "monkey_single": "{{player}} moved a singleton from {{from}} to {{to}}.",
         "multiple": "{{player}} made the following moves: {{moves}}.",

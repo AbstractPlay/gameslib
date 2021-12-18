@@ -169,7 +169,7 @@ export class HomeworldsGame extends GameBase {
             case "S":
                 return "South";
             case "W":
-                return "W";
+                return "West";
             default:
                 throw new Error("Could not translate the seat into a system name. This should never happen.");
         }

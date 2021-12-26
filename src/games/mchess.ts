@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
-import { APRenderRep } from "@abstractplay/renderer/src/schema";
+import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";

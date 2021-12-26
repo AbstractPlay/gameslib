@@ -1,7 +1,7 @@
 // import { IGame } from "./IGame";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schema";
+import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";

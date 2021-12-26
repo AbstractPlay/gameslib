@@ -1,5 +1,5 @@
 import { APGamesInformation } from '../schemas/gameinfo';
-import { APRenderRep } from "@abstractplay/renderer/src/schema";
+import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
 import { replacer, UserFacingError } from '../common';

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schema";
+import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -770,11 +770,11 @@ export class VolcanoGame extends GameBase {
             };
         }
 
-        // const list: object[] = []
-        // for (const colour of [...allColours].sort((a, b) => a.localeCompare(b))) {
-        //     list.push({piece: colour + "3", name: colour})
-        // }
-        // const key = {placement: "right", textPosition: "outside", list};
+        const list: object[] = []
+        for (const colour of [...allColours].sort((a, b) => a.localeCompare(b))) {
+            list.push({piece: colour + "3", name: colour})
+        }
+        const key = {type: "key", list, noclick: true};
 
 
         // Build rep
@@ -786,13 +786,11 @@ export class VolcanoGame extends GameBase {
                 height: 5
             },
             legend: myLegend,
-            // // @ts-ignore
-            // key,
             // @ts-ignore
             pieces
         };
 
-        const areas = [];
+        const areas: any[] = [key];
         if ( (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 5) && (expandRow < 5) && (this.board[expandRow][expandCol] !== undefined) ) {
             const cell: string[] = this.board[expandRow][expandCol]!.map(c => `${c.join("")}N`);
             const cellname = VolcanoGame.coords2algebraic(expandCol, expandRow);

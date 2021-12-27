@@ -1,4 +1,6 @@
 {
+    "ADD_one": "{{player}} added 1 piece to {{where}}.",
+    "ADD_other": "{{player}} added {{count}} pieces to {{where}}.",
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
         "complete_other": "{{player}} bore off {{count}} pieces from {{from}}."
@@ -22,6 +24,7 @@
         },
         "nowhat": "{{player}} captured a piece at {{where}}."
     },
+    "CLAIM": "{{player}} claimed {{where}}.",
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}."
     },
@@ -91,6 +94,8 @@
     "RECLAIM": {
         "noperson": "A {{what}} was reclaimed."
     },
+    "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
+    "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
     "RESIGN": "{{player}} has resigned.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "TAKE": {

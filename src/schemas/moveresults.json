@@ -413,6 +413,54 @@
             },
             "required": ["type", "from"],
             "additionalProperties": false
+        },
+        {
+            "description": "Adding pieces to a single space",
+            "properties": {
+                "type": {
+                    "enum": ["add"]
+                },
+                "where": {
+                    "type": "string"
+                },
+                "num": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "where", "num"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Removing pieces from a single space",
+            "properties": {
+                "type": {
+                    "enum": ["remove"]
+                },
+                "where": {
+                    "type": "string"
+                },
+                "num": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "where", "num"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Claiming a space",
+            "properties": {
+                "type": {
+                    "enum": ["claim"]
+                },
+                "where": {
+                    "type": "string"
+                },
+                "who": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "where"],
+            "additionalProperties": false
         }
     ]
 }

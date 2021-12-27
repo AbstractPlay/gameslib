@@ -1,4 +1,7 @@
 {
+    "ADD_one": "",
+    "ADD_many": "",
+    "ADD_other": "",
     "BEAROFF": {
         "complete_one": "",
         "complete_many": "",
@@ -25,6 +28,7 @@
         },
         "nowhat": "[FR]{{player}} captured a piece at {{where}}."
     },
+    "CLAIM": "",
     "CONVERT": {
         "complete": "[FR]{{player}} turned a {{what}} into a {{into}} at {{where}}."
     },
@@ -97,6 +101,9 @@
     "RECLAIM": {
         "noperson": "[FR]A {{what}} was reclaimed."
     },
+    "REMOVE_one": "",
+    "REMOVE_many": "",
+    "REMOVE_other": "",
     "RESIGN": "[FR]{{player}} has resigned.",
     "SCORE_REPORT": "[FR]{{player}}'s score is now {{score}}.",
     "TAKE": {

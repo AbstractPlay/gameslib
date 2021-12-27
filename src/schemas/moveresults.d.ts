@@ -137,4 +137,19 @@ export type APMoveResult =
       what?: string;
       from: string;
       edge?: string;
+    }
+  | {
+      type: "add";
+      where: string;
+      num: number;
+    }
+  | {
+      type: "remove";
+      where: string;
+      num: number;
+    }
+  | {
+      type: "claim";
+      where: string;
+      who?: string;
     };

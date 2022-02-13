@@ -44,6 +44,10 @@ export class LinesOfActionGame extends GameBase {
         ],
         flags: ["multistep"]
     };
+    public description(): string {
+        return i18next.t(LinesOfActionGame.gameinfo.description!);
+    }
+
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 9);
     }

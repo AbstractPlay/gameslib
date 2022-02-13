@@ -46,6 +46,9 @@ export class ManalathGame extends GameBase {
         ],
         flags: ["automove"]
     };
+    public description(): string {
+        return i18next.t(ManalathGame.gameinfo.description!);
+    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

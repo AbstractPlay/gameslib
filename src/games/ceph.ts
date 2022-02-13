@@ -49,6 +49,9 @@ export class CephalopodGame extends GameBase {
         ],
         flags: ["scores", "multistep"]
     };
+    public description(): string {
+        return i18next.t(CephalopodGame.gameinfo.description!);
+    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

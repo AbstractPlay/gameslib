@@ -54,13 +54,9 @@ export class BlamGame extends GameBase {
         ],
         flags: ["player-stashes", "scores", "automove"]
     };
-        // variants: [
-        //     {
-        //         uid: "overloaded",
-        //         name: "Overloaded",
-        //         description: "Placed pieces push adjacent pieces a number of spaces equal to their pip counts"
-        //     }
-        // ]
+    public description(): string {
+        return i18next.t(BlamGame.gameinfo.description!);
+    }
 
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

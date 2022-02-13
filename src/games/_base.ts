@@ -104,7 +104,7 @@ export interface IRecordDetails {
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;
     public static info(): string {
-        return JSON.stringify(this.gameinfo)
+        return JSON.stringify(this.gameinfo);
     }
     public static coords2algebraic(x: number, y: number, height: number): string {
         return columnLabels[x] + (height - y).toString();
@@ -131,6 +131,7 @@ export abstract class GameBase  {
     public abstract results: Array<APMoveResult>;
     public abstract variants: string[];
 
+    public abstract description(): string;
     public abstract move(move: string): GameBase;
     public abstract render(perspective?: any): APRenderRep;
     public abstract state(): IAPGameState;

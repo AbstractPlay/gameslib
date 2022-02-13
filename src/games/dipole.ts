@@ -52,6 +52,9 @@ export class DipoleGame extends GameBase {
             },
         ]
     };
+    public description(): string {
+        return i18next.t(DipoleGame.gameinfo.description!);
+    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

@@ -58,6 +58,10 @@ export class CannonGame extends GameBase {
             }
         ]
     };
+    public description(): string {
+        return i18next.t(CannonGame.gameinfo.description!);
+    }
+
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);
     }

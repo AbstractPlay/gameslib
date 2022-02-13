@@ -68,6 +68,10 @@ export class MvolcanoGame extends GameBase {
         ],
         flags: ["shared-pieces", "scores", "stacking-expanding", "no-moves", "multistep"]
     };
+    public description(): string {
+        return i18next.t(MvolcanoGame.gameinfo.description!);
+    }
+
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 6);
     }

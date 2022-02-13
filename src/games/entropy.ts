@@ -55,6 +55,10 @@ export class EntropyGame extends GameBase {
         ],
         flags: ["simultaneous", "shared-pieces", "perspective", "scores"]
     };
+    public description(): string {
+        return i18next.t(EntropyGame.gameinfo.description!);
+    }
+
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 7);
     }

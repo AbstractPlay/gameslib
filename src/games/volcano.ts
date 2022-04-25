@@ -774,12 +774,13 @@ export class VolcanoGame extends GameBase {
             };
         }
 
+        /*
         const list: object[] = []
         for (const colour of [...allColours].sort((a, b) => a.localeCompare(b))) {
             list.push({piece: colour + "3", name: colour})
         }
         const key = {type: "key", list, noclick: true};
-
+        */
 
         // Build rep
         const rep: APRenderRep =  {
@@ -794,7 +795,7 @@ export class VolcanoGame extends GameBase {
             pieces
         };
 
-        const areas: any[] = [key];
+        const areas: any[] = [];
         if ( (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 5) && (expandRow < 5) && (this.board[expandRow][expandCol] !== undefined) ) {
             const cell: string[] = this.board[expandRow][expandCol]!.map(c => `${c.join("")}N`);
             const cellname = VolcanoGame.coords2algebraic(expandCol, expandRow);

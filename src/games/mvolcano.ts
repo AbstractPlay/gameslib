@@ -914,8 +914,12 @@ export class MvolcanoGame extends GameBase {
             } else {
                 name = "pyramid-flat-large";
             }
-            const player = allColours.findIndex(c => c === piece[0]) + 1;
-            myLegend[key] = {name,player};
+            if (piece[0] !== ("WH" as Colour)) {
+                const player = allColours.findIndex(c => c === piece[0]) + 1;
+                myLegend[key] = {name, player};
+            } else {
+                myLegend[key] = {name, colour: "#fff"};
+            }
         }
 
         // Build rep

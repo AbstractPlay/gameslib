@@ -6,7 +6,7 @@
   "types": "build/src/index.d.ts",
   "scripts": {
     "build": "npm run build-ts && npm run lint",
-    "build-ts": "tsc",
+    "build-ts": "tsc && npm pack",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "npx eslint \"src/**/*.ts\" -c .eslintrc.js",
     "dist-dev": "webpack",
@@ -33,7 +33,6 @@
   "private": true,
   "devDependencies": {
     "@abstractplay/recranks": "file:../recranks",
-    "@abstractplay/renderer": "file:../renderer",
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
@@ -54,6 +53,7 @@
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {
+    "@abstractplay/renderer": "file:../renderer/abstractplay-renderer-0.8.0.tgz",
     "graphology": "^0.22.1",
     "graphology-shortest-path": "^1.5.0",
     "graphology-types": "^0.21.1",

@@ -61,9 +61,6 @@ export class TaijiGame extends GameBase {
         ],
         flags: ["scores", "multistep"]
     };
-    public description(): string {
-        return i18next.t(TaijiGame.gameinfo.description!);
-    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

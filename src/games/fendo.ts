@@ -52,9 +52,6 @@ export class FendoGame extends GameBase {
         ],
         flags: ["limited-pieces", "scores", "automove", "multistep"]
     };
-    public description(): string {
-        return i18next.t(FendoGame.gameinfo.description!);
-    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

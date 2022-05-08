@@ -53,9 +53,6 @@ export class AttangleGame extends GameBase {
         ],
         flags: ["limited-pieces"]
     };
-    public description(): string {
-        return i18next.t(AttangleGame.gameinfo.description!);
-    }
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid[]>;

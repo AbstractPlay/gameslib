@@ -54,9 +54,6 @@ export class AccastaGame extends GameBase {
         ],
         flags: ["multistep"]
     };
-    public description(): string {
-        return i18next.t(AccastaGame.gameinfo.description!);
-    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

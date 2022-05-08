@@ -59,9 +59,6 @@ export class PikemenGame extends GameBase {
         ],
         flags: ["scores", "multistep"]
     };
-    public description(): string {
-        return i18next.t(PikemenGame.gameinfo.description!);
-    }
 
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

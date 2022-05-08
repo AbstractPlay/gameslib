@@ -39,9 +39,6 @@ export class ArchimedesGame extends GameBase {
             }
         ],
     };
-    public description(): string {
-        return i18next.t(ArchimedesGame.gameinfo.description!);
-    }
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
     }

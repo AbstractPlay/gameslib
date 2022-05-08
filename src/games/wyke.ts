@@ -77,9 +77,6 @@ export class AlfredsWykeGame extends GameBase {
         ],
         flags: ["no-moves"]
     };
-    public description(): string {
-        return i18next.t(AlfredsWykeGame.gameinfo.description!);
-    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

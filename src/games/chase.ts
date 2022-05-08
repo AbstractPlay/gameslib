@@ -84,9 +84,6 @@ export class ChaseGame extends GameBase {
             }
         ]
     };
-    public description(): string {
-        return i18next.t(ChaseGame.gameinfo.description!);
-    }
 
     public static coords2algebraic(x: number, y: number): string {
         return columnLabels[9 - y - 1] + (x + 1).toString();

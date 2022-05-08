@@ -58,9 +58,6 @@ export class AbandeGame extends GameBase {
         ],
         flags: ["limited-pieces", "scores"]
     };
-    public description(): string {
-        return i18next.t(AbandeGame.gameinfo.description!);
-    }
 
     public numplayers = 2;
     public currplayer: playerID = 1;

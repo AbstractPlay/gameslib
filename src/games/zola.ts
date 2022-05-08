@@ -59,9 +59,6 @@ export class ZolaGame extends GameBase {
         ],
         flags: ["automove"],
     };
-    public description(): string {
-        return i18next.t(ZolaGame.gameinfo.description!);
-    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;

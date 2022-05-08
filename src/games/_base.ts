@@ -103,6 +103,10 @@ export interface IRecordDetails {
 
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;
+    public description(): string {
+        const ctor = this.constructor as typeof GameBase;
+        return i18next.t(ctor.gameinfo.description!);
+    }
     public static info(): string {
         return JSON.stringify(this.gameinfo);
     }
@@ -131,7 +135,6 @@ export abstract class GameBase  {
     public abstract results: Array<APMoveResult>;
     public abstract variants: string[];
 
-    public abstract description(): string;
     public abstract move(move: string): GameBase;
     public abstract render(perspective?: any): APRenderRep;
     public abstract state(): IAPGameState;

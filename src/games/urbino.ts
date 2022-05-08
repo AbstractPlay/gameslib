@@ -65,9 +65,6 @@ export class UrbinoGame extends GameBase {
         ],
         flags: ["multistep", "player-stashes", "automove"]
     };
-    public description(): string {
-        return i18next.t(UrbinoGame.gameinfo.description!);
-    }
 
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 9);

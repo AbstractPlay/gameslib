@@ -97,9 +97,6 @@ export class HomeworldsGame extends GameBase {
         ],
         flags: ["multistep", "shared-pieces"]
     };
-    public description(): string {
-        return i18next.t(HomeworldsGame.gameinfo.description!);
-    }
 
     public numplayers!: number;
     public currplayer!: playerid;

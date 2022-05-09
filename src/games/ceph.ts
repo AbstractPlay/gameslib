@@ -68,6 +68,7 @@ export class CephalopodGame extends GameBase {
             const fresh: IMoveState = {
                 _version: CephalopodGame.gameinfo.version,
                 _results: [],
+                _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
             };
@@ -454,6 +455,7 @@ export class CephalopodGame extends GameBase {
         return {
             _version: CephalopodGame.gameinfo.version,
             _results: [...this.results],
+            _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
@@ -612,7 +614,7 @@ export class CephalopodGame extends GameBase {
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [];
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
                 let otherPlayer = state.currplayer + 1;
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;

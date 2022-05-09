@@ -114,6 +114,7 @@ export class AlfredsWykeGame extends GameBase {
             const fresh: IMoveState = {
                 _version: AlfredsWykeGame.gameinfo.version,
                 _results: [],
+                _timestamp: new Date(),
                 currplayer: 1,
                 lastTwo: [undefined, undefined],
                 board,
@@ -463,6 +464,7 @@ export class AlfredsWykeGame extends GameBase {
         return {
             _version: AlfredsWykeGame.gameinfo.version,
             _results: [...this.results],
+            _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             lastTwo: [...this.lastTwo],
@@ -590,7 +592,7 @@ export class AlfredsWykeGame extends GameBase {
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [];
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
                 let otherPlayer = state.currplayer + 1;
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;

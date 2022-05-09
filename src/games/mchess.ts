@@ -93,6 +93,7 @@ export class MchessGame extends GameBase {
             const fresh: IMoveState = {
                 _version: MchessGame.gameinfo.version,
                 _results: [],
+                _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map([
                     ["a8", 3], ["b8", 3], ["c8", 2],
@@ -723,6 +724,7 @@ export class MchessGame extends GameBase {
         return {
             _version: MchessGame.gameinfo.version,
             _results: [...this.results],
+            _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
@@ -913,7 +915,7 @@ export class MchessGame extends GameBase {
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [];
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
                 let otherPlayer = state.currplayer + 1;
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;

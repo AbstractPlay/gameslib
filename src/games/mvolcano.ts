@@ -119,6 +119,7 @@ export class MvolcanoGame extends GameBase {
             const fresh: IMoveState = {
                 _version: MvolcanoGame.gameinfo.version,
                 _results: [],
+                _timestamp: new Date(),
                 currplayer: 1,
                 board: this.board,
                 caps: this.caps,
@@ -678,6 +679,7 @@ export class MvolcanoGame extends GameBase {
         return {
             _version: MvolcanoGame.gameinfo.version,
             _results: [...this.results],
+            _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: clone(this.board) as Array<Array<CellContents[]>>,
@@ -953,7 +955,7 @@ export class MvolcanoGame extends GameBase {
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [];
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
                 let otherPlayer = state.currplayer + 1;
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;

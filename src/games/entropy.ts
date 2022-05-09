@@ -91,6 +91,7 @@ export class EntropyGame extends GameBase {
             const fresh: IMoveState = {
                 _version: EntropyGame.gameinfo.version,
                 _results: [],
+                _timestamp: new Date(),
                 lastmove: [],
                 bag: shuffle(startBag) as CellContents[],
                 board1: new Map(),
@@ -512,6 +513,7 @@ export class EntropyGame extends GameBase {
         return {
             _version: EntropyGame.gameinfo.version,
             _results: [...this.results],
+            _timestamp: new Date(),
             lastmove: [...this.lastmove],
             board1: new Map(this.board1),
             board2: new Map(this.board2),
@@ -687,7 +689,7 @@ export class EntropyGame extends GameBase {
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [];
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
                 if (state._results.length >= 2) {
                     for (let p = 0; p < 2; p++) {
                         let name = `Player ${p + 1}`;

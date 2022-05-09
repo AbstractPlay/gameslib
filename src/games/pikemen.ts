@@ -84,6 +84,7 @@ export class PikemenGame extends GameBase {
             const fresh: IMoveState = {
                 _version: PikemenGame.gameinfo.version,
                 _results: [],
+                _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map([
                     ["a8", [2, 3, "U"]], ["b8", [2, 3, "U"]], ["c8", [2, 3, "U"]], ["d8", [2, 2, "U"]], ["e8", [2, 1, "U"]],
@@ -545,6 +546,7 @@ export class PikemenGame extends GameBase {
         return {
             _version: PikemenGame.gameinfo.version,
             _results: [...this.results],
+            _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: deepclone(this.board) as Map<string, CellContents>,
@@ -696,7 +698,7 @@ export class PikemenGame extends GameBase {
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [];
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
                 let otherPlayer = state.currplayer + 1;
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;

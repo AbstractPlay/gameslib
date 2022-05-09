@@ -9,8 +9,9 @@ const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 /**
  * The minimum requirements of the individual game states.
- * - Must include the version ID of when it was generated
+ * - Must include the version ID of the code that generated the state
  * - A structured description of what changed in the game state
+ * - A timestamp of when the move was made (server time)
  *
  * @export
  * @interface IIndividualState
@@ -18,6 +19,7 @@ const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 export interface IIndividualState {
     _version: string;
     _results: APMoveResult[];
+    _timestamp: Date;
     [key: string]: any;
 }
 
@@ -142,7 +144,6 @@ export abstract class GameBase  {
     public abstract resign(player: number): GameBase;
     public abstract clone(): GameBase;
     public abstract chatLog(players?: string[]): string[][];
-
     protected abstract moveState(): any;
 
     protected saveState(): void {

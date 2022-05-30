@@ -933,6 +933,7 @@ export class UrbinoGame extends GameBase {
 
     public resign(player: playerid): UrbinoGame {
         this.gameover = true;
+        this.lastmove = "resign";
         if (player === 1) {
             this.winner = [2];
         } else {
@@ -1130,71 +1131,28 @@ export class UrbinoGame extends GameBase {
         return this.getMovesAndResults(["move", "capture"]);
     }
 
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, move, capture, promote, deltaScore
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
+    public chat(node: string[], name: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                switch (r.what) {
+                    case "0":
+                        node.push(i18next.t("apresults:PLACE.urbino.worker", {player: name, where: r.where}));
+                        break;
+                    case "1":
+                        node.push(i18next.t("apresults:PLACE.urbino.house", {player: name, where: r.where}));
+                        break;
+                    case "2":
+                        node.push(i18next.t("apresults:PLACE.urbino.palace", {player: name, where: r.where}));
+                        break;
+                    case "3":
+                        node.push(i18next.t("apresults:PLACE.urbino.tower", {player: name, where: r.where}));
+                        break;
                 }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "move":
-                            node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
-                            break;
-                        case "place":
-                            switch (r.what) {
-                                case "0":
-                                    node.push(i18next.t("apresults:PLACE.urbino.worker", {player: name, where: r.where}));
-                                    break;
-                                case "1":
-                                    node.push(i18next.t("apresults:PLACE.urbino.house", {player: name, where: r.where}));
-                                    break;
-                                case "2":
-                                    node.push(i18next.t("apresults:PLACE.urbino.palace", {player: name, where: r.where}));
-                                    break;
-                                case "3":
-                                    node.push(i18next.t("apresults:PLACE.urbino.tower", {player: name, where: r.where}));
-                                    break;
-                            }
-                            break;
-                        case "pass":
-                            node.push(i18next.t("apresults:PASS.simple", {player: name}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG"));
-                            break;
-                            case "resigned":
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            case "winners":
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                        }
-                }
-                result.push(node);
-            }
+                resolved = true;
+                break;
         }
-        return result;
+        return resolved;
     }
 
     public getPlayerStash(player: number): IPlayerStash | undefined {

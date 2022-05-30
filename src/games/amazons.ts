@@ -443,6 +443,7 @@ export class AmazonsGame extends GameBase {
         // Assign the results as this is an independent state changer
         this.results = [{type: "resigned", player}];
         this.gameover = true;
+        this.lastmove = "resign";
         this.results.push({type: "eog"});
         if (player === 1) {
             this.winner = [2];
@@ -629,55 +630,20 @@ export class AmazonsGame extends GameBase {
         }
     }
 
-    public chatLog(players: string[]): string[][] {
-        // move, block, eog, resign, winners
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                const move = state._results.find(r => r.type === "move");
-                const block = state._results.find(r => r.type === "block");
-                if ( (move !== undefined) && (block !== undefined) ) {
-                    // @ts-ignore
-                    node.push(i18next.t("apresults:MOVE.amazons", {player: name, from: move.from as string, to: move.to as string, block: block.where as string}));
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG"));
-                            break;
-                        case "resigned":
-                            let rname = `Player ${r.player}`;
-                            if (r.player <= players.length) {
-                                rname = players[r.player - 1]
-                            }
-                            node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                            break;
-                        case "winners":
-                            const names: string[] = [];
-                            for (const w of r.players) {
-                                if (w <= players.length) {
-                                    names.push(players[w - 1]);
-                                } else {
-                                    names.push(`Player ${w}`);
-                                }
-                            }
-                            node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                            break;
-                    }
-                }
-                result.push(node);
-            }
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "move":
+                const block = results.find(r => r.type === "block");
+                // @ts-ignore
+                node.push(i18next.t("apresults:MOVE.amazons", {player: player, from: r.from as string, to: r.to as string, block: block.where as string}));
+                resolved = true;
+                break;
+            case "block":
+                resolved = true;
+                break;
         }
-        return result;
+        return resolved;
     }
 
     public clone(): AmazonsGame {

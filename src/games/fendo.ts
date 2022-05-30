@@ -656,6 +656,7 @@ export class FendoGame extends GameBase {
 
     public resign(player: playerid): FendoGame {
         this.gameover = true;
+        this.lastmove = "resign";
         if (player === 1) {
             this.winner = [2];
         } else {

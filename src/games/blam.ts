@@ -461,6 +461,7 @@ export class BlamGame extends GameBase {
         this.results = [{type: "resigned", player}]
         // If one person resigns, the others win together
         this.gameover = true;
+        this.lastmove = "resign";
         this.results.push({type: "eog"});
         const winners: playerid[] = [];
         for (let n = 1; n <= this.numplayers; n++) {
@@ -611,67 +612,15 @@ export class BlamGame extends GameBase {
         return this.getMovesAndResults(["place", "capture", "pass"]);
     }
 
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, pass, place, reclaim, capture, deltaScore
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "pass":
-                            node.push(i18next.t("apresults:PASS.simple", {player: name}));
-                            break;
-                        case "place":
-                            node.push(i18next.t("apresults:PLACE.complete", {player: name, what: r.what, where: r.where}));
-                            break;
-                        case "move":
-                            node.push(i18next.t("apresults:MOVE.push", {what: r.what, from: r.from, to: r.to}));
-                            break;
-                        case "reclaim":
-                            node.push(i18next.t("apresults:RECLAIM.noperson", {what: r.what}));
-                            break;
-                        case "capture":
-                            node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {what: r.what}));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG"));
-                            break;
-                            case "resigned":
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            case "winners":
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                        }
-                }
-                if (state._results.find(r => r.type === "deltaScore") !== undefined) {
-                    node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: state.scores[otherPlayer - 1]}));
-                }
-                result.push(node);
-            }
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "move":
+                node.push(i18next.t("apresults:MOVE.push", {what: r.what, from: r.from, to: r.to}));
+                resolved = true;
+                break;
         }
-        return result;
+        return resolved;
     }
 
     public clone(): BlamGame {

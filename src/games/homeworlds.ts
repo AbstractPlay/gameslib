@@ -2171,6 +2171,7 @@ export class HomeworldsGame extends GameBase {
         this.results = [{type: "resigned", player}]
         // If one person resigns, the others win together
         this.gameover = true;
+        this.lastmove = "resign";
         this.results.push({type: "eog"});
         const winners: playerid[] = [];
         for (let n = 1; n <= this.numplayers; n++) {

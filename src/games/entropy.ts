@@ -485,10 +485,13 @@ export class EntropyGame extends GameBase {
 
     public resign(player: 1|2): EntropyGame {
         this.gameover = true;
+        
         if (player === 1) {
+            this.lastmove = ["resign",""];
             this.winner = [2];
         } else {
             this.winner = [1];
+            this.lastmove = ["","resign"];
         }
         this.results = [
             {type: "eog"},

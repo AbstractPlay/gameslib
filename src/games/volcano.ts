@@ -661,6 +661,7 @@ export class VolcanoGame extends GameBase {
 
     public resign(player: playerid): VolcanoGame {
         this.gameover = true;
+        this.lastmove = "resign";
         if (player === 1) {
             this.winner = [2];
         } else {

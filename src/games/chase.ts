@@ -1115,6 +1115,7 @@ export class ChaseGame extends GameBase {
     public resign(player: 1|2): ChaseGame {
         this.results = [{type: "resigned", player}];
         this.gameover = true;
+        this.lastmove = "resign";
         this.results.push({type: "eog"});
         if (player === 1) {
             this.winner = [2];

@@ -795,6 +795,7 @@ export class OrdoGame extends GameBase {
 
     public resign(player: playerid): OrdoGame {
         this.gameover = true;
+        this.lastmove = "resign";
         if (player === 1) {
             this.winner = [2];
         } else {
@@ -950,57 +951,6 @@ export class OrdoGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "capture"]);
-    }
-
-    public chatLog(players: string[]): string[][] {
-        // eog, resign, winners, move, capture, promote, deltaScore
-        const result: string[][] = [];
-        for (const state of this.stack) {
-            if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
-                }
-                let name = `Player ${otherPlayer}`;
-                if (otherPlayer <= players.length) {
-                    name = players[otherPlayer - 1];
-                }
-                for (const r of state._results) {
-                    switch (r.type) {
-                        case "move":
-                            node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
-                            break;
-                        case "capture":
-                            node.push(i18next.t("apresults:CAPTURE.minimal"));
-                            break;
-                        case "eog":
-                            node.push(i18next.t("apresults:EOG"));
-                            break;
-                            case "resigned":
-                                let rname = `Player ${r.player}`;
-                                if (r.player <= players.length) {
-                                    rname = players[r.player - 1]
-                                }
-                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
-                                break;
-                            case "winners":
-                                const names: string[] = [];
-                                for (const w of r.players) {
-                                    if (w <= players.length) {
-                                        names.push(players[w - 1]);
-                                    } else {
-                                        names.push(`Player ${w}`);
-                                    }
-                                }
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
-                        }
-                }
-                result.push(node);
-            }
-        }
-        return result;
     }
 
     public clone(): OrdoGame {

@@ -143,7 +143,6 @@ export abstract class GameBase  {
     public abstract load(idx: number): GameBase;
     public abstract resign(player: number): GameBase;
     public abstract clone(): GameBase;
-    public abstract chatLog(players?: string[]): string[][];
     protected abstract moveState(): any;
 
     protected saveState(): void {
@@ -251,6 +250,108 @@ export abstract class GameBase  {
 
     protected getMoveList(): any[] {
         return this.moveHistory();
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        return false;
+    }
+
+    public chatLog(players: string[]): string[][] {
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
+                let otherPlayer = state.currplayer + 1;
+                if (otherPlayer > this.numplayers) {
+                    otherPlayer = 1;
+                }
+                let name = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+                for (const r of state._results) {
+                    if (!this.chat(node, name, state._results, r)) {
+                        switch (r.type) {
+                            case "move":
+                                if (r.what === undefined) {
+                                    node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
+                                } else {
+                                    node.push(i18next.t("apresults:MOVE.complete", {player: name, what: r.what, from: r.from, to: r.to}));
+                                }
+                                break;
+                            case "place":
+                                if (r.what === undefined) {
+                                    node.push(i18next.t("apresults:PLACE.nowhat", {player: name, where: r.where}));
+                                } else {
+                                    node.push(i18next.t("apresults:PLACE.complete", {player: name, what: r.what, where: r.where}));
+                                }
+                                break;
+                            case "pass":
+                                node.push(i18next.t("apresults:PASS.simple", {player: name}));
+                                break;
+                            case "reclaim":
+                                node.push(i18next.t("apresults:RECLAIM.noperson", {what: r.what}));
+                                break;
+                            case "capture":
+                                if (r.where === undefined) {
+                                    if (r.what === undefined) {
+                                        node.push(i18next.t("apresults:CAPTURE.minimal"));
+                                    } else {
+                                        node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {what: r.what}));
+                                    }
+                                } else {
+                                    node.push(i18next.t("apresults:CAPTURE.noperson.simple", {what: r.what, where: r.where}));
+                                }
+                                break;
+                            case "bearoff":
+                                node.push(i18next.t("apresults:BEAROFF.complete", {count: parseInt(r.what!, 10), player: name, from: r.from}));
+                                break;
+                            case "promote":
+                                node.push(i18next.t("apresults:PROMOTE.mchess", {into: r.to}));
+                                break;
+                            case "orient":
+                                node.push(i18next.t("apresults:ORIENT.nowhat", {player: name, facing: r.facing, where: r.where}));
+                                break;
+                            case "add":
+                                node.push(i18next.t("apresults:ADD", {count: r.num , player: name, where: r.where }));
+                                break;
+                            case "remove":
+                                node.push(i18next.t("apresults:REMOVE", {count: r.num , player: name, where: r.where }));
+                                break;
+                            case "claim":
+                                node.push(i18next.t("apresults:CLAIM", {player: name, where: r.where }));
+                                break;     
+                            case "eog":
+                                node.push(i18next.t("apresults:EOG"));
+                                break;
+                            case "resigned":
+                                let rname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    rname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "winners":
+                                const names: string[] = [];
+                                for (const w of r.players) {
+                                    if (w <= players.length) {
+                                        names.push(players[w - 1]);
+                                    } else {
+                                        names.push(`Player ${w}`);
+                                    }
+                                }
+                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                break;
+                        }
+                    }
+                }
+                if (state._results.find(r => r.type === "deltaScore") !== undefined) {
+                    node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: state.scores[otherPlayer - 1]}));
+                }
+                result.push(node);
+            }
+        }
+        return result;
     }
 
     protected getMovesAndResults(exclude: string[] = []): any[] {

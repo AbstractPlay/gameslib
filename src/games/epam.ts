@@ -537,6 +537,7 @@ export class EpamGame extends GameBase {
 
     public resign(player: playerid): EpamGame {
         this.gameover = true;
+        this.lastmove = "resign";
         if (player === 1) {
             this.winner = [2];
         } else {

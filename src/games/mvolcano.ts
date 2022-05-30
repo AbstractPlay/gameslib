@@ -650,6 +650,7 @@ export class MvolcanoGame extends GameBase {
 
     public resign(player: playerid): MvolcanoGame {
         this.gameover = true;
+        this.lastmove = "resign";
         if (player === 1) {
             this.winner = [2];
         } else {

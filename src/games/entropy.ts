@@ -68,7 +68,6 @@ export class EntropyGame extends GameBase {
     public board2!: Map<string, CellContents>;
     public bag!: CellContents[];
     public phase!: Phases;
-    public lastmove: string[] = [];
     public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
@@ -116,7 +115,7 @@ export class EntropyGame extends GameBase {
         this.board2 = new Map(state.board2);
         this.bag = [...state.bag];
         this.phase = state.phase;
-        this.lastmove = state.lastmove;
+        this.lastmove = state.lastmove.join(',');
         return this;
     }
 
@@ -367,7 +366,7 @@ export class EntropyGame extends GameBase {
             }
         }
 
-        this.lastmove = [...moves];
+        this.lastmove = [...moves].join(',');
         const myboard = [this.board1, this.board2];
         const theirboard = [this.board2, this.board1];
         this.results = [];
@@ -394,7 +393,7 @@ export class EntropyGame extends GameBase {
                 }
                 theirboard[i].set(moves[i], next);
                 this.results.push({type: "place", what: next, where: moves[i]});
-                this.lastmove[i] = `(${next})` + this.lastmove[i];
+                this.lastmove = this.lastmove.split(',').map((m,idx) => (i === idx) ? next + m : m).join(',');
             }
         }
 
@@ -483,24 +482,6 @@ export class EntropyGame extends GameBase {
         return score;
     }
 
-    public resign(player: 1|2): EntropyGame {
-        this.gameover = true;
-        
-        if (player === 1) {
-            this.lastmove = ["resign",""];
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-            this.lastmove = ["","resign"];
-        }
-        this.results = [
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        ];
-        this.saveState();
-        return this;
-    }
-
     public state(): IEntropyState {
         return {
             game: EntropyGame.gameinfo.uid,
@@ -517,7 +498,7 @@ export class EntropyGame extends GameBase {
             _version: EntropyGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
-            lastmove: [...this.lastmove],
+            lastmove: this.lastmove === undefined ? [] : this.lastmove!.split(','),
             board1: new Map(this.board1),
             board2: new Map(this.board2),
             phase: this.phase,

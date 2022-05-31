@@ -189,6 +189,19 @@
             "additionalProperties": false
         },
         {
+            "description": "Announces someone lost on time.",
+            "properties": {
+                "type": {
+                    "enum": ["timeout"]
+                },
+                "player": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "player"],
+            "additionalProperties": false
+        },
+        {
             "description": "Announces someone was forcibly removed from the game.",
             "properties": {
                 "type": {

@@ -102,7 +102,6 @@ export class HomeworldsGame extends GameBase {
     public currplayer!: playerid;
     public systems: System[] = [];
     public stash!: Stash;
-    public lastmove?: string;
     public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
@@ -2164,24 +2163,6 @@ export class HomeworldsGame extends GameBase {
     }
 
     protected checkEOG(): HomeworldsGame {
-        return this;
-    }
-
-    public resign(player: playerid): HomeworldsGame {
-        this.results = [{type: "resigned", player}]
-        // If one person resigns, the others win together
-        this.gameover = true;
-        this.lastmove = "resign";
-        this.results.push({type: "eog"});
-        const winners: playerid[] = [];
-        for (let n = 1; n <= this.numplayers; n++) {
-            if (n as playerid !== player) {
-                winners.push(n as playerid);
-            }
-        }
-        this.winner = [...winners];
-        this.results.push({type: "winners", players: [...this.winner]});
-        this.saveState();
         return this;
     }
 

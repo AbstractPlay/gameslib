@@ -63,7 +63,6 @@ export class AbandeGame extends GameBase {
     public currplayer: playerID = 1;
     public board!: Map<string, playerID[]>;
     public pieces!: [number, number];
-    public lastmove?: string;
     public graph!: IGraph;
     public gameover = false;
     public winner: playerID[] = [];
@@ -476,23 +475,6 @@ export class AbandeGame extends GameBase {
             );
         }
 
-        return this;
-    }
-
-    public resign(player: playerID): AbandeGame {
-        this.gameover = true;
-        this.lastmove = "resign";
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results.push(
-            {type: "resigned", player},
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        );
-        this.saveState();
         return this;
     }
 

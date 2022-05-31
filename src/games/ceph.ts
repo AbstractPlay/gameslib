@@ -54,7 +54,6 @@ export class CephalopodGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
     public pieces!: [number, number];
-    public lastmove?: string;
     public graph!: IGraph;
     public gameover = false;
     public winner: playerid[] = [];
@@ -421,23 +420,6 @@ export class CephalopodGame extends GameBase {
             );
         }
 
-        return this;
-    }
-
-    public resign(player: playerid): CephalopodGame {
-        this.gameover = true;
-        this.lastmove = "resign";
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results.push(
-            {type: "resigned", player},
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        );
-        this.saveState();
         return this;
     }
 

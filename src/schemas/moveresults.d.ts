@@ -69,6 +69,10 @@ export type APMoveResult =
       player: number;
     }
   | {
+      type: "timeout";
+      player: number;
+    }
+  | {
       type: "kicked";
       player: number;
     }

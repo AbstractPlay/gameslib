@@ -69,7 +69,6 @@ export class CannonGame extends GameBase {
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, CellContents>;
-    public lastmove?: string;
     public gameover = false;
     public winner: playerid[] = [];
     public placed = false;
@@ -689,22 +688,6 @@ export class CannonGame extends GameBase {
             }
         }
 
-        return this;
-    }
-
-    public resign(player: 1|2): CannonGame {
-        this.gameover = true;
-        this.lastmove = "resign";
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results = [
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        ];
-        this.saveState();
         return this;
     }
 

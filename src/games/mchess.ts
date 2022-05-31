@@ -78,7 +78,6 @@ export class MchessGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, number>;
-    public lastmove?: string;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -690,23 +689,6 @@ export class MchessGame extends GameBase {
             );
         }
 
-        return this;
-    }
-
-    public resign(player: playerid): MchessGame {
-        this.gameover = true;
-        this.lastmove = "resign";
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results.push(
-            {type: "resigned", player},
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        );
-        this.saveState();
         return this;
     }
 

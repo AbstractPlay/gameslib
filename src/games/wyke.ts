@@ -81,7 +81,6 @@ export class AlfredsWykeGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, number>;
-    public lastmove?: string;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -431,23 +430,6 @@ export class AlfredsWykeGame extends GameBase {
             target = 8;
         }
         return [...this.board.entries()].filter(e => e[1] === target).map(e => e[0]);
-    }
-
-    public resign(player: playerid): AlfredsWykeGame {
-        this.gameover = true;
-        this.lastmove = "resign";
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results = [
-            {type: "resigned", player},
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        ];
-        this.saveState();
-        return this;
     }
 
     public state(): IAlfredsWykeState {

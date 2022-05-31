@@ -131,6 +131,7 @@ export abstract class GameBase  {
     }
 
     public abstract stack: Array<IIndividualState>;
+    public lastmove?: string;
     public abstract gameover: boolean;
     public abstract numplayers: number;
     public abstract winner: any[];
@@ -141,9 +142,49 @@ export abstract class GameBase  {
     public abstract render(perspective?: any): APRenderRep;
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
-    public abstract resign(player: number): GameBase;
     public abstract clone(): GameBase;
     protected abstract moveState(): any;
+
+    public resign(player: number): GameBase {
+        return this.eog(player, "resign", {type: "resigned", player});
+    }
+
+    public timeout(player: number): GameBase {
+        return this.eog(player, "timeout", {type: "timeout", player});
+    }
+
+    private eog(player: number, move: string, result: APMoveResult): GameBase {
+        this.results = [result]
+        // If one person resigns, the others win together
+        this.gameover = true;
+        this.lastmove = move;
+        this.results.push({type: "eog"});
+        const winners: number[] = [];
+        const resigner: string[] = [];
+        let found = false;
+        const ctor = this.constructor as typeof GameBase;
+        for (let n = 1; n <= this.numplayers; n++) {
+            if (n !== player) {
+                winners.push(n);
+                resigner.push('');
+            } else {
+                found = true;
+                resigner.push(move);
+            }
+        }
+        if (!found) {
+            throw new Error("eog: No player " + player);
+        }
+        if (ctor.gameinfo.flags !== undefined && ctor.gameinfo.flags.includes('simultaneous')) {
+            this.lastmove = resigner.join(',');
+        } else {
+            this.lastmove = move;
+        }
+        this.winner = [...winners];
+        this.results.push({type: "winners", players: [...this.winner]});
+        this.saveState();
+        return this;
+    }
 
     protected saveState(): void {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -330,6 +371,13 @@ export abstract class GameBase  {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "timeout":
+                                let tname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    tname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
                             case "winners":
                                 const names: string[] = [];

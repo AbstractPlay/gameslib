@@ -65,7 +65,6 @@ export class BlamGame extends GameBase {
     public numplayers!: number;
     public currplayer!: playerid;
     public board!: Map<string, [playerid, number]>;
-    public lastmove?: string;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -454,24 +453,6 @@ export class BlamGame extends GameBase {
             throw new Error("A winner could not be determined.");
         }
 
-        return this;
-    }
-
-    public resign(player: playerid): BlamGame {
-        this.results = [{type: "resigned", player}]
-        // If one person resigns, the others win together
-        this.gameover = true;
-        this.lastmove = "resign";
-        this.results.push({type: "eog"});
-        const winners: playerid[] = [];
-        for (let n = 1; n <= this.numplayers; n++) {
-            if (n as playerid !== player) {
-                winners.push(n as playerid);
-            }
-        }
-        this.winner = [...winners];
-        this.results.push({type: "winners", players: [...this.winner]});
-        this.saveState();
         return this;
     }
 

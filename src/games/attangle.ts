@@ -57,7 +57,6 @@ export class AttangleGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Map<string, playerid[]>;
     public pieces!: [number, number];
-    public lastmove?: string;
     public graph!: HexTriGraph;
     public gameover = false;
     public winner: playerid[] = [];
@@ -475,23 +474,6 @@ export class AttangleGame extends GameBase {
             );
         }
 
-        return this;
-    }
-
-    public resign(player: playerid): AttangleGame {
-        this.gameover = true;
-        this.lastmove = "resign";
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results = [
-            {type: "resigned", player},
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        ];
-        this.saveState();
         return this;
     }
 

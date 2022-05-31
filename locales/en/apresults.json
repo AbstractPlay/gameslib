@@ -97,6 +97,7 @@
     "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
     "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
     "RESIGN": "{{player}} has resigned.",
+    "TIMEOUT": "{{player}} lost on time.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber."

@@ -90,7 +90,6 @@ export class AmazonsGame extends GameBase {
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, CellContents>;
-    public lastmove?: string;
     public gameover = false;
     public winner: playerid[] = [];
     public graph!: UndirectedGraph;
@@ -436,23 +435,6 @@ export class AmazonsGame extends GameBase {
             }
             this.results.push({type: "winners", players: [...this.winner]});
         }
-        return this;
-    }
-
-    public resign(player: 1|2): AmazonsGame {
-        // Assign the results as this is an independent state changer
-        this.results = [{type: "resigned", player}];
-        this.gameover = true;
-        this.lastmove = "resign";
-        this.results.push({type: "eog"});
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results.push({type: "winners", players: [...this.winner]});
-
-        this.saveState();
         return this;
     }
 

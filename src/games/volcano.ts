@@ -102,7 +102,6 @@ export class VolcanoGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Array<Array<CellContents[]>>;
     public caps!: Set<string>;
-    public lastmove?: string;
     public erupted = false;
     public gameover = false;
     public winner: playerid[] = [];
@@ -657,23 +656,6 @@ export class VolcanoGame extends GameBase {
         }
 
         return org;
-    }
-
-    public resign(player: playerid): VolcanoGame {
-        this.gameover = true;
-        this.lastmove = "resign";
-        if (player === 1) {
-            this.winner = [2];
-        } else {
-            this.winner = [1];
-        }
-        this.results.push(
-            {type: "resigned", player},
-            {type: "eog"},
-            {type: "winners", players: [...this.winner]}
-        );
-        this.saveState();
-        return this;
     }
 
     public state(): IVolcanoState {

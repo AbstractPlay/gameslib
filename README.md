@@ -21,3 +21,6 @@ This is a basic NPM module; it's just private. It's not meant to be generally us
   - `npm run build` (compiles the TypeScript files into the `./build` folder)
   - `npm run dist-dev` (or `dist-prod` if you want it minified; bundles everything for the browser into the `./dist` folder)
 - The public-facing API is documented in `./docs/api.md`.
+
+If you modify a schema, "compile" it with (for, e.g. the moveresults schema)
+  `npx json2ts .\moveresults.json .\moveresults.d.ts`

@@ -249,7 +249,7 @@ export class ManalathGame extends GameBase {
 
         // we're good
         result.valid = true;
-        result.complete = 0;
+        result.complete = 1;
         result.canrender = true;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
 

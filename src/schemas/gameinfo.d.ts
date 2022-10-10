@@ -56,6 +56,7 @@ export interface APGamesInformation {
     | "no-moves"
     | "multistep"
     | "pie"
+    | "rotate90"
   )[];
   [k: string]: unknown;
 }

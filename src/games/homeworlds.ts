@@ -95,7 +95,7 @@ export class HomeworldsGame extends GameBase {
                 name: "John Cooper"
             }
         ],
-        flags: ["multistep", "shared-pieces"]
+        flags: ["multistep", "shared-pieces", "perspective", "rotate90"]
     };
 
     public numplayers!: number;

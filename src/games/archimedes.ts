@@ -38,6 +38,7 @@ export class ArchimedesGame extends GameBase {
                 name: "Philip Cohen"
             }
         ],
+        flags: ["perspective"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

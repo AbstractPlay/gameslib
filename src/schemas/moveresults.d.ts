@@ -73,6 +73,9 @@ export type APMoveResult =
       player: number;
     }
   | {
+      type: "drawagreed";
+    }
+  | {
       type: "kicked";
       player: number;
     }

@@ -153,6 +153,10 @@ export abstract class GameBase  {
         return this.eog(player, "timeout", {type: "timeout", player});
     }
 
+    public draw(): GameBase {
+        return this.eog(-1, "draw", {type: "drawagreed"});
+    }
+
     private eog(player: number, move: string, result: APMoveResult): GameBase {
         this.results = [result]
         // If one person resigns, the others win together
@@ -172,7 +176,7 @@ export abstract class GameBase  {
                 resigner.push(move);
             }
         }
-        if (!found) {
+        if (!found && player !== -1) {
             throw new Error("eog: No player " + player);
         }
         if (ctor.gameinfo.flags !== undefined && ctor.gameinfo.flags.includes('simultaneous')) {
@@ -379,6 +383,9 @@ export abstract class GameBase  {
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            case "drawagreed":
+                                node.push(i18next.t("apresults:DRAWAGREED"));
+                            break;
                             case "winners":
                                 const names: string[] = [];
                                 for (const w of r.players) {
@@ -389,7 +396,7 @@ export abstract class GameBase  {
                                     }
                                 }
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                                break;
+                            break;
                         }
                     }
                 }

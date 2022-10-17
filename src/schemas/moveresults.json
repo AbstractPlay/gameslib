@@ -202,6 +202,16 @@
             "additionalProperties": false
         },
         {
+            "description": "Players agreed to a draw.",
+            "properties": {
+                "type": {
+                    "enum": ["drawagreed"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
             "description": "Announces someone was forcibly removed from the game.",
             "properties": {
                 "type": {

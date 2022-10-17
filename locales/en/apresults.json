@@ -98,6 +98,7 @@
     "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
     "RESIGN": "{{player}} has resigned.",
     "TIMEOUT": "{{player}} lost on time.",
+    "DRAWAGREED": "Players agreed to a draw.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber."

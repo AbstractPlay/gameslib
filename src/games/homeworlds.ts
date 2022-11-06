@@ -2213,12 +2213,9 @@ export class HomeworldsGame extends GameBase {
         // Now ships
         // You always have North and South
         const seats = ["N", "S"];
-        // Three players gives you East
+        // Three players gives you East and West (for rotations)
         if (this.numplayers > 2) {
             seats.push("E");
-        }
-        // Four gives you West
-        if (this.numplayers > 3) {
             seats.push("W");
         }
         const rotations: Map<string, number> = new Map([

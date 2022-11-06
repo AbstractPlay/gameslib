@@ -34,7 +34,7 @@ The games are self-documenting. The variable itself is an ES6 `Map` of game uid 
 Current flags are the following:
 
 * `simultaneous`: signals that moves for all players must be submitted at once. The front-end will need to store partial moves until all players have submitted.
-* `perspective`: signals that the game can adjust the rendered image for a player's perspective. Pass a player number (i.e., 1, 2, etc.) to the `render()` function.
+* `perspective`: signals that the game can adjust the rendered image for a player's perspective. The front end should set the default rotation for the different players accordingly. By increments of 180, or 90 if `rotate90` is set.
 * `stacking-expanding`: signals that the game uses the `stacking-expanding` renderer. Pass the clicked-upon column and row to `render()` to display the expanded stack in the rendered image. Or call `renderColumn()` with the column and row to receive a separate render JSON just representing the expanded stack.
 * `scores`: signals that players have scores. The front end can use `getPlayerScore(playerid: number) => number` to fetch scores.
 * `limited-pieces`: signals that players have a limited number of pieces, the number of which should be displayed to the players. Use `getPlayerPieces(playerid: number) => number` to fetch the number of pieces the given player has at the moment. Mutually exclusive with `player-stashes`.
@@ -44,7 +44,7 @@ Current flags are the following:
 * `no-moves`: signals that the game cannot produce a list of possible moves. In all other games, you can use `moves(player?: number) => string[]` to get a list of valid moves.
 * `multistep`: signals that a move consists of multiple steps. What this means is that you can pass a boolean flag to `move()` that signals that you are only submitting a partial move (pass `true`). This prevents the function from doing end-of-turn processing. This leaves the game object in an unstable state. It should only be used on a cloned object, or you should call `load()` before submitting another move. Partial moves are not incremental! You can't enter part one, and then enter just part two. You would have to enter parts one and two combined to see the correct results after the two moves.
 * `pie`: The front end should give the second player a chance to switch seats after the first move.
-
+* `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed.
 ### `GameFactory`
 
 This function is how you instantiate a particular game. Pass it the game's `uid` and any constructor parameters to receive the game instance. Passing it an existing state object (described more below) is how you load a game in progress. Otherwise you'll get a brand new game.

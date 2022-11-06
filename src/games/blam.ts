@@ -26,10 +26,18 @@ interface IMoveState extends IIndividualState {
     stashes: Map<playerid, number[]>;
 }
 
+/*
 interface IPlayerStash {
-    small: number;
-    medium: number;
-    large: number;
+    small: IStashEntry;
+    medium: IStashEntry;
+    large: IStashEntry;
+}
+*/
+
+interface IStashEntry {
+    count: number,
+    glyph: string,
+    movePart: string
 }
 
 export interface IBlamState extends IAPGameState {
@@ -195,29 +203,15 @@ export class BlamGame extends GameBase {
                     message: i18next.t("apgames:validation._general.NOPIECES"),
                 } as IClickResult;
             }
-            const lowest = stash.findIndex(n => n > 0) + 1;
-            if (move.length > 0) {
-                const match = move.match(/^(\d)([a-z][0-9])$/);
-                if (match !== null) {
-                    let num = parseInt(match[1], 10);
-                    const prev = match[2];
-                    if (prev === cell) {
-                       num++;
-                       if (num > 3) { num = 1; }
-                       while (stash[num - 1] === 0) {
-                        num++;
-                        if (num > 3) { num = 1; }
-                       }
-                       newmove = `${num}${cell}`;
-                    } else {
-                        newmove = `${lowest}${cell}`;
-                    }
-                } else {
-                    newmove = `${lowest}${cell}`;
-                }
-            } else {
-                newmove = `${lowest}${cell}`;
+            if (move === '') {
+                return {
+                    move: "",
+                    valid: false,
+                    message: i18next.t("apgames:validation.blam.SIZEFIRST"),
+                } as IClickResult;
             }
+
+            newmove = `${move}${cell}`
 
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -263,6 +257,18 @@ export class BlamGame extends GameBase {
         const match = m.match(/^([123])([a-h][1-8])$/);
         if (match === null) {
             result.valid = false;
+            if (m.length === 1 && m.match(/^[123]$/) !== null) {
+                if (stash[parseInt(m, 10) - 1] === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.blam.NOPIECE", {m});
+                    return result;
+                }
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = false;
+                result.message = i18next.t("apgames:validation.blam.PARTIAL");
+                return result;
+            }
             result.message = i18next.t("apgames:validation.blam.BADSYNTAX", {move: m});
             return result;
         }
@@ -577,10 +583,14 @@ export class BlamGame extends GameBase {
         return status;
     }
 
-    public getPlayerStash(player: number): IPlayerStash | undefined {
+    public getPlayerStash(player: number): IStashEntry[] | undefined {
         const stash = this.stashes.get(player as playerid);
         if (stash !== undefined) {
-            return {small: stash[0], medium: stash[1], large: stash[2]} as IPlayerStash;
+            return [
+                {count: stash[0], glyph: "pyramid-up-small-upscaled",  movePart: "1"} as IStashEntry,
+                {count: stash[1], glyph: "pyramid-up-medium-upscaled", movePart: "2"} as IStashEntry, 
+                {count: stash[2], glyph: "pyramid-up-large-upscaled",  movePart: "3"} as IStashEntry
+            ];
         }
         return;
     }

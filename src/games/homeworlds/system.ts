@@ -198,7 +198,7 @@ export class System implements ISystem {
     }
 
     public renderShips(): string[] {
-        return this.ships.map(x => x.id());
+        return this.ships.map(x => 'p' + x.id());
     }
 
     public clone(): System {

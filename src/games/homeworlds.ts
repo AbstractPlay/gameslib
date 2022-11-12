@@ -2236,7 +2236,7 @@ export class HomeworldsGame extends GameBase {
                     if (r !== undefined) {
                         node.rotate = r;
                     }
-                    myLegend[cs[i] + (j + 1).toString() + d] = node;
+                    myLegend['p' + cs[i] + (j + 1).toString() + d] = node;
                 }
             }
         }

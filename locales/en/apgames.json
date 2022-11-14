@@ -137,7 +137,7 @@
             "TRIPLESTACK": "Triple stacks cannot participate in captures."
         },
         "blam": {
-            "BADSYNTAX": "Invalid syntax: {{move}}. It should a the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
+            "BADSYNTAX": "Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
             "INITIAL_INSTRUCTIONS": "Enter the size of the piece to place. You can click on your stash.",
             "MOVES_NOPASS": "You cannot pass while you have pieces to place.",
             "NOPIECE": "You do not have a piece of size {{size}} to place.",

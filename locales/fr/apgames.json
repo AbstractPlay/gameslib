@@ -89,7 +89,10 @@
             "SAME_FROM_TO": "[FR]The 'from' and 'to' cells have to be different.",
             "SELFCAPTURE": "[FR]You cannot capture your own pieces.",
             "UNCONTROLLED": "[FR]You cannot move pieces you don't control.",
-            "VALID_MOVE": "[FR]Looks like a valid move."
+            "VALID_MOVE": "[FR]Looks like a valid move.",
+            "INVALID_MOVE": "[FR]This doesn't look like a valid move.",
+            "INCOMPLETE_MOVE": "[FR]This move looks incomplete."
+
         },
         "abande": {
             "DISCONNECTEDMOVE": "[FR]A move from {{from}} to {{to}} would disconnect the band.",

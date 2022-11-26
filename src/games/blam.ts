@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -24,20 +24,6 @@ interface IMoveState extends IIndividualState {
     scores: number[];
     caps: number[];
     stashes: Map<playerid, number[]>;
-}
-
-/*
-interface IPlayerStash {
-    small: IStashEntry;
-    medium: IStashEntry;
-    large: IStashEntry;
-}
-*/
-
-interface IStashEntry {
-    count: number,
-    glyph: string,
-    movePart: string
 }
 
 export interface IBlamState extends IAPGameState {
@@ -587,9 +573,9 @@ export class BlamGame extends GameBase {
         const stash = this.stashes.get(player as playerid);
         if (stash !== undefined) {
             return [
-                {count: stash[0], glyph: "pyramid-up-small-upscaled",  movePart: "1"} as IStashEntry,
-                {count: stash[1], glyph: "pyramid-up-medium-upscaled", movePart: "2"} as IStashEntry, 
-                {count: stash[2], glyph: "pyramid-up-large-upscaled",  movePart: "3"} as IStashEntry
+                {count: stash[0], glyph: { name: "pyramid-up-small-upscaled",  player: player }, movePart: "1"},
+                {count: stash[1], glyph: { name: "pyramid-up-medium-upscaled", player: player }, movePart: "2"}, 
+                {count: stash[2], glyph: { name: "pyramid-up-large-upscaled",  player: player }, movePart: "3"}
             ];
         }
         return;

@@ -1,7 +1,7 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
@@ -53,7 +53,7 @@ export class EntropyGame extends GameBase {
                 name: "Eric Solomon"
             }
         ],
-        flags: ["simultaneous", "shared-pieces", "perspective", "scores"]
+        flags: ["simultaneous", "shared-pieces", "shared-stash", "perspective", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -393,7 +393,7 @@ export class EntropyGame extends GameBase {
                 }
                 theirboard[i].set(moves[i], next);
                 this.results.push({type: "place", what: next, where: moves[i]});
-                this.lastmove = this.lastmove.split(',').map((m,idx) => (i === idx) ? next + m : m).join(',');
+                this.lastmove = this.lastmove.split(',').map((mv,idx) => (i === idx) ? `${next}${mv}` : mv).join(',');
             }
         }
 
@@ -407,8 +407,8 @@ export class EntropyGame extends GameBase {
             this.bag = shuffle(this.bag) as CellContents[];
 
             this.checkEOG();
-            this.saveState();
         }
+        this.saveState();
         return this;
     }
 
@@ -498,7 +498,7 @@ export class EntropyGame extends GameBase {
             _version: EntropyGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
-            lastmove: this.lastmove === undefined ? [] : this.lastmove!.split(','),
+            lastmove: (this.lastmove === undefined ? [] : this.lastmove.split(',')),
             board1: new Map(this.board1),
             board2: new Map(this.board2),
             phase: this.phase,
@@ -535,70 +535,41 @@ export class EntropyGame extends GameBase {
         const board = {
             style: "entropy",
             orientation: "vertical",
+            boardOne: { occluded: false, label: "" },
+            boardTwo: { occluded: false, label: "" }
         };
         if (player !== undefined) {
-            // @ts-ignore
-            board.boardOne = {};
-            // @ts-ignore
-            board.boardTwo = {};
             if (player === 1) {
                 if (this.phase === "order") {
-                    // @ts-ignore
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardTwo.occluded = true;
                 } else {
-                    // @ts-ignore
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardOne.occluded = true;
                 }
             } else {
                 if (this.phase === "order") {
-                    // @ts-ignore
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardOne.occluded = true;
                 } else {
-                    // @ts-ignore
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                     board.boardTwo.occluded = true;
                 }
             }
         }
+        if (this.phase === "order") {
+            board.boardOne.label = "Player 1: Order";
+            board.boardTwo.label = "Player 2: Order";
+        } else {
+            board.boardOne.label = "Player 2: Chaos";
+            board.boardTwo.label = "Player 1: Chaos";
+        }
+
+        const legend : { [k: string]: Glyph } = {};
+        allColours.map((c, i) => legend[c] = { name: "piece", player: i + 1 } as Glyph);
 
         // Build rep
         const rep: APRenderRep =  {
             renderer: "entropy",
             // @ts-ignore
             board,
-            legend: {
-                RD: {
-                    name: "piece",
-                    player: 1
-                },
-                BU: {
-                    name: "piece",
-                    player: 2
-                },
-                GN: {
-                    name: "piece",
-                    player: 3
-                },
-                YE: {
-                    name: "piece",
-                    player: 4
-                },
-                VT: {
-                    name: "piece",
-                    player: 5
-                },
-                OG: {
-                    name: "piece",
-                    player: 6
-                },
-                BN: {
-                    name: "piece",
-                    player: 7
-                }
-            },
+            legend,
             pieces: pstr
         };
 
@@ -666,6 +637,25 @@ export class EntropyGame extends GameBase {
         status += `Player 1: ${this.getPlayerScore(1)}\n\n`;
         status += `Player 2: ${this.getPlayerScore(2)}\n\n`;
         return status;
+    }
+
+    public statuses(isPartial: boolean): IStatus[] {
+        const returned = [{ key: "Phase:", value: [this.phase] } as IStatus];
+        if (this.phase === "chaos" && !isPartial) {
+            const key = "Piece to place:";
+            const value = { glyph: "piece", player: allColours.findIndex(c => c === this.nextPiece()) + 1 };
+            returned.push({ key, value: [value] });
+        }
+        return returned;
+    }
+
+    public getSharedStash(): IStashEntry[] | undefined {
+        return Object.entries(this.bagContents()).sort((a, b) => { return a[0].localeCompare(b[0]); }).map(
+            p => { return {
+                    count: p[1],
+                    glyph: { name: "piece", player: allColours.findIndex(c => c === p[0]) + 1 },
+                    movePart: ""
+                }});
     }
 
     public chatLog(players: string[]): string[][] {

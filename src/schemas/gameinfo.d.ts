@@ -51,6 +51,7 @@ export interface APGamesInformation {
     | "scores"
     | "limited-pieces"
     | "shared-pieces"
+    | "shared-stash"
     | "player-stashes"
     | "automove"
     | "no-moves"

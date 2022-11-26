@@ -414,7 +414,7 @@ export class MchessGame extends GameBase {
                 const pts = this.findPoints(from).map(pt => MchessGame.coords2algebraic(...pt));
                 if (! pts.includes(to)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.mchess.INVALID_MOVE");
+                    result.message = i18next.t("apgames:validation.mchess.INVALID_MOVE", {move: m});
                     return result;
                 }
                 // if empty, we're good

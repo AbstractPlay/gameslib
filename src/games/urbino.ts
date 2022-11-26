@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -19,12 +19,6 @@ const allMonuments: Map<string, number> = new Map([["111", 3], ["212", 5], ["323
 interface IPointEntry {
     row: number;
     col: number;
-}
-
-interface IPlayerStash {
-    small: number;
-    medium: number;
-    large: number;
 }
 
 export interface IMoveState extends IIndividualState {
@@ -63,7 +57,7 @@ export class UrbinoGame extends GameBase {
                 description: "apgames:variants.urbino.monuments"
             }
         ],
-        flags: ["multistep", "player-stashes", "automove"]
+        flags: ["multistep", "player-stashes", "automove", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -231,7 +225,6 @@ export class UrbinoGame extends GameBase {
             }
             return true;
         });
-
         if (valid.length === 0) {
             return ["pass"];
         } else {
@@ -380,6 +373,8 @@ export class UrbinoGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
+            if (!this.validateMove(move).valid)
+                return {move, message: ""} as IClickResult;
             const cell = UrbinoGame.coords2algebraic(col, row);
             let newmove = "";
             const stash = this.pieces[this.currplayer - 1];
@@ -420,21 +415,25 @@ export class UrbinoGame extends GameBase {
                     }
                 }
             } else {
-                const [from,to,place] = move.split(/[-,]/);
+                let [from, to, place] = move.split(/[-,]/);
+                if (place === undefined && move.includes(',')) { // this happens when user clicks on stash (without movement)
+                    place = to;
+                    to = '';
+                }
                 if ( (this.board.size <= 2) && (from.length === 2) ) {
                     if (! this.board.has(cell)) {
                         newmove = cell;
                     } else {
                         newmove = move;
                     }
-                } else if ( (place !== undefined) || (from.length > 2) ) {
+                } else if ( (place !== undefined) || (from.length !== 2) ) {
                     let pSize: number; let pCell: string;
-                    if (from.length > 2) {
-                        pSize = parseInt(from[0], 10);
-                        pCell = from.slice(1);
-                    } else {
+                    if (place !== undefined) {
                         pSize = parseInt(place[0], 10);
                         pCell = place.slice(1);
+                    } else {
+                        pSize = parseInt(from[0], 10);
+                        pCell = from.slice(1);
                     }
                     // if you have no more pieces, passing is your only option
                     if (smallest === undefined) {
@@ -448,10 +447,17 @@ export class UrbinoGame extends GameBase {
                             next++;
                             if (next > 3) { next = 1;}
                         }
-                        if (from.length > 2) {
+                        if (from.length !== 2) {
                             newmove = `${next}${pCell}`;
                         } else {
                             newmove = `${from}-${to},${next}${pCell}`;
+                        }
+                    // user entered size to place
+                    } else if (pCell === "") {
+                        if (from.length !== 2) {
+                            newmove = `${pSize}${cell}`;
+                        } else {
+                            newmove = `${from}-${to},${pSize}${cell}`;
                         }
                     // if you're clicking on a valid empty cell, replace it, starting with the smallest piece
                     } else {
@@ -510,7 +516,19 @@ export class UrbinoGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        if (m.length > 0 && m.match(/^(pass|[a-i]([1-9](-([a-i]([1-9](,([123]([a-i]([1-9])?)?)?)?)?)?)?)?|,?([123]([a-i]([1-9])?)?)?)$/) == null) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            return result;
+        }
+        if (m.length > 0 && m.match(/^(pass|[a-i][1-9](-[a-i][1-9](,[123]([a-i][1-9])?)?)?|,?([123]([a-i][1-9])?))$/) == null) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation._general.INCOMPLETE_MOVE");
+            return result;
+        }
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
@@ -537,100 +555,109 @@ export class UrbinoGame extends GameBase {
             return result;
         }
 
-        const [from, to, place] = m.split(/[-,]/);
+        let [from, to, place] = m.split(/[-,]/);
+        let moved = true;
+        if (place === undefined && m.includes(',')){ // this happens when user clicks on stash (without movement)
+            place = to;
+            to = '';
+            moved = false;
+        } else if (from.length !== 2) {
+            place = from;
+            from = '';
+            moved = false;
+        }
 
-        // if `from.length > 2`, then this is a placement without movement, so process later
-        if ( (from !== undefined) && (from.length === 2) ) {
-            // valid cell
-            try {
-                UrbinoGame.algebraic2coords(from);
-            } catch {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
-                return result;
-            }
-            // from currently contains a worker you control
-            if (! this.board.has(from)) {
-                if (this.board.size < 2) {
-                    result.valid = true;
-                    result.complete = 1;
-                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if (moved) {
+            if ( (from !== undefined) && (from.length === 2) ) {
+                // valid cell
+                try {
+                    UrbinoGame.algebraic2coords(from);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
+                    return result;
+                }
+                // from currently contains a worker you control
+                if (! this.board.has(from)) {
+                    if (this.board.size < 2) {
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    }
+
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
+                    return result;
+                }
+                // First move after placing workers has to be a placement or pass
+                if (this.board.size === 2) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.urbino.MUST_PASS_PLAY");
                     return result;
                 }
 
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
-                return result;
-            }
-            // First move after placing workers has to be a placement or pass
-            if (this.board.size === 2) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.urbino.MUST_PASS_PLAY");
-                return result;
+                if (this.board.get(from)![0] !== 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                    return result;
+                }
+
+                // if this is it, then this is a valid partial
+                if (to === undefined) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.message = i18next.t("apgames:validation.urbino.PARTIAL_MOVE");
+                    return result;
+                }
             }
 
-            if (this.board.get(from)![0] !== 0) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
-                return result;
-            }
-
-            // if this is it, then this is a valid partial
-            if (to === undefined) {
-                result.valid = true;
-                result.complete = -1;
-                result.message = i18next.t("apgames:validation.urbino.PARTIAL_MOVE");
-                return result;
+            if (to !== undefined) {
+                // valid cell
+                try {
+                    UrbinoGame.algebraic2coords(to);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                    return result;
+                }
+                // to is empty
+                if (this.board.has(to)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
+                    return result;
+                }
+                // there are valid placements from here
+                const g = this.clone();
+                g.board.set(to, this.board.get(from)!);
+                g.board.delete(from);
+                if (! g.anyValidPlacement()) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.urbino.NOPLACEMENTS");
+                    return result;
+                }
+                // If this is it, this is a valid partial
+                if (place === undefined) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.urbino.PARTIAL_PLACE_SIZE");
+                    return result;
+                }
             }
         }
 
-        if (to !== undefined) {
-            // valid cell
-            try {
-                UrbinoGame.algebraic2coords(to);
-            } catch {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
-                return result;
-            }
-            // to is empty
-            if (this.board.has(to)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
-                return result;
-            }
-            // there are valid placements from here
-            const g = this.clone();
-            g.board.set(to, this.board.get(from)!);
-            g.board.delete(from);
-            if (! g.anyValidPlacement()) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.urbino.NOPLACEMENTS");
-                return result;
-            }
-            // If this is it, this is a valid partial
-            if (place === undefined) {
+        if ( place !== undefined ) {
+            const pSize = parseInt(place[0], 10) as Size;
+            const pCell = place.slice(1);
+            if (pCell === "") {
                 result.valid = true;
                 result.complete = -1;
-                result.canrender = true;
                 result.message = i18next.t("apgames:validation.urbino.PARTIAL_PLACE");
                 return result;
             }
-        }
-
-        // Combining these keeps the placement code in one place
-        // If `from.length > 2`, then `place` should be undefined
-        if ( (place !== undefined ) || (from.length > 2) ) {
-            let pSize: Size; let pCell: string;
-            if (place !== undefined) {
-                pSize = parseInt(place[0], 10) as Size;
-                pCell = place.slice(1);
-            } else {
-                pSize = parseInt(from[0], 10) as Size;
-                pCell = from.slice(1);
-            }
             const g = this.clone();
-            if (place !== undefined) {
+            if (moved) {
                 g.board.set(to, this.board.get(from)!);
                 g.board.delete(from);
             }
@@ -686,6 +713,8 @@ export class UrbinoGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         const result = this.validateMove(m);
+        if (m[0] === ',')
+            m = m.slice(1);
         if (! result.valid) {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
@@ -694,7 +723,6 @@ export class UrbinoGame extends GameBase {
         } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
-
         this.results = [];
 
         // Look for movement first
@@ -1082,7 +1110,7 @@ export class UrbinoGame extends GameBase {
             if (stash === undefined) {
                 throw new Error("Malformed stash.");
             }
-            status += `Player ${n}: ${stash.small} houses, ${stash.medium} palaces, ${stash.large} towers\n\n`;
+            status += `Player ${n}: ${stash[0].count} houses, ${stash[1].count} palaces, ${stash[2].count} towers\n\n`;
         }
 
         status += "**Scores**\n\n";
@@ -1137,10 +1165,14 @@ export class UrbinoGame extends GameBase {
         return resolved;
     }
 
-    public getPlayerStash(player: number): IPlayerStash | undefined {
+    public getPlayerStash(player: number): IStashEntry[] | undefined {
         const stash = this.pieces[player - 1];
         if (stash !== undefined) {
-            return {small: stash[0], medium: stash[1], large: stash[2]} as IPlayerStash;
+            return [
+                {count: stash[0], glyph: { name: "house",  player }, movePart: ",1"},
+                {count: stash[1], glyph: { name: "palace", player }, movePart: ",2"},
+                {count: stash[2], glyph: { name: "tower",  player }, movePart: ",3"}
+            ];
         }
         return;
     }

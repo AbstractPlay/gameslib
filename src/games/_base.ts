@@ -1,5 +1,5 @@
 import { APGamesInformation } from '../schemas/gameinfo';
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
 import { replacer, UserFacingError } from '../common';
@@ -21,6 +21,29 @@ export interface IIndividualState {
     _results: APMoveResult[];
     _timestamp: Date;
     [key: string]: any;
+}
+
+/**
+ * Key value pair for the UI to display arbitrary status information
+ *
+ * @export
+ * @interface IStatus
+ */
+export interface IStatus {
+    key: string;
+    value: (string | Glyph)[];
+}
+
+/**
+ * Represents an entry in a player (or shared) stash of player pieces.
+ *
+ * @export
+ * @interface IStashEntry
+ */
+export interface IStashEntry {
+    count: number,
+    glyph: Glyph,
+    movePart: string
 }
 
 /**
@@ -217,6 +240,10 @@ export abstract class GameBase  {
             return `**GAME OVER**\n\nWinner: ${this.winner.join(", ")}\n\n`;
         }
         return "";
+    }
+
+    public statuses(isPartial: boolean, partialMove: string): IStatus[] {
+        return [] as IStatus[];
     }
 
     public moveHistory(): string[][] {

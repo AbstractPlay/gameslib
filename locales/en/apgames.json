@@ -89,7 +89,9 @@
             "SAME_FROM_TO": "The 'from' and 'to' cells have to be different.",
             "SELFCAPTURE": "You cannot capture your own pieces.",
             "UNCONTROLLED": "You cannot move pieces you don't control.",
-            "VALID_MOVE": "Looks like a valid move."
+            "VALID_MOVE": "Looks like a valid move.",
+            "INVALID_MOVE": "'{{move}}' doesn't look like a valid move.",
+            "INCOMPLETE_MOVE": "This move looks incomplete."
         },
         "abande": {
             "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
@@ -336,17 +338,18 @@
         "urbino": {
             "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you may pass if your opponent just placed the second architect.",
             "INITIAL_INSTRUCTIONS_fresh": "Place an architect in an empty cell.",
-            "INITIAL_INSTRUCTIONS_inprogress": "Select an architect to move or select a cell in sight to place a piece.",
+            "INITIAL_INSTRUCTIONS_inprogress": "Select an architect to move or select the size of a piece to place.",
             "INVALID_PASS": "You may only pass if you have no other moves available.",
             "INVALID_PLACE_CELL": "The cell {{where}} is not visible to both architects.",
             "INVALID_PLACE_PIECE": {
-                "house": "You may not place a house here because it would create multiple districts of one colour.",
-                "palace": "You may not place a palace here either because there is a palace adjacent or it would create multiple districts of one colour.",
-                "tower": "You may not place a tower here either because there is a tower adjacent or it would create multiple districts of one colour."
+                "house": "You may not place a house here because it would create multiple blocks of one colour.",
+                "palace": "You may not place a palace here either because there is a palace adjacent or it would create multiple blocks of one colour.",
+                "tower": "You may not place a tower here either because there is a tower adjacent or it would create multiple blocks of one colour."
             },
             "MUST_PASS_PLAY": "The first turn after the second worker has been placed must be a pass or placement.",
             "NOPLACEMENTS": "You cannot move the workers such that you have no valid placements available.",
             "PARTIAL_MOVE": "Provide the destination.",
+            "PARTIAL_PLACE_SIZE": "Select the size of a piece to place.",
             "PARTIAL_PLACE": "Choose a cell to place a piece in."
         },
         "volcano": {

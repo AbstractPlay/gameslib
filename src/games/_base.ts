@@ -1,4 +1,4 @@
-import { APGamesInformation } from '../schemas/gameinfo';
+import { APGamesInformation, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
@@ -44,6 +44,17 @@ export interface IStashEntry {
     count: number,
     glyph: Glyph,
     movePart: string
+}
+
+/**
+ * Represents a set of scores for the players.
+ *
+ * @export
+ * @interface IScores
+ */
+ export interface IScores {
+    name: string,
+    scores: (number | string)[]
 }
 
 /**
@@ -131,6 +142,15 @@ export abstract class GameBase  {
     public description(): string {
         const ctor = this.constructor as typeof GameBase;
         return i18next.t(ctor.gameinfo.description!);
+    }
+    public allvariants(): Variant[] | undefined {
+        const ctor = this.constructor as typeof GameBase;
+        return ctor.gameinfo.variants?.map(v => {return {
+            "uid": v.uid, 
+            "name": i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.name`), 
+            "description": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) : undefined, 
+            "group": v.group 
+        }});
     }
     public static info(): string {
         return JSON.stringify(this.gameinfo);
@@ -300,8 +320,23 @@ export abstract class GameBase  {
         return hist;
     }
 
-    protected getVariants(): string[] | undefined {
-        return undefined;
+    public getVariants(): string[] | undefined {
+        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
+            return undefined;
+        }
+        const vars: string[] = [];
+        const possibleVariants = this.allvariants();
+        if (possibleVariants !== undefined) {
+            for (const v of this.variants) {
+                for (const rec of possibleVariants) {
+                    if (v === rec.uid) {
+                        vars.push(rec.name ?? '');
+                        break;
+                    }
+                }
+            }
+        }
+        return vars;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

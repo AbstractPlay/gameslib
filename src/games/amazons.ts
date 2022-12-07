@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -38,7 +38,7 @@ export class AmazonsGame extends GameBase {
                 name: "Walter Zamkauskas"
             }
         ],
-        flags: ["multistep"]
+        flags: ["multistep", "scores"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);
@@ -610,6 +610,20 @@ export class AmazonsGame extends GameBase {
         } else {
             return "";
         }
+    }
+
+    public statuses(): IStatus[] {
+        if (this.areIsolated())
+            return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.amazons.ISOLATEDQUEENS")] }];
+        else
+            return [];
+    }
+
+    public getPlayersScores(): IScores[] {
+        if (this.areIsolated())
+            return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory()}];
+        else
+            return [];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

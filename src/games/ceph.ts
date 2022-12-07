@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -41,10 +41,7 @@ export class CephalopodGame extends GameBase {
         variants: [
             {
                 uid: "snub",
-                name: "Board: Snub Square",
-                group: "board",
-                // i18next.t("apgames:variants.ceph.snub")
-                description: "apgames:variants.ceph.snub"
+                group: "board"
             },
         ],
         flags: ["scores", "multistep"]
@@ -568,20 +565,8 @@ export class CephalopodGame extends GameBase {
         return status;
     }
 
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of CephalopodGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
+    public getPlayersScores(): IScores[] {
+        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 
     protected getMoveList(): any[] {

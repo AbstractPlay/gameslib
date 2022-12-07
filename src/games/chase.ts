@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { CompassDirection, defineGrid, extendHex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -1258,6 +1258,15 @@ export class ChaseGame extends GameBase {
         }
 
         return status;
+    }
+
+    public statuses(): IStatus[] {
+        const speed = this.totalSpeed();
+        if (speed < 25) {
+            const delta = 25 - speed;
+            return [{ key: i18next.t("apgames:status.chase.BALANCE"), value: [i18next.t("apgames:status.chase.IMBALANCE", {delta: delta})] }];
+        } else
+            return [];
     }
 
     public chatLog(players: string[]): string[][] {

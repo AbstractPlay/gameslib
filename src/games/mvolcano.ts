@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -478,7 +478,7 @@ export class MvolcanoGame extends GameBase {
         return score;
     }
 
-        public organizeCaps(indata: playerid | CellContents[] = 1): IOrganizedCaps {
+    public organizeCaps(indata: playerid | CellContents[] = 1): IOrganizedCaps {
         let pile: CellContents[];
         if (Array.isArray(indata)) {
             pile = [...indata];
@@ -927,6 +927,10 @@ export class MvolcanoGame extends GameBase {
         }
 
         return status;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 
     protected getMoveList(): any[] {

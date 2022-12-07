@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -59,10 +59,7 @@ export class MchessGame extends GameBase {
         variants: [
             {
                 uid: "ofkk",
-                name: "Of Knights and Kings",
-                group: "movement",
-                // i18next.t("apgames:variants.mchess.ofkk")
-                description: "apgames:variants.mchess.ofkk",
+                group: "movement"
             }
         ],
         flags: ["scores", "multistep"],
@@ -869,20 +866,8 @@ export class MchessGame extends GameBase {
         return status;
     }
 
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of MchessGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
+    public getPlayersScores(): IScores[] {
+        return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
     }
 
     protected getMoveList(): any[] {

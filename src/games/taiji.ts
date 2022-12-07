@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation, Variant } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -36,27 +36,22 @@ export class TaijiGame extends GameBase {
         variants: [
             {
                 uid: "7x7",
-                name: "Smaller board: 7x7",
                 group: "board"
             },
             {
                 uid: "11x11",
-                name: "Larger board: 11x11",
                 group: "board"
             },
             {
                 uid: "onegroup",
-                name: "Scoring: Single largest group",
                 group: "scoring"
             },
             {
                 uid: "threegroups",
-                name: "Scoring: Largest three groups",
                 group: "scoring"
             },
             {
                 uid: "tonga",
-                name: "Tonga (Diagonal Placement)"
             },
         ],
         flags: ["scores", "multistep"]
@@ -487,22 +482,10 @@ export class TaijiGame extends GameBase {
         return status;
     }
 
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of TaijiGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
+    public getPlayersScores(): IScores[] {
+        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
-
+   
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "capture"]);
     }

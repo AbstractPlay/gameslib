@@ -36,10 +36,7 @@ export class LinesOfActionGame extends GameBase {
         variants: [
             {
                 uid: "scrambled",
-                name: "Scrambled Eggs",
-                group: "setup",
-                // i18next.t("apgames:variants.loa.scrambled")
-                description: "apgames:variants.loa.scrambled"
+                group: "setup"
             }
         ],
         flags: ["multistep"]
@@ -553,22 +550,6 @@ export class LinesOfActionGame extends GameBase {
         }
 
         return status;
-    }
-
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of LinesOfActionGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
     }
 
     protected getMoveList(): any[] {

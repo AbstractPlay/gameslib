@@ -470,22 +470,6 @@ export class ManalathGame extends GameBase {
         return status;
     }
 
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of ManalathGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
-    }
-
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "place"]);
     }

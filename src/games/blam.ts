@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -583,6 +583,10 @@ export class BlamGame extends GameBase {
 
     public getPlayerScore(player: number): number | undefined {
         return this.scores[player - 1];
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores.map((s,i) => `${s} (${i18next.t("apgames:status.blam.NUMPIECES", {count: this.caps[i]})})`)}];
     }
 
     protected getMoveList(): any[] {

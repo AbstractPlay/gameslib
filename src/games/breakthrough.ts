@@ -41,10 +41,7 @@ export class BreakthroughGame extends GameBase {
         ],
         variants: [
             {
-                uid: "bombardment",
-                name: "Bombardment",
-                // i18next.t("apgames:variants.breakthrough.bombardment")
-                description: "apgames:variants.breakthrough.bombardment"
+                uid: "bombardment"
             }
         ]
     };
@@ -553,22 +550,6 @@ export class BreakthroughGame extends GameBase {
         }
 
         return status;
-    }
-
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of BreakthroughGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
     }
 
     protected getMoveList(): any[] {

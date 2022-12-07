@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -47,10 +47,10 @@ export class DipoleGame extends GameBase {
         ],
         variants: [
             {
-                uid: "international",
-                name: "Larger board: 10x10",
+                uid: "international"
             },
-        ]
+        ],
+        flags: ["scores"]
     };
 
     public numplayers = 2;
@@ -659,22 +659,6 @@ export class DipoleGame extends GameBase {
         return rep;
     }
 
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of DipoleGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
-    }
-
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move"]);
     }
@@ -724,6 +708,13 @@ export class DipoleGame extends GameBase {
 
         return status;
     }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.DISTANCES"), scores: [this.totalDist(1), this.totalDist(2)] }
+        ]
+    }
+
 
     public clone(): DipoleGame {
         return new DipoleGame(this.serialize());

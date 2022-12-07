@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
@@ -640,13 +640,19 @@ export class EntropyGame extends GameBase {
     }
 
     public statuses(isPartial: boolean): IStatus[] {
-        const returned = [{ key: "Phase:", value: [this.phase] } as IStatus];
+        const returned = [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.entropy." + this.phase.toUpperCase())] } as IStatus];
         if (this.phase === "chaos" && !isPartial) {
-            const key = "Piece to place:";
+            const key = i18next.t("apgames:status.TOPLACE");
             const value = { glyph: "piece", player: allColours.findIndex(c => c === this.nextPiece()) + 1 };
             returned.push({ key, value: [value] });
         }
         return returned;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
+        ]
     }
 
     public getSharedStash(): IStashEntry[] | undefined {

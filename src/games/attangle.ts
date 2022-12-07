@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -45,13 +45,10 @@ export class AttangleGame extends GameBase {
         variants: [
             {
                 uid: "grand",
-                name: "Grand Attangle",
                 group: "board",
-                // i18next.t("apgames:variants.attangle.grand")
-                description: "apgames:variants.attangle.grand",
             },
         ],
-        flags: ["limited-pieces"]
+        flags: ["limited-pieces", "scores"]
     };
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -598,20 +595,10 @@ export class AttangleGame extends GameBase {
         return status;
     }
 
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of AttangleGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.pieces }
+        ]
     }
 
     protected getMoveList(): any[] {

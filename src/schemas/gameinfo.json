@@ -38,7 +38,7 @@
             "type": "object",
             "properties": {
                 "name": {
-                    "description": "The name of the variant",
+                    "description": "The name of the variant. These are looked up from apgames.json by the allvariants() function",
                     "type": "string"
                 },
                 "uid": {
@@ -46,7 +46,7 @@
                     "type": "string"
                 },
                 "description": {
-                    "description": "A Markdown-formatted description of the variant",
+                    "description": "A description of the variant. These are looked up from apgames.json by the allvariants() function",
                     "type": "string"
                 },
                 "group": {
@@ -54,7 +54,7 @@
                     "type": "string"
                 }
             },
-            "required": ["name", "uid"]
+            "required": ["uid"]
         }
     },
     "type": "object",

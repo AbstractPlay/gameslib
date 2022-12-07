@@ -72,6 +72,29 @@
     "MOVES_GAMEOVER": "You cannot make moves in concluded games",
     "MOVES_INVALID": "The move '{{move}}' is invalid. Please check the rules and try again.",
     "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time.",
+    "status": {
+        "PHASE": "Phase",
+        "SCORES": "Scores",
+        "TERRITORY": "Territory",
+        "DISTANCES": "Distances",
+        "PIECESINHAND": "Pieces in hand",
+        "TOPLACE": "Piece to place",
+        "amazons": {
+            "ISOLATEDQUEENS": "The queens are now isolated",
+            "TERRITORY": "Territory"
+        },
+        "blam": {
+            "NUMPIECES": "{{count}} pieces"
+        },
+        "chase": {
+            "BALANCE": "Imbalance",
+            "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
+        },
+        "entropy": {
+            "CHOAS": "Chaos",
+            "ORDER": "Order"
+        }
+    },
     "validation": {
         "_general": {
             "CAPTURE4MOVE": "You signalled a capture, but there's no piece at {{where}}.",
@@ -386,38 +409,106 @@
     },
     "variants": {
         "abande": {
-            "hex": "A 37-space hexagonal board.",
-            "snub": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            "hex": {
+                "name": "Board: Hexagonal",
+                "description": "A 37-space hexagonal board."
+            },
+            "snub": {
+                "name": "Board: Snub Square",
+                "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            }
         },
         "accasta": {
-            "pari": "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
+            "pari": {
+                "name": "Accasta Pari",
+                "description": "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
+            }
         },
         "attangle": {
-            "grand": "Played on a larger board, with more voids, and the goal now is to create five triple stacks."
+            "grand": {
+                "name": "Grand Attangle",
+                "description": "Played on a larger board, with more voids, and the goal now is to create five triple stacks."
+            }
         },
         "breakthrough": {
-            "bombardment": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it."
+            "bombardment": {
+                "name": "Bombardment",
+                "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it."
+            }
         },
         "ceph": {
-            "snub": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            "snub": {
+                "name": "Board: Snub Square",
+                "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            }
+        },
+        "dipole": {
+            "international": {
+                "name": "Larger board: 10x10"
+            }
         },
         "epam": {
-            "stones": "In this variant, the players place three impassable stones in the middle of the board."
+            "stones": {
+                "name": "Stumbling Blocks",
+                "description": "In this variant, the players place three impassable stones in the middle of the board."
+            }
         },
         "fabrik": {
-            "arbeiter": "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
+            "arbeiter": {
+                "name": "Arbeiter",
+                "description": "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
+            }
         },
         "loa": {
-            "scrambled": "Pieces are interspersed with each other instead of starting together on opposite sides of the board."
+            "scrambled": {
+                "name": "Scrambled Eggs",
+                "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board."
+            }
         },
         "mchess": {
-            "ofkk": "Pawns move like Chess kings, and drones move like Chess knights."
+            "ofkk": {
+                "name": "Of Knights and Kings",
+                "description": "Pawns move like Chess kings, and drones move like Chess knights."
+            }
         },
         "pikemen": {
-            "15pts": "The game doesn't end until you have 15 points worth of enemy soldiers."
+            "15pts": {
+                "name": "Longer Game: 15 points",
+                "description": "The game doesn't end until you have 15 points worth of enemy soldiers."
+            }
+        },
+        "taiji": {
+            "7x7": {
+                "name": "Smaller board: 7x7"
+            },
+            "11x11": {
+                "name": "Larger board: 11x11"
+            },
+            "onegroup": {
+                "name": "Scoring: Single largest group"
+            },
+            "threegroups": {
+                "name": "Scoring: Largest three groups"
+            },
+            "tonga": {
+                "name": "Tonga (Diagonal Placement)"
+            }
         },
         "urbino": {
-            "monuments": "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
+            "monuments": {
+                "name": "Monuments",
+                "description": "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
+            }
+        },
+        "wyke": {
+            "6x6": {
+                "name": "Larger board: 6x6"
+            }
+        },
+        "zola": {
+            "8x8": {
+                "name": "Larger board: 8x8"
+            }
         }
     }
 }

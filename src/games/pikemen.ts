@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -51,10 +51,7 @@ export class PikemenGame extends GameBase {
         variants: [
             {
                 uid: "15pts",
-                name: "Longer Game: 15 points",
-                group: "eog",
-                // i18next.t("apgames:variants.pikemen.15pts")
-                description: "apgames:variants.pikemen.15pts"
+                group: "eog"
             }
         ],
         flags: ["scores", "multistep"]
@@ -653,20 +650,8 @@ export class PikemenGame extends GameBase {
         return status;
     }
 
-    protected getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
-        const vars: string[] = [];
-        for (const v of this.variants) {
-            for (const rec of PikemenGame.gameinfo.variants!) {
-                if (v === rec.uid) {
-                    vars.push(rec.name);
-                    break;
-                }
-            }
-        }
-        return vars;
+    public getPlayersScores(): IScores[] {
+        return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
     }
 
     protected getMoveList(): any[] {

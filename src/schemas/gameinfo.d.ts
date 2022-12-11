@@ -78,15 +78,15 @@ export interface Person {
 }
 export interface Variant {
   /**
-   * The name of the variant
+   * The name of the variant. These are looked up from apgames.json by the allvariants() function
    */
-  name: string;
+  name?: string;
   /**
    * A short, unique string representing this variant
    */
   uid: string;
   /**
-   * A Markdown-formatted description of the variant
+   * A description of the variant. These are looked up from apgames.json by the allvariants() function
    */
   description?: string;
   /**

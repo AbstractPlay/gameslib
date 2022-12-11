@@ -50,7 +50,7 @@ export class FendoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["limited-pieces", "scores", "automove", "multistep"]
+        flags: ["limited-pieces", "scores", "automove", "multistep", "perspective"]
     };
 
     public numplayers = 2;

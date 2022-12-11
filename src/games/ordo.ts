@@ -45,7 +45,8 @@ export class OrdoGame extends GameBase {
                 name: "Dieter Stein",
                 urls: ["https://spielstein.com/"]
             }
-        ]
+        ],
+        flags: ["perspective"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

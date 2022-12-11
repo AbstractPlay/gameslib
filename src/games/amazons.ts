@@ -38,7 +38,7 @@ export class AmazonsGame extends GameBase {
                 name: "Walter Zamkauskas"
             }
         ],
-        flags: ["multistep", "scores"]
+        flags: ["multistep", "scores", "perspective"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);

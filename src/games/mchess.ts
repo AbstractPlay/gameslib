@@ -62,7 +62,7 @@ export class MchessGame extends GameBase {
                 group: "movement"
             }
         ],
-        flags: ["scores", "multistep"],
+        flags: ["scores", "multistep","perspective"],
     };
 
     public static coords2algebraic(x: number, y: number): string {

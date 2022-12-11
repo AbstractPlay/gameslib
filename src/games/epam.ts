@@ -40,7 +40,8 @@ export class EpamGame extends GameBase {
                 uid: "stones",
                 group: "setup"
             }
-        ]
+        ],
+        flags: ["perspective"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

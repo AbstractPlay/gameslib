@@ -50,7 +50,7 @@ export class DipoleGame extends GameBase {
                 uid: "international"
             },
         ],
-        flags: ["scores"]
+        flags: ["scores","perspective"]
     };
 
     public numplayers = 2;

@@ -49,7 +49,7 @@ export class AccastaGame extends GameBase {
                 uid: "pari",
             },
         ],
-        flags: ["multistep"]
+        flags: ["multistep", "perspective"]
     };
 
     public numplayers = 2;
@@ -626,15 +626,15 @@ export class AccastaGame extends GameBase {
             this.winner = [prevPlayer as playerid];
         } else {
             let count = 0;
-            for (const cell of castles[prevPlayer - 1]) {
+            for (const cell of castles[this.currplayer - 1]) {
                 const contents = this.board.get(cell);
-                if ( (contents !== undefined) && (contents[contents.length - 1][1] === this.currplayer) ) {
+                if ( (contents !== undefined) && (contents[contents.length - 1][1] === prevPlayer) ) {
                     count++;
                 }
             }
             if (count >= 3) {
                 this.gameover = true;
-                this.winner = [this.currplayer];
+                this.winner = [prevPlayer as playerid];
             }
         }
         if (this.gameover) {

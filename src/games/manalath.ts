@@ -23,6 +23,22 @@ export interface IManalathState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
+ interface IKeyEntry {
+    piece: string;
+    name: string;
+    value?: string;
+}
+
+interface IKey {
+    [k: string]: unknown;
+    type: "key";
+    list: IKeyEntry[];
+    height?: number;
+    buffer?: number;
+    position?: "left"|"right";
+    clickable?: boolean;
+}
+
 export class ManalathGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Manalath",
@@ -146,30 +162,44 @@ export class ManalathGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.graph.coords2algebraic(col, row);
             let newmove = "";
-            // If you click on an occupied cell, clear the entry
-            if (this.board.has(cell)) {
-                return {move: "", message: ""} as IClickResult;
-            }
-            if (move.length > 0) {
-                const prev = move.slice(0, move.length - 1);
-                const colour = move[move.length - 1];
-                if (prev === cell) {
-                    if (colour === "w") {
-                        newmove = `${cell}b`;
+            if (row == -1 && col == -1) {
+                if (move.length === 2) {
+                    newmove = move + piece;
+                } else if (move.length === 3) {
+                    newmove = move.slice(0, move.length - 1) + piece;
+                } else {
+                    newmove = piece!;
+                }
+            } else {
+                const cell = this.graph.coords2algebraic(col, row);
+                // If you click on an occupied cell, clear the entry
+                if (this.board.has(cell)) {
+                    return {move: "", message: ""} as IClickResult;
+                }
+                if (move.length > 0) {
+                    if (move.length === 1) {
+                        newmove = cell + move;
                     } else {
-                        newmove = `${cell}w`;
+                        const prev = move.slice(0, move.length - 1);
+                        const colour = move[move.length - 1];
+                        if (prev === cell) {
+                            if (colour === "w") {
+                                newmove = `${cell}b`;
+                            } else {
+                                newmove = `${cell}w`;
+                            }
+                        } else {
+                            newmove = `${cell}w`;
+                        }
                     }
                 } else {
                     newmove = `${cell}w`;
                 }
-            } else {
-                newmove = `${cell}w`;
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
-                result.move = newmove;
+                result.move = move;
             } else {
                 result.move = newmove;
             }
@@ -205,6 +235,19 @@ export class ManalathGame extends GameBase {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.manalath.BAD_PASS");
                 return result;
+            }
+        }
+
+        if (m.length === 1) {
+            if (m === 'w' || m === 'b') {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.manalath.DESTINATION");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.manalath.INVALID_COLOUR", {colour: m[m.length - 1]});
+                return result;    
             }
         }
 
@@ -439,9 +482,21 @@ export class ManalathGame extends GameBase {
                     player: 2
                 },
             },
-            pieces: pstr.map(p => p.join("")).join("\n")
+            pieces: pstr.map(p => p.join("")).join("\n"),
+            key: []
+
         };
 
+        // Add key so the user can click to select the color to place
+        const key: IKey = {
+            type: "key",
+            position: "left",
+            height: 0.7,
+            list: [{ piece: "A", name: "", value: "w"}, { piece: "B", name: "", value: "b"}],
+            clickable: true
+        };
+        rep.areas = [key];
+        
         // Add annotations
         if (this.results.length > 0) {
             // @ts-ignore

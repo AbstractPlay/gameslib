@@ -82,7 +82,8 @@ export class ChaseGame extends GameBase {
                 type: "publisher",
                 name: "TSR"
             }
-        ]
+        ],
+        flags: ["perspective"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

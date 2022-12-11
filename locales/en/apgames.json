@@ -315,7 +315,8 @@
         },
         "manalath": {
             "BAD_PASS": "You may not pass if legal moves are available.",
-            "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece. Select it again to cycle through the colours.",
+            "INITIAL_INSTRUCTIONS": "Select a color to place. You can type 'w' or 'b', or click on the desired color on the upper left.",
+            "DESTINATION": "Now select a destination.",
             "INVALID_COLOUR": "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
             "OVERSIZED_GROUP": "This would create a group of more than five pieces."
         },

@@ -91,7 +91,7 @@
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
         },
         "entropy": {
-            "CHOAS": "Chaos",
+            "CHAOS": "Chaos",
             "ORDER": "Order"
         }
     },

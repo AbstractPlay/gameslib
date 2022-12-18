@@ -73,6 +73,7 @@ export class UrbinoGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public pieces!: [[number,number,number],[number,number,number]];
+    private scratchboard: number[][] = [];
 
     constructor(state?: IUrbinoState | string, variants?: string[]) {
         super();
@@ -103,6 +104,12 @@ export class UrbinoGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        for (let i = 0; i < 9; i++) {
+            this.scratchboard[i] = [];
+            for (let j = 0; j < 9; j++) {
+                this.scratchboard[i][j] = 0;
+            }
+        }
     }
 
     public load(idx = -1): UrbinoGame {
@@ -229,6 +236,116 @@ export class UrbinoGame extends GameBase {
         }
     }
 
+    public moves2(player?: playerid): string[] {
+        if (this.gameover) { return []; }
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+
+        const moves: string[] = [];
+        const grid = new RectGrid(9, 9);
+
+        // If there aren't two workers yet, place those first
+        if (this.board.size < 2) {
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const cell = UrbinoGame.coords2algebraic(col, row);
+                    if (! this.board.has(cell)) {
+                        moves.push(cell);
+                    }
+                }
+            }
+            return moves;
+        }
+        let allDistricts = this.getAllDistricts();
+        let allowedPlacements: string[] = [];
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                const cell = UrbinoGame.coords2algebraic(col, row);
+                if (this.board.has(cell) && (this.board.get(cell)![0] !== 0))  // workers allowed
+                    continue;
+                // Check for district restrictions
+                const adjs = grid.adjacencies(col, row, false).map(pt => UrbinoGame.coords2algebraic(...pt));
+                let newblocks = 1;
+                for (const d of allDistricts) {
+                    let touch = false;
+                    let touchmyblock = false;
+                    for (const adj of adjs) {
+                        for (const b of d) {
+                            if( b[1].has(adj) ) {
+                                touch = true;
+                                if (b[0] === player)
+                                    touchmyblock = true;
+                            }
+                        }
+                    }
+                    if (touch)
+                        newblocks += d.length - 1 + (touchmyblock ? 0 : 1);
+                }
+                // console.log(`cell ${cell}, newblocks ${newblocks}`);
+                if (newblocks > 2)
+                    continue;
+                for (let piece = 1; piece < 4; piece++) {
+                    // Do you have a piece that size
+                    if (this.pieces[player! - 1][piece - 1] < 1)
+                        continue;
+
+                    // Are there adjacency restrictions
+                    if (piece > 1 && adjs.some(adj => (this.board.has(adj)) && (this.board.get(adj)![1] === piece)))
+                        continue;
+
+                    allowedPlacements.push(piece + cell);
+                }
+            }
+        }
+
+        // If there are only two workers, then only placement or passing is allowed
+        if (this.board.size === 2) {
+            // If nobody has passed yet, then passing is an option
+            if ( (this.lastmove !== undefined) && (this.lastmove !== "pass") ) {
+                moves.push("pass");
+            }
+            // In any case, the only other option is to place a piece
+            const combos = new CartesianProduct(["1", "2", "3"], this.findPoints2());
+            moves.push(...[...combos].map(p => p.join("")).filter(m => allowedPlacements.includes(m)));
+        // Otherwise, all move types are possible
+        } else {
+            // First, you're allowed to place without moving
+            const combos = new CartesianProduct(["1", "2", "3"], this.findPoints2());
+            moves.push(...[...combos].map(p => p.join("")).filter(m => allowedPlacements.includes(m)));
+
+            // Otherwise, calculate all possible moves and placements
+            const empties: string[] = [];
+            for (let row = 0; row < 9; row++) {
+                for (let col = 0; col < 9; col++) {
+                    const cell = UrbinoGame.coords2algebraic(col, row);
+                    if (! this.board.has(cell)) {
+                        empties.push(cell);
+                    }
+                }
+            }
+            const workers: string[] = [...this.board.entries()].filter(e => e[1][0] === 0).map(e => e[0]);
+            const pairs = new CartesianProduct(workers, empties);
+            for (const pair of pairs) {
+                const contents = this.board.get(pair[0])!;
+                this.board.delete(pair[0]);
+                this.board.set(pair[1], contents);
+                const combinations = new CartesianProduct(["1", "2", "3"], this.findPoints2())
+                for (const cell of [...combinations].map(p => p.join("")).filter(m => allowedPlacements.includes(m))) {
+                    moves.push(`${pair[0]}-${pair[1]},${cell}`);
+                }
+                this.board.delete(pair[1]);
+                this.board.set(pair[0], contents);
+            }
+        }
+
+        if (moves.length === 0) {
+            return ["pass"];
+        } else {
+            return [...moves];
+        }
+    }
+    
     /**
      * Validates whether a particular sized piece can be placed at a particular cell.
      * It does not validate whether that cell is valid given worker placement, or
@@ -950,6 +1067,53 @@ export class UrbinoGame extends GameBase {
                     }
                 }
                 return rays[0].filter(cell => rays[1].includes(cell));
+            }
+        }
+        return points;
+    }
+
+    public findPoints2(): string[] {
+        const points: string[] = [];
+        if (this.board.size >= 2) {
+            for (let i = 0; i < 9; i++) {
+                for (let j = 0; j < 9; j++) {
+                    this.scratchboard[i][j] = 0;
+                }
+            }
+            [...this.board.entries()].map(e => {let [x,y] = UrbinoGame.algebraic2coords(e[0]); this.scratchboard[x][y] = 1});
+            const workers = [...this.board.entries()].filter(e => e[1][0] === 0).map(e => e[0]);
+            const [x1, y1] = UrbinoGame.algebraic2coords(workers[0]);
+            const [x2, y2] = UrbinoGame.algebraic2coords(workers[1]);
+            for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                    if (dx === 0 && dy === 0)
+                        continue;
+                    let x = x1 + dx;
+                    let y = y1 + dy;
+                    while (x >= 0 && x < 9 && y >= 0 && y < 9) {
+                        if (this.scratchboard[x][y] === 1)
+                            break;
+                        this.scratchboard[x][y] = 2;
+                        x += dx;
+                        y += dy;
+                    }
+                }
+            }
+            for (let dx = -1; dx <= 1; dx++) {
+                for (let dy = -1; dy <= 1; dy++) {
+                    if (dx === 0 && dy === 0)
+                        continue;
+                    let x = x2 + dx;
+                    let y = y2 + dy;
+                    while (x >= 0 && x < 9 && y >= 0 && y < 9) {
+                        if (this.scratchboard[x][y] === 1)
+                            break;
+                        if (this.scratchboard[x][y] === 2)
+                            points.push(UrbinoGame.coords2algebraic(x, y));
+                        x += dx;
+                        y += dy;
+                    }
+                }
             }
         }
         return points;

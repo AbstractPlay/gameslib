@@ -166,7 +166,7 @@ module.exports = {
             "never"
         ],
         "prefer-arrow/prefer-arrow-functions": "error",
-        "prefer-const": "error",
+        "prefer-const": ["error", {"destructuring": "all"}],
         "radix": "error",
         "spaced-comment": [
             "error",

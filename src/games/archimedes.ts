@@ -558,7 +558,7 @@ export class ArchimedesGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.nowhat", {player: player, where: r.where}));
+                node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where}));
                 resolved = true;
                 break;
         }

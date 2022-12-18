@@ -633,7 +633,7 @@ export class AbandeGame extends GameBase {
         }
         return score;
     }
-   
+
     public clone(): AbandeGame {
         return new AbandeGame(this.serialize());
     }

@@ -24,3 +24,10 @@ This is a basic NPM module; it's just private. It's not meant to be generally us
 
 If you modify a schema, "compile" it with (for, e.g. the moveresults schema)
   `npx json2ts .\moveresults.json .\moveresults.d.ts`
+or (better)
+  `npm run json2ts`
+json2ts adds 
+  /* tslint:disable */ 
+to the header. We need to replace this with 
+  /* eslint-disable @typescript-eslint/naming-convention */
+to keep eslint happy.

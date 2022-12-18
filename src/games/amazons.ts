@@ -630,9 +630,9 @@ export class AmazonsGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "move":
-                const block = results.find(r => r.type === "block");
+                const block = results.find(mr => mr.type === "block");
                 // @ts-ignore
-                node.push(i18next.t("apresults:MOVE.amazons", {player: player, from: r.from as string, to: r.to as string, block: block.where as string}));
+                node.push(i18next.t("apresults:MOVE.amazons", {player, from: r.from, to: r.to, block: block.where as string}));
                 resolved = true;
                 break;
             case "block":

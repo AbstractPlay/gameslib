@@ -527,9 +527,9 @@ export class MonkeyQueenGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.what === "queen") {
-                    node.push(i18next.t("apresults:MOVE.monkey", {context: "queen", player: player, from: r.from, to: r.to}));
+                    node.push(i18next.t("apresults:MOVE.monkey", {context: "queen", player, from: r.from, to: r.to}));
                 } else {
-                    node.push(i18next.t("apresults:MOVE.monkey", {context: "single", player: player, from: r.from, to: r.to}));
+                    node.push(i18next.t("apresults:MOVE.monkey", {context: "single", player, from: r.from, to: r.to}));
                 }
                 resolved = true;
                 break;

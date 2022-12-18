@@ -1265,7 +1265,7 @@ export class ChaseGame extends GameBase {
         const speed = this.totalSpeed();
         if (speed < 25) {
             const delta = 25 - speed;
-            return [{ key: i18next.t("apgames:status.chase.BALANCE"), value: [i18next.t("apgames:status.chase.IMBALANCE", {delta: delta})] }];
+            return [{ key: i18next.t("apgames:status.chase.BALANCE"), value: [i18next.t("apgames:status.chase.IMBALANCE", {delta})] }];
         } else
             return [];
     }

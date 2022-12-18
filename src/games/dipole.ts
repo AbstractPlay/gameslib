@@ -667,7 +667,7 @@ export class DipoleGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "move":
-                node.push(i18next.t("apresults:MOVE.complete", {count: parseInt(r.what!, 10), player: player, from: r.from, to: r.to}));
+                node.push(i18next.t("apresults:MOVE.complete", {count: parseInt(r.what!, 10), player, from: r.from, to: r.to}));
                 resolved = true;
                 break;
             case "capture":

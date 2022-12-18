@@ -573,9 +573,9 @@ export class BlamGame extends GameBase {
         const stash = this.stashes.get(player as playerid);
         if (stash !== undefined) {
             return [
-                {count: stash[0], glyph: { name: "pyramid-up-small-upscaled",  player: player }, movePart: "1"},
-                {count: stash[1], glyph: { name: "pyramid-up-medium-upscaled", player: player }, movePart: "2"}, 
-                {count: stash[2], glyph: { name: "pyramid-up-large-upscaled",  player: player }, movePart: "3"}
+                {count: stash[0], glyph: { name: "pyramid-up-small-upscaled",  player }, movePart: "1"},
+                {count: stash[1], glyph: { name: "pyramid-up-medium-upscaled", player }, movePart: "2"},
+                {count: stash[2], glyph: { name: "pyramid-up-large-upscaled",  player }, movePart: "3"}
             ];
         }
         return;

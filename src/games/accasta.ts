@@ -199,7 +199,6 @@ export class AccastaGame extends GameBase {
                                 if (substack.length + contents.length <= 6) {
                                     const mylen = [...contents, ...substack].filter(p => p[1] === player).length;
                                     const theirlen = substack.length + contents.length - mylen;
-                                    // eslint-disable-next-line no-console
                                     if ( (mylen <= 3) && (theirlen <= 3) ) {
                                         if (len === stack.length) {
                                             step = `+${next}`;

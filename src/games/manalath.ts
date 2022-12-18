@@ -163,11 +163,11 @@ export class ManalathGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
-            if (row == -1 && col == -1) {
+            if (row === -1 && col === -1) {
                 if (move.length === 2) {
-                    newmove = move + piece;
+                    newmove = `${move}${piece}`;
                 } else if (move.length === 3) {
-                    newmove = move.slice(0, move.length - 1) + piece;
+                    newmove = `${move.slice(0, move.length - 1)}${piece}`;
                 } else {
                     newmove = piece!;
                 }
@@ -247,7 +247,7 @@ export class ManalathGame extends GameBase {
             } else {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.manalath.INVALID_COLOUR", {colour: m[m.length - 1]});
-                return result;    
+                return result;
             }
         }
 
@@ -496,7 +496,7 @@ export class ManalathGame extends GameBase {
             clickable: true
         };
         rep.areas = [key];
-        
+
         // Add annotations
         if (this.results.length > 0) {
             // @ts-ignore
@@ -534,9 +534,9 @@ export class ManalathGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "mine") {
-                    node.push(i18next.t("apresults:PLACE.mine", {player: player, where: r.where}));
+                    node.push(i18next.t("apresults:PLACE.mine", {player, where: r.where}));
                 } else {
-                    node.push(i18next.t("apresults:PLACE.theirs", {player: player, where: r.where}));
+                    node.push(i18next.t("apresults:PLACE.theirs", {player, where: r.where}));
                 }
                 resolved = true;
                 break;

@@ -146,10 +146,10 @@ export abstract class GameBase  {
     public allvariants(): Variant[] | undefined {
         const ctor = this.constructor as typeof GameBase;
         return ctor.gameinfo.variants?.map(v => {return {
-            "uid": v.uid, 
-            "name": i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.name`), 
-            "description": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) : undefined, 
-            "group": v.group 
+            "uid": v.uid,
+            "name": i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.name`),
+            "description": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) : undefined,
+            "group": v.group
         }});
     }
     public static info(): string {
@@ -177,7 +177,7 @@ export abstract class GameBase  {
     public lastmove?: string;
     public abstract gameover: boolean;
     public abstract numplayers: number;
-    public abstract winner: any[];
+    public abstract winner: number[];
     public abstract results: Array<APMoveResult>;
     public abstract variants: string[];
 
@@ -220,7 +220,7 @@ export abstract class GameBase  {
             }
         }
         if (!found && player !== -1) {
-            throw new Error("eog: No player " + player);
+            throw new Error("eog: No such player");
         }
         if (ctor.gameinfo.flags !== undefined && ctor.gameinfo.flags.includes('simultaneous')) {
             this.lastmove = resigner.join(',');
@@ -262,6 +262,7 @@ export abstract class GameBase  {
         return "";
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public statuses(isPartial: boolean, partialMove: string): IStatus[] {
         return [] as IStatus[];
     }
@@ -359,6 +360,7 @@ export abstract class GameBase  {
         return this.moveHistory();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         return false;
     }
@@ -368,7 +370,7 @@ export abstract class GameBase  {
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
                 const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
+                let otherPlayer = state.currplayer as number + 1;
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;
                 }
@@ -427,7 +429,7 @@ export abstract class GameBase  {
                                 break;
                             case "claim":
                                 node.push(i18next.t("apresults:CLAIM", {player: name, where: r.where }));
-                                break;     
+                                break;
                             case "eog":
                                 node.push(i18next.t("apresults:EOG"));
                                 break;
@@ -463,7 +465,7 @@ export abstract class GameBase  {
                     }
                 }
                 if (state._results.find(r => r.type === "deltaScore") !== undefined) {
-                    node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: state.scores[otherPlayer - 1]}));
+                    node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: (state.scores as number[])[otherPlayer - 1]}));
                 }
                 result.push(node);
             }

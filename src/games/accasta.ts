@@ -314,9 +314,9 @@ export class AccastaGame extends GameBase {
                     }
                 // The previous step is incomplete
                 } else {
+                    const newsteps = steps.slice(0, steps.length - 1);
                     // If you click on the source, assume something was wrong with the previous step and discard it
                     if (cell === source) {
-                        const newsteps = steps.slice(0, steps.length - 1);
                         // If selecting the rest of the stack, things are simple
                         if (index === 0) {
                             if (newsteps.length === 0) {
@@ -343,7 +343,7 @@ export class AccastaGame extends GameBase {
                         }
                     // otherwise, assume you're trying to move there
                     } else {
-                        if (this.board.has(cell)) {
+                        if (this.board.has(cell) || newsteps.some(step => step.match(/[-\+]([a-g]\d+)/)![1] === cell)) {
                             newmove = `${move}+${cell}`;
                         } else {
                             newmove = `${move}-${cell}`;
@@ -487,6 +487,18 @@ export class AccastaGame extends GameBase {
             const substack = [...stack.slice(stack.length - subsize)];
             if (cloned.board.has(destination)) {
                 const toContents = cloned.board.get(destination)!;
+                // Use '+' if moving onto an existing stack
+                if (toContents.length && step.includes('-')) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.accasta.USEPLUS", {step});
+                    return result;
+                }
+                // Use '-' if moving to an empty cell
+                if (toContents.length === 0 && step.includes('+')) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.accasta.USEMINUS", {step});
+                    return result;
+                }
                 if (toContents.length + subsize > 6) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.accasta.TOOHIGH", {move: m, step});

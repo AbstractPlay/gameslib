@@ -506,7 +506,7 @@ export class UrbinoGame extends GameBase {
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
-                result.move = "";
+                result.move = move;
             } else {
                 result.move = newmove;
             }

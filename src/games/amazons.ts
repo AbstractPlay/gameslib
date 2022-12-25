@@ -227,7 +227,7 @@ export class AmazonsGame extends GameBase {
             if (newmove.length > 0) {
                 const result = this.validateMove(newmove) as IClickResult;
                 if (! result.valid) {
-                    result.move = "";
+                    result.move = move;
                 } else {
                     result.move = newmove;
                 }

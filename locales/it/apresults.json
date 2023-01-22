@@ -1,0 +1,108 @@
+{
+    "ADD_one": "[IT] {{player}} added 1 piece to {{where}}.",
+    "ADD_other": "[IT] {{player}} added {{count}} pieces to {{where}}.",
+    "BEAROFF": {
+        "complete_one": "[IT] {{player}} bore off one piece from {{from}}.",
+        "complete_other": "[IT] {{player}} bore off {{count}} pieces from {{from}}."
+    },
+    "BLOCK": {
+        "between": "[IT] {{player}} erected a fence between {{cell1}} and {{cell2}}."
+    },
+    "CAPTURE": {
+        "complete": "[IT] {{player}} captured a {{what}} at {{where}}.",
+        "minimal": "[IT] A piece was captured.",
+        "monkey_queen": "[IT] A queen was captured.",
+        "monkey_single": "[IT] A singleton was captured.",
+        "multiple_one": "[IT] A piece was captured.",
+        "multiple_other": "[IT] {{count}} pieces were captured.",
+        "noperson": {
+            "multiple": "[IT] The following pieces were captured: {{capped}}.",
+            "nowhere": "[IT] A {{what}} was captured.",
+            "nowhere_one": "[IT] One piece was captured.",
+            "nowhere_other": "[IT] {{count}} pieces were captured.",
+            "simple": "[IT] A {{what}} was captured at {{where}}."
+        },
+        "nowhat": "[IT] {{player}} captured a piece at {{where}}."
+    },
+    "CLAIM": "[IT] {{player}} claimed {{where}}.",
+    "CONVERT": {
+        "complete": "[IT] {{player}} turned a {{what}} into a {{into}} at {{where}}."
+    },
+    "DESTROY": {
+        "enemy": {
+            "minimal_one": "[IT] {{count}} enemy piece was destroyed.",
+            "minimal_other": "[IT] {{count}} enemy pieces were destroyed."
+        },
+        "friendly": {
+            "minimal_one": "[IT] {{count}} friendly piece was destroyed.",
+            "minimal_other": "[IT] {{count}} friendly pieces were destroyed."
+        }
+    },
+    "DETONATE": {
+        "nowhat": "[IT] {{player}} detonated a piece at {{where}}."
+    },
+    "EOG": "[IT] The game has ended.",
+    "ERUPTIONS": "[IT] The following pieces erupted: {{eruptions}}.",
+    "homeworlds": {
+        "BUILD": "[IT] {{player}} build a {{what}} in the {{where}} system.",
+        "CAPTURE": "[IT] {{player}} captured a {{what}} in the {{where}} system.",
+        "CATASTROPHE": "[IT] An overpopulation of {{colour}} led to a catastrophe in {{where}}.",
+        "CONVERT": "[IT] {{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
+        "DISCOVER": "[IT] {{player}} discovered a new {{what}} system and named it {{name}}.",
+        "ESTABLISH": "[IT] A {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
+        "MOVE": "[IT] {{player}} flew their {{what}} from {{from}} to {{to}}.",
+        "PASS": "[IT] {{player}} passed an action.",
+        "SACRIFICE": "[IT] {{player}} sacrificed a {{what}} in the {{where}} system."
+    },
+    "MOVE": {
+        "amazons": "[IT] {{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        "chase": "[IT] {{player}} moved from {{from}} to {{to}} (through {{through}}).",
+        "complete": "[IT] {{player}} moved a {{what}} from {{from}} to {{to}}.",
+        "complete_one": "[IT] {{player}} moved one piece from {{from}} to {{to}}.",
+        "complete_other": "[IT] {{player}} moved {{count}} pieces from {{from}} to {{to}}.",
+        "monkey_queen": "[IT] {{player}} moved their queen from {{from}} to {{to}}.",
+        "monkey_single": "[IT] {{player}} moved a singleton from {{from}} to {{to}}.",
+        "multiple": "[IT] {{player}} made the following moves: {{moves}}.",
+        "nowhat": "[IT] {{player}} moved from {{from}} to {{to}}.",
+        "push": "[IT] A {{what}} was pushed from {{from}} to {{to}}."
+    },
+    "ORIENT": {
+        "nowhat": "[IT] {{player}} turned a piece at {{where}} to face {{facing}}."
+    },
+    "PASS": {
+        "entropy": "[IT] {{player}} chose not to move any pieces this turn.",
+        "simple": "[IT] {{player}} passed."
+    },
+    "PLACE": {
+        "cannon": "[IT] {{player}} placed their town at {{where}}.",
+        "chase": "[IT] The chamber spit out a {{what}} at {{where}}.",
+        "complete": "[IT] {{player}} placed a {{what}} at {{where}}.",
+        "epam": "[IT] {{player}} placed a stone at {{where}}.",
+        "mine": "[IT] {{player}} placed one of their own pieces at {{where}}.",
+        "nowhat": "[IT] {{player}} placed a piece at {{where}}.",
+        "theirs": "[IT] {{player}} placed an enemy piece at {{where}}.",
+        "urbino": {
+            "house": "[IT] {{player}} placed a house at {{where}}.",
+            "palace": "[IT] {{player}} placed a palace at {{where}}.",
+            "tower": "[IT] {{player}} placed a tower at {{where}}.",
+            "worker": "[IT] {{player}} placed an architect at {{where}}."
+        }
+    },
+    "PROMOTE": {
+        "mchess": "[IT] A {{into}} was created as a result."
+    },
+    "RECLAIM": {
+        "noperson": "[IT] A {{what}} was reclaimed."
+    },
+    "REMOVE_one": "[IT] {{player}} removed 1 piece from {{where}}.",
+    "REMOVE_other": "[IT] {{player}} removed {{count}} pieces from {{where}}.",
+    "RESIGN": "[IT] {{player}} has resigned.",
+    "TIMEOUT": "[IT] {{player}} lost on time.",
+    "DRAWAGREED": "[IT] Players agreed to a draw.",
+    "SCORE_REPORT": "[IT] {{player}}'s score is now {{score}}.",
+    "TAKE": {
+        "chase": "[IT] A {{what}} was fed to the chamber."
+    },
+    "WINNERS_one": "[IT] The following player won: {{winners}}.",
+    "WINNERS_other": "[IT] The following players won: {{winners}}."
+}

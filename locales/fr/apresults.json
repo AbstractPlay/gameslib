@@ -1,11 +1,9 @@
 {
-    "ADD_one": "",
-    "ADD_many": "",
-    "ADD_other": "",
+    "ADD_one": "[FR]{{player}} added 1 piece to {{where}}.",
+    "ADD_other": "[FR]{{player}} added {{count}} pieces to {{where}}.",
     "BEAROFF": {
-        "complete_one": "",
-        "complete_many": "",
-        "complete_other": ""
+        "complete_one": "[FR]{{player}} bore off one piece from {{from}}.",
+        "complete_other": "[FR]{{player}} bore off {{count}} pieces from {{from}}."
     },
     "BLOCK": {
         "between": "[FR]{{player}} erected a fence between {{cell1}} and {{cell2}}."
@@ -13,34 +11,30 @@
     "CAPTURE": {
         "complete": "[FR]{{player}} captured a {{what}} at {{where}}.",
         "minimal": "[FR]A piece was captured.",
-        "monkey_queen": "",
-        "monkey_single": "",
+        "monkey_queen": "[FR]A queen was captured.",
+        "monkey_single": "[FR]A singleton was captured.",
         "multiple_one": "[FR]A piece was captured.",
-        "multiple_many": "",
         "multiple_other": "[FR]{{count}} pieces were captured.",
         "noperson": {
             "multiple": "[FR]The following pieces were captured: {{capped}}.",
             "nowhere": "[FR]A {{what}} was captured.",
-            "nowhere_one": "",
-            "nowhere_many": "",
-            "nowhere_other": "",
+            "nowhere_one": "[FR]One piece was captured.",
+            "nowhere_other": "[FR]{{count}} pieces were captured.",
             "simple": "[FR]A {{what}} was captured at {{where}}."
         },
         "nowhat": "[FR]{{player}} captured a piece at {{where}}."
     },
-    "CLAIM": "",
+    "CLAIM": "[FR]{{player}} claimed {{where}}.",
     "CONVERT": {
         "complete": "[FR]{{player}} turned a {{what}} into a {{into}} at {{where}}."
     },
     "DESTROY": {
         "enemy": {
             "minimal_one": "[FR]{{count}} enemy piece was destroyed.",
-            "minimal_many": "",
             "minimal_other": "[FR]{{count}} enemy pieces were destroyed."
         },
         "friendly": {
             "minimal_one": "[FR]{{count}} friendly piece was destroyed.",
-            "minimal_many": "",
             "minimal_other": "[FR]{{count}} friendly pieces were destroyed."
         }
     },
@@ -64,11 +58,10 @@
         "amazons": "[FR]{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "chase": "[FR]{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "complete": "[FR]{{player}} moved a {{what}} from {{from}} to {{to}}.",
-        "complete_one": "",
-        "complete_many": "",
-        "complete_other": "",
-        "monkey_queen": "",
-        "monkey_single": "",
+        "complete_one": "[FR]{{player}} moved one piece from {{from}} to {{to}}.",
+        "complete_other": "[FR]{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
+        "monkey_queen": "[FR]{{player}} moved their queen from {{from}} to {{to}}.",
+        "monkey_single": "[FR]{{player}} moved a singleton from {{from}} to {{to}}.",
         "multiple": "[FR]{{player}} made the following moves: {{moves}}.",
         "nowhat": "[FR]{{player}} moved from {{from}} to {{to}}.",
         "push": "[FR]A {{what}} was pushed from {{from}} to {{to}}."
@@ -84,7 +77,7 @@
         "cannon": "[FR]{{player}} placed their town at {{where}}.",
         "chase": "[FR]The chamber spit out a {{what}} at {{where}}.",
         "complete": "[FR]{{player}} placed a {{what}} at {{where}}.",
-        "epam": "",
+        "epam": "[FR]{{player}} placed a stone at {{where}}.",
         "mine": "[FR]{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "[FR]{{player}} placed a piece at {{where}}.",
         "theirs": "[FR]{{player}} placed an enemy piece at {{where}}.",
@@ -101,15 +94,15 @@
     "RECLAIM": {
         "noperson": "[FR]A {{what}} was reclaimed."
     },
-    "REMOVE_one": "",
-    "REMOVE_many": "",
-    "REMOVE_other": "",
+    "REMOVE_one": "[FR]{{player}} removed 1 piece from {{where}}.",
+    "REMOVE_other": "[FR]{{player}} removed {{count}} pieces from {{where}}.",
     "RESIGN": "[FR]{{player}} has resigned.",
+    "TIMEOUT": "[FR]{{player}} lost on time.",
+    "DRAWAGREED": "[FR]Players agreed to a draw.",
     "SCORE_REPORT": "[FR]{{player}}'s score is now {{score}}.",
     "TAKE": {
         "chase": "[FR]A {{what}} was fed to the chamber."
     },
     "WINNERS_one": "[FR]The following player won: {{winners}}.",
-    "WINNERS_many": "",
     "WINNERS_other": "[FR]The following players won: {{winners}}."
 }

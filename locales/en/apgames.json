@@ -137,7 +137,9 @@
             "PARTIAL_SUBSTACK_other": "Looks like you want to move the top {{count}} pieces from the stack. Provide the destination.",
             "SOURCE_EMPTY": "In the move '{{move}}', when you come to the step '{{step}}', you don't have any pieces left to move.",
             "TOOFAR": "In the move '{{move}}', the step '{{step}}' tries to move further than it is allowed.",
-            "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high."
+            "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high.",
+            "USEPLUS": "In the step {{step}}, use a plus sign when moving onto an existing stack.",
+            "USEMINUS": "In the step {{step}}, use a minus sign when moving onto an empty cell."
         },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",

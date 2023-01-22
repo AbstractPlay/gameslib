@@ -3,14 +3,14 @@
         "abande": "[FR]Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
         "accasta": "[FR]Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "amazons": "[FR]A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
-        "archimedes": "",
+        "archimedes": "[FR]A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "attangle": "[FR]Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "blam": "[FR]An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "breakthrough": "[FR]One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         "cannon": "[FR]A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "ceph": "[FR]A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.\n\nThe default board is a 5x5 square. Only orthogonal connections are counted. A 5x5 snubsquare board is also available, with all connections active.",
         "chase": "[FR]Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (it's \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
-        "dipole": "",
+        "dipole": "[FR]An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "entropy": "[FR]Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. Chaos, of course, attempts to thwart Order whenever possible.\n\nThis implementation provides a simultaneous environment where each player has their own Order board. Each player places a piece on their opponent's Order board and then makes a move on their own board, players acting as both Order and Chaos at the same time. The player with the greatest score wins! Since both players share the same randomized pool of pieces, this approach gives the cleanest measure of skill.",
         "epam": "[FR]Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
         "fabrik": "[FR]In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The \"Arbeiter\" variant gives each player control over a specific worker.",
@@ -19,15 +19,15 @@
         "loa": "[FR]A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. This implementation uses a 9x9 board and has a \"black hole\" in the centre of it. Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw. The \"Scrambled Eggs\" initial layout variant is supported.",
         "manalath": "[FR]Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         "mchess": "[FR]A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points. A variant called \"Of Knights and Kings\" changes the way Pawns and Drones move to create a very different strategic game.\n\nWhile the game is playable by four players (or different numbers with odd-shaped boards), this implementation only supports two players.",
-        "monkey": "",
+        "monkey": "[FR]You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "mvolcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour (or all three white pieces). Scores are then calculated. Highest score wins.",
         "ordo": "[FR]Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly, but also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "pikemen": "[FR]A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "taiji": "[FR]Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.\n\n**Variants**\n\n- The default board size is 9x9, but 7x7 and 11x11 versions are also available.\n- The default win condition is the size of your two largest groups, but at the beginning of the game you can agree on looking at only one or three groups.\n- The default rule is no diagonal placement. The \"Tonga\" variant allows it, however.",
         "urbino": "[FR]In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
-        "wyke": "",
-        "zola": ""
+        "wyke": "[FR]A two-player game where one places the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
+        "zola": "[FR]A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
     "homeworlds": {
         "CMD_ATK_OWNER": "[FR]In games with more than two players, you have to always specify the owner of the ship you are attacking.",
@@ -72,15 +72,38 @@
     "MOVES_GAMEOVER": "[FR]You cannot make moves in concluded games",
     "MOVES_INVALID": "[FR]The move '{{move}}' is invalid. Please check the rules and try again.",
     "MOVES_SIMULTANEOUS_PARTIAL": "[FR]In simultaneous games, both players' moves must be submitted at the same time.",
+    "status": {
+        "PHASE": "[FR]Phase",
+        "SCORES": "[FR]Scores",
+        "TERRITORY": "[FR]Territory",
+        "DISTANCES": "[FR]Distances",
+        "PIECESINHAND": "[FR]Pieces in hand",
+        "TOPLACE": "[FR]Piece to place",
+        "amazons": {
+            "ISOLATEDQUEENS": "[FR]The queens are now isolated",
+            "TERRITORY": "[FR]Territory"
+        },
+        "blam": {
+            "NUMPIECES": "[FR]{{count}} pieces"
+        },
+        "chase": {
+            "BALANCE": "[FR]Imbalance",
+            "IMBALANCE": "[FR]Current player is imbalanced by {{delta}} speed."
+        },
+        "entropy": {
+            "CHAOS": "[FR]Chaos",
+            "ORDER": "[FR]Order"
+        }
+    },
     "validation": {
         "_general": {
             "CAPTURE4MOVE": "[FR]You signalled a capture, but there's no piece at {{where}}.",
             "DEFAULT_HANDLER": "[FR]This is the default handler and should never be called directly. Please inform the administrator.",
             "FAILSAFE": "[FR]The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
-            "GENERIC": "[FR]A generic error occured while processing your click:\nError message: {{emessage}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
-            "INVALIDCELL": "[FR]Could not find the cell {{cell}} on the board.",
+            "GENERIC": "[FR]A generic error occured while processing your click:\nError message: {{emessage}}\nStack: {{estack}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
+            "INVALIDCELL": "[FR]Could not find the cell '{{cell}}' on the board.",
             "MOVE4CAPTURE": "[FR]You signalled a regular move, but {{where}} is occupied.",
-            "NO_MOVES": "",
+            "NO_MOVES": "[FR]The piece at {{where}} does not have any legal moves.",
             "NOLOS": "[FR]There is no line of sight between {{from}} and {{to}}.",
             "NONEXISTENT": "[FR]Trying to interact with a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "[FR]You have no pieces to place.",
@@ -90,14 +113,13 @@
             "SELFCAPTURE": "[FR]You cannot capture your own pieces.",
             "UNCONTROLLED": "[FR]You cannot move pieces you don't control.",
             "VALID_MOVE": "[FR]Looks like a valid move.",
-            "INVALID_MOVE": "[FR]This doesn't look like a valid move.",
+            "INVALID_MOVE": "[FR]'{{move}}' doesn't look like a valid move.",
             "INCOMPLETE_MOVE": "[FR]This move looks incomplete."
-
         },
         "abande": {
             "DISCONNECTEDMOVE": "[FR]A move from {{from}} to {{to}} would disconnect the band.",
             "DISCONNECTEDPLACE": "[FR]Placing a piece at {{where}} would disconnect the band.",
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Place a piece on an empty space connected to the other pieces.",
             "INVALIDPASS": "[FR]You cannot pass while you have pieces in hand.",
             "MOVE2CONTROLLED": "[FR]You cannot capture your own stacks.",
             "MOVE2EMPTY": "[FR]You cannot move to empty spaces.",
@@ -107,32 +129,33 @@
             "TRIPLESTACK": "[FR]You cannot move triple stacks."
         },
         "accasta": {
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Select the bottom piece of the substack you wish to move.",
             "INVALID_SIZE": "[FR]In the move '{{move}}', the step '{{step}}' contains an invalid number of pieces to move. Remember that if you're removing the entire stack, omit the number altogether.",
             "MORE_THAN_THREE": "[FR]In the move '{{move}}', the step '{{step}}' would create a stack with more than 3 pieces of the same color.",
             "PARTIAL_FULLSTACK": "[FR]Looks like you want to move an entire stack. Provide the destination.",
             "PARTIAL_SUBSTACK_one": "[FR]Looks like you want to move the top piece from the stack. Provide the destination.",
-            "PARTIAL_SUBSTACK_many": "",
             "PARTIAL_SUBSTACK_other": "[FR]Looks like you want to move the top {{count}} pieces from the stack. Provide the destination.",
             "SOURCE_EMPTY": "[FR]In the move '{{move}}', when you come to the step '{{step}}', you don't have any pieces left to move.",
             "TOOFAR": "[FR]In the move '{{move}}', the step '{{step}}' tries to move further than it is allowed.",
-            "TOOHIGH": "[FR]In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high."
+            "TOOHIGH": "[FR]In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high.",
+            "USEPLUS": "[FR]In the step {{step}}, use a plus sign when moving onto an existing stack.",
+            "USEMINUS": "[FR]In the step {{step}}, use a minus sign when moving onto an empty cell."
         },
         "amazons": {
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your amazons to move.",
             "POTENTIAL_BLOCK": "[FR]So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "[FR]So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "[FR]You can only move and block in straight lines."
         },
         "archimedes": {
-            "INITIAL_INSTRUCTIONS": "",
-            "MUST_MOVE": "",
-            "PARTIAL": "",
-            "SELF_OCCUPATION": ""
+            "INITIAL_INSTRUCTIONS": "[FR]Select a piece to move, or click on your home port to rebuild a destroyed ship.",
+            "MUST_MOVE": "[FR]Ships must move at least one space.",
+            "PARTIAL": "[FR]Select a destination.",
+            "SELF_OCCUPATION": "[FR]You may not leave your own pieces on your home port."
         },
         "attangle": {
             "EMPTYCAPTURE": "[FR]One of the cells involved with the capture doesn't have any pieces in it.",
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Place a piece on an empty cell (that doesn't have a dot on it) or select an existing piece to start a capture.",
             "MOVE2EMPTY": "[FR]You cannot capture empty cells.",
             "ONVOID": "[FR]You cannot place pieces on voids (the spaces marked with a black dot).",
             "POTENTIAL_ONE": "[FR]This could potentially be a capture. Provide the location of the second stack.",
@@ -141,15 +164,17 @@
             "TRIPLESTACK": "[FR]Triple stacks cannot participate in captures."
         },
         "blam": {
-            "BADSYNTAX": "[FR]Invalid syntax: {{move}}. It should a the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
-            "INITIAL_INSTRUCTIONS": "",
+            "BADSYNTAX": "[FR]Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
+            "INITIAL_INSTRUCTIONS": "[FR]Enter the size of the piece to place. You can click on your stash.",
             "MOVES_NOPASS": "[FR]You cannot pass while you have pieces to place.",
-            "NOPIECE": "[FR]You do not have a piece of size {{size}} to place."
+            "NOPIECE": "[FR]You do not have a piece of size {{size}} to place.",
+            "PARTIAL": "[FR]Provide the destination.",
+            "SIZEFIRST": "[FR]First provide the size of the piece to place. You can click on your stash."
         },
         "breakthrough": {
             "BADVARIANT": "[FR]Bombardment moves are only allowed when that variant is active.",
             "DIAGONAL_CAPTURES": "[FR]Captures may only be made in a forward-diagonal direction.",
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your pawns.",
             "NOCAPTURES": "[FR]Captures are not allowed in the 'Bombardment' variant.",
             "ONLY_FORWARD": "[FR]Pieces may only move forward.",
             "PARTIAL": "[FR]Provide the destination.",
@@ -160,8 +185,8 @@
             "FIXED_TOWNS": "[FR]Towns cannot be moved.",
             "FORWARD_ONLY": "[FR]Pieces can only move forward, unless capturing laterally or retreating.",
             "HOMECELL": "[FR]You can only place your town on your home row, and not on the corners.",
-            "INITIAL_INSTRUCTIONS_placed": "",
-            "INITIAL_INSTRUCTIONS_towns": "",
+            "INITIAL_INSTRUCTIONS_placed": "[FR]Select one of your soldiers to move or an enemy piece to capture by cannon fire.",
+            "INITIAL_INSTRUCTIONS_towns": "[FR]Select a cell along the back row to place your town.",
             "LATERAL_MOVEMENT": "[FR]Pieces can only move laterally when capturing.",
             "NOCANNON_CAPTURE": "[FR]This piece is not in range of any of your cannons.",
             "NOCANNON_MOVE": "[FR]There is no cannon along which to move that piece that way.",
@@ -172,46 +197,46 @@
         },
         "ceph": {
             "DUPLICATECAP": "[FR]You can't capture the same piece more than once.",
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Select an empty cell.",
             "NOTADJACENT": "[FR]You can only capture pieces orthogonally adjacent to your placed piece.",
             "PARTIAL_ONECAP": "[FR]Select at least one more adjacent piece to capture.",
             "PARTIAL_PRECAP": "[FR]Select a piece to capture.",
             "TOOHIGH": "[FR]The pieces you capture cannot total more than six."
         },
         "chase": {
-            "BALANCE_LOWEST": "",
-            "DISTANT_EXCHANGE": "",
-            "INITIAL_INSTRUCTIONS_balanced": "",
-            "INITIAL_INSTRUCTIONS_imbalanced": "",
-            "MULTIPLE_PATHS": "",
-            "NOCHANGE_EXCHANGE": "",
-            "NOPATH": "",
-            "PARTIAL_BALANCE": "",
-            "PARTIAL_EXCHANGE": "",
-            "PARTIAL_MOVE": "",
-            "UNEQUAL_EXCHANGE": ""
+            "BALANCE_LOWEST": "[FR]When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",
+            "DISTANT_EXCHANGE": "[FR]The cells {{left}} and {{right}} are not adjacent to each other.",
+            "INITIAL_INSTRUCTIONS_balanced": "[FR]Select a piece to move. Select a piece twice to begin an exchange.",
+            "INITIAL_INSTRUCTIONS_imbalanced": "[FR]You are imbalanced by {{delta}} speed. Select on of your pieces with the lowest speed to correct.",
+            "MULTIPLE_PATHS": "[FR]There is more than one way to get to {{to}} from {{from}}. Please edit the move box to add a compass direction or choose the exact move from the drop-down menu.",
+            "NOCHANGE_EXCHANGE": "[FR]Exchanges must result in a change in the board state.",
+            "NOPATH": "[FR]There is no path from {{from}} to {{to}}.",
+            "PARTIAL_BALANCE": "[FR]You are still imbalanced by {{delta}} speed. Select another of your pieces with the lowest speed to correct.",
+            "PARTIAL_EXCHANGE": "[FR]Select another adjacent piece to make the exchange.",
+            "PARTIAL_MOVE": "[FR]Select a destination, or select the same piece again to begin an exchange.",
+            "UNEQUAL_EXCHANGE": "[FR]Exchanges must result in the same combined speed. The original combined speed was {{original}}. Your requested move would change that to {{proposed}}."
         },
         "dipole": {
-            "FORWARD": "",
-            "INITIAL_INSTRUCTIONS": "",
-            "INVALID_PASS": "",
-            "MERGE4CAPTURE": "",
-            "MERGE4MOVE": "",
-            "MOVE4MERGE": "",
-            "PARTIAL": "",
-            "STACK_SIZE": "",
-            "TOOFAR_edge": ""
+            "FORWARD": "[FR]Noncapturing movement must be in a forward direction.",
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your own stacks.",
+            "INVALID_PASS": "[FR]You may not pass if you have other valid moves.",
+            "MERGE4CAPTURE": "[FR]You signalled a merge, but the destination is occupied by enemy pieces.",
+            "MERGE4MOVE": "[FR]You signalled a merge, but the destination is empty.",
+            "MOVE4MERGE": "[FR]You signalled a move, but the destination already contains some of your own pieces.",
+            "PARTIAL": "[FR]Select a destination.",
+            "STACK_SIZE": "[FR]You may only capture stacks of equal or smaller size.",
+            "TOOFAR_edge": "[FR]The stack at {{from}} can't reach the edge from there."
         },
         "entropy": {
-            "INITIAL_INSTRUCTIONS_chaos": "",
-            "INITIAL_INSTRUCTIONS_order": "",
-            "INVALID_MOVEMENT": "",
-            "PARTIAL": "",
-            "STRAIGHT_LINES": ""
+            "INITIAL_INSTRUCTIONS_chaos": "[FR]Select an empty cell on your opponent's board to place the next piece.",
+            "INITIAL_INSTRUCTIONS_order": "[FR]Select a piece on your board to move, or pass.",
+            "INVALID_MOVEMENT": "[FR]You cannot move pieces in the CHAOS phase.",
+            "PARTIAL": "[FR]Select a destination.",
+            "STRAIGHT_LINES": "[FR]Pieces may only be moved in straight horizontal or vertical lines."
         },
         "epam": {
-            "INITIAL_INSTRUCTIONS_move": "",
-            "INITIAL_INSTRUCTIONS_stones": "",
+            "INITIAL_INSTRUCTIONS_move": "[FR]Select the tail of the phalanx you wish to move.",
+            "INITIAL_INSTRUCTIONS_stones": "[FR]Place a stone in an empty space in the middle six rows.",
             "INSUFFICIENT_FORCES": "[FR]When capturing, your phalanx must have more pieces than the captured phalanx.",
             "NOPLACEMENT": "[FR]You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",
             "PARTIAL": "[FR]Select where you want the *head* of the phalanx to end its movement.",
@@ -220,9 +245,9 @@
             "TOOFAR": "[FR]The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces."
         },
         "fabrik": {
-            "INITIAL_INSTRUCTIONS_first": "",
-            "INITIAL_INSTRUCTIONS_fresh": "",
-            "INITIAL_INSTRUCTIONS_inprogress": "",
+            "INITIAL_INSTRUCTIONS_first": "[FR]Select a cell in sight to place a piece, or you can pass if your opponent just placed the second worker.",
+            "INITIAL_INSTRUCTIONS_fresh": "[FR]Place a worker in an empty cell.",
+            "INITIAL_INSTRUCTIONS_inprogress": "[FR]Select a worker to move, or select an empty cell in sight to place a piece.",
             "INVALID_PASS": "[FR]You may only pass the turn immediately after the second worker has been placed.",
             "INVALID_PLACEMENT": "[FR]The cell {{where}} is not visible to both workers.",
             "MUST_PASS_PLAY": "[FR]The first turn after the second worker has been placed must be a pass or placement.",
@@ -232,7 +257,7 @@
         },
         "fendo": {
             "DUPLICATE_FENCE": "[FR]A fence already exists between these two cells.",
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Select a piece to move or an empty space to place a piece.",
             "INVALID_DESTINATION": "[FR]You cannot reach {{to}} from {{from}}. Remember that pieces can only make one ninety-degree turn as they move.",
             "INVALID_DIRECTION": "[FR]The direction {{dir}} is not valid. It must 'N', 'E', 'S', or 'W'.",
             "INVALID_FENCE": "[FR]Placing a fence here would either create an empty closed area or create multiple open areas.",
@@ -246,178 +271,247 @@
         },
         "homeworlds": {
             "attack": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": ""
+                "PARTIAL_NOARGS": "[FR]Select a ship to attack.",
+                "PARTIAL_ONEARG": "[FR]Select the system where the ship is found."
             },
             "build": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": ""
+                "PARTIAL_NOARGS": "[FR]Select a ship colour from the global stash. The size you select doesn't matter.",
+                "PARTIAL_ONEARG": "[FR]Select the system in which to place the new ship."
             },
             "catastrophe": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": ""
+                "PARTIAL_NOARGS": "[FR]Select the overpopulated system.",
+                "PARTIAL_ONEARG": "[FR]Select the colour that is overpopulated."
             },
             "discover": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": "",
-                "PARTIAL_THREEARGS": "",
-                "PARTIAL_TWOARGS": ""
+                "PARTIAL_NOARGS": "[FR]Select a ship to move.",
+                "PARTIAL_ONEARG": "[FR]Select the system where the ship is found.",
+                "PARTIAL_THREEARGS": "[FR]Give the new system a name.",
+                "PARTIAL_TWOARGS": "[FR]Select a star from the global stash."
             },
             "homeworld": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": "",
-                "PARTIAL_TWOARGS": ""
+                "PARTIAL_NOARGS": "[FR]Select your first star from the global stash.",
+                "PARTIAL_ONEARG": "[FR]Select a second star from the global stash.",
+                "PARTIAL_TWOARGS": "[FR]Select a colony ship from the global stash."
             },
-            "INITIAL_INSTRUCTIONS_fresh": "",
-            "INITIAL_INSTRUCTIONS_inprogress": "",
+            "INITIAL_INSTRUCTIONS_fresh": "[FR]You need to establish a homeworld. Choose a piece from the global stash to be your first star.",
+            "INITIAL_INSTRUCTIONS_inprogress": "[FR]Select any ship or star to do the action of that colour, or select the \"Sacrifice\" button below the global stash.",
             "move": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": "",
-                "PARTIAL_TWOARGS": ""
+                "PARTIAL_NOARGS": "[FR]Select a ship to move.",
+                "PARTIAL_ONEARG": "[FR]Select the system in which the ship is found.",
+                "PARTIAL_TWOARGS": "[FR]Select the system you want to move to, or select a piece from the global stash to discover a new system."
             },
             "sacrifice": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": ""
+                "PARTIAL_NOARGS": "[FR]Select the ship to sacrifice.",
+                "PARTIAL_ONEARG": "[FR]Select the system where the ship is found."
             },
             "trade": {
-                "PARTIAL_NOARGS": "",
-                "PARTIAL_ONEARG": "",
-                "PARTIAL_TWOARGS": ""
+                "PARTIAL_NOARGS": "[FR]Select a ship to convert.",
+                "PARTIAL_ONEARG": "[FR]Select the system where the ship is found.",
+                "PARTIAL_TWOARGS": "[FR]Select the new colour."
             }
         },
         "loa": {
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your pieces to move.",
             "NOT_IN_RANGE": "[FR]You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "[FR]Select your destination."
         },
         "manalath": {
             "BAD_PASS": "[FR]You may not pass if legal moves are available.",
-            "INITIAL_INSTRUCTIONS": "",
+            "INITIAL_INSTRUCTIONS": "[FR]Select a color to place. You can type 'w' or 'b', or click on the desired color on the upper left.",
+            "DESTINATION": "[FR]Now select a destination.",
             "INVALID_COLOUR": "[FR]The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
             "OVERSIZED_GROUP": "[FR]This would create a group of more than five pieces."
         },
         "mchess": {
-            "INITIAL_INSTRUCTIONS": "",
-            "INVALID_MOVE": "",
-            "INVALID_PROMOTION": "",
-            "PARTIAL": ""
+            "INITIAL_INSTRUCTIONS": "[FR]Select a piece on your side of the board to move.",
+            "INVALID_MOVE": "[FR]You're either trying to move too far or jump another piece.",
+            "INVALID_PROMOTION": "[FR]Invalid field promotion. You can only promote to piece sizes you don't already control.",
+            "PARTIAL": "[FR]Select a destination."
         },
         "monkey": {
-            "INITIAL_INSTRUCTIONS": "",
-            "MOVE_CLOSER": "",
-            "PARTIAL": "",
-            "QUEEN_DEPLETED": ""
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your pieces.",
+            "MOVE_CLOSER": "[FR]When singletons make noncapturing moves, they must move closer to the enemy queen (straight-line distance).",
+            "PARTIAL": "[FR]Select a destination.",
+            "QUEEN_DEPLETED": "[FR]Your queen can no longer make noncapturing moves."
         },
         "mvolcano": {
-            "INITIAL_INSTRUCTIONS": ""
+            "INITIAL_INSTRUCTIONS": "[FR]Select a cap to move."
         },
         "ordo": {
-            "DISCONNECTED": "",
-            "DISORGANIZED": "",
-            "INITIAL_INSTRUCTIONS": "",
-            "INVALID_ORDO": "",
-            "INVALID_ORDO_MOVE": "",
-            "PARTIAL": "",
-            "WRONG_DIRECTION": ""
+            "DISCONNECTED": "[FR]That move would leave your pieces disconnected.",
+            "DISORGANIZED": "[FR]Moves must be \"organized,\" meaning that the destination cell must be orthogonal to the first cell in the ordo.",
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your pieces to move or start an ordo.",
+            "INVALID_ORDO": "[FR]The ordo '{{ordo}}' is not valid. Ordos are groups of pieces connected in a straight, orthogonal line.",
+            "INVALID_ORDO_MOVE": "[FR]The ordo '{{ordo}}' cannot move to {{destination}}. This is usually because of an obstruction.",
+            "PARTIAL": "[FR]Select a destination or select a second piece to form an ordo.",
+            "WRONG_DIRECTION": "[FR]You may only move forward or side-to-side unless your pieces are disconnected."
         },
         "pikemen": {
-            "BAD_FACING": "",
-            "INITIAL_INSTRUCTIONS": "",
-            "PARTIAL_FINAL": "",
-            "PARTIAL_ORIENT": "",
-            "PARTIAL_PREMOVE": "",
-            "TOOSMALL": "",
-            "UPRIGHT_MOVEMENT": "",
-            "USELESS_ORIENTATION": ""
+            "BAD_FACING": "[FR]The following move segment had an unrecognizeable facing: {{segment}}.",
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your pieces to move.",
+            "PARTIAL_FINAL": "[FR]The move is valid. If you wish to reorient one last time, click on the cell you want to point towards, or click on the piece itself to stand upright.",
+            "PARTIAL_ORIENT": "[FR]Select the cell you want to point the piece towards.",
+            "PARTIAL_PREMOVE": "[FR]Select a destination, or select the piece again to reorient.",
+            "TOOSMALL": "[FR]Upright pieces can only be captured by larger pieces.",
+            "UPRIGHT_MOVEMENT": "[FR]Upright pieces cannot move.",
+            "USELESS_ORIENTATION": "[FR]If you reorient, you have to change to a new facing."
         },
         "taiji": {
-            "ADJACENT": "",
-            "INITIAL_INSTRUCTIONS": "",
-            "PARTIAL": ""
+            "ADJACENT": "[FR]Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
+            "INITIAL_INSTRUCTIONS": "[FR]Place a light piece in an empty space.",
+            "PARTIAL": "[FR]Place the dark piece in an adjacent empty space."
         },
         "urbino": {
-            "INITIAL_INSTRUCTIONS_first": "",
-            "INITIAL_INSTRUCTIONS_fresh": "",
-            "INITIAL_INSTRUCTIONS_inprogress": "",
-            "INVALID_PASS": "",
-            "INVALID_PLACE_CELL": "",
+            "INITIAL_INSTRUCTIONS_first": "[FR]Select a cell in sight to place a piece, or you may pass if your opponent just placed the second architect.",
+            "INITIAL_INSTRUCTIONS_fresh": "[FR]Place an architect in an empty cell.",
+            "INITIAL_INSTRUCTIONS_inprogress": "[FR]Select an architect to move or select the size of a piece to place.",
+            "INVALID_PASS": "[FR]You may only pass if you have no other moves available.",
+            "INVALID_PLACE_CELL": "[FR]The cell {{where}} is not visible to both architects.",
             "INVALID_PLACE_PIECE": {
-                "house": "",
-                "palace": "",
-                "tower": ""
+                "house": "[FR]You may not place a house here because it would create multiple blocks of one colour.",
+                "palace": "[FR]You may not place a palace here either because there is a palace adjacent or it would create multiple blocks of one colour.",
+                "tower": "[FR]You may not place a tower here either because there is a tower adjacent or it would create multiple blocks of one colour."
             },
-            "INVALID_PLACE_PIECE_pSize": "",
-            "MUST_PASS_PLAY": "",
-            "NOPLACEMENTS": "",
-            "PARTIAL_MOVE": "",
-            "PARTIAL_PLACE": ""
+            "MUST_PASS_PLAY": "[FR]The first turn after the second worker has been placed must be a pass or placement.",
+            "NOPLACEMENTS": "[FR]You cannot move the workers such that you have no valid placements available.",
+            "PARTIAL_MOVE": "[FR]Provide the destination.",
+            "PARTIAL_PLACE_SIZE": "[FR]Select the size of a piece to place.",
+            "PARTIAL_PLACE": "[FR]Choose a cell to place a piece in."
         },
         "volcano": {
-            "BAD_FROM": "",
-            "INITIAL_INSTRUCTIONS": "",
-            "MOVES_AFTER_ERUPTION": "",
-            "MOVES_CAPS_ONLY": "",
-            "MOVES_DOUBLE_CAP": "",
-            "MOVES_MUST_ERUPT": "",
-            "MOVES_NOPIECE": "",
-            "MOVES_ONE_POWERPLAY": "",
-            "MOVES_ONE_SPACE": "",
-            "PARTIAL_ERUPTION": "",
-            "PARTIAL_MOVE": ""
+            "BAD_FROM": "[FR]{{from}} doesn't look like a position on the board, or a piece in your stash.",
+            "INITIAL_INSTRUCTIONS": "[FR]Select a cap to move or a piece from your captured pile to place on the board.",
+            "MOVES_AFTER_ERUPTION": "[FR]You may not continue moving after causing an eruption.",
+            "MOVES_CAPS_ONLY": "[FR]You may only move caps.",
+            "MOVES_DOUBLE_CAP": "[FR]Nothing may be placed on top of a cap.",
+            "MOVES_MUST_ERUPT": "[FR]You must continue moving until you cause an eruption.",
+            "MOVES_NOPIECE": "[FR]You don't have a {{piece}} piece in your stash to place.",
+            "MOVES_ONE_POWERPLAY": "[FR]You may only make one power play per turn.",
+            "MOVES_ONE_SPACE": "[FR]Caps may only be moved one space at a time.",
+            "PARTIAL_ERUPTION": "[FR]Keep moving caps until you cause an eruption.",
+            "PARTIAL_MOVE": "[FR]Select the destination."
         },
         "wyke": {
-            "CELL_CLAIMED": "",
-            "DUPLICATE_CELLS": "",
-            "INITIAL_INSTRUCTIONS": "",
-            "INVALID_FORMAT": "",
-            "INVALID_MOVETYPE": "",
-            "MOVETYPE_UNAVAILABLE": "",
-            "PARTIAL": "",
-            "TOO_FEW_PIECES": "",
-            "TOO_MANY_CELLS": "",
-            "TOO_MANY_PIECES": ""
+            "CELL_CLAIMED": "[FR]The cell {{cell}} has already been claimed and cannot be interacted with further.",
+            "DUPLICATE_CELLS": "[FR]You can't select the same cell multiple times.",
+            "INITIAL_INSTRUCTIONS": "[FR]Select an available move from the button bar.",
+            "INVALID_FORMAT": "[FR]Your move is in an invalid format: \"{{move}}\". It should start with the move type followed by a list of cells in parentheses (e.g., \"3-1 (a1,b2)\").",
+            "INVALID_MOVETYPE": "[FR]The move \"{{move}}\" is not one of the five allowed movement types.",
+            "MOVETYPE_UNAVAILABLE": "[FR]That move type is unavailable. Only select moves that are not stricken through.",
+            "PARTIAL": "[FR]Continue selecting cells until the move is complete.",
+            "TOO_FEW_PIECES": "[FR]There are too few pieces at {{where}} to remove {{num}} of them.",
+            "TOO_MANY_CELLS": "[FR]You have selected more cells than the move type allows.",
+            "TOO_MANY_PIECES": "[FR]There are too many pieces at {{where}} to add {{num}} more."
         },
         "zola": {
-            "DISTANCE_CAPTURES": "",
-            "DISTANCE_NONCAPTURES": "",
-            "INITIAL_INSTRUCTIONS": "",
-            "PARTIAL": ""
+            "DISTANCE_CAPTURES": "[FR]Capture moves must not increase your distance from the centre.",
+            "DISTANCE_NONCAPTURES": "[FR]Non-capture moves must increase your distance from the centre.",
+            "INITIAL_INSTRUCTIONS": "[FR]Select one of your own pieces.",
+            "PARTIAL": "[FR]Select a destination."
         }
     },
     "variants": {
         "abande": {
-            "hex": "[FR]A 37-space hexagonal board.",
-            "snub": "[FR]A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            "hex": {
+                "name": "[FR]Board: Hexagonal",
+                "description": "[FR]A 37-space hexagonal board."
+            },
+            "snub": {
+                "name": "[FR]Board: Snub Square",
+                "description": "[FR]A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            }
         },
         "accasta": {
-            "pari": "[FR]Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
+            "pari": {
+                "name": "[FR]Accasta Pari",
+                "description": "[FR]Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
+            }
         },
         "attangle": {
-            "grand": "[FR]Played on a larger board, with more voids, and the goal now is to create five triple stacks."
+            "grand": {
+                "name": "[FR]Grand Attangle",
+                "description": "[FR]Played on a larger board, with more voids, and the goal now is to create five triple stacks."
+            }
         },
         "breakthrough": {
-            "bombardment": "[FR]Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it."
+            "bombardment": {
+                "name": "[FR]Bombardment",
+                "description": "[FR]Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it."
+            }
         },
         "ceph": {
-            "snub": "[FR]A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            "snub": {
+                "name": "[FR]Board: Snub Square",
+                "description": "[FR]A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+            }
+        },
+        "dipole": {
+            "international": {
+                "name": "[FR]Larger board: 10x10"
+            }
         },
         "epam": {
-            "stones": "[FR]In this variant, the players place three impassable stones in the middle of the board."
+            "stones": {
+                "name": "[FR]Stumbling Blocks",
+                "description": "[FR]In this variant, the players place three impassable stones in the middle of the board."
+            }
         },
         "fabrik": {
-            "arbeiter": "[FR]Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
+            "arbeiter": {
+                "name": "[FR]Arbeiter",
+                "description": "[FR]Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
+            }
         },
         "loa": {
-            "scrambled": "[FR]Pieces are interspersed with each other instead of starting together on opposite sides of the board."
+            "scrambled": {
+                "name": "[FR]Scrambled Eggs",
+                "description": "[FR]Pieces are interspersed with each other instead of starting together on opposite sides of the board."
+            }
         },
         "mchess": {
-            "ofkk": "[FR]Pawns move like Chess kings, and drones move like Chess knights."
+            "ofkk": {
+                "name": "[FR]Of Knights and Kings",
+                "description": "[FR]Pawns move like Chess kings, and drones move like Chess knights."
+            }
         },
         "pikemen": {
-            "15pts": "[FR]The game doesn't end until you have 15 points worth of enemy soldiers."
+            "15pts": {
+                "name": "[FR]Longer Game: 15 points",
+                "description": "[FR]The game doesn't end until you have 15 points worth of enemy soldiers."
+            }
+        },
+        "taiji": {
+            "7x7": {
+                "name": "[FR]Smaller board: 7x7"
+            },
+            "11x11": {
+                "name": "[FR]Larger board: 11x11"
+            },
+            "onegroup": {
+                "name": "[FR]Scoring: Single largest group"
+            },
+            "threegroups": {
+                "name": "[FR]Scoring: Largest three groups"
+            },
+            "tonga": {
+                "name": "[FR]Tonga (Diagonal Placement)"
+            }
         },
         "urbino": {
-            "monuments": "[FR]Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
+            "monuments": {
+                "name": "[FR]Monuments",
+                "description": "[FR]Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
+            }
+        },
+        "wyke": {
+            "6x6": {
+                "name": "[FR]Larger board: 6x6"
+            }
+        },
+        "zola": {
+            "8x8": {
+                "name": "[FR]Larger board: 8x8"
+            }
         }
     }
 }

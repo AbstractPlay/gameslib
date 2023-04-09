@@ -1,5 +1,5 @@
 import { UndirectedGraph } from "graphology";
-import bidirectional from 'graphology-shortest-path/unweighted';
+import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");

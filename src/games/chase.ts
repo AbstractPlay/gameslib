@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { CompassDirection, defineGrid, extendHex } from "honeycomb-grid";
+import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -27,41 +27,79 @@ export interface IChaseState extends IAPGameState {
 
 interface IVector {
     vector: [number, number][];
-    finalDir: CompassDirection;
+    finalDir: Direction;
 }
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-const hexDirs = ["NE", "E", "SE", "SW", "W", "NW"];
+// const hexDirs = ["NE", "E", "SE", "SW", "W", "NW"];
+
+const string2dir = (dir: string): Direction|undefined => {
+    switch (dir) {
+        case "NE":
+            return Direction.NE;
+        case "E":
+            return Direction.E;
+        case "SE":
+            return Direction.SE;
+        case "SW":
+            return Direction.SW;
+        case "W":
+            return Direction.W;
+        case "NW":
+            return Direction.NW;
+        default:
+            return undefined;
+    }
+}
+
+const dir2string = (dir: Direction): string|undefined => {
+    switch (dir) {
+        case Direction.NE:
+            return "NE";
+        case Direction.E:
+            return "E";
+        case Direction.SE:
+            return "SE";
+        case Direction.SW:
+            return "SW";
+        case Direction.W:
+            return "W";
+        case Direction.NW:
+            return "NW";
+        default:
+            return undefined;
+    }
+}
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-const Hex = extendHex({
+const myHex = defineHex({
     offset: 1,
-    orientation: "pointy"
+    orientation: Orientation.POINTY
 });
-const hexGrid = defineGrid(Hex).rectangle({width: 9, height: 9});
-const leftDirs: Map<CompassDirection, CompassDirection> = new Map([
-    ["SW" as CompassDirection, "E" as CompassDirection],
-    ["W" as CompassDirection, "SE" as CompassDirection],
-    ["NW" as CompassDirection, "S" as CompassDirection],
-    ["NE" as CompassDirection, "W" as CompassDirection],
-    ["E" as CompassDirection, "NW" as CompassDirection],
-    ["SE" as CompassDirection, "NE" as CompassDirection]
+const hexGrid = new Grid(myHex, rectangle({width: 9, height: 9}));
+const leftDirs: Map<Direction, Direction> = new Map([
+    [Direction.SW, Direction.E],
+    [Direction.W, Direction.SE],
+    [Direction.NW, Direction.S],
+    [Direction.NE, Direction.W],
+    [Direction.E, Direction.NW],
+    [Direction.SE, Direction.NE]
 ]);
-const rightDirs: Map<CompassDirection, CompassDirection> = new Map([
-    ["SW" as CompassDirection, "NW" as CompassDirection],
-    ["W" as CompassDirection, "NE" as CompassDirection],
-    ["NW" as CompassDirection, "E" as CompassDirection],
-    ["NE" as CompassDirection, "SE" as CompassDirection],
-    ["E" as CompassDirection, "SW" as CompassDirection],
-    ["SE" as CompassDirection, "W" as CompassDirection]
+const rightDirs: Map<Direction, Direction> = new Map([
+    [Direction.SW, Direction.NW],
+    [Direction.W, Direction.NE],
+    [Direction.NW, Direction.E],
+    [Direction.NE, Direction.SE],
+    [Direction.E, Direction.SW],
+    [Direction.SE, Direction.W]
 ]);
-const chamberExits: Map<CompassDirection, [string, string]> = new Map([
-    ["SW" as CompassDirection, ["e6", "f5"]],
-    ["W" as CompassDirection, ["d6", "f6"]],
-    ["NW" as CompassDirection, ["d5", "e6"]],
-    ["NE" as CompassDirection, ["e4", "d6"]],
-    ["E" as CompassDirection, ["f5", "d5"]],
-    ["SE" as CompassDirection, ["f6", "e4"]]
+const chamberExits: Map<Direction, [string, string]> = new Map([
+    [Direction.SW, ["e6", "f5"]],
+    [Direction.W, ["d6", "f6"]],
+    [Direction.NW, ["d5", "e6"]],
+    [Direction.NE, ["e4", "d6"]],
+    [Direction.E, ["f5", "d5"]],
+    [Direction.SE, ["f6", "e4"]]
 ]);
 
 export class ChaseGame extends GameBase {
@@ -113,14 +151,16 @@ export class ChaseGame extends GameBase {
      * @private
      * @param {number} x
      * @param {number} y
-     * @param {CompassDirection} dir
+     * @param {Direction} dir
      * @param {number} distance
      * @returns {[number, number][]}
      * @memberof ChaseGame
      */
-     public static vector(x: number, y: number, dir: CompassDirection, distance = 1): IVector {
-        if (! hexDirs.includes(dir)) {
-            throw new Error(`Invalid direction passed for a pointy hex: ${dir}`);
+     public static vector(x: number, y: number, dir: Direction, distance = 1): IVector {
+        // if (! hexDirs.includes(dir)) {
+            // throw new Error(`Invalid direction passed for a pointy hex: ${dir}`);
+        if (dir === undefined) {
+            throw new Error(`Undefined direction passed.`);
         }
         if ( (x < 0) || (x >= 9) || (y < 0) || (y >= 9) ) {
             throw new Error(`Invalid coordinates for a Chase board: ${x},${y}`);
@@ -129,83 +169,83 @@ export class ChaseGame extends GameBase {
             throw new Error(`Invalid distance for a Chase game: ${distance}`);
         }
         const cells: [number, number][] = [];
-        let hex = hexGrid.get([x, y]);
+        let hex = hexGrid.getHex({col: x, row: y});
         if (hex === undefined) {
             throw new Error(`Invalid starting hex ${x},${y}`);
         }
         while (distance > 0) {
             // First use the library to find a neighbour
             // If it's valid, we're good.
-            const neighbours = hexGrid.neighborsOf(hex, dir);
-            if ( (neighbours !== undefined) && (Array.isArray(neighbours)) && (neighbours.filter(n => n !== undefined).length === 1) ) {
-                hex = neighbours.filter(n => n !== undefined)[0];
-                cells.push([hex.x, hex.y]);
+            const neighbour: Hex|undefined = hexGrid.neighborOf(hex, dir, { allowOutside: false });
+            if (neighbour !== undefined) {
+                hex = neighbour;
+                cells.push([hex.col, hex.row]);
             // Otherwise, check for richochet (have to check for richochet before wraparound or things break)
-            } else if ( (hex.y === 0) && (dir === "NE") ) {
-                hex = hexGrid.get([(hex.x + 1) % 9, hex.y + 1]);
+            } else if ( (hex.row === 0) && (dir === Direction.NE) ) {
+                hex = hexGrid.getHex({col: (hex.col + 1) % 9, row: hex.row + 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet NE from row 0.");
                 }
-                cells.push([hex.x, hex.y]);
-                dir = "SE" as CompassDirection;
-            } else if ( (hex.y === 0) && (dir === "NW") ) {
-                hex = hexGrid.get([hex.x, hex.y + 1]);
+                cells.push([hex.col, hex.row]);
+                dir = Direction.SE;
+            } else if ( (hex.row === 0) && (dir === Direction.NW) ) {
+                hex = hexGrid.getHex({col: hex.col, row: hex.row + 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet NW from row 0.");
                 }
-                cells.push([hex.x, hex.y]);
-                dir = "SW" as CompassDirection;
-            } else if ( (hex.y === 8) && (dir === "SE") ) {
-                hex = hexGrid.get([(hex.x + 1) % 9, hex.y - 1]);
+                cells.push([hex.col, hex.row]);
+                dir = Direction.SW;
+            } else if ( (hex.row === 8) && (dir === Direction.SE) ) {
+                hex = hexGrid.getHex({col: (hex.col + 1) % 9, row: hex.row - 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet SE from row 8.");
                 }
-                cells.push([hex.x, hex.y]);
-                dir = "NE" as CompassDirection;
-            } else if ( (hex.y === 8) && (dir === "SW") ) {
-                hex = hexGrid.get([hex.x, hex.y - 1]);
+                cells.push([hex.col, hex.row]);
+                dir = Direction.NE;
+            } else if ( (hex.row === 8) && (dir === Direction.SW) ) {
+                hex = hexGrid.getHex({col: hex.col, row: hex.row - 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating richochet SW from row 8.");
                 }
-                cells.push([hex.x, hex.y]);
-                dir = "NW" as CompassDirection;
+                cells.push([hex.col, hex.row]);
+                dir = Direction.NW;
             // Then check for wraparound
-            } else if ( (hex.x === 0) && (dir === "W") ) {
-                hex = hexGrid.get([8, hex.y]);
+            } else if ( (hex.col === 0) && (dir === Direction.W) ) {
+                hex = hexGrid.getHex({col: 8, row: hex.row});
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound W from column 0.");
                 }
-                cells.push([hex.x, hex.y])
-            } else if ( (hex.x === 0) && (dir === "NW") ) {
-                hex = hexGrid.get([8, hex.y - 1]);
+                cells.push([hex.col, hex.row])
+            } else if ( (hex.col === 0) && (dir === Direction.NW) ) {
+                hex = hexGrid.getHex({col: 8, row: hex.row - 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound NW from column 0.");
                 }
-                cells.push([hex.x, hex.y])
-            } else if ( (hex.x === 0) && (dir === "SW") ) {
-                hex = hexGrid.get([8, hex.y + 1]);
+                cells.push([hex.col, hex.row])
+            } else if ( (hex.col === 0) && (dir === Direction.SW) ) {
+                hex = hexGrid.getHex({col: 8, row: hex.row + 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound SW from column 0.");
                 }
-                cells.push([hex.x, hex.y])
-            } else if ( (hex.x === 8) && (dir === "E") ) {
-                hex = hexGrid.get([0, hex.y]);
+                cells.push([hex.col, hex.row])
+            } else if ( (hex.col === 8) && (dir === Direction.E) ) {
+                hex = hexGrid.getHex({col: 0, row: hex.row});
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound E from column 8.");
                 }
-                cells.push([hex.x, hex.y]);
-            } else if ( (hex.x === 8) && (dir === "NE") ) {
-                hex = hexGrid.get([0, hex.y - 1]);
+                cells.push([hex.col, hex.row]);
+            } else if ( (hex.col === 8) && (dir === Direction.NE) ) {
+                hex = hexGrid.getHex({col: 0, row: hex.row - 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound NE from column 8.");
                 }
-                cells.push([hex.x, hex.y]);
-            } else if ( (hex.x === 8) && (dir === "SE") ) {
-                hex = hexGrid.get([0, hex.y + 1]);
+                cells.push([hex.col, hex.row]);
+            } else if ( (hex.col === 8) && (dir === Direction.SE) ) {
+                hex = hexGrid.getHex({col: 0, row: hex.row + 1});
                 if (hex === undefined) {
                     throw new Error("Error calculating wraparound SE from column 8.");
                 }
-                cells.push([hex.x, hex.y]);
+                cells.push([hex.col, hex.row]);
             } else {
                 throw new Error(`Something went horribly wrong while calculating a movement vector. This should never happen.\nStart: ${x},${y}, Curr: ${hex.toString()}, Dir: ${dir}, Distance: ${distance}`);
             }
@@ -339,8 +379,8 @@ export class ChaseGame extends GameBase {
         if ( (x === 0) || (x === 8) ) {
             // manually look for neighbours to account for wraparound, accounting for duplicates
             const possible: Set<string> = new Set();
-            for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
-                const v = ChaseGame.vector(x, y, dir as CompassDirection).vector;
+            for (const dir of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
+                const v = ChaseGame.vector(x, y, dir).vector;
                 if (v.length !== 1) {
                     throw new Error("Something went wrong finding a neighbour cell.");
                 }
@@ -349,7 +389,15 @@ export class ChaseGame extends GameBase {
             neighbours.push(...[...possible.values()].map(v => v.split(",").map(n => parseInt(n, 10))).map(p => [p[0], p[1]] as [number, number]));
         } else {
             // otherwise, just use the library function
-            neighbours.push(...hexGrid.neighborsOf(Hex(x, y)).filter(h => h !== undefined).map(h => [h.x, h.y] as [number,number]));
+            const target = hexGrid.getHex({col: x, row: y});
+            if (target !== undefined) {
+                for (const dir of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
+                    const n = hexGrid.neighborOf(target, dir, { allowOutside: false});
+                    if (n !== undefined) {
+                        neighbours.push([n.x, n.y]);
+                    }
+                }
+            }
         }
         return neighbours;
     }
@@ -401,15 +449,15 @@ export class ChaseGame extends GameBase {
             const start = piece[0];
             const [startX, startY] = ChaseGame.algebraic2coords(start);
             const speed = piece[1][1];
-            for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
+            for (const dir of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
                 // Skip silly ricochets of pieces starting at board ends
-                if ( ( (startY === 0) && (dir === "NE") ) ||
-                     ( (startY === 0) && (dir === "NW") ) ||
-                     ( (startY === 8) && (dir === "SE") ) ||
-                     ( (startY === 8) && (dir === "SW") ) ) {
+                if ( ( (startY === 0) && (dir === Direction.NE) ) ||
+                     ( (startY === 0) && (dir === Direction.NW) ) ||
+                     ( (startY === 8) && (dir === Direction.SE) ) ||
+                     ( (startY === 8) && (dir === Direction.SW) ) ) {
                     continue;
                 }
-                const v = ChaseGame.vector(startX, startY, dir as CompassDirection, speed).vector;
+                const v = ChaseGame.vector(startX, startY, dir, speed).vector;
                 // Make sure intermediate spaces are clear
                 const middle = v.slice(0, v.length - 1);
                 let valid = true;
@@ -425,15 +473,15 @@ export class ChaseGame extends GameBase {
                     const finalCell = ChaseGame.coords2algebraic(...final);
                     // if final cell is empty, it's a move
                     if (! this.board.has(finalCell)) {
-                        moves.push(`${start}-${finalCell}${dir}`);
+                        moves.push(`${start}-${finalCell}${dir2string(dir)}`);
                     } else {
                         const occ = this.board.get(finalCell);
                         // If occupied by friendly, it's a move
                         if (occ![0] === player) {
-                            moves.push(`${start}-${finalCell}${dir}`);
+                            moves.push(`${start}-${finalCell}${dir2string(dir)}`);
                         // otherwise it's a capture
                         } else {
-                            moves.push(`${start}x${finalCell}${dir}`);
+                            moves.push(`${start}x${finalCell}${dir2string(dir)}`);
                         }
                     }
                 }
@@ -808,10 +856,10 @@ export class ChaseGame extends GameBase {
             }
 
             let to = right;
-            let dir: CompassDirection | undefined;
+            let dir: Direction | undefined;
             if (right.length > 2) {
                 to = right.slice(0, 2);
-                dir = right.slice(2) as CompassDirection;
+                dir = string2dir(right.slice(2));
             }
 
             // valid cell
@@ -860,8 +908,8 @@ export class ChaseGame extends GameBase {
             // otherwise calculate all possible targets and paths for this piece
             } else {
                 const paths: string[][] = [];
-                for (const d of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
-                    paths.push(ChaseGame.vector(...ChaseGame.algebraic2coords(from), d as CompassDirection, speed).vector.map(v => ChaseGame.coords2algebraic(...v)))
+                for (const d of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
+                    paths.push(ChaseGame.vector(...ChaseGame.algebraic2coords(from), d, speed).vector.map(v => ChaseGame.coords2algebraic(...v)))
                 }
                 const validPaths = paths.filter(p => p[p.length - 1] === to);
                 if (validPaths.length === 0) {
@@ -998,11 +1046,11 @@ export class ChaseGame extends GameBase {
             if ( (partial) && (! working.includes("-")) && (! working.includes("x")) ) { return this; }
             const match = working.match(/^([a-z][0-9])[-x]([a-z][0-9])([NESW]+)$/);
             if (match === null) {
-                throw new Error("Error occurred extracting the various parts of the move.");
+                throw new Error(`Error occurred extracting the various parts of the move: ${working}.`);
             }
             const from = match[1];
             const to = match[2];
-            const dir = match[3];
+            const dir = string2dir(match[3]);
             const [xFrom, yFrom] = ChaseGame.algebraic2coords(from);
             const [xTo, yTo] = ChaseGame.algebraic2coords(to);
             const pFrom = this.board.get(from);
@@ -1010,7 +1058,7 @@ export class ChaseGame extends GameBase {
                 throw new Error("Could not find the piece on the board");
             }
             // Reconstruct the move vector so you can show each step in the movement, for clarity
-            const {vector: v, finalDir} = ChaseGame.vector(xFrom, yFrom, dir as CompassDirection, pFrom[1]);
+            const {vector: v, finalDir} = ChaseGame.vector(xFrom, yFrom, dir!, pFrom[1]);
             if ( (v[v.length - 1][0] !== xTo) || (v[v.length - 1][1] !== yTo) ) {
                 throw new Error(`Could not reconstruct movement vector.\nMove: ${m}, From: ${from}, xFrom: ${xFrom}, yFrom: ${yFrom}, To: ${to}, Dir: ${dir}, Dist: ${pFrom[1]}, V: ${v.join("|")}\nState: ${this.serialize()}`);
             }
@@ -1046,7 +1094,7 @@ export class ChaseGame extends GameBase {
     }
 
     // Handle chamber moves here
-    private recurseMove(cell: string, piece: CellContents, dir: CompassDirection) {
+    private recurseMove(cell: string, piece: CellContents, dir: Direction) {
         // Captures and bumps
         if (this.board.has(cell)) {
             const nPiece = this.board.get(cell);

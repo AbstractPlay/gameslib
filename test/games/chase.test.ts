@@ -4,7 +4,7 @@
 import "mocha";
 import { expect } from "chai";
 import { ChaseGame } from '../../src/games';
-import { CompassDirection } from "honeycomb-grid";
+import { Direction } from "honeycomb-grid";
 
 describe("Chase", () => {
     it ("Converting coordinates to algebraic format", () => {
@@ -21,61 +21,61 @@ describe("Chase", () => {
     it ("Movement vectors are calculated correctly", () => {
         // Regular movement in all directions
         // "NE", "E", "SE", "SW", "W", "NW"
-        let v = ChaseGame.vector(4, 5, "NE" as CompassDirection, 3).vector;
+        let v = ChaseGame.vector(4, 5, Direction.NE, 3).vector;
         expect(v).to.have.deep.members([[4,4],[5,3],[5,2]]);
-        v = ChaseGame.vector(4, 5, "E" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(4, 5, Direction.E, 3).vector;
         expect(v).to.have.deep.members([[5,5],[6,5],[7,5]]);
-        v = ChaseGame.vector(4, 5, "SE" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(4, 5, Direction.SE, 3).vector;
         expect(v).to.have.deep.members([[4,6],[5,7],[5,8]]);
-        v = ChaseGame.vector(4, 5, "SW" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(4, 5, Direction.SW, 3).vector;
         expect(v).to.have.deep.members([[3,6],[3,7],[2,8]]);
-        v = ChaseGame.vector(4, 5, "W" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(4, 5, Direction.W, 3).vector;
         expect(v).to.have.deep.members([[3,5],[2,5],[1,5]]);
-        v = ChaseGame.vector(4, 5, "NW" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(4, 5, Direction.NW, 3).vector;
         expect(v).to.have.deep.members([[3,4],[3,3],[2,2]]);
 
         // All six wraparounds
         // left + NW
-        v = ChaseGame.vector(0, 6, "NW" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(0, 6, Direction.NW, 3).vector;
         expect(v).to.have.deep.members([[0,5],[8,4],[8,3]]);
         // left + W
-        v = ChaseGame.vector(0, 6, "W" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(0, 6, Direction.W, 3).vector;
         expect(v).to.have.deep.members([[8,6],[7,6],[6,6]]);
-        v = ChaseGame.vector(0, 8, "W" as CompassDirection, 1).vector;
+        v = ChaseGame.vector(0, 8, Direction.W, 1).vector;
         expect(v).to.have.deep.members([[8,8]]);
-        v = ChaseGame.vector(0, 0, "W" as CompassDirection, 1).vector;
+        v = ChaseGame.vector(0, 0, Direction.W, 1).vector;
         expect(v).to.have.deep.members([[8,0]]);
         // left + SW
-        v = ChaseGame.vector(0, 4, "SW" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(0, 4, Direction.SW, 3).vector;
         expect(v).to.have.deep.members([[0,5],[8,6],[8,7]]);
         // right + NE
-        v = ChaseGame.vector(8, 5, "NE" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(8, 5, Direction.NE, 3).vector;
         expect(v).to.have.deep.members([[8,4],[0,3],[0,2]]);
         // right + E
-        v = ChaseGame.vector(8, 5, "E" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(8, 5, Direction.E, 3).vector;
         expect(v).to.have.deep.members([[0,5],[1,5],[2,5]]);
-        v = ChaseGame.vector(8, 0, "E" as CompassDirection, 1).vector;
+        v = ChaseGame.vector(8, 0, Direction.E, 1).vector;
         expect(v).to.have.deep.members([[0,0]]);
-        v = ChaseGame.vector(8, 8, "E" as CompassDirection, 1).vector;
+        v = ChaseGame.vector(8, 8, Direction.E, 1).vector;
         expect(v).to.have.deep.members([[0,8]]);
         // right + SE
-        v = ChaseGame.vector(8, 5, "SE" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(8, 5, Direction.SE, 3).vector;
         expect(v).to.have.deep.members([[8,6],[0,7],[0,8]]);
 
         // All four richochets
-        v = ChaseGame.vector(5, 7, "SE" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(5, 7, Direction.SE, 3).vector;
         expect(v).to.have.deep.members([[5,8],[6,7],[6,6]]);
-        v = ChaseGame.vector(5, 7, "SW" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(5, 7, Direction.SW, 3).vector;
         expect(v).to.have.deep.members([[4,8],[4,7],[3,6]]);
-        v = ChaseGame.vector(4, 1, "NE" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(4, 1, Direction.NE, 3).vector;
         expect(v).to.have.deep.members([[4,0],[5,1],[5,2]]);
-        v = ChaseGame.vector(4, 1, "NW" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(4, 1, Direction.NW, 3).vector;
         expect(v).to.have.deep.members([[3,0],[3,1],[2,2]]);
 
         // Combo richochet and wraparound, just to be sure
-        v = ChaseGame.vector(8, 1, "NE" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(8, 1, Direction.NE, 3).vector;
         expect(v).to.have.deep.members([[8,0],[0,1],[0,2]]);
-        v = ChaseGame.vector(8, 7, "SE" as CompassDirection, 3).vector;
+        v = ChaseGame.vector(8, 7, Direction.SE, 3).vector;
         expect(v).to.have.deep.members([[8,8],[0,7],[0,6]]);
     });
 

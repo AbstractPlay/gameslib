@@ -56,6 +56,7 @@ describe("Amazons", () => {
             stack: [
                 {
                     _version: "",
+                    _timestamp: new Date(),
                     _results: [],
                     currplayer: 1,
                     gameover: false,
@@ -90,6 +91,7 @@ describe("Amazons", () => {
             stack: [
                 {
                     _version: "",
+                    _timestamp: new Date(),
                     _results: [],
                     currplayer: 1,
                     gameover: false,

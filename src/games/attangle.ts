@@ -230,6 +230,8 @@ export class AttangleGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const allcells = this.graph.listCells() as string[];
         let vs = voids[0];
@@ -442,6 +444,23 @@ export class AttangleGame extends GameBase {
         this.checkEOG();
         this.saveState();
         return this;
+    }
+
+    private normalizeMove(m: string): string {
+        m = m.toLowerCase().replace(/\s+/g, "");
+        if (m.includes("-")) {
+            const [from, to] = m.split("-")
+            const [f1, f2] = from.split(",");
+            if (f1 < f2)
+                return `${f1},${f2}-${to}`;
+            else
+                return `${f2},${f1}-${to}`;
+        }
+        return m;
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        return this.normalizeMove(move1) === this.normalizeMove(move2);
     }
 
     protected checkEOG(): AttangleGame {

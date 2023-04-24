@@ -535,6 +535,60 @@ export class VolcanoGame extends GameBase {
         return this;
     }
 
+    public sameMove(move1: string, move2: string): boolean {
+        if (this.lastmove !== move1) {
+            throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
+        }
+        if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
+            return true;
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const cloned: VolcanoGame = Object.assign(new VolcanoGame(), deepclone(this));
+        cloned.stack.pop();
+        cloned.load();
+        cloned.move(move2);
+        // Compare state
+        const board1 = this.board;
+        const board2 = cloned.board;
+        for (let row = 0; row < 5; row++) {
+            for (let col = 0; col < 5; col++) {
+                if (board1[row][col].length !== board2[row][col].length) {
+                    return false;
+                }
+                for (let i = 0; i < board1[row][col].length; i++) {
+                    if (board1[row][col][i][0] !== board2[row][col][i][0] || board1[row][col][i][1] !== board2[row][col][i][1]) {
+                        return false;
+                    }
+                }
+            }
+        }
+        const caps1 = this.caps;
+        const caps2 = cloned.caps;
+        if (caps1.size !== caps2.size) {
+            return false;
+        }
+        for (const c of caps1) {
+            if (!caps2.has(c)) {
+                return false;
+            }
+        }
+        const captured1 = this.captured;
+        const captured2 = cloned.captured;
+        for (let i = 0; i < 2; i++) {
+            if (captured1[i].length !== captured2[i].length) {
+                return false;
+            }
+            const cap1 = [...captured1[i]].sort();
+            const cap2 = [...captured2[i]].sort();
+            for (let j = 0; j < cap1.length; j++) {
+                if (cap1[j][0] !== cap2[j][0] || cap1[j][1] !== cap2[j][1]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     protected checkEOG(): VolcanoGame {
         let prevplayer = this.currplayer - 1;
         if (prevplayer < 1) {

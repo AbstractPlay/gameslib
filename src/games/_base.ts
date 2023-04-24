@@ -360,6 +360,12 @@ export abstract class GameBase  {
         return this.moveHistory();
     }
 
+    // Check whether two moves with string representations are actually the same move.
+    // If you ever want to implement this by comparing state, assume the current state is the one with move1 already made. That is, compare the current state with the state after popping the current move and making move2.
+    protected sameMove(move1: string, move2: string): boolean {
+        return move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         return false;

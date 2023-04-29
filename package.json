@@ -1,6 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "0.6.0",
+  "version": "0.6.3",
   "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -33,7 +33,6 @@
   ],
   "private": true,
   "devDependencies": {
-    "@abstractplay/recranks": "file:../recranks/abstractplay-recranks-0.1.0.tgz",
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -55,6 +54,7 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "@abstractplay/recranks": "file:../recranks/abstractplay-recranks-0.1.0.tgz",
     "@abstractplay/renderer": "file:../renderer/abstractplay-renderer-0.8.0.tgz",
     "graphology": "^0.25.1",
     "graphology-shortest-path": "^2.0.2",

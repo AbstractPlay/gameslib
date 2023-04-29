@@ -133,7 +133,7 @@ export class FendoGame extends GameBase {
         }
 
         const validTargets = this.genTargets(player, areas.open[0]);
-        const uniqueTargets: Set<string> = new Set(...validTargets.values());
+        const uniqueTargets: Set<string> = new Set([...validTargets.values()].flat(1));
 
         // You can enter a piece into the open area within one move of a friendly piece
         if (this.pieces[player - 1] > 0) {
@@ -177,18 +177,12 @@ export class FendoGame extends GameBase {
         for (const piece of mypieces) {
             for (const target of empties) {
                 let path = this.naivePath(piece, target);
-                if (path === null) {
-                    path = this.graph.path(piece, target);
-                }
                 if (path !== null) {
-                    // Path can't have more than one turn, nor can it contain any pieces except the first one
-                    if ( (this.countTurns(path) <= 1) && ([...this.board.keys()].filter(cell => path!.includes(cell)).length === 1) ) {
-                        if (validTargets.has(piece)) {
-                            const lst = validTargets.get(piece)!;
-                            validTargets.set(piece, [...lst, target]);
-                        } else {
-                            validTargets.set(piece, [target]);
-                        }
+                    if (validTargets.has(piece)) {
+                        const lst = validTargets.get(piece)!;
+                        validTargets.set(piece, [...lst, target]);
+                    } else {
+                        validTargets.set(piece, [target]);
                     }
                 }
             }
@@ -235,7 +229,7 @@ export class FendoGame extends GameBase {
             }
             const path = [from, ...ray.slice(0, toidx + 1)];
             for (let i = 0; i < path.length - 1; i++) {
-                if (! this.graph.graph.hasEdge(path[i], path[i+1])) {
+                if (! this.graph.graph.hasEdge(path[i], path[i+1]) || (this.board.has(path[i+1]))) {
                     return null;
                 }
             }
@@ -272,23 +266,6 @@ export class FendoGame extends GameBase {
         }
 
         return null;
-    }
-
-    private countTurns(cells: string[]): number {
-        let turns = 0;
-        let last: number | undefined;
-        for (let i = 0; i < cells.length - 1; i++) {
-            const [xFrom,] = this.graph.algebraic2coords(cells[i]);
-            const [xTo,] = this.graph.algebraic2coords(cells[i+1]);
-            const dx = xTo - xFrom;
-            if (last === undefined) {
-                last = dx;
-            } else if (last !== dx) {
-                turns++;
-                last = dx;
-            }
-        }
-        return turns;
     }
 
     public getAreas(): IAreas {
@@ -435,7 +412,7 @@ export class FendoGame extends GameBase {
             const areas = this.getAreas();
             const open = areas.open[0];
             const allTargets = this.genTargets(this.currplayer, open);
-            const uniqueTargets = new Set(...allTargets.values());
+            const uniqueTargets = new Set([...allTargets.values()].flat(1));
             // cell is valid
             if (! allcells.includes(from)) {
                 result.valid = false;

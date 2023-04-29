@@ -176,7 +176,7 @@ export class FendoGame extends GameBase {
         const validTargets: Map<string, string[]> = new Map();
         for (const piece of mypieces) {
             for (const target of empties) {
-                let path = this.naivePath(piece, target);
+                const path = this.naivePath(piece, target);
                 if (path !== null) {
                     if (validTargets.has(piece)) {
                         const lst = validTargets.get(piece)!;

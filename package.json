@@ -1,6 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",

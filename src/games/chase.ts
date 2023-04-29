@@ -374,7 +374,7 @@ export class ChaseGame extends GameBase {
         return moves;
     }
 
-    private neighbours(x: number, y: number): [number, number][] {
+    public neighbours(x: number, y: number): [number, number][] {
         const neighbours: [number, number][] = [];
         if ( (x === 0) || (x === 8) ) {
             // manually look for neighbours to account for wraparound, accounting for duplicates
@@ -394,7 +394,7 @@ export class ChaseGame extends GameBase {
                 for (const dir of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
                     const n = hexGrid.neighborOf(target, dir, { allowOutside: false});
                     if (n !== undefined) {
-                        neighbours.push([n.x, n.y]);
+                        neighbours.push([n.col, n.row]);
                     }
                 }
             }

@@ -3,6 +3,7 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
 import { replacer, UserFacingError } from '../common';
+import { omit } from "lodash";
 import i18next from "i18next";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -363,7 +364,18 @@ export abstract class GameBase  {
     // Check whether two moves with string representations are actually the same move.
     // If you ever want to implement this by comparing state, assume the current state is the one with move1 already made. That is, compare the current state with the state after popping the current move and making move2.
     protected sameMove(move1: string, move2: string): boolean {
-        return move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
+        if (this.lastmove !== move1) {
+            throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const cloned: GameBase = Object.assign(this.constructor(), this.clone());
+        cloned.stack.pop();
+        cloned.load(-1);
+        cloned.move(move2);
+        const currPosition1 = omit(this, ["lastmove", "stack", "results"]);
+        const currPosition2 = omit(cloned, ["lastmove", "stack", "results"]);
+        return JSON.stringify(currPosition1) === JSON.stringify(currPosition2);
+        // Compare state        if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

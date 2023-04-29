@@ -561,7 +561,7 @@ export class BreakthroughGame extends GameBase {
         const result: string[][] = [];
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
-                const node: string[] = [(state._timestamp && new Date(state._timestamp).toLocaleString()) || "unknown"];
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
                 let otherPlayer = state.currplayer + 1;
                 if (otherPlayer > this.numplayers) {
                     otherPlayer = 1;

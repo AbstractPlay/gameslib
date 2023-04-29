@@ -202,6 +202,9 @@ export class AlfredsWykeGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
@@ -209,7 +212,6 @@ export class AlfredsWykeGame extends GameBase {
             return result;
         }
 
-        m = m.replace(/\s/, "");
         const match = m.match(/^(\S+?)\((\S*)\)$/);
         if (match === null) {
             result.valid = false;
@@ -375,6 +377,49 @@ export class AlfredsWykeGame extends GameBase {
         this.checkEOG();
         this.saveState();
         return this;
+    }
+
+    private normalizeMove(m: string): string {
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+
+        const match = m.match(/^(\S+?)\((\S*)\)$/);
+        if (match === null) {
+            return m;
+        }
+
+        const moveType = match[1];
+
+        if (moveType === "3-1" || moveType === "4") {
+            return m;
+        }
+        let moveCells: string[] = [];
+        if (match[2].length > 0) {
+            moveCells = match[2].split(",");
+        }
+
+        if (moveType === "1-1-1-1-1") {
+            return `${moveType}(${moveCells.sort().join(",")})`;
+        }
+        if (moveType === "2-1-1") {
+            if (moveCells[1] < moveCells[2]) {
+                return `${moveType}(${moveCells[0]},${moveCells[1]},${moveCells[2]})`;
+            } else {
+                return `${moveType}(${moveCells[0]},${moveCells[2]},${moveCells[1]})`;
+            }
+        }
+        if (moveType === "2-2") {
+            if (moveCells[0] < moveCells[1]) {
+                return `${moveType}(${moveCells[0]},${moveCells[1]})`;
+            } else {
+                return `${moveType}(${moveCells[1]},${moveCells[0]})`;
+            }
+        }
+        throw new Error("Invalid move type");
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        return this.normalizeMove(move1) === this.normalizeMove(move2);
     }
 
     protected checkEOG(): AlfredsWykeGame {

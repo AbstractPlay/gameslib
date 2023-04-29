@@ -326,7 +326,7 @@ export class MvolcanoGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [VolcanoGame]
      */
-     public move(m: string, partial = false): MvolcanoGame {
+    public move(m: string, partial = false): MvolcanoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -417,6 +417,60 @@ export class MvolcanoGame extends GameBase {
         this.checkEOG();
         this.saveState();
         return this;
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        if (this.lastmove !== move1) {
+            throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
+        }
+        if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
+            return true;
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this));
+        cloned.stack.pop();
+        cloned.load();
+        cloned.move(move2);
+        // Compare state
+        const board1 = this.board;
+        const board2 = cloned.board;
+        for (let row = 0; row < 6; row++) {
+            for (let col = 0; col < 6; col++) {
+                if (board1[row][col].length !== board2[row][col].length) {
+                    return false;
+                }
+                for (let i = 0; i < board1[row][col].length; i++) {
+                    if (board1[row][col][i][0] !== board2[row][col][i][0] || board1[row][col][i][1] !== board2[row][col][i][1]) {
+                        return false;
+                    }
+                }
+            }
+        }
+        const caps1 = this.caps;
+        const caps2 = cloned.caps;
+        if (caps1.size !== caps2.size) {
+            return false;
+        }
+        for (const c of caps1) {
+            if (!caps2.has(c)) {
+                return false;
+            }
+        }
+        const captured1 = this.captured;
+        const captured2 = cloned.captured;
+        for (let i = 0; i < 2; i++) {
+            if (captured1[i].length !== captured2[i].length) {
+                return false;
+            }
+            const cap1 = [...captured1[i]].sort();
+            const cap2 = [...captured2[i]].sort();
+            for (let j = 0; j < cap1.length; j++) {
+                if (cap1[j][0] !== cap2[j][0] || cap1[j][1] !== cap2[j][1]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     protected checkEOG(): MvolcanoGame {

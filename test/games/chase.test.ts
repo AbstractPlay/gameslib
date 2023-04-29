@@ -18,6 +18,18 @@ describe("Chase", () => {
         expect(ChaseGame.algebraic2coords("d6")).to.have.members([5, 5]);
     });
 
+    it ("Neighbours are calculated correctly", () => {
+        const g = new ChaseGame();
+        let n = g.neighbours(0, 0);
+        expect(n).to.have.deep.members([[1,0],[1,1],[0,1],[8,0]]);
+        n = g.neighbours(8, 0);
+        expect(n).to.have.deep.members([[7,0],[8,1],[0,1],[0,0]]);
+        n = g.neighbours(1, 0);
+        expect(n).to.have.deep.members([[0,0],[1,1],[2,1],[2,0]]);
+        n = g.neighbours(1, 1);
+        expect(n).to.have.deep.members([[0,0],[1,0],[2,1],[1,2],[0,2],[0,1]]);
+    });
+
     it ("Movement vectors are calculated correctly", () => {
         // Regular movement in all directions
         // "NE", "E", "SE", "SW", "W", "NW"

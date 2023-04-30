@@ -361,21 +361,25 @@ export abstract class GameBase  {
         return this.moveHistory();
     }
 
-    // Check whether two moves with string representations are actually the same move.
-    // If you ever want to implement this by comparing state, assume the current state is the one with move1 already made. That is, compare the current state with the state after popping the current move and making move2.
+    // Check whether two moves with potentially different string representations are actually the same move.
+    // For many games you can override this with just: return move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
     protected sameMove(move1: string, move2: string): boolean {
+        if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, ""))
+            return true;
+
         if (this.lastmove !== move1) {
             throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const cloned: GameBase = Object.assign(this.constructor(), this.clone());
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+        const cloned: GameBase = Object.assign(new (this.constructor as any)(), this.clone());
         cloned.stack.pop();
         cloned.load(-1);
         cloned.move(move2);
-        const currPosition1 = omit(this, ["lastmove", "stack", "results"]);
-        const currPosition2 = omit(cloned, ["lastmove", "stack", "results"]);
-        return JSON.stringify(currPosition1) === JSON.stringify(currPosition2);
-        // Compare state        if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
+        const currPosition1 = omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
+        const currPosition2 = omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
+        const s1 = JSON.stringify(currPosition1, replacer);
+        const s2 = JSON.stringify(currPosition2, replacer);
+        return s1 === s2;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

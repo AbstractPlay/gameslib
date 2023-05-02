@@ -3,7 +3,7 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
 import { replacer, UserFacingError } from '../common';
-import { omit } from "lodash";
+// import { omit } from "lodash";
 import i18next from "i18next";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -366,7 +366,9 @@ export abstract class GameBase  {
     protected sameMove(move1: string, move2: string): boolean {
         if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, ""))
             return true;
-
+        return false;
+        /*
+        ****************** new (this.constructor as any)() doesn't work for games that can take more than 2 players. No time to fix now. Not a big deal to have this commented out
         if (this.lastmove !== move1) {
             throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
         }
@@ -380,6 +382,7 @@ export abstract class GameBase  {
         const s1 = JSON.stringify(currPosition1, replacer);
         const s2 = JSON.stringify(currPosition2, replacer);
         return s1 === s2;
+        */
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

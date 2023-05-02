@@ -561,10 +561,16 @@ export class HomeworldsGame extends GameBase {
                 if (piece.startsWith("_")) {
                     system = piece;
                 } else {
+                    // Don't worry about the extra "p" here, though (global stash, methinks).
                     ship = piece;
                 }
             } else {
                 [system, ship] = piece.split("|");
+                // The renderer is adding a "p" to pyramids in this scenario but not in others.
+                // Not sure why, but this seems to correct it.
+                if ( (ship !== undefined) && (ship.startsWith("p")) ) {
+                    ship = ship.substring(1);
+                }
                 const match = system.match(/\(([NESW])\)$/);
                 if (match !== null) {
                     system = this.seat2name(match[1] as Seat);

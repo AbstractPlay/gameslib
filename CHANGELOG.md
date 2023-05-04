@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Pikemen: Fixed bug where unnecessary reorientation was throwing an error instead of just being ignored.
 * Volcano: Fixed bug causing Volcano `sameMove` errors in some siutations.
+* Blam!: Changed the click handler so it autoselects your smallest piece unless you manually select from your stash.
 
 ## [1.0.0-beta] - 2023-04-30
 

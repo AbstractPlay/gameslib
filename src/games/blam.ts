@@ -181,6 +181,13 @@ export class BlamGame extends GameBase {
                 return {move: "", message: ""} as IClickResult;
             }
             const stash = this.stashes.get(this.currplayer)!;
+            let smallest: number|undefined;
+            for (let i = 0; i < 3; i++) {
+                if (stash[i] > 0) {
+                    smallest = i + 1;
+                    break;
+                }
+            }
             if (stash.reduce((a, b) => a + b) === 0) {
                 return {
                     move: "pass",
@@ -190,11 +197,15 @@ export class BlamGame extends GameBase {
                 } as IClickResult;
             }
             if (move === '') {
-                return {
-                    move: "",
-                    valid: false,
-                    message: i18next.t("apgames:validation.blam.SIZEFIRST"),
-                } as IClickResult;
+                if (smallest === undefined) {
+                    return {
+                        move: "",
+                        valid: false,
+                        message: i18next.t("apgames:validation.blam.SIZEFIRST"),
+                    } as IClickResult;
+                } else {
+                    move = smallest.toString();
+                }
             }
 
             newmove = `${move}${cell}`

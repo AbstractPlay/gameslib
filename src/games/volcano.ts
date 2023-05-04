@@ -536,8 +536,9 @@ export class VolcanoGame extends GameBase {
     }
 
     public sameMove(move1: string, move2: string): boolean {
-        if (this.lastmove !== move1) {
-            throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
+        // if (this.lastmove !== move1) {
+        if ( (this.lastmove !== undefined) && (this.lastmove.toLowerCase().replace(/\s+/g, "") !== move1.toLowerCase().replace(/\s+/g, "")) ) {
+            throw new Error(`To compare moves the current state must be the one after move1 was made ${move1.toLowerCase().replace(/\s+/g, "")} !== ${this.lastmove.toLowerCase().replace(/\s+/g, "")}`);
         }
         if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
             return true;

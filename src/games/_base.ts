@@ -3,7 +3,7 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
 import { replacer, UserFacingError } from '../common';
-// import { omit } from "lodash";
+import { omit, clone } from "lodash";
 import i18next from "i18next";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -364,25 +364,21 @@ export abstract class GameBase  {
     // Check whether two moves with potentially different string representations are actually the same move.
     // For many games you can override this with just: return move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
     protected sameMove(move1: string, move2: string): boolean {
-        if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, ""))
+        move1 = move1.toLowerCase().replace(/\s+/g, "");
+        if (move1 === move2.toLowerCase().replace(/\s+/g, ""))
             return true;
-        return false;
-        /*
-        ****************** new (this.constructor as any)() doesn't work for games that can take more than 2 players. No time to fix now. Not a big deal to have this commented out
         if (this.lastmove !== move1) {
             throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-        const cloned: GameBase = Object.assign(new (this.constructor as any)(), this.clone());
+        const cloned: GameBase = clone(this);
         cloned.stack.pop();
         cloned.load(-1);
         cloned.move(move2);
         const currPosition1 = omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
         const currPosition2 = omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
-        const s1 = JSON.stringify(currPosition1, replacer);
+        const s1 = JSON.stringify(currPosition1, replacer); // we might have to write a replacer that also sorts Sets and Maps before stringifying?
         const s2 = JSON.stringify(currPosition2, replacer);
         return s1 === s2;
-        */
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -548,10 +548,14 @@ export class FendoGame extends GameBase {
         }
         if ( (! partial) && (! this.moves().includes(m)) ) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+        }
+        /*
+        // this doesn't work, because sometimes the move is legal, but there are no available fence placements. We want to show the
+        // move so that you can get reasons for each fence placement being impossible.
+        else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
-
+        */
         this.results = [];
         // Always check for a pass
         if (m === "pass") {

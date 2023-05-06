@@ -20,6 +20,22 @@ export const replacer = (key: any, value: any) => {
     }
 }
 
+export const sortingReplacer = (key: any, value: any) => {
+    if (value instanceof Map) {
+        return {
+            dataType: 'Map',
+            value: Array.from(value.entries()).sort(), // or with spread: value: [...value]
+        };
+    } else if (value instanceof Set) {
+        return {
+            dataType: "Set",
+            value: Array.from(value).sort()
+        };
+    } else {
+        return value;
+    }
+}
+
 export const reviver = (key: any, value: any) => {
     if (typeof value === 'object' && value !== null) {
         if (value.dataType === 'Map') {

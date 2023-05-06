@@ -2,7 +2,7 @@ import { APGamesInformation, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
-import { replacer, UserFacingError } from '../common';
+import { replacer, sortingReplacer, UserFacingError } from '../common';
 import { omit, clone } from "lodash";
 import i18next from "i18next";
 
@@ -376,8 +376,8 @@ export abstract class GameBase  {
         cloned.move(move2);
         const currPosition1 = omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
         const currPosition2 = omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
-        const s1 = JSON.stringify(currPosition1, replacer); // we might have to write a replacer that also sorts Sets and Maps before stringifying?
-        const s2 = JSON.stringify(currPosition2, replacer);
+        const s1 = JSON.stringify(currPosition1, sortingReplacer);
+        const s2 = JSON.stringify(currPosition2, sortingReplacer);
         return s1 === s2;
     }
 

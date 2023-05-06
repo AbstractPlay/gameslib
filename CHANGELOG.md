@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fendo: Fixed a bug where an error was raised when a partial move is legal, but there are no available fence placements. We want to allow this in order to show the
   move so that you can get reasons for each fence placement being impossible.
 * Fixed the default `sameMove` implementation.
+* The default `sameMove` was still not working for ambiguous ordo moves in Ordo. Implemented sortedReplacer.
 
 ## [1.0.0-beta] - 2023-04-30
 

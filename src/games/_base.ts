@@ -367,7 +367,7 @@ export abstract class GameBase  {
         move1 = move1.toLowerCase().replace(/\s+/g, "");
         if (move1 === move2.toLowerCase().replace(/\s+/g, ""))
             return true;
-        if (this.lastmove !== move1) {
+        if (this.lastmove?.toLowerCase().replace(/\s+/g, "") !== move1) {
             throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
         }
         const cloned: GameBase = clone(this);

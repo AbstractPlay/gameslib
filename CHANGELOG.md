@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed the default `sameMove` implementation.
 * The default `sameMove` was still not working for ambiguous ordo moves in Ordo. Implemented sortedReplacer.
 
+### Changed
+
+* Homeworlds: Sorted the move list a little more logically.
+
 ## [1.0.0-beta] - 2023-04-30
 
 Initial beta release.

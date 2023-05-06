@@ -279,13 +279,26 @@ export class HomeworldsGame extends GameBase {
             const allmoves: string[] = [];
             // All other possible moves
             // First let's do the non-sacrifice moves (move & discover, build, trade, attack)
+            // Sort each alphabetically
             const tmpMoves: string[] = this.movesMove(player);
+            tmpMoves.sort((a, b) => a.localeCompare(b));
             const tmpTrade: string[] = this.movesTrade(player);
+            tmpTrade.sort((a, b) => a.localeCompare(b));
             const tmpBuild: string[] = this.movesBuild(player);
+            tmpBuild.sort((a, b) => a.localeCompare(b));
             const tmpAttack: string[] = this.movesAttack(player);
+            tmpAttack.sort((a, b) => a.localeCompare(b));
             const tmpSacrifice: string[] = this.movesSacrifice(player);
+            // sort sacrifices by length
+            tmpSacrifice.sort((a, b) => {
+                if (a.length === b.length) {
+                    return a.localeCompare(b);
+                } else {
+                    return a.length - b.length;
+                }
+            });
 
-            allmoves.push(...tmpMoves, ...tmpTrade, ...tmpBuild, ...tmpAttack, ...tmpSacrifice);
+            allmoves.push(...tmpAttack, ...tmpBuild, ...tmpMoves, ...tmpTrade, ...tmpSacrifice);
             for (const cmd of allmoves) {
                 const cloned = this.clone();
                 try {

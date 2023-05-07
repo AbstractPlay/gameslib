@@ -1146,6 +1146,28 @@ export class ChaseGame extends GameBase {
         }
     }
 
+    private normalizeMove(m: string): string {
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        m = m.replace(/([a-z]+)$/, '');
+        let balance = "";
+        let rest = m;
+        if (m.includes("}")) {
+            [balance, rest] = m.split("}");
+            balance = balance + "}";
+        }
+        if (rest.includes("=")) {
+            const [left, right] = rest.split(",");
+            if (left > right)
+                rest = `${right},${left}`;
+        }
+        return `${balance}${rest}`;
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        return this.normalizeMove(move1) === this.normalizeMove(move2);
+    }
+
     protected checkEOG(): ChaseGame {
         if (this.moves().length === 0) {
             this.gameover = true;

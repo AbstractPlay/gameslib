@@ -3,7 +3,7 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
 import { replacer, sortingReplacer, UserFacingError } from '../common';
-import { omit, clone } from "lodash";
+import { omit } from "lodash";
 import i18next from "i18next";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -370,7 +370,7 @@ export abstract class GameBase  {
         if (this.lastmove?.toLowerCase().replace(/\s+/g, "") !== move1) {
             throw new Error(`To compare moves the current state must be the one after move1 was made ${move1} !== ${this.lastmove}`);
         }
-        const cloned: GameBase = clone(this);
+        const cloned: GameBase = this.clone();
         cloned.stack.pop();
         cloned.load(-1);
         cloned.move(move2);

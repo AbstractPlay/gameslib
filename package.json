@@ -53,8 +53,8 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "@abstractplay/recranks": "github:abstractplay/recranks#v1.0.0-beta",
-    "@abstractplay/renderer": "github:abstractplay/renderer#v1.0.0-beta",
+    "@abstractplay/recranks": "github:abstractplay/recranks#main",
+    "@abstractplay/renderer": "github:abstractplay/renderer#main",
     "graphology": "^0.25.1",
     "graphology-shortest-path": "^2.0.2",
     "honeycomb-grid": "^4.0.1",

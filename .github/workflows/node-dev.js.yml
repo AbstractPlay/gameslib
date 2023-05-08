@@ -8,6 +8,8 @@ on:
     branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
+  repository_dispatch:
+    types: [dep_update]
 
 jobs:
   build:

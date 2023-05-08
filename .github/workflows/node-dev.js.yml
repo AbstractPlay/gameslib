@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [ "develop" ]
   repository_dispatch:
-    types: [dep_update]
+    types: [dep_update_dev]
 
 jobs:
   build:

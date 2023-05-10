@@ -29,7 +29,6 @@
     "abstractplay",
     "games"
   ],
-  "private": true,
   "devDependencies": {
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
@@ -53,8 +52,8 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "@abstractplay/recranks": "github:abstractplay/recranks#main",
-    "@abstractplay/renderer": "github:abstractplay/renderer#main",
+    "@abstractplay/recranks": "latest",
+    "@abstractplay/renderer": "latest",
     "graphology": "^0.25.1",
     "graphology-shortest-path": "^2.0.2",
     "honeycomb-grid": "^4.0.1",

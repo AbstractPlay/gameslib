@@ -29,6 +29,7 @@ jobs:
           with:
             node-version: 18.x
             cache: 'npm'
+        - run: echo "registry=https://npm.pkg.github.com/@abstractplay" >> .npmrc
         - run: npm ci
         - run: npm test --if-present
         # prerelease --preid=ci-$GITHUB_RUN_ID
@@ -54,7 +55,6 @@ jobs:
             node-version: 18.x
             registry-url: https://npm.pkg.github.com/
             scope: "@abstractplay"
-        - run: echo "registry=https://npm.pkg.github.com/@abstractplay" >> .npmrc
         - run: npm publish $(ls *.tgz)
           env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

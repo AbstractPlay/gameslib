@@ -422,7 +422,7 @@ export class VolcanoGame extends GameBase {
      * @returns [VolcanoGame]
      */
      public move(m: string, partial = false): VolcanoGame {
-        if (this.gameover) {
+        if ( (this.gameover) && (! partial) ) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 

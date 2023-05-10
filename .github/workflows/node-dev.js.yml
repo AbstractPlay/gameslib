@@ -30,7 +30,7 @@ jobs:
             node-version: 18.x
             cache: 'npm'
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
-        - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> .npmrc
+        - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_WORKFLOWS}}" >> .npmrc
         - run: npm ci
         - run: npm test --if-present
         # prerelease --preid=ci-$GITHUB_RUN_ID

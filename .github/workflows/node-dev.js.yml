@@ -31,6 +31,8 @@ jobs:
             cache: 'npm'
         - run: echo "registry=https://npm.pkg.github.com" > .npmrc
         - run: npm ci
+          env:
+            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         - run: npm test --if-present
         # prerelease --preid=ci-$GITHUB_RUN_ID
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version

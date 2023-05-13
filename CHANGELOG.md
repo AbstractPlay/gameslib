@@ -12,11 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Pikemen: Fixed bug where unnecessary reorientation was throwing an error instead of just being ignored.
 * Volcano: Fixed bug causing Volcano `sameMove` errors in some siutations.
 * Blam!: Changed the click handler so it autoselects your smallest piece unless you manually select from your stash.
-* Fendo: Fixed a bug where an error was raised when a partial move is legal, but there are no available fence placements. We want to allow this in order to show the
-  move so that you can get reasons for each fence placement being impossible.
+* Fendo: Fixed a bug where an error was raised when a partial move is legal, but there are no available fence placements. We want to allow this in order to show the move so that you can get reasons for each fence placement being impossible.
 * Fixed the default `sameMove` implementation.
 * The default `sameMove` was still not working for ambiguous ordo moves in Ordo. Implemented sortedReplacer.
 * Chase: Fix (and improve) `sameMove`.
+* Fendo: Embarrassingly, I missed an important rule. Moving is optional. I also started players with one too many pieces. Corrected.
+* Homeworlds: Added `no-moves` descriptor to disable move generation on the front end.
 
 ### Changed
 

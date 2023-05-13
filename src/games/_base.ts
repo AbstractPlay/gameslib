@@ -373,6 +373,8 @@ export abstract class GameBase  {
         const cloned: GameBase = this.clone();
         cloned.stack.pop();
         cloned.load(-1);
+        cloned.gameover = false;
+        cloned.winner = [];
         cloned.move(move2);
         const currPosition1 = omit(this.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);
         const currPosition2 = omit(cloned.moveState(), ["lastmove", "_version", "_results", "_timestamp"]);

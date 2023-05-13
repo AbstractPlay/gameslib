@@ -74,7 +74,7 @@ export class FendoGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map([["a4", 1], ["g4", 2]]),
-                pieces: [7, 7],
+                pieces: [6, 6],
                 fences: []
             };
             this.stack = [fresh];
@@ -142,7 +142,7 @@ export class FendoGame extends GameBase {
 
         // You can move a piece then place a fence
         for (const [from, targets] of validTargets.entries()) {
-            for (const target of targets) {
+            for (const target of [...targets, from]) {
                 // Neighbours obviously don't have a fence between them, so you could place one there
                 const neighbours = this.graph.neighbours(target);
                 for (const n of neighbours) {
@@ -155,7 +155,11 @@ export class FendoGame extends GameBase {
                     const clonedAreas = cloned.getAreas();
                     if ( (clonedAreas.empty.length === 0) && (clonedAreas.open.length <= 1) ) {
                         const bearing = this.graph.bearing(target, n)!;
-                        moves.push(`${from}-${target}${bearing.toString()}`)
+                        if (from !== target) {
+                            moves.push(`${from}-${target}${bearing.toString()}`)
+                        } else {
+                            moves.push(`${from}${bearing.toString()}`)
+                        }
                     }
                 }
             }
@@ -343,17 +347,21 @@ export class FendoGame extends GameBase {
                     if (/[NESW]$/.test(to)) {
                         to = to.slice(0, to.length - 1);
                     }
-                    let bearing = this.graph.bearing(to, cell);
+                    const bearing = this.graph.bearing(to, cell);
                     if (bearing !== undefined) {
-                        bearing = bearing.toString().slice(0, 1) as Directions;
-                        newmove = `${from}-${to}${bearing}`;
+                        // bearing = bearing.toString().slice(0, 1) as Directions;
+                        if (from === to) {
+                            newmove = `${to}${bearing}`;
+                        } else {
+                            newmove = `${from}-${to}${bearing}`;
+                        }
                     } else {
                         newmove = `${from}-${to}`;
                     }
                 // otherwise looking for destination
                 } else {
                     // Only checking that destination is empty and in open area
-                    if ( (! this.board.has(cell)) && (openArea.has(cell)) ) {
+                    if ( ( (! this.board.has(cell)) && (openArea.has(cell)) ) || (move === cell) ) {
                         newmove = `${move}-${cell}`;
                     } else {
                         newmove = move;
@@ -397,6 +405,61 @@ export class FendoGame extends GameBase {
                 result.message = i18next.t("apgames:validation.fendo.INVALID_PASS");
                 return result;
             }
+        }
+
+        if ( (m.length === 3) && (/[NESW]$/.test(m)) ) {
+            const cell = m.substring(0, 2);
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const dir = m[2] as Directions;
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const allcells = this.graph.listCells(false) as string[];
+
+            // cell is valid
+            if (! allcells.includes(cell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                return result;
+            }
+            // `dir` is valid value
+            if (! ["N", "E", "S", "W"].includes(dir)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fendo.INVALID_DIRECTION", {dir});
+                return result;
+            }
+            // fence is between two cells
+            const grid = new RectGrid(7, 7);
+            const [x, y] = this.graph.algebraic2coords(cell);
+            const ray = grid.ray(x, y, dir).map(pt => this.graph.coords2algebraic(...pt));
+            if (ray.length === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fendo.NO_EDGE_FENCES");
+                return result;
+            }
+            // fence doesn't already exist
+            const next = ray[0];
+            const fence = this.fences.find(pair => pair.includes(cell) && pair.includes(next));
+            if (fence !== undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fendo.DUPLICATE_FENCE");
+                return result;
+            }
+            // placing the fence doesn't violate any rules
+            // Make the move, set the fence, and test that the result is valid
+            const cloned: FendoGame = Object.assign(new FendoGame(), deepclone(this) as FendoGame);
+            cloned.buildGraph();
+            cloned.graph.graph.dropEdge(cell, next);
+            const clonedAreas = cloned.getAreas();
+            if ( (clonedAreas.empty.length > 0) || (clonedAreas.open.length > 1) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.fendo.INVALID_FENCE");
+                return result;
+            }
+
+            // valid move
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
         }
 
         const [from, target] = m.split("-");
@@ -464,7 +527,7 @@ export class FendoGame extends GameBase {
                 if (to !== undefined) {
                     // target is valid
                     const targets = allTargets.get(from);
-                    if ( (targets === undefined) || (! targets.includes(to)) ) {
+                    if ( (from !== to) && ( (targets === undefined) || (! targets.includes(to)) ) ) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.fendo.INVALID_DESTINATION", {from, to});
                         return result;
@@ -583,6 +646,16 @@ export class FendoGame extends GameBase {
                 this.fences.push([to, neighbour]);
                 this.graph.graph.dropEdge(to, neighbour);
                 this.results.push({type: "block", between: [to, neighbour]});
+            }
+        // Check for stationary fence placement
+        } else if ( (m.length === 3) && (/[NESW]$/.test(m)) ) {
+            const cell = m.substring(0, m.length - 1);
+            const dir = m[m.length - 1] as Directions;
+            if (dir !== undefined) {
+                const neighbour = this.graph.coords2algebraic(...RectGrid.move(...this.graph.algebraic2coords(cell), dir));
+                this.fences.push([cell, neighbour]);
+                this.graph.graph.dropEdge(cell, neighbour);
+                this.results.push({type: "block", between: [cell, neighbour]});
             }
         // Otherwise it's placement
         } else {

@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed the default `sameMove` implementation.
 * The default `sameMove` was still not working for ambiguous ordo moves in Ordo. Implemented sortedReplacer.
 * Chase: Fix (and improve) `sameMove`.
+* Fix sameMove when move1 is a game ending move.
 
 ### Changed
 

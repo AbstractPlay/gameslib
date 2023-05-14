@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
@@ -152,6 +152,12 @@ export class CannonGame extends GameBase {
 
     public getPlayerPieces(player: number): number {
         return [...this.board.values()].filter(p => p[0] === player && p[1] === "s").length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
     }
 
     public moves(player?: 1|2): string[] {

@@ -46,7 +46,7 @@ export class OrdoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["perspective"]
+        flags: ["perspective", "limited-pieces"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -117,6 +117,10 @@ export class OrdoGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;
+    }
+
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(p => p === player).length;
     }
 
     public moves(player?: playerid, permissive = false): string[] {

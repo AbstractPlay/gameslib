@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * Homeworlds: Sorted the move list a little more logically.
+* Added piece counts to Cannon and Ordo.
 
 ## [1.0.0-beta] - 2023-04-30
 

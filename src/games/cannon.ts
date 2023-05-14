@@ -156,7 +156,7 @@ export class CannonGame extends GameBase {
 
     public getPlayersScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
     }
 

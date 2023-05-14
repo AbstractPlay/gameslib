@@ -78,6 +78,7 @@
         "TERRITORY": "Territory",
         "DISTANCES": "Distances",
         "PIECESINHAND": "Pieces in hand",
+        "PIECESREMAINING": "Pieces remaining",
         "TOPLACE": "Piece to place",
         "amazons": {
             "ISOLATEDQUEENS": "The queens are now isolated",

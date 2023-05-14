@@ -40,12 +40,13 @@ Current flags are the following:
 * `limited-pieces`: signals that players have a limited number of pieces, the number of which should be displayed to the players. Use `getPlayerPieces(playerid: number) => number` to fetch the number of pieces the given player has at the moment. Mutually exclusive with `player-stashes`.
 * `player-stashes`: signals that players have their own piece stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number. Mutually exclusive with `limited-pieces`;
 * `shared-pieces`: signals that players don't own any pieces, so the front end can omit any display that links players to colours.
-* `shared-stash`: signals that players share a stash of pieces. Use `getSharedStash() => IPlayerStash` to fetch the current shared stash. 
+* `shared-stash`: signals that players share a stash of pieces. Use `getSharedStash() => IPlayerStash` to fetch the current shared stash.
 * `automove`: signals that it is possible or even common for a player to only have one movement choice (most usually "pass"). The processor should consider checking for that possibility and making that single move automatically, to keep things moving quickly.
 * `no-moves`: signals that the game cannot produce a list of possible moves. In all other games, you can use `moves(player?: number) => string[]` to get a list of valid moves.
 * `multistep`: signals that a move consists of multiple steps. What this means is that you can pass a boolean flag to `move()` that signals that you are only submitting a partial move (pass `true`). This prevents the function from doing end-of-turn processing. This leaves the game object in an unstable state. It should only be used on a cloned object, or you should call `load()` before submitting another move. Partial moves are not incremental! You can't enter part one, and then enter just part two. You would have to enter parts one and two combined to see the correct results after the two moves.
 * `pie`: The front end should give the second player a chance to switch seats after the first move.
 * `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed.
+
 ### `GameFactory`
 
 This function is how you instantiate a particular game. Pass it the game's `uid` and any constructor parameters to receive the game instance. Passing it an existing state object (described more below) is how you load a game in progress. Otherwise you'll get a brand new game.

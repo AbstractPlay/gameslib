@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -46,7 +46,7 @@ export class OrdoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["perspective"]
+        flags: ["perspective", "limited-pieces"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -117,6 +117,16 @@ export class OrdoGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;
+    }
+
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(p => p === player).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
     }
 
     public moves(player?: playerid, permissive = false): string[] {

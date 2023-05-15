@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fendo: Embarrassingly, I missed an important rule. Moving is optional. I also started players with one too many pieces. Corrected.
 * Homeworlds: Added `no-moves` descriptor to disable move generation on the front end.
 * Fix sameMove when move1 is a game ending move.
+* Martian Chess: Fixed a bug that occurred when someone resigned.
 
 ### Changed
 

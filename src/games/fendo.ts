@@ -142,7 +142,7 @@ export class FendoGame extends GameBase {
 
         // You can move a piece then place a fence
         for (const [from, targets] of validTargets.entries()) {
-            for (const target of [...targets, from]) {
+            for (const target of targets) {
                 // Neighbours obviously don't have a fence between them, so you could place one there
                 const neighbours = this.graph.neighbours(target);
                 for (const n of neighbours) {
@@ -190,7 +190,15 @@ export class FendoGame extends GameBase {
                     }
                 }
             }
+            // Pieces are always allowed to stay stationary
+            if (validTargets.has(piece)) {
+                const lst = validTargets.get(piece)!;
+                validTargets.set(piece, [...lst, piece]);
+            } else {
+                validTargets.set(piece, [piece]);
+            }
         }
+
         return validTargets;
     }
 

@@ -190,7 +190,15 @@ export class FendoGame extends GameBase {
                     }
                 }
             }
+            // Pieces are always allowed to stay stationary
+            if (validTargets.has(piece)) {
+                const lst = validTargets.get(piece)!;
+                validTargets.set(piece, [...lst, piece]);
+            } else {
+                validTargets.set(piece, [piece]);
+            }
         }
+
         return validTargets;
     }
 

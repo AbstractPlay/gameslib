@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fix sameMove when move1 is a game ending move.
 * Martian Chess: Fixed a bug that occurred when someone resigned.
 * Fendo: Fixed edge case where a trapped piece couldn't build a wall.
+* Fix/improve the Chase move validation and click handler.
 
 ### Changed
 

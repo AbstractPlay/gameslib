@@ -905,7 +905,7 @@ export class ChaseGame extends GameBase {
                     return result;
                 }
                 for (const cell of path.slice(0, path.length - 1)) {
-                    if (cloned.board.has(cell)) {
+                    if (cloned.board.has(cell) || cell === "e5") {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
                         return result;
@@ -938,7 +938,7 @@ export class ChaseGame extends GameBase {
                 }
                 const path = validPaths[0];
                 for (const cell of path.slice(0, path.length - 1)) {
-                    if (cloned.board.has(cell)) {
+                    if (cloned.board.has(cell) || cell === "e5") {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
                         return result;

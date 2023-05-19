@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Martian Chess: Fixed a bug that occurred when someone resigned.
 * Fendo: Fixed edge case where a trapped piece couldn't build a wall.
 * Fix/improve the Chase move validation and click handler.
+* Cannon: Fixed bug where move list shows, correctly, that a cannon could capture the further of two adjacent pieces but the system ultimately wouldn't allow it.
 
 ### Changed
 

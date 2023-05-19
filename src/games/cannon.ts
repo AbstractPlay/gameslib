@@ -383,18 +383,28 @@ export class CannonGame extends GameBase {
             for (const dir of alldirs) {
                 const ray = grid.ray(x, y, dir).map(pt => CannonGame.coords2algebraic(...pt));
                 if (ray.length >= 4) {
-                    // first cell must be empty
-                    if (this.board.has(ray[0])) {
-                        continue;
-                    }
-                    // second cell might be empty too
                     let startidx = 1;
-                    if (! this.board.has(ray[1])) {
-                        // but now we have to make sure the ray is at least 5 cells long
+                    if (this.board.has(ray[0])) {
+                        // Scenario: Cannon + empty + occupied -> target
                         if (ray.length < 5) {
                             continue;
                         }
+                        // second space must be empty
+                        if (this.board.has(ray[1])) {
+                            continue;
+                        }
+                        // now the cannon
                         startidx = 2;
+                    } else {
+                        // Scenario: Cannon + empty (+ empty) -> target
+                        // second cell might be empty too
+                        if (! this.board.has(ray[1])) {
+                            // but now we have to make sure the ray is at least 5 cells long
+                            if (ray.length < 5) {
+                                continue;
+                            }
+                            startidx = 2;
+                        }
                     }
                     // remaning three must be your soldiers
                     let iscannon = true;

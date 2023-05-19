@@ -585,7 +585,7 @@ export class ChaseGame extends GameBase {
                     } else if (sofar.length === 2) {
                         // if you've clicked on the same cell twice, go into exchange mode
                         if (sofar === cell) {
-                            newmove = `${balance}${cell}=`;
+                            newmove = `${balance}${cell}=${cloned.board.get(cell)![1] - 1}`;
                         // if you clicked on an enemy piece, capture
                         } else if ( (cloned.board.has(cell)) && (cloned.board.get(cell)![0] !== cloned.currplayer) ) {
                             newmove = `${balance}${sofar}x${cell}`;
@@ -605,53 +605,24 @@ export class ChaseGame extends GameBase {
                         }
                     // if it's an exchange move
                     } else if (sofar.includes("=")) {
-                        // if it ends with an equals sign, then we're selecting a second cell
-                        if (sofar.endsWith("=")) {
+                        // if we have just one equals sign
+                        if (sofar.split("=").length === 2) {
                             // You can only select your own cells at this point
                             if ( (cloned.board.has(cell)) && (cloned.board.get(cell)![0] === cloned.currplayer) ) {
                                 const prevcell = sofar.slice(0, 2);
-                                let prevspeed: number = cloned.board.get(prevcell)![1];
-                                let thisspeed: number = cloned.board.get(cell)![1];
-                                const totalspeed = prevspeed + thisspeed;
-                                prevspeed++;
-                                if (prevspeed > 6) {
-                                    prevspeed = totalspeed - 6;
-                                } else if (prevspeed >= totalspeed) {
-                                    prevspeed = 1;
+                                const left = sofar.split("=")[1].split(",")[0];
+                                let newspeed = parseInt(left, 10);
+                                if (cell === prevcell) {
+                                    newspeed--;
+                                    if (newspeed === 0) {
+                                        newspeed = cloned.board.get(cell)![1] - 1;
+                                    }
+                                    newmove = `${balance}${prevcell}=${newspeed}`;
+                                } else {
+                                    const prevspeed = cloned.board.get(prevcell)![1];
+                                    const thisspeed = cloned.board.get(cell)![1];
+                                    newmove = `${balance}${prevcell}=${newspeed},${cell}=${prevspeed + thisspeed - newspeed}`;
                                 }
-                                thisspeed = totalspeed - prevspeed;
-                                newmove = `${balance}${prevcell}=${prevspeed},${cell}=${thisspeed}`;
-                            } else {
-                                return {move: "", message: ""} as IClickResult;
-                            }
-                        // otherwise we already have two cells
-                        } else {
-                            const [left, right] = sofar.split(",");
-                            const [lCell, lSpeedStr] = left.split("=");
-                            const [rCell, rSpeedStr] = right.split("=");
-                            let lSpeed = parseInt(lSpeedStr, 10);
-                            let rSpeed = parseInt(rSpeedStr, 10);
-                            const totalspeed = lSpeed + rSpeed;
-                            // clicking on one of the two cells cycles the values
-                            if (cell === lCell) {
-                                lSpeed++;
-                                if (lSpeed > 6) {
-                                    lSpeed = totalspeed - 6;
-                                } else if (lSpeed >= totalspeed) {
-                                    lSpeed = 1;
-                                }
-                                rSpeed = totalspeed - lSpeed;
-                                newmove = `${balance}${lCell}=${lSpeed},${rCell}=${rSpeed}`;
-                            } else if (cell === rCell) {
-                                rSpeed++;
-                                if (rSpeed > 6) {
-                                    rSpeed = totalspeed - 6;
-                                } else if (rSpeed >= totalspeed) {
-                                    rSpeed = 1;
-                                }
-                                lSpeed = totalspeed - rSpeed;
-                                newmove = `${balance}${lCell}=${lSpeed},${rCell}=${rSpeed}`;
-                            // otherwise reject the click
                             } else {
                                 return {move: "", message: ""} as IClickResult;
                             }
@@ -682,11 +653,14 @@ export class ChaseGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const cloned: ChaseGame = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
 
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+
+        let delta = 25 - cloned.totalSpeed();
         if (m === "") {
             result.valid = true;
             result.complete = -1;
-            if (cloned.totalSpeed() < 25) {
-                const delta = 25 - cloned.totalSpeed();
+            if (delta > 0) {
                 result.message = i18next.t("apgames:validation.chase.INITIAL_INSTRUCTIONS", {context: "imbalanced", delta});
             } else {
                 result.message = i18next.t("apgames:validation.chase.INITIAL_INSTRUCTIONS", {context: "balanced"});
@@ -696,15 +670,34 @@ export class ChaseGame extends GameBase {
 
         let balance = "";
         let rest = m;
-        if (m.includes("}")) {
-            [balance, rest] = m.split("}");
-            balance = balance.slice(1);
+        if (delta > 0) {
+            if (!m.startsWith("{")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.chase.MUST_BALANCE", {delta});
+                return result;
+            }
+            if (m.includes("}")) {
+                [balance, rest] = m.split("}");
+                balance = balance.slice(1);
+            } else {
+                rest = "";
+                balance = m.slice(1);
+            }
+        } else if (m.startsWith("{")) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.chase.NO_BALANCE");
+            return result;
         }
 
         // validate any balances
         if ( (balance !== undefined) && (balance.length > 0) ) {
             const cells = balance.split(",");
             for (const cell of cells) {
+                if (delta === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.chase.NO_BALANCE_LEFT", {where: cell});
+                    return result;
+                }
                 // valid cell
                 try {
                     ChaseGame.algebraic2coords(cell);
@@ -733,14 +726,29 @@ export class ChaseGame extends GameBase {
                     return result;
                 }
                 // apply this specific balance before continuing
-                const delta = 25 - cloned.totalSpeed();
                 const val = cloned.board.get(cell)!;
                 if (val[1] + delta > 6) {
+                    delta -= 6 - val[1];
                     val[1] = 6;
                 } else {
                     val[1] += delta;
+                    delta = 0;
                 }
                 cloned.board.set(cell, val);
+            }
+            if (delta > 0) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.chase.PARTIAL_BALANCE", {delta});
+                return result;
+            }
+            if (!m.includes("}")) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.chase.PARTIAL_BALANCE_PARENTHESIS", {delta});
+                return result;
             }
 
             // if this is it, valid partial
@@ -748,12 +756,7 @@ export class ChaseGame extends GameBase {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                if (cloned.totalSpeed() < 25) {
-                    const delta = 25 - cloned.totalSpeed();
-                    result.message = i18next.t("apgames:validation.chase.PARTIAL_BALANCE", {delta});
-                } else {
-                    result.message = i18next.t("apgames:validation.chase.INITIAL_INSTRUCTIONS", {context: "balanced"});
-                }
+                result.message = i18next.t("apgames:validation.chase.INITIAL_INSTRUCTIONS", {context: "balanced"});
                 return result;
             }
         }
@@ -773,6 +776,16 @@ export class ChaseGame extends GameBase {
             const rSpeed = parseInt(rSpeedStr, 10);
             const totalSpeed = lSpeed + rSpeed;
 
+            if (lSpeed < 1 || lSpeed > 6) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.chase.INVALID_SPEED", {cell: lCell, speed: lSpeed});
+                return result;
+            }
+            if (rSpeed < 1 || rSpeed > 6) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.chase.INVALID_SPEED", {cell: rCell, speed: rSpeed});
+                return result;
+            }
             for (const cell of [lCell, rCell]) {
                 // valid cell
                 try {
@@ -892,7 +905,7 @@ export class ChaseGame extends GameBase {
                     return result;
                 }
                 for (const cell of path.slice(0, path.length - 1)) {
-                    if (cloned.board.has(cell)) {
+                    if (cloned.board.has(cell) || cell === "e5") {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
                         return result;
@@ -925,7 +938,7 @@ export class ChaseGame extends GameBase {
                 }
                 const path = validPaths[0];
                 for (const cell of path.slice(0, path.length - 1)) {
-                    if (cloned.board.has(cell)) {
+                    if (cloned.board.has(cell) || cell === "e5") {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
                         return result;
@@ -985,8 +998,16 @@ export class ChaseGame extends GameBase {
 
         if ( (! partial) && (! moves.includes(m)) ) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        } else if ( partial ) {
+            if (m.endsWith("}")) {
+                if ( moves.filter(x => x.startsWith(m.substring(0, m.length - 1))).length < 1 ) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                }
+            } else {
+                if ( this.moves().filter(x => x.startsWith(m)).length < 1) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                }
+            }
         }
 
         let working = m;
@@ -996,10 +1017,14 @@ export class ChaseGame extends GameBase {
         // Look for balancing moves first
         if (working.startsWith("{")) {
             const match = working.match(/^{(\S+)}/);
+            let balances;
             if (match === null) {
-                throw new Error("Could not extract balance information.");
+                balances = working.slice(1).split(",");
+                working = "";
+            } else {
+                balances = match[1].split(",");
+                working = working.replace(match[0], "");
             }
-            const balances = match[1].split(",");
             const playerPieces = [...this.board.entries()].filter(e => e[1][0] === this.currplayer);
             const speed: number = playerPieces.map(p => p[1][1] as number).reduce((a, b) => a + b);
             let delta  = 25 - speed;
@@ -1015,10 +1040,9 @@ export class ChaseGame extends GameBase {
                     delta = 0;
                 }
             }
-            if (delta !== 0) {
+            if (! partial && delta !== 0) {
                 throw new Error("Something went horribly wrong balancing speed.");
             }
-            working = working.replace(match[0], "");
         }
 
         // Exchanges next

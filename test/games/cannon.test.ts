@@ -1,4 +1,6 @@
 /* tslint:disable:no-unused-expression */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import "mocha";
 import { expect } from "chai";
@@ -113,6 +115,12 @@ describe("Cannon", () => {
         g.board.set("e7", [1, "s"]);
         m = g.moves(1);
         expect(m).to.not.include.members(["e4-e7", "e6-e3", "xe8", "xe9", "xe2", "xe1"]);
+
+        // Now actually execute the far capture
+        g.board.delete("e3");
+        g.board.delete("e7");
+        g.move("xe9");
+        expect(g.board.has("e9")).to.be.false;
     });
     // it ("Game ends properly", () => {
     //     let g = new CannonGame();

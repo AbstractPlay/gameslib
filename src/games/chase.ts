@@ -34,6 +34,7 @@ const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 // const hexDirs = ["NE", "E", "SE", "SW", "W", "NW"];
 
 const string2dir = (dir: string): Direction|undefined => {
+    dir = dir.toUpperCase();
     switch (dir) {
         case "NE":
             return Direction.NE;
@@ -924,7 +925,7 @@ export class ChaseGame extends GameBase {
                 for (const d of [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW]) {
                     paths.push(ChaseGame.vector(...ChaseGame.algebraic2coords(from), d, speed).vector.map(v => ChaseGame.coords2algebraic(...v)))
                 }
-                const validPaths = paths.filter(p => p[p.length - 1] === to);
+                const validPaths = paths.filter(p => p[p.length - 1] === to && p.slice(0, p.length - 1).every(c => ! cloned.board.has(c) && c !== "e5"));
                 if (validPaths.length === 0) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.chase.NOPATH", {from, to});
@@ -932,7 +933,8 @@ export class ChaseGame extends GameBase {
                 }
                 const uniquePaths = new Set(validPaths.map(p => p.join("")));
                 if (uniquePaths.size > 1) {
-                    result.valid = false;
+                    result.valid = true;
+                    result.complete = -1;
                     result.message = i18next.t("apgames:validation.chase.MULTIPLE_PATHS", {from, to});
                     return result;
                 }

@@ -291,8 +291,8 @@ export class MchessGame extends GameBase {
         });
 
         // Eliminate the mirror move
-        if ( (this.lastmove !== undefined) && ( (this.lastmove.includes("-")) || (this.lastmove.includes("x")) ) ) {
-            const cells = this.lastmove.split(/[\-x]/);
+        if ( (this.lastmove !== undefined) && this.lastmove.includes("-") ) {
+            const cells = this.lastmove.split("-");
             if ( (cells === undefined) || (cells.length !== 2) ) {
                 throw new Error("Malformed move encountered.");
             }

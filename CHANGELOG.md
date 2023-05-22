@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fix/improve the Chase move validation and click handler.
 * Cannon: Fixed bug where move list shows, correctly, that a cannon could capture the further of two adjacent pieces but the system ultimately wouldn't allow it.
 * Martian Chess: allow "undo"ing captures.
+* Cannon: Add a check for "checkmate" in the EOG check.
 
 ### Changed
 

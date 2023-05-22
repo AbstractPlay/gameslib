@@ -694,8 +694,28 @@ export class CannonGame extends GameBase {
         }
 
         // If still not game over, see if there are no moves available
+        const moves = this.moves();
         if (! this.gameover) {
-            if (this.moves().length === 0) {
+            if (moves.length === 0) {
+                this.gameover = true;
+                if (this.currplayer === 1) {
+                    this.winner = [2];
+                } else {
+                    this.winner = [1];
+                }
+                this.results.push(
+                    {type: "eog"},
+                    {type: "winners", players: [...this.winner]}
+                );
+            }
+        }
+
+        // If still not game over, is player in check?
+        if (! this.gameover) {
+            const checksBy = this.checksBy();
+            if (checksBy.length > 1
+                // no checking piece can be captured
+                || ( checksBy.length === 1 && !checksBy[0].some((x) => moves.some((m) => m.endsWith('x' + x))) )) {
                 this.gameover = true;
                 if (this.currplayer === 1) {
                     this.winner = [2];
@@ -710,6 +730,48 @@ export class CannonGame extends GameBase {
         }
 
         return this;
+    }
+
+    private checksBy(): string[][] {
+        if (!this.placed)
+            return [];
+        const checksBy: string[][] = [];
+        const grid = new RectGrid(10, 10);
+        const town = homes.get(this.currplayer)!.find((x) => this.board.has(x) && this.board.get(x)![1] === "t")!;
+        const townCell = CannonGame.algebraic2coords(town);
+        for (const dir of alldirs) {
+            const ray = grid.ray(...townCell, dir);
+            if (ray.length > 0) {
+                const oneAway = CannonGame.coords2algebraic(...ray[0]);
+                if (this.board.has(oneAway)) {
+                    if (this.board.get(oneAway)![0] !== this.currplayer) {
+                        checksBy.push([oneAway]);
+                    }
+                } else if (ray.length >= 4) {
+                    let cannonEnd = 0;
+                    let cell = CannonGame.coords2algebraic(...ray[1]);
+                    if (this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
+                        cannonEnd = 1;
+                    }
+                    if (cannonEnd === 0 && ray.length >= 5) {
+                        cell = CannonGame.coords2algebraic(...ray[2]);
+                        if (this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
+                            cannonEnd = 2;
+                        }
+                    }
+                    if (cannonEnd !== 0) {
+                        const cell2 = CannonGame.coords2algebraic(...ray[cannonEnd + 1]);
+                        if (this.board.has(cell2) && this.board.get(cell2)![0] !== this.currplayer) {
+                            const cell3 = CannonGame.coords2algebraic(...ray[cannonEnd + 2]);
+                            if (this.board.has(cell3) && this.board.get(cell3)![0] !== this.currplayer) {
+                                checksBy.push([cell, cell2, cell3]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return checksBy;
     }
 
     public state(): ICannonState {

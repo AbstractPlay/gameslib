@@ -106,7 +106,7 @@ export class HomeworldsGame extends GameBase {
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    private actions!: IActionTracker;
+    public actions!: IActionTracker;
     private eliminated: Seat[] = [];
     public variants: string[] = [];
 

@@ -714,14 +714,10 @@ export class HomeworldsGame extends GameBase {
                         return {move, message: ""} as IClickResult;
                     }
                 } else if (lastcmd === "catastrophe") {
-                    // eslint-disable-next-line no-console
-                    console.log(`Lastcmd: ${lastcmd}, lastargs: ${JSON.stringify(lastargs)}, ship: ${ship}, system: ${system}`);
-                    if (ship !== undefined) {
-                        if (lastargs.length === 0) {
-                            newmove = `catastrophe ${system}`;
-                        } else {
-                            newmove = `catastrophe ${lastargs.join(" ")} ${ship[0]}`;
-                        }
+                    if ( (system !== undefined) && (lastargs.length === 0) ) {
+                        newmove = `catastrophe ${system}`;
+                    } else if (ship !== undefined) {
+                        newmove = `catastrophe ${lastargs.join(" ")} ${ship[0]}`;
                     } else {
                         return {move, message: ""} as IClickResult;
                     }

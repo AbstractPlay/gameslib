@@ -106,7 +106,7 @@ export class HomeworldsGame extends GameBase {
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    private actions!: IActionTracker;
+    public actions!: IActionTracker;
     private eliminated: Seat[] = [];
     public variants: string[] = [];
 
@@ -623,6 +623,8 @@ export class HomeworldsGame extends GameBase {
                                 newmove = `sacrifice`;
                             } else if (system === "_pass") {
                                 newmove = `pass`;
+                            } else if (system === "_catastrophe") {
+                                newmove = `catastrophe`
                             } else if (! system.startsWith("_")) {
                                 newmove = `catastrophe ${system}`
                             } else {
@@ -712,7 +714,9 @@ export class HomeworldsGame extends GameBase {
                         return {move, message: ""} as IClickResult;
                     }
                 } else if (lastcmd === "catastrophe") {
-                    if (ship !== undefined) {
+                    if ( (system !== undefined) && (lastargs.length === 0) ) {
+                        newmove = `catastrophe ${system}`;
+                    } else if (ship !== undefined) {
                         newmove = `catastrophe ${lastargs.join(" ")} ${ship[0]}`;
                     } else {
                         return {move, message: ""} as IClickResult;
@@ -726,7 +730,7 @@ export class HomeworldsGame extends GameBase {
             if (moves.length > 0) {
                 compiled = [...moves, newmove].join(", ");
             }
-           const result = this.validateMove(compiled) as IClickResult;
+            const result = this.validateMove(compiled) as IClickResult;
             if (! result.valid) {
                 result.move = move;
             } else {
@@ -847,6 +851,7 @@ export class HomeworldsGame extends GameBase {
         // fully validated move set
         result.valid = true;
         result.complete = 0;
+        result.canrender = true;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
@@ -1362,13 +1367,14 @@ export class HomeworldsGame extends GameBase {
 
             // valid complete move
             result.valid = true;
+            result.canrender = true;
             if (this.countActions() > 0) {
                 result.complete = -1;
-                result.canrender = true;
+                result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
             } else {
                 result.complete = 0;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             }
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
     }
@@ -1522,13 +1528,14 @@ export class HomeworldsGame extends GameBase {
 
             // valid complete move
             result.valid = true;
+            result.canrender = true;
             if (this.countActions() > 0) {
                 result.complete = -1;
-                result.canrender = true;
+                result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
             } else {
                 result.complete = 0;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             }
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
     }
@@ -1626,13 +1633,14 @@ export class HomeworldsGame extends GameBase {
 
             // valid complete move
             result.valid = true;
+            result.canrender = true;
             if (this.countActions() > 0) {
                 result.complete = -1;
-                result.canrender = true;
+                result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
             } else {
                 result.complete = 0;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             }
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
     }
@@ -1757,13 +1765,14 @@ export class HomeworldsGame extends GameBase {
 
             // valid complete move
             result.valid = true;
+            result.canrender = true;
             if (this.countActions() > 0) {
                 result.complete = -1;
-                result.canrender = true;
+                result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
             } else {
                 result.complete = 0;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             }
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
     }
@@ -1876,13 +1885,14 @@ export class HomeworldsGame extends GameBase {
 
             // valid complete move
             result.valid = true;
+            result.canrender = true;
             if (this.countActions() > 0) {
                 result.complete = -1;
-                result.canrender = true;
+                result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
             } else {
                 result.complete = 0;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             }
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
     }
@@ -1965,13 +1975,14 @@ export class HomeworldsGame extends GameBase {
 
             // valid complete move
             result.valid = true;
+            result.canrender = true;
             if (this.countActions() > 0) {
                 result.complete = -1;
-                result.canrender = true;
+                result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
             } else {
                 result.complete = 0;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             }
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
     }
@@ -2061,6 +2072,7 @@ export class HomeworldsGame extends GameBase {
 
             // valid complete move
             result.valid = true;
+            result.canrender = true;
             result.complete = 0;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
@@ -2153,13 +2165,14 @@ export class HomeworldsGame extends GameBase {
 
         // valid complete move
         result.valid = true;
+        result.canrender = true;
         if (this.countActions() > 0) {
             result.complete = -1;
-            result.canrender = true;
+            result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
         } else {
             result.complete = 0;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         }
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
 

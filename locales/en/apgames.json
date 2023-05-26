@@ -312,9 +312,10 @@
             },
             "trade": {
                 "PARTIAL_NOARGS": "Select a ship to convert.",
-                "PARTIAL_ONEARG": "Select the system where the ship is found.",
+                "PARTIAL_ONEARG": "Select the ship you want to convert.",
                 "PARTIAL_TWOARGS": "Select the new colour."
-            }
+            },
+            "VALID_W_ACTIONS": "Looks like a valid move, but you still have actions to spend."
         },
         "loa": {
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",

@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Cannon: Fixed bug where move list shows, correctly, that a cannon could capture the further of two adjacent pieces but the system ultimately wouldn't allow it.
 * Martian Chess: allow "undo"ing captures.
 * Cannon: Add a check for "checkmate" in the EOG check.
+* Homeworlds: Fixed a miscommunication between the click handler and the front end that stopped some sacrifice moves from completing. Also tweaked some help text to be more...helpful.
 
 ### Changed
 

@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-    build:
+    build-prod:
 
         runs-on: ubuntu-latest
 
@@ -43,8 +43,8 @@ jobs:
             name: package
             path: "*.tgz"
 
-    publish:
-        needs: [build]
+    publish-prod:
+        needs: [build-prod]
         runs-on: ubuntu-latest
         steps:
         - name: Upload
@@ -61,8 +61,8 @@ jobs:
           env:
             NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-    relay:
-        needs: [publish]
+    relay-prod:
+        needs: [publish-prod]
         runs-on: ubuntu-latest
         steps:
           - name: Trigger frontend build and test

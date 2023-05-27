@@ -407,6 +407,20 @@ export class MchessGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
                     return result;
                 }
+
+                // no mirror move
+                if ( (this.lastmove !== undefined) && this.lastmove.includes("-") ) {
+                    const cells = this.lastmove.split("-");
+                    if ( (cells === undefined) || (cells.length !== 2) ) {
+                        throw new Error("Malformed move encountered.");
+                    }
+                    if ( (cells[0] === to) && (cells[1] === from) ) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.mchess.NO_MIRROR_MOVE");
+                        return result;
+                    }
+                }
+
                 // make sure target is valid
                 const pts = this.findPoints(from).map(pt => MchessGame.coords2algebraic(...pt));
                 if (! pts.includes(to)) {
@@ -467,6 +481,15 @@ export class MchessGame extends GameBase {
     private findPoints(cell: string): [number, number][] {
         const points: [number, number][] = [];
         if (this.board.has(cell)) {
+            let mirror = "";
+            if ( (this.lastmove !== undefined) && this.lastmove.includes("-") ) {
+                const cells = this.lastmove.split("-");
+                if ( (cells === undefined) || (cells.length !== 2) ) {
+                    throw new Error("Malformed move encountered.");
+                }
+                if (cells[1] === cell)
+                    mirror = cells[0];
+            }
             const grid = new RectGrid(4, 8);
             const [x, y] = MchessGame.algebraic2coords(cell);
             const piece = this.board.get(cell)!;
@@ -476,7 +499,7 @@ export class MchessGame extends GameBase {
                         // chess king
                         for (const next of grid.adjacencies(x, y, true)) {
                             const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
-                            if (move !== undefined) {
+                            if (move !== undefined && move !== mirror) {
                                 points.push(next)
                             }
                         }
@@ -485,7 +508,7 @@ export class MchessGame extends GameBase {
                         // chess knights
                         for (const next of grid.knights(x, y)) {
                             const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
-                            if (move !== undefined) {
+                            if (move !== undefined && move !== mirror) {
                                 points.push(next)
                             }
                         }
@@ -496,7 +519,7 @@ export class MchessGame extends GameBase {
                             for (const next of grid.ray(x, y, dir)) {
                                 const nextCell = MchessGame.coords2algebraic(...next);
                                 if (! this.board.has(nextCell)) {
-                                    points.push(next);
+                                    if (nextCell !== mirror) points.push(next);
                                 } else {
                                     const move = this.moveType(cell, nextCell, piece, this.currplayer);
                                     if (move !== undefined) {
@@ -514,7 +537,7 @@ export class MchessGame extends GameBase {
                         // just diagonal adjacencies
                         for (const next of grid.adjacencies(x, y, true).filter(pt => (pt[0] !== x) && (pt[1] !== y))) {
                             const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
-                            if (move !== undefined) {
+                            if (move !== undefined && move !== mirror) {
                                 points.push(next)
                             }
                         }
@@ -526,10 +549,10 @@ export class MchessGame extends GameBase {
                             for (const next of ray) {
                                 const nextCell = MchessGame.coords2algebraic(...next);
                                 if (! this.board.has(nextCell)) {
-                                    points.push(next);
+                                    if (nextCell !== mirror) points.push(next);
                                 } else {
                                     const move = this.moveType(cell, nextCell, piece, this.currplayer);
-                                    if (move !== undefined) {
+                                    if (move !== undefined && move !== mirror) {
                                         points.push(next)
                                     }
                                     break;
@@ -543,10 +566,10 @@ export class MchessGame extends GameBase {
                             for (const next of grid.ray(x, y, dir)) {
                                 const nextCell = MchessGame.coords2algebraic(...next);
                                 if (! this.board.has(nextCell)) {
-                                    points.push(next);
+                                    if (nextCell !== mirror) points.push(next);
                                 } else {
                                     const move = this.moveType(cell, nextCell, piece, this.currplayer);
-                                    if (move !== undefined) {
+                                    if (move !== undefined && move !== mirror) {
                                         points.push(next)
                                     }
                                     break;

@@ -524,7 +524,7 @@ export class CannonGame extends GameBase {
                     return result;
                 }
                 // Correct distance
-                if (Math.abs(yFrom - yTo) !== 2) {
+                if (to !== CannonGame.coords2algebraic(...RectGrid.move(xFrom, yFrom, bearing, 2))) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.cannon.RETREAT_DISTANCE");
                     return result;
@@ -534,6 +534,12 @@ export class CannonGame extends GameBase {
                 if (this.board.has(next)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: next});
+                    return result;
+                }
+
+                if (this.board.has(to)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.RETREAT_EMPTY", {from, to, obstruction: next});
                     return result;
                 }
 
@@ -577,7 +583,7 @@ export class CannonGame extends GameBase {
                     return result;
                 }
                 // space is adjacent
-                if (Math.abs(yFrom - yTo) !== 1) {
+                if (to !== CannonGame.coords2algebraic(...RectGrid.move(xFrom, yFrom, bearing))) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.cannon.TOOFAR");
                     return result;
@@ -713,9 +719,13 @@ export class CannonGame extends GameBase {
         // If still not game over, is player in check?
         if (! this.gameover) {
             const checksBy = this.checksBy();
-            if (checksBy.length > 1
-                // no checking piece can be captured
-                || ( checksBy.length === 1 && !checksBy[0].some((x) => moves.some((m) => m.endsWith('x' + x))) )) {
+            if (checksBy.length > 1 // double check
+                // checking piece or cannon
+                || ( checksBy.length === 1 && !(
+                    // single checking piece can be captured
+                    (checksBy[0].length === 1 && moves.some((m) => m.endsWith('x' + checksBy[0][0])))
+                    // checking cannon can be blocked or a piece captured
+                    || (checksBy[0].length === 4 && (moves.some((m) => m.endsWith('-' + checksBy[0][0])) || checksBy[0].slice(1).some((x) => moves.some((m) => m.endsWith('x' + x)))))))) {
                 this.gameover = true;
                 if (this.currplayer === 1) {
                     this.winner = [2];
@@ -743,19 +753,20 @@ export class CannonGame extends GameBase {
             const ray = grid.ray(...townCell, dir);
             if (ray.length > 0) {
                 const oneAway = CannonGame.coords2algebraic(...ray[0]);
-                if (this.board.has(oneAway)) {
-                    if (this.board.get(oneAway)![0] !== this.currplayer) {
+                if (this.board.has(oneAway) && this.board.get(oneAway)![0] !== this.currplayer) {
                         checksBy.push([oneAway]);
-                    }
-                } else if (ray.length >= 4) {
+                }
+                if (ray.length >= 4) {
                     let cannonEnd = 0;
                     let cell = CannonGame.coords2algebraic(...ray[1]);
-                    if (this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
+                    let plug = oneAway;
+                    if (!this.board.has(plug) && this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
                         cannonEnd = 1;
                     }
                     if (cannonEnd === 0 && ray.length >= 5) {
+                        plug = cell;
                         cell = CannonGame.coords2algebraic(...ray[2]);
-                        if (this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
+                        if (!this.board.has(plug) && this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
                             cannonEnd = 2;
                         }
                     }
@@ -764,7 +775,7 @@ export class CannonGame extends GameBase {
                         if (this.board.has(cell2) && this.board.get(cell2)![0] !== this.currplayer) {
                             const cell3 = CannonGame.coords2algebraic(...ray[cannonEnd + 2]);
                             if (this.board.has(cell3) && this.board.get(cell3)![0] !== this.currplayer) {
-                                checksBy.push([cell, cell2, cell3]);
+                                checksBy.push([plug, cell, cell2, cell3]);
                             }
                         }
                     }

@@ -193,6 +193,7 @@
             "NOCANNON_MOVE": "There is no cannon along which to move that piece that way.",
             "PARTIAL": "Provide a destination.",
             "RETREAT_DISTANCE": "You must retreat two full spaces.",
+            "RETREAT_EMPTY": "You must retreat to an empty cell.",
             "TOOFAR": "You can only move one space at a time, unless retreating.",
             "UNCONTROLLED": "You can't control enemy pieces. If you're trying to capture it by cannon, click it again."
         },
@@ -333,6 +334,7 @@
             "INITIAL_INSTRUCTIONS": "Select a piece on your side of the board to move.",
             "INVALID_MOVE": "You're either trying to move too far or jump another piece.",
             "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
+            "NO_MIRROR_MOVE": "You can't just undo you opponent's move.",
             "PARTIAL": "Select a destination."
         },
         "monkey": {

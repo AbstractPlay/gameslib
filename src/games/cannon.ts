@@ -524,7 +524,7 @@ export class CannonGame extends GameBase {
                     return result;
                 }
                 // Correct distance
-                if (Math.abs(yFrom - yTo) !== 2) {
+                if (to !== CannonGame.coords2algebraic(...RectGrid.move(xFrom, yFrom, bearing, 2))) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.cannon.RETREAT_DISTANCE");
                     return result;
@@ -534,6 +534,12 @@ export class CannonGame extends GameBase {
                 if (this.board.has(next)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: next});
+                    return result;
+                }
+
+                if (this.board.has(to)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.cannon.RETREAT_EMPTY", {from, to, obstruction: next});
                     return result;
                 }
 
@@ -577,7 +583,7 @@ export class CannonGame extends GameBase {
                     return result;
                 }
                 // space is adjacent
-                if (Math.abs(yFrom - yTo) !== 1) {
+                if (to !== CannonGame.coords2algebraic(...RectGrid.move(xFrom, yFrom, bearing))) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.cannon.TOOFAR");
                     return result;

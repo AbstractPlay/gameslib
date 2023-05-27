@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Martian Chess: allow "undo"ing captures.
 * Cannon: Add a check for "checkmate" in the EOG check.
 * Homeworlds: Fixed a miscommunication between the click handler and the front end that stopped some sacrifice moves from completing.
+* Cannon: Some weird moves incorrectly validated. Including retreats to non-empty cells.
 
 ### Changed
 

@@ -23,6 +23,7 @@
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
+        "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.\n\n**Variants**\n\n- The default board size is 9x9, but 7x7 and 11x11 versions are also available.\n- The default win condition is the size of your two largest groups, but at the beginning of the game you can agree on looking at only one or three groups.\n- The default rule is no diagonal placement. The \"Tonga\" variant allows it, however.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
@@ -73,28 +74,28 @@
     "MOVES_INVALID": "The move '{{move}}' is invalid. Please check the rules and try again.",
     "MOVES_SIMULTANEOUS_PARTIAL": "In simultaneous games, both players' moves must be submitted at the same time.",
     "status": {
-        "PHASE": "Phase",
-        "SCORES": "Scores",
-        "TERRITORY": "Territory",
-        "DISTANCES": "Distances",
-        "PIECESINHAND": "Pieces in hand",
-        "PIECESREMAINING": "Pieces remaining",
-        "TOPLACE": "Piece to place",
         "amazons": {
             "ISOLATEDQUEENS": "The queens are now isolated",
             "TERRITORY": "Territory"
         },
         "blam": {
-            "NUMPIECES": "{{count}} pieces"
+            "NUMPIECES_one": "{{count}} piece",
+            "NUMPIECES_other": "{{count}} pieces"
         },
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
         },
+        "DISTANCES": "Distances",
         "entropy": {
             "CHAOS": "Chaos",
             "ORDER": "Order"
-        }
+        },
+        "PHASE": "Phase",
+        "PIECESINHAND": "Pieces in hand",
+        "PIECESREMAINING": "Pieces remaining",
+        "SCORES": "Scores",
+        "TOPLACE": "Piece to place"
     },
     "validation": {
         "_general": {
@@ -102,20 +103,22 @@
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
             "FAILSAFE": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nStack: {{estack}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
+            "INCOMPLETE_MOVE": "This move looks incomplete.",
+            "INVALID_MOVE": "'{{move}}' doesn't look like a valid move.",
             "INVALIDCELL": "Could not find the cell '{{cell}}' on the board.",
             "MOVE4CAPTURE": "You signalled a regular move, but {{where}} is occupied.",
+            "NEED_DESTINATION": "Provide the destination.",
             "NO_MOVES": "The piece at {{where}} does not have any legal moves.",
             "NOLOS": "There is no line of sight between {{from}} and {{to}}.",
             "NONEXISTENT": "Trying to interact with a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
+            "NOT_ORTH": "The cells {{from}} and {{to}} are not orthogonal to each other.",
             "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
             "OCCUPIED": "The cell {{where}} is already occupied.",
             "SAME_FROM_TO": "The 'from' and 'to' cells have to be different.",
             "SELFCAPTURE": "You cannot capture your own pieces.",
             "UNCONTROLLED": "You cannot move pieces you don't control.",
-            "VALID_MOVE": "Looks like a valid move.",
-            "INVALID_MOVE": "'{{move}}' doesn't look like a valid move.",
-            "INCOMPLETE_MOVE": "This move looks incomplete."
+            "VALID_MOVE": "Looks like a valid move."
         },
         "abande": {
             "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
@@ -139,8 +142,8 @@
             "SOURCE_EMPTY": "In the move '{{move}}', when you come to the step '{{step}}', you don't have any pieces left to move.",
             "TOOFAR": "In the move '{{move}}', the step '{{step}}' tries to move further than it is allowed.",
             "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high.",
-            "USEPLUS": "In the step {{step}}, use a plus sign when moving onto an existing stack.",
-            "USEMINUS": "In the step {{step}}, use a minus sign when moving onto an empty cell."
+            "USEMINUS": "In the step {{step}}, use a minus sign when moving onto an empty cell.",
+            "USEPLUS": "In the step {{step}}, use a plus sign when moving onto an existing stack."
         },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",
@@ -206,15 +209,15 @@
             "TOOHIGH": "The pieces you capture cannot total more than six."
         },
         "chase": {
-            "MUST_BALANCE": "You are imbalanced. Your move must begin with a '{'.",
-            "NO_BALANCE": "You are not imbalanced, your move can not begin with a '{'.",
-            "NO_BALANCE_LEFT": "You don't have any balance left to distribute to {{where}}.",
             "BALANCE_LOWEST": "When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",
             "DISTANT_EXCHANGE": "The cells {{left}} and {{right}} are not adjacent to each other.",
             "INITIAL_INSTRUCTIONS_balanced": "Select a piece to move. To start an exchange select the piece from which you want to remove speed, twice.",
             "INITIAL_INSTRUCTIONS_imbalanced": "You are imbalanced by {{delta}} speed. Select on of your pieces with the lowest speed to correct.",
-            "MULTIPLE_PATHS": "There is more than one way to get to {{to}} from {{from}}. Please edit the move box to add a compass direction or choose the exact move from the drop-down menu.",
             "INVALID_SPEED": "The speed {{speed}} is not valid for {{cell}}. It must be between 1 and 6.",
+            "MULTIPLE_PATHS": "There is more than one way to get to {{to}} from {{from}}. Please edit the move box to add a compass direction or choose the exact move from the drop-down menu.",
+            "MUST_BALANCE": "You are imbalanced. Your move must begin with a '{'.",
+            "NO_BALANCE": "You are not imbalanced, your move can not begin with a '{'.",
+            "NO_BALANCE_LEFT": "You don't have any balance left to distribute to {{where}}.",
             "NOCHANGE_EXCHANGE": "Exchanges must result in a change in the board state.",
             "NOPATH": "There is no path from {{from}} to {{to}}.",
             "PARTIAL_BALANCE": "You are still imbalanced by {{delta}} speed. Select another of your pieces with the lowest speed to correct.",
@@ -325,8 +328,8 @@
         },
         "manalath": {
             "BAD_PASS": "You may not pass if legal moves are available.",
-            "INITIAL_INSTRUCTIONS": "Select a color to place. You can type 'w' or 'b', or click on the desired color on the upper left.",
             "DESTINATION": "Now select a destination.",
+            "INITIAL_INSTRUCTIONS": "Select a color to place. You can type 'w' or 'b', or click on the desired color on the upper left.",
             "INVALID_COLOUR": "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
             "OVERSIZED_GROUP": "This would create a group of more than five pieces."
         },
@@ -365,6 +368,38 @@
             "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
         },
+        "realm": {
+            "ALIGNED_BASE": "You may not place a base that shares a row or column with another friendly base unless (a) you have no other options or (b) you are playing with the 'Relaxed Placement' variant.",
+            "BAD_MULTIMOVE": "When moving multiple pieces, you must either 'concentrate' (all pieces end in the same realm) or 'disperse' (all pieces start in the same realm).",
+            "CHECKPOINT_CHARLEY": "With the 'Checkpoint Charley' variant, moving pieces must stop in the first enemy-controlled realm they enter. In this case, the piece must stop in realm {{realm}}.",
+            "DOUBLE_POWER": "In the initial power placement phase, you may not place multiple powers in the same realm.",
+            "EMPTY_REARRANGE": "There are no pieces in realm {{realm}} that you can rearrange.",
+            "ENFORCER_180": "Enforcers may not make 180-degree turns.",
+            "INHAND": "You have pieces left to place on the board.",
+            "INHAND_LABEL": "Rearranging {{realm}}",
+            "INITIAL_INSTRUCTIONS_bases": "Place a base by clicking anywhere in an uncontrolled realm.",
+            "INITIAL_INSTRUCTIONS_play": "Click a piece to move, or click a base to rearrange pieces in that realm.",
+            "INITIAL_INSTRUCTIONS_powers": "Place a power by clicking an empty cell in a realm you control.",
+            "MUST_LEAVE_REALM": "Pieces may not move within the same realm except by rearrangement.",
+            "NO_SPECIALS": "No special events were triggered, but your move includes some.",
+            "NOT_CENTRE": "{{where}} is not a valid centre space.",
+            "NOT_IN_HAND": "The piece {{piece}} does not appear to be in your hand.",
+            "ONLY_BORDERS": "Only bases may be placed on centre spaces.",
+            "ONLY_ENFORCERS": "Only enforcers may be immobilized.",
+            "ORIENT_ENFORCER": "Click an orthoganally adjacent cell to orient the enforcer to face that direction.",
+            "PIECE_MISMATCH": "The piece in cell {{where}} does not match the type you say you're moving.",
+            "PLACE_IN_REALM": "Click on an empty space in realm {{realm}} to place the piece.",
+            "SPECIAL_CAP_BASE": "You must specify that you are capturing the base in this realm.",
+            "SPECIAL_CREATE_BASE": "You must specify that you are creating a base in this realm.",
+            "SPECIAL_CREATE_ENFORCER": "You must specify the location and orientation of the enforcer you are creating.",
+            "SPECIAL_IMMOB_ENFORCER": "You must specify the location of the enemy enforcer you are immobilizing.",
+            "SPECIAL_IMMOB_SELF": "You must specify that the enforcer you just moved will be immobilized.",
+            "UNCONTROLLED": "You do not control realm {{realm}}.",
+            "WRONG_REALM_capBase": "You may only capture the base in the realm you just moved to ({{realm}}).",
+            "WRONG_REALM_createBase": "You may only create a base in the realm you just moved to ({{realm}}).",
+            "WRONG_REALM_createEnforcer": "You may only create an enforcer in the realm you just moved to ({{realm}}).",
+            "WRONG_REALM_rearrange": "You may only place pieces in the realm being rearranged ({{realm}})."
+        },
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
@@ -384,8 +419,8 @@
             "MUST_PASS_PLAY": "The first turn after the second worker has been placed must be a pass or placement.",
             "NOPLACEMENTS": "You cannot move the workers such that you have no valid placements available.",
             "PARTIAL_MOVE": "Provide the destination.",
-            "PARTIAL_PLACE_SIZE": "Select the size of a piece to place.",
-            "PARTIAL_PLACE": "Choose a cell to place a piece in."
+            "PARTIAL_PLACE": "Choose a cell to place a piece in.",
+            "PARTIAL_PLACE_SIZE": "Select the size of a piece to place."
         },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",
@@ -422,36 +457,36 @@
     "variants": {
         "abande": {
             "hex": {
-                "name": "Board: Hexagonal",
-                "description": "A 37-space hexagonal board."
+                "description": "A 37-space hexagonal board.",
+                "name": "Board: Hexagonal"
             },
             "snub": {
-                "name": "Board: Snub Square",
-                "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+                "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
+                "name": "Board: Snub Square"
             }
         },
         "accasta": {
             "pari": {
-                "name": "Accasta Pari",
-                "description": "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield."
+                "description": "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield.",
+                "name": "Accasta Pari"
             }
         },
         "attangle": {
             "grand": {
-                "name": "Grand Attangle",
-                "description": "Played on a larger board, with more voids, and the goal now is to create five triple stacks."
+                "description": "Played on a larger board, with more voids, and the goal now is to create five triple stacks.",
+                "name": "Grand Attangle"
             }
         },
         "breakthrough": {
             "bombardment": {
-                "name": "Bombardment",
-                "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it."
+                "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it.",
+                "name": "Bombardment"
             }
         },
         "ceph": {
             "snub": {
-                "name": "Board: Snub Square",
-                "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics."
+                "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
+                "name": "Board: Snub Square"
             }
         },
         "dipole": {
@@ -461,40 +496,81 @@
         },
         "epam": {
             "stones": {
-                "name": "Stumbling Blocks",
-                "description": "In this variant, the players place three impassable stones in the middle of the board."
+                "description": "In this variant, the players place three impassable stones in the middle of the board.",
+                "name": "Stumbling Blocks"
             }
         },
         "fabrik": {
             "arbeiter": {
-                "name": "Arbeiter",
-                "description": "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four."
+                "description": "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four.",
+                "name": "Arbeiter"
             }
         },
         "loa": {
             "scrambled": {
-                "name": "Scrambled Eggs",
-                "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board."
+                "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",
+                "name": "Scrambled Eggs"
             }
         },
         "mchess": {
             "ofkk": {
-                "name": "Of Knights and Kings",
-                "description": "Pawns move like Chess kings, and drones move like Chess knights."
+                "description": "Pawns move like Chess kings, and drones move like Chess knights.",
+                "name": "Of Knights and Kings"
             }
         },
         "pikemen": {
             "15pts": {
-                "name": "Longer Game: 15 points",
-                "description": "The game doesn't end until you have 15 points worth of enemy soldiers."
+                "description": "The game doesn't end until you have 15 points worth of enemy soldiers.",
+                "name": "Longer Game: 15 points"
+            }
+        },
+        "realm": {
+            "capturedBases": {
+                "name": "Tie break: Captured bases",
+                "description": "The number of captured bases becomes a second tie breaker."
+            },
+            "checkpoint": {
+                "name": "Checkpoint Charley",
+                "description": "Moving pieces must stop in the first enemy controlled realm they enter."
+            },
+            "control": {
+                "name": "Control freak",
+                "description": "When rearranging a realm, you may also rearrange your opponent's pieces."
+            },
+            "lastFirst": {
+                "name": "And the last shall be first",
+                "description": "After initial base and power placement, the second player moves first."
+            },
+            "lessBase": {
+                "name": "Fewer bases"
+            },
+            "lessEnforcer": {
+                "name": "Fewer enforcers"
+            },
+            "moreBase": {
+                "name": "More bases"
+            },
+            "moreEnforcer": {
+                "name": "More enforcers"
+            },
+            "morePower": {
+                "name": "More powers"
+            },
+            "relaxed": {
+                "name": "Relaxed placement",
+                "description": "There are no restrictions on initial base placement."
+            },
+            "replacement": {
+                "name": "Capture by replacement",
+                "description": "Captured bases are immediately replaced by one of your own. Leads to a much faster game."
             }
         },
         "taiji": {
-            "7x7": {
-                "name": "Smaller board: 7x7"
-            },
             "11x11": {
                 "name": "Larger board: 11x11"
+            },
+            "7x7": {
+                "name": "Smaller board: 7x7"
             },
             "onegroup": {
                 "name": "Scoring: Single largest group"
@@ -508,8 +584,8 @@
         },
         "urbino": {
             "monuments": {
-                "name": "Monuments",
-                "description": "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties."
+                "description": "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties.",
+                "name": "Monuments"
             }
         },
         "wyke": {

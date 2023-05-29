@@ -757,8 +757,13 @@ export class RealmGame extends GameBase {
 
                         // if we made it this far, we're good
                         result.valid = true;
-                        result.complete = 1;
-                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        if ( (cloned.inhand !== undefined) && (cloned.inhand[1].length > 1) ) {
+                            result.complete = -1;
+                            result.message = i18next.t("apgames:validation.realm.INHAND");
+                        } else {
+                            result.complete = 1;
+                            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        }
                         return result;
                     }
 
@@ -1217,7 +1222,7 @@ export class RealmGame extends GameBase {
                             if (idx !== -1) {
                                 let calcDir: Facing;
                                 if ( (dir !== undefined) && (dir.length > 0) ) {
-                                    calcDir = dir as Facing;
+                                    calcDir = dir.toUpperCase() as Facing;
                                 }
                                 if ( (piece.startsWith("e")) && ( (dir === undefined) || (dir.length === 0) ) ) {
                                     calcDir = "N";

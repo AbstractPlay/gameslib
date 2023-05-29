@@ -1158,7 +1158,7 @@ export class RealmGame extends GameBase {
         if (! partial) {
             const result = this.validateMove(m);
             if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                throw new UserFacingError(result.message, "VALIDATION_GENERAL");
             }
         }
         this.results = [];

@@ -757,12 +757,12 @@ export class RealmGame extends GameBase {
 
                         // if we made it this far, we're good
                         result.valid = true;
-                        if ( (cloned.inhand !== undefined) && (cloned.inhand[1].length > 1) ) {
+                        if ( (cloned.inhand !== undefined) && (cloned.inhand[1].length > 0) ) {
                             result.complete = -1;
                             result.canrender = true;
                             result.message = i18next.t("apgames:validation.realm.INHAND");
                         } else {
-                            result.complete = 1;
+                            result.complete = 0;
                             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                         }
                         return result;

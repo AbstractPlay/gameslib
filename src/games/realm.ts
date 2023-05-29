@@ -36,11 +36,15 @@ export interface IRealmState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
+const rePlaceP = /^P[12][a-l]\d+$/;
+const rePlacePi = new RegExp(rePlaceP, "i");
+const rePlaceE = /^(Ex|E)[12][a-l]\d+[NESW]$/;
+const rePlaceEi = new RegExp(rePlaceE, "i");
 const reCompleteMoves: RegExp[] = [
     // /^[PB][a-l]\d+$/,                                   // Initial placement
     /^\-[a-l]\d+$/,                                     // Rearrange, trigger
-    /^P[12][a-l]\d+$/,                                  // Rearrange, replace, no orientation
-    /^(Ex|E)[12][a-l]\d+[NESW]$/,                       // Rearrange, replace, required orientation
+    rePlaceP,                                           // Rearrange, replace, no orientation
+    rePlaceE,                                           // Rearrange, replace, required orientation
     /^P([a-l]\d+){2}$/,                                 // Move power, no action
     /^P([a-l]\d+){2}\(B[a-l]\d+\)$/,                    // Move power, create base
     /^P([a-l]\d+){2}\(E[a-l]\d+[NESW]\)$/,              // Move power, create enforcer
@@ -757,9 +761,9 @@ export class RealmGame extends GameBase {
 
                         // if we made it this far, we're good
                         result.valid = true;
-                        if ( (cloned.inhand !== undefined) && (cloned.inhand[1].length > 0) ) {
+                        result.canrender = true;
+                        if ( (moves.length <= cloned.inhand[1].length) || ( (! rePlacePi.test(moves[moves.length - 1])) && (! rePlaceEi.test(moves[moves.length - 1])) ) ) {
                             result.complete = -1;
-                            result.canrender = true;
                             result.message = i18next.t("apgames:validation.realm.INHAND");
                         } else {
                             result.complete = 0;

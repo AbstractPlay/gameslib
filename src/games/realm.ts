@@ -759,6 +759,7 @@ export class RealmGame extends GameBase {
                         result.valid = true;
                         if ( (cloned.inhand !== undefined) && (cloned.inhand[1].length > 1) ) {
                             result.complete = -1;
+                            result.canrender = true;
                             result.message = i18next.t("apgames:validation.realm.INHAND");
                         } else {
                             result.complete = 1;

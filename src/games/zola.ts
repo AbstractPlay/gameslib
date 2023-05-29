@@ -16,7 +16,7 @@ interface IRowCol {
     col: number;
 }
 
-type MarkerType = "glyph"|"fence"|"edge"|"shading"|"dots";
+type MarkerType = "glyph";
 interface IGlyphMarker {
     type: MarkerType;
     glyph: string;
@@ -114,7 +114,7 @@ export class ZolaGame extends GameBase {
                 state = JSON.parse(state, reviver) as IZolaState;
             }
             if (state.game !== ZolaGame.gameinfo.uid) {
-                throw new Error(`The Lines of Action engine cannot process a game of '${state.game}'.`);
+                throw new Error(`The Zola engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -191,6 +191,10 @@ export class ZolaGame extends GameBase {
             }
         }
 
+        if (moves.length === 0) {
+            moves.push("pass");
+        }
+
         return moves;
     }
 
@@ -241,11 +245,28 @@ export class ZolaGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
             result.message = i18next.t("apgames:validation.zola.INITIAL_INSTRUCTIONS");
             return result;
+        }
+
+        if (m === "pass") {
+            const moves = this.moves();
+            if (moves.length === 1 && moves[0] === "pass") {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.zola.MUST_MOVE");
+                return result;
+            }
         }
 
         const [from, to] = m.split(/[-x]/);
@@ -337,12 +358,16 @@ export class ZolaGame extends GameBase {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
-        const [from, to] = m.split(/[-x]/);
-        this.board.delete(from);
-        this.board.set(to, this.currplayer);
-        this.results = [{type: "move", from, to}];
-        if (m.includes("x")) {
-            this.results.push({type: "capture", where: to})
+        if (m === "pass") {
+            this.results = [{type: "pass"}];
+        } else {
+            const [from, to] = m.split(/[-x]/);
+            this.board.delete(from);
+            this.board.set(to, this.currplayer);
+            this.results = [{type: "move", from, to}];
+            if (m.includes("x")) {
+                this.results.push({type: "capture", where: to})
+            }
         }
 
         // update currplayer
@@ -359,7 +384,8 @@ export class ZolaGame extends GameBase {
     }
 
     protected checkEOG(): ZolaGame {
-        if (this.moves().length === 0) {
+        // To win you must capture all enemy checkers.
+        if ([...this.board.entries()].find(e => e[1] === this.currplayer) === undefined) {
             let prevplayer: playerid = 1;
             if (this.currplayer === 1) {
                 prevplayer = 2;

@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Homeworlds: Fixed a miscommunication between the click handler and the front end that stopped some sacrifice moves from completing.
 * Martian Chess: validation wasn't catching mirror moves. Nor was findPoints excluding them.
 * Cannon: Some weird moves incorrectly validated. Including retreats to non-empty cells.
+* Zola: Game ends when a player has no pieces left. Must pass if no available moves.
 
 ### Changed
 

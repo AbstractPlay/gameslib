@@ -183,7 +183,7 @@
                         info.variants.forEach((v) => {
                             var opt = document.createElement('option');
                             opt.value = v.uid;
-                            opt.innerHTML = v.name;
+                            opt.innerHTML = v.uid; // was v.name
                             varSelect.appendChild(opt);
                         });
                     } else {

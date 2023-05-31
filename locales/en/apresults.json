@@ -41,6 +41,7 @@
     "DETONATE": {
         "nowhat": "{{player}} detonated a piece at {{where}}."
     },
+    "DRAWAGREED": "Players agreed to a draw.",
     "EOG": "The game has ended.",
     "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
     "homeworlds": {
@@ -53,6 +54,9 @@
         "MOVE": "{{player}} flew their {{what}} from {{from}} to {{to}}.",
         "PASS": "{{player}} passed an action.",
         "SACRIFICE": "{{player}} sacrificed a {{what}} in the {{where}} system."
+    },
+    "IMMOBILIZE": {
+        "realm": "{{player}} immobilized the enforcer at {{where}}."
     },
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
@@ -97,12 +101,11 @@
     "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
     "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
     "RESIGN": "{{player}} has resigned.",
-    "TIMEOUT": "{{player}} lost on time.",
-    "DRAWAGREED": "Players agreed to a draw.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber."
     },
+    "TIMEOUT": "{{player}} lost on time.",
     "WINNERS_one": "The following player won: {{winners}}.",
     "WINNERS_other": "The following players won: {{winners}}."
 }

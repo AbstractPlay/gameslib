@@ -292,6 +292,11 @@ export class LinesOfActionGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.UNCONTROLLED", {cell: from});
                 return result;
             }
+            if (this.moves().filter(x => x.startsWith(from)).length < 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NO_MOVES", {where: from});
+                return result;
+            }
 
             // if no `to`, we're a good partial
             if (to === undefined) {
@@ -346,8 +351,8 @@ export class LinesOfActionGame extends GameBase {
         }
         if ( (! partial) && (! this.moves().includes(m)) ) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         // if partial, just set the points and get out

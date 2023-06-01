@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Martian Chess: validation wasn't catching mirror moves. Nor was findPoints excluding them.
 * Cannon: Some weird moves incorrectly validated. Including retreats to non-empty cells.
 * Zola: Game ends when a player has no pieces left. Must pass if no available moves.
+* LoA: Fixed over-validation issue that stopped games when selecting pieces with no valid moves.
 
 ### Changed
 

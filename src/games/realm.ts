@@ -1679,9 +1679,9 @@ export class RealmGame extends GameBase {
         const stash = this.pieces[player - 1];
         if (stash !== undefined) {
             return [
-                {count: stash[0], glyph: { name: "piece-square",  player }, movePart: ",1"},
-                {count: stash[1], glyph: { name: "piece", player }, movePart: ",2"},
-                {count: stash[2], glyph: { name: "piece-triangle",  player }, movePart: ",3"}
+                {count: stash[0], glyph: { name: "piece-square",  player }, movePart: "B"},
+                {count: stash[1], glyph: { name: "piece", player }, movePart: "P"},
+                {count: stash[2], glyph: { name: "piece-triangle",  player }, movePart: "E"}
             ];
         }
         return;

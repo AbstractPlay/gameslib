@@ -419,7 +419,8 @@ export class ACityGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                     return result;
                 } else {
-                    if (this.claimed[this.currplayer - 1].length < 3) {
+                    const unclaimedT = [...this.board.entries()].filter(e => e[1].endsWith("T") && ! this.claimed[0].includes(e[0]) && ! this.claimed[1].includes(e[0])).length;
+                    if ( (this.claimed[this.currplayer - 1].length < 3) && (unclaimedT > 0) ) {
                         result.valid = true;
                         result.complete = 0;
                         result.canrender = true;

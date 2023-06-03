@@ -164,6 +164,10 @@ export type APMoveResult =
       who?: string;
     }
   | {
+      type: "nullifyClaim";
+      where: string;
+    }
+  | {
       type: "immobilize";
       where: string;
       what?: string;

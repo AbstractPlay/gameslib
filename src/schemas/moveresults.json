@@ -486,6 +486,19 @@
             "additionalProperties": false
         },
         {
+            "description": "Nullifying a claim; this is only used in Alien City",
+            "properties": {
+                "type": {
+                    "enum": ["nullifyClaim"]
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "where"],
+            "additionalProperties": false
+        },
+        {
             "description": "Immobilize a piece",
             "properties": {
                 "type": {

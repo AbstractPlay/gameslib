@@ -2,6 +2,7 @@
     "descriptions": {
         "abande": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
+        "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
@@ -86,6 +87,7 @@
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
         },
+        "CLAIMS_REMAINING": "Claims Remaining",
         "DISTANCES": "Distances",
         "entropy": {
             "CHAOS": "Chaos",
@@ -144,6 +146,20 @@
             "TOOHIGH": "In the move '{{move}}', the step '{{step}}' would create a stack greater than six pieces high.",
             "USEMINUS": "In the step {{step}}, use a minus sign when moving onto an empty cell.",
             "USEPLUS": "In the step {{step}}, use a plus sign when moving onto an existing stack."
+        },
+        "acity": {
+            "BAD_DOME": "Domes may only be placed on tiles of the same colour unless all such placements break the road network.",
+            "BAD_TOWER": "Towers may only be placed on tiles their own colour, on black tiles, or on tiles that already contain two legally placed structures.",
+            "BROKEN_ROAD": "Placing a piece at {{where}} would break the road network.",
+            "CLAIM_TOWERS": "You may only claim towers.",
+            "DOUBLE_CLAIM": "The tower at {{where}} has already been claimed.",
+            "INITIAL_INSTRUCTIONS": "Select a piece from your stash.",
+            "INVALID_PASS": "You may only pass if you have no other moves available.",
+            "INVALID_PIECE": "You don't have {{piece}} in your stash to place.",
+            "ISOLATED": "Placing a piece at {{where}} would cut another piece off from the road network.",
+            "MARKER": "You may not build on the lot containing the suit icon until all other legally buildable lots on that tile are occupied.",
+            "PARTIAL_MOVE": "Select the lot where you want to build.",
+            "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower."
         },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",

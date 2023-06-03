@@ -5,7 +5,7 @@
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "scripts": {
-    "build": "npm run build-ts && npm run lint",
+    "build": "npm run json2ts && npm run build-ts && npm run lint",
     "build-ts": "tsc && npm pack",
     "test0": "mocha -r ts-node/register test/games/urbino.ts",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
@@ -56,6 +56,7 @@
     "@abstractplay/recranks": "latest",
     "@abstractplay/renderer": "latest",
     "graphology": "^0.25.1",
+    "graphology-components": "^1.5.4",
     "graphology-shortest-path": "^2.0.2",
     "honeycomb-grid": "^4.0.1",
     "i18next": "^21.10.0",

@@ -30,6 +30,7 @@ import { MonkeyQueenGame, IMonkeyQueenState } from "./monkey";
 import { DipoleGame, IDipoleState } from "./dipole";
 import { AlfredsWykeGame, IAlfredsWykeState } from "./wyke";
 import { RealmGame, IRealmState } from "./realm";
+import { ACityGame, IACityState } from "./acity";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -62,6 +63,7 @@ export {
     DipoleGame, IDipoleState,
     AlfredsWykeGame, IAlfredsWykeState,
     RealmGame, IRealmState,
+    ACityGame, IACityState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -71,10 +73,11 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
                               typeof AccastaGame | typeof EpamGame | typeof TaijiGame | typeof BreakthroughGame |
                               typeof FabrikGame | typeof ManalathGame | typeof UrbinoGame | typeof FendoGame |
-                              typeof ArchimedesGame | typeof ZolaGame | typeof MonkeyQueenGame | typeof DipoleGame | typeof AlfredsWykeGame | typeof RealmGame
+                              typeof ArchimedesGame | typeof ZolaGame | typeof MonkeyQueenGame | typeof DipoleGame | typeof AlfredsWykeGame | typeof RealmGame |
+                              typeof ACityGame
                 >();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -143,6 +146,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|undefined =>
             return new AlfredsWykeGame(...args);
         case "realm":
             return new RealmGame(...args);
+        case "acity":
+            return new ACityGame(...args);
     }
     return;
 }

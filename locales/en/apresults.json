@@ -70,6 +70,7 @@
         "nowhat": "{{player}} moved from {{from}} to {{to}}.",
         "push": "A {{what}} was pushed from {{from}} to {{to}}."
     },
+    "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
     "ORIENT": {
         "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
     },

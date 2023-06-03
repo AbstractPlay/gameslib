@@ -52,7 +52,7 @@ export class ACityGame extends GameBase {
                 name: "Michael Schoessow",
             }
         ],
-        flags: ["player-stashes", "scores", "automove", "multistep", "automove", "experimental"]
+        flags: ["player-stashes", "scores", "automove", "multistep", "automove", "shared-pieces", "experimental"]
     };
 
     public static piece2string(pc: Piece): string {

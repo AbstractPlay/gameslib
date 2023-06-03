@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
@@ -807,7 +806,7 @@ export class RealmGame extends GameBase {
                         return result;
                     } // validate `from`
 
-                    const triggered: ("createBase"|"createEnforcer"|"capBase"|"immobEnforcer"|"immobSelf")[] = [];
+                    const triggered: Set<("createBase"|"createEnforcer"|"capBase"|"immobEnforcer"|"immobSelf")> = new Set();
                     // If provided, validate `to`, including determining required special actions
                     if (to !== undefined) {
                         // the spaces are different
@@ -906,23 +905,23 @@ export class RealmGame extends GameBase {
                         if (piece === "p") {
                             // power creates base
                             if ( (numBases === 0) && (theirPowers === 0) && (cloned.pieces[cloned.currplayer - 1][0] > 0) ) {
-                                triggered.push("createBase");
+                                triggered.add("createBase");
                             }
                             // power creates enforcer
                             if ( (myBases === 1) && (myMobile + theirMobile === 0) && (cloned.pieces[cloned.currplayer - 1][2] > 0) ) {
-                                triggered.push("createEnforcer");
+                                triggered.add("createEnforcer");
                             }
                         } else {
                             if (theirMobile > 0) {
-                                triggered.push("immobEnforcer");
+                                triggered.add("immobEnforcer");
                                 if (theirPowers >= myPowers) {
-                                    triggered.push("immobSelf");
+                                    triggered.add("immobSelf");
                                 }
                             }
                             if ( (theirMobile === 0) && (numBases === 1) && (myBases === 0) && (myPowers > theirPowers) ) {
-                                triggered.push("capBase");
+                                triggered.add("capBase");
                                 if (myPowers - theirMobile < 2) {
-                                    triggered.push("immobSelf");
+                                    triggered.add("immobSelf");
                                 }
                             }
                         }
@@ -936,7 +935,7 @@ export class RealmGame extends GameBase {
                     // Validate special actions, if provided
                     if (parens !== undefined) {
                         // Specials must have been triggered
-                        if (triggered.length === 0) {
+                        if (triggered.size === 0) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.realm.NO_SPECIALS");
                             return result;
@@ -958,23 +957,23 @@ export class RealmGame extends GameBase {
                             result.valid = true;
                             result.complete = -1;
                             result.canrender = true;
-                            if (triggered.includes("createBase")) {
+                            if (triggered.has("createBase")) {
                                 result.message = i18next.t("apgames:validation.realm.SPECIAL_CREATE_BASE");
-                            } else if (triggered.includes("createEnforcer")) {
+                            } else if (triggered.has("createEnforcer")) {
                                 result.message = i18next.t("apgames:validation.realm.SPECIAL_CREATE_ENFORCER");
-                            } else if (triggered.includes("capBase")) {
+                            } else if (triggered.has("capBase")) {
                                 result.message = i18next.t("apgames:validation.realm.SPECIAL_CAP_BASE");
-                            } else if (triggered.includes("immobEnforcer")) {
+                            } else if (triggered.has("immobEnforcer")) {
                                 result.message = i18next.t("apgames:validation.realm.SPECIAL_IMMOB_ENFORCER");
                             }
-                            if (triggered.includes("immobSelf")) {
+                            if (triggered.has("immobSelf")) {
                                 result.message += " " + i18next.t("apgames:validation.realm.SPECIAL_IMMOB_SELF");
                             }
                             return result;
                         } else {
                             // The special events section is complete
                             // Do full validation
-                            if (triggered.includes("createBase")) {
+                            if (triggered.has("createBase")) {
                                 if (! /^b[a-l]\d+$/.test(specials)) {
                                     result.valid = false;
                                     result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move});
@@ -1000,7 +999,8 @@ export class RealmGame extends GameBase {
                                     result.message = i18next.t("apgames:validation.realm.WRONG_REALM", {context: "createBase", realm});
                                     return result;
                                 }
-                            } else if (triggered.includes("createEnforcer")) {
+                                triggered.delete("createBase");
+                            } else if (triggered.has("createEnforcer")) {
                                 if (! /^e[a-l]\d+[nesw]$/.test(specials)) {
                                     result.valid = false;
                                     result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move});
@@ -1026,7 +1026,8 @@ export class RealmGame extends GameBase {
                                     result.message = i18next.t("apgames:validation.realm.WRONG_REALM", {context: "createEnforcer", realm});
                                     return result;
                                 }
-                            } else if (triggered.includes("capBase")) {
+                                triggered.delete("createEnforcer")
+                            } else if (triggered.has("capBase")) {
                                 if (! /^xb[a-l]\d+/.test(specials)) {
                                     result.valid = false;
                                     result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move});
@@ -1059,7 +1060,8 @@ export class RealmGame extends GameBase {
                                     result.message = i18next.t("apgames:validation.realm.WRONG_REALM", {context: "capBase", realm});
                                     return result;
                                 }
-                            } else if (triggered.includes("immobEnforcer")) {
+                                triggered.delete("capBase");
+                            } else if (triggered.has("immobEnforcer")) {
                                 if (! /^xe[a-l]\d+/.test(specials)) {
                                     result.valid = false;
                                     result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move});
@@ -1092,8 +1094,9 @@ export class RealmGame extends GameBase {
                                     result.message = i18next.t("apgames:validation.realm.WRONG_REALM", {context: "capBase", realm});
                                     return result;
                                 }
+                                triggered.delete("immobEnforcer");
                             } // for each special event
-                            if (triggered.includes("immobSelf")) {
+                            if (triggered.has("immobSelf")) {
                                 if (! /,xe[a-l]\d+$/.test(specials)) {
                                     result.valid = false;
                                     result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move});
@@ -1106,9 +1109,17 @@ export class RealmGame extends GameBase {
                                     result.message = i18next.t("apgames:validation.realm.SPECIAL_IMMOB_SELF");
                                     return result;
                                 }
+                                triggered.delete("immobSelf");
                             }
                         }
                     } // validate specials
+                    if (triggered.size > 0) {
+                        result.valid = true;
+                        result.complete = -1;
+                        result.message = i18next.t("apgames:validation.realm.MISSING_SPECIALS");
+                        return result;
+                    }
+                    triggered.clear();
                 } // move type (rearrangement or movement)
 
                 cloned = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
@@ -1167,7 +1178,7 @@ export class RealmGame extends GameBase {
         m = m.toLowerCase();
         if (! partial) {
             const result = this.validateMove(m);
-            if (! result.valid) {
+            if ( (! result.valid) || ( (result.complete !== undefined) && (result.complete < 0) ) ) {
                 throw new UserFacingError(result.message, "VALIDATION_GENERAL");
             }
         }

@@ -380,6 +380,7 @@
             "INITIAL_INSTRUCTIONS_bases": "Place a base by clicking anywhere in an uncontrolled realm.",
             "INITIAL_INSTRUCTIONS_play": "Click a piece to move, or click a base to rearrange pieces in that realm.",
             "INITIAL_INSTRUCTIONS_powers": "Place a power by clicking an empty cell in a realm you control.",
+            "MISSING_SPECIALS": "Special actions were triggered and must be specified in parentheses after the move.",
             "MUST_LEAVE_REALM": "Pieces may not move within the same realm except by rearrangement.",
             "NO_SPECIALS": "No special events were triggered, but your move includes some.",
             "NOT_CENTRE": "{{where}} is not a valid centre space.",

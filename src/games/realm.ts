@@ -1282,7 +1282,9 @@ export class RealmGame extends GameBase {
                                             }
                                         } else {
                                             if (this.board.has(cell)) {
-                                                this.board.get(cell)![1] = "Ex";
+                                                const contents = this.board.get(cell)!;
+                                                this.board.set(cell, [contents[0], "Ex", contents[2]])
+                                                // this.board.get(cell)![1] = "Ex";
                                                 this.results.push({type: "immobilize", where: cell});
                                             }
                                         }

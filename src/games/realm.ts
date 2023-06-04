@@ -1332,7 +1332,7 @@ export class RealmGame extends GameBase {
         if (partial) { return this; }
 
         // update currplayer
-        this.lastmove = origMove.replace(";", "; ");
+        this.lastmove = origMove.replaceAll(";", "; ");
         if ( (! justStarted) || (! this.variants.includes("lastFirst")) ) {
             let newplayer = (this.currplayer as number) + 1;
             if (newplayer > this.numplayers) {

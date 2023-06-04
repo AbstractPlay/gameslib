@@ -107,7 +107,7 @@ export class RealmGame extends GameBase {
                 uid: "relaxed",
             },
         ],
-        flags: ["multistep", "player-stashes", "scores", "limited-pieces", "no-moves", "experimental"]
+        flags: ["multistep", "player-stashes", "scores", "limited-pieces", "no-moves", "rotate90", "experimental"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

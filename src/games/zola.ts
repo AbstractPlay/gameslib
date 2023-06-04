@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation, Variant } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -56,7 +56,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
-        flags: ["automove"],
+        flags: ["automove", "limited-pieces"],
     };
 
     public numplayers = 2;
@@ -142,6 +142,16 @@ export class ZolaGame extends GameBase {
             this.boardSize = 8;
         }
         return this;
+    }
+
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(p => p === player).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
     }
 
     public moves(player?: playerid): string[] {

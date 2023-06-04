@@ -293,6 +293,7 @@
                         }
                         try {
                             var move = game.randomMove();
+                            console.log(`Random move: ${move}`);
                             game.move(move);
                         } catch (err) {
                             if (err.name === "UserFacingError") {
@@ -391,6 +392,14 @@
                     }
                 });
 
+                // Listen for Dump State
+                document.getElementById("dumpState").addEventListener("click", () => {
+                    var state = window.sessionStorage.getItem("state");
+                    if (state !== null) {
+                        console.log(state);
+                    }
+                });
+
                 // Listen for render setting change
                 document.getElementById("renderSettings").addEventListener("click", renderGame, false);
 
@@ -485,6 +494,7 @@
                         </div>
                         <div>
                             <button id="saveSVG" name="saveSVG" type="button">Save SVG</button>
+                            <button id="dumpState" name="dumpState" type="button">Dump State</button>
                         </div>
                     </form>
                     <div id="drawing" style="vertical-align: top; max-height: 30em"></div>

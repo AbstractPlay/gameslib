@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* New game: Realm!
+* New game: Realm
+* New game: Alien City
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 
 ### Fixed

@@ -486,18 +486,20 @@ export class RealmGame extends GameBase {
                             } else {
                                 const base = cloned.board.get(realm)!;
                                 if (base[0] === cloned.currplayer) {
-                                    const allmobile = pieces.filter(p => p[1][1] === "E").length;
-                                    if (allmobile === 0) {
-                                        const empties: string[] = [];
-                                        for (const c of RealmGame.getBorderCells(realm)) {
-                                            if ( (! cloned.board.has(c)) && (c !== cell) ) {
-                                                empties.push(c);
+                                    if (cloned.pieces[cloned.currplayer - 1][2] > 0) {
+                                        const allmobile = pieces.filter(p => p[1][1] === "E").length;
+                                        if (allmobile === 0) {
+                                            const empties: string[] = [];
+                                            for (const c of RealmGame.getBorderCells(realm)) {
+                                                if ( (! cloned.board.has(c)) && (c !== cell) ) {
+                                                    empties.push(c);
+                                                }
                                             }
-                                        }
-                                        if (empties.length === 1) {
-                                            newmove += `(E${empties[0]}`;
-                                        } else if (empties.length > 1) {
-                                            newmove += "(";
+                                            if (empties.length === 1) {
+                                                newmove += `(E${empties[0]}`;
+                                            } else if (empties.length > 1) {
+                                                newmove += "(";
+                                            }
                                         }
                                     }
                                 }

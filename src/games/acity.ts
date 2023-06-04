@@ -52,7 +52,7 @@ export class ACityGame extends GameBase {
                 name: "Michael Schoessow",
             }
         ],
-        flags: ["player-stashes", "scores", "automove", "multistep", "automove", "shared-pieces", "experimental"]
+        flags: ["player-stashes", "scores", "no-moves", "multistep", "shared-pieces", "experimental"]
     };
 
     public static piece2string(pc: Piece): string {
@@ -575,9 +575,9 @@ export class ACityGame extends GameBase {
         if (! result.valid) {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
+        // if ( (! partial) && (! this.moves().includes(m)) ) {
+        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        // }
 
         this.results = [];
         if (m === "pass") {

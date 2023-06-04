@@ -301,7 +301,7 @@
                 "PARTIAL_ONEARG": "Select the system where the ship is found."
             },
             "build": {
-                "PARTIAL_NOARGS": "Select a ship colour from the global stash. The size you select doesn't matter.",
+                "PARTIAL_NOARGS": "Select the ship you wish to duplicate, or select a ship colour from the global stash (size is irrelevant).",
                 "PARTIAL_ONEARG": "Select the system in which to place the new ship."
             },
             "catastrophe": {

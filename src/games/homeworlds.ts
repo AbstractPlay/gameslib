@@ -672,8 +672,12 @@ export class HomeworldsGame extends GameBase {
                 } else if (lastcmd === "build") {
                     // expect a ship from the global stash only
                     if (lastargs.length === 0) {
+                        // if selecting a ship from the global stash
                         if ( (row < 0) && (ship !== undefined) ) {
                             newmove = `build ${ship[0]}`;
+                        // else if clicking on an existing ship
+                        } else if ( (system !== undefined) && (ship !== undefined) ) {
+                            newmove = `build ${ship[0]} ${system}`;
                         } else {
                             return {move, message: ""} as IClickResult;
                         }

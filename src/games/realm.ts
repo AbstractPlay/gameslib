@@ -669,6 +669,12 @@ export class RealmGame extends GameBase {
                 const move = moves[i];
                 // if starts with hyphen, then rearrangement
                 if (move.startsWith("-")) {
+                    // only valid if first move in chain
+                    if (i > 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.realm.INVALID_REARRANGE", {move});
+                        return result;
+                    }
                     // check well-formedness
                     if (! /^\-[a-l]\d+$/.test(move)) {
                         result.valid = false;

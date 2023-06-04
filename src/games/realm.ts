@@ -349,9 +349,9 @@ export class RealmGame extends GameBase {
                         if (move.startsWith("-")) {
                             return {move: moves.join(";"), message: ""} as IClickResult;
                         } else {
-                            // Empty centre spaces can be clicked
+                            // Empty centre spaces can be clicked if it's the first move of the chain
                             if (! cloned.board.has(cell)) {
-                                if (RealmGame.isCentreSpace(cell)) {
+                                if ( (RealmGame.isCentreSpace(cell)) && (moves.length === 0) ) {
                                     newmove = `-${cell}`;
                                 } else {
                                     return {move: moves.join(";"), message: ""} as IClickResult;

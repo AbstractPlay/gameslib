@@ -286,7 +286,7 @@ export class ACityGame extends GameBase {
                 return {move: "", message: ""} as IClickResult;
             } else {
                 // if the clicked space is empty, assume placement
-                if (! this.board.has(cell)) {
+                if ( (! this.board.has(cell)) && (! move.endsWith(cell)) ) {
                     newmove = move.substring(0, 2) + "-" + cell;
                 // otherwise assume claiming
                 } else {
@@ -344,7 +344,6 @@ export class ACityGame extends GameBase {
         const reMove = /^([RGBN][DT])(\-([a-h]\d+))?(\(([a-h]\d+)\))?$/;
         if (reMove.test(m)) {
             const [,pc,,to,,claim] = m.match(reMove)!; // can't be null because we tested
-
             // `pc` is guaranteed to be defined and at least well formed
             // you have such a piece in your stash
             if (! this.stashes[this.currplayer - 1].includes(pc as Piece)) {
@@ -394,23 +393,39 @@ export class ACityGame extends GameBase {
 
                 // validate claim, if present
                 if ( (claim !== undefined) && (claim !== null) && (claim.length > 0) ) {
-                    // cell is occupied
-                    if (! this.board.has(claim)) {
+                    // must have claims remaining
+                    if (this.claimed[this.currplayer - 1].length >= 3) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: claim});
+                        result.message = i18next.t("apgames:validation.acity.NO_MORE_CLAIMS");
                         return result;
                     }
-                    // cell is a tower
-                    if (! this.board.get(claim)!.endsWith("T")) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.acity.CLAIM_TOWERS");
-                        return result;
-                    }
-                    // cell is not already claimed
-                    if ( (this.claimed[0].includes(claim)) || (this.claimed[1].includes(claim)) ) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.acity.DOUBLE_CLAIM", {where: claim});
-                        return result;
+                    // check if claim is the same tower that was just placed
+                    if (claim === to) {
+                        // Just make sure that the piece they placed is a tower
+                        if (! pc.endsWith("T")) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.acity.CLAIM_TOWERS");
+                            return result;
+                        }
+                    } else {
+                        // cell is occupied
+                        if (! this.board.has(claim)) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: claim});
+                            return result;
+                        }
+                        // cell is a tower
+                        if (! this.board.get(claim)!.endsWith("T")) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.acity.CLAIM_TOWERS");
+                            return result;
+                        }
+                        // cell is not already claimed
+                        if ( (this.claimed[0].includes(claim)) || (this.claimed[1].includes(claim)) ) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.acity.DOUBLE_CLAIM", {where: claim});
+                            return result;
+                        }
                     }
 
                     // We're good
@@ -419,7 +434,9 @@ export class ACityGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                     return result;
                 } else {
-                    const unclaimedT = [...this.board.entries()].filter(e => e[1].endsWith("T") && ! this.claimed[0].includes(e[0]) && ! this.claimed[1].includes(e[0])).length;
+                    let unclaimedT = [...this.board.entries()].filter(e => e[1].endsWith("T") && ! this.claimed[0].includes(e[0]) && ! this.claimed[1].includes(e[0])).length;
+                    // add tower about to be placed
+                    if (pc.endsWith("T")) { unclaimedT++; }
                     if ( (this.claimed[this.currplayer - 1].length < 3) && (unclaimedT > 0) ) {
                         result.valid = true;
                         result.complete = 0;

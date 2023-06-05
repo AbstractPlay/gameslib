@@ -158,6 +158,7 @@
             "INVALID_PIECE": "You don't have {{piece}} in your stash to place.",
             "ISOLATED": "Placing a piece at {{where}} would cut another piece off from the road network.",
             "MARKER": "You may not build on the lot containing the suit icon until all other legally buildable lots on that tile are occupied.",
+            "NO_MORE_CLAIMS": "You have already claimed three towers. You may not claim any more.",
             "PARTIAL_MOVE": "Select the lot where you want to build.",
             "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower."
         },

@@ -543,7 +543,7 @@ export class FanoronaGame extends GameBase {
 
         if (partial) { return this; }
 
-        this.lastmove = m;
+        this.lastmove = m.replace(/,/g, ", ");
         if (this.currplayer === 1) {
             this.currplayer = 2;
         } else {

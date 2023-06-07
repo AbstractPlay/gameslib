@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
@@ -108,6 +107,7 @@ export class FanoronaGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.results = [...state._results];
         return this;
     }
 
@@ -122,13 +122,10 @@ export class FanoronaGame extends GameBase {
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
-        console.log(move, row, col, piece);
         try {
             const cell = FanoronaGame.coords2algebraic(col, row);
-            console.log(`Cell: ${cell}`);
             const moves = move.split(/\s*,\s*/);
             if (moves[0] === "") { moves.splice(0, 1); }
-            console.log(`Moves: ${JSON.stringify(moves)}`);
             const cloned = Object.assign(new FanoronaGame(), deepclone(this) as FanoronaGame);
             cloned.move(move, true);
             const contents = cloned.board.get(cell);
@@ -136,7 +133,6 @@ export class FanoronaGame extends GameBase {
             let newmove = "";
             // if clicking on own piece
             if (contents === cloned.currplayer) {
-                console.log(`It's my own piece. Moves length: ${moves.length}`);
                 // if start of move, add to move
                 if (moves.length === 0) {
                     newmove = cell;
@@ -146,7 +142,6 @@ export class FanoronaGame extends GameBase {
                 }
             // if clicking on empty space, assume movement
             } else if (contents === undefined) {
-                console.log("Moving to an empty space");
                 let prev: string;
                 // is this initial movement?
                 if ( (moves.length === 1) && (move.length === 2) ) {
@@ -162,7 +157,6 @@ export class FanoronaGame extends GameBase {
                     }
                     newmove = moves.join(",") + "," + cell;
                 }
-                console.log(`Prev: ${prev}`);
                 // add +/- if unambiguous
                 const captype = cloned.captureType(prev, cell);
                 if (captype === "+") {
@@ -172,7 +166,6 @@ export class FanoronaGame extends GameBase {
                 }
             // if clicking on enemy space, assume disambiguation
             } else {
-                console.log("disambiguation");
                 // ignore if disambiguation isn't necessary
                 if ( (move.endsWith("+")) || (move.endsWith("-")) ) {
                     return {move, message: ""} as IClickResult;
@@ -180,10 +173,8 @@ export class FanoronaGame extends GameBase {
                 // naively assume that if the piece is adjacent to from, it's approach
                 // otherwise withdrawal (the validator can figure it out)
                 const from = move.substring(move.length - 2);
-                console.log(`From: ${from}`);
                 const grid = new RectGrid(9, 5);
                 const adj = grid.adjacencies(...FanoronaGame.algebraic2coords(from)).map(node => FanoronaGame.coords2algebraic(...node));
-                console.log(`Adjacencies: ${JSON.stringify(adj)}`)
                 if (adj.includes(cell)) {
                     newmove = move + "+";
                 } else {
@@ -191,9 +182,7 @@ export class FanoronaGame extends GameBase {
                 }
             }
 
-            console.log(`Validating ${newmove}`);
             const result = this.validateMove(newmove) as IClickResult;
-            console.log(result);
             if (! result.valid) {
                 result.move = moves.join(",");
             } else {
@@ -333,7 +322,6 @@ export class FanoronaGame extends GameBase {
                 const to = move.substring(0, 2);
                 const dir = RectGrid.bearing(...FanoronaGame.algebraic2coords(from), ...FanoronaGame.algebraic2coords(to))!;
                 dirs.push(dir);
-                console.log(`Continuation. From: ${from}, To: ${to}, Dirs: ${JSON.stringify(dirs)}`);
                 // can't be the same
                 if (from === to) {
                     result.valid = false;
@@ -356,7 +344,6 @@ export class FanoronaGame extends GameBase {
                 // can't revisit any point
                 const hist = moves.slice(0, i - 1).filter(str => str.includes(to));
                 if (hist.length > 0) {
-                    console.log(`Revisiting. To: ${to}, History: ${JSON.stringify(hist)}`);
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.fanorona.REVISIT");
                     return result;

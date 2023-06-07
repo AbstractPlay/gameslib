@@ -399,7 +399,11 @@ export class FanoronaGame extends GameBase {
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         result.canrender = true;
         const lastmove = moves[moves.length - 1];
-        if ( ( (lastmove.endsWith("+")) || (lastmove.endsWith("-")) ) && (cloned.pieceCanCapture(lastmove.substring(0, 2), cloned.currplayer)) ) {
+        let lastCell = lastmove.substring(0, 2);
+        if (lastmove.length >= 4) {
+            lastCell = lastmove.substring(2, 4);
+        }
+        if ( ( (lastmove.endsWith("+")) || (lastmove.endsWith("-")) ) && (cloned.pieceCanCapture(lastCell, cloned.currplayer)) ) {
             result.complete = 0;
         } else {
             result.complete = 1;

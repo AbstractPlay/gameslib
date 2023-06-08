@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * New game: Realm
 * New game: Alien City
 * New game: Fanorona
+* New game: Focus
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 
 ### Fixed

@@ -37,6 +37,9 @@
                 },
                 "what": {
                     "type": "string"
+                },
+                "count": {
+                    "type": "number"
                 }
             },
             "required": ["type", "from", "to"],
@@ -108,6 +111,12 @@
                 },
                 "what": {
                     "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "number"
                 }
             },
             "required": ["type"],

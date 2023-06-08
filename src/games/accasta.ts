@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
@@ -419,6 +420,7 @@ export class AccastaGame extends GameBase {
 
         // Validate each step along the way
         let stack: CellContents[] = deepclone(sourceContents) as CellContents[];
+        console.log(stack);
         const cloned = this.clone();
         for (const step of steps) {
             const [num, destination] = step.split(/[-\+]/);
@@ -482,11 +484,14 @@ export class AccastaGame extends GameBase {
                 result.message = i18next.t("apgames:validation.accasta.TOOFAR", {move: m, step});
                 return result;
             }
+            console.log("Got to the cloning");
 
             // Update the cloned game state for the next step
             const substack = [...stack.slice(stack.length - subsize)];
             if (cloned.board.has(destination)) {
+                console.log(`Destination is occupied: ${destination}`);
                 const toContents = cloned.board.get(destination)!;
+                console.log(JSON.stringify(toContents));
                 // Use '+' if moving onto an existing stack
                 if (toContents.length && step.includes('-')) {
                     result.valid = false;
@@ -514,6 +519,7 @@ export class AccastaGame extends GameBase {
                 }
                 cloned.board.set(destination, [...toContents, ...substack]);
             } else {
+                console.log("Empty space")
                 cloned.board.set(destination, [...substack]);
             }
             stack = [...stack.slice(0, stack.length - subsize)];
@@ -523,6 +529,7 @@ export class AccastaGame extends GameBase {
                 cloned.board.set(source, [...stack])
             }
         }
+        console.log("Survived the cloning");
 
         // If the last move isn't complete, then process it now
         if (! lastComplete) {
@@ -637,15 +644,15 @@ export class AccastaGame extends GameBase {
             this.winner = [prevPlayer as playerid];
         } else {
             let count = 0;
-            for (const cell of castles[this.currplayer - 1]) {
+            for (const cell of castles[prevPlayer - 1]) {
                 const contents = this.board.get(cell);
-                if ( (contents !== undefined) && (contents[contents.length - 1][1] === prevPlayer) ) {
+                if ( (contents !== undefined) && (contents[contents.length - 1][1] === this.currplayer) ) {
                     count++;
                 }
             }
             if (count >= 3) {
                 this.gameover = true;
-                this.winner = [prevPlayer as playerid];
+                this.winner = [this.currplayer];
             }
         }
         if (this.gameover) {

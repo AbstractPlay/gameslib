@@ -107,7 +107,7 @@ export class RealmGame extends GameBase {
                 uid: "relaxed",
             },
         ],
-        flags: ["multistep", "player-stashes", "scores", "limited-pieces", "no-moves", "experimental"]
+        flags: ["multistep", "player-stashes", "scores", "limited-pieces", "no-moves"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -349,9 +349,9 @@ export class RealmGame extends GameBase {
                         if (move.startsWith("-")) {
                             return {move: moves.join(";"), message: ""} as IClickResult;
                         } else {
-                            // Empty centre spaces can be clicked
+                            // Empty centre spaces can be clicked if it's the first move of the chain
                             if (! cloned.board.has(cell)) {
-                                if (RealmGame.isCentreSpace(cell)) {
+                                if ( (RealmGame.isCentreSpace(cell)) && (moves.length === 0) ) {
                                     newmove = `-${cell}`;
                                 } else {
                                     return {move: moves.join(";"), message: ""} as IClickResult;
@@ -669,6 +669,12 @@ export class RealmGame extends GameBase {
                 const move = moves[i];
                 // if starts with hyphen, then rearrangement
                 if (move.startsWith("-")) {
+                    // only valid if first move in chain
+                    if (i > 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.realm.INVALID_REARRANGE", {move});
+                        return result;
+                    }
                     // check well-formedness
                     if (! /^\-[a-l]\d+$/.test(move)) {
                         result.valid = false;

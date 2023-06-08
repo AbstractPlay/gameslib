@@ -15,6 +15,7 @@
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. Chaos, of course, attempts to thwart Order whenever possible.\n\nThis implementation provides a simultaneous environment where each player has their own Order board. Each player places a piece on their opponent's Order board and then makes a move on their own board, players acting as both Order and Chaos at the same time. The player with the greatest score wins! Since both players share the same randomized pool of pieces, this approach gives the cleanest measure of skill.",
         "epam": "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
         "fabrik": "In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The \"Arbeiter\" variant gives each player control over a specific worker.",
+        "fanorona": "Fanorona is the national game of Madagascar, and it is believed to have been derived from the game of Alquerque. Checkers can move to adjacent empty spaces and capture opposing pieces by approach or withdrawal. As long as you can keep capturing, you may continue to move. Continue until you capture all your opponent's pieces!",
         "fendo": "In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for domination. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponents. The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continue, but your left-hand opponent now shifts clockwise.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. This implementation uses a 9x9 board and has a \"black hole\" in the centre of it. Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw. The \"Scrambled Eggs\" initial layout variant is supported.",
@@ -158,6 +159,7 @@
             "INVALID_PIECE": "You don't have {{piece}} in your stash to place.",
             "ISOLATED": "Placing a piece at {{where}} would cut another piece off from the road network.",
             "MARKER": "You may not build on the lot containing the suit icon until all other legally buildable lots on that tile are occupied.",
+            "NO_MORE_CLAIMS": "You have already claimed three towers. You may not claim any more.",
             "PARTIAL_MOVE": "Select the lot where you want to build.",
             "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower."
         },
@@ -281,6 +283,19 @@
             "PARTIAL_MOVE": "Provide the destination.",
             "PARTIAL_PLACE": "Choose a cell to place a piece in."
         },
+        "fanorona": {
+            "ADJACENT": "Pieces may only move to adjacent empty spaces.",
+            "BAD_PAIKA": "You have capture moves available. You may not make a noncapturing move.",
+            "DISAMBIGUATE": "You may not make further moves until you have selected a capture type for the previous move.",
+            "EXPLICIT_CAPTURE": "Each capture type must be explicitly stated. If you are clicking, then click the first enemy piece to capture. If typing, enter a '+' for approach and '-' for withdrawal.",
+            "INITIAL_INSTRUCTIONS": "Click a piece to move.",
+            "INVALID_CAPTURE": "The capture you signalled ({{type}}) is not valid.",
+            "MUST_CAPTURE": "Each step in a piece's movement must capture.",
+            "PAIKA_STOP": "You may not move again after making a noncapturing move.",
+            "PARTIAL": "Select an empty adjacent space.",
+            "REVISIT": "When making multiple moves, the piece may never revisit the same space.",
+            "SAME_DIR": "When making multiple moves, the piece may never move in the same direction twice in a row."
+        },
         "fendo": {
             "DUPLICATE_FENCE": "A fence already exists between these two cells.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move or an empty space to place a piece.",
@@ -396,6 +411,7 @@
             "INITIAL_INSTRUCTIONS_bases": "Place a base by clicking anywhere in an uncontrolled realm.",
             "INITIAL_INSTRUCTIONS_play": "Click a piece to move, or click a base to rearrange pieces in that realm.",
             "INITIAL_INSTRUCTIONS_powers": "Place a power by clicking an empty cell in a realm you control.",
+            "INVALID_REARRANGE": "You may not rearrange and move pieces in the same turn.",
             "MISSING_SPECIALS": "Special actions were triggered and must be specified in parentheses after the move.",
             "MUST_LEAVE_REALM": "Pieces may not move within the same realm except by rearrangement.",
             "NO_SPECIALS": "No special events were triggered, but your move includes some.",

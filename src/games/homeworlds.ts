@@ -833,10 +833,9 @@ export class HomeworldsGame extends GameBase {
         // If we've gotten this far, each individual command was valid and complete
 
         // You have to account for all your actions
+        let hasActions = false;
         if ( (cloned.actions.R > 0) || (cloned.actions.B > 0) || (cloned.actions.G > 0) || (cloned.actions.Y > 0) || (cloned.actions.free > 0) ) {
-            result.valid = false;
-            result.message = i18next.t("apgames:homeworlds.MOVE_MOREACTIONS");
-            return result;
+            hasActions = true;
         }
 
         // You can't cause yourself to lose
@@ -854,9 +853,14 @@ export class HomeworldsGame extends GameBase {
 
         // fully validated move set
         result.valid = true;
-        result.complete = 0;
         result.canrender = true;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if (hasActions) {
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
+        } else {
+            result.complete = 0;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        }
         return result;
     }
 

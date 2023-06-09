@@ -2005,9 +2005,9 @@ export class HomeworldsGame extends GameBase {
             throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName}));
         }
 
-        if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
-            throw new UserFacingError(HomeworldsErrors.CMD_CATA_ACTIONS, i18next.t("apgames:homeworlds.CMD_CATA_ACTIONS"));
-        }
+        // if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
+        //     throw new UserFacingError(HomeworldsErrors.CMD_CATA_ACTIONS, i18next.t("apgames:homeworlds.CMD_CATA_ACTIONS"));
+        // }
 
         if (! system.canCatastrophe(colour as Colour)) {
             throw new UserFacingError(HomeworldsErrors.CMD_CATA_INVALID, i18next.t("apgames:homeworlds.CMD_CATA_INVALID", {colour, system: system.name}));
@@ -2062,11 +2062,11 @@ export class HomeworldsGame extends GameBase {
                 return result;
             }
 
-            if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_CATA_ACTIONS");
-                return result;
-            }
+            // if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
+            //     result.valid = false;
+            //     result.message = i18next.t("apgames:homeworlds.CMD_CATA_ACTIONS");
+            //     return result;
+            // }
 
             if (! system.canCatastrophe(colour as Colour)) {
                 result.valid = false;

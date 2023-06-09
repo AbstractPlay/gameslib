@@ -19,6 +19,7 @@ export type APMoveResult =
       from: string;
       to: string;
       what?: string;
+      count?: number;
     }
   | {
       type: "capture";
@@ -41,6 +42,8 @@ export type APMoveResult =
   | {
       type: "reclaim";
       what?: string;
+      where?: string;
+      count?: number;
     }
   | {
       type: "block";

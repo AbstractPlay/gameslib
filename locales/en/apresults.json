@@ -18,7 +18,7 @@
         "noperson": {
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhere": "A {{what}} was captured.",
-            "nowhere_one": "One piece was captured.",
+            "nowhere_one": "A piece was captured.",
             "nowhere_other": "{{count}} pieces were captured.",
             "simple": "A {{what}} was captured at {{where}}."
         },
@@ -97,7 +97,9 @@
         "mchess": "A {{into}} was created as a result."
     },
     "RECLAIM": {
-        "noperson": "A {{what}} was reclaimed."
+        "noperson": "A {{what}} was reclaimed.",
+        "nowhat_one": "A piece was reclaimed.",
+        "nowhat_other": "{{count}} pieces were reclaimed."
     },
     "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
     "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",

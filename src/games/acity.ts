@@ -278,21 +278,26 @@ export class ACityGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.graph.coords2algebraic(col, row);
             let newmove = "";
-            if (move === "") {
-                // The only valid first option is clicking on a piece in your stash
-                // So clicking anywhere on the board before then resets the move
-                return {move: "", message: ""} as IClickResult;
+            if ( (col < 0) && (row < 0) && (piece !== undefined) ) {
+                newmove = piece;
             } else {
-                // if the clicked space is empty, assume placement
-                if ( (! this.board.has(cell)) && (! move.endsWith(cell)) ) {
-                    newmove = move.substring(0, 2) + "-" + cell;
-                // otherwise assume claiming
+                const cell = this.graph.coords2algebraic(col, row);
+                if (move === "") {
+                    // The only valid first option is clicking on a piece in your stash
+                    // So clicking anywhere on the board before then resets the move
+                    return {move: "", message: ""} as IClickResult;
                 } else {
-                    newmove = move + `(${cell})`;
+                    // if the clicked space is empty, assume placement
+                    if ( (! this.board.has(cell)) && (! move.endsWith(cell)) ) {
+                        newmove = move.substring(0, 2) + "-" + cell;
+                    // otherwise assume claiming
+                    } else {
+                        newmove = move + `(${cell})`;
+                    }
                 }
             }
+
 
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -853,8 +858,21 @@ export class ACityGame extends GameBase {
                     opacity: 0.15,
                 },
             },
-            pieces: pieceRep
+            pieces: pieceRep,
+            areas: []
         };
+
+        // add stashes to board
+        for (const n of [0, 1]) {
+            if (this.stashes[n].length > 0) {
+                rep.areas!.push({
+                    type: "pieces",
+                    label: `Player ${n + 1} stash`,
+                    // @ts-ignore
+                    pieces: [...this.stashes[n]]
+                });
+            }
+        }
 
         // Add annotations
         if (this.results.length > 0) {

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -745,20 +744,23 @@ export class HomeworldsGame extends GameBase {
             } else {
                 result.move = compiled;
                 // check for remaining sacrifice actions
-                const isComplete = (result.complete !== undefined) && (result.complete >= 0);
-                const canRender = (result.canrender !== undefined) && (result.canrender);
-                if (isComplete || canRender) {
+                if ( (result.complete !== undefined) && (result.complete === -1) && (result.canrender) ) {
                     const cloned = this.clone();
                     cloned.move(compiled, true);
+                    let newNewMove = compiled;
                     if (cloned.actions.B > 0) {
-                        result.move += ", trade";
+                        newNewMove = result.move + ", trade";
                     } else if (cloned.actions.G > 0) {
-                        result.move += ", build";
+                        newNewMove = result.move + ", build";
                     } else if (cloned.actions.R > 0) {
-                        result.move += ", attack";
+                        newNewMove = result.move + ", attack";
                     } else if (cloned.actions.Y > 0) {
-                        result.move += ", move";
+                        newNewMove = result.move + ", move";
                     }
+                    const newResult = this.validateMove(newNewMove) as IClickResult;
+                    newResult.move = newNewMove;
+                    newResult.canrender = true;
+                    return newResult;
                 }
             }
             return result;
@@ -923,6 +925,10 @@ export class HomeworldsGame extends GameBase {
         for (const move of moves) {
             // skip empty orders
             if (move.match(/^\s*$/)) {
+                continue;
+            }
+            // if partial, skip incomplete moves
+            if ( (partial) && (! this.isCmdComplete(move)) ) {
                 continue;
             }
             const tokens: string[] = move.split(/\s+/);

@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Homeworlds: Sorted the move list a little more logically.
 * Added piece counts to Cannon and Ordo.
+* Homeworlds: Click handler adjusted to allow easier building and more intuitive use of sacrifice commands.
 
 ## [1.0.0-beta] - 2023-04-30
 

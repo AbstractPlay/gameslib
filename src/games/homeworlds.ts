@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -745,16 +746,18 @@ export class HomeworldsGame extends GameBase {
                 result.move = compiled;
                 // check for remaining sacrifice actions
                 const cloned = this.clone();
-                cloned.move(compiled, true);
-                if (cloned.actions.B > 0) {
-                    result.move += ", trade";
-                } else if (cloned.actions.G > 0) {
-                    result.move += ", build";
-                } else if (cloned.actions.R > 0) {
-                    result.move += ", attack";
-                } else if (cloned.actions.Y > 0) {
-                    result.move += ", move";
-                }
+                try {
+                    cloned.move(compiled, true);
+                    if (cloned.actions.B > 0) {
+                        result.move += ", trade";
+                    } else if (cloned.actions.G > 0) {
+                        result.move += ", build";
+                    } else if (cloned.actions.R > 0) {
+                        result.move += ", attack";
+                    } else if (cloned.actions.Y > 0) {
+                        result.move += ", move";
+                    }
+                } catch { /* pass */ }
             }
             return result;
         } catch (e) {

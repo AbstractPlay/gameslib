@@ -745,8 +745,10 @@ export class HomeworldsGame extends GameBase {
             } else {
                 result.move = compiled;
                 // check for remaining sacrifice actions
-                const cloned = this.clone();
-                try {
+                const isComplete = (result.complete !== undefined) && (result.complete >= 0);
+                const canRender = (result.canrender !== undefined) && (result.canrender);
+                if (isComplete || canRender) {
+                    const cloned = this.clone();
                     cloned.move(compiled, true);
                     if (cloned.actions.B > 0) {
                         result.move += ", trade";
@@ -757,7 +759,7 @@ export class HomeworldsGame extends GameBase {
                     } else if (cloned.actions.Y > 0) {
                         result.move += ", move";
                     }
-                } catch { /* pass */ }
+                }
             }
             return result;
         } catch (e) {

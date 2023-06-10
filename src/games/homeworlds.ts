@@ -625,8 +625,8 @@ export class HomeworldsGame extends GameBase {
                                 newmove = `pass`;
                             } else if (system === "_catastrophe") {
                                 newmove = `catastrophe`
-                            } else if (! system.startsWith("_")) {
-                                newmove = `catastrophe ${system}`
+                            // } else if (! system.startsWith("_")) {
+                            //     newmove = `catastrophe ${system}`
                             } else {
                                 return {move, message: ""} as IClickResult;
                             }
@@ -637,96 +637,100 @@ export class HomeworldsGame extends GameBase {
                 }
             // Otherwise, adding to an incomplete command
             } else {
-                if (lastcmd === "homeworld") {
-                    if (ship !== undefined) {
-                        newmove = `homeworld ${lastargs.join(" ")} ${ship.slice(0, 2)}`;
-                    } else {
-                        return {move, message: ""} as IClickResult;
-                    }
-                } else if (lastcmd === "discover") {
-                    if ( (row < 0) && (ship !== undefined) ) {
-                        newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${wng()}`;
-                    } else {
-                        return {move, message: ""} as IClickResult;
-                    }
-                } else if (lastcmd === "move") {
-                    // need to select a ship
-                    if (lastargs.length === 0) {
-                        if ( (row >= 0) && (system !== undefined) && (ship !== undefined) ) {
-                            newmove = `move ${ship.slice(0,2)} ${system}`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
-                        }
-                    // otherwise need to select target system
-                    } else {
-                        // "Here be dragons"?
-                        if ( (row < 0) && (system === undefined) && (ship !== undefined) ) {
-                            newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${wng()}`;
-                        // otherwise, simple move
-                        } else if ( (row >= 0) && (system !== undefined) ) {
-                            newmove = `move ${lastargs.join(" ")} ${system}`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
-                        }
-                    }
-                } else if (lastcmd === "build") {
-                    // expect a ship from the global stash only
-                    if (lastargs.length === 0) {
-                        // if selecting a ship from the global stash
-                        if ( (row < 0) && (ship !== undefined) ) {
-                            newmove = `build ${ship[0]}`;
-                        // else if clicking on an existing ship
-                        } else if ( (system !== undefined) && (ship !== undefined) ) {
-                            newmove = `build ${ship[0]} ${system}`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
-                        }
-                    // otherwise expect a system
-                    } else {
-                        if ( (row >= 0) && (system !== undefined) ) {
-                            newmove = `build ${lastargs.join(" ")} ${system}`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
-                        }
-                    }
-                } else if (lastcmd === "trade") {
-                    // expect a ship in a specific system
-                    if (lastargs.length === 0) {
-                        if ( (row >= 0) && (ship !== undefined) && (system !== undefined) ) {
-                            newmove = `trade ${ship.slice(0,2)} ${system}`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
-                        }
-                    // expect a colour
-                    } else {
-                        if (ship !== undefined) {
-                            newmove = `trade ${lastargs.join(" ")} ${ship[0]}`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
-                        }
-                    }
-                } else if (lastcmd === "attack") {
-                    if ( (row >= 0) && (system !== undefined) && (ship !== undefined) && (ship.length === 3) ) {
-                        newmove = `attack ${ship} ${system}`;
-                    } else {
-                        return {move, message: ""} as IClickResult;
-                    }
-                } else if (lastcmd === "sacrifice") {
-                    if ( (row >= 0) && (system !== undefined) && (ship !== undefined) ) {
-                        newmove = `sacrifice ${ship.slice(0,2)} ${system}`;
-                    } else {
-                        return {move, message: ""} as IClickResult;
-                    }
-                } else if (lastcmd === "catastrophe") {
-                    if ( (system !== undefined) && (lastargs.length === 0) ) {
-                        newmove = `catastrophe ${system}`;
-                    } else if (ship !== undefined) {
-                        newmove = `catastrophe ${lastargs.join(" ")} ${ship[0]}`;
-                    } else {
-                        return {move, message: ""} as IClickResult;
-                    }
+                if ( (system !== undefined) && (system === "_pass") ) {
+                    newmove = "pass";
                 } else {
-                    return {move, message: ""} as IClickResult;
+                    if (lastcmd === "homeworld") {
+                        if (ship !== undefined) {
+                            newmove = `homeworld ${lastargs.join(" ")} ${ship.slice(0, 2)}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    } else if (lastcmd === "discover") {
+                        if ( (row < 0) && (ship !== undefined) ) {
+                            newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${wng()}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    } else if (lastcmd === "move") {
+                        // need to select a ship
+                        if (lastargs.length === 0) {
+                            if ( (row >= 0) && (system !== undefined) && (ship !== undefined) ) {
+                                newmove = `move ${ship.slice(0,2)} ${system}`;
+                            } else {
+                                return {move, message: ""} as IClickResult;
+                            }
+                        // otherwise need to select target system
+                        } else {
+                            // "Here be dragons"?
+                            if ( (row < 0) && (system === undefined) && (ship !== undefined) ) {
+                                newmove = `discover ${lastargs.join(" ")} ${ship.slice(0, 2)} ${wng()}`;
+                            // otherwise, simple move
+                            } else if ( (row >= 0) && (system !== undefined) ) {
+                                newmove = `move ${lastargs.join(" ")} ${system}`;
+                            } else {
+                                return {move, message: ""} as IClickResult;
+                            }
+                        }
+                    } else if (lastcmd === "build") {
+                        // expect a ship from the global stash only
+                        if (lastargs.length === 0) {
+                            // if selecting a ship from the global stash
+                            if ( (row < 0) && (ship !== undefined) ) {
+                                newmove = `build ${ship[0]}`;
+                            // else if clicking on an existing ship
+                            } else if ( (system !== undefined) && (ship !== undefined) ) {
+                                newmove = `build ${ship[0]} ${system}`;
+                            } else {
+                                return {move, message: ""} as IClickResult;
+                            }
+                        // otherwise expect a system
+                        } else {
+                            if ( (row >= 0) && (system !== undefined) ) {
+                                newmove = `build ${lastargs.join(" ")} ${system}`;
+                            } else {
+                                return {move, message: ""} as IClickResult;
+                            }
+                        }
+                    } else if (lastcmd === "trade") {
+                        // expect a ship in a specific system
+                        if (lastargs.length === 0) {
+                            if ( (row >= 0) && (ship !== undefined) && (system !== undefined) ) {
+                                newmove = `trade ${ship.slice(0,2)} ${system}`;
+                            } else {
+                                return {move, message: ""} as IClickResult;
+                            }
+                        // expect a colour
+                        } else {
+                            if (ship !== undefined) {
+                                newmove = `trade ${lastargs.join(" ")} ${ship[0]}`;
+                            } else {
+                                return {move, message: ""} as IClickResult;
+                            }
+                        }
+                    } else if (lastcmd === "attack") {
+                        if ( (row >= 0) && (system !== undefined) && (ship !== undefined) && (ship.length === 3) ) {
+                            newmove = `attack ${ship} ${system}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    } else if (lastcmd === "sacrifice") {
+                        if ( (row >= 0) && (system !== undefined) && (ship !== undefined) ) {
+                            newmove = `sacrifice ${ship.slice(0,2)} ${system}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    } else if (lastcmd === "catastrophe") {
+                        if ( (system !== undefined) && (lastargs.length === 0) ) {
+                            newmove = `catastrophe ${system}`;
+                        } else if (ship !== undefined) {
+                            newmove = `catastrophe ${lastargs.join(" ")} ${ship[0]}`;
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
+                    } else {
+                        return {move, message: ""} as IClickResult;
+                    }
                 }
             }
 
@@ -739,6 +743,18 @@ export class HomeworldsGame extends GameBase {
                 result.move = move;
             } else {
                 result.move = compiled;
+                // check for remaining sacrifice actions
+                const cloned = this.clone();
+                cloned.move(compiled, true);
+                if (cloned.actions.B > 0) {
+                    result.move += ", trade";
+                } else if (cloned.actions.G > 0) {
+                    result.move += ", build";
+                } else if (cloned.actions.R > 0) {
+                    result.move += ", attack";
+                } else if (cloned.actions.Y > 0) {
+                    result.move += ", move";
+                }
             }
             return result;
         } catch (e) {

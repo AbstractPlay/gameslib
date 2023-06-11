@@ -2,10 +2,10 @@ import { RectGrid } from "./rectGrid";
 import { reviver, replacer, sortingReplacer } from "./serialization";
 import { shuffle } from "./shuffle";
 import { UserFacingError } from "./errors";
-import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph } from "./graphs";
+import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph } from "./graphs";
 import { wng } from "./namegenerator";
 
-export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, wng };
+export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph, wng };
 
 export type DirectionsCardinal = "N" | "E" | "S" | "W";
 export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";

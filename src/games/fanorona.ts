@@ -4,6 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { Directions, RectGrid } from "../common";
+import { SquareFanoronaGraph } from "../common/graphs";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -173,8 +174,8 @@ export class FanoronaGame extends GameBase {
                 // naively assume that if the piece is adjacent to from, it's approach
                 // otherwise withdrawal (the validator can figure it out)
                 const from = move.substring(move.length - 2);
-                const grid = new RectGrid(9, 5);
-                const adj = grid.adjacencies(...FanoronaGame.algebraic2coords(from)).map(node => FanoronaGame.coords2algebraic(...node));
+                const graph = new SquareFanoronaGraph(9, 5);
+                const adj = graph.neighbours(from);
                 if (adj.includes(cell)) {
                     newmove = move + "+";
                 } else {
@@ -200,7 +201,7 @@ export class FanoronaGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        const grid = new RectGrid(9, 5);
+        const graph = new SquareFanoronaGraph(9, 5);
         let cloned = Object.assign(new FanoronaGame(), deepclone(this) as FanoronaGame);
 
         if (m.length === 0) {
@@ -244,7 +245,7 @@ export class FanoronaGame extends GameBase {
                     // can't be the same
                     if (from === to) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
+                        result.message = i18next.t("apgames:validation._general.SAfromME_FROM_TO");
                         return result;
                     }
                     // must be empty
@@ -254,7 +255,7 @@ export class FanoronaGame extends GameBase {
                         return result;
                     }
                     // must be adjacent
-                    const adj = grid.adjacencies(...FanoronaGame.algebraic2coords(from)).map(node => FanoronaGame.coords2algebraic(...node));
+                    const adj = graph.neighbours(from);
                     if (! adj.includes(to)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.fanorona.ADJACENT");
@@ -335,7 +336,7 @@ export class FanoronaGame extends GameBase {
                     return result;
                 }
                 // must be adjacent
-                const adj = grid.adjacencies(...FanoronaGame.algebraic2coords(from)).map(node => FanoronaGame.coords2algebraic(...node));
+                const adj = graph.neighbours(from);
                 if (! adj.includes(to)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.fanorona.ADJACENT");
@@ -450,11 +451,10 @@ export class FanoronaGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        const grid = new RectGrid(9, 5);
+        const graph = new SquareFanoronaGraph(9, 5);
         const mine = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
         for (const from of mine) {
-            const [cx, cy] = FanoronaGame.algebraic2coords(from);
-            const adj = grid.adjacencies(cx, cy).map(node => FanoronaGame.coords2algebraic(...node)).filter(c => ! this.board.has(c));
+            const adj = graph.neighbours(from).filter(c => ! this.board.has(c));
             for (const to of adj) {
                 const result = this.captureType(from, to);
                 if (result !== "NONE") {
@@ -467,14 +467,14 @@ export class FanoronaGame extends GameBase {
 
     // Helper for determining whether more captures are possible or not
     private pieceCanCapture(from: string, player: playerid, prev: string): boolean {
-        const grid = new RectGrid(9, 5);
+        const graph = new SquareFanoronaGraph(9, 5);
         let lastcell: string|undefined;
         let lastdir: string|undefined;
         if (prev.length > 0) {
             lastcell = prev.substring(prev.length - 3, prev.length - 1);
             lastdir = RectGrid.bearing(...FanoronaGame.algebraic2coords(lastcell), ...FanoronaGame.algebraic2coords(from));
         }
-        const adj = grid.adjacencies(...FanoronaGame.algebraic2coords(from)).map(node => FanoronaGame.coords2algebraic(...node)).filter(c => ! this.board.has(c));
+        const adj = graph.neighbours(from).filter(c => ! this.board.has(c));
         for (const to of adj) {
             // if 'to' is in the previous move anywhere, then we can't go there
             if (prev.includes(to)) { continue; }
@@ -634,7 +634,7 @@ export class FanoronaGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "vertex-cross",
+                style: "vertex-fanorona",
                 width: 9,
                 height: 5
             },

@@ -168,7 +168,7 @@ export class FanoronaGame extends GameBase {
             // if clicking on enemy space, assume disambiguation
             } else {
                 // ignore if disambiguation isn't necessary
-                if ( (move.endsWith("+")) || (move.endsWith("-")) ) {
+                if ( (move.length === 0) || (move.endsWith("+")) || (move.endsWith("-")) ) {
                     return {move, message: ""} as IClickResult;
                 }
                 // naively assume that if the piece is adjacent to from, it's approach
@@ -183,6 +183,7 @@ export class FanoronaGame extends GameBase {
                 }
             }
 
+            console.log(`Validating '${newmove}'`);
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = moves.join(",");

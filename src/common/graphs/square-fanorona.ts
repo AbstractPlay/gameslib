@@ -43,25 +43,26 @@ export class SquareFanoronaGraph implements IGraph {
             }
         }
         // Edges
-        // only go to second-to-last row
-        for (let row = 0; row < this.height - 1; row++) {
+        for (let row = 0; row < this.height; row++) {
             for (let col = 0; col < this.width; col++) {
                 const fromCell = this.coords2algebraic(col, row);
-                // always connect down
-                graph.addEdge(fromCell, this.coords2algebraic(col, row + 1));
                 // always connect to the right
                 if (col < this.width - 1) {
                     graph.addEdge(fromCell, this.coords2algebraic(col + 1, row));
                 }
-                // sometimes connect down-right and down-left
-                if ( ( (row % 2 === 0) && (col % 2 === 0) ) || ( (row % 2 !== 0) && (col % 2 !== 0) ) ) {
-                    // left
-                    if (col > 0) {
-                        graph.addEdge(fromCell, this.coords2algebraic(col - 1, row + 1));
-                    }
-                    // right
-                    if (col < this.width - 1) {
-                        graph.addEdge(fromCell, this.coords2algebraic(col + 1, row + 1));
+                if (row < this.height - 1) {
+                    // always connect down
+                    graph.addEdge(fromCell, this.coords2algebraic(col, row + 1));
+                    // sometimes connect down-right and down-left
+                    if ( ( (row % 2 === 0) && (col % 2 === 0) ) || ( (row % 2 !== 0) && (col % 2 !== 0) ) ) {
+                        // left
+                        if (col > 0) {
+                            graph.addEdge(fromCell, this.coords2algebraic(col - 1, row + 1));
+                        }
+                        // right
+                        if (col < this.width - 1) {
+                            graph.addEdge(fromCell, this.coords2algebraic(col + 1, row + 1));
+                        }
                     }
                 }
             }

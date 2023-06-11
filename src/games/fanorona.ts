@@ -403,7 +403,7 @@ export class FanoronaGame extends GameBase {
         if (lastmove.length >= 4) {
             lastCell = lastmove.substring(2, 4);
         }
-        if ( ( (lastmove.endsWith("+")) || (lastmove.endsWith("-")) ) && (cloned.pieceCanCapture(lastCell, cloned.currplayer)) ) {
+        if ( ( (lastmove.endsWith("+")) || (lastmove.endsWith("-")) ) && (cloned.pieceCanCapture(lastCell, cloned.currplayer, moves.slice(0, moves.length - 1).join(","))) ) {
             result.complete = 0;
         } else {
             result.complete = 1;
@@ -465,10 +465,19 @@ export class FanoronaGame extends GameBase {
         return false;
     }
 
-    private pieceCanCapture(from: string, player: playerid): boolean {
+    // Helper for determining whether more captures are possible or not
+    private pieceCanCapture(from: string, player: playerid, prev: string): boolean {
         const grid = new RectGrid(9, 5);
+        const lastcell = prev.substring(prev.length - 3, prev.length - 1);
+        const lastdir = RectGrid.bearing(...FanoronaGame.algebraic2coords(lastcell), ...FanoronaGame.algebraic2coords(from));
         const adj = grid.adjacencies(...FanoronaGame.algebraic2coords(from)).map(node => FanoronaGame.coords2algebraic(...node)).filter(c => ! this.board.has(c));
         for (const to of adj) {
+            // if 'to' is in the previous move anywhere, then we can't go there
+            if (prev.includes(to)) { continue; }
+            // if 'to' is in the same direction as we last moved in, we can't go there
+            const dir = RectGrid.bearing(...FanoronaGame.algebraic2coords(from), ...FanoronaGame.algebraic2coords(to));
+            if (dir === lastdir) { continue;}
+            // otherwise, check for possible capture
             const result = this.captureType(from, to, player);
             if (result !== "NONE") {
                 return true;

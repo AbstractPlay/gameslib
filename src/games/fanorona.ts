@@ -183,7 +183,6 @@ export class FanoronaGame extends GameBase {
                 }
             }
 
-            console.log(`Validating '${newmove}'`);
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = moves.join(",");

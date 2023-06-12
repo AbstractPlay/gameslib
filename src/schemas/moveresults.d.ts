@@ -174,4 +174,8 @@ export type APMoveResult =
       type: "immobilize";
       where: string;
       what?: string;
+    }
+  | {
+      type: "pull";
+      where: string;
     };

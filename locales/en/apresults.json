@@ -36,7 +36,8 @@
         "friendly": {
             "minimal_one": "{{count}} friendly piece was destroyed.",
             "minimal_other": "{{count}} friendly pieces were destroyed."
-        }
+        },
+        "string": "String {{where}} broke under the strain."
     },
     "DETONATE": {
         "nowhat": "{{player}} detonated a piece at {{where}}."
@@ -96,6 +97,7 @@
     "PROMOTE": {
         "mchess": "A {{into}} was created as a result."
     },
+    "PULL": "{{player}} pulled string {{where}}.",
     "RECLAIM": {
         "noperson": "A {{what}} was reclaimed.",
         "nowhat_one": "A piece was reclaimed.",

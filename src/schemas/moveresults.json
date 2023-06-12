@@ -522,6 +522,19 @@
             },
             "required": ["type", "where"],
             "additionalProperties": false
+        },
+        {
+            "description": "Pulling of a string",
+            "properties": {
+                "type": {
+                    "enum": ["pull"]
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "where"],
+            "additionalProperties": false
         }
     ]
 }

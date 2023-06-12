@@ -13,12 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * New game: Alien City
 * New game: Fanorona
 * New game: Focus
+* New game: Pulling Strings
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 
 ### Fixed
 
 * Pikemen: Fixed bug where unnecessary reorientation was throwing an error instead of just being ignored.
-* Volcano: Fixed bug causing Volcano `sameMove` errors in some siutations.
+* Volcano: Fixed bug causing Volcano `sameMove` errors in some situations.
 * Blam!: Changed the click handler so it autoselects your smallest piece unless you manually select from your stash.
 * Fendo: Fixed a bug where an error was raised when a partial move is legal, but there are no available fence placements. We want to allow this in order to show the move so that you can get reasons for each fence placement being impossible.
 * Fixed the default `sameMove` implementation.

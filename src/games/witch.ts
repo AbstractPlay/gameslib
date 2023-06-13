@@ -684,11 +684,12 @@ export class WitchGame extends GameBase {
         };
 
         // Add annotations
+        const reMove = /^(\([SM]\))?[a-i]\d(\-[a-i]\d)?$/;
         if (this.lastmove !== undefined) {
         // if (this.stack[this.stack.length - 1]._results.length > 0) {
             // let lastmove = this.stack[this.stack.length - 1].lastmove;
             let lastmove = this.lastmove;
-            if (lastmove !== undefined) {
+            if ( (lastmove !== undefined) && (reMove.test(lastmove)) ) {
                 if (lastmove.startsWith("(")) {
                     lastmove = lastmove.substring(3);
                 }

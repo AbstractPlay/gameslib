@@ -400,6 +400,21 @@
                     }
                 });
 
+                // Listen for Dump Moves
+                document.getElementById("dumpMoves").addEventListener("click", () => {
+                    var state = window.sessionStorage.getItem("state");
+                    if (state !== null) {
+                        var gamename = window.sessionStorage.getItem("gamename");
+                        var game = APGames.GameFactory(gamename, state);
+                        if (typeof game.moves !== 'function') {
+                            alert("This game doesn't support listing moves.")
+                            return;
+                        }
+                        console.log(`Current player: ${game.currplayer}`);
+                        console.log(game.moves());
+                    }
+                });
+
                 // Listen for render setting change
                 document.getElementById("renderSettings").addEventListener("click", renderGame, false);
 
@@ -495,6 +510,7 @@
                         <div>
                             <button id="saveSVG" name="saveSVG" type="button">Save SVG</button>
                             <button id="dumpState" name="dumpState" type="button">Dump State</button>
+                            <button id="dumpMoves" name="dumpMoves" type="button">Dump Moves</button>
                         </div>
                     </form>
                     <div id="drawing" style="vertical-align: top; max-height: 30em"></div>

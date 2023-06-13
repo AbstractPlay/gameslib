@@ -178,4 +178,8 @@ export type APMoveResult =
   | {
       type: "pull";
       where: string;
+    }
+  | {
+      type: "affiliate";
+      which: string;
     };

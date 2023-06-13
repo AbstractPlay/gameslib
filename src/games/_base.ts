@@ -488,7 +488,9 @@ export abstract class GameBase  {
                     }
                 }
                 if (state._results.find(r => r.type === "deltaScore") !== undefined) {
-                    node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: (state.scores as number[])[otherPlayer - 1]}));
+                    if ("scores" in state) {
+                        node.push(i18next.t("apresults:SCORE_REPORT", {player: name, score: (state.scores as number[])[otherPlayer - 1]}));
+                    }
                 }
                 result.push(node);
             }

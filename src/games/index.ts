@@ -34,6 +34,7 @@ import { ACityGame, IACityState } from "./acity";
 import { FanoronaGame, IFanoronaState } from "./fanorona";
 import { FocusGame, IFocusState } from "./focus";
 import { StringsGame, IStringsState } from "./strings";
+import { WitchGame, IWitchState } from "./witch";
 
 export {
     APGamesInformation, GameBase, IAPGameState,
@@ -70,6 +71,7 @@ export {
     FanoronaGame, IFanoronaState,
     FocusGame, IFocusState,
     StringsGame, IStringsState,
+    WitchGame, IWitchState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -77,14 +79,16 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VolcanoGame | typeof MvolcanoGame | typeof ChaseGame |
                               typeof AbandeGame | typeof CephalopodGame | typeof LinesOfActionGame |
                               typeof PikemenGame | typeof OrdoGame | typeof AttangleGame |
-                              typeof AccastaGame | typeof EpamGame | typeof TaijiGame | typeof BreakthroughGame |
-                              typeof FabrikGame | typeof ManalathGame | typeof UrbinoGame | typeof FendoGame |
-                              typeof ArchimedesGame | typeof ZolaGame | typeof MonkeyQueenGame | typeof DipoleGame | typeof AlfredsWykeGame | typeof RealmGame |
-                              typeof ACityGame | typeof FanoronaGame | typeof FocusGame |
-                              typeof StringsGame
+                              typeof AccastaGame | typeof EpamGame | typeof TaijiGame |
+                              typeof BreakthroughGame | typeof FabrikGame | typeof ManalathGame |
+                              typeof UrbinoGame | typeof FendoGame | typeof ArchimedesGame |
+                              typeof ZolaGame | typeof MonkeyQueenGame | typeof DipoleGame |
+                              typeof AlfredsWykeGame | typeof RealmGame | typeof ACityGame |
+                              typeof FanoronaGame | typeof FocusGame | typeof StringsGame |
+                              typeof WitchGame
                 >();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -161,6 +165,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|undefined =>
             return new FocusGame(...args);
         case "strings":
             return new StringsGame(...args);
+        case "witch":
+            return new WitchGame(...args);
     }
     return;
 }

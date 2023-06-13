@@ -535,6 +535,19 @@
             },
             "required": ["type", "where"],
             "additionalProperties": false
+        },
+        {
+            "description": "Choose a side to play for/with",
+            "properties": {
+                "type": {
+                    "enum": ["affiliate"]
+                },
+                "which": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "which"],
+            "additionalProperties": false
         }
     ]
 }

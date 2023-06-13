@@ -494,8 +494,9 @@
             "DISTANCE_CAPTURES": "Capture moves must not increase your distance from the centre.",
             "DISTANCE_NONCAPTURES": "Non-capture moves must increase your distance from the centre.",
             "INITIAL_INSTRUCTIONS": "Select one of your own pieces.",
-            "PARTIAL": "Select a destination.",
-            "MUST_MOVE": "If you have a move available you can not pass your turn."
+            "MUST_MOVE": "If you have a move available you can not pass your turn.",
+            "NONCAPTURES_KINGS": "Non-capturing moves can only move one space at a time.",
+            "PARTIAL": "Select a destination."
         }
     },
     "variants": {

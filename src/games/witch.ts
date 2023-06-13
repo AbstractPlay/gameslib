@@ -175,9 +175,9 @@ export class WitchGame extends GameBase {
     }
 
     public getPlayerStash(player: number): IStashEntry[] | undefined {
+        const entry: IStashEntry[] = [];
         const aff = this.affiliations[player - 1];
         if ( (aff !== undefined) && (aff !== null) ) {
-            const entry: IStashEntry[] = [];
             let glyph: Glyph;
             if (aff === "M") {
                 glyph = {"name":"piecepack-suit-moons","player": 2};
@@ -189,10 +189,8 @@ export class WitchGame extends GameBase {
                 movePart: aff,
                 count: 1,
             });
-            return entry;
-        } else {
-            return undefined;
         }
+        return entry;
     }
 
     public getPlayersScores(): IScores[] {
@@ -227,11 +225,11 @@ export class WitchGame extends GameBase {
                         if (contents === "C") {
                             continue;
                         }
-                        // You cannot pick up your own pieces once affiliated
-                        if ( (aff !== undefined) && (contents === aff) ) {
+                        // You cannot pick up your enemy's pieces once affiliated
+                        if ( (contents !== "E") && (aff !== undefined) && (contents !== aff) ) {
                             continue;
                         }
-                        // at this point, it's either Earth, or you're unaffliated, or it doesn't match your affiliation
+                        // at this point, it's either Earth, or you're unaffliated, or it matches your affiliation
                         if (affs.length === 1) {
                             moves.push(cell);
                         } else {
@@ -284,19 +282,21 @@ export class WitchGame extends GameBase {
                     const contents = this.board.get(cell)!;
                     if (contents === "C") {
                         return {move, message: ""} as IClickResult;
-                    } else if ( (aff !== undefined) && (contents === aff) ) {
+                    } else if (contents === "E") {
+                        newmove = `${move}${cell}`;
+                    } else if ( (aff !== undefined) && (contents !== aff) ) {
                         return {move, message: ""} as IClickResult;
                     } else if ( (aff === undefined) && (this.currplayer === 2) ) {
                         if ( (contents === "S") || (contents === "M") ) {
-                            newmove += `(${contents})`;
+                            newmove = `(${contents})`;
                         } else {
                             return {move, message: ""} as IClickResult;
                         }
                     } else {
-                        newmove += cell;
+                        newmove = `${move}${cell}`;
                     }
                 } else {
-                    newmove += cell;
+                    newmove = `${move}${cell}`;
                 }
             // otherwise, must be an empty space
             } else {
@@ -455,7 +455,7 @@ export class WitchGame extends GameBase {
             }
 
             // must not be an opposing piece
-            if ( (aff !== undefined) && (contents === aff) ) {
+            if ( (contents !== "E") && (aff !== undefined) && (contents !== aff) ) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.witch.NO_ENEMY");
                 return result;

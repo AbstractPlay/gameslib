@@ -345,6 +345,15 @@ export class ZolaGame extends GameBase {
                 return result;
             }
 
+            // noncapturing moves can only be one space at a time
+            const grid = new RectGrid(this.boardSize, this.boardSize);
+            const neighbours = grid.adjacencies(...ZolaGame.algebraic2coords(from, this.boardSize)).map(node => ZolaGame.coords2algebraic(...node, this.boardSize));
+            if (! neighbours.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.zola.NONCAPTURES_KINGS");
+                return result;
+            }
+
             // valid full move
             result.valid = true;
             result.complete = 1;

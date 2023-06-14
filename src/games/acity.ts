@@ -657,9 +657,17 @@ export class ACityGame extends GameBase {
 
         if ( (passedout) || (stashCount === 0) ) {
             // nullify last-move claim
-            const realLast = this.stack[this.stack.length - 2].lastmove!;
-            if (/\([a-h]\d+\)$/.test(realLast)) {
-                const [claim] = realLast.match(/\(([a-h]\d+)\)$/)!;
+            let realLast = this.lastmove;
+            if ( (realLast !== undefined) && (realLast === "pass") ) {
+                for (let i = this.stack.length - 1; i >= 0; i--) {
+                    if ( (this.stack[i].lastmove !== undefined) && (this.stack[i].lastmove !== "pass") ) {
+                        realLast = this.stack[i].lastmove!;
+                        break;
+                    }
+                }
+            }
+            if (/\([a-h]\d+\)$/.test(realLast!)) {
+                const [,claim] = realLast!.match(/\(([a-h]\d+)\)$/)!;
                 this.claimed[0] = this.claimed[0].filter(c => c !== claim);
                 this.claimed[1] = this.claimed[1].filter(c => c !== claim);
                 this.results.push({type: "nullifyClaim", where: claim});

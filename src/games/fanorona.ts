@@ -245,7 +245,7 @@ export class FanoronaGame extends GameBase {
                     // can't be the same
                     if (from === to) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.SAfromME_FROM_TO");
+                        result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
                         return result;
                     }
                     // must be empty

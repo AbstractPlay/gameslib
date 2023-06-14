@@ -652,7 +652,10 @@ export class ACityGame extends GameBase {
         if ( (this.lastmove === "pass") && (this.stack[this.stack.length - 1].lastmove === "pass") ) {
             passedout = true;
         }
-        if (passedout) {
+        // if both stashes are empty, we're also definitely done
+        const stashCount = this.stashes.reduce((prev, curr) => {return prev + curr.length}, 0);
+
+        if ( (passedout) || (stashCount === 0) ) {
             // nullify last-move claim
             const realLast = this.stack[this.stack.length - 2].lastmove!;
             if (/\([a-h]\d+\)$/.test(realLast)) {

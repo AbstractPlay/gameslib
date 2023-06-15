@@ -27,9 +27,11 @@
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
+        "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
+        "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
@@ -443,6 +445,10 @@
             "WRONG_REALM_createEnforcer": "You may only create an enforcer in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_rearrange": "You may only place pieces in the realm being rearranged ({{realm}})."
         },
+        "strings": {
+            "INITIAL_INSTRUCTIONS": "Select a string to pull.",
+            "NOSTRING": "There is no string numbered {{string}}."
+        },
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
@@ -477,6 +483,20 @@
             "MOVES_ONE_SPACE": "Caps may only be moved one space at a time.",
             "PARTIAL_ERUPTION": "Keep moving caps until you cause an eruption.",
             "PARTIAL_MOVE": "Select the destination."
+        },
+        "witch": {
+            "2P_PRIVILEGE": "Only the second player may choose the pieces they wish to play.",
+            "AFFILIATE": "Choose which piece you wish to play by clicking any sun or moon piece.",
+            "ALREADY_AFFLIATED": "Pieces have already been chosen.",
+            "BOTH_EMPTY": "When selecting a line of pieces, both the start and end cells must be empty.",
+            "EMPTY_CAPTURE": "Captures must include at least one piece.",
+            "INCOMPLETE_AFFILIATION": "To choose your affliation, the move must start with '(S)' or '(M)'.",
+            "INITIAL_INSTRUCTIONS": "Click a piece to remove or an empty space to start removing a line of pieces.",
+            "NO_CROWNS": "You may not pick up crowns directly.",
+            "NO_ENEMY": "You may not pick up your opponent's pieces.",
+            "ORTHOGONAL": "Lines of pieces must be horizontal or vertical, never diagonal.",
+            "PARTIAL": "Select another empty space to remove the pieces in between.",
+            "UNBROKEN": "Lines of pieces must be unbroken by empty cells."
         },
         "wyke": {
             "CELL_CLAIMED": "The cell {{cell}} has already been claimed and cannot be interacted with further.",

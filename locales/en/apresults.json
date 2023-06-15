@@ -1,6 +1,10 @@
 {
     "ADD_one": "{{player}} added 1 piece to {{where}}.",
     "ADD_other": "{{player}} added {{count}} pieces to {{where}}.",
+    "AFFILIATE": {
+        "witch_S": "{{player}} chose the Sunstones.",
+        "witch_M": "{{player}} chose the Moonstones."
+    },
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
         "complete_other": "{{player}} bore off {{count}} pieces from {{from}}."
@@ -22,12 +26,30 @@
             "nowhere_other": "{{count}} pieces were captured.",
             "simple": "A {{what}} was captured at {{where}}."
         },
-        "nowhat": "{{player}} captured a piece at {{where}}."
+        "nowhat": "{{player}} captured a piece at {{where}}.",
+        "witch": {
+            "nowhere_S_one": "{{player}} captured {{count}} Sunstone.",
+            "nowhere_S_other": "{{player}} captured {{count}} Sunstones.",
+            "nowhere_M_one": "{{player}} captured {{count}} Moonstone.",
+            "nowhere_M_other": "{{player}} captured {{count}} Moonstones.",
+            "nowhere_E_one": "{{player}} captured {{count}} Earthstone.",
+            "nowhere_E_other": "{{player}} captured {{count}} Earthstones.",
+            "nowhere_C_one": "{{player}} captured {{count}} Crown.",
+            "nowhere_C_other": "{{player}} captured {{count}} Crowns.",
+            "single_S": "{{player}} picked up a Sunstone at {{where}}.",
+            "single_M": "{{player}} picked up a Moonstone at {{where}}.",
+            "single_E": "{{player}} picked up an Earthstone at {{where}}.",
+            "single_C": "{{player}} picked up a Crown at {{where}}."
+        }
     },
     "CLAIM": "{{player}} claimed {{where}}.",
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}."
     },
+    "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
+    "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
+    "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
+    "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DESTROY": {
         "enemy": {
             "minimal_one": "{{count}} enemy piece was destroyed.",
@@ -36,7 +58,8 @@
         "friendly": {
             "minimal_one": "{{count}} friendly piece was destroyed.",
             "minimal_other": "{{count}} friendly pieces were destroyed."
-        }
+        },
+        "string": "String {{where}} broke under the strain."
     },
     "DETONATE": {
         "nowhat": "{{player}} detonated a piece at {{where}}."
@@ -96,6 +119,7 @@
     "PROMOTE": {
         "mchess": "A {{into}} was created as a result."
     },
+    "PULL": "{{player}} pulled string {{where}}.",
     "RECLAIM": {
         "noperson": "A {{what}} was reclaimed.",
         "nowhat_one": "A piece was reclaimed.",

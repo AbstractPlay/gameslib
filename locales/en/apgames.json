@@ -347,7 +347,9 @@
                 "PARTIAL_TWOARGS": "Select a colony ship from the global stash."
             },
             "INITIAL_INSTRUCTIONS_fresh": "You need to establish a homeworld. Choose a piece from the global stash to be your first star.",
-            "INITIAL_INSTRUCTIONS_inprogress": "Select any ship or star to do the action of that colour, or select the \"Sacrifice\" button below the global stash.",
+            "INITIAL_INSTRUCTIONS_inprogress": "Click the ship you want to move, build, or trade, or select an enemy ship to attack. Click the 'Sacrifice' button to sacrifice a ship.",
+            "NEW_FRIENDLY_PARTIAL": "To move, click the destination system or the void between systems. To build, click the same ship again. To trade, click a piece of the new colour in the stash.",
+            "NEW_MOVE_PARTIAL": "Choose a piece from the global stash to become the new star.",
             "move": {
                 "PARTIAL_NOARGS": "Select a ship to move.",
                 "PARTIAL_ONEARG": "Select the system in which the ship is found.",

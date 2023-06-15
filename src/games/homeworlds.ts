@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -590,21 +589,17 @@ export class HomeworldsGame extends GameBase {
                     system = this.seat2name(match[1] as Seat);
                 }
             }
-            console.log(`system: ${system}, ship: ${ship}`);
 
             // process
             let newmove: string|undefined;
 
             // Starting fresh
             if (complete) {
-                console.log("Starting fresh");
                 // if you don't have a homeworld, create one
                 if (mysys === undefined) {
-                    console.log("No homeworld");
                     // if you clicked on a global stash piece, place it as the first star
                     if (ship !== undefined) {
                         newmove = `homeworld ${ship.slice(0, 2)}`;
-                        console.log(newmove);
                     } else {
                         return {move, message: ""} as IClickResult;
                     }

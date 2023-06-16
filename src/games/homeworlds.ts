@@ -591,7 +591,7 @@ export class HomeworldsGame extends GameBase {
             }
 
             // process
-            let newmove = "";
+            let newmove: string|undefined;
 
             // Starting fresh
             if (complete) {
@@ -604,19 +604,10 @@ export class HomeworldsGame extends GameBase {
                         return {move, message: ""} as IClickResult;
                     }
                 } else {
-                    // if you clicked on a ship or star, assume you are selecting a move type
+                    // if you clicked on a ship or star, simply add it to the array
                     if (ship !== undefined) {
-                        if (ship[0] === "R") {
-                            newmove = `attack`;
-                        } else if (ship[0] === "G") {
-                            newmove = `build`;
-                        } else if (ship[0] === "B") {
-                            newmove = `trade`;
-                        } else if (ship[0] === "Y") {
-                            newmove = `move`;
-                        } else {
-                            return {move, message: ""} as IClickResult;
-                        }
+                        newmove = `[${piece}]`;
+                    // otherwise, check for button or otherwise abort
                     } else {
                         if (system !== undefined) {
                             if (system === "_sacrifice") {
@@ -625,8 +616,6 @@ export class HomeworldsGame extends GameBase {
                                 newmove = `pass`;
                             } else if (system === "_catastrophe") {
                                 newmove = `catastrophe`
-                            // } else if (! system.startsWith("_")) {
-                            //     newmove = `catastrophe ${system}`
                             } else {
                                 return {move, message: ""} as IClickResult;
                             }
@@ -640,6 +629,9 @@ export class HomeworldsGame extends GameBase {
                 if ( (system !== undefined) && (system === "_pass") ) {
                     newmove = "pass";
                 } else {
+                    // Keep supporting the old approach for people that type their commands
+                    // and just want some extra assistance. And the old approach is still
+                    // used for the `homeworld` command and the buttons.
                     if (lastcmd === "homeworld") {
                         if (ship !== undefined) {
                             newmove = `homeworld ${lastargs.join(" ")} ${ship.slice(0, 2)}`;
@@ -729,8 +721,27 @@ export class HomeworldsGame extends GameBase {
                             return {move, message: ""} as IClickResult;
                         }
                     } else {
-                        return {move, message: ""} as IClickResult;
+                        // check if this is a new handler command
+                        if (lastmove.startsWith("[")) {
+                            let toAdd = piece;
+                            if ( (row >= 0) && (ship === undefined) && (system !== undefined) ) {
+                                toAdd += "|";
+                            }
+                            newmove = lastmove.replace("]", ` ${toAdd}]`);
+                        // otherwise abort
+                        } else {
+                            return {move, message: ""} as IClickResult;
+                        }
                     }
+                }
+            }
+
+            // expand new click handler array if possible
+            // can also abort if array is wholly invalid
+            if (newmove.startsWith("[")) {
+                newmove = this.expandHandlerArray(newmove);
+                if (newmove === undefined) {
+                    return {move, message: ""} as IClickResult;
                 }
             }
 
@@ -773,13 +784,96 @@ export class HomeworldsGame extends GameBase {
         }
     }
 
+    public expandHandlerArray(m: string): string|undefined {
+        const pieces = m.substring(1, m.length - 1).split(/\s+/);
+        const myseat = this.player2seat(this.currplayer);
+
+        // parse piece types
+        type PieceTypes = "FRIENDLY"|"ENEMY"|"STAR"|"SYSTEM"|"STASH"|"VOID"|undefined;
+        const types: PieceTypes[] = [];
+        for (const pc of pieces) {
+            if (pc.startsWith("_")) {
+                if (pc === "_void") {
+                    types.push("VOID");
+                } else {
+                    types.push(undefined);
+                }
+            } else if (pc.includes("|")) {
+                const [system, ship] = pc.split("|");
+                if ( (ship !== undefined) && (ship.length > 0) ) {
+                    if (ship.startsWith("p")) {
+                        const seat = ship[ship.length - 1] as Seat;
+                        if (seat === myseat) {
+                            types.push("FRIENDLY");
+                        } else {
+                            types.push("ENEMY");
+                        }
+                    } else {
+                        types.push("STAR")
+                    }
+                } else if (system !== undefined) {
+                    types.push("SYSTEM");
+                }
+            } else if (/^[RGBY][123]$/.test(pc)) {
+                types.push("STASH")
+            } else {
+                types.push(undefined);
+            }
+        }
+
+        // look for a match, expand if possible, return undefined if totally wrong
+        if (types.includes(undefined)) {
+            return undefined;
+        }
+        if (types[0] === "ENEMY") {
+            const [system, ship] = pieces[0].split("|");
+            return `attack ${ship.substring(1)} ${system}`;
+        }
+        if (types[0] === "FRIENDLY") {
+            if (types.length > 1) {
+                if (types[1] === "FRIENDLY") {
+                    if (pieces[0] === pieces[1]) {
+                        const [system, ship] = pieces[0].split("|");
+                        return `build ${ship[1]} ${system}`;
+                    } else {
+                        return undefined;
+                    }
+                }
+                if (types[1] === "STASH") {
+                    const [system, ship] = pieces[0].split("|");
+                    return `trade ${ship.substring(1,3)} ${system} ${pieces[1][0]}`;
+                }
+                if (types[1] === "SYSTEM") {
+                    const [systemFrom, shipFrom] = pieces[0].split("|");
+                    const [systemTo,] = pieces[1].split("|");
+                    return `move ${shipFrom.substring(1,3)} ${systemFrom} ${systemTo}`;
+                }
+                if (types[1] === "VOID") {
+                    if (types.length > 2) {
+                        if (types[2] === "STASH") {
+                            const [system, ship] = pieces[0].split("|");
+                            return `discover ${ship.substring(1,3)} ${system} ${pieces[2]} ${wng()}`;
+                        }
+                        return undefined;
+                    } else {
+                        return m;
+                    }
+                }
+                return undefined;
+            } else {
+                return m;
+            }
+        }
+        return undefined;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        if (m.length === 0) {
-            const myseat = this.player2seat(this.currplayer);
-            const mysys = this.systems.find(s => s.owner === myseat);
+        const myseat = this.player2seat(this.currplayer);
+        const mysys = this.systems.find(s => s.owner === myseat);
 
+        if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
             if (mysys === undefined) {
@@ -807,6 +901,36 @@ export class HomeworldsGame extends GameBase {
             // skip empty orders
             if (move.match(/^\s*$/)) {
                 continue;
+            }
+
+            // check for in-progress click handler array
+            if (move.startsWith("[")) {
+                const pieces = m.substring(1, m.length - 1).split(/\s+/);
+                if (pieces.length > 0) {
+                    if (
+                        (pieces[0].includes("|"))       // must be a ship
+                        && (/[NESW]$/.test(pieces[0]))  // must end with a seat designation
+                        && (pieces[0][pieces[0].length - 1] === myseat) ) // must be friendly
+                    {
+                        if (pieces.length === 1) {
+                            return {
+                                valid: true,
+                                complete: -1,
+                                message: i18next.t("apgames:validation.homeworlds.NEW_FRIENDLY_PARTIAL"),
+                            };
+                        } else if ( (pieces.length === 2) && (pieces[1] === "_void") ) {
+                            return {
+                                valid: true,
+                                complete: -1,
+                                message: i18next.t("apgames:validation.homeworlds.NEW_MOVE_PARTIAL"),
+                            };
+                        }
+                    }
+                }
+                return {
+                    valid: false,
+                    message: i18next.t("apgames:validation._general.INVALID_MOVE")
+                };
             }
 
             const todate = moves.slice(0, i).join(",");

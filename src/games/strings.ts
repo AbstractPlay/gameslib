@@ -241,7 +241,7 @@ export class StringsGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        const moves: string[] = m.split(/,\s*/);
+        const moves: string[] = m.split(/\s*,\s*/);
         if ( (! partial) && (moves.length !== 2) ) {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }

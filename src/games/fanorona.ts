@@ -132,17 +132,11 @@ export class FanoronaGame extends GameBase {
             const contents = cloned.board.get(cell);
 
             let newmove = "";
-            // if clicking on own piece
-            if (contents === cloned.currplayer) {
-                // if start of move, add to move
+            // if clicking on empty space, assume movement
+            if (contents === undefined) {
                 if (moves.length === 0) {
-                    newmove = cell;
-                // otherwise, ignore
-                } else {
                     return {move, message: ""} as IClickResult;
                 }
-            // if clicking on empty space, assume movement
-            } else if (contents === undefined) {
                 let prev: string;
                 // is this initial movement?
                 if ( (moves.length === 1) && (move.length === 2) ) {
@@ -165,6 +159,16 @@ export class FanoronaGame extends GameBase {
                 } else if (captype === "-") {
                     newmove += "-";
                 }
+            // if clicking on own piece
+            } else if (contents === cloned.currplayer) {
+                // if start of move, add to move
+                if (moves.length === 0) {
+                    newmove = cell;
+                // otherwise, ignore
+                } else {
+                    return {move, message: ""} as IClickResult;
+                }
+
             // if clicking on enemy space, assume disambiguation
             } else {
                 // ignore if disambiguation isn't necessary

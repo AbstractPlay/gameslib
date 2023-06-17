@@ -713,10 +713,8 @@ export class HomeworldsGame extends GameBase {
                             return {move, message: ""} as IClickResult;
                         }
                     } else if (lastcmd === "catastrophe") {
-                        if ( (system !== undefined) && (lastargs.length === 0) ) {
-                            newmove = `catastrophe ${system}`;
-                        } else if (ship !== undefined) {
-                            newmove = `catastrophe ${lastargs.join(" ")} ${ship[0]}`;
+                        if ( (ship !== undefined) && (system !== undefined) ) {
+                            newmove = `catastrophe ${system} ${ship[0]}`;
                         } else {
                             return {move, message: ""} as IClickResult;
                         }
@@ -789,14 +787,14 @@ export class HomeworldsGame extends GameBase {
         const myseat = this.player2seat(this.currplayer);
 
         // parse piece types
-        type PieceTypes = "FRIENDLY"|"ENEMY"|"STAR"|"SYSTEM"|"STASH"|"VOID"|undefined;
+        type PieceTypes = "FRIENDLY"|"ENEMY"|"STAR"|"SYSTEM"|"STASH"|"VOID"|"BUTTON"|undefined;
         const types: PieceTypes[] = [];
         for (const pc of pieces) {
             if (pc.startsWith("_")) {
                 if (pc === "_void") {
                     types.push("VOID");
                 } else {
-                    types.push(undefined);
+                    types.push("BUTTON");
                 }
             } else if (pc.includes("|")) {
                 const [system, ship] = pc.split("|");
@@ -857,6 +855,16 @@ export class HomeworldsGame extends GameBase {
                         return undefined;
                     } else {
                         return m;
+                    }
+                }
+                if (types[1] === "BUTTON") {
+                    if (pieces[1] === "_sacrifice") {
+                        const [system, ship] = pieces[0].split("|");
+                        return `sacrifice ${ship.substring(1,3)} ${system}`;
+                    } else if (pieces[1] === "_pass") {
+                        return "pass";
+                    } else {
+                        return undefined;
                     }
                 }
                 return undefined;
@@ -2201,8 +2209,6 @@ export class HomeworldsGame extends GameBase {
             result.complete = -1;
             if (args.length === 0) {
                 result.message = i18next.t("apgames:validation.homeworlds.catastrophe.PARTIAL_NOARGS");
-            } else if (args.length === 1) {
-                result.message = i18next.t("apgames:validation.homeworlds.catastrophe.PARTIAL_ONEARG");
             }
             return result;
         } else {

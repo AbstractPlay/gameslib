@@ -332,8 +332,7 @@
                 "PARTIAL_ONEARG": "Select the system in which to place the new ship."
             },
             "catastrophe": {
-                "PARTIAL_NOARGS": "Select the overpopulated system.",
-                "PARTIAL_ONEARG": "Select the colour that is overpopulated."
+                "PARTIAL_NOARGS": "Select a star or ship of the overpopulated colour in the affected system."
             },
             "discover": {
                 "PARTIAL_NOARGS": "Select a ship to move.",

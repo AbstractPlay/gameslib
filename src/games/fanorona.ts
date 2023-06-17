@@ -132,17 +132,11 @@ export class FanoronaGame extends GameBase {
             const contents = cloned.board.get(cell);
 
             let newmove = "";
-            // if clicking on own piece
-            if (contents === cloned.currplayer) {
-                // if start of move, add to move
+            // if clicking on empty space, assume movement
+            if (contents === undefined) {
                 if (moves.length === 0) {
-                    newmove = cell;
-                // otherwise, ignore
-                } else {
                     return {move, message: ""} as IClickResult;
                 }
-            // if clicking on empty space, assume movement
-            } else if (contents === undefined) {
                 let prev: string;
                 // is this initial movement?
                 if ( (moves.length === 1) && (move.length === 2) ) {
@@ -165,6 +159,16 @@ export class FanoronaGame extends GameBase {
                 } else if (captype === "-") {
                     newmove += "-";
                 }
+            // if clicking on own piece
+            } else if (contents === cloned.currplayer) {
+                // if start of move, add to move
+                if (moves.length === 0) {
+                    newmove = cell;
+                // otherwise, ignore
+                } else {
+                    return {move, message: ""} as IClickResult;
+                }
+
             // if clicking on enemy space, assume disambiguation
             } else {
                 // ignore if disambiguation isn't necessary
@@ -343,8 +347,12 @@ export class FanoronaGame extends GameBase {
                     return result;
                 }
                 // can't revisit any point
-                const hist = moves.slice(0, i - 1).filter(str => str.includes(to));
-                if (hist.length > 0) {
+                let hist = [moves[0]];
+                if (i > 0) {
+                    hist = moves.slice(0, i);
+                }
+                const dupes = hist.filter(str => str.includes(to));
+                if (dupes.length > 0) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.fanorona.REVISIT");
                     return result;
@@ -404,7 +412,11 @@ export class FanoronaGame extends GameBase {
         if (lastmove.length >= 4) {
             lastCell = lastmove.substring(2, 4);
         }
-        if ( ( (lastmove.endsWith("+")) || (lastmove.endsWith("-")) ) && (cloned.pieceCanCapture(lastCell, cloned.currplayer, moves.slice(0, moves.length - 1).join(","))) ) {
+        let prev = lastmove;
+        if (moves.length > 1) {
+            prev = moves.slice(0, moves.length - 1).join(",");
+        }
+        if ( ( (lastmove.endsWith("+")) || (lastmove.endsWith("-")) ) && (cloned.pieceCanCapture(lastCell, cloned.currplayer, prev)) ) {
             result.complete = 0;
         } else {
             result.complete = 1;
@@ -471,7 +483,11 @@ export class FanoronaGame extends GameBase {
         let lastcell: string|undefined;
         let lastdir: string|undefined;
         if (prev.length > 0) {
-            lastcell = prev.substring(prev.length - 3, prev.length - 1);
+            if ( (prev.endsWith("+")) || (prev.endsWith("-")) ) {
+                lastcell = prev.substring(prev.length - 3, prev.length - 1);
+            } else {
+                lastcell = prev.substring(prev.length - 2);
+            }
             lastdir = RectGrid.bearing(...FanoronaGame.algebraic2coords(lastcell), ...FanoronaGame.algebraic2coords(from));
         }
         const adj = graph.neighbours(from).filter(c => ! this.board.has(c));

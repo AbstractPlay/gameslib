@@ -899,7 +899,7 @@ export class CannonGame extends GameBase {
         };
 
         // Add annotations
-        if (this.lastmove !== undefined && this.lastmove !== 'resign') {
+        if (this.lastmove !== undefined && !this.specialMove(this.lastmove)) {
             // town placement
             if ( (this.lastmove.indexOf("-") < 0) && (this.lastmove.indexOf("x") < 0) ) {
                 const [x, y] = CannonGame.algebraic2coords(this.lastmove);

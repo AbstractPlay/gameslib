@@ -169,6 +169,9 @@ export class ComplicaGame extends GameBase {
             if (! this.board.has(cell)) {
                 this.board.set(cell, this.currplayer);
                 this.results.push({type: "place", where: cell});
+                if (row < 7) {
+                    this.results.push({type: "move", from: `${m}7`, to: cell});
+                }
                 placed = true;
                 break;
             }

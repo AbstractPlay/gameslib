@@ -429,7 +429,9 @@ export class MvolcanoGame extends GameBase {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this));
         cloned.stack.pop();
-        cloned.load();
+        cloned.load(-1);
+        cloned.gameover = false;
+        cloned.winner = [];
         cloned.move(move2);
         // Compare state
         const board1 = this.board;

@@ -1132,7 +1132,7 @@ export class UrbinoGame extends GameBase {
 
         status += "**Stashes**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {
-            const stash = this.getPlayerStash(n);
+            const stash = this.getPlayerStash(n)?.stash;
             if (stash === undefined) {
                 throw new Error("Malformed stash.");
             }
@@ -1179,14 +1179,26 @@ export class UrbinoGame extends GameBase {
         return resolved;
     }
 
-    public getPlayerStash(player: number): IStashEntry[] | undefined {
+    public stashClick(this: void, move: string, movePart: string): string {
+        move = move.toLowerCase().replace(/\s+/g, "");
+        if (move.match(/,[123]$/)) {
+            return move.substring(0, move.length - 2) + movePart;
+        } else {
+            return move + movePart;
+        }
+    }
+
+    public getPlayerStash(player: number): {handler: (move: string, movePart: string) => string, stash: IStashEntry[]} | undefined {
         const stash = this.pieces[player - 1];
         if (stash !== undefined) {
-            return [
-                {count: stash[0], glyph: { name: "house",  player }, movePart: ",1"},
-                {count: stash[1], glyph: { name: "palace", player }, movePart: ",2"},
-                {count: stash[2], glyph: { name: "tower",  player }, movePart: ",3"}
-            ];
+            return {
+                handler: this.stashClick,
+                stash: [
+                    { count: stash[0], glyph: { name: "house", player }, movePart: ",1" },
+                    { count: stash[1], glyph: { name: "palace", player }, movePart: ",2" },
+                    { count: stash[2], glyph: { name: "tower", player }, movePart: ",3" },
+                ],
+            };
         }
         return;
     }

@@ -11,6 +11,7 @@
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
+        "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. Chaos, of course, attempts to thwart Order whenever possible.\n\nThis implementation provides a simultaneous environment where each player has their own Order board. Each player places a piece on their opponent's Order board and then makes a move on their own board, players acting as both Order and Chaos at the same time. The player with the greatest score wins! Since both players share the same randomized pool of pieces, this approach gives the cleanest measure of skill.",
         "epam": "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
@@ -247,6 +248,9 @@
             "PARTIAL_EXCHANGE": "Select another adjacent piece to make the exchange. Or click again to remove more speed.",
             "PARTIAL_MOVE": "Select a destination, or select the same piece again to begin an exchange.",
             "UNEQUAL_EXCHANGE": "Exchanges must result in the same combined speed. The original combined speed was {{original}}. Your requested move would change that to {{proposed}}."
+        },
+        "complica": {
+            "INITIAL_INSTRUCTIONS": "Select the column into which to drop your stone."
         },
         "dipole": {
             "FORWARD": "Noncapturing movement must be in a forward direction.",

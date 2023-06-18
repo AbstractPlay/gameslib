@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { APGamesInformation, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
@@ -182,7 +183,7 @@ export abstract class GameBase  {
     public abstract results: Array<APMoveResult>;
     public abstract variants: string[];
 
-    public abstract move(move: string): GameBase;
+    public abstract move(move: string, partial?: boolean): GameBase;
     public abstract render(perspective?: any): APRenderRep;
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
@@ -612,5 +613,12 @@ export abstract class GameBase  {
 
     public serialize(): string {
         return JSON.stringify(this.state(), replacer);
+    }
+}
+
+export abstract class GameBaseSimultaneous extends GameBase {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public isEliminated(id: number): boolean {
+        return false;
     }
 }

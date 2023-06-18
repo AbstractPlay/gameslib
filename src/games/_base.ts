@@ -201,6 +201,10 @@ export abstract class GameBase  {
         return this.eog(-1, "draw", {type: "drawagreed"});
     }
 
+    protected specialMove(move: string): boolean {
+        return move === "resign" || move === "draw" || move === "timeout";
+    }
+
     private eog(player: number, move: string, result: APMoveResult): GameBase {
         this.results = [result]
         // If one person resigns, the others win together

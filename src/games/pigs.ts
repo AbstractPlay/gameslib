@@ -90,7 +90,7 @@ export class PigsGame extends GameBaseSimultaneous {
                 urls: ["http://cox-tv.com/games/index.php"]
             }
         ],
-        flags: ["simultaneous", "scores", "no-moves", "experimental"]
+        flags: ["simultaneous", "scores", "no-moves", "rotate90", "experimental"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -144,6 +144,7 @@ export class PigsGame extends GameBaseSimultaneous {
             if (state.game !== PigsGame.gameinfo.uid) {
                 throw new Error(`The Robo Battle Pigs game code cannot process a game of '${state.game}'.`);
             }
+            this.numplayers = state.numplayers;
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
@@ -252,7 +253,7 @@ export class PigsGame extends GameBaseSimultaneous {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        const moves: string[] = m.split(/,\s*/);
+        const moves: string[] = m.split(/\s*,\s*/);
         if (moves.length !== this.numplayers) {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
@@ -482,7 +483,7 @@ export class PigsGame extends GameBaseSimultaneous {
     public state(): IPigsState {
         return {
             game: PigsGame.gameinfo.uid,
-            numplayers: 2,
+            numplayers: this.numplayers,
             variants: [...this.variants],
             gameover: this.gameover,
             winner: [...this.winner],

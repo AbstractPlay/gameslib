@@ -235,6 +235,7 @@
         },
         "chase": {
             "BALANCE_LOWEST": "When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",
+            "CHAMBER_BUMP": "You may not bump pieces into the chamber.",
             "DISTANT_EXCHANGE": "The cells {{left}} and {{right}} are not adjacent to each other.",
             "INITIAL_INSTRUCTIONS_balanced": "Select a piece to move. To start an exchange select the piece from which you want to remove speed, twice.",
             "INITIAL_INSTRUCTIONS_imbalanced": "You are imbalanced by {{delta}} speed. Select on of your pieces with the lowest speed to correct.",

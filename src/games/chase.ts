@@ -372,7 +372,7 @@ export class ChaseGame extends GameBase {
             }
         }
 
-        return moves;
+        return moves.sort((a,b) => a.localeCompare(b));
     }
 
     public neighbours(x: number, y: number): [number, number][] {

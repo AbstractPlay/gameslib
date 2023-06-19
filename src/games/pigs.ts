@@ -90,7 +90,7 @@ export class PigsGame extends GameBaseSimultaneous {
                 urls: ["http://cox-tv.com/games/index.php"]
             }
         ],
-        flags: ["simultaneous", "scores", "no-moves", "rotate90", "experimental"]
+        flags: ["simultaneous", "scores", "no-moves", "experimental"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

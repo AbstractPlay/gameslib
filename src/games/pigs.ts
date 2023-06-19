@@ -253,7 +253,7 @@ export class PigsGame extends GameBaseSimultaneous {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/,\s*/);
-        if (moves.length !== 2) {
+        if (moves.length !== this.numplayers) {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {

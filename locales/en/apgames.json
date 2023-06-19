@@ -409,7 +409,7 @@
             "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
         },
         "pigs": {
-            "INITIAL_INSTRUCTIONS": "Enter 'R' to spend your whole turn repairing, or type five of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with fists), X (when damaged)",
+            "INITIAL_INSTRUCTIONS": "Enter 'R' to spend your whole turn repairing, or type five of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout), X (when damaged)",
             "INVALID_CMD": "The character '{{cmd}}' is not a recognized command.",
             "REPAIR_SINGLE": "The repair command takes your entire turn and is entered with a single 'R' character.",
             "TOOLONG": "You may only enter five commands.",

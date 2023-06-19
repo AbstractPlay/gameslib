@@ -46,6 +46,9 @@
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}."
     },
+    "DAMAGE": {
+        "pigs": "{{player}} struck {{opponent}} at {{where}}."
+    },
     "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
     "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
     "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
@@ -65,8 +68,13 @@
         "nowhat": "{{player}} detonated a piece at {{where}}."
     },
     "DRAWAGREED": "Players agreed to a draw.",
+    "ELIMINATED": "{{player}} was eliminated.",
     "EOG": "The game has ended.",
     "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
+    "FIRE": {
+        "pigs_F": "{{player}} fired their laser at {{direction}}.",
+        "pigs_H": "{{player}} swung their mighty snout!"
+    },
     "homeworlds": {
         "BUILD": "{{player}} build a {{what}} in the {{where}} system.",
         "CAPTURE": "{{player}} captured a {{what}} in the {{where}} system.",
@@ -84,6 +92,7 @@
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
+        "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
         "complete_one": "{{player}} moved one piece from {{from}} to {{to}}.",
         "complete_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
@@ -99,6 +108,7 @@
     },
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",
+        "pigs": "{{player}} idles.",
         "simple": "{{player}} passed."
     },
     "PLACE": {
@@ -127,6 +137,9 @@
     },
     "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
     "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
+    "REPAIR": {
+        "simple": "{{player}} repairs."
+    },
     "RESIGN": "{{player}} has resigned.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "TAKE": {

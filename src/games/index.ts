@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { APGamesInformation } from "../schemas/gameinfo";
-import { GameBase, IAPGameState } from "./_base";
+import { GameBase, GameBaseSimultaneous, IAPGameState } from "./_base";
 import { AmazonsGame, IAmazonsState } from "./amazons";
 import { BlamGame, IBlamState } from "./blam";
 import { CannonGame, ICannonState } from "./cannon";
@@ -36,9 +36,10 @@ import { FocusGame, IFocusState } from "./focus";
 import { StringsGame, IStringsState } from "./strings";
 import { WitchGame, IWitchState } from "./witch";
 import { ComplicaGame, IComplicaState } from "./complica";
+import { PigsGame, IPigsState } from "./pigs";
 
 export {
-    APGamesInformation, GameBase, IAPGameState,
+    APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
     AmazonsGame, IAmazonsState,
     BlamGame, IBlamState,
     CannonGame, ICannonState,
@@ -73,7 +74,8 @@ export {
     FocusGame, IFocusState,
     StringsGame, IStringsState,
     WitchGame, IWitchState,
-    ComplicaGame, IComplicaState
+    ComplicaGame, IComplicaState,
+    PigsGame, IPigsState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -87,10 +89,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ZolaGame | typeof MonkeyQueenGame | typeof DipoleGame |
                               typeof AlfredsWykeGame | typeof RealmGame | typeof ACityGame |
                               typeof FanoronaGame | typeof FocusGame | typeof StringsGame |
-                              typeof WitchGame | typeof ComplicaGame
+                              typeof WitchGame | typeof ComplicaGame | typeof PigsGame
                 >();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -99,7 +101,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
 export { games };
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
-export const GameFactory = (game: string, ...args: any[]): GameBase|undefined => {
+export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimultaneous|undefined => {
     switch (game) {
         case "amazons":
             return new AmazonsGame(...args);
@@ -171,6 +173,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|undefined =>
             return new WitchGame(...args);
         case "complica":
             return new ComplicaGame(...args);
+        case "pigs":
+            return new PigsGame(...args);
     }
     return;
 }

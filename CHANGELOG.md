@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * New game: Pulling Strings
 * New game: Witch Stones
 * New game: Complica
+* New game: Robo Battle Pigs
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 
 ### Fixed
@@ -42,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Zola: Game ends when a player has no pieces left. Must pass if no available moves.
 * LoA: Fixed over-validation issue that stopped games when selecting pieces with no valid moves.
 * Homeworlds: Made it possible to trigger catastrophes in the middle of your turn.
+* Chase: Fixed it so you can't bump pieces into the chamber.
 
 ### Changed
 

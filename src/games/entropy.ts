@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
@@ -36,7 +36,7 @@ export interface IEntropyState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-export class EntropyGame extends GameBase {
+export class EntropyGame extends GameBaseSimultaneous {
     public static readonly gameinfo: APGamesInformation = {
         name: "Entropy",
         uid: "entropy",
@@ -57,10 +57,10 @@ export class EntropyGame extends GameBase {
     };
 
     public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 7);
+        return GameBaseSimultaneous.coords2algebraic(x, y, 7);
     }
     public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 7);
+        return GameBaseSimultaneous.algebraic2coords(cell, 7);
     }
 
     public numplayers = 2;

@@ -794,7 +794,7 @@ export class MchessGame extends GameBase {
         };
 
         // Add annotations
-        if ( (this.lastmove !== undefined) && (this.lastmove !== "resign") ) {
+        if ( (this.lastmove !== undefined) && !this.specialMove(this.lastmove) ) {
             const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
             const match = this.lastmove.match(rMove);
             if (match === null) {

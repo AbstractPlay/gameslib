@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -32,7 +32,7 @@ export interface IStringsState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-export class StringsGame extends GameBase {
+export class StringsGame extends GameBaseSimultaneous {
     public static readonly gameinfo: APGamesInformation = {
         name: "Pulling Strings",
         uid: "strings",
@@ -53,10 +53,10 @@ export class StringsGame extends GameBase {
     };
 
     public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 7);
+        return GameBaseSimultaneous.coords2algebraic(x, y, 7);
     }
     public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 7);
+        return GameBaseSimultaneous.algebraic2coords(cell, 7);
     }
 
     public static string2cells(pulled: number): [string, MoveType][] {

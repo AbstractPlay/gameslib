@@ -26,6 +26,7 @@
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
+        "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
@@ -93,6 +94,7 @@
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
         },
         "CLAIMS_REMAINING": "Claims Remaining",
+        "DAMAGE": "Damage taken",
         "DISTANCES": "Distances",
         "entropy": {
             "CHAOS": "Chaos",
@@ -233,6 +235,7 @@
         },
         "chase": {
             "BALANCE_LOWEST": "When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",
+            "CHAMBER_BUMP": "You may not bump pieces into the chamber.",
             "DISTANT_EXCHANGE": "The cells {{left}} and {{right}} are not adjacent to each other.",
             "INITIAL_INSTRUCTIONS_balanced": "Select a piece to move. To start an exchange select the piece from which you want to remove speed, twice.",
             "INITIAL_INSTRUCTIONS_imbalanced": "You are imbalanced by {{delta}} speed. Select on of your pieces with the lowest speed to correct.",
@@ -405,6 +408,15 @@
             "INVALID_ORDO_MOVE": "The ordo '{{ordo}}' cannot move to {{destination}}. This is usually because of an obstruction.",
             "PARTIAL": "Select a destination or select a second piece to form an ordo.",
             "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
+        },
+        "pigs": {
+            "INITIAL_INSTRUCTIONS": "Enter 'R' to spend your whole turn repairing, or type five of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout), X (when damaged)",
+            "INVALID_CMD": "The character '{{cmd}}' is not a recognized command.",
+            "REPAIR_SINGLE": "The repair command takes your entire turn and is entered with a single 'R' character.",
+            "TOOLONG": "You may only enter five commands.",
+            "UNDAMAGED": "You can't repair until you've taken damage.",
+            "X_TOOFEW": "You must enter an 'X' for every point of damage taken.",
+            "X_TOOMANY": "You entered too many 'X' commands. You only need to enter one for every point of damage taken."
         },
         "pikemen": {
             "BAD_FACING": "The following move segment had an unrecognizeable facing: {{segment}}.",

@@ -372,7 +372,7 @@ export class ChaseGame extends GameBase {
             }
         }
 
-        return moves;
+        return moves.sort((a,b) => a.localeCompare(b));
     }
 
     public neighbours(x: number, y: number): [number, number][] {
@@ -479,7 +479,20 @@ export class ChaseGame extends GameBase {
                         const occ = this.board.get(finalCell);
                         // If occupied by friendly, it's a move
                         if (occ![0] === player) {
-                            moves.push(`${start}-${finalCell}${dir2string(dir)}`);
+                            const newmove = `${start}-${finalCell}${dir2string(dir)}`;
+                            // We can't rely on `move` because it relies itself on `moves`()
+                            // Replicating the setup code, and then leveraging `recurseMove()`,
+                            // which is used by `move` and is where the chamber code lives
+                            const [xFrom, yFrom] = ChaseGame.algebraic2coords(start);
+                            const pFrom = this.board.get(start)!;
+                            const {finalDir} = ChaseGame.vector(xFrom, yFrom, dir, pFrom[1]);
+                            const clone = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+                            try {
+                                clone.recurseMove(finalCell, [...pFrom], finalDir);
+                                moves.push(newmove);
+                            } catch {
+                                // do nothing
+                            }
                         // otherwise it's a capture
                         } else {
                             moves.push(`${start}x${finalCell}${dir2string(dir)}`);
@@ -913,6 +926,17 @@ export class ChaseGame extends GameBase {
                     }
                 }
 
+                // Check for bumps into the chamber
+                // Naively assumes that at this point, the only reason the move wouldn't be in the list of possible moves is if you were bumping into the chamber
+                if (m.includes("-")) {
+                    const moves = this.moves().map(mv => mv.toLowerCase());
+                    if (! moves.includes(m)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.chase.CHAMBER_BUMP");
+                        return result;
+                    }
+                }
+
                 // valid move
                 result.valid = true;
                 result.complete = 1;
@@ -943,6 +967,16 @@ export class ChaseGame extends GameBase {
                     if (cloned.board.has(cell) || cell === "e5") {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
+                        return result;
+                    }
+                }
+
+                // Check for bumps into the chamber
+                // Naively assumes that at this point, the only reason the move wouldn't be in the list of possible moves is if you were bumping into the chamber
+                if (m.includes("-")) {
+                    if (this.moves().filter(mv => mv.startsWith(m)).length === 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.chase.CHAMBER_BUMP");
                         return result;
                     }
                 }
@@ -1140,6 +1174,10 @@ export class ChaseGame extends GameBase {
                 const cellNext = ChaseGame.coords2algebraic(xNext, yNext);
                 result.to = cellNext;
                 this.results.push(result);
+                // Add fatal exception here. Easier to leverage this existing code for bump testing than to create new, potentially buggy, helpers. We'll see how this affects performance.
+                if (cellNext === "e5") {
+                    throw new Error("You may not bump a piece into the chamber!");
+                }
                 this.recurseMove(cellNext, [...nPiece!], d);
             }
         // Chamber moves

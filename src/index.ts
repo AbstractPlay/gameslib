@@ -1,6 +1,6 @@
 import { APGamesInformation } from './schemas/gameinfo';
 import { APMoveResult } from './schemas/moveresults';
-import { games, GameFactory, IAPGameState, GameBase } from "./games";
+import { games, GameFactory, IAPGameState, GameBase, GameBaseSimultaneous } from "./games";
 import { AIFactory, supportedGames as aiSupported, fastGames as aiFast, slowGames as aiSlow } from './ais';
 import i18next from "i18next";
 import enGames from "../locales/en/apgames.json"
@@ -8,7 +8,7 @@ import frGames from "../locales/fr/apgames.json";
 import enResults from "../locales/en/apresults.json"
 import frResults from "../locales/fr/apresults.json";
 
-export {GameFactory, IAPGameState, APMoveResult, APGamesInformation, AIFactory, aiSupported, aiFast, aiSlow, GameBase};
+export {GameFactory, IAPGameState, APMoveResult, APGamesInformation, AIFactory, aiSupported, aiFast, aiSlow, GameBase, GameBaseSimultaneous};
 
 const gameinfo: Map<string, APGamesInformation> = new Map();
 games.forEach((v, k) => {

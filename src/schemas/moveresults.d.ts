@@ -10,6 +10,17 @@
  */
 export type APMoveResult =
   | {
+      type: "_group";
+      /**
+       * The numeric player id of the player this group belongs to.
+       */
+      who: number;
+      /**
+       * @minItems 1
+       */
+      results: [APMoveResult, ...APMoveResult[]];
+    }
+  | {
       type: "place";
       where?: string;
       what?: string;
@@ -182,4 +193,22 @@ export type APMoveResult =
   | {
       type: "affiliate";
       which: string;
+    }
+  | {
+      type: "repair";
+      what?: string;
+      where?: string;
+      amount?: number;
+    }
+  | {
+      type: "fire";
+      from?: string;
+      to?: string;
+      which?: string;
+    }
+  | {
+      type: "damage";
+      who?: string;
+      where?: string;
+      amount?: number;
     };

@@ -8,6 +8,26 @@
     "type": "object",
     "oneOf": [
         {
+            "description": "A grouping tool for complex simultaneous games where it's necessary to differentiate many different results among different people.",
+            "properties": {
+                "type": {
+                    "enum": ["_group"]
+                },
+                "who": {
+                    "description": "The numeric player id of the player this group belongs to.",
+                    "type": "number",
+                    "minimum": 1
+                },
+                "results": {
+                    "type": "array",
+                    "items": { "$ref": "#" },
+                    "minItems": 1
+                }
+            },
+            "required": ["type", "who", "results"],
+            "additionalProperties": false
+        },
+        {
             "description": "Generic placement of a piece. You can optionally provide a precise location and a description of the piece.",
             "properties": {
                 "type": {
@@ -547,6 +567,63 @@
                 }
             },
             "required": ["type", "which"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Repaired a piece",
+            "properties": {
+                "type": {
+                    "enum": ["repair"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "number"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Fired a weapon",
+            "properties": {
+                "type": {
+                    "enum": ["fire"]
+                },
+                "from": {
+                    "type": "string"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "which": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Cause damage",
+            "properties": {
+                "type": {
+                    "enum": ["damage"]
+                },
+                "who": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "number"
+                }
+            },
+            "required": ["type"],
             "additionalProperties": false
         }
     ]

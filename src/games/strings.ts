@@ -49,7 +49,7 @@ export class StringsGame extends GameBaseSimultaneous {
                 name: "Clark D. Rodeffer"
             }
         ],
-        flags: ["simultaneous", "scores", "experimental"]
+        flags: ["simultaneous", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

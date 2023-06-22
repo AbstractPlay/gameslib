@@ -48,7 +48,7 @@ export class WitchGame extends GameBase {
                 name: "Justin D. Jacobson",
             }
         ],
-        flags: ["shared-pieces", "player-stashes", "scores", "experimental"]
+        flags: ["shared-pieces", "player-stashes", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

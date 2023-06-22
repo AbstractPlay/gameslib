@@ -52,7 +52,7 @@ export class ACityGame extends GameBase {
                 name: "Michael Schoessow",
             }
         ],
-        flags: ["player-stashes", "scores", "no-moves", "multistep", "shared-pieces", "experimental"]
+        flags: ["player-stashes", "scores", "no-moves", "multistep", "shared-pieces"]
     };
 
     public static piece2string(pc: Piece): string {
@@ -624,7 +624,7 @@ export class ACityGame extends GameBase {
                 // claim if given
                 if ( (claim !== undefined) && (claim !== null) && (claim.length > 0) ) {
                     this.claimed[this.currplayer - 1].push(claim);
-                    this.results.push({type: "claim", where: to});
+                    this.results.push({type: "claim", where: claim});
                 }
             } else {
                 throw new Error("Move not well formed.");

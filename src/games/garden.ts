@@ -210,7 +210,7 @@ export class GardenGame extends GameBase {
             } else {
                 // Don't accept clicks outside the bottom-right board
                 if ( (col < 4) || (row < 4) ) {
-                    return {move: "", message: i18next.t("apgames:validation.garden.WRONG_BOARD")} as IClickResult;
+                    return {move, message: i18next.t("apgames:validation.garden.WRONG_BOARD")} as IClickResult;
                 }
                 const cell = GardenGame.coords2algebraic(col - 4, row - 4);
                 // If you click on an occupied cell, clear the entry

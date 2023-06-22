@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -624,8 +624,16 @@ export class GardenGame extends GameBase {
 
     public getPlayersScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }
+            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
         ]
+    }
+
+    public getSharedStash(): IStashEntry[] | undefined {
+        return [{
+            count: this.pool,
+            glyph: { name: "piece", colour: "#fff" },
+            movePart: ""
+        }]
     }
 
     public status(): string {

@@ -344,7 +344,7 @@ export class GardenGame extends GameBase {
             // good partial
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.garden.SELECT_CELL");
+            result.message = i18next.t("apgames:validation.garden.SELECT_CELL", {context: mode});
             return result;
         }
     }

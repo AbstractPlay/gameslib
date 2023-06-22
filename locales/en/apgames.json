@@ -336,8 +336,8 @@
             "INITIAL_INSTRUCTIONS_normal": "Select which seed you wish to plant.",
             "INITIAL_INSTRUCTIONS_start": "Select which seed you wish to plant.",
             "INVALID_COLOUR": "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
-            "SELECT_CELL_normal": "Select a plot orthogonally adjacent to an existing plant.",
-            "SELECT_CELL_start": "Select a plot NOT orthogonally adjacent to an existing plant.",
+            "SELECT_CELL_normal": "Select a plot orthogonally adjacent to an existing plant (in the bottom-right-hand board).",
+            "SELECT_CELL_start": "Select a plot NOT orthogonally adjacent to an existing plant (in the bottom-right-hand board).",
             "SELECT_COLOUR": "Select the seed you wish to plant.",
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
         },

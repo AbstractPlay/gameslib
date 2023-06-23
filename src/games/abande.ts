@@ -50,7 +50,7 @@ export class AbandeGame extends GameBase {
                 group: "board",
             }
         ],
-        flags: ["limited-pieces", "scores"]
+        flags: ["limited-pieces", "scores", "automove"]
     };
 
     public numplayers = 2;

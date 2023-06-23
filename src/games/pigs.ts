@@ -284,7 +284,83 @@ export class PigsGame extends GameBaseSimultaneous {
         // for each of the five moves
         for (let mnum = 0; mnum < 5; mnum++) {
             const next: [string,string,boolean][] = [];
-            // for each player
+            // resolve all movement first
+            for (let player = 1; player <= this.numplayers; player++) {
+                // ignore eliminated players
+                if (this.isEliminated(player)) { continue; }
+                let cmd = "r";
+                if (mnum < parsed[player - 1].length) {
+                    cmd = parsed[player - 1][mnum];
+                }
+                const pig = pigs.find(p => p.player === player);
+                if (pig === undefined) { throw new Error(`Could not find a pig for player ${player}!`); }
+                if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
+                next.push([pig.cell, pig.cell, false]);
+
+                // rotations
+                if ( (cmd === "<") || (cmd === ">") ) {
+                    let newdir: Facing;
+                    if (cmd === "<") {
+                        newdir = ccw.get(pig.facing)!;
+                    } else {
+                        newdir = cw.get(pig.facing)!;
+                    }
+                    resultGroups[player - 1].push({type: "orient", where: pig.cell, facing: newdir});
+                    this.ghosts.push([pig.cell, [pig.player, pig.facing]]);
+                    pig.facing = newdir;
+                }
+                // moves
+                else if (["^","v","/","\\"].includes(cmd)) {
+                    next[player - 1][2] = true;
+                    const [fx, fy] = PigsGame.algebraic2coords(pig.cell);
+                    let dir: Directions = pig.facing;
+                    if (cmd === "v") {
+                        // @ts-ignore (can ignore because facing is never "U" at this point)
+                        dir = opp.get(pig.facing)!;
+                    } else if (cmd === "\\") {
+                        dir = moveLeft.get(pig.facing)!;
+                    } else if (cmd === "/") {
+                        dir = moveRight.get(pig.facing)!;
+                    }
+                    const ray = grid.ray(fx, fy, dir).map(node => PigsGame.coords2algebraic(...node));
+                    if (ray.length > 0) {
+                        next[player - 1][1] = ray[0];
+                    }
+                }
+            }
+            // resolve collisions
+            for (let i = 0; i < this.numplayers; i++) {
+                const pig = pigs.find(p => p.player === i + 1);
+                if (pig === undefined) { throw new Error(`Could not find a pig for player ${i + 1}!`); }
+                if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
+                const [from, to, tried] = next[i];
+                // if they didn't move, skip
+                if (from === to) {
+                    if (tried) {
+                        resultGroups[i].push({type: "move", from, to: from});
+                    }
+                    continue;
+                }
+                const others = clone(next) as [string,string][];
+                others.splice(i, 1);
+                // see if `to` is already occupied
+                if (others.map(o => o[1]).includes(to)) {
+                    resultGroups[i].push({type: "move", from, to: from});
+                    continue;
+                }
+                // see if cell swapping happened
+                const reversed = others.map(o => [o[1], o[0]].join(","));
+                if (reversed.includes(`${from},${to}`)) {
+                    resultGroups[i].push({type: "move", from, to: from});
+                    continue;
+                }
+                // otherwise we're good
+                this.ghosts.push([from, [i + 1 as playerid, pig.facing]]);
+                resultGroups[i].push({type: "move", from, to});
+                pig.cell = to;
+            }
+
+            // then resolve damage
             for (let player = 1; player <= this.numplayers; player++) {
                 // ignore eliminated players
                 if (this.isEliminated(player)) { continue; }

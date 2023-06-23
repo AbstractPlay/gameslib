@@ -35,7 +35,7 @@ export class FanoronaGame extends GameBase {
         urls: [
             "https://en.wikipedia.org/wiki/Fanorona",
         ],
-        flags: ["perspective", "limited-pieces", "multistep", "no-moves", "experimental"]
+        flags: ["perspective", "limited-pieces", "multistep", "no-moves"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

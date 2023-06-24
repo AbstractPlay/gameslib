@@ -26,6 +26,7 @@
         "mchess": "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
+        "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
@@ -127,6 +128,7 @@
             "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
             "OCCUPIED": "The cell {{where}} is already occupied.",
             "SAME_FROM_TO": "The 'from' and 'to' cells have to be different.",
+            "SELECT_OWN": "Select one of your own pieces.",
             "SELFCAPTURE": "You cannot capture your own pieces.",
             "UNCONTROLLED": "You cannot move pieces you don't control.",
             "VALID_MOVE": "Looks like a valid move."
@@ -412,6 +414,12 @@
         "mvolcano": {
             "INITIAL_INSTRUCTIONS": "Select a cap to move."
         },
+        "orb": {
+            "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",
+            "SEED_PARTIAL": "Select a destination.",
+            "SEED_PARTIAL_SPHERE": "Select a destination, or select the same cell again to split the spheroid.",
+            "SPHERES_SPLIT": "You can only split spheroids. Select a different cell."
+        },
         "ordo": {
             "DISCONNECTED": "That move would leave your pieces disconnected.",
             "DISORGANIZED": "Moves must be \"organized,\" meaning that the destination cell must be orthogonal to the first cell in the ordo.",
@@ -610,6 +618,12 @@
             "ofkk": {
                 "description": "Pawns move like Chess kings, and drones move like Chess knights.",
                 "name": "Of Knights and Kings"
+            }
+        },
+        "orb": {
+            "noglobes": {
+                "description": "Neither player starts with any globes.",
+                "name": "No Starting Globes"
             }
         },
         "pikemen": {

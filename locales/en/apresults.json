@@ -27,6 +27,8 @@
             "simple": "A {{what}} was captured at {{where}}."
         },
         "nowhat": "{{player}} captured a piece at {{where}}.",
+        "orb_1": "{{player}} captured an orb at {{where}}.",
+        "orb_2": "{{player}} captured a spheroid at {{where}}.",
         "witch": {
             "nowhere_S_one": "{{player}} captured {{count}} Sunstone.",
             "nowhere_S_other": "{{player}} captured {{count}} Sunstones.",
@@ -100,6 +102,10 @@
         "monkey_single": "{{player}} moved a singleton from {{from}} to {{to}}.",
         "multiple": "{{player}} made the following moves: {{moves}}.",
         "nowhat": "{{player}} moved from {{from}} to {{to}}.",
+        "orb_1": "{{player}} moved an orb from {{from}} to {{to}}.",
+        "orb_2": "{{player}} moved a spheroid from {{from}} to {{to}}.",
+        "orb_2S": "{{player}} moved a split spheroid from {{from}} to {{to}}.",
+        "orb_3": "{{player}} moved a globe from {{from}} to {{to}}.",
         "push": "A {{what}} was pushed from {{from}} to {{to}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
@@ -118,6 +124,7 @@
         "epam": "{{player}} placed a stone at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",
+        "orb": "{{player}}'s orb generator created an orb at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "urbino": {
             "house": "{{player}} placed a house at {{where}}.",
@@ -127,7 +134,10 @@
         }
     },
     "PROMOTE": {
-        "mchess": "A {{into}} was created as a result."
+        "mchess": "A {{into}} was created as a result.",
+        "orb_12": "{{player}} promoted an orb to a spheroid at {{where}}.",
+        "orb_13": "{{player}} promoted an orb to a globe at {{where}}.",
+        "orb_23": "{{player}} promoted spheroid to a globe at {{where}}."
     },
     "PULL": "{{player}} pulled string {{where}}.",
     "RECLAIM": {

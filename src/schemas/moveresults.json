@@ -111,12 +111,15 @@
             "additionalProperties": false
         },
         {
-            "description": "Describes a change in the current player's score",
+            "description": "Describes a change in a player's score (by default, the current player)",
             "properties": {
                 "type": {
                     "enum": ["deltaScore"]
                 },
                 "delta": {
+                    "type": "number"
+                },
+                "who": {
                     "type": "number"
                 }
             },

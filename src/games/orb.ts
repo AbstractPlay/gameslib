@@ -548,6 +548,7 @@ export class OrbGame extends GameBase {
             // Looks good
             result.valid = true;
             result.complete = 0;
+            result.canrender = true;
             if (longerMoves.length === 0) {
                 result.complete = 1;
             }

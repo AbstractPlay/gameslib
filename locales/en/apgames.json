@@ -621,7 +621,10 @@
             }
         },
         "orb": {
-            "noglobes": "Neither player starts with any globes."
+            "noglobes": {
+                "description": "Neither player starts with any globes.",
+                "name": "No Starting Globes"
+            }
         },
         "pikemen": {
             "15pts": {

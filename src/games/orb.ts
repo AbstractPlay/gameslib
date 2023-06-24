@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -36,7 +36,7 @@ export class OrbGame extends GameBase {
         version: "20230622",
         // i18next.t("apgames:descriptions.orb")
         description: "apgames:descriptions.orb",
-        urls: [""],
+        urls: ["https://boardgamegeek.com/boardgame/18728/generatorb"],
         people: [
             {
                 type: "designer",
@@ -846,6 +846,12 @@ export class OrbGame extends GameBase {
 
     public getPlayerPieces(player: number): number {
         return this.stashes[player - 1];
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

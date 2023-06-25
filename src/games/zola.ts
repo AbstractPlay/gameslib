@@ -56,7 +56,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
-        flags: ["automove", "limited-pieces"],
+        flags: ["automove", "limited-pieces", "pie"],
     };
 
     public numplayers = 2;

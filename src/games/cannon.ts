@@ -975,8 +975,12 @@ export class CannonGame extends GameBase {
         const checked: number[] = [];
 
         for (const player of [1,2] as playerid[]) {
+            let otherPlayer: playerid = 1;
+            if (player === 1) {
+                otherPlayer = 2;
+            }
             const home = homes.get(player)!.find((x) => this.board.has(x) && this.board.get(x)![1] === "t")!;
-            const moves = this.moves(player);
+            const moves = this.moves(otherPlayer);
             const caps = moves.filter(m => m.endsWith(`x${home}`));
             if (caps.length > 0) {
                 checked.push(player);

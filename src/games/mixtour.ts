@@ -41,7 +41,7 @@ export class MixtourGame extends GameBase {
             {uid: "three", group: "scores"},
             {uid: "five", group: "scores"}
         ],
-        flags: ["experimental", "limited-pieces", "scores", "automove"]
+        flags: ["experimental", "limited-pieces", "scores", "automove", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);
@@ -556,6 +556,27 @@ export class MixtourGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public inCheck(): number[] {
+        const checked: number[] = [];
+        for (const p of [1,2] as playerid[]) {
+            let otherPlayer: playerid = 1;
+            if (p === 1) {
+                otherPlayer = 2;
+            }
+            const moves = this.moves(otherPlayer);
+            for (const m of moves) {
+                const cloned = this.clone();
+                cloned.currplayer = otherPlayer;
+                cloned.move(m);
+                if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
+                    checked.push(p);
+                    break;
+                }
+            }
+        }
+        return checked;
     }
 
     public clone(): MixtourGame {

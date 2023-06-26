@@ -45,8 +45,9 @@ Current flags are the following:
 * `no-moves`: signals that the game cannot produce a list of possible moves. In all other games, you can use `moves(player?: number) => string[]` to get a list of valid moves.
 * `multistep`: signals that a move consists of multiple steps. What this means is that you can pass a boolean flag to `move()` that signals that you are only submitting a partial move (pass `true`). This prevents the function from doing end-of-turn processing. This leaves the game object in an unstable state. It should only be used on a cloned object, or you should call `load()` before submitting another move. Partial moves are not incremental! You can't enter part one, and then enter just part two. You would have to enter parts one and two combined to see the correct results after the two moves.
 * `pie`: The front end should give the second player a chance to switch seats after the first move.
-* `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed.
+* `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed. This should not be enabled on games with labels as the renderer currently does not rotate such boards correctly in 90-degree increments.
 * `experimental`: Flags new games still in development. Production-stage front and back ends should ignore requests to display or process these games. Dev server should process them as usual.
+* `check`: This tells the front end that this game should signal to players when someone is "in check," which usually means if nothing specific is done, the noted player will lose at their next turn. Flagged games must provide a `inCheck() => number[]` function that returns the player numbers of any players in check.
 
 ### `GameFactory`
 

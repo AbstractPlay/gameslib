@@ -560,18 +560,20 @@ export class MixtourGame extends GameBase {
 
     public inCheck(): number[] {
         const checked: number[] = [];
-        let otherPlayer: playerid = 1;
-        if (this.currplayer === 1) {
-            otherPlayer = 2;
-        }
-        const moves = this.moves(otherPlayer);
-        for (const m of moves) {
-            const cloned = this.clone();
-            cloned.currplayer = otherPlayer;
-            cloned.move(m);
-            if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
-                checked.push(this.currplayer);
-                break;
+        for (const p of [1,2] as playerid[]) {
+            let otherPlayer: playerid = 1;
+            if (p === 1) {
+                otherPlayer = 2;
+            }
+            const moves = this.moves(otherPlayer);
+            for (const m of moves) {
+                const cloned = this.clone();
+                cloned.currplayer = otherPlayer;
+                cloned.move(m);
+                if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
+                    checked.push(p);
+                    break;
+                }
             }
         }
         return checked;

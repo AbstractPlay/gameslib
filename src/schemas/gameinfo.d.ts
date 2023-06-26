@@ -65,6 +65,7 @@ export interface APGamesInformation {
     | "pie"
     | "rotate90"
     | "experimental"
+    | "check"
   )[];
   [k: string]: unknown;
 }

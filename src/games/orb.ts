@@ -47,7 +47,7 @@ export class OrbGame extends GameBase {
         variants: [
             { uid: "noglobes" }
         ],
-        flags: ["experimental", "multistep", "limited-pieces", "perspective"]
+        flags: ["experimental", "multistep", "limited-pieces", "perspective", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -138,13 +138,16 @@ export class OrbGame extends GameBase {
     //   Split           (a1/a3)
     //   Split + Promote (a1#a3=2|3)
     //   Split + Capture (a1*a3)
-    public moves(permissive = false): string[] {
+    public moves(permissive = false, player?: playerid): string[] {
         if (this.gameover) { return []; }
+        if (player === undefined) {
+            player = this.currplayer;
+        }
         const moves: string[] = [];
 
-        const orbs = [...this.board.entries()].filter(([,piece]) => piece[0] === this.currplayer && piece[1] === 1).map(([cell,]) => cell);
-        const spheres = [...this.board.entries()].filter(([,piece]) => piece[0] === this.currplayer && piece[1] === 2).map(([cell,]) => cell);
-        const globes = [...this.board.entries()].filter(([,piece]) => piece[0] === this.currplayer && piece[1] === 3).map(([cell,]) => cell);
+        const orbs = [...this.board.entries()].filter(([,piece]) => piece[0] === player && piece[1] === 1).map(([cell,]) => cell);
+        const spheres = [...this.board.entries()].filter(([,piece]) => piece[0] === player && piece[1] === 2).map(([cell,]) => cell);
+        const globes = [...this.board.entries()].filter(([,piece]) => piece[0] === player && piece[1] === 3).map(([cell,]) => cell);
 
         // first assemble all the jump moves for orbs and spheres
         // orbs first so you don't have to worry about splits
@@ -209,7 +212,7 @@ export class OrbGame extends GameBase {
                     moves.push(`${sphere}/${n}`);
                 } else {
                     const [otherPlayer, otherSize] = this.board.get(n)!;
-                    if (otherPlayer !== this.currplayer) {
+                    if (otherPlayer !== player) {
                         if (otherSize < 3) {
                             moves.push(`${sphere}x${n}`);
                             moves.push(`${sphere}*${n}`);
@@ -876,6 +879,25 @@ export class OrbGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public inCheck(): number[] {
+        const checked: number[] = [];
+        let otherPlayer: playerid = 1;
+        if (this.currplayer === 1) {
+            otherPlayer = 2;
+        }
+        const moves = this.moves(false, otherPlayer);
+        for (const m of moves) {
+            const cloned = this.clone();
+            cloned.currplayer = otherPlayer;
+            cloned.move(m);
+            if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
+                checked.push(this.currplayer);
+                break;
+            }
+        }
+        return checked;
     }
 
     public clone(): OrbGame {

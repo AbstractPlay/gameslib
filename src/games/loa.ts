@@ -39,7 +39,7 @@ export class LinesOfActionGame extends GameBase {
                 group: "setup"
             }
         ],
-        flags: ["multistep"]
+        flags: ["multistep", "check"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -559,6 +559,25 @@ export class LinesOfActionGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "capture"]);
+    }
+
+    public inCheck(): number[] {
+        const checked: number[] = [];
+        let otherPlayer: playerid = 1;
+        if (this.currplayer === 1) {
+            otherPlayer = 2;
+        }
+        const moves = this.moves(otherPlayer);
+        for (const m of moves) {
+            const cloned = this.clone();
+            cloned.currplayer = otherPlayer;
+            cloned.move(m);
+            if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
+                checked.push(this.currplayer);
+                break;
+            }
+        }
+        return checked;
     }
 
     public clone(): LinesOfActionGame {

@@ -16,7 +16,6 @@ describe("EOG", () => {
         g.board.set("a2", [["S", 2]]);
         g.board.set("b5", [["S", 2]]);
         g.stack.push(g.moveState());
-        // eslint-disable-next-line no-console
         g.move("f1:-g1");
         expect(g.gameover).to.be.false;
         g.move("b5:-a4")

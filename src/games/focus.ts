@@ -36,7 +36,7 @@ export class FocusGame extends GameBase {
                 name: "Sid Sackson",
             },
         ],
-        flags: ["experimental", "limited-pieces", "scores"]
+        flags: ["limited-pieces", "scores"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

@@ -448,8 +448,8 @@ export class TintasGame extends GameBase {
                     const contents = this.board.get(r)!;
                     if ( (lastPiece !== undefined) && (lastPiece === contents) ) {
                         complete = 0;
-                        break;
                     }
+                    break;
                 }
             }
             if (complete === 0) { break; }

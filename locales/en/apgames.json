@@ -35,6 +35,7 @@
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
+        "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
@@ -507,6 +508,14 @@
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
             "PARTIAL": "Place the dark piece in an adjacent empty space."
+        },
+        "tintas": {
+            "CAPTURED_LABEL": "Player {{playerNum}}'s captured pieces",
+            "INITIAL_INSTRUCTIONS_movepawn": "Select the cell where you want the pawn to move.",
+            "INITIAL_INSTRUCTIONS_needpawn": "Select where to place the pawn.",
+            "OCCUPIED_MOVE": "The pawn must move to an occupied space.",
+            "SAME_COLOUR": "When capturing multiple pieces, they must all be the same colour.",
+            "STRAIGHT_LINE": "There is no straightline connection between {{from}} and {{to}}."
         },
         "urbino": {
             "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you may pass if your opponent just placed the second architect.",

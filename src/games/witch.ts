@@ -307,8 +307,6 @@ export class WitchGame extends GameBase {
                 }
             }
 
-            // eslint-disable-next-line no-console
-            console.log(`Validating '${newmove}'`);
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = "";

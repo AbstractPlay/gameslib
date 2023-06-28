@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -261,8 +260,6 @@ export class CrosswayGame extends GameBase {
         m = m.replace(/\s+/g, "");
         const result = this.validateMove(m);
         if (! result.valid) {
-            console.log(`Validation failure with the move ${m}`);
-            console.log(JSON.stringify(this.render()));
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
         if (! this.moves().includes(m)) {

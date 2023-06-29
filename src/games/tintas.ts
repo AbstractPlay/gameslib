@@ -444,8 +444,8 @@ export class TintasGame extends GameBase {
         for (const dir of allHexDirs) {
             const ray = TintasGame.castRay(cloned.pawnPos!, dir);
             for (const r of ray) {
-                if (this.board.has(r)) {
-                    const contents = this.board.get(r)!;
+                if (cloned.board.has(r)) {
+                    const contents = cloned.board.get(r)!;
                     if ( (lastPiece !== undefined) && (lastPiece === contents) ) {
                         complete = 0;
                     }

@@ -1015,4 +1015,33 @@ export class StreetcarGame extends GameBase {
     public clone(): StreetcarGame {
         return new StreetcarGame(this.serialize());
     }
+
+    private normalizeMove(m: string): string {
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        const edges: IEdge[] = [];
+        let house = "";
+        if ( (m.length > 0) && (reMovePartial.test(m)) ) {
+            const [,edgeList, houseCell] = m.match(reMovePartial)!;
+            if (edgeList !== "") {
+                for (const e of edgeList.split(",")) {
+                    const [, cell, dir] = e.match(reEdge)!;
+                    const [cellx, celly] = StreetcarGame.algebraic2coords(cell);
+                    const edgeHex = hexGrid.getHex({col: cellx, row: celly})!;
+                    const realEdge = hex2edges(edgeHex).get(dir.toUpperCase() as CompassDirection)!;
+                    if (realEdge === undefined) {
+                        throw new Error(`Could not derive a true edge for ${cell} + ${dir}.`);
+                    }
+                    edges.push(realEdge);
+                }
+            }
+            house = houseCell || "";
+        }
+        return `[${edges.map(e => edge2string(e)).join(",")}]${house}`;
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        return this.normalizeMove(move1) === this.normalizeMove(move2);
+    }
+
 }

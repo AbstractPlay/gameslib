@@ -794,7 +794,7 @@ export class StreetcarGame extends GameBase {
                 style: "hex-even-p",
                 width: 8,
                 height: 8,
-                strokeWeight: 10,
+                strokeWeight: 15,
                 strokeColour: "#fff",
                 hexFill: "#cede86",
                 stackOffset: 0.47,

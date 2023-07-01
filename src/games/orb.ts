@@ -47,7 +47,7 @@ export class OrbGame extends GameBase {
         variants: [
             { uid: "noglobes" }
         ],
-        flags: ["experimental", "multistep", "limited-pieces", "perspective", "check"]
+        flags: ["multistep", "limited-pieces", "perspective", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

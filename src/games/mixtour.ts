@@ -41,7 +41,7 @@ export class MixtourGame extends GameBase {
             {uid: "three", group: "scores"},
             {uid: "five", group: "scores"}
         ],
-        flags: ["experimental", "limited-pieces", "scores", "automove", "check"]
+        flags: ["limited-pieces", "scores", "automove", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);

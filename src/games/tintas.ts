@@ -53,7 +53,7 @@ export class TintasGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["experimental", "multistep", "check", "pie", "automove"]
+        flags: ["multistep", "check", "pie", "automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

@@ -53,7 +53,7 @@ export class TintasGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["experimental", "multistep", "check", "pie", "automove"]
+        flags: ["multistep", "check", "pie", "automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -444,12 +444,21 @@ export class TintasGame extends GameBase {
         for (const dir of allHexDirs) {
             const ray = TintasGame.castRay(cloned.pawnPos!, dir);
             for (const r of ray) {
+<<<<<<< HEAD
                 if (this.board.has(r)) {
                     const contents = this.board.get(r)!;
                     if ( (lastPiece !== undefined) && (lastPiece === contents) ) {
                         complete = 0;
                         break;
                     }
+=======
+                if (cloned.board.has(r)) {
+                    const contents = cloned.board.get(r)!;
+                    if ( (lastPiece !== undefined) && (lastPiece === contents) ) {
+                        complete = 0;
+                    }
+                    break;
+>>>>>>> develop
                 }
             }
             if (complete === 0) { break; }

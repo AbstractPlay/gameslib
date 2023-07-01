@@ -33,6 +33,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
+        "streetcar": "It’s against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
@@ -499,6 +500,20 @@
             "WRONG_REALM_createBase": "You may only create a base in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_createEnforcer": "You may only create an enforcer in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_rearrange": "You may only place pieces in the realm being rearranged ({{realm}})."
+        },
+        "streetcar": {
+            "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",
+            "ALREADY_CLAIMED": "The edge '{{edge}}' is already claimed.",
+            "FIRST_HOUSE": "You may not remove a housing limit on the first turn.",            "INITIAL_INSTRUCTIONS_initial": "Click one or two hex edges to start your streetcar empire.",
+            "INITIAL_INSTRUCTIONS_normal": "In any order, click a hex to remove a housing limit, and click one or two hex edges to expand your streetcar empire.",
+            "INVALID_EDGE": "The edge provided does not appear to be valid: {{edge}}.",
+            "MAY_NOT_TOUCH": "Opposing lines may not touch.",
+            "MUST_TOUCH": "When claiming two edges, they must touch.",
+            "NO_REMOVE_BLDGS": "You may not remove buildings from the board.",
+            "ONLY_TWO": "You may only claim two edges per turn.",
+            "TAKEN_LABEL": "Player {{playerNum}}'s housing limits",
+            "VALID_PARTIAL_havehouse": "So far so good. Select at least one edge.",
+            "VALID_PARTIAL_haveedge": "So far so good. Select a housing limit to remove."
         },
         "strings": {
             "INITIAL_INSTRUCTIONS": "Select a string to pull.",

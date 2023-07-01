@@ -41,7 +41,7 @@ export class MixtourGame extends GameBase {
             {uid: "three", group: "scores"},
             {uid: "five", group: "scores"}
         ],
-        flags: ["experimental", "limited-pieces", "scores", "automove", "check"]
+        flags: ["limited-pieces", "scores", "automove", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);
@@ -322,6 +322,21 @@ export class MixtourGame extends GameBase {
             return result;
         }
 
+<<<<<<< HEAD
+=======
+        // look for obstructions
+        const [fx,fy] = MixtourGame.algebraic2coords(from);
+        const [tx,ty] = MixtourGame.algebraic2coords(to);
+        const between = RectGrid.between(fx,fy,tx,ty).map(n => MixtourGame.coords2algebraic(...n));
+        for (const b of between) {
+            if (this.board.has(b)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: b});
+                return result;
+            }
+        }
+
+>>>>>>> develop
         // Looks good
         result.valid = true;
         result.complete = 1;

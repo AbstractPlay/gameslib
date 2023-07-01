@@ -817,7 +817,7 @@ export class StreetcarGame extends GameBase {
                 A: [
                     {
                         name: "piece-borderless",
-                        player: 8
+                        player: 6
                     },
                     {
                         name: "streetcar-house",
@@ -856,7 +856,7 @@ export class StreetcarGame extends GameBase {
                 ],
                 E: {
                     name: "piece-borderless",
-                    player: 8
+                    player: 6
                 },
                 F: {
                     name: "piece-borderless",
@@ -872,7 +872,7 @@ export class StreetcarGame extends GameBase {
                 },
                 K: {
                     name: "cube-cat-plant",
-                    player: 8
+                    player: 6
                 },
                 L: {
                     name: "cube-cat-plant",
@@ -888,7 +888,7 @@ export class StreetcarGame extends GameBase {
                 },
                 O: {
                     name: "cube-lamp-cat",
-                    player: 8
+                    player: 6
                 },
                 P: {
                     name: "cube-lamp-cat",
@@ -904,7 +904,7 @@ export class StreetcarGame extends GameBase {
                 },
                 S: {
                     name: "cube-plant-person",
-                    player: 8
+                    player: 6
                 },
                 T: {
                     name: "cube-plant-person",
@@ -920,7 +920,7 @@ export class StreetcarGame extends GameBase {
                 },
                 W: {
                     name: "cube-person-lamp",
-                    player: 8
+                    player: 6
                 },
                 X: {
                     name: "cube-person-lamp",

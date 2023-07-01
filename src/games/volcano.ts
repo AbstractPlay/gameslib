@@ -740,6 +740,7 @@ export class VolcanoGame extends GameBase {
     }
 
     public render(expandCol:number | undefined = undefined, expandRow:number | undefined = undefined): APRenderRep {
+        const altDisplay = '3D';
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 5; row++) {
@@ -759,58 +760,68 @@ export class VolcanoGame extends GameBase {
         }
 
         // build legend based on number of players
-        const myLegend: ILooseObj = {
-            "X": {
-                "name": "pyramid-up-small",
-                "colour": "#000"
-            },
-            "XN": {
-                "name": "pyramid-flat-small",
-                "colour": "#000"
-            },
-        };
+        const myLegend: ILooseObj = altDisplay === '3D' ? 
+            {
+                "X": {
+                    "name": "pyramid-up-small-3D",
+                    "colour": "#000"
+                }
+            } 
+            : 
+            {
+                "X": {
+                    "name": "pyramid-up-small",
+                    "colour": "#000"
+                },
+                "XN": {
+                    "name": "pyramid-flat-small",
+                    "colour": "#000"
+                }
+            };
 
         const opacity = 0.75;
         for (let n = 0; n < allColours.length; n++) {
             myLegend[allColours[n] + "1"] = {
-                name: "pyramid-up-small-upscaled",
+                name: altDisplay === '3D' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
                 player: n+1,
                 opacity
             };
             myLegend[allColours[n] + "2"] = {
-                name: "pyramid-up-medium-upscaled",
+                name: altDisplay === '3D' ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
                 player: n+1,
                 opacity
             };
             myLegend[allColours[n] + "3"] = {
-                name: "pyramid-up-large-upscaled",
+                name: altDisplay === '3D' ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
                 player: n+1,
                 opacity
             };
-            myLegend[allColours[n] + "1N"] = {
-                name: "pyramid-flat-small",
-                player: n+1
-            };
-            myLegend[allColours[n] + "2N"] = {
-                name: "pyramid-flat-medium",
-                player: n+1
-            };
-            myLegend[allColours[n] + "3N"] = {
-                name: "pyramid-flat-large",
-                player: n+1
-            };
-            myLegend[allColours[n] + "1c"] = {
-                name: "pyramid-flattened-small",
-                player: n+1
-            };
-            myLegend[allColours[n] + "2c"] = {
-                name: "pyramid-flattened-medium",
-                player: n+1
-            };
-            myLegend[allColours[n] + "3c"] = {
-                name: "pyramid-flattened-large",
-                player: n+1
-            };
+            if (altDisplay !== '3D') {
+                myLegend[allColours[n] + "1N"] = {
+                    name: "pyramid-flat-small",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "2N"] = {
+                    name: "pyramid-flat-medium",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "3N"] = {
+                    name: "pyramid-flat-large",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "1c"] = {
+                    name: "pyramid-flattened-small",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "2c"] = {
+                    name: "pyramid-flattened-medium",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "3c"] = {
+                    name: "pyramid-flattened-large",
+                    player: n+1
+                };
+            }
         }
 
         /*
@@ -823,7 +834,7 @@ export class VolcanoGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            renderer: "stacking-expanding",
+            renderer: altDisplay === '3D' ? "stacking-3D" : "stacking-expanding",
             board: {
                 style: "squares",
                 width: 5,
@@ -835,7 +846,7 @@ export class VolcanoGame extends GameBase {
         };
 
         const areas: any[] = [];
-        if ( (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 5) && (expandRow < 5) && (this.board[expandRow][expandCol] !== undefined) ) {
+        if ( altDisplay !== '3D' && (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 5) && (expandRow < 5) && (this.board[expandRow][expandCol] !== undefined) ) {
             const cell: string[] = this.board[expandRow][expandCol]!.map(c => `${c.join("")}N`);
             const cellname = VolcanoGame.coords2algebraic(expandCol, expandRow);
             if (this.caps.has(cellname)) {
@@ -859,11 +870,12 @@ export class VolcanoGame extends GameBase {
                     stash: []
                 };
                 const org = this.organizeCaps((player + 1) as playerid);
-                node.stash.push(...org.triosMono.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.triosMixed.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.partialsMono.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.partialsMixed.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.miscellaneous.map((s) => [s.join("") + "c"]));
+                const c = altDisplay === '3D' ? "" : "c";
+                node.stash.push(...org.triosMono.map((s) => [...s.map((t) => t.join("") + c)]));
+                node.stash.push(...org.triosMixed.map((s) => [...s.map((t) => t.join("") + c)]));
+                node.stash.push(...org.partialsMono.map((s) => [...s.map((t) => t.join("") + c)]));
+                node.stash.push(...org.partialsMixed.map((s) => [...s.map((t) => t.join("") + c)]));
+                node.stash.push(...org.miscellaneous.map((s) => [s.join("") + c]));
                 areas.push(node);
             }
         }

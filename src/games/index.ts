@@ -42,6 +42,7 @@ import { OrbGame, IOrbState } from "./orb";
 import { MixtourGame, IMixtourState } from "./mixtour";
 import { CrosswayGame, ICrosswayState } from "./crossway";
 import { TintasGame, ITintasState } from "./tintas";
+import { StreetcarGame, IStreetcarState } from "./streetcar";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -86,6 +87,7 @@ export {
     MixtourGame, IMixtourState,
     CrosswayGame, ICrosswayState,
     TintasGame, ITintasState,
+    StreetcarGame, IStreetcarState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -101,10 +103,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof FanoronaGame | typeof FocusGame | typeof StringsGame |
                               typeof WitchGame | typeof ComplicaGame | typeof PigsGame |
                               typeof GardenGame | typeof OrbGame | typeof MixtourGame |
-                              typeof CrosswayGame | typeof TintasGame
+                              typeof CrosswayGame | typeof TintasGame | typeof StreetcarGame
                 >();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -197,6 +199,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CrosswayGame(...args);
         case "tintas":
             return new TintasGame(...args);
+        case "streetcar":
+            return new StreetcarGame(...args);
     }
     return;
 }

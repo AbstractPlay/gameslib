@@ -125,6 +125,7 @@
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
+        "streetcar": "A building was placed at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "urbino": {
             "house": "{{player}} placed a house at {{where}}.",
@@ -153,7 +154,8 @@
     "RESIGN": "{{player}} has resigned.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "TAKE": {
-        "chase": "A {{what}} was fed to the chamber."
+        "chase": "A {{what}} was fed to the chamber.",
+        "streetcar": "{{player}} took a housing limit from {{from}}."
     },
     "TIMEOUT": "{{player}} lost on time.",
     "WINNERS_one": "The following player won: {{winners}}.",

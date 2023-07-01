@@ -797,6 +797,7 @@ export class StreetcarGame extends GameBase {
                 strokeWeight: 15,
                 strokeColour: "#fff",
                 hexFill: "#cede86",
+                backFill: "#cede86",
                 stackOffset: 0.47,
                 blocked: [
                     {row: 1, col: 0},
@@ -972,6 +973,7 @@ export class StreetcarGame extends GameBase {
                     pieces: [...taken] as [string, ...string[]],
                     label: i18next.t("apgames:validation.streetcar.TAKEN_LABEL", {playerNum: player}) || "local",
                     background: "#cede86",
+                    ownerMark: player,
                 });
             }
         }

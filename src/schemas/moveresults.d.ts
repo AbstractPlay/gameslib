@@ -49,6 +49,7 @@ export type APMoveResult =
   | {
       type: "deltaScore";
       delta?: number;
+      who?: number;
     }
   | {
       type: "reclaim";

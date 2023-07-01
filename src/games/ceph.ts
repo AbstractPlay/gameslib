@@ -175,7 +175,12 @@ export class CephalopodGame extends GameBase {
                 if (this.board.has(cell)) {
                     return {move: "", message: ""} as IClickResult;
                 } else {
-                    newmove = cell;
+                    const moves = this.moves().filter(mv => mv.startsWith(cell));
+                    if (moves.length === 1) {
+                        newmove = moves[0];
+                    } else {
+                        newmove = cell;
+                    }
                 }
             } else {
                 // Reset entire move by clicking on empty cell
@@ -339,8 +344,6 @@ export class CephalopodGame extends GameBase {
                 return result;
             }
         }
-
-        return result;
     }
 
     public move(m: string, partial = false): CephalopodGame {

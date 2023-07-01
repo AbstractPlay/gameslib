@@ -57,7 +57,7 @@ export class CannonGame extends GameBase {
                 name: "David E. Whitcher"
             }
         ],
-        flags: ["perspective", "limited-pieces"]
+        flags: ["perspective", "limited-pieces", "check"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -969,5 +969,24 @@ export class CannonGame extends GameBase {
 
     public clone(): CannonGame {
         return new CannonGame(this.serialize());
+    }
+
+    public inCheck(): number[] {
+        const checked: number[] = [];
+
+        for (const player of [1,2] as playerid[]) {
+            let otherPlayer: playerid = 1;
+            if (player === 1) {
+                otherPlayer = 2;
+            }
+            const home = homes.get(player)!.find((x) => this.board.has(x) && this.board.get(x)![1] === "t")!;
+            const moves = this.moves(otherPlayer);
+            const caps = moves.filter(m => m.endsWith(`x${home}`));
+            if (caps.length > 0) {
+                checked.push(player);
+            }
+        }
+
+        return checked;
     }
 }

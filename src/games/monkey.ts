@@ -39,7 +39,7 @@ export class MonkeyQueenGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"]
             },
         ],
-        flags: ["pie","perspective"]
+        flags: ["pie","perspective", "check"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -543,6 +543,31 @@ export class MonkeyQueenGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public inCheck(): number[] {
+        const checked: number[] = [];
+        const grid = new RectGrid(12, 12);
+        // check each queen
+        const queens = [...this.board.entries()].filter(([,[,size]]) => size > 1);
+        for (const [cell, [player,]] of queens) {
+            // if it can see an enemy piece, it's in check
+            let canSee = false;
+            const [x,y] = MonkeyQueenGame.algebraic2coords(cell);
+            for (const dir of allDirections) {
+                const ray = grid.ray(x,y,dir).map(n => MonkeyQueenGame.coords2algebraic(...n)).filter(c => this.board.has(c));
+                if (ray.length > 0) {
+                    if (this.board.get(ray[0])![0] !== player) {
+                        canSee = true;
+                        break;
+                    }
+                }
+            }
+            if (canSee) {
+                checked.push(player);
+            }
+        }
+        return checked;
     }
 
     public clone(): MonkeyQueenGame {

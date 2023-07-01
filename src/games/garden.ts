@@ -76,7 +76,7 @@ export class GardenGame extends GameBase {
                 urls: ["http://www.tjgames.com/"]
             },
         ],
-        flags: ["experimental", "shared-pieces", "scores", "shared-stash"]
+        flags: ["shared-pieces", "scores", "shared-stash"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 4);

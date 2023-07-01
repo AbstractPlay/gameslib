@@ -322,8 +322,6 @@ export class MixtourGame extends GameBase {
             return result;
         }
 
-<<<<<<< HEAD
-=======
         // look for obstructions
         const [fx,fy] = MixtourGame.algebraic2coords(from);
         const [tx,ty] = MixtourGame.algebraic2coords(to);
@@ -336,7 +334,6 @@ export class MixtourGame extends GameBase {
             }
         }
 
->>>>>>> develop
         // Looks good
         result.valid = true;
         result.complete = 1;

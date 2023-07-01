@@ -32,6 +32,7 @@ interface IVector {
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 // const hexDirs = ["NE", "E", "SE", "SW", "W", "NW"];
+const validHexDirs: Direction[] = [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW];
 
 const string2dir = (dir: string): Direction|undefined => {
     dir = dir.toUpperCase();
@@ -81,7 +82,7 @@ const hexGrid = new Grid(myHex, rectangle({width: 9, height: 9}));
 const leftDirs: Map<Direction, Direction> = new Map([
     [Direction.SW, Direction.E],
     [Direction.W, Direction.SE],
-    [Direction.NW, Direction.S],
+    [Direction.NW, Direction.SW],
     [Direction.NE, Direction.W],
     [Direction.E, Direction.NW],
     [Direction.SE, Direction.NE]
@@ -162,6 +163,9 @@ export class ChaseGame extends GameBase {
             // throw new Error(`Invalid direction passed for a pointy hex: ${dir}`);
         if (dir === undefined) {
             throw new Error(`Undefined direction passed.`);
+        }
+        if (! validHexDirs.includes(dir)) {
+            throw new Error(`Passed a direction that is invalid for pointy hexes: ${dir}`);
         }
         if ( (x < 0) || (x >= 9) || (y < 0) || (y >= 9) ) {
             throw new Error(`Invalid coordinates for a Chase board: ${x},${y}`);
@@ -1155,6 +1159,9 @@ export class ChaseGame extends GameBase {
 
     // Handle chamber moves here
     private recurseMove(cell: string, piece: CellContents, dir: Direction) {
+        if (! validHexDirs.includes(dir)) {
+            throw new Error(`Invalid direction passed for pointy hexes: ${dir}`);
+        }
         // Captures and bumps
         if (this.board.has(cell)) {
             const nPiece = this.board.get(cell);

@@ -91,168 +91,169 @@ describe("Chase", () => {
         expect(v).to.have.deep.members([[8,8],[0,7],[0,6]]);
     });
 
-    // it ("Chamber moves are handled correctly", () => {
-    //     // 10 pieces, eject to left
-    //     // NE
-    //     let g = new ChaseGame();
-    //     g.board.set("c4", [1, 2]);
-    //     g.board.set("a3", [1, 1]);
-    //     expect(() => g.move("c4-e5")).to.not.throw();
-    //     let left = g.board.get("e4");
-    //     expect(left).to.not.be.undefined;
-    //     expect(left![0]).to.equal(1);
-    //     expect(left![1]).to.equal(2);
-    //     expect(g.board.has("d6")).to.be.false;
-    //     // E
-    //     g = new ChaseGame();
-    //     g.board.set("e3", [1, 2]);
-    //     g.board.set("a3", [1, 1]);
-    //     expect(() => g.move("e3-e5")).to.not.throw();
-    //     left = g.board.get("f5");
-    //     expect(left).to.not.be.undefined;
-    //     expect(left![0]).to.equal(1);
-    //     expect(left![1]).to.equal(2);
-    //     expect(g.board.has("d5")).to.be.false;
-    //     // SE
-    //     g = new ChaseGame();
-    //     g.board.set("g4", [1, 2]);
-    //     g.board.set("a3", [1, 1]);
-    //     expect(() => g.move("g4-e5")).to.not.throw();
-    //     left = g.board.get("f6");
-    //     expect(left).to.not.be.undefined;
-    //     expect(left![0]).to.equal(1);
-    //     expect(left![1]).to.equal(2);
-    //     expect(g.board.has("e4")).to.be.false;
-        // // SW
-        // g = new ChaseGame();
-        // g.board.set("g6", [1, 2]);
-        // g.board.set("a3", [1, 1]);
-        // expect(() => g.move("g6-e5")).to.not.throw();
-        // left = g.board.get("e6");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(2);
-        // expect(g.board.has("f5")).to.be.false;
-        // // W
-        // g = new ChaseGame();
-        // g.board.set("e7", [1, 2]);
-        // g.board.set("a3", [1, 1]);
-        // expect(() => g.move("e7-e5")).to.not.throw();
-        // left = g.board.get("d6");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(2);
-        // expect(g.board.has("f6")).to.be.false;
-        // // NW
-        // g = new ChaseGame();
-        // g.board.set("c6", [1, 2]);
-        // g.board.set("a3", [1, 1]);
-        // expect(() => g.move("c6-e5")).to.not.throw();
-        // left = g.board.get("d5");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(2);
-        // expect(g.board.has("e6")).to.be.false;
+    return it ("Chamber moves are handled correctly", function() {
+        this.timeout(0);
+        // 10 pieces, eject to left
+        // NE
+        let g = new ChaseGame();
+        g.board.set("c4", [1, 2]);
+        g.board.set("a3", [1, 1]);
+        expect(() => g.move("c4-e5")).to.not.throw();
+        let left = g.board.get("e4");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(2);
+        expect(g.board.has("d6")).to.be.false;
+        // E
+        g = new ChaseGame();
+        g.board.set("e3", [1, 2]);
+        g.board.set("a3", [1, 1]);
+        expect(() => g.move("e3-e5")).to.not.throw();
+        left = g.board.get("f5");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(2);
+        expect(g.board.has("d5")).to.be.false;
+        // SE
+        g = new ChaseGame();
+        g.board.set("g4", [1, 2]);
+        g.board.set("a3", [1, 1]);
+        expect(() => g.move("g4-e5")).to.not.throw();
+        left = g.board.get("f6");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(2);
+        expect(g.board.has("e4")).to.be.false;
+        // SW
+        g = new ChaseGame();
+        g.board.set("g6", [1, 2]);
+        g.board.set("a3", [1, 1]);
+        expect(() => g.move("g6-e5")).to.not.throw();
+        left = g.board.get("e6");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(2);
+        expect(g.board.has("f5")).to.be.false;
+        // W
+        g = new ChaseGame();
+        g.board.set("e7", [1, 2]);
+        g.board.set("a3", [1, 1]);
+        expect(() => g.move("e7-e5")).to.not.throw();
+        left = g.board.get("d6");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(2);
+        expect(g.board.has("f6")).to.be.false;
+        // NW
+        g = new ChaseGame();
+        g.board.set("c6", [1, 2]);
+        g.board.set("a3", [1, 1]);
+        expect(() => g.move("c6-e5")).to.not.throw();
+        left = g.board.get("d5");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(2);
+        expect(g.board.has("e6")).to.be.false;
 
-        // // It's a 1, so eject to left
-        // // We've already proven that leftdirs works properly, so we only have to test one direction
-        // // NE
-        // g = new ChaseGame();
-        // g.board.delete("a1");
-        // g.board.set("d5", [1, 1]);
-        // expect(() => g.move("d5-e5")).to.not.throw();
-        // left = g.board.get("e4");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(1);
-        // expect(g.board.has("d6")).to.be.false;
+        // It's a 1, so eject to left
+        // We've already proven that leftdirs works properly, so we only have to test one direction
+        // NE
+        g = new ChaseGame();
+        g.board.delete("a1");
+        g.board.set("d5", [1, 1]);
+        expect(() => g.move("d5-e5")).to.not.throw();
+        left = g.board.get("e4");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(1);
+        expect(g.board.has("d6")).to.be.false;
 
-        // // It's a 5, so split properly
-        // // We've proven leftdirs, but not rightdirs
-        // // NE
-        // g = new ChaseGame();
-        // g.board.delete("a5");
-        // g.board.delete("a3");
-        // g.board.set("b1", [1, 3]);
-        // g.board.set("b3", [1, 5]);
-        // expect(() => g.move("b3-e5")).to.not.throw();
-        // left = g.board.get("e4");
-        // let right = g.board.get("d6");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(3);
-        // expect(right).to.not.be.undefined;
-        // expect(right![0]).to.equal(1);
-        // expect(right![1]).to.equal(2);
-        // // E
-        // g = new ChaseGame();
-        // g.board.delete("a5");
-        // g.board.set("e9", [1, 5]);
-        // expect(() => g.move("e9-e5")).to.not.throw();
-        // left = g.board.get("f5");
-        // right = g.board.get("d5");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(3);
-        // expect(right).to.not.be.undefined;
-        // expect(right![0]).to.equal(1);
-        // expect(right![1]).to.equal(2);
-        // // SE
-        // g = new ChaseGame();
-        // g.board.delete("a5");
-        // g.board.delete("i3");
-        // g.board.set("h3", [1, 5]);
-        // expect(() => g.move("h3-e5")).to.not.throw();
-        // left = g.board.get("f6");
-        // right = g.board.get("e4");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(3);
-        // expect(right).to.not.be.undefined;
-        // expect(right![0]).to.equal(1);
-        // expect(right![1]).to.equal(2);
-        // // SW
-        // g = new ChaseGame();
-        // g.board.delete("a5");
-        // g.board.delete("i7");
-        // g.board.set("h8", [1, 5]);
-        // expect(() => g.move("h8-e5")).to.not.throw();
-        // left = g.board.get("e6");
-        // right = g.board.get("f5");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(3);
-        // expect(right).to.not.be.undefined;
-        // expect(right![0]).to.equal(1);
-        // expect(right![1]).to.equal(2);
-        // // W
-        // g = new ChaseGame();
-        // g.board.delete("a5");
-        // g.board.set("e1", [1, 5]);
-        // expect(() => g.move("e1-e5")).to.not.throw();
-        // left = g.board.get("d6");
-        // right = g.board.get("f6");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(3);
-        // expect(right).to.not.be.undefined;
-        // expect(right![0]).to.equal(1);
-        // expect(right![1]).to.equal(2);
-        // // NW
-        // g = new ChaseGame();
-        // g.board.delete("a5");
-        // g.board.delete("a7");
-        // g.board.set("b1", [1, 3]);
-        // g.board.set("b8", [1, 5]);
-        // expect(() => g.move("b8-e5")).to.not.throw();
-        // left = g.board.get("d5");
-        // right = g.board.get("e6");
-        // expect(left).to.not.be.undefined;
-        // expect(left![0]).to.equal(1);
-        // expect(left![1]).to.equal(3);
-        // expect(right).to.not.be.undefined;
-        // expect(right![0]).to.equal(1);
-        // expect(right![1]).to.equal(2);
-    // });
+        // It's a 5, so split properly
+        // We've proven leftdirs, but not rightdirs
+        // NE
+        g = new ChaseGame();
+        g.board.delete("a5");
+        g.board.delete("a3");
+        g.board.set("b1", [1, 3]);
+        g.board.set("b3", [1, 5]);
+        expect(() => g.move("b3-e5")).to.not.throw();
+        left = g.board.get("e4");
+        let right = g.board.get("d6");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(3);
+        expect(right).to.not.be.undefined;
+        expect(right![0]).to.equal(1);
+        expect(right![1]).to.equal(2);
+        // E
+        g = new ChaseGame();
+        g.board.delete("a5");
+        g.board.set("e9", [1, 5]);
+        expect(() => g.move("e9-e5")).to.not.throw();
+        left = g.board.get("f5");
+        right = g.board.get("d5");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(3);
+        expect(right).to.not.be.undefined;
+        expect(right![0]).to.equal(1);
+        expect(right![1]).to.equal(2);
+        // SE
+        g = new ChaseGame();
+        g.board.delete("a5");
+        g.board.delete("i3");
+        g.board.set("h3", [1, 5]);
+        expect(() => g.move("h3-e5")).to.not.throw();
+        left = g.board.get("f6");
+        right = g.board.get("e4");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(3);
+        expect(right).to.not.be.undefined;
+        expect(right![0]).to.equal(1);
+        expect(right![1]).to.equal(2);
+        // SW
+        g = new ChaseGame();
+        g.board.delete("a5");
+        g.board.delete("i7");
+        g.board.set("h8", [1, 5]);
+        expect(() => g.move("h8-e5")).to.not.throw();
+        left = g.board.get("e6");
+        right = g.board.get("f5");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(3);
+        expect(right).to.not.be.undefined;
+        expect(right![0]).to.equal(1);
+        expect(right![1]).to.equal(2);
+        // W
+        g = new ChaseGame();
+        g.board.delete("a5");
+        g.board.set("e1", [1, 5]);
+        expect(() => g.move("e1-e5")).to.not.throw();
+        left = g.board.get("d6");
+        right = g.board.get("f6");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(3);
+        expect(right).to.not.be.undefined;
+        expect(right![0]).to.equal(1);
+        expect(right![1]).to.equal(2);
+        // NW
+        g = new ChaseGame();
+        g.board.delete("a5");
+        g.board.delete("a7");
+        g.board.set("b1", [1, 3]);
+        g.board.set("b8", [1, 5]);
+        expect(() => g.move("b8-e5")).to.not.throw();
+        left = g.board.get("d5");
+        right = g.board.get("e6");
+        expect(left).to.not.be.undefined;
+        expect(left![0]).to.equal(1);
+        expect(left![1]).to.equal(3);
+        expect(right).to.not.be.undefined;
+        expect(right![0]).to.equal(1);
+        expect(right![1]).to.equal(2);
+    });
 });
 

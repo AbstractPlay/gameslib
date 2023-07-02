@@ -370,7 +370,6 @@ export class ZolaGame extends GameBase {
                 }
             }
 
-
             // valid full move
             result.valid = true;
             result.complete = 1;

@@ -570,7 +570,61 @@ export class GardenGame extends GameBase {
                 height: 8,
                 tileWidth: 4,
                 tileHeight: 4,
-                tileSpacing: 1.25
+                tileSpacing: 1.25,
+                markers: [
+                    {
+                        type: "label",
+                        label: "Placed",
+                        points: [
+                            {col: 0, row: 4},
+                            {col: 4, row: 4}
+                        ],
+                        size: 15,
+                        nudge: {
+                            dx: 0,
+                            dy: 0.1
+                        }
+                    },
+                    {
+                        type: "label",
+                        label: "Flipped",
+                        points: [
+                            {col: 4, row: 4},
+                            {col: 8, row: 4}
+                        ],
+                        size: 15,
+                        nudge: {
+                            dx: 1.25,
+                            dy: 0.1
+                        }
+                    },
+                    {
+                        type: "label",
+                        label: "Scored",
+                        points: [
+                            {col: 0, row: 5},
+                            {col: 4, row: 5}
+                        ],
+                        size: 15,
+                        nudge: {
+                            dx: 0,
+                            dy: -0.1
+                        }
+                    },
+                    {
+                        type: "label",
+                        label: "Current",
+                        points: [
+                            {col: 4, row: 5},
+                            {col: 8, row: 5}
+                        ],
+                        size: 15,
+                        nudge: {
+                            dx: 1.25,
+                            dy: -0.1
+                        }
+                    }
+                ]
             },
             legend: {
                 B: {

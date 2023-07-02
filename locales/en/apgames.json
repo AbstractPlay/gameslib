@@ -735,11 +735,11 @@
         "streetcar": {
             "5point": {
                 "name": "Lower penalty (-5)",
-                "description": "Lower penalties lead to a more aggressive game because it is cheaper to cross enemy lines"
+                "description": "The lower penalty makes it easier to steal enemy territory with a new line, leading to a more aggressive game."
             },
             "15point": {
                 "name": "Higher penalty (-15)",
-                "description": "Higher penalties make it more expensive to explore enemy territory and leads to a more \"genteel\", euro-style game"
+                "description": "The higher penalty makes invading enemy territory more expensive, leading to a euro-style game that focuses on building."
             }
         },
         "taiji": {

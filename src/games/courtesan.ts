@@ -38,7 +38,7 @@ export class CourtesanGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
-        flags: ["experimental", "pie", "multistep", "perspective"],
+        flags: ["pie", "multistep", "perspective"],
     };
 
     public static coords2algebraic(x: number, y: number): string {

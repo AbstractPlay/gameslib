@@ -281,8 +281,6 @@ export class TaijiGame extends GameBase {
                 return result;
             }
             // is adjacent
-            let neighbours: string[];
-            const grid = new RectGrid(this.boardSize, this.boardSize);
             if (this.variants.includes("tonga")) {
                 neighbours = grid.adjacencies(xLight, yLight, true).map(pt => TaijiGame.coords2algebraic(...pt, this.boardSize));
             } else {

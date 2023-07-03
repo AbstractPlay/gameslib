@@ -114,6 +114,10 @@ export class StreetcarGame extends GameBase {
                 urls: ["https://games.drew-edwards.com/"]
             }
         ],
+        variants: [
+            {uid: "5point", "group": "penalty"},
+            {uid: "15point", "group": "penalty"},
+        ],
         flags: ["experimental", "multistep", "no-moves", "scores"]
     };
 
@@ -178,7 +182,7 @@ export class StreetcarGame extends GameBase {
     public taken: [Colour[],Colour[]] = [[],[]];
     public claimed: [IEdge[],IEdge[]] = [[],[]];
 
-    constructor(state?: IStreetcarState | string) {
+    constructor(state?: IStreetcarState | string, variants?: string[]) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -188,6 +192,7 @@ export class StreetcarGame extends GameBase {
                 throw new Error(`The Streetcar game code cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
+            this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
         } else {
@@ -217,6 +222,9 @@ export class StreetcarGame extends GameBase {
                 claimed: [[],[]],
             };
             this.stack = [fresh];
+            if ( (variants !== undefined) && (variants.length > 0) ) {
+                this.variants = [...variants];
+            }
         }
         this.load();
     }
@@ -661,7 +669,13 @@ export class StreetcarGame extends GameBase {
 
         // only apply penalty if you didn't ask for a single colour
         if (colour === undefined) {
-            score -= this.countLines(player) * 10;
+            let penalty = 10;
+            if (this.variants.includes("5point")) {
+                penalty = 5;
+            } else if (this.variants.includes("15point")) {
+                penalty = 15;
+            }
+            score -= this.countLines(player) * penalty;
         }
 
         return score;
@@ -731,7 +745,7 @@ export class StreetcarGame extends GameBase {
         return {
             game: StreetcarGame.gameinfo.uid,
             numplayers: 2,
-            variants: [],
+            variants: [...this.variants],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
@@ -798,7 +812,7 @@ export class StreetcarGame extends GameBase {
                 strokeColour: "#fff",
                 hexFill: "#cede86",
                 backFill: "#cede86",
-                stackOffset: 0.47,
+                stackOffset: 0.39,
                 blocked: [
                     {row: 1, col: 0},
                     {row: 2, col: 0},
@@ -873,66 +887,82 @@ export class StreetcarGame extends GameBase {
                 },
                 K: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     player: 6
                 },
                 L: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     player: 4
                 },
                 M: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 N: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     colour: "#fff"
                 },
                 O: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     player: 6
                 },
                 P: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     player: 4
                 },
                 Q: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 R: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     colour: "#fff"
                 },
                 S: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     player: 6
                 },
                 T: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     player: 4
                 },
                 U: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 V: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     colour: "#fff"
                 },
                 W: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     player: 6
                 },
                 X: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     player: 4
                 },
                 Y: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 Z: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     colour: "#fff"
                 },
             },

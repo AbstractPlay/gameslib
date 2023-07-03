@@ -237,6 +237,26 @@ export class TaijiGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: light});
             return result;
         }
+        // has at least one empty neighbour
+        let neighbours: string[];
+        const grid = new RectGrid(this.boardSize, this.boardSize);
+        if (this.variants.includes("tonga")) {
+            neighbours = grid.adjacencies(xLight, yLight, true).map(pt => TaijiGame.coords2algebraic(...pt, this.boardSize));
+        } else {
+            neighbours = grid.adjacencies(xLight, yLight, false).map(pt => TaijiGame.coords2algebraic(...pt, this.boardSize));
+        }
+        let hasNeighbour = false;
+        for (const n of neighbours) {
+            if (! this.board.has(n)) {
+                hasNeighbour = true;
+                break;
+            }
+        }
+        if (! hasNeighbour) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.taiji.NO_NEIGHBOUR");
+            return result;
+        }
 
         if (dark === undefined) {
             // valid partial
@@ -261,8 +281,6 @@ export class TaijiGame extends GameBase {
                 return result;
             }
             // is adjacent
-            let neighbours: string[];
-            const grid = new RectGrid(this.boardSize, this.boardSize);
             if (this.variants.includes("tonga")) {
                 neighbours = grid.adjacencies(xLight, yLight, true).map(pt => TaijiGame.coords2algebraic(...pt, this.boardSize));
             } else {

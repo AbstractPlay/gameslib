@@ -12,6 +12,7 @@
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
+        "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. Chaos, of course, attempts to thwart Order whenever possible.\n\nThis implementation provides a simultaneous environment where each player has their own Order board. Each player places a piece on their opponent's Order board and then makes a move on their own board, players acting as both Order and Chaos at the same time. The player with the greatest score wins! Since both players share the same randomized pool of pieces, this approach gives the cleanest measure of skill.",
@@ -135,6 +136,7 @@
             "SELECT_OWN": "Select one of your own pieces.",
             "SELFCAPTURE": "You cannot capture your own pieces.",
             "UNCONTROLLED": "You cannot move pieces you don't control.",
+            "UNKNOWN_CLICK": "I don't know how to interpret that click.",
             "VALID_MOVE": "Looks like a valid move."
         },
         "abande": {
@@ -261,6 +263,12 @@
         },
         "complica": {
             "INITIAL_INSTRUCTIONS": "Select the column into which to drop your stone."
+        },
+        "courtesan": {
+            "DISTANCE_ONE": "Pieces may only move one space at a time.",
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
+            "INVALID_DIR": "Noncapturing moves and exchanges may only happen in the forward direction.",
+            "INVALID_EXCHANGE": "Only kings may exchange, and they must transfer to a courtesan."
         },
         "crossway": {
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -522,6 +530,7 @@
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
+            "NO_NEIGHBOUR": "That space has no valid empty neighbour.",
             "PARTIAL": "Place the dark piece in an adjacent empty space."
         },
         "tintas": {
@@ -722,6 +731,16 @@
             "replacement": {
                 "name": "Capture by replacement",
                 "description": "Captured bases are immediately replaced by one of your own. Leads to a much faster game."
+            }
+        },
+        "streetcar": {
+            "5point": {
+                "name": "Lower penalty (-5)",
+                "description": "The lower penalty makes it easier to steal enemy territory with a new line, leading to a more aggressive game."
+            },
+            "15point": {
+                "name": "Higher penalty (-15)",
+                "description": "The higher penalty makes invading enemy territory more expensive, leading to a euro-style game that focuses on building."
             }
         },
         "taiji": {

@@ -356,6 +356,20 @@ export class ZolaGame extends GameBase {
                 }
             }
 
+            // capturing moves must have no intervening pieces
+            if (m.includes("x")) {
+                const [fx, fy] = ZolaGame.algebraic2coords(from, this.boardSize);
+                const [tx, ty] = ZolaGame.algebraic2coords(to, this.boardSize)
+                const between = RectGrid.between(fx, fy, tx, ty).map(n => ZolaGame.coords2algebraic(...n, this.boardSize));
+                for (const cell of between) {
+                    if (this.board.has(cell)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
+                        return result;
+                    }
+                }
+            }
+
             // valid full move
             result.valid = true;
             result.complete = 1;

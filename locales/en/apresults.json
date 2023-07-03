@@ -46,7 +46,8 @@
     },
     "CLAIM": "{{player}} claimed {{where}}.",
     "CONVERT": {
-        "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}."
+        "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
+        "courtesan": "King and courtesan swapped positions at {{where}}."
     },
     "DAMAGE": {
         "pigs": "{{player}} struck {{opponent}} at {{where}}."

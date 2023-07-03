@@ -88,7 +88,8 @@ export class VolcanoGame extends GameBase {
                 urls: ["http://www.wunderland.com/WTS/Kristin/Kristin.html"]
             }
         ],
-        flags: ["shared-pieces", "stacking-expanding", "no-moves", "multistep"]
+        flags: ["shared-pieces", "stacking-expanding", "no-moves", "multistep"],
+        displays: [{uid: "expanding"}]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -739,8 +740,35 @@ export class VolcanoGame extends GameBase {
         };
     }
 
-    public render(expandCol:number | undefined = undefined, expandRow:number | undefined = undefined): APRenderRep {
-        const altDisplay = '3D';
+    private renderStashHelper(s: CellContents[], altDisplay: string | undefined): string[] {
+        if (altDisplay !== 'expanding') {
+            const ret: string[] = [];
+            for (let i = 0; i < s.length; i++) {
+                for (let j = i; j < s[s.length - i - 1][1] - i - 1; j++)
+                    ret.push("-");
+                ret.push(s[s.length - i - 1].join(""));
+            }
+            return ret;
+        } else {
+            return s.map((t) => t.join("") + "c");
+        }
+    }
+
+    private renderPiecesHelper(s: CellContents[], altDisplay: string | undefined): string[] {
+        if (altDisplay !== 'expanding') {
+            const ret: string[] = [];
+            for (let i = 0; i < s.length; i++) {
+                for (let j = 0; j < s[i][1] - i - 1; j++)
+                    ret.push("-");
+                ret.push(s[i].join(""));
+            }
+            return ret;
+        } else {
+            return s.map((t) => t.join(""));
+        }
+    }
+
+    public render({ altDisplay = undefined } : { altDisplay: string | undefined} ): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 5; row++) {
@@ -748,7 +776,7 @@ export class VolcanoGame extends GameBase {
             for (let col = 0; col < 5; col++) {
                 let cellnode: string[] = [];
                 if (this.board[row][col] !== undefined) {
-                    cellnode = [...this.board[row][col]!.map(c => c.join(""))];
+                    cellnode = [...this.renderPiecesHelper(this.board[row][col], altDisplay)];
                     const cell = VolcanoGame.coords2algebraic(col, row);
                     if (this.caps.has(cell)) {
                         cellnode.push("X");
@@ -760,14 +788,7 @@ export class VolcanoGame extends GameBase {
         }
 
         // build legend based on number of players
-        const myLegend: ILooseObj = altDisplay === '3D' ? 
-            {
-                "X": {
-                    "name": "pyramid-up-small-3D",
-                    "colour": "#000"
-                }
-            } 
-            : 
+        const myLegend: ILooseObj = altDisplay === 'expanding' ?
             {
                 "X": {
                     "name": "pyramid-up-small",
@@ -777,26 +798,33 @@ export class VolcanoGame extends GameBase {
                     "name": "pyramid-flat-small",
                     "colour": "#000"
                 }
+            }
+            :
+            {
+                "X": {
+                    "name": "pyramid-up-small-3D",
+                    "colour": "#000"
+                }
             };
 
         const opacity = 0.75;
         for (let n = 0; n < allColours.length; n++) {
             myLegend[allColours[n] + "1"] = {
-                name: altDisplay === '3D' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
+                name: altDisplay === 'expanding' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
                 player: n+1,
                 opacity
             };
             myLegend[allColours[n] + "2"] = {
-                name: altDisplay === '3D' ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
+                name: altDisplay === 'expanding' ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
                 player: n+1,
                 opacity
             };
             myLegend[allColours[n] + "3"] = {
-                name: altDisplay === '3D' ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
+                name: altDisplay === 'expanding' ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
                 player: n+1,
                 opacity
             };
-            if (altDisplay !== '3D') {
+            if (altDisplay === 'expanding') {
                 myLegend[allColours[n] + "1N"] = {
                     name: "pyramid-flat-small",
                     player: n+1
@@ -824,17 +852,9 @@ export class VolcanoGame extends GameBase {
             }
         }
 
-        /*
-        const list: object[] = []
-        for (const colour of [...allColours].sort((a, b) => a.localeCompare(b))) {
-            list.push({piece: colour + "3", name: colour})
-        }
-        const key = {type: "key", list, noclick: true};
-        */
-
         // Build rep
         const rep: APRenderRep =  {
-            renderer: altDisplay === '3D' ? "stacking-3D" : "stacking-expanding",
+            renderer: altDisplay === 'expanding' ? "stacking-expanding" : "stacking-3D",
             board: {
                 style: "squares",
                 width: 5,
@@ -846,20 +866,6 @@ export class VolcanoGame extends GameBase {
         };
 
         const areas: any[] = [];
-        if ( altDisplay !== '3D' && (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 5) && (expandRow < 5) && (this.board[expandRow][expandCol] !== undefined) ) {
-            const cell: string[] = this.board[expandRow][expandCol]!.map(c => `${c.join("")}N`);
-            const cellname = VolcanoGame.coords2algebraic(expandCol, expandRow);
-            if (this.caps.has(cellname)) {
-                cell.push("XN")
-            }
-            if (cell !== undefined) {
-                areas.push({
-                    type: "expandedColumn",
-                    cell: VolcanoGame.coords2algebraic(expandCol, expandRow),
-                    stack: cell
-                });
-            }
-        }
 
         // Add captured stashes
         for (let player = 0; player < 2; player++) {
@@ -870,12 +876,11 @@ export class VolcanoGame extends GameBase {
                     stash: []
                 };
                 const org = this.organizeCaps((player + 1) as playerid);
-                const c = altDisplay === '3D' ? "" : "c";
-                node.stash.push(...org.triosMono.map((s) => [...s.map((t) => t.join("") + c)]));
-                node.stash.push(...org.triosMixed.map((s) => [...s.map((t) => t.join("") + c)]));
-                node.stash.push(...org.partialsMono.map((s) => [...s.map((t) => t.join("") + c)]));
-                node.stash.push(...org.partialsMixed.map((s) => [...s.map((t) => t.join("") + c)]));
-                node.stash.push(...org.miscellaneous.map((s) => [s.join("") + c]));
+                node.stash.push(...org.triosMono.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.triosMixed.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.partialsMono.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.partialsMixed.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.miscellaneous.map((s) => this.renderStashHelper([s], altDisplay)));
                 areas.push(node);
             }
         }

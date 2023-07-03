@@ -66,7 +66,8 @@ export class MvolcanoGame extends GameBase {
                 urls: ["http://www.wunderland.com/WTS/Kristin/Kristin.html"]
             }
         ],
-        flags: ["shared-pieces", "scores", "stacking-expanding", "no-moves", "multistep"]
+        flags: ["shared-pieces", "scores", "stacking-expanding", "no-moves", "multistep"],
+        displays: [{uid: "expanding"}]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -727,7 +728,35 @@ export class MvolcanoGame extends GameBase {
         };
     }
 
-    public render(expandCol?: number, expandRow?: number): APRenderRep {
+    private renderStashHelper(s: CellContents[], altDisplay: string | undefined): string[] {
+        if (altDisplay !== 'expanding') {
+            const ret: string[] = [];
+            for (let i = 0; i < s.length; i++) {
+                for (let j = i; j < s[s.length - i - 1][1] - i - 1; j++)
+                    ret.push("-");
+                ret.push(s[s.length - i - 1].join(""));
+            }
+            return ret;
+        } else {
+            return s.map((t) => t.join("") + "c");
+        }
+    }
+
+    private renderPiecesHelper(s: CellContents[], altDisplay: string | undefined): string[] {
+        if (altDisplay !== 'expanding') {
+            const ret: string[] = [];
+            for (let i = 0; i < s.length; i++) {
+                for (let j = 0; j < s[i][1] - i - 1; j++)
+                    ret.push("-");
+                ret.push(s[i].join(""));
+            }
+            return ret;
+        } else {
+            return s.map((t) => t.join(""));
+        }
+    }
+
+    public render({ altDisplay = undefined } : { altDisplay: string | undefined} ): APRenderRep {
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 6; row++) {
@@ -735,7 +764,7 @@ export class MvolcanoGame extends GameBase {
             for (let col = 0; col < 6; col++) {
                 let cellnode: string[] = [];
                 if (this.board[row][col] !== undefined) {
-                    cellnode = [...this.board[row][col]!.map(c => c.join(""))];
+                    cellnode = [...this.renderPiecesHelper(this.board[row][col], altDisplay)];
                     const cell = MvolcanoGame.coords2algebraic(col, row);
                     if (this.caps.has(cell)) {
                         cellnode.push("X");
@@ -747,103 +776,115 @@ export class MvolcanoGame extends GameBase {
         }
 
         // build legend based on number of players
-        const myLegend: ILooseObj = {
-            "X": {
-                "name": "pyramid-up-small",
-                "colour": "#000"
-            },
-            "XN": {
-                "name": "pyramid-flat-small",
-                "colour": "#000"
-            },
-        };
+        const myLegend: ILooseObj = altDisplay === 'expanding' ?
+            {
+                "X": {
+                    "name": "pyramid-up-small",
+                    "colour": "#000"
+                },
+                "XN": {
+                    "name": "pyramid-flat-small",
+                    "colour": "#000"
+                },
+            }
+            :
+            {
+                "X": {
+                    "name": "pyramid-up-small-3D",
+                    "colour": "#000"
+                }
+            };
 
         const opacity = 0.75;
         for (let n = 0; n < allColours.length; n++) {
             myLegend[allColours[n] + "1"] = {
-                name: "pyramid-up-small-upscaled",
+                name: altDisplay === 'expanding' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
                 player: n+1,
                 opacity
             };
             myLegend[allColours[n] + "2"] = {
-                name: "pyramid-up-medium-upscaled",
+                name: altDisplay === 'expanding' ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
                 player: n+1,
                 opacity
             };
             myLegend[allColours[n] + "3"] = {
-                name: "pyramid-up-large-upscaled",
+                name: altDisplay === 'expanding' ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
                 player: n+1,
                 opacity
             };
-            myLegend[allColours[n] + "1N"] = {
-                name: "pyramid-flat-small",
-                player: n+1
-            };
-            myLegend[allColours[n] + "2N"] = {
-                name: "pyramid-flat-medium",
-                player: n+1
-            };
-            myLegend[allColours[n] + "3N"] = {
-                name: "pyramid-flat-large",
-                player: n+1
-            };
-            myLegend[allColours[n] + "1c"] = {
-                name: "pyramid-flattened-small",
-                player: n+1
-            };
-            myLegend[allColours[n] + "2c"] = {
-                name: "pyramid-flattened-medium",
-                player: n+1
-            };
-            myLegend[allColours[n] + "3c"] = {
-                name: "pyramid-flattened-large",
-                player: n+1
-            };
+            if (altDisplay === 'expanding') {
+                myLegend[allColours[n] + "1N"] = {
+                    name: "pyramid-flat-small",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "2N"] = {
+                    name: "pyramid-flat-medium",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "3N"] = {
+                    name: "pyramid-flat-large",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "1c"] = {
+                    name: "pyramid-flattened-small",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "2c"] = {
+                    name: "pyramid-flattened-medium",
+                    player: n+1
+                };
+                myLegend[allColours[n] + "3c"] = {
+                    name: "pyramid-flattened-large",
+                    player: n+1
+                };
+            }
         }
         // Now add the white pieces
         myLegend.WH1 = {
-            name: "pyramid-up-small-upscaled",
+            name: altDisplay === 'expanding' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
             colour: "#fff",
             opacity
         };
         myLegend.WH2 = {
-            name: "pyramid-up-medium-upscaled",
+            name: altDisplay === 'expanding' ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
             colour: "#fff",
             opacity
         };
         myLegend.WH3 = {
-            name: "pyramid-up-large-upscaled",
+            name: altDisplay === 'expanding' ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
             colour: "#fff",
             opacity
         };
-        myLegend.WH1N = {
-            name: "pyramid-flat-small",
-            colour: "#fff"
-        };
-        myLegend.WH2N = {
-            name: "pyramid-flat-medium",
-            colour: "#fff"
-        };
-        myLegend.WH3N = {
-            name: "pyramid-flat-large",
-            colour: "#fff"
-        };
-        myLegend.WH1c = {
-            name: "pyramid-flattened-small",
-            colour: "#fff"
-        };
-        myLegend.WH2c = {
-            name: "pyramid-flattened-medium",
-            colour: "#fff"
-        };
-        myLegend.WH3c = {
-            name: "pyramid-flattened-large",
-            colour: "#fff"
-        };
+        if (altDisplay === 'expanding') {
+            myLegend.WH1N = {
+                name: "pyramid-flat-small",
+                colour: "#fff"
+            };
+            myLegend.WH2N = {
+                name: "pyramid-flat-medium",
+                colour: "#fff"
+            };
+            myLegend.WH3N = {
+                name: "pyramid-flat-large",
+                colour: "#fff"
+            };
+            myLegend.WH1c = {
+                name: "pyramid-flattened-small",
+                colour: "#fff"
+            };
+            myLegend.WH2c = {
+                name: "pyramid-flattened-medium",
+                colour: "#fff"
+            };
+            myLegend.WH3c = {
+                name: "pyramid-flattened-large",
+                colour: "#fff"
+            };
+        }
 
         // Build rep
         const rep: APRenderRep =  {
-            renderer: "stacking-expanding",
+            renderer: altDisplay === 'expanding' ? "stacking-expanding" : "stacking-3D",
             board: {
                 style: "squares",
                 width: 6,
@@ -855,20 +896,6 @@ export class MvolcanoGame extends GameBase {
         };
 
         const areas = [];
-        if ( (expandCol !== undefined) && (expandRow !== undefined) && (expandCol >= 0) && (expandRow >= 0) && (expandCol < 6) && (expandRow < 6) && (this.board[expandRow][expandCol] !== undefined) ) {
-            const cell: string[] = this.board[expandRow][expandCol]!.map(c => `${c.join("")}N`);
-            const cellname = MvolcanoGame.coords2algebraic(expandCol, expandRow);
-            if (this.caps.has(cellname)) {
-                cell.push("XN")
-            }
-            if (cell !== undefined) {
-                areas.push({
-                    type: "expandedColumn",
-                    cell: MvolcanoGame.coords2algebraic(expandCol, expandRow),
-                    stack: cell
-                });
-            }
-        }
 
         // Add captured stashes
         for (let player = 0; player < 2; player++) {
@@ -879,11 +906,11 @@ export class MvolcanoGame extends GameBase {
                     stash: []
                 };
                 const org = this.organizeCaps((player + 1) as playerid);
-                node.stash.push(...org.triosMono.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.triosMixed.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.partialsMono.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.partialsMixed.map((s) => [...s.map((t) => t.join("") + "c")]));
-                node.stash.push(...org.miscellaneous.map((s) => [s.join("") + "c"]));
+                node.stash.push(...org.triosMono.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.triosMixed.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.partialsMono.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.partialsMixed.map((s) => this.renderStashHelper(s, altDisplay)));
+                node.stash.push(...org.miscellaneous.map((s) => this.renderStashHelper([s], altDisplay)));
                 areas.push(node);
             }
         }

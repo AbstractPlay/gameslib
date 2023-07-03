@@ -55,6 +55,24 @@
                 }
             },
             "required": ["uid"]
+        },
+        "alternative-display": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "The name of the alternative display. These are looked up from apgames.json by the alternativeDisplays() function",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "A short, unique string representing this alternative display",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "A description of the alternative display. These are looked up from apgames.json by the alternativeDisplays() function",
+                    "type": "string"
+                }
+            },
+            "required": ["uid"]
         }
     },
     "type": "object",
@@ -91,6 +109,13 @@
             "type": "array",
             "items": {
                 "$ref": "#/definitions/variant"
+            }
+        },
+        "displays": {
+            "description": "A list of alternative displays/renderers",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/alternative-display"
             }
         },
         "playercounts": {

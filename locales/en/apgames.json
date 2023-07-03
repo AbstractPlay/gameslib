@@ -530,6 +530,7 @@
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
+            "NO_NEIGHBOUR": "That space has no valid empty neighbour.",
             "PARTIAL": "Place the dark piece in an adjacent empty space."
         },
         "tintas": {

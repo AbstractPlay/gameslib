@@ -812,7 +812,7 @@ export class StreetcarGame extends GameBase {
                 strokeColour: "#fff",
                 hexFill: "#cede86",
                 backFill: "#cede86",
-                stackOffset: 0.47,
+                stackOffset: 0.39,
                 blocked: [
                     {row: 1, col: 0},
                     {row: 2, col: 0},
@@ -887,66 +887,82 @@ export class StreetcarGame extends GameBase {
                 },
                 K: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     player: 6
                 },
                 L: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     player: 4
                 },
                 M: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 N: {
                     name: "cube-cat-plant",
+                    scale: 0.85,
                     colour: "#fff"
                 },
                 O: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     player: 6
                 },
                 P: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     player: 4
                 },
                 Q: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 R: {
                     name: "cube-lamp-cat",
+                    scale: 0.85,
                     colour: "#fff"
                 },
                 S: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     player: 6
                 },
                 T: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     player: 4
                 },
                 U: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 V: {
                     name: "cube-plant-person",
+                    scale: 0.85,
                     colour: "#fff"
                 },
                 W: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     player: 6
                 },
                 X: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     player: 4
                 },
                 Y: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     colour: "#000"
                 },
                 Z: {
                     name: "cube-person-lamp",
+                    scale: 0.85,
                     colour: "#fff"
                 },
             },

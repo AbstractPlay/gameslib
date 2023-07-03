@@ -118,7 +118,7 @@ export class StreetcarGame extends GameBase {
             {uid: "5point", "group": "penalty"},
             {uid: "15point", "group": "penalty"},
         ],
-        flags: ["experimental", "multistep", "no-moves", "scores"]
+        flags: ["multistep", "no-moves", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

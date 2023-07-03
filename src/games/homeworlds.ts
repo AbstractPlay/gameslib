@@ -2192,6 +2192,9 @@ export class HomeworldsGame extends GameBase {
                 this.eliminated.push(system.owner!);
                 this.results.push({"type": "eliminated", "who": this.seat2name(system.owner)});
             }
+            for (const star of system.stars) {
+                this.stash.add(...star);
+            }
             this.delSystem(system);
         }
 
@@ -2616,5 +2619,46 @@ export class HomeworldsGame extends GameBase {
 
     public clone(): HomeworldsGame {
         return new HomeworldsGame(this.serialize());
+    }
+
+    // Test helper that simply checks if there are any pieces missing
+    public economyBalanced(): boolean {
+        const addCount = (key: string) => {
+            if (counts.has(key)) {
+                const val = counts.get(key)!;
+                counts.set(key, val+1);
+            } else {
+                counts.set(key, 1);
+            }
+        }
+        const counts = new Map<string,number>();
+
+        // stash
+        const stash = this.stash.render();
+        for (const key of ["R","G","B","Y"] as const) {
+            for (const n of stash[key].split("")) {
+                addCount(`${key}${n}`);
+            }
+        }
+
+        // ships
+        for (const sys of this.systems) {
+            for (const star of sys.stars) {
+                addCount(`${star[0]}${star[1]}`);
+            }
+            for (const ship of sys.ships) {
+                addCount(`${ship.colour}${ship.size}`);
+            }
+        }
+
+        // validate counts
+        for (const colour of ["R","G","B","Y"]) {
+            for (const size of ["1","2","3"]) {
+                if (counts.get(`${colour}${size}`)! !== this.numplayers + 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

@@ -35,6 +35,7 @@ jobs:
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
         - run: rm package-lock.json
         - run: npm i
+        - run: cat package-lock.json
         - run: npm test --if-present
         # prerelease --preid=ci-$GITHUB_RUN_ID
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version

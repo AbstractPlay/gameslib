@@ -776,5 +776,19 @@
                 "name": "Larger board: 8x8"
             }
         }
+    },
+    "displays": {
+        "volcano": {
+            "expanding": {
+                "description": "Two dimensional board, with stacks expanding when hovered over.",
+                "name": "Expanding"
+            }
+        },
+        "mvolcano": {
+            "expanding": {
+                "description": "Two dimensional board, with stacks expanding when hovered over.",
+                "name": "Expanding"
+            }
+        }
     }
 }

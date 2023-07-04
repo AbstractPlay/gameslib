@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * New game: Streetcar Suburb
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 * Added `check` flag so the front end can signal to players when they're in a game-ending situation.
+* Added functionality to support multiple displays per game. Volcano and Mega-Volcano now supports a "3D" display, besides the original stack expanding one.
 
 ### Fixed
 

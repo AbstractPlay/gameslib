@@ -32,6 +32,8 @@ jobs:
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
         - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
         - run: npm i
+        - run: npm i @abstractplay/renderer
+        - run: npm list @abstractplay/renderer
         - run: npm test --if-present
         # prerelease --preid=ci-$GITHUB_RUN_ID
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version

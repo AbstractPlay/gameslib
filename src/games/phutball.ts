@@ -50,7 +50,7 @@ export class PhutballGame extends GameBase {
   }
   public static algebraic2coords(cell: string): [number, number] {
     if (cell.charAt(0) === '0')
-      return [0, 20 - parseInt(cell.slice(1))];
+      return [0, 20 - parseInt(cell.slice(1), 10)];
     const coords = GameBase.algebraic2coords(cell, 20);
     return [coords[0] + 1, coords[1]];
   }
@@ -264,8 +264,8 @@ export class PhutballGame extends GameBase {
 
   private jumpPossible(
     board: Array<Array<CellContents>>,
-    ball_x: number,
-    ball_y: number
+    ballX: number,
+    ballY: number
   ): boolean {
     const dirs: [number, number][] = [
       [-1, 0],
@@ -277,9 +277,8 @@ export class PhutballGame extends GameBase {
       [0, -1],
       [-1, -1],
     ];
-    for (let i = 0; i < dirs.length; i++) {
-      const dir = dirs[i];
-      let next: [number, number] = [ball_x + dir[0], ball_y + dir[1]];
+    for (const dir of dirs) {
+      let next: [number, number] = [ballX + dir[0], ballY + dir[1]];
       let dist = 1;
       while (
         this.isLegalBallPosition(next) &&

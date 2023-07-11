@@ -541,9 +541,9 @@ export class TintasGame extends GameBase {
         return this;
     }
 
-    public isSevenPossible(): boolean {
+    public isSevenPossible(player?: playerid): boolean {
         for (const colour of [1,2,3,4,5,6,7] as CellContents[]) {
-            if ( (! this.captured[0].includes(colour)) || (! this.captured[1].includes(colour)) ) {
+            if (! this.captured[player%2].includes(colour)) {
                 return true;
             }
         }
@@ -583,7 +583,8 @@ export class TintasGame extends GameBase {
     protected checkEOG(): TintasGame {
         const hasSeven1 = this.hasSeven(1);
         const hasSeven2 = this.hasSeven(2);
-        const canSeven = this.isSevenPossible();
+        const canSeven1 = this.isSevenPossible(1);
+        const canSever2 = this.isSevenPossible(2);
         if (hasSeven1 || hasSeven2) {
             this.gameover = true;
             if (hasSeven1) {
@@ -591,10 +592,10 @@ export class TintasGame extends GameBase {
             } else {
                 this.winner = [2];
             }
-        } else if (! canSeven) {
+        } else if ( (! canSeven1) || (! canSeven2) ) {
             const hasFour1 = this.hasFourOfFour(1);
             const hasFour2 = this.hasFourOfFour(2);
-            if (hasFour1 || hasFour2) {
+            if ( (hasFour1 && (! canSeven2)) || (hasFour2 && (! canSeven1)) ) {
                 this.gameover = true;
                 if (hasFour1) {
                     this.winner = [1];

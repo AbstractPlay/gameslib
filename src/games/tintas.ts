@@ -542,8 +542,11 @@ export class TintasGame extends GameBase {
     }
 
     public isSevenPossible(player?: playerid): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
         for (const colour of [1,2,3,4,5,6,7] as CellContents[]) {
-            if (! this.captured[player%2].includes(colour)) {
+            if (! this.captured[player % 2].includes(colour)) {
                 return true;
             }
         }
@@ -584,7 +587,7 @@ export class TintasGame extends GameBase {
         const hasSeven1 = this.hasSeven(1);
         const hasSeven2 = this.hasSeven(2);
         const canSeven1 = this.isSevenPossible(1);
-        const canSever2 = this.isSevenPossible(2);
+        const canSeven2 = this.isSevenPossible(2);
         if (hasSeven1 || hasSeven2) {
             this.gameover = true;
             if (hasSeven1) {

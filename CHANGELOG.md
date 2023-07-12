@@ -53,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * LoA: Fixed over-validation issue that stopped games when selecting pieces with no valid moves.
 * Homeworlds: Made it possible to trigger catastrophes in the middle of your turn.
 * Chase: Fixed it so you can't bump pieces into the chamber.
+* Tintas: Fixed it so the game terminates correctly when one person has "4 of 4" and the other cannot get "7 of 1" (Thank you, @dxdydz!!)
 
 ### Changed
 

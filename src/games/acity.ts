@@ -522,8 +522,18 @@ export class ACityGame extends GameBase {
                     cloned.buildGraph();
                     cloned.placePiece(piece, c);
                     if (cloned.isConnected()) {
-                        broken = false;
-                        break;
+                        // even if connected, check for isolated pieces
+                        let isolated = false;
+                        for (const c2 of cloned.board.keys()) {
+                            if (cloned.graph.neighbours(c2).length === 0) {
+                                isolated = true;
+                                break;
+                            }
+                        }
+                        if (! isolated) {
+                            broken = false;
+                            break;
+                        }
                     }
                 }
                 // if any valid placement is found, return the error

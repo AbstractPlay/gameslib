@@ -32,6 +32,7 @@
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
+        "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "streetcar": "It’s against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
@@ -456,6 +457,17 @@
             "PARTIAL": "Select a destination or select a second piece to form an ordo.",
             "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
         },
+        "phutball": {
+            "INITIAL_INSTRUCTIONS": "Place a player at an empty vertex or jump the ball over adjacent players.",
+            "NO_BALL_HERE": "Jumping must start at the ball. There is no ball at {{cell}}.",
+            "MUST_JUMP_PLAYER": "You can only jump over players, not empty vertices. There is no player at {{cell}}",
+            "NO_MOVE": "You must jump over at least one player.",
+            "BAD_DIRECTION": "You can only jump orthogonally or diagonally. The jump from {{from}} to {{to}} is invalid.",
+            "NOT_EMPTY_JUMP": "A jump must end in an empty vertex. {{to}} is not empty.",
+            "CAN_JUMP_MORE": "Looks good so far. Either complete your move or keep jumping",
+            "CAN_JUMP": "Select the destination of your jump.",
+            "CANT_JUMP": "You selected the ball, but there are no jumps available"
+        },
         "pigs": {
             "INITIAL_INSTRUCTIONS": "Enter 'R' to spend your whole turn repairing, or type five of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout), X (when damaged)",
             "INVALID_CMD": "The character '{{cmd}}' is not a recognized command.",
@@ -774,6 +786,20 @@
         "zola": {
             "8x8": {
                 "name": "Larger board: 8x8"
+            }
+        }
+    },
+    "displays": {
+        "volcano": {
+            "expanding": {
+                "description": "Two dimensional board, with stacks expanding when hovered over.",
+                "name": "Expanding"
+            }
+        },
+        "mvolcano": {
+            "expanding": {
+                "description": "Two dimensional board, with stacks expanding when hovered over.",
+                "name": "Expanding"
             }
         }
     }

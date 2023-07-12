@@ -23,8 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * New game: Crossway
 * New game: Tintas
 * New game: Streetcar Suburb
+* New game: Phutball
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 * Added `check` flag so the front end can signal to players when they're in a game-ending situation.
+* Added functionality to support multiple displays per game. Volcano and Mega-Volcano now supports a "3D" display, besides the original stack expanding one.
 
 ### Fixed
 
@@ -51,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * LoA: Fixed over-validation issue that stopped games when selecting pieces with no valid moves.
 * Homeworlds: Made it possible to trigger catastrophes in the middle of your turn.
 * Chase: Fixed it so you can't bump pieces into the chamber.
+* Alien City: Fixed bug that prevented domes from being placed on different colour tiles when legal.
 
 ### Changed
 

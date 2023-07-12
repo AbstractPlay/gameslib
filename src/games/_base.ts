@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { APGamesInformation, Variant } from '../schemas/gameinfo';
+import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
@@ -154,6 +154,14 @@ export abstract class GameBase  {
             "group": v.group
         }});
     }
+    public alternativeDisplays(): AlternativeDisplay[] | undefined {
+        const ctor = this.constructor as typeof GameBase;
+        return ctor.gameinfo.displays?.map(v => {return {
+            "uid": v.uid,
+            "name": i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${v.uid}.name`),
+            "description": i18next.t(`apgames:displays.${ctor.gameinfo.uid}.${v.uid}.description`)
+        }});
+    }
     public static info(): string {
         return JSON.stringify(this.gameinfo);
     }
@@ -184,7 +192,7 @@ export abstract class GameBase  {
     public abstract variants: string[];
 
     public abstract move(move: string, partial?: boolean): GameBase;
-    public abstract render(perspective?: any): APRenderRep;
+    public abstract render({ perspective, altDisplay} : { perspective: number | undefined, altDisplay: string | undefined }): APRenderRep;
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract clone(): GameBase;

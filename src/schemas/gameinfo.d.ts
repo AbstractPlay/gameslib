@@ -44,6 +44,10 @@ export interface APGamesInformation {
    */
   variants?: Variant[];
   /**
+   * A list of alternative displays/renderers
+   */
+  displays?: AlternativeDisplay[];
+  /**
    * A list of the supported player counts
    */
   playercounts: number[];
@@ -98,5 +102,20 @@ export interface Variant {
    * If present, variants of the same `group` are considered mutually exclusive
    */
   group?: string;
+  [k: string]: unknown;
+}
+export interface AlternativeDisplay {
+  /**
+   * The name of the alternative display. These are looked up from apgames.json by the alternativeDisplays() function
+   */
+  name?: string;
+  /**
+   * A short, unique string representing this alternative display
+   */
+  uid: string;
+  /**
+   * A description of the alternative display. These are looked up from apgames.json by the alternativeDisplays() function
+   */
+  description?: string;
   [k: string]: unknown;
 }

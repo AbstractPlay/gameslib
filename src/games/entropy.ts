@@ -506,7 +506,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
-    public render(player?: playerid): APRenderRep {
+    public render( { perspective } : { perspective: number | undefined } ): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 7; row++) {
@@ -538,8 +538,8 @@ export class EntropyGame extends GameBaseSimultaneous {
             boardOne: { occluded: false, label: "" },
             boardTwo: { occluded: false, label: "" }
         };
-        if (player !== undefined) {
-            if (player === 1) {
+        if (perspective !== undefined) {
+            if (perspective === 1) {
                 if (this.phase === "order") {
                     board.boardTwo.occluded = true;
                 } else {

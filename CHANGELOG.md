@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 * Added `check` flag so the front end can signal to players when they're in a game-ending situation.
 * Added functionality to support multiple displays per game. Volcano and Mega-Volcano now supports a "3D" display, besides the original stack expanding one.
+* New game: Phutball
 
 ### Fixed
 
@@ -54,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Homeworlds: Made it possible to trigger catastrophes in the middle of your turn.
 * Chase: Fixed it so you can't bump pieces into the chamber.
 * Alien City: Fixed bug that prevented domes from being placed on different colour tiles when legal.
+* Tintas: Fixed it so the game terminates correctly when one person has "4 of 4" and the other cannot get "7 of 1" (Thank you, @dxdydz!!)
 
 ### Changed
 

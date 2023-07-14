@@ -974,11 +974,11 @@ export class StreetcarGame extends GameBase {
             rep.board!.markers = [];
             for (const p of [1,2] as playerid[]) {
                 for (const claim of this.claimed[p - 1]) {
+                    // check if just now claimed
+                    const justnow = this.results.filter(r => r.type === "claim" && r.where === edge2string(claim)).length === 1;
                     const [cell, dir] = edge2celldir(claim);
                     const [col, row] = StreetcarGame.algebraic2coords(cell);
-                    // @ts-ignore
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                    rep.board!.markers.push({
+                    const node = {
                         type: "fence",
                         cell: {
                             row,
@@ -987,7 +987,14 @@ export class StreetcarGame extends GameBase {
                         side: dir,
                         colour: p,
                         width: 0.5,
-                    });
+                    }
+                    if (justnow) {
+                        // @ts-ignore
+                        node.dashed = [1,9];
+                    }
+                    // @ts-ignore
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                    rep.board!.markers.push(node);
                 }
             }
         }

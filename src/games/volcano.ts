@@ -204,7 +204,7 @@ export class VolcanoGame extends GameBase {
                 if (piece === undefined) {
                     throw new Error("Piece is undefined.");
                 } else {
-                    piece = piece.slice(0, piece.length - 1);
+                    piece = piece.slice(0, 3);
                 }
             }
             const grid = new RectGrid(5, 5);

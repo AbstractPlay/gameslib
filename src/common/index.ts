@@ -4,8 +4,9 @@ import { shuffle } from "./shuffle";
 import { UserFacingError } from "./errors";
 import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph } from "./graphs";
 import { wng } from "./namegenerator";
+import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing } from "./plotting";
 
-export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph, wng };
+export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing };
 
 export type DirectionsCardinal = "N" | "E" | "S" | "W";
 export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";
@@ -16,3 +17,8 @@ export const oppositeDirections: Map<Directions, Directions> = new Map([
     ["N", "S"], ["NE", "SW"], ["E", "W"], ["SE", "NW"],
     ["S", "N"], ["SW", "NE"], ["W", "E"], ["NW", "SE"]
 ]);
+
+export interface IPoint {
+    x: number;
+    y: number;
+}

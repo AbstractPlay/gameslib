@@ -50,6 +50,7 @@
         "courtesan": "King and courtesan swapped positions at {{where}}."
     },
     "DAMAGE": {
+        "armadas": "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
     "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
@@ -57,6 +58,7 @@
     "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
     "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DESTROY": {
+        "armadas": "{{player}} sunk the enemy ship named {{name}}.",
         "enemy": {
             "minimal_one": "{{count}} enemy piece was destroyed.",
             "minimal_other": "{{count}} enemy pieces were destroyed."
@@ -94,6 +96,7 @@
     },
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        "armadas": "{{player}} moved their ship named {{name}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
@@ -119,6 +122,9 @@
         "simple": "{{player}} passed."
     },
     "PLACE": {
+        "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
+        "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
+        "armadas_3": "{{player}} placed a large ship and named it {{name}}.",
         "cannon": "{{player}} placed their town at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",

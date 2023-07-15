@@ -55,6 +55,8 @@
   "dependencies": {
     "@abstractplay/recranks": "latest",
     "@abstractplay/renderer": "latest",
+    "@turf/boolean-intersects": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
     "graphology": "^0.25.1",
     "graphology-components": "^1.5.4",
     "graphology-shortest-path": "^2.0.2",

@@ -29,6 +29,7 @@ interface IMoveState extends IIndividualState {
 export interface IArmadasState extends IAPGameState {
     winner: playerid[];
     maxShips: 0|1|2;
+    showArcs: string|undefined;
     stack: Array<IMoveState>;
 };
 
@@ -192,6 +193,7 @@ export class ArmadasGame extends GameBase {
             this.gameover = state.gameover;
             this.variants = [...state.variants];
             this.maxShips = state.maxShips;
+            this.showArcs = state.showArcs;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
 
@@ -457,6 +459,7 @@ export class ArmadasGame extends GameBase {
 
             // if the move is just a ship name, need further clarification
             if ( (tokens.length === 1) && (tokens[0] !== "place") && (tokens[0] !== "pass") ) {
+                this.showArcs = tokens[0];
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
@@ -1008,6 +1011,7 @@ export class ArmadasGame extends GameBase {
             numplayers: this.numplayers,
             variants: [...this.variants],
             maxShips: this.maxShips,
+            showArcs: this.showArcs,
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]

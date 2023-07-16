@@ -52,7 +52,7 @@ export class ACityGame extends GameBase {
                 name: "Michael Schoessow",
             }
         ],
-        flags: ["player-stashes", "scores", "no-moves", "multistep", "shared-pieces"]
+        flags: ["player-stashes", "scores", "no-moves", "multistep", "custom-colours"]
     };
 
     public static piece2string(pc: Piece): string {
@@ -724,6 +724,14 @@ export class ACityGame extends GameBase {
             stashes: deepclone(this.stashes) as [Piece[],Piece[]],
             claimed: deepclone(this.claimed) as [string[],string[]],
         };
+    }
+
+    public getPlayerColour(p: playerid): number|string {
+        if (p === 1) {
+            return "#fff";
+        } else {
+            return "#000";
+        }
     }
 
     public render(): APRenderRep {

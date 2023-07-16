@@ -70,6 +70,7 @@ export interface APGamesInformation {
     | "rotate90"
     | "experimental"
     | "check"
+    | "custom-colours"
   )[];
   [k: string]: unknown;
 }

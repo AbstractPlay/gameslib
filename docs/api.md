@@ -48,6 +48,7 @@ Current flags are the following:
 * `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed. This should not be enabled on games with labels as the renderer currently does not rotate such boards correctly in 90-degree increments.
 * `experimental`: Flags new games still in development. Production-stage front and back ends should ignore requests to display or process these games. Dev server should process them as usual.
 * `check`: This tells the front end that this game should signal to players when someone is "in check," which usually means if nothing specific is done, the noted player will lose at their next turn. Flagged games must provide a `inCheck() => number[]` function that returns the player numbers of any players in check.
+* `custom-colours`: Mutually exclusive with `shared-pieces`. Tells the front end to *not* automatically assign player colour swatches. Instead, it must call `getPlayerColour(n) => number|string`. Use should be rare. For example, in Alien City, players are black and white.
 
 ### `GameFactory`
 

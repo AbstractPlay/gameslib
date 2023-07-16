@@ -52,7 +52,7 @@ export class ACityGame extends GameBase {
                 name: "Michael Schoessow",
             }
         ],
-        flags: ["player-stashes", "scores", "no-moves", "multistep", "shared-pieces"]
+        flags: ["player-stashes", "scores", "no-moves", "multistep", "custom-colours"]
     };
 
     public static piece2string(pc: Piece): string {
@@ -726,6 +726,14 @@ export class ACityGame extends GameBase {
         };
     }
 
+    public getPlayerColour(p: playerid): number|string {
+        if (p === 1) {
+            return "#fff";
+        } else {
+            return "#000";
+        }
+    }
+
     public render(): APRenderRep {
         // Build piece string
         // @ts-ignore
@@ -889,6 +897,7 @@ export class ACityGame extends GameBase {
                 rep.areas!.push({
                     type: "pieces",
                     label: `Player ${n + 1}'s stash`,
+                    ownerMark: n === 0 ? "#fff" : "#000",
                     // @ts-ignore
                     pieces: [...this.stashes[n]]
                 });

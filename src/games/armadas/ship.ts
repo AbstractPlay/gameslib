@@ -15,6 +15,7 @@ export interface IShipOpts {
     cx: number;
     cy: number;
     facing: number;
+    dmg?: number;
 }
 
 export interface IMovementArc {
@@ -67,6 +68,17 @@ export class Ship {
         pts.push({x: rightx, y: righty});
         return pts;
     }
+    get centroid(): IPoint {
+        let totalx = 0;
+        let totaly = 0;
+        let count = 0;
+        for (const {x, y} of this.polygon) {
+            totalx += x;
+            totaly += y;
+            count++;
+        }
+        return {x: totalx / count, y: totaly / count};
+    }
     get firingArcs(): [IPoint[], IPoint[]] {
         const leftArc = [{x: this.tx, y: this.ty}];
         const rightArc = [{x: this.tx, y: this.ty}];
@@ -109,10 +121,14 @@ export class Ship {
         this._cx = opts.cx;
         this._cy = opts.cy;
         this._facing = opts.facing;
+        if (opts.dmg !== undefined) {
+            this._dmg = opts.dmg;
+        }
     }
 
     public move(newFacing: number): Ship {
-        if (Math.abs(smallestDegreeDiff(this.facing, newFacing)) > 75) {
+        const delta = Math.abs(Math.trunc(smallestDegreeDiff(this.facing, newFacing) * 100) / 100);
+        if (delta > 75.00) {
             throw new Error(`Ships may not rotate more than 75 degrees in a single step (current facing: ${this.facing}, proposed facing: ${newFacing})`);
         }
         const [x,y] = projectPoint(this.tx, this.ty, this.height / 2, newFacing);
@@ -167,5 +183,10 @@ export class Ship {
 
     public clone(): Ship {
         return new Ship({id: this.id, owner: this.owner, size: this.size, cx: this.cx, cy: this.cy, facing: this.facing});
+    }
+
+    public static deserialize(ship: Ship): Ship {
+        // {"_dmg":0,"id":"Esneaxoh","owner":1,"size":2,"_cx":449.6606139662123,"_cy":662.7283337140459,"_facing":0}
+        return new Ship({id: ship.id, dmg: ship._dmg, owner: ship.owner, size: ship.size, cx: ship._cx, cy: ship._cy, facing: ship._facing});
     }
 }

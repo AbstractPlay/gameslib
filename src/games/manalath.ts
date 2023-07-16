@@ -23,7 +23,7 @@ export interface IManalathState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
- interface IKeyEntry {
+interface IKeyEntry {
     piece: string;
     name: string;
     value?: string;

@@ -202,6 +202,7 @@
             "DOUBLE_MOVE": "You may not issue more than one move order per ship per turn.",
             "DUPLICATE_NAME": "That name is already being used.",
             "INITIAL_INSTRUCTIONS_place": "Select a piece from the sidebar to place it on the field.",
+            "INITIAL_INSTRUCTIONS_placefree": "Select a piece from the sidebar to place it on the field. Pass if you do not wish to place any more ships. Once both players pass, the play phase will begin.",
             "INITIAL_INSTRUCTIONS_play": "Select the piece you wish to move or attack with.",
             "INVALID_NAME": "The name must be between 1 and 25 characters long; must not contain any whitespace; must only consist of letters, numbers, hyphens, and underscores; and may not start with a hyphen or underscore.",
             "INVALID_SIZE": "Invalid ship size. Must be 1, 2, or 3.",
@@ -218,6 +219,8 @@
                 "PARTIAL_THREE_ARGS": "Click the point you want the ship to point towards.",
                 "TOO_MANY": "In this scenario, you may only place {{num}} ships of each size."
             },
+            "SELF_ATK": "You cannot fire upon your own ships.",
+            "TOO_FAR": "Large ships can only move two spaces, medium ships three, and small ships four.",
             "TOO_MANY_ACTIONS": "You may only take three actions on your turn.",
             "TOO_MANY_ATKS": "Ships may only attack once per turn for every pip of size (e.g., a medium ship can only attack twice in a turn).",
             "TOO_SHARP": "Ships cannot turn more than 75 degrees in one step.",
@@ -668,7 +671,7 @@
         },
         "armadas": {
             "freeform": {
-                "description": "Lets the players determine their own fleet compositions. Requires good communication.",
+                "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",
                 "name": "Freeform"
             },
             "twoTrios": {

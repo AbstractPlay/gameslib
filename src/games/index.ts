@@ -213,7 +213,7 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
         case "phutball":
             return new PhutballGame(...args);
         case "armadas":
-            return new ArmadasGame(args[0], ...args);
+            return new ArmadasGame(args[0], args[1]);
     }
     return;
 }

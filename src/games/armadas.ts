@@ -1,12 +1,16 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship } from "./armadas/ship";
-import { IPoint, calcBearing, projectPoint, ptDistance, reviver, smallestDegreeDiff } from "../common";
+import { IPoint, calcBearing, reviver, smallestDegreeDiff } from "../common";
 import { UserFacingError } from "../common";
 import { wng } from "../common";
 import i18next from "i18next";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 export type Size = 1|2|3;
@@ -28,6 +32,22 @@ export interface IArmadasState extends IAPGameState {
     maxShips: 0|1|2;
     stack: Array<IMoveState>;
 };
+
+interface IKeyEntry {
+    piece: string;
+    name: string;
+    value?: string;
+}
+
+interface IKey {
+    [k: string]: unknown;
+    type: "key";
+    list: IKeyEntry[];
+    height?: number;
+    buffer?: number;
+    position?: "left"|"right";
+    clickable?: boolean;
+}
 
 export class ArmadasGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -132,7 +152,7 @@ export class ArmadasGame extends GameBase {
     public boardsize = 15;  // must be odd
     public maxShips: 0|1|2 = 1;
     public phase: "place"|"play" = "place";
-    public showArcs: string|undefined;
+    private showArcs: string|undefined;
     public attackTracker = new Map<string,number>();
     public ghosts: Ship[] = [];
     public gameover = false;
@@ -146,6 +166,7 @@ export class ArmadasGame extends GameBase {
         if (typeof state === "number") {
             this.numplayers = state;
             if ( (variants !== undefined) && (variants.length > 0) ) {
+                console.log(`Received the following variants: ${JSON.stringify(variants)}`);
                 if (variants.includes("twoTrios")) {
                     this.maxShips = 2;
                 } else if (variants.includes("freeform")) {
@@ -178,7 +199,8 @@ export class ArmadasGame extends GameBase {
 
             // Now recursively "Objectify" the ships
             this.stack.map((s) => {
-                s.ships = s.ships.map(ship => new Ship(ship));
+                s.ships = s.ships.map(ship => Ship.deserialize(ship));
+                s.ghosts = s.ghosts.map(ship => Ship.deserialize(ship));
             });
         }
         this.load();
@@ -194,10 +216,11 @@ export class ArmadasGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.ships = state.ships.map(s => s.clone());
+        this.ships = state.ships.map(s => Ship.deserialize(s));
         this.phase = state.phase;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
+        this.ghosts = state.ghosts.map(s => Ship.deserialize(s));
         return this;
     }
 
@@ -259,18 +282,22 @@ export class ArmadasGame extends GameBase {
                 this.showArcs = undefined;
             }
 
+            // apply interim moves to get updated ship facings
+            const cloned = this.clone();
+            cloned.move(moves.join(", "), true);
+
             // get click context
             // If `ship` is undefined, then row/col are planar coordinates
             // If row/col are negative, then trying to place a piece
             let ship: Ship|undefined;
             let size: Size|undefined;
-            if (piece !== "_field") {
-                ship = this.ships.find(s => s.id === piece);
+            if ( (row < 0) && (col < 0) ) {
+                size = parseInt(piece, 10) as Size;
+            } else if (piece !== "_field") {
+                ship = cloned.ships.find(s => s.id === piece);
                 if (ship === undefined) {
                     throw new Error(`Could not find a ship named ${piece}`);
                 }
-            } else if ( (row < 0) && (col < 0) ) {
-                size = parseInt(piece, 10) as Size;
             }
 
             // process
@@ -299,7 +326,7 @@ export class ArmadasGame extends GameBase {
                     if ( (size !== undefined) || (ship !== undefined) ) {
                         return {move, message: ""} as IClickResult;
                     }
-                    const newx = col; const newy = row;
+                    const newx = Math.trunc((col * 100)) / 100; const newy = Math.trunc((row * 100)) / 100;
                     // if command doesn't already have coordinates, add them
                     if (lastargs.length === 2) {
                         let facing = 0;
@@ -325,17 +352,28 @@ export class ArmadasGame extends GameBase {
                         throw new Error(`Invalid placement string encountered: ${lastargs.join(" ")}`);
                     }
                 } else if ( (lastargs.length === 1) && (lastargs[0] !== "pass") ) {
-                    // if ship is defined, we're attacking
+                    // if ship is defined, we're attacking or picking a new ship
                     if (ship !== undefined) {
-                        newmove = [...lastargs, "attack", ship.id].join(" ");
+                        if (ship.owner !== this.currplayer) {
+                            newmove = [...lastargs, "attack", ship.id].join(" ");
+                        } else {
+                            newmove = ship.id;
+                            this.showArcs = ship.id;
+                        }
                     }
                     // otherwise we're moving
                     else {
-                        const movingShip = this.ships.find(s => s.id === lastargs[0]);
+                        const movingShip = cloned.ships.find(s => s.id === lastargs[0]);
                         if (movingShip === undefined) {
                             throw new Error(`Could not find a ship named ${lastargs[0]}`);
                         }
-                        const facing = calcBearing(movingShip.tx, movingShip.ty, col, row);
+                        let facing = Math.trunc((calcBearing(movingShip.tx, movingShip.ty, col, row) * 100)) / 100;
+                        const delta = smallestDegreeDiff(facing, movingShip.facing);
+                        if (delta < -75) {
+                            facing = movingShip.facing - 75;
+                        } else if (delta > 75) {
+                            facing = movingShip.facing + 75;
+                        }
                         newmove = [...lastargs, "move", facing].join(" ");
                     }
                 } else {
@@ -369,7 +407,11 @@ export class ArmadasGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.armadas.INITIAL_INSTRUCTIONS", {context: this.phase});
+            let context = this.phase as string;
+            if ( (this.maxShips === 0) && (this.phase === "place") ) {
+                context = "placefree"
+            }
+            result.message = i18next.t("apgames:validation.armadas.INITIAL_INSTRUCTIONS", {context});
             return result;
         }
 
@@ -523,7 +565,7 @@ export class ArmadasGame extends GameBase {
         // check for phase transition
         if (this.phase === "place") {
             // if not freeform, check for max ships
-            if (! this.variants.includes("freeform")) {
+            if (this.maxShips > 0) {
                 let missing = false;
                 for (let p = 1; p <= this.numplayers; p++) {
                     for (const size of [1,2,3] as const) {
@@ -599,26 +641,25 @@ export class ArmadasGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         // name move facing [...facing]
-        if (args.length < 3) {
-            const [shipName,] = args;
-            const ship = this.ships.find(s => s.id === shipName);
-            if (ship === undefined) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.armadas.NO_SHIP", {name: shipName});
-                return result;
-            }
-
-            // valid partial
-            result.valid = true;
-            result.complete = -1;
-            result.message = i18next.t("apgames:validation.armadas.VALID_PARTIAL_MOVE");
+        const [shipName, , ...facings] = args;
+        const ship = this.ships.find(s => s.id === shipName);
+        if (ship === undefined) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.armadas.NO_SHIP", {name: shipName});
             return result;
-        } else {
-            const [shipName, , ...facings] = args;
-            const ship = this.ships.find(s => s.id === shipName);
-            if (ship === undefined) {
+        }
+
+        // must be yours
+        if (ship.owner !== this.currplayer) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+            return result;
+        }
+
+        if ( (facings !== undefined) && (Array.isArray(facings)) && (facings.length > 0) ) {
+            if (facings.length > 5 - ship.size) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.armadas.NO_SHIP", {name: shipName});
+                result.message = i18next.t("apgames:validation.armadas.TOO_FAR");
                 return result;
             }
 
@@ -665,6 +706,12 @@ export class ArmadasGame extends GameBase {
             }
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
+        } else {
+            // valid partial
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.armadas.VALID_PARTIAL_MOVE");
+            return result;
         }
     }
 
@@ -692,7 +739,7 @@ export class ArmadasGame extends GameBase {
                 return result;
             }
             const ships = this.ships.filter(s => s.owner === this.currplayer && s.size === size);
-            if (ships.length >= this.maxShips) {
+            if ( (this.maxShips > 0) && (ships.length >= this.maxShips) ) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.armadas.place.TOO_MANY", {num: this.maxShips});
                 return result;
@@ -816,12 +863,19 @@ export class ArmadasGame extends GameBase {
             return result;
         }
 
+        // must be yours
+        if (myShip.owner !== this.currplayer) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+            return result;
+        }
+
         // can only attack so many times
         let numAttacks = 0;
         if (this.attackTracker.has(myShip.id)) {
             numAttacks = this.attackTracker.get(myShip.id)!;
         }
-        if (numAttacks >= myShip.size) {
+        if (numAttacks > myShip.size) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.armadas.TOO_MANY_ATKS");
             return result;
@@ -834,6 +888,13 @@ export class ArmadasGame extends GameBase {
                 result.message = i18next.t("apgames:validation.armadas.NO_SHIP", {name: theirName});
                 return result;
             }
+
+            if (theirShip.owner === this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.armadas.SELF_ATK");
+                return result;
+            }
+
             if (! myShip.canHit(theirShip)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.armadas.OUT_OF_RANGE", {mine: myShip.id, theirs: theirShip.id});
@@ -965,6 +1026,16 @@ export class ArmadasGame extends GameBase {
                 myLegend["ghost" + cs[i] + (j + 1).toString()] = ghostNode;
             }
         }
+        myLegend.D1 = {
+            text: "1",
+            colour: "#000",
+            scale: 0.25,
+        };
+        myLegend.D2 = {
+            text: "2",
+            colour: "#000",
+            scale: 0.25,
+        };
 
         const pieces: ILooseObj[] = [];
         for (const ship of this.ships) {
@@ -978,6 +1049,41 @@ export class ArmadasGame extends GameBase {
         }
 
         const annotations: any[] = [];
+        if (this.showArcs !== undefined) {
+            const ship = this.ships.find(s => s.id === this.showArcs);
+            if (ship !== undefined) {
+                const {leftx, lefty, rightx, righty, radius} = ship.movementArc;
+                annotations.push({type: "path", path: `M${leftx},${lefty} A${radius} ${radius} 0 0 1 ${rightx},${righty}`, fillOpacity: 0, strokeOpacity: 0.25});
+                for (const arc of ship.firingArcs) {
+                    let path = "";
+                    for (const pt of arc) {
+                        if (path.length === 0) {
+                            path += `M${pt.x},${pt.y}`;
+                        } else {
+                            path += `L${pt.x},${pt.y}`;
+                        }
+                    }
+                    annotations.push({type: "path", path, fillOpacity: 0, strokeOpacity: 0.25});
+                }
+            }
+        }
+        const d1: any[] = [];
+        const d2: any[] = [];
+        for (const ship of this.ships) {
+            if ( (ship.dmg > 0) && (! ship.sunk) ) {
+                if (ship.dmg === 1) {
+                    d1.push(ship.centroid);
+                } else if (ship.dmg === 2) {
+                    d2.push(ship.centroid);
+                }
+            }
+        }
+        if (d1.length > 0) {
+            annotations.push({type: "glyph", glyph: "D1", points: d1});
+        }
+        if (d2.length > 0) {
+            annotations.push({type: "glyph", glyph: "D2", points: d2});
+        }
         for (const r of this.results) {
             if (r.type === "damage") {
                 const myName = r.where!;
@@ -994,26 +1100,28 @@ export class ArmadasGame extends GameBase {
                         throw new Error(`Trying to render attack annotation but cannot find a ship named ${theirName}`);
                     }
                 }
-                const bearing = calcBearing(myShip.cx, myShip.cy, theirShip.cx, theirShip.cy);
-                const distance = ptDistance(myShip.cx, myShip.cy, theirShip.cx, theirShip.cy)
-                const width = 5;
-                const base = width * 2;
-                const height = distance / 10;
-                const sidelen = Math.sqrt(height**2 + (base / 2)**2);
-                const ptLeft = projectPoint(theirShip.cx, theirShip.cy, sidelen, bearing - 165);
-                const ptRight = projectPoint(theirShip.cx, theirShip.cy, sidelen, bearing + 165);
-                annotations.push({type: "path", stroke: "#f00", strokeWidth: width, fill: "#f00", path: `M${myShip.cx},${myShip.cy} L${theirShip.cx},${theirShip.cy} L${ptLeft[0]},${ptLeft[1]} L${ptRight[0]},${ptRight[1]} L${theirShip.cx},${theirShip.cy}`});
+                // const bearing = calcBearing(myShip.cx, myShip.cy, theirShip.cx, theirShip.cy);
+                // const distance = ptDistance(myShip.cx, myShip.cy, theirShip.cx, theirShip.cy)
+                const width = 3;
+                // const base = width * 2;
+                // const height = distance / 10;
+                // const sidelen = Math.sqrt(height**2 + (base / 2)**2);
+                // const ptLeft = projectPoint(theirShip.cx, theirShip.cy, sidelen, bearing - 165);
+                // const ptRight = projectPoint(theirShip.cx, theirShip.cy, sidelen, bearing + 165);
+                annotations.push({type: "path", stroke: myShip.owner, strokeWidth: width, dashed: [4], path: `M${myShip.cx},${myShip.cy} L${theirShip.cx},${theirShip.cy}`});
             }
         }
 
         const markers: ILooseObj[] = [];
         if (this.phase === "place") {
+            // place markers delineating starting areas
             for (let p = 1; p <= this.numplayers; p++) {
                 const [tl, br] = ArmadasGame.getStartingArea(this.boardsize, p as playerid);
                 markers.push({
                     type: "path",
                     stroke: p,
                     fillOpacity: 0,
+                    dashed: [4],
                     path: `M${tl.x},${tl.y} L${br.x},${tl.y} L${br.x},${br.y} L${tl.x},${br.y} Z`,
                 });
             }
@@ -1048,6 +1156,31 @@ export class ArmadasGame extends GameBase {
             // @ts-ignore
             rep.board.markers = markers;
         }
+        if (this.phase === "place") {
+            // add white pyramids for size selection
+            myLegend.click1 = {
+                name: "pyramid-flat-small",
+                colour: "#aaa"
+            };
+            myLegend.click2 = {
+                name: "pyramid-flat-medium",
+                colour: "#aaa"
+            };
+            myLegend.click3 = {
+                name: "pyramid-flat-large",
+                colour: "#aaa"
+            };
+
+            // Add key so the user can click to select a size
+            const key: IKey = {
+                type: "key",
+                position: "left",
+                height: 0.7,
+                list: [{ piece: "click1", name: "", value: "1"}, { piece: "click2", name: "", value: "2"}, { piece: "click3", name: "", value: "3"}],
+                clickable: true
+            };
+            rep.areas = [key];
+        }
 
         return rep;
     }
@@ -1072,9 +1205,11 @@ export class ArmadasGame extends GameBase {
                 resolved = true;
                 break;
             case "destroy":
+                node.push(i18next.t("apresults:DESTROY.armadas", {player, name: r.what}));
+                resolved = true;
                 break;
             case "place":
-                node.push(i18next.t("apresults:DESTROY.armadas", {player, name: r.what}));
+                node.push(i18next.t("apresults:PLACE.armadas", {player, name: r.where, context: r.what}));
                 resolved = true;
                 break;
         }
@@ -1082,6 +1217,8 @@ export class ArmadasGame extends GameBase {
     }
 
     public clone(): ArmadasGame {
+        // Have to use Object.assign to track internal variables (like showArcs) that are not part of the persistent state
+        // return Object.assign(new ArmadasGame(this.numplayers), deepclone(this) as ArmadasGame);
         return new ArmadasGame(this.serialize());
     }
 }

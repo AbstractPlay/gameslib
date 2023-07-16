@@ -5,6 +5,7 @@
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
+        "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
@@ -123,6 +124,7 @@
             "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nStack: {{estack}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INCOMPLETE_MOVE": "This move looks incomplete.",
             "INVALID_MOVE": "'{{move}}' doesn't look like a valid move.",
+            "INVALID_NUMBER": "{{num}} could not be processed as a number.",
             "INVALIDCELL": "Could not find the cell '{{cell}}' on the board.",
             "MOVE4CAPTURE": "You signalled a regular move, but {{where}} is occupied.",
             "NEED_DESTINATION": "Provide the destination.",
@@ -191,6 +193,38 @@
             "MUST_MOVE": "Ships must move at least one space.",
             "PARTIAL": "Select a destination.",
             "SELF_OCCUPATION": "You may not leave your own pieces on your home port."
+        },
+        "armadas": {
+            "BAD_PASS": "When passing, that must be the only command you provide.",
+            "CHOOSE_TARGET": "Select the ship you wish to attack.",
+            "CMD_PARAMETERS_TOOFEW": "Not enough parameters were passed to a {{type}} command.",
+            "COLLISION": "One of your movements would cause a collision.",
+            "DOUBLE_MOVE": "You may not issue more than one move order per ship per turn.",
+            "DUPLICATE_NAME": "That name is already being used.",
+            "INITIAL_INSTRUCTIONS_place": "Select a piece from the sidebar to place it on the field.",
+            "INITIAL_INSTRUCTIONS_placefree": "Select a piece from the sidebar to place it on the field. Pass if you do not wish to place any more ships. Once both players pass, the play phase will begin.",
+            "INITIAL_INSTRUCTIONS_play": "Select the piece you wish to move or attack with.",
+            "INVALID_NAME": "The name must be between 1 and 25 characters long; must not contain any whitespace; must only consist of letters, numbers, hyphens, and underscores; and may not start with a hyphen or underscore.",
+            "INVALID_SIZE": "Invalid ship size. Must be 1, 2, or 3.",
+            "JUST_SHIP_NAME": "Select a point on the field to move or select an enemy ship to attack.",
+            "MOVE_UNRECOGNIZED": "One of the commands you provided was not understood: {{cmd}}.",
+            "NO_SHIP": "Could not find a ship with the name {{name}}.",
+            "OUT_OF_BOUNDS": "One of your movements would take the ship out of bounds.",
+            "OUT_OF_RANGE": "The ship {{mine}} cannot reach {{theirs}} from this distance.",
+            "place": {
+                "OUT_OF_BOUNDS": "This would place your ship outside of your designated starting area.",
+                "PARTIAL_FOUR_ARGS": "Give the ship a name. It must be unique across *all* existing ships.",
+                "PARTIAL_NOARGS": "Select the size of ship to place.",
+                "PARTIAL_ONETWO_ARGS": "Click the field to select the x,y coordinates, or manually enter both coordinates, separated by a space.",
+                "PARTIAL_THREE_ARGS": "Click the point you want the ship to point towards.",
+                "TOO_MANY": "In this scenario, you may only place {{num}} ships of each size."
+            },
+            "SELF_ATK": "You cannot fire upon your own ships.",
+            "TOO_FAR": "Large ships can only move two spaces, medium ships three, and small ships four.",
+            "TOO_MANY_ACTIONS": "You may only take three actions on your turn.",
+            "TOO_MANY_ATKS": "Ships may only attack once per turn for every pip of size (e.g., a medium ship can only attack twice in a turn).",
+            "TOO_SHARP": "Ships cannot turn more than 75 degrees in one step.",
+            "VALID_PARTIAL_MOVE": "Click the point you want the ship to point towards."
         },
         "attangle": {
             "EMPTYCAPTURE": "One of the cells involved with the capture doesn't have any pieces in it.",
@@ -633,6 +667,16 @@
             "pari": {
                 "description": "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield.",
                 "name": "Accasta Pari"
+            }
+        },
+        "armadas": {
+            "freeform": {
+                "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",
+                "name": "Freeform"
+            },
+            "twoTrios": {
+                "description": "Each player starts with two trios of ships, instead of just one.",
+                "name": "Two Trios"
             }
         },
         "attangle": {

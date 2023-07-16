@@ -812,6 +812,13 @@ export class ArmadasGame extends GameBase {
                             return result;
                         }
 
+                        const test = new Ship({cx: x, cy: y, id: name, facing: parseFloat(facingStr), size, owner: this.currplayer})
+                        if (test.collidingWith(this.ships.map(s => s.circularForm))) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.armadas.COLLISION");
+                            return result;
+                        }
+
                         // valid complete move
                         result.valid = true;
                         result.complete = 1;

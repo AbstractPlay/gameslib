@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -22,6 +23,7 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     ships: Ship[];
     ghosts: Ship[];
+    showArcs: string|undefined;
     phase: "place"|"play";
     lastmove?: string;
 }
@@ -29,7 +31,6 @@ interface IMoveState extends IIndividualState {
 export interface IArmadasState extends IAPGameState {
     winner: playerid[];
     maxShips: 0|1|2;
-    showArcs: string|undefined;
     stack: Array<IMoveState>;
 };
 
@@ -180,6 +181,7 @@ export class ArmadasGame extends GameBase {
                 ships: [],
                 phase: "place",
                 ghosts: [],
+                showArcs: undefined,
             };
             this.stack = [fresh];
         } else {
@@ -193,7 +195,6 @@ export class ArmadasGame extends GameBase {
             this.gameover = state.gameover;
             this.variants = [...state.variants];
             this.maxShips = state.maxShips;
-            this.showArcs = state.showArcs;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
 
@@ -463,6 +464,7 @@ export class ArmadasGame extends GameBase {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
+                console.log("CANRENDER = TRUE!!");
                 result.message = i18next.t("apgames:validation.armadas.JUST_SHIP_NAME");
                 return result;
             }
@@ -559,10 +561,17 @@ export class ArmadasGame extends GameBase {
             if (move.match(/^\s*$/)) {
                 continue;
             }
-            // if partial, skip incomplete moves
-            if ( (partial) && (! this.isCmdComplete(move)) ) {
-                continue;
+            // if partial, skip incomplete moves except for ship-only designations
+            if (partial) {
+                if (! this.isCmdComplete(move)) {
+                    if (! move.startsWith("place")) {
+                        console.log(`Setting showArcs in move() to ${move}`);
+                        this.showArcs = move;
+                    }
+                    continue;
+                }
             }
+
             const tokens: string[] = move.split(/\s+/);
             if (tokens[0] === "place") {
                 this.cmdPlace(...tokens);
@@ -1011,7 +1020,6 @@ export class ArmadasGame extends GameBase {
             numplayers: this.numplayers,
             variants: [...this.variants],
             maxShips: this.maxShips,
-            showArcs: this.showArcs,
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]
@@ -1028,10 +1036,12 @@ export class ArmadasGame extends GameBase {
             phase: this.phase,
             ships: [...this.ships],
             ghosts: [...this.ghosts],
+            showArcs: this.showArcs,
         };
     }
 
     public render(): APRenderRep {
+        console.log(`About to render: showArcs = ${this.showArcs}`);
         // build legend based on number of players
         const myLegend: ILooseObj = {};
         const cs = ["R", "B", "G", "Y"];

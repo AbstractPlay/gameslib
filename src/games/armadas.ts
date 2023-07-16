@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -152,7 +151,7 @@ export class ArmadasGame extends GameBase {
     public boardsize = 15;  // must be odd
     public maxShips: 0|1|2 = 1;
     public phase: "place"|"play" = "place";
-    private showArcs: string|undefined;
+    public showArcs: string|undefined;
     public attackTracker = new Map<string,number>();
     public ghosts: Ship[] = [];
     public gameover = false;
@@ -166,7 +165,6 @@ export class ArmadasGame extends GameBase {
         if (typeof state === "number") {
             this.numplayers = state;
             if ( (variants !== undefined) && (variants.length > 0) ) {
-                console.log(`Received the following variants: ${JSON.stringify(variants)}`);
                 if (variants.includes("twoTrios")) {
                     this.maxShips = 2;
                 } else if (variants.includes("freeform")) {
@@ -461,6 +459,7 @@ export class ArmadasGame extends GameBase {
             if ( (tokens.length === 1) && (tokens[0] !== "place") && (tokens[0] !== "pass") ) {
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.armadas.JUST_SHIP_NAME");
                 return result;
             }

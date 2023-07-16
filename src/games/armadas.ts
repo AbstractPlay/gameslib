@@ -503,7 +503,10 @@ export class ArmadasGame extends GameBase {
             const lastargs = moves[2].split(/\s+/);
             // and if the last action was not a move
             if ( (lastargs.length < 3) || (lastargs[1] !== "move") ) {
-                complete = 1;
+                // except placement
+                if (lastargs[0] !== "place") {
+                    complete = 1;
+                }
             }
             // or the last action is a *complete* move
             else {

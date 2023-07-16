@@ -897,6 +897,7 @@ export class ACityGame extends GameBase {
                 rep.areas!.push({
                     type: "pieces",
                     label: `Player ${n + 1}'s stash`,
+                    ownerMark: n === 0 ? "#fff" : "#000",
                     // @ts-ignore
                     pieces: [...this.stashes[n]]
                 });

@@ -888,7 +888,7 @@ export class ACityGame extends GameBase {
             if (this.stashes[n].length > 0) {
                 rep.areas!.push({
                     type: "pieces",
-                    label: `Player ${n + 1} stash`,
+                    label: `Player ${n + 1}'s stash`,
                     // @ts-ignore
                     pieces: [...this.stashes[n]]
                 });

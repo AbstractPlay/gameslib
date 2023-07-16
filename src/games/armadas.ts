@@ -495,7 +495,26 @@ export class ArmadasGame extends GameBase {
         // fully validated move set
         result.valid = true;
         result.canrender = true;
-        result.complete = 0;
+        let complete: 0 | 1 | -1 | undefined = 0;
+        // complete can only be 1 if all three actions were taken
+        if (numMoves === 3) {
+            const lastargs = moves[2].split(/\s+/);
+            // and if the last action was not a move
+            if ( (lastargs.length < 3) || (lastargs[1] !== "move") ) {
+                complete = 1;
+            }
+            // or the last action is a *complete* move
+            else {
+                const shipName = lastargs[0];
+                const ship = this.ships.find(s => s.id === shipName);
+                if (ship !== undefined) {
+                    if (lastargs.slice(2).length === 5 - ship.size) {
+                        complete = 1;
+                    }
+                }
+            }
+        }
+        result.complete = complete;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }

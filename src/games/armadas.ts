@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -464,7 +463,6 @@ export class ArmadasGame extends GameBase {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                console.log("CANRENDER = TRUE!!");
                 result.message = i18next.t("apgames:validation.armadas.JUST_SHIP_NAME");
                 return result;
             }
@@ -565,7 +563,6 @@ export class ArmadasGame extends GameBase {
             if (partial) {
                 if (! this.isCmdComplete(move)) {
                     if (! move.startsWith("place")) {
-                        console.log(`Setting showArcs in move() to ${move}`);
                         this.showArcs = move;
                     }
                     continue;
@@ -1041,7 +1038,6 @@ export class ArmadasGame extends GameBase {
     }
 
     public render(): APRenderRep {
-        console.log(`About to render: showArcs = ${this.showArcs}`);
         // build legend based on number of players
         const myLegend: ILooseObj = {};
         const cs = ["R", "B", "G", "Y"];

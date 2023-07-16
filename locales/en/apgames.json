@@ -198,7 +198,7 @@
             "BAD_PASS": "When passing, that must be the only command you provide.",
             "CHOOSE_TARGET": "Select the ship you wish to attack.",
             "CMD_PARAMETERS_TOOFEW": "Not enough parameters were passed to a {{type}} command.",
-            "COLLISION": "One of your movements would cause a collision.",
+            "COLLISION": "Pieces may not collide with each other.",
             "DOUBLE_MOVE": "You may not issue more than one move order per ship per turn.",
             "DUPLICATE_NAME": "That name is already being used.",
             "INITIAL_INSTRUCTIONS_place": "Select a piece from the sidebar to place it on the field.",

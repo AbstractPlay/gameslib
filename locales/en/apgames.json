@@ -21,6 +21,7 @@
         "fabrik": "In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The \"Arbeiter\" variant gives each player control over a specific worker.",
         "fanorona": "Fanorona is the national game of Madagascar, and it is believed to have been derived from the game of Alquerque. Checkers can move to adjacent empty spaces and capture opposing pieces by approach or withdrawal. As long as you can keep capturing, you may continue to move. Continue until you capture all your opponent's pieces!",
         "fendo": "In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.",
+        "flume": "Place stones to make connections. Connecting to three or four other pieces allows you to place another stone. When the board is full, the player with the most stones on the board wins.",
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for domination. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponents. The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continue, but your left-hand opponent now shifts clockwise.",
@@ -376,6 +377,11 @@
             "PLACE_IN_OPEN": "You may only place pieces in the open area.",
             "PLACE_IN_RANGE": "You may only place pieces that are within one regular move of an existing piece."
         },
+        "flume": {
+            "INITIAL_INSTRUCTIONS": "Select an empty cell.",
+            "INVALID_CONTINUATION": "You may only continue placing if your last placement connected with three or more other pieces.",
+            "KEEP_GOING": "If you make a connection with three or more pieces, you must continue placing pieces."
+        },
         "focus": {
             "INITIAL_INSTRUCTIONS": "Click a stack you control.",
             "CAN_PLACE": "If you're moving, provide the destination. If you wish to place a piece you have in hand, click the cell again.",
@@ -712,6 +718,14 @@
             "arbeiter": {
                 "description": "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four.",
                 "name": "Arbeiter"
+            }
+        },
+        "flume": {
+            "11x11": {
+                "name": "Larger board: 11x11"
+            },
+            "7x7": {
+                "name": "Smaller board: 7x7"
             }
         },
         "loa": {

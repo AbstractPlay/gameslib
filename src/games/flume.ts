@@ -434,8 +434,10 @@ export class FlumeGame extends GameBase {
                     pts.push([x,y]);
                 }
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }), colour: "#fff"});
+            if (pts.length > 0) {
+                // @ts-ignore
+                rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }), colour: "#fff"});
+            }
         }
         if (this.results.length > 0) {
             // @ts-ignore
@@ -447,8 +449,10 @@ export class FlumeGame extends GameBase {
                     pts.push([x,y]);
                 }
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }), colour: "#000"});
+            if (pts.length > 0) {
+                // @ts-ignore
+                rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }), colour: "#000"});
+            }
         }
 
         return rep;

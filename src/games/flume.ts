@@ -64,6 +64,7 @@ export class FlumeGame extends GameBase {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
+                this.variants = [...variants];
                 if (variants.includes("11x11")) {
                     this.boardsize = 11;
                 } else if (variants.includes("7x7")) {
@@ -217,6 +218,13 @@ export class FlumeGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+
+        const centre = FlumeGame.coords2algebraic(Math.floor(this.boardsize / 2), Math.floor(this.boardsize / 2), this.boardsize);
+        if ( (this.stack.length === 1) && (m === centre) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.flume.CENTRE_START")
+            return result;
+        }
 
         const cells = m.split(/\s*,\s*/);
         const grid = new RectGrid(this.boardsize, this.boardsize);

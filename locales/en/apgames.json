@@ -378,6 +378,7 @@
             "PLACE_IN_RANGE": "You may only place pieces that are within one regular move of an existing piece."
         },
         "flume": {
+            "CENTRE_START": "On the first turn of the game, you may not place on the centre space.",
             "INITIAL_INSTRUCTIONS": "Select an empty cell.",
             "INVALID_CONTINUATION": "You may only continue placing if your last placement connected with three or more other pieces.",
             "KEEP_GOING": "If you make a connection with three or more pieces, you must continue placing pieces."

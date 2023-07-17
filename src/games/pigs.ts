@@ -177,6 +177,22 @@ export class PigsGame extends GameBaseSimultaneous {
     public validateMove(m: string, player: playerid): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        // always pass \u0091 characters
+        if (m === "\u0091") {
+            if (! this.isEliminated(player)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pigs.INVALID_CMD", {cmd: m});
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        } else if (this.isEliminated(player)) {
+            throw new Error("Eliminated players should never have moves being validated.");
+        }
+
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
@@ -283,11 +299,14 @@ export class PigsGame extends GameBaseSimultaneous {
 
         // for each of the five moves
         for (let mnum = 0; mnum < 5; mnum++) {
-            const next: [string,string,boolean][] = [];
+            const next: [string,string,boolean|undefined][] = [];
             // resolve all movement first
             for (let player = 1; player <= this.numplayers; player++) {
                 // ignore eliminated players
-                if (this.isEliminated(player)) { continue; }
+                if (this.isEliminated(player)) {
+                    next.push(["","",undefined]);
+                    continue;
+                }
                 let cmd = "r";
                 if (mnum < parsed[player - 1].length) {
                     cmd = parsed[player - 1][mnum];
@@ -330,6 +349,7 @@ export class PigsGame extends GameBaseSimultaneous {
             }
             // resolve collisions
             for (let i = 0; i < this.numplayers; i++) {
+                if (this.isEliminated(i + 1)) { continue; }
                 const pig = pigs.find(p => p.player === i + 1);
                 if (pig === undefined) { throw new Error(`Could not find a pig for player ${i + 1}!`); }
                 if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }

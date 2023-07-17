@@ -330,10 +330,11 @@ export class FlumeGame extends GameBase {
     }
 
     protected checkEOG(): FlumeGame {
-        if (this.board.size === this.boardsize * this.boardsize) {
+        const target = Math.ceil((this.boardsize - 2)**2 / 2);
+        const score1 = this.getPlayerScore(1);
+        const score2 = this.getPlayerScore(2);
+        if ( (score1 >= target) || (score2 >= target) ) {
             this.gameover = true;
-            const score1 = this.getPlayerScore(1);
-            const score2 = this.getPlayerScore(2);
             if (score1 > score2) {
                 this.winner = [1];
             } else {

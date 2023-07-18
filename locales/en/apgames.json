@@ -222,6 +222,8 @@
                 "PARTIAL_THREE_ARGS": "Click the point you want the ship to point towards.",
                 "TOO_MANY": "In this scenario, you may only place {{num}} ships of each size."
             },
+            "PLACE_IN_PLAY": "You cannot place pieces once the play phase has begun.",
+            "PLAY_IN_PLACE": "You cannot move and attack until the placement phase is concluded.",
             "SELF_ATK": "You cannot fire upon your own ships.",
             "TOO_FAR": "Large ships can only move two spaces, medium ships three, and small ships four.",
             "TOO_MANY_ACTIONS": "You may only take three actions on your turn.",

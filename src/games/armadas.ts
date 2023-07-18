@@ -698,6 +698,12 @@ export class ArmadasGame extends GameBase {
     private validateMovement(...args: string[]): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (this.phase === "place") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.armadas.PLAY_IN_PLACE");
+            return result;
+        }
+
         // name move facing [...facing]
         const [shipName, , ...facings] = args;
         const ship = this.ships.find(s => s.id === shipName);
@@ -786,6 +792,12 @@ export class ArmadasGame extends GameBase {
 
     private validatePlacement(...args: string[]): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        if (this.phase === "play") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.armadas.PLACE_IN_PLAY");
+            return result;
+        }
 
         // place size x y facing name
         const [, sizeStr, xStr, yStr, facingStr, name] = args;
@@ -918,6 +930,12 @@ export class ArmadasGame extends GameBase {
 
     private validateAttack(...args: string[]): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        if (this.phase === "place") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.armadas.PLAY_IN_PLACE");
+            return result;
+        }
 
         // myName attack targetName
         const [myName, , theirName] = args;

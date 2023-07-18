@@ -151,6 +151,8 @@ export class BoomGame extends GameBase {
                         if (owner !== player) {
                             moves.add(`${cell}x${first}`);
                         }
+                    } else if ( (ray.length === 0) && (ycell === targetRows.get(this.currplayer)!) ) {
+                        moves.add(`${cell}-off`)
                     }
                 }
             }

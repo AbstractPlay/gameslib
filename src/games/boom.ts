@@ -349,7 +349,7 @@ export class BoomGame extends GameBase {
                 const [xFrom, yFrom] = BoomGame.algebraic2coords(from);
                 for (let x = 0; x < 8; x++) {
                     const [xTo, yTo] = [x, targetRows.get(this.currplayer)!];
-                    if ( (xTo === xFrom) && (yTo === yFrom) ) {
+                    if (yTo === yFrom) {
                         closestCell = from;
                     } else if ( (RectGrid.isOrth(xFrom, yFrom, xTo, yTo)) || (RectGrid.isDiag(xFrom, yFrom, xTo, yTo)) ) {
                         const between = [[xTo, yTo] as [number,number], ...RectGrid.between(xFrom, yFrom, xTo, yTo)].map(n => BoomGame.coords2algebraic(...n));

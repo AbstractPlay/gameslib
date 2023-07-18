@@ -213,7 +213,11 @@ export class ArmadasGame extends GameBase {
             this.gameover = state.gameover;
             this.variants = [...state.variants];
             this.maxShips = state.maxShips;
-            this.obstacles = [...state.obstacles];
+            if ("obstacles" in state) {
+                this.obstacles = [...state.obstacles];
+            } else {
+                this.obstacles = [];
+            }
             this.winner = [...state.winner];
             this.stack = [...state.stack];
 

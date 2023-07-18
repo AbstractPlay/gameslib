@@ -351,14 +351,13 @@ export class BoomGame extends GameBase {
                     const [xTo, yTo] = [x, targetRows.get(this.currplayer)!];
                     if ( (xTo === xFrom) && (yTo === yFrom) ) {
                         closestCell = from;
-                        break;
                     } else if ( (RectGrid.isOrth(xFrom, yFrom, xTo, yTo)) || (RectGrid.isDiag(xFrom, yFrom, xTo, yTo)) ) {
                         const between = [[xTo, yTo] as [number,number], ...RectGrid.between(xFrom, yFrom, xTo, yTo)].map(n => BoomGame.coords2algebraic(...n));
                         if (between.filter(c => this.board.has(c)).length === 0) {
                             closestCell = BoomGame.coords2algebraic(xTo, yTo);
                         }
-                        break;
                     }
+                    if (closestCell !== undefined) { break; }
                 }
                 if (closestCell === undefined) {
                     throw new Error("Could not find a closest cell when bearing off a piece.");

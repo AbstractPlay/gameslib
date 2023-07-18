@@ -8,6 +8,7 @@ import { IPoint, calcBearing, reviver, smallestDegreeDiff } from "../common";
 import { UserFacingError } from "../common";
 import { wng } from "../common";
 import i18next from "i18next";
+import { Obstacle } from "./armadas/obstacle";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 // const deepclone = require("rfdc/default");
 
@@ -30,6 +31,7 @@ interface IMoveState extends IIndividualState {
 export interface IArmadasState extends IAPGameState {
     winner: playerid[];
     maxShips: 0|1|2;
+    obstacles: Obstacle[];
     stack: Array<IMoveState>;
 };
 
@@ -69,12 +71,16 @@ export class ArmadasGame extends GameBase {
         flags: ["experimental", "multistep", "no-moves"],
         variants: [
             {
-                uid: "twoTrios",
+                uid: "freeform",
                 group: "fleet",
             },
             {
-                uid: "freeform",
-                group: "fleet",
+                uid: "noislands",
+                group: "obstacles"
+            },
+            {
+                uid: "twoislands",
+                group: "obstacles"
             }
         ]
     };
@@ -150,11 +156,12 @@ export class ArmadasGame extends GameBase {
     public currplayer!: playerid;
     public ships: Ship[] = [];
     public boardsize = 15;  // must be odd
-    public maxShips: 0|1|2 = 1;
+    public maxShips: 0|1|2 = 2;
     public phase: "place"|"play" = "place";
     public showArcs: string|undefined;
     public attackTracker = new Map<string,number>();
     public ghosts: Ship[] = [];
+    public obstacles: Obstacle[] = [];
     public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
@@ -166,12 +173,24 @@ export class ArmadasGame extends GameBase {
         if (typeof state === "number") {
             this.numplayers = state;
             if ( (variants !== undefined) && (variants.length > 0) ) {
-                if (variants.includes("twoTrios")) {
-                    this.maxShips = 2;
-                } else if (variants.includes("freeform")) {
+                if (variants.includes("freeform")) {
                     this.maxShips = 0;
                 }
             }
+
+            if ( (variants === undefined) || (! variants.includes("noislands"))) {
+                const [tl1,] = ArmadasGame.getStartingArea(this.boardsize, 1);
+                const [,br2] = ArmadasGame.getStartingArea(this.boardsize, 2);
+                const cx = tl1.x + ((br2.x - tl1.x) / 2);
+                const cy = br2.y + ((tl1.y - br2.y) / 2);
+                if ( (variants === undefined) || (! variants.includes("twoislands")) ) {
+                    this.obstacles.push(new Obstacle({cx, cy}));
+                } else {
+                    this.obstacles.push(new Obstacle({cx: tl1.x, cy}));
+                    this.obstacles.push(new Obstacle({cx: br2.x, cy}));
+                }
+            }
+
             const fresh: IMoveState = {
                 _version: ArmadasGame.gameinfo.version,
                 _results: [],
@@ -194,10 +213,12 @@ export class ArmadasGame extends GameBase {
             this.gameover = state.gameover;
             this.variants = [...state.variants];
             this.maxShips = state.maxShips;
+            this.obstacles = [...state.obstacles];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
 
             // Now recursively "Objectify" the ships
+            this.obstacles = this.obstacles.map((s) => Obstacle.deserialize(s));
             this.stack.map((s) => {
                 s.ships = s.ships.map(ship => Ship.deserialize(ship));
                 s.ghosts = s.ghosts.map(ship => Ship.deserialize(ship));
@@ -711,7 +732,7 @@ export class ArmadasGame extends GameBase {
                     return result;
                 }
                 cloned.move(facing);
-                if (cloned.collidingWith(this.ships.filter(s => s.id !== cloned.id).map(s => s.circularForm))) {
+                if ( (cloned.collidingWith(this.ships.filter(s => s.id !== cloned.id).map(s => s.circularForm))) || (cloned.collidingWith(this.obstacles.map(o => o.circularForm))) ) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.armadas.COLLISION");
                     return result;
@@ -816,7 +837,7 @@ export class ArmadasGame extends GameBase {
                         }
 
                         const test = new Ship({cx: x, cy: y, id: name, facing: parseFloat(facingStr), size, owner: this.currplayer})
-                        if (test.collidingWith(this.ships.map(s => s.circularForm))) {
+                        if ( (test.collidingWith(this.ships.map(s => s.circularForm))) || (test.collidingWith(this.obstacles.map(o => o.circularForm))) ) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.armadas.COLLISION");
                             return result;
@@ -938,6 +959,12 @@ export class ArmadasGame extends GameBase {
                 return result;
             }
 
+            if (! myShip.canSee(theirShip, [...this.obstacles.map(o => o.circularForm), ...this.ships.filter(s => s.id !== myShip.id && s.id !== theirShip.id).map(s => s.circularForm)])) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.armadas.NO_LOS", {mine: myShip.id, theirs: theirShip.id});
+                return result;
+            }
+
             // valid complete move
             result.valid = true;
             result.complete = 1;
@@ -1027,6 +1054,7 @@ export class ArmadasGame extends GameBase {
             numplayers: this.numplayers,
             variants: [...this.variants],
             maxShips: this.maxShips,
+            obstacles: [...this.obstacles],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]
@@ -1170,6 +1198,14 @@ export class ArmadasGame extends GameBase {
                 glyph: `ghost${cs[ghost.owner - 1]}${ghost.size}`,
                 orientation: ghost.facing,
                 points: [{x: ghost.cx, y: ghost.cy}]
+            });
+        }
+        for (const ob of this.obstacles) {
+            markers.push({
+                type: "path",
+                path: ob.svgPath,
+                stroke: "#000",
+                fill: "#000",
             });
         }
 

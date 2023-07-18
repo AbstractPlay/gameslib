@@ -209,6 +209,7 @@
             "INVALID_SIZE": "Invalid ship size. Must be 1, 2, or 3.",
             "JUST_SHIP_NAME": "Select a point on the field to move or select an enemy ship to attack.",
             "MOVE_UNRECOGNIZED": "One of the commands you provided was not understood: {{cmd}}.",
+            "NO_LOS": "No line of sight. At least one corner of your ship must be able to see at least one corner of the other ship.",
             "NO_SHIP": "Could not find a ship with the name {{name}}.",
             "OUT_OF_BOUNDS": "One of your movements would take the ship out of bounds.",
             "OUT_OF_RANGE": "The ship {{mine}} cannot reach {{theirs}} from this distance.",
@@ -681,9 +682,12 @@
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",
                 "name": "Freeform"
             },
-            "twoTrios": {
-                "description": "Each player starts with two trios of ships, instead of just one.",
-                "name": "Two Trios"
+            "noislands": {
+                "name": "No Obstacles",
+                "description": "No starting islands"
+            },
+            "twoislands": {
+                "name": "Two Islands"
             }
         },
         "attangle": {

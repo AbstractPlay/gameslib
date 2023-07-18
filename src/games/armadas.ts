@@ -172,6 +172,9 @@ export class ArmadasGame extends GameBase {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 if (variants.includes("freeform")) {
                     this.maxShips = 0;

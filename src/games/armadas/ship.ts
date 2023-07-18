@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-loss-of-precision */
 import { Size, playerid } from "../armadas";
 import { projectPoint, IPoint, smallestDegreeDiff, ptDistance } from "../../common";
-<<<<<<< HEAD
-import { polygon as turfPoly } from "@turf/helpers";
-=======
 import { polygon as turfPoly, lineString as turfLine } from "@turf/helpers";
->>>>>>> develop
 import turfIntersects from "@turf/boolean-intersects";
 
 // ship sizes at default rendering size
@@ -142,8 +138,6 @@ export class Ship {
         return this;
     }
 
-<<<<<<< HEAD
-=======
     public canSee(ship: Ship, obstacles: CircularForm[]) {
         // To have line of sight, we must be able to draw a line from at least one of your corners to at least one of the other corners, without intersecting any obstacles.
         for (const myPt of this.polygon) {
@@ -160,7 +154,6 @@ export class Ship {
         return false;
     }
 
->>>>>>> develop
     public canHit(ship: Ship): boolean {
         for (const arc of this.firingArcs) {
             const arcpoly = turfPoly([[...arc.map(p => [p.x,p.y]), [arc[0].x,arc[0].y]]]);

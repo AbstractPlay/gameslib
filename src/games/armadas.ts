@@ -639,6 +639,7 @@ export class ArmadasGame extends GameBase {
                 }
                 if (! missing) {
                     this.phase = "play";
+                    this.currplayer = this.numplayers as playerid;
                 }
             }
             // otherwise, check for consecutive passes
@@ -652,6 +653,7 @@ export class ArmadasGame extends GameBase {
                     }
                     if (lastmoves.size === 1) {
                         this.phase = "play";
+                        this.currplayer = this.numplayers as playerid;
                     }
                 }
             }
@@ -956,9 +958,9 @@ export class ArmadasGame extends GameBase {
         }
 
         // can only attack so many times
-        let numAttacks = 0;
+        let numAttacks = 1;
         if (this.attackTracker.has(myShip.id)) {
-            numAttacks = this.attackTracker.get(myShip.id)!;
+            numAttacks += this.attackTracker.get(myShip.id)!;
         }
         if (numAttacks > myShip.size) {
             result.valid = false;

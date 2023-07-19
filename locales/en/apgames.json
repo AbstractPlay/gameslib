@@ -214,6 +214,7 @@
             "NO_SHIP": "Could not find a ship with the name {{name}}.",
             "OUT_OF_BOUNDS": "One of your movements would take the ship out of bounds.",
             "OUT_OF_RANGE": "The ship {{mine}} cannot reach {{theirs}} from this distance.",
+            "PASS_IN_PLACE": "In a game with standard fleets, you may not pass while you still have ships to place.",
             "place": {
                 "OUT_OF_BOUNDS": "This would place your ship outside of your designated starting area.",
                 "PARTIAL_FOUR_ARGS": "Give the ship a name. It must be unique across *all* existing ships.",

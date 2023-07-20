@@ -145,6 +145,13 @@ export abstract class GameBase  {
         const ctor = this.constructor as typeof GameBase;
         return i18next.t(ctor.gameinfo.description!);
     }
+    public notes(): string|undefined {
+        const ctor = this.constructor as typeof GameBase;
+        if (ctor.gameinfo.notes !== undefined) {
+            return i18next.t(ctor.gameinfo.notes);
+        }
+        return undefined;
+    }
     public allvariants(): Variant[] | undefined {
         const ctor = this.constructor as typeof GameBase;
         return ctor.gameinfo.variants?.map(v => {return {

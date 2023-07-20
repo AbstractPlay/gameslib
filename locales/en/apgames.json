@@ -759,7 +759,6 @@
                 "name": "Scrambled Eggs"
             },
             "classic": {
-                "description": "The original 8x8 classic",
                 "name": "Classic 8x8 board"
             }
         },

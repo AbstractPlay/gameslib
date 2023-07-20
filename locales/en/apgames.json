@@ -757,6 +757,10 @@
             "scrambled": {
                 "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",
                 "name": "Scrambled Eggs"
+            },
+            "classic": {
+                "description": "The original 8x8 classic",
+                "name": "Classic 8x8 board"
             }
         },
         "mchess": {

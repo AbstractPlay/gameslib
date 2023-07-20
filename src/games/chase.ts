@@ -112,6 +112,8 @@ export class ChaseGame extends GameBase {
         version: "20211009",
         // i18next.t("apgames:descriptions.chase")
         description: "apgames:descriptions.chase",
+        // i18next.t("apgames:notes.chase")
+        notes: "apgames:notes.chase",
         urls: ["https://en.wikipedia.org/wiki/Chase_(board_game)", "https://boardgamegeek.com/boardgame/316/chase"],
         people: [
             {

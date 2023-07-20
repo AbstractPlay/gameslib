@@ -59,6 +59,8 @@ export class ArmadasGame extends GameBase {
         version: "20230714",
         // i18next.t("apgames:descriptions.armadas")
         description: "apgames:descriptions.armadas",
+        // i18next.t("apgames:notes.armadas")
+        notes: "apgames:notes.armadas",
         urls: [
             "https://boardgamegeek.com/boardgame/32630/armada",
         ],

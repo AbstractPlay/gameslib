@@ -79,6 +79,8 @@ export class PigsGame extends GameBaseSimultaneous {
         version: "20230618",
         // i18next.t("apgames:descriptions.pigs")
         description: "apgames:descriptions.pigs",
+        // i18next.t("apgames:notes.pigs")
+        notes: "apgames:notes.pigs",
         urls: [
             "http://cox-tv.com/games/mygames/robobattlepigs.html",
             "https://boardgamegeek.com/boardgame/3704/robo-battle-pigs",

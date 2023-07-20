@@ -41,6 +41,8 @@ export class WitchGame extends GameBase {
         version: "20230612",
         // i18next.t("apgames:descriptions.witch")
         description: "apgames:descriptions.witch",
+        // i18next.t("apgames:notes.witch")
+        notes: "apgames:notes.witch",
         urls: ["https://boardgamegeek.com/boardgame/20517/witch-stones"],
         people: [
             {

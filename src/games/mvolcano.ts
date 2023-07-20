@@ -756,7 +756,11 @@ export class MvolcanoGame extends GameBase {
         }
     }
 
-    public render({ altDisplay = undefined } : { altDisplay: string | undefined} ): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined} ): APRenderRep {
+        let altDisplay: string|undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
         // Build piece object
         const pieces: string[][][] = [];
         for (let row = 0; row < 6; row++) {

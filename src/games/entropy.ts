@@ -44,6 +44,8 @@ export class EntropyGame extends GameBaseSimultaneous {
         version: "20211101",
         // i18next.t("apgames:descriptions.entropy")
         description: "apgames:descriptions.entropy",
+        // i18next.t("apgames:notes.entropy")
+        notes: "apgames:notes.entropy",
         urls: [
             "https://boardgamegeek.com/boardgame/1329/hyle",
         ],

@@ -53,7 +53,7 @@ export class TintasGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["multistep", "check", "pie", "automove"]
+        flags: ["multistep", "check", "pie", "automove", "shared-pieces"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -75,6 +75,8 @@ export class TintasGame extends GameBase {
     }
 
     public static blockedCells: string[] = ["h1","h2","h6","h8","h9","g1","g2","g9","f9","d1","c1","c9","b1","b8","b9","a1","a2","a3","a4","a5","a7","a8","a9"];
+
+    public static colourNames: string[] = ["RED", "BLUE", "GREEN", "YELLOW", "PURPLE", "ORANGE", "BROWN"];
 
     /**
      * Returns a list of algebraic cells from a starting cell in a given direction.
@@ -509,7 +511,7 @@ export class TintasGame extends GameBase {
             this.results.push({type: "place", where: m});
             const contents = this.board.get(m)!;
             this.captured[this.currplayer - 1].push(contents);
-            this.results.push({type: "capture", "what": contents.toString(), where: m});
+            this.results.push({type: "capture", "what": TintasGame.colourNames[contents - 1], where: m});
             this.board.delete(m);
         }
         // normal movement
@@ -520,7 +522,7 @@ export class TintasGame extends GameBase {
                 const to = moves[i];
                 const contents = this.board.get(to)!;
                 this.results.push({type: "move", from, to});
-                this.results.push({type: "capture", what: contents.toString(), where: to});
+                this.results.push({type: "capture", what: TintasGame.colourNames[contents - 1], where: to});
                 this.captured[this.currplayer - 1].push(contents);
                 this.board.delete(to);
                 this.pawnPos = to;

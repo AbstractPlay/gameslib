@@ -68,6 +68,8 @@ export class GardenGame extends GameBase {
         version: "20230619",
         // i18next.t("apgames:descriptions.garden")
         description: "apgames:descriptions.garden",
+        // i18next.t("apgames:notes.garden")
+        notes: "apgames:notes.garden",
         urls: ["http://www.tjgames.com/wizard.html", "https://boardgamegeek.com/boardgame/13077/wizards-garden"],
         people: [
             {

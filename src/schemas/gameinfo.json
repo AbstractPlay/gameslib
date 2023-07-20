@@ -89,6 +89,10 @@
             "description": "A Markdown-formatted description of the game, which can include a rules summary",
             "type": "string"
         },
+        "notes": {
+            "description": "Markdown-formatted implementation notes. There is where we can explain implementation-specific details about how the game works on Abstract Play specifically. This should help keep the game descriptions clean.",
+            "type": "string"
+        },
         "urls": {
             "description": "List of URLs related to the game",
             "$ref": "#/definitions/urllist"
@@ -130,7 +134,7 @@
             "description": "A list of flags used by the front end to signal the presence or absence of a particular feature.",
             "type": "array",
             "items": {
-                "enum": ["simultaneous", "perspective", "stacking-expanding", "scores", "limited-pieces", "shared-pieces", "shared-stash", "player-stashes", "automove", "no-moves", "multistep", "pie", "rotate90", "experimental", "check"]
+                "enum": ["simultaneous", "perspective", "stacking-expanding", "scores", "limited-pieces", "shared-pieces", "shared-stash", "player-stashes", "automove", "no-moves", "multistep", "pie", "rotate90", "experimental", "check", "custom-colours"]
             }
         }
     },

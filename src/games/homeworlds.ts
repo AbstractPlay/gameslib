@@ -84,6 +84,8 @@ export class HomeworldsGame extends GameBase {
         version: "20211024",
         // i18next.t("apgames:descriptions.homeworlds")
         description: "apgames:descriptions.homeworlds",
+        // i18next.t("apgames:notes.homeworlds")
+        notes: "apgames:notes.homeworlds",
         urls: [
             "https://www.looneylabs.com/rules/homeworlds",
             "http://www.ginohn.com/wunder201005/games/Homeworlds/HomeworldsRules.html",

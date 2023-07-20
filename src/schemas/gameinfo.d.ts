@@ -30,6 +30,10 @@ export interface APGamesInformation {
    * A Markdown-formatted description of the game, which can include a rules summary
    */
   description?: string;
+  /**
+   * Markdown-formatted implementation notes. There is where we can explain implementation-specific details about how the game works on Abstract Play specifically. This should help keep the game descriptions clean.
+   */
+  notes?: string;
   urls?: Urllist;
   /**
    * A string representing the version of the current implementation. The format of the string is irrelevant. Its main purpose is to identify incompatible game state representations. It should be changed whenever the internal game rep changes.

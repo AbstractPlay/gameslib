@@ -59,6 +59,8 @@ export class ArmadasGame extends GameBase {
         version: "20230714",
         // i18next.t("apgames:descriptions.armadas")
         description: "apgames:descriptions.armadas",
+        // i18next.t("apgames:notes.armadas")
+        notes: "apgames:notes.armadas",
         urls: [
             "https://boardgamegeek.com/boardgame/32630/armada",
         ],
@@ -172,6 +174,9 @@ export class ArmadasGame extends GameBase {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 if (variants.includes("freeform")) {
                     this.maxShips = 0;
@@ -522,28 +527,30 @@ export class ArmadasGame extends GameBase {
         // fully validated move set
         result.valid = true;
         result.canrender = true;
-        let complete: 0 | 1 | -1 | undefined = 0;
-        // complete can only be 1 if all three actions were taken
-        if (numMoves === 3) {
-            const lastargs = moves[2].split(/\s+/);
-            // and if the last action was not a move
-            if ( (lastargs.length < 3) || (lastargs[1] !== "move") ) {
-                // except placement
-                if (lastargs[0] !== "place") {
-                    complete = 1;
-                }
-            }
-            // or the last action is a *complete* move
-            else {
-                const shipName = lastargs[0];
-                const ship = this.ships.find(s => s.id === shipName);
-                if (ship !== undefined) {
-                    if (lastargs.slice(2).length === 5 - ship.size) {
-                        complete = 1;
-                    }
-                }
-            }
-        }
+        const complete: 0 | 1 | -1 | undefined = 0;
+        // disabling complete check
+        // for this game, always return 0;
+        // // complete can only be 1 if all three actions were taken
+        // if (numMoves === 3) {
+        //     const lastargs = moves[2].split(/\s+/);
+        //     // and if the last action was not a move
+        //     if ( (lastargs.length < 3) || (lastargs[1] !== "move") ) {
+        //         // except placement
+        //         if (lastargs[0] !== "place") {
+        //             complete = 1;
+        //         }
+        //     }
+        //     // or the last action is a *complete* move
+        //     else {
+        //         const shipName = lastargs[0];
+        //         const ship = this.ships.find(s => s.id === shipName);
+        //         if (ship !== undefined) {
+        //             if (lastargs.slice(2).length === 5 - ship.size) {
+        //                 complete = 1;
+        //             }
+        //         }
+        //     }
+        // }
         result.complete = complete;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
@@ -634,6 +641,7 @@ export class ArmadasGame extends GameBase {
                 }
                 if (! missing) {
                     this.phase = "play";
+                    this.currplayer = this.numplayers as playerid;
                 }
             }
             // otherwise, check for consecutive passes
@@ -647,6 +655,7 @@ export class ArmadasGame extends GameBase {
                     }
                     if (lastmoves.size === 1) {
                         this.phase = "play";
+                        this.currplayer = this.numplayers as playerid;
                     }
                 }
             }
@@ -694,6 +703,12 @@ export class ArmadasGame extends GameBase {
 
     private validateMovement(...args: string[]): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        if (this.phase === "place") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.armadas.PLAY_IN_PLACE");
+            return result;
+        }
 
         // name move facing [...facing]
         const [shipName, , ...facings] = args;
@@ -783,6 +798,12 @@ export class ArmadasGame extends GameBase {
 
     private validatePlacement(...args: string[]): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+
+        if (this.phase === "play") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.armadas.PLACE_IN_PLAY");
+            return result;
+        }
 
         // place size x y facing name
         const [, sizeStr, xStr, yStr, facingStr, name] = args;
@@ -916,6 +937,12 @@ export class ArmadasGame extends GameBase {
     private validateAttack(...args: string[]): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        if (this.phase === "place") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.armadas.PLAY_IN_PLACE");
+            return result;
+        }
+
         // myName attack targetName
         const [myName, , theirName] = args;
         const myShip = this.ships.find(s => s.id === myName);
@@ -933,9 +960,9 @@ export class ArmadasGame extends GameBase {
         }
 
         // can only attack so many times
-        let numAttacks = 0;
+        let numAttacks = 1;
         if (this.attackTracker.has(myShip.id)) {
-            numAttacks = this.attackTracker.get(myShip.id)!;
+            numAttacks += this.attackTracker.get(myShip.id)!;
         }
         if (numAttacks > myShip.size) {
             result.valid = false;
@@ -995,7 +1022,15 @@ export class ArmadasGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         // pass
-        // passing is always acceptable
+        // passing is not allowed during the place phase of the standard game while you still have ships to place
+        if ( (this.phase === "place") && (! this.variants.includes("freeform")) ) {
+            const numShips = this.ships.filter(s => s.owner === this.currplayer).length;
+            if (numShips < this.maxShips * 3) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.armadas.PASS_IN_PLACE");
+                return result;
+            }
+        }
 
         // valid complete move
         result.valid = true;

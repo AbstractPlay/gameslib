@@ -41,7 +41,7 @@ const evaluate = (state: ILinesOfActionState): number => {
     const g = new LinesOfActionGame(state);
     const maxscore = 9 * 14;
     let score = 0;
-    const pieces = [...g.board.entries()].filter(e => e[1] === g.currplayer).map(e => LinesOfActionGame.algebraic2coords(e[0]));
+    const pieces = [...g.board.entries()].filter(e => e[1] === g.currplayer).map(e => LinesOfActionGame.algebraic2coords(e[0], g.boardsize));
     for (let i = 0; i < pieces.length; i++) {
         const cell = pieces[i];
         const rest = [...pieces];

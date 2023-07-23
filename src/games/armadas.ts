@@ -589,6 +589,7 @@ export class ArmadasGame extends GameBase {
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
         this.results = [];
         this.ghosts = [];
+        this.attackTracker.clear();
 
         const mFormatted: string[] = [];
         for (const move of moves) {

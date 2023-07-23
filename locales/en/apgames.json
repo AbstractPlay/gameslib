@@ -594,6 +594,7 @@
             "NO_REMOVE_BLDGS": "You may not remove buildings from the board.",
             "ONLY_TWO": "You may only claim two edges per turn.",
             "TAKEN_LABEL": "Player {{playerNum}}'s housing limits",
+            "TWO_LINES": "You must place a second line if extending your first line is legal.",
             "VALID_PARTIAL_havehouse": "So far so good. Select at least one edge.",
             "VALID_PARTIAL_haveedge": "So far so good. Select a housing limit to remove."
         },

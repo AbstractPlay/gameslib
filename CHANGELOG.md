@@ -70,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Homeworlds: Click handler adjusted to allow easier building and more intuitive use of sacrifice commands.
 * Homeworlds: Renderer completely redone. New click handler deployed.
 * Streetcar: Made lines just claimed dashed for easy identification.
+* Streetcar: At designer's request, made the drawing of two lines mandatory if a legal second line can be drawn from the first.
 
 ## [1.0.0-beta] - 2023-04-30
 

@@ -292,8 +292,6 @@ export class ArmadasGame extends GameBase {
     }
 
     public handleClick(move: string, row: number, col: number, piece: string): IClickResult {
-        move = move.replace(/^\s+/, "");
-        move = move.replace(/\s+$/, "");
         try {
             // get move context
             let moves: string[] = [];
@@ -419,9 +417,9 @@ export class ArmadasGame extends GameBase {
             }
             const result = this.validateMove(compiled) as IClickResult;
             if (! result.valid) {
-                result.move = move + " ";
+                result.move = move;
             } else {
-                result.move = compiled + " ";
+                result.move = compiled;
             }
             return result;
         } catch (e) {

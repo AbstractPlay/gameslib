@@ -417,9 +417,9 @@ export class ArmadasGame extends GameBase {
             }
             const result = this.validateMove(compiled) as IClickResult;
             if (! result.valid) {
-                result.move = move;
+                result.move = move + " ";
             } else {
-                result.move = compiled;
+                result.move = compiled + " ";
             }
             return result;
         } catch (e) {
@@ -433,6 +433,8 @@ export class ArmadasGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        m = m.replace(/^\s+/g, "");
+        m = m.replace(/\s+$/g, "");
 
         if (m.length === 0) {
             result.valid = true;
@@ -1153,12 +1155,13 @@ export class ArmadasGame extends GameBase {
             });
         }
 
+        const markers: ILooseObj[] = [];
         const annotations: any[] = [];
         if (this.showArcs !== undefined) {
             const ship = this.ships.find(s => s.id === this.showArcs);
             if (ship !== undefined) {
                 const {leftx, lefty, rightx, righty, radius} = ship.movementArc;
-                annotations.push({type: "path", path: `M${leftx},${lefty} A${radius} ${radius} 0 0 1 ${rightx},${righty}`, fillOpacity: 0, strokeOpacity: 0.25});
+                markers.push({type: "path", path: `M${leftx},${lefty} A${radius} ${radius} 0 0 1 ${rightx},${righty}`, fillOpacity: 0, strokeOpacity: 0.25});
                 for (const arc of ship.firingArcs) {
                     let path = "";
                     for (const pt of arc) {
@@ -1168,7 +1171,7 @@ export class ArmadasGame extends GameBase {
                             path += `L${pt.x},${pt.y}`;
                         }
                     }
-                    annotations.push({type: "path", path, fillOpacity: 0, strokeOpacity: 0.25});
+                    markers.push({type: "path", path, fillOpacity: 0, strokeOpacity: 0.25});
                 }
             }
         }
@@ -1217,7 +1220,6 @@ export class ArmadasGame extends GameBase {
             }
         }
 
-        const markers: ILooseObj[] = [];
         if (this.phase === "place") {
             // place markers delineating starting areas
             for (let p = 1; p <= this.numplayers; p++) {

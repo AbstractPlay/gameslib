@@ -51,6 +51,9 @@ export class Ship {
         const [,y] = projectPoint(this.cx, this.cy, this.height / 2, this.facing);
         return y;
     }
+    get maxDist(): number {
+        return this.height * (5 - this.size);
+    }
     get movementArc(): IMovementArc {
         const radius = this.height;
         const [leftx, lefty] = projectPoint(this.tx, this.ty, radius, this.facing - 75);

@@ -4,7 +4,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship } from "./armadas/ship";
-import { IPoint, calcBearing, reviver, smallestDegreeDiff } from "../common";
+import { IPoint, calcBearing, projectPoint, reviver, smallestDegreeDiff } from "../common";
 import { UserFacingError } from "../common";
 import { wng } from "../common";
 import i18next from "i18next";
@@ -1174,6 +1174,8 @@ export class ArmadasGame extends GameBase {
                     }
                     markers.push({type: "path", path, fillOpacity: 0, strokeOpacity: 0.25});
                 }
+                const [maxx, maxy] = projectPoint(ship.tx, ship.ty, ship.maxDist, ship.facing);
+                markers.push({type: "path", strokeOpacity: 0.25, path: `M${ship.tx},${ship.ty}L${maxx},${maxy}`});
             }
         }
         const d1: any[] = [];

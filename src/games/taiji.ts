@@ -46,10 +46,18 @@ export class TaijiGame extends GameBase {
             },
             {
                 uid: "onegroup",
-                group: "scoring"
+                group: "groups"
             },
             {
                 uid: "threegroups",
+                group: "groups"
+            },
+            {
+                uid: "squares",
+                group: "scoring",
+            },
+            {
+                uid: "products",
                 group: "scoring"
             },
             {
@@ -484,7 +492,14 @@ export class TaijiGame extends GameBase {
         } else if (this.variants.includes("threegroups")) {
             counts = 3;
         }
-        return groups.slice(0, counts).reduce((sum, value) => {return sum + value.size;}, 0);
+        const scorable = groups.slice(0, counts);
+        if (this.variants.includes("products")) {
+            return scorable.reduce((product, value) => {return product * value.size;}, 1);
+        } else if (this.variants.includes("squares")) {
+            return scorable.reduce((sum, value) => {return sum + (value.size ** 2);}, 0);
+        } else {
+            return scorable.reduce((sum, value) => {return sum + value.size;}, 0);
+        }
     }
 
     public status(): string {

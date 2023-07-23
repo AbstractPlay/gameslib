@@ -856,6 +856,14 @@
             },
             "tonga": {
                 "name": "Tonga (Diagonal Placement)"
+            },
+            "squares": {
+                "name": "Sum of Squares",
+                "description": "Adds together the square of each of your n largest groups."
+            },
+            "products": {
+                "name": "Product",
+                "description": "Multiplies together the sizes of your n largest groups."
             }
         },
         "urbino": {

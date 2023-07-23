@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Alien City: Fixed bug that prevented domes from being placed on different colour tiles when legal.
 * Tintas: Fixed it so the game terminates correctly when one person has "4 of 4" and the other cannot get "7 of 1" (Thank you, @dxdydz!!)
 * Lines of Action: Original 8x8 back in as a variant.
+* Taiji: Added sum of squares and products scoring variants.
 
 ### Changed
 

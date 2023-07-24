@@ -62,6 +62,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Tintas: Fixed it so the game terminates correctly when one person has "4 of 4" and the other cannot get "7 of 1" (Thank you, @dxdydz!!)
 * Lines of Action: Original 8x8 back in as a variant.
 * Taiji: Added sum of squares and products scoring variants.
+* Homeworlds:
+  * No more "white screen of death" when abandoning your home system temporarily.
+  * Kamikaze draws are now supported.
+  * Catastrophes can now be more easily issued in the middle of a sacrifice chain.
+  * The new click handler now registers a move when you click on a friendly ship followed by *any* ship or star in a different system. It used to only get triggered by clicking on the background.
 
 ### Changed
 

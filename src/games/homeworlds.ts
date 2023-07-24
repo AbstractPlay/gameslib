@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -628,8 +629,11 @@ export class HomeworldsGame extends GameBase {
                 }
             // Otherwise, adding to an incomplete command
             } else {
+                // pass and catastrophes should reset whatever the in-progress move is
                 if ( (system !== undefined) && (system === "_pass") ) {
                     newmove = "pass";
+                } else if ( (system !== undefined) && (system === "_catastrophe") ) {
+                    newmove = "catastrophe";
                 } else {
                     // Keep supporting the old approach for people that type their commands
                     // and just want some extra assistance. And the old approach is still
@@ -836,17 +840,32 @@ export class HomeworldsGame extends GameBase {
                         const [system, ship] = pieces[0].split("|");
                         return `build ${ship[1]} ${system}`;
                     } else {
-                        return undefined;
+                        const [system1, ship1] = pieces[0].split("|");
+                        const [system2, ] = pieces[1].split("|");
+                        if (system1 !== system2) {
+                            return `move ${ship1.substring(1,3)} ${system1} ${system2}`
+                        } else {
+                            return undefined;
+                        }
                     }
                 }
-                if (types[1] === "STASH") {
-                    const [system, ship] = pieces[0].split("|");
-                    return `trade ${ship.substring(1,3)} ${system} ${pieces[1][0]}`;
+                if ( (types[1] === "STAR") || (types[1] === "ENEMY") ) {
+                    const [system1, ship1] = pieces[0].split("|");
+                    const [system2, ] = pieces[1].split("|");
+                    if (system1 !== system2) {
+                        return `move ${ship1.substring(1,3)} ${system1} ${system2}`
+                    } else {
+                        return undefined;
+                    }
                 }
                 if (types[1] === "SYSTEM") {
                     const [systemFrom, shipFrom] = pieces[0].split("|");
                     const [systemTo,] = pieces[1].split("|");
                     return `move ${shipFrom.substring(1,3)} ${systemFrom} ${systemTo}`;
+                }
+                if (types[1] === "STASH") {
+                    const [system, ship] = pieces[0].split("|");
+                    return `trade ${ship.substring(1,3)} ${system} ${pieces[1][0]}`;
                 }
                 if (types[1] === "VOID") {
                     if (types.length > 2) {
@@ -988,6 +1007,8 @@ export class HomeworldsGame extends GameBase {
             return subResult;
         }
         // If we've gotten this far, each individual command was valid and complete
+        cloned.load();
+        cloned.move(m, true);
 
         // You have to account for all your actions
         let hasActions = false;
@@ -996,22 +1017,45 @@ export class HomeworldsGame extends GameBase {
         }
 
         // You can't cause yourself to lose
+        let eliminated = false;
         if (! m.startsWith("homeworld")) {
+            console.log(`Looking for home system for ${cloned.player2seat()}`);
             const home = cloned.systems.find(s => s.owner === cloned.player2seat());
+            console.log(`Home: ${JSON.stringify(home)}`);
             if (home === undefined) {
                 throw new Error("Could not find your home system. This should never happen at this point.");
             }
             if ( (home.stars.length === 0) || (home.countShips(cloned.player2seat()) === 0) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE");
-                return result;
+                eliminated = true;
+                // unless it would trigger a draw
+                let wouldDraw = false;
+                if (this.numplayers === 2) {
+                    let otherPlayer: playerid = 1;
+                    if (this.currplayer === 1) {
+                        otherPlayer = 2;
+                    }
+                    const otherSeat = cloned.player2seat(otherPlayer);
+                    if (otherSeat === undefined) {
+                        throw new Error("Could not determine LHO.");
+                    }
+                    const otherHome = cloned.systems.find(s => s.owner === otherSeat);
+                    if ( (otherHome === undefined) || (otherHome.stars.length === 0) || (otherHome.countShips(otherSeat) === 0) ) {
+                        wouldDraw = true;
+                    }
+                }
+
+                if (! wouldDraw) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE");
+                    return result;
+                }
             }
         }
 
         // fully validated move set
         result.valid = true;
         result.canrender = true;
-        if (hasActions) {
+        if ( (hasActions) && (! eliminated) ) {
             result.complete = -1;
             result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
         } else {
@@ -1105,33 +1149,45 @@ export class HomeworldsGame extends GameBase {
             return this;
         }
 
-        // You have to account for all your actions
-        if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
-            throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:homeworlds.MOVE_MOREACTIONS"));
-        }
-
-        // You can't cause yourself to lose
-        const home = this.systems.find(s => s.owner === this.player2seat());
-        if (home === undefined) {
-            throw new Error("Could not find your home system. This should never happen at this point.");
-        }
-        if ( (home.stars.length === 0) || (home.countShips(this.player2seat()) === 0) ) {
-            throw new UserFacingError(HomeworldsErrors.MOVE_SELFELIMINATE, i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE"));
-        }
-
         // Check for any home systems where the player no longer owns any ships
         // That player is eliminated, and their system becomes a periphery system
-        const homes = this.systems.filter(s => (s.isHome()) && (s.owner !== this.player2seat()));
+        const homes = this.systems.filter(s => s.isHome());
         for (const h of homes) {
-            if (h.countShips(h.owner!) === 0) {
+            if ( (h.stars.length === 0) || (h.countShips(h.owner!) === 0) ) {
                 this.results.push({"type": "eliminated", "who": this.seat2name(h.owner)});
                 this.eliminated.push(h.owner!);
                 h.owner = undefined;
             }
         }
+        // cull any systems that are now fully empty
+        // this normally happens during regular moves, but we have to also do it now that we're eliminating systems
+        const empties = this.systems.filter(s => s.ships.length === 0);
+        for (const sys of empties) {
+            for (const star of sys.stars) {
+                this.stash.add(...star);
+            }
+            this.delSystem(sys)
+        }
+
+        // You have to account for all your actions, unless you've been eliminated
+        if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
+            if (! this.eliminated.includes(this.player2seat())) {
+                throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:homeworlds.MOVE_MOREACTIONS"));
+            }
+        }
 
         // Check for winning conditions
-        if ( (this.eliminated.length > 0) && (this.eliminated.includes(LHO!)) ) {
+        if ( (this.eliminated.length > 0) && (this.eliminated.includes(this.player2seat())) ) {
+            // either a draw or an illegal move
+            if ( (this.numplayers === 2) && (this.eliminated.includes(LHO!)) ) {
+                this.gameover = true;
+                this.results.push({type: "eog"});
+                this.winner = [1, 2];
+                this.results.push({type: "winners", players: [...this.winner]});
+            } else {
+                throw new UserFacingError(HomeworldsErrors.MOVE_SELFELIMINATE, i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE"));
+            }
+        } else if ( (this.eliminated.length > 0) && (this.eliminated.includes(LHO!)) ) {
             this.gameover = true;
             this.results.push({type: "eog"});
             this.winner = [this.currplayer];

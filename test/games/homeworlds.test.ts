@@ -663,6 +663,17 @@ describe("Homeworlds", () => {
         expect(g.systems.find(s => s.owner === "S")).to.be.undefined;
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
+
+        // kamikaze attack ends in a draw
+        g = new HomeworldsGame(2);
+        g.move("homeworld g3 - y3 *");
+        g.move("homeworld y2 g1 y3 *");
+        g.move("build y north");
+        g.move("build y south");
+        expect(() => g.move("sacrifice y3 north, move y1 north south, catastrophe south y")).to.not.throw();
+        expect(g.systems.length).eq(0);
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.have.deep.members([2,1]);
     });
 
     it("Double move bug", () => {

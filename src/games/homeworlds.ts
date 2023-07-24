@@ -2268,6 +2268,7 @@ export class HomeworldsGame extends GameBase {
             // valid partial
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             if (args.length === 0) {
                 result.message = i18next.t("apgames:validation.homeworlds.catastrophe.PARTIAL_NOARGS");
             }

@@ -763,14 +763,16 @@ export class HomeworldsGame extends GameBase {
                     const cloned = this.clone();
                     cloned.move(compiled, true);
                     let newNewMove = compiled;
-                    if (cloned.actions.B > 0) {
-                        newNewMove = result.move + ", trade";
-                    } else if (cloned.actions.G > 0) {
-                        newNewMove = result.move + ", build";
-                    } else if (cloned.actions.R > 0) {
-                        newNewMove = result.move + ", attack";
-                    } else if (cloned.actions.Y > 0) {
-                        newNewMove = result.move + ", move";
+                    if (! newNewMove.endsWith("catastrophe")) {
+                        if (cloned.actions.B > 0) {
+                            newNewMove = result.move + ", trade";
+                        } else if (cloned.actions.G > 0) {
+                            newNewMove = result.move + ", build";
+                        } else if (cloned.actions.R > 0) {
+                            newNewMove = result.move + ", attack";
+                        } else if (cloned.actions.Y > 0) {
+                            newNewMove = result.move + ", move";
+                        }
                     }
                     const newResult = this.validateMove(newNewMove) as IClickResult;
                     newResult.move = newNewMove;

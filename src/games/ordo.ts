@@ -926,10 +926,6 @@ export class OrdoGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
-    }
-
     public clone(): OrdoGame {
         return new OrdoGame(this.serialize());
     }

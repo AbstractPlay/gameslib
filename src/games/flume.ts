@@ -474,10 +474,6 @@ export class FlumeGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place"]);
-    }
-
     public clone(): FlumeGame {
         return new FlumeGame(this.serialize());
     }

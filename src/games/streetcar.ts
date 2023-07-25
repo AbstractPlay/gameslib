@@ -125,7 +125,7 @@ export class StreetcarGame extends GameBase {
             {uid: "5point", "group": "penalty"},
             {uid: "15point", "group": "penalty"},
         ],
-        flags: ["multistep", "no-moves", "scores"]
+        flags: ["multistep", "no-moves", "scores", "random-start"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -202,6 +202,7 @@ export class StreetcarGame extends GameBase {
             this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.startpos = state.startpos;
         } else {
             const bag = shuffle("1111111111111222222222222233333333333334444444444444".split("").map(n => parseInt(n, 10) as Colour)) as Colour[];
             this.startpos = bag.join("");
@@ -621,7 +622,7 @@ export class StreetcarGame extends GameBase {
                 if (occupied.length === 3) {
                     const bldg = StreetcarGame.genBuilding(occupied.map(c => this.board.get(c)!.colour));
                     this.board.set(cell, bldg);
-                    this.results.push({type: "place", where: cell});
+                    this.results.push({type: "place", where: cell, what: `${bldg.colour}${bldg.size}`});
                 }
             }
         }
@@ -1104,8 +1105,29 @@ export class StreetcarGame extends GameBase {
         return `[${edges.map(e => edge2string(e)).join(",")}]${house}`;
     }
 
+    protected getMoveList(): any[] {
+        return this.getMovesAndResults(["claim", "take", "eog", "winners"]);
+    }
+
     public sameMove(move1: string, move2: string): boolean {
         return this.normalizeMove(move1) === this.normalizeMove(move2);
     }
 
+    public getStartingPosition(): string {
+        if ( (this.startpos !== undefined) && (this.startpos.length > 0) ) {
+            return this.startpos;
+        }
+        const board = this.stack[0].board;
+        const colours = [];
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 8; x++) {
+                const cell = StreetcarGame.coords2algebraic(x, y);
+                if (StreetcarGame.blockedCells.includes(cell)) {
+                    continue;
+                }
+                colours.push(board.get(cell)!.colour);
+            }
+        }
+        return colours.join("");
+    }
 }

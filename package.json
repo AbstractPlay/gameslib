@@ -53,7 +53,7 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "@abstractplay/recranks": "latest",
+    "@abstractplay/recranks": "^1.0.0-ci-5135994409.0",
     "@abstractplay/renderer": "latest",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/helpers": "^6.5.0",

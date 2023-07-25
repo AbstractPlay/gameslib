@@ -659,10 +659,6 @@ export class DipoleGame extends GameBase {
         return rep;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move"]);
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {

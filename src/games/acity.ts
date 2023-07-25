@@ -52,7 +52,7 @@ export class ACityGame extends GameBase {
                 name: "Michael Schoessow",
             }
         ],
-        flags: ["player-stashes", "scores", "no-moves", "multistep", "custom-colours"]
+        flags: ["player-stashes", "scores", "no-moves", "multistep", "custom-colours", "random-start"]
     };
 
     public static piece2string(pc: Piece): string {
@@ -958,10 +958,6 @@ export class ACityGame extends GameBase {
         ]
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["claim", "place"]);
-    }
-
     public getPlayerStash(player: number): IStashEntry[] | undefined {
         const entry: IStashEntry[] = [];
         const stash = this.stashes[player - 1];
@@ -1128,6 +1124,10 @@ export class ACityGame extends GameBase {
             }
         }
         return result;
+    }
+
+    public getStartingPosition(): string {
+        return this.startpos.map(t => t.join("")).join(",");
     }
 
     public clone(): ACityGame {

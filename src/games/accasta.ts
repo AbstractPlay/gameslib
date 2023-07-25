@@ -796,10 +796,6 @@ export class AccastaGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place"]);
-    }
-
     public clone(): AccastaGame {
         return new AccastaGame(this.serialize());
     }

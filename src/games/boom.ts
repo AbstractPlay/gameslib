@@ -566,7 +566,7 @@ export class BoomGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "deltaScore"]);
+        return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "eog", "winners"]);
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

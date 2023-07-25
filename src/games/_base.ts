@@ -134,7 +134,7 @@ export interface IRecordDetails {
     players: IPlayerDetails[];  // Information about each player, in play order
     dateStart?: Date;            // Date the game started
     dateEnd?: Date;              // Date the game ended
-    unrated: boolean;           // Whether or not the game is explicitly flagged as unrated
+    unrated?: boolean;           // Whether or not the game is explicitly flagged as unrated
     event?: string;             // Optional event name this game is part of
     round?: string;             // Optional round identifier within the event
 }
@@ -620,13 +620,15 @@ export abstract class GameBase  {
                 "date-start": startDate.toISOString(),
                 "date-end": endDate.toISOString(),
                 "date-generated": new Date().toISOString(),
-                unrated: data.unrated,
                 // @ts-ignore
                 players: []
             },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             moves: this.getMoveList()
         };
+        if (data.unrated !== undefined) {
+            rec.header.unrated = data.unrated;
+        }
 
         if (gameinfo.flags?.includes("random-start")) {
             rec.header.startingPosition = this.getStartingPosition();

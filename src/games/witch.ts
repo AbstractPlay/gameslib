@@ -50,7 +50,7 @@ export class WitchGame extends GameBase {
                 name: "Justin D. Jacobson",
             }
         ],
-        flags: ["shared-pieces", "player-stashes", "scores"]
+        flags: ["shared-pieces", "player-stashes", "scores", "random-start"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -752,7 +752,11 @@ export class WitchGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["capture", "affiliate", "deltaScore"]);
+        return this.getMovesAndResults(["capture", "affiliate", "eog", "winners"]);
+    }
+
+    public getStartingPosition(): string {
+        return this.startpos.join("");
     }
 
     public clone(): WitchGame {

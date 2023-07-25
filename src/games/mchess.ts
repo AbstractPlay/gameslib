@@ -894,7 +894,7 @@ export class MchessGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
+        return this.getMovesAndResults(["move", "capture", "promote", "eog", "winners"]);
     }
 
     public getPlayerScore(player: number): number | undefined {

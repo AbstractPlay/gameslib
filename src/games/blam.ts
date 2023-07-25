@@ -601,7 +601,7 @@ export class BlamGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place", "capture", "pass"]);
+        return this.getMovesAndResults(["move", "place", "pass", "winners", "eog", "deltaScore"]);
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

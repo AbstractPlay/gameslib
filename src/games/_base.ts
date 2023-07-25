@@ -119,7 +119,7 @@ export interface IClickResult extends IValidationResult {
 interface IPlayerDetails {
     name: string;
     uid: string;
-    isai: boolean;
+    isai?: boolean;
 }
 
 /**
@@ -359,6 +359,10 @@ export abstract class GameBase  {
             }
         }
         return vars;
+    }
+
+    public getStartingPosition(): string {
+        return "";
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -616,14 +620,22 @@ export abstract class GameBase  {
             moves: this.getMoveList()
         };
 
+        if (gameinfo.flags?.includes("random-start")) {
+            rec.header.startingPosition = this.getStartingPosition();
+        }
+
         for (let i = 0; i < data.players.length; i++) {
+            let result = this.getPlayerResult(i + 1);
+            if (result === undefined) {
+                result = -Infinity;
+            }
             rec.header.players.push({
                 name: data.players[i].name,
                 userid: data.players[i].uid,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 is_ai: data.players[i].isai,
                 score: this.getPlayerScore(i + 1),
-                result: this.getPlayerResult(i + 1) || -Infinity
+                result,
             });
         }
 

@@ -552,7 +552,7 @@ export class MixtourGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place", "remove", "deltaScore"]);
+        return this.getMovesAndResults(["pass", "move", "place", "eog", "winners"]);
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

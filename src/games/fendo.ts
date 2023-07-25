@@ -853,10 +853,6 @@ export class FendoGame extends GameBase {
         ]
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place"]);
-    }
-
     public getPlayerPieces(player: number): number {
         return this.pieces[player - 1];
     }

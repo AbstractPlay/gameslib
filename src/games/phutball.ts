@@ -681,10 +681,6 @@ export class PhutballGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place"]);
-    }
-
     public clone(): PhutballGame {
         return new PhutballGame(this.serialize());
     }

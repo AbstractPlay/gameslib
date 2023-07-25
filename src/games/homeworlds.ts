@@ -2598,13 +2598,13 @@ export class HomeworldsGame extends GameBase {
         return rep;
     }
 
-    protected getMoveList(): any[] {
-        if (this.numplayers > 2) {
-            return this.getMovesAndResultsWithSequence();
-        } else {
-            return this.getMovesAndResults();
-        }
-    }
+    // protected getMoveList(): any[] {
+    //     if (this.numplayers > 2) {
+    //         return this.getMovesAndResultsWithSequence();
+    //     } else {
+    //         return this.getMovesAndResults();
+    //     }
+    // }
 
     public chatLog(players: string[]): string[][] {
         // eog, resign, winners, homeworld, discover, move, place, convert, capture, sacrifice, catastrophe, pass

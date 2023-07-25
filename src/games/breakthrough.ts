@@ -553,10 +553,6 @@ export class BreakthroughGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
-    }
-
     public chatLog(players: string[]): string[][] {
         // eog, resign, winners, move, capture, promote, deltaScore
         const result: string[][] = [];

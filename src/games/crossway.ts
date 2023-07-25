@@ -450,10 +450,6 @@ export class CrosswayGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place"]);
-    }
-
     public clone(): CrosswayGame {
         return new CrosswayGame(this.serialize());
     }

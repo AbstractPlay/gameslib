@@ -706,7 +706,7 @@ export class GardenGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place", "take", "deltaScore"]);
+        return this.getMovesAndResults(["place", "take", "eog", "winners"]);
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

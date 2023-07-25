@@ -521,10 +521,6 @@ export class TaijiGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
-    }
-
     public clone(): TaijiGame {
         return new TaijiGame(this.serialize());
     }

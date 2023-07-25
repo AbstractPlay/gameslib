@@ -1682,10 +1682,6 @@ export class RealmGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
-    }
-
     public chat(node: string[], name: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {

@@ -595,8 +595,8 @@ export abstract class GameBase  {
             return undefined;
         }
 
-        let startDate = this.stack[0]._timestamp;
-        let endDate = this.stack[this.stack.length - 1]._timestamp;
+        let startDate = new Date(this.stack[0]._timestamp);
+        let endDate = new Date(this.stack[this.stack.length - 1]._timestamp);
         if (data.dateStart !== undefined) {
             startDate = data.dateStart;
         }
@@ -628,6 +628,10 @@ export abstract class GameBase  {
         };
         if (data.unrated !== undefined) {
             rec.header.unrated = data.unrated;
+        }
+
+        if (gameinfo.flags?.includes("random-start")) {
+            rec.header.startingPosition = this.getStartingPosition();
         }
 
         if (gameinfo.flags?.includes("random-start")) {

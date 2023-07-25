@@ -132,8 +132,8 @@ interface IPlayerDetails {
 export interface IRecordDetails {
     uid: string;                // The game's unique ID
     players: IPlayerDetails[];  // Information about each player, in play order
-    dateStart: Date;            // Date the game started
-    dateEnd: Date;              // Date the game ended
+    dateStart?: Date;            // Date the game started
+    dateEnd?: Date;              // Date the game ended
     unrated: boolean;           // Whether or not the game is explicitly flagged as unrated
     event?: string;             // Optional event name this game is part of
     round?: string;             // Optional round identifier within the event
@@ -595,6 +595,14 @@ export abstract class GameBase  {
             return undefined;
         }
 
+        let startDate = this.stack[0]._timestamp;
+        let endDate = this.stack[this.stack.length - 1]._timestamp;
+        if (data.dateStart !== undefined) {
+            startDate = data.dateStart;
+        }
+        if (data.dateEnd !== undefined) {
+            endDate = data.dateEnd;
+        }
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const gameinfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
         const rec: APGameRecord = {
@@ -609,8 +617,8 @@ export abstract class GameBase  {
                     name: "Abstract Play",
                     gameid: data.uid
                 },
-                "date-start": data.dateStart.toISOString(),
-                "date-end": data.dateEnd.toISOString(),
+                "date-start": startDate.toISOString(),
+                "date-end": endDate.toISOString(),
                 "date-generated": new Date().toISOString(),
                 unrated: data.unrated,
                 // @ts-ignore

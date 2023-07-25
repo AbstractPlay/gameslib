@@ -462,8 +462,9 @@ export class StreetcarGame extends GameBase {
                 for (const v of edge2verts(realEdge)) {
                     extensions.delete(v.uid);
                 }
-                // filter the possible vertices for vertices that are claimed by opponent
-                const claimedIds = new Set<string>(claimedPts.map(p => p.uid));
+                // filter the possible vertices for vertices that are claimed by either player
+                const allClaimedPts = [...this.getClaimedPts(1), ...this.getClaimedPts(2)];
+                const claimedIds = new Set<string>(allClaimedPts.map(p => p.uid));
                 const unclaimed = [...extensions].filter(id => ! claimedIds.has(id));
                 // if there's at least one valid line to draw, tell them
                 if (unclaimed.length > 0) {

@@ -595,8 +595,8 @@ export abstract class GameBase  {
             return undefined;
         }
 
-        let startDate = this.stack[0]._timestamp;
-        let endDate = this.stack[this.stack.length - 1]._timestamp;
+        let startDate = new Date(this.stack[0]._timestamp);
+        let endDate = new Date(this.stack[this.stack.length - 1]._timestamp);
         if (data.dateStart !== undefined) {
             startDate = data.dateStart;
         }

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -1021,9 +1020,7 @@ export class HomeworldsGame extends GameBase {
         // You can't cause yourself to lose
         let eliminated = false;
         if (! m.startsWith("homeworld")) {
-            console.log(`Looking for home system for ${cloned.player2seat()}`);
             const home = cloned.systems.find(s => s.owner === cloned.player2seat());
-            console.log(`Home: ${JSON.stringify(home)}`);
             if (home === undefined) {
                 throw new Error("Could not find your home system. This should never happen at this point.");
             }
@@ -2610,7 +2607,6 @@ export class HomeworldsGame extends GameBase {
         // eog, resign, winners, homeworld, discover, move, place, convert, capture, sacrifice, catastrophe, pass
         const result: string[][] = [];
         for (const state of this.stack) {
-            console.log(`Next state, currplayer: ${state.currplayer}`);
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
                 const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
                 let otherPlayer = state.currplayer - 1;
@@ -2621,9 +2617,7 @@ export class HomeworldsGame extends GameBase {
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1] + ` (${this.player2seat(otherPlayer as playerid)})`;
                 }
-                console.log(`Name: ${name}`);
                 for (const r of state._results) {
-                    console.log(r.type);
                     switch (r.type) {
                         case "homeworld":
                             node.push(i18next.t("apresults:homeworlds.ESTABLISH", {player: name, name: r.name, ship: r.ship, stars: r.stars.join("+")}));

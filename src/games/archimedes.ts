@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -38,7 +39,7 @@ export class ArchimedesGame extends GameBase {
                 name: "Philip Cohen"
             }
         ],
-        flags: ["perspective"]
+        flags: ["perspective", "pie"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -156,6 +157,7 @@ export class ArchimedesGame extends GameBase {
     }
 
     private findAttackers(target: string, owner?: playerid): string[] {
+        console.log(`Target: ${target}, owner: ${owner}`);
         const attackers: string[] = [];
         const grid = new RectGrid(8, 8);
         if (owner === undefined) {
@@ -386,7 +388,7 @@ export class ArchimedesGame extends GameBase {
         while (vuln.length > 0) {
             for (const cell of vuln) {
                 this.board.delete(cell);
-                this.results.push({type: "capture", where: cell});
+                this.results.push({type: "capture", where: cell, what: otherPlayer.toString()});
             }
             vuln = this.findVulnerable(otherPlayer);
         }
@@ -538,7 +540,10 @@ export class ArchimedesGame extends GameBase {
                     const [x, y] = ArchimedesGame.algebraic2coords(move.where!);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                     // highlight all the attackers
-                    const atkrs = this.findAttackers(move.where!, parseInt(move.what!, 10) as playerid);
+                    // move.what doesn't actually contain anything, and it never has.
+                    // The attacked is the person whose turn it is right now.
+                    const atkrs = this.findAttackers(move.where!, this.currplayer);
+                    console.log(`Capture happened at ${move.where}. Attackers include ${JSON.stringify(atkrs)}`);
                     for (const atkr of atkrs) {
                         const [xAtk, yAtk] = ArchimedesGame.algebraic2coords(atkr);
                         rep.annotations.push({type: "move", style: "dashed", colour: "#ff4500", targets: [{row: yAtk, col: xAtk}, {row: y, col: x}]});

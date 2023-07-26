@@ -387,7 +387,8 @@ export class ClearcutGame extends GameBase {
         // if any are in the graph, add an edge
         for (const node of graph.nodes()) {
             const [x,y] = ClearcutGame.algebraic2coords(node);
-            const neighbours = grid.adjacencies(x,y,true).map(n => ClearcutGame.coords2algebraic(...n));
+            // diagonal connections are not relevant
+            const neighbours = grid.adjacencies(x,y,false).map(n => ClearcutGame.coords2algebraic(...n));
             for (const n of neighbours) {
                 if ( (graph.hasNode(n)) && (! graph.hasEdge(node, n)) ) {
                     graph.addEdge(node, n);

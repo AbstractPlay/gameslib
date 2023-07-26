@@ -388,7 +388,7 @@ export class ArchimedesGame extends GameBase {
         while (vuln.length > 0) {
             for (const cell of vuln) {
                 this.board.delete(cell);
-                this.results.push({type: "capture", where: cell, what: otherPlayer.toString()});
+                this.results.push({type: "capture", where: cell});
             }
             vuln = this.findVulnerable(otherPlayer);
         }

@@ -575,14 +575,14 @@ export class EntropyGame extends GameBaseSimultaneous {
             pieces: pstr
         };
 
-        if ( (this.lastmove !== undefined) && (this.lastmove.length === 2) ) {
+        if ( (this.stack[this.stack.length - 1]._results.length > 0) && (this.stack[this.stack.length - 1]._results.length === 2) ) {
             // @ts-ignore
             rep.annotations = [];
             for (let i = 0; i < 2; i++) {
-                const move = this.lastmove[i];
-                if (move !== "pass" && move !== '') {
-                    if (move.includes("-")) {
-                        const [from, to] = move.split("-");
+                const move = this.stack[this.stack.length - 1]._results[i];
+                if (move.type !== "pass") {
+                    if (move.type === "move") {
+                        const [from, to] = [move.from, move.to];
                         // eslint-disable-next-line prefer-const
                         let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
                         if (i === 1) { xFrom += 7; }
@@ -596,9 +596,9 @@ export class EntropyGame extends GameBaseSimultaneous {
                                 {col: xTo, row: yTo}
                             ]
                         });
-                    } else {
+                    } else if (move.type === "place") {
                         // eslint-disable-next-line prefer-const
-                        let [x, y] = EntropyGame.algebraic2coords(move.slice(4));
+                        let [x, y] = EntropyGame.algebraic2coords(move.where!);
                         if (i === 0) { x += 7; }
                         rep.annotations.push({
                             type: "enter",

@@ -644,7 +644,7 @@ export class ArmadasGame extends GameBase {
                 }
                 if (! missing) {
                     this.phase = "play";
-                    this.currplayer = this.numplayers as playerid;
+                    // this.currplayer = this.numplayers as playerid;
                 }
             }
             // otherwise, check for consecutive passes
@@ -658,7 +658,7 @@ export class ArmadasGame extends GameBase {
                     }
                     if (lastmoves.size === 1) {
                         this.phase = "play";
-                        this.currplayer = this.numplayers as playerid;
+                        // this.currplayer = this.numplayers as playerid;
                     }
                 }
             }

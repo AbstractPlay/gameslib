@@ -2610,17 +2610,20 @@ export class HomeworldsGame extends GameBase {
         // eog, resign, winners, homeworld, discover, move, place, convert, capture, sacrifice, catastrophe, pass
         const result: string[][] = [];
         for (const state of this.stack) {
+            console.log(`Next state, currplayer: ${state.currplayer}`);
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
                 const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
+                let otherPlayer = state.currplayer - 1;
+                if (otherPlayer < 1) {
+                    otherPlayer = this.numplayers;
                 }
                 let name = `Player ${otherPlayer} (${this.player2seat(otherPlayer as playerid)})`;
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1] + ` (${this.player2seat(otherPlayer as playerid)})`;
                 }
+                console.log(`Name: ${name}`);
                 for (const r of state._results) {
+                    console.log(r.type);
                     switch (r.type) {
                         case "homeworld":
                             node.push(i18next.t("apresults:homeworlds.ESTABLISH", {player: name, name: r.name, ship: r.ship, stars: r.stars.join("+")}));

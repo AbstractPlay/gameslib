@@ -417,9 +417,9 @@ export abstract class GameBase  {
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
                 const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
+                let otherPlayer = state.currplayer as number - 1;
+                if (otherPlayer < 1) {
+                    otherPlayer = this.numplayers;
                 }
                 let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {

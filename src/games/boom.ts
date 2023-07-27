@@ -556,7 +556,9 @@ export class BoomGame extends GameBase {
                     const [x, y] = BoomGame.algebraic2coords(move.where!);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "bearoff") {
+                    const [fromX, fromY] = BoomGame.algebraic2coords(move.from);
                     const [x, y] = BoomGame.algebraic2coords(move.edge!);
+                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: y, col: x}]});
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }

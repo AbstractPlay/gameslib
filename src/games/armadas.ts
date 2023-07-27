@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -308,9 +307,9 @@ export class ArmadasGame extends GameBase {
             // if the move is incomplete, remove it from the stack because the handler will rebuild it
             if (! complete) {
                 moves.pop();
-            // } else {
-            //     // if it is complete, clear any preexisting showArcs
-            //     this.showArcs = undefined;
+            } else {
+                // if it is complete, clear any preexisting showArcs
+                this.showArcs = undefined;
             }
 
             // apply interim moves to get updated ship facings
@@ -338,29 +337,21 @@ export class ArmadasGame extends GameBase {
             if (complete) {
                 // If size is defined, placement command
                 if (size !== undefined) {
-                    console.log("placement");
                     newmove = `place ${size}`;
                 }
                 // if ship is defined, it's move or fire
                 else if (ship !== undefined) {
-                    console.log("Move or fire");
+                    newmove = ship.id;
                     this.showArcs = ship.id;
-                    if (ship.owner === this.currplayer) {
-                        console.log("Ship owners match");
-                        newmove = ship.id;
-                    }
                 }
                 // otherwise reject click
                 else {
-                    console.log("Rejecting click");
                     return {move, message: ""} as IClickResult;
                 }
             }
             // Otherwise, adding to an incomplete command
             else {
-                console.log("Adding to incomplete");
                 if (lastargs[0] === "place") {
-                    console.log("placement");
                     // only acceptable click is on the background
                     if ( (size !== undefined) || (ship !== undefined) ) {
                         return {move, message: ""} as IClickResult;
@@ -391,7 +382,6 @@ export class ArmadasGame extends GameBase {
                         throw new Error(`Invalid placement string encountered: ${lastargs.join(" ")}`);
                     }
                 } else if ( (lastargs.length === 1) && (lastargs[0] !== "pass") ) {
-                    console.log(`lastargs.length === 1 and not pass`);
                     // if ship is defined, we're attacking or picking a new ship
                     if (ship !== undefined) {
                         if (ship.owner !== this.currplayer) {
@@ -417,18 +407,13 @@ export class ArmadasGame extends GameBase {
                         newmove = [...lastargs, "move", facing].join(" ");
                     }
                 } else {
-                    console.log("rejecting");
                     return {move, message: ""} as IClickResult;
                 }
             }
 
             let compiled = newmove;
-            if ( (moves.length > 0) && (newmove !== undefined) ) {
+            if (moves.length > 0) {
                 compiled = ArmadasGame.mergeMoves([...moves, newmove].join(", "));
-            } else if ( (moves.length > 0) && (newmove === undefined) ) {
-                compiled = ArmadasGame.mergeMoves([...moves].join(", "));
-            } else if (compiled === undefined) {
-                compiled = "";
             }
             const result = this.validateMove(compiled) as IClickResult;
             if (! result.valid) {
@@ -447,7 +432,6 @@ export class ArmadasGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
-        console.log(`Validating ${m}`);
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         m = m.replace(/^\s+/g, "");
         m = m.replace(/\s+$/g, "");
@@ -455,7 +439,6 @@ export class ArmadasGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.canrender = true;
             let context = this.phase as string;
             if ( (this.maxShips === 0) && (this.phase === "place") ) {
                 context = "placefree"

@@ -341,8 +341,10 @@ export class ArmadasGame extends GameBase {
                 }
                 // if ship is defined, it's move or fire
                 else if (ship !== undefined) {
-                    newmove = ship.id;
                     this.showArcs = ship.id;
+                    if (ship.owner === this.currplayer) {
+                        newmove = ship.id;
+                    }
                 }
                 // otherwise reject click
                 else {
@@ -412,8 +414,12 @@ export class ArmadasGame extends GameBase {
             }
 
             let compiled = newmove;
-            if (moves.length > 0) {
+            if ( (moves.length > 0) && (newmove !== undefined) ) {
                 compiled = ArmadasGame.mergeMoves([...moves, newmove].join(", "));
+            } else if ( (moves.length > 0) && (newmove === undefined) ) {
+                compiled = ArmadasGame.mergeMoves([...moves].join(", "));
+            } else if (compiled === undefined) {
+                compiled = "";
             }
             const result = this.validateMove(compiled) as IClickResult;
             if (! result.valid) {
@@ -439,6 +445,7 @@ export class ArmadasGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             let context = this.phase as string;
             if ( (this.maxShips === 0) && (this.phase === "place") ) {
                 context = "placefree"

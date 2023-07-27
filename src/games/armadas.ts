@@ -308,9 +308,9 @@ export class ArmadasGame extends GameBase {
             // if the move is incomplete, remove it from the stack because the handler will rebuild it
             if (! complete) {
                 moves.pop();
-            } else {
-                // if it is complete, clear any preexisting showArcs
-                this.showArcs = undefined;
+            // } else {
+            //     // if it is complete, clear any preexisting showArcs
+            //     this.showArcs = undefined;
             }
 
             // apply interim moves to get updated ship facings

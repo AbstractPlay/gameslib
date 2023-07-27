@@ -47,7 +47,7 @@ export class FlumeGame extends GameBase {
                 group: "board",
             }
         ],
-        flags: ["pie", "automove", "multistep", "scores", "no-moves"]
+        flags: ["pie", "multistep", "scores", "no-moves"]
     };
 
     public numplayers = 2;

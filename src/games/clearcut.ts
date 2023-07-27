@@ -70,7 +70,7 @@ export class ClearcutGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
-        flags: ["pie", "automove"]
+        flags: ["pie", "automove", "experimental"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 19);

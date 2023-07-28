@@ -119,7 +119,7 @@ export interface IClickResult extends IValidationResult {
 interface IPlayerDetails {
     name: string;
     uid: string;
-    isai: boolean;
+    isai?: boolean;
 }
 
 /**
@@ -132,9 +132,9 @@ interface IPlayerDetails {
 export interface IRecordDetails {
     uid: string;                // The game's unique ID
     players: IPlayerDetails[];  // Information about each player, in play order
-    dateStart: Date;            // Date the game started
-    dateEnd: Date;              // Date the game ended
-    unrated: boolean;           // Whether or not the game is explicitly flagged as unrated
+    dateStart?: Date;            // Date the game started
+    dateEnd?: Date;              // Date the game ended
+    unrated?: boolean;           // Whether or not the game is explicitly flagged as unrated
     event?: string;             // Optional event name this game is part of
     round?: string;             // Optional round identifier within the event
 }
@@ -361,6 +361,10 @@ export abstract class GameBase  {
         return vars;
     }
 
+    public getStartingPosition(): string {
+        return "";
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public getPlayerScore(player: number): number | undefined {
         return undefined;
@@ -413,9 +417,9 @@ export abstract class GameBase  {
         for (const state of this.stack) {
             if ( (state._results !== undefined) && (state._results.length > 0) ) {
                 const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
-                let otherPlayer = state.currplayer as number + 1;
-                if (otherPlayer > this.numplayers) {
-                    otherPlayer = 1;
+                let otherPlayer = state.currplayer as number - 1;
+                if (otherPlayer < 1) {
+                    otherPlayer = this.numplayers;
                 }
                 let name = `Player ${otherPlayer}`;
                 if (otherPlayer <= players.length) {
@@ -591,6 +595,14 @@ export abstract class GameBase  {
             return undefined;
         }
 
+        let startDate = new Date(this.stack[0]._timestamp);
+        let endDate = new Date(this.stack[this.stack.length - 1]._timestamp);
+        if (data.dateStart !== undefined) {
+            startDate = data.dateStart;
+        }
+        if (data.dateEnd !== undefined) {
+            endDate = data.dateEnd;
+        }
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         const gameinfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
         const rec: APGameRecord = {
@@ -605,25 +617,39 @@ export abstract class GameBase  {
                     name: "Abstract Play",
                     gameid: data.uid
                 },
-                "date-start": data.dateStart.toISOString(),
-                "date-end": data.dateEnd.toISOString(),
+                "date-start": startDate.toISOString(),
+                "date-end": endDate.toISOString(),
                 "date-generated": new Date().toISOString(),
-                unrated: data.unrated,
                 // @ts-ignore
                 players: []
             },
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             moves: this.getMoveList()
         };
+        if (data.unrated !== undefined) {
+            rec.header.unrated = data.unrated;
+        }
+
+        if (gameinfo.flags?.includes("random-start")) {
+            rec.header.startingPosition = this.getStartingPosition();
+        }
+
+        if (gameinfo.flags?.includes("random-start")) {
+            rec.header.startingPosition = this.getStartingPosition();
+        }
 
         for (let i = 0; i < data.players.length; i++) {
+            let result = this.getPlayerResult(i + 1);
+            if (result === undefined) {
+                result = -Infinity;
+            }
             rec.header.players.push({
                 name: data.players[i].name,
                 userid: data.players[i].uid,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 is_ai: data.players[i].isai,
                 score: this.getPlayerScore(i + 1),
-                result: this.getPlayerResult(i + 1) || -Infinity
+                result,
             });
         }
 

@@ -594,10 +594,6 @@ export class LinesOfActionGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
-    }
-
     public inCheck(): number[] {
         const checked: number[] = [];
         for (const p of [1,2] as playerid[]) {

@@ -13,6 +13,7 @@
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
+        "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
@@ -318,6 +319,11 @@
             "PARTIAL_MOVE": "Select a destination, or select the same piece again to begin an exchange.",
             "UNEQUAL_EXCHANGE": "Exchanges must result in the same combined speed. The original combined speed was {{original}}. Your requested move would change that to {{proposed}}."
         },
+        "clearcut": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
+            "BAD_CROSSING": "Lines may only cross if your extended crosscut is larger than the opposing extended crosscut."
+        },
         "complica": {
             "INITIAL_INSTRUCTIONS": "Select the column into which to drop your stone."
         },
@@ -594,6 +600,7 @@
             "NO_REMOVE_BLDGS": "You may not remove buildings from the board.",
             "ONLY_TWO": "You may only claim two edges per turn.",
             "TAKEN_LABEL": "Player {{playerNum}}'s housing limits",
+            "TWO_LINES": "You must place a second line if extending your first line is legal.",
             "VALID_PARTIAL_havehouse": "So far so good. Select at least one edge.",
             "VALID_PARTIAL_haveedge": "So far so good. Select a housing limit to remove."
         },
@@ -856,6 +863,14 @@
             },
             "tonga": {
                 "name": "Tonga (Diagonal Placement)"
+            },
+            "squares": {
+                "name": "Sum of Squares",
+                "description": "Adds together the square of each of your n largest groups."
+            },
+            "products": {
+                "name": "Product",
+                "description": "Multiplies together the sizes of your n largest groups."
             }
         },
         "urbino": {

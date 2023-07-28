@@ -47,7 +47,7 @@ export class FlumeGame extends GameBase {
                 group: "board",
             }
         ],
-        flags: ["pie", "automove", "multistep", "scores"]
+        flags: ["pie", "multistep", "scores", "no-moves"]
     };
 
     public numplayers = 2;
@@ -294,9 +294,9 @@ export class FlumeGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            }
+            // if (! this.moves().includes(m)) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // }
         }
 
         this.results = [];
@@ -472,10 +472,6 @@ export class FlumeGame extends GameBase {
         }
 
         return status;
-    }
-
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["place"]);
     }
 
     public clone(): FlumeGame {

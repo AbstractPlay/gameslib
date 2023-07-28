@@ -4,7 +4,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship } from "./armadas/ship";
-import { IPoint, calcBearing, reviver, smallestDegreeDiff } from "../common";
+import { IPoint, calcBearing, projectPoint, reviver, smallestDegreeDiff } from "../common";
 import { UserFacingError } from "../common";
 import { wng } from "../common";
 import i18next from "i18next";
@@ -433,6 +433,8 @@ export class ArmadasGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        m = m.replace(/^\s+/g, "");
+        m = m.replace(/\s+$/g, "");
 
         if (m.length === 0) {
             result.valid = true;
@@ -587,6 +589,7 @@ export class ArmadasGame extends GameBase {
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
         this.results = [];
         this.ghosts = [];
+        this.attackTracker.clear();
 
         const mFormatted: string[] = [];
         for (const move of moves) {
@@ -641,7 +644,7 @@ export class ArmadasGame extends GameBase {
                 }
                 if (! missing) {
                     this.phase = "play";
-                    this.currplayer = this.numplayers as playerid;
+                    // this.currplayer = this.numplayers as playerid;
                 }
             }
             // otherwise, check for consecutive passes
@@ -655,7 +658,7 @@ export class ArmadasGame extends GameBase {
                     }
                     if (lastmoves.size === 1) {
                         this.phase = "play";
-                        this.currplayer = this.numplayers as playerid;
+                        // this.currplayer = this.numplayers as playerid;
                     }
                 }
             }
@@ -1153,12 +1156,13 @@ export class ArmadasGame extends GameBase {
             });
         }
 
+        const markers: ILooseObj[] = [];
         const annotations: any[] = [];
         if (this.showArcs !== undefined) {
             const ship = this.ships.find(s => s.id === this.showArcs);
             if (ship !== undefined) {
                 const {leftx, lefty, rightx, righty, radius} = ship.movementArc;
-                annotations.push({type: "path", path: `M${leftx},${lefty} A${radius} ${radius} 0 0 1 ${rightx},${righty}`, fillOpacity: 0, strokeOpacity: 0.25});
+                markers.push({type: "path", path: `M${leftx},${lefty} A${radius} ${radius} 0 0 1 ${rightx},${righty}`, fillOpacity: 0, strokeOpacity: 0.25});
                 for (const arc of ship.firingArcs) {
                     let path = "";
                     for (const pt of arc) {
@@ -1168,8 +1172,10 @@ export class ArmadasGame extends GameBase {
                             path += `L${pt.x},${pt.y}`;
                         }
                     }
-                    annotations.push({type: "path", path, fillOpacity: 0, strokeOpacity: 0.25});
+                    markers.push({type: "path", path, fillOpacity: 0, strokeOpacity: 0.25});
                 }
+                const [maxx, maxy] = projectPoint(ship.tx, ship.ty, ship.maxDist, ship.facing);
+                markers.push({type: "path", strokeOpacity: 0.25, path: `M${ship.tx},${ship.ty}L${maxx},${maxy}`});
             }
         }
         const d1: any[] = [];
@@ -1217,7 +1223,6 @@ export class ArmadasGame extends GameBase {
             }
         }
 
-        const markers: ILooseObj[] = [];
         if (this.phase === "place") {
             // place markers delineating starting areas
             for (let p = 1; p <= this.numplayers; p++) {

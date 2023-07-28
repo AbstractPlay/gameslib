@@ -88,7 +88,7 @@ export class VolcanoGame extends GameBase {
                 urls: ["http://www.wunderland.com/WTS/Kristin/Kristin.html"]
             }
         ],
-        flags: ["shared-pieces", "stacking-expanding", "no-moves", "multistep"],
+        flags: ["shared-pieces", "stacking-expanding", "no-moves", "multistep", "random-start"],
         displays: [{uid: "expanding"}]
     };
 
@@ -980,7 +980,7 @@ export class VolcanoGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move"]);
+        return this.getMovesAndResults(["move", "eog", "winners"]);
     }
 
     public chatLog(players: string[]): string[][] {
@@ -1044,6 +1044,10 @@ export class VolcanoGame extends GameBase {
             }
         }
         return result;
+    }
+
+    public getStartingPosition(): string {
+        return this.stack[0].board.map(row => row.map(col => col.length > 0 ? col[0][0] : "-").join(",")).join(",");
     }
 
     public clone(): VolcanoGame {

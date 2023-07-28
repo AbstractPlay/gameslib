@@ -572,10 +572,6 @@ export class CephalopodGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place"]);
-    }
-
     public getPlayerScore(player: number): number {
         return [...this.board.values()].filter(v => v[0] === player).length;
     }

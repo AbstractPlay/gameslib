@@ -602,10 +602,6 @@ export class ZolaGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
-    }
-
     public clone(): ZolaGame {
         return new ZolaGame(this.serialize());
     }

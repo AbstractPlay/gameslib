@@ -53,7 +53,7 @@ export class TintasGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        flags: ["multistep", "check", "pie", "automove", "shared-pieces"]
+        flags: ["multistep", "check", "pie", "automove", "shared-pieces", "random-start"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -130,6 +130,7 @@ export class TintasGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.startpos = state.startpos;
         } else {
             const bag = shuffle("1111111222222233333334444444555555566666667777777".split("").map(n => parseInt(n, 10) as CellContents)) as CellContents[];
             this.startpos = bag.join("");
@@ -798,6 +799,24 @@ export class TintasGame extends GameBase {
             }
         }
         return checked;
+    }
+
+    public getStartingPosition(): string {
+        if ( (this.startpos !== undefined) && (this.startpos.length > 0) ) {
+            return this.startpos;
+        }
+        const board = this.stack[0].board;
+        const colours = [];
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 9; x++) {
+                const cell = TintasGame.coords2algebraic(x, y);
+                if (TintasGame.blockedCells.includes(cell)) {
+                    continue;
+                }
+                colours.push(board.get(cell)!);
+            }
+        }
+        return colours.join("");
     }
 
     public clone(): TintasGame {

@@ -19,7 +19,7 @@ export interface IFocusState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-const blockedCells: string[] = ["a1", "b1", "g1", "h2", "a2", "h2", "a7", "h7", "a8", "b8", "g8", "h8"];
+const blockedCells: string[] = ["a1", "b1", "g1", "h1", "a2", "h2", "a7", "h7", "a8", "b8", "g8", "h8"];
 
 export class FocusGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -578,7 +578,7 @@ export class FocusGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture", "reclaim", "place"]);
+        return this.getMovesAndResults(["move", "place", "eog", "winners"]);
     }
 
     public chatLog(players: string[]): string[][] {

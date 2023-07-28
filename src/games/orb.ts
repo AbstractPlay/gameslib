@@ -844,10 +844,6 @@ export class OrbGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "place", "promote", "capture"]);
-    }
-
     public getPlayerPieces(player: number): number {
         return this.stashes[player - 1];
     }

@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * New game: Flume
 * New game: Boom & Zoom
 * New game: Phutball
+* New game: Clearcut
 * Added `experimental` flag so games can be excluded in production, even if updated game code gets deployed to production.
 * Added `check` flag so the front end can signal to players when they're in a game-ending situation.
 * Added functionality to support multiple displays per game. Volcano and Mega-Volcano now supports a "3D" display, besides the original stack expanding one.
@@ -61,6 +62,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Alien City: Fixed bug that prevented domes from being placed on different colour tiles when legal.
 * Tintas: Fixed it so the game terminates correctly when one person has "4 of 4" and the other cannot get "7 of 1" (Thank you, @dxdydz!!)
 * Lines of Action: Original 8x8 back in as a variant.
+* Taiji: Added sum of squares and products scoring variants.
+* Homeworlds:
+  * No more "white screen of death" when abandoning your home system temporarily.
+  * Kamikaze draws are now supported.
+  * Catastrophes can now be more easily issued in the middle of a sacrifice chain.
+  * The new click handler now registers a move when you click on a friendly ship followed by *any* ship or star in a different system. It used to only get triggered by clicking on the background.
 
 ### Changed
 
@@ -69,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Homeworlds: Click handler adjusted to allow easier building and more intuitive use of sacrifice commands.
 * Homeworlds: Renderer completely redone. New click handler deployed.
 * Streetcar: Made lines just claimed dashed for easy identification.
+* Streetcar: At designer's request, made the drawing of two lines mandatory if a legal second line can be drawn from the first.
 
 ## [1.0.0-beta] - 2023-04-30
 

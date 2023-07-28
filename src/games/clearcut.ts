@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -6,6 +8,8 @@ import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -16,7 +20,7 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
 };
 
-export interface ICrosswayState extends IAPGameState {
+export interface IClearcutState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
@@ -40,15 +44,25 @@ for (let y = 0; y < 19; y++) {
 }
 const lines: [PlayerLines,PlayerLines] = [[lineN,lineS],[lineE,lineW]];
 
-export class CrosswayGame extends GameBase {
+interface ICrossCut {
+    yours: [string,string];
+    theirs: [string,string];
+}
+
+interface ICrossCutExtended {
+    yours: number;
+    theirs: number;
+}
+
+export class ClearcutGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Crossway",
-        uid: "crossway",
+        name: "Clearcut",
+        uid: "clearcut",
         playercounts: [2],
-        version: "20230625",
-        // i18next.t("apgames:descriptions.crossway")
-        description: "apgames:descriptions.crossway",
-        urls: ["https://www.marksteeregames.com/Crossway_rules.pdf"],
+        version: "20230725",
+        // i18next.t("apgames:descriptions.clearcut")
+        description: "apgames:descriptions.clearcut",
+        urls: ["https://www.marksteeregames.com/Clearcut_rules.pdf"],
         people: [
             {
                 type: "designer",
@@ -56,7 +70,7 @@ export class CrosswayGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
-        flags: ["pie", "automove"]
+        flags: ["pie", "automove", "experimental"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 19);
@@ -75,12 +89,12 @@ export class CrosswayGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: ICrosswayState | string) {
+    constructor(state?: IClearcutState | string) {
         super();
         if (state === undefined) {
             const board = new Map<string, playerid>();
             const fresh: IMoveState = {
-                _version: CrosswayGame.gameinfo.version,
+                _version: ClearcutGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -90,10 +104,10 @@ export class CrosswayGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as ICrosswayState;
+                state = JSON.parse(state, reviver) as IClearcutState;
             }
-            if (state.game !== CrosswayGame.gameinfo.uid) {
-                throw new Error(`The Crossway engine cannot process a game of '${state.game}'.`);
+            if (state.game !== ClearcutGame.gameinfo.uid) {
+                throw new Error(`The Clearcut engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -103,7 +117,7 @@ export class CrosswayGame extends GameBase {
         this.load();
     }
 
-    public load(idx = -1): CrosswayGame {
+    public load(idx = -1): ClearcutGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -119,20 +133,27 @@ export class CrosswayGame extends GameBase {
         return this;
     }
 
-    private canPlace(cell: string, player: playerid): boolean {
-        const [x,y] = CrosswayGame.algebraic2coords(cell);
+    public getCrosscuts(cell: string, player?: playerid): ICrossCut[] {
+        if (player === undefined) {
+            player = this.board.get(cell);
+            if (player === undefined) {
+                throw new Error("If player is undefined, then the cell must be occupied.");
+            }
+        }
+        const crosscuts: ICrossCut[] = [];
+        const [x,y] = ClearcutGame.algebraic2coords(cell);
         const grid = new RectGrid(19,19);
         const nonos: [Directions,Directions][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
         for (const [left,right] of nonos) {
             let matchLeft = false;
-            const rayLeft = grid.ray(x, y, left).map(n => CrosswayGame.coords2algebraic(...n));
+            const rayLeft = grid.ray(x, y, left).map(n => ClearcutGame.coords2algebraic(...n));
             if (rayLeft.length > 0) {
                 if ( (this.board.has(rayLeft[0])) && (this.board.get(rayLeft[0])! !== player) ) {
                     matchLeft = true;
                 }
             }
             let matchRight = false;
-            const rayRight = grid.ray(x, y, right).map(n => CrosswayGame.coords2algebraic(...n));
+            const rayRight = grid.ray(x, y, right).map(n => ClearcutGame.coords2algebraic(...n));
             if (rayRight.length > 0) {
                 if ( (this.board.has(rayRight[0])) && (this.board.get(rayRight[0])! !== player) ) {
                     matchRight = true;
@@ -140,13 +161,74 @@ export class CrosswayGame extends GameBase {
             }
             const dirDiag = (left + right) as Directions;
             let matchDiag = false;
-            const rayDiag = grid.ray(x, y, dirDiag).map(n => CrosswayGame.coords2algebraic(...n));
+            const rayDiag = grid.ray(x, y, dirDiag).map(n => ClearcutGame.coords2algebraic(...n));
             if (rayDiag.length > 0) {
                 if ( (this.board.has(rayDiag[0])) && (this.board.get(rayDiag[0])! === player) ) {
                     matchDiag = true;
                 }
             }
             if (matchLeft && matchRight && matchDiag) {
+                crosscuts.push({
+                    yours: [cell, rayDiag[0]],
+                    theirs: [rayLeft[0], rayRight[0]],
+                });
+            }
+        }
+        return crosscuts;
+    }
+
+    public extendCell(start: string): string[] {
+        if (! this.board.has(start)) {
+            throw new Error("Can only extend an occupied cell.");
+        }
+        const grid = new RectGrid(19, 19);
+        const player = this.board.get(start)!;
+        const toVisit: string[] = [start];
+        const visited = new Set<string>();
+        const extension = new Set<string>();
+        while (toVisit.length > 0) {
+            const cell = toVisit.pop()!;
+            visited.add(cell);
+            extension.add(cell);
+            const [x,y] = ClearcutGame.algebraic2coords(cell);
+            const adj = grid.adjacencies(x, y, false).map(n => ClearcutGame.coords2algebraic(...n));
+            for (const next of adj) {
+                if (this.board.has(next)) {
+                    const contents = this.board.get(next)!;
+                    if ( (contents === player) && (! visited.has(next)) ) {
+                        toVisit.push(next);
+                    }
+                }
+            }
+        }
+        return [...extension];
+    }
+
+    public extendCrosscuts(crosses: ICrossCut[]): ICrossCutExtended[] {
+        const extended: ICrossCutExtended[] = [];
+        for (const cross of crosses) {
+            let yours = 0;
+            let theirs = 0;
+            for (const cell of cross.yours) {
+                const ext = this.extendCell(cell);
+                yours += ext.length;
+            }
+            for (const cell of cross.theirs) {
+                const ext = this.extendCell(cell);
+                theirs += ext.length;
+            }
+            extended.push({yours, theirs});
+        }
+        return extended;
+    }
+
+    public canPlace(cell: string, player: playerid): boolean {
+        const cloned: ClearcutGame = Object.assign(new ClearcutGame(), deepclone(this) as ClearcutGame);
+        cloned.board.set(cell, player);
+        const crosses = cloned.getCrosscuts(cell);
+        const extended = cloned.extendCrosscuts(crosses);
+        for (const ext of extended) {
+            if (ext.yours <= ext.theirs) {
                 return false;
             }
         }
@@ -160,7 +242,7 @@ export class CrosswayGame extends GameBase {
         // can place on any empty space as long as you don't cross paths
         for (let y = 0; y < 19; y++) {
             for (let x = 0; x < 19; x++) {
-                const cell = CrosswayGame.coords2algebraic(x, y);
+                const cell = ClearcutGame.coords2algebraic(x, y);
                 if (! this.board.has(cell)) {
                     if (this.canPlace(cell, this.currplayer)) {
                         moves.push(cell);
@@ -182,7 +264,7 @@ export class CrosswayGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = CrosswayGame.coords2algebraic(col, row);
+            const cell = ClearcutGame.coords2algebraic(col, row);
             const newmove = cell;
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -206,7 +288,7 @@ export class CrosswayGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.crossway.INITIAL_INSTRUCTIONS")
+            result.message = i18next.t("apgames:validation.clearcut.INITIAL_INSTRUCTIONS")
             return result;
         }
 
@@ -223,7 +305,7 @@ export class CrosswayGame extends GameBase {
 
         // valid cell
         try {
-            CrosswayGame.algebraic2coords(m);
+            ClearcutGame.algebraic2coords(m);
         } catch {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m})
@@ -240,7 +322,7 @@ export class CrosswayGame extends GameBase {
         // doesn't break the rule
         if (! this.canPlace(m, this.currplayer)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.crossway.NO_CROSSINGS")
+            result.message = i18next.t("apgames:validation.clearcut.BAD_CROSSING")
             return result;
         }
 
@@ -251,7 +333,7 @@ export class CrosswayGame extends GameBase {
         return result;
     }
 
-    public move(m: string): CrosswayGame {
+    public move(m: string): ClearcutGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -272,6 +354,13 @@ export class CrosswayGame extends GameBase {
         } else {
             this.board.set(m, this.currplayer);
             this.results.push({type: "place", where: m});
+        }
+        for (const cross of this.getCrosscuts(m, this.currplayer)) {
+            // I can already assume that all crosscuts are valid, so just capture the opposing pieces
+            for (const cell of cross.theirs) {
+                this.board.delete(cell);
+                this.results.push({type: "capture", where: cell});
+            }
         }
 
         // update currplayer
@@ -297,8 +386,9 @@ export class CrosswayGame extends GameBase {
         // for each node, check neighbours
         // if any are in the graph, add an edge
         for (const node of graph.nodes()) {
-            const [x,y] = CrosswayGame.algebraic2coords(node);
-            const neighbours = grid.adjacencies(x,y,true).map(n => CrosswayGame.coords2algebraic(...n));
+            const [x,y] = ClearcutGame.algebraic2coords(node);
+            // diagonal connections are not relevant
+            const neighbours = grid.adjacencies(x,y,false).map(n => ClearcutGame.coords2algebraic(...n));
             for (const n of neighbours) {
                 if ( (graph.hasNode(n)) && (! graph.hasEdge(node, n)) ) {
                     graph.addEdge(node, n);
@@ -308,7 +398,7 @@ export class CrosswayGame extends GameBase {
         return graph;
     }
 
-    protected checkEOG(): CrosswayGame {
+    protected checkEOG(): ClearcutGame {
         let prevPlayer: playerid = 1;
         if (this.currplayer === 1) {
             prevPlayer = 2;
@@ -342,9 +432,9 @@ export class CrosswayGame extends GameBase {
         return this;
     }
 
-    public state(): ICrosswayState {
+    public state(): IClearcutState {
         return {
-            game: CrosswayGame.gameinfo.uid,
+            game: ClearcutGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -355,7 +445,7 @@ export class CrosswayGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: CrosswayGame.gameinfo.version,
+            _version: ClearcutGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -374,7 +464,7 @@ export class CrosswayGame extends GameBase {
             }
             const pieces: string[] = [];
             for (let col = 0; col < 19; col++) {
-                const cell = CrosswayGame.coords2algebraic(col, row);
+                const cell = ClearcutGame.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents === 1) {
@@ -420,16 +510,21 @@ export class CrosswayGame extends GameBase {
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
-                    const [x, y] = CrosswayGame.algebraic2coords(move.where!);
+                    const [x, y] = ClearcutGame.algebraic2coords(move.where!);
                     // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                }
+                if (move.type === "capture") {
+                    const [x, y] = ClearcutGame.algebraic2coords(move.where!);
+                    // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
             if (this.connPath.length > 0) {
                 type RowCol = {row: number; col: number;};
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
-                    const [x,y] = CrosswayGame.algebraic2coords(cell);
+                    const [x,y] = ClearcutGame.algebraic2coords(cell);
                     targets.push({row: y, col: x})                ;
                 }
                 // @ts-ignore
@@ -450,7 +545,11 @@ export class CrosswayGame extends GameBase {
         return status;
     }
 
-    public clone(): CrosswayGame {
-        return new CrosswayGame(this.serialize());
+    protected getMoveList(): any[] {
+        return this.getMovesAndResults(["place", "pass", "eog", "winners"]);
+    }
+
+    public clone(): ClearcutGame {
+        return new ClearcutGame(this.serialize());
     }
 }

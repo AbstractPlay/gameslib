@@ -698,10 +698,6 @@ export class FabrikGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture"]);
-    }
-
     public clone(): FabrikGame {
         return new FabrikGame(this.serialize());
     }

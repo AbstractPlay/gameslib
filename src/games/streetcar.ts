@@ -6,7 +6,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle, oppositeDirections } from "../common";
-import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, vert2hexes } from "../common/hexes";
+import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, vert2edges, vert2hexes } from "../common/hexes";
 import { UndirectedGraph } from "graphology";
 import {connectedComponents} from 'graphology-components';
 import i18next from "i18next";
@@ -98,6 +98,13 @@ const getNeighbours = (hex: Hex): Hex[] => {
     return neighbours;
 }
 
+const str2edge = (str: string): IEdge|undefined => {
+    const [,cell,dir] = str.match(reEdge)!;
+    const [cellx, celly] = StreetcarGame.algebraic2coords(cell);
+    const edgeHex = hexGrid.getHex({col: cellx, row: celly})!;
+    return hex2edges(edgeHex).get(dir.toUpperCase() as CompassDirection)!;
+}
+
 export class StreetcarGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Streetcar Suburb",
@@ -118,7 +125,7 @@ export class StreetcarGame extends GameBase {
             {uid: "5point", "group": "penalty"},
             {uid: "15point", "group": "penalty"},
         ],
-        flags: ["multistep", "no-moves", "scores"]
+        flags: ["multistep", "no-moves", "scores", "random-start"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -195,6 +202,7 @@ export class StreetcarGame extends GameBase {
             this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.startpos = state.startpos;
         } else {
             const bag = shuffle("1111111111111222222222222233333333333334444444444444".split("").map(n => parseInt(n, 10) as Colour)) as Colour[];
             this.startpos = bag.join("");
@@ -401,10 +409,10 @@ export class StreetcarGame extends GameBase {
                     result.message = i18next.t("apgames:validation.streetcar.INVALID_EDGE", {edge});
                     return result;
                 }
-                const [,cell,dir] = edge.match(reEdge)!;
-                const [cellx, celly] = StreetcarGame.algebraic2coords(cell);
-                const edgeHex = hexGrid.getHex({col: cellx, row: celly})!;
-                const realEdge = hex2edges(edgeHex).get(dir.toUpperCase() as CompassDirection)!;
+                const realEdge = str2edge(edge);
+                if (realEdge === undefined) {
+                    throw new Error(`Could not derive the true edge for ${edge}`);
+                }
                 // must be unclaimed
                 for (const claimed of this.claimed) {
                     for (const claim of claimed) {
@@ -445,15 +453,39 @@ export class StreetcarGame extends GameBase {
                     return result;
                 }
             }
+
+            // final check to see if second line placement is possible
+            if ( (edges.length === 1) && ( (house.length > 0) || (this.stack.length === 1) ) ) {
+                const realEdge = str2edge(edges[0])!;
+                // get list of all edges that extend the one line drawn, converted to vertices
+                const extensions = new Set<string>(edge2verts(realEdge).map(v => vert2edges(v)).flat().map(e => edge2verts(e)).flat().map(e => e.uid));
+                // for simplicity, remove the ids for the currently drawn vertices
+                for (const v of edge2verts(realEdge)) {
+                    extensions.delete(v.uid);
+                }
+                // filter the possible vertices for vertices that are claimed by either player
+                const allClaimedPts = [...this.getClaimedPts(1), ...this.getClaimedPts(2)];
+                const claimedIds = new Set<string>(allClaimedPts.map(p => p.uid));
+                const unclaimed = [...extensions].filter(id => ! claimedIds.has(id));
+                // if there's at least one valid line to draw, tell them
+                if (unclaimed.length > 0) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.streetcar.TWO_LINES");
+                    return result;
+                }
+            }
         }
 
         // validation passed, now to determine completion level
         if ( (edges.length >= 1) && ( (house.length > 0) || (this.stack.length === 1) ) ) {
             result.valid = true;
             result.complete = 1;
-            if (edges.length === 1) {
-                result.complete = 0;
-            }
+            // this is no longer correct now that we require 2 lines where possible above
+            // if (edges.length === 1) {
+            //     result.complete = 0;
+            // }
             result.canrender = true;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
@@ -542,12 +574,9 @@ export class StreetcarGame extends GameBase {
             const [,edgeList, houseCell] = m.match(reMovePartial)!;
             if (edgeList !== "") {
                 for (const e of edgeList.split(",")) {
-                    const [, cell, dir] = e.match(reEdge)!;
-                    const [cellx, celly] = StreetcarGame.algebraic2coords(cell);
-                    const edgeHex = hexGrid.getHex({col: cellx, row: celly})!;
-                    const realEdge = hex2edges(edgeHex).get(dir.toUpperCase() as CompassDirection)!;
+                    const realEdge = str2edge(e);
                     if (realEdge === undefined) {
-                        throw new Error(`Could not derive a true edge for ${cell} + ${dir}.`);
+                        throw new Error(`Could not derive a true edge for ${e}.`);
                     }
                     edges.push(realEdge);
                 }
@@ -593,7 +622,7 @@ export class StreetcarGame extends GameBase {
                 if (occupied.length === 3) {
                     const bldg = StreetcarGame.genBuilding(occupied.map(c => this.board.get(c)!.colour));
                     this.board.set(cell, bldg);
-                    this.results.push({type: "place", where: cell});
+                    this.results.push({type: "place", where: cell, what: `${bldg.colour}${bldg.size}`});
                 }
             }
         }
@@ -1064,12 +1093,9 @@ export class StreetcarGame extends GameBase {
             const [,edgeList, houseCell] = m.match(reMovePartial)!;
             if (edgeList !== "") {
                 for (const e of edgeList.split(",")) {
-                    const [, cell, dir] = e.match(reEdge)!;
-                    const [cellx, celly] = StreetcarGame.algebraic2coords(cell);
-                    const edgeHex = hexGrid.getHex({col: cellx, row: celly})!;
-                    const realEdge = hex2edges(edgeHex).get(dir.toUpperCase() as CompassDirection)!;
+                    const realEdge = str2edge(e);
                     if (realEdge === undefined) {
-                        throw new Error(`Could not derive a true edge for ${cell} + ${dir}.`);
+                        throw new Error(`Could not derive a true edge for ${e}.`);
                     }
                     edges.push(realEdge);
                 }
@@ -1079,8 +1105,29 @@ export class StreetcarGame extends GameBase {
         return `[${edges.map(e => edge2string(e)).join(",")}]${house}`;
     }
 
+    protected getMoveList(): any[] {
+        return this.getMovesAndResults(["claim", "take", "eog", "winners"]);
+    }
+
     public sameMove(move1: string, move2: string): boolean {
         return this.normalizeMove(move1) === this.normalizeMove(move2);
     }
 
+    public getStartingPosition(): string {
+        if ( (this.startpos !== undefined) && (this.startpos.length > 0) ) {
+            return this.startpos;
+        }
+        const board = this.stack[0].board;
+        const colours = [];
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 8; x++) {
+                const cell = StreetcarGame.coords2algebraic(x, y);
+                if (StreetcarGame.blockedCells.includes(cell)) {
+                    continue;
+                }
+                colours.push(board.get(cell)!.colour);
+            }
+        }
+        return colours.join("");
+    }
 }

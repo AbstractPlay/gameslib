@@ -164,7 +164,7 @@ export class PikemenGame extends GameBase {
                 }
             }
             // Now add all possible reorientations to each of the valid moves
-            const reos = [...orientations]; // orientations.filter(o => o !== piece[2])
+            const reos = orientations.filter(o => o !== piece[2]);
             for (const m of moves) {
                 // movement/capture moves don't have to reorient if you don't want to
                 if (m.length > 2) {
@@ -655,7 +655,7 @@ export class PikemenGame extends GameBase {
     }
 
     protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture", "orient"]);
+        return this.getMovesAndResults(["move", "capture", "orient", "eog", "winners"]);
     }
 
     public getPlayerScore(player: number): number {

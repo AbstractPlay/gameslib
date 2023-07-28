@@ -587,10 +587,6 @@ export class CourtesanGame extends GameBase {
         return status;
     }
 
-    protected getMoveList(): any[] {
-        return this.getMovesAndResults(["move", "capture", "convert"]);
-    }
-
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {

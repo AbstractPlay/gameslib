@@ -119,6 +119,7 @@ export class PhutballGame extends GameBase {
         this.board = deepclone(state.board) as Array<Array<CellContents>>;
         this.ball = [...state.ball];
         this.lastmove = state.lastmove;
+        this.results = [...state._results];
         return this;
     }
 
@@ -508,9 +509,9 @@ export class PhutballGame extends GameBase {
             this.results.push({ type: "place", where: m });
         } else {
             // Capture sequence
-            let count = 0;
             let coords = PhutballGame.algebraic2coords(points[0]);
             this.board[coords[1]][coords[0]] = "";
+            let count = 0;
             for (let i = 1; i < points.length; i++) {
                 const coordsNext = PhutballGame.algebraic2coords(points[i]);
                 const dx = Math.sign(coordsNext[0] - coords[0]);
@@ -521,13 +522,14 @@ export class PhutballGame extends GameBase {
                 );
                 for (let j = 1; j < dist; j++) {
                     this.board[coords[1] + j * dy][coords[0] + j * dx] = "";
-                    count += 1;
                 }
+                count += dist - 1;
+                this.results.push({ type: "move", from: points[i - 1], to: points[i] });
                 coords = coordsNext;
             }
+            this.results.push({ type: "remove", num: count, where: points[points.length - 1] });
             this.board[coords[1]][coords[0]] = "B";
             this.ball = coords;
-            this.results.push({ type: "capture", where: m, count });
         }
 
         // update currplayer
@@ -544,17 +546,13 @@ export class PhutballGame extends GameBase {
     }
 
     protected checkEOG(): PhutballGame {
-        let prevPlayer: playerid = 1;
-        if (this.currplayer === 1) {
-            prevPlayer = 2;
-        }
 
-        if (this.ball[1] === 0 && prevPlayer === 2) {
+        if (this.ball[1] <= 1) {
             this.gameover = true;
-            this.winner = [prevPlayer];
-        } else if (this.ball[1] === 20 && prevPlayer === 1) {
+            this.winner = [1];
+        } else if (this.ball[1] >= 19) {
             this.gameover = true;
-            this.winner = [prevPlayer];
+            this.winner = [2];
         }
         if (this.gameover) {
             this.results.push(
@@ -668,6 +666,30 @@ export class PhutballGame extends GameBase {
             pieces: pstr,
         };
 
+        // Add annotations
+        if (this.results.length > 0) {
+            // @ts-ignore
+            rep.annotations = [];
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    const [x, y] = PhutballGame.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "enter", targets: [{row: y - 1, col: x - 1}]});
+                } else if (move.type === "move") {
+                    const [fromX, fromY] = PhutballGame.algebraic2coords(move.from);
+                    const [toX, toY] = PhutballGame.algebraic2coords(move.to);
+                    if (toY > 0 && toY < 20 && toX > 0 && toX < 16) {
+                        rep.annotations.push({type: "move", strokeWidth: 0.04, targets: [{row: fromY - 1, col: fromX - 1}, {row: toY - 1, col: toX - 1}]});
+                    } else if (toY === 0) {
+                        const dx = Math.sign(toX - fromX);
+                        rep.annotations.push({type: "move", strokeWidth: 0.04, targets: [{row: fromY - 1, col: fromX - 1}, {row: 0, col: toX - 1 - dx}]});
+                    } else if (toY === 20) {
+                        const dx = Math.sign(toX - fromX);
+                        rep.annotations.push({type: "move", strokeWidth: 0.04, targets: [{row: fromY - 1, col: fromX - 1}, {row: 18, col: toX - 1 - dx}]});
+                    }
+                }
+            }
+        }
+
         return rep;
     }
 
@@ -679,6 +701,33 @@ export class PhutballGame extends GameBase {
         }
 
         return status;
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                node.push(i18next.t("apresults:PLACE.phutball", {player, where: r.where}));
+                resolved = true;
+                break;
+            case "move":
+                if (results.length === 2) {
+                    node.push(i18next.t("apresults:MOVE.phutball_last", {player, from: r.from, to: r.to}));
+                } else if (node.length === 1) {
+                    node.push(i18next.t("apresults:MOVE.phutball", {player, from: r.from, to: r.to}));
+                } else if (node.length < results.length - 1) {
+                    node.push(i18next.t("apresults:MOVE.phutball_to", {to: r.to}));
+                } else {
+                    node.push(i18next.t("apresults:MOVE.phutball_to_last", {to: r.to}));
+                }
+                resolved = true;
+                break;
+            case "remove":
+                node.push(i18next.t("apresults:REMOVE.phutball", {count: r.num}));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     protected getMoveList(): any[] {

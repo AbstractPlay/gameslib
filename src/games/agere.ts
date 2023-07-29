@@ -115,7 +115,7 @@ export class AgereGame extends GameBase {
             return graph;
         } else if (style === "cobweb") {
             const graph = new UndirectedGraph();
-            for (let col = 0; col < 8; col += 2) {
+            for (let col = 0; col < 8; col++) {
                 for (let row = 3; row >= 0; row--) {
                     const cell = GameBase.coords2algebraic(col, row, 4);
                     if (! graph.hasNode(cell)) {
@@ -132,39 +132,41 @@ export class AgereGame extends GameBase {
                         }
                     }
 
-                    // connect left and right
-                    const br = GameBase.coords2algebraic(col+1, row, 4);
-                    if (! graph.hasNode(br)) {
-                        graph.addNode(br);
-                    }
-                    if (! graph.hasEdge(cell, br)) {
-                        graph.addEdge(cell, br);
-                    }
-                    if (row !== 0) {
-                        const tr = GameBase.coords2algebraic(col+1, row-1, 4);
-                        if (! graph.hasNode(tr)) {
-                            graph.addNode(tr);
+                    if (col % 2 === 0) {
+                        // connect left and right
+                        const br = GameBase.coords2algebraic(col+1, row, 4);
+                        if (! graph.hasNode(br)) {
+                            graph.addNode(br);
                         }
-                        if (! graph.hasEdge(cell, tr)) {
-                            graph.addEdge(cell, tr);
+                        if (! graph.hasEdge(cell, br)) {
+                            graph.addEdge(cell, br);
                         }
-                    }
-                    let lcol = col - 1;
-                    if (lcol < 0) { lcol = 7; }
-                    const bl = GameBase.coords2algebraic(lcol, row, 4);
-                    if (! graph.hasNode(bl)) {
-                        graph.addNode(bl);
-                    }
-                    if (! graph.hasEdge(cell, bl)) {
-                        graph.addEdge(cell, bl);
-                    }
-                    if (row !== 0) {
-                        const tl = GameBase.coords2algebraic(lcol, row-1, 4);
-                        if (! graph.hasNode(tl)) {
-                            graph.addNode(tl);
+                        if (row !== 0) {
+                            const tr = GameBase.coords2algebraic(col+1, row-1, 4);
+                            if (! graph.hasNode(tr)) {
+                                graph.addNode(tr);
+                            }
+                            if (! graph.hasEdge(cell, tr)) {
+                                graph.addEdge(cell, tr);
+                            }
                         }
-                        if (! graph.hasEdge(cell, tl)) {
-                            graph.addEdge(cell, tl);
+                        let lcol = col - 1;
+                        if (lcol < 0) { lcol = 7; }
+                        const bl = GameBase.coords2algebraic(lcol, row, 4);
+                        if (! graph.hasNode(bl)) {
+                            graph.addNode(bl);
+                        }
+                        if (! graph.hasEdge(cell, bl)) {
+                            graph.addEdge(cell, bl);
+                        }
+                        if (row !== 0) {
+                            const tl = GameBase.coords2algebraic(lcol, row-1, 4);
+                            if (! graph.hasNode(tl)) {
+                                graph.addNode(tl);
+                            }
+                            if (! graph.hasEdge(cell, tl)) {
+                                graph.addEdge(cell, tl);
+                            }
                         }
                     }
                 }
@@ -740,11 +742,11 @@ export class AgereGame extends GameBase {
                         "type": "halo",
                         "width": 10,
                         "segments": [{"colour":1},{"colour":2},{"colour":1},{"colour":2},{"colour":1},{"colour":2},{"colour":1},{"colour":2}],
-                        "offset": -22.5
+                        "offset": -22.5,
+                        "fill": "#000",
                     }
                 ],
-                backFill: "#000",
-                strokeColour: "#fff",
+                strokeColour: "#666",
             },
             legend: {
                 A: {

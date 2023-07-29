@@ -7,6 +7,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, intersects } from "../common";
 import { UndirectedGraph } from "graphology";
+import { bidirectional } from "graphology-shortest-path/unweighted";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -56,11 +57,9 @@ export class AgereGame extends GameBase {
         ["h4", "g5", "f5", "e6", "d7", "c7", "b7", "a8"],
     ];
 
-    public static edgesCobweb = new Map<playerid, [string[],string[]]>([
-        [1, [["a4", "h4"], ["d4", "e4"]]],
-        [1, [["b4", "c4"], ["f4", "g4"]]],
-        [2, [["a4", "b4"], ["e4", "f4"]]],
-        [2, [["c4", "d4"], ["g4", "h4"]]],
+    public static edgesCobweb = new Map<playerid, [[string[],string[]],[string[],string[]]]>([
+        [1, [[["a4", "h4"], ["d4", "e4"]],[["b4", "c4"], ["f4", "g4"]]]],
+        [2, [[["a4", "b4"], ["e4", "f4"]],[["c4", "d4"], ["g4", "h4"]]]],
     ]);
 
     public static buildGraph(style: "hex"|"cobweb"): UndirectedGraph {
@@ -527,19 +526,26 @@ export class AgereGame extends GameBase {
     }
 
     protected checkEOGCobweb(graph: UndirectedGraph): void {
-        for (const g of connectedComponents(graph)) {
-            let connected = true;
-            for (const edge of AgereGame.edgesCobweb.get(this.currplayer)!) {
-                if (! intersects(g, edge)) {
-                    connected = false;
-                    break;
+        let connected = false;
+        for (const [left,right] of AgereGame.edgesCobweb.get(this.currplayer)!) {
+            for (const lnode of left) {
+                for (const rnode of right) {
+                    if ( graph.hasNode(lnode) && graph.hasNode(rnode) ) {
+                        const path = bidirectional(graph, lnode, rnode);
+                        if (path !== null) {
+                            connected = true;
+                            break;
+                        }
+                    }
                 }
+                if (connected) { break; }
             }
-            if (connected) {
-                this.gameover = true;
-                this.winner = [this.currplayer];
-                return;
-            }
+            if (connected) { break; }
+        }
+        if (connected) {
+            this.gameover = true;
+            this.winner = [this.currplayer];
+            return;
         }
     }
 

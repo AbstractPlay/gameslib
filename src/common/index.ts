@@ -22,3 +22,12 @@ export interface IPoint {
     x: number;
     y: number;
 }
+
+export const intersects = (left: any[], right: any[]): boolean => {
+    for (const l of left) {
+        if (right.includes(l)) {
+            return true;
+        }
+    }
+    return false;
+}

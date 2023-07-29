@@ -712,6 +712,12 @@
                 "name": "Accasta Pari"
             }
         },
+        "agere": {
+            "cobweb": {
+                "name": "Cobweb",
+                "description": "A variant played on a round board where you try to connect two opposite sides."
+            }
+        },
         "armadas": {
             "freeform": {
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",

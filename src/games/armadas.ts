@@ -417,7 +417,7 @@ export class ArmadasGame extends GameBase {
             }
             const result = this.validateMove(compiled) as IClickResult;
             if (! result.valid) {
-                result.move = move;
+                result.move = compiled;
             } else {
                 result.move = compiled;
             }

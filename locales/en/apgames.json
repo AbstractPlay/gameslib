@@ -198,6 +198,7 @@
             "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower."
         },
         "agere": {
+            "ADJACENCY": "You can only capture adjacent stacks.",
             "EMPTY_MOVE": "You may not move to an empty space.",
             "FRIENDLY_CAPTURE": "You may not cover your own stacks.",
             "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece, or select a piece to move.",

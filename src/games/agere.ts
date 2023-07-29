@@ -121,6 +121,18 @@ export class AgereGame extends GameBase {
                     if (! graph.hasNode(cell)) {
                         graph.addNode(cell);
                     }
+                    // connect to the cell above
+                    if (row > 0) {
+                        const above = GameBase.coords2algebraic(col, row-1, 4);
+                        if (! graph.hasNode(above)) {
+                            graph.addNode(above);
+                        }
+                        if (! graph.hasEdge(cell, above)) {
+                            graph.addEdge(cell, above);
+                        }
+                    }
+
+                    // connect left and right
                     const br = GameBase.coords2algebraic(col+1, row, 4);
                     if (! graph.hasNode(br)) {
                         graph.addNode(br);
@@ -299,7 +311,7 @@ export class AgereGame extends GameBase {
             }
         }
 
-        return moves;
+        return moves.sort((a,b) => a.localeCompare(b));
     }
 
     public randomMove(): string {
@@ -413,6 +425,12 @@ export class AgereGame extends GameBase {
             if (! graph.nodes().includes(to)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.agere.INVALIDCELL", {cell: to});
+                return result;
+            }
+
+            if (! graph.neighbors(from).includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.agere.ADJACENCY");
                 return result;
             }
 
@@ -725,6 +743,8 @@ export class AgereGame extends GameBase {
                         "offset": -22.5
                     }
                 ],
+                backFill: "#000",
+                strokeColour: "#fff",
             },
             legend: {
                 A: {
@@ -752,6 +772,7 @@ export class AgereGame extends GameBase {
                     type: "flood",
                     colour: p+1,
                     points: targets,
+                    opacity: 0.5,
                 });
             }
         }
@@ -763,11 +784,11 @@ export class AgereGame extends GameBase {
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}], colour: "#fff"});
                 } else if (move.type === "move") {
                     const [fx, fy] = this.algebraic2coords(move.from);
                     const [tx, ty] = this.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}], colour: "#fff"});
                 }
             }
         }
@@ -793,22 +814,21 @@ export class AgereGame extends GameBase {
     //     return resolved;
     // }
 
+    // Only detects check for the current player
     public inCheck(): number[] {
         const checked: number[] = [];
-        for (const p of [1,2] as playerid[]) {
-            let otherPlayer: playerid = 1;
-            if (p === 1) {
-                otherPlayer = 2;
-            }
-            const moves = this.moves(otherPlayer);
-            for (const m of moves) {
-                const cloned = this.clone();
-                cloned.currplayer = otherPlayer;
-                cloned.move(m);
-                if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
-                    checked.push(p);
-                    break;
-                }
+        let otherPlayer: playerid = 1;
+        if (this.currplayer === 1) {
+            otherPlayer = 2;
+        }
+        const moves = this.moves();
+        for (const m of moves) {
+            // const cloned = this.clone();
+            const cloned = Object.assign(new AgereGame(), deepclone(this) as AgereGame);
+            cloned.move(m);
+            if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
+                checked.push(this.currplayer);
+                break;
             }
         }
         return checked;

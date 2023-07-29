@@ -3,6 +3,7 @@
         "abande": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
+        "agere": "A connection game where you can also stack pieces. Played either on a diamond board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
@@ -195,6 +196,13 @@
             "NO_MORE_CLAIMS": "You have already claimed three towers. You may not claim any more.",
             "PARTIAL_MOVE": "Select the lot where you want to build.",
             "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower."
+        },
+        "agere": {
+            "EMPTY_MOVE": "You may not move to an empty space.",
+            "FRIENDLY_CAPTURE": "You may not cover your own stacks.",
+            "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece, or select a piece to move.",
+            "PARTIAL": "Select where you want to move the piece.",
+            "SAME_HEIGHT": "Pieces may only move between stacks of the same height."
         },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",

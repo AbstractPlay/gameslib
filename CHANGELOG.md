@@ -79,6 +79,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Homeworlds: Renderer completely redone. New click handler deployed.
 * Streetcar: Made lines just claimed dashed for easy identification.
 * Streetcar: At designer's request, made the drawing of two lines mandatory if a legal second line can be drawn from the first.
+* Alfred's Wyke: Added fill colour to button bar. The lighter colour is the move that will become available next turn.
 
 ## [1.0.0-beta] - 2023-04-30
 

@@ -508,7 +508,8 @@ export class BideGame extends GameBase {
             scores.push(this.getPlayerScore(i));
         }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores }
+            { name: i18next.t("apgames:status.SCORES"), scores },
+            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand },
         ]
     }
 

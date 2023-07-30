@@ -579,6 +579,10 @@ export class ArmadasGame extends GameBase {
             }
         }
 
+        // strip leading and trailing spaces
+        m = m.replace(/^\s+/, "");
+        m = m.replace(/\s+$/, "");
+
         /*
          * Valid commands
          *   - place size x y facing name

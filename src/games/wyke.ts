@@ -27,6 +27,7 @@ const winningRays: Map<number, string[][]> = new Map([
     label: string;
     value?: string;
     attributes?: INameValuePair[];
+    fill?: string;
 }
 
 /**
@@ -576,6 +577,11 @@ export class AlfredsWykeGame extends GameBase {
             }
             if (this.lastTwo.includes(mt)) {
                 b.attributes = [{name: "text-decoration", value: "line-through"}]
+                if (this.lastTwo[0] === mt) {
+                    b.fill = "#ddd";
+                } else {
+                    b.fill = "#999";
+                }
             }
             bar.buttons.push(b);
         }

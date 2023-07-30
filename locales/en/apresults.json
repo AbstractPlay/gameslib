@@ -111,7 +111,11 @@
         "orb_2": "{{player}} moved a spheroid from {{from}} to {{to}}.",
         "orb_2S": "{{player}} moved a split spheroid from {{from}} to {{to}}.",
         "orb_3": "{{player}} moved a globe from {{from}} to {{to}}.",
-        "push": "A {{what}} was pushed from {{from}} to {{to}}."
+        "push": "A {{what}} was pushed from {{from}} to {{to}}.",
+        "phutball": "{{player}} moved the ball from {{from}} to {{to}},",
+        "phutball_last": "{{player}} moved the ball from {{from}} to {{to}}.",
+        "phutball_to": "to {{to}},",
+        "phutball_to_last": "to {{to}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
     "ORIENT": {
@@ -140,7 +144,8 @@
             "palace": "{{player}} placed a palace at {{where}}.",
             "tower": "{{player}} placed a tower at {{where}}.",
             "worker": "{{player}} placed an architect at {{where}}."
-        }
+        },
+        "phutball": "{{player}} placed a player at {{where}}."
     },
     "PROMOTE": {
         "mchess": "A {{into}} was created as a result.",
@@ -156,6 +161,10 @@
     },
     "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
     "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
+    "REMOVE": {
+        "phutball_one": "{{count}} player was removed.",
+        "phutball_other": "{{count}} players were removed."
+    },
     "REPAIR": {
         "simple": "{{player}} repairs."
     },

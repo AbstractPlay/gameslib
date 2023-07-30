@@ -3,10 +3,12 @@
         "abande": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
+        "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
+        "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
@@ -196,6 +198,14 @@
             "PARTIAL_MOVE": "Select the lot where you want to build.",
             "VALID_W_CLAIMS": "Looks like a valid move. You may also choose to claim a tower."
         },
+        "agere": {
+            "ADJACENCY": "You can only capture adjacent stacks.",
+            "EMPTY_MOVE": "You may not move to an empty space.",
+            "FRIENDLY_CAPTURE": "You may not cover your own stacks.",
+            "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece, or select a piece to move.",
+            "PARTIAL": "Select where you want to move the piece.",
+            "SAME_HEIGHT": "Pieces may only move between stacks of the same height."
+        },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
@@ -253,6 +263,12 @@
             "POTENTIAL_TWO": "This could potentially be a capture. Provide the target location.",
             "TOOHIGH": "The combined stack after the capture will be too high.",
             "TRIPLESTACK": "Triple stacks cannot participate in captures."
+        },
+        "bide": {
+            "EMPTY_HAND": "You have no more pieces to place.",
+            "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece, or pass if you wish to save this piece for later.",
+            "MAY_RELEASE": "Place more pieces if you wish to trigger a release.",
+            "MUST_RELEASE": "A release has been triggered. You must place all your pieces."
         },
         "blam": {
             "BADSYNTAX": "Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
@@ -702,6 +718,12 @@
             "pari": {
                 "description": "Instead of having individual piece types, pieces move depending on how many friendly pieces are in the stack. The top piece of a stack with three of your pieces will move like a chariot, two pieces like a horse, and one piece like a shield.",
                 "name": "Accasta Pari"
+            }
+        },
+        "agere": {
+            "cobweb": {
+                "name": "Cobweb",
+                "description": "A variant played on a round board where you try to connect two opposite sides."
             }
         },
         "armadas": {

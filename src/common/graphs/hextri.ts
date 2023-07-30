@@ -183,4 +183,14 @@ export class HexTriGraph implements IGraph {
         }
         return cells;
     }
+
+    public distFromEdge(cell: string): number {
+        let min = Infinity;
+        for (const dir of ["NE","E","SE","SW","W","NW"] as const) {
+            const ray = this.ray(...this.algebraic2coords(cell), dir);
+            min = Math.min(min, ray.length);
+            if (min === 0) { break; }
+        }
+        return min;
+    }
 }

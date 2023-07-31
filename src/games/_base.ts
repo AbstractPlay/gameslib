@@ -627,7 +627,7 @@ export abstract class GameBase  {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             moves: this.getMoveList()
         };
-        if (data.unrated !== undefined) {
+        if ( (data.unrated !== undefined) && (data.unrated) ) {
             rec.header.unrated = data.unrated;
         }
         if ( (data.pied !== undefined) && (data.pied) ) {

@@ -50,13 +50,8 @@ interface ICrossCut {
 }
 
 interface ICrossCutExtended {
-<<<<<<< HEAD
-    yours: number;
-    theirs: number;
-=======
     yours: string[][];
     theirs: string[][];
->>>>>>> develop
 }
 
 export class ClearcutGame extends GameBase {
@@ -209,22 +204,6 @@ export class ClearcutGame extends GameBase {
         return [...extension];
     }
 
-<<<<<<< HEAD
-    public extendCrosscuts(crosses: ICrossCut[]): ICrossCutExtended[] {
-        const extended: ICrossCutExtended[] = [];
-        for (const cross of crosses) {
-            let yours = 0;
-            let theirs = 0;
-            for (const cell of cross.yours) {
-                const ext = this.extendCell(cell);
-                yours += ext.length;
-            }
-            for (const cell of cross.theirs) {
-                const ext = this.extendCell(cell);
-                theirs += ext.length;
-            }
-            extended.push({yours, theirs});
-=======
     public extendCrosscuts(crosses: ICrossCut[]): ICrossCutExtended {
         const extended: ICrossCutExtended = {yours: [], theirs: []};
         for (const cross of crosses) {
@@ -236,7 +215,6 @@ export class ClearcutGame extends GameBase {
                 const ext = this.extendCell(cell);
                 extended.theirs.push([...ext]);
             }
->>>>>>> develop
         }
         return extended;
     }
@@ -246,14 +224,9 @@ export class ClearcutGame extends GameBase {
         cloned.board.set(cell, player);
         const crosses = cloned.getCrosscuts(cell);
         const extended = cloned.extendCrosscuts(crosses);
-<<<<<<< HEAD
-        for (const ext of extended) {
-            if (ext.yours <= ext.theirs) {
-=======
         const yours = extended.yours.find(lst => lst.includes(cell))!;
         for (const ext of extended.theirs) {
             if (yours.length <= ext.length) {
->>>>>>> develop
                 return false;
             }
         }

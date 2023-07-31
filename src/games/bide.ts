@@ -167,7 +167,7 @@ export class BideGame extends GameBase {
         if (m === "pass") {
             if (this.released !== undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation:bide.MUST_RELEASE");
+                result.message = i18next.t("apgames:validation.bide.MUST_RELEASE");
                 return result;
             } else {
                 result.valid = true;
@@ -217,7 +217,7 @@ export class BideGame extends GameBase {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation:bide.MUST_RELEASE");
+                    result.message = i18next.t("apgames:validation.bide.MUST_RELEASE");
                     return result;
                 }
                 // if not release mode, you *may* place everything
@@ -225,7 +225,7 @@ export class BideGame extends GameBase {
                     result.valid = true;
                     result.complete = 0;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation:bide.MAY_RELEASE");
+                    result.message = i18next.t("apgames:validation.bide.MAY_RELEASE");
                     return result;
                 }
             }
@@ -244,7 +244,7 @@ export class BideGame extends GameBase {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation:bide.MUST_RELEASE");
+                result.message = i18next.t("apgames:validation.bide.MUST_RELEASE");
                 return result;
             } else {
                 // you're done
@@ -508,7 +508,8 @@ export class BideGame extends GameBase {
             scores.push(this.getPlayerScore(i));
         }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores }
+            { name: i18next.t("apgames:status.SCORES"), scores },
+            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand },
         ]
     }
 

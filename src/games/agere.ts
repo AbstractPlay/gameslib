@@ -606,6 +606,17 @@ export class AgereGame extends GameBase {
             }
         }
 
+        // // look for checkmate
+        // // this means the *previous* player is connected,
+        // // and there's nothing the current player can do about it
+        // if (! this.gameover) {
+        //     let otherPlayer: playerid = 1;
+        //     if (this.currplayer === 1) {
+        //         otherPlayer = 2;
+        //     }
+
+        // }
+
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},
@@ -860,6 +871,7 @@ export class AgereGame extends GameBase {
     }
 
     public clone(): AgereGame {
-        return new AgereGame(this.serialize());
+        return Object.assign(new AgereGame(), deepclone(this) as AgereGame);
+        // return new AgereGame(this.serialize());
     }
 }

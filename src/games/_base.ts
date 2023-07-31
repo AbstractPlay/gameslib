@@ -132,11 +132,12 @@ interface IPlayerDetails {
 export interface IRecordDetails {
     uid: string;                // The game's unique ID
     players: IPlayerDetails[];  // Information about each player, in play order
-    dateStart?: Date;            // Date the game started
-    dateEnd?: Date;              // Date the game ended
-    unrated?: boolean;           // Whether or not the game is explicitly flagged as unrated
+    dateStart?: Date;           // Date the game started
+    dateEnd?: Date;             // Date the game ended
+    unrated?: boolean;          // Whether or not the game is explicitly flagged as unrated
     event?: string;             // Optional event name this game is part of
     round?: string;             // Optional round identifier within the event
+    pied?: boolean;             // Optional indicator of whether the pie rule was invoked
 }
 
 export abstract class GameBase  {
@@ -626,8 +627,11 @@ export abstract class GameBase  {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             moves: this.getMoveList()
         };
-        if (data.unrated !== undefined) {
+        if ( (data.unrated !== undefined) && (data.unrated) ) {
             rec.header.unrated = data.unrated;
+        }
+        if ( (data.pied !== undefined) && (data.pied) ) {
+            rec.header["pie-invoked"] = true;
         }
 
         if (gameinfo.flags?.includes("random-start")) {

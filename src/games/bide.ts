@@ -557,6 +557,16 @@ export class BideGame extends GameBase {
         }
     }
 
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "move":
+                resolved = true;
+                break;
+        }
+        return resolved;
+    }
+
     public clone(): BideGame {
         return Object.assign(new BideGame(this.numplayers), deepclone(this) as BideGame);
         // return new BideGame(this.serialize());

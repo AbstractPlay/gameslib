@@ -281,6 +281,14 @@ export class BoomGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.NOLOS", {from, to});
                 return result;
             }
+            // within range
+            const dist = RectGrid.distance(xFrom, yFrom, xTo, yTo);
+            const [,size] = this.board.get(from)!;
+            if (size < dist) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.boom.OUT_OF_RANGE");
+                return result;
+            }
             // correct operator
             if (m.includes("-")) {
                 // is the space empty

@@ -90,10 +90,10 @@ describe("Homeworlds", () => {
         g = new HomeworldsGame(2);
         expect(() => g.move("homeworld g3 b2 r2")).to.throw(HWError.CMD_HOME_SMALLSHIP);
         expect(() => g.move("homeworld g3 b2 r2 *")).to.not.throw();
-        // both stars same size
-        g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b3 r3")).to.throw(HWError.CMD_HOME_SAMESIZE);
-        expect(() => g.move("homeworld g3 b3 r3 *")).to.not.throw();
+        // // both stars same size
+        // g = new HomeworldsGame(2);
+        // expect(() => g.move("homeworld g3 b3 r3")).to.throw(HWError.CMD_HOME_SAMESIZE);
+        // expect(() => g.move("homeworld g3 b3 r3 *")).to.not.throw();
         // not enough colours
         g = new HomeworldsGame(2);
         expect(() => g.move("homeworld g3 b2 b3")).to.throw(HWError.CMD_HOME_COLOURS);

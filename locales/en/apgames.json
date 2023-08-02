@@ -280,6 +280,7 @@
         },
         "boom": {
             "INITIAL_INSTRUCTIONS": "Select a stack to move or attack with.",
+            "OUT_OF_RANGE": "Stacks can only move/attack a distance equal to the stack's height.",
             "PARTIAL": "Select an empty space to move to, the opposing buffer to bear off, or an opponent's stack to attack.",
             "TOOFAR": "You cannot bear off from here."
         },

@@ -1238,9 +1238,9 @@ export class HomeworldsGame extends GameBase {
         if ( (! overridden) && (! args[2].endsWith("3")) ) {
             throw new UserFacingError(HomeworldsErrors.CMD_HOME_SMALLSHIP, i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP"));
         }
-        if ( (! overridden) && (args[0][1] === args[1][1]) ) {
-            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SAMESIZE, i18next.t("apgames:homeworlds.CMD_HOME_SAMESIZE"));
-        }
+        // if ( (! overridden) && (args[0][1] === args[1][1]) ) {
+        //     throw new UserFacingError(HomeworldsErrors.CMD_HOME_SAMESIZE, i18next.t("apgames:homeworlds.CMD_HOME_SAMESIZE"));
+        // }
         const colours = args.filter(a => a.length === 2).map(a => a[0]);
         const unique = colours.filter((value, index) => colours.indexOf(value) === index)
         if ( (! overridden) && (unique.length < 3) ) {
@@ -1351,11 +1351,11 @@ export class HomeworldsGame extends GameBase {
                 result.message = i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP");
                 return result;
             }
-            if ( (! overridden) && (args[0][1] === args[1][1]) ) {
-                result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_HOME_SAMESIZE");
-                return result;
-            }
+            // if ( (! overridden) && (args[0][1] === args[1][1]) ) {
+            //     result.valid = false;
+            //     result.message = i18next.t("apgames:homeworlds.CMD_HOME_SAMESIZE");
+            //     return result;
+            // }
             const colours = args.filter(a => a.length === 2).map(a => a[0]);
             const unique = colours.filter((value, index) => colours.indexOf(value) === index)
             if ( (! overridden) && (unique.length < 3) ) {

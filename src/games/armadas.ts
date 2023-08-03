@@ -513,9 +513,9 @@ export class ArmadasGame extends GameBase {
                     message: i18next.t("apgames:validation.armadas.MOVE_UNRECOGNIZED", {cmd: move})
                 };
             }
-        }
-        if ( (subResult !== undefined) && ( (! subResult.valid) || ( (subResult.complete !== undefined) && (subResult.complete < 0) ) ) ) {
-            return subResult;
+            if ( (subResult !== undefined) && ( (! subResult.valid) || ( (subResult.complete !== undefined) && (subResult.complete < 0) ) ) ) {
+                return subResult;
+            }
         }
         // If we've gotten this far, each individual command was valid and complete
 

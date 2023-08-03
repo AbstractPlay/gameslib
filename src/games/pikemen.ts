@@ -442,11 +442,11 @@ export class PikemenGame extends GameBase {
         if (! result.valid) {
             throw new UserFacingError("VALIDATION_GENERAL", result.message)
         }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
+        // if ( (! partial) && (! this.moves().includes(m)) ) {
+        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        // }
 
         this.results = [];
         const [move, reo] = m.split("(");

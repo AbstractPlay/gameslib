@@ -72,7 +72,7 @@
         "CMD_DISC_DOUBLE": "A system by the name {{name}} has already been charted.",
         "CMD_HOME_COLOURS": "You're requesting a home world with fewer than three technologies available. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_DOUBLE": "You already have a home world.",
-        "CMD_HOME_RHO": "You're requesting a home world in direct connection with your right-hand opponent! If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        "CMD_HOME_RHO": "You're requesting a home world with the same star sizes as your right-hand opponent. This puts your nemesis only one jump away from you! If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_SAMESIZE": "You're requesting a home world with two stars of the same size. This puts you at a strong disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_SINGLE": "You're requesting a home world with only one star. This puts you at a strong disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_SMALLSHIP": "You are requesting a home world without a large ship. This puts you at a disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",

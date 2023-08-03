@@ -90,10 +90,27 @@ describe("Homeworlds", () => {
         g = new HomeworldsGame(2);
         expect(() => g.move("homeworld g3 b2 r2")).to.throw(HWError.CMD_HOME_SMALLSHIP);
         expect(() => g.move("homeworld g3 b2 r2 *")).to.not.throw();
-        // // both stars same size
-        // g = new HomeworldsGame(2);
-        // expect(() => g.move("homeworld g3 b3 r3")).to.throw(HWError.CMD_HOME_SAMESIZE);
-        // expect(() => g.move("homeworld g3 b3 r3 *")).to.not.throw();
+        // direct connection
+        g = new HomeworldsGame(2);
+        expect(() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        expect(() => g.move("homeworld g1 b1 r3")).to.throw(HWError.CMD_HOME_RHO_DIRECT);
+        expect(() => g.move("homeworld g1 b1 r3 *")).to.not.throw();
+        // small universe when large is possible
+        g = new HomeworldsGame(2);
+        expect(() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        expect(() => g.move("homeworld g2 b3 r3")).to.throw(HWError.CMD_HOME_RHO_SMALL);
+        expect(() => g.move("homeworld g2 b3 r3 *")).to.not.throw();
+        g = new HomeworldsGame(2);
+        expect(() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        expect(() => g.move("homeworld g2 b2 r3")).to.throw(HWError.CMD_HOME_RHO_SMALL);
+        expect(() => g.move("homeworld g2 b2 r3 *")).to.not.throw();
+        // small universe when large is NOT possible
+        g = new HomeworldsGame(2);
+        expect(() => g.move("homeworld g3 - r3 *")).to.not.throw();
+        expect(() => g.move("homeworld g1 b3 r3")).to.not.throw();
+        g = new HomeworldsGame(2);
+        expect(() => g.move("homeworld g3 b3 r3")).to.not.throw();
+        expect(() => g.move("homeworld g1 b3 r3")).to.not.throw();
         // not enough colours
         g = new HomeworldsGame(2);
         expect(() => g.move("homeworld g3 b2 b3")).to.throw(HWError.CMD_HOME_COLOURS);
@@ -105,11 +122,11 @@ describe("Homeworlds", () => {
         expect(() => g.move("homeworld y3 b2 r3 *")).to.not.throw();
         expect(() => g.move("homeworld y3 g2 r3 *")).to.not.throw();
         expect(g.systems.length).to.equal(2);
-        // Same star sizes as RHO
-        g = new HomeworldsGame(2);
-        expect (() => g.move("homeworld g3 b2 r3")).to.not.throw();
-        expect (() => g.move("homeworld y3 g2 b3")).to.throw(HWError.CMD_HOME_RHO);
-        expect (() => g.move("homeworld y3 g2 b3 *")).to.not.throw();
+        // // Same star sizes as RHO
+        // g = new HomeworldsGame(2);
+        // expect (() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        // expect (() => g.move("homeworld y3 g2 b3")).to.throw(HWError.CMD_HOME_RHO);
+        // expect (() => g.move("homeworld y3 g2 b3 *")).to.not.throw();
     });
     it ("CMD: Discover", () => {
         let g = new HomeworldsGame(2);

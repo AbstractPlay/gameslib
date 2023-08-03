@@ -35,10 +35,10 @@ export const enum HomeworldsErrors {
     CMD_HOME_DOUBLE = "CMD_HOME_DOUBLE",        // The current player tried to build a second homeworld
     CMD_HOME_SINGLE = "CMD_HOME_SINGLE",        // Requesting a single-starred homeworld
     CMD_HOME_SMALLSHIP = "CMD_HOME_SMALLSHIP",  // Requesting a homeworld with no large ship
-    CMD_HOME_SAMESIZE = "CMD_HOME_SAMESIZE",    // Requesting a homeworld with two stars of the same size
     CMD_HOME_COLOURS = "CMD_HOME_COLOURS",      // Requesting a homeworld with fewer than three colours
     CMD_HOME_TECHS = "CMD_HOME_TECHS",          // Requesting a homeworld missing either G or B
-    CMD_HOME_RHO = "CMD_HOME_RHO",              // Requesting a homeworld with the same star configuration as your RHO (nemesis)
+    CMD_HOME_RHO_DIRECT = "CMD_HOME_RHO_DIRECT",// Direct connection to RHO
+    CMD_HOME_RHO_SMALL = "CMD_HOME_RHO_SMALL",  // Creating a small universe when a large is possible
     CMD_DISC_DOUBLE = "CMD_DISC_DOUBLE",        // A system by the requested name already exists
     CMD_MOVE_CONNECTION = "CMD_MOVE_CONNECTION",// The system you're trying to move to is not connected
     CMD_BUILD_TEMPLATE = "CMD_BUILD_TEMPLATE",  // Can't build ships of a colour you don't already have ships of in that system
@@ -1238,9 +1238,6 @@ export class HomeworldsGame extends GameBase {
         if ( (! overridden) && (! args[2].endsWith("3")) ) {
             throw new UserFacingError(HomeworldsErrors.CMD_HOME_SMALLSHIP, i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP"));
         }
-        // if ( (! overridden) && (args[0][1] === args[1][1]) ) {
-        //     throw new UserFacingError(HomeworldsErrors.CMD_HOME_SAMESIZE, i18next.t("apgames:homeworlds.CMD_HOME_SAMESIZE"));
-        // }
         const colours = args.filter(a => a.length === 2).map(a => a[0]);
         const unique = colours.filter((value, index) => colours.indexOf(value) === index)
         if ( (! overridden) && (unique.length < 3) ) {
@@ -1279,8 +1276,13 @@ export class HomeworldsGame extends GameBase {
             }
             const theirs = rhoSystem.stars.map(s => s[1]).sort();
             const mine = system.stars.map(s => s[1]).sort();
-            if ( (! overridden) && (mine.length === theirs.length) && (mine.filter(s => !theirs.includes(s)).length === 0) ) {
-                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO, i18next.t("apgames:homeworlds.CMD_HOME_RHO"));
+            const overlap = mine.filter(s => theirs.includes(s)).length;
+            if ( (! overridden) && (overlap === 0) ) {
+                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO_DIRECT, i18next.t("apgames:homeworlds.CMD_HOME_RHO_DIRECT"));
+            }
+            const canLarge = ( (theirs.length === 2) && (theirs[0] !== theirs[1]) );
+            if ( (! overridden) && (canLarge) && (overlap === 2) ) {
+                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO_SMALL, i18next.t("apgames:homeworlds.CMD_HOME_RHO_SMALL"));
             }
         }
 
@@ -1351,11 +1353,6 @@ export class HomeworldsGame extends GameBase {
                 result.message = i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP");
                 return result;
             }
-            // if ( (! overridden) && (args[0][1] === args[1][1]) ) {
-            //     result.valid = false;
-            //     result.message = i18next.t("apgames:homeworlds.CMD_HOME_SAMESIZE");
-            //     return result;
-            // }
             const colours = args.filter(a => a.length === 2).map(a => a[0]);
             const unique = colours.filter((value, index) => colours.indexOf(value) === index)
             if ( (! overridden) && (unique.length < 3) ) {
@@ -1399,9 +1396,16 @@ export class HomeworldsGame extends GameBase {
                 }
                 const theirs = rhoSystem.stars.map(s => s[1]).sort();
                 const mine = system.stars.map(s => s[1]).sort();
-                if ( (! overridden) && (mine.length === theirs.length) && (mine.filter(s => !theirs.includes(s)).length === 0) ) {
+                const overlap = mine.filter(s => theirs.includes(s)).length;
+                if ( (! overridden) && (overlap === 0) ) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_HOME_RHO");
+                    result.message = i18next.t("apgames:homeworlds.CMD_HOME_RHO_DIRECT");
+                    return result;
+                }
+                const canLarge = ( (theirs.length === 2) && (theirs[0] !== theirs[1]) );
+                if ( (! overridden) && (canLarge) && (overlap === 2) ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:homeworlds.CMD_HOME_RHO_SMALL");
                     return result;
                 }
             }

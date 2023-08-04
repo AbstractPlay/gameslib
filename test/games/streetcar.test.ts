@@ -120,5 +120,97 @@ describe("Streetcar Suburb", () => {
         result = g.validateMove("[c5W]");
         expect(result.valid).to.be.true;
         expect(result.complete).eq(1);
+
+        // new case: a6SW only valid line
+        g.claimed = [
+            [
+            ],
+            [
+                str2edge("a7NW")!,
+                str2edge("a7NE")!,
+                str2edge("a7E")!,
+                str2edge("a7SE")!,
+                str2edge("a5NE")!,
+                str2edge("a5E")!,
+            ],
+        ];
+        result = g.validateMove("[a6SE]");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        // remove a5E to allow second line
+        g.claimed = [
+            [
+            ],
+            [
+                str2edge("a7NW")!,
+                str2edge("a7NE")!,
+                str2edge("a7E")!,
+                str2edge("a7SE")!,
+                str2edge("a5NE")!,
+            ],
+        ];
+        result = g.validateMove("[a6SE]");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(-1);
+
+        // new case: a5SE only line
+        g.claimed = [
+            [
+            ],
+            [
+                str2edge("a5NW")!,
+                str2edge("a5NE")!,
+                str2edge("a5W")!,
+                str2edge("a6NW")!,
+                str2edge("a6SE")!,
+                str2edge("a7SW")!,
+            ],
+        ];
+        result = g.validateMove("[a5SE]");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        // remove a6SE to allow second line
+        g.claimed = [
+            [
+            ],
+            [
+                str2edge("a5NW")!,
+                str2edge("a5NE")!,
+                str2edge("a5W")!,
+                str2edge("a6NW")!,
+                str2edge("a7SW")!,
+            ],
+        ];
+        result = g.validateMove("[a5SE]");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(-1);
+
+        // new case: a5E only option
+        g.claimed = [
+            [
+                str2edge("a5NE")!,
+                str2edge("a5SE")!,
+                str2edge("a6NW")!,
+                str2edge("a6SW")!,
+            ],
+            [
+            ],
+        ];
+        result = g.validateMove("[a5E]");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        // remove any line to allow placement
+        g.claimed = [
+            [
+                str2edge("a5NE")!,
+                str2edge("a5SE")!,
+                str2edge("a6NW")!,
+            ],
+            [
+            ],
+        ];
+        result = g.validateMove("[a5E]");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(-1);
     });
 });

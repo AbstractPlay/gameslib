@@ -456,19 +456,28 @@ export class StreetcarGame extends GameBase {
 
             // final check to see if second line placement is possible
             if ( (edges.length === 1) && ( (house.length > 0) || (this.stack.length === 1) ) ) {
+                // convert what the user typed to a canonical edge
                 const realEdge = str2edge(edges[0])!;
-                // get list of all edges that extend the one line drawn, converted to vertices
-                const extensions = new Set<string>(edge2verts(realEdge).map(v => vert2edges(v)).flat().map(e => edge2verts(e)).flat().map(e => e.uid));
-                // for simplicity, remove the ids for the currently drawn vertices
-                for (const v of edge2verts(realEdge)) {
-                    extensions.delete(v.uid);
+                // get list of all edges that extend the one line drawn
+                const extensions = edge2verts(realEdge).map(v => vert2edges(v)).flat().filter(e => e.uid !== realEdge.uid);
+                // get list of vertices owned by opponents
+                const oppClaimedVerts = new Set<string>(this.getClaimedPts(otherPlayer).map(v => v.uid));
+                let canDraw = false;
+                for (const edge of extensions) {
+                    // check if either vertex is owned by opponent
+                    if ([...edge2verts(edge)].filter(v => oppClaimedVerts.has(v.uid)).length > 0) {
+                        continue;
+                    }
+                    // check if edge is unclaimed
+                    if ([...this.claimed.flat().map(e => e.uid)].includes(edge.uid)) {
+                        continue;
+                    }
+                    // otherwise, a second line is possible
+                    canDraw = true;
+                    break;
                 }
-                // filter the possible vertices for vertices that are claimed by opponent
-                const allClaimedPts = this.getClaimedPts(otherPlayer); // [...this.getClaimedPts(1), ...this.getClaimedPts(2)];
-                const claimedIds = new Set<string>(allClaimedPts.map(p => p.uid));
-                const unclaimed = [...extensions].filter(id => ! claimedIds.has(id));
                 // if there's at least one valid line to draw, tell them
-                if (unclaimed.length > 0) {
+                if (canDraw) {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;

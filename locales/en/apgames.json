@@ -225,7 +225,7 @@
             "COLLISION": "Pieces may not collide with each other.",
             "DOUBLE_MOVE": "You may not issue more than one move order per ship per turn.",
             "DUPLICATE_NAME": "That name is already being used.",
-            "INITIAL_INSTRUCTIONS_place": "Select a piece from the sidebar to place it on the field.",
+            "INITIAL_INSTRUCTIONS_place": "Select a piece from the sidebar to place it on the field. You can also type \"pass\" if you've already placed all the pieces you can or wish to this turn. You must place at least one ship if you can.",
             "INITIAL_INSTRUCTIONS_placefree": "Select a piece from the sidebar to place it on the field. Pass if you do not wish to place any more ships. Once both players pass, the play phase will begin.",
             "INITIAL_INSTRUCTIONS_play": "Select the piece you wish to move or attack with.",
             "INVALID_NAME": "The name must be between 1 and 25 characters long; must not contain any whitespace; must only consist of letters, numbers, hyphens, and underscores; and may not start with a hyphen or underscore.",

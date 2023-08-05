@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -68,7 +68,7 @@ export class BlamGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
 
-    constructor(state: number | IBlamState | string, variants?: string[]) {
+    constructor(state: number | IBlamState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
@@ -98,11 +98,14 @@ export class BlamGame extends GameBase {
             if (state.game !== BlamGame.gameinfo.uid) {
                 throw new Error(`The Blam! game code cannot process a game of '${state.game}'.`);
             }
-            this.numplayers = state.numplayers;
-            this.variants = state.variants;
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as BlamGame).state();
+            }
+            this.numplayers = (state as IBlamState).numplayers;
+            this.variants = (state as IBlamState).variants;
+            this.gameover = (state as IBlamState).gameover;
+            this.winner = [...(state as IBlamState).winner];
+            this.stack = [...(state as IBlamState).stack];
         }
         this.load();
     }
@@ -299,19 +302,22 @@ export class BlamGame extends GameBase {
         return result;
     }
 
-    public move(m: string): BlamGame {
+    public move(m: string, {trusted = false}): BlamGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         if (m.toLowerCase() === "pass") {

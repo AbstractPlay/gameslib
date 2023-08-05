@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IScores, IValidationResult, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -97,7 +97,7 @@ export class AmazonsGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
 
-    constructor(state?: IAmazonsState | string) {
+    constructor(state?: IAmazonsState | IAPGameStateV2 | string) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -106,9 +106,12 @@ export class AmazonsGame extends GameBase {
             if (state.game !== AmazonsGame.gameinfo.uid) {
                 throw new Error(`The Amazons game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as AmazonsGame).state();
+            }
+            this.gameover = (state as IAmazonsState).gameover;
+            this.winner = [...(state as IAmazonsState).winner];
+            this.stack = [...(state as IAmazonsState).stack];
         } else {
             const fresh: IMoveState = {
                 _version: AmazonsGame.gameinfo.version,
@@ -366,38 +369,41 @@ export class AmazonsGame extends GameBase {
 
     // The `partial` flag leaves the game object in an invalid state
     // Only use on a cloned object, or call `load()` before processing the final move
-    public move(m: string, partial = false): AmazonsGame {
+    public move(m: string, {partial = false, trusted = false}): AmazonsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
 
-        if (partial) {
-            if ( (result.complete !== undefined) && (result.complete >= 0) || result.canrender === true ) {
-                const [f, t, b] = m.split(/[-\/]/);
-                if ( (f === undefined) || (t === undefined) ) {
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+
+            if (partial) {
+                if ( (result.complete !== undefined) && (result.complete >= 0) || result.canrender === true ) {
+                    const [f, t, b] = m.split(/[-\/]/);
+                    if ( (f === undefined) || (t === undefined) ) {
+                        throw new Error(`The move '${m}' is not a valid partial.`)
+                    }
+                    this.board.delete(f);
+                    this.board.set(t, this.currplayer);
+                    this.results = [{type: "move", from: f, to: t}];
+                    if (b !== undefined) {
+                        this.board.set(b, 0);
+                        this.results.push({type: "block", where: b})
+                    }
+                } else {
                     throw new Error(`The move '${m}' is not a valid partial.`)
                 }
-                this.board.delete(f);
-                this.board.set(t, this.currplayer);
-                this.results = [{type: "move", from: f, to: t}];
-                if (b !== undefined) {
-                    this.board.set(b, 0);
-                    this.results.push({type: "block", where: b})
-                }
-            } else {
-                throw new Error(`The move '${m}' is not a valid partial.`)
+                return this;
             }
-            return this;
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         // Move valid, so change the state

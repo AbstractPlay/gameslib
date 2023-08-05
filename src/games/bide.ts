@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -56,7 +56,7 @@ export class BideGame extends GameBase {
     public inhand: number[] = [];
     public released?: playerid;
 
-    constructor(state: number | IBideState | string) {
+    constructor(state: number | IBideState | IAPGameStateV2 | string) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
@@ -81,11 +81,14 @@ export class BideGame extends GameBase {
             if (state.game !== BideGame.gameinfo.uid) {
                 throw new Error(`The Bide game code cannot process a game of '${state.game}'.`);
             }
-            this.numplayers = state.numplayers;
-            this.variants = state.variants;
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as BideGame).state();
+            }
+            this.numplayers = (state as IBideState).numplayers;
+            this.variants = (state as IBideState).variants;
+            this.gameover = (state as IBideState).gameover;
+            this.winner = [...(state as IBideState).winner];
+            this.stack = [...(state as IBideState).stack];
         }
         this.load();
     }
@@ -128,7 +131,7 @@ export class BideGame extends GameBase {
                 } else {
                     const cloned = this.clone();
                     cloned.buildGraph();
-                    cloned.move(move, true);
+                    cloned.move(move, {partial: true});
                     if (! cloned.board.has(cell)) {
                         newmove = `${move},${cell}`;
                     }
@@ -204,7 +207,7 @@ export class BideGame extends GameBase {
             cloned = this.clone();
             cloned.buildGraph();
             const todate = [cells.slice(0, i+1)].join(",");
-            cloned.move(todate, true);
+            cloned.move(todate, {partial: true});
         }
         // cloned is up to date
 
@@ -289,14 +292,14 @@ export class BideGame extends GameBase {
         return this;
     }
 
-    public move(m: string, partial = false): BideGame {
+    public move(m: string, {partial = false, trusted = false}): BideGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        if (! partial) {
+        if ( (! partial) && (! trusted) ) {
             const result = this.validateMove(m);
             if ( (! result.valid) || (result.complete === -1) ) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)

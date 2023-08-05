@@ -3,9 +3,10 @@ import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/game
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
-import { replacer, sortingReplacer, UserFacingError } from '../common';
+import { sortingReplacer, UserFacingError } from '../common';
 import { omit } from "lodash";
 import i18next from "i18next";
+import { GameFactory } from '.';
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -24,6 +25,11 @@ export interface IIndividualState {
     _timestamp: Date;
     [key: string]: any;
 }
+
+/**
+ * The interface describing the new, condensed state format
+ */
+export type IIndividualStateV2 = [number, string|string[]|null]
 
 /**
  * Key value pair for the UI to display arbitrary status information
@@ -77,6 +83,14 @@ export interface IAPGameState {
     gameover: boolean;
     winner: number[];
     stack: Array<IIndividualState>;
+}
+
+export interface IAPGameStateV2 {
+    V: 2,
+    game: string,
+    numplayers: number;
+    variants: string[];
+    stack: IIndividualStateV2[];
 }
 
 /**
@@ -140,6 +154,8 @@ export interface IRecordDetails {
     pied?: boolean;             // Optional indicator of whether the pie rule was invoked
 }
 
+export interface IMoveOptions {partial?: boolean; trusted?: boolean};
+
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;
     public description(): string {
@@ -199,7 +215,7 @@ export abstract class GameBase  {
     public abstract results: Array<APMoveResult>;
     public abstract variants: string[];
 
-    public abstract move(move: string, partial?: boolean): GameBase;
+    public abstract move(move: string, opts?: IMoveOptions): GameBase;
     public abstract render({ perspective, altDisplay} : { perspective: number | undefined, altDisplay: string | undefined }): APRenderRep;
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
@@ -661,7 +677,51 @@ export abstract class GameBase  {
     }
 
     public serialize(): string {
-        return JSON.stringify(this.state(), replacer);
+        const state = this.state();
+        const newstate: IAPGameStateV2 = {
+            V:2,
+            game: state.game,
+            numplayers: state.numplayers,
+            variants: state.variants,
+            stack: state.stack.map(s => {return [new Date(s._timestamp).getTime(), ( ("lastmove" in s) && (s.lastmove !== undefined) ) ? s.lastmove : null] as [number,string|string[]|null]}),
+        };
+        return JSON.stringify(newstate);
+    }
+
+    public hydrate(state: IAPGameStateV2): GameBase|GameBaseSimultaneous {
+        const ctor = this.constructor as typeof GameBase;
+        let newgame: GameBase|GameBaseSimultaneous|undefined;
+        if (ctor.gameinfo.playercounts.length === 1) {
+            newgame = GameFactory(state.game, state.variants);
+        } else {
+            newgame = GameFactory(state.game, state.numplayers, state.variants);
+        }
+        if (newgame === undefined) {
+            throw new Error(`Unable to create a new ${state.game} object`);
+        }
+        // make all the moves
+        try {
+            // start at idx 1 because the first state is initial
+            for (let i = 1; i < state.stack.length; i++) {
+                let move = state.stack[i][1];
+                if (Array.isArray(move)) {
+                    move = move.join(",");
+                }
+                if (move === null) { throw new Error("Should not encounter null in the move list."); }
+                newgame.move(move, {partial: false, trusted: true});
+            }
+        } catch (err) {
+            throw new Error(`An error occured while rehydrating the condensed state: ${JSON.stringify(err)}`);
+        }
+        // stack lengths should equal
+        if (state.stack.length !== newgame.stack.length) {
+            throw new Error("Stack length mismatch when rehydrating game");
+        }
+        // replace the timestamps
+        newgame.stack.forEach((val, i) => {
+            val._timestamp = new Date(state.stack[i][0]);
+        });
+        return newgame;
     }
 }
 

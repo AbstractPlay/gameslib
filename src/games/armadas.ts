@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -170,7 +170,7 @@ export class ArmadasGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
 
-    constructor(state: number | IArmadasState | string, variants?: string[]) {
+    constructor(state: number | IArmadasState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
@@ -214,17 +214,20 @@ export class ArmadasGame extends GameBase {
             if (state.game !== ArmadasGame.gameinfo.uid) {
                 throw new Error(`The Armadas game code cannot process a game of '${state.game}'.`);
             }
-            this.numplayers = state.numplayers;
-            this.gameover = state.gameover;
-            this.variants = [...state.variants];
-            this.maxShips = state.maxShips;
-            if ("obstacles" in state) {
-                this.obstacles = [...state.obstacles];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as ArmadasGame).state();
+            }
+            this.numplayers = (state as IArmadasState).numplayers;
+            this.gameover = (state as IArmadasState).gameover;
+            this.variants = [...(state as IArmadasState).variants];
+            this.maxShips = (state as IArmadasState).maxShips;
+            if ("obstacles" in (state as IArmadasState)) {
+                this.obstacles = [...(state as IArmadasState).obstacles];
             } else {
                 this.obstacles = [];
             }
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            this.winner = [...(state as IArmadasState).winner];
+            this.stack = [...(state as IArmadasState).stack];
 
             // Now recursively "Objectify" the ships
             this.obstacles = this.obstacles.map((s) => Obstacle.deserialize(s));
@@ -314,7 +317,7 @@ export class ArmadasGame extends GameBase {
 
             // apply interim moves to get updated ship facings
             const cloned = this.clone();
-            cloned.move(moves.join(", "), true);
+            cloned.move(moves.join(", "), {partial: true});
 
             // get click context
             // If `ship` is undefined, then row/col are planar coordinates
@@ -485,7 +488,7 @@ export class ArmadasGame extends GameBase {
 
             const todate = moves.slice(0, i).join(",");
             cloned.load();
-            cloned.move(todate, true);
+            cloned.move(todate, {partial: true});
 
             const tokens = move.split(/\s+/);
 
@@ -566,13 +569,13 @@ export class ArmadasGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [ArmadasGame]
      */
-    public move(m: string, partial = false): ArmadasGame {
+    public move(m: string, {partial = false, trusted = false}): ArmadasGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         // validate if not partial
-        if (! partial) {
+        if ( (! partial) && (! trusted) ) {
             const result = this.validateMove(m);
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -101,7 +101,7 @@ export class ACityGame extends GameBase {
     public startpos!: [Color,MarkerPos][];
     public claimed!: [string[],string[]];
 
-    constructor(state?: IACityState | string) {
+    constructor(state?: IACityState | IAPGameStateV2 | string) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
@@ -124,16 +124,19 @@ export class ACityGame extends GameBase {
             }
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IACityState;
+                state = JSON.parse(state, reviver) as IACityState|IAPGameStateV2;
             }
             if (state.game !== ACityGame.gameinfo.uid) {
                 throw new Error(`The Alien City engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
-            this.startpos = deepclone(state.startpos) as [Color,MarkerPos][];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as ACityGame).state();
+            }
+            this.gameover = (state as IACityState).gameover;
+            this.winner = [...(state as IACityState).winner];
+            this.variants = (state as IACityState).variants;
+            this.stack = [...(state as IACityState).stack];
+            this.startpos = deepclone((state as IACityState).startpos) as [Color,MarkerPos][];
         }
         this.load();
     }
@@ -592,7 +595,7 @@ export class ACityGame extends GameBase {
         return cells;
     }
 
-    public move(m: string, partial = false): ACityGame {
+    public move(m: string, {partial = false, trusted = false}): ACityGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -603,13 +606,16 @@ export class ACityGame extends GameBase {
             m = m.toLowerCase();
         }
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            // if ( (! partial) && (! this.moves().includes(m)) ) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // }
         }
-        // if ( (! partial) && (! this.moves().includes(m)) ) {
-        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        // }
 
         this.results = [];
         if (m === "pass") {

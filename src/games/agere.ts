@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -192,7 +192,7 @@ export class AgereGame extends GameBase {
     public variants: string[] = [];
     public startpos!: string;
 
-    constructor(state?: IAgereState | string, variants?: string[]) {
+    constructor(state?: IAgereState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -201,10 +201,13 @@ export class AgereGame extends GameBase {
             if (state.game !== AgereGame.gameinfo.uid) {
                 throw new Error(`The Agere game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.variants = [...state.variants];
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as AgereGame).state();
+            }
+            this.gameover = (state as IAgereState).gameover;
+            this.variants = [...(state as IAgereState).variants];
+            this.winner = [...(state as IAgereState).winner];
+            this.stack = [...(state as IAgereState).stack];
         } else {
             if ( (variants !== undefined) && (variants.length === 1) && (variants.includes("cobweb")) ) {
                 this.variants = [...variants];
@@ -467,7 +470,7 @@ export class AgereGame extends GameBase {
         }
     }
 
-    public move(m: string): AgereGame {
+    public move(m: string, {trusted = false}): AgereGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -475,12 +478,14 @@ export class AgereGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        const result = this.validateMove(m);
-        if ( (! result.valid) || (result.complete === -1) ) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if ( (! result.valid) || (result.complete === -1) ) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         this.results = [];

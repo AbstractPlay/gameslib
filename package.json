@@ -64,7 +64,6 @@
     "honeycomb-grid": "4.1.1",
     "i18next": "^21.10.0",
     "js-combinatorics": "^2.1.1",
-    "minmax-wt-alpha-beta-pruning": "^1.0.5",
     "rfdc": "^1.3.0"
   }
 }

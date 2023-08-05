@@ -319,59 +319,6 @@
                     renderGame();
                 });
 
-                // Listen for AI buttons
-                document.getElementById("aiFast").addEventListener("click", () => {
-                    var state = window.sessionStorage.getItem("state");
-                    if (state !== null) {
-                        var gamename = window.sessionStorage.getItem("gamename");
-                        var game = APGames.GameFactory(gamename, state);
-                        if (gamename !== null) {
-                            var depth = APGames.aiFast.get(gamename);
-                            if ( (depth !== undefined) && (depth !== null) ) {
-                                var movebox = document.getElementById("moveEntry");
-                                if ( (game.numplayers !== undefined) && (game.numplayers !== 2) ) {
-                                    alert("AI only works with 2-player games.");
-                                    return false;
-                                }
-                                var factory = APGames.AIFactory(gamename);
-                                var move = factory.constructor.findmove(game.state(), depth);
-                                game.move(move);
-                                window.sessionStorage.setItem("state", game.serialize());
-                                window.sessionStorage.removeItem("interim");
-                                renderGame();
-                            } else {
-                                alert("This game does not support fast AI.");
-                            }
-                        }
-                    }
-                });
-
-                document.getElementById("aiSlow").addEventListener("click", () => {
-                    var state = window.sessionStorage.getItem("state");
-                    if (state !== null) {
-                        var gamename = window.sessionStorage.getItem("gamename");
-                        var game = APGames.GameFactory(gamename, state);
-                        if (gamename !== null) {
-                            var depth = APGames.aiSlow.get(gamename);
-                            if ( (depth !== undefined) && (depth !== null) ) {
-                                var movebox = document.getElementById("moveEntry");
-                                if ( (game.numplayers !== undefined) && (game.numplayers !== 2) ) {
-                                    alert("AI only works with 2-player games.");
-                                    return false;
-                                }
-                                var factory = APGames.AIFactory(gamename);
-                                var move = factory.constructor.findmove(game.state(), depth);
-                                game.move(move);
-                                window.sessionStorage.setItem("state", game.serialize());
-                                window.sessionStorage.removeItem("interim");
-                                renderGame();
-                            } else {
-                                alert("This game does not support slow AI.");
-                            }
-                        }
-                    }
-                });
-
                 // Listen for save SVG change
                 document.getElementById("saveSVG").addEventListener("click", () => {
                     var state = window.sessionStorage.getItem("state");
@@ -502,11 +449,6 @@
                             </select>
                         </div>
                         -->
-                        <div>
-                            <p>"Fast" is measured in seconds. "Slow" takes longer, but it's usually less than a minute. Don't click multiple times.</p>
-                            <button id="aiFast" name="aiFast" type="button">Let AI Decide (Fast)</button>
-                            <button id="aiSlow" name="aiSlow" type="button">Let AI Decide (Slow)</button>
-                        </div>
                         <div>
                             <button id="saveSVG" name="saveSVG" type="button">Save SVG</button>
                             <button id="dumpState" name="dumpState" type="button">Dump State</button>

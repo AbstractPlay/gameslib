@@ -568,6 +568,7 @@ export class ZolaGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
+            // @ts-ignore
             board: {
                 style: "squares",
                 width: this.boardSize,

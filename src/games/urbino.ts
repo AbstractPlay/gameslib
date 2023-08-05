@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -75,7 +75,7 @@ export class UrbinoGame extends GameBase {
     public pieces!: [[number,number,number],[number,number,number]];
     private scratchboard: number[][] = [];
 
-    constructor(state?: IUrbinoState | string, variants?: string[]) {
+    constructor(state?: IUrbinoState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const board = new Map<string, CellContents>();
@@ -98,10 +98,13 @@ export class UrbinoGame extends GameBase {
             if (state.game !== UrbinoGame.gameinfo.uid) {
                 throw new Error(`The Urbino engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = [...state.variants];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as UrbinoGame).state();
+            }
+            this.gameover = (state as IUrbinoState).gameover;
+            this.winner = [...(state as IUrbinoState).winner];
+            this.variants = [...(state as IUrbinoState).variants];
+            this.stack = [...(state as IUrbinoState).stack];
         }
         this.load();
         for (let i = 0; i < 9; i++) {
@@ -711,24 +714,28 @@ export class UrbinoGame extends GameBase {
 
     // The partial flag enabled dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
-    public move(m: string, partial = false): UrbinoGame {
+    public move(m: string, {partial = false, trusted = false}): UrbinoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (m[0] === ',')
-            m = m.slice(1);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (m[0] === ',')
+                m = m.slice(1);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if ( (! partial) && (! this.moves().includes(m)) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
+
         this.results = [];
 
         // Look for movement first

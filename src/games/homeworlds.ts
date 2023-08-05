@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -112,7 +112,7 @@ export class HomeworldsGame extends GameBase {
     private eliminated: Seat[] = [];
     public variants: string[] = [];
 
-    constructor(state: number | IHomeworldsState | string) {
+    constructor(state: number | IHomeworldsState | IAPGameStateV2 | string) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
@@ -132,10 +132,13 @@ export class HomeworldsGame extends GameBase {
             if (state.game !== HomeworldsGame.gameinfo.uid) {
                 throw new Error(`The Homeworlds game code cannot process a game of '${state.game}'.`);
             }
-            this.numplayers = state.numplayers;
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as HomeworldsGame).state();
+            }
+            this.numplayers = (state as IHomeworldsState).numplayers;
+            this.gameover = (state as IHomeworldsState).gameover;
+            this.winner = [...(state as IHomeworldsState).winner];
+            this.stack = [...(state as IHomeworldsState).stack];
 
             // Now recursively "Objectify" the subclasses
             this.stack.map((s) => {
@@ -270,7 +273,7 @@ export class HomeworldsGame extends GameBase {
                     const cmd = `homeworld ${colour[0]}${size[0]} ${colour[1]}${size[1]} ${colour[2]}${size[2]}`;
                     const cloned = this.clone();
                     try {
-                        cloned.move(cmd);
+                        cloned.move(cmd, {});
                     } catch {
                         continue;
                     }
@@ -304,7 +307,7 @@ export class HomeworldsGame extends GameBase {
             for (const cmd of allmoves) {
                 const cloned = this.clone();
                 try {
-                    cloned.move(cmd);
+                    cloned.move(cmd, {});
                 } catch {
                     continue;
                 }
@@ -315,7 +318,7 @@ export class HomeworldsGame extends GameBase {
             for (const m of movelst) {
                 // Do the partial move
                 const newg = new HomeworldsGame(this.serialize());
-                newg.move(m, true);
+                newg.move(m, {partial: true});
                 // Get a list of valid catastrophes
                 const catas: string[] = [];
                 for (const sys of newg.systems) {
@@ -334,7 +337,7 @@ export class HomeworldsGame extends GameBase {
                             const newmove = [m, ...c].join(", ");
                             const myg = new HomeworldsGame(this.serialize());
                             try {
-                                myg.move(newmove);
+                                myg.move(newmove, {});
                             } catch {
                                 continue;
                             }
@@ -456,7 +459,7 @@ export class HomeworldsGame extends GameBase {
         const myg = new HomeworldsGame(this.serialize());
         // Make the partial move (it might not be valid, so return empty string if so)
         try {
-            myg.move(moves.join(", "), true);
+            myg.move(moves.join(", "), {partial: true});
         } catch {
             return [];
         }
@@ -760,7 +763,7 @@ export class HomeworldsGame extends GameBase {
                 // check for remaining sacrifice actions
                 if ( (result.complete !== undefined) && (result.complete === -1) && (result.canrender) ) {
                     const cloned = this.clone();
-                    cloned.move(compiled, true);
+                    cloned.move(compiled, {partial: true});
                     let newNewMove = compiled;
                     if (! newNewMove.endsWith("catastrophe")) {
                         if (cloned.actions.B > 0) {
@@ -965,7 +968,7 @@ export class HomeworldsGame extends GameBase {
 
             const todate = moves.slice(0, i).join(",");
             cloned.load();
-            cloned.move(todate, true);
+            cloned.move(todate, {partial: true});
 
             const tokens: string[] = move.split(/\s+/);
             const cmd = keywords.find(x => x.startsWith(tokens[0].toLowerCase()));
@@ -1009,7 +1012,7 @@ export class HomeworldsGame extends GameBase {
         }
         // If we've gotten this far, each individual command was valid and complete
         cloned.load();
-        cloned.move(m, true);
+        cloned.move(m, {partial: true});
 
         // You have to account for all your actions
         let hasActions = false;
@@ -1072,7 +1075,8 @@ export class HomeworldsGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [HomeworldsGame]
      */
-    public move(m: string, partial = false): HomeworldsGame {
+    public move(m: string, {partial = false}): HomeworldsGame {
+        // `trusted` is not needed here because validation is so tightly coupled
         if (this.gameover) {
             throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVES_GAMEOVER"));
         }

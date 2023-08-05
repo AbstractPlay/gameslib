@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -83,7 +83,7 @@ export class MchessGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
-    constructor(state?: IMchessState | string, variants?: string[]) {
+    constructor(state?: IMchessState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
@@ -112,10 +112,13 @@ export class MchessGame extends GameBase {
             if (state.game !== MchessGame.gameinfo.uid) {
                 throw new Error(`The Martian Chess engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as MchessGame).state();
+            }
+            this.gameover = (state as IMchessState).gameover;
+            this.winner = [...(state as IMchessState).winner];
+            this.variants = (state as IMchessState).variants;
+            this.stack = [...(state as IMchessState).stack];
         }
         this.load();
     }
@@ -583,35 +586,37 @@ export class MchessGame extends GameBase {
         return points;
     }
 
-    public move(m: string, partial = false): MchessGame {
+    public move(m: string, {partial = false, trusted = false}): MchessGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
 
-        // if partial, just set the points and get out
-        if ( (partial) && (! m.includes("-")) && (! m.includes("x")) && (! m.includes("+")) ) {
-            const pts = this.findPoints(m);
-            if (pts !== undefined) {
-                this._points = pts;
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if ( (! partial) && (! this.moves().includes(m)) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
+            // if partial, just set the points and get out
+            if ( (partial) && (! m.includes("-")) && (! m.includes("x")) && (! m.includes("+")) ) {
+                const pts = this.findPoints(m);
+                if (pts !== undefined) {
+                    this._points = pts;
+                } else {
+                    this._points = [];
+                }
+                return this;
+            // otherwise delete the points and process the full move
             } else {
                 this._points = [];
             }
-            return this;
-        // otherwise delete the points and process the full move
-        } else {
-            this._points = [];
         }
 
         const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;

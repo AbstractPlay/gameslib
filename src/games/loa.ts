@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -59,7 +59,7 @@ export class LinesOfActionGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
-    constructor(state?: ILinesOfActionState | string, variants?: string[]) {
+    constructor(state?: ILinesOfActionState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
@@ -116,10 +116,13 @@ export class LinesOfActionGame extends GameBase {
             if (state.game !== LinesOfActionGame.gameinfo.uid) {
                 throw new Error(`The Lines of Action engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as LinesOfActionGame).state();
+            }
+            this.gameover = (state as ILinesOfActionState).gameover;
+            this.winner = [...(state as ILinesOfActionState).winner];
+            this.variants = (state as ILinesOfActionState).variants;
+            this.stack = [...(state as ILinesOfActionState).stack];
         }
         this.load();
     }
@@ -368,39 +371,43 @@ export class LinesOfActionGame extends GameBase {
         return result;
     }
 
-    public move(m: string, partial = false): LinesOfActionGame {
+    public move(m: string, {partial = false, trusted = false}): LinesOfActionGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
 
-        // if partial, just set the points and get out
-        if ( (partial) && (! m.includes("-")) && (! m.includes("x")) ) {
-            const [cell,] = m.split(/[-x]/);
-            const pts = this.findPoints(cell);
-            if (pts !== undefined) {
-                this._points = pts.map(c => LinesOfActionGame.algebraic2coords(c, this.boardsize));
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if ( (! partial) && (! this.moves().includes(m)) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
+
+            // if partial, just set the points and get out
+            if ( (partial) && (! m.includes("-")) && (! m.includes("x")) ) {
+                const [cell,] = m.split(/[-x]/);
+                const pts = this.findPoints(cell);
+                if (pts !== undefined) {
+                    this._points = pts.map(c => LinesOfActionGame.algebraic2coords(c, this.boardsize));
+                } else {
+                    this._points = [];
+                }
+                return this;
+            // otherwise delete the points and process the full move
             } else {
                 this._points = [];
             }
-            return this;
-        // otherwise delete the points and process the full move
-        } else {
-            this._points = [];
         }
 
         this.results = [];
+
         const [from, to] = m.split(/[-x]/);
         this.board.delete(from);
         if ( (this.variants.includes("classic")) || (to !== "e5") ) {
@@ -605,7 +612,7 @@ export class LinesOfActionGame extends GameBase {
             for (const m of moves) {
                 const cloned = this.clone();
                 cloned.currplayer = otherPlayer;
-                cloned.move(m);
+                cloned.move(m, {});
                 if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
                     checked.push(p);
                     break;

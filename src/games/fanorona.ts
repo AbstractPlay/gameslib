@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { Directions, RectGrid } from "../common";
@@ -54,7 +54,7 @@ export class FanoronaGame extends GameBase {
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
 
-    constructor(state?: IFanoronaState | string) {
+    constructor(state?: IFanoronaState | IAPGameStateV2 | string) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -63,9 +63,12 @@ export class FanoronaGame extends GameBase {
             if (state.game !== FanoronaGame.gameinfo.uid) {
                 throw new Error(`The Fanorona game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as FanoronaGame).state();
+            }
+            this.gameover = (state as IFanoronaState).gameover;
+            this.winner = [...(state as IFanoronaState).winner];
+            this.stack = [...(state as IFanoronaState).stack];
         } else {
             const fresh: IMoveState = {
                 _version: FanoronaGame.gameinfo.version,
@@ -128,7 +131,7 @@ export class FanoronaGame extends GameBase {
             const moves = move.split(/\s*,\s*/);
             if (moves[0] === "") { moves.splice(0, 1); }
             const cloned = Object.assign(new FanoronaGame(), deepclone(this) as FanoronaGame);
-            cloned.move(move, true);
+            cloned.move(move, {partial: true});
             const contents = cloned.board.get(cell);
 
             let newmove = "";
@@ -399,7 +402,7 @@ export class FanoronaGame extends GameBase {
             } // initial or continuation?
 
             cloned = Object.assign(new FanoronaGame(), deepclone(this) as FanoronaGame);
-            cloned.move(moves.slice(0, i+1).join(","), true);
+            cloned.move(moves.slice(0, i+1).join(","), {partial: true});
 
         } // foreach submove
 
@@ -507,19 +510,23 @@ export class FanoronaGame extends GameBase {
     }
 
     // Most validation offloaded to `validateMove`
-    public move(m: string, partial = false): FanoronaGame {
+    public move(m: string, {partial = false, trusted = false}): FanoronaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! partial) {
-            const result = this.validateMove(m);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            if (! partial) {
+                const result = this.validateMove(m);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
             }
         }
+
         this.results = [];
 
         const moves = m.split(",");

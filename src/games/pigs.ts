@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -112,7 +112,7 @@ export class PigsGame extends GameBaseSimultaneous {
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
 
-    constructor(state?: IPigsState | string | number) {
+    constructor(state?: IPigsState | IAPGameStateV2 | string | number) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
@@ -146,10 +146,13 @@ export class PigsGame extends GameBaseSimultaneous {
             if (state.game !== PigsGame.gameinfo.uid) {
                 throw new Error(`The Robo Battle Pigs game code cannot process a game of '${state.game}'.`);
             }
-            this.numplayers = state.numplayers;
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as PigsGame).state();
+            }
+            this.numplayers = (state as IPigsState).numplayers;
+            this.gameover = (state as IPigsState).gameover;
+            this.winner = [...(state as IPigsState).winner];
+            this.stack = [...(state as IPigsState).stack];
         } else {
             throw new Error("Unknown state passed.");
         }
@@ -267,7 +270,7 @@ export class PigsGame extends GameBaseSimultaneous {
         return false;
     }
 
-    public move(m: string, partial = false): PigsGame {
+    public move(m: string, {partial = false, trusted = false}): PigsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -281,9 +284,11 @@ export class PigsGame extends GameBaseSimultaneous {
             }
             moves[i] = moves[i].toLowerCase();
             moves[i] = moves[i].replace(/\s+/g, "");
-            const result = this.validateMove(moves[i], (i + 1) as playerid);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            if (! trusted) {
+                const result = this.validateMove(moves[i], (i + 1) as playerid);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
             }
         }
 

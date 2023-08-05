@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -59,7 +59,7 @@ export class CourtesanGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
-    constructor(state?: ICourtesanState | string) {
+    constructor(state?: ICourtesanState | IAPGameStateV2 | string) {
         super();
         if (state === undefined) {
             const board = new Map<string, CellContents>();
@@ -97,10 +97,13 @@ export class CourtesanGame extends GameBase {
             if (state.game !== CourtesanGame.gameinfo.uid) {
                 throw new Error(`The King & Courtesan engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = [...state.variants];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as CourtesanGame).state();
+            }
+            this.gameover = (state as ICourtesanState).gameover;
+            this.winner = [...(state as ICourtesanState).winner];
+            this.variants = [...(state as ICourtesanState).variants];
+            this.stack = [...(state as ICourtesanState).stack];
         }
         this.load();
     }
@@ -352,37 +355,39 @@ export class CourtesanGame extends GameBase {
         }
     }
 
-    public move(m: string, partial = false): CourtesanGame {
+    public move(m: string, {partial = false, trusted = false}): CourtesanGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! partial) {
-            const result = this.validateMove(m);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (! this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            }
-        }
 
-        // if partial, just set the points and get out
-        if ( (partial) && (! m.includes("-")) && (! m.includes("x")) && (! m.includes("/")) ) {
-            const pts = this.moves().filter(mv => mv.startsWith(m)).map(mv => mv.substring(mv.length - 2));
-            if (pts.length > 0) {
-                this._points = pts.map(c => CourtesanGame.algebraic2coords(c));
+        if (! trusted) {
+            if (! partial) {
+                const result = this.validateMove(m);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
+                if (! this.moves().includes(m)) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                }
+            }
+
+            // if partial, just set the points and get out
+            if ( (partial) && (! m.includes("-")) && (! m.includes("x")) && (! m.includes("/")) ) {
+                const pts = this.moves().filter(mv => mv.startsWith(m)).map(mv => mv.substring(mv.length - 2));
+                if (pts.length > 0) {
+                    this._points = pts.map(c => CourtesanGame.algebraic2coords(c));
+                } else {
+                    this._points = [];
+                }
+                return this;
+            // otherwise delete the points and process the full move
             } else {
                 this._points = [];
             }
-            return this;
-        // otherwise delete the points and process the full move
-        } else {
-            this._points = [];
         }
-
 
         const [from, to] = m.split(/[-x\/]/);
         const contents = this.board.get(from)!;

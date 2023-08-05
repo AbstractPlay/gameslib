@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -74,7 +74,7 @@ export class OrbGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IOrbState | string, variants?: string[]) {
+    constructor(state?: IOrbState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const board = new Map<string, CellContents>([
@@ -107,10 +107,13 @@ export class OrbGame extends GameBase {
             if (state.game !== OrbGame.gameinfo.uid) {
                 throw new Error(`The Generatorb engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as OrbGame).state();
+            }
+            this.gameover = (state as IOrbState).gameover;
+            this.winner = [...(state as IOrbState).winner];
+            this.variants = (state as IOrbState).variants;
+            this.stack = [...(state as IOrbState).stack];
         }
         this.load();
     }
@@ -560,19 +563,22 @@ export class OrbGame extends GameBase {
         }
     }
 
-    public move(m: string): OrbGame {
+    public move(m: string, {trusted = false}): OrbGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves(true).includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves(true).includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         this.results = [];
@@ -888,7 +894,7 @@ export class OrbGame extends GameBase {
             for (const m of moves) {
                 const cloned = this.clone();
                 cloned.currplayer = otherPlayer;
-                cloned.move(m);
+                cloned.move(m, {});
                 if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
                     checked.push(p);
                     break;

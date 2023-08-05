@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -118,7 +118,7 @@ export class TintasGame extends GameBase {
     public startpos!: string;
     public captured!: [CellContents[],CellContents[]];
 
-    constructor(state?: ITintasState | string) {
+    constructor(state?: ITintasState | IAPGameStateV2 | string) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -127,10 +127,13 @@ export class TintasGame extends GameBase {
             if (state.game !== TintasGame.gameinfo.uid) {
                 throw new Error(`The Tintas game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
-            this.startpos = state.startpos;
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as TintasGame).state();
+            }
+            this.gameover = (state as ITintasState).gameover;
+            this.winner = [...(state as ITintasState).winner];
+            this.stack = [...(state as ITintasState).stack];
+            this.startpos = (state as ITintasState).startpos;
         } else {
             const bag = shuffle("1111111222222233333334444444555555566666667777777".split("").map(n => parseInt(n, 10) as CellContents)) as CellContents[];
             this.startpos = bag.join("");
@@ -486,7 +489,7 @@ export class TintasGame extends GameBase {
         return [];
     }
 
-    public move(m: string, partial = false): TintasGame {
+    public move(m: string, {partial = false, trusted = false}): TintasGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -494,14 +497,16 @@ export class TintasGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
 
-        // all partial moves should still be in the move list
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // all partial moves should still be in the move list
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         this.results = [];
@@ -791,7 +796,7 @@ export class TintasGame extends GameBase {
             for (const m of moves) {
                 const cloned = this.clone();
                 cloned.currplayer = otherPlayer;
-                cloned.move(m);
+                cloned.move(m, {});
                 if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
                     checked.push(p);
                     break;

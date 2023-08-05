@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IAPGameStateV2 } from "./_base";
 import { APGamesInformation, Variant } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -69,7 +69,7 @@ export class ZolaGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public boardSize = 6;
 
-    constructor(state?: IZolaState | string, variants?: string[]) {
+    constructor(state?: IZolaState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) && (variants[0] !== "") ) {
@@ -116,10 +116,13 @@ export class ZolaGame extends GameBase {
             if (state.game !== ZolaGame.gameinfo.uid) {
                 throw new Error(`The Zola engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = [...state.variants];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as ZolaGame).state();
+            }
+            this.gameover = (state as IZolaState).gameover;
+            this.winner = [...(state as IZolaState).winner];
+            this.variants = [...(state as IZolaState).variants];
+            this.stack = [...(state as IZolaState).stack];
         }
         this.load();
     }
@@ -378,19 +381,22 @@ export class ZolaGame extends GameBase {
         }
     }
 
-    public move(m: string): ZolaGame {
+    public move(m: string, {trusted = false}): ZolaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         if (m === "pass") {
@@ -562,11 +568,11 @@ export class ZolaGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            // @ts-expect-error
             board: {
                 style: "squares",
                 width: this.boardSize,
                 height: this.boardSize,
+                // @ts-ignore
                 markers,
             },
             legend: myLegend,

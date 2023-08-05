@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -191,7 +191,7 @@ export class StreetcarGame extends GameBase {
     public taken: [Colour[],Colour[]] = [[],[]];
     public claimed: [IEdge[],IEdge[]] = [[],[]];
 
-    constructor(state?: IStreetcarState | string, variants?: string[]) {
+    constructor(state?: IStreetcarState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -200,11 +200,14 @@ export class StreetcarGame extends GameBase {
             if (state.game !== StreetcarGame.gameinfo.uid) {
                 throw new Error(`The Streetcar game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.variants = [...state.variants];
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
-            this.startpos = state.startpos;
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as StreetcarGame).state();
+            }
+            this.gameover = (state as IStreetcarState).gameover;
+            this.variants = [...(state as IStreetcarState).variants];
+            this.winner = [...(state as IStreetcarState).winner];
+            this.stack = [...(state as IStreetcarState).stack];
+            this.startpos = (state as IStreetcarState).startpos;
         } else {
             const bag = shuffle("1111111111111222222222222233333333333334444444444444".split("").map(n => parseInt(n, 10) as Colour)) as Colour[];
             this.startpos = bag.join("");
@@ -561,7 +564,7 @@ export class StreetcarGame extends GameBase {
         return connectedComponents(graph).length;
     }
 
-    public move(m: string, partial = false): StreetcarGame {
+    public move(m: string, {partial = false, trusted = false}): StreetcarGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -569,7 +572,7 @@ export class StreetcarGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        if (! partial) {
+        if ( (! partial) && (! trusted) ) {
             const result = this.validateMove(m);
             if ( (! result.valid) || (result.complete === -1) ) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)

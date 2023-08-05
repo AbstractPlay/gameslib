@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -65,7 +65,7 @@ export class FendoGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IFendoState | string) {
+    constructor(state?: IFendoState | IAPGameStateV2 | string) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
@@ -85,10 +85,13 @@ export class FendoGame extends GameBase {
             if (state.game !== FendoGame.gameinfo.uid) {
                 throw new Error(`The Fendo engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as FendoGame).state();
+            }
+            this.gameover = (state as IFendoState).gameover;
+            this.winner = [...(state as IFendoState).winner];
+            this.variants = (state as IFendoState).variants;
+            this.stack = [...(state as IFendoState).stack];
         }
         this.load();
     }
@@ -604,7 +607,7 @@ export class FendoGame extends GameBase {
         return result;
     }
 
-    public move(m: string, partial = false): FendoGame {
+    public move(m: string, {partial = false, trusted = false}): FendoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -613,21 +616,26 @@ export class FendoGame extends GameBase {
         if (m !== "pass") {
             m = m.replace(/[a-z]+$/, (match) => {return match.toUpperCase();});
         }
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if ( (! partial) && (! this.moves().includes(m)) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
+            /*
+            // this doesn't work, because sometimes the move is legal, but there are no available fence placements. We want to show the
+            // move so that you can get reasons for each fence placement being impossible.
+            else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
+            */
         }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
-        /*
-        // this doesn't work, because sometimes the move is legal, but there are no available fence placements. We want to show the
-        // move so that you can get reasons for each fence placement being impossible.
-        else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
-        */
+
         this.results = [];
+
         // Always check for a pass
         if (m === "pass") {
             this.results.push({type: "pass"});

@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
@@ -76,7 +76,7 @@ export class EntropyGame extends GameBaseSimultaneous {
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
 
-    constructor(state?: IEntropyState | string) {
+    constructor(state?: IEntropyState | IAPGameStateV2 | string) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -85,9 +85,12 @@ export class EntropyGame extends GameBaseSimultaneous {
             if (state.game !== EntropyGame.gameinfo.uid) {
                 throw new Error(`The Entropy game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as EntropyGame).state();
+            }
+            this.gameover = (state as IEntropyState).gameover;
+            this.winner = [...(state as IEntropyState).winner];
+            this.stack = [...(state as IEntropyState).stack];
         } else {
             const fresh: IMoveState = {
                 _version: EntropyGame.gameinfo.version,
@@ -345,7 +348,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
     }
 
-    public move(m: string, partial = false): EntropyGame {
+    public move(m: string, {partial = false, trusted = false}): EntropyGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -359,12 +362,14 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
             moves[i] = moves[i].toLowerCase();
             moves[i] = moves[i].replace(/\s+/g, "");
-            const result = this.validateMove(moves[i], (i + 1) as playerid);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if (! trusted) {
+                const result = this.validateMove(moves[i], (i + 1) as playerid);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
+                if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                }
             }
         }
 

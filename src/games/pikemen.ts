@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -74,7 +74,7 @@ export class PikemenGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IPikemenState | string, variants?: string[]) {
+    constructor(state?: IPikemenState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const fresh: IMoveState = {
@@ -107,10 +107,13 @@ export class PikemenGame extends GameBase {
             if (state.game !== PikemenGame.gameinfo.uid) {
                 throw new Error(`The Pikemen engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as PikemenGame).state();
+            }
+            this.gameover = (state as IPikemenState).gameover;
+            this.winner = [...(state as IPikemenState).winner];
+            this.variants = (state as IPikemenState).variants;
+            this.stack = [...(state as IPikemenState).stack];
         }
         this.load();
     }
@@ -430,7 +433,7 @@ export class PikemenGame extends GameBase {
         }
     }
 
-    public move(m: string, partial = false): PikemenGame {
+    public move(m: string, {partial = false, trusted = false}): PikemenGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -438,15 +441,18 @@ export class PikemenGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         m = m.replace(/\([a-z]+\)$/, (match) => {return match.toUpperCase();});
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            // if ( (! partial) && (! this.moves().includes(m)) ) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // }
         }
-        // if ( (! partial) && (! this.moves().includes(m)) ) {
-        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        // }
 
         this.results = [];
         const [move, reo] = m.split("(");

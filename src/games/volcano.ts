@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -137,7 +137,7 @@ export class VolcanoGame extends GameBase {
         return board;
     }
 
-    constructor(state?: IVolcanoState | string) {
+    constructor(state?: IVolcanoState | IAPGameStateV2 | string) {
         super();
         if (state === undefined) {
             this.board = VolcanoGame.newBoard();
@@ -167,10 +167,13 @@ export class VolcanoGame extends GameBase {
             if (state.game !== VolcanoGame.gameinfo.uid) {
                 throw new Error(`The Volcano engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as VolcanoGame).state();
+            }
+            this.gameover = (state as IVolcanoState).gameover;
+            this.winner = [...(state as IVolcanoState).winner];
+            this.variants = (state as IVolcanoState).variants;
+            this.stack = [...(state as IVolcanoState).stack];
         }
         this.load();
     }
@@ -422,16 +425,19 @@ export class VolcanoGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [VolcanoGame]
      */
-     public move(m: string, partial = false): VolcanoGame {
+     public move(m: string, {partial = false, trusted = false}): VolcanoGame {
         if ( (this.gameover) && (! partial) ) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
         }
 
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
@@ -550,7 +556,7 @@ export class VolcanoGame extends GameBase {
         cloned.load(-1);
         cloned.gameover = false;
         cloned.winner = [];
-        cloned.move(move2);
+        cloned.move(move2, {});
         // Compare state
         const board1 = this.board;
         const board2 = cloned.board;

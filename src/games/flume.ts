@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -60,7 +60,7 @@ export class FlumeGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IFlumeState | string, variants?: string[]) {
+    constructor(state?: IFlumeState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if ( (variants !== undefined) && (variants.length > 0) ) {
@@ -95,10 +95,13 @@ export class FlumeGame extends GameBase {
             if (state.game !== FlumeGame.gameinfo.uid) {
                 throw new Error(`The Flume engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as FlumeGame).state();
+            }
+            this.gameover = (state as IFlumeState).gameover;
+            this.winner = [...(state as IFlumeState).winner];
+            this.variants = (state as IFlumeState).variants;
+            this.stack = [...(state as IFlumeState).stack];
         }
         this.load();
     }
@@ -282,21 +285,24 @@ export class FlumeGame extends GameBase {
         return result;
     }
 
-    public move(m: string, partial = false): FlumeGame {
+    public move(m: string, {partial = false, trusted = false}): FlumeGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! partial) {
-            const result = this.validateMove(m);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            if (! partial) {
+                const result = this.validateMove(m);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
+                // if (! this.moves().includes(m)) {
+                //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                // }
             }
-            // if (! this.moves().includes(m)) {
-            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            // }
         }
 
         this.results = [];

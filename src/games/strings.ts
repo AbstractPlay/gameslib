@@ -1,4 +1,4 @@
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -126,7 +126,7 @@ export class StringsGame extends GameBaseSimultaneous {
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
 
-    constructor(state?: IStringsState | string) {
+    constructor(state?: IStringsState | IAPGameStateV2 | string) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -135,9 +135,12 @@ export class StringsGame extends GameBaseSimultaneous {
             if (state.game !== StringsGame.gameinfo.uid) {
                 throw new Error(`The Pulling Strings game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as StringsGame).state();
+            }
+            this.gameover = (state as IStringsState).gameover;
+            this.winner = [...(state as IStringsState).winner];
+            this.stack = [...(state as IStringsState).stack];
         } else {
             const fresh: IMoveState = {
                 _version: StringsGame.gameinfo.version,
@@ -237,7 +240,7 @@ export class StringsGame extends GameBaseSimultaneous {
         return result;
     }
 
-    public move(m: string, partial = false): StringsGame {
+    public move(m: string, {partial = false, trusted = false}): StringsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -251,12 +254,14 @@ export class StringsGame extends GameBaseSimultaneous {
             }
             moves[i] = moves[i].toLowerCase();
             moves[i] = moves[i].replace(/\s+/g, "");
-            const result = this.validateMove(moves[i]);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (! ((partial && moves[i] === "") || this.moves().includes(moves[i]))) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if (! trusted) {
+                const result = this.validateMove(moves[i]);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
+                if (! ((partial && moves[i] === "") || this.moves().includes(moves[i]))) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                }
             }
         }
 

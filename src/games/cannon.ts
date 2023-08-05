@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
@@ -77,7 +77,7 @@ export class CannonGame extends GameBase {
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
 
-    constructor(state?: ICannonState | string) {
+    constructor(state?: ICannonState | IAPGameStateV2 | string) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -86,9 +86,12 @@ export class CannonGame extends GameBase {
             if (state.game !== CannonGame.gameinfo.uid) {
                 throw new Error(`The Cannon game code cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as CannonGame).state();
+            }
+            this.gameover = (state as ICannonState).gameover;
+            this.winner = [...(state as ICannonState).winner];
+            this.stack = [...(state as ICannonState).stack];
         } else {
             const fresh: IMoveState = {
                 _version: CannonGame.gameinfo.version,
@@ -634,19 +637,22 @@ export class CannonGame extends GameBase {
         return result;
     }
 
-    public move(m: string): CannonGame {
+    public move(m: string, {trusted = false}): CannonGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         this.lastmove = m;

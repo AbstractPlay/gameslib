@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -72,7 +72,7 @@ export class WitchGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IWitchState | string) {
+    constructor(state?: IWitchState | IAPGameStateV2 | string) {
         super();
         if (state === undefined) {
             const board = new Map<string, CellContents>([
@@ -130,11 +130,14 @@ export class WitchGame extends GameBase {
             if (state.game !== WitchGame.gameinfo.uid) {
                 throw new Error(`The Witch engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
-            this.startpos = [...state.startpos];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as WitchGame).state();
+            }
+            this.gameover = (state as IWitchState).gameover;
+            this.winner = [...(state as IWitchState).winner];
+            this.variants = (state as IWitchState).variants;
+            this.stack = [...(state as IWitchState).stack];
+            this.startpos = [...(state as IWitchState).startpos];
         }
         this.load();
     }
@@ -471,7 +474,7 @@ export class WitchGame extends GameBase {
 
     // The partial flag enables dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
-    public move(m: string, partial = false): WitchGame {
+    public move(m: string, {partial = false, trusted = false}): WitchGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -481,14 +484,17 @@ export class WitchGame extends GameBase {
             m = m[0] + m[1].toUpperCase() + m.substring(2);
         }
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if ( (! partial) && (! this.moves().includes(m)) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         this.results = [];

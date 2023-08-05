@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult, IAPGameStateV2 } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -182,7 +182,7 @@ export class RealmGame extends GameBase {
     public phase: GamePhase = "initialBase";
     public inhand: [string, CellContents[]]|undefined;
 
-    constructor(state?: IRealmState | string, variants?: string[]) {
+    constructor(state?: IRealmState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const board = new Map<string, CellContents>();
@@ -233,10 +233,13 @@ export class RealmGame extends GameBase {
             if (state.game !== RealmGame.gameinfo.uid) {
                 throw new Error(`The Realm engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = [...state.variants];
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as RealmGame).state();
+            }
+            this.gameover = (state as IRealmState).gameover;
+            this.winner = [...(state as IRealmState).winner];
+            this.variants = [...(state as IRealmState).variants];
+            this.stack = [...(state as IRealmState).stack];
         }
         this.load();
     }
@@ -328,7 +331,7 @@ export class RealmGame extends GameBase {
 
                 const cloned = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
                 if (moves.length > 0) {
-                    cloned.move(moves.join(";"), true);
+                    cloned.move(moves.join(";"), {partial: true});
                 }
 
                 // If lastmove is empty, then the click is starting a new submove
@@ -1131,7 +1134,7 @@ export class RealmGame extends GameBase {
                 } // move type (rearrangement or movement)
 
                 cloned = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
-                cloned.move(moves.slice(0, i+1).join(";"), true);
+                cloned.move(moves.slice(0, i+1).join(";"), {partial: true});
             } // for each submove
 
             // we're good
@@ -1176,7 +1179,7 @@ export class RealmGame extends GameBase {
     // This function offloads all validation to `validateMove`!
     // If the move is flagged as partial, no validation is done at all. NO FAILSAFES!
     // This means it silently ignores nonsensical movement parts.
-    public move(m: string, partial = false): RealmGame {
+    public move(m: string, {partial = false, trusted = false}): RealmGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -1184,7 +1187,7 @@ export class RealmGame extends GameBase {
         m = m.replace(/\s+/g, "");
         const origMove =m;
         m = m.toLowerCase();
-        if (! partial) {
+        if ( (! partial) && (! trusted) ) {
             const result = this.validateMove(m);
             if ( (! result.valid) || ( (result.complete !== undefined) && (result.complete < 0) ) ) {
                 throw new UserFacingError(result.message, "VALIDATION_GENERAL");

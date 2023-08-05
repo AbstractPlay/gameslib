@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -89,7 +89,7 @@ export class AlfredsWykeGame extends GameBase {
     public boardSize = 4;
     public lastTwo: [string|undefined, string|undefined] = [undefined, undefined];
 
-    constructor(state?: IAlfredsWykeState | string, variants?: string[]) {
+    constructor(state?: IAlfredsWykeState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const board = new Map<string, number>();
@@ -126,10 +126,13 @@ export class AlfredsWykeGame extends GameBase {
             if (state.game !== AlfredsWykeGame.gameinfo.uid) {
                 throw new Error(`The AlfredsWyke engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as AlfredsWykeGame).state();
+            }
+            this.gameover = (state as IAlfredsWykeState).gameover;
+            this.winner = [...(state as IAlfredsWykeState).winner];
+            this.variants = (state as IAlfredsWykeState).variants;
+            this.stack = [...(state as IAlfredsWykeState).stack];
         }
         this.load();
     }
@@ -314,19 +317,22 @@ export class AlfredsWykeGame extends GameBase {
         }
     }
 
-    public move(m: string, partial = false): AlfredsWykeGame {
+    public move(m: string, {partial = false, trusted = false}): AlfredsWykeGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if ( (! partial) && (result.complete !== 1) ) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if ( (! partial) && (result.complete !== 1) ) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
         }
 
         this.results = [];

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -103,7 +103,7 @@ export class MvolcanoGame extends GameBase {
         return board;
     }
 
-    constructor(state?: IMvolcanoState | string) {
+    constructor(state?: IMvolcanoState | IAPGameStateV2 | string) {
         super();
         if (state === undefined) {
             this.board = MvolcanoGame.newBoard();
@@ -133,10 +133,13 @@ export class MvolcanoGame extends GameBase {
             if (state.game !== MvolcanoGame.gameinfo.uid) {
                 throw new Error(`The Mega-Volcano engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as MvolcanoGame).state();
+            }
+            this.gameover = (state as IMvolcanoState).gameover;
+            this.winner = [...(state as IMvolcanoState).winner];
+            this.variants = (state as IMvolcanoState).variants;
+            this.stack = [...(state as IMvolcanoState).stack];
         }
         this.load();
     }
@@ -327,16 +330,19 @@ export class MvolcanoGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [VolcanoGame]
      */
-    public move(m: string, partial = false): MvolcanoGame {
+    public move(m: string, {partial = false, trusted = false}): MvolcanoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
         }
 
         const moves = m.split(/\s*[\n,;\/\\]\s*/);
@@ -433,7 +439,7 @@ export class MvolcanoGame extends GameBase {
         cloned.load(-1);
         cloned.gameover = false;
         cloned.winner = [];
-        cloned.move(move2);
+        cloned.move(move2, {});
         // Compare state
         const board1 = this.board;
         const board2 = cloned.board;

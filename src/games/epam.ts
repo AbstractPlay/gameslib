@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -61,7 +61,7 @@ export class EpamGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public stones: string[] = [];
 
-    constructor(state?: IEpamState | string, variants?: string[]) {
+    constructor(state?: IEpamState | IAPGameStateV2 | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const board = new Map<string, playerid>();
@@ -94,10 +94,13 @@ export class EpamGame extends GameBase {
             if (state.game !== EpamGame.gameinfo.uid) {
                 throw new Error(`The Epaminondas engine cannot process a game of '${state.game}'.`);
             }
-            this.gameover = state.gameover;
-            this.winner = [...state.winner];
-            this.variants = state.variants;
-            this.stack = [...state.stack];
+            if ( ("V" in state) && (state.V === 2) ) {
+                state = (this.hydrate(state) as EpamGame).state();
+            }
+            this.gameover = (state as IEpamState).gameover;
+            this.winner = [...(state as IEpamState).winner];
+            this.variants = (state as IEpamState).variants;
+            this.stack = [...(state as IEpamState).stack];
         }
         this.load();
     }
@@ -436,19 +439,22 @@ export class EpamGame extends GameBase {
         }
     }
 
-    public move(m: string): EpamGame {
+    public move(m: string, {trusted = false}): EpamGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         this.results = [];

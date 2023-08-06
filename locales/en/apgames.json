@@ -500,6 +500,14 @@
             "NO_MIRROR_MOVE": "You can't just undo you opponent's move.",
             "PARTIAL": "Select a destination."
         },
+        "mirador": {
+            "INITIAL_INSTRUCTIONS": "Place a mirador.",
+            "INITIAL_INSTRUCTIONS_CHALLENGE": "Place as many miradors as you would like.",
+            "ALREADY_DECLARED": "Someone has already declared. You can not declare now.",
+            "SINGLE_PLACEMENT": "You can only place one mirador.",
+            "BAD_PLACEMENT": "You can not play at {{where}}. It would be adjacent or overlapping with another mirador. The only adjacency allowed is diagonal to one of your own miradors.",
+            "VALID_PARTIAL_MOVE": "Keep placing miradors until you have broken all the opponent's connections."
+        },
         "monkey": {
             "INITIAL_INSTRUCTIONS": "Select one of your pieces.",
             "MOVE_CLOSER": "When singletons make noncapturing moves, they must move closer to the enemy queen (straight-line distance).",

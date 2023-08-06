@@ -119,7 +119,7 @@ describe("Cannon", () => {
         // Now actually execute the far capture
         g.board.delete("e3");
         g.board.delete("e7");
-        g.move("xe9");
+        g.move("xe9", {});
         expect(g.board.has("e9")).to.be.false;
     });
     // it ("Game ends properly", () => {
@@ -127,7 +127,7 @@ describe("Cannon", () => {
     //     // g.board.set("b1", [1, "t"]);
     //     // g.checkEOG();
     //     g.placed = true;
-    //     g.move("b1")
+    //     g.move("b1", {})
     //     expect(g.gameover).to.be.true;
     //     expect(g.winner).to.have.members([1]);
     //     g = new CannonGame();
@@ -136,7 +136,7 @@ describe("Cannon", () => {
     //     g.board.set("a2", [1, "t"]);
     //     g.board.set("a10", [2, "t"]);
     //     g.currplayer = 2;
-    //     g.move("d5");
+    //     g.move("d5", {});
     //     // g.board.set("d5", [2, "s"]);
     //     // g.checkEOG();
     //     expect(g.gameover).to.be.true;

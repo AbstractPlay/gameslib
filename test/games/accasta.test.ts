@@ -15,10 +15,10 @@ describe("EOG", () => {
         g.board.set("a1", [["S", 2]]);
         g.board.set("a2", [["S", 2]]);
         g.board.set("b5", [["S", 2]]);
-        g.stack.push(g.moveState());
-        g.move("f1:-g1");
+        g.stack[0] = g.moveState();
+        g.move("f1:-g1", {trusted: true});
         expect(g.gameover).to.be.false;
-        g.move("b5:-a4")
+        g.move("b5:-a4", {trusted: true})
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });

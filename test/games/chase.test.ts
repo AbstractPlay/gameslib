@@ -98,7 +98,7 @@ describe("Chase", () => {
         let g = new ChaseGame();
         g.board.set("c4", [1, 2]);
         g.board.set("a3", [1, 1]);
-        expect(() => g.move("c4-e5")).to.not.throw();
+        expect(() => g.move("c4-e5", {})).to.not.throw();
         let left = g.board.get("e4");
         expect(left).to.not.be.undefined;
         expect(left![0]).to.equal(1);
@@ -108,7 +108,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.set("e3", [1, 2]);
         g.board.set("a3", [1, 1]);
-        expect(() => g.move("e3-e5")).to.not.throw();
+        expect(() => g.move("e3-e5", {})).to.not.throw();
         left = g.board.get("f5");
         expect(left).to.not.be.undefined;
         expect(left![0]).to.equal(1);
@@ -118,7 +118,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.set("g4", [1, 2]);
         g.board.set("a3", [1, 1]);
-        expect(() => g.move("g4-e5")).to.not.throw();
+        expect(() => g.move("g4-e5", {})).to.not.throw();
         left = g.board.get("f6");
         expect(left).to.not.be.undefined;
         expect(left![0]).to.equal(1);
@@ -128,7 +128,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.set("g6", [1, 2]);
         g.board.set("a3", [1, 1]);
-        expect(() => g.move("g6-e5")).to.not.throw();
+        expect(() => g.move("g6-e5", {})).to.not.throw();
         left = g.board.get("e6");
         expect(left).to.not.be.undefined;
         expect(left![0]).to.equal(1);
@@ -138,7 +138,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.set("e7", [1, 2]);
         g.board.set("a3", [1, 1]);
-        expect(() => g.move("e7-e5")).to.not.throw();
+        expect(() => g.move("e7-e5", {})).to.not.throw();
         left = g.board.get("d6");
         expect(left).to.not.be.undefined;
         expect(left![0]).to.equal(1);
@@ -148,7 +148,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.set("c6", [1, 2]);
         g.board.set("a3", [1, 1]);
-        expect(() => g.move("c6-e5")).to.not.throw();
+        expect(() => g.move("c6-e5", {})).to.not.throw();
         left = g.board.get("d5");
         expect(left).to.not.be.undefined;
         expect(left![0]).to.equal(1);
@@ -161,7 +161,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.delete("a1");
         g.board.set("d5", [1, 1]);
-        expect(() => g.move("d5-e5")).to.not.throw();
+        expect(() => g.move("d5-e5", {})).to.not.throw();
         left = g.board.get("e4");
         expect(left).to.not.be.undefined;
         expect(left![0]).to.equal(1);
@@ -176,7 +176,7 @@ describe("Chase", () => {
         g.board.delete("a3");
         g.board.set("b1", [1, 3]);
         g.board.set("b3", [1, 5]);
-        expect(() => g.move("b3-e5")).to.not.throw();
+        expect(() => g.move("b3-e5", {})).to.not.throw();
         left = g.board.get("e4");
         let right = g.board.get("d6");
         expect(left).to.not.be.undefined;
@@ -189,7 +189,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.delete("a5");
         g.board.set("e9", [1, 5]);
-        expect(() => g.move("e9-e5")).to.not.throw();
+        expect(() => g.move("e9-e5", {})).to.not.throw();
         left = g.board.get("f5");
         right = g.board.get("d5");
         expect(left).to.not.be.undefined;
@@ -203,7 +203,7 @@ describe("Chase", () => {
         g.board.delete("a5");
         g.board.delete("i3");
         g.board.set("h3", [1, 5]);
-        expect(() => g.move("h3-e5")).to.not.throw();
+        expect(() => g.move("h3-e5", {})).to.not.throw();
         left = g.board.get("f6");
         right = g.board.get("e4");
         expect(left).to.not.be.undefined;
@@ -217,7 +217,7 @@ describe("Chase", () => {
         g.board.delete("a5");
         g.board.delete("i7");
         g.board.set("h8", [1, 5]);
-        expect(() => g.move("h8-e5")).to.not.throw();
+        expect(() => g.move("h8-e5", {})).to.not.throw();
         left = g.board.get("e6");
         right = g.board.get("f5");
         expect(left).to.not.be.undefined;
@@ -230,7 +230,7 @@ describe("Chase", () => {
         g = new ChaseGame();
         g.board.delete("a5");
         g.board.set("e1", [1, 5]);
-        expect(() => g.move("e1-e5")).to.not.throw();
+        expect(() => g.move("e1-e5", {})).to.not.throw();
         left = g.board.get("d6");
         right = g.board.get("f6");
         expect(left).to.not.be.undefined;
@@ -245,7 +245,7 @@ describe("Chase", () => {
         g.board.delete("a7");
         g.board.set("b1", [1, 3]);
         g.board.set("b8", [1, 5]);
-        expect(() => g.move("b8-e5")).to.not.throw();
+        expect(() => g.move("b8-e5", {})).to.not.throw();
         left = g.board.get("d5");
         right = g.board.get("e6");
         expect(left).to.not.be.undefined;

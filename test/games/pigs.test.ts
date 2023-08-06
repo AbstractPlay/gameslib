@@ -15,7 +15,7 @@ describe("Robo Battle Pigs", () => {
         g.board.clear();
         g.board.set("d4", [1,"N"]);
         g.board.set("d5", [2,"S"]);
-        g.move("^xxxx,^xxxx");
+        g.move("^xxxx,^xxxx", {});
         let orig = g.board.get("d4");
         let after = g.board.get("d5");
         expect(orig).to.not.be.undefined;
@@ -27,7 +27,7 @@ describe("Robo Battle Pigs", () => {
         g.board.clear();
         g.board.set("e4", [1,"N"]);
         g.board.set("d5", [2,"S"]);
-        g.move("\\xxxx,\\xxxx");
+        g.move("\\xxxx,\\xxxx", {});
         orig = g.board.get("e4");
         after = g.board.get("d5");
         expect(orig).to.not.be.undefined;
@@ -40,7 +40,7 @@ describe("Robo Battle Pigs", () => {
         g.board.clear();
         g.board.set("d4", [2,"S"]);
         g.board.set("d5", [1,"N"]);
-        g.move("vxxxx,vxxxx");
+        g.move("vxxxx,vxxxx", {});
         orig = g.board.get("d4");
         after = g.board.get("d5");
         expect(orig).to.not.be.undefined;
@@ -52,7 +52,7 @@ describe("Robo Battle Pigs", () => {
         g.board.clear();
         g.board.set("d4", [1,"N"]);
         g.board.set("d5", [2,"S"]);
-        g.move("x^xxx,^xxxx");
+        g.move("x^xxx,^xxxx", {});
         orig = g.board.get("d4");
         after = g.board.get("d5");
         expect(orig).to.not.be.undefined;
@@ -64,7 +64,7 @@ describe("Robo Battle Pigs", () => {
         g.board.clear();
         g.board.set("d4", [1,"N"]);
         g.board.set("e4", [2,"N"]);
-        g.move("/xxxx,\\xxxx");
+        g.move("/xxxx,\\xxxx", {});
         orig = g.board.get("d4");
         after = g.board.get("e4");
         expect(orig).to.be.undefined;
@@ -76,7 +76,7 @@ describe("Robo Battle Pigs", () => {
         g.board.clear();
         g.board.set("d4", [1,"N"]);
         g.board.set("d3", [2,"N"]);
-        g.move("^xxxx,^xxxx");
+        g.move("^xxxx,^xxxx", {});
         const rear = g.board.get("d3");
         const mid = g.board.get("d4");
         const fore = g.board.get("d5");

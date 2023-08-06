@@ -692,9 +692,9 @@ export abstract class GameBase  {
         const ctor = this.constructor as typeof GameBase;
         let newgame: GameBase|GameBaseSimultaneous|undefined;
         if (ctor.gameinfo.playercounts.length === 1) {
-            newgame = GameFactory(state.game, state.variants);
+            newgame = GameFactory(state.game, ...state.variants);
         } else {
-            newgame = GameFactory(state.game, state.numplayers, state.variants);
+            newgame = GameFactory(state.game, state.numplayers, ...state.variants);
         }
         if (newgame === undefined) {
             throw new Error(`Unable to create a new ${state.game} object`);
@@ -704,10 +704,14 @@ export abstract class GameBase  {
             // start at idx 1 because the first state is initial
             for (let i = 1; i < state.stack.length; i++) {
                 let move = state.stack[i][1];
+                // eslint-disable-next-line no-console
+                console.log(`Move ${i}: ${JSON.stringify(move)}`);
                 if (Array.isArray(move)) {
                     move = move.join(",");
                 }
-                if (move === null) { throw new Error("Should not encounter null in the move list."); }
+                if (move === null) {
+                    throw new Error("Should not encounter null in the move list.");
+                }
                 newgame.move(move, {partial: false, trusted: true});
             }
         } catch (err) {

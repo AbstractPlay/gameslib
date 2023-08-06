@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* tslint:disable:no-unused-expression */
 
 import "mocha";
@@ -109,22 +111,22 @@ describe("Amazons", () => {
     it ("Pieces can't move through other pieces or blocks", () => {
         const g = new AmazonsGame();
         g.board.set("d2", 0);
-        expect(() => g.move("d1-d2/c2")).to.throw(Error, "VALIDATION_GENERAL");
-        expect(() => g.move("d1-d3/c2")).to.throw(Error, "VALIDATION_GENERAL");
-        expect(() => g.move("d1-g1/h1")).to.throw(Error, "VALIDATION_GENERAL");
-        expect(() => g.move("d1-h1/i1")).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("d1-d2/c2", {})).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("d1-d3/c2", {})).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("d1-g1/h1", {})).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("d1-h1/i1", {})).to.throw(Error, "VALIDATION_GENERAL");
     });
 
     it ("Arrows can't move through other pieces or blocks", () => {
         const g = new AmazonsGame();
         g.board.set("d2", 0);
         g.board.set("g2", 2);
-        expect(() => g.move("d1-e2/d2")).to.throw(Error, "VALIDATION_GENERAL");
-        expect(() => g.move("d1-e2/c2")).to.throw(Error, "VALIDATION_GENERAL");
-        expect(() => g.move("d1-e2/g2")).to.throw(Error, "VALIDATION_GENERAL");
-        expect(() => g.move("d1-e2/h2")).to.throw(Error, "VALIDATION_GENERAL");
-        expect(() => g.move("a4-a5/a4")).to.not.throw;
-        expect(() => g.move("a4-a5/a3")).to.not.throw;
+        expect(() => g.move("d1-e2/d2", {})).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("d1-e2/c2", {})).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("d1-e2/g2", {})).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("d1-e2/h2", {})).to.throw(Error, "VALIDATION_GENERAL");
+        expect(() => g.move("a4-a5/a4", {})).to.not.throw;
+        expect(() => g.move("a4-a5/a3", {})).to.not.throw;
     });
 });
 

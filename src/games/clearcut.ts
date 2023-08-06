@@ -50,8 +50,8 @@ interface ICrossCut {
 }
 
 interface ICrossCutExtended {
-    yours: number;
-    theirs: number;
+    yours: string[][];
+    theirs: string[][];
 }
 
 export class ClearcutGame extends GameBase {
@@ -70,7 +70,7 @@ export class ClearcutGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
-        flags: ["pie", "automove", "experimental"]
+        flags: ["pie", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 19);
@@ -204,20 +204,17 @@ export class ClearcutGame extends GameBase {
         return [...extension];
     }
 
-    public extendCrosscuts(crosses: ICrossCut[]): ICrossCutExtended[] {
-        const extended: ICrossCutExtended[] = [];
+    public extendCrosscuts(crosses: ICrossCut[]): ICrossCutExtended {
+        const extended: ICrossCutExtended = {yours: [], theirs: []};
         for (const cross of crosses) {
-            let yours = 0;
-            let theirs = 0;
             for (const cell of cross.yours) {
                 const ext = this.extendCell(cell);
-                yours += ext.length;
+                extended.yours.push([...ext]);
             }
             for (const cell of cross.theirs) {
                 const ext = this.extendCell(cell);
-                theirs += ext.length;
+                extended.theirs.push([...ext]);
             }
-            extended.push({yours, theirs});
         }
         return extended;
     }
@@ -227,8 +224,9 @@ export class ClearcutGame extends GameBase {
         cloned.board.set(cell, player);
         const crosses = cloned.getCrosscuts(cell);
         const extended = cloned.extendCrosscuts(crosses);
-        for (const ext of extended) {
-            if (ext.yours <= ext.theirs) {
+        const yours = extended.yours.find(lst => lst.includes(cell))!;
+        for (const ext of extended.theirs) {
+            if (yours.length <= ext.length) {
                 return false;
             }
         }

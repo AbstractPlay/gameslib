@@ -3,11 +3,12 @@
         "abande": "Abande is the second game in Dieter Stein's stacking trilogy. Place or move pieces and stacks to generate the highest score you can whilst always keeping the board connected. The square, snubsquare, and hex boards are available.",
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
-        "agere": "A connection game where you can also stack pieces. Played either on a diamond board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
+        "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
+        "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
@@ -71,8 +72,8 @@
         "CMD_DISC_DOUBLE": "A system by the name {{name}} has already been charted.",
         "CMD_HOME_COLOURS": "You're requesting a home world with fewer than three technologies available. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_DOUBLE": "You already have a home world.",
-        "CMD_HOME_RHO": "You're requesting a home world with the same star sizes as your right-hand opponent. This puts your nemesis only one jump away from you! If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
-        "CMD_HOME_SAMESIZE": "You're requesting a home world with two stars of the same size. This puts you at a strong disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        "CMD_HOME_RHO_DIRECT": "Your homeworld is directly connected to your right-hand opponent (none of your homeworld stars are the same size as theirs). This creates what's called a \"microverse,\" and it is not recommended for new players. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        "CMD_HOME_RHO_SMALL": "You are choosing to put yourself only two jumps away from your right-hand opponent (what's called a \"small\" universe), but it's possible for you to create a \"large\" universe (putting your right-hand opponent at the maximum three jumps away) if you choose one of your opponent's star sizes and the size their homeworld does *not* include. For new players, starting with a large universe is recommended. If you're sure you want a small universe, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_SINGLE": "You're requesting a home world with only one star. This puts you at a strong disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_SMALLSHIP": "You are requesting a home world without a large ship. This puts you at a disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
         "CMD_HOME_TECHS": "You're requesting a home world that does not contain Green or Blue technologies. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
@@ -224,7 +225,7 @@
             "COLLISION": "Pieces may not collide with each other.",
             "DOUBLE_MOVE": "You may not issue more than one move order per ship per turn.",
             "DUPLICATE_NAME": "That name is already being used.",
-            "INITIAL_INSTRUCTIONS_place": "Select a piece from the sidebar to place it on the field.",
+            "INITIAL_INSTRUCTIONS_place": "Select a piece from the sidebar to place it on the field. You can also type \"pass\" if you've already placed all the pieces you can or wish to this turn. You must place at least one ship if you can.",
             "INITIAL_INSTRUCTIONS_placefree": "Select a piece from the sidebar to place it on the field. Pass if you do not wish to place any more ships. Once both players pass, the play phase will begin.",
             "INITIAL_INSTRUCTIONS_play": "Select the piece you wish to move or attack with.",
             "INVALID_NAME": "The name must be between 1 and 25 characters long; must not contain any whitespace; must only consist of letters, numbers, hyphens, and underscores; and may not start with a hyphen or underscore.",
@@ -263,6 +264,12 @@
             "TOOHIGH": "The combined stack after the capture will be too high.",
             "TRIPLESTACK": "Triple stacks cannot participate in captures."
         },
+        "bide": {
+            "EMPTY_HAND": "You have no more pieces to place.",
+            "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece, or pass if you wish to save this piece for later.",
+            "MAY_RELEASE": "Place more pieces if you wish to trigger a release.",
+            "MUST_RELEASE": "A release has been triggered. You must place all your pieces."
+        },
         "blam": {
             "BADSYNTAX": "Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",
             "INITIAL_INSTRUCTIONS": "Enter the size of the piece to place. You can click on your stash.",
@@ -273,6 +280,7 @@
         },
         "boom": {
             "INITIAL_INSTRUCTIONS": "Select a stack to move or attack with.",
+            "OUT_OF_RANGE": "Stacks can only move/attack a distance equal to the stack's height.",
             "PARTIAL": "Select an empty space to move to, the opposing buffer to bear off, or an opponent's stack to attack.",
             "TOOFAR": "You cannot bear off from here."
         },
@@ -331,7 +339,7 @@
         "clearcut": {
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
-            "BAD_CROSSING": "Lines may only cross if your extended crosscut is larger than the opposing extended crosscut."
+            "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut."
         },
         "complica": {
             "INITIAL_INSTRUCTIONS": "Select the column into which to drop your stone."

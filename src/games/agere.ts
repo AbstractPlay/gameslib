@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
@@ -7,6 +8,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, intersects } from "../common";
 import { UndirectedGraph } from "graphology";
+import { bidirectional } from "graphology-shortest-path/unweighted";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -46,7 +48,7 @@ export class AgereGame extends GameBase {
         variants: [
             {uid: "cobweb", group: "board"},
         ],
-        flags: ["experimental", "pie", "check"]
+        flags: ["pie", "check"]
     };
 
 
@@ -56,11 +58,9 @@ export class AgereGame extends GameBase {
         ["h4", "g5", "f5", "e6", "d7", "c7", "b7", "a8"],
     ];
 
-    public static edgesCobweb = new Map<playerid, [string[],string[]]>([
-        [1, [["a4", "h4"], ["d4", "e4"]]],
-        [1, [["b4", "c4"], ["f4", "g4"]]],
-        [2, [["a4", "b4"], ["e4", "f4"]]],
-        [2, [["c4", "d4"], ["g4", "h4"]]],
+    public static edgesCobweb = new Map<playerid, [[string[],string[]],[string[],string[]]]>([
+        [1, [[["a4", "h4"], ["d4", "e4"]],[["b4", "c4"], ["f4", "g4"]]]],
+        [2, [[["a4", "b4"], ["e4", "f4"]],[["c4", "d4"], ["g4", "h4"]]]],
     ]);
 
     public static buildGraph(style: "hex"|"cobweb"): UndirectedGraph {
@@ -526,24 +526,57 @@ export class AgereGame extends GameBase {
         return status;
     }
 
-    protected checkEOGCobweb(graph: UndirectedGraph): void {
-        for (const g of connectedComponents(graph)) {
-            let connected = true;
-            for (const edge of AgereGame.edgesCobweb.get(this.currplayer)!) {
-                if (! intersects(g, edge)) {
-                    connected = false;
-                    break;
+    protected checkEOGCobweb(player?: playerid): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        // start with the full board graph
+        const graph = this.getGraph();
+        // drop any nodes not occupied by currplayer
+        for (const node of [...graph.nodes()]) {
+            if (! this.board.has(node)) {
+                graph.dropNode(node);
+            } else {
+                const stack = this.board.get(node)!;
+                if (stack[stack.length - 1] !== player) {
+                    graph.dropNode(node);
                 }
             }
-            if (connected) {
-                this.gameover = true;
-                this.winner = [this.currplayer];
-                return;
+        }
+
+        for (const [left,right] of AgereGame.edgesCobweb.get(player)!) {
+            for (const lnode of left) {
+                for (const rnode of right) {
+                    if ( graph.hasNode(lnode) && graph.hasNode(rnode) ) {
+                        const path = bidirectional(graph, lnode, rnode);
+                        if (path !== null) {
+                            return true;
+                        }
+                    }
+                }
             }
         }
+        return false;
     }
 
-    protected checkEOGHexTri(graph: UndirectedGraph): void {
+    protected checkEOGHexTri(player?: playerid): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        // start with the full board graph
+        const graph = this.getGraph();
+        // drop any nodes not occupied by currplayer
+        for (const node of [...graph.nodes()]) {
+            if (! this.board.has(node)) {
+                graph.dropNode(node);
+            } else {
+                const stack = this.board.get(node)!;
+                if (stack[stack.length - 1] !== player) {
+                    graph.dropNode(node);
+                }
+            }
+        }
+
         for (const g of connectedComponents(graph)) {
             let connected = true;
             for (const edge of AgereGame.edgesDefault) {
@@ -553,34 +586,36 @@ export class AgereGame extends GameBase {
                 }
             }
             if (connected) {
-                this.gameover = true;
-                this.winner = [this.currplayer];
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     protected checkEOG(): AgereGame {
         // We are now at the START of `this.currplayer`'s turn
-        // start with the full board graph
-        const graph = this.getGraph();
-        // drop any nodes not occupied by currplayer
-        for (const node of [...graph.nodes()]) {
-            if (! this.board.has(node)) {
-                graph.dropNode(node);
-            } else {
-                const stack = this.board.get(node)!;
-                if (stack[stack.length - 1] !== this.currplayer) {
-                    graph.dropNode(node);
-                }
+        if (this.variants.includes("cobweb")) {
+            if (this.checkEOGCobweb()) {
+                this.gameover = true;
+                this.winner = [this.currplayer];
+            }
+        } else {
+            if (this.checkEOGHexTri()) {
+                this.gameover = true;
+                this.winner = [this.currplayer];
             }
         }
-        // now send these graphs to the variant-specific checkers
-        if (this.variants.includes("cobweb")) {
-            this.checkEOGCobweb(graph);
-        } else {
-            this.checkEOGHexTri(graph);
-        }
+
+        // // look for checkmate
+        // // this means the *previous* player is connected,
+        // // and there's nothing the current player can do about it
+        // if (! this.gameover) {
+        //     let otherPlayer: playerid = 1;
+        //     if (this.currplayer === 1) {
+        //         otherPlayer = 2;
+        //     }
+
+        // }
 
         if (this.gameover) {
             this.results.push(
@@ -818,25 +853,25 @@ export class AgereGame extends GameBase {
 
     // Only detects check for the current player
     public inCheck(): number[] {
-        const checked: number[] = [];
         let otherPlayer: playerid = 1;
         if (this.currplayer === 1) {
             otherPlayer = 2;
         }
-        const moves = this.moves();
-        for (const m of moves) {
-            // const cloned = this.clone();
-            const cloned = Object.assign(new AgereGame(), deepclone(this) as AgereGame);
-            cloned.move(m);
-            if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
-                checked.push(this.currplayer);
-                break;
-            }
+        let connected = false;
+        if (this.variants.includes("cobweb")) {
+            connected = this.checkEOGCobweb(otherPlayer);
+        } else {
+            connected = this.checkEOGHexTri(otherPlayer);
         }
-        return checked;
+        if (connected) {
+            return [this.currplayer];
+        } else {
+            return [];
+        }
     }
 
     public clone(): AgereGame {
-        return new AgereGame(this.serialize());
+        return Object.assign(new AgereGame(), deepclone(this) as AgereGame);
+        // return new AgereGame(this.serialize());
     }
 }

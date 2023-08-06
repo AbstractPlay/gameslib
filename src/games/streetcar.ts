@@ -52,7 +52,7 @@ const myHex = defineHex({
 const hexGrid = new Grid(myHex, rectangle({width: 8, height: 8}));
 const allHexDirs = [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW];
 
-const edge2celldir = (edge: IEdge): [string,string] => {
+const edge2celldir = (edge: IEdge): [string,string]|undefined => {
     if (edge === undefined) {
         throw new Error("Can't process an undefined edge.");
     }
@@ -63,7 +63,8 @@ const edge2celldir = (edge: IEdge): [string,string] => {
         hex = nudgeEdge(edge);
         realdir = oppositeDirections.get(edge.dir)!
         if (hex === undefined) {
-            throw new Error(`Could not find a hex that corresponds to the given edge: ${edge.uid}`);
+            return undefined;
+            // throw new Error(`Could not find a hex that corresponds to the given edge: ${edge.uid}`);
         }
     }
     const {col, row} = hex;
@@ -79,11 +80,12 @@ const nudgeEdge = (edge: IEdge): Hex|undefined => {
     return undefined;
 }
 
-const edge2string = (edge: IEdge): string => {
+const edge2string = (edge: IEdge): string|undefined => {
     if (edge === undefined) {
         throw new Error("Can't process an undefined edge.");
     }
-    const [cell, dir] = edge2celldir(edge);
+    if (edge2celldir(edge) === undefined) { return undefined; }
+    const [cell, dir] = edge2celldir(edge)!;
     return `${cell}${dir}`;
 }
 
@@ -456,19 +458,28 @@ export class StreetcarGame extends GameBase {
 
             // final check to see if second line placement is possible
             if ( (edges.length === 1) && ( (house.length > 0) || (this.stack.length === 1) ) ) {
+                // convert what the user typed to a canonical edge
                 const realEdge = str2edge(edges[0])!;
-                // get list of all edges that extend the one line drawn, converted to vertices
-                const extensions = new Set<string>(edge2verts(realEdge).map(v => vert2edges(v)).flat().map(e => edge2verts(e)).flat().map(e => e.uid));
-                // for simplicity, remove the ids for the currently drawn vertices
-                for (const v of edge2verts(realEdge)) {
-                    extensions.delete(v.uid);
+                // get list of all edges that extend the one line drawn
+                const extensions = edge2verts(realEdge).map(v => vert2edges(v)).flat().filter(e => e.uid !== realEdge.uid).filter(e => edge2string(e) !== undefined);
+                // get list of vertices owned by opponents
+                const oppClaimedVerts = new Set<string>(this.getClaimedPts(otherPlayer).map(v => v.uid));
+                let canDraw = false;
+                for (const edge of extensions) {
+                    // check if either vertex is owned by opponent
+                    if ([...edge2verts(edge)].filter(v => oppClaimedVerts.has(v.uid)).length > 0) {
+                        continue;
+                    }
+                    // check if edge is unclaimed
+                    if ([...this.claimed.flat().map(e => e.uid)].includes(edge.uid)) {
+                        continue;
+                    }
+                    // otherwise, a second line is possible
+                    canDraw = true;
+                    break;
                 }
-                // filter the possible vertices for vertices that are claimed by either player
-                const allClaimedPts = [...this.getClaimedPts(1), ...this.getClaimedPts(2)];
-                const claimedIds = new Set<string>(allClaimedPts.map(p => p.uid));
-                const unclaimed = [...extensions].filter(id => ! claimedIds.has(id));
                 // if there's at least one valid line to draw, tell them
-                if (unclaimed.length > 0) {
+                if (canDraw) {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
@@ -590,7 +601,7 @@ export class StreetcarGame extends GameBase {
         // claim the edges
         for (const edge of edges) {
             this.claimed[this.currplayer - 1].push(deepclone(edge) as IEdge);
-            this.results.push({type: "claim", where: edge2string(edge)})
+            this.results.push({type: "claim", where: edge2string(edge)!})
         }
         // remove the housing limit (and add to taken list)
         if (house.length > 0) {
@@ -1005,7 +1016,7 @@ export class StreetcarGame extends GameBase {
                 for (const claim of this.claimed[p - 1]) {
                     // check if just now claimed
                     const justnow = this.results.filter(r => r.type === "claim" && r.where === edge2string(claim)).length === 1;
-                    const [cell, dir] = edge2celldir(claim);
+                    const [cell, dir] = edge2celldir(claim)!;
                     const [col, row] = StreetcarGame.algebraic2coords(cell);
                     const node = {
                         type: "fence",

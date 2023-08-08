@@ -239,6 +239,15 @@ export abstract class GameBase  {
         return move === "resign" || move === "draw" || move === "timeout";
     }
 
+    /**
+     * Only used by `hydrate()` to forcibly initialize the starting position
+     * of a `random-start` game.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected initStartPos(startpos: string): GameBase {
+        return this;
+    }
+
     private eog(player: number, move: string, result: APMoveResult): GameBase {
         this.results = [result]
         // If one person resigns, the others win together
@@ -703,6 +712,10 @@ export abstract class GameBase  {
         }
         if (newgame === undefined) {
             throw new Error(`Unable to create a new ${state.game} object`);
+        }
+        // check for random start and initialize
+        if ( ("startpos" in state) && (state.startpos !== undefined) ) {
+            this.initStartPos(state.startpos);
         }
         // make all the moves
         try {

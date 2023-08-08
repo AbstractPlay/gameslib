@@ -177,6 +177,16 @@ export class ACityGame extends GameBase {
         return this;
     }
 
+    protected initStartPos(startpos: string): ACityGame {
+        const tiles = startpos.split(",");
+        this.startpos = [];
+        for (const tile of tiles) {
+            const [colour, pos] = tile.split("");
+            this.startpos.push([colour as Color, parseInt(pos, 10) as MarkerPos])
+        }
+        return this;
+    }
+
     public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {

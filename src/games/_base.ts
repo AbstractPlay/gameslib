@@ -90,6 +90,7 @@ export interface IAPGameStateV2 {
     game: string,
     numplayers: number;
     variants: string[];
+    startpos?: string;
     stack: IIndividualStateV2[];
 }
 
@@ -685,6 +686,10 @@ export abstract class GameBase  {
             variants: state.variants,
             stack: state.stack.map(s => {return [new Date(s._timestamp).getTime(), ( ("lastmove" in s) && (s.lastmove !== undefined) ) ? s.lastmove : null] as [number,string|string[]|null]}),
         };
+        const ctor = this.constructor as typeof GameBase;
+        if (ctor.gameinfo.flags?.includes("random-start")) {
+            newstate.startpos = this.getStartingPosition();
+        }
         return JSON.stringify(newstate);
     }
 

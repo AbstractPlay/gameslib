@@ -354,7 +354,7 @@ export class GardenGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false}): GardenGame {
+    public move(m: string, {trusted = false} = {}): GardenGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

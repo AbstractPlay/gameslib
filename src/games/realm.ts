@@ -1179,7 +1179,7 @@ export class RealmGame extends GameBase {
     // This function offloads all validation to `validateMove`!
     // If the move is flagged as partial, no validation is done at all. NO FAILSAFES!
     // This means it silently ignores nonsensical movement parts.
-    public move(m: string, {partial = false, trusted = false}): RealmGame {
+    public move(m: string, {partial = false, trusted = false} = {}): RealmGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

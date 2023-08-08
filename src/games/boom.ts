@@ -334,7 +334,7 @@ export class BoomGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false}): BoomGame {
+    public move(m: string, {trusted = false} = {}): BoomGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

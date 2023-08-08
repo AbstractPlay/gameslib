@@ -330,7 +330,7 @@ export class MvolcanoGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [VolcanoGame]
      */
-    public move(m: string, {partial = false, trusted = false}): MvolcanoGame {
+    public move(m: string, {partial = false, trusted = false} = {}): MvolcanoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -439,7 +439,7 @@ export class MvolcanoGame extends GameBase {
         cloned.load(-1);
         cloned.gameover = false;
         cloned.winner = [];
-        cloned.move(move2, {});
+        cloned.move(move2);
         // Compare state
         const board1 = this.board;
         const board2 = cloned.board;

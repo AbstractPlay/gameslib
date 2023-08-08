@@ -349,7 +349,7 @@ export class CephalopodGame extends GameBase {
         }
     }
 
-    public move(m: string, {partial = false, trusted = false}): CephalopodGame {
+    public move(m: string, {partial = false, trusted = false} = {}): CephalopodGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

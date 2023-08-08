@@ -564,7 +564,7 @@ export class StreetcarGame extends GameBase {
         return connectedComponents(graph).length;
     }
 
-    public move(m: string, {partial = false, trusted = false}): StreetcarGame {
+    public move(m: string, {partial = false, trusted = false} = {}): StreetcarGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

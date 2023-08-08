@@ -637,7 +637,7 @@ export class CannonGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): CannonGame {
+    public move(m: string, {trusted = false} = {}): CannonGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

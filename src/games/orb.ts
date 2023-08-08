@@ -563,7 +563,7 @@ export class OrbGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false}): OrbGame {
+    public move(m: string, {trusted = false} = {}): OrbGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -894,7 +894,7 @@ export class OrbGame extends GameBase {
             for (const m of moves) {
                 const cloned = this.clone();
                 cloned.currplayer = otherPlayer;
-                cloned.move(m, {});
+                cloned.move(m);
                 if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
                     checked.push(p);
                     break;

@@ -369,7 +369,7 @@ export class AmazonsGame extends GameBase {
 
     // The `partial` flag leaves the game object in an invalid state
     // Only use on a cloned object, or call `load()` before processing the final move
-    public move(m: string, {partial = false, trusted = false}): AmazonsGame {
+    public move(m: string, {partial = false, trusted = false} = {}): AmazonsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

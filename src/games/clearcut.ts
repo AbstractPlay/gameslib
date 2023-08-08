@@ -334,7 +334,7 @@ export class ClearcutGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): ClearcutGame {
+    public move(m: string, {trusted = false} = {}): ClearcutGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

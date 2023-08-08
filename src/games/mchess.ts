@@ -586,7 +586,7 @@ export class MchessGame extends GameBase {
         return points;
     }
 
-    public move(m: string, {partial = false, trusted = false}): MchessGame {
+    public move(m: string, {partial = false, trusted = false} = {}): MchessGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

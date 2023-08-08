@@ -302,7 +302,7 @@ export class ManalathGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {partial = false, trusted = false}): ManalathGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ManalathGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

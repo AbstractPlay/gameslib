@@ -313,7 +313,7 @@ export class TaijiGame extends GameBase {
         }
     }
 
-    public move(m: string, {partial = false, trusted = false}): TaijiGame {
+    public move(m: string, {partial = false, trusted = false} = {}): TaijiGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

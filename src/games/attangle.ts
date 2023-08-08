@@ -393,7 +393,7 @@ export class AttangleGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): AttangleGame {
+    public move(m: string, {trusted = false} = {}): AttangleGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

@@ -302,7 +302,7 @@ export class BlamGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): BlamGame {
+    public move(m: string, {trusted = false} = {}): BlamGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

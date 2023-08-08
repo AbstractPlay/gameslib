@@ -595,7 +595,7 @@ export class ACityGame extends GameBase {
         return cells;
     }
 
-    public move(m: string, {partial = false, trusted = false}): ACityGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ACityGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

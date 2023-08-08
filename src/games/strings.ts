@@ -240,7 +240,7 @@ export class StringsGame extends GameBaseSimultaneous {
         return result;
     }
 
-    public move(m: string, {partial = false, trusted = false}): StringsGame {
+    public move(m: string, {partial = false, trusted = false} = {}): StringsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

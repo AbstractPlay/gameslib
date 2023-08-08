@@ -563,7 +563,7 @@ export class AccastaGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {partial = false, trusted = false}): AccastaGame {
+    public move(m: string, {partial = false, trusted = false} = {}): AccastaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

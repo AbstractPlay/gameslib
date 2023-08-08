@@ -344,7 +344,7 @@ export class MixtourGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): MixtourGame {
+    public move(m: string, {trusted = false} = {}): MixtourGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -587,7 +587,7 @@ export class MixtourGame extends GameBase {
             for (const m of moves) {
                 const cloned = this.clone();
                 cloned.currplayer = otherPlayer;
-                cloned.move(m, {});
+                cloned.move(m);
                 if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
                     checked.push(p);
                     break;

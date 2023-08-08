@@ -9,7 +9,7 @@ import { StringsGame } from '../../src/games';
 describe("Pulling Strings", () => {
     it("Centre: By itself", () => {
         const g = new StringsGame();
-        g.move("1,3", {});
+        g.move("1,3");
         const orig = g.board.get("d4");
         const after = g.board.get("d5");
         expect(orig).to.be.undefined;
@@ -18,7 +18,7 @@ describe("Pulling Strings", () => {
 
     it("Centre: Opposite", () => {
         const g = new StringsGame();
-        g.move("3,13", {});
+        g.move("3,13");
         const orig = g.board.get("d4");
         const above = g.board.get("d5");
         const below = g.board.get("d3");
@@ -29,7 +29,7 @@ describe("Pulling Strings", () => {
 
     it("Centre: Perpendicular", () => {
         const g = new StringsGame();
-        g.move("18,13", {});
+        g.move("18,13");
         const orig = g.board.get("d4");
         const left = g.board.get("c4");
         const below = g.board.get("d3");
@@ -42,7 +42,7 @@ describe("Pulling Strings", () => {
     it("Edge: By itself", () => {
         const g = new StringsGame();
         g.board.set("b2", 5);
-        g.move("16,17", {});
+        g.move("16,17");
         const orig = g.board.get("b2");
         expect(orig).eq(5);
     });
@@ -50,7 +50,7 @@ describe("Pulling Strings", () => {
     it("Edge: Opposite", () => {
         const g = new StringsGame();
         g.board.set("b2", 5);
-        g.move("16,10", {});
+        g.move("16,10");
         const orig = g.board.get("b2");
         const right = g.board.get("c2");
         expect(orig).eq(3);
@@ -60,7 +60,7 @@ describe("Pulling Strings", () => {
     it("Edge: Perpendicular", () => {
         const g = new StringsGame();
         g.board.set("b2", 5);
-        g.move("16,10", {});
+        g.move("16,10");
         const orig = g.board.get("b2");
         const right = g.board.get("c2");
         expect(orig).eq(3);
@@ -71,7 +71,7 @@ describe("Pulling Strings", () => {
     it("Corner: Cancelled out", () => {
         const g = new StringsGame();
         g.board.set("b6", 5);
-        g.move("1,20", {});
+        g.move("1,20");
         const orig = g.board.get("b6");
         const right = g.board.get("c6");
         const below = g.board.get("b5");
@@ -85,7 +85,7 @@ describe("Pulling Strings", () => {
         g.board.clear();
         g.board.set("d3", 3);
         g.board.set("d5", 3);
-        g.move("3,13", {});
+        g.move("3,13");
         const d6 = g.board.get("d6");
         const d5 = g.board.get("d5");
         const d4 = g.board.get("d4");
@@ -103,7 +103,7 @@ describe("Pulling Strings", () => {
         g.board.clear();
         g.board.set("d4", 3);
         g.board.set("c4", 3);
-        g.move("8,13", {});
+        g.move("8,13");
         const d4 = g.board.get("d4");
         const d3 = g.board.get("d3");
         const c4 = g.board.get("c4");

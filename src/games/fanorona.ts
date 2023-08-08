@@ -510,7 +510,7 @@ export class FanoronaGame extends GameBase {
     }
 
     // Most validation offloaded to `validateMove`
-    public move(m: string, {partial = false, trusted = false}): FanoronaGame {
+    public move(m: string, {partial = false, trusted = false} = {}): FanoronaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

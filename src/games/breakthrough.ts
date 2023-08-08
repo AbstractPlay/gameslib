@@ -368,7 +368,7 @@ export class BreakthroughGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): BreakthroughGame {
+    public move(m: string, {trusted = false} = {}): BreakthroughGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

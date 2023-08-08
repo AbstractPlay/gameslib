@@ -317,7 +317,7 @@ export class AlfredsWykeGame extends GameBase {
         }
     }
 
-    public move(m: string, {partial = false, trusted = false}): AlfredsWykeGame {
+    public move(m: string, {partial = false, trusted = false} = {}): AlfredsWykeGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

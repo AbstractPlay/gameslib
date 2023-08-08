@@ -470,7 +470,7 @@ export class AgereGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false}): AgereGame {
+    public move(m: string, {trusted = false} = {}): AgereGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

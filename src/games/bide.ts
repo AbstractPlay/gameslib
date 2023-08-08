@@ -292,7 +292,7 @@ export class BideGame extends GameBase {
         return this;
     }
 
-    public move(m: string, {partial = false, trusted = false}): BideGame {
+    public move(m: string, {partial = false, trusted = false} = {}): BideGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

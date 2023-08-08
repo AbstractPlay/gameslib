@@ -270,7 +270,7 @@ export class PigsGame extends GameBaseSimultaneous {
         return false;
     }
 
-    public move(m: string, {partial = false, trusted = false}): PigsGame {
+    public move(m: string, {partial = false, trusted = false} = {}): PigsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

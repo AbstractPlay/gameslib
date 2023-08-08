@@ -352,7 +352,7 @@ export class FocusGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): FocusGame {
+    public move(m: string, {trusted = false} = {}): FocusGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

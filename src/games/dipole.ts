@@ -412,7 +412,7 @@ export class DipoleGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false}): DipoleGame {
+    public move(m: string, {trusted = false} = {}): DipoleGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

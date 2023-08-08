@@ -348,7 +348,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
     }
 
-    public move(m: string, {partial = false, trusted = false}): EntropyGame {
+    public move(m: string, {partial = false, trusted = false} = {}): EntropyGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

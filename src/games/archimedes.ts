@@ -363,7 +363,7 @@ export class ArchimedesGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {partial = false, trusted = false}): ArchimedesGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ArchimedesGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

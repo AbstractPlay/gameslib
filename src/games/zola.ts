@@ -381,7 +381,7 @@ export class ZolaGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false}): ZolaGame {
+    public move(m: string, {trusted = false} = {}): ZolaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

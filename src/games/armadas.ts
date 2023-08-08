@@ -569,7 +569,7 @@ export class ArmadasGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [ArmadasGame]
      */
-    public move(m: string, {partial = false, trusted = false}): ArmadasGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ArmadasGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

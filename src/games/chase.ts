@@ -1021,7 +1021,7 @@ export class ChaseGame extends GameBase {
         return this;
     }
 
-    public move(m: string, {partial = false, trusted = false}): ChaseGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ChaseGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

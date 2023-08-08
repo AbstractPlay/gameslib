@@ -483,7 +483,7 @@ export class PhutballGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false}): PhutballGame {
+    public move(m: string, {trusted = false} = {}): PhutballGame {
         if (this.gameover) {
             throw new UserFacingError(
                 "MOVES_GAMEOVER",

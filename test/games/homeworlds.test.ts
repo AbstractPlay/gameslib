@@ -75,98 +75,98 @@ describe("Homeworlds", () => {
     it ("CMD: Homeworld", () => {
         let g = new HomeworldsGame(2);
         // duplicate homeworld command
-        expect (() => g.move("homeworld g3 b2 r3", {})).to.not.throw();
-        expect (() => g.move("homeworld g2 b1 r3", {})).to.not.throw();
-        expect(() => g.move("homeworld g3 b2 r3", {})).to.throw(HWError.CMD_HOME_DOUBLE);
+        expect (() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        expect (() => g.move("homeworld g2 b1 r3")).to.not.throw();
+        expect(() => g.move("homeworld g3 b2 r3")).to.throw(HWError.CMD_HOME_DOUBLE);
         // malformed command
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 r3", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("homeworld g3 r3")).to.throw(HWError.CMD_PARAMETERS);
         // malformed ship designations
-        expect(() => g.move("homeworld p3 r4 y2", {})).to.throw(HWError.CMD_STARSHIP_NAME);
+        expect(() => g.move("homeworld p3 r4 y2")).to.throw(HWError.CMD_STARSHIP_NAME);
         // one star
-        expect (() => g.move("homeworld g3 - r3", {})).to.throw();
-        expect (() => g.move("homeworld g3 - r3 *", {})).to.not.throw(HWError.CMD_HOME_SINGLE);
+        expect (() => g.move("homeworld g3 - r3")).to.throw();
+        expect (() => g.move("homeworld g3 - r3 *")).to.not.throw(HWError.CMD_HOME_SINGLE);
         // no large ship
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b2 r2", {})).to.throw(HWError.CMD_HOME_SMALLSHIP);
-        expect(() => g.move("homeworld g3 b2 r2 *", {})).to.not.throw();
+        expect(() => g.move("homeworld g3 b2 r2")).to.throw(HWError.CMD_HOME_SMALLSHIP);
+        expect(() => g.move("homeworld g3 b2 r2 *")).to.not.throw();
         // direct connection
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b2 r3", {})).to.not.throw();
-        expect(() => g.move("homeworld g1 b1 r3", {})).to.throw(HWError.CMD_HOME_RHO_DIRECT);
-        expect(() => g.move("homeworld g1 b1 r3 *", {})).to.not.throw();
+        expect(() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        expect(() => g.move("homeworld g1 b1 r3")).to.throw(HWError.CMD_HOME_RHO_DIRECT);
+        expect(() => g.move("homeworld g1 b1 r3 *")).to.not.throw();
         // small universe when large is possible
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b2 r3", {})).to.not.throw();
-        expect(() => g.move("homeworld g2 b3 r3", {})).to.throw(HWError.CMD_HOME_RHO_SMALL);
-        expect(() => g.move("homeworld g2 b3 r3 *", {})).to.not.throw();
+        expect(() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        expect(() => g.move("homeworld g2 b3 r3")).to.throw(HWError.CMD_HOME_RHO_SMALL);
+        expect(() => g.move("homeworld g2 b3 r3 *")).to.not.throw();
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b2 r3", {})).to.not.throw();
-        expect(() => g.move("homeworld g2 b2 r3", {})).to.throw(HWError.CMD_HOME_RHO_SMALL);
-        expect(() => g.move("homeworld g2 b2 r3 *", {})).to.not.throw();
+        expect(() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        expect(() => g.move("homeworld g2 b2 r3")).to.throw(HWError.CMD_HOME_RHO_SMALL);
+        expect(() => g.move("homeworld g2 b2 r3 *")).to.not.throw();
         // small universe when large is NOT possible
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 - r3 *", {})).to.not.throw();
-        expect(() => g.move("homeworld g1 b3 r3", {})).to.not.throw();
+        expect(() => g.move("homeworld g3 - r3 *")).to.not.throw();
+        expect(() => g.move("homeworld g1 b3 r3")).to.not.throw();
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b3 r3", {})).to.not.throw();
-        expect(() => g.move("homeworld g1 b3 r3", {})).to.not.throw();
+        expect(() => g.move("homeworld g3 b3 r3")).to.not.throw();
+        expect(() => g.move("homeworld g1 b3 r3")).to.not.throw();
         // not enough colours
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b2 b3", {})).to.throw(HWError.CMD_HOME_COLOURS);
-        expect(() => g.move("homeworld g3 b2 b3 *", {})).to.not.throw();
+        expect(() => g.move("homeworld g3 b2 b3")).to.throw(HWError.CMD_HOME_COLOURS);
+        expect(() => g.move("homeworld g3 b2 b3 *")).to.not.throw();
         // wrong colours
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld y3 b2 r3", {})).to.throw(HWError.CMD_HOME_TECHS);
-        expect(() => g.move("homeworld y3 g2 r3", {})).to.throw(HWError.CMD_HOME_TECHS);
-        expect(() => g.move("homeworld y3 b2 r3 *", {})).to.not.throw();
-        expect(() => g.move("homeworld y3 g2 r3 *", {})).to.not.throw();
+        expect(() => g.move("homeworld y3 b2 r3")).to.throw(HWError.CMD_HOME_TECHS);
+        expect(() => g.move("homeworld y3 g2 r3")).to.throw(HWError.CMD_HOME_TECHS);
+        expect(() => g.move("homeworld y3 b2 r3 *")).to.not.throw();
+        expect(() => g.move("homeworld y3 g2 r3 *")).to.not.throw();
         expect(g.systems.length).to.equal(2);
         // // Same star sizes as RHO
         // g = new HomeworldsGame(2);
-        // expect (() => g.move("homeworld g3 b2 r3", {})).to.not.throw();
-        // expect (() => g.move("homeworld y3 g2 b3", {})).to.throw(HWError.CMD_HOME_RHO);
-        // expect (() => g.move("homeworld y3 g2 b3 *", {})).to.not.throw();
+        // expect (() => g.move("homeworld g3 b2 r3")).to.not.throw();
+        // expect (() => g.move("homeworld y3 g2 b3")).to.throw(HWError.CMD_HOME_RHO);
+        // expect (() => g.move("homeworld y3 g2 b3 *")).to.not.throw();
     });
     it ("CMD: Discover", () => {
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         // malformed command
-        expect(() => g.move("discover y3", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("discover y3")).to.throw(HWError.CMD_PARAMETERS);
         // unknown from system
-        expect(() => g.move("discover y3 John r1 Alice", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("discover y3 John r1 Alice")).to.throw(HWError.CMD_NOSYSTEM);
         // invalid system name
-        expect(() => g.move("discover y3 North r1 _Alice", {})).to.throw(HWError.SYSTEM_BADNAME);
+        expect(() => g.move("discover y3 North r1 _Alice")).to.throw(HWError.SYSTEM_BADNAME);
         // duplicate system name
-        expect(() => g.move("discover y3 North r1 South", {})).to.throw(HWError.CMD_DISC_DOUBLE);
+        expect(() => g.move("discover y3 North r1 South")).to.throw(HWError.CMD_DISC_DOUBLE);
         // nonexistent ship
-        expect(() => g.move("discover r3 North r1 Alice", {})).to.throw(HWError.SYSTEM_NOSHIP);
+        expect(() => g.move("discover r3 North r1 Alice")).to.throw(HWError.SYSTEM_NOSHIP);
         // not connected
-        expect(() => g.move("discover y3 North r2 Alice", {})).to.throw(HWError.CMD_MOVE_CONNECTION);
+        expect(() => g.move("discover y3 North r2 Alice")).to.throw(HWError.CMD_MOVE_CONNECTION);
 
         // no actions remaining
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
-        expect(() => g.move("discover y1 north r1 Alice, discover y1 alice r3 bob", {})).to.throw(HWError.CMD_NOACTIONS);
+        expect(() => g.move("discover y1 north r1 Alice, discover y1 alice r3 bob")).to.throw(HWError.CMD_NOACTIONS);
 
         // no Y tech
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 r3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 r3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("R", 1, "N"));
-        expect(() => g.move("discover r1 north r1 Alice", {})).to.throw(HWError.CMD_NOTECH);
+        expect(() => g.move("discover r1 north r1 Alice")).to.throw(HWError.CMD_NOTECH);
 
         // not in stash
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 g2 g3 *", {});
-        g.move("homeworld g2 g1 g3 *", {});
+        g.move("homeworld g3 g2 g3 *");
+        g.move("homeworld g2 g1 g3 *");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         north!.dock(new Ship("G", 1, "N"));
@@ -175,92 +175,92 @@ describe("Homeworlds", () => {
         g.stash.remove("G", 1);
         north!.dock(new Ship("G", 2, "N"));
         g.stash.remove("G", 2);
-        expect(() => g.move("discover g1 north g1 Alice", {})).to.throw(HWError.STASH_EMPTY);
-        expect(() => g.move("discover g1 north g2 Alice", {})).to.throw(HWError.STASH_EMPTY);
-        expect(() => g.move("discover g1 north g3 Alice", {})).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("discover g1 north g1 Alice")).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("discover g1 north g2 Alice")).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("discover g1 north g3 Alice")).to.throw(HWError.STASH_EMPTY);
 
         // destroy empty systems
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 r3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 r3");
+        g.move("homeworld g2 b1 y3");
         const newsys = new System("test", [["R", 3]]);
         newsys.dock(new Ship("Y", 1, "N"));
         g.systems.push(newsys);
-        expect(() => g.move("discover y1 test r2 Alice", {})).to.not.throw();
+        expect(() => g.move("discover y1 test r2 Alice")).to.not.throw();
         const found = g.systems.find(s => s.name === "test");
         expect(found).to.be.undefined;
 
         // but not the current player's home system
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 r3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 r3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 3, "N"));
         north!.dock(new Ship("Y", 1, "N"));
-        g.move("s y3 north, d y1 north r1 test, m r3 north test, m r3 test north", {});
+        g.move("s y3 north, d y1 north r1 test, m r3 north test, m r3 test north");
         expect(north!.ships.length).to.equal(1);
         expect(north!.hasShip("R3N")).to.be.true;
     });
     it ("CMD: Move", () => {
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.systems.push(new System("test", [["R", 1]]).dock(new Ship("Y", 1, "N")));
         g.systems.push(new System("disconnected", [["R", 2]]).dock(new Ship("Y", 1, "N")));
         // malformed command
-        expect(() => g.move("move y1", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("move y1")).to.throw(HWError.CMD_PARAMETERS);
         // unknown from system
-        expect(() => g.move("move y1 John test", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("move y1 John test")).to.throw(HWError.CMD_NOSYSTEM);
         // unknown to system
-        expect(() => g.move("move y1 north Alice", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("move y1 north Alice")).to.throw(HWError.CMD_NOSYSTEM);
         // no ship
-        expect(() => g.move("move r1 north test", {})).to.throw(HWError.SYSTEM_NOSHIP);
+        expect(() => g.move("move r1 north test")).to.throw(HWError.SYSTEM_NOSHIP);
         // not connected
-        expect(() => g.move("move y1 north disconnected", {})).to.throw(HWError.CMD_MOVE_CONNECTION);
+        expect(() => g.move("move y1 north disconnected")).to.throw(HWError.CMD_MOVE_CONNECTION);
         // success
-        expect(() => g.move("move y1 north test", {})).to.not.throw();
+        expect(() => g.move("move y1 north test")).to.not.throw();
 
         // no actions
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.systems.push(new System("test", [["R", 1]]).dock(new Ship("Y", 1, "N")));
         g.systems.push(new System("disconnected", [["R", 2]]).dock(new Ship("Y", 1, "N")));
-        expect(() => g.move("move y1 north test, move y1 test disconnected", {})).to.throw(HWError.CMD_NOACTIONS);
+        expect(() => g.move("move y1 north test, move y1 test disconnected")).to.throw(HWError.CMD_NOACTIONS);
 
         // no tech
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 r3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 r3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("G", 1, "N"));
         g.systems.push(new System("test", [["R", 1]]).dock(new Ship("Y", 1, "N")));
         g.systems.push(new System("disconnected", [["R", 2]]).dock(new Ship("Y", 1, "N")));
-        expect(() => g.move("move g1 north test", {})).to.throw(HWError.CMD_NOTECH);
+        expect(() => g.move("move g1 north test")).to.throw(HWError.CMD_NOTECH);
     });
     it ("CMD: Build", () => {
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
 
         // malformed command
-        expect(() => g.move("build y1", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("build y1")).to.throw(HWError.CMD_PARAMETERS);
         // invalid system
-        expect(() => g.move("build y1 John", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("build y1 John")).to.throw(HWError.CMD_NOSYSTEM);
         // missing template
-        expect(() => g.move("build g1 north", {})).to.throw(HWError.CMD_BUILD_TEMPLATE);
-        expect(() => g.move("build g north", {})).to.throw(HWError.CMD_BUILD_TEMPLATE);
+        expect(() => g.move("build g1 north")).to.throw(HWError.CMD_BUILD_TEMPLATE);
+        expect(() => g.move("build g north")).to.throw(HWError.CMD_BUILD_TEMPLATE);
         // successful
-        expect(() => g.move("build y north", {})).to.not.throw();
+        expect(() => g.move("build y north")).to.not.throw();
 
         // empty stash
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         g.stash.remove("Y", 1);
         g.stash.remove("Y", 1);
         g.stash.remove("Y", 1);
@@ -268,85 +268,85 @@ describe("Homeworlds", () => {
         g.stash.remove("Y", 2);
         g.stash.remove("Y", 2);
         g.stash.remove("Y", 3);
-        expect(() => g.move("build y north", {})).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("build y north")).to.throw(HWError.STASH_EMPTY);
 
         // adding a size doesn't change anything
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         g.stash.remove("Y", 1);
         g.stash.remove("Y", 1);
         g.stash.remove("Y", 1);
-        expect(() => g.move("build y1 north", {})).to.not.throw();
+        expect(() => g.move("build y1 north")).to.not.throw();
         const north = g.systems.find(s => s.owner === "N");
         expect(north!.hasShip("Y2N")).to.be.true;
 
         // no actions
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
-        expect(() => g.move("build y north, build y north", {})).to.throw(HWError.CMD_NOACTIONS);
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
+        expect(() => g.move("build y north, build y north")).to.throw(HWError.CMD_NOACTIONS);
 
         // no tech
         g = new HomeworldsGame(2);
-        g.move("homeworld r3 b2 y3 *", {});
-        g.move("homeworld g2 b1 y3", {});
-        expect(() => g.move("build y north", {})).to.throw(HWError.CMD_NOTECH);
+        g.move("homeworld r3 b2 y3 *");
+        g.move("homeworld g2 b1 y3");
+        expect(() => g.move("build y north")).to.throw(HWError.CMD_NOTECH);
     });
     it ("CMD: Trade", () => {
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.stash.remove("Y", 1);
 
         // malformed command
-        expect(() => g.move("trade y1", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("trade y1")).to.throw(HWError.CMD_PARAMETERS);
         // invalid system
-        expect(() => g.move("trade y1 John b", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("trade y1 John b")).to.throw(HWError.CMD_NOSYSTEM);
         // same colour
-        expect(() => g.move("trade y1 north y", {})).to.throw(HWError.CMD_TRADE_DOUBLE);
+        expect(() => g.move("trade y1 north y")).to.throw(HWError.CMD_TRADE_DOUBLE);
         // success
-        expect(() => g.move("trade y1 north b", {})).to.not.throw();
+        expect(() => g.move("trade y1 north b")).to.not.throw();
         expect(north!.hasShip("B1N")).to.be.true;
         expect(north!.hasShip("Y1N")).to.be.false;
 
         // stash empty
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.stash.remove("Y", 1);
         g.stash.remove("B", 1);
         g.stash.remove("B", 1);
-        expect(() => g.move("trade y1 north b", {})).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("trade y1 north b")).to.throw(HWError.STASH_EMPTY);
         // adding the size doesn't change the outcome
-        expect(() => g.move("trade y1 north b2", {})).to.throw(HWError.STASH_EMPTY);
+        expect(() => g.move("trade y1 north b2")).to.throw(HWError.STASH_EMPTY);
 
         // no actions
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.stash.remove("Y", 1);
-        expect(() => g.move("trade y1 north b, trade b1 north y", {})).to.throw(HWError.CMD_NOACTIONS);
+        expect(() => g.move("trade y1 north b, trade b1 north y")).to.throw(HWError.CMD_NOACTIONS);
 
         // no tech
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 r2 y3 *", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 r2 y3 *");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 1, "N"));
         g.stash.remove("Y", 1);
-        expect(() => g.move("trade y1 north b", {})).to.throw(HWError.CMD_NOTECH);
+        expect(() => g.move("trade y1 north b")).to.throw(HWError.CMD_NOTECH);
     });
     it ("CMD: Attack", () => {
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y2 *", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y2 *");
+        g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("R", 1, "N"));
         g.stash.remove("R", 1);
@@ -354,46 +354,46 @@ describe("Homeworlds", () => {
         g.stash.remove("Y", 1);
 
         // malformed command
-        expect(() => g.move("attack y1", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("attack y1")).to.throw(HWError.CMD_PARAMETERS);
         // invalid system
-        expect(() => g.move("attack y1 John", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("attack y1 John")).to.throw(HWError.CMD_NOSYSTEM);
         // attacking self
-        expect(() => g.move("attack r1n north", {})).to.throw(HWError.CMD_ATK_SELF);
+        expect(() => g.move("attack r1n north")).to.throw(HWError.CMD_ATK_SELF);
         // size
-        expect(() => g.move("attack y3 north", {})).to.throw(HWError.CMD_ATK_SIZE);
+        expect(() => g.move("attack y3 north")).to.throw(HWError.CMD_ATK_SIZE);
 
         // success (attacked clear if not given in 2-player game)
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("R", 1, "N"));
         g.stash.remove("R", 1);
         north!.dock(new Ship("Y", 3, "S"));
         g.stash.remove("Y", 1);
-        expect(() => g.move("attack y3 north", {})).to.not.throw();
+        expect(() => g.move("attack y3 north")).to.not.throw();
         expect(north!.hasShip("Y3S")).to.be.false;
         expect(north!.hasShip("Y3N")).to.be.true;
 
         // attacked must be specified in 3+ player games
         g = new HomeworldsGame(3);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
-        g.move("homeworld g3 b2 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
+        g.move("homeworld g3 b2 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("R", 1, "N"));
         g.stash.remove("R", 1);
         north!.dock(new Ship("Y", 3, "S"));
         g.stash.remove("Y", 1);
-        expect(() => g.move("attack y3 north", {})).to.throw(HWError.CMD_ATK_OWNER);
-        expect(() => g.move("attack y3s north", {})).to.not.throw();
+        expect(() => g.move("attack y3 north")).to.throw(HWError.CMD_ATK_OWNER);
+        expect(() => g.move("attack y3s north")).to.not.throw();
         expect(north!.hasShip("Y3S")).to.be.false;
         expect(north!.hasShip("Y3N")).to.be.true;
 
         // no actions
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("R", 1, "N"));
         g.stash.remove("R", 1);
@@ -401,49 +401,49 @@ describe("Homeworlds", () => {
         g.stash.remove("Y", 3);
         north!.dock(new Ship("B", 2, "S"));
         g.stash.remove("B", 2);
-        expect(() => g.move("attack y3 north, attack b2 north", {})).to.throw(HWError.CMD_NOACTIONS);
+        expect(() => g.move("attack y3 north, attack b2 north")).to.throw(HWError.CMD_NOACTIONS);
 
         // no tech
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 3, "S"));
         g.stash.remove("Y", 3);
-        expect(() => g.move("attack y3 north", {})).to.throw(HWError.CMD_NOTECH);
+        expect(() => g.move("attack y3 north")).to.throw(HWError.CMD_NOTECH);
     });
     it ("CMD: Sacrifice", () => {
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
 
         // malformed command
-        expect(() => g.move("sacrifice y2", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("sacrifice y2")).to.throw(HWError.CMD_PARAMETERS);
         // invalid system
-        expect(() => g.move("sacrifice y2 John", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("sacrifice y2 John")).to.throw(HWError.CMD_NOSYSTEM);
         // invalid ship
-        expect(() => g.move("sacrifice y1 north", {})).to.throw(HWError.SYSTEM_NOSHIP);
+        expect(() => g.move("sacrifice y1 north")).to.throw(HWError.SYSTEM_NOSHIP);
         // success
-        expect(() => g.move("sacrifice y2 north", {})).to.throw(HWError.MOVE_MOREACTIONS);
+        expect(() => g.move("sacrifice y2 north")).to.throw(HWError.MOVE_MOREACTIONS);
 
         // abandon but return to home system
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, discover y3 north r1 Alice, move y3 alice north", {})).to.not.throw();
+        expect(() => g.move("sacrifice y2 north, discover y3 north r1 Alice, move y3 alice north")).to.not.throw();
         expect(g.systems.find(s => s.owner === "N")).to.not.be.undefined;
 
         // but destroy other systems
         // and be able to immediately use broken down star
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 g3 *", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 g3 *");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
@@ -455,186 +455,186 @@ describe("Homeworlds", () => {
         g.stash.remove("G", 1);
         g.stash.remove("G", 2);
         g.stash.remove("G", 3);
-        expect(() => g.move("sacrifice g2 test, build g3 north, build g north", {})).to.not.throw();
+        expect(() => g.move("sacrifice g2 test, build g3 north, build g north")).to.not.throw();
         expect(north!.hasShip("G1N")).to.be.true;
         expect(north!.hasShip("G2N")).to.be.true;
         expect(north!.hasShip("G3N")).to.be.true;
 
         // no actions
         g = new HomeworldsGame(2);
-        expect(() => g.move("homeworld g3 b2 y3, sacrifice y3 north", {})).to.throw(HWError.CMD_NOACTIONS);
+        expect(() => g.move("homeworld g3 b2 y3, sacrifice y3 north")).to.throw(HWError.CMD_NOACTIONS);
     });
     it ("CMD: Pass", () => {
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
 
         // passing free action
-        expect(() => g.move("pass", {})).to.throw(HWError.CMD_PASS_FREE);
+        expect(() => g.move("pass")).to.throw(HWError.CMD_PASS_FREE);
 
         // malformed command
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, pass 1 1 1", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("sacrifice y2 north, pass 1 1 1")).to.throw(HWError.CMD_PARAMETERS);
 
         // passing too many
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, pass 3", {})).to.throw(HWError.CMD_PASS_TOOMANY);
+        expect(() => g.move("sacrifice y2 north, pass 3")).to.throw(HWError.CMD_PASS_TOOMANY);
 
         // not passing enough
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, pass", {})).to.throw(HWError.MOVE_MOREACTIONS);
+        expect(() => g.move("sacrifice y2 north, pass")).to.throw(HWError.MOVE_MOREACTIONS);
 
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, pass 1", {})).to.throw(HWError.MOVE_MOREACTIONS);
+        expect(() => g.move("sacrifice y2 north, pass 1")).to.throw(HWError.MOVE_MOREACTIONS);
 
         // passing exactly enough
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, pass 2", {})).to.not.throw();
+        expect(() => g.move("sacrifice y2 north, pass 2")).to.not.throw();
         expect(g.currplayer).to.equal(2);
 
         // multiple passes
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, pass, pass", {})).to.not.throw();
+        expect(() => g.move("sacrifice y2 north, pass, pass")).to.not.throw();
         expect(g.currplayer).to.equal(2);
 
         // passing all
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("sacrifice y2 north, pass *", {})).to.not.throw();
+        expect(() => g.move("sacrifice y2 north, pass *")).to.not.throw();
         expect(g.currplayer).to.equal(2);
     });
     it ("CMD: Catastrophe", () => {
         // malformed command
         let g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("build y1 north, catastrophe", {})).to.throw(HWError.CMD_PARAMETERS);
+        expect(() => g.move("build y1 north, catastrophe")).to.throw(HWError.CMD_PARAMETERS);
 
         // unknown system
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("build y1 north, catastrophe john y", {})).to.throw(HWError.CMD_NOSYSTEM);
+        expect(() => g.move("build y1 north, catastrophe john y")).to.throw(HWError.CMD_NOSYSTEM);
 
         // no overpopulation
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("build y1 north, catastrophe north b", {})).to.throw(HWError.CMD_CATA_INVALID);
+        expect(() => g.move("build y1 north, catastrophe north b")).to.throw(HWError.CMD_CATA_INVALID);
 
         // invalid colour
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("build y1 north, catastrophe north john", {})).to.throw(HWError.CMD_CATA_INVALID);
+        expect(() => g.move("build y1 north, catastrophe north john")).to.throw(HWError.CMD_CATA_INVALID);
 
         // But let you write out the colour in full
         g = new HomeworldsGame(2);
         expect(g.economyBalanced()).to.be.true;
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("build y1 north, catastrophe north yellow", {})).to.not.throw(HWError.CMD_CATA_INVALID);
+        expect(() => g.move("build y1 north, catastrophe north yellow")).to.not.throw(HWError.CMD_CATA_INVALID);
         expect(g.economyBalanced()).to.be.true;
 
         // still have actions
         g = new HomeworldsGame(2);
         expect(g.economyBalanced()).to.be.true;
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        // expect(() => g.move("catastrophe north y", {})).to.throw(HWError.CMD_CATA_ACTIONS);
-        expect(() => g.move("catastrophe north y", {})).to.not.throw;
+        // expect(() => g.move("catastrophe north y")).to.throw(HWError.CMD_CATA_ACTIONS);
+        expect(() => g.move("catastrophe north y")).to.not.throw;
         expect(g.economyBalanced()).to.be.true;
 
         // Self elimination
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("build y north, catastrophe north y", {})).to.throw(HWError.MOVE_SELFELIMINATE);
+        expect(() => g.move("build y north, catastrophe north y")).to.throw(HWError.MOVE_SELFELIMINATE);
 
         // success
         g = new HomeworldsGame(2);
         expect(g.economyBalanced()).to.be.true;
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 r3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 r3");
         north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
-        expect(() => g.move("build y north", {})).to.not.throw();
-        expect(() => g.move("build r south, catastrophe north y", {})).to.not.throw();
+        expect(() => g.move("build y north")).to.not.throw();
+        expect(() => g.move("build r south, catastrophe north y")).to.not.throw();
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
         expect(g.economyBalanced()).to.be.true;
@@ -642,26 +642,26 @@ describe("Homeworlds", () => {
     it ("End of Game Scenarios", () => {
         // resignation
         let g = new HomeworldsGame(4);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 r3", {});
-        g.move("homeworld g2 b3 r3", {});
-        g.move("homeworld g3 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 r3");
+        g.move("homeworld g2 b3 r3");
+        g.move("homeworld g3 b1 y3");
         expect(() => g.resign(3)).to.not.throw();
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1, 2, 4]);
 
         // Elimination by other than nemesis does not end the game
         g = new HomeworldsGame(4);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 r3", {});
-        g.move("homeworld g2 b3 r3", {});
-        g.move("homeworld g3 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 r3");
+        g.move("homeworld g2 b3 r3");
+        g.move("homeworld g3 b1 y3");
         let south = g.systems.find(s => s.owner === "S");
         south!.dock(new Ship("R", 3, "W"));
-        expect(() => g.move("build y north", {})).to.not.throw();
-        expect(() => g.move("build r east", {})).to.not.throw();
-        expect(() => g.move("trade r3 south y", {})).to.not.throw();
-        expect(() => g.move("attack y3s south", {})).to.not.throw();
+        expect(() => g.move("build y north")).to.not.throw();
+        expect(() => g.move("build r east")).to.not.throw();
+        expect(() => g.move("trade r3 south y")).to.not.throw();
+        expect(() => g.move("attack y3s south")).to.not.throw();
         expect(g.gameover).to.be.false;
         expect(g.systems.find(s => s.owner === "S")).to.be.undefined;
         expect(g.getLHO(2)).to.equal("W");
@@ -669,25 +669,25 @@ describe("Homeworlds", () => {
 
         // Elimination by nemesis ends the game
         g = new HomeworldsGame(4);
-        g.move("homeworld g3 b2 y3", {});
-        g.move("homeworld g2 b1 r3", {});
-        g.move("homeworld g2 b3 r3", {});
-        g.move("homeworld g3 b1 y3", {});
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 r3");
+        g.move("homeworld g2 b3 r3");
+        g.move("homeworld g3 b1 y3");
         south = g.systems.find(s => s.owner === "S");
         south!.dock(new Ship("R", 3, "E"));
-        expect(() => g.move("build y north", {})).to.not.throw();
-        expect(() => g.move("attack r3s south", {})).to.not.throw();
+        expect(() => g.move("build y north")).to.not.throw();
+        expect(() => g.move("attack r3s south")).to.not.throw();
         expect(g.systems.find(s => s.owner === "S")).to.be.undefined;
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
 
         // kamikaze attack ends in a draw
         g = new HomeworldsGame(2);
-        g.move("homeworld g3 - y3 *", {});
-        g.move("homeworld y2 g1 y3 *", {});
-        g.move("build y north", {});
-        g.move("build y south", {});
-        expect(() => g.move("sacrifice y3 north, move y1 north south, catastrophe south y", {})).to.not.throw();
+        g.move("homeworld g3 - y3 *");
+        g.move("homeworld y2 g1 y3 *");
+        g.move("build y north");
+        g.move("build y south");
+        expect(() => g.move("sacrifice y3 north, move y1 north south, catastrophe south y")).to.not.throw();
         expect(g.systems.length).eq(0);
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.deep.members([2,1]);
@@ -746,7 +746,7 @@ describe("Homeworlds", () => {
         expect(g.economyBalanced()).to.be.true;
         // all in
         g = new HomeworldsGame(state);
-        g.move(moves.join(","), {});
+        g.move(moves.join(","));
         expect(g.actions.Y).equals(0);
         orion = g.systems.find(s => s.name === "Orion");
         expect(orion).to.not.be.undefined;

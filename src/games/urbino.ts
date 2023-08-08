@@ -714,7 +714,7 @@ export class UrbinoGame extends GameBase {
 
     // The partial flag enabled dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
-    public move(m: string, {partial = false, trusted = false}): UrbinoGame {
+    public move(m: string, {partial = false, trusted = false} = {}): UrbinoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

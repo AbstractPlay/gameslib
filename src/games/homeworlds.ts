@@ -273,7 +273,7 @@ export class HomeworldsGame extends GameBase {
                     const cmd = `homeworld ${colour[0]}${size[0]} ${colour[1]}${size[1]} ${colour[2]}${size[2]}`;
                     const cloned = this.clone();
                     try {
-                        cloned.move(cmd, {});
+                        cloned.move(cmd);
                     } catch {
                         continue;
                     }
@@ -307,7 +307,7 @@ export class HomeworldsGame extends GameBase {
             for (const cmd of allmoves) {
                 const cloned = this.clone();
                 try {
-                    cloned.move(cmd, {});
+                    cloned.move(cmd);
                 } catch {
                     continue;
                 }
@@ -337,7 +337,7 @@ export class HomeworldsGame extends GameBase {
                             const newmove = [m, ...c].join(", ");
                             const myg = new HomeworldsGame(this.serialize());
                             try {
-                                myg.move(newmove, {});
+                                myg.move(newmove);
                             } catch {
                                 continue;
                             }
@@ -1075,7 +1075,7 @@ export class HomeworldsGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [HomeworldsGame]
      */
-    public move(m: string, {partial = false}): HomeworldsGame {
+    public move(m: string, {partial = false} = {}): HomeworldsGame {
         // `trusted` is not needed here because validation is so tightly coupled
         if (this.gameover) {
             throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVES_GAMEOVER"));

@@ -396,7 +396,7 @@ export class AbandeGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false}): AbandeGame {
+    public move(m: string, {trusted = false} = {}): AbandeGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }

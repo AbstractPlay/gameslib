@@ -19,8 +19,8 @@ describe("Blam!", () => {
     });
     it ("Pieces are captured correctly", () => {
         const g = new BlamGame(2);
-        g.move("3a8", {});
-        g.move("1b7", {});
+        g.move("3a8");
+        g.move("1b7");
         expect(g.board.has("b7")).to.be.true;
         expect(g.board.has("a8")).to.be.false;
         expect(g.scores[1]).to.equal(3);
@@ -29,7 +29,7 @@ describe("Blam!", () => {
     it ("Pieces are reclaimed correctly", () => {
         const g = new BlamGame(2);
         g.board.set("a8", [1, 3]);
-        g.move("1b7", {});
+        g.move("1b7");
         expect(g.board.has("b7")).to.be.true;
         expect(g.board.has("a8")).to.be.false;
         expect(g.scores[0]).to.equal(0);
@@ -48,7 +48,7 @@ describe("Blam!", () => {
         g.stashes.set(2, [0,0,0]);
         g.scores = [10, 5];
         g.caps = [5, 10];
-        g.move("1a1", {});
+        g.move("1a1");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
@@ -58,7 +58,7 @@ describe("Blam!", () => {
         g.stashes.set(2, [0,0,0]);
         g.scores = [10, 5];
         g.caps = [5, 10];
-        g.move("pass", {});
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
@@ -68,7 +68,7 @@ describe("Blam!", () => {
         g.stashes.set(2, [0,0,0]);
         g.scores = [10, 10];
         g.caps = [5, 10];
-        g.move("pass", {});
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
     });
@@ -78,7 +78,7 @@ describe("Blam!", () => {
         g.stashes.set(2, [0,0,0]);
         g.scores = [10, 10];
         g.caps = [10, 10];
-        g.move("pass", {});
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1, 2]);
     });
@@ -90,7 +90,7 @@ describe("Blam!", () => {
         g.stashes.set(4, [0,0,0]);
         g.scores = [10, 9, 8, 7];
         g.caps = [10, 10, 10, 10];
-        g.move("pass", {});
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
@@ -102,7 +102,7 @@ describe("Blam!", () => {
         g.stashes.set(4, [0,0,0]);
         g.scores = [10, 10, 8, 7];
         g.caps = [10, 11, 13, 12];
-        g.move("pass", {});
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
     });
@@ -114,7 +114,7 @@ describe("Blam!", () => {
         g.stashes.set(4, [0,0,0]);
         g.scores = [10, 10, 8, 7];
         g.caps = [10, 10, 12, 14];
-        g.move("pass", {});
+        g.move("pass");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1, 2]);
     });

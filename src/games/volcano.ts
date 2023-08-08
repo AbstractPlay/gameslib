@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
@@ -193,6 +194,38 @@ export class VolcanoGame extends GameBase {
         this.captured = clone(state.captured) as [CellContents[], CellContents[]];
         this.caps = new Set(state.caps);
         this.results = [...state._results];
+        return this;
+    }
+
+    public initStartPos(startpos: string): VolcanoGame {
+        super.initStartPos(startpos);
+        const order = startpos.split(",").reverse();
+        const board: Array<Array<CellContents[]>> = [];
+        for (let row = 0; row < 5; row++) {
+            const node: Array<CellContents[]> = [];
+            for (let col = 0; col < 5; col++) {
+                const colour = order.pop() as Colour;
+                if ( (row === 2) && (col === 2) ) {
+                    node.push([]);
+                } else {
+                    node.push([[colour, 1], [colour, 2], [colour, 3]]);
+                }
+            }
+            board.push(node);
+        }
+        const caps = new Set<string>();
+        for (let row = 0; row < 5; row++) {
+            for (let col = 0; col < 5; col++) {
+                const cell = board[row][col];
+                if ( (cell !== undefined) && (cell.length > 0) && ( (cell[0][0] === "RD") || (cell[0][0] === "OG") ) ) {
+                    caps.add(VolcanoGame.coords2algebraic(col, row));
+                }
+            }
+        }
+        this.stack[0].board = board;
+        this.stack[0].caps = new Set(caps);
+        this.load();
+        console.log(this.getStartingPosition());
         return this;
     }
 

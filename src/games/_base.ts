@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -244,7 +245,10 @@ export abstract class GameBase  {
      * of a `random-start` game.
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected initStartPos(startpos: string): GameBase {
+    public initStartPos(startpos: string): GameBase {
+        if (this.stack.length !== 1) {
+            throw new Error("This function should only be called right after initialization.");
+        }
         return this;
     }
 
@@ -702,9 +706,9 @@ export abstract class GameBase  {
         return JSON.stringify(newstate);
     }
 
-    public hydrate(state: IAPGameStateV2): GameBase|GameBaseSimultaneous {
+    public hydrate(state: IAPGameStateV2): GameBase {
         const ctor = this.constructor as typeof GameBase;
-        let newgame: GameBase|GameBaseSimultaneous|undefined;
+        let newgame: GameBase|undefined;
         if (ctor.gameinfo.playercounts.length === 1) {
             newgame = GameFactory(state.game, ...state.variants);
         } else {
@@ -715,22 +719,25 @@ export abstract class GameBase  {
         }
         // check for random start and initialize
         if ( ("startpos" in state) && (state.startpos !== undefined) ) {
-            this.initStartPos(state.startpos);
+            newgame.initStartPos(state.startpos);
         }
         // make all the moves
         try {
             // start at idx 1 because the first state is initial
             for (let i = 1; i < state.stack.length; i++) {
                 let move = state.stack[i][1];
-                // eslint-disable-next-line no-console
-                console.log(`Move ${i}: ${JSON.stringify(move)}`);
                 if (Array.isArray(move)) {
                     move = move.join(",");
                 }
                 if (move === null) {
                     throw new Error("Should not encounter null in the move list.");
                 }
-                newgame.move(move, {partial: false, trusted: true});
+                console.log(`Move: ${move}`);
+                if (move === "resign") {
+                    newgame.resign(newgame.currplayer)
+                } else {
+                    newgame.move(move, {partial: false, trusted: true});
+                }
             }
         } catch (err) {
             throw new Error(`An error occured while rehydrating the condensed state: ${JSON.stringify(err)}`);

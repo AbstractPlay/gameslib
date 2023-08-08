@@ -177,7 +177,8 @@ export class ACityGame extends GameBase {
         return this;
     }
 
-    protected initStartPos(startpos: string): ACityGame {
+    public initStartPos(startpos: string): ACityGame {
+        super.initStartPos(startpos);
         const tiles = startpos.split(",");
         this.startpos = [];
         for (const tile of tiles) {

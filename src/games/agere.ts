@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
@@ -55,7 +54,7 @@ export class AgereGame extends GameBase {
     public static edgesDefault: string[][] = [
         ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"],
         ["a1", "b1", "c2", "d2", "e3", "f3", "g4", "h4"],
-        ["h4", "g5", "f5", "e6", "d7", "c7", "b7", "a8"],
+        ["h4", "g5", "f5", "e6", "d6", "c7", "b7", "a8"],
     ];
 
     public static edgesCobweb = new Map<playerid, [[string[],string[]],[string[],string[]]]>([
@@ -526,7 +525,7 @@ export class AgereGame extends GameBase {
         return status;
     }
 
-    protected checkEOGCobweb(player?: playerid): boolean {
+    public checkEOGCobweb(player?: playerid): boolean {
         if (player === undefined) {
             player = this.currplayer;
         }
@@ -559,7 +558,7 @@ export class AgereGame extends GameBase {
         return false;
     }
 
-    protected checkEOGHexTri(player?: playerid): boolean {
+    public checkEOGHexTri(player?: playerid): boolean {
         if (player === undefined) {
             player = this.currplayer;
         }

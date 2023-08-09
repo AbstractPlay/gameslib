@@ -1353,6 +1353,7 @@ export class HomeworldsGame extends GameBase {
                 result.message = i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP");
                 return result;
             }
+
             const colours = args.filter(a => a.length === 2).map(a => a[0]);
             const unique = colours.filter((value, index) => colours.indexOf(value) === index)
             if ( (! overridden) && (unique.length < 3) ) {

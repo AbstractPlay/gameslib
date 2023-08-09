@@ -198,6 +198,7 @@ export abstract class GameBase  {
     public abstract winner: number[];
     public abstract results: Array<APMoveResult>;
     public abstract variants: string[];
+    public abstract currplayer: number|undefined;
 
     public abstract move(move: string, partial?: boolean): GameBase;
     public abstract render({ perspective, altDisplay} : { perspective: number | undefined, altDisplay: string | undefined }): APRenderRep;
@@ -670,4 +671,6 @@ export abstract class GameBaseSimultaneous extends GameBase {
     public isEliminated(id: number): boolean {
         return false;
     }
+
+    public currplayer = undefined;
 }

@@ -44,6 +44,7 @@
     "json-schema-to-typescript": "^12.0.0",
     "mocha": "^10.2.0",
     "rimraf": "^5.0.1",
+    "safe-stable-stringify": "^2.4.3",
     "serverless-finch": "^4.0.3",
     "shx": "^0.3.4",
     "ts-loader": "^9.4.2",

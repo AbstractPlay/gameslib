@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -727,16 +726,51 @@ export abstract class GameBase  {
             // start at idx 1 because the first state is initial
             for (let i = 1; i < state.stack.length; i++) {
                 let move = state.stack[i][1];
-                if (Array.isArray(move)) {
-                    move = move.join(",");
-                }
                 if (move === null) {
                     throw new Error("Should not encounter null in the move list.");
                 }
-                console.log(`Move: ${move}`);
-                if (move === "resign") {
-                    newgame.resign(newgame.currplayer)
+                const specials = new Map<string,number|undefined>([
+                    ["resign", undefined],
+                    ["timeout", undefined],
+                    ["draw", undefined],
+                ]);
+                if (Array.isArray(move)) {
+                    for (let j = 0; j < move.length; j++) {
+                        const sub = move[j];
+                        if (specials.has(sub)) {
+                            specials.set(sub, j + 1);
+                        }
+                    }
+                    move = move.join(",");
                 } else {
+                    if (newgame.currplayer === undefined) {
+                        throw new Error("Currplayer is not defined and this is not a simultaneous game. This should never happen.");
+                    }
+                    if (specials.has(move)) {
+                        specials.set(move, newgame.currplayer);
+                    }
+                }
+                // if this is a special move, execute it
+                let isSpecial = false;
+                for (const [special, player] of [...specials.entries()]) {
+                    if (player !== undefined) {
+                        isSpecial = true;
+                        switch (special) {
+                            case "resign":
+                                newgame.resign(player);
+                                break;
+                            case "timeout":
+                                newgame.timeout(player);
+                                break;
+                            case "draw":
+                                newgame.draw();
+                                break;
+                        }
+                        break;
+                    }
+                }
+                // otherwise just make the move
+                if (! isSpecial) {
                     newgame.move(move, {partial: false, trusted: true});
                 }
             }

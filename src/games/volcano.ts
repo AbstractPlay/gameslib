@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
@@ -225,7 +224,6 @@ export class VolcanoGame extends GameBase {
         this.stack[0].board = board;
         this.stack[0].caps = new Set(caps);
         this.load();
-        console.log(this.getStartingPosition());
         return this;
     }
 

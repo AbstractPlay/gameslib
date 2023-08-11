@@ -162,6 +162,33 @@ export class MvolcanoGame extends GameBase {
         return this;
     }
 
+    public initStartPos(startpos: string): MvolcanoGame {
+        super.initStartPos(startpos);
+        const order = startpos.split(",").reverse();
+        const board: Array<Array<CellContents[]>> = [];
+        for (let row = 0; row < 6; row++) {
+            const node: Array<CellContents[]> = [];
+            for (let col = 0; col < 6; col++) {
+                const colour = order.pop() as Colour;
+                node.push([[colour, 1], [colour, 2], [colour, 3]]);
+            }
+            board.push(node);
+        }
+        const caps = new Set<string>();
+        for (let row = 0; row < 6; row++) {
+            for (let col = 0; col < 6; col++) {
+                const cell = board[row][col];
+                if ( (cell !== undefined) && (cell.length > 0) && (cell[0][0] === "RD") ) {
+                    caps.add(MvolcanoGame.coords2algebraic(col, row));
+                }
+            }
+        }
+        this.stack[0].board = board;
+        this.stack[0].caps = new Set(caps);
+        this.load();
+        return this;
+    }
+
     // Because of how many moves are possible and all the rerendering that is happening,
     // be super conservative with error handling. Don't nuke entire move strings if you can help it.
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

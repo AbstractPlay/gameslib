@@ -212,4 +212,7 @@ export type APMoveResult =
       who?: string;
       where?: string;
       amount?: number;
+    }
+  | {
+      type: "declare";
     };

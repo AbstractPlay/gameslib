@@ -379,7 +379,22 @@ export class EntropyGame extends GameBaseSimultaneous {
         this.results = [];
         let next: CellContents | undefined;
         if (this.phase === "chaos") {
-            next = this.bag.pop();
+            if (trusted) {
+                let [left, right] = moves;
+                next = left.substring(0, 2).toUpperCase() as CellContents;
+                left = left.substring(2);
+                right= right.substring(2);
+                moves[0] = left;
+                moves[1] = right;
+                this.lastmove = `${left},${right}`;
+                const idx = this.bag.findIndex(pc => pc === next);
+                if (idx === -1) {
+                    throw new Error("Could not find a matching piece in trusted mode. This should never happen.");
+                }
+                this.bag.splice(idx, 1);
+            } else {
+                next = this.bag.pop();
+            }
         }
         for (let i = 0; i < moves.length; i++) {
             if (moves[i] === "pass") {

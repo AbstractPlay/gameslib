@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IAPGameStateV2, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -160,7 +159,6 @@ export class ArchimedesGame extends GameBase {
     }
 
     private findAttackers(target: string, owner?: playerid): string[] {
-        console.log(`Target: ${target}, owner: ${owner}`);
         const attackers: string[] = [];
         const grid = new RectGrid(8, 8);
         if (owner === undefined) {
@@ -549,7 +547,6 @@ export class ArchimedesGame extends GameBase {
                     // move.what doesn't actually contain anything, and it never has.
                     // The attacked is the person whose turn it is right now.
                     const atkrs = this.findAttackers(move.where!, this.currplayer);
-                    console.log(`Capture happened at ${move.where}. Attackers include ${JSON.stringify(atkrs)}`);
                     for (const atkr of atkrs) {
                         const [xAtk, yAtk] = ArchimedesGame.algebraic2coords(atkr);
                         rep.annotations.push({type: "move", style: "dashed", colour: "#ff4500", targets: [{row: yAtk, col: xAtk}, {row: y, col: x}]});

@@ -24,7 +24,6 @@ interface IMoveState extends IIndividualState {
 export interface ITintasState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
-    startpos: string;
 };
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -115,7 +114,6 @@ export class TintasGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public startpos!: string;
     public captured!: [CellContents[],CellContents[]];
 
     constructor(state?: ITintasState | IAPGameStateV2 | string) {
@@ -133,10 +131,8 @@ export class TintasGame extends GameBase {
             this.gameover = (state as ITintasState).gameover;
             this.winner = [...(state as ITintasState).winner];
             this.stack = [...(state as ITintasState).stack];
-            this.startpos = (state as ITintasState).startpos;
         } else {
             const bag = shuffle("1111111222222233333334444444555555566666667777777".split("").map(n => parseInt(n, 10) as CellContents)) as CellContents[];
-            this.startpos = bag.join("");
             const board = new Map<string,CellContents>();
             for (let y = 0; y < 8; y++) {
                 for (let x = 0; x < 9; x++) {
@@ -184,6 +180,27 @@ export class TintasGame extends GameBase {
         this.pawnPos = state.pawnPos;
         this.captured = [[...state.captured[0]], [...state.captured[1]]];
        return this;
+    }
+
+    public initStartPos(startpos: string): TintasGame {
+        super.initStartPos(startpos);
+        const order = startpos.split("").map(n => parseInt(n, 10)).reverse();
+        const board = new Map<string, CellContents>();
+
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 9; x++) {
+                const cell = TintasGame.coords2algebraic(x, y);
+                if (TintasGame.blockedCells.includes(cell)) {
+                    continue;
+                }
+                const colour = order.pop()! as CellContents;
+                board.set(cell, colour);
+            }
+        }
+
+        this.stack[0].board = board;
+        this.load();
+        return this;
     }
 
     public moves(player?: playerid): string[] {
@@ -633,7 +650,6 @@ export class TintasGame extends GameBase {
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
-            startpos: this.startpos,
         };
     }
 
@@ -807,9 +823,6 @@ export class TintasGame extends GameBase {
     }
 
     public getStartingPosition(): string {
-        if ( (this.startpos !== undefined) && (this.startpos.length > 0) ) {
-            return this.startpos;
-        }
         const board = this.stack[0].board;
         const colours = [];
         for (let y = 0; y < 8; y++) {

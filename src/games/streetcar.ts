@@ -37,7 +37,6 @@ interface IMoveState extends IIndividualState {
 export interface IStreetcarState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
-    startpos: string;
 };
 
 const reMovePartial = /^\[(.*?)\](.*?)$/;
@@ -187,7 +186,6 @@ export class StreetcarGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public startpos!: string;
     public taken: [Colour[],Colour[]] = [[],[]];
     public claimed: [IEdge[],IEdge[]] = [[],[]];
 
@@ -207,10 +205,8 @@ export class StreetcarGame extends GameBase {
             this.variants = [...(state as IStreetcarState).variants];
             this.winner = [...(state as IStreetcarState).winner];
             this.stack = [...(state as IStreetcarState).stack];
-            this.startpos = (state as IStreetcarState).startpos;
         } else {
             const bag = shuffle("1111111111111222222222222233333333333334444444444444".split("").map(n => parseInt(n, 10) as Colour)) as Colour[];
-            this.startpos = bag.join("");
             const board = new Map<string,CellContents>();
             for (let y = 0; y < 8; y++) {
                 for (let x = 0; x < 8; x++) {
@@ -261,6 +257,27 @@ export class StreetcarGame extends GameBase {
         this.taken = [[...state.taken[0]], [...state.taken[1]]];
         this.claimed = deepclone(state.claimed) as [IEdge[],IEdge[]];
        return this;
+    }
+
+    public initStartPos(startpos: string): StreetcarGame {
+        super.initStartPos(startpos);
+        const order = startpos.split("").map(n => parseInt(n, 10)).reverse();
+        const board = new Map<string, CellContents>();
+
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 8; x++) {
+                const cell = StreetcarGame.coords2algebraic(x, y);
+                if (StreetcarGame.blockedCells.includes(cell)) {
+                    continue;
+                }
+                const colour = order.pop()! as Colour;
+                board.set(cell, {colour, removable: true});
+            }
+        }
+
+        this.stack[0].board = board;
+        this.load();
+        return this;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -792,7 +809,6 @@ export class StreetcarGame extends GameBase {
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
-            startpos: this.startpos,
         };
     }
 
@@ -1128,9 +1144,6 @@ export class StreetcarGame extends GameBase {
     }
 
     public getStartingPosition(): string {
-        if ( (this.startpos !== undefined) && (this.startpos.length > 0) ) {
-            return this.startpos;
-        }
         const board = this.stack[0].board;
         const colours = [];
         for (let y = 0; y < 8; y++) {

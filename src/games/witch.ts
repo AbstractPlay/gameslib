@@ -26,7 +26,6 @@ export interface IMoveState extends IIndividualState {
 export interface IWitchState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
-    startpos: CellContents[];
 };
 
 interface ICounts {
@@ -66,7 +65,6 @@ export class WitchGame extends GameBase {
     public affiliations: [Affiliation,Affiliation] = [undefined, undefined];
     public captured: [CellContents[],CellContents[]] = [[],[]];
     public gameover = false;
-    public startpos: CellContents[] = [];
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -106,13 +104,6 @@ export class WitchGame extends GameBase {
             if (bag.length > 0) {
                 throw new Error("The bag still has pieces in it! This should never happen!");
             }
-            // now store the final starting position
-            for (let y = 0; y < 9; y++) {
-                for (let x = 0; x < 9; x++) {
-                    const cell = WitchGame.coords2algebraic(x, y);
-                    this.startpos.push(board.get(cell)!);
-                }
-            }
             const fresh: IMoveState = {
                 _version: WitchGame.gameinfo.version,
                 _results: [],
@@ -137,7 +128,6 @@ export class WitchGame extends GameBase {
             this.winner = [...(state as IWitchState).winner];
             this.variants = (state as IWitchState).variants;
             this.stack = [...(state as IWitchState).stack];
-            this.startpos = [...(state as IWitchState).startpos];
         }
         this.load();
     }
@@ -157,6 +147,24 @@ export class WitchGame extends GameBase {
         this.results = [...state._results];
         this.captured = deepclone(state.captured) as [CellContents[],CellContents[]];
         this.affiliations = [...state.affiliations]
+        return this;
+    }
+
+    public initStartPos(startpos: string): WitchGame {
+        super.initStartPos(startpos);
+        const order = startpos.split("").reverse();
+        const board = new Map<string, CellContents>();
+
+        for (let y = 0; y < 9; y++) {
+            for (let x = 0; x < 9; x++) {
+                const cell = WitchGame.coords2algebraic(x, y);
+                const piece = order.pop()! as CellContents;
+                board.set(cell, piece);
+            }
+        }
+
+        this.stack[0].board = board;
+        this.load();
         return this;
     }
 
@@ -606,7 +614,6 @@ export class WitchGame extends GameBase {
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
-            startpos: [...this.startpos],
         };
     }
 
@@ -762,7 +769,15 @@ export class WitchGame extends GameBase {
     }
 
     public getStartingPosition(): string {
-        return this.startpos.join("");
+        const board = this.stack[0].board;
+        const colours: CellContents[] = [];
+        for (let y = 0; y < 9; y++) {
+            for (let x = 0; x < 9; x++) {
+                const cell = WitchGame.coords2algebraic(x, y);
+                colours.push(board.get(cell)!);
+            }
+        }
+        return colours.join("");
     }
 
     public clone(): WitchGame {

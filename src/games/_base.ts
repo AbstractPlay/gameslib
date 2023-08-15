@@ -710,17 +710,21 @@ export abstract class GameBase  {
         const ctor = this.constructor as typeof GameBase;
         let newgame: GameBase|undefined;
         if (ctor.gameinfo.playercounts.length === 1) {
-            newgame = GameFactory(state.game, ...state.variants);
+            newgame = GameFactory(state.game, undefined, [...state.variants]);
         } else {
-            newgame = GameFactory(state.game, state.numplayers, ...state.variants);
+            newgame = GameFactory(state.game, state.numplayers, [...state.variants]);
         }
         if (newgame === undefined) {
             throw new Error(`Unable to create a new ${state.game} object`);
         }
         // check for random start and initialize
         if ( ("startpos" in state) && (state.startpos !== undefined) ) {
+            // console.log(state.startpos);
             newgame.initStartPos(state.startpos);
+            // console.log(newgame.getStartingPosition());
         }
+        // // @ts-ignore
+        // console.log(JSON.stringify(newgame.render()), "\n");
         // make all the moves
         try {
             // start at idx 1 because the first state is initial

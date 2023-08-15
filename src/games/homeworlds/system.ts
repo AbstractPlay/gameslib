@@ -40,13 +40,13 @@ export class System implements ISystem {
         return newsys;
     }
 
-    constructor(name: string, stars: Star[], owner?: Seat, checkStars = true) {
-        // Only home systems can have two stars
-        if (checkStars) {
-            if ( (stars.length > 1) && (owner === undefined) ) {
-                throw new Error("Only home systems can have two stars.");
-            }
-        }
+    constructor(name: string, stars: Star[], owner?: Seat/* , checkStars = true*/) {
+        // // Only home systems can have two stars
+        // if (checkStars) {
+        //     if ( (stars.length > 1) && (owner === undefined) ) {
+        //         throw new Error(`Only home systems can have two stars: ${name}`);
+        //     }
+        // }
         if (! System.nameValid(name)) {
             throw new UserFacingError(HWErrors.SYSTEM_BADNAME, i18next.t("apgames:homeworlds.SYSTEM_BADNAME", {name}));
         }
@@ -202,7 +202,7 @@ export class System implements ISystem {
     }
 
     public clone(): System {
-        const newSys = new System(this.name, [...this.stars], this.owner, false);
+        const newSys = new System(this.name, [...this.stars], this.owner/* , false*/);
         newSys.ships = this.ships.map(s => s.clone());
         return newSys;
     }

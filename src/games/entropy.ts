@@ -528,7 +528,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
-    public render( { perspective } : { perspective: number | undefined } ): APRenderRep {
+    public render( { perspective } : { perspective: number | undefined } = {perspective: undefined} ): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 7; row++) {

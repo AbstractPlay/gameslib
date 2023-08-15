@@ -628,6 +628,16 @@
             },
             "required": ["type"],
             "additionalProperties": false
+        },
+        {
+            "description": "Declared a win (subject to a challenge)",
+            "properties": {
+                "type": {
+                    "enum": ["declare"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
         }
     ]
 }

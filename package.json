@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "latest",
+    "@abstractplay/renderer": "^1.0.0-ci-5862560395.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "graphology": "^0.25.1",

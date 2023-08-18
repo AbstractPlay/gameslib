@@ -44,7 +44,7 @@ export class PhutballGame extends GameBase {
                 name: "Elwyn Berlekamp, John Horton Conway, and Richard K. Guy",
             },
         ],
-        flags: ["experimental", "multistep", "perspective"],
+        flags: ["experimental", "multistep", "perspective", "pie"],
     };
     public static coords2algebraic(x: number, y: number): string {
         if (x === 0) return "0" + (20 - y).toString();

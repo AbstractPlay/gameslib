@@ -323,7 +323,7 @@
             "CHAMBER_BUMP": "You may not bump pieces into the chamber.",
             "DISTANT_EXCHANGE": "The cells {{left}} and {{right}} are not adjacent to each other.",
             "INITIAL_INSTRUCTIONS_balanced": "Select a piece to move. To start an exchange select the piece from which you want to remove speed, twice.",
-            "INITIAL_INSTRUCTIONS_imbalanced": "You are imbalanced by {{delta}} speed. Select on of your pieces with the lowest speed to correct.",
+            "INITIAL_INSTRUCTIONS_imbalanced": "You are imbalanced by {{delta}} speed. Select one of your pieces with the lowest speed to correct.",
             "INVALID_SPEED": "The speed {{speed}} is not valid for {{cell}}. It must be between 1 and 6.",
             "MULTIPLE_PATHS": "There is more than one way to get to {{to}} from {{from}}. Please edit the move box to add a compass direction or choose the exact move from the drop-down menu.",
             "MUST_BALANCE": "You are imbalanced. Your move must begin with a '{'.",

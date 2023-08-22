@@ -202,17 +202,15 @@ export class MiradorGame extends GameBase {
                 const node: Array<number> = [];
                 let seeleft = true;
                 for (let row = 0; row < 27; row++) {
-                    if (this.board[row][col] !== null) {
-                        if (seeleft && this.board[row][col] === player) {
-                            node.push(3);
-                            work.push([col, row]); // transposing the board
-                            seeleft = false;
-                        } else if (this.board[row][col] !== null) {
-                            node.push(this.board[row][col]!);
-                            seeleft = false;
-                        } else {
-                            node.push(0);
-                        }
+                    if (seeleft && this.board[row][col] === player) {
+                        node.push(3);
+                        work.push([col, row]); // transposing the board
+                        seeleft = false;
+                    } else if (this.board[row][col] !== null) {
+                        node.push(this.board[row][col]!);
+                        seeleft = false;
+                    } else {
+                        node.push(0);
                     }
                 }
                 localBoard.push(node);
@@ -495,9 +493,9 @@ export class MiradorGame extends GameBase {
             board: {
                 style: "vertex",
                 width: 28,
-                height: 28
-                // columnLabels: ["", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", ""],
-                // rowLabels: ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", ""]
+                height: 28,
+                columnLabels: ["", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", ""],
+                rowLabels: ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", ""]
             },
             legend: {
                 A: {

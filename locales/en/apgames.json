@@ -734,8 +734,12 @@
         },
         "agere": {
             "cobweb": {
-                "name": "Cobweb",
+                "name": "Cobweb (4 rings)",
                 "description": "A variant played on a round board where you try to connect two opposite sides."
+            },
+            "cobweb-small": {
+                "name": "Cobweb (3 rings)",
+                "description": "A smaller Cobweb board where the centre becomes more important."
             }
         },
         "armadas": {

@@ -46,6 +46,7 @@ export class AgereGame extends GameBase {
         ],
         variants: [
             {uid: "cobweb", group: "board"},
+            {uid: "cobweb-small", group: "board"},
         ],
         flags: ["pie", "check"]
     };
@@ -62,7 +63,12 @@ export class AgereGame extends GameBase {
         [2, [[["a4", "b4"], ["e4", "f4"]],[["c4", "d4"], ["g4", "h4"]]]],
     ]);
 
-    public static buildGraph(style: "hex"|"cobweb"): UndirectedGraph {
+    public static edgesCobwebSmall = new Map<playerid, [[string[],string[]],[string[],string[]]]>([
+        [1, [[["a3", "h3"], ["d3", "e3"]],[["b3", "c3"], ["f3", "g3"]]]],
+        [2, [[["a3", "b3"], ["e3", "f3"]],[["c3", "d3"], ["g3", "h3"]]]],
+    ]);
+
+    public static buildGraph(style: "hex"|"cobweb"|"cobwebSmall"): UndirectedGraph {
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
         if (style === "hex") {
             const myHex = defineHex({
@@ -112,17 +118,21 @@ export class AgereGame extends GameBase {
                 }
             }
             return graph;
-        } else if (style === "cobweb") {
+        } else if ( (style === "cobweb") || (style === "cobwebSmall") ) {
+            let cobHeight = 4;
+            if (style === "cobwebSmall") {
+                cobHeight = 3;
+            }
             const graph = new UndirectedGraph();
             for (let col = 0; col < 8; col++) {
-                for (let row = 3; row >= 0; row--) {
-                    const cell = GameBase.coords2algebraic(col, row, 4);
+                for (let row = cobHeight - 1; row >= 0; row--) {
+                    const cell = GameBase.coords2algebraic(col, row, cobHeight);
                     if (! graph.hasNode(cell)) {
                         graph.addNode(cell);
                     }
                     // connect to the cell above
                     if (row > 0) {
-                        const above = GameBase.coords2algebraic(col, row-1, 4);
+                        const above = GameBase.coords2algebraic(col, row-1, cobHeight);
                         if (! graph.hasNode(above)) {
                             graph.addNode(above);
                         }
@@ -133,7 +143,7 @@ export class AgereGame extends GameBase {
 
                     if (col % 2 === 0) {
                         // connect left and right
-                        const br = GameBase.coords2algebraic(col+1, row, 4);
+                        const br = GameBase.coords2algebraic(col+1, row, cobHeight);
                         if (! graph.hasNode(br)) {
                             graph.addNode(br);
                         }
@@ -141,7 +151,7 @@ export class AgereGame extends GameBase {
                             graph.addEdge(cell, br);
                         }
                         if (row !== 0) {
-                            const tr = GameBase.coords2algebraic(col+1, row-1, 4);
+                            const tr = GameBase.coords2algebraic(col+1, row-1, cobHeight);
                             if (! graph.hasNode(tr)) {
                                 graph.addNode(tr);
                             }
@@ -151,7 +161,7 @@ export class AgereGame extends GameBase {
                         }
                         let lcol = col - 1;
                         if (lcol < 0) { lcol = 7; }
-                        const bl = GameBase.coords2algebraic(lcol, row, 4);
+                        const bl = GameBase.coords2algebraic(lcol, row, cobHeight);
                         if (! graph.hasNode(bl)) {
                             graph.addNode(bl);
                         }
@@ -159,7 +169,7 @@ export class AgereGame extends GameBase {
                             graph.addEdge(cell, bl);
                         }
                         if (row !== 0) {
-                            const tl = GameBase.coords2algebraic(lcol, row-1, 4);
+                            const tl = GameBase.coords2algebraic(lcol, row-1, cobHeight);
                             if (! graph.hasNode(tl)) {
                                 graph.addNode(tl);
                             }
@@ -173,7 +183,7 @@ export class AgereGame extends GameBase {
             // add the centre connections manually
             graph.addNode("ctr");
             for (let col = 0; col < 8; col++) {
-                const cell = GameBase.coords2algebraic(col, 3, 4);
+                const cell = GameBase.coords2algebraic(col, cobHeight - 1, cobHeight);
                 graph.addEdge("ctr", cell);
             }
             return graph;
@@ -205,7 +215,7 @@ export class AgereGame extends GameBase {
             this.winner = [...state.winner];
             this.stack = [...state.stack];
         } else {
-            if ( (variants !== undefined) && (variants.length === 1) && (variants.includes("cobweb")) ) {
+            if ( (variants !== undefined) && (variants.length === 1) && ( (variants.includes("cobweb")) || (variants.includes("cobweb-small")) ) ) {
                 this.variants = [...variants];
             }
             const board = new Map<string,playerid[]>();
@@ -247,6 +257,11 @@ export class AgereGame extends GameBase {
                 return "ctr";
             }
             return GameBase.coords2algebraic(x, y, 4);
+        } else if (this.variants.includes("cobweb-small")) {
+            if ( (x === 0) && (y === 3) ) {
+                return "ctr";
+            }
+            return GameBase.coords2algebraic(x, y, 3);
         } else {
             return columnLabels[8 - y - 1] + (x + 1).toString();
         }
@@ -259,6 +274,11 @@ export class AgereGame extends GameBase {
                 return [0,4];
             }
             return GameBase.algebraic2coords(cell, 4);
+        } else if (this.variants.includes("cobweb-small")) {
+            if (cell === "ctr") {
+                return [0,3];
+            }
+            return GameBase.algebraic2coords(cell, 3);
         } else {
             const pair: string[] = cell.split("");
             const num = (pair.slice(1)).join("");
@@ -277,6 +297,8 @@ export class AgereGame extends GameBase {
     private getGraph(): UndirectedGraph {
         if (this.variants.includes("cobweb")) {
             return AgereGame.buildGraph("cobweb");
+        } else if (this.variants.includes("cobweb-small")) {
+            return AgereGame.buildGraph("cobwebSmall");
         } else {
             return AgereGame.buildGraph("hex");
         }
@@ -543,7 +565,12 @@ export class AgereGame extends GameBase {
             }
         }
 
-        for (const [left,right] of AgereGame.edgesCobweb.get(player)!) {
+        let edges = AgereGame.edgesCobweb;
+        if (this.variants.includes("cobweb-small")) {
+            edges = AgereGame.edgesCobwebSmall;
+        }
+
+        for (const [left,right] of edges.get(player)!) {
             for (const lnode of left) {
                 for (const rnode of right) {
                     if ( graph.hasNode(lnode) && graph.hasNode(rnode) ) {
@@ -593,7 +620,7 @@ export class AgereGame extends GameBase {
 
     protected checkEOG(): AgereGame {
         // We are now at the START of `this.currplayer`'s turn
-        if (this.variants.includes("cobweb")) {
+        if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
             if (this.checkEOGCobweb()) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
@@ -738,11 +765,15 @@ export class AgereGame extends GameBase {
     }
 
     protected renderCobweb(): APRenderRep {
+        let cobHeight = 4;
+        if (this.variants.includes("cobweb-small")) {
+            cobHeight = 3;
+        }
         const graph = this.getGraph();
         // Build piece string
         const pieces: string[][] = [];
         const flooded: [[number,number][], [number,number][]] = [[],[]];
-        for (let row = 0; row < 4; row++) {
+        for (let row = 0; row < cobHeight; row++) {
             const node: string[] = [];
             for (let col = 0; col < 8; col++) {
                 const cell = this.coords2algebraic(col, row);
@@ -760,7 +791,7 @@ export class AgereGame extends GameBase {
         if (this.board.has("ctr")) {
             const contents = this.board.get("ctr")!;
             pieces.push([contents.join("").replace(/1/g, "A").replace(/2/g, "B")]);
-            flooded[contents[contents.length - 1] - 1].push([0, 4]);
+            flooded[contents[contents.length - 1] - 1].push([0, cobHeight]);
         }
         const pstr: string = pieces.map(r => r.join(",")).join("\n");
 
@@ -770,7 +801,7 @@ export class AgereGame extends GameBase {
             board: {
                 style: "circular-cobweb",
                 width: 8,
-                height: 4,
+                height: cobHeight,
                 markers: [
                     {
                         "type": "halo",
@@ -833,7 +864,7 @@ export class AgereGame extends GameBase {
     }
 
     public render(): APRenderRep {
-        if (this.variants.includes("cobweb")) {
+        if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
             return this.renderCobweb();
         }
         return this.renderHexTri();

@@ -547,6 +547,7 @@
             "DISCONNECTED": "That move would leave your pieces disconnected.",
             "DISORGANIZED": "Moves must be \"organized,\" meaning that the destination cell must be orthogonal to the first cell in the ordo.",
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move or start an ordo.",
+            "NO_ORDO_CAPTURE": "An ordo move cannot be a capture.",
             "INVALID_ORDO": "The ordo '{{ordo}}' is not valid. Ordos are groups of pieces connected in a straight, orthogonal line.",
             "INVALID_ORDO_MOVE": "The ordo '{{ordo}}' cannot move to {{destination}}. This is usually because of an obstruction.",
             "PARTIAL": "Select a destination or select a second piece to form an ordo.",

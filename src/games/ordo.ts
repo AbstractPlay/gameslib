@@ -514,6 +514,11 @@ export class OrdoGame extends GameBase {
         const [left, right] = m.split(/[-x]/);
         // is left-hand an ordo
         if (left.includes(":")) {
+            if (m.includes("x")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ordo.NO_ORDO_CAPTURE", {where: left});
+                return result;
+            }
             const [cell1, cell2] = left.split(":");
             // valid cells
             for (const cell of [cell1, cell2]) {
@@ -659,7 +664,7 @@ export class OrdoGame extends GameBase {
                     return result;
                 }
                 // direction is correct
-                const dirs: Directions[] = dirsForward[this.currplayer - 1];
+                const dirs: Directions[] = [...dirsForward[this.currplayer - 1]];
                 if (! this.isConnected(this.currplayer)) {
                     dirs.push(...dirsBackward[this.currplayer - 1]);
                 }
@@ -668,6 +673,17 @@ export class OrdoGame extends GameBase {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.ordo.WRONG_DIRECTION", {from: left, to: right});
                     return result;
+                }
+                // no obstructions
+                const [x1, y1] = OrdoGame.algebraic2coords(left);
+                const [x2, y2] = OrdoGame.algebraic2coords(right);
+                const between = RectGrid.between(x1, y1, x2, y2).map(pt => OrdoGame.coords2algebraic(...pt));
+                for (const next of between) {
+                    if (this.board.has(next)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {obstruction: next, from: left, to: right});
+                        return result;
+                    }
                 }
                 // connection test
                 const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);

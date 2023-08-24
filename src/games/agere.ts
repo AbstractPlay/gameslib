@@ -888,7 +888,7 @@ export class AgereGame extends GameBase {
             otherPlayer = 2;
         }
         let connected = false;
-        if (this.variants.includes("cobweb")) {
+        if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
             connected = this.checkEOGCobweb(otherPlayer);
         } else {
             connected = this.checkEOGHexTri(otherPlayer);

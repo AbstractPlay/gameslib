@@ -45,7 +45,7 @@ export class MiradorGame extends GameBase {
                 name: "Andrew Perkis",
             },
         ],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
     };
 
     public numplayers = 2;

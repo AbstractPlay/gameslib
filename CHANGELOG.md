@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * New game: Armadas
 * New game: Flume
 * New game: Boom & Zoom
-* New game: Phutball
+* New game: Mirador
 * New game: Clearcut
 * New game: Agere
 * New game: Bide

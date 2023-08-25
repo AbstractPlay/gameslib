@@ -118,6 +118,8 @@ export class BideGame extends GameBase {
             let newmove = "";
             if (piece === "_btn_pass") {
                 newmove = "pass";
+            } else if (piece === "_btn__") {
+                return {move: "", message: i18next.t("apgames:validation.bide.MUST_RELEASE")} as IClickResult;
             } else {
                 const cell = this.graph.coords2algebraic(col, row);
 
@@ -452,8 +454,9 @@ export class BideGame extends GameBase {
                     position: "left",
                     buttons: [
                         {
-                            label: "Pass",
-                            value: "pass",
+                            label: this.released !== undefined ? "Released!" : "Pass",
+                            value: this.released !== undefined ? "_" : "pass",
+                            fill: this.released !== undefined ? "#999" : undefined,
                         }
                     ],
                 }

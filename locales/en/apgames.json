@@ -323,7 +323,7 @@
             "CHAMBER_BUMP": "You may not bump pieces into the chamber.",
             "DISTANT_EXCHANGE": "The cells {{left}} and {{right}} are not adjacent to each other.",
             "INITIAL_INSTRUCTIONS_balanced": "Select a piece to move. To start an exchange select the piece from which you want to remove speed, twice.",
-            "INITIAL_INSTRUCTIONS_imbalanced": "You are imbalanced by {{delta}} speed. Select on of your pieces with the lowest speed to correct.",
+            "INITIAL_INSTRUCTIONS_imbalanced": "You are imbalanced by {{delta}} speed. Select one of your pieces with the lowest speed to correct.",
             "INVALID_SPEED": "The speed {{speed}} is not valid for {{cell}}. It must be between 1 and 6.",
             "MULTIPLE_PATHS": "There is more than one way to get to {{to}} from {{from}}. Please edit the move box to add a compass direction or choose the exact move from the drop-down menu.",
             "MUST_BALANCE": "You are imbalanced. Your move must begin with a '{'.",
@@ -510,10 +510,11 @@
             "PARTIAL": "Select a destination."
         },
         "mirador": {
-            "INITIAL_INSTRUCTIONS": "Place a mirador.",
+            "INITIAL_INSTRUCTIONS": "Place a mirador, or, if you think your connection is unassailable, declare",
             "INITIAL_INSTRUCTIONS_CHALLENGE": "Place as many miradors as you would like.",
             "ALREADY_DECLARED": "Someone has already declared. You can not declare now.",
             "SINGLE_PLACEMENT": "You can only place one mirador.",
+            "NO_EDGE_PLAY": "You can not play on the very edge of the board.",
             "BAD_PLACEMENT": "You can not play at {{where}}. It would be adjacent or overlapping with another mirador. The only adjacency allowed is diagonal to one of your own miradors.",
             "VALID_PARTIAL_MOVE": "Keep placing miradors until you have broken all the opponent's connections."
         },
@@ -546,6 +547,7 @@
             "DISCONNECTED": "That move would leave your pieces disconnected.",
             "DISORGANIZED": "Moves must be \"organized,\" meaning that the destination cell must be orthogonal to the first cell in the ordo.",
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move or start an ordo.",
+            "NO_ORDO_CAPTURE": "An ordo move cannot be a capture.",
             "INVALID_ORDO": "The ordo '{{ordo}}' is not valid. Ordos are groups of pieces connected in a straight, orthogonal line.",
             "INVALID_ORDO_MOVE": "The ordo '{{ordo}}' cannot move to {{destination}}. This is usually because of an obstruction.",
             "PARTIAL": "Select a destination or select a second piece to form an ordo.",
@@ -732,8 +734,12 @@
         },
         "agere": {
             "cobweb": {
-                "name": "Cobweb",
+                "name": "Cobweb (4 rings)",
                 "description": "A variant played on a round board where you try to connect two opposite sides."
+            },
+            "cobweb-small": {
+                "name": "Cobweb (3 rings)",
+                "description": "A smaller Cobweb board where the centre becomes more important."
             }
         },
         "armadas": {

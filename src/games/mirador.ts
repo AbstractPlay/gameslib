@@ -19,6 +19,8 @@ export type Stage = "play" | "challenge";
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
+    // board is 27 x 27. A1 corresponds to board[0][0], booard[0][1], board[1][0], and board[1][1],
+    // Z26 corresponds to board[25][25], board[25][26], board[26][25], board[26][26]
     board: Array<Array<CellContents>>;
     stage: Stage;
     lastmove?: string;
@@ -43,7 +45,7 @@ export class MiradorGame extends GameBase {
                 name: "Andrew Perkis",
             },
         ],
-        flags: ["experimental"],
+        flags: ["experimental", "pie"],
     };
 
     public numplayers = 2;
@@ -118,10 +120,10 @@ export class MiradorGame extends GameBase {
         }
         const moves: string[] = [];
         // placements
-        for (let x = 0; x < 27; x++) {
-            for (let y = 1; y < 27; y++) {
+        for (let x = 0; x < 26; x++) {
+            for (let y = 0; y < 26; y++) {
                 if (this.canPlace(this.board, this.currplayer, x, y)) {
-                    moves.push(GameBase.coords2algebraic(x, y, 27));
+                    moves.push(GameBase.coords2algebraic(x, y, 26));
                 }
             }
         }
@@ -143,8 +145,15 @@ export class MiradorGame extends GameBase {
         piece?: string
     ): IClickResult {
         try {
-            const cell = GameBase.coords2algebraic(col, row, 27);
-            const newmove = cell;
+            if (col === 0 || col === 27 || row === 0 || row === 27) {
+                return {
+                    move,
+                    valid: false,
+                    message: i18next.t("apgames:validation.mirador.NO_EDGE_PLAY")
+                };
+            }
+            const cell = GameBase.coords2algebraic(col - 1, row - 1, 26);
+            const newmove = move ? `${move}-${cell}` : cell;
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
                 result.move = "";
@@ -175,17 +184,15 @@ export class MiradorGame extends GameBase {
                 const node: Array<number> = [];
                 let seeleft = true;
                 for (let col = 0; col < 27; col++) {
-                    if (this.board[row][col] !== null) {
-                        if (seeleft && this.board[row][col] === player) {
-                            node.push(3);
-                            work.push([row, col]);
-                            seeleft = false;
-                        } else if (this.board[row][col] !== null) {
-                            node.push(this.board[row][col]!);
-                            seeleft = false;
-                        } else {
-                            node.push(0);
-                        }
+                    if (seeleft && this.board[row][col] === player) {
+                        node.push(3); // 3 means connected to the left
+                        work.push([row, col]);
+                        seeleft = false;
+                    } else if (this.board[row][col] !== null) {
+                        node.push(this.board[row][col]!);
+                        seeleft = false;
+                    } else {
+                        node.push(0);
                     }
                 }
                 localBoard.push(node);
@@ -195,17 +202,15 @@ export class MiradorGame extends GameBase {
                 const node: Array<number> = [];
                 let seeleft = true;
                 for (let row = 0; row < 27; row++) {
-                    if (this.board[row][col] !== null) {
-                        if (seeleft && this.board[row][col] === player) {
-                            node.push(3);
-                            work.push([col, row]);
-                            seeleft = false;
-                        } else if (this.board[row][col] !== null) {
-                            node.push(this.board[row][col]!);
-                            seeleft = false;
-                        } else {
-                            node.push(0);
-                        }
+                    if (seeleft && this.board[row][col] === player) {
+                        node.push(3);
+                        work.push([col, row]); // transposing the board
+                        seeleft = false;
+                    } else if (this.board[row][col] !== null) {
+                        node.push(this.board[row][col]!);
+                        seeleft = false;
+                    } else {
+                        node.push(0);
                     }
                 }
                 localBoard.push(node);
@@ -223,10 +228,10 @@ export class MiradorGame extends GameBase {
                 let dist = 1;
                 while (true) {
                     const next: [number, number] = [start[0] + dir[0] * dist, start[1] + dir[1] * dist];
-                    if (next[0] >= 27) {
+                    if (next[1] >= 27) {
                         return true;
                     }
-                    if (next[0] < 0 || next[0] >= 27 || next[1] < 0 || next[1] >= 27 || localBoard[next[0]][next[1]] === 3 - player || localBoard[next[0]][next[1]] === 3) {
+                    if (next[0] < 0 || next[0] >= 27 || next[1] < 0 || localBoard[next[0]][next[1]] === 3 - player || localBoard[next[0]][next[1]] === 3) {
                         break;
                     }
                     if (localBoard[next[0]][next[1]] === 3 - player) {
@@ -260,7 +265,7 @@ export class MiradorGame extends GameBase {
     private canPlace(board: Array<Array<CellContents>>, player: playerid, x: number, y: number): boolean {
         for (let dx = -1; dx <= 2; dx++) {
             for (let dy = -1; dy <= 2; dy++) {
-                if (x + dx >= 0 && x + dx < 27 && y + dy >= 0 && y + dy < 27 && !(board[y + dy][x + dx] === null || (Math.abs(dx) === 1 && Math.abs(dy) === 1 && board[y][x] === player))) {
+                if (x + dx >= 0 && x + dx < 27 && y + dy >= 0 && y + dy < 27 && !(board[y + dy][x + dx] === null || ((dx === -1 || dx === 2) && (dy === -1 || dy === 2) && board[y + dy][x + dx] === player))) {
                     return false;
                 }
             }
@@ -320,7 +325,7 @@ export class MiradorGame extends GameBase {
         for (const placement of placements) {
             let coords;
             try {
-                coords = GameBase.algebraic2coords(placement, 27);
+                coords = GameBase.algebraic2coords(placement, 26);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {
@@ -328,7 +333,7 @@ export class MiradorGame extends GameBase {
                 });
                 return result;
             }
-            if (coords[0] < 0 || coords[0] >= 27 || coords[1] < 0 || coords[1] >= 27) {
+            if (coords[0] < 0 || coords[0] >= 26 || coords[1] < 0 || coords[1] >= 26) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {
                     cell: placement,
@@ -371,6 +376,7 @@ export class MiradorGame extends GameBase {
         } else {
             result.valid = true;
             result.complete = 0;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.mirador.VALID_PARTIAL_MOVE");
             return result;
         }
@@ -405,7 +411,7 @@ export class MiradorGame extends GameBase {
         } else {
             const placements = m.split("-");
             for (const placement of placements) {
-                const coords = GameBase.algebraic2coords(placement, 27);
+                const coords = GameBase.algebraic2coords(placement, 26);
                 this.board[coords[1]][coords[0]] = this.currplayer;
                 this.board[coords[1]][coords[0] + 1] = this.currplayer;
                 this.board[coords[1] + 1][coords[0]] = this.currplayer;
@@ -434,10 +440,10 @@ export class MiradorGame extends GameBase {
         }
         if (this.stage === "challenge" && this.lastmove !== "declare") {
             this.gameover = true;
-            if (this.isConnected(true, prevPlayer) || this.isConnected(false, 1)) {
-                this.winner = [prevPlayer];
-            } else {
+            if (this.isConnected(true, this.currplayer) || this.isConnected(false, this.currplayer)) {
                 this.winner = [this.currplayer];
+            } else {
+                this.winner = [prevPlayer];
             }
         }
         if (this.gameover) {
@@ -476,11 +482,9 @@ export class MiradorGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        let pstr = "";
+        let pstr = "----------------------------";
         for (let row = 0; row < 26; row++) {
-            if (pstr.length > 0) {
-                pstr += "\n";
-            }
+            pstr += "\n";
             const pieces: string[] = [];
             for (let col = 0; col < 26; col++) {
                 if (this.board[row][col] !== null && this.board[row][col] === this.board[row][col + 1] && this.board[row][col] === this.board[row + 1][col] && this.board[row][col] === this.board[row + 1][col + 1]) {
@@ -489,30 +493,45 @@ export class MiradorGame extends GameBase {
                     pieces.push("-");
                 }
             }
-            pstr += pieces.join("");
+            pstr += "-" + pieces.join("") + "-";
         }
+        pstr += "\n----------------------------";
 
         // Build rep
         const rep: APRenderRep = {
             board: {
                 style: "vertex",
-                width: 26,
-                height: 26,
+                width: 28,
+                height: 28,
+                columnLabels: ["", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", ""],
+                rowLabels: ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", ""]
             },
             legend: {
                 A: {
                     name: "piece-square",
-                    scale: 2.0,
+                    scale: 2.1,
                     player: 1
                 },
                 B: {
                     name: "piece-square",
-                    scale: 2.0,
+                    scale: 2.1,
                     player: 2
                 },
             },
             pieces: pstr,
         };
+
+        // Add annotations
+        if (this.results.length > 0) {
+            // @ts-ignore
+            rep.annotations = [];
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    const [x, y] = GameBase.algebraic2coords(move.where!, 26);
+                    rep.annotations.push({type: "dots", targets: [{row: y + 1, col: x + 1}], size: 0.3, colour: "#f4ea56"});
+                }
+            }
+        }
 
         return rep;
     }

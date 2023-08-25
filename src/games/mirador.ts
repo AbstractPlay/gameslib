@@ -357,15 +357,6 @@ export class MiradorGame extends GameBase {
                     return result;
                 }
             }
-            for (let dx = -1; dx <= 2; dx++) {
-                for (let dy = -1; dy <= 2; dy++) {
-                    if (coords[0] + dx >= 0 && coords[0] + dx < 27 && coords[1] + dy >= 0 && coords[1] + dy < 27 && !(this.board[coords[1] + dy][coords[0] + dx] === null || (Math.abs(dx) === 1 && Math.abs(dy) === 1 && this.board[coords[1]][coords[0]] === this.currplayer))) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.mirador.BAD_PLACEMENT", { where: placement });
-                        return result;
-                    }
-                }
-            }
         }
         // Looks good
         if (this.stage === "play") {

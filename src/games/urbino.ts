@@ -858,7 +858,7 @@ export class UrbinoGame extends GameBase {
             } else if (myscore === theirscore) {
                 const breaker = this.tiebreaker([myblock, theirblock]);
                 if (breaker === player) {
-                    score += score;
+                    score += myscore;
                 }
             }
         }

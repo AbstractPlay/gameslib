@@ -526,9 +526,9 @@ export class BideGame extends GameBase {
         const finalScores: (number|string)[] = [];
         for (let i = 1; i <= this.numplayers; i++) {
             if (scores[i] !== realScores[i]) {
-                finalScores.push(`${scores[i]} (${realScores[i]})`);
+                finalScores.push(`${scores[i-1]} (${realScores[i-1]})`);
             } else {
-                finalScores.push(scores[i]);
+                finalScores.push(scores[i-1]);
             }
         }
 

@@ -506,17 +506,19 @@ export class BideGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
+        let ignore = 0;
         const scores: number[] = [];
         for (let i = 1; i <= this.numplayers; i++) {
-            scores.push(this.getPlayerScore(i));
+            scores.push(this.getPlayerScore(i, ignore));
         }
         let realScores = [...scores];
         let maxScore = Math.max(...scores);
         let maxScorers = scores.filter(s => s === maxScore);
         while (maxScorers.length > 1) {
+            ignore += 1;
             realScores = [];
             for (let i = 1; i <= this.numplayers; i++) {
-                realScores.push(this.getPlayerScore(i));
+                realScores.push(this.getPlayerScore(i, ignore));
             }
             maxScore = Math.max(...scores);
             maxScorers = scores.filter(s => s === maxScore);

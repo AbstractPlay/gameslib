@@ -551,6 +551,14 @@ export class BideGame extends GameBase {
             }
         }
 
+        // drop all nodes < ignore
+        for (const node of [...graph.nodes()]) {
+            const dist = grid.distFromEdge(node);
+            if (dist < ignore) {
+                graph.dropNode(node);
+            }
+        }
+
         // score each group
         let maxScore = 0;
         for (const g of connectedComponents(graph)) {

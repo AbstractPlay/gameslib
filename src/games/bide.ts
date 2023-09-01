@@ -510,8 +510,28 @@ export class BideGame extends GameBase {
         for (let i = 1; i <= this.numplayers; i++) {
             scores.push(this.getPlayerScore(i));
         }
+        let realScores = [...scores];
+        let maxScore = Math.max(...scores);
+        let maxScorers = scores.filter(s => s === maxScore);
+        while (maxScorers.length > 1) {
+            realScores = [];
+            for (let i = 1; i <= this.numplayers; i++) {
+                realScores.push(this.getPlayerScore(i));
+            }
+            maxScore = Math.max(...scores);
+            maxScorers = scores.filter(s => s === maxScore);
+        }
+        const finalScores: (number|string)[] = [];
+        for (let i = 1; i <= this.numplayers; i++) {
+            if (scores[i] !== realScores[i]) {
+                finalScores.push(`${scores[i]} (${realScores[i]})`);
+            } else {
+                finalScores.push(scores[i]);
+            }
+        }
+
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores },
+            { name: i18next.t("apgames:status.SCORES"), scores: finalScores },
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand },
         ]
     }

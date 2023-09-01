@@ -524,11 +524,11 @@ export class BideGame extends GameBase {
             maxScorers = scores.filter(s => s === maxScore);
         }
         const finalScores: (number|string)[] = [];
-        for (let i = 1; i <= this.numplayers; i++) {
+        for (let i = 0; i < this.numplayers; i++) {
             if (scores[i] !== realScores[i]) {
-                finalScores.push(`${scores[i-1]} (${realScores[i-1]})`);
+                finalScores.push(`${scores[i]} (${realScores[i]})`);
             } else {
-                finalScores.push(scores[i-1]);
+                finalScores.push(scores[i]);
             }
         }
 

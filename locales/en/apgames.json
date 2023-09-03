@@ -41,6 +41,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
+        "razzle": "Razzle Dazzle is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "streetcar": "It’s against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
@@ -60,6 +61,7 @@
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
+        "razzle": "The implementation here is the so called tournament rules.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
@@ -582,6 +584,21 @@
             "TOOSMALL": "Upright pieces can only be captured by larger pieces.",
             "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
+        },
+        "razzle": {
+            "INITIAL_INSTRUCTIONS": "Make a chess knight's move with one of your pieces, or move your ball to one of your open pieces.",
+            "OWN_RECEIVER": "You can only move the ball to one of your own pieces.",
+            "INELIGBLE_RECEIVER": "This piece is inelgible to receive the ball.",
+            "REPEAT_RECEIVER": "You can't move the ball to the same piece twice in a row.",
+            "OBSTRUCTED": "Moving the ball from {{from}} to {{to}} isn't valid as there is an obstruction at {{obstruction}}.",
+            "INCOMPLETE_BALL_MOVE": "You must keep moving the ball, because this position repeats an earlier position and would therefore not be valid.",
+            "REPEATED_POSITION": "This move would repeat an earlier position and is therefore invalid.",
+            "PARTIAL_BALL_MOVE": "You can complete your ball move here, or keep moving it",
+            "MUST_MOVE_BALL": "You must move the ball.",
+            "PARTIAL_PIECE_MOVE": "Provide the destination.",
+            "NOT_EMPTY": "{{cell} is not empty, you can not move your piece there.",
+            "NOT_KNIGHT_MOVE": "The move from {{from}} to {{to}} is not a knight's move.",
+            "MOVE_ONE_PIECE": "You can only move a piece once per turn."
         },
         "realm": {
             "ALIGNED_BASE": "You may not place a base that shares a row or column with another friendly base unless (a) you have no other options or (b) you are playing with the 'Relaxed Placement' variant.",

@@ -52,6 +52,7 @@ import { ClearcutGame, IClearcutState } from "./clearcut";
 import { AgereGame, IAgereState } from "./agere";
 import { BideGame, IBideState } from "./bide";
 import { MiradorGame, IMiradorState } from "./mirador";
+import { RazzleGame, IRazzleState } from "./razzle";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -105,7 +106,8 @@ export {
     ClearcutGame, IClearcutState,
     AgereGame, IAgereState,
     BideGame, IBideState,
-    MiradorGame, IMiradorState
+    MiradorGame, IMiradorState,
+    RazzleGame, IRazzleState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -124,10 +126,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CrosswayGame | typeof TintasGame | typeof StreetcarGame |
                               typeof CourtesanGame | typeof PhutballGame | typeof ArmadasGame |
                               typeof FlumeGame | typeof BoomGame | typeof ClearcutGame |
-                              typeof AgereGame | typeof BideGame | typeof MiradorGame
+                              typeof AgereGame | typeof BideGame | typeof MiradorGame | typeof RazzleGame
                 >();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame, AgereGame, BideGame, MiradorGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame, AgereGame, BideGame, MiradorGame, RazzleGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -240,6 +242,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BideGame(args[0]);
         case "mirador":
             return new MiradorGame(...args);
+        case "razzle":
+            return new RazzleGame(...args);
     }
     return;
 }

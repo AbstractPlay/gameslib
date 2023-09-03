@@ -10,7 +10,7 @@ Currently all Abstract Play games must be coded in TypeScript and included in th
 
 The [main website](https://www.abstractplay.com) houses the development blog and wiki.
 
-## Deploy
+## Build
 
 This is a basic NPM module; it's just private. It's not meant to be generally useful to anyone outside of myself. It is designed specifically for Abstract Play. If someone does use this elsewhere, let me know :)
 
@@ -31,3 +31,15 @@ json2ts adds
 to the header. We need to replace this with 
   /* eslint-disable @typescript-eslint/naming-convention */
 to keep eslint happy.
+
+## Develop
+
+## Develop
+
+To test any new code (before you deploy to the dev server) you can use the playground:
+From the gameslib\playground folder:
+- `npm run dist-dev`
+- `cp ..\dist\APGames.js .`
+- Also run `npm run dist-dev` in the renderer folder.
+- `cp ..\..\renderer\dist\APRender.js .`
+Now simply double click 'index.html'.

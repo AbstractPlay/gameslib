@@ -30,7 +30,7 @@ export interface IAgereState extends IAPGameState {
 
 export class AgereGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Agere",
+        name: "Adere",
         uid: "agere",
         playercounts: [2],
         version: "20230727",

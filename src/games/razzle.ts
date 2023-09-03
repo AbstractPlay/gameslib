@@ -223,7 +223,7 @@ export class RazzleGame extends GameBase {
                 );
                 if (this.board.get(lastDestination)![1][1] !== "B") {
                     const adjacencies = grid
-                        .adjacencies(...RazzleGame.algebraic2coords(lastDestination), false)
+                        .adjacencies(...RazzleGame.algebraic2coords(lastDestination))
                         .map((pt) => RazzleGame.coords2algebraic(...pt));
                     if (adjacencies.includes(ball)) {
                         canMove = false;
@@ -346,6 +346,14 @@ export class RazzleGame extends GameBase {
                 for (let i = 1; i < cells.length; i++) {
                     const from = coords[i - 1];
                     const to = coords[i];
+                    if ((! RectGrid.isOrth(...from, ...to)) && (! RectGrid.isDiag(...from, ...to))) {
+                        result.valid = false;
+                        result.message = i18next.t(
+                            "apgames:validation.razzle.BAD_DIRECTION",
+                            { from: cells[i - 1], to: cells[i] }
+                        );
+                        return result;
+                    }
                     // Eligible receiver
                     if (this.board.has(cells[i])) {
                         if (this.board.get(cells[i])![0] !== this.currplayer) {
@@ -387,6 +395,13 @@ export class RazzleGame extends GameBase {
                             );
                             return result;
                         }
+                    } else {
+                        result.valid = false;
+                        result.message = i18next.t(
+                            "apgames:validation.razzle.NO_RECEIVER",
+                            { cell: cells[i] }
+                        );
+                        return result;
                     }
                 }
                 // apply move
@@ -473,10 +488,7 @@ export class RazzleGame extends GameBase {
                     );
                     if (this.board.get(lastDestination)![1][1] !== "B") {
                         const adjacencies = grid
-                            .adjacencies(
-                                ...RazzleGame.algebraic2coords(lastDestination),
-                                false
-                            )
+                            .adjacencies(...RazzleGame.algebraic2coords(lastDestination))
                             .map((pt) => RazzleGame.coords2algebraic(...pt));
                         if (adjacencies.includes(ball)) {
                             approached = true;

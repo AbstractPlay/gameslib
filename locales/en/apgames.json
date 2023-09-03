@@ -588,6 +588,7 @@
         "razzle": {
             "INITIAL_INSTRUCTIONS": "Make a chess knight's move with one of your pieces, or move your ball to one of your open pieces.",
             "OWN_RECEIVER": "You can only move the ball to one of your own pieces.",
+            "NO_RECEIVER": "There is no one at {{cell}} to receive the ball.",
             "INELIGBLE_RECEIVER": "This piece is inelgible to receive the ball.",
             "REPEAT_RECEIVER": "You can't move the ball to the same piece twice in a row.",
             "OBSTRUCTED": "Moving the ball from {{from}} to {{to}} isn't valid as there is an obstruction at {{obstruction}}.",
@@ -596,9 +597,10 @@
             "PARTIAL_BALL_MOVE": "You can complete your ball move here, or keep moving it",
             "MUST_MOVE_BALL": "You must move the ball.",
             "PARTIAL_PIECE_MOVE": "Provide the destination.",
-            "NOT_EMPTY": "{{cell} is not empty, you can not move your piece there.",
+            "NOT_EMPTY": "{{cell}} is not empty, you can not move your piece there.",
             "NOT_KNIGHT_MOVE": "The move from {{from}} to {{to}} is not a knight's move.",
-            "MOVE_ONE_PIECE": "You can only move a piece once per turn."
+            "MOVE_ONE_PIECE": "You can only move a piece once per turn.",
+            "BAD_DIRECTION": "You can only move the ball orthogonally or diagonally. The move from {{from}} to {{to}} is invalid."
         },
         "realm": {
             "ALIGNED_BASE": "You may not place a base that shares a row or column with another friendly base unless (a) you have no other options or (b) you are playing with the 'Relaxed Placement' variant.",

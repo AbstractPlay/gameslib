@@ -48,7 +48,7 @@ export class RazzleGame extends GameBase {
                 urls: ["http://www.donaldgreen.com/"],
             },
         ],
-        flags: ["perspective", "experimental"],
+        flags: ["perspective", "automove", "experimental"],
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -459,8 +459,17 @@ export class RazzleGame extends GameBase {
                     }
                 } else {
                     if (more) {
+                        if (cells.length === 1) {
+                            result.valid = true;
+                            result.complete = -1;
+                            result.message = i18next.t(
+                                "apgames:validation.razzle.START_BALL_MOVE"
+                            );
+                            return result;
+                        }
                         result.valid = true;
                         result.complete = 0;
+                        result.canrender = true;
                         result.message = i18next.t(
                             "apgames:validation.razzle.PARTIAL_BALL_MOVE"
                         );

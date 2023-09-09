@@ -34,8 +34,6 @@ to keep eslint happy.
 
 ## Develop
 
-## Develop
-
 To test any new code (before you deploy to the dev server) you can use the playground:
 From the gameslib\playground folder:
 - `npm run dist-dev`

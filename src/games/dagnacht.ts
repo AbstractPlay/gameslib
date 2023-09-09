@@ -140,6 +140,15 @@ export class DagEnNachtGame extends GameBase {
         if (idx < 0 || idx >= this.stack.length) {
             throw new Error("Could not load the requested state from the stack.");
         }
+        if (this.variants.includes("11x11")) {
+            this.boardSize = 11;
+        } else if (this.variants.includes("13x13")) {
+            this.boardSize = 13;
+        } else if (this.variants.includes("17x17")) {
+            this.boardSize = 17;
+        } else if (this.variants.includes("19x19")) {
+            this.boardSize = 19;
+        }
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;

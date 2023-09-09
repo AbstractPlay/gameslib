@@ -804,6 +804,20 @@
                 "name": "Board: Snub Square"
             }
         },
+        "dagnacht": {
+            "11x11": {
+                "name": "11x11 board"
+            },
+            "13x13": {
+                "name": "13x13 board"
+            },
+            "17x17": {
+                "name": "17x17 board"
+            },
+            "19x19": {
+                "name": "19x19 board"
+            }
+        },
         "dipole": {
             "international": {
                 "name": "Larger board: 10x10"

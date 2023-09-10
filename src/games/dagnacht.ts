@@ -401,24 +401,27 @@ export class DagEnNachtGame extends GameBase {
         const grid = new RectGrid(this.boardSize, this.boardSize);
         for (const winDir of winningDirs) {
             let cnt = 0;
+            let cntLight = 0;
             for (let i = 0; i < 2; i++) {
                 const ray = grid.ray(...this.algebraic2coords(cell), winDir[i] as Directions);
                 for (const c of ray) {
                     if (this.board.get(this.coords2algebraic(...c)) === prevPlayer) {
                         cnt++;
+                        if ((c[0] % 2) === (c[1] % 2)) {
+                            cntLight++;
+                        }
                     } else {
                         break;
                     }
                 }
             }
-            if (cnt + 1 >= winDir[2]) {
-                let ok = true;
-                if (winDir[2] === 4) {
-                    // must be light diagonal
+            if (cnt + 1 >= winDir[2] && cntLight > 0) {
+                if (prevPlayer === 1) {
                     const [x, y] = this.algebraic2coords(cell);
-                    ok = (x % 2) === (y % 2);
+                    if ((x % 2) === (y % 2))
+                        cntLight++;
                 }
-                if (ok) {
+                if (prevPlayer === 2 || cntLight > 2) {
                     this.gameover = true;
                     this.winner = [prevPlayer];
                     break;

@@ -19,7 +19,7 @@
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
-        "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
+        "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
         "epam": "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",

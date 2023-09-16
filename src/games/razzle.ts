@@ -48,7 +48,7 @@ export class RazzleGame extends GameBase {
                 urls: ["http://www.donaldgreen.com/"],
             },
         ],
-        flags: ["perspective", "automove", "experimental"],
+        flags: ["perspective", "automove"],
     };
 
     public static coords2algebraic(x: number, y: number): string {

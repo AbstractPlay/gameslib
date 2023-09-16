@@ -60,7 +60,7 @@ export class DagEnNachtGame extends GameBase {
                 group: "board",
             },
         ],
-        flags: ["experimental"],
+        flags: [],
     };
 
     public coords2algebraic(x: number, y: number): string {

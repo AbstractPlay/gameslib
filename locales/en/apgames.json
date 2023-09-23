@@ -848,14 +848,14 @@
             }
         },
         "hexy": {
-            "8": {
-                "name": "8-15 board"
+            "08": {
+                "name": "8-15 board (169 total cells)"
             },
-            "9": {
-                "name": "9-17 board"
+            "09": {
+                "name": "9-17 board (217 total cells)"
             },
             "11": {
-                "name": "11-21 board"
+                "name": "11-21 board (331 total cells)"
             }
         },
         "loa": {

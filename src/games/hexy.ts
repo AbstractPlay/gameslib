@@ -41,11 +41,11 @@ export class HexYGame extends GameBase {
         flags: ["experimental", "automove", "pie"],
         variants: [
             {
-                uid: "8",
+                uid: "08",
                 group: "board"
             },
             {
-                uid: "9",
+                uid: "09",
                 group: "board"
             },
             {

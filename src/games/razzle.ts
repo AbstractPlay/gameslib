@@ -573,11 +573,12 @@ export class RazzleGame extends GameBase {
                 }
                 // apply move
                 this.board.set(cells[1], [this.currplayer, color]);
+                const content = this.board.get(cells[0])!;
                 this.board.delete(cells[0]);
                 const enc = this.encodePosition();
                 const repeat = this.previousPositions.findIndex(p => p[0] === enc[0] && p[1] === enc[1]) !== -1;
                 this.board.delete(cells[1]);
-                this.board.set(cells[0], [this.currplayer, color]);
+                this.board.set(cells[0], content);
                 if (repeat) {
                     result.valid = false;
                     result.message = i18next.t(

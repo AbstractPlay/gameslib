@@ -70,7 +70,7 @@ export class ArmadasGame extends GameBase {
                 name: "Dan Isaac"
             }
         ],
-        flags: ["experimental", "multistep", "no-moves"],
+        flags: ["multistep", "no-moves"],
         variants: [
             {
                 uid: "freeform",

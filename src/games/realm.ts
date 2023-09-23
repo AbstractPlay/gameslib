@@ -1016,7 +1016,7 @@ export class RealmGame extends GameBase {
                                 }
                                 const cell = specials.substring(1, specials.length - 1);
                                 // must be empty
-                                if (cloned.board.has(cell)) {
+                                if ( (cloned.board.has(cell)) || (cell === to) ) {
                                     result.valid = false;
                                     result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
                                     return result;

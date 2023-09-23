@@ -8,6 +8,7 @@ export class HexTriGraph implements IGraph {
     public readonly minwidth: number;
     public readonly maxwidth: number;
     public readonly height: number;
+    public readonly perimeter: number;
     public graph: UndirectedGraph
 
     constructor(minwidth: number, maxwidth: number) {
@@ -15,6 +16,7 @@ export class HexTriGraph implements IGraph {
             throw new Error("The minimum width must be strictly less than the maximum width.");
         }
         this.minwidth = minwidth;
+        this.perimeter = (minwidth * 6) - 6;
         this.maxwidth = maxwidth;
         this.height = ((maxwidth - minwidth) * 2) + 1;
         this.graph = this.buildGraph();
@@ -70,7 +72,7 @@ export class HexTriGraph implements IGraph {
                     graph.addEdge(curr, this.coords2algebraic(col - 1, row));
                 }
 
-                // connections are build upward, so only continue with rows after the first
+                // connections are built upward, so only continue with rows after the first
                 if (row > 0) {
                     // always connect to the cell directly above, if one exists
                     if (col < prevWidth) {
@@ -115,6 +117,16 @@ export class HexTriGraph implements IGraph {
 
     public path(from: string, to: string): string[] | null {
         return bidirectional(this.graph, from, to);
+    }
+
+    public edgePath(from: string, to: string): string[] | null {
+        const graph = this.buildGraph();
+        for (const node of graph.nodes()) {
+            if (this.distFromEdge(node) !== 0) {
+                graph.dropNode(node);
+            }
+        }
+        return bidirectional(graph, from, to);
     }
 
     public move(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", dist = 1): [number, number] | undefined {
@@ -192,5 +204,15 @@ export class HexTriGraph implements IGraph {
             if (min === 0) { break; }
         }
         return min;
+    }
+
+    public rot180(cell: string): string {
+        const [x, y] = this.algebraic2coords(cell);
+        const row = this.height - 1 - y;
+        const midrow = Math.floor(this.height / 2);
+        const delta = this.maxwidth - this.minwidth;
+        const rowWidth = this.minwidth + (midrow - Math.abs(delta - row));
+        const col = rowWidth - 1 - x;
+        return this.coords2algebraic(col, row);
     }
 }

@@ -29,6 +29,7 @@
         "flume": "Place stones to make connections. Connecting to three or four other pieces allows you to place another stone. When the board is full, the player with the most stones on the board wins.",
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
+        "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
@@ -460,6 +461,9 @@
             "SELECT_COLOUR": "Select the seed you wish to plant.",
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
         },
+        "hexy": {
+            "INITIAL_INSTRUCTIONS": "Select an empty cell. If you select a perimeter cell, the mirror piece will be placed automatically."
+        },
         "homeworlds": {
             "attack": {
                 "PARTIAL_NOARGS": "Select a ship to attack.",
@@ -841,6 +845,17 @@
             },
             "7x7": {
                 "name": "Smaller board: 7x7"
+            }
+        },
+        "hexy": {
+            "08": {
+                "name": "8-15 board (169 total cells)"
+            },
+            "09": {
+                "name": "9-17 board (217 total cells)"
+            },
+            "11": {
+                "name": "11-21 board (331 total cells)"
             }
         },
         "loa": {

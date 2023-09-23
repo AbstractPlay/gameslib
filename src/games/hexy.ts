@@ -38,7 +38,7 @@ export class HexYGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
-        flags: ["experimental", "automove", "pie"],
+        flags: ["automove", "pie"],
         variants: [
             {
                 uid: "08",
@@ -109,10 +109,10 @@ export class HexYGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.boardsize = 7;
-        if ( (this.variants !== undefined) && (this.variants.length > 0) ) {
+        if ( (this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
             this.boardsize = parseInt(this.variants[0], 10);
             if (isNaN(this.boardsize)) {
-                throw new Error("Could not determine the board size.");
+                throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
         this.buildGraph();

@@ -41,7 +41,7 @@ export class BideGame extends GameBase {
                 name: "Alek Erickson",
             }
         ],
-        flags: ["experimental", "scores", "no-moves", "multistep"]
+        flags: ["scores", "no-moves", "multistep"]
     };
     public numplayers = 2;
     public currplayer: playerid = 1;

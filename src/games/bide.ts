@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
@@ -514,7 +515,7 @@ export class BideGame extends GameBase {
         let realScores = [...scores];
         let maxScore = Math.max(...scores);
         let maxScorers = scores.filter(s => s === maxScore);
-        while (maxScorers.length > 1) {
+        while ( (maxScorers.length > 1) && (maxScore > 0) ) {
             ignore += 1;
             realScores = [];
             for (let i = 1; i <= this.numplayers; i++) {

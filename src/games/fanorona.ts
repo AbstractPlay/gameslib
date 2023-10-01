@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
@@ -327,6 +328,7 @@ export class FanoronaGame extends GameBase {
                 const to = move.substring(0, 2);
                 const dir = RectGrid.bearing(...FanoronaGame.algebraic2coords(from), ...FanoronaGame.algebraic2coords(to))!;
                 dirs.push(dir);
+                console.log(`From: ${from}, To: ${to}, Dirs: ${JSON.stringify(dirs)}`);
                 // can't be the same
                 if (from === to) {
                     result.valid = false;
@@ -358,7 +360,7 @@ export class FanoronaGame extends GameBase {
                     return result;
                 }
                 // can't move in the same direction twice
-                if ( (dirs.length > 2) && (dirs[dirs.length - 1] === dirs[dirs.length - 2]) ) {
+                if ( (dirs.length >= 2) && (dirs[dirs.length - 1] === dirs[dirs.length - 2]) ) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.fanorona.SAME_DIR");
                     return result;

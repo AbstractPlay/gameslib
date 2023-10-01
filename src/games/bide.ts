@@ -516,8 +516,6 @@ export class BideGame extends GameBase {
         let maxScore = Math.max(...scores);
         let maxScorers = scores.filter(s => s === maxScore);
         while ( (maxScorers.length > 1) && (maxScore > 0) ) {
-            console.log(`Max score: ${maxScore}`);
-            console.log(`Max scorers: ${JSON.stringify(maxScorers)}`);
             ignore += 1;
             realScores = [];
             for (let i = 1; i <= this.numplayers; i++) {

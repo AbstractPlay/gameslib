@@ -28,6 +28,8 @@ export class MurusGame extends GameBase {
         version: "20231024",
         // i18next.t("apgames:descriptions.murus")
         description: "apgames:descriptions.murus",
+        // i18next.t("apgames:notes.murus")
+        notes: "apgames:notes.murus",
         urls: ["https://sites.google.com/site/theowlsnest02/home/murus-gallicus"],
         people: [
             {

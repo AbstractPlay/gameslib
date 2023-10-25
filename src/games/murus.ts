@@ -5,8 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions, allDirections } from "../common";
 import { Permutation } from "js-combinatorics";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type cellcontents = [playerid, number];

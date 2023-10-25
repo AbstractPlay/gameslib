@@ -5,6 +5,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Directions, allDirections } from "../common";
 import { Permutation } from "js-combinatorics";
 import i18next from "i18next";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type cellcontents = [playerid, number];
@@ -47,7 +49,7 @@ export class MurusGame extends GameBase {
                 uid: "basic"
             }
         ],
-        flags: ["experimental", "pie", "perspective", "multistep", "check"]
+        flags: ["experimental", "pie", "perspective", "multistep"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -899,31 +901,6 @@ export class MurusGame extends GameBase {
                 break;
         }
         return resolved;
-    }
-
-    public inCheck(): number[] {
-        const checked: number[] = [];
-        for (const p of [1,2] as playerid[]) {
-            let otherPlayer: playerid = 1;
-            if (p === 1) {
-                otherPlayer = 2;
-            }
-            const moves = this.moves(otherPlayer);
-            for (const m of moves) {
-                const cloned = this.clone();
-                cloned.currplayer = otherPlayer;
-                cloned.move(m);
-                if (cloned.gameover) {
-                    let checkee = 1;
-                    if (cloned.winner[0] === 1) {
-                        checkee = 2;
-                    }
-                    checked.push(checkee);
-                    break;
-                }
-            }
-        }
-        return checked;
     }
 
     public clone(): MurusGame {

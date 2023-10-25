@@ -20,6 +20,7 @@
         "monkey_single": "A singleton was captured.",
         "multiple_one": "A piece was captured.",
         "multiple_other": "{{count}} pieces were captured.",
+        "murus_double": "{{player}} captured two pieces at {{where}}.",
         "noperson": {
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhere": "A {{what}} was captured.",
@@ -78,6 +79,7 @@
     "EOG": "The game has ended.",
     "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
     "FIRE": {
+        "murus": "{{player}} fired a catapult from {{from}} to {{to}}.",
         "pigs_F": "{{player}} fired their laser at {{direction}}.",
         "pigs_H": "{{player}} swung their mighty snout!"
     },

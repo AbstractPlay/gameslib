@@ -36,6 +36,7 @@
         "mchess": "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
         "mirador": "Mirador is a fast and exhilerating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
+        "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
@@ -541,6 +542,25 @@
             "PARTIAL": "Select a destination.",
             "QUEEN_DEPLETED": "Your queen can no longer make noncapturing moves."
         },
+        "murus": {
+            "BAD_CAP": "Adjacent pieces may only be captured by towers, and only walls and catapults can be captured in this way.",
+            "BAD_CATA_DIR": "Catapults may only fire laterally or towards the opposing home row.",
+            "BAD_CATA_DIST": "Catapults must fire into a space exactly two or three spaces away.",
+            "BAD_CATA_MOVE": "Catapults must fire into an empty space or an enemy-controlled space.",
+            "BAD_DBL_CAP": "Only towers may double capture, and they may only double capture adjacent catapults.",
+            "BAD_TOWER_CAP": "Towers may only capture adjacent pieces.",
+            "DIFF_REDIST": "You must redistribute the tower to two different cells.",
+            "INELIGIBLE": "For a tower to move, each space must either be empty or be occupied by a friendly stack that can receive another piece.",
+            "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",
+            "INITIAL_INSTRUCTIONS_redist": "Select one of your own towers to redistribute.",
+            "NOROOM": "Movement requires at least two eligible spaces in a row.",
+            "PARTIAL": "Select the space to move to or capture.",
+            "PARTIAL_REDIST": "Select an empty space on your second row.",
+            "REDIST_ROW": "You may only redistribute onto your second row.",
+            "STRAIGHTLINE": "Pieces may only move in straight lines.",
+            "TOOFAR": "Towers may only move two spaces.",
+            "WALLS_IMMOBILE": "Walls may not move or capture."
+        },
         "mvolcano": {
             "INITIAL_INSTRUCTIONS": "Select a cap to move."
         },
@@ -881,6 +901,20 @@
             "five": {
                 "description": "The winner is the first to score three points.",
                 "name": "Best of Five"
+            }
+        },
+        "murus": {
+            "basic": {
+                "description": "Only walls and towers can be built (maximum stack size is 2).",
+                "name": "Basic MG"
+            },
+            "escape": {
+                "description": "The winning condition is to stalemate your opponent. Breaking through is not sufficient.",
+                "name": "Escape"
+            },
+            "static": {
+                "description": "No initial redistribution of a starting tower.",
+                "name": "Static Start"
             }
         },
         "orb": {

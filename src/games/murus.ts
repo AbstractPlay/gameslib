@@ -47,7 +47,7 @@ export class MurusGame extends GameBase {
                 uid: "basic"
             }
         ],
-        flags: ["experimental", "pie", "perspective", "multistep"]
+        flags: ["pie", "perspective", "multistep"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

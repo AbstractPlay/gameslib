@@ -40,7 +40,7 @@ export class BounceGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
-        flags: ["experimental", "automove", "pie"],
+        flags: ["automove", "pie"],
         variants: [
             {
                 uid: "10",

@@ -531,7 +531,7 @@ export class AlfredsWykeGame extends GameBase {
                 height: this.boardSize,
                 tileHeight: 1,
                 tileWidth: 1,
-                tileSpacing: 0.5
+                tileSpacing: 0.01
             },
             legend: {
                 B: {

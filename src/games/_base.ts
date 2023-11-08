@@ -354,7 +354,7 @@ export abstract class GameBase  {
             for (const v of this.variants) {
                 for (const rec of possibleVariants) {
                     if (v === rec.uid) {
-                        vars.push(rec.name ?? '');
+                        vars.push(rec.name ?? v);
                         break;
                     }
                 }

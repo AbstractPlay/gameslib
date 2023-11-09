@@ -208,11 +208,7 @@ export class DipoleGame extends GameBase {
                     newmove = `${from}-${cell}`;
                 } else {
                     if (this.board.get(cell)![0] !== this.currplayer) {
-                        const myStack = this.board.get(from)![1];
-                        const theirStack = this.board.get(cell)![1];
-                        if (myStack >= theirStack) {
-                            newmove = `${from}x${cell}`;
-                        }
+                        newmove = `${from}x${cell}`;
                     } else {
                         newmove = `${from}+${cell}`;
                     }
@@ -327,6 +323,20 @@ export class DipoleGame extends GameBase {
             if (from === to) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                return result;
+            }
+            // Not too far
+            const dist = RectGrid.distance(...DipoleGame.algebraic2coords(from, this.boardsize), ...DipoleGame.algebraic2coords(to, this.boardsize));
+            const myStackHeight = this.board.get(from)![1];
+            if (dist > myStackHeight) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.dipole.TOOFAR");
+                return result;
+            }
+            // Only play on dark squares
+            if (xTo % 2 === yTo % 2) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.dipole.NOTDARKSQUARE");
                 return result;
             }
             // line of sight

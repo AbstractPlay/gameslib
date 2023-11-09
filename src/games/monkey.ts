@@ -258,6 +258,23 @@ export class MonkeyQueenGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.NOLOS", {from, to});
                 return result;
             }
+            // obstruction
+            let obstruction: string|undefined;
+            for (const cell of ray) {
+                if (cell === to) {
+                    break;
+                }
+                if (this.board.has(cell)) {
+                    obstruction = cell;
+                    break;
+                }
+            }
+            if (obstruction !== undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction});
+                return result;
+            }
+
             // correct operator
             if (m.includes("-")) {
                 // is the space empty

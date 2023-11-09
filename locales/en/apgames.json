@@ -805,6 +805,14 @@
             "cobweb-small": {
                 "name": "Cobweb (3 rings)",
                 "description": "A smaller Cobweb board where the centre becomes more important."
+            },
+            "standard-11": {
+                "name": "Triangle (11 wide)",
+                "description": "A larger version of the standard board."
+            },
+            "standard-14": {
+                "name": "Triangle (14 wide)",
+                "description": "A larger version of the standard board."
             }
         },
         "armadas": {

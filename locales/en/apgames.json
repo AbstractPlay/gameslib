@@ -388,7 +388,9 @@
             "MOVE4MERGE": "You signalled a move, but the destination already contains some of your own pieces.",
             "PARTIAL": "Select a destination.",
             "STACK_SIZE": "You may only capture stacks of equal or smaller size.",
-            "TOOFAR_edge": "The stack at {{from}} can't reach the edge from there."
+            "TOOFAR_edge": "The stack at {{from}} can't reach the edge from there.",
+            "TOOFAR": "You can only move as far as your stack is high.",
+            "NOTDARKSQUARE": "You can only play on the dark squares."
         },
         "entropy": {
             "INITIAL_INSTRUCTIONS_chaos": "Select an empty cell on your opponent's board to place the next piece.",
@@ -803,6 +805,14 @@
             "cobweb-small": {
                 "name": "Cobweb (3 rings)",
                 "description": "A smaller Cobweb board where the centre becomes more important."
+            },
+            "standard-11": {
+                "name": "Triangle (11 wide)",
+                "description": "A larger version of the standard board."
+            },
+            "standard-14": {
+                "name": "Triangle (14 wide)",
+                "description": "A larger version of the standard board."
             }
         },
         "armadas": {

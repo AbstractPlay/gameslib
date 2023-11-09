@@ -47,6 +47,8 @@ export class AgereGame extends GameBase {
         variants: [
             {uid: "cobweb", group: "board"},
             {uid: "cobweb-small", group: "board"},
+            {uid: "standard-11", group: "board"},
+            {uid: "standard-14", group: "board"},
         ],
         flags: ["pie", "check"]
     };
@@ -57,6 +59,20 @@ export class AgereGame extends GameBase {
         ["a1", "b1", "c2", "d2", "e3", "f3", "g4", "h4"],
         ["h4", "g5", "f5", "e6", "d6", "c7", "b7", "a8"],
     ];
+    public static edgesDefault11: string[][] = [
+        ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11"],
+        ["a1", "b2", "c2", "d3", "e3", "f4", "g4", "h5", "i5", "j6", "k6"],
+        ["k6", "j7", "i7", "h8", "g8", "f9", "e9", "d10", "c10", "b11", "a11"],
+    ];
+    public static edgesDefault14: string[][] = [
+        ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14"],
+        ["a1", "b1", "c2", "d2", "e3", "f3", "g4", "h4", "i5", "j5", "k6", "l6", "m7", "n7"],
+        ["n7", "m8", "l8", "k9", "j9", "i10", "h10", "g11", "f11", "e12", "d12", "c13", "b13", "a14"],
+    ];
+
+    public static blocked8: string[] = ["c1", "d1", "e1", "e2", "f1", "f2", "g1", "g2", "g3", "h1", "h2", "h3", "h5", "h6", "h7", "h8", "g6", "g7", "g8", "f6", "f7", "f8", "e7", "e8", "d7", "d8", "c8", "b8"];
+    public static blocked11 = ["b1","c1","c11","d1","d11","d2","e1","e10","e11","e2","f1","f10","f11","f2","f3","g1","g10","g11","g2","g3","g9","h1","h10","h11","h2","h3","h4","h9","i1","i10","i11","i2","i3","i4","i8","i9","j1","j10","j11","j2","j3","j4","j5","j8","j9","k1","k10","k11","k2","k3","k4","k5","k7","k8","k9"];
+    public static blocked14 = ["b14","c1","c14","d1","d13","d14","e1","e13","e14","e2","f1","f12","f13","f14","f2","g1","g12","g13","g14","g2","g3","h1","h11","h12","h13","h14","h2","h3","i1","i11","i12","i13","i14","i2","i3","i4","j1","j10","j11","j12","j13","j14","j2","j3","j4","k1","k10","k11","k12","k13","k14","k2","k3","k4","k5","l1","l10","l11","l12","l13","l14","l2","l3","l4","l5","l9","m1","m10","m11","m12","m13","m14","m2","m3","m4","m5","m6","m9","n1","n10","n11","n12","n13","n14","n2","n3","n4","n5","n6","n8","n9"];
 
     public static edgesCobweb = new Map<playerid, [[string[],string[]],[string[],string[]]]>([
         [1, [[["a4", "h4"], ["d4", "e4"]],[["b4", "c4"], ["f4", "g4"]]]],
@@ -68,14 +84,21 @@ export class AgereGame extends GameBase {
         [2, [[["a3", "b3"], ["e3", "f3"]],[["c3", "d3"], ["g3", "h3"]]]],
     ]);
 
-    public static buildGraph(style: "hex"|"cobweb"|"cobwebSmall"): UndirectedGraph {
+    public static buildGraph(style: "hex8"|"hex11"|"hex14"|"cobweb"|"cobwebSmall"): UndirectedGraph {
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-        if (style === "hex") {
+        if (style.startsWith("hex")) {
+            let width = 8;
+            if (style === "hex11") {
+                width = 11;
+            } else if (style === "hex14") {
+                width = 14;
+            }
+
             const myHex = defineHex({
                 offset: 1,
                 orientation: Orientation.POINTY
             });
-            const hexGrid = new Grid(myHex, rectangle({width: 8, height: 8}));
+            const hexGrid = new Grid(myHex, rectangle({width, height: width}));
             const allHexDirs = [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW];
 
             const getNeighbours = (hex: Hex): Hex[] => {
@@ -90,15 +113,20 @@ export class AgereGame extends GameBase {
             }
 
             const coords2algebraic = (x: number, y: number): string => {
-                return columnLabels[8 - y - 1] + (x + 1).toString();
+                return columnLabels[width - y - 1] + (x + 1).toString();
             }
 
-            const blockedCells: string[] = ["c1", "d1", "e1", "e2", "f1", "f2", "g1", "g2", "g3", "h1", "h2", "h3", "h5", "h6", "h7", "h8", "g6", "g7", "g8", "f6", "f7", "f8", "e7", "e8", "d7", "d8", "c8", "b8"];
+            let blocked = [...AgereGame.blocked8];
+            if (style === "hex11") {
+                blocked = [...AgereGame.blocked11];
+            } else if (style === "hex14") {
+                blocked = [...AgereGame.blocked14];
+            }
 
             const graph = new UndirectedGraph();
             for (const hex of hexGrid) {
                 const label  = coords2algebraic(hex.col, hex.row);
-                if (blockedCells.includes(label)) {
+                if (blocked.includes(label)) {
                     continue;
                 }
                 if (! graph.hasNode(label)) {
@@ -106,7 +134,7 @@ export class AgereGame extends GameBase {
                 }
                 for (const n of getNeighbours(hex)) {
                     const nLabel = coords2algebraic(n.col, n.row);
-                    if (blockedCells.includes(nLabel)) {
+                    if (blocked.includes(nLabel)) {
                         continue;
                     }
                     if (! graph.hasNode(nLabel)) {
@@ -215,7 +243,7 @@ export class AgereGame extends GameBase {
             this.winner = [...state.winner];
             this.stack = [...state.stack];
         } else {
-            if ( (variants !== undefined) && (variants.length === 1) && ( (variants.includes("cobweb")) || (variants.includes("cobweb-small")) ) ) {
+            if ( (variants !== undefined) && (variants.length > 0) ) {
                 this.variants = [...variants];
             }
             const board = new Map<string,playerid[]>();
@@ -263,7 +291,13 @@ export class AgereGame extends GameBase {
             }
             return GameBase.coords2algebraic(x, y, 3);
         } else {
-            return columnLabels[8 - y - 1] + (x + 1).toString();
+            let width = 8;
+            if (this.variants.includes("standard-11")) {
+                width = 11;
+            } else if (this.variants.includes("standard-14")) {
+                width = 14;
+            }
+            return columnLabels[width - y - 1] + (x + 1).toString();
         }
     }
 
@@ -280,6 +314,12 @@ export class AgereGame extends GameBase {
             }
             return GameBase.algebraic2coords(cell, 3);
         } else {
+            let width = 8;
+            if (this.variants.includes("standard-11")) {
+                width = 11;
+            } else if (this.variants.includes("standard-14")) {
+                width = 14;
+            }
             const pair: string[] = cell.split("");
             const num = (pair.slice(1)).join("");
             const y = columnLabels.indexOf(pair[0]);
@@ -290,7 +330,7 @@ export class AgereGame extends GameBase {
             if ( (x === undefined) || (isNaN(x)) ) {
                 throw new Error(`The row label is invalid: ${pair[1]}`);
             }
-            return [x - 1, 8 - y - 1];
+            return [x - 1, width - y - 1];
         }
     }
 
@@ -299,8 +339,12 @@ export class AgereGame extends GameBase {
             return AgereGame.buildGraph("cobweb");
         } else if (this.variants.includes("cobweb-small")) {
             return AgereGame.buildGraph("cobwebSmall");
+        } else if (this.variants.includes("standard-11")) {
+            return AgereGame.buildGraph("hex11");
+        } else if (this.variants.includes("standard-14")) {
+            return AgereGame.buildGraph("hex14");
         } else {
-            return AgereGame.buildGraph("hex");
+            return AgereGame.buildGraph("hex8");
         }
     }
 
@@ -589,6 +633,12 @@ export class AgereGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
+        let edges = [...AgereGame.edgesDefault];
+        if (this.variants.includes("standard-11")) {
+            edges = [...AgereGame.edgesDefault11];
+        } else if (this.variants.includes("standard-14")) {
+            edges = [...AgereGame.edgesDefault14];
+        }
         // start with the full board graph
         const graph = this.getGraph();
         // drop any nodes not occupied by currplayer
@@ -605,7 +655,7 @@ export class AgereGame extends GameBase {
 
         for (const g of connectedComponents(graph)) {
             let connected = true;
-            for (const edge of AgereGame.edgesDefault) {
+            for (const edge of edges) {
                 if (! intersects(g, edge)) {
                     connected = false;
                     break;
@@ -676,11 +726,29 @@ export class AgereGame extends GameBase {
 
     protected renderHexTri(): APRenderRep {
         const graph = this.getGraph();
+        let width = 8;
+        let blockedCells = [...AgereGame.blocked8];
+        let markerPts: [{row: number; col: number}, ...{row: number; col: number}[]]|undefined;
+        if (this.variants.includes("standard-11")) {
+            width = 11;
+            blockedCells = [...AgereGame.blocked11];
+            markerPts = [{row: 4, col: 5}, {row: 8, col: 3}, {row: 8, col: 7}];
+        } else if (this.variants.includes("standard-14")) {
+            width = 14;
+            blockedCells = [...AgereGame.blocked14];
+            markerPts = [{row: 6, col: 6}, {row: 10, col: 4}, {row: 10, col: 8}];
+        }
+        const blocked: {row: number; col: number}[] = [];
+        for (const cell of blockedCells) {
+            const [x,y] = this.algebraic2coords(cell);
+            blocked.push({row: y, col: x});
+        }
+
         // Build piece string
         const pieces: string[][] = [];
-        for (let row = 0; row < 8; row++) {
+        for (let row = 0; row < width; row++) {
             const node: string[] = [];
-            for (let col = 0; col < 8; col++) {
+            for (let col = 0; col < width; col++) {
                 const cell = this.coords2algebraic(col, row);
                 if ( (! graph.hasNode(cell)) || (! this.board.has(cell)) ) {
                     node.push("-");
@@ -698,37 +766,14 @@ export class AgereGame extends GameBase {
             renderer: "stacking-offset",
             board: {
                 style: "hex-even-p",
-                width: 8,
-                height: 8,
-                blocked: [
-                    {row: 0, col: 0},
-                    {row: 0, col: 1},
-                    {row: 0, col: 2},
-                    {row: 0, col: 4},
-                    {row: 0, col: 5},
-                    {row: 0, col: 6},
-                    {row: 0, col: 7},
-                    {row: 1, col: 0},
-                    {row: 1, col: 1},
-                    {row: 1, col: 2},
-                    {row: 1, col: 5},
-                    {row: 1, col: 6},
-                    {row: 1, col: 7},
-                    {row: 2, col: 0},
-                    {row: 2, col: 1},
-                    {row: 2, col: 5},
-                    {row: 2, col: 6},
-                    {row: 2, col: 7},
-                    {row: 3, col: 0},
-                    {row: 3, col: 1},
-                    {row: 3, col: 6},
-                    {row: 3, col: 7},
-                    {row: 4, col: 0},
-                    {row: 4, col: 6},
-                    {row: 4, col: 7},
-                    {row: 5, col: 0},
-                    {row: 5, col: 7},
-                    {row: 6, col: 7}
+                width,
+                height: width,
+                blocked: blocked as [{row: number; col: number}, ...{row: number; col: number}[]],
+                markers: markerPts === undefined ? undefined : [
+                    {
+                        type: "dots",
+                        points: markerPts,
+                    }
                 ],
             },
             legend: {

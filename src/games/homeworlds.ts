@@ -1162,9 +1162,6 @@ export class HomeworldsGame extends GameBase {
         // this normally happens during regular moves, but we have to also do it now that we're eliminating systems
         const empties = this.systems.filter(s => s.ships.length === 0);
         for (const sys of empties) {
-            for (const star of sys.stars) {
-                this.stash.add(...star);
-            }
             this.delSystem(sys)
         }
 
@@ -1472,9 +1469,6 @@ export class HomeworldsGame extends GameBase {
                 this.eliminated.push(oldSystem.owner!);
                 this.results.push({"type": "eliminated", "who": this.seat2name(oldSystem.owner)});
             }
-            for (const star of oldSystem.stars) {
-                this.stash.add(...star);
-            }
             this.delSystem(oldSystem);
         }
         // Instantiate system
@@ -1651,9 +1645,6 @@ export class HomeworldsGame extends GameBase {
             if (oldSystem.isHome()) {
                 this.eliminated.push(oldSystem.owner!);
                 this.results.push({"type": "eliminated", "who": this.seat2name(oldSystem.owner)});
-            }
-            for (const star of oldSystem.stars) {
-                this.stash.add(...star);
             }
             this.delSystem(oldSystem);
         }
@@ -2158,9 +2149,6 @@ export class HomeworldsGame extends GameBase {
                 this.eliminated.push(system.owner!);
                 this.results.push({"type": "eliminated", "who": this.seat2name(system.owner)});
             }
-            for (const star of system.stars) {
-                this.stash.add(...star);
-            }
             this.delSystem(system);
         }
 
@@ -2253,9 +2241,6 @@ export class HomeworldsGame extends GameBase {
             if (system.isHome()) {
                 this.eliminated.push(system.owner!);
                 this.results.push({"type": "eliminated", "who": this.seat2name(system.owner)});
-            }
-            for (const star of system.stars) {
-                this.stash.add(...star);
             }
             this.delSystem(system);
         }
@@ -2420,6 +2405,16 @@ export class HomeworldsGame extends GameBase {
         const idx = this.systems.findIndex(s => s.name.toLowerCase() === sys.name.toLowerCase());
         if (idx < 0) {
             throw new Error(`Could not destroy the system '${sys.name}' because it does not appear to exist.`);
+        }
+        if (sys.stars.length > 0) {
+            for (const star of sys.stars) {
+                this.stash.add(...star);
+            }
+        }
+        if (sys.ships.length > 0) {
+            for (const ship of sys.ships) {
+                this.stash.add(ship.colour, ship.size);
+            }
         }
         this.systems.splice(idx, 1);
         return this;

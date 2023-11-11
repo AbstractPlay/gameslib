@@ -135,7 +135,7 @@ export class CephalopodGame extends GameBase {
                 for (const set of pset) {
                     // Every set that is length 2 or longer and that sums to <=6 is a capture
                     if (set.length > 1) {
-                        const sum = set.map(e => e[1]).reduce((a, b) => a + b);
+                        const sum = set.map(e => e[1]).reduce((a, b) => a + b, 0);
                         if (sum <= 6) {
                             // If `permissive`, then add every permutation of captured pieces
                             if (permissive) {
@@ -246,7 +246,7 @@ export class CephalopodGame extends GameBase {
             for (const set of pset) {
                 // Every set that is length 2 or longer and that sums to <=6 is a capture
                 if (set.length > 1) {
-                    const sum = set.map(e => e[1]).reduce((a, b) => a + b);
+                    const sum = set.map(e => e[1]).reduce((a, b) => a + b, 0);
                     if (sum <= 6) {
                         cancap = true;
                         break;
@@ -323,7 +323,7 @@ export class CephalopodGame extends GameBase {
             for (const set of pset) {
                 // Every set that is length 2 or longer and that sums to <=6 is a capture
                 if (set.length > 1) {
-                    const sum = set.map(e => e[1]).reduce((a, b) => a + b);
+                    const sum = set.map(e => e[1]).reduce((a, b) => a + b, pipcount);
                     if (sum <= 6) {
                         capcount++;
                     }
@@ -370,7 +370,7 @@ export class CephalopodGame extends GameBase {
         if (m.includes("=")) {
             const [cell, rest] = m.split("=");
             const caps = rest.split("+");
-            const sum = [...this.board.entries()].filter(e => caps.includes(e[0])).map(e => e[1][1] as number).reduce((a, b) => a + b);
+            const sum = [...this.board.entries()].filter(e => caps.includes(e[0])).map(e => e[1][1] as number).reduce((a, b) => a + b, 0);
             if (sum > 6) {
                 throw new Error("Invalid capture. Sum greater than 6.");
             }

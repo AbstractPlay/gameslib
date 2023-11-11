@@ -317,12 +317,12 @@ export class CephalopodGame extends GameBase {
             }
             let capcount = 0;
             // Get list of occupied neighbours
-            const neighbours = [...this.board.entries()].filter(e => nCells.includes(e[0])).map(e => [e[0], e[1][1]] as [string, number]);
+            const neighbours = [...this.board.entries()].filter(e => nCells.includes(e[0]) && (! allcaps.has(e[0]))).map(e => [e[0], e[1][1]] as [string, number]);
             // Build a powerset of those neighbours
             const pset = new PowerSet(neighbours);
             for (const set of pset) {
-                // Every set that is length 2 or longer and that sums to <=6 is a capture
-                if (set.length > 1) {
+                // Every set that sums to <=6 is a capture
+                if (set.length > 0) {
                     const sum = set.map(e => e[1]).reduce((a, b) => a + b, pipcount);
                     if (sum <= 6) {
                         capcount++;
@@ -330,7 +330,7 @@ export class CephalopodGame extends GameBase {
                 }
             }
             // complete but more are possible
-            if (capcount > 1) {
+            if (capcount > 0) {
                 result.valid = true;
                 result.complete = 0;
                 result.canrender = true;

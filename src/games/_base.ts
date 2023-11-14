@@ -140,6 +140,8 @@ export interface IRecordDetails {
     pied?: boolean;             // Optional indicator of whether the pie rule was invoked
 }
 
+export interface IMoveOptions {partial?: boolean; trusted?: boolean};
+
 export abstract class GameBase  {
     public static readonly gameinfo: APGamesInformation;
     public description(): string {
@@ -200,7 +202,7 @@ export abstract class GameBase  {
     public abstract variants: string[];
     public abstract currplayer: number|undefined;
 
-    public abstract move(move: string, partial?: boolean): GameBase;
+    public abstract move(move: string, opts?: IMoveOptions): GameBase;
     public abstract render({ perspective, altDisplay} : { perspective: number | undefined, altDisplay: string | undefined }): APRenderRep;
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;

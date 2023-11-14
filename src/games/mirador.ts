@@ -373,7 +373,7 @@ export class MiradorGame extends GameBase {
         }
     }
 
-    public move(m: string): MiradorGame {
+    public move(m: string, {trusted = false} = {}): MiradorGame {
         if (this.gameover) {
             throw new UserFacingError(
                 "MOVES_GAMEOVER",
@@ -384,17 +384,19 @@ export class MiradorGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        const result = this.validateMove(m);
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (!result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message);
+            }
+            if (this.stage === "play" && !this.moves().includes(m)) {
+                throw new UserFacingError(
+                    "VALIDATION_FAILSAFE",
+                    i18next.t("apgames:validation._general.FAILSAFE", { move: m })
+                );
+            }
+        }
 
-        if (!result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message);
-        }
-        if (this.stage === "play" && !this.moves().includes(m)) {
-            throw new UserFacingError(
-                "VALIDATION_FAILSAFE",
-                i18next.t("apgames:validation._general.FAILSAFE", { move: m })
-            );
-        }
         this.results = [];
         if (m === "declare") {
             this.stage = "challenge";

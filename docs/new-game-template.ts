@@ -211,7 +211,7 @@ export class ComplicaGame extends GameBase {
     /**
      * This is where you actually execute a move. You can use `validateMove()` and `moves()` to make triple sure you've received a valid move, and that frees you from excessive error checking and handling in your execution code. More comments below.
      */
-    public move(m: string): ComplicaGame {
+    public move(m: string, {trusted = false} = {}): ComplicaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -221,12 +221,15 @@ export class ComplicaGame extends GameBase {
          */
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        // The front end often needs to make moves that it knows are valid, so to save time, it can pass `trusted: true` to skip the validation step.
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         /**

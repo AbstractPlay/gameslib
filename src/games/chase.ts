@@ -1018,7 +1018,7 @@ export class ChaseGame extends GameBase {
         return this;
     }
 
-    public move(m: string, partial = false): ChaseGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ChaseGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -1027,27 +1027,29 @@ export class ChaseGame extends GameBase {
         m = m.replace(/\s+/g, "");
         m = m.replace(/([a-z]+)$/, (match) => {return match.toUpperCase();});
 
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        const moves = this.moves();
-        // Add direction if missing and unambiguous
-        const check = moves.filter(x => x.startsWith(m));
-        if (check.length === 1) {
-            m = check[0];
-        }
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            const moves = this.moves();
+            // Add direction if missing and unambiguous
+            const check = moves.filter(x => x.startsWith(m));
+            if (check.length === 1) {
+                m = check[0];
+            }
 
-        if ( (! partial) && (! moves.includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( partial ) {
-            if (m.endsWith("}")) {
-                if ( moves.filter(x => x.startsWith(m.substring(0, m.length - 1))).length < 1 ) {
-                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-                }
-            } else {
-                if ( this.moves().filter(x => x.startsWith(m)).length < 1) {
-                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if ( (! partial) && (! moves.includes(m)) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            } else if ( partial ) {
+                if (m.endsWith("}")) {
+                    if ( moves.filter(x => x.startsWith(m.substring(0, m.length - 1))).length < 1 ) {
+                        throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                    }
+                } else {
+                    if ( this.moves().filter(x => x.startsWith(m)).length < 1) {
+                        throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                    }
                 }
             }
         }

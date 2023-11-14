@@ -711,24 +711,31 @@ export class UrbinoGame extends GameBase {
 
     // The partial flag enabled dynamic connection checking.
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
-    public move(m: string, partial = false): UrbinoGame {
+    public move(m: string, {partial = false, trusted = false} = {}): UrbinoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+        }
+
         if (m[0] === ',')
             m = m.slice(1);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+
+        if (! trusted) {
+            if ( (! partial) && (! this.moves().includes(m)) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
-        if ( (! partial) && (! this.moves().includes(m)) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        }
+
         this.results = [];
 
         // Look for movement first

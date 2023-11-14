@@ -237,7 +237,7 @@ export class StringsGame extends GameBaseSimultaneous {
         return result;
     }
 
-    public move(m: string, partial = false): StringsGame {
+    public move(m: string, {partial = false, trusted = false} = {}): StringsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -251,12 +251,14 @@ export class StringsGame extends GameBaseSimultaneous {
             }
             moves[i] = moves[i].toLowerCase();
             moves[i] = moves[i].replace(/\s+/g, "");
-            const result = this.validateMove(moves[i]);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (! ((partial && moves[i] === "") || this.moves().includes(moves[i]))) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if (! trusted) {
+                const result = this.validateMove(moves[i]);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
+                if (! ((partial && moves[i] === "") || this.moves().includes(moves[i]))) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                }
             }
         }
 

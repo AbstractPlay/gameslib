@@ -560,27 +560,29 @@ export class AccastaGame extends GameBase {
         return result;
     }
 
-    public move(m: string, partial = false): AccastaGame {
+    public move(m: string, {partial = false, trusted = false} = {}): AccastaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
+            if (partial) {
+                if ( (result.complete === undefined) || (result.complete < 0) || ( (result.canrender !== undefined) && (result.canrender === false) ) ) {
+                    throw new Error(`The move '${m}' is not a valid partial.`)
+                }
+            }
         }
 
         this.results = [];
 
-        if (partial) {
-            if ( (result.complete === undefined) || (result.complete < 0) || ( (result.canrender !== undefined) && (result.canrender === false) ) ) {
-                throw new Error(`The move '${m}' is not a valid partial.`)
-            }
-        }
 
         const [cell, moves] = m.split(":");
         const steps = moves.split(",");

@@ -700,7 +700,7 @@ describe("Homeworlds", () => {
         const move = `sacrifice Y2 South, move B1 Orion Owuvew, move B1 Owuvew North, catastrophe North B`;
         const moves = move.split(", ");
         // sacrifice
-        g.move(moves[0], true);
+        g.move(moves[0], {partial: true});
         expect(g.actions.Y).to.equal(2);
         let orion = g.systems.find(s => s.name === "Orion");
         expect(orion).to.not.be.undefined;
@@ -715,7 +715,7 @@ describe("Homeworlds", () => {
         expect(g.economyBalanced()).to.be.true;
         // sacrifice and move #1
         g = new HomeworldsGame(state);
-        g.move(moves.slice(0, 2).join(","), true);
+        g.move(moves.slice(0, 2).join(","), {partial: true});
         expect(g.actions.Y).equals(1);
         orion = g.systems.find(s => s.name === "Orion");
         expect(orion).to.not.be.undefined;
@@ -730,7 +730,7 @@ describe("Homeworlds", () => {
         expect(g.economyBalanced()).to.be.true;
         // sacrifice and move #2
         g = new HomeworldsGame(state);
-        g.move(moves.slice(0, 3).join(","), true);
+        g.move(moves.slice(0, 3).join(","), {partial: true});
         expect(g.actions.Y).equals(0);
         orion = g.systems.find(s => s.name === "Orion");
         expect(orion).to.not.be.undefined;

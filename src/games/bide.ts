@@ -131,7 +131,7 @@ export class BideGame extends GameBase {
                 } else {
                     const cloned = this.clone();
                     cloned.buildGraph();
-                    cloned.move(move, true);
+                    cloned.move(move, {partial: true});
                     if (! cloned.board.has(cell)) {
                         newmove = `${move},${cell}`;
                     }
@@ -207,7 +207,7 @@ export class BideGame extends GameBase {
             cloned = this.clone();
             cloned.buildGraph();
             const todate = [cells.slice(0, i+1)].join(",");
-            cloned.move(todate, true);
+            cloned.move(todate, {partial: true});
         }
         // cloned is up to date
 
@@ -292,14 +292,14 @@ export class BideGame extends GameBase {
         return this;
     }
 
-    public move(m: string, partial = false): BideGame {
+    public move(m: string, {partial = false, trusted = false} = {}): BideGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        if (! partial) {
+        if ( (! partial) && (! trusted) ) {
             const result = this.validateMove(m);
             if ( (! result.valid) || (result.complete === -1) ) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)

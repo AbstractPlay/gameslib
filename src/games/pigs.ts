@@ -267,7 +267,7 @@ export class PigsGame extends GameBaseSimultaneous {
         return false;
     }
 
-    public move(m: string, partial = false): PigsGame {
+    public move(m: string, {partial = false, trusted = false} = {}): PigsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -281,9 +281,11 @@ export class PigsGame extends GameBaseSimultaneous {
             }
             moves[i] = moves[i].toLowerCase();
             moves[i] = moves[i].replace(/\s+/g, "");
-            const result = this.validateMove(moves[i], (i + 1) as playerid);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            if (! trusted) {
+                const result = this.validateMove(moves[i], (i + 1) as playerid);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
             }
         }
 

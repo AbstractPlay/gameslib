@@ -315,7 +315,7 @@ export class HomeworldsGame extends GameBase {
             for (const m of movelst) {
                 // Do the partial move
                 const newg = new HomeworldsGame(this.serialize());
-                newg.move(m, true);
+                newg.move(m, {partial: true});
                 // Get a list of valid catastrophes
                 const catas: string[] = [];
                 for (const sys of newg.systems) {
@@ -456,7 +456,7 @@ export class HomeworldsGame extends GameBase {
         const myg = new HomeworldsGame(this.serialize());
         // Make the partial move (it might not be valid, so return empty string if so)
         try {
-            myg.move(moves.join(", "), true);
+            myg.move(moves.join(", "), {partial: true});
         } catch {
             return [];
         }
@@ -760,7 +760,7 @@ export class HomeworldsGame extends GameBase {
                 // check for remaining sacrifice actions
                 if ( (result.complete !== undefined) && (result.complete === -1) && (result.canrender) ) {
                     const cloned = this.clone();
-                    cloned.move(compiled, true);
+                    cloned.move(compiled, {partial: true});
                     let newNewMove = compiled;
                     if (! newNewMove.endsWith("catastrophe")) {
                         if (cloned.actions.B > 0) {
@@ -965,7 +965,7 @@ export class HomeworldsGame extends GameBase {
 
             const todate = moves.slice(0, i).join(",");
             cloned.load();
-            cloned.move(todate, true);
+            cloned.move(todate, {partial: true});
 
             const tokens: string[] = move.split(/\s+/);
             const cmd = keywords.find(x => x.startsWith(tokens[0].toLowerCase()));
@@ -1009,7 +1009,7 @@ export class HomeworldsGame extends GameBase {
         }
         // If we've gotten this far, each individual command was valid and complete
         cloned.load();
-        cloned.move(m, true);
+        cloned.move(m, {partial: true});
 
         // You have to account for all your actions
         let hasActions = false;
@@ -1072,7 +1072,8 @@ export class HomeworldsGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [HomeworldsGame]
      */
-    public move(m: string, partial = false): HomeworldsGame {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public move(m: string, {partial = false, trusted = false} = {}): HomeworldsGame {
         if (this.gameover) {
             throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVES_GAMEOVER"));
         }

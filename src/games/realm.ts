@@ -328,7 +328,7 @@ export class RealmGame extends GameBase {
 
                 const cloned = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
                 if (moves.length > 0) {
-                    cloned.move(moves.join(";"), true);
+                    cloned.move(moves.join(";"), {partial: true});
                 }
 
                 // If lastmove is empty, then the click is starting a new submove
@@ -1131,7 +1131,7 @@ export class RealmGame extends GameBase {
                 } // move type (rearrangement or movement)
 
                 cloned = Object.assign(new RealmGame(), deepclone(this) as RealmGame);
-                cloned.move(moves.slice(0, i+1).join(";"), true);
+                cloned.move(moves.slice(0, i+1).join(";"), {partial:true});
             } // for each submove
 
             // we're good
@@ -1176,20 +1176,21 @@ export class RealmGame extends GameBase {
     // This function offloads all validation to `validateMove`!
     // If the move is flagged as partial, no validation is done at all. NO FAILSAFES!
     // This means it silently ignores nonsensical movement parts.
-    public move(m: string, partial = false): RealmGame {
+    public move(m: string, {partial = false, trusted = false} = {}): RealmGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.replace(/\s+/g, "");
-        const origMove =m;
+        const origMove = m;
         m = m.toLowerCase();
-        if (! partial) {
+        if ( (! partial) && (! trusted)) {
             const result = this.validateMove(m);
             if ( (! result.valid) || ( (result.complete !== undefined) && (result.complete < 0) ) ) {
                 throw new UserFacingError(result.message, "VALIDATION_GENERAL");
             }
         }
+
         this.results = [];
 
         let justStarted = false;

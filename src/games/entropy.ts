@@ -345,7 +345,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
     }
 
-    public move(m: string, partial = false): EntropyGame {
+    public move(m: string, {partial = false, trusted = false} = {}): EntropyGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -359,12 +359,14 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
             moves[i] = moves[i].toLowerCase();
             moves[i] = moves[i].replace(/\s+/g, "");
-            const result = this.validateMove(moves[i], (i + 1) as playerid);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if (! trusted) {
+                const result = this.validateMove(moves[i], (i + 1) as playerid);
+                if (! result.valid) {
+                    throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                }
+                if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
+                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                }
             }
         }
 

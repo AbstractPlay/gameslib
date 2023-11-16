@@ -327,16 +327,18 @@ export class MvolcanoGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [VolcanoGame]
      */
-    public move(m: string, partial = false): MvolcanoGame {
+    public move(m: string, {partial = false, trusted = false} = {}): MvolcanoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
         }
 
         const moves = m.split(/\s*[\n,;\/\\]\s*/);

@@ -366,19 +366,27 @@ export class AmazonsGame extends GameBase {
 
     // The `partial` flag leaves the game object in an invalid state
     // Only use on a cloned object, or call `load()` before processing the final move
-    public move(m: string, partial = false): AmazonsGame {
+    public move(m: string, {partial = false, trusted = false} = {}): AmazonsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        let result;
+        if (! trusted) {
+            result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
-
         if (partial) {
+            if (result === undefined) {
+                result = this.validateMove(m);
+            }
             if ( (result.complete !== undefined) && (result.complete >= 0) || result.canrender === true ) {
                 const [f, t, b] = m.split(/[-\/]/);
                 if ( (f === undefined) || (t === undefined) ) {
@@ -395,9 +403,6 @@ export class AmazonsGame extends GameBase {
                 throw new Error(`The move '${m}' is not a valid partial.`)
             }
             return this;
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
         }
 
         // Move valid, so change the state

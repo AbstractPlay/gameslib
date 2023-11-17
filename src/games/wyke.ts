@@ -314,19 +314,21 @@ export class AlfredsWykeGame extends GameBase {
         }
     }
 
-    public move(m: string, partial = false): AlfredsWykeGame {
+    public move(m: string, {partial = false, trusted = false} = {}): AlfredsWykeGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if ( (! partial) && (result.complete !== 1) ) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if ( (! partial) && (result.complete !== 1) ) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
         }
 
         this.results = [];

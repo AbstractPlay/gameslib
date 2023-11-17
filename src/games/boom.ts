@@ -331,19 +331,21 @@ export class BoomGame extends GameBase {
         }
     }
 
-    public move(m: string): BoomGame {
+    public move(m: string, {trusted = false} = {}): BoomGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
-        }
-        if (! this.moves().includes(m)) {
-            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
         }
 
         this.results = [];

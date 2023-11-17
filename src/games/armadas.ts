@@ -314,7 +314,7 @@ export class ArmadasGame extends GameBase {
 
             // apply interim moves to get updated ship facings
             const cloned = this.clone();
-            cloned.move(moves.join(", "), true);
+            cloned.move(moves.join(", "), {partial: true});
 
             // get click context
             // If `ship` is undefined, then row/col are planar coordinates
@@ -485,7 +485,7 @@ export class ArmadasGame extends GameBase {
 
             const todate = moves.slice(0, i).join(",");
             cloned.load();
-            cloned.move(todate, true);
+            cloned.move(todate, {partial: true});
 
             const tokens = move.split(/\s+/);
 
@@ -566,13 +566,13 @@ export class ArmadasGame extends GameBase {
      * @param partial A signal that you're just exploring the move; don't do end-of-move processing
      * @returns [ArmadasGame]
      */
-    public move(m: string, partial = false): ArmadasGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ArmadasGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         // validate if not partial
-        if (! partial) {
+        if ( (! partial) && (! trusted) ) {
             const result = this.validateMove(m);
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)

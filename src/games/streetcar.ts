@@ -561,7 +561,7 @@ export class StreetcarGame extends GameBase {
         return connectedComponents(graph).length;
     }
 
-    public move(m: string, partial = false): StreetcarGame {
+    public move(m: string, {partial = false, trusted = false} = {}): StreetcarGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -569,7 +569,7 @@ export class StreetcarGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        if (! partial) {
+        if ((! partial) && (! trusted)) {
             const result = this.validateMove(m);
             if ( (! result.valid) || (result.complete === -1) ) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)

@@ -430,7 +430,7 @@ export class PikemenGame extends GameBase {
         }
     }
 
-    public move(m: string, partial = false): PikemenGame {
+    public move(m: string, {partial = false, trusted = false} = {}): PikemenGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -438,15 +438,17 @@ export class PikemenGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         m = m.replace(/\([a-z]+\)$/, (match) => {return match.toUpperCase();});
-        const result = this.validateMove(m);
-        if (! result.valid) {
-            throw new UserFacingError("VALIDATION_GENERAL", result.message)
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            // if ( (! partial) && (! this.moves().includes(m)) ) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // }
         }
-        // if ( (! partial) && (! this.moves().includes(m)) ) {
-        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        // } else if ( (partial) && (this.moves().filter(x => x.startsWith(m)).length < 1) ) {
-        //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-        // }
 
         this.results = [];
         const [move, reo] = m.split("(");

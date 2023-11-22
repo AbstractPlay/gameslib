@@ -501,7 +501,7 @@ export class TintasGame extends GameBase {
             }
 
             // all partial moves should still be in the move list
-            if (! this.moves().includes(m)) {
+            if ( (! partial) && (! this.moves().includes(m)) ) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }

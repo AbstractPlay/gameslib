@@ -37,7 +37,7 @@ export class QuagmireGame extends GameBase {
                 urls: ["https://cjffield.com/"]
             }
         ],
-        flags: ["experimental", "pie"]
+        flags: ["experimental"]
     };
 
     public static readonly PLAYER_ONE = 1;
@@ -403,13 +403,17 @@ export class QuagmireGame extends GameBase {
             }
         }
 
-        // update currplayer
         this.lastmove = m;
-        let newplayer = (this.currplayer as number) + 1;
-        if (newplayer > this.numplayers) {
-            newplayer = 1;
+
+        // update currplayer
+        const myPieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === this.currplayer);
+        if (this.currplayer !== QuagmireGame.PLAYER_TWO || myPieces.length === 2) {
+            let newplayer = (this.currplayer as number) + 1;
+            if (newplayer > this.numplayers) {
+                newplayer = 1;
+            }
+            this.currplayer = newplayer as pieceType;
         }
-        this.currplayer = newplayer as pieceType;
 
         this.checkEOG();
         this.saveState();
@@ -507,11 +511,11 @@ export class QuagmireGame extends GameBase {
             legend: {
                 A: {
                     name: "meeple",
-                    colour: "#fff"
+                    player: 1
                 },
                 B: {
                     name: "meeple",
-                    colour: "#000"
+                    player: 2
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),

@@ -519,11 +519,13 @@ export class QuagmireGame extends GameBase {
             legend: {
                 A: {
                     name: "meeple",
-                    player: 1
+                    player: 1,
+                    scale: 0.85
                 },
                 B: {
                     name: "meeple",
-                    player: 2
+                    player: 2,
+                    scale: 0.85
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),

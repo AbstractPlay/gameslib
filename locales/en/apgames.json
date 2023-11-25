@@ -45,6 +45,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
+        "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "streetcar": "It’s against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
@@ -629,6 +630,14 @@
             "TOOSMALL": "Upright pieces can only be captured by larger pieces.",
             "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
+        },
+        "quagmire": {
+            "PLACE_MEEPLE": "Select an empty cell to place a meeple on. The second player should do this twice in a row.",
+            "SELECT_MEEPLE": "Select one of your meeples to move.",
+            "SELECT_DESTINATION": "Select a destination cell to walk or jump to.",
+            "MUST_FINISH_SETUP": "You cannot move a meeple until all meeples have been placed.",
+            "LEGAL_MOVES": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
+            "MAY_RUN": "You may submit or select another destination cell to run to."
         },
         "razzle": {
             "INITIAL_INSTRUCTIONS": "Make a chess knight's move with one of your pieces, or move your ball to one of your open pieces.",

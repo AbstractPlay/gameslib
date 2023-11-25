@@ -406,13 +406,21 @@ export class QuagmireGame extends GameBase {
         this.lastmove = m;
 
         // update currplayer
-        const myPieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === this.currplayer);
-        if (this.currplayer !== QuagmireGame.PLAYER_TWO || myPieces.length === 2) {
-            let newplayer = (this.currplayer as number) + 1;
-            if (newplayer > this.numplayers) {
-                newplayer = 1;
-            }
-            this.currplayer = newplayer as pieceType;
+        let newplayer = (this.currplayer as number) + 1;
+        if (newplayer > this.numplayers) {
+            newplayer = 1;
+        }
+        this.currplayer = newplayer as pieceType;
+        const p1Pieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === QuagmireGame.PLAYER_ONE);
+        const p2Pieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === QuagmireGame.PLAYER_TWO);
+        if (p1Pieces.length === 1 && p2Pieces.length === 1) {
+            // save the current move
+            this.saveState();
+            // insert a new one
+            this.lastmove = "pass";
+            this.results = [{type: "pass"}];
+            this.currplayer = QuagmireGame.PLAYER_TWO;
+            // this state gets saved outside of this IF statement
         }
 
         this.checkEOG();

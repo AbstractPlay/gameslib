@@ -1044,7 +1044,9 @@ export class HomeworldsGame extends GameBase {
                 }
 
                 if (! wouldDraw) {
-                    result.valid = false;
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
                     result.message = i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE");
                     return result;
                 }

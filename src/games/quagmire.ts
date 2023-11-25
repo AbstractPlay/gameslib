@@ -27,6 +27,7 @@ export class QuagmireGame extends GameBase {
         uid: "quagmire",
         playercounts: [2],
         version: "20231122",
+        // i18next.t("apgames:descriptions.quagmire")
         description: "apgames:descriptions.quagmire",
         urls: ["https://cjffield.com/rules/quagmire.pdf"],
         people: [
@@ -36,7 +37,7 @@ export class QuagmireGame extends GameBase {
                 urls: ["https://cjffield.com/"]
             }
         ],
-        flags: ["experimental"]
+        flags: ["experimental", "pie"]
     };
 
     public static readonly PLAYER_ONE = 1;
@@ -168,7 +169,7 @@ export class QuagmireGame extends GameBase {
             if (move.includes("-")) {
                 const cells: string[] = move.split(new RegExp('[\-]'));
                 if (cells.length >= 3) {
-                    return {move: move, message: ""} as IClickResult;
+                    return {move, message: ""} as IClickResult;
                 }
             }
 
@@ -226,9 +227,9 @@ export class QuagmireGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            
-            const playerPieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === this.currplayer);
-            if (playerPieces.length !== 2) {
+
+            const myPieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === this.currplayer);
+            if (myPieces.length !== 2) {
                 result.message = i18next.t("apgames:validation.quagmire.PLACE_MEEPLE");
             } else {
                 result.message = i18next.t("apgames:validation.quagmire.SELECT_MEEPLE");
@@ -328,7 +329,7 @@ export class QuagmireGame extends GameBase {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                         return result;
-                    }                    
+                    }
 
                     // third cell must be unoccupied
                     if (this.board.has(cell)) {
@@ -506,12 +507,10 @@ export class QuagmireGame extends GameBase {
             legend: {
                 A: {
                     name: "meeple",
-                    player: 1,
                     colour: "#fff"
                 },
                 B: {
                     name: "meeple",
-                    player: 2,
                     colour: "#000"
                 },
             },

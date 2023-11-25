@@ -633,10 +633,10 @@
         },
         "quagmire": {
             "PLACE_MEEPLE": "Select an empty cell to place a meeple on.",
-            "SELECT_MEEPLE": "Select one of your meeple to move.",
+            "SELECT_MEEPLE": "Select one of your meeples to move.",
             "SELECT_DESTINATION": "Select a destination cell to walk or jump to.",
-            "MUST_FINISH_SETUP": "You cannot move meeple until all meeple have been placed.",
-            "LEGAL_MOVES": "You can only walk/run to non-flooded unoccupied adjacent spaces or jump across an unoccupied adjacent space to a non-flooded unoccupied space.",
+            "MUST_FINISH_SETUP": "You cannot move meeple until all meeples have been placed.",
+            "LEGAL_MOVES": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
             "MAY_RUN": "You may submit or select another destination cell to run to."
         },
         "razzle": {

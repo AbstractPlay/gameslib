@@ -411,8 +411,11 @@ export class QuagmireGame extends GameBase {
             newplayer = 1;
         }
         this.currplayer = newplayer as pieceType;
+
+        // handle special setup passes to preserve reviewing the game afterwards
         const p1Pieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === QuagmireGame.PLAYER_ONE);
         const p2Pieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === QuagmireGame.PLAYER_TWO);
+        const floodPieces = (this.graph.listCells() as string[]).filter(c => this.board.get(c) === QuagmireGame.FLOOD);
         if (p1Pieces.length === 1 && p2Pieces.length === 1) {
             // save the current move
             this.saveState();
@@ -420,6 +423,14 @@ export class QuagmireGame extends GameBase {
             this.lastmove = "pass";
             this.results = [{type: "pass"}];
             this.currplayer = QuagmireGame.PLAYER_TWO;
+            // this state gets saved outside of this IF statement
+        } else if (p1Pieces.length === 2 && p2Pieces.length === 2 && floodPieces.length === 0) {
+            // save the current move
+            this.saveState();
+            // insert a new one
+            this.lastmove = "pass";
+            this.results = [{type: "pass"}];
+            this.currplayer = QuagmireGame.PLAYER_ONE;
             // this state gets saved outside of this IF statement
         }
 

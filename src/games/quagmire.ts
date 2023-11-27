@@ -37,7 +37,7 @@ export class QuagmireGame extends GameBase {
                 urls: ["https://cjffield.com/"]
             }
         ],
-        flags: ["experimental"]
+        flags: []
     };
 
     public static readonly PLAYER_ONE = 1;
@@ -508,7 +508,7 @@ export class QuagmireGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardsize,
                 maxWidth: (this.boardsize * 2) - 1,
-                hexFill: "#999",
+                hexFill: "#bbb",
                 markers: floodMarkers === undefined ? undefined : [{
                     type: "flood",
                     colour: "#009",
@@ -519,11 +519,13 @@ export class QuagmireGame extends GameBase {
             legend: {
                 A: {
                     name: "meeple",
-                    player: 1
+                    player: 1,
+                    scale: 0.85
                 },
                 B: {
                     name: "meeple",
-                    player: 2
+                    player: 2,
+                    scale: 0.85
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),

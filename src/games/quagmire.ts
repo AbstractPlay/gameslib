@@ -37,7 +37,7 @@ export class QuagmireGame extends GameBase {
                 urls: ["https://cjffield.com/"]
             }
         ],
-        flags: ["experimental"]
+        flags: []
     };
 
     public static readonly PLAYER_ONE = 1;

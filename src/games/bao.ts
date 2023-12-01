@@ -1028,6 +1028,10 @@ export class BaoGame extends GameBase {
         return resolved;
     }
 
+    public getPlayerPieces(player: number): number {
+        return this.inhand[player - 1];
+    }
+
     public clone(): BaoGame {
         return new BaoGame(this.serialize());
     }

@@ -5,13 +5,13 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { BaoGraph, reviver, UserFacingError } from "../common";
+import type { IScores } from "./_base";
 import i18next from "i18next";
 import type { PitType } from "../common/graphs/bao";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
-
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -1030,6 +1030,16 @@ export class BaoGame extends GameBase {
 
     public getPlayerPieces(player: number): number {
         return this.inhand[player - 1];
+    }
+
+    public getPlayersScores(): IScores[] {
+        if (this.inhand.reduce((prev, curr) => prev + curr, 0) > 0) {
+            return [
+                { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+            ]
+        } else {
+            return [];
+        }
     }
 
     public clone(): BaoGame {

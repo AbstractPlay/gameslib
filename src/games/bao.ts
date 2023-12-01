@@ -990,6 +990,7 @@ export class BaoGame extends GameBase {
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
+        status += "**Pieces in hand**: " + this.inhand.join(", ") + "\n\n";
 
         return status;
     }

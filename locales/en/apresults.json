@@ -10,9 +10,12 @@
         "complete_other": "{{player}} bore off {{count}} pieces from {{from}}."
     },
     "BLOCK": {
+        "bao": "The pit {{pit}} is in kutakatia (is blocked).",
         "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}."
     },
     "CAPTURE": {
+        "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
+        "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
         "boom": "{{player}} destroyed a piece at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
         "minimal": "A piece was captured.",
@@ -61,6 +64,7 @@
     "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DESTROY": {
         "armadas": "{{player}} sunk the enemy ship named {{name}}.",
+        "bao": "The nyumba at {{pit}} was destroyed.",
         "enemy": {
             "minimal_one": "{{count}} enemy piece was destroyed.",
             "minimal_other": "{{count}} enemy pieces were destroyed."
@@ -97,9 +101,11 @@
     "IMMOBILIZE": {
         "realm": "{{player}} immobilized the enforcer at {{where}}."
     },
+    "INFINITE": "{{player}} has triggered an infinite loop!",
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "armadas": "{{player}} moved their ship named {{name}}.",
+        "bao": "Initial direction of movement: {{direction}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
@@ -172,6 +178,8 @@
     },
     "RESIGN": "{{player}} has resigned.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
+    "SOW_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
+    "SOW_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber.",
         "streetcar": "{{player}} took a housing limit from {{from}}."

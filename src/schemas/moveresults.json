@@ -638,6 +638,32 @@
             },
             "required": ["type"],
             "additionalProperties": false
+        },
+        {
+            "description": "Player has triggered an infinite loop",
+            "properties": {
+                "type": {
+                    "enum": ["infinite"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Player has sowed seeds from a list of pits",
+            "properties": {
+                "type": {
+                    "enum": ["sow"]
+                },
+                "pits": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": ["type", "pits"],
+            "additionalProperties": false
         }
     ]
 }

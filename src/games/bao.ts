@@ -35,6 +35,7 @@ type SowingResults = {
     };
     sown: string[];
     infinite: boolean;
+    taxed: boolean;
 };
 
 export class BaoGame extends GameBase {
@@ -236,6 +237,7 @@ export class BaoGame extends GameBase {
         let distance = 0;
         let complete = true;
         let infinite = false;
+        let taxed = false;
 
         // init what we need to know about the game state
         const cell = move.substring(0, 2);
@@ -365,6 +367,7 @@ export class BaoGame extends GameBase {
             if ( (phase === "namua") && (isKutakata) && (distance === 0) && (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] >= 6) ) {
                 inhand = 2;
                 this.board[currRow][currCol] -= 2;
+                taxed = true;
             }
             // otherwise pick them all up
             else {
@@ -389,6 +392,7 @@ export class BaoGame extends GameBase {
             },
             sown: sownCells,
             infinite,
+            taxed
         }
     }
 
@@ -573,7 +577,7 @@ export class BaoGame extends GameBase {
                 const allowed: string[] = [];
                 for (const mv of caps) {
                     const cloned = BaoGame.clone(this);
-                    cloned.move(mv, {trusted: true});
+                    cloned.move(mv, {trusted: true, skipeog: true});
                     if (cloned.blocked[blockee - 1] === undefined) {
                         allowed.push(mv);
                     }
@@ -615,12 +619,19 @@ export class BaoGame extends GameBase {
                             newmove = move + "<";
                         }
                     } else {
-                        throw new Error("Could not interpret the second click.")
+                        // make them try again
+                        newmove = move;
                     }
                 }
-                // otherwise, ignore the click
                 else {
-                    newmove = move;
+                    // if the later click was on the house, add a plus sign
+                    if (this.graph.getType(cell) === "nyumba") {
+                        newmove = move + "+"
+                    }
+                    // otherwise, ignore the click
+                    else {
+                        newmove = move;
+                    }
                 }
             }
 
@@ -628,7 +639,7 @@ export class BaoGame extends GameBase {
             const validMoves = this.moves();
             const matches = validMoves.filter(m => m.startsWith(newmove));
             matches.sort((a, b) => a.length - b.length);
-            if (matches.length > 0) {
+            if ( (matches.length === 1) || ( (matches.length > 1) && (matches[0].length < matches[1].length) ) ) {
                 newmove = matches[0];
             }
 
@@ -697,7 +708,8 @@ export class BaoGame extends GameBase {
         if (m.length === 2) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.bao.CHOOSE_DIR");
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.bao.CHOOSE_DIR", {context: this.inhand[this.currplayer - 1] === 0 ? "mtaji" : "namua"});
             return result;
         }
 
@@ -728,7 +740,7 @@ export class BaoGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): BaoGame {
+    public move(m: string, {trusted = false, partial = false, skipeog = false} = {}): BaoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -751,7 +763,14 @@ export class BaoGame extends GameBase {
         const cell = m.substring(0, 2);
         if (this.inhand[this.currplayer - 1] > 0) {
             this.results.push({type: "place", where: cell});
+            // check for partial in namua phase and get out
+            if ( (m.length === 2) && (partial) ) {
+                const [x, y] = this.graph.algebraic2coords(cell);
+                this.board[y][x]++;
+                return this;
+            }
         }
+
         // determine very first direction for annotation
         const marker = m[2];
         let dir: "CW"|"CCW";
@@ -806,7 +825,7 @@ export class BaoGame extends GameBase {
             // sown
             for (const sown of results.sown) {
                 const idx = this.houses.findIndex(s => s === sown);
-                if (idx !== -1) {
+                if ( (idx !== -1) && (! results.taxed) ) {
                     this.results.push({type: "destroy", where: sown});
                     this.houses[idx] = undefined;
                     break;
@@ -838,7 +857,13 @@ export class BaoGame extends GameBase {
         }
         this.currplayer = newplayer as playerid;
 
-        this.checkEOG();
+        // THIS IS NOT BEST PRACTICE!
+        // It is necessary to avoid looping when calculating move lists
+        // because `moves()` relies on `move()` in some instances, as does
+        // `checkEOG()`. It's messy.
+        if (! skipeog) {
+            this.checkEOG();
+        }
         this.saveState();
         return this;
     }

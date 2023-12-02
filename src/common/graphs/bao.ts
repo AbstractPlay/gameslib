@@ -195,6 +195,9 @@ export class BaoGraph implements IGraph {
         return nodes;
     }
 
+    /**
+     * Only works on adjacent cells, otherwise returns undefined
+     */
     public getDir(from: string, to: string): "CW"|"CCW"|undefined {
         if ( (! this.graph.hasNode(from)) || (! this.graph.hasNode(to)) ) {
             return undefined;

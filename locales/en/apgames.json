@@ -275,7 +275,8 @@
             "TRIPLESTACK": "Triple stacks cannot participate in captures."
         },
         "bao": {
-            "CHOOSE_DIR": "Select the next pit in the direction you wish to sow.",
+            "CHOOSE_DIR_namua": "Select the next pit in the direction you wish to sow or, if you're capturing, in the direction of the kichwa you want to start from.",
+            "CHOOSE_DIR_mtaji": "Select the next pit in the direction you wish to sow.",
             "EMPTY": "You cannot interact with empty pits.",
             "INITIAL_INSTRUCTIONS_mtaji": "Select one of your pits that contains stones to begin sowing.",
             "INITIAL_INSTRUCTIONS_namua": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture or sow. Captures are mandatory.",

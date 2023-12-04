@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable jsdoc/check-indentation */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
@@ -573,7 +574,7 @@ export class BaoGame extends GameBase {
         if (caps.length > 0) {
             // remove any captures that do not clear a blocked pit
             const blockee = player === 1 ? 2 : 1;
-            if (this.blocked[blockee - 1] !== undefined) {
+            if ( (this.blocked[blockee - 1] !== null) && (this.blocked[blockee - 1] !== undefined) ) {
                 const allowed: string[] = [];
                 for (const mv of caps) {
                     const cloned = BaoGame.clone(this);
@@ -681,12 +682,12 @@ export class BaoGame extends GameBase {
         }
 
         // yours
-        if ( ( (this.currplayer === 1) && ( (cell.substring(-1) === "3") ||
-                                            (cell.substring(-1) === "4")
+        if ( ( (this.currplayer === 1) && ( (cell[1] === "3") ||
+                                            (cell[1] === "4")
                                           )
              ) ||
-             ( (this.currplayer === 2) && ( (cell.substring(-1) === "1") ||
-                                            (cell.substring(-1) === "2")
+             ( (this.currplayer === 2) && ( (cell[1] === "1") ||
+                                            (cell[1] === "2")
                                           )
              )
            ) {
@@ -762,6 +763,7 @@ export class BaoGame extends GameBase {
         // annotate initial move
         const cell = m.substring(0, 2);
         if (this.inhand[this.currplayer - 1] > 0) {
+            this.inhand[this.currplayer - 1]--;
             this.results.push({type: "place", where: cell});
             // check for partial in namua phase and get out
             if ( (m.length === 2) && (partial) ) {
@@ -970,7 +972,7 @@ export class BaoGame extends GameBase {
         };
         const houses: {row: number; col: number;}[] = [];
         for (const h of this.houses) {
-            if (h !== undefined) {
+            if ( ( h !== undefined) && (h !== null) ) {
                 const [col, row] = this.graph.algebraic2coords(h);
                 houses.push({row, col});
             }
@@ -1043,11 +1045,11 @@ export class BaoGame extends GameBase {
                 resolved = true;
                 break;
             case "destroy":
-                node.push(i18next.t("apresults:DESTROY.bao", {where: r.where}));
+                node.push(i18next.t("apresults:DESTROY.bao", {pit: r.where}));
                 resolved = true;
                 break;
             case "block":
-                node.push(i18next.t("apresults:BLOCK.bao", {where: r.where}));
+                node.push(i18next.t("apresults:BLOCK.bao", {pit: r.where}));
                 resolved = true;
                 break;
         }

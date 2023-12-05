@@ -104,6 +104,7 @@ export class BaoGame extends GameBase {
                 [0,0,0,0,0,0,0,0],
             ];
             let inhand = [22, 22] as [number,number];
+            let houses: [string|undefined,string|undefined] = ["e2", "d3"];
             if (variants !== undefined) {
                 if (variants.includes("malawi")) {
                     board = [
@@ -121,6 +122,7 @@ export class BaoGame extends GameBase {
                         [2,2,2,2,2,2,2,2],
                     ];
                     inhand = [0, 0];
+                    houses = [undefined, undefined];
                 }
             }
             const fresh: IMoveState = {
@@ -130,7 +132,7 @@ export class BaoGame extends GameBase {
                 currplayer: 1,
                 board,
                 inhand,
-                houses: ["e2", "d3"],
+                houses,
                 blocked: [undefined, undefined],
             };
             this.stack = [fresh];

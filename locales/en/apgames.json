@@ -283,7 +283,7 @@
             "INITIAL_INSTRUCTIONS_mtaji": "Select one of your pits that contains stones to begin sowing.",
             "INITIAL_INSTRUCTIONS_namua": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture or sow. Captures are mandatory.",
             "PLAY_HOUSE": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
-            "TWO_PLUS": "You may only begin a namua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones."
+            "TWO_PLUS": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones."
         },
         "bide": {
             "EMPTY_HAND": "You have no more pieces to place.",
@@ -857,7 +857,7 @@
         },
         "bao": {
             "kujifunza": {
-                "description": "The \"beginner\" version with no \"namua\" setup phase. The game starts with two stones in each pit.",
+                "description": "The \"beginner\" version with no \"kunamua\" setup phase. The game starts with two stones in each pit.",
                 "name": "Bao la kujifunza"
             },
             "malawi": {

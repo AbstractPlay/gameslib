@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable jsdoc/check-indentation */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
@@ -171,7 +170,7 @@ export class BaoGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        if (this.houses[player - 1] === undefined) {
+        if ( (this.houses[player - 1] === null) || (this.houses[player - 1] === undefined) ) {
             return false;
         }
         const [col, row] = this.graph.algebraic2coords(this.houses[player - 1]!);
@@ -733,6 +732,12 @@ export class BaoGame extends GameBase {
                 result.message = i18next.t("apgames:validation.bao.PLAY_HOUSE");
                 return result;
             }
+        }
+
+        if (this.graph.getType(cell) === "nyumba") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.bao.BAD_TAX", {move: m});
+            return result;
         }
 
         // failsafe

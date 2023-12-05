@@ -46,6 +46,8 @@ export class BaoGame extends GameBase {
         version: "20231126",
         // i18next.t("apgames:descriptions.bao")
         description: "apgames:descriptions.bao",
+        // i18next.t("apgames:notes.bao")
+        notes: "apgames:notes.bao",
         urls: ["https://en.wikipedia.org/wiki/Bao_(game)"],
         flags: ["experimental", "perspective", "limited-pieces", "automove"],
         variants: [
@@ -737,6 +739,12 @@ export class BaoGame extends GameBase {
         if (this.graph.getType(cell) === "nyumba") {
             result.valid = false;
             result.message = i18next.t("apgames:validation.bao.BAD_TAX", {move: m});
+            return result;
+        }
+
+        if ( (! this.hasWorkingHouse()) && (this.board[y][x] === 1) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.bao.TWO_PLUS", {move: m});
             return result;
         }
 

@@ -61,6 +61,7 @@
     },
     "notes": {
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
+        "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are higlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
@@ -281,7 +282,8 @@
             "EMPTY": "You cannot interact with empty pits.",
             "INITIAL_INSTRUCTIONS_mtaji": "Select one of your pits that contains stones to begin sowing.",
             "INITIAL_INSTRUCTIONS_namua": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture or sow. Captures are mandatory.",
-            "PLAY_HOUSE": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box."
+            "PLAY_HOUSE": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
+            "TWO_PLUS": "You may only begin a namua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones."
         },
         "bide": {
             "EMPTY_HAND": "You have no more pieces to place.",

@@ -219,7 +219,7 @@ describe("Bao", () => {
             [0,1,0,0,0,0,1,0],
             [0,2,3,0,0,0,0,0],
         ];
-        g.move("c1<*");
+        g.move("c1<*", {skipEconomy: true});
         let blocked = g.getBlocked(2);
         expect(blocked).eq("b3");
         expect(g.lastmove).eq("c1<**");
@@ -232,12 +232,12 @@ describe("Bao", () => {
             [0,0,1,0,0,1,0,0],
             [2,3,0,0,0,0,4,0],
         ];
-        g.move("a1<*");
+        g.move("a1<*", {skipEconomy: true});
         blocked = g.getBlocked(2);
         expect(blocked).eq("b3");
         expect(g.lastmove).eq("a1<**");
         // player 2 makes a kutakata move, setting up a second capture for south
-        g.move("g3>*");
+        g.move("g3>*", {skipEconomy: true});
         expect(g.board[1]).eql([0,7,1,1,0,1,0,0]);
         expect(g.blocked).eql([undefined, "b3"]);
         // but south is required to capture the blocked pit
@@ -246,6 +246,7 @@ describe("Bao", () => {
 
     it("Infinite loops", () => {
         const g = new BaoGame();
+        g.inhand = [13,13];
         g.board = [
             [2,1,2,3,2,4,0,3],
             [0,2,0,0,3,0,0,0],
@@ -255,6 +256,7 @@ describe("Bao", () => {
         let results = g.processMove("g2>*");
         expect(results.infinite).to.be.true;
 
+        g.inhand = [1,1];
         g.board = [
             [2,2,2,3,4,4,5,3],
             [0,0,0,5,0,6,0,0],

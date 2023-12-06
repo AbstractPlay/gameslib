@@ -124,6 +124,7 @@ export class BaoGame extends GameBase {
                     inhand = [0, 0];
                     houses = [undefined, undefined];
                 }
+                this.variants = [...variants];
             }
             const fresh: IMoveState = {
                 _version: BaoGame.gameinfo.version,
@@ -255,6 +256,7 @@ export class BaoGame extends GameBase {
             player = 1;
         }
         const phase: "namua"|"mtaji" = this.inhand[player - 1] > 0 ? "namua" : "mtaji";
+        // console.log(`Player: ${player}, Inhand: ${JSON.stringify(this.inhand)}`);
         let dir: "CW"|"CCW";
         switch (startRow) {
             // outer rows
@@ -275,6 +277,7 @@ export class BaoGame extends GameBase {
         if ( (phase === "namua") && (! isKutakata) ) {
             dir = dir === "CW" ? "CCW" : "CW";
         }
+        // console.log(`Cell: ${cell}, marker: ${marker}, isKutakata? ${isKutakata}, phase: ${phase}, dir: ${dir}`);
 
         // now let's try to execute the move
         // if in namua phase, add the stone
@@ -345,8 +348,8 @@ export class BaoGame extends GameBase {
             if (this.board[currRow][currCol] === 1) {
                 break;
             }
-            // if functional nyumba
-            if ( (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] >= 6) ) {
+            // if functional nyumba in kunamua phase (no safari or stopping in mtaji phase)
+            if ( (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] >= 6) && (phase === "namua") ) {
                 // if we're in a mtaji move, check for "+" and stop here but mark move incomplete
                 if ( (! isKutakata) && (! move.endsWith("+")) ) {
                     complete = false;
@@ -581,7 +584,7 @@ export class BaoGame extends GameBase {
                 const allowed: string[] = [];
                 for (const mv of caps) {
                     const cloned = BaoGame.clone(this);
-                    cloned.move(mv, {trusted: true, skipeog: true});
+                    cloned.move(mv, {trusted: true, skipeog: true, skipEconomy: true});
                     if (cloned.blocked[blockee - 1] === undefined) {
                         allowed.push(mv);
                     }
@@ -756,7 +759,7 @@ export class BaoGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false, partial = false, skipeog = false} = {}): BaoGame {
+    public move(m: string, {trusted = false, partial = false, skipeog = false, skipEconomy = false} = {}): BaoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -778,10 +781,16 @@ export class BaoGame extends GameBase {
         // annotate initial move
         const cell = m.substring(0, 2);
         if (this.inhand[this.currplayer - 1] > 0) {
-            this.inhand[this.currplayer - 1]--;
             this.results.push({type: "place", where: cell});
+            // Don't place a piece on the board at this point
+            // because `processMove()` does that for us.
+            // And don't remove the inhand piece until after `processMove()`.
+
             // check for partial in namua phase and get out
             if ( (m.length === 2) && (partial) ) {
+                // remove the piece from the hand here because the UI needs to be correct
+                // this is a partial move anyway
+                this.inhand[this.currplayer - 1]--;
                 const [x, y] = this.graph.algebraic2coords(cell);
                 this.board[y][x]++;
                 return this;
@@ -790,20 +799,34 @@ export class BaoGame extends GameBase {
 
         // determine very first direction for annotation
         const marker = m[2];
-        let dir: "CW"|"CCW";
-        const [, row] = this.graph.algebraic2coords(cell);
-        if ( (row === 0) || (row === 3) ) {
-            dir = marker === "<" ? "CW" : "CCW";
-        } else {
-            dir = marker === "<" ? "CCW" : "CW";
+        // for kunamua phase, mtaji turn, note the kichwa->kimbi
+        if ( (this.inhand[this.currplayer - 1] > 0) && (! m.endsWith("*")) ) {
+            const dir: "L"|"R" = marker === "<" ? "L" : "R";
+            const kichwa = this.graph.findType(`kichwa${this.currplayer}${dir}`);
+            const kimbi = this.graph.findType(`kimbi${this.currplayer}${dir}`);
+            if ( (kichwa === undefined) || (kimbi === undefined) ) {
+                throw new Error(`Unable to find the ${dir} kichwa or kimbi for player ${this.currplayer}`);
+            }
+            this.results.push({type: "move", from: kichwa, to: kimbi});
         }
-        const next = this.graph.sow(cell, dir, 1)[0];
-        this.results.push({type: "move", from: cell, to: next});
+        // for all other moves and phases, draw a simple arrow from selected cell
+        else {
+            let dir: "CW"|"CCW";
+            const [, row] = this.graph.algebraic2coords(cell);
+            if ( (row === 0) || (row === 3) ) {
+                dir = marker === "<" ? "CW" : "CCW";
+            } else {
+                dir = marker === "<" ? "CCW" : "CW";
+            }
+            const next = this.graph.sow(cell, dir, 1)[0];
+            this.results.push({type: "move", from: cell, to: next});
+        }
 
+        // console.log("This is the real processMove log:");
         const results = this.processMove(m);
-        // failsafe check for board economy
-        if (this.board.map(l => l.reduce((prev, curr) => prev + curr, 0)).reduce((prev, curr) => prev + curr, 0) > 64) {
-            throw new Error("Too many pieces on the board!");
+        // we can't remove the inhand piece until after `processMove()`
+        if (this.inhand[this.currplayer - 1] > 0) {
+            this.inhand[this.currplayer - 1]--;
         }
         // if a blocked cell is captured or sown, remove it from the blocked list
         for (let i = 0; i < this.blocked.length; i++) {
@@ -882,6 +905,9 @@ export class BaoGame extends GameBase {
             this.checkEOG();
         }
         this.saveState();
+        if (! skipEconomy) {
+            this.checkEconomy();
+        }
         return this;
     }
 
@@ -1091,5 +1117,17 @@ export class BaoGame extends GameBase {
 
     protected cloneBoard(): number[][] {
         return [...this.board.map(l => [...l])];
+    }
+
+    public checkEconomy() {
+        const inhand = this.inhand[0] + this.inhand[1];
+        const board = this.board.map(r => r.reduce((prev, curr) => prev + curr, 0)).reduce((prev, curr) => prev + curr, 0);
+        if ( (inhand + board) !== 64) {
+            // eslint-disable-next-line no-console
+            console.log(JSON.stringify(this.state()));
+            // eslint-disable-next-line no-console
+            console.log(JSON.stringify(this.render()));
+            throw new Error(`Invalid game economy! In hand: ${inhand}, on board: ${board}`);
+        }
     }
 }

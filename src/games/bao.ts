@@ -254,7 +254,6 @@ export class BaoGame extends GameBase {
         const cell = move.substring(0, 2);
         const [startCol, startRow] = this.graph.algebraic2coords(cell);
         const marker = move[2];
-        const isKutakata = move.endsWith("*") || this.board[startRow][startCol] >= 16;
         let player: playerid;
         if (startRow <= 1) {
             player = 2;
@@ -262,6 +261,7 @@ export class BaoGame extends GameBase {
             player = 1;
         }
         const phase: "namua"|"mtaji" = this.inhand[player - 1] > 0 ? "namua" : "mtaji";
+        const isKutakata = move.endsWith("*") || ( (this.board[startRow][startCol] >= 16) && (phase === "mtaji") ) ;
         // console.log(`Player: ${player}, Inhand: ${JSON.stringify(this.inhand)}`);
         let dir: "CW"|"CCW";
         switch (startRow) {

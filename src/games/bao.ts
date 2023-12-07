@@ -20,6 +20,7 @@ export interface IMoveState extends IIndividualState {
     houses: [string|undefined, string|undefined];
     inhand: [number,number];
     blocked: [string|undefined, string|undefined];
+    deltas: number[][];
 };
 
 export interface IBaoState extends IAPGameState {
@@ -85,6 +86,7 @@ export class BaoGame extends GameBase {
     public board!: number[][];
     public houses!: [string|undefined,string|undefined];
     public blocked!: [string|undefined,string|undefined];
+    public deltas: number[][] = [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],];
     public inhand!: [number,number];
     public gameover = false;
     public winner: playerid[] = [];
@@ -135,6 +137,7 @@ export class BaoGame extends GameBase {
                 inhand,
                 houses,
                 blocked: [undefined, undefined],
+                deltas: [[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],],
             };
             this.stack = [fresh];
         } else {
@@ -167,6 +170,7 @@ export class BaoGame extends GameBase {
         this.houses = [...state.houses];
         this.blocked = [...state.blocked];
         this.lastmove = state.lastmove;
+        this.deltas = [...this.deltas.map(l => [...l])];
         this.graph = new BaoGraph(this.houses);
         return this;
     }
@@ -822,8 +826,21 @@ export class BaoGame extends GameBase {
             this.results.push({type: "move", from: cell, to: next});
         }
 
+        // store board in advance for comparison
+        const before = this.cloneBoard();
         // console.log("This is the real processMove log:");
         const results = this.processMove(m);
+        const after = this.cloneBoard();
+        // now calculate deltas
+        this.deltas = [];
+        for (let y = 0; y < 4; y++) {
+            const row: number[] = [];
+            for (let x = 0; x < 8; x++) {
+                row.push(after[y][x] - before[y][x]);
+            }
+            this.deltas.push([...row]);
+        }
+
         // we can't remove the inhand piece until after `processMove()`
         if (this.inhand[this.currplayer - 1] > 0) {
             this.inhand[this.currplayer - 1]--;
@@ -966,6 +983,7 @@ export class BaoGame extends GameBase {
             houses: [...this.houses],
             inhand: [...this.inhand],
             blocked: [...this.blocked],
+            deltas: [...this.deltas.map(l => [...l])],
         };
     }
 
@@ -1023,10 +1041,22 @@ export class BaoGame extends GameBase {
             rep.board.squarePits = houses
         }
 
+        // record deltas
+        // @ts-ignore
+        rep.annotations = [];
+        const deltas: {row: number; col: number; delta: number}[] = [];
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 8; x++) {
+                if (this.deltas[y][x] !== 0) {
+                    deltas.push({row: y, col: x, delta: this.deltas[y][x]});
+                }
+            }
+        }
+        // @ts-ignore
+        rep.annotations.push({type: "deltas", deltas});
+
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
-            rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);

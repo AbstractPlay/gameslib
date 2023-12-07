@@ -170,7 +170,7 @@ export class BaoGame extends GameBase {
         this.houses = [...state.houses];
         this.blocked = [...state.blocked];
         this.lastmove = state.lastmove;
-        this.deltas = [...this.deltas.map(l => [...l])];
+        this.deltas = [...state.deltas.map(l => [...l])];
         this.graph = new BaoGraph(this.houses);
         return this;
     }

@@ -45,7 +45,7 @@ export class AlmataflGame extends GameBase {
             }
         ],
         variants: [{uid: "advanced"}],
-        flags: ["experimental", "custom-colours", "multistep"]
+        flags: ["custom-colours", "multistep"]
     };
 
     public static blocked = ["a1","a2","a5","a6","b1","b7","e1","e10","f1","f11","g1","g10","j1","j7","k1","k2","k5","k6"];

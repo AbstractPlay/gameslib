@@ -28,7 +28,7 @@
                 var statusbox = document.getElementById("clickstatus");
                 statusbox.innerHTML = resultStr;
                 if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-                    game.move(result.move, true);
+                    game.move(result.move, {partial: true});
                     var interim = JSON.stringify(game.render());
                     window.sessionStorage.setItem("interim", interim);
                 //} else {
@@ -53,7 +53,7 @@
                 var statusbox = document.getElementById("clickstatus");
                 statusbox.innerHTML = resultStr;
                 if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-                    game.move(result.move + ",", true);
+                    game.move(result.move + ",", {partial: true});
                     var interim = JSON.stringify(game.render());
                     window.sessionStorage.setItem("interim", interim);
                 } else {
@@ -295,6 +295,7 @@
                             var move = game.randomMove();
                             console.log(`Random move: ${move}`);
                             game.move(move);
+                            console.log(JSON.stringify(game.board));
                         } catch (err) {
                             if (err.name === "UserFacingError") {
                                 var resultStr = '<p style="color: #f00">ERROR: ' + err.client + '</p>';

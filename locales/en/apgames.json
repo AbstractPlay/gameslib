@@ -4,10 +4,12 @@
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
         "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
+        "almatafl": "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
+        "bao": "A traditional \"sowing\" game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
@@ -60,6 +62,7 @@
     },
     "notes": {
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
+        "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are higlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
@@ -215,6 +218,16 @@
             "PARTIAL": "Select where you want to move the piece.",
             "SAME_HEIGHT": "Pieces may only move between stacks of the same height."
         },
+        "almatafl": {
+            "BAD_DISTANCE": "Pieces must move a number of spaces equal to the height of its stack.",
+            "BOUNCE_INVADER": "To continue bouncing, the king must land on an invader.",
+            "BOUNCE_KING": "Only the king can move multiple times.",
+            "FRIENDLY_FIRE": "The defenders may not stack on top of their king.",
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "KING_ONLY": "Only the king can land on the throne or on exits.",
+            "PARTIAL": "Select the destination.",
+            "TOO_HIGH": "Pieces may not be stacked more than three high."
+        },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
@@ -272,6 +285,16 @@
             "POTENTIAL_TWO": "This could potentially be a capture. Provide the target location.",
             "TOOHIGH": "The combined stack after the capture will be too high.",
             "TRIPLESTACK": "Triple stacks cannot participate in captures."
+        },
+        "bao": {
+            "BAD_TAX": "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",
+            "CHOOSE_DIR_namua": "Select the adjacent pit in the direction you wish to sow or, if you're capturing, in the direction of the kichwa you want to start from.",
+            "CHOOSE_DIR_mtaji": "Select the adjacent pit in the direction you wish to sow.",
+            "EMPTY": "You cannot interact with empty pits.",
+            "INITIAL_INSTRUCTIONS_mtaji": "Select one of your pits that contains stones to begin sowing.",
+            "INITIAL_INSTRUCTIONS_namua": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture or sow. Captures are mandatory.",
+            "PLAY_HOUSE": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
+            "TWO_PLUS": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones."
         },
         "bide": {
             "EMPTY_HAND": "You have no more pieces to place.",
@@ -824,6 +847,12 @@
                 "description": "A larger version of the standard board."
             }
         },
+        "almatafl": {
+            "advanced": {
+                "description": "Makes it harder for the defenders by allowing invaders to stack on top of a king on an exit space. Defender wins if they *start* their turn with the king on an escape spot.",
+                "name": "Advanced"
+            }
+        },
         "armadas": {
             "freeform": {
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",
@@ -841,6 +870,16 @@
             "grand": {
                 "description": "Played on a larger board, with more voids, and the goal now is to create five triple stacks.",
                 "name": "Grand Attangle"
+            }
+        },
+        "bao": {
+            "kujifunza": {
+                "description": "The \"beginner\" version with no \"kunamua\" setup phase. The game starts with two stones in each pit.",
+                "name": "Bao la kujifunza"
+            },
+            "malawi": {
+                "description": "The house starts with 8 stones instead of 6.",
+                "name": "Malawi"
             }
         },
         "bounce": {
@@ -1065,6 +1104,12 @@
             "expanding": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
+            }
+        },
+        "bao": {
+            "pips": {
+                "description": "Display the stones as pips instead of as numerals.",
+                "name": "Pips"
             }
         }
     }

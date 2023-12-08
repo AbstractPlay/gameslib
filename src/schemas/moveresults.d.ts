@@ -215,4 +215,11 @@ export type APMoveResult =
     }
   | {
       type: "declare";
+    }
+  | {
+      type: "infinite";
+    }
+  | {
+      type: "sow";
+      pits: string[];
     };

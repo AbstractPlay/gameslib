@@ -22,6 +22,8 @@ export class HexTriGraph implements IGraph {
         this.graph = this.buildGraph();
     }
 
+    public static directions: ("NE"|"E"|"SE"|"SW"|"W"|"NW")[] = ["NE","E","SE","SW","W","NW"];
+
     public coords2algebraic(x: number, y: number): string {
         return columnLabels[this.height - y - 1] + (x + 1).toString();
     }

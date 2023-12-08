@@ -2,11 +2,11 @@ import { RectGrid } from "./rectGrid";
 import { reviver, replacer, sortingReplacer } from "./serialization";
 import { shuffle } from "./shuffle";
 import { UserFacingError } from "./errors";
-import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph } from "./graphs";
+import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph, BaoGraph } from "./graphs";
 import { wng } from "./namegenerator";
 import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing } from "./plotting";
 
-export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing };
+export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareGraph, SquareFanoronaGraph, BaoGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing };
 
 export type DirectionsCardinal = "N" | "E" | "S" | "W";
 export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";

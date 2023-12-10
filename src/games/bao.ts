@@ -624,12 +624,21 @@ export class BaoGame extends GameBase {
             else {
                 // if all that's there is a cell, assume you're choosing a direction
                 if (move.length === 2) {
+                    const [, origRow] = this.graph.algebraic2coords(move);
                     const dir = this.graph.getDir(move, cell);
                     if (dir !== undefined) {
                         if (dir === "CW") {
-                            newmove = move + ">";
+                            if ( (origRow === 0) || (origRow === 3) ) {
+                                newmove = move + "<";
+                            } else {
+                                newmove = move + ">";
+                            }
                         } else {
-                            newmove = move + "<";
+                            if ( (origRow === 0) || (origRow === 3) ) {
+                                newmove = move + ">";
+                            } else {
+                                newmove = move + "<";
+                            }
                         }
                     } else {
                         // make them try again

@@ -268,6 +268,7 @@ export class ScaffoldGame extends GameBase {
         if (this.followupMoves(moves, this.currplayer).length !== 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.scaffold.INCOMPLETE");
             return result;
         }

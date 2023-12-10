@@ -50,6 +50,7 @@
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
+        "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "streetcar": "It’s against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
@@ -713,6 +714,11 @@
             "WRONG_REALM_createBase": "You may only create a base in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_createEnforcer": "You may only create an enforcer in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_rearrange": "You may only place pieces in the realm being rearranged ({{realm}})."
+        },
+        "scaffold": {
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
+            "INCOMPLETE": "You need to place stones to connect the groups.",
+            "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
         },
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",

@@ -60,6 +60,7 @@ import { BounceGame, IBounceState } from "./bounce";
 import { QuagmireGame, IQuagmireState } from "./quagmire";
 import { BaoGame, IBaoState } from "./bao";
 import { AlmataflGame, IAlmataflState } from "./almatafl";
+import { ScaffoldGame, IScaffoldState } from "./scaffold";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -122,6 +123,7 @@ export {
     QuagmireGame, IQuagmireState,
     BaoGame, IBaoState,
     AlmataflGame, IAlmataflState,
+    ScaffoldGame, IScaffoldState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -143,10 +145,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AgereGame | typeof BideGame | typeof MiradorGame |
                               typeof RazzleGame | typeof DagEnNachtGame | typeof HexYGame |
                               typeof MurusGame | typeof BounceGame | typeof QuagmireGame |
-                              typeof BaoGame | typeof AlmataflGame
+                              typeof BaoGame | typeof AlmataflGame | typeof ScaffoldGame
                 >();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame, AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame, QuagmireGame, BaoGame, AlmataflGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame, AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame, QuagmireGame, BaoGame, AlmataflGame, ScaffoldGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -275,6 +277,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BaoGame(...args);
         case "almatafl":
             return new AlmataflGame(...args);
+        case "scaffold":
+            return new ScaffoldGame(...args);
     }
     return;
 }

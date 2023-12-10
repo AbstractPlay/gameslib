@@ -518,6 +518,24 @@ export class ScaffoldGame extends GameBase {
                 rep.annotations.push({type: "move", targets, arrow: false});
             }
         }
+        if (this.results.length > 0) {
+            const moves: string[] = []
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    moves.push(move.where!);
+                }
+            }
+            const followupMoves = this.followupMoves(moves, this.currplayer)
+            const points = [];
+            for (const followupMove of followupMoves) {
+                const [x, y] = ScaffoldGame.algebraic2coords(followupMove, this.boardSize);
+                points.push({row: y, col: x});
+            }
+            if (points.length > 0) {
+                // @ts-ignore
+                rep.annotations.push({type: "dots", targets: points, style: "dashed"});
+            }
+        }
 
         return rep;
     }

@@ -504,7 +504,7 @@ export class ScaffoldGame extends GameBase {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const [x, y] = ScaffoldGame.algebraic2coords(move.where!, this.boardSize);
-                    rep.annotations.push({type: "dots", targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
             if (this.connPath.length > 0) {

@@ -175,8 +175,12 @@ export class AlmataflGame extends GameBase {
                         if ( (player === 2) && (this.board.get(dest)?.map(c => c[1]).includes("king"))) {
                             continue;
                         }
-                        // can't move onto a blocked cell or the throne
-                        if ( (AlmataflGame.blocked.includes(dest)) || (dest === "f6") ) {
+                        // can't move onto a blocked cell
+                        if (AlmataflGame.blocked.includes(dest)) {
+                            continue;
+                        }
+                        // or the throne (unless the king is on it)
+                        if ( (dest === "f6") && ( (! this.board.has(dest)) || (! this.board.get(dest)!.map(p => p[1]).includes("king")) ) ) {
                             continue;
                         }
                         // Can't move onto exits unless advanced variant and king is there
@@ -361,7 +365,7 @@ export class AlmataflGame extends GameBase {
             }
             const stack = this.board.get(cell);
             // only kings on the throne
-            if ( (cell === "f6") && (stackStart[stackStart.length - 1][1] !== "king") ) {
+            if ( (cell === "f6") && (stackStart[stackStart.length - 1][1] !== "king") && (stack !== undefined) && (! stack.map(p => p[1]).includes("king")) ) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.almatafl.KING_ONLY");
                 return result;

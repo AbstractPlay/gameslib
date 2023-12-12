@@ -304,47 +304,51 @@ export class BaoGame extends GameBase {
             }
             // `curr` is the last pit you placed a stone in
             const [currCol, currRow] = this.graph.algebraic2coords(curr);
+            // console.log(`Curr: ${curr}`)
 
             // check for capture
-            const opposite = BaoGame.opposites.get(curr);
-            if (opposite !== undefined) {
-                const [oppCol, oppRow] = this.graph.algebraic2coords(opposite);
-                if ( (! isKutakata) && (this.board[currRow][currCol] > 1) && (this.board[oppRow][oppCol] > 0)) {
-                    inhand = this.board[oppRow][oppCol];
-                    this.board[oppRow][oppCol] = 0;
-                    capturedCells.push(opposite);
-                    capturedStones += inhand;
+            // but only if we're namua phase or mtaji phase after the first turn
+            if ( (phase === "namua") || (distance > 0) ) {
+                const opposite = BaoGame.opposites.get(curr);
+                if (opposite !== undefined) {
+                    const [oppCol, oppRow] = this.graph.algebraic2coords(opposite);
+                    if ( (! isKutakata) && (this.board[currRow][currCol] > 1) && (this.board[oppRow][oppCol] > 0)) {
+                        inhand = this.board[oppRow][oppCol];
+                        this.board[oppRow][oppCol] = 0;
+                        capturedCells.push(opposite);
+                        capturedStones += inhand;
 
-                    // now determine new starting point and direction
-                    let enterPit: string|undefined;
-                    let enterDir = dir;
-                    const currType = this.graph.getType(curr);
-                    if (currType === undefined) {
-                        throw new Error(`Could not determine pit type for ${curr}`);
-                    }
-                    // if capture occured in kimbi or kichwa, predetermined
-                    if (currType.startsWith("ki")) {
-                        const enterType: PitType = `kichwa${player}${currType[currType.length - 1]}` as PitType;
-                        enterPit = this.graph.findType(enterType);
-                        if (enterPit === undefined) {
-                            throw new Error(`Could not find a pit of type ${enterType}`);
+                        // now determine new starting point and direction
+                        let enterPit: string|undefined;
+                        let enterDir = dir;
+                        const currType = this.graph.getType(curr);
+                        if (currType === undefined) {
+                            throw new Error(`Could not determine pit type for ${curr}`);
                         }
-                        enterDir = currType[currType.length - 1] === "L" ? "CW" : "CCW";
-                    }
-                    // otherwise, continue in current direction
-                    else {
-                        const enterType: PitType = `kichwa${player}${dir === "CW" ? "L" : "R"}` as PitType;
-                        enterPit = this.graph.findType(enterType);
-                        if (enterPit === undefined) {
-                            throw new Error(`Could not find a pit of type ${enterType}`);
+                        // if capture occured in kimbi or kichwa, predetermined
+                        if (currType.startsWith("ki")) {
+                            const enterType: PitType = `kichwa${player}${currType[currType.length - 1]}` as PitType;
+                            enterPit = this.graph.findType(enterType);
+                            if (enterPit === undefined) {
+                                throw new Error(`Could not find a pit of type ${enterType}`);
+                            }
+                            enterDir = currType[currType.length - 1] === "L" ? "CW" : "CCW";
                         }
+                        // otherwise, continue in current direction
+                        else {
+                            const enterType: PitType = `kichwa${player}${dir === "CW" ? "L" : "R"}` as PitType;
+                            enterPit = this.graph.findType(enterType);
+                            if (enterPit === undefined) {
+                                throw new Error(`Could not find a pit of type ${enterType}`);
+                            }
+                        }
+                        // with captures, we don't want to skip the kichwa
+                        // so move curr *back* one space
+                        curr = this.graph.sow(enterPit, enterDir, -1)[0];
+                        dir = enterDir;
+                        // restart loop
+                        continue;
                     }
-                    // with captures, we don't want to skip the kichwa
-                    // so move curr *back* one space
-                    curr = this.graph.sow(enterPit, enterDir, -1)[0];
-                    dir = enterDir;
-                    // restart loop
-                    continue;
                 }
             }
 

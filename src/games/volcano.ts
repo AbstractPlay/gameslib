@@ -760,10 +760,10 @@ export class VolcanoGame extends GameBase {
     private renderPiecesHelper(s: CellContents[], altDisplay: string | undefined): string[] {
         if (altDisplay !== 'expanding') {
             const ret: string[] = [];
-            for (let i = 0; i < s.length; i++) {
-                for (let j = 0; j < s[i][1] - ret.length - 1; j++)
+            for (const piece of s) {
+                for (let j = 0; j < piece[1] - ret.length - 1; j++)
                     ret.push("-");
-                ret.push(s[i].join(""));
+                ret.push(piece.join(""));
             }
             return ret;
         } else {

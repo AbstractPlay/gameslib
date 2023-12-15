@@ -761,7 +761,8 @@ export class VolcanoGame extends GameBase {
         if (altDisplay !== 'expanding') {
             const ret: string[] = [];
             for (const piece of s) {
-                for (let j = 0; j < piece[1] - ret.length - 1; j++)
+                const maxj = piece[1] - ret.length - 1;
+                for (let j = 0; j < maxj; j++)
                     ret.push("-");
                 ret.push(piece.join(""));
             }

@@ -474,7 +474,7 @@ export class ScaffoldGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "squares",
+                style: "vertex",
                 width: this.boardSize,
                 height: this.boardSize,
                 markers: [

@@ -721,7 +721,8 @@
             "DIAGONAL": "Cannot have piece diagonally adjacent without orthogonally connected by common like-coloured piece.",
             "CANNOT_MOVE": "Advanced Slither: Movement only possible if a piece is part of a contiguous orthogonal group consisting of pieces of both colors.",
             "NOT_ADJACENT": "Pieces can only move to adjacent spaces.",
-            "NO_VALID_FOLLOWUP": "Movement here will not result in a valid follow-up move."
+            "NO_VALID_FOLLOWUP": "Movement here will not result in a valid follow-up move.",
+            "NEED_PLACEMENT": "You must place a piece."
         },
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",

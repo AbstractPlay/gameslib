@@ -367,13 +367,13 @@ export class SlitherGame extends GameBase {
         // Sometimes, a piece may be in both toAdd and toRemove.
 
         // We check for validity of state around all cells in toAdd,
-        // as well as all cells adjacent to toAdd and toRemove.
+        // as well as all cells orthogonally adjacent to cells in toRemove.
         const toCheck: Set<string> = new Set(toAdd);
-        for (const cell of toAdd.concat(toRemove ?? [])) {
+        for (const cell of toRemove ?? []) {
             const [x,y] = SlitherGame.algebraic2coords(cell, this.boardSize);
-            for (const n of this.grid.adjacencies(x, y)) {
+            for (const n of this.grid.adjacencies(x, y, false)) {
                 const place = SlitherGame.coords2algebraic(...n, this.boardSize);
-                if (this.board.has(place) && this.board.get(place) === player && !(toRemove && toRemove.includes(place))) {
+                if (this.board.has(place) && this.board.get(place) === player) {
                     toCheck.add(place);
                 }
             }

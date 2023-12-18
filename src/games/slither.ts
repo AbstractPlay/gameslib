@@ -144,7 +144,6 @@ export class SlitherGame extends GameBase {
         }
         const moves: string[] = [];
 
-        // There may be edge cases. Need checking if move list is both complete and valid.
         for (let y = 0; y < this.boardSize; y++) {
             for (let x = 0; x < this.boardSize; x++) {
                 const cell = SlitherGame.coords2algebraic(x, y, this.boardSize);
@@ -163,7 +162,7 @@ export class SlitherGame extends GameBase {
                             for (let y2 = 0; y2 < this.boardSize; y2++) {
                                 for (let x2 = 0; x2 < this.boardSize; x2++) {
                                     const place = SlitherGame.coords2algebraic(x2, y2, this.boardSize);
-                                    if (cell === place || !this.board.has(place) && this.isValid(this.currplayer, [to, place], [cell]) && place !== to) {
+                                    if ((cell === place || !this.board.has(place)) && this.isValid(this.currplayer, [to, place], [cell]) && place !== to) {
                                         moves.push(`${cell}-${to}/${place}`);
                                     }
                                 }

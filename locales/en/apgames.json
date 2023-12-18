@@ -288,6 +288,7 @@
         },
         "bao": {
             "BAD_TAX": "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",
+            "BLOCKED": "You may not begin a kutakata turn with a pit that is blocked (is in kutakatia).",
             "CHOOSE_DIR_namua": "Select the adjacent pit in the direction you wish to sow or, if you're capturing, in the direction of the kichwa you want to start from.",
             "CHOOSE_DIR_mtaji": "Select the adjacent pit in the direction you wish to sow.",
             "EMPTY": "You cannot interact with empty pits.",

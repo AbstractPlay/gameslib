@@ -725,13 +725,13 @@
         "slither": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "PLACEMENT_MADE": "You have already made a move at {{where}}.",
-            "DIAGONAL": "Cannot have piece diagonally adjacent without orthogonally connected by common like-coloured piece.",
+            "DIAGONAL": "A piece may not be diagonally adjacent unless orthogonally connected by like-coloured piece.",
             "CANNOT_MOVE": "Advanced Slither: Movement only possible if a piece is part of a contiguous orthogonal group consisting of pieces of both colors.",
             "NOT_ADJACENT": "Pieces can only move to adjacent spaces.",
             "NO_VALID_FOLLOWUP": "Movement here will not result in a valid follow-up move.",
             "NEED_PLACEMENT": "You must place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available."
-        }, 
+        },
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",
             "ALREADY_CLAIMED": "The edge '{{edge}}' is already claimed.",

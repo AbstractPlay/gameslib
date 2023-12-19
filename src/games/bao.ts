@@ -772,6 +772,12 @@ export class BaoGame extends GameBase {
             return result;
         }
 
+        if (this.blocked.includes(cell)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.bao.BLOCKED");
+            return result;
+        }
+
         // failsafe
         result.valid = false;
         result.message = i18next.t("apgames:validation._general.FAILSAFE", {move: m});

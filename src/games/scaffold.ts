@@ -9,9 +9,6 @@ import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const deepclone = require("rfdc/default");
-
 export type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -56,6 +53,7 @@ export class ScaffoldGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public boardSize = 0;
+    private grid: RectGrid;
     private lines: [PlayerLines,PlayerLines];
 
     constructor(state?: IScaffoldState | string) {
@@ -84,6 +82,7 @@ export class ScaffoldGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.grid = new RectGrid(this.boardSize, this.boardSize);
         this.lines = this.getLines();
     }
 
@@ -136,7 +135,7 @@ export class ScaffoldGame extends GameBase {
                 const cell = ScaffoldGame.coords2algebraic(x, y, this.boardSize);
                 if (! this.board.has(cell)) {
                     for (const movesList of this.traverseFollowups([cell], player)) {
-                        moves.push(movesList.join("-"));
+                        moves.push(movesList.join(","));
                     }
                 }
             }
@@ -158,27 +157,48 @@ export class ScaffoldGame extends GameBase {
 
     private followupMoves(cells: string[], player: playerid): string[] {
         // `cells` is the original chosen cell, plus any cell to be hypothetically filled.
-        const g: ScaffoldGame = Object.assign(new ScaffoldGame(), deepclone(this) as ScaffoldGame);
-        const neighbours: Set<string> = new Set()
+        const toChecks: Set<string> = new Set();
         for (const cell of cells) {
-            g.board.set(cell, player);
-            this.getNeighbours(cell).forEach(item => neighbours.add(item));
+            for (const neighbour of this.getNeighbours(cell)) {
+                if (!this.board.has(neighbour)) {
+                    toChecks.add(neighbour);
+                }
+            }
         }
-        const groupCount = g.getGroups(player).length;
         const followups: string[] = [];
-        // Find stones in orthogonal positions for which placement will
-        // result in a reduction of number of groups on the board.
-        for (const n of neighbours) {
-            if (g.board.has(n)) {
-                continue;
+        for (const toCheck of toChecks) {
+            if (this.forcedPlacement(toCheck, cells, player)) {
+                followups.push(toCheck);
             }
-            g.board.set(n, player);
-            if (groupCount !== g.getGroups(player).length) {
-                followups.push(n)
-            }
-            g.board.delete(n);
         }
         return followups;
+    }
+
+    private forcedPlacement(toCheck: string, cells: string[], player: playerid): boolean {
+        // Check to see if any adjacent cell is connected to the group of placed `cells`.
+        const startPoints = this.getNeighbours(toCheck).filter(n => this.board.has(n) && this.board.get(n) === player && !cells.includes(n));
+        outer:
+        for (const startPoint of startPoints) {
+            const seen: Set<string> = new Set();
+            const todo = [startPoint];
+            while (todo.length > 0) {
+                const cell = todo.pop()!;
+                if (seen.has(cell)) {
+                    continue;
+                }
+                seen.add(cell);
+                for (const n of this.getNeighbours(cell)) {
+                    if (cells.includes(n)) {
+                        continue outer;
+                    }
+                    if (this.board.has(n) && this.board.get(n) === player) {
+                        todo.push(n);
+                    }
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public randomMove(): string {
@@ -193,7 +213,7 @@ export class ScaffoldGame extends GameBase {
             if (move.length === 0) {
                 newmove = cell;
             } else {
-                newmove = move + `-${cell}`;
+                newmove = move + `,${cell}`;
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -223,7 +243,7 @@ export class ScaffoldGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const moves = m.split("-");
+        const moves = m.split(",");
 
         // valid cell
         let currentMove;
@@ -280,51 +300,9 @@ export class ScaffoldGame extends GameBase {
         return result;
     }
 
-    private getGroups(player: playerid): Set<string>[] {
-        const groups: Set<string>[] = [];
-        const pieces = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
-        const seen: Set<string> = new Set();
-        for (const piece of pieces) {
-            if (seen.has(piece)) {
-                continue;
-            }
-            const group: Set<string> = new Set();
-            const todo: string[] = [piece]
-            while (todo.length > 0) {
-                const cell = todo.pop()!;
-                if (seen.has(cell)) {
-                    continue;
-                }
-                group.add(cell);
-                seen.add(cell);
-                const neighbours = this.getNeighbours(cell);
-                for (const n of neighbours) {
-                    if (pieces.includes(n)) {
-                        todo.push(n);
-                    }
-                }
-            }
-            groups.push(group);
-        }
-        return groups;
-    }
-
     private getNeighbours(cell: string): string[] {
         const [x,y] = ScaffoldGame.algebraic2coords(cell, this.boardSize);
-        const neighbours: string[] = [];
-        if (x > 0) {
-            neighbours.push(ScaffoldGame.coords2algebraic(x-1, y, this.boardSize));
-        }
-        if (x < this.boardSize) {
-            neighbours.push(ScaffoldGame.coords2algebraic(x+1, y, this.boardSize));
-        }
-        if (y > 0) {
-            neighbours.push(ScaffoldGame.coords2algebraic(x, y-1, this.boardSize));
-        }
-        if (y < this.boardSize) {
-            neighbours.push(ScaffoldGame.coords2algebraic(x, y+1, this.boardSize));
-        }
-        return neighbours;
+        return this.grid.adjacencies(x, y, false).map(n => ScaffoldGame.coords2algebraic(...n, this.boardSize));
     }
 
     public move(m: string, {partial = false, trusted = false} = {}): ScaffoldGame {
@@ -347,7 +325,7 @@ export class ScaffoldGame extends GameBase {
         }
 
         this.results = [];
-        const moves = m.split("-");
+        const moves = m.split(",");
         for (const move of moves) {
             this.board.set(move, this.currplayer);
             this.results.push({type: "place", where: move});
@@ -369,7 +347,6 @@ export class ScaffoldGame extends GameBase {
     }
 
     private buildGraph(player: playerid): UndirectedGraph {
-        const grid = new RectGrid(this.boardSize,this.boardSize);
         const graph = new UndirectedGraph();
         // seed nodes
         [...this.board.entries()].filter(([,p]) => p === player).forEach(([cell,]) => {
@@ -379,7 +356,7 @@ export class ScaffoldGame extends GameBase {
         // if any are in the graph, add an edge
         for (const node of graph.nodes()) {
             const [x,y] = ScaffoldGame.algebraic2coords(node, this.boardSize);
-            const neighbours = grid.adjacencies(x,y,false).map(n => ScaffoldGame.coords2algebraic(...n, this.boardSize));
+            const neighbours = this.grid.adjacencies(x,y,false).map(n => ScaffoldGame.coords2algebraic(...n, this.boardSize));
             for (const n of neighbours) {
                 if ( (graph.hasNode(n)) && (! graph.hasEdge(node, n)) ) {
                     graph.addEdge(node, n);
@@ -533,7 +510,7 @@ export class ScaffoldGame extends GameBase {
             }
             if (points.length > 0) {
                 // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points, style: "dashed"});
+                rep.annotations.push({type: "dots", targets: points});
             }
         }
 

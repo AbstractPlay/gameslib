@@ -135,7 +135,7 @@ export class ScaffoldGame extends GameBase {
                 const cell = ScaffoldGame.coords2algebraic(x, y, this.boardSize);
                 if (! this.board.has(cell)) {
                     for (const movesList of this.traverseFollowups([cell], player)) {
-                        moves.push(movesList.join("-"));
+                        moves.push(movesList.join(","));
                     }
                 }
             }
@@ -213,7 +213,7 @@ export class ScaffoldGame extends GameBase {
             if (move.length === 0) {
                 newmove = cell;
             } else {
-                newmove = move + `-${cell}`;
+                newmove = move + `,${cell}`;
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -243,7 +243,7 @@ export class ScaffoldGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const moves = m.split("-");
+        const moves = m.split(",");
 
         // valid cell
         let currentMove;
@@ -325,7 +325,7 @@ export class ScaffoldGame extends GameBase {
         }
 
         this.results = [];
-        const moves = m.split("-");
+        const moves = m.split(",");
         for (const move of moves) {
             this.board.set(move, this.currplayer);
             this.results.push({type: "place", where: move});

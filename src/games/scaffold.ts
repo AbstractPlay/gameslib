@@ -55,6 +55,7 @@ export class ScaffoldGame extends GameBase {
     public boardSize = 0;
     private grid: RectGrid;
     private lines: [PlayerLines,PlayerLines];
+    private dots: string[] = [];
 
     constructor(state?: IScaffoldState | string) {
         super();
@@ -321,7 +322,6 @@ export class ScaffoldGame extends GameBase {
             if ( (! partial) && (! this.moves().includes(m)) ) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
-
         }
 
         this.results = [];
@@ -331,7 +331,12 @@ export class ScaffoldGame extends GameBase {
             this.results.push({type: "place", where: move});
         }
 
-        if (partial) { return this; }
+        if (partial) {
+            this.dots = [...this.followupMoves(moves, this.currplayer)];
+            return this;
+        } else {
+            this.dots = [];
+        }
 
         // update currplayer
         this.lastmove = m;
@@ -495,17 +500,12 @@ export class ScaffoldGame extends GameBase {
                 rep.annotations.push({type: "move", targets, arrow: false});
             }
         }
-        if (this.results.length > 0) {
-            const moves: string[] = []
-            for (const move of this.results) {
-                if (move.type === "place") {
-                    moves.push(move.where!);
-                }
-            }
-            const followupMoves = this.followupMoves(moves, this.currplayer)
-            const points = [];
-            for (const followupMove of followupMoves) {
-                const [x, y] = ScaffoldGame.algebraic2coords(followupMove, this.boardSize);
+
+        // add dots if provided
+        if ( (this.dots !== undefined) && (this.dots.length > 0) ) {
+            const points: {row: number; col: number}[] = [];
+            for (const dot of this.dots) {
+                const [x, y] = ScaffoldGame.algebraic2coords(dot, this.boardSize);
                 points.push({row: y, col: x});
             }
             if (points.length > 0) {

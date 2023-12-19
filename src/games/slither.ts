@@ -66,7 +66,7 @@ export class SlitherGame extends GameBase {
     private grid: RectGrid;
     private lines: [PlayerLines,PlayerLines];
 
-    constructor(state?: ISlitherState | string) {
+    constructor(state?: ISlitherState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             const board = new Map<string, playerid>();
@@ -79,6 +79,9 @@ export class SlitherGame extends GameBase {
                 connPath: [],
             };
             this.stack = [fresh];
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
         } else {
             if (typeof state === "string") {
                 state = JSON.parse(state, reviver) as ISlitherState;
@@ -88,7 +91,7 @@ export class SlitherGame extends GameBase {
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.variants = state.variants;
+            this.variants = [...state.variants];
             this.stack = [...state.stack];
         }
         this.load();

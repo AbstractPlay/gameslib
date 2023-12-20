@@ -385,34 +385,31 @@ export class SlitherGame extends GameBase {
         for (const cell of toCheck) {
             for (const [left,right] of nonos) {
                 const [x,y] = SlitherGame.algebraic2coords(cell, this.boardSize);
-                let matchLeft = false;
+                const dirDiag = (left + right) as Directions;
+                const rayDiag = this.grid.ray(x, y, dirDiag).map(n => SlitherGame.coords2algebraic(...n, this.boardSize));
+                if (rayDiag.length === 0) {
+                    continue
+                } else {
+                    const check = rayDiag[0];
+                    if ( !(toAdd.includes(check) || this.board.has(check) && this.board.get(check) === player && !(toRemove && toRemove.includes(check)))) {
+                        continue;
+                    }
+                }
                 const rayLeft = this.grid.ray(x, y, left).map(n => SlitherGame.coords2algebraic(...n, this.boardSize));
                 if (rayLeft.length > 0) {
                     const check = rayLeft[0];
                     if (toAdd.includes(check) || this.board.has(check) && this.board.get(check) === player && !(toRemove && toRemove.includes(check))) {
-                        matchLeft = true;
+                        continue;
                     }
                 }
-                let matchRight = false;
                 const rayRight = this.grid.ray(x, y, right).map(n => SlitherGame.coords2algebraic(...n, this.boardSize));
                 if (rayRight.length > 0) {
                     const check = rayRight[0];
                     if (toAdd.includes(check) || this.board.has(check) && this.board.get(check) === player && !(toRemove && toRemove.includes(check))) {
-                        matchRight = true;
+                        continue;
                     }
                 }
-                const dirDiag = (left + right) as Directions;
-                let matchDiag = false;
-                const rayDiag = this.grid.ray(x, y, dirDiag).map(n => SlitherGame.coords2algebraic(...n, this.boardSize));
-                if (rayDiag.length > 0) {
-                    const check = rayDiag[0];
-                    if (toAdd.includes(check) || this.board.has(check) && this.board.get(check) === player && !(toRemove && toRemove.includes(check))) {
-                        matchDiag = true;
-                    }
-                }
-                if (matchDiag && !(matchLeft || matchRight)) {
-                    return false;
-                }
+                return false;
             }
         }
         return true;

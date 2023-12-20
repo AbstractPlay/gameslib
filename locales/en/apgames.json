@@ -1063,7 +1063,7 @@
             "13x13": {
                 "name": "13x13 board"
             },
-            "Classic": {
+            "classic": {
                 "name": "Classic movement rules"
             }
         },

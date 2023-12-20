@@ -734,7 +734,7 @@ export class BaoGame extends GameBase {
         if (m.length === 2) {
             result.valid = true;
             result.complete = -1;
-            result.canrender = true;
+            result.canrender = false;
             result.message = i18next.t("apgames:validation.bao.CHOOSE_DIR", {context: this.inhand[this.currplayer - 1] === 0 ? "mtaji" : "namua"});
             return result;
         }

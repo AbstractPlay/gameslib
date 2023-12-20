@@ -365,7 +365,7 @@ export class AlmataflGame extends GameBase {
             }
             const stack = this.board.get(cell);
             // only kings on the throne
-            if ( (cell === "f6") && (stackStart[stackStart.length - 1][1] !== "king") && (stack !== undefined) && (! stack.map(p => p[1]).includes("king")) ) {
+            if ( (cell === "f6") && (stackStart[stackStart.length - 1][1] !== "king") && ( (stack === undefined) || (! stack.map(p => p[1]).includes("king")) ) ) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.almatafl.KING_ONLY");
                 return result;

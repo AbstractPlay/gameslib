@@ -50,7 +50,7 @@ export class SlitherGame extends GameBase {
                 group: "movement"
             }
         ],
-        flags: ["experimental", "pie", "automove", "multistep", "rotate90"]
+        flags: ["pie", "automove", "multistep", "rotate90"]
     };
 
     public numplayers = 2;

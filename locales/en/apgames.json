@@ -1059,6 +1059,14 @@
                 "description": "Captured bases are immediately replaced by one of your own. Leads to a much faster game."
             }
         },
+        "slither": {
+            "13x13": {
+                "name": "13x13 board"
+            },
+            "Classic": {
+                "name": "Classic movement rules"
+            }
+        },
         "streetcar": {
             "5point": {
                 "name": "Lower penalty (-5)",

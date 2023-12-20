@@ -40,7 +40,7 @@ export class ScaffoldGame extends GameBase {
                 name: "Andrew Lannan",
             }
         ],
-        flags: ["experimental", "pie", "automove", "multistep", "rotate90"]
+        flags: ["pie", "automove", "multistep", "rotate90"]
     };
 
     public numplayers = 2;

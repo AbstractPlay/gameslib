@@ -866,10 +866,12 @@ export class BaoGame extends GameBase {
         if (this.inhand[this.currplayer - 1] > 0) {
             this.inhand[this.currplayer - 1]--;
         }
-        // if a blocked cell is captured or sown, remove it from the blocked list
+        // if a blocked cell is captured or sown, or if the threatening pit is captured, remove it from the blocked list
         for (let i = 0; i < this.blocked.length; i++) {
-            if (this.blocked[i] !== undefined) {
-                if ( (results.sown.includes(this.blocked[i]!)) || (results.captured.cells.includes(this.blocked[i]!)) ) {
+            if ( (this.blocked[i] !== undefined) && (this.blocked[i] !== null) ) {
+                const blocked = this.blocked[i]!;
+                const blocker = BaoGame.opposites.get(blocked)!;
+                if ( (results.sown.includes(blocked)) || (results.captured.cells.includes(blocked)) || (results.captured.cells.includes(blocker)) ) {
                     this.blocked[i] = undefined;
                 }
             }

@@ -244,6 +244,23 @@ describe("Bao", () => {
         expect(g.moves()).eql(["b1<"]);
     });
 
+    it ("Kutakatia clearing", () => {
+        const state = `{"game":"bao","numplayers":2,"variants":["kujifunza"],"gameover":false,"winner":[],"stack":[{"_version":"20231126","_results":[],"_timestamp":"2023-12-18T23:36:45.093Z","currplayer":1,"board":[[2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2]],"inhand":[0,0],"houses":[null,null],"blocked":[null,null],"deltas":[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]]},{"_version":"20231126","_results":[{"type":"move","from":"a2","to":"b2"},{"type":"capture","where":"c3, b3, g3, h3","count":8}],"_timestamp":"2023-12-18T23:38:47.302Z","currplayer":2,"lastmove":"a2>","board":[[2,2,2,2,2,2,2,2],[2,0,0,2,2,2,0,0],[3,1,0,4,4,4,1,5],[3,3,0,3,3,0,3,3]],"houses":[null,null],"inhand":[0,0],"blocked":[null,null],"deltas":[[0,0,0,0,0,0,0,0],[0,-2,-2,0,0,0,-2,-2],[1,-1,-2,2,2,2,-1,3],[1,1,-2,1,1,-2,1,1]]},{"_version":"20231126","_results":[{"type":"move","from":"f3","to":"e3"},{"type":"capture","where":"d2, e2, g2, h2, b2, a2","count":18}],"_timestamp":"2023-12-19T00:30:53.348Z","currplayer":1,"lastmove":"f3>","board":[[1,0,4,1,4,0,1,4],[6,4,0,2,3,5,1,6],[0,0,0,0,0,4,0,0],[3,3,0,3,3,0,3,3]],"houses":[null,null],"inhand":[0,0],"blocked":[null,null],"deltas":[[-1,-2,2,-1,2,-2,-1,2],[4,4,0,0,1,3,1,6],[-3,-1,0,-4,-4,0,-1,-5],[0,0,0,0,0,0,0,0]]},{"_version":"20231126","_results":[{"type":"move","from":"h1","to":"h2"},{"type":"capture","where":"f3","count":5}],"_timestamp":"2023-12-19T00:30:53.369Z","currplayer":2,"lastmove":"h1>","board":[[1,0,4,1,4,0,1,4],[6,4,0,2,3,0,1,6],[0,0,0,1,1,6,2,2],[3,3,0,3,3,0,3,0]],"houses":[null,null],"inhand":[0,0],"blocked":[null,null],"deltas":[[0,0,0,0,0,0,0,0],[0,0,0,0,0,-5,0,0],[0,0,0,1,1,2,2,2],[0,0,0,0,0,0,0,-3]]},{"_version":"20231126","_results":[{"type":"move","from":"h4","to":"h3"},{"type":"capture","where":"e2, h2, g2","count":5}],"_timestamp":"2023-12-19T00:31:14.649Z","currplayer":1,"lastmove":"h4<","board":[[1,0,4,1,4,0,1,0],[6,4,1,3,5,2,0,10],[0,0,0,1,0,6,0,0],[3,3,0,3,3,0,3,0]],"houses":[null,null],"inhand":[0,0],"blocked":[null,null],"deltas":[[0,0,0,0,0,0,0,-4],[0,0,1,1,2,2,-1,4],[0,0,0,0,-1,0,-2,-2],[0,0,0,0,0,0,0,0]]},{"_version":"20231126","_results":[{"type":"move","from":"f2","to":"e2"},{"type":"sow","pits":["f2","a1","e1"]}],"_timestamp":"2023-12-19T00:45:36.895Z","currplayer":2,"lastmove":"f2<*","board":[[1,0,4,1,4,0,1,0],[6,4,1,3,5,2,0,10],[1,1,1,2,1,0,0,1],[0,4,1,4,0,1,4,1]],"houses":[null,null],"inhand":[0,0],"blocked":[null,null],"deltas":[[0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],[1,1,1,1,1,-6,0,1],[-3,1,1,1,-3,1,1,1]]},{"_version":"20231126","_results":[{"type":"move","from":"h3","to":"h4"},{"type":"capture","where":"b2, a2, c2","count":3}],"_timestamp":"2023-12-19T00:55:30.675Z","currplayer":1,"lastmove":"h3<","board":[[1,3,7,1,0,3,1,0],[1,9,1,5,7,4,0,2],[0,0,0,2,1,0,0,1],[0,4,1,4,0,1,4,1]],"houses":[null,null],"inhand":[0,0],"blocked":[null,null],"deltas":[[0,3,3,0,-4,3,0,0],[-5,5,0,2,2,2,0,-8],[-1,-1,-1,0,0,0,0,0],[0,0,0,0,0,0,0,0]]}]}`;
+        let g = new BaoGame(state);
+        g.move("d2<*");
+        expect(g.blocked).eql([null, "c3"]);
+        g.move("c4>");
+        expect(g.moves()).eql(["b1<"]);
+        g.move("b1<");
+        expect(g.blocked).eql([null,undefined]);
+
+        g = new BaoGame(state);
+        g.move("d2<*");
+        expect(g.blocked).eql([null, "c3"]);
+        g.move("f3>");
+        expect(g.blocked).eql([null,undefined]);
+    });
+
     it("Infinite loops", () => {
         const g = new BaoGame();
         g.inhand = [13,13];

@@ -725,13 +725,8 @@ export class MurusGame extends GameBase {
         const mypieces = [...this.board.entries()].filter(e => (e[0].endsWith(mytarget)) && (e[1][0] === this.currplayer));
         const theirpieces = [...this.board.entries()].filter(e => (e[0].endsWith(theirtarget)) && (e[1][0] === prevPlayer));
 
-        // Current player has no legal moves
-        if (this.moves().length === 0) {
-            this.gameover = true;
-            this.winner = [prevPlayer];
-        }
         // If not in `escape` variant, then check home rows
-        else if (! this.variants.includes("escape")) {
+        if (! this.variants.includes("escape")) {
             // in basic, end immediately if stone on home row
             if (this.variants.includes("basic")) {
                 if (theirpieces.length > 0) {
@@ -745,6 +740,13 @@ export class MurusGame extends GameBase {
                     this.gameover = true;
                     this.winner = [this.currplayer];
                 }
+            }
+        }
+        if (! this.gameover) {
+            // Current player has no legal moves
+            if (this.moves().length === 0) {
+                this.gameover = true;
+                this.winner = [prevPlayer];
             }
         }
 

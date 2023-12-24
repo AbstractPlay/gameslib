@@ -15,6 +15,7 @@
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
+        "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
@@ -333,6 +334,18 @@
             "ONLY_FORWARD": "Pieces may only move forward.",
             "PARTIAL": "Provide the destination.",
             "TOOFAR": "Pieces can only move one space at a time."
+        },
+        "byte": {
+            "DIAG_ONLY": "Stacks may only move diagonally.",
+            "INITIAL_INSTRUCTIONS": "Select a stack to move. If merging stacks, select the bottom checker you wish to move.",
+            "INVALID_INDEX": "There is no checker at position {{index}} in the stack at {{where}}.",
+            "INVALID_MERGE": "When merging stacks, the destination space must be occupied",
+            "INVALID_MVMT": "When moving whole stacks, the destination space must be empty.",
+            "INVALID_PASS": "You may not pass if you have any legal moves available, even if those moves would benefit your opponent.",
+            "MUST_CLIMB": "When merging, the bottom checker must end up at a higher position than where it started.",
+            "TOO_HIGH_one": "Moving {{count}} checker from {{from}} to {{to}} would result in a stack that is too high.",
+            "TOO_HIGH_other": "Moving {{count}} checkers from {{from}} to {{to}} would result in a stack that is too high.",
+            "UNOWNED_INDEX": "You don't control the checker at position {{index}} in the stack at {{where}}."
         },
         "cannon": {
             "BAD_RETREAT": "Pieces can only retreat if they are adjacent to at least one enemy piece.",
@@ -909,6 +922,11 @@
             "bombardment": {
                 "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it.",
                 "name": "Bombardment"
+            }
+        },
+        "byte": {
+            "10x10": {
+                "name": "Larger board: 10x10"
             }
         },
         "ceph": {

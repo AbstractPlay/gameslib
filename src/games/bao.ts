@@ -50,7 +50,7 @@ export class BaoGame extends GameBase {
         // i18next.t("apgames:notes.bao")
         notes: "apgames:notes.bao",
         urls: ["https://en.wikipedia.org/wiki/Bao_(game)"],
-        flags: ["experimental", "perspective", "limited-pieces", "automove"],
+        flags: ["perspective", "limited-pieces", "automove"],
         variants: [
             {
                 uid: "malawi",
@@ -691,10 +691,12 @@ export class BaoGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        const phase = this.inhand[this.currplayer - 1] > 0 ? "namua" : "mtaji";
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.bao.INITIAL_INSTRUCTIONS", {context: this.inhand[this.currplayer - 1] > 0 ? "namua" : "mtaji"});
+            const mvtype = this.moves()[0].endsWith("*") ? "kutakata" : "mtaji";
+            result.message = i18next.t("apgames:validation.bao.INITIAL_INSTRUCTIONS", {context: `${phase}|${mvtype}`});
             return result;
         }
 
@@ -781,6 +783,12 @@ export class BaoGame extends GameBase {
         if (this.blocked.includes(cell)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.bao.BLOCKED");
+            return result;
+        }
+
+        if (y === 0 || y === 3) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.bao.NO_BACK_ROW", {context: phase});
             return result;
         }
 

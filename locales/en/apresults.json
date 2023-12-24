@@ -7,7 +7,8 @@
     },
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
-        "complete_other": "{{player}} bore off {{count}} pieces from {{from}}."
+        "complete_other": "{{player}} bore off {{count}} pieces from {{from}}.",
+        "nowhat": "{{player}} bore off from {{from}}."
     },
     "BLOCK": {
         "bao": "The pit {{pit}} is in kutakatia (is blocked).",
@@ -161,6 +162,7 @@
         "phutball": "{{player}} placed a player at {{where}}."
     },
     "PROMOTE": {
+        "lielow": "{{player}} has a new king crowned at {{where}}.",
         "mchess": "A {{into}} was created as a result.",
         "orb_12": "{{player}} promoted an orb to a spheroid at {{where}}.",
         "orb_13": "{{player}} promoted an orb to a globe at {{where}}.",

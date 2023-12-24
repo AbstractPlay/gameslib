@@ -1,6 +1,6 @@
 {
   "name": "@abstractplay/gameslib",
-  "version": "1.0.1",
+  "version": "1.0.0-beta",
   "description": "TypeScript implementations of the core Abstract Play games, intended to be wrapped by the front- and backends",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -53,9 +53,8 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "@abstractplay/gameslib": "^1.0.0-ci-7314640050.0",
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-7310143021.0",
+    "@abstractplay/renderer": "latest",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "graphology": "^0.25.1",

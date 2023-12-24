@@ -50,7 +50,7 @@ export class BaoGame extends GameBase {
         // i18next.t("apgames:notes.bao")
         notes: "apgames:notes.bao",
         urls: ["https://en.wikipedia.org/wiki/Bao_(game)"],
-        flags: ["experimental", "perspective", "limited-pieces", "automove"],
+        flags: ["perspective", "limited-pieces", "automove"],
         variants: [
             {
                 uid: "malawi",

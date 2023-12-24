@@ -342,6 +342,7 @@
             "INVALID_MERGE": "When merging stacks, the destination space must be occupied",
             "INVALID_MVMT": "When moving whole stacks, the destination space must be empty.",
             "INVALID_PASS": "You may not pass if you have any legal moves available, even if those moves would benefit your opponent.",
+            "MUST_APPROACH": "When moving a stack to an empty space, you must move closer to the closest stacks.",
             "MUST_CLIMB": "When merging, the bottom checker must end up at a higher position than where it started.",
             "TOO_HIGH_one": "Moving {{count}} checker from {{from}} to {{to}} would result in a stack that is too high.",
             "TOO_HIGH_other": "Moving {{count}} checkers from {{from}} to {{to}} would result in a stack that is too high.",

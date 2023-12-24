@@ -407,6 +407,14 @@ export class ByteGame extends GameBase {
                 return result;
             }
 
+            // if we're moving to an empty cell, and move is not in the move list,
+            // then we're moving in the wrong direction.
+            if ( (! this.board.has(to)) && (! this.moves(this.currplayer, {permissive: true}).includes(m)) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.byte.MUST_APPROACH");
+                return result;
+            }
+
             // we're good
             result.valid = true;
             result.complete = 1;

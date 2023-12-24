@@ -35,7 +35,7 @@ export class ByteGame extends GameBase {
                 urls: ["https://www.marksteeregames.com"],
             },
         ],
-        flags: ["experimental", "scores", "pie", "automove"],
+        flags: ["scores", "pie", "automove"],
         variants: [
             {
                 uid: "10x10",

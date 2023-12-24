@@ -695,7 +695,7 @@ export class BaoGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            const mvtype = this.moves()[0].endsWith("*") ? "kutakata" : "mtaji";
+            const mvtype = this.moves().length > 0 ? this.moves()[0].endsWith("*") ? "kutakata" : "mtaji" : "";
             result.message = i18next.t("apgames:validation.bao.INITIAL_INSTRUCTIONS", {context: `${phase}|${mvtype}`});
             return result;
         }

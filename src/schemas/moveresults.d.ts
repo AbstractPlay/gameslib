@@ -99,6 +99,7 @@ export type APMoveResult =
     }
   | {
       type: "promote";
+      player?: number;
       from?: string;
       to: string;
       where?: string;

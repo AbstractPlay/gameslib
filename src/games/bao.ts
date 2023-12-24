@@ -766,7 +766,7 @@ export class BaoGame extends GameBase {
             return result;
         }
 
-        if ( (! this.hasWorkingHouse()) && (this.board[y][x] === 1) ) {
+        if ( (! this.hasWorkingHouse()) && (this.board[y][x] === 1) && (this.inhand[this.currplayer - 1] > 0) ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.bao.TWO_PLUS", {move: m});
             return result;

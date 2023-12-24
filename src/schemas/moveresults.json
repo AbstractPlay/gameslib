@@ -262,6 +262,9 @@
                 "type": {
                     "enum": ["promote"]
                 },
+                "player": {
+                    "type": "number"
+                },
                 "from": {
                     "type": "string"
                 },

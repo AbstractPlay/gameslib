@@ -451,7 +451,7 @@ export class LielowGame extends GameBase {
             const kingPos = this.kingPos[this.currplayer - 1];
             if (biggestPieces.length === 1 && kingPos !== biggestPieces[0]) {
                 this.kingPos[this.currplayer - 1] = biggestPieces[0];
-                this.results.push({type: "promote", to: "king", where: biggestPieces[0]});
+                this.results.push({type: "promote", player: this.currplayer, to: "king", where: biggestPieces[0]});
             }
         }
         if (this.kingPos[this.currplayer % 2] !== "dead" && m.includes("x")) {
@@ -461,7 +461,7 @@ export class LielowGame extends GameBase {
             const kingPos = this.kingPos[this.currplayer % 2];
             if (biggestPieces.length === 1 && kingPos !== biggestPieces[0]) {
                 this.kingPos[this.currplayer % 2] = biggestPieces[0];
-                this.results.push({type: "promote", to: "king", where: biggestPieces[0]});
+                this.results.push({type: "promote", player: this.currplayer % 2 + 1, to: "king", where: biggestPieces[0]});
             }
         }
 

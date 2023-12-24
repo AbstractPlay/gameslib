@@ -397,7 +397,7 @@ export class ByteGame extends GameBase {
             const substack = this.board.get(from)!.slice(realidx);
             if ( (this.board.has(to)) && (substack.length + this.board.get(to)!.length > 8) ) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.byte.TOO_HIGH", {count: realidx + 1, from, to});
+                result.message = i18next.t("apgames:validation.byte.TOO_HIGH", {count: substack.length, from, to});
                 return result;
             }
             // must merge up

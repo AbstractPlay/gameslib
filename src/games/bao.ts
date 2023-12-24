@@ -766,9 +766,15 @@ export class BaoGame extends GameBase {
             return result;
         }
 
-        if ( (! this.hasWorkingHouse()) && (this.board[y][x] === 1) ) {
+        if ( (! this.hasWorkingHouse()) && (this.board[y][x] === 1) && (this.inhand[this.currplayer - 1] > 0) ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.bao.TWO_PLUS", {move: m});
+            return result;
+        }
+
+        if ( (this.board[y][x] === 1) && (this.inhand[this.currplayer - 1] === 0) ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.bao.NEVER_SINGLE");
             return result;
         }
 
@@ -1052,6 +1058,19 @@ export class BaoGame extends GameBase {
             },
             pieces: pstr
         };
+        // Mark blocked pits
+        for (const blocked of this.blocked) {
+            if ( (blocked !== undefined) && (blocked !== null) ) {
+                const [col, row] = this.graph.algebraic2coords(blocked);
+                // @ts-ignore
+                (rep.board.markers as any[]).push({
+                    type: "outline",
+                    colour: 1,
+                    points: [{row, col}],
+                })
+            }
+        }
+        // Mark houses
         const houses: {row: number; col: number;}[] = [];
         for (const h of this.houses) {
             if ( ( h !== undefined) && (h !== null) ) {
@@ -1162,6 +1181,19 @@ export class BaoGame extends GameBase {
         } else {
             return [];
         }
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        move1 = move1.toLowerCase().replace(/\s+/g, "");
+        move2 = move2.toLowerCase().replace(/\s+/g, "");
+        if (move1 !== move2) {
+            if ( (`${move1}*` === move2) || (move1 === `${move2}*`) ) {
+                return true;
+            } else {
+                return false
+            }
+        }
+        return true;
     }
 
     public clone(): BaoGame {

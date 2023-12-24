@@ -301,6 +301,8 @@
             "INITIAL_INSTRUCTIONS_namua|kutakata": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then begin sowing. No capture is available.",
             "INITIAL_INSTRUCTIONS_namua|mtaji": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture the opposing stones. A capture is available.",
             "NEVER_SINGLE": "In the mtaji phase, you may never start your move from a pit with only one stone.",
+            "NO_BACK_ROW_mtaji": "In the mtaji phase, you may only start from the back row if it results in a capture or no kutakata is possible from the front row.",
+            "NO_BACK_ROW_namua": "In the kunamua phase, you may not start from your back row.",
             "PLAY_HOUSE": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
             "TWO_PLUS": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones."
         },

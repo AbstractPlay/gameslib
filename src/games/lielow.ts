@@ -621,27 +621,70 @@ export class LielowGame extends GameBase {
         return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "eog", "winners"]);
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
-        switch (r.type) {
-            case "move":
-                node.push(i18next.t("apresults:MOVE.nowhat", {player, from: r.from, to: r.to}));
-                resolved = true;
-                break;
-            case "capture":
-                node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where}));
-                resolved = true;
-                break;
-            case "bearoff":
-                node.push(i18next.t("apresults:BEAROFF.nowhat", {player, from: r.from}));
-                resolved = true;
-                break;
-            case "promote":
-                node.push(i18next.t("apresults:PROMOTE.lielow", {player, where: r.where}));
-                resolved = true;
-                break;
+    public chatLog(players: string[]): string[][] {
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
+                let otherPlayer = state.currplayer as number - 1;
+                if (otherPlayer < 1) {
+                    otherPlayer = this.numplayers;
+                }
+                let name = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+                const otherName = players.filter(p => p !== name)[0];
+                for (const r of state._results) {
+                    if (!this.chat(node, name, state._results, r)) {
+                        switch (r.type) {
+                            case "move":
+                                    node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: r.from, to: r.to}));
+                                break;
+                            case "capture":
+                                node.push(i18next.t("apresults:CAPTURE.nowhat", {player: name, where: r.where}));
+                                break;
+                            case "bearoff":
+                                node.push(i18next.t("apresults:BEAROFF.nowhat", {player: name, from: r.from}));
+                                break;
+                            case "promote":
+                                node.push(i18next.t("apresults:PROMOTE.lielow", {player: r.player !== state.currplayer ? name : otherName, where: r.where}));
+                                break;
+                            case "eog":
+                                node.push(i18next.t("apresults:EOG"));
+                                break;
+                            case "resigned":
+                                let rname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    rname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "timeout":
+                                let tname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    tname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
+                                break;
+                            case "winners":
+                                const names: string[] = [];
+                                for (const w of r.players) {
+                                    if (w <= players.length) {
+                                        names.push(players[w - 1]);
+                                    } else {
+                                        names.push(`Player ${w}`);
+                                    }
+                                }
+                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                            break;
+                        }
+                    }
+                }
+                result.push(node);
+            }
         }
-        return resolved;
+        return result;
     }
 
     public status(): string {

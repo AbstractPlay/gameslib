@@ -1057,7 +1057,7 @@ export class BaoGame extends GameBase {
             if ( (blocked !== undefined) && (blocked !== null) ) {
                 const [col, row] = this.graph.algebraic2coords(blocked);
                 // @ts-ignore
-                rep.markers.push({
+                (rep.board.markers as any[]).push({
                     type: "outline",
                     colour: 1,
                     points: [{row, col}],

@@ -48,7 +48,7 @@ export class LielowGame extends GameBase {
                 name: "Alek Erickson",
             },
         ],
-        flags: ["multistep", "perspective"]
+        flags: ["experimental", "multistep", "perspective"]
     };
 
     public coords2algebraic(x: number, y: number): string {

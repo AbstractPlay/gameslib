@@ -48,7 +48,7 @@ export class LielowGame extends GameBase {
                 name: "Alek Erickson",
             },
         ],
-        flags: ["perspective"]
+        flags: ["multistep", "perspective"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -69,6 +69,7 @@ export class LielowGame extends GameBase {
     private kingPos: [string?, string?] = [undefined, undefined];
     private boardSize = 8;
     private grid: RectGrid;
+    private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
     constructor(state?: ILielowState | string) {
         super();
@@ -232,6 +233,7 @@ export class LielowGame extends GameBase {
         if ( (to === undefined) || (to.length === 0) ) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.lielow.PARTIAL");
             return result;
 
@@ -361,25 +363,23 @@ export class LielowGame extends GameBase {
         }
     }
 
-    // private possibleMoves(cell: string): string[] {
-    //     // This method is supposed to be used to generate dots of possible moves
-    //     // in the renderer, but it doesn't seem to work for non-multistep games.
-    //     const [x, y] = this.algebraic2coords(cell);
-    //     const [player, size] = this.board.get(cell)!;
-    //     const moves = new Set<string>();
-    //     for (const dir of allDirections) {
-    //         const moved = RectGrid.move(x, y, dir, size);
-    //         if (this.withinBoard(...moved)) {
-    //             const toCell = this.coords2algebraic(...moved);
-    //             if (!this.board.has(toCell) || this.board.get(toCell)![0] !== player) {
-    //                 moves.add(toCell);
-    //             }
-    //         }
-    //     }
-    //     return [...moves].sort((a,b) => a.localeCompare(b));
-    // }
+    private findPoints(cell: string): string[] {
+        const [x, y] = this.algebraic2coords(cell);
+        const [player, size] = this.board.get(cell)!;
+        const moves = new Set<string>();
+        for (const dir of allDirections) {
+            const moved = RectGrid.move(x, y, dir, size);
+            if (this.withinBoard(...moved)) {
+                const toCell = this.coords2algebraic(...moved);
+                if (!this.board.has(toCell) || this.board.get(toCell)![0] !== player) {
+                    moves.add(toCell);
+                }
+            }
+        }
+        return [...moves].sort((a,b) => a.localeCompare(b));
+    }
 
-    public move(m: string, {trusted = false} = {}): LielowGame {
+    public move(m: string, {partial = false, trusted = false} = {}): LielowGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -391,9 +391,24 @@ export class LielowGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m))  {
+            if ( (! partial) && (! this.moves().includes(m)) ) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
+        }
+
+        // if partial, just set the points and get out
+        if ( (partial) && (! m.includes("-")) && (! m.includes("x")) ) {
+            const [cell,] = m.split(/[-x]/);
+            const pts = this.findPoints(cell);
+            if (pts !== undefined) {
+                this._points = pts.map(c => this.algebraic2coords(c));
+            } else {
+                this._points = [];
+            }
+            return this;
+        // otherwise delete the points and process the full move
+        } else {
+            this._points = [];
         }
 
         this.results = [];
@@ -561,9 +576,9 @@ export class LielowGame extends GameBase {
         };
 
         // Add annotations
+        // @ts-ignore
+        rep.annotations = [];
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
-            rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
@@ -579,6 +594,14 @@ export class LielowGame extends GameBase {
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
+        }
+        if (this._points.length > 0) {
+            const points = [];
+            for (const cell of this._points) {
+                points.push({row: cell[1], col: cell[0]});
+            }
+            // @ts-ignore
+            rep.annotations.push({type: "dots", targets: points});
         }
 
         return rep;

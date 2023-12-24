@@ -443,14 +443,24 @@ export class LielowGame extends GameBase {
                 this.kingPos[this.currplayer - 1] = to;
             }
         }
+        // check for accession for both players.
         if (this.kingPos[this.currplayer - 1] !== "dead") {
-            // check for accession
             const pieces = [...this.board.entries()].filter(e => e[1][0] === this.currplayer);
             const maxSize = Math.max(...pieces.map(e => e[1][1]));
             const biggestPieces = pieces.filter(e => e[1][1] === maxSize).map(e => e[0]);
             const kingPos = this.kingPos[this.currplayer - 1];
             if (biggestPieces.length === 1 && kingPos !== biggestPieces[0]) {
                 this.kingPos[this.currplayer - 1] = biggestPieces[0];
+                this.results.push({type: "promote", to: "king", where: biggestPieces[0]});
+            }
+        }
+        if (this.kingPos[this.currplayer % 2] !== "dead" && m.includes("x")) {
+            const pieces = [...this.board.entries()].filter(e => e[1][0] === this.currplayer % 2 + 1);
+            const maxSize = Math.max(...pieces.map(e => e[1][1]));
+            const biggestPieces = pieces.filter(e => e[1][1] === maxSize).map(e => e[0]);
+            const kingPos = this.kingPos[this.currplayer % 2];
+            if (biggestPieces.length === 1 && kingPos !== biggestPieces[0]) {
+                this.kingPos[this.currplayer % 2] = biggestPieces[0];
                 this.results.push({type: "promote", to: "king", where: biggestPieces[0]});
             }
         }

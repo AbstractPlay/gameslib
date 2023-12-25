@@ -282,12 +282,12 @@ export class ToguzGame extends GameBase {
         }
         if (ly !== myrow && lx !== theirRight &&
             this.board[ly][lx] === 3 && (this.tuz[this.currplayer - 1] === undefined || this.tuz[this.currplayer - 1] === null) ) {
-            // only thing left to check is that it's not across from a tuz on our side
+            // only thing left to check is that it's not symmetrical to a tuz on our side
             let theirTuzCol: number|undefined;
             if ( (this.tuz[otherPlayer - 1] !== undefined) && (this.tuz[otherPlayer - 1] !== null) ) {
                 [theirTuzCol,] = g.algebraic2coords(this.tuz[otherPlayer - 1]!);
             }
-            if (theirTuzCol === undefined || theirTuzCol !== lx) {
+            if (theirTuzCol === undefined || theirTuzCol !== 8 - lx) {
                 this.results.push({type: "claim", where: last});
                 this.tuz[this.currplayer - 1] = last;
             }

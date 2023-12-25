@@ -374,6 +374,12 @@ export class ByteGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
                 return result;
             }
+            // can't be the same cell
+            if (from === to) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
+                return result;
+            }
             // can only move diagonally
             const [tox, toy] = graph.algebraic2coords(to);
             if (tox % 2 === toy % 2) {

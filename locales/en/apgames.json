@@ -58,6 +58,7 @@
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
+        "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
@@ -76,6 +77,7 @@
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
         "razzle": "The implementation here is the so called tournament rules.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
+        "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
     "homeworlds": {
@@ -790,6 +792,10 @@
             "OCCUPIED_MOVE": "The pawn must move to an occupied space.",
             "SAME_COLOUR": "When capturing multiple pieces, they must all be the same colour.",
             "STRAIGHT_LINE": "There is no straightline connection between {{from}} and {{to}}."
+        },
+        "toguz": {
+            "INITIAL_INSTRUCTIONS": "Select the pit you wish to sow. It must be on your side of the board and cannot be a tuz (square-shaped pit).",
+            "NO_TUZ": "You may not sow the seeds in your tuz."
         },
         "urbino": {
             "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you may pass if your opponent just placed the second architect.",

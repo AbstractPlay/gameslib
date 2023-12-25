@@ -281,15 +281,15 @@ export class ToguzGame extends GameBase {
             theirRight = 8;
         }
         if (ly !== myrow && lx !== theirRight &&
-            this.board[ly][lx] === 3 && (this.tuz[otherPlayer - 1] === undefined || this.tuz[otherPlayer - 1] === null) ) {
-            // only thing left to check is that it's not across from our own tuz
-            let myTuzCol: number|undefined;
-            if ( (this.tuz[this.currplayer - 1] !== undefined) && (this.tuz[this.currplayer - 1] !== null) ) {
-                [myTuzCol,] = g.algebraic2coords(this.tuz[this.currplayer - 1]!);
+            this.board[ly][lx] === 3 && (this.tuz[this.currplayer - 1] === undefined || this.tuz[this.currplayer - 1] === null) ) {
+            // only thing left to check is that it's not across from a tuz on our side
+            let theirTuzCol: number|undefined;
+            if ( (this.tuz[otherPlayer - 1] !== undefined) && (this.tuz[otherPlayer - 1] !== null) ) {
+                [theirTuzCol,] = g.algebraic2coords(this.tuz[otherPlayer - 1]!);
             }
-            if (myTuzCol === undefined || myTuzCol !== lx) {
+            if (theirTuzCol === undefined || theirTuzCol !== lx) {
                 this.results.push({type: "claim", where: last});
-                this.tuz[otherPlayer - 1] = last;
+                this.tuz[this.currplayer - 1] = last;
             }
         }
         // move any pieces in a tuz to the appropriate kazna

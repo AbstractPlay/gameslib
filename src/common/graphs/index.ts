@@ -5,6 +5,7 @@ import { SquareFanoronaGraph } from "./square-fanorona";
 import { SnubSquareGraph } from "./snubsquare";
 import { HexTriGraph } from "./hextri";
 import { BaoGraph } from "./bao";
+import { SowingNoEndsGraph } from "./sowing-no-ends";
 import { IGraph } from "./IGraph";
 
-export { IGraph, SquareGraph, SquareOrthGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, HexTriGraph, BaoGraph };
+export { IGraph, SquareGraph, SquareOrthGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, HexTriGraph, BaoGraph, SowingNoEndsGraph };

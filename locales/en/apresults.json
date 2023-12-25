@@ -19,6 +19,8 @@
         "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
         "boom": "{{player}} destroyed a piece at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
+        "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
+        "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
         "minimal": "A piece was captured.",
         "monkey_queen": "A queen was captured.",
         "monkey_single": "A singleton was captured.",
@@ -51,6 +53,7 @@
         }
     },
     "CLAIM": "{{player}} claimed {{where}}.",
+    "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
         "courtesan": "King and courtesan swapped positions at {{where}}."

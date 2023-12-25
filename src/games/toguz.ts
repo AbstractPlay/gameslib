@@ -37,7 +37,7 @@ export class ToguzGame extends GameBase {
         // i18next.t("apgames:notes.toguz")
         notes: "apgames:notes.toguz",
         urls: ["https://en.wikipedia.org/wiki/Toguz_korgol"],
-        flags: ["experimental", "perspective", "scores", "automove"],
+        flags: ["perspective", "scores", "automove"],
         displays: [{uid: "pips"}]
     };
 

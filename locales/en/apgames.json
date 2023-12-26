@@ -59,6 +59,7 @@
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
+        "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
@@ -797,6 +798,10 @@
             "INITIAL_INSTRUCTIONS": "Select the pit you wish to sow. It must be on your side of the board and cannot be a tuz (square-shaped pit).",
             "NO_TUZ": "You may not sow the seeds in your tuz."
         },
+        "trike": {
+            "INITIAL_INSTRUCTIONS": "Select the cell to place the neutral piece on."
+
+        },
         "urbino": {
             "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you may pass if your opponent just placed the second architect.",
             "INITIAL_INSTRUCTIONS_fresh": "Place an architect in an empty cell.",
@@ -1137,6 +1142,20 @@
             "products": {
                 "name": "Product",
                 "description": "Multiplies together the sizes of your n largest groups."
+            }
+        },
+        "trike": {
+            "standard-11": {
+                "name": "Triangle (11 wide)",
+                "description": "A larger version of the standard board."
+            },
+            "standard-13": {
+                "name": "Triangle (13 wide)",
+                "description": "A larger version of the standard board."
+            },
+            "standard-15": {
+                "name": "Triangle (15 wide)",
+                "description": "A larger version of the standard board."
             }
         },
         "urbino": {

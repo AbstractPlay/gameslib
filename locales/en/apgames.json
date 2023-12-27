@@ -36,6 +36,7 @@
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
+        "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
@@ -585,6 +586,13 @@
                 "PARTIAL_TWOARGS": "Select the new colour."
             },
             "VALID_W_ACTIONS": "Looks like a valid move, but you still have actions to spend."
+        },
+        "iqishiqi": {
+            "INITIAL_INSTRUCTIONS": "Drop a white stone to push the neutral stone.",
+            "NOLOS": "The group of white stones formed from placement at {{place}} cannot see the neutral stone at {{from}}.",
+            "BLOCKED": "Neutral stone cannot move {{spaces}} spaces away from group of white stones formed from placement at {{place}}.",
+            "NEED_DESTINATION": "Provide the destination for the neutral stone.",
+            "INVALID_DESTINATION": "Placement at {{place}} cannot move the neutral stone from {{from}} to {{to}}."
         },
         "lielow": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",

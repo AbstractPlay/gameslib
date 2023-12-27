@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -429,6 +428,7 @@ export class FnapGame extends GameBaseSimultaneous {
             else {
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.fnap.VALID_PARTIAL_tile");
                 return result;
             }
@@ -560,7 +560,6 @@ export class FnapGame extends GameBaseSimultaneous {
             }
 
             // finally, apply score deltas
-            console.log(deltas);
             for (const player of [1,2] as playerid[]) {
                 if (deltas[player - 1] !== 0) {
                     this.scores[player - 1] += deltas[player - 1];

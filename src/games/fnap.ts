@@ -523,7 +523,7 @@ export class FnapGame extends GameBaseSimultaneous {
         else if (mover !== undefined) {
             const cells: string[] = [];
             for (const mv of moves[mover - 1].split(";")) {
-                if (mv === undefined || mv === "") { continue; }
+                if (mv === undefined || mv === "" || ! mv.includes("-")) { continue; }
                 const [tile, cell] = mv.split("-");
                 const pc: CellContents = [parseInt(tile[0], 10), tile[1].toUpperCase() as "O"|"D"|"A"|"C", parseInt(tile[2], 10) as playerid];
                 this.board.set(cell, pc);
@@ -531,59 +531,61 @@ export class FnapGame extends GameBaseSimultaneous {
                 this.results.push({type: "place", what: tile, where: cell, who: mover});
                 this.selected = this.selected.filter(p => p !== tile);
             }
-            // move the fnap token if playOrPass
-            if (this.phase === "playOrPass") {
-                let otherPlayer: playerid = 1;
-                if (mover === 1) {
-                    otherPlayer = 2;
-                }
-                if (this.fnap !== otherPlayer) {
-                    this.fnap = otherPlayer;
-                    this.results.push({type: "claim", where: "", who: otherPlayer, what: "fnap"});
-                }
-            }
 
-            // score placed pieces
-            const deltas: [number,number] = [0,0];
 
-            // rows and columns first
-            const rows = [...(new Set<number>(cells.map(c => FnapGame.algebraic2coords(c)[1]))).values()];
-            const cols = [...(new Set<number>(cells.map(c => FnapGame.algebraic2coords(c)[0]))).values()];
-            for (const row of rows) {
-                const winner: playerid|undefined = this.scoreRowCol("row", row);
-                if (winner !== undefined) {
-                    this.results.push({type: "claim", who: winner, what: "row", where: FnapGame.coords2algebraic(0, row)[1]});
-                    deltas[winner - 1]++;
-                }
-            }
-            for (const col of cols) {
-                const winner: playerid|undefined = this.scoreRowCol("col", col);
-                if (winner !== undefined) {
-                    this.results.push({type: "claim", who: winner, what: "col", where: FnapGame.coords2algebraic(col, 0)[0]});
-                    deltas[winner - 1]++;
-                }
-            }
-
-            // now triplets
-            for (const cell of cells) {
-                const pc = this.board.get(cell)!;
-                const delta = this.scoreTriplets(cell);
-                if (delta > 0) {
-                    this.results.push({type: "set", who: pc[2], count: delta});
-                    deltas[pc[2] - 1] += delta * 2;
-                }
-            }
-
-            // finally, apply score deltas
-            for (const player of [1,2] as playerid[]) {
-                if (deltas[player - 1] !== 0) {
-                    this.scores[player - 1] += deltas[player - 1];
-                    this.results.push({type: "deltaScore", delta: deltas[player - 1], who: player});
-                }
-            }
-
-            // transition state
             if (! partial) {
+                // move the fnap token if playOrPass
+                if (this.phase === "playOrPass") {
+                    let otherPlayer: playerid = 1;
+                    if (mover === 1) {
+                        otherPlayer = 2;
+                    }
+                    if (this.fnap !== otherPlayer) {
+                        this.fnap = otherPlayer;
+                        this.results.push({type: "claim", where: "", who: otherPlayer, what: "fnap"});
+                    }
+                }
+
+                // score placed pieces
+                const deltas: [number,number] = [0,0];
+
+                // rows and columns first
+                const rows = [...(new Set<number>(cells.map(c => FnapGame.algebraic2coords(c)[1]))).values()];
+                const cols = [...(new Set<number>(cells.map(c => FnapGame.algebraic2coords(c)[0]))).values()];
+                for (const row of rows) {
+                    const winner: playerid|undefined = this.scoreRowCol("row", row);
+                    if (winner !== undefined) {
+                        this.results.push({type: "claim", who: winner, what: "row", where: FnapGame.coords2algebraic(0, row)[1]});
+                        deltas[winner - 1]++;
+                    }
+                }
+                for (const col of cols) {
+                    const winner: playerid|undefined = this.scoreRowCol("col", col);
+                    if (winner !== undefined) {
+                        this.results.push({type: "claim", who: winner, what: "col", where: FnapGame.coords2algebraic(col, 0)[0]});
+                        deltas[winner - 1]++;
+                    }
+                }
+
+                // now triplets
+                for (const cell of cells) {
+                    const pc = this.board.get(cell)!;
+                    const delta = this.scoreTriplets(cell);
+                    if (delta > 0) {
+                        this.results.push({type: "set", who: pc[2], count: delta});
+                        deltas[pc[2] - 1] += delta * 2;
+                    }
+                }
+
+                // finally, apply score deltas
+                for (const player of [1,2] as playerid[]) {
+                    if (deltas[player - 1] !== 0) {
+                        this.scores[player - 1] += deltas[player - 1];
+                        this.results.push({type: "deltaScore", delta: deltas[player - 1], who: player});
+                    }
+                }
+
+                // transition state
                 this.phase = "select";
                 this.passing = undefined;
                 this.selected = [];

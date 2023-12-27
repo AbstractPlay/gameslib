@@ -472,7 +472,7 @@ export class IqishiqiGame extends GameBase {
         const rep: APRenderRep =  {
             renderer: "default",
             board: {
-                style: "hex-of-tri",
+                style: "hex-of-hex",
                 minWidth: 8,
                 maxWidth: 15,
                 markers: this.numplayers === 2 ? [

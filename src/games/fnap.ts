@@ -267,11 +267,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 const cell = FnapGame.coords2algebraic(col, row);
                 // only valid click is placement
                 if (move === "") {
-                    if (this.passing === player) {
-                        return {move: "", message: i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: "passing"})} as IClickResult;
-                    } else {
-                        return {move: "", message: i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
-                    }
+                    return {move: "", message: i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                 } else if (move.length <=6) {
                     const [left,] = move.split("-");
                     newmove = `${left}-${cell}`;
@@ -307,7 +303,12 @@ export class FnapGame extends GameBaseSimultaneous {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase});
+            if (this.passing === player) {
+                result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: "passing"});
+            } else {
+                result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase});
+            }
+
             return result;
         }
 

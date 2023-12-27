@@ -524,6 +524,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 this.board.set(cell, pc);
                 cells.push(cell);
                 this.results.push({type: "place", what: tile, where: cell, who: mover});
+                this.selected = this.selected.filter(p => p !== tile);
             }
             // move the fnap token if playOrPass
             if (this.phase === "playOrPass") {
@@ -577,9 +578,11 @@ export class FnapGame extends GameBaseSimultaneous {
             }
 
             // transition state
-            this.phase = "select";
-            this.passing = undefined;
-            this.selected = [];
+            if (! partial) {
+                this.phase = "select";
+                this.passing = undefined;
+                this.selected = [];
+            }
         } else {
             throw new Error("Invalid game phase state.");
         }
@@ -825,11 +828,11 @@ export class FnapGame extends GameBaseSimultaneous {
                         },
                         {
                             "name": "piece-borderless",
-                            "scale": 0.4
+                            "scale": 0.45
                         },
                         {
                             "text": val.toString(),
-                            "scale": 0.4
+                            "scale": 0.35
                         }
                         ];
                 }

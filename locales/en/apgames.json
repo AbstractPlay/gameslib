@@ -511,6 +511,7 @@
             "BAD_TILE": "You do not have that tile in your stash ({{tile}}).",
             "DUPLICATE_CELL": "You can't place two tiles in the same space.",
             "DUPLICATE_TILE": "You can't place the same tile twice.",
+            "INITIAL_INSTRUCTIONS_passing": "You do not have to do anything. Your opponent is making their decision and your turn will be passed.",
             "INITIAL_INSTRUCTIONS_place": "Click on one of the selected tiles then click on an empty space on the board.",
             "INITIAL_INSTRUCTIONS_playOrPass": "Either place the selected tiles or type \"pass\" to let your opponent place the tiles.",
             "INITIAL_INSTRUCTIONS_select": "Select one of your tiles to place.",

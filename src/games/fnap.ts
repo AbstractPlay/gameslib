@@ -210,6 +210,7 @@ export class FnapGame extends GameBaseSimultaneous {
                         for (const cell2 of empties) {
                             if (cell1 === cell2) { continue; }
                             moves.push(`${this.selected[0]}-${cell1};${this.selected[1]}-${cell2}`);
+                            moves.push(`${this.selected[1]}-${cell1};${this.selected[0]}-${cell2}`);
                         }
                     }
                     // playOrPass means add a "pass" move to the list
@@ -266,7 +267,11 @@ export class FnapGame extends GameBaseSimultaneous {
                 const cell = FnapGame.coords2algebraic(col, row);
                 // only valid click is placement
                 if (move === "") {
-                    return {move: "", message: i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
+                    if (this.passing === player) {
+                        return {move: "", message: i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: "passing"})} as IClickResult;
+                    } else {
+                        return {move: "", message: i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
+                    }
                 } else if (move.length <=6) {
                     const [left,] = move.split("-");
                     newmove = `${left}-${cell}`;

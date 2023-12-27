@@ -159,7 +159,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MurusGame | typeof BounceGame | typeof QuagmireGame |
                               typeof BaoGame | typeof AlmataflGame | typeof SlitherGame |
                               typeof ScaffoldGame | typeof ByteGame | typeof LielowGame |
-                              typeof ToguzGame | typeof FnapGame
+                              typeof ToguzGame | typeof TrikeGame | typeof FnapGame
                 >();
 // Manually add each game to the following array
 [AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame, AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame, QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame, TrikeGame, FnapGame].forEach((g) => {

@@ -38,6 +38,9 @@
                 },
                 "what": {
                     "type": "string"
+                },
+                "who": {
+                    "type": "number"
                 }
             },
             "required": ["type"],
@@ -105,6 +108,9 @@
             "properties": {
                 "type": {
                     "enum": ["pass"]
+                },
+                "who": {
+                    "type": "number"
                 }
             },
             "required": ["type"],
@@ -514,6 +520,9 @@
                     "type": "string"
                 },
                 "who": {
+                    "type": "number"
+                },
+                "what": {
                     "type": "string"
                 }
             },
@@ -666,6 +675,47 @@
                 }
             },
             "required": ["type", "pits"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Player has selected a piece or tile",
+            "properties": {
+                "type": {
+                    "enum": ["select"]
+                },
+                "who": {
+                    "type": "number"
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Player has formed a set of some kin",
+            "properties": {
+                "type": {
+                    "enum": ["set"]
+                },
+                "count": {
+                    "type": "number"
+                },
+                "who": {
+                    "type": "number"
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
             "additionalProperties": false
         }
     ]

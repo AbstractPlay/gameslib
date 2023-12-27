@@ -325,6 +325,13 @@ export class FnapGame extends GameBaseSimultaneous {
             }
         }
 
+        // check for forced pass
+        if ( (this.passing === player) && (m !== "pass") ) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.fnap.MUST_PASS");
+            return result;
+        }
+
         if (this.phase === "select") {
             const tile = m.toUpperCase();
             // tile is available
@@ -420,6 +427,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 } else {
                     result.valid = true;
                     result.complete = -1;
+                    result.canrender = true;
                     result.message = i18next.t("apgames:validation.fnap.VALID_PARTIAL_cell");
                     return result;
                 }
@@ -454,7 +462,8 @@ export class FnapGame extends GameBaseSimultaneous {
                 if (! result.valid) {
                     throw new UserFacingError("VALIDATION_GENERAL", result.message)
                 }
-                if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
+                if ( (! partial) && (! this.moves((i + 1) as playerid).includes(moves[i])) ) {
+                // if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
                     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
                 }
             }

@@ -516,6 +516,7 @@
             "INITIAL_INSTRUCTIONS_select": "Select one of your tiles to place.",
             "LABEL_SELECTED": "Selected tiles",
             "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "MUST_PASS": "The only move available to you is to pass.",
             "VALID_PARTIAL_cell": "Select an empty space to place the tile.",
             "VALID_PARTIAL_tile": "Select one of the two tiles to place."
         },

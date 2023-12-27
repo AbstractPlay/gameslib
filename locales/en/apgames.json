@@ -1162,17 +1162,17 @@
             }
         },
         "trike": {
-            "standard-11": {
-                "name": "Triangle (11 wide)",
-                "description": "A larger version of the standard board."
+            "standard-7": {
+                "name": "Triangle (7 wide)",
+                "description": "Learning size."
             },
             "standard-13": {
                 "name": "Triangle (13 wide)",
-                "description": "A larger version of the standard board."
+                "description": "Competitive size."
             },
             "standard-15": {
                 "name": "Triangle (15 wide)",
-                "description": "A larger version of the standard board."
+                "description": "Large size."
             }
         },
         "urbino": {

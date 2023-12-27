@@ -303,7 +303,7 @@ export class FnapGame extends GameBaseSimultaneous {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.passing === player) {
+            if ( (this.passing !== undefined) && (this.passing === player) ) {
                 result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: "passing"});
             } else {
                 result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase});

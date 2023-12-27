@@ -24,6 +24,7 @@ export type APMoveResult =
       type: "place";
       where?: string;
       what?: string;
+      who?: number;
     }
   | {
       type: "move";
@@ -45,6 +46,7 @@ export type APMoveResult =
     }
   | {
       type: "pass";
+      who?: number;
     }
   | {
       type: "deltaScore";
@@ -177,7 +179,8 @@ export type APMoveResult =
   | {
       type: "claim";
       where: string;
-      who?: string;
+      who?: number;
+      what?: string;
     }
   | {
       type: "nullifyClaim";
@@ -223,4 +226,17 @@ export type APMoveResult =
   | {
       type: "sow";
       pits: string[];
+    }
+  | {
+      type: "select";
+      who?: number;
+      what?: string;
+      where?: string;
+    }
+  | {
+      type: "set";
+      count?: number;
+      who?: number;
+      what?: string;
+      where?: string;
     };

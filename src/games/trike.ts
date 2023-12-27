@@ -42,7 +42,7 @@ export class TrikeGame extends GameBase {
             }
         ],
         variants: [
-            {uid: "standard-11", group: "board"},
+            {uid: "standard-7", group: "board"},
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],
@@ -111,7 +111,7 @@ export class TrikeGame extends GameBase {
             const size = standardVariants[0].match(/\d+/);
             this.boardSize = parseInt(size![0], 10);
         } else {
-            this.boardSize = 7;
+            this.boardSize = 11;
         }
         return this;
     }

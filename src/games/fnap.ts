@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -295,7 +294,6 @@ export class FnapGame extends GameBaseSimultaneous {
     }
 
     public validateMove(m: string, player: playerid): IValidationResult {
-        console.log(`validating ${m} for player ${player}`);
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         m = m.replace(/\s+/g, "");
@@ -455,7 +453,6 @@ export class FnapGame extends GameBaseSimultaneous {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        console.log(`Received move ${m}`);
         m = m.replace("\u0091", "pass");
         const moves: string[] = m.split(/,\s*/);
         if (moves.length !== 2) {
@@ -478,8 +475,6 @@ export class FnapGame extends GameBaseSimultaneous {
                 }
             }
         }
-        console.log(`Validation complete`);
-        console.log(JSON.stringify(moves));
 
         let mover: playerid|undefined;
         if (this.passing !== undefined) {

@@ -31,6 +31,7 @@
         "fanorona": "Fanorona is the national game of Madagascar, and it is believed to have been derived from the game of Alquerque. Checkers can move to adjacent empty spaces and capture opposing pieces by approach or withdrawal. As long as you can keep capturing, you may continue to move. Continue until you capture all your opponent's pieces!",
         "fendo": "In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.",
         "flume": "Place stones to make connections. Connecting to three or four other pieces allows you to place another stone. When the board is full, the player with the most stones on the board wins.",
+        "fnap": "A tile laying game where players simultaneously select the tile they will play, but only one player gets to place them both. Points are scored by dominating rows and columns and by creating groups of connected (and disconnected) tiles.",
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
@@ -144,6 +145,7 @@
             "CHAOS": "Chaos",
             "ORDER": "Order"
         },
+        "fnap": "FNAP token",
         "focus": "Controlled",
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
@@ -502,6 +504,20 @@
             "INITIAL_INSTRUCTIONS": "Select an empty cell.",
             "INVALID_CONTINUATION": "You may only continue placing if your last placement connected with three or more other pieces.",
             "KEEP_GOING": "If you make a connection with three or more pieces, you must continue placing pieces."
+        },
+        "fnap": {
+            "BAD_PASS": "You may not pass your turn.",
+            "BAD_SELECTED": "That tile was not selected in the previous phase.",
+            "BAD_TILE": "You do not have that tile in your stash ({{tile}}).",
+            "DUPLICATE_CELL": "You can't place two tiles in the same space.",
+            "DUPLICATE_TILE": "You can't place the same tile twice.",
+            "INITIAL_INSTRUCTIONS_place": "Click on one of the selected tiles then click on an empty space on the board.",
+            "INITIAL_INSTRUCTIONS_playOrPass": "Either place the selected tiles or type \"pass\" to let your opponent place the tiles.",
+            "INITIAL_INSTRUCTIONS_select": "Select one of your tiles to place.",
+            "LABEL_SELECTED": "Selected tiles",
+            "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "VALID_PARTIAL_cell": "Select an empty space to place the tile.",
+            "VALID_PARTIAL_tile": "Select one of the two tiles to place."
         },
         "focus": {
             "INITIAL_INSTRUCTIONS": "Click a stack you control.",

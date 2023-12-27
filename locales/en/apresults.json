@@ -52,7 +52,11 @@
             "single_C": "{{player}} picked up a Crown at {{where}}."
         }
     },
-    "CLAIM": "{{player}} claimed {{where}}.",
+    "CLAIM": {
+        "fnap_col": "{{player}} claimed column {{where}}.",
+        "fnap_fnap": "{{player}} has claimed the FNAP token.",
+        "fnap_row": "{{player}} claimed row {{where}}."
+    },
     "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
@@ -188,6 +192,14 @@
     },
     "RESIGN": "{{player}} has resigned.",
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
+    "SELECT": {
+        "fnap": "{{player}} selected the tile {{tile}}."
+    },
+    "SET": {
+        "fnap_circles": "The circle tile at {{where}} is isolated.",
+        "fnap_triplets_one": "{{player}} scored {{count}} triplet.",
+        "fnap_triplets_other": "{{player}} scored {{count}} triplets."
+    },
     "SOW_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
     "SOW_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
     "TAKE": {

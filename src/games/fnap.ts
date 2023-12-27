@@ -202,20 +202,20 @@ export class FnapGame extends GameBaseSimultaneous {
                 const stash = this.genStash(player);
                 moves.push(...stash.map(s => s.join("")));
             } else {
-                if (this.selected.length === 0) {
-                    throw new Error(`If phase is 'place' or 'playOrPass', then 'selected' has to be populated.`);
-                }
-                // place moves happen regardless
-                const empties = this.getEmpties();
-                for (const cell1 of empties) {
-                    for (const cell2 of empties) {
-                        if (cell1 === cell2) { continue; }
-                        moves.push(`${this.selected[0]}-${cell1};${this.selected[1]}-${cell2}`);
+                if (this.selected.length > 0) {
+                    // throw new Error(`If phase is 'place' or 'playOrPass', then 'selected' has to be populated.`);
+                    // place moves happen regardless
+                    const empties = this.getEmpties();
+                    for (const cell1 of empties) {
+                        for (const cell2 of empties) {
+                            if (cell1 === cell2) { continue; }
+                            moves.push(`${this.selected[0]}-${cell1};${this.selected[1]}-${cell2}`);
+                        }
                     }
-                }
-                // playOrPass means add a "pass" move to the list
-                if (this.phase === "playOrPass") {
-                    moves.push("pass");
+                    // playOrPass means add a "pass" move to the list
+                    if (this.phase === "playOrPass") {
+                        moves.push("pass");
+                    }
                 }
             }
         }
@@ -450,6 +450,7 @@ export class FnapGame extends GameBaseSimultaneous {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         console.log(`Received move ${m}`);
+        m = m.replace("\u0091", "pass");
         const moves: string[] = m.split(/,\s*/);
         if (moves.length !== 2) {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));

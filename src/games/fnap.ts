@@ -844,7 +844,7 @@ export class FnapGame extends GameBaseSimultaneous {
         if (this.selected.length > 0) {
             rep.areas.push({
                 type: "pieces",
-                pieces: [...this.selected].map(s => `x${s}`) as [string, ...string[]],
+                pieces: [...this.selected].filter(s => s !== undefined && s !== null && s !== "").map(s => `x${s}`) as [string, ...string[]],
                 label: i18next.t("apgames:validation.fnap.LABEL_SELECTED") || "local",
             });
         }

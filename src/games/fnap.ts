@@ -483,7 +483,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 if (vals[0] === vals[1]) {
                     this.phase = "playOrPass";
                     this.passing = 1;
-                    if (this.fnap === 2) {
+                    if (this.fnap === 1) {
                         this.passing = 2;
                     }
                 }

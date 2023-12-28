@@ -62,7 +62,7 @@ export class IqishiqiGame extends GameBase {
             }
         ],
         variants: [],
-        flags: ["experimental", "multistep"]
+        flags: ["multistep"]
     };
 
     public numplayers!: number;

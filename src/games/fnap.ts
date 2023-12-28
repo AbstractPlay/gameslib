@@ -503,8 +503,8 @@ export class FnapGame extends GameBaseSimultaneous {
                         this.passing = 2;
                     }
                 }
-                // p1 greater, they place
-                else if (vals[0] > vals[1]) {
+                // p1 lower, they place
+                else if (vals[0] < vals[1]) {
                     this.phase = "place";
                     this.passing = 2;
                 }

@@ -515,7 +515,7 @@
             "INITIAL_INSTRUCTIONS_passing": "You do not have to do anything. Your opponent is making their decision and your turn will be passed.",
             "INITIAL_INSTRUCTIONS_place": "Click on one of the selected tiles then click on an empty space on the board.",
             "INITIAL_INSTRUCTIONS_playOrPass": "Either place the selected tiles or type \"pass\" to let your opponent place the tiles.",
-            "INITIAL_INSTRUCTIONS_select": "Select one of your tiles to place.",
+            "INITIAL_INSTRUCTIONS_select": "Select a tile from your stash to place.",
             "LABEL_SELECTED": "Selected tiles",
             "LABEL_STASH": "Player {{playerNum}}'s stash",
             "MUST_PASS": "The only move available to you is to pass.",

@@ -310,15 +310,13 @@ export class IqishiqiGame extends GameBase {
     }
 
     private checkBlocked(direction: directions, step: number): boolean {
-        // Check if the path of ball is blocked by white stones
+        // Check if the path of ball is blocked by white stones or edge
         // in the direction of `direction` for `step` steps.
         // Use with `getBearingsFromPiecesInGroup` as filter for valid moves.
+        const ray = this.graph.ray(...this.graph.algebraic2coords(this.ball), direction);
+        if (ray.length < step) { return false; }
         let countDown = step;
-        for (
-                const cell of this.graph
-                .ray(...this.graph.algebraic2coords(this.ball), direction)
-                .map(c => this.graph.coords2algebraic(...c))
-            ) {
+        for (const cell of ray.map(c => this.graph.coords2algebraic(...c))) {
             if (countDown === 0) { break; }
             if (this.board.has(cell)) {
                 return false;

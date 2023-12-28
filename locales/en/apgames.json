@@ -588,9 +588,9 @@
             "VALID_W_ACTIONS": "Looks like a valid move, but you still have actions to spend."
         },
         "iqishiqi": {
-            "INITIAL_INSTRUCTIONS": "Drop a white stone to push the neutral stone.",
-            "NOLOS": "The group of white stones formed from placement at {{place}} cannot see the neutral stone at {{from}}.",
-            "BLOCKED": "Neutral stone cannot move {{spaces}} spaces away from group of white stones formed from placement at {{place}}.",
+            "INITIAL_INSTRUCTIONS": "Drop a shared stone to push the neutral stone.",
+            "NOLOS": "The group of shared stones formed from placement at {{place}} cannot see the neutral stone at {{from}}.",
+            "BLOCKED": "The neutral stone cannot move {{spaces}} spaces away from the group of shared stones formed by placement at {{place}}.",
             "NEED_DESTINATION": "Provide the destination for the neutral stone.",
             "INVALID_DESTINATION": "Placement at {{place}} cannot move the neutral stone from {{from}} to {{to}}."
         },

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -210,6 +209,7 @@ export class FnapGame extends GameBaseSimultaneous {
                         for (const cell2 of empties) {
                             if (cell1 === cell2) { continue; }
                             moves.push(`${this.selected[0]}-${cell1};${this.selected[1]}-${cell2}`);
+                            moves.push(`${this.selected[1]}-${cell1};${this.selected[0]}-${cell2}`);
                         }
                     }
                     // playOrPass means add a "pass" move to the list
@@ -294,7 +294,6 @@ export class FnapGame extends GameBaseSimultaneous {
     }
 
     public validateMove(m: string, player: playerid): IValidationResult {
-        console.log(`validating ${m} for player ${player}`);
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         m = m.replace(/\s+/g, "");
@@ -302,7 +301,12 @@ export class FnapGame extends GameBaseSimultaneous {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase});
+            if ( (this.passing !== undefined) && (this.passing === player) ) {
+                result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: "passing"});
+            } else {
+                result.message = i18next.t("apgames:validation.fnap.INITIAL_INSTRUCTIONS", {context: this.phase});
+            }
+
             return result;
         }
 
@@ -449,7 +453,6 @@ export class FnapGame extends GameBaseSimultaneous {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-        console.log(`Received move ${m}`);
         m = m.replace("\u0091", "pass");
         const moves: string[] = m.split(/,\s*/);
         if (moves.length !== 2) {
@@ -472,8 +475,6 @@ export class FnapGame extends GameBaseSimultaneous {
                 }
             }
         }
-        console.log(`Validation complete`);
-        console.log(JSON.stringify(moves));
 
         let mover: playerid|undefined;
         if (this.passing !== undefined) {
@@ -502,8 +503,8 @@ export class FnapGame extends GameBaseSimultaneous {
                         this.passing = 2;
                     }
                 }
-                // p1 greater, they place
-                else if (vals[0] > vals[1]) {
+                // p1 lower, they place
+                else if (vals[0] < vals[1]) {
                     this.phase = "place";
                     this.passing = 2;
                 }
@@ -840,9 +841,10 @@ export class FnapGame extends GameBaseSimultaneous {
                         },
                         {
                             "text": val.toString(),
-                            "scale": 0.35
+                            "scale": 0.35,
+                            "nudge": {dx: 0, dy: 20}
                         }
-                        ];
+                    ];
                 }
             }
         }

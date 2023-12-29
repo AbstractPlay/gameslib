@@ -43,7 +43,7 @@ export class FurlGame extends GameBase {
                 urls: ["http://www.mrraow.com"]
             }
         ],
-        flags: ["experimental", "multistep", "check"],
+        flags: ["experimental", "multistep", "check", "perspective"],
         variants: [
             // { uid: "size-5", group: "board" },
         ],

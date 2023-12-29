@@ -68,6 +68,7 @@ import { ToguzGame, IToguzState } from "./toguz";
 import { TrikeGame, ITrikeState } from "./trike";
 import { FnapGame, IFnapState } from "./fnap";
 import { IqishiqiGame, IIqishiqiState } from "./iqishiqi";
+import { FurlGame, IFurlState } from "./furl";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -138,6 +139,7 @@ export {
     TrikeGame, ITrikeState,
     FnapGame, IFnapState,
     IqishiqiGame, IIqishiqiState,
+    FurlGame, IFurlState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -162,10 +164,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BaoGame | typeof AlmataflGame | typeof SlitherGame |
                               typeof ScaffoldGame | typeof ByteGame | typeof LielowGame |
                               typeof ToguzGame | typeof TrikeGame | typeof FnapGame |
-                              typeof IqishiqiGame
+                              typeof IqishiqiGame | typeof FurlGame
                 >();
 // Manually add each game to the following array
-[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame, AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame, QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame, TrikeGame, FnapGame, IqishiqiGame].forEach((g) => {
+[AmazonsGame, BlamGame, CannonGame, MchessGame, HomeworldsGame, EntropyGame, VolcanoGame, MvolcanoGame, ChaseGame, AbandeGame, CephalopodGame, LinesOfActionGame, PikemenGame, OrdoGame, AttangleGame, AccastaGame, EpamGame, TaijiGame, BreakthroughGame, FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame, DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame, WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame, StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame, AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame, QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame, TrikeGame, FnapGame, IqishiqiGame, FurlGame].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
     }
@@ -310,6 +312,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new FnapGame(...args);
         case "iqishiqi":
             return new IqishiqiGame(args[0], ...args);
+        case "furl":
+            return new FurlGame(...args);
     }
     return;
 }

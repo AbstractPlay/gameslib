@@ -33,6 +33,7 @@
         "flume": "Place stones to make connections. Connecting to three or four other pieces allows you to place another stone. When the board is full, the player with the most stones on the board wins.",
         "fnap": "A tile laying game where players simultaneously select the tile they will play, but only one player gets to place them both. Points are scored by dominating rows and columns and by creating groups of connected (and disconnected) tiles.",
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
+        "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
@@ -529,6 +530,18 @@
             "ORTHOGONAL": "Stacks may only move orthogonally, never diagonally.",
             "TOOFAR": "You may not move the stack more spaces than the number of pieces in the stack.",
             "UNCONTROLLED": "You can only move stacks where your piece is on top."
+        },
+        "furl": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to furl or unfurl.",
+            "NO_FURLS": "There are no furls possible from piece at {{from}}.",
+            "NO_UNFURLS": "There are no unfurls possible from stack at {{from}}.",
+            "PARTIAL_FURL": "Select destination to furl.",
+            "PARTIAL_UNFURL": "Select destination to unfurl.",
+            "UNFURL4FURL": "You signalled an unfurl move, but the stack has only a height of 1.",
+            "FURL4UNFURL": "You signalled a furl move, but the stack has only a height of {{size}}, which is greater than 1.",
+            "CAPTURE4UNFURL": "You signalled a regular move, but {{to}} not is occupied.",
+            "INVALID_FURL": "It is not possible to furl from {{from}} to {{to}}.",
+            "INVALID_UNFURL": "It is not possible to unfurl from {{from}} to {{to}}."
         },
         "garden": {
             "BAD_PLACE_normal": "You must plant seeds orthogonally adjacent to existing plants.",

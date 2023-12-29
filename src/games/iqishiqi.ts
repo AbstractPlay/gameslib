@@ -491,11 +491,11 @@ export class IqishiqiGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    colour: "#FFF",
+                    player: 9
                 },
                 B: {
                     name: "sphere-spiral",
-                    colour: "#666",
+                    player: 5
                 },
             },
             pieces: pstr,

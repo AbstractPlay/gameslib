@@ -19,6 +19,7 @@
         "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
         "boom": "{{player}} destroyed a piece at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
+        "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
         "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
         "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
         "minimal": "A piece was captured.",
@@ -94,6 +95,9 @@
         "murus": "{{player}} fired a catapult from {{from}} to {{to}}.",
         "pigs_F": "{{player}} fired their laser at {{direction}}.",
         "pigs_H": "{{player}} swung their mighty snout!"
+    },
+    "FURL": {
+        "furl": "{{player}} furls {{count}} pieces from {{from}} to {{to}}."
     },
     "homeworlds": {
         "BUILD": "{{player}} build a {{what}} in the {{where}} system.",
@@ -209,6 +213,9 @@
         "streetcar": "{{player}} took a housing limit from {{from}}."
     },
     "TIMEOUT": "{{player}} lost on time.",
+    "UNFURL": {
+        "furl": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}."
+    },
     "WINNERS_one": "The following player won: {{winners}}.",
     "WINNERS_other": "The following players won: {{winners}}."
 }

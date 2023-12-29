@@ -239,4 +239,16 @@ export type APMoveResult =
       who?: number;
       what?: string;
       where?: string;
+    }
+  | {
+      type: "furl";
+      from: string;
+      to: string;
+      count?: number;
+    }
+  | {
+      type: "unfurl";
+      from: string;
+      to: string;
+      count?: number;
     };

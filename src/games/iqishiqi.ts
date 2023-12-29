@@ -384,31 +384,30 @@ export class IqishiqiGame extends GameBase {
     protected checkEOG(): IqishiqiGame {
         this.gameover = false;
         const previousPlayer = (this.mod(this.currplayer - 2, this.numplayers) + 1) as playerid;
-        if (this.moves().length === 0) {
+        const winners = Array(this.numplayers).fill(false);
+        for (let i = 0; i < this.numplayers; i++) {
+            for (const edge of this.edges[i]) {
+                if (edge.has(this.ball)) {
+                    winners[i] = true;
+                    break;
+                }
+            }
+        }
+        const winnersIndices = [...winners.keys()].filter(i => winners[i])
+        if (winnersIndices.length === 1) {
+            this.gameover = true;
+            this.winner = [(winnersIndices[0] + 1) as playerid];
+        } else if (winnersIndices.length === 2) {
+            this.gameover = true;
+            if (winnersIndices.includes(previousPlayer - 1)) {
+                this.winner = [previousPlayer]
+            } else {
+                this.winner = [this.currplayer]
+            }
+        }
+        if (!this.gameover && this.moves().length === 0) {
             this.gameover = true;
             this.winner = [previousPlayer];
-        } else {
-            const winners = Array(this.numplayers).fill(false);
-            for (let i = 0; i < this.numplayers; i++) {
-                for (const edge of this.edges[i]) {
-                    if (edge.has(this.ball)) {
-                        winners[i] = true;
-                        break;
-                    }
-                }
-            }
-            const winnersIndices = [...winners.keys()].filter(i => winners[i])
-            if (winnersIndices.length === 1) {
-                this.gameover = true;
-                this.winner = [(winnersIndices[0] + 1) as playerid];
-            } else if (winnersIndices.length === 2) {
-                this.gameover = true;
-                if (winnersIndices.includes(previousPlayer - 1)) {
-                    this.winner = [previousPlayer]
-                } else {
-                    this.winner = [this.currplayer]
-                }
-            }
         }
         if (this.gameover) {
             this.results.push(

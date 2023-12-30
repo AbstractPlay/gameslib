@@ -413,8 +413,8 @@ export class LielowGame extends GameBase {
         this.results = [];
 
         const [from, to] = m.split(/[\-x]/);
+        const fromPiece = this.board.get(from)!;
         if (m.includes("-")) {
-            const fromPiece = this.board.get(from)!;
             if (to === "off") {
                 const closestCell = this.closestOffboardCell(from);
                 this.results.push({type: "bearoff", from, edge: closestCell})
@@ -436,6 +436,7 @@ export class LielowGame extends GameBase {
                 this.kingPos[this.currplayer % 2] = "dead";
             }
             this.board.delete(from);
+            this.results.push({type: "move", from, to, what: fromPiece[1].toString()});
             this.results.push({type: "capture", where: to});
             this.board.set(to, [this.currplayer, 1]);
             if (from === this.kingPos[this.currplayer - 1]) {
@@ -593,6 +594,9 @@ export class LielowGame extends GameBase {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
                     const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                } else if (move.type === "capture") {
+                    const [x, y] = this.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "promote") {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}], colour: "#ffd700"});

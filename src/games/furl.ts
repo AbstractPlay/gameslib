@@ -595,8 +595,8 @@ export class FurlGame extends GameBase {
         // Add annotations
         // @ts-ignore
         rep.annotations = [];
-        if (this.results.length > 0) {
-            for (const move of this.results) {
+        if (this.stack[this.stack.length - 1]._results.length > 0) {
+            for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "furl" || move.type === "unfurl") {
                     const [fx, fy] = this.graph.algebraic2coords(move.from);
                     const [tx, ty] = this.graph.algebraic2coords(move.to);

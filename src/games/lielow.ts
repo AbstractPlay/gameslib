@@ -10,10 +10,6 @@ import i18next from "i18next";
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
-<<<<<<< HEAD
-export type isKing = true|false;
-=======
->>>>>>> develop
 type CellContents = [playerid, number];
 
 interface ILooseObj {
@@ -417,13 +413,8 @@ export class LielowGame extends GameBase {
         this.results = [];
 
         const [from, to] = m.split(/[\-x]/);
-<<<<<<< HEAD
-        if (m.includes("-")) {
-            const fromPiece = this.board.get(from)!;
-=======
         const fromPiece = this.board.get(from)!;
         if (m.includes("-")) {
->>>>>>> develop
             if (to === "off") {
                 const closestCell = this.closestOffboardCell(from);
                 this.results.push({type: "bearoff", from, edge: closestCell})
@@ -445,10 +436,7 @@ export class LielowGame extends GameBase {
                 this.kingPos[this.currplayer % 2] = "dead";
             }
             this.board.delete(from);
-<<<<<<< HEAD
-=======
             this.results.push({type: "move", from, to, what: fromPiece[1].toString()});
->>>>>>> develop
             this.results.push({type: "capture", where: to});
             this.board.set(to, [this.currplayer, 1]);
             if (from === this.kingPos[this.currplayer - 1]) {
@@ -532,11 +520,7 @@ export class LielowGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-<<<<<<< HEAD
-        const legendNames: Set<[string,number]> = new Set();
-=======
         const legendNames: Set<string> = new Set();
->>>>>>> develop
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
             if (pstr.length > 0) {
@@ -556,11 +540,7 @@ export class LielowGame extends GameBase {
                         piece = (this.kingPos[1] === cell) ? "D" : "B";
                         key = `${piece}${size.toString()}`;
                     }
-<<<<<<< HEAD
-                    legendNames.add([piece, size]);
-=======
                     legendNames.add(key);
->>>>>>> develop
                     pieces.push(key);
                 } else {
                     pieces.push("");
@@ -572,30 +552,18 @@ export class LielowGame extends GameBase {
 
         // build legend based on stack sizes
         const myLegend: ILooseObj = {};
-<<<<<<< HEAD
-        for (const [piece, size] of legendNames) {
-            const key = `${piece}${size.toString()}`;
-            const name = (piece === "C" || piece === "D") ? "piece-horse" : "piece";
-            const player = (piece === "A" || piece === "C") ? 1 : 2;
-            myLegend[key] = [
-=======
         for (const legendName of legendNames) {
             const [piece, ...size] = legendName;
             const name = (piece === "C" || piece === "D") ? "piece-horse" : "piece";
             const player = (piece === "A" || piece === "C") ? 1 : 2;
             const sizeStr = size.join("");
             myLegend[legendName] = [
->>>>>>> develop
                 {
                     name,
                     player,
                 },
                 {
-<<<<<<< HEAD
-                    text: size.toString(),
-=======
                     text: sizeStr,
->>>>>>> develop
                     colour: "#000",
                     scale: 0.75
                 }
@@ -627,12 +595,9 @@ export class LielowGame extends GameBase {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
                     const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
-<<<<<<< HEAD
-=======
                 } else if (move.type === "capture") {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
->>>>>>> develop
                 } else if (move.type === "promote") {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}], colour: "#ffd700"});

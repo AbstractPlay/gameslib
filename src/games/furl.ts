@@ -43,7 +43,7 @@ export class FurlGame extends GameBase {
                 urls: ["http://www.mrraow.com"]
             }
         ],
-        flags: ["experimental", "multistep", "check", "perspective"],
+        flags: ["multistep", "check", "perspective"],
         variants: [
             // { uid: "size-5", group: "board" },
         ],
@@ -291,7 +291,7 @@ export class FurlGame extends GameBase {
             const unfurls = this.getUnfurls(from);
             if (!unfurls.includes(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.furl.INVALID_UNFURL", {from, to})
+                result.message = i18next.t("apgames:validation.furl.INVALID_UNFURL", {from, to, size})
                 return result;
             }
             if (!this.board.has(to)) {
@@ -581,12 +581,24 @@ export class FurlGame extends GameBase {
             }
         }
 
+        // Build marker points to show home row.
+        const points1 = [];
+        const points2 = [];
+        for (let i = 0; i < this.boardSize; i++) {
+            points1.push({row: this.boardSize * 2 - 2, col: i});
+            points2.push({row: 0, col: i});
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
+                markers: [
+                    { type: "flood", colour: 1, opacity: 0.2, points: points1 as [{ row: number; col: number; }, ...{ row: number; col: number; }[]] },
+                    { type: "flood", colour: 2, opacity: 0.2, points: points2 as [{ row: number; col: number; }, ...{ row: number; col: number; }[]] },
+                ],
             },
             legend,
             pieces: pstr,
@@ -595,12 +607,15 @@ export class FurlGame extends GameBase {
         // Add annotations
         // @ts-ignore
         rep.annotations = [];
-        if (this.results.length > 0) {
-            for (const move of this.results) {
-                if (move.type === "move") {
+        if (this.stack[this.stack.length - 1]._results.length > 0) {
+            for (const move of this.stack[this.stack.length - 1]._results) {
+                if (move.type === "furl" || move.type === "unfurl") {
                     const [fx, fy] = this.graph.algebraic2coords(move.from);
                     const [tx, ty] = this.graph.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                } else if (move.type === "capture") {
+                    const [cx, cy] = this.graph.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "exit", targets: [{row: cy, col: cx}]});
                 }
             }
         }

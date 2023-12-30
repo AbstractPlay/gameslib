@@ -39,7 +39,7 @@ export class DiffusionGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"]
             },
         ],
-        flags: ["pie", "automove"],
+        flags: ["pie", "automove", "perspective"],
         variants: [
             {uid: "topBottom"}
         ],

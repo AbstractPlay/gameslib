@@ -520,7 +520,7 @@ export class LielowGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        const legendNames: Set<[string,number]> = new Set();
+        const legendNames: Set<string> = new Set();
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
             if (pstr.length > 0) {
@@ -540,7 +540,7 @@ export class LielowGame extends GameBase {
                         piece = (this.kingPos[1] === cell) ? "D" : "B";
                         key = `${piece}${size.toString()}`;
                     }
-                    legendNames.add([piece, size]);
+                    legendNames.add(key);
                     pieces.push(key);
                 } else {
                     pieces.push("");
@@ -552,17 +552,18 @@ export class LielowGame extends GameBase {
 
         // build legend based on stack sizes
         const myLegend: ILooseObj = {};
-        for (const [piece, size] of legendNames) {
-            const key = `${piece}${size.toString()}`;
+        for (const legendName of legendNames) {
+            const [piece, ...size] = legendName;
             const name = (piece === "C" || piece === "D") ? "piece-horse" : "piece";
             const player = (piece === "A" || piece === "C") ? 1 : 2;
-            myLegend[key] = [
+            const sizeStr = size.join("");
+            myLegend[legendName] = [
                 {
                     name,
                     player,
                 },
                 {
-                    text: size.toString(),
+                    text: sizeStr,
                     colour: "#000",
                     scale: 0.75
                 }

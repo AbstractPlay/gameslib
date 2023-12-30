@@ -10,7 +10,6 @@ import i18next from "i18next";
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
-export type isKing = true|false;
 type CellContents = [playerid, number];
 
 interface ILooseObj {
@@ -414,8 +413,8 @@ export class LielowGame extends GameBase {
         this.results = [];
 
         const [from, to] = m.split(/[\-x]/);
+        const fromPiece = this.board.get(from)!;
         if (m.includes("-")) {
-            const fromPiece = this.board.get(from)!;
             if (to === "off") {
                 const closestCell = this.closestOffboardCell(from);
                 this.results.push({type: "bearoff", from, edge: closestCell})
@@ -437,6 +436,7 @@ export class LielowGame extends GameBase {
                 this.kingPos[this.currplayer % 2] = "dead";
             }
             this.board.delete(from);
+            this.results.push({type: "move", from, to, what: fromPiece[1].toString()});
             this.results.push({type: "capture", where: to});
             this.board.set(to, [this.currplayer, 1]);
             if (from === this.kingPos[this.currplayer - 1]) {
@@ -520,7 +520,7 @@ export class LielowGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        const legendNames: Set<[string,number]> = new Set();
+        const legendNames: Set<string> = new Set();
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
             if (pstr.length > 0) {
@@ -540,7 +540,7 @@ export class LielowGame extends GameBase {
                         piece = (this.kingPos[1] === cell) ? "D" : "B";
                         key = `${piece}${size.toString()}`;
                     }
-                    legendNames.add([piece, size]);
+                    legendNames.add(key);
                     pieces.push(key);
                 } else {
                     pieces.push("");
@@ -552,17 +552,18 @@ export class LielowGame extends GameBase {
 
         // build legend based on stack sizes
         const myLegend: ILooseObj = {};
-        for (const [piece, size] of legendNames) {
-            const key = `${piece}${size.toString()}`;
+        for (const legendName of legendNames) {
+            const [piece, ...size] = legendName;
             const name = (piece === "C" || piece === "D") ? "piece-horse" : "piece";
             const player = (piece === "A" || piece === "C") ? 1 : 2;
-            myLegend[key] = [
+            const sizeStr = size.join("");
+            myLegend[legendName] = [
                 {
                     name,
                     player,
                 },
                 {
-                    text: size.toString(),
+                    text: sizeStr,
                     colour: "#000",
                     scale: 0.75
                 }
@@ -594,6 +595,9 @@ export class LielowGame extends GameBase {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
                     const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                } else if (move.type === "capture") {
+                    const [x, y] = this.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 } else if (move.type === "promote") {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}], colour: "#ffd700"});

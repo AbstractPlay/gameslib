@@ -10,7 +10,6 @@ import i18next from "i18next";
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
-export type isKing = true|false;
 type CellContents = [playerid, number];
 
 interface ILooseObj {

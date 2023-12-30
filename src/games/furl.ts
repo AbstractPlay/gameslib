@@ -581,12 +581,24 @@ export class FurlGame extends GameBase {
             }
         }
 
+        // Build marker points to show home row.
+        const points1 = [];
+        const points2 = [];
+        for (let i = 0; i < this.boardSize; i++) {
+            points1.push({row: this.boardSize * 2 - 2, col: i});
+            points2.push({row: 0, col: i});
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
+                markers: [
+                    { type: "flood", colour: 1, opacity: 0.2, points: points1 as [{ row: number; col: number; }, ...{ row: number; col: number; }[]] },
+                    { type: "flood", colour: 2, opacity: 0.2, points: points2 as [{ row: number; col: number; }, ...{ row: number; col: number; }[]] },
+                ],
             },
             legend,
             pieces: pstr,

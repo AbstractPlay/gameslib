@@ -291,7 +291,7 @@ export class FurlGame extends GameBase {
             const unfurls = this.getUnfurls(from);
             if (!unfurls.includes(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.furl.INVALID_UNFURL", {from, to})
+                result.message = i18next.t("apgames:validation.furl.INVALID_UNFURL", {from, to, size})
                 return result;
             }
             if (!this.board.has(to)) {

@@ -536,16 +536,16 @@
             "UNCONTROLLED": "You can only move stacks where your piece is on top."
         },
         "furl": {
-            "INITIAL_INSTRUCTIONS": "Select a piece to furl or unfurl.",
+            "INITIAL_INSTRUCTIONS": "Select a piece to furl or a stack to unfurl.",
             "NO_FURLS": "There are no furls possible from piece at {{from}}.",
             "NO_UNFURLS": "There are no unfurls possible from stack at {{from}}.",
             "PARTIAL_FURL": "Select destination to furl.",
             "PARTIAL_UNFURL": "Select destination to unfurl.",
-            "UNFURL4FURL": "You signalled an unfurl move, but the stack has only a height of 1.",
-            "FURL4UNFURL": "You signalled a furl move, but the stack has only a height of {{size}}, which is greater than 1.",
-            "CAPTURE4UNFURL": "You signalled a regular move, but {{to}} not is occupied.",
-            "INVALID_FURL": "It is not possible to furl from {{from}} to {{to}}.",
-            "INVALID_UNFURL": "It is not possible to unfurl from {{from}} to {{to}}."
+            "UNFURL4FURL": "You signalled an unfurl move, but the selected stack only has a height of 1.",
+            "FURL4UNFURL": "You signalled a furl move, but the selected stack has a height of {{size}}, which is greater than 1.",
+            "CAPTURE4UNFURL": "You signalled a regular move, but {{to}} not is occupied by the opponent.",
+            "INVALID_FURL": "It is not possible to furl from {{from}} to {{to}}. You may only furl towards a cell where you have two or more of your 1-piece stacks in an unbroken line.",
+            "INVALID_UNFURL": "It is not possible to unfurl from {{from}} to {{to}}. You may only unfurl towards an empty cell or an opponent's stack exactly {{size}} spaces away. Intermediate cells must be empty."
         },
         "garden": {
             "BAD_PLACE_normal": "You must plant seeds orthogonally adjacent to existing plants.",

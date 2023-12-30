@@ -717,9 +717,9 @@ export class CannonGame extends GameBase {
             }
         }
 
-        // If still not game over, is player in check?
+        // If still not game over, is player in checkmate?
         if (! this.gameover) {
-            const checksBy = this.checksBy();
+            const checksBy = this.checksBy(this.currplayer);
             if (checksBy.length > 1 // double check
                 // checking piece or cannon
                 || ( checksBy.length === 1 && !(
@@ -727,55 +727,57 @@ export class CannonGame extends GameBase {
                     (checksBy[0].length === 1 && moves.some((m) => m.endsWith('x' + checksBy[0][0])))
                     // checking cannon can be blocked or a piece captured
                     || (checksBy[0].length === 4 && (moves.some((m) => m.endsWith('-' + checksBy[0][0])) || checksBy[0].slice(1).some((x) => moves.some((m) => m.endsWith('x' + x)))))))) {
-                this.gameover = true;
-                if (this.currplayer === 1) {
-                    this.winner = [2];
-                } else {
-                    this.winner = [1];
+                if (this.checksBy(3 - this.currplayer as playerid).length === 0) { // opponent isn't checking
+                    this.gameover = true;
+                    if (this.currplayer === 1) {
+                        this.winner = [2];
+                    } else {
+                        this.winner = [1];
+                    }
+                    this.results.push(
+                        {type: "eog"},
+                        {type: "winners", players: [...this.winner]}
+                    );
                 }
-                this.results.push(
-                    {type: "eog"},
-                    {type: "winners", players: [...this.winner]}
-                );
             }
         }
 
         return this;
     }
 
-    private checksBy(): string[][] {
+    private checksBy(player: playerid): string[][] {
         if (!this.placed)
             return [];
         const checksBy: string[][] = [];
         const grid = new RectGrid(10, 10);
-        const town = homes.get(this.currplayer)!.find((x) => this.board.has(x) && this.board.get(x)![1] === "t")!;
+        const town = homes.get(player)!.find((x) => this.board.has(x) && this.board.get(x)![1] === "t")!;
         const townCell = CannonGame.algebraic2coords(town);
         for (const dir of alldirs) {
             const ray = grid.ray(...townCell, dir);
             if (ray.length > 0) {
                 const oneAway = CannonGame.coords2algebraic(...ray[0]);
-                if (this.board.has(oneAway) && this.board.get(oneAway)![0] !== this.currplayer) {
-                        checksBy.push([oneAway]);
+                if (this.board.has(oneAway) && this.board.get(oneAway)![0] !== player) {
+                    checksBy.push([oneAway]);
                 }
                 if (ray.length >= 4) {
                     let cannonEnd = 0;
                     let cell = CannonGame.coords2algebraic(...ray[1]);
                     let plug = oneAway;
-                    if (!this.board.has(plug) && this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
+                    if (!this.board.has(plug) && this.board.has(cell) && this.board.get(cell)![0] !== player) {
                         cannonEnd = 1;
                     }
                     if (cannonEnd === 0 && ray.length >= 5) {
                         plug = cell;
                         cell = CannonGame.coords2algebraic(...ray[2]);
-                        if (!this.board.has(plug) && this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
+                        if (!this.board.has(plug) && this.board.has(cell) && this.board.get(cell)![0] !== player) {
                             cannonEnd = 2;
                         }
                     }
                     if (cannonEnd !== 0) {
                         const cell2 = CannonGame.coords2algebraic(...ray[cannonEnd + 1]);
-                        if (this.board.has(cell2) && this.board.get(cell2)![0] !== this.currplayer) {
+                        if (this.board.has(cell2) && this.board.get(cell2)![0] !== player) {
                             const cell3 = CannonGame.coords2algebraic(...ray[cannonEnd + 2]);
-                            if (this.board.has(cell3) && this.board.get(cell3)![0] !== this.currplayer) {
+                            if (this.board.has(cell3) && this.board.get(cell3)![0] !== player) {
                                 checksBy.push([plug, cell, cell2, cell3]);
                             }
                         }

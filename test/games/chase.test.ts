@@ -4,6 +4,7 @@
 import "mocha";
 import { expect } from "chai";
 import { ChaseGame } from '../../src/games';
+import { UserFacingError } from "../../src/common";
 import { Direction } from "honeycomb-grid";
 
 describe("Chase", () => {
@@ -89,6 +90,20 @@ describe("Chase", () => {
         expect(v).to.have.deep.members([[8,0],[0,1],[0,2]]);
         v = ChaseGame.vector(8, 7, Direction.SE, 3).vector;
         expect(v).to.have.deep.members([[8,8],[0,7],[0,6]]);
+    });
+
+    it("Side move works as expected", () => {
+        const g = new ChaseGame();
+        expect(() => g.move("a1-a2")).to.not.throw(UserFacingError);
+        const a1 = g.board.get("a1");
+        const a2 = g.board.get("a2");
+        const a9 = g.board.get("a9");
+        expect(a1).to.not.be.undefined;
+        expect(a2).to.not.be.undefined;
+        expect(a9).to.not.be.undefined;
+        expect(a1![1]).eq(1);
+        expect(a2![1]).eq(1);
+        expect(a9![1]).eq(2);
     });
 
     return it ("Chamber moves are handled correctly", function() {

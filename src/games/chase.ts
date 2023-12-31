@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
@@ -466,9 +465,6 @@ export class ChaseGame extends GameBase {
                     continue;
                 }
                 const v = ChaseGame.vector(startX, startY, dir, speed).vector;
-                if (startX === 0 && startY === 8) {
-                    console.log(`Startx: ${startX}, starty: ${startY}, dir: ${dir}, speed: ${speed}, vector: ${JSON.stringify(v.map(n => n.join(",")))}`);
-                }
                 // Make sure intermediate spaces are clear
                 const middle = v.slice(0, v.length - 1);
                 let valid = true;
@@ -486,9 +482,6 @@ export class ChaseGame extends GameBase {
                     if (! this.board.has(finalCell)) {
                         moves.push(`${start}-${finalCell}${dir2string(dir)}`);
                     } else {
-                        if (startX === 0 && startY === 8) {
-                            console.log(`Recursing. FinalCell: ${finalCell}, Dir: ${dir2string(dir)}`)
-                        }
                         const occ = this.board.get(finalCell);
                         // If occupied by friendly, it's a move
                         if (occ![0] === player) {
@@ -1176,21 +1169,25 @@ export class ChaseGame extends GameBase {
             throw new Error(`Invalid direction passed for pointy hexes: ${dir}`);
         }
         if (log) {
+            // eslint-disable-next-line no-console
             console.log(`RecurseMove - cell: ${cell}, piece: ${JSON.stringify(piece)}, dir: ${dir}`);
         }
         // Captures and bumps
         if (this.board.has(cell)) {
+            // eslint-disable-next-line no-console
             if (log) { console.log(`\tDestination is occupied`); }
             const nPiece = this.board.get(cell);
             // If it doesn't belong to us, we're done
             // Remove the piece, and exit, which will lead to applying the stack
             if (nPiece![0] !== this.currplayer) {
+                // eslint-disable-next-line no-console
                 if (log) { console.log(`\tEnemy piece. Capturing.`); }
                 this.board.delete(cell);
                 this.results.push({type: "capture", what: nPiece![1].toString(), where: cell});
                 this.board.set(cell, piece);
             // Otherwise, recurse
             } else {
+                // eslint-disable-next-line no-console
                 if (log) { console.log(`\tFriendly piece. Pushing.`); }
                 this.board.set(cell, piece);
                 const result: APMoveResult = {type: "eject", what: nPiece![1].toString(), from: cell, to: ""};
@@ -1208,6 +1205,7 @@ export class ChaseGame extends GameBase {
             }
         // Chamber moves
         } else if (cell === "e5") {
+            // eslint-disable-next-line no-console
             if (log) { console.log(`Chamber move`); }
             const [lcell, rcell] = chamberExits.get(dir)!;
             // If the player already has 10 pieces (9, actually, because we're in the middle of a move), just eject the piece
@@ -1233,6 +1231,7 @@ export class ChaseGame extends GameBase {
             }
         // Regular move
         } else {
+            // eslint-disable-next-line no-console
             if (log) { console.log(`Regular move`); }
             this.board.set(cell, piece);
         }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
@@ -465,6 +466,9 @@ export class ChaseGame extends GameBase {
                     continue;
                 }
                 const v = ChaseGame.vector(startX, startY, dir, speed).vector;
+                if (startX === 0 && startY === 8) {
+                    console.log(`Startx: ${startX}, starty: ${startY}, dir: ${dir}, speed: ${speed}, vector: ${JSON.stringify(v.map(n => n.join(",")))}`);
+                }
                 // Make sure intermediate spaces are clear
                 const middle = v.slice(0, v.length - 1);
                 let valid = true;
@@ -482,6 +486,9 @@ export class ChaseGame extends GameBase {
                     if (! this.board.has(finalCell)) {
                         moves.push(`${start}-${finalCell}${dir2string(dir)}`);
                     } else {
+                        if (startX === 0 && startY === 8) {
+                            console.log(`Recursing. FinalCell: ${finalCell}, Dir: ${dir2string(dir)}`)
+                        }
                         const occ = this.board.get(finalCell);
                         // If occupied by friendly, it's a move
                         if (occ![0] === player) {
@@ -493,8 +500,10 @@ export class ChaseGame extends GameBase {
                             const pFrom = this.board.get(start)!;
                             const {finalDir} = ChaseGame.vector(xFrom, yFrom, dir, pFrom[1]);
                             const clone = Object.assign(new ChaseGame(), deepclone(this) as ChaseGame);
+                            // delete starting piece to avoid infinite loops
+                            clone.board.delete(start);
                             try {
-                                clone.recurseMove(finalCell, [...pFrom], finalDir);
+                                clone.recurseMove(finalCell, [...pFrom], finalDir, true);
                                 moves.push(newmove);
                             } catch {
                                 // do nothing
@@ -1162,21 +1171,27 @@ export class ChaseGame extends GameBase {
     }
 
     // Handle chamber moves here
-    private recurseMove(cell: string, piece: CellContents, dir: Direction) {
+    private recurseMove(cell: string, piece: CellContents, dir: Direction, log=false) {
         if (! validHexDirs.includes(dir)) {
             throw new Error(`Invalid direction passed for pointy hexes: ${dir}`);
         }
+        if (log) {
+            console.log(`RecurseMove - cell: ${cell}, piece: ${JSON.stringify(piece)}, dir: ${dir}`);
+        }
         // Captures and bumps
         if (this.board.has(cell)) {
+            if (log) { console.log(`\tDestination is occupied`); }
             const nPiece = this.board.get(cell);
             // If it doesn't belong to us, we're done
             // Remove the piece, and exit, which will lead to applying the stack
             if (nPiece![0] !== this.currplayer) {
+                if (log) { console.log(`\tEnemy piece. Capturing.`); }
                 this.board.delete(cell);
                 this.results.push({type: "capture", what: nPiece![1].toString(), where: cell});
                 this.board.set(cell, piece);
             // Otherwise, recurse
             } else {
+                if (log) { console.log(`\tFriendly piece. Pushing.`); }
                 this.board.set(cell, piece);
                 const result: APMoveResult = {type: "eject", what: nPiece![1].toString(), from: cell, to: ""};
                 const [x, y] = ChaseGame.algebraic2coords(cell);
@@ -1189,10 +1204,11 @@ export class ChaseGame extends GameBase {
                 if (cellNext === "e5") {
                     throw new Error("You may not bump a piece into the chamber!");
                 }
-                this.recurseMove(cellNext, [...nPiece!], d);
+                this.recurseMove(cellNext, [...nPiece!], d, log);
             }
         // Chamber moves
         } else if (cell === "e5") {
+            if (log) { console.log(`Chamber move`); }
             const [lcell, rcell] = chamberExits.get(dir)!;
             // If the player already has 10 pieces (9, actually, because we're in the middle of a move), just eject the piece
             if ([...this.board.values()].filter(p => p[0] === this.currplayer).length === 9) {
@@ -1201,7 +1217,7 @@ export class ChaseGame extends GameBase {
             // If it's a 1, just eject the piece
             } else if (piece[1] === 1) {
                 this.results.push({type: "move", from: "e5", to: lcell});
-                this.recurseMove(lcell, [...piece], leftDirs.get(dir)!)
+                this.recurseMove(lcell, [...piece], leftDirs.get(dir)!, log)
             // Otherwise, split and eject
             } else {
                 const currSpeed = piece[1]!;
@@ -1212,11 +1228,12 @@ export class ChaseGame extends GameBase {
                     {type: "place", what: lspeed.toString(), where: lcell},
                     {type: "place", what: rspeed.toString(), where: rcell},
                 );
-                this.recurseMove(lcell, [this.currplayer, lspeed] as CellContents, leftDirs.get(dir)!);
-                this.recurseMove(rcell, [this.currplayer, rspeed] as CellContents, rightDirs.get(dir)!);
+                this.recurseMove(lcell, [this.currplayer, lspeed] as CellContents, leftDirs.get(dir)!, log);
+                this.recurseMove(rcell, [this.currplayer, rspeed] as CellContents, rightDirs.get(dir)!, log);
             }
         // Regular move
         } else {
+            if (log) { console.log(`Regular move`); }
             this.board.set(cell, piece);
         }
     }

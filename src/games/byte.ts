@@ -250,15 +250,10 @@ export class ByteGame extends GameBase {
                 newmove = `${move}-${cell}`;
             // fresh move, occupied space
             } else if (this.board.has(cell)) {
-                // if the move list shows this whole stack moving, then ignore idx
-                if (moves.find(m => m.startsWith(`${cell}-`)) !== undefined) {
-                    newmove = `${cell}`;
+                if ( (idx !== undefined) && (idx !== 1) ) {
+                    newmove = `${cell}:${idx}`;
                 } else {
-                    if (idx !== undefined) {
-                        newmove = `${cell}:${idx}`;
-                    } else {
-                        newmove = cell;
-                    }
+                    newmove = cell;
                 }
             }
 

@@ -36,6 +36,7 @@
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
+        "havannah": "A connection game to complete a chain of a ring or a bridge or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
@@ -558,6 +559,9 @@
             "SELECT_COLOUR": "Select the seed you wish to plant.",
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
         },
+        "Havannah": {
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
+        },
         "hexy": {
             "INITIAL_INSTRUCTIONS": "Select an empty cell. If you select a perimeter cell, the mirror piece will be placed automatically."
         },
@@ -1045,6 +1049,20 @@
             },
             "7x7": {
                 "name": "Smaller board: 7x7"
+            }
+        },
+        "havannah": {
+            "size-4": {
+                "name": "Size 4 board.",
+                "description": "Tiny size."
+            },
+            "size-6": {
+                "name": "Size 6 board.",
+                "description": "Small size."
+            },
+            "size-10": {
+                "name": "Size 10 board.",
+                "description": "Large size."
             }
         },
         "hexy": {

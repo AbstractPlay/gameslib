@@ -559,7 +559,7 @@
             "SELECT_COLOUR": "Select the seed you wish to plant.",
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
         },
-        "Havannah": {
+        "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
         "hexy": {

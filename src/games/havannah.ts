@@ -91,7 +91,7 @@ export class HavannahGame extends GameBase {
                 urls: ["https://www.mindsports.nl/"]
             }
         ],
-        flags: ["experimental", "automove", "pie"],
+        flags: ["automove", "pie"],
         variants: [
             {
                 uid: "size-4",

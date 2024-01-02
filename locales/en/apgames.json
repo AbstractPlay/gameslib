@@ -955,6 +955,12 @@
                 "name": "Advanced"
             }
         },
+        "archimedes": {
+            "8x10": {
+                "description": "An elongated board that breaks up the power of a central diagonal",
+                "name": "8x10 board"
+            }
+        },
         "armadas": {
             "freeform": {
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",

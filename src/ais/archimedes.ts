@@ -37,7 +37,7 @@ const evaluate = (state: IArchimedesState): number => {
     const target = targets[g.currplayer - 1];
     const maxscore = 7;
     let score = 0;
-    const pieces = [...g.board.entries()].filter(e => e[1] === g.currplayer).map(e => ArchimedesGame.algebraic2coords(e[0]));
+    const pieces = [...g.board.entries()].filter(e => e[1] === g.currplayer).map(e => g.algebraic2coords(e[0]));
     for (const piece of pieces) {
         score += Math.sqrt(Math.pow(target[0] - piece[0], 2) + Math.pow(target[1] - piece[1], 2));
     }

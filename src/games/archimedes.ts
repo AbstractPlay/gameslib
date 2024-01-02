@@ -7,7 +7,6 @@ import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
-const playerHomes = ["a1", "h8"];
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -39,14 +38,11 @@ export class ArchimedesGame extends GameBase {
                 name: "Philip Cohen"
             }
         ],
-        flags: ["perspective", "pie"]
+        flags: ["perspective", "pie"],
+        variants: [
+            {uid: "8x10"}
+        ],
     };
-    public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 8);
-    }
-    public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 8);
-    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -58,19 +54,36 @@ export class ArchimedesGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IArchimedesState | string) {
+    constructor(state?: IArchimedesState | string, variants?: string[]) {
         super();
         if (state === undefined) {
-            const board = new Map<string, playerid>([
-                ["a2", 1], ["a3", 1], ["a4", 1],
-                ["b1", 1], ["b2", 1], ["b3", 1], ["b4", 1],
-                ["c1", 1], ["c2", 1], ["c3", 1],
-                ["d1", 1], ["d2", 1],
-                ["h7", 2], ["h6", 2], ["h5", 2],
-                ["g8", 2], ["g7", 2], ["g6", 2], ["g5", 2],
-                ["f8", 2], ["f7", 2], ["f6", 2],
-                ["e8", 2], ["e7", 2],
-            ]);
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
+            let board: Map<string,playerid>;
+            if (this.variants.includes("8x10")) {
+                board = new Map<string, playerid>([
+                    ["a2", 1], ["a3", 1], ["a4", 1],
+                    ["b1", 1], ["b2", 1], ["b3", 1], ["b4", 1],
+                    ["c1", 1], ["c2", 1], ["c3", 1],
+                    ["d1", 1], ["d2", 1],
+                    ["h7", 2], ["h8", 2], ["h9", 2],
+                    ["g7", 2], ["g8", 2], ["g9", 2], ["g10", 2],
+                    ["f10", 2], ["f9", 2], ["f8", 2],
+                    ["e10", 2], ["e9", 2],
+                ]);
+            } else {
+                board = new Map<string, playerid>([
+                    ["a2", 1], ["a3", 1], ["a4", 1],
+                    ["b1", 1], ["b2", 1], ["b3", 1], ["b4", 1],
+                    ["c1", 1], ["c2", 1], ["c3", 1],
+                    ["d1", 1], ["d2", 1],
+                    ["h7", 2], ["h6", 2], ["h5", 2],
+                    ["g8", 2], ["g7", 2], ["g6", 2], ["g5", 2],
+                    ["f8", 2], ["f7", 2], ["f6", 2],
+                    ["e8", 2], ["e7", 2],
+                ]);
+            }
             const fresh: IMoveState = {
                 _version: ArchimedesGame.gameinfo.version,
                 _results: [],
@@ -110,13 +123,35 @@ export class ArchimedesGame extends GameBase {
         return this;
     }
 
+    public coords2algebraic(x: number, y: number): string {
+        let height = 8;
+        if (this.variants.includes("8x10")) {
+            height = 10;
+        }
+        return GameBase.coords2algebraic(x, y, height);
+    }
+    public algebraic2coords(cell: string): [number, number] {
+        let height = 8;
+        if (this.variants.includes("8x10")) {
+            height = 10;
+        }
+        return GameBase.algebraic2coords(cell, height);
+    }
+    public playerHomes(): string[] {
+        let height = 8;
+        if (this.variants.includes("8x10")) {
+            height = 10;
+        }
+        return ["a1", `h${height}`];
+    }
+
     public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
         }
         const moves: string[] = [];
-        const myhome = playerHomes[player - 1];
+        const myhome = this.playerHomes()[player - 1];
 
         // rebuilds first
         if (this.pieceCount(player) < 12) {
@@ -141,10 +176,14 @@ export class ArchimedesGame extends GameBase {
 
     private findValidMoves(from: string): string[] {
         const targets: string[] = [];
-        const grid = new RectGrid(8, 8);
-        const [x, y] = ArchimedesGame.algebraic2coords(from);
+        let height = 8;
+        if (this.variants.includes("8x10")) {
+            height = 10;
+        }
+        const grid = new RectGrid(8, height);
+        const [x, y] = this.algebraic2coords(from);
         for (const dir of allDirections) {
-            const ray = grid.ray(x, y, dir).map(pt => ArchimedesGame.coords2algebraic(...pt));
+            const ray = grid.ray(x, y, dir).map(pt => this.coords2algebraic(...pt));
             for (const cell of ray) {
                 if (this.board.has(cell)) {
                     break;
@@ -159,16 +198,20 @@ export class ArchimedesGame extends GameBase {
     private findAttackers(target: string, owner?: playerid): string[] {
         console.log(`Target: ${target}, owner: ${owner}`);
         const attackers: string[] = [];
-        const grid = new RectGrid(8, 8);
+        let height = 8;
+        if (this.variants.includes("8x10")) {
+            height = 10;
+        }
+        const grid = new RectGrid(8, height);
         if (owner === undefined) {
             owner = this.board.get(target);
             if (owner === undefined) {
                 throw new Error("Empty spaces can't be attacked.");
             }
         }
-        const [x, y] = ArchimedesGame.algebraic2coords(target);
+        const [x, y] = this.algebraic2coords(target);
         for (const dir of allDirections) {
-            const ray = grid.ray(x, y, dir).map(pt => ArchimedesGame.coords2algebraic(...pt));
+            const ray = grid.ray(x, y, dir).map(pt => this.coords2algebraic(...pt));
             for (const cell of ray) {
                 if (this.board.has(cell)) {
                     if (this.board.get(cell)! !== owner) {
@@ -211,7 +254,7 @@ export class ArchimedesGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = ArchimedesGame.coords2algebraic(col, row);
+            const cell = this.coords2algebraic(col, row);
             let newmove = "";
             if (move.length > 0) {
                 let prev = move;
@@ -225,7 +268,7 @@ export class ArchimedesGame extends GameBase {
                 }
             } else if (
                 ( (this.board.has(cell)) && (this.board.get(cell)! === this.currplayer) && (this.findValidMoves(cell).length > 0) ) ||
-                ( (! this.board.has(cell)) && (cell === playerHomes[this.currplayer - 1]) )
+                ( (! this.board.has(cell)) && (cell === this.playerHomes()[this.currplayer - 1]) )
                 ) {
                 newmove = cell;
             } else {
@@ -249,7 +292,7 @@ export class ArchimedesGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        const myhome = playerHomes[this.currplayer - 1];
+        const myhome = this.playerHomes()[this.currplayer - 1];
 
         if (m.length === 0) {
             result.valid = true;
@@ -262,7 +305,7 @@ export class ArchimedesGame extends GameBase {
         if (! m.includes("-")) {
             // valid cell
             try {
-                ArchimedesGame.algebraic2coords(m);
+                this.algebraic2coords(m);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
@@ -293,7 +336,7 @@ export class ArchimedesGame extends GameBase {
         // cells valid
         for (const cell of [from, to]) {
             try {
-                ArchimedesGame.algebraic2coords(cell);
+                this.algebraic2coords(cell);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
@@ -331,11 +374,15 @@ export class ArchimedesGame extends GameBase {
             return result;
         }
 
-        const [xFrom, yFrom] = ArchimedesGame.algebraic2coords(from);
-        const [xTo, yTo] = ArchimedesGame.algebraic2coords(to);
+        const [xFrom, yFrom] = this.algebraic2coords(from);
+        const [xTo, yTo] = this.algebraic2coords(to);
         const bearing = RectGrid.bearing(xFrom, yFrom, xTo, yTo)!;
-        const grid = new RectGrid(8, 8);
-        const ray = grid.ray(xFrom, yFrom, bearing).map(pt => ArchimedesGame.coords2algebraic(...pt));
+        let height = 8;
+        if (this.variants.includes("8x10")) {
+            height = 10;
+        }
+        const grid = new RectGrid(8, height);
+        const ray = grid.ray(xFrom, yFrom, bearing).map(pt => this.coords2algebraic(...pt));
         const idx = ray.findIndex(c => c === to);
         // moving in straight lines
         if (idx < 0) {
@@ -416,7 +463,7 @@ export class ArchimedesGame extends GameBase {
             prevPlayer = 2;
         }
         // If at the beginning of your turn, you have a piece on the opponent's home port
-        const enemyHome = playerHomes[prevPlayer - 1];
+        const enemyHome = this.playerHomes()[prevPlayer - 1];
         if ( (this.board.has(enemyHome)) && (this.board.get(enemyHome)! === this.currplayer) ) {
             this.gameover = true;
             this.winner = [this.currplayer];
@@ -459,13 +506,17 @@ export class ArchimedesGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         let pstr = "";
-        for (let row = 0; row < 8; row++) {
+        let boardHeight = 8;
+        if (this.variants.includes("8x10")) {
+            boardHeight = 10;
+        }
+        for (let row = 0; row < boardHeight; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
             const pieces: string[] = [];
             for (let col = 0; col < 8; col++) {
-                const cell = ArchimedesGame.coords2algebraic(col, row);
+                const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents === 1) {
@@ -486,13 +537,13 @@ export class ArchimedesGame extends GameBase {
             board: {
                 style: "squares-checkered",
                 width: 8,
-                height: 8,
+                height: boardHeight,
                 markers: [
                     {
                         type: "glyph",
                         glyph: "AHome",
                         points: [
-                            {row: 7, col: 0}
+                            {row: boardHeight - 1, col: 0}
                         ],
                     },
                     {
@@ -535,11 +586,11 @@ export class ArchimedesGame extends GameBase {
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {
-                    const [fromX, fromY] = ArchimedesGame.algebraic2coords(move.from);
-                    const [toX, toY] = ArchimedesGame.algebraic2coords(move.to);
+                    const [fromX, fromY] = this.algebraic2coords(move.from);
+                    const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
-                    const [x, y] = ArchimedesGame.algebraic2coords(move.where!);
+                    const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                     // highlight all the attackers
                     // move.what doesn't actually contain anything, and it never has.
@@ -547,7 +598,7 @@ export class ArchimedesGame extends GameBase {
                     const atkrs = this.findAttackers(move.where!, this.currplayer);
                     console.log(`Capture happened at ${move.where}. Attackers include ${JSON.stringify(atkrs)}`);
                     for (const atkr of atkrs) {
-                        const [xAtk, yAtk] = ArchimedesGame.algebraic2coords(atkr);
+                        const [xAtk, yAtk] = this.algebraic2coords(atkr);
                         rep.annotations.push({type: "move", style: "dashed", colour: "#ff4500", targets: [{row: yAtk, col: xAtk}, {row: y, col: x}]});
                     }
                 }

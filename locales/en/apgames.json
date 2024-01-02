@@ -37,6 +37,7 @@
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
+        "hex": "Hex is a two player abstract strategy board game in which players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
@@ -1068,6 +1069,16 @@
             },
             "size-10": {
                 "name": "Size 10 board.",
+                "description": "Large size."
+            }
+        },
+        "hex": {
+            "size-11": {
+                "name": "Size 11 board.",
+                "description": "Small size."
+            },
+            "size-15": {
+                "name": "Size 15 board.",
                 "description": "Large size."
             }
         },

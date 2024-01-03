@@ -1259,16 +1259,12 @@
             }
         },
         "tumbleweed": {
-            "size-4": {
-                "name": "Size 4 board.",
-                "description": "Tiny board"
-            },
             "size-6": {
                 "name": "Size 6 board.",
                 "description": "Smaller board"
             },
             "size-11": {
-                "name": "Size 11 board.",
+                "name": "Size 10 board.",
                 "description": "Larger board"
             }
         },

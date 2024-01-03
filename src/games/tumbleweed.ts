@@ -46,15 +46,11 @@ export class TumbleweedGame extends GameBase {
         flags: ["experimental", "pie", "multistep", "scores"],
         variants: [
             {
-                uid: "size-4",
-                group: "board",
-            },
-            {
                 uid: "size-6",
                 group: "board",
             },
             {
-                uid: "size-11",
+                uid: "size-10",
                 group: "board",
             }
         ],

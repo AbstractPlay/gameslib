@@ -45,7 +45,7 @@ export class HexGame extends GameBase {
                 name: "John Nash",
             },
         ],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
         variants: [
             {
                 uid: "size-11",

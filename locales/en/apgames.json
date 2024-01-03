@@ -1307,6 +1307,20 @@
                 "description": "Display the stones as pips instead of as numerals.",
                 "name": "Pips"
             }
+        },
+        "tumbleweed": {
+            "hide-influence": {
+                "description": "Don't show line of sight.",
+                "name": "Hide influence"
+            },
+            "hide-threatened": {
+                "description": "Don't show non-suicidal captures.",
+                "name": "Hide threatened"
+            }, 
+            "hide-both": {
+                "description": "Don't show line of sight or non-suicidal captures.",
+                "name": "Hide Both"
+            }
         }
     }
 }

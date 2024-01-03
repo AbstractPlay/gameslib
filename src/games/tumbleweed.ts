@@ -43,7 +43,7 @@ export class TumbleweedGame extends GameBase {
                 name: "Michał Zapała",
             }
         ],
-        flags: ["experimental", "automove", "pie", "multistep", "scores"],
+        flags: ["experimental", "pie", "multistep", "scores"],
         variants: [
             {
                 uid: "size-4",
@@ -174,6 +174,8 @@ export class TumbleweedGame extends GameBase {
                 }
             }
             return moves;
+        } else if (this.board.size === 3 && player === 2) {
+            return ["pass"];
         }
         for (const cell of this.graph.listCells() as string[]) {
             const losCount = this.getLosCount(cell, player);
@@ -249,6 +251,11 @@ export class TumbleweedGame extends GameBase {
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
                 return result;
+            } else if (this.board.size === 3 && this.currplayer === 2) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_PASS");
+                return result;
             }
             result.valid = true;
             result.complete = -1;
@@ -261,6 +268,14 @@ export class TumbleweedGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
+        if (this.board.size === 3 && this.currplayer === 2) {
+            if (m !== "pass") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tumbleweed.SECOND_PLAYER_PASS");
+                return result;
+            }
+        }
+
         const moves = m.split(",");
         if (moves.length > 2) {
             result.valid = false;
@@ -355,22 +370,16 @@ export class TumbleweedGame extends GameBase {
             this.board.set(moves[0], [this.currplayer, 1]);
             this.board.set(moves[1], [(this.currplayer % 2) + 1 as playerid, 1]);
             this.results.push({type: "place", who: 1, where: moves[0]}, {type: "place", who: 2, where: moves[1]});
-            // No switching players.
-            this.lastmove = m;
-            this.updateScores();
-            this.saveState();
-            return this;
-        }
-
+        } else {
         this.results = [];
         if (m === "pass") {
             this.results.push({type: "pass"});
         } else {
             const losCount = this.getLosCount(m, this.currplayer);
-            this.board.set(m, [this.currplayer, Math.max(losCount, 1)]);
             this.results.push({type: "place", where: m});
+                this.board.set(m, [this.currplayer, losCount]);
+            }
         }
-
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;

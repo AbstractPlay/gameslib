@@ -857,7 +857,9 @@
         },
         "tumbleweed": {
             "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",
+            "INITIAL_INSTRUCTIONS_PASS": "You must pass to continue as the second player. Pie rule can be invoked at this stage.",
             "INITIAL_INSTRUCTIONS": "Place a piece on the board.",
+            "SECOND_PLAYER_PASS": "You may only pass on this turn. The pie rule can be invoked if it has not been already.",
             "TOO_MANY_MOVES": "You may only make one move per turn, or two at in the setup phase as first player.",
             "NO_CENTRE": "You may not place a piece at the centre of the board in the setup phase.",
             "SAME_CELL": "In the setup phase, place two pieces on different cells.",

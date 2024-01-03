@@ -458,7 +458,7 @@ export class IqishiqiGame extends GameBase {
                     pieces.push("-");
                 }
             }
-            // if all pieces are "-", replace with " "
+            // if all pieces are "-", replace with "_"
             if (pieces.every(p => p === "-")) {
                 pieces = ["_"]
             }

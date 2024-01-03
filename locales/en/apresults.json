@@ -160,7 +160,7 @@
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
-        "iqishiqi": "{{player}} placed a white stone at {{where}}.",
+        "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",

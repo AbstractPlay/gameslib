@@ -38,6 +38,8 @@
         "nowhat": "{{player}} captured a piece at {{where}}.",
         "orb_1": "{{player}} captured an orb at {{where}}.",
         "orb_2": "{{player}} captured a spheroid at {{where}}.",
+        "tumbleweed": "{{player}} captured a stack of size {{count}} at {{where}}.",
+        "tumbleweed_self": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
         "witch": {
             "nowhere_S_one": "{{player}} captured {{count}} Sunstone.",
             "nowhere_S_other": "{{player}} captured {{count}} Sunstones.",
@@ -166,6 +168,7 @@
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
         "streetcar": "A building was placed at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
+        "tumbleweed": "{{player}} placed a stack of size {{count}} at {{where}}.",
         "urbino": {
             "house": "{{player}} placed a house at {{where}}.",
             "palace": "{{player}} placed a palace at {{where}}.",

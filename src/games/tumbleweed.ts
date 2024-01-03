@@ -363,20 +363,24 @@ export class TumbleweedGame extends GameBase {
             if (moves.length !== 2) {
                 // Partial.
                 this.board.set(moves[0], [this.currplayer, 1]);
-                this.results.push({type: "place", who: 1, where: moves[0]});
+                this.results.push({type: "place", who: 1, where: moves[0], count: 1});
                 this.updateScores();
                 return this;
             }
             this.board.set(moves[0], [this.currplayer, 1]);
             this.board.set(moves[1], [(this.currplayer % 2) + 1 as playerid, 1]);
-            this.results.push({type: "place", who: 1, where: moves[0]}, {type: "place", who: 2, where: moves[1]});
+            this.results.push({type: "place", who: 1, where: moves[0], count: 1}, {type: "place", who: 2, where: moves[1], count: 1});
         } else {
         this.results = [];
         if (m === "pass") {
             this.results.push({type: "pass"});
         } else {
             const losCount = this.getLosCount(m, this.currplayer);
-            this.results.push({type: "place", where: m});
+                this.results.push({type: "place", where: m, count: losCount});
+                if (this.board.has(m)) {
+                    const [player, size] = this.board.get(m)!;
+                    this.results.push({type: "capture", where: m, count: size, whose: player});
+                }
                 this.board.set(m, [this.currplayer, losCount]);
             }
         }
@@ -538,6 +542,68 @@ export class TumbleweedGame extends GameBase {
             }
         }
         return rep;
+    }
+
+    public chatLog(players: string[]): string[][] {
+        // Use `chatLog` to determine if capture is self-capture.
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
+                let otherPlayer = state.currplayer as number - 1;
+                if (otherPlayer < 1) {
+                    otherPlayer = this.numplayers;
+                }
+                let name = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+                for (const r of state._results) {
+                    if (!this.chat(node, name, state._results, r)) {
+                        switch (r.type) {
+                            case "place":
+                                node.push(i18next.t("apresults:PLACE.tumbleweed", {player: name, where: r.where, count: r.count}));
+                                break;
+                            case "capture":
+                                // Check if capture is self-capture.
+                                const str = r.whose === otherPlayer ? "apresults:CAPTURE.tumbleweed_self" : "apresults:CAPTURE.tumbleweed";
+                                node.push(i18next.t(str, {player: name, where: r.where, count: r.count}));
+                                break;
+                            case "eog":
+                                node.push(i18next.t("apresults:EOG"));
+                                break;
+                            case "resigned":
+                                let rname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    rname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "timeout":
+                                let tname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    tname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
+                                break;
+                            case "winners":
+                                const names: string[] = [];
+                                for (const w of r.players) {
+                                    if (w <= players.length) {
+                                        names.push(players[w - 1]);
+                                    } else {
+                                        names.push(`Player ${w}`);
+                                    }
+                                }
+                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                            break;
+                        }
+                    }
+                }
+                result.push(node);
+            }
+        }
+        return result;
     }
 
     public status(): string {

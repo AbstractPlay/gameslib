@@ -25,6 +25,7 @@ export type APMoveResult =
       where?: string;
       what?: string;
       who?: number;
+      count?: number;
     }
   | {
       type: "move";
@@ -38,6 +39,7 @@ export type APMoveResult =
       where?: string;
       what?: string;
       count?: number;
+      whose?: number;
     }
   | {
       type: "take";

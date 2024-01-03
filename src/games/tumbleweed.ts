@@ -43,7 +43,7 @@ export class TumbleweedGame extends GameBase {
                 name: "Michał Zapała",
             }
         ],
-        flags: ["experimental", "automove", "pie", "multistep", "scores"],
+        flags: ["experimental", "pie", "multistep", "scores"],
         variants: [
             {
                 uid: "size-4",
@@ -57,7 +57,8 @@ export class TumbleweedGame extends GameBase {
                 uid: "size-11",
                 group: "board",
             }
-        ]
+        ],
+        displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };
 
     public numplayers = 2;
@@ -174,6 +175,8 @@ export class TumbleweedGame extends GameBase {
                 }
             }
             return moves;
+        } else if (this.board.size === 3 && player === 2) {
+            return ["pass"];
         }
         for (const cell of this.graph.listCells() as string[]) {
             const losCount = this.getLosCount(cell, player);
@@ -249,6 +252,11 @@ export class TumbleweedGame extends GameBase {
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
                 return result;
+            } else if (this.board.size === 3 && this.currplayer === 2) {
+                result.valid = true;
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_PASS");
+                return result;
             }
             result.valid = true;
             result.complete = -1;
@@ -261,6 +269,14 @@ export class TumbleweedGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
+        if (this.board.size === 3 && this.currplayer === 2) {
+            if (m !== "pass") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tumbleweed.SECOND_PLAYER_PASS");
+                return result;
+            }
+        }
+
         const moves = m.split(",");
         if (moves.length > 2) {
             result.valid = false;
@@ -348,29 +364,27 @@ export class TumbleweedGame extends GameBase {
             if (moves.length !== 2) {
                 // Partial.
                 this.board.set(moves[0], [this.currplayer, 1]);
-                this.results.push({type: "place", who: 1, where: moves[0]});
+                this.results.push({type: "place", who: 1, where: moves[0], count: 1});
                 this.updateScores();
                 return this;
             }
             this.board.set(moves[0], [this.currplayer, 1]);
             this.board.set(moves[1], [(this.currplayer % 2) + 1 as playerid, 1]);
-            this.results.push({type: "place", who: 1, where: moves[0]}, {type: "place", who: 2, where: moves[1]});
-            // No switching players.
-            this.lastmove = m;
-            this.updateScores();
-            this.saveState();
-            return this;
-        }
-
-        this.results = [];
-        if (m === "pass") {
-            this.results.push({type: "pass"});
+            this.results.push({type: "place", who: 1, where: moves[0], count: 1}, {type: "place", who: 2, where: moves[1], count: 1});
         } else {
-            const losCount = this.getLosCount(m, this.currplayer);
-            this.board.set(m, [this.currplayer, Math.max(losCount, 1)]);
-            this.results.push({type: "place", where: m});
+            this.results = [];
+            if (m === "pass") {
+                this.results.push({type: "pass"});
+            } else {
+                const losCount = this.getLosCount(m, this.currplayer);
+                this.results.push({type: "place", where: m, count: losCount});
+                if (this.board.has(m)) {
+                    const [player, size] = this.board.get(m)!;
+                    this.results.push({type: "capture", where: m, count: size, whose: player});
+                }
+                this.board.set(m, [this.currplayer, losCount]);
+            }
         }
-
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -386,6 +400,8 @@ export class TumbleweedGame extends GameBase {
     }
 
     private cellOwner(cell: string): playerid | undefined {
+        // A cell is owned by a player if they have a stack on it
+        // or if they have the highest LOS to it.
         if (this.board.has(cell)) {
             const [player, ] = this.board.get(cell)!;
             if (player === 3) { return undefined; }
@@ -402,6 +418,7 @@ export class TumbleweedGame extends GameBase {
     }
 
     private updateScores(): void {
+        // Updates `this.scores` with total influence for each player.
         this.scores = [0, 0];
         for (const cell of this.graph.listCells() as string[]) {
             const owner = this.cellOwner(cell);
@@ -411,12 +428,17 @@ export class TumbleweedGame extends GameBase {
         }
     }
 
+    private pieceCount(player: playerid): number {
+        // Get number of piece on board for `player`.
+        return [...this.board.values()].filter(v => v[0] === player).length;
+    }
+
     protected checkEOG(): TumbleweedGame {
-        if ( (this.lastmove === "pass") && (this.stack[this.stack.length - 1].lastmove === "pass") ) {
+        if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" && this.stack.length > 3) {
             this.gameover = true;
             const p1Score = this.getPlayerScore(1);
             const p2Score = this.getPlayerScore(2);
-            this.winner = p1Score > p2Score ? [1] : p2Score < p1Score ? [2] : [1, 2];
+            this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
         }
         if (this.gameover) {
             this.results.push(
@@ -460,10 +482,35 @@ export class TumbleweedGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showThreatened = true;
+        let showInfluence = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-threatened") {
+                showThreatened = false;
+            } else if (altDisplay === "hide-influence") {
+                showInfluence = false;
+            } else if (altDisplay === "hide-both") {
+                showThreatened = false;
+                showInfluence = false;
+            }
+        }
         // Build piece string
         const legendNames: Set<string> = new Set();
+        // A - player1 normal
+        // B - player2 normal
+        // C - player1 threatened
+        // D - player2 threatened
+        // E - neutral
+        // F - neutral threatened by player1
+        // G - neutral threatened by player2
+        // H - neutral threatened by both
         let pstr = "";
+        const threatenedPieces: Set<string> = showThreatened ? this.threatenedPieces() : new Set();
         for (const row of this.graph.listCells(true)) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -474,11 +521,33 @@ export class TumbleweedGame extends GameBase {
                     const [player, size] = this.board.get(cell)!;
                     let key;
                     if (player === 1) {
-                        key = `A${size.toString()}`;
+                        if (threatenedPieces.has(cell)) {
+                            key = `C${size.toString()}`;
+                        } else {
+                            key = `A${size.toString()}`;
+                        }
                     } else if (player === 2) {
-                        key = `B${size.toString()}`;
+                        if (threatenedPieces.has(cell)) {
+                            key = `D${size.toString()}`;
+                        } else {
+                            key = `B${size.toString()}`;
+                        }
                     } else {
-                        key = `C${size.toString()}`;
+                        if (showThreatened) {
+                            const player1Los = this.getLosCount(cell, 1);
+                            const player2Los = this.getLosCount(cell, 2);
+                            if (player1Los > player2Los && player1Los > size) {
+                                key = `F${size.toString()}`;
+                            } else if (player2Los > player1Los && player2Los > size) {
+                                key = `G${size.toString()}`;
+                            } else if (player1Los === player2Los && player1Los > size) {
+                                key = `H${size.toString()}`;
+                            } else {
+                                key = `E${size.toString()}`;
+                            }
+                        } else {
+                            key = `E${size.toString()}`;
+                        }
                     }
                     legendNames.add(key);
                     pieces.push(key);
@@ -498,12 +567,59 @@ export class TumbleweedGame extends GameBase {
         const legend: ILooseObj = {};
         for (const name of legendNames) {
             const [piece, ...size] = name;
-            const player = piece === "A" ? 1 : piece === "B" ? 2 : 3;
+            const player = piece === "A" || piece === "C" ? 1 : piece === "B" || piece === "D" ? 2 : 3;
             const sizeStr = size.join("");
-            legend[name] = [
-                { name: "piece", player },
-                { text: sizeStr, colour: "#000", scale: 0.75 },
-            ]
+            if (piece === "A" || piece === "B" || piece === "E") {
+                legend[name] = [
+                    { name: "piece", player },
+                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                ]
+            } else if (piece === "C" || piece === "D") {
+                legend[name] = [
+                    { name: "piece-borderless", scale: 1.1, player: player % 2 + 1 },
+                    { name: "piece", player },
+                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                ]
+            } else if (piece === "F") {
+                legend[name] = [
+                    { name: "piece-borderless", scale: 1.1, player: 1, opacity: 0.7 },
+                    { name: "piece", player },
+                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                ]
+            } else if (piece === "G") {
+                legend[name] = [
+                    { name: "piece-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece", player },
+                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                ]
+            } else /* if (piece === "H") */ {
+                legend[name] = [
+                    { name: "piece-borderless", scale: 1.1, player: 1, opacity: 0.7 },
+                    { name: "piece-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece", player },
+                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                ]
+            }
+        }
+
+        let points1: {row: number, col: number}[] = [];
+        let points2: {row: number, col: number}[] = [];
+        if (showInfluence) {
+            const points = this.influenceMarkers();
+            points1 = points.get(1)!;
+            points2 = points.get(2)!;
+        }
+        let markers: Array<any> | undefined = []
+        if (points1.length > 0) {
+            // @ts-ignore
+            markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+        }
+        if (points2.length > 0) {
+            // @ts-ignore
+            markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+        }
+        if (markers.length === 0) {
+            markers = undefined;
         }
 
         // Build rep
@@ -512,6 +628,8 @@ export class TumbleweedGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: this.boardSize * 2 - 1,
+                // @ts-ignore
+                markers,
             },
             legend,
             pieces: pstr,
@@ -531,6 +649,117 @@ export class TumbleweedGame extends GameBase {
         return rep;
     }
 
+    private influenceMarkers(): Map<playerid, {row: number, col: number}[]> {
+        // Get cells that are occupied by each player or have equal or greater LOS by each player.
+        // Unoccupied cells with equal LOS will be in both groups.
+        const markers = new Map<playerid, {row: number, col: number}[]>([
+            [1, []],
+            [2, []],
+        ]);
+        for (const cell of this.graph.listCells() as string[]) {
+            if (this.board.has(cell)) {
+                const [player, ] = this.board.get(cell)!;
+                if (player === 3) { continue; }
+                const [x, y] = this.graph.algebraic2coords(cell);
+                const cellCoords = {row: y, col: x};
+                markers.get(player)!.push(cellCoords);
+            } else {
+                const player1Los = this.getLosCount(cell, 1);
+                const player2Los = this.getLosCount(cell, 2);
+                if (player1Los === 0 && player2Los === 0) { continue; }
+                const [x, y] = this.graph.algebraic2coords(cell);
+                const cellCoords = {row: y, col: x};
+                if (player1Los >= player2Los) {
+                    markers.get(1)!.push(cellCoords);
+                }
+                if (player2Los >= player1Los) {
+                    markers.get(2)!.push(cellCoords);
+                }
+            }
+        }
+        return markers;
+    }
+
+    private threatenedPieces(): Set<string> {
+        // A piece is threatened if it can be captured by the other player,
+        // and it cannot be captured back.
+        const threatenedPieces = new Set<string>();
+        for (const cell of this.graph.listCells() as string[]) {
+            if (this.board.has(cell)) {
+                const [player, size] = this.board.get(cell)!;
+                const otherPlayer = player === 1 ? 2 : 1;
+                const losCount = this.getLosCount(cell, player);
+                const otherPlayerLosCount = this.getLosCount(cell, otherPlayer);
+                if (otherPlayerLosCount >= losCount && otherPlayerLosCount > size) {
+                    threatenedPieces.add(cell);
+                }
+            }
+        }
+        return threatenedPieces
+    }
+
+    public chatLog(players: string[]): string[][] {
+        // Use `chatLog` to determine if capture is self-capture.
+        const result: string[][] = [];
+        for (const state of this.stack) {
+            if ( (state._results !== undefined) && (state._results.length > 0) ) {
+                const node: string[] = [(state._timestamp && new Date(state._timestamp).toISOString()) || "unknown"];
+                let otherPlayer = state.currplayer as number - 1;
+                if (otherPlayer < 1) {
+                    otherPlayer = this.numplayers;
+                }
+                let name = `Player ${otherPlayer}`;
+                if (otherPlayer <= players.length) {
+                    name = players[otherPlayer - 1];
+                }
+                for (const r of state._results) {
+                    if (!this.chat(node, name, state._results, r)) {
+                        switch (r.type) {
+                            case "place":
+                                node.push(i18next.t("apresults:PLACE.tumbleweed", {player: name, where: r.where, count: r.count}));
+                                break;
+                            case "capture":
+                                // Check if capture is self-capture.
+                                const str = r.whose === otherPlayer ? "apresults:CAPTURE.tumbleweed_self" : "apresults:CAPTURE.tumbleweed";
+                                node.push(i18next.t(str, {player: name, where: r.where, count: r.count}));
+                                break;
+                            case "eog":
+                                node.push(i18next.t("apresults:EOG"));
+                                break;
+                            case "resigned":
+                                let rname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    rname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                break;
+                            case "timeout":
+                                let tname = `Player ${r.player}`;
+                                if (r.player <= players.length) {
+                                    tname = players[r.player - 1]
+                                }
+                                node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
+                                break;
+                            case "winners":
+                                const names: string[] = [];
+                                for (const w of r.players) {
+                                    if (w <= players.length) {
+                                        names.push(players[w - 1]);
+                                    } else {
+                                        names.push(`Player ${w}`);
+                                    }
+                                }
+                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                            break;
+                        }
+                    }
+                }
+                result.push(node);
+            }
+        }
+        return result;
+    }
+
     public status(): string {
         let status = super.status();
 
@@ -541,7 +770,9 @@ export class TumbleweedGame extends GameBase {
         status += "**Scores**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {
             const score = this.getPlayerScore(n as playerid);
-            status += `Player ${n}: ${score}\n\n`;
+            const pieces = this.pieceCount(n as playerid);
+            const influence = score - pieces;
+            status += `Player ${n}: ${pieces} + ${influence} = ${score}\n\n`;
         }
 
         return status;

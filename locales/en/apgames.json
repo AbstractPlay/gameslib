@@ -1260,12 +1260,10 @@
         },
         "tumbleweed": {
             "size-6": {
-                "name": "Size 6 board.",
-                "description": "Smaller board"
+                "name": "Smaller board (6 cells)"
             },
-            "size-11": {
-                "name": "Size 10 board.",
-                "description": "Larger board"
+            "size-10": {
+                "name": "Larger board (10 cells)"
             }
         },
         "urbino": {

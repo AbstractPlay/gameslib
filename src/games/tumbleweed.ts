@@ -43,7 +43,7 @@ export class TumbleweedGame extends GameBase {
                 name: "Michał Zapała",
             }
         ],
-        flags: ["experimental", "pie", "multistep", "scores"],
+        flags: ["pie", "multistep", "scores"],
         variants: [
             {
                 uid: "size-6",

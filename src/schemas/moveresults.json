@@ -41,6 +41,9 @@
                 },
                 "who": {
                     "type": "number"
+                },
+                "count": {
+                    "type": "number"
                 }
             },
             "required": ["type"],
@@ -81,6 +84,9 @@
                     "type": "string"
                 },
                 "count": {
+                    "type": "number"
+                },
+                "whose": {
                     "type": "number"
                 }
             },

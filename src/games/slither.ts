@@ -235,7 +235,7 @@ export class SlitherGame extends GameBase {
         if (m === "pass") {
             if (! this.moves().includes("pass")) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALID_PASS", {cell: m})
+                result.message = i18next.t("apgames:validation._general.INVALID_PASS")
                 return result;
             } else {
                 result.valid = true;

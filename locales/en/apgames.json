@@ -66,7 +66,7 @@
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
-        "tumbleweed": "Tumbleweed is on a hexhex board and a sufficient supply of stacked checkers. A stack can \"see\" a hex, when they are connected by a straight line, with no stacks in between. The players take turns placing stacks of their tokens on hexes that are seen by at least one friendly stack. The height of every newly-placed stack equals the number of your stacks that see the new stack. Replacing an existing stack with a new stack is possible, as long as the new stack is taller than the previous one. This works with opponent stacks (to capture), or your own stacks (to reinforce).",
+        "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
@@ -857,9 +857,9 @@
         },
         "tumbleweed": {
             "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",
-            "INITIAL_INSTRUCTIONS_PASS": "You must pass to continue as the second player. Pie rule can be invoked at this stage.",
+            "INITIAL_INSTRUCTIONS_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
             "INITIAL_INSTRUCTIONS": "Place a piece on the board.",
-            "SECOND_PLAYER_PASS": "You may only pass on this turn. The pie rule can be invoked if it has not been already.",
+            "SECOND_PLAYER_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
             "TOO_MANY_MOVES": "You may only make one move per turn, or two at in the setup phase as first player.",
             "NO_CENTRE": "You may not place a piece at the centre of the board in the setup phase.",
             "SAME_CELL": "In the setup phase, place two pieces on different cells.",
@@ -1247,29 +1247,23 @@
         "trike": {
             "standard-7": {
                 "name": "Triangle (7 wide)",
-                "description": "Learning size."
+                "description": "Learning board"
             },
             "standard-13": {
                 "name": "Triangle (13 wide)",
-                "description": "Competitive size."
+                "description": "Competitive board"
             },
             "standard-15": {
                 "name": "Triangle (15 wide)",
-                "description": "Large size."
+                "description": "Large board"
             }
         },
         "tumbleweed": {
-            "size-4": {
-                "name": "Size 4 board.",
-                "description": "Tiny size."
-            },
             "size-6": {
-                "name": "Size 6 board.",
-                "description": "Small size."
+                "name": "Smaller board (6 cells)"
             },
-            "size-11": {
-                "name": "Size 11 board.",
-                "description": "Large size."
+            "size-10": {
+                "name": "Larger board (10 cells)"
             }
         },
         "urbino": {

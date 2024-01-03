@@ -59,7 +59,7 @@
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
-        "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if its part of a contiguous orthogonal group consisting of pieces of both colors.",
+        "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "streetcar": "It’s against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
@@ -540,13 +540,14 @@
         },
         "furl": {
             "INITIAL_INSTRUCTIONS": "Select a piece to furl or a stack to unfurl.",
-            "NO_FURLS": "There are no furls possible from piece at {{from}}.",
-            "NO_UNFURLS": "There are no unfurls possible from stack at {{from}}.",
+            "NO_FURLS": "There are no furl moves possible from piece at {{from}}.",
+            "NO_UNFURLS": "There are no unfurl moves possible from stack at {{from}}.",
             "PARTIAL_FURL": "Select destination to furl.",
             "PARTIAL_UNFURL": "Select destination to unfurl.",
-            "UNFURL4FURL": "You signalled an unfurl move, but the selected stack only has a height of 1.",
-            "FURL4UNFURL": "You signalled a furl move, but the selected stack has a height of {{size}}, which is greater than 1.",
-            "CAPTURE4UNFURL": "You signalled a regular move, but {{to}} not is occupied by the opponent.",
+            "UNFURL4FURL": "You signalled an unfurl move with \">\", but the selected stack only has a height of 1.",
+            "FURL4UNFURL": "You signalled a furl move with \"<\", but the selected stack has a height of {{size}}, which is greater than 1.",
+            "UNFURL4CAPTURE": "You signalled a non-capture unfurl move, but a capture can be made at {{to}}. Use \"x\" to denote capture.",
+            "CAPTURE4UNFURL": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
             "INVALID_FURL": "It is not possible to furl from {{from}} to {{to}}. You may only furl towards a cell where you have two or more of your 1-piece stacks in an unbroken line.",
             "INVALID_UNFURL": "It is not possible to unfurl from {{from}} to {{to}}. You may only unfurl towards an empty cell or an opponent's stack exactly {{size}} spaces away. Intermediate cells must be empty."
         },
@@ -562,6 +563,9 @@
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
         },
         "havannah": {
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
+        },
+        "hex": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
         "hexy": {
@@ -612,7 +616,7 @@
         },
         "iqishiqi": {
             "INITIAL_INSTRUCTIONS": "Drop a shared stone to push the neutral stone.",
-            "NOLOS": "The group of shared stones formed from placement at {{place}} cannot see the neutral stone at {{from}}.",
+            "NOLOS": "The group of shared stones formed by placement at {{place}} cannot see the neutral stone at {{from}}.",
             "BLOCKED": "The neutral stone cannot move {{spaces}} spaces away from the group of shared stones formed by placement at {{place}}.",
             "NEED_DESTINATION": "Provide the destination for the neutral stone.",
             "INVALID_DESTINATION": "Placement at {{place}} cannot move the neutral stone from {{from}} to {{to}}."
@@ -805,7 +809,7 @@
             "PLACEMENT_MADE": "You have already made a move at {{where}}.",
             "DIAGONAL": "A piece may not be diagonally adjacent unless orthogonally connected by like-coloured piece.",
             "CANNOT_MOVE": "Advanced Slither: Movement only possible if a piece is part of a contiguous orthogonal group consisting of pieces of both colors.",
-            "NOT_ADJACENT": "Pieces can only move to adjacent spaces.",
+            "NOT_ADJACENT": "Pieces can only move to unoccupied othogonally or diagonally adjacent spaces.",
             "NO_VALID_FOLLOWUP": "Movement here will not result in a valid follow-up move.",
             "NEED_PLACEMENT": "You must place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available."
@@ -813,7 +817,8 @@
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",
             "ALREADY_CLAIMED": "The edge '{{edge}}' is already claimed.",
-            "FIRST_HOUSE": "You may not remove a housing limit on the first turn.",            "INITIAL_INSTRUCTIONS_initial": "Click one or two hex edges to start your streetcar empire.",
+            "FIRST_HOUSE": "You may not remove a housing limit on the first turn.",
+            "INITIAL_INSTRUCTIONS_initial": "Click one or two hex edges to start your streetcar empire.",
             "INITIAL_INSTRUCTIONS_normal": "In any order, click a hex to remove a housing limit, and click one or two hex edges to expand your streetcar empire.",
             "INVALID_EDGE": "The edge provided does not appear to be valid: {{edge}}.",
             "MAY_NOT_TOUCH": "Opposing lines may not touch.",

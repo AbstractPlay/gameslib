@@ -399,6 +399,8 @@ export class TumbleweedGame extends GameBase {
     }
 
     private cellOwner(cell: string): playerid | undefined {
+        // A cell is owned by a player if they have a stack on it
+        // or if they have the highest LOS to it.
         if (this.board.has(cell)) {
             const [player, ] = this.board.get(cell)!;
             if (player === 3) { return undefined; }
@@ -415,6 +417,7 @@ export class TumbleweedGame extends GameBase {
     }
 
     private updateScores(): void {
+        // Updates `this.scores` with total influence for each player.
         this.scores = [0, 0];
         for (const cell of this.graph.listCells() as string[]) {
             const owner = this.cellOwner(cell);
@@ -424,12 +427,17 @@ export class TumbleweedGame extends GameBase {
         }
     }
 
+    private pieceCount(player: playerid): number {
+        // Get number of piece on board for `player`.
+        return [...this.board.values()].filter(v => v[0] === player).length;
+    }
+
     protected checkEOG(): TumbleweedGame {
-        if ( (this.lastmove === "pass") && (this.stack[this.stack.length - 1].lastmove === "pass") ) {
+        if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" && this.stack.length > 3) {
             this.gameover = true;
             const p1Score = this.getPlayerScore(1);
             const p2Score = this.getPlayerScore(2);
-            this.winner = p1Score > p2Score ? [1] : p2Score < p1Score ? [2] : [1, 2];
+            this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
         }
         if (this.gameover) {
             this.results.push(
@@ -616,7 +624,9 @@ export class TumbleweedGame extends GameBase {
         status += "**Scores**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {
             const score = this.getPlayerScore(n as playerid);
-            status += `Player ${n}: ${score}\n\n`;
+            const pieces = this.pieceCount(n as playerid);
+            const influence = score - pieces;
+            status += `Player ${n}: ${pieces} + ${influence} = ${score}\n\n`;
         }
 
         return status;

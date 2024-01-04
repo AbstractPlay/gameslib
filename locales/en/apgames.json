@@ -45,6 +45,7 @@
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         "mchess": "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
+        "meridians": "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
         "mirador": "Mirador is a fast and exhilerating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
@@ -646,6 +647,16 @@
             "NO_MIRROR_MOVE": "You can't just undo you opponent's move.",
             "PARTIAL": "Select a destination."
         },
+        "meridians": {
+            "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",
+            "INITIAL_INSTRUCTIONS_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
+            "INITIAL_INSTRUCTIONS": "Place a piece on the board.",
+            "SECOND_PLAYER_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
+            "TOO_MANY_MOVES": "You may only make one move per turn, or two at in the setup phase as first player.",
+            "SAME_CELL": "In the setup phase, place two pieces on different cells.",
+            "ONE_MORE": "Place a piece of the other colour.",
+            "NOLOS": "There is no line of sight to {{where}} from any of your pieces."
+        },
         "mirador": {
             "INITIAL_INSTRUCTIONS": "Place a mirador, or, if you think your connection is unassailable, declare",
             "INITIAL_INSTRUCTIONS_CHALLENGE": "Place as many miradors as you would like.",
@@ -1124,6 +1135,14 @@
                 "name": "Of Knights and Kings"
             }
         },
+        "meridians": {
+            "size-6": {
+                "name": "Smaller board (base 6)"
+            },
+            "size-8": {
+                "name": "Larger board (base 8)"
+            }
+        },
         "mixtour": {
             "three": {
                 "description": "The winner is the first to score two points.",
@@ -1314,6 +1333,12 @@
             "hide-both": {
                 "description": "Don't show line of sight or non-suicidal captures.",
                 "name": "Hide Both"
+            }
+        },
+        "meridians": {
+            "hide-threatened": {
+                "description": "Don't show threatened stones.",
+                "name": "Hide threatened"
             }
         }
     }

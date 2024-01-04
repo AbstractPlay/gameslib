@@ -40,7 +40,7 @@ export class TumbleweedGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "Michał Zapała",
+                name: "Mike Zapawa",
             }
         ],
         flags: ["pie", "multistep", "scores"],

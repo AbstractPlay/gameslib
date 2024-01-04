@@ -73,6 +73,7 @@ import { DiffusionGame, IDiffusionState } from "./diffusion";
 import { HavannahGame, IHavannahState } from "./havannah";
 import { HexGame, IHexState } from "./hex";
 import { TumbleweedGame, ITumbleweedState } from "./tumbleweed";
+import { MeridiansGame, IMeridiansState } from "./meridians";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -148,6 +149,7 @@ export {
     HavannahGame, IHavannahState,
     HexGame, IHexState,
     TumbleweedGame, ITumbleweedState,
+    MeridiansGame, IMeridiansState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -173,7 +175,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ScaffoldGame | typeof ByteGame | typeof LielowGame |
                               typeof ToguzGame | typeof TrikeGame | typeof FnapGame |
                               typeof IqishiqiGame | typeof FurlGame | typeof DiffusionGame |
-                              typeof HavannahGame | typeof HexGame | typeof TumbleweedGame
+                              typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
+                              typeof MeridiansGame
                 >();
 // Manually add each game to the following array
 [
@@ -187,7 +190,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
-    TumbleweedGame,
+    TumbleweedGame, MeridiansGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -343,6 +346,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new HexGame(...args);
         case "tumbleweed":
             return new TumbleweedGame(...args);
+        case "meridians":
+            return new MeridiansGame(...args);
     }
     return;
 }

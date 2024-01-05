@@ -253,8 +253,6 @@ export class MeridiansGame extends GameBase {
 
     private threatenedGroups(player: playerid): Set<string>[] {
         // Get all threatened groups for `player`.
-        // Groups can only start getting threatened after turn 4.
-        if (this.stack.length <= 4) { return []; }
         const groups = this.getGroups(player);
         const threatenedGroups: Set<string>[] = [];
         loop:
@@ -402,12 +400,14 @@ export class MeridiansGame extends GameBase {
             } else {
                 this.results.push({type: "place", where: m});
                 this.board.set(m, this.currplayer);
+                if (this.stack.length > 4) {
                 const threatenedGroups = this.threatenedGroups(this.currplayer);
                 for (const group of threatenedGroups) {
                     for (const cell of group) {
                         this.board.delete(cell);
                     }
                     this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
+                    }
                 }
             }
         }
@@ -477,15 +477,14 @@ export class MeridiansGame extends GameBase {
             }
         }
         const pstr: string[][] = [];
-        const threatenedGroups1 = this.threatenedGroups(1);
-        const threatenedGroups2 = this.threatenedGroups(2);
+        const threatenedGroups1 = this.stack.length > 4 && showThreatened ? this.threatenedGroups(1) : [];
+        const threatenedGroups2 = this.stack.length > 4 && showThreatened ? this.threatenedGroups(2) : [];
         for (const row of this.graph.listCells(true)) {
             const pieces: string[] = [];
             for (const cell of row) {
                 if (this.board.has(cell)) {
                     const owner = this.board.get(cell)!;
                     if (owner === 1) {
-                        if (showThreatened) {
                             let threatened = false;
                             for (const group of threatenedGroups1) {
                                 if (group.has(cell)) {
@@ -499,10 +498,6 @@ export class MeridiansGame extends GameBase {
                                 pieces.push("A")
                             }
                         } else {
-                            pieces.push("A");
-                        }
-                    } else {
-                        if (showThreatened) {
                             let threatened = false;
                             for (const group of threatenedGroups2) {
                                 if (group.has(cell)) {
@@ -514,9 +509,6 @@ export class MeridiansGame extends GameBase {
                                 pieces.push("D");
                             } else {
                                 pieces.push("B")
-                            }
-                        } else {
-                            pieces.push("B");
                         }
                     }
                 } else {

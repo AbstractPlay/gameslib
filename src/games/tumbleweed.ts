@@ -719,6 +719,9 @@ export class TumbleweedGame extends GameBase {
                                 const str = r.whose === otherPlayer ? "apresults:CAPTURE.tumbleweed_self" : "apresults:CAPTURE.tumbleweed";
                                 node.push(i18next.t(str, {player: name, where: r.where, count: r.count}));
                                 break;
+                            case "pass":
+                                node.push(i18next.t("apresults:PASS.simple", {player: name}));
+                                break;
                             case "eog":
                                 node.push(i18next.t("apresults:EOG"));
                                 break;

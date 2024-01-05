@@ -400,15 +400,15 @@ export class MeridiansGame extends GameBase {
             if (m === "pass") {
                 this.results.push({type: "pass"});
             } else {
-                const threatenedGroups = this.threatenedGroups(this.currplayer % 2 + 1 as playerid);
+                this.results.push({type: "place", where: m});
+                this.board.set(m, this.currplayer);
+                const threatenedGroups = this.threatenedGroups(this.currplayer);
                 for (const group of threatenedGroups) {
                     for (const cell of group) {
                         this.board.delete(cell);
                     }
                     this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
                 }
-                this.results.push({type: "place", where: m});
-                this.board.set(m, this.currplayer);
             }
         }
         // update currplayer

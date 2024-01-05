@@ -224,7 +224,7 @@ export class MeridiansGame extends GameBase {
     private getGroups(player: playerid): Set<string>[] {
         // Get groups of cells that are connected to `cell` and owned by `player`.
         const groups: Set<string>[] = [];
-        const pieces = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
+        const pieces = this.pieces(player);
         const seen: Set<string> = new Set();
         for (const piece of pieces) {
             if (seen.has(piece)) {
@@ -274,6 +274,14 @@ export class MeridiansGame extends GameBase {
             threatenedGroups.push(group);
         }
         return threatenedGroups;
+    }
+
+    private secondStoneNeighbour(cell: string, player: playerid): boolean {
+        const piece = this.pieces(player)[0];
+        if (this.graph.neighbours(piece).includes(cell)) {
+            return true;
+        }
+        return false;
     }
 
     public validateMove(m: string): IValidationResult {
@@ -350,6 +358,14 @@ export class MeridiansGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
             return result;
         }
+        if (this.stack.length < 5) {
+            // Each player's second stone cannot be adjacent to their first stone.
+            if (this.secondStoneNeighbour(m, this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.meridians.SECOND_STONE_NEIGHBOUR", {where: m});
+                return result;
+            }
+        }
         if (!this.canPlace(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.meridians.NOLOS", {where: m});
@@ -424,13 +440,13 @@ export class MeridiansGame extends GameBase {
         return this;
     }
 
-    private pieceCount(player: playerid): number {
-        // Get number of piece on board for `player`.
-        return [...this.board.values()].filter(v => v === player).length;
+    private pieces(player: playerid): string[] {
+        // Get all pieces owned by `player`.
+        return [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
     }
 
     protected checkEOG(): MeridiansGame {
-        if (this.pieceCount(this.currplayer) === 0) {
+        if (this.pieces(this.currplayer).length === 0) {
             this.gameover = true;
             this.winner = [this.currplayer % 2 + 1 as playerid];
         }

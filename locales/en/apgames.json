@@ -655,6 +655,7 @@
             "TOO_MANY_MOVES": "You may only make one move per turn, or two at in the setup phase as first player.",
             "SAME_CELL": "In the setup phase, place two pieces on different cells.",
             "ONE_MORE": "Place a piece of the other colour.",
+            "SECOND_STONE_NEIGHBOUR": "The second stone placed must have a path to the first stone (cannot be adjacent).",
             "NOLOS": "There is no line of sight to {{where}} from any of your pieces."
         },
         "mirador": {

@@ -177,7 +177,7 @@ export class MeridiansGame extends GameBase {
             let newmove = "";
             const split = move.split(",");
             const cell = this.graph.coords2algebraic(col, row);
-            if (this.board.size < 2) {
+            if (this.stack.length === 1) {
                 if (split.length === 1 && split[0] !== "") {
                     newmove = `${move},${cell}`;
                 } else if (split.length === 2) {
@@ -280,12 +280,12 @@ export class MeridiansGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (m.length === 0) {
-            if (this.board.size < 2) {
+            if (this.stack.length === 1) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.meridians.INITIAL_INSTRUCTIONS_SETUP");
                 return result;
-            } else if (this.board.size === 2 && this.currplayer === 2) {
+            } else if (this.stack.length === 2) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.meridians.INITIAL_INSTRUCTIONS_PASS");
@@ -296,7 +296,7 @@ export class MeridiansGame extends GameBase {
             result.message = i18next.t("apgames:validation.meridians.INITIAL_INSTRUCTIONS");
             return result;
         }
-        if (this.board.size === 2 && this.currplayer === 2) {
+        if (this.stack.length === 2) {
             if (m !== "pass") {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.meridians.SECOND_PLAYER_PASS");
@@ -327,7 +327,7 @@ export class MeridiansGame extends GameBase {
             return result;
         }
         // Special case where first player places two stones.
-        if (this.board.size < 2) {
+        if (this.stack.length === 1) {
             if (moves.length === 2) {
                 if (moves[0] === moves[1]) {
                     result.valid = false;
@@ -382,7 +382,7 @@ export class MeridiansGame extends GameBase {
             }
         }
 
-        if (this.board.size < 2) {
+        if (this.stack.length === 1) {
             const moves = m.split(",");
             if (moves.length !== 2) {
                 // Partial.
@@ -400,13 +400,13 @@ export class MeridiansGame extends GameBase {
             } else {
                 this.results.push({type: "place", where: m});
                 this.board.set(m, this.currplayer);
-                if (this.stack.length > 4) {
-                const threatenedGroups = this.threatenedGroups(this.currplayer);
-                for (const group of threatenedGroups) {
-                    for (const cell of group) {
-                        this.board.delete(cell);
-                    }
-                    this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
+                if (this.stack.length > 3) {
+                    const threatenedGroups = this.threatenedGroups(this.currplayer);
+                    for (const group of threatenedGroups) {
+                        for (const cell of group) {
+                            this.board.delete(cell);
+                        }
+                        this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
                     }
                 }
             }
@@ -485,30 +485,30 @@ export class MeridiansGame extends GameBase {
                 if (this.board.has(cell)) {
                     const owner = this.board.get(cell)!;
                     if (owner === 1) {
-                            let threatened = false;
-                            for (const group of threatenedGroups1) {
-                                if (group.has(cell)) {
-                                    threatened = true;
-                                    continue;
-                                }
+                        let threatened = false;
+                        for (const group of threatenedGroups1) {
+                            if (group.has(cell)) {
+                                threatened = true;
+                                continue;
                             }
-                            if (threatened) {
-                                pieces.push("C");
-                            } else {
-                                pieces.push("A")
-                            }
+                        }
+                        if (threatened) {
+                            pieces.push("C");
                         } else {
-                            let threatened = false;
-                            for (const group of threatenedGroups2) {
-                                if (group.has(cell)) {
-                                    threatened = true;
-                                    continue;
-                                }
+                            pieces.push("A")
+                        }
+                    } else {
+                        let threatened = false;
+                        for (const group of threatenedGroups2) {
+                            if (group.has(cell)) {
+                                threatened = true;
+                                continue;
                             }
-                            if (threatened) {
-                                pieces.push("D");
-                            } else {
-                                pieces.push("B")
+                        }
+                        if (threatened) {
+                            pieces.push("D");
+                        } else {
+                            pieces.push("B")
                         }
                     }
                 } else {

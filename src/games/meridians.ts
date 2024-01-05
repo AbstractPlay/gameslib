@@ -39,7 +39,7 @@ export class MeridiansGame extends GameBase {
                 urls: ["https://kanare-abstract.com"],
             }
         ],
-        flags: ["pie", "multistep"],
+        flags: ["pie-even", "multistep"],
         variants: [
             {
                 uid: "size-6",

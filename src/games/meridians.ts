@@ -139,7 +139,7 @@ export class MeridiansGame extends GameBase {
             player = this.currplayer;
         }
         const moves: string[] = [];
-        if (this.board.size < 2) {
+        if (this.stack.length === 1) {
             // On first move, first player places two stones.
             for (const cell of this.graph.listCells() as string[]) {
                 for (const cell2 of this.graph.listCells() as string[]) {
@@ -150,11 +150,15 @@ export class MeridiansGame extends GameBase {
                 }
             }
             return moves;
-        } else if (this.board.size === 2 && player === 2) {
+        }
+        if (this.stack.length === 2) {
             return ["pass"];
         }
         for (const cell of this.graph.listCells() as string[]) {
             if (this.board.has(cell)) {
+                continue;
+            }
+            if (this.stack.length < 5 && this.secondStoneNeighbour(cell, player)) {
                 continue;
             }
             if (this.canPlace(cell, player)) {

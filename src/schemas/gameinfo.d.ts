@@ -71,6 +71,7 @@ export interface APGamesInformation {
     | "no-moves"
     | "multistep"
     | "pie"
+    | "pie-even"
     | "rotate90"
     | "experimental"
     | "check"

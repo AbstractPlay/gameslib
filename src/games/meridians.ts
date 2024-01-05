@@ -39,7 +39,7 @@ export class MeridiansGame extends GameBase {
                 urls: ["https://kanare-abstract.com"],
             }
         ],
-        flags: ["experimental", "pie", "multistep"],
+        flags: ["pie", "multistep"],
         variants: [
             {
                 uid: "size-6",
@@ -139,7 +139,7 @@ export class MeridiansGame extends GameBase {
             player = this.currplayer;
         }
         const moves: string[] = [];
-        if (this.board.size < 2) {
+        if (this.stack.length === 1) {
             // On first move, first player places two stones.
             for (const cell of this.graph.listCells() as string[]) {
                 for (const cell2 of this.graph.listCells() as string[]) {
@@ -150,11 +150,15 @@ export class MeridiansGame extends GameBase {
                 }
             }
             return moves;
-        } else if (this.board.size === 2 && player === 2) {
+        }
+        if (this.stack.length === 2) {
             return ["pass"];
         }
         for (const cell of this.graph.listCells() as string[]) {
             if (this.board.has(cell)) {
+                continue;
+            }
+            if (this.stack.length < 5 && this.secondStoneNeighbour(cell, player)) {
                 continue;
             }
             if (this.canPlace(cell, player)) {
@@ -177,7 +181,7 @@ export class MeridiansGame extends GameBase {
             let newmove = "";
             const split = move.split(",");
             const cell = this.graph.coords2algebraic(col, row);
-            if (this.board.size < 2) {
+            if (this.stack.length === 1) {
                 if (split.length === 1 && split[0] !== "") {
                     newmove = `${move},${cell}`;
                 } else if (split.length === 2) {
@@ -224,7 +228,7 @@ export class MeridiansGame extends GameBase {
     private getGroups(player: playerid): Set<string>[] {
         // Get groups of cells that are connected to `cell` and owned by `player`.
         const groups: Set<string>[] = [];
-        const pieces = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
+        const pieces = this.pieces(player);
         const seen: Set<string> = new Set();
         for (const piece of pieces) {
             if (seen.has(piece)) {
@@ -253,8 +257,6 @@ export class MeridiansGame extends GameBase {
 
     private threatenedGroups(player: playerid): Set<string>[] {
         // Get all threatened groups for `player`.
-        // Groups can only start getting threatened after turn 4.
-        if (this.stack.length <= 4) { return []; }
         const groups = this.getGroups(player);
         const threatenedGroups: Set<string>[] = [];
         loop:
@@ -278,16 +280,24 @@ export class MeridiansGame extends GameBase {
         return threatenedGroups;
     }
 
+    private secondStoneNeighbour(cell: string, player: playerid): boolean {
+        const piece = this.pieces(player)[0];
+        if (this.graph.neighbours(piece).includes(cell)) {
+            return true;
+        }
+        return false;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (m.length === 0) {
-            if (this.board.size < 2) {
+            if (this.stack.length === 1) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.meridians.INITIAL_INSTRUCTIONS_SETUP");
                 return result;
-            } else if (this.board.size === 2 && this.currplayer === 2) {
+            } else if (this.stack.length === 2) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.meridians.INITIAL_INSTRUCTIONS_PASS");
@@ -298,7 +308,7 @@ export class MeridiansGame extends GameBase {
             result.message = i18next.t("apgames:validation.meridians.INITIAL_INSTRUCTIONS");
             return result;
         }
-        if (this.board.size === 2 && this.currplayer === 2) {
+        if (this.stack.length === 2) {
             if (m !== "pass") {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.meridians.SECOND_PLAYER_PASS");
@@ -329,7 +339,7 @@ export class MeridiansGame extends GameBase {
             return result;
         }
         // Special case where first player places two stones.
-        if (this.board.size < 2) {
+        if (this.stack.length === 1) {
             if (moves.length === 2) {
                 if (moves[0] === moves[1]) {
                     result.valid = false;
@@ -351,6 +361,14 @@ export class MeridiansGame extends GameBase {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
             return result;
+        }
+        if (this.stack.length < 5) {
+            // Each player's second stone cannot be adjacent to their first stone.
+            if (this.secondStoneNeighbour(m, this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.meridians.SECOND_STONE_NEIGHBOUR", {where: m});
+                return result;
+            }
         }
         if (!this.canPlace(m, this.currplayer)) {
             result.valid = false;
@@ -384,7 +402,7 @@ export class MeridiansGame extends GameBase {
             }
         }
 
-        if (this.board.size < 2) {
+        if (this.stack.length === 1) {
             const moves = m.split(",");
             if (moves.length !== 2) {
                 // Partial.
@@ -402,12 +420,14 @@ export class MeridiansGame extends GameBase {
             } else {
                 this.results.push({type: "place", where: m});
                 this.board.set(m, this.currplayer);
-                const threatenedGroups = this.threatenedGroups(this.currplayer);
-                for (const group of threatenedGroups) {
-                    for (const cell of group) {
-                        this.board.delete(cell);
+                if (this.stack.length > 3) {
+                    const threatenedGroups = this.threatenedGroups(this.currplayer);
+                    for (const group of threatenedGroups) {
+                        for (const cell of group) {
+                            this.board.delete(cell);
+                        }
+                        this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
                     }
-                    this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
                 }
             }
         }
@@ -424,13 +444,13 @@ export class MeridiansGame extends GameBase {
         return this;
     }
 
-    private pieceCount(player: playerid): number {
-        // Get number of piece on board for `player`.
-        return [...this.board.values()].filter(v => v === player).length;
+    private pieces(player: playerid): string[] {
+        // Get all pieces owned by `player`.
+        return [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
     }
 
     protected checkEOG(): MeridiansGame {
-        if (this.pieceCount(this.currplayer) === 0) {
+        if (this.pieces(this.currplayer).length === 0) {
             this.gameover = true;
             this.winner = [this.currplayer % 2 + 1 as playerid];
         }
@@ -477,46 +497,38 @@ export class MeridiansGame extends GameBase {
             }
         }
         const pstr: string[][] = [];
-        const threatenedGroups1 = this.threatenedGroups(1);
-        const threatenedGroups2 = this.threatenedGroups(2);
+        const threatenedGroups1 = this.stack.length > 4 && showThreatened ? this.threatenedGroups(1) : [];
+        const threatenedGroups2 = this.stack.length > 4 && showThreatened ? this.threatenedGroups(2) : [];
         for (const row of this.graph.listCells(true)) {
             const pieces: string[] = [];
             for (const cell of row) {
                 if (this.board.has(cell)) {
                     const owner = this.board.get(cell)!;
                     if (owner === 1) {
-                        if (showThreatened) {
-                            let threatened = false;
-                            for (const group of threatenedGroups1) {
-                                if (group.has(cell)) {
-                                    threatened = true;
-                                    continue;
-                                }
+                        let threatened = false;
+                        for (const group of threatenedGroups1) {
+                            if (group.has(cell)) {
+                                threatened = true;
+                                continue;
                             }
-                            if (threatened) {
-                                pieces.push("C");
-                            } else {
-                                pieces.push("A")
-                            }
+                        }
+                        if (threatened) {
+                            pieces.push("C");
                         } else {
-                            pieces.push("A");
+                            pieces.push("A")
                         }
                     } else {
-                        if (showThreatened) {
-                            let threatened = false;
-                            for (const group of threatenedGroups2) {
-                                if (group.has(cell)) {
-                                    threatened = true;
-                                    continue;
-                                }
+                        let threatened = false;
+                        for (const group of threatenedGroups2) {
+                            if (group.has(cell)) {
+                                threatened = true;
+                                continue;
                             }
-                            if (threatened) {
-                                pieces.push("D");
-                            } else {
-                                pieces.push("B")
-                            }
+                        }
+                        if (threatened) {
+                            pieces.push("D");
                         } else {
-                            pieces.push("B");
+                            pieces.push("B")
                         }
                     }
                 } else {

@@ -21,6 +21,142 @@ export interface IHexCoord {
     r: number;
 }
 
+/**
+ * Doesn't do any in-bounds checking. It just returns all the hexes around the given one.
+ */
+export const hexNeighbours = (hex: Hex): IHexCoord[] => {
+    const neighbours: IHexCoord[] = [];
+    if (hex.orientation === Orientation.POINTY) {
+        // NE
+        neighbours.push(nextHex(hex, "NE")!);
+        // E
+        neighbours.push(nextHex(hex, "E")!);
+        // SE
+        neighbours.push(nextHex(hex, "SE")!);
+        // SW
+        neighbours.push(nextHex(hex, "SW")!);
+        // W
+        neighbours.push(nextHex(hex, "W")!);
+        // NW
+        neighbours.push(nextHex(hex, "NW")!);
+    } else {
+        // N
+        neighbours.push(nextHex(hex, "N")!);
+        // NE
+        neighbours.push(nextHex(hex, "NE")!);
+        // SE
+        neighbours.push(nextHex(hex, "SE")!);
+        // S
+        neighbours.push(nextHex(hex, "S")!);
+        // SW
+        neighbours.push(nextHex(hex, "SW")!);
+        // NW
+        neighbours.push(nextHex(hex, "NW")!);
+    }
+    return neighbours;
+}
+
+export const nextHex = (hex: Hex, dir: CompassDirection): IHexCoord|undefined => {
+    const {q,r} = hex;
+    if (hex.orientation === Orientation.POINTY) {
+        switch (dir) {
+            case "NE":
+                return {q: q + 1, r: r - 1};
+            case "E":
+                return {q: q + 1, r};
+            case "SE":
+                return {q, r: r + 1};
+            case "SW":
+                return {q: q - 1, r: r + 1};
+            case "W":
+                return {q: q - 1, r};
+            case "NW":
+                return {q, r: r - 1};
+            default:
+                return undefined;
+        }
+    } else {
+        switch (dir) {
+            case "N":
+                return {q, r: r - 1};
+            case "NE":
+                return {q: q + 1, r: r - 1};
+            case "SE":
+                return {q: q + 1, r};
+            case "S":
+                return {q, r: r + 1};
+            case "SW":
+                return {q: q - 1, r: r + 1};
+            case "NW":
+                return {q: q - 1, r};
+            default:
+                return undefined;
+        }
+    }
+}
+
+/**
+ * If there is orthogonal line of sight, return the direction, otherwise undefined
+ */
+export const bearing = (from: Hex, to: Hex): CompassDirection|undefined => {
+    const dq = to.q - from.q;
+    const dr = to.r - from.r;
+
+    if (from.orientation === Orientation.POINTY) {
+        // NE
+        if ( (dq > 0) && (dr < 0) && (Math.abs(dq) === Math.abs(dr)) ) {
+            return "NE";
+        }
+        // E
+        if ( (dr === 0) && (dq > 0) ) {
+            return "E";
+        }
+        // SE
+        if ( (dq === 0) && (dr > 0) ) {
+            return "SE";
+        }
+        // SW
+        if ( (dq < 0) && (dr > 0) && (Math.abs(dq) === Math.abs(dr)) ) {
+            return "SW";
+        }
+        // W
+        if ( (dr === 0) && (dq < 0) ) {
+            return "W";
+        }
+        // NW
+        if ( (dq === 0) && (dr < 0) ) {
+            return "NW";
+        }
+    } else {
+        // N
+        if ( (dq === 0) && (dr < 0) ) {
+            return "N";
+        }
+        // NE
+        if ( (dq > 0) && (dr < 0) && (Math.abs(dq) === Math.abs(dr)) ) {
+            return "NE";
+        }
+        // SE
+        if ( (dr === 0) && (dq > 0) ) {
+            return "SE";
+        }
+        // S
+        if ( (dq === 0) && (dr > 0) ) {
+            return "S";
+        }
+        // SW
+        if ( (dq < 0) && (dr > 0) && (Math.abs(dq) === Math.abs(dr)) ) {
+            return "SW";
+        }
+        // NW
+        if ( (dr === 0) && (dq < 0) ) {
+            return "NW";
+        }
+    }
+
+    return undefined;
+}
+
 export const hex2edges = (hex: Hex): Map<CompassDirection,IEdge> => {
     const edges = new Map<CompassDirection,IEdge>();
     const {q,r} = hex;

@@ -28,6 +28,7 @@
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
         "epam": "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
+        "exxit": "Exxit is fundamentally an area control game. Manoeuvre your pieces to create new tiles. Fight to create the largest connected island of tiles of your colour. The game board is built out as you play.",
         "fabrik": "In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The \"Arbeiter\" variant gives each player control over a specific worker.",
         "fanorona": "Fanorona is the national game of Madagascar, and it is believed to have been derived from the game of Alquerque. Checkers can move to adjacent empty spaces and capture opposing pieces by approach or withdrawal. As long as you can keep capturing, you may continue to move. Continue until you capture all your opponent's pieces!",
         "fendo": "In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.",
@@ -79,6 +80,7 @@
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are higlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
+        "exxit": "Because the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. We chose this so that the labels wouldn't change as the map grew.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
@@ -470,6 +472,13 @@
             "STONES": "Stones can only be placed in the middle six rows.",
             "STRAIGHTLINE": "You can only move in straight lines.",
             "TOOFAR": "The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces."
+        },
+        "exxit": {
+            "INITIAL_INSTRUCTIONS_build": "Click on any unoccupied tile to place a checker, or click on a valid perimeter space to start enlarging the world.",
+            "INITIAL_INSTRUCTIONS_destroy": "A destruction move is available and must be taken. Click on one of your stacks to start.",
+            "INITIAL_INSTRUCTIONS_setup": "Select a perimeter space to place one of your tiles.",
+            "INVALID_MOVE": "Click a stack you control to start a destruction dance. Otherwise, click an empty tile to place a checker or click a qualifying perimeter space to enlarge the world.",
+            "VALID_PARTIAL": "Select the cell where you will end your move. You have multiple options."
         },
         "fabrik": {
             "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you can pass if your opponent just placed the second worker.",

@@ -273,7 +273,8 @@ export class ExxitGame extends GameBase {
                 const startHeight = hex.stack!.length;
                 for (const dir of pointyHexDirs) {
                     const ray = this.ray(hex, dir).slice(0, startHeight);
-                    const occupiedIdx = ray.findIndex(h => h.stack !== undefined && h.stack[h.stack.length - 1] !== player);
+                    // the target stack must be on a tile
+                    const occupiedIdx = ray.findIndex(h => h.tile !== undefined && h.stack !== undefined && h.stack[h.stack.length - 1] !== player);
                     if (occupiedIdx !== -1) {
                         const next = ray[occupiedIdx];
                         if (next.stack!.length <= startHeight) {

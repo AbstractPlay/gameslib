@@ -478,7 +478,8 @@
             "INITIAL_INSTRUCTIONS_destroy": "A destruction move is available and must be taken. Click on one of your stacks to start.",
             "INITIAL_INSTRUCTIONS_setup": "Select a perimeter space to place one of your tiles.",
             "INVALID_MOVE": "Click a stack you control to start a destruction dance. Otherwise, click an empty tile to place a checker or click a qualifying perimeter space to enlarge the world.",
-            "VALID_PARTIAL": "Select the cell where you will end your move. You have multiple options."
+            "VALID_PARTIAL_dod": "Select the cell where you will end your move. You have multiple options.",
+            "VALID_PARTIAL_enlargement": "Multiple continuations are possible from this tile. Please select the next tile to claim."
         },
         "fabrik": {
             "INITIAL_INSTRUCTIONS_first": "Select a cell in sight to place a piece, or you can pass if your opponent just placed the second worker.",

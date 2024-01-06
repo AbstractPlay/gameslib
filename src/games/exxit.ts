@@ -79,11 +79,15 @@ export class ExxitGame extends GameBase {
             {uid: "29tiles", group: "length"},
             {uid: "19tiles", group: "length"},
         ],
-        flags: ["experimental", "pie", "scores", "limited-pieces", "automove", "shared-stash"],
+        flags: ["experimental", "pie", "scores", "limited-pieces", "automove", "shared-stash", "multistep"],
     };
 
     public static clone(obj: ExxitGame): ExxitGame {
         const cloned: ExxitGame = Object.assign(new ExxitGame(), deepclone(obj) as ExxitGame);
+        for (const old of cloned.board.values()) {
+            const hex = ExxitHex.create(old);
+            cloned.board.set(hex.uid, hex);
+        }
         return cloned;
     }
 
@@ -207,15 +211,24 @@ export class ExxitGame extends GameBase {
         return hexes.slice(1);
     }
 
-    protected recurseFindEnlargements(sofar: ExxitHex[] = []): ExxitHex[][] {
-        // get list of current qualifying perimeter nodes
-        const perimeter = [...this.board.values()].filter(hex => hex.tile === undefined && hex.stack !== undefined); // .sort((a, b) => a.q === b.q ? a.r - b.r : a.q - b.q);
+    protected recurseFindEnlargements(start: ExxitHex, sofar: ExxitHex[] = []): ExxitHex[][] {
+        // clone the game object
+        const cloned = ExxitGame.clone(this);
+        // place the starting tile
+        cloned.tiles--;
+        const tile = ExxitHex.create(start);
+        tile.tile = 1;
+        cloned.board.set(tile.uid, tile);
+
+        // get list of current qualifying perimeter nodes (neighbouring start)
+        const neighbours = hexNeighbours(start).map(({q, r}) => `${q},${r}`);
+        const perimeter = [...cloned.board.values()].filter(hex => neighbours.includes(hex.uid) && hex.tile === undefined && hex.stack !== undefined); // .sort((a, b) => a.q === b.q ? a.r - b.r : a.q - b.q);
         const newTiles: ExxitHex[] = [];
         for (const p of perimeter) {
             let num = 0;
             for (const n of hexNeighbours(p)) {
                 const uid = `${n.q},${n.r}`;
-                if ( (this.board.has(uid)) && (this.board.get(uid)!.tile !== undefined) ) {
+                if ( (cloned.board.has(uid)) && (cloned.board.get(uid)!.tile !== undefined) ) {
                     num++;
                 }
             }
@@ -228,23 +241,16 @@ export class ExxitGame extends GameBase {
             const moves: ExxitHex[][] = [];
             // now iterate
             for (const newTile of newTiles) {
-                if (this.tiles > 0) {
+                if (cloned.tiles > 0) {
                     // clone the hex and add a tile (doesn't matter what colour)
-                    const tile = ExxitHex.create(newTile);
-                    tile.tile = 1;
-                    // clone the game object
-                    const cloned = ExxitGame.clone(this);
-                    // place the tile
-                    cloned.tiles--;
-                    cloned.board.set(tile.uid, tile);
-                    moves.push(...cloned.recurseFindEnlargements([...sofar, tile]));
+                    moves.push(...cloned.recurseFindEnlargements(newTile, [...sofar, start]));
                 } else {
-                    moves.push(sofar);
+                    moves.push([...sofar, start]);
                 }
             }
             return moves;
         } else {
-            return [sofar];
+            return [[...sofar, start]];
         }
     }
 
@@ -274,7 +280,12 @@ export class ExxitGame extends GameBase {
             for (const hex of stacks) {
                 const startHeight = hex.stack!.length;
                 for (const dir of pointyHexDirs) {
-                    const ray = this.ray(hex, dir).slice(0, startHeight);
+                    let ray = this.ray(hex, dir).slice(0, startHeight);
+                    // the ray must terminate at the first perimeter space it encounters
+                    const perimeterIdx = ray.findIndex(h => h.tile === undefined);
+                    if (perimeterIdx !== -1) {
+                        ray = ray.slice(0, perimeterIdx + 1);
+                    }
                     // the target stack must be on a tile
                     const occupiedIdx = ray.findIndex(h => h.tile !== undefined && h.stack !== undefined && h.stack[h.stack.length - 1] !== player);
                     if (occupiedIdx !== -1) {
@@ -304,8 +315,29 @@ export class ExxitGame extends GameBase {
             // if still no moves, then build
             if (moves.length === 0) {
                 // enlarge
-                const enlargements = this.recurseFindEnlargements().filter(lst => lst.length > 0);
-                moves.push(...enlargements.map(lst => lst.map(l => `+${l.uid}`).join(";")));
+                if (this.tiles > 0) {
+                    // get list of current qualifying perimeter nodes
+                    const perimeter = [...this.board.values()].filter(hex => hex.tile === undefined && hex.stack !== undefined); // .sort((a, b) => a.q === b.q ? a.r - b.r : a.q - b.q);
+                    const newTiles: ExxitHex[] = [];
+                    for (const p of perimeter) {
+                        let num = 0;
+                        for (const n of hexNeighbours(p)) {
+                            const uid = `${n.q},${n.r}`;
+                            if ( (this.board.has(uid)) && (this.board.get(uid)!.tile !== undefined) ) {
+                                num++;
+                            }
+                        }
+                        if (num >= 2) {
+                            newTiles.push(p);
+                        }
+                    }
+
+                    // for each of those tiles, recurse through neighbours
+                    for (const newTile of newTiles) {
+                        const enlargements = this.recurseFindEnlargements(newTile).filter(lst => lst.length > 0);
+                        moves.push(...enlargements.map(lst => lst.map(l => `+${l.uid}`).join(";")));
+                    }
+                }
 
                 // placement
                 for (const tile of tiled) {
@@ -350,18 +382,25 @@ export class ExxitGame extends GameBase {
         const moves = this.moves();
 
         try {
+            // if partial enlargement, need to apply the first parts
+            // for offset2hex to actually work
+            const cloned = ExxitGame.clone(this);
+            if (move !== "" && move.includes("+")) {
+                cloned.move(move, {partial: true});
+            }
+
             // convert row,col to an actual hex
-            const hex = this.offset2hex({row, col});
+            const hex = cloned.offset2hex({row, col});
             // console.log(`Hex clicked: ${JSON.stringify(hex)}`)
             if (hex === undefined) {
-                return {move, message: i18next.t("apgames:validation.exxit.INITIAL_INSTRUCTIONS", {context: ( (this.variants.includes("exNihilo")) && ([...this.board.values()].filter(h => h.tile !== undefined).length < 6) ) ? "setup" : /\d-/.test(moves[0]) ? "destroy" : "build"})} as IClickResult;
+                return {move, message: i18next.t("apgames:validation.exxit.INITIAL_INSTRUCTIONS", {context: ( (cloned.variants.includes("exNihilo")) && ([...cloned.board.values()].filter(h => h.tile !== undefined).length < 6) ) ? "setup" : /\d-/.test(moves[0]) ? "destroy" : "build"})} as IClickResult;
             }
 
             let newmove = "";
             // empty move
             if (move === "") {
                 // start of capture move
-                if ( hex.tile !== undefined && hex.stack !== undefined && hex.stack[hex.stack.length - 1] === this.currplayer) {
+                if ( hex.tile !== undefined && hex.stack !== undefined && hex.stack[hex.stack.length - 1] === cloned.currplayer) {
                     newmove = `${hex.uid}`;
                 }
                 // placing a piece
@@ -369,25 +408,31 @@ export class ExxitGame extends GameBase {
                     newmove = `${hex.uid}`;
                 }
                 // trigger an enlargement
-                else if (hex.tile === undefined && (hex.stack !== undefined || this.variants.includes("exNihilo")) ) {
+                else if (hex.tile === undefined && (hex.stack !== undefined || cloned.variants.includes("exNihilo")) ) {
                     newmove = `+${hex.uid}`;
                 }
                 // Otherwise, something is wrong
                 else {
-                    return {move, message: i18next.t("apgames:validation.exxit.INITIAL_INSTRUCTIONS", {context: ( (this.variants.includes("exNihilo")) && ([...this.board.values()].filter(h => h.tile !== undefined).length < 6) ) ? "setup" : /\d-/.test(moves[0]) ? "destroy" : "build"})} as IClickResult;
+                    return {move, message: i18next.t("apgames:validation.exxit.INITIAL_INSTRUCTIONS", {context: ( (cloned.variants.includes("exNihilo")) && ([...cloned.board.values()].filter(h => h.tile !== undefined).length < 6) ) ? "setup" : /\d-/.test(moves[0]) ? "destroy" : "build"})} as IClickResult;
                 }
             }
-            // the only continuation is when multiple captures are available
+            // the only continuations are when multiple captures or claims are available
             else {
-                // so just add the target cell to this one
-                newmove = move + `-${hex.uid}`;
+                // if the previous portion was an enlargement, this one is too
+                if (move.includes("+")) {
+                    newmove = move + `;+${hex.uid}`;
+                }
+                // otherwise just add the target cell to this one
+                else {
+                    newmove = move + `-${hex.uid}`;
+                }
             }
 
             // autocomplete
             const matches = moves.filter(m => m.startsWith(newmove));
             // a move should always be found
             if (matches.length === 0) {
-                return {move, message: i18next.t("apgames:validation.exxit.INITIAL_INSTRUCTIONS", {context: ( (this.variants.includes("exNihilo")) && ([...this.board.values()].filter(h => h.tile !== undefined).length < 6) ) ? "setup" : /\d-/.test(moves[0]) ? "destroy" : "build"})} as IClickResult;
+                return {move, message: i18next.t("apgames:validation.exxit.INITIAL_INSTRUCTIONS", {context: ( (cloned.variants.includes("exNihilo")) && ([...cloned.board.values()].filter(h => h.tile !== undefined).length < 6) ) ? "setup" : /\d-/.test(moves[0]) ? "destroy" : "build"})} as IClickResult;
             } else if (matches.length === 1) {
                 newmove = matches[0];
             }
@@ -440,11 +485,21 @@ export class ExxitGame extends GameBase {
         }
 
         // otherwise check if a capture move starts with the coordinates given
-        const match = moves.find(mv => /\d-/.test(mv) && mv.startsWith(m));
+        let match = moves.find(mv => /\d-/.test(mv) && mv.startsWith(m));
         if (match !== undefined) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.exxit.VALID_PARTIAL");
+            result.message = i18next.t("apgames:validation.exxit.VALID_PARTIAL", {context: "dod"});
+            return result;
+        }
+
+        // otherwise check if an enlargement move starts with the coordinates given
+        match = moves.find(mv => mv.includes("+") && mv.startsWith(m));
+        if (match !== undefined) {
+            result.valid = true;
+            result.complete = -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.exxit.VALID_PARTIAL", {context: "enlargement"});
             return result;
         }
 
@@ -454,7 +509,7 @@ export class ExxitGame extends GameBase {
         return result;
 }
 
-    public move(m: string, {trusted = false} = {}): ExxitGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ExxitGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -467,7 +522,7 @@ export class ExxitGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m)) {
+            if ( (! partial) && (! this.moves().includes(m)) ) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
@@ -569,6 +624,8 @@ export class ExxitGame extends GameBase {
         else {
             this.results.push({type: "pass"});
         }
+
+        if (partial) { return this; }
 
         this.lastmove = m;
         if (this.currplayer === 1) {

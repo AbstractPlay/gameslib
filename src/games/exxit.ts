@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { defineHex, Orientation } from "honeycomb-grid";
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -80,7 +79,7 @@ export class ExxitGame extends GameBase {
             {uid: "29tiles", group: "length"},
             {uid: "19tiles", group: "length"},
         ],
-        flags: ["experimental", "pie", "scores", "limited-pieces", "automove"],
+        flags: ["experimental", "pie", "scores", "limited-pieces", "automove", "shared-stash"],
     };
 
     public static clone(obj: ExxitGame): ExxitGame {
@@ -622,6 +621,14 @@ export class ExxitGame extends GameBase {
             { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand },
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
         ]
+    }
+
+    public getSharedStash(): IStashEntry[] | undefined {
+        return [{
+            count: this.tiles,
+            glyph: { name: "piecepack-suit-diamonds", colour: "#fff" },
+            movePart: ""
+        }]
     }
 
     public status(): string {

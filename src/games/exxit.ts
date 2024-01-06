@@ -349,7 +349,7 @@ export class ExxitGame extends GameBase {
         try {
             // convert row,col to an actual hex
             const hex = this.offset2hex({row, col});
-            console.log(`Hex clicked: ${JSON.stringify(hex)}`)
+            // console.log(`Hex clicked: ${JSON.stringify(hex)}`)
             if (hex === undefined) {
                 return {move, message: i18next.t("apgames:validation.exxit.INITIAL_INSTRUCTIONS", {context: ( (this.variants.includes("exNihilo")) && ([...this.board.values()].filter(h => h.tile !== undefined).length < 6) ) ? "setup" : /\d-/.test(moves[0]) ? "destroy" : "build"})} as IClickResult;
             }

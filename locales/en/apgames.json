@@ -1081,6 +1081,20 @@
                 "name": "Stumbling Blocks"
             }
         },
+        "exxit": {
+            "19tiles": {
+                "description": "Ideal for learning the rules",
+                "name": "Blitz game (19 tiles)"
+            },
+            "29tiles": {
+                "description": "If you just want a shorter game",
+                "name": "Shorter game (29 tiles)"
+            },
+            "exNihilo": {
+                "description": "Starts with an empty field, and the first three turns are placing tiles",
+                "name": "Ex Nihilo"
+            }
+        },
         "fabrik": {
             "arbeiter": {
                 "description": "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four.",

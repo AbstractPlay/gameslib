@@ -626,7 +626,7 @@ export class ExxitGame extends GameBase {
     public getSharedStash(): IStashEntry[] | undefined {
         return [{
             count: this.tiles,
-            glyph: { name: "piecepack-suit-diamonds", colour: "#fff" },
+            glyph: { name: "hex-pointy", colour: "#fff" },
             movePart: ""
         }]
     }

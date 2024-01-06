@@ -238,6 +238,8 @@ export class ExxitGame extends GameBase {
                     cloned.tiles--;
                     cloned.board.set(tile.uid, tile);
                     moves.push(...cloned.recurseFindEnlargements([...sofar, tile]));
+                } else {
+                    moves.push(sofar);
                 }
             }
             return moves;

@@ -46,7 +46,7 @@ export class TrikeGame extends GameBase {
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],
-        flags: ["pie"]
+        flags: ["pie", "automove"]
     };
     public numplayers = 2;
     public currplayer!: playerid;

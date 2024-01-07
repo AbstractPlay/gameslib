@@ -23,7 +23,7 @@ export interface IMattockState extends IAPGameState {
 
 export class MattockGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "aaa Mattock",
+        name: "Mattock",
         uid: "mattock",
         playercounts: [2],
         version: "20240106",

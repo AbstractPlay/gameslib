@@ -38,7 +38,7 @@ export class MattockGame extends GameBase {
                 urls: ["https://games.drew-edwards.com/"]
             }
         ],
-        flags: ["experimental", "multistep", "automove", "scores"],
+        flags: ["multistep", "automove", "scores"],
         variants: [
             {
                 uid: "size-5",

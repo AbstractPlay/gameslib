@@ -719,6 +719,8 @@ export class MattockGame extends GameBase {
                     } else if (owner === 3) {
                         pieces.push("-");
                     }
+                } else if (showBlocked && ! this.canMine(cell)) {
+                    pieces.push("X");
                 } else {
                     pieces.push("-");
                 }
@@ -734,19 +736,6 @@ export class MattockGame extends GameBase {
         }
         const markers: Array<any> = []
         markers.push({ type: "flood", colour: "#444", opacity: 0.6, points });
-        if (showBlocked) {
-            const blockedPoints: { row: number, col: number }[] = [];
-            for (const cell of emptyCells) {
-                if (this.canMine(cell)) {
-                    continue;
-                }
-                const [x, y] = this.graph.algebraic2coords(cell);
-                blockedPoints.push({ row: y, col: x });
-            }
-            if (blockedPoints.length > 0) {
-                markers.push({ type: "flood", colour: "#222", opacity: 0.6, points: blockedPoints });
-            }
-        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -762,6 +751,7 @@ export class MattockGame extends GameBase {
                 B: [{ name: "piece", player: 2 }],
                 C: [{ name: "piece", player: 1 }, { name: "x" }],
                 D: [{ name: "piece", player: 2 }, { name: "x" }],
+                X: {name: "x", scale: 0.5},
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

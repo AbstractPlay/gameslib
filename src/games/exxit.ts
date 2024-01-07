@@ -211,46 +211,63 @@ export class ExxitGame extends GameBase {
         return hexes.slice(1);
     }
 
-    protected recurseFindEnlargements(start: ExxitHex, sofar: ExxitHex[] = []): ExxitHex[][] {
-        // clone the game object
-        const cloned = ExxitGame.clone(this);
-        // place the starting tile
-        cloned.tiles--;
-        const tile = ExxitHex.create(start);
-        tile.tile = 1;
-        cloned.board.set(tile.uid, tile);
+    protected recurseFindEnlargements(sofar: ExxitHex[] = []): ExxitHex[][] {
+        if (this.tiles > 0) {
+            let perimeter: ExxitHex[];
+            // if we have some starting cells
+            if (sofar.length > 0) {
+                // get list of all cells surrounding cells claimed so far
+                const neighbours = new Set<string>();
+                for (const seed of sofar) {
+                    neighbours.add(seed.uid);
+                    for (const n of hexNeighbours(seed)) {
+                        neighbours.add(`${n.q},${n.r}`);
+                    }
+                }
+                // now find any valid perimeter cells amongst those neighbours
+                perimeter = [...this.board.values()].filter(hex => neighbours.has(hex.uid) && hex.tile === undefined && hex.stack !== undefined);
+            }
+            // otherwise, just find all valid perimeters
+            else {
+                perimeter = [...this.board.values()].filter(hex => hex.tile === undefined && hex.stack !== undefined);
+            }
 
-        // get list of current qualifying perimeter nodes (neighbouring start)
-        const neighbours = hexNeighbours(start).map(({q, r}) => `${q},${r}`);
-        const perimeter = [...cloned.board.values()].filter(hex => neighbours.includes(hex.uid) && hex.tile === undefined && hex.stack !== undefined); // .sort((a, b) => a.q === b.q ? a.r - b.r : a.q - b.q);
-        const newTiles: ExxitHex[] = [];
-        for (const p of perimeter) {
-            let num = 0;
-            for (const n of hexNeighbours(p)) {
-                const uid = `${n.q},${n.r}`;
-                if ( (cloned.board.has(uid)) && (cloned.board.get(uid)!.tile !== undefined) ) {
-                    num++;
+            // Find how many are next to 2 or more tiles
+            const newTiles: ExxitHex[] = [];
+            for (const p of perimeter) {
+                let num = 0;
+                for (const n of hexNeighbours(p)) {
+                    const uid = `${n.q},${n.r}`;
+                    if ( (this.board.has(uid)) && (this.board.get(uid)!.tile !== undefined) ) {
+                        num++;
+                    }
+                }
+                if (num >= 2) {
+                    newTiles.push(p);
                 }
             }
-            if (num >= 2) {
-                newTiles.push(p);
-            }
-        }
 
-        if (newTiles.length > 0) {
-            const moves: ExxitHex[][] = [];
-            // now iterate
-            for (const newTile of newTiles) {
-                if (cloned.tiles > 0) {
+            // for each qualifying tile, fill it and recurse
+            if (newTiles.length > 0) {
+                const moves: ExxitHex[][] = [];
+                // now iterate
+                for (const newTile of newTiles) {
                     // clone the hex and add a tile (doesn't matter what colour)
-                    moves.push(...cloned.recurseFindEnlargements(newTile, [...sofar, start]));
-                } else {
-                    moves.push([...sofar, start]);
+                    const tile = ExxitHex.create(newTile);
+                    tile.tile = 1;
+                    // clone the game object
+                    const cloned = ExxitGame.clone(this);
+                    // place the tile
+                    cloned.tiles--;
+                    cloned.board.set(tile.uid, tile);
+                    moves.push(...cloned.recurseFindEnlargements([...sofar, tile]));
                 }
+                return moves;
+            } else {
+                return [sofar];
             }
-            return moves;
         } else {
-            return [[...sofar, start]];
+            return [sofar];
         }
     }
 
@@ -315,29 +332,9 @@ export class ExxitGame extends GameBase {
             // if still no moves, then build
             if (moves.length === 0) {
                 // enlarge
-                if (this.tiles > 0) {
-                    // get list of current qualifying perimeter nodes
-                    const perimeter = [...this.board.values()].filter(hex => hex.tile === undefined && hex.stack !== undefined); // .sort((a, b) => a.q === b.q ? a.r - b.r : a.q - b.q);
-                    const newTiles: ExxitHex[] = [];
-                    for (const p of perimeter) {
-                        let num = 0;
-                        for (const n of hexNeighbours(p)) {
-                            const uid = `${n.q},${n.r}`;
-                            if ( (this.board.has(uid)) && (this.board.get(uid)!.tile !== undefined) ) {
-                                num++;
-                            }
-                        }
-                        if (num >= 2) {
-                            newTiles.push(p);
-                        }
-                    }
-
-                    // for each of those tiles, recurse through neighbours
-                    for (const newTile of newTiles) {
-                        const enlargements = this.recurseFindEnlargements(newTile).filter(lst => lst.length > 0);
-                        moves.push(...enlargements.map(lst => lst.map(l => `+${l.uid}`).join(";")));
-                    }
-                }
+                const enlargements = this.recurseFindEnlargements().filter(lst => lst.length > 0);
+                // console.log(JSON.stringify(enlargements.map(lst => lst.map(h => h.uid).join(";"))));
+                moves.push(...enlargements.map(lst => lst.map(l => `+${l.uid}`).join(";")));
 
                 // placement
                 for (const tile of tiled) {

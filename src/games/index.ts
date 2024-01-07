@@ -75,6 +75,7 @@ import { HexGame, IHexState } from "./hex";
 import { TumbleweedGame, ITumbleweedState } from "./tumbleweed";
 import { MeridiansGame, IMeridiansState } from "./meridians";
 import { ExxitGame, IExxitState } from "./exxit";
+import { MattockGame, IMattockState } from "./mattock";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -151,7 +152,8 @@ export {
     HexGame, IHexState,
     TumbleweedGame, ITumbleweedState,
     MeridiansGame, IMeridiansState,
-    ExxitGame, IExxitState
+    ExxitGame, IExxitState,
+    MattockGame, IMattockState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -178,7 +180,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ToguzGame | typeof TrikeGame | typeof FnapGame |
                               typeof IqishiqiGame | typeof FurlGame | typeof DiffusionGame |
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
-                              typeof MeridiansGame | typeof ExxitGame
+                              typeof MeridiansGame | typeof ExxitGame | typeof MattockGame
                 >();
 // Manually add each game to the following array
 [
@@ -192,7 +194,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
-    TumbleweedGame, MeridiansGame, ExxitGame,
+    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -352,6 +354,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new MeridiansGame(...args);
         case "exxit":
             return new ExxitGame(...args);
+        case "mattock":
+            return new MattockGame(...args);
     }
     return;
 }

@@ -654,6 +654,8 @@
         "mattock": {
             "INITIAL_INSTRUCTIONS": "Select a space to mine, then optionally move a miner.",
             "INITIAL_INSTRUCTIONS_PLACEMENT": "Select a space to place a miner.",
+            "INITIAL_INSTRUCTIONS_PASS": "You must pass as player 1 so that player 2 can begin.",
+            "MUST_PASS": "You must pass as player 1 so that player 2 can begin.",
             "MULTIPLE_PLACEMENT": "You may only place one miner.",
             "INVALID_PLACE": "You may not place a miner that is adjacent to another miner on the board.",
             "MINED": "{{mine}} has already been mined.",

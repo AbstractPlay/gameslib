@@ -322,11 +322,32 @@ export class MattockGame extends GameBase {
                     result.message = i18next.t("apgames:validation.mattock.INITIAL_INSTRUCTIONS_PLACEMENT");
                     return result;
                 }
+                if (this.variants.includes("size-5") && this.stack.length === 7 ||
+                !this.variants.includes("size-5") && this.stack.length === 13) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.message = i18next.t("apgames:validation.mattock.INITIAL_INSTRUCTIONS_PASS");
+                    return result;
+                }
             }
             result.valid = true;
             result.complete = -1;
             result.message = i18next.t("apgames:validation.mattock.INITIAL_INSTRUCTIONS");
             return result;
+        }
+        if (this.variants.includes("freestyle")) {
+            if (this.variants.includes("size-5") && this.stack.length === 7 ||
+            !this.variants.includes("size-5") && this.stack.length === 13) {
+                if (m !== "pass") {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.mattock.MUST_PASS");
+                    return result;
+                }
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
         }
         const moves = m.split(/\/|-/);
         // valid cell
@@ -571,6 +592,14 @@ export class MattockGame extends GameBase {
             }
         }
 
+        if (m === "pass") {
+            this.results = [{type: "pass"}];
+            this.lastmove = "pass";
+            this.currplayer = this.currplayer % 2 + 1 as playerid;
+            this.saveState();
+            return this;
+        }
+
         this.results = [];
         if (this.variants.includes("freestyle") &&
                 (this.variants.includes("size-5") && this.stack.length < 7 ||
@@ -608,15 +637,6 @@ export class MattockGame extends GameBase {
         this.updateMinersToPlace();
         this.checkEOG();
         this.saveState();
-        if (this.variants.includes("freestyle")) {
-            if (this.variants.includes("size-5") && this.stack.length === 7 ||
-            !this.variants.includes("size-5") && this.stack.length === 13) {
-                this.results = [{type: "pass"}];
-                this.lastmove = "pass";
-                this.currplayer = this.currplayer % 2 + 1 as playerid;
-                this.saveState();
-            }
-        }
         return this;
     }
 

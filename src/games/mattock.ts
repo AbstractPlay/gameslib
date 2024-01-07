@@ -52,7 +52,8 @@ export class MattockGame extends GameBase {
                 uid: "freestyle",
                 group: "setup",
             },
-        ]
+        ],
+        displays: [{uid: "hide-blocked"}],
     };
 
     public numplayers = 2;

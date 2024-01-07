@@ -447,6 +447,7 @@ export class MattockGame extends GameBase {
             return false;
         }
         for (const neighbour of this.graph.neighbours(mine)) {
+            if (!this.board.has(neighbour)) { continue; }
             if (this.graph.neighbours(neighbour).filter(n => this.board.has(n)).length > 2) {
                 return false;
             }

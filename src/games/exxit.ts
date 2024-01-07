@@ -304,10 +304,11 @@ export class ExxitGame extends GameBase {
                         ray = ray.slice(0, perimeterIdx + 1);
                     }
                     // the target stack must be on a tile
-                    const occupiedIdx = ray.findIndex(h => h.tile !== undefined && h.stack !== undefined && h.stack[h.stack.length - 1] !== player);
+                    const occupiedIdx = ray.findIndex(h => h.tile !== undefined && h.stack !== undefined);
                     if (occupiedIdx !== -1) {
                         const next = ray[occupiedIdx];
-                        if (next.stack!.length <= startHeight) {
+                        // must be an enemy stack and no taller than the starting one
+                        if ( (next.stack![next.stack!.length - 1] !== player) && (next.stack!.length <= startHeight) ) {
                             // stack height test passed
                             // check perimeter is unoccupied
                             const last = ray[ray.length - 1];
@@ -547,11 +548,18 @@ export class ExxitGame extends GameBase {
                 throw new Error(`The origin tile does not appear to have a stack`);
             }
             // get ray in that direction
-            const ray = this.ray(fhex, bearing);
+            let ray = this.ray(fhex, bearing);
             // pick up the stack
             let stack = [...fhex.stack];
             fhex.stack = undefined;
             this.board.set(fhex.uid, fhex);
+            // cut ray to size
+            ray = ray.slice(0, stack.length)
+            // the ray must terminate at the first perimeter space it encounters
+            const perimeterIdx = ray.findIndex(h => h.tile === undefined);
+            if (perimeterIdx !== -1) {
+                ray = ray.slice(0, perimeterIdx + 1);
+            }
             // distribute
             for (let i = 0; i < ray.length; i++) {
                 const rayHex = ray[i];

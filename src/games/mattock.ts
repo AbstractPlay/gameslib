@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -14,6 +14,7 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
+    minersToPlace: [number, number];
 };
 
 export interface IMattockState extends IAPGameState {
@@ -63,6 +64,7 @@ export class MattockGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public minersToPlace: [number, number] = [0, 0];
     private boardSize = 0;
 
     constructor(state?: IMattockState | string, variants?: string[]) {
@@ -72,7 +74,13 @@ export class MattockGame extends GameBase {
                 this.variants = [...variants];
             }
             let board: Map<string,playerid>;
+            let minersToPlace: [number, number] = [0, 0];
             if (this.variants.includes("freestyle")) {
+                if (this.variants.includes("size-5")) {
+                    minersToPlace = [3, 3];
+                } else {
+                    minersToPlace = [6, 6];
+                }
                 board = new Map<string, playerid>();
             } else if (this.variants.includes("random")) {
                 if (this.variants.includes("size-5")) {
@@ -101,6 +109,7 @@ export class MattockGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
+                minersToPlace,
             };
             this.stack = [fresh];
         } else {
@@ -132,6 +141,7 @@ export class MattockGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
+        this.minersToPlace = [...state.minersToPlace];
         this.boardSize = this.getBoardSize();
         return this;
     }
@@ -593,6 +603,7 @@ export class MattockGame extends GameBase {
         }
         this.currplayer = newplayer as playerid;
 
+        this.updateMinersToPlace();
         this.checkEOG();
         this.saveState();
         if (this.variants.includes("freestyle")) {
@@ -647,6 +658,7 @@ export class MattockGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
+            minersToPlace: [...this.minersToPlace],
         };
     }
 
@@ -758,8 +770,34 @@ export class MattockGame extends GameBase {
         return rep;
     }
 
+    private updateMinersToPlace(): void {
+        const miners1 = [...this.board.entries()].filter(e => e[1] === 1).length;
+        const miners2 = [...this.board.entries()].filter(e => e[1] === 2).length;
+        if (this.variants.includes("size-5")) {
+            this.minersToPlace = [3 - miners1, 3 - miners2];
+        } else {
+            this.minersToPlace = [6 - miners1, 6 - miners2];
+        }
+    }
+
+    public getPlayerScore(player: playerid): number {
+        return this.minersToPlace[player - 1];
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.TOPLACE"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+        ]
+    }
+
     public status(): string {
         let status = super.status();
+
+        status += "**To Place**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            const score = this.getPlayerScore(n as playerid);
+            status += `Player ${n}: ${score}\n\n`;
+        }
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";

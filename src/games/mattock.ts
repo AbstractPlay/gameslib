@@ -405,6 +405,7 @@ export class MattockGame extends GameBase {
         if (this.isRevivable(this.currplayer) && to === mine || this.board.has(to) && this.board.get(to) !== 3) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
+            return result;
         }
         if (from === to) {
             result.valid = false;
@@ -497,9 +498,12 @@ export class MattockGame extends GameBase {
                 }
             }
         }
-        seen.delete(from);
         if (this.isRevivable(player)) {
             seen.delete(mine);
+        }
+        const miners = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
+        for (const miner of miners) {
+            seen.delete(miner);
         }
         return seen;
     }

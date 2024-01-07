@@ -22,6 +22,7 @@
         "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
         "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
         "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
+        "mattock": "{{player}} captured a miner at {{where}}.",
         "meridians": "A dead group of size {{count}} is removed.",
         "minimal": "A piece was captured.",
         "monkey_queen": "A queen was captured.",
@@ -86,6 +87,7 @@
             "minimal_one": "{{count}} friendly piece was destroyed.",
             "minimal_other": "{{count}} friendly pieces were destroyed."
         },
+        "mattock": "{{player}} mined at {{where}}.",
         "string": "String {{where}} broke under the strain."
     },
     "DETONATE": {
@@ -133,6 +135,7 @@
         "complete_one": "{{player}} moved one piece from {{from}} to {{to}}.",
         "complete_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
         "iqishiqi": "{{player}} moved neutral stone {{from}} to {{to}}.",
+        "mattock": "{{player}} moved a miner from {{from}} to {{to}}.",
         "monkey_queen": "{{player}} moved their queen from {{from}} to {{to}}.",
         "monkey_single": "{{player}} moved a singleton from {{from}} to {{to}}.",
         "multiple": "{{player}} made the following moves: {{moves}}.",
@@ -165,6 +168,7 @@
         "complete": "{{player}} placed a {{what}} at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
+        "mattock": "{{player}} placed a miner at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",

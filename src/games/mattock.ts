@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -14,6 +14,7 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
+    minersToPlace: [number, number];
 };
 
 export interface IMattockState extends IAPGameState {
@@ -23,7 +24,7 @@ export interface IMattockState extends IAPGameState {
 
 export class MattockGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "aaa Mattock",
+        name: "Mattock",
         uid: "mattock",
         playercounts: [2],
         version: "20240106",
@@ -51,18 +52,20 @@ export class MattockGame extends GameBase {
                 uid: "freestyle",
                 group: "setup",
             },
-        ]
+        ],
+        displays: [{uid: "hide-blocked"}],
     };
 
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public graph: HexTriGraph = new HexTriGraph(7, 13);
+    public graph: HexTriGraph;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public minersToPlace: [number, number] = [0, 0];
     private boardSize = 0;
 
     constructor(state?: IMattockState | string, variants?: string[]) {
@@ -72,7 +75,13 @@ export class MattockGame extends GameBase {
                 this.variants = [...variants];
             }
             let board: Map<string,playerid>;
+            let minersToPlace: [number, number] = [0, 0];
             if (this.variants.includes("freestyle")) {
+                if (this.variants.includes("size-5")) {
+                    minersToPlace = [3, 3];
+                } else {
+                    minersToPlace = [6, 6];
+                }
                 board = new Map<string, playerid>();
             } else if (this.variants.includes("random")) {
                 if (this.variants.includes("size-5")) {
@@ -101,6 +110,7 @@ export class MattockGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
+                minersToPlace,
             };
             this.stack = [fresh];
         } else {
@@ -116,6 +126,7 @@ export class MattockGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.graph = this.getGraph();
     }
 
     public load(idx = -1): MattockGame {
@@ -131,8 +142,8 @@ export class MattockGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
+        this.minersToPlace = [...state.minersToPlace];
         this.boardSize = this.getBoardSize();
-        this.buildGraph();
         return this;
     }
 
@@ -197,7 +208,7 @@ export class MattockGame extends GameBase {
             const neighbours = [cell, ...graph.neighbours(cell)];
             if (neighbours.every(n => !board.has(n))) {
                 board.set(cell, player);
-                board.set(this.graph.rot180(cell), player % 2 + 1 as playerid);
+                board.set(graph.rot180(cell), player % 2 + 1 as playerid);
                 found = true;
             }
         }
@@ -208,11 +219,6 @@ export class MattockGame extends GameBase {
             size = this.boardSize;
         }
         return new HexTriGraph(size, size * 2 - 1);
-    }
-
-    private buildGraph(): MattockGame {
-        this.graph = this.getGraph();
-        return this;
     }
 
     public moves(player?: playerid): string[] {
@@ -405,6 +411,7 @@ export class MattockGame extends GameBase {
         if (this.isRevivable(this.currplayer) && to === mine || this.board.has(to) && this.board.get(to) !== 3) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
+            return result;
         }
         if (from === to) {
             result.valid = false;
@@ -497,9 +504,12 @@ export class MattockGame extends GameBase {
                 }
             }
         }
-        seen.delete(from);
         if (this.isRevivable(player)) {
             seen.delete(mine);
+        }
+        const miners = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
+        for (const miner of miners) {
+            seen.delete(miner);
         }
         return seen;
     }
@@ -594,6 +604,7 @@ export class MattockGame extends GameBase {
         }
         this.currplayer = newplayer as playerid;
 
+        this.updateMinersToPlace();
         this.checkEOG();
         this.saveState();
         if (this.variants.includes("freestyle")) {
@@ -648,6 +659,7 @@ export class MattockGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
+            minersToPlace: [...this.minersToPlace],
         };
     }
 
@@ -700,7 +712,7 @@ export class MattockGame extends GameBase {
             points.push({ row: y, col: x });
         }
         const markers: Array<any> = []
-        markers.push({ type: "flood", colour: "#000", opacity: 0.4, points });
+        markers.push({ type: "flood", colour: "#444", opacity: 0.6, points });
         if (showBlocked) {
             const blockedPoints: { row: number, col: number }[] = [];
             for (const cell of emptyCells) {
@@ -711,7 +723,7 @@ export class MattockGame extends GameBase {
                 blockedPoints.push({ row: y, col: x });
             }
             if (blockedPoints.length > 0) {
-                markers.push({ type: "flood", colour: "#000", opacity: 0.4, points: blockedPoints });
+                markers.push({ type: "flood", colour: "#222", opacity: 0.6, points: blockedPoints });
             }
         }
 
@@ -759,8 +771,34 @@ export class MattockGame extends GameBase {
         return rep;
     }
 
+    private updateMinersToPlace(): void {
+        const miners1 = [...this.board.entries()].filter(e => e[1] === 1).length;
+        const miners2 = [...this.board.entries()].filter(e => e[1] === 2).length;
+        if (this.variants.includes("size-5")) {
+            this.minersToPlace = [3 - miners1, 3 - miners2];
+        } else {
+            this.minersToPlace = [6 - miners1, 6 - miners2];
+        }
+    }
+
+    public getPlayerScore(player: playerid): number {
+        return this.minersToPlace[player - 1];
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.TOPLACE"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+        ]
+    }
+
     public status(): string {
         let status = super.status();
+
+        status += "**To Place**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            const score = this.getPlayerScore(n as playerid);
+            status += `Player ${n}: ${score}\n\n`;
+        }
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";

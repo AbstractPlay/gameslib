@@ -711,7 +711,7 @@ export class MattockGame extends GameBase {
             points.push({ row: y, col: x });
         }
         const markers: Array<any> = []
-        markers.push({ type: "flood", colour: "#000", opacity: 0.4, points });
+        markers.push({ type: "flood", colour: "#444", opacity: 0.6, points });
         if (showBlocked) {
             const blockedPoints: { row: number, col: number }[] = [];
             for (const cell of emptyCells) {
@@ -722,7 +722,7 @@ export class MattockGame extends GameBase {
                 blockedPoints.push({ row: y, col: x });
             }
             if (blockedPoints.length > 0) {
-                markers.push({ type: "flood", colour: "#000", opacity: 0.4, points: blockedPoints });
+                markers.push({ type: "flood", colour: "#222", opacity: 0.6, points: blockedPoints });
             }
         }
 

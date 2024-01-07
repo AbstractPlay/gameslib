@@ -57,7 +57,7 @@ export class MattockGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public graph: HexTriGraph = new HexTriGraph(7, 13);
+    public graph: HexTriGraph;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -116,6 +116,7 @@ export class MattockGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.graph = this.getGraph();
     }
 
     public load(idx = -1): MattockGame {
@@ -132,7 +133,6 @@ export class MattockGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.boardSize = this.getBoardSize();
-        this.buildGraph();
         return this;
     }
 
@@ -197,7 +197,7 @@ export class MattockGame extends GameBase {
             const neighbours = [cell, ...graph.neighbours(cell)];
             if (neighbours.every(n => !board.has(n))) {
                 board.set(cell, player);
-                board.set(this.graph.rot180(cell), player % 2 + 1 as playerid);
+                board.set(graph.rot180(cell), player % 2 + 1 as playerid);
                 found = true;
             }
         }
@@ -208,11 +208,6 @@ export class MattockGame extends GameBase {
             size = this.boardSize;
         }
         return new HexTriGraph(size, size * 2 - 1);
-    }
-
-    private buildGraph(): MattockGame {
-        this.graph = this.getGraph();
-        return this;
     }
 
     public moves(player?: playerid): string[] {

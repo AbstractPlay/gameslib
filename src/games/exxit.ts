@@ -79,7 +79,7 @@ export class ExxitGame extends GameBase {
             {uid: "29tiles", group: "length"},
             {uid: "19tiles", group: "length"},
         ],
-        flags: ["experimental", "pie", "scores", "limited-pieces", "automove", "shared-stash", "multistep"],
+        flags: ["pie", "scores", "limited-pieces", "automove", "shared-stash", "multistep"],
     };
 
     public static clone(obj: ExxitGame): ExxitGame {

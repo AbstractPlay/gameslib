@@ -17,6 +17,7 @@
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
+        "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
@@ -384,6 +385,12 @@
             "RETREAT_EMPTY": "You must retreat to an empty cell.",
             "TOOFAR": "You can only move one space at a time, unless retreating.",
             "UNCONTROLLED": "You can't control enemy pieces. If you're trying to capture it by cannon, click it again."
+        },
+        "catchup": {
+            "INITIAL_INSTRUCTIONS": "Place up to {{maxMoves}} piece(s) on the board.",
+            "TOO_MANY_MOVES": "You may only place up to {{maxMoves}} piece(s) on the board.",
+            "DUPLICATE": "You have already placed a piece at {{where}}.",
+            "MAKE_MORE_MOVES": "Place up to {{count}} more piece(s), or complete your turn."
         },
         "ceph": {
             "DUPLICATECAP": "You can't capture the same piece more than once.",
@@ -1060,6 +1067,11 @@
         "byte": {
             "10x10": {
                 "name": "Larger board: 10x10"
+            }
+        },
+        "catchup": {
+            "size-7": {
+                "name": "Larger board (base 7)"
             }
         },
         "ceph": {

@@ -76,6 +76,7 @@ import { TumbleweedGame, ITumbleweedState } from "./tumbleweed";
 import { MeridiansGame, IMeridiansState } from "./meridians";
 import { ExxitGame, IExxitState } from "./exxit";
 import { MattockGame, IMattockState } from "./mattock";
+import { CatchupGame, ICatchupState } from "./catchup";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -154,6 +155,7 @@ export {
     MeridiansGame, IMeridiansState,
     ExxitGame, IExxitState,
     MattockGame, IMattockState,
+    CatchupGame, ICatchupState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -180,7 +182,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ToguzGame | typeof TrikeGame | typeof FnapGame |
                               typeof IqishiqiGame | typeof FurlGame | typeof DiffusionGame |
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
-                              typeof MeridiansGame | typeof ExxitGame | typeof MattockGame
+                              typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
+                              typeof CatchupGame
                 >();
 // Manually add each game to the following array
 [
@@ -194,7 +197,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
-    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame
+    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -356,6 +359,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ExxitGame(...args);
         case "mattock":
             return new MattockGame(...args);
+        case "catchup":
+            return new CatchupGame(...args);
     }
     return;
 }

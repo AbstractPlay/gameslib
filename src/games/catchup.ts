@@ -139,7 +139,7 @@ export class CatchupGame extends GameBase {
         return this;
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(player?: playerid, permissive = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
@@ -155,7 +155,7 @@ export class CatchupGame extends GameBase {
         // Get doubles
         if (maxMoves >= 2) {
             for (let i = 0; i < empties.length; i++) {
-                for (let j = i + 1; j < empties.length; j++) {
+                for (let j = permissive ? 0 : i + 1; j < empties.length; j++) {
                     moves.push(`${empties[i]},${empties[j]}`);
                 }
             }
@@ -163,8 +163,8 @@ export class CatchupGame extends GameBase {
         // Get triples
         if (maxMoves >= 3) {
             for (let i = 0; i < empties.length; i++) {
-                for (let j = i + 1; j < empties.length; j++) {
-                    for (let k = j + 1; k < empties.length; k++) {
+                for (let j = permissive ? 0 : i + 1; j < empties.length; j++) {
+                    for (let k = permissive ? 0 : j + 1; k < empties.length; k++) {
                         moves.push(`${empties[i]},${empties[j]},${empties[k]}`);
                     }
                 }

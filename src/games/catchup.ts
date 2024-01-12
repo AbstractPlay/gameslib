@@ -45,7 +45,7 @@ export class CatchupGame extends GameBase {
         flags: ["experimental", "multistep", "scores"],
         variants: [
             {
-                uid: "size-7",
+                uid: "size-6",
                 group: "board",
             },
         ]
@@ -139,7 +139,7 @@ export class CatchupGame extends GameBase {
         return this;
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(player?: playerid, permissive = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
@@ -155,7 +155,7 @@ export class CatchupGame extends GameBase {
         // Get doubles
         if (maxMoves >= 2) {
             for (let i = 0; i < empties.length; i++) {
-                for (let j = i + 1; j < empties.length; j++) {
+                for (let j = permissive ? 0 : i + 1; j < empties.length; j++) {
                     moves.push(`${empties[i]},${empties[j]}`);
                 }
             }
@@ -163,8 +163,8 @@ export class CatchupGame extends GameBase {
         // Get triples
         if (maxMoves >= 3) {
             for (let i = 0; i < empties.length; i++) {
-                for (let j = i + 1; j < empties.length; j++) {
-                    for (let k = j + 1; k < empties.length; k++) {
+                for (let j = permissive ? 0 : i + 1; j < empties.length; j++) {
+                    for (let k = permissive ? 0 : j + 1; k < empties.length; k++) {
                         moves.push(`${empties[i]},${empties[j]},${empties[k]}`);
                     }
                 }
@@ -273,6 +273,21 @@ export class CatchupGame extends GameBase {
         return this.stack.length === 1 ? 1 : Math.min(spacesLeft, hasBonusMove ? 3 : 2);
     }
 
+    public sameMove(move1: string, move2: string): boolean {
+        // Check if two moves are the same.
+        move1 = move1.toLowerCase();
+        move1 = move1.replace(/\s+/g, "");
+        move2 = move2.toLowerCase();
+        move2 = move2.replace(/\s+/g, "");
+        const moves1 = move1.split(",").sort();
+        const moves2 = move2.split(",").sort();
+        if (moves1.length !== moves2.length) { return false; }
+        for (let i = 0; i < moves1.length; i++) {
+            if (moves1[i] !== moves2[i]) { return false; }
+        }
+        return true;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const maxMoves = this.maxMoves(this.currplayer);
@@ -371,7 +386,7 @@ export class CatchupGame extends GameBase {
         this.results = [];
         for (const move of moves) {
             this.board.set(move, this.currplayer);
-            this.results.push({type: "place", where: m});
+            this.results.push({type: "place", where: move});
         }
 
         this.lastmove = m;
@@ -509,10 +524,25 @@ export class CatchupGame extends GameBase {
     }
 
     public getPlayerScore(player: playerid): number {
-        const scores = this.sizes[player - 1];
         // Ideally it should return the entire group size string.
         // return scores.join("-");
-        return scores[0];
+        // But because this method has to return a number, we just take the
+        // effective group as score, which may be harder to interpret.
+        const scores = this.sizes[player - 1];
+        if (scores.length === 0) { return 0; }
+        const scoresOther = this.sizes[player % 2];
+        if (scoresOther.length > scores.length) {
+            return 0;
+        }
+        if (scoresOther.length < scores.length) {
+            return scores[scoresOther.length];
+        }
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i] !== scoresOther[i]) {
+                return scores[i];
+            }
+        }
+        return 0;
     }
 
     public getPlayersScores(): IScores[] {

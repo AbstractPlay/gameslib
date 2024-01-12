@@ -345,10 +345,12 @@ export class HavannahGame extends GameBase {
         if (this.currplayer === 1) {
             prevPlayer = 2;
         }
-        const winningStructure = this.getWinningStructure(this.lastmove!);
-        if (winningStructure.win()) {
-            this.gameover = true;
-            this.winner = [prevPlayer];
+        if ( (this.lastmove !== undefined) && (this.lastmove !== "timeout") && (this.lastmove !== "resign") ) {
+            const winningStructure = this.getWinningStructure(this.lastmove);
+            if (winningStructure.win()) {
+                this.gameover = true;
+                this.winner = [prevPlayer];
+            }
         }
 
         if (this.gameover) {
@@ -482,20 +484,22 @@ export class HavannahGame extends GameBase {
                 }
             }
             if (this.winner.length === 1) {
-                // draw lines to show winning connections.
-                type RowCol = {row: number; col: number;};
-                for (const path of this.getWinningStructure(this.lastmove!).getPaths()) {
-                    if (path.length === 1) { continue; }  // Don't draw lines for single points.
-                    const targets: RowCol[] = [];
-                    for (const cell of path) {
-                        const [x, y] = this.graph.algebraic2coords(cell);
-                        const lastTarget = targets[targets.length - 1];
-                        if ( lastTarget === undefined || lastTarget.row !== y || lastTarget.col !== x ) {
-                            targets.push({row: y, col: x});
+                if ( (this.lastmove !== undefined) && (this.lastmove !== "timeout") && (this.lastmove !== "resign") ) {
+                    // draw lines to show winning connections.
+                    type RowCol = {row: number; col: number;};
+                    for (const path of this.getWinningStructure(this.lastmove).getPaths()) {
+                        if (path.length === 1) { continue; }  // Don't draw lines for single points.
+                        const targets: RowCol[] = [];
+                        for (const cell of path) {
+                            const [x, y] = this.graph.algebraic2coords(cell);
+                            const lastTarget = targets[targets.length - 1];
+                            if ( lastTarget === undefined || lastTarget.row !== y || lastTarget.col !== x ) {
+                                targets.push({row: y, col: x});
+                            }
                         }
+                        // @ts-ignore
+                        rep.annotations.push({type: "move", targets, arrow: false});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "move", targets, arrow: false});
                 }
             }
         }

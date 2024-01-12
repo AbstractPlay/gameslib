@@ -386,7 +386,7 @@ export class CatchupGame extends GameBase {
         this.results = [];
         for (const move of moves) {
             this.board.set(move, this.currplayer);
-            this.results.push({type: "place", where: m});
+            this.results.push({type: "place", where: move});
         }
 
         this.lastmove = m;

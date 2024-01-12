@@ -273,6 +273,21 @@ export class CatchupGame extends GameBase {
         return this.stack.length === 1 ? 1 : Math.min(spacesLeft, hasBonusMove ? 3 : 2);
     }
 
+    public sameMove(move1: string, move2: string): boolean {
+        // Check if two moves are the same.
+        move1 = move1.toLowerCase();
+        move1 = move1.replace(/\s+/g, "");
+        move2 = move2.toLowerCase();
+        move2 = move2.replace(/\s+/g, "");
+        const moves1 = move1.split(",").sort();
+        const moves2 = move2.split(",").sort();
+        if (moves1.length !== moves2.length) { return false; }
+        for (let i = 0; i < moves1.length; i++) {
+            if (moves1[i] !== moves2[i]) { return false; }
+        }
+        return true;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         const maxMoves = this.maxMoves(this.currplayer);

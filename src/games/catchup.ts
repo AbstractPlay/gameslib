@@ -524,10 +524,25 @@ export class CatchupGame extends GameBase {
     }
 
     public getPlayerScore(player: playerid): number {
-        const scores = this.sizes[player - 1];
         // Ideally it should return the entire group size string.
         // return scores.join("-");
-        return scores[0];
+        // But because this method has to return a number, we just take the
+        // effective group as score, which may be harder to interpret.
+        const scores = this.sizes[player - 1];
+        if (scores.length === 0) { return 0; }
+        const scoresOther = this.sizes[player % 2];
+        if (scoresOther.length > scores.length) {
+            return 0;
+        }
+        if (scoresOther.length < scores.length) {
+            return scores[scoresOther.length];
+        }
+        for (let i = 0; i < scores.length; i++) {
+            if (scores[i] !== scoresOther[i]) {
+                return scores[i];
+            }
+        }
+        return 0;
     }
 
     public getPlayersScores(): IScores[] {

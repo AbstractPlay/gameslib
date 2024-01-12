@@ -45,7 +45,7 @@ export class CatchupGame extends GameBase {
         flags: ["experimental", "multistep", "scores"],
         variants: [
             {
-                uid: "size-7",
+                uid: "size-6",
                 group: "board",
             },
         ]

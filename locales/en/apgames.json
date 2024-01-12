@@ -1070,8 +1070,8 @@
             }
         },
         "catchup": {
-            "size-7": {
-                "name": "Larger board (base 7)"
+            "size-6": {
+                "name": "Larger board (base 6)"
             }
         },
         "ceph": {

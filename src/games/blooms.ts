@@ -374,6 +374,8 @@ export class BloomsGame extends GameBase {
             }
         }
 
+        if (m.length === 0) { return this; }
+
         this.results = [];
         for (const move of moves) {
             const [tile, cell] = this.splitTileCell(move);

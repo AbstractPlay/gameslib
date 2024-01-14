@@ -17,6 +17,7 @@
     "CAPTURE": {
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
         "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
+        "blooms": "{{player}} captured a {{what}} group of size {{count}}.",
         "boom": "{{player}} destroyed a piece at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
         "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
@@ -163,6 +164,7 @@
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
         "armadas_3": "{{player}} placed a large ship and named it {{name}}.",
+        "blooms": "{{player}} placed a {{what}} piece at {{where}}.",
         "cannon": "{{player}} placed their town at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",

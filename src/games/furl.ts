@@ -703,7 +703,7 @@ export class FurlGame extends GameBase {
         const fContents = this.board.get(from);
         const tContents = this.board.get(to);
         // check for captures first
-        if (fContents !== undefined && tContents !== undefined && fContents[0] !== tContents[1]) {
+        if (fContents !== undefined && tContents !== undefined && fContents[0] !== tContents[0]) {
             return `${from}x${to}`;
         }
         // otherwise, just go with the arrow operator

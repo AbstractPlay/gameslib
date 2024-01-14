@@ -5,8 +5,9 @@ import { UserFacingError } from "./errors";
 import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph } from "./graphs";
 import { wng } from "./namegenerator";
 import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing } from "./plotting";
+import { hexhexAi2Ap, hexhexAp2Ai } from "./aiai";
 
-export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing };
+export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, hexhexAi2Ap, hexhexAp2Ai };
 
 export type DirectionsCardinal = "N" | "E" | "S" | "W";
 export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";

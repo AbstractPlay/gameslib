@@ -560,14 +560,14 @@ export class BloomsGame extends GameBase {
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece-horse", player: 1, opacity: 0.35 }],
+                B: [{ name: "piece-horse", player: 1, opacity: 0.5 }],
                 C: [{ name: "piece", player: 2 }],
-                D: [{ name: "piece-horse", player: 2, opacity: 0.35 }],
+                D: [{ name: "piece-horse", player: 2, opacity: 0.5 }],
                 // threatened pieces
                 E: [{ name: "piece", player: 1 }, { name: "x" }],
-                F: [{ name: "piece-horse", player: 1, opacity: 0.35 }, { name: "x" }],
+                F: [{ name: "piece-horse", player: 1, opacity: 0.5 }, { name: "x" }],
                 G: [{ name: "piece", player: 2 }, { name: "x" }],
-                H: [{ name: "piece-horse", player: 2, opacity: 0.35 }, { name: "x" }],
+                H: [{ name: "piece-horse", player: 2, opacity: 0.5 }, { name: "x" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

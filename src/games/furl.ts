@@ -700,9 +700,14 @@ export class FurlGame extends GameBase {
         let [from,to] = sub.split(":");
         from = hexhexAi2Ap(from, 4);
         to = hexhexAi2Ap(to, 4);
-        if (this.board.has(to)) {
+        const fContents = this.board.get(from);
+        const tContents = this.board.get(to);
+        // check for captures first
+        if (fContents !== undefined && tContents !== undefined && fContents[0] !== tContents[1]) {
             return `${from}x${to}`;
-        } else {
+        }
+        // otherwise, just go with the arrow operator
+        else {
             return `${from}${op}${to}`;
         }
     }

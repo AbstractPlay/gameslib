@@ -333,6 +333,14 @@ export class BloomsGame extends GameBase {
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation.blooms.PLACE_NEXT");
                 return result;
+            } else {
+                result.valid = true;
+                // We can also make complete = 0 here to allow swapping tile type on first move
+                // but for now, I've decided to just set complete = 1 because there's no real reason
+                // to prefer tile 2 over tile 1 on the first move.
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
             }
         } else {
             const [tile1, cell1] = this.splitTileCell(move1);
@@ -373,6 +381,8 @@ export class BloomsGame extends GameBase {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
+
+        if (m.length === 0) { return this; }
 
         this.results = [];
         for (const move of moves) {
@@ -560,14 +570,14 @@ export class BloomsGame extends GameBase {
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece-horse", player: 1, opacity: 0.35 }],
+                B: [{ name: "piece-horse", player: 1, opacity: 0.5 }],
                 C: [{ name: "piece", player: 2 }],
-                D: [{ name: "piece-horse", player: 2, opacity: 0.35 }],
+                D: [{ name: "piece-horse", player: 2, opacity: 0.5 }],
                 // threatened pieces
                 E: [{ name: "piece", player: 1 }, { name: "x" }],
-                F: [{ name: "piece-horse", player: 1, opacity: 0.35 }, { name: "x" }],
+                F: [{ name: "piece-horse", player: 1, opacity: 0.5 }, { name: "x" }],
                 G: [{ name: "piece", player: 2 }, { name: "x" }],
-                H: [{ name: "piece-horse", player: 2, opacity: 0.35 }, { name: "x" }],
+                H: [{ name: "piece-horse", player: 2, opacity: 0.5 }, { name: "x" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

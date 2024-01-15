@@ -46,7 +46,8 @@ export class TrikeGame extends GameBase {
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],
-        flags: ["pie", "automove"]
+        flags: ["pie", "automove"],
+        displays: [{uid: "hide-moves"}],
     };
     public numplayers = 2;
     public currplayer!: playerid;
@@ -425,7 +426,17 @@ export class TrikeGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showMoves = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-moves") {
+                showMoves = false;
+            }
+        }
         // Build piece string
         const pieces: string[][] = [];
         const lastPosition = this.getLastPosition();
@@ -494,7 +505,7 @@ export class TrikeGame extends GameBase {
                     rep.annotations.push({type: "move", targets: [{row: fx, col: fy},{row: tx, col: ty}]});
                 }
             }
-            if (this.lastmove !== undefined) {
+            if (showMoves && this.lastmove !== undefined) {
                 for (const cell of this.moves()) {
                     const [x, y] = this.algebraic2coords(cell);
                     rep.annotations.push({type: "dots", targets: [{row: x, col: y}]});

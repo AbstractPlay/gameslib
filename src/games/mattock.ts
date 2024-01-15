@@ -38,7 +38,7 @@ export class MattockGame extends GameBase {
                 urls: ["https://games.drew-edwards.com/"]
             }
         ],
-        flags: ["multistep", "automove", "scores"],
+        flags: ["multistep", "automove", "scores", "random-start"],
         variants: [
             {
                 uid: "size-5",
@@ -840,6 +840,12 @@ export class MattockGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getStartingPosition(): string {
+        // Return the locations of Player 1's miners at start of game.
+        // Player 2's miners are the 180 degree rotation of these.
+        return [...this.stack[0].board.entries()].filter(e => e[1] === 1).map(e => e[0]).sort().join(",");
     }
 
     public clone(): MattockGame {

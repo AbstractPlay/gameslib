@@ -12,6 +12,7 @@
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
+        "blooms": "Each player owns 2 colors of stones. To start, Player 1 places 1 stone of either of her colors on any empty space. From then on, starting with Player 2, the players take turns. On your turn, you must place 1 or 2 stones onto any empty spaces. If you place 2, they must be different colors. Then capture all fenced enemy blooms. The first player to have captured X stones wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
@@ -80,6 +81,7 @@
     "notes": {
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are higlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
+        "blooms": "The threshold value, X(n) = 5n, where n is the base of the hexhex board.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         "exxit": "Because the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. We chose this so that the labels wouldn't change as the map grew. Because the labels aren't particularly helpful while you play, they are not displayed on the board.",
@@ -335,6 +337,16 @@
             "NOPIECE": "You do not have a piece of size {{size}} to place.",
             "PARTIAL": "Provide the destination.",
             "SIZEFIRST": "First provide the size of the piece to place. You can click on your stash."
+        },
+        "blooms": {
+            "INITIAL_INSTRUCTIONS": "Place 1 or 2 pieces on the board. If you place 2 pieces, they must be of different colours.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Place 1 piece of either colour on the board.",
+            "TOO_MANY_MOVES": "You may only place two pieces on the board per turn.",
+            "TOO_MANY_MOVES_FIRST": "You may only place one piece on the board on the first turn.",
+            "INVALIDTILE": "The first character of the move notation has to be '1' or '2' for the tile type.",
+            "PLACE_NEXT": "Click on the recently placed piece to switch colours, or click on another space to place a tile of the other colour.",
+            "SAME_CELL": "Select two different cells to place the tiles.",
+            "SAME_TILE": "You cannot place two tiles of the same type in a the same move."
         },
         "boom": {
             "INITIAL_INSTRUCTIONS": "Select a stack to move or attack with.",
@@ -1053,6 +1065,14 @@
                 "name": "Malawi"
             }
         },
+        "blooms": {
+            "size-8": {
+                "name": "Larger board (base 8)"
+            },
+            "size-10": {
+                "name": "Larger board (base 10)"
+            }
+        },
         "bounce": {
             "10": {
                 "name": "Larger board: 10x10"
@@ -1070,8 +1090,8 @@
             }
         },
         "catchup": {
-            "size-7": {
-                "name": "Larger board (base 7)"
+            "size-6": {
+                "name": "Larger board (base 6)"
             }
         },
         "ceph": {
@@ -1387,6 +1407,12 @@
             "pips": {
                 "description": "Display the stones as pips instead of as numerals.",
                 "name": "Pips"
+            }
+        },
+        "blooms": {
+            "hide-threatened": {
+                "description": "Don't show threatened stones.",
+                "name": "Hide threatened"
             }
         },
         "tumbleweed": {

@@ -77,6 +77,7 @@ export interface APGamesInformation {
     | "check"
     | "custom-colours"
     | "random-start"
+    | "aiai"
   )[];
   [k: string]: unknown;
 }

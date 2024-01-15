@@ -668,6 +668,21 @@ export abstract class GameBase  {
     public serialize(): string {
         return JSON.stringify(this.state(), replacer);
     }
+
+    public state2aiai(): string[] {
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        for (const round of moves) {
+            for (const move of round) {
+                lst.push(move);
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        return move;
+    }
 }
 
 export abstract class GameBaseSimultaneous extends GameBase {

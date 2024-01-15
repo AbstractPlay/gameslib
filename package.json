@@ -67,6 +67,7 @@
     "js-combinatorics": "^2.1.1",
     "lodash": "^4.17.21",
     "minmax-wt-alpha-beta-pruning": "^1.0.5",
+    "nanoid": "^5.0.4",
     "rfdc": "^1.3.0"
   }
 }

@@ -51,6 +51,7 @@ Current flags are the following:
 * `check`: This tells the front end that this game should signal to players when someone is "in check," which usually means if nothing specific is done, the noted player will lose at their next turn. Flagged games must provide a `inCheck() => number[]` function that returns the player numbers of any players in check.
 * `custom-colours`: Mutually exclusive with `shared-pieces`. Tells the front end to *not* automatically assign player colour swatches. Instead, it must call `getPlayerColour(n) => number|string`. Use should be rare. For example, in Alien City, players are black and white.
 * `random-start`: Tells the game record generator to insert the starting position into the game record. It does this by calling `getStartingPosition() => string`.
+* `aiai`: Tells the front and back ends that this game supports the AiAi bot. That means it correctly implements `state2aiai() => string[]` (which generates a full list of moves understandable by AiAi) and `translateAiai(move: string) => string` (which translates the moves from AiAi back into AP notation).
 
 ### `GameFactory`
 

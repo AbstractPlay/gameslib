@@ -683,6 +683,11 @@ export abstract class GameBase  {
     public translateAiai(move: string): string {
         return move;
     }
+
+    public aiaiMgl(): string {
+        const ctor = this.constructor as typeof GameBase;
+        return ctor.gameinfo.uid;
+    }
 }
 
 export abstract class GameBaseSimultaneous extends GameBase {

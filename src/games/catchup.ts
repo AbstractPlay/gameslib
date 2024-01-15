@@ -139,6 +139,17 @@ export class CatchupGame extends GameBase {
         return this;
     }
 
+    private sort(a: string, b: string): number {
+        // Sort two cells. This is necessary because "a10" should come after "a9".
+        const [ax, ay] = this.graph.algebraic2coords(a);
+        const [bx, by] = this.graph.algebraic2coords(b);
+        if (ay < by) { return 1; }
+        if (ay > by) { return -1; }
+        if (ax < bx) { return -1; }
+        if (ax > bx) { return 1; }
+        return 0;
+    }
+
     public moves(player?: playerid, permissive = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
@@ -146,7 +157,7 @@ export class CatchupGame extends GameBase {
         }
 
         const moves: string[] = [];
-        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort();
+        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort((a, b) => this.sort(a, b));
         const maxMoves = this.maxMoves(player);
         // Get singles
         for (const cell of empties) {
@@ -240,9 +251,9 @@ export class CatchupGame extends GameBase {
             } else {
                 const moves = move.split(",");
                 if (moves.includes(cell)) {
-                    newmove = moves.filter(m => m !== cell).sort().join(",");
+                    newmove = moves.filter(m => m !== cell).sort((a, b) => this.sort(a, b)).join(",");
                 } else {
-                    newmove = [...moves, cell].sort().join(",");
+                    newmove = [...moves, cell].sort((a, b) => this.sort(a, b)).join(",");
                 }
             }
             const result = this.validateMove(newmove) as IClickResult;
@@ -279,8 +290,8 @@ export class CatchupGame extends GameBase {
         move1 = move1.replace(/\s+/g, "");
         move2 = move2.toLowerCase();
         move2 = move2.replace(/\s+/g, "");
-        const moves1 = move1.split(",").sort();
-        const moves2 = move2.split(",").sort();
+        const moves1 = move1.split(",").sort((a, b) => this.sort(a, b));
+        const moves2 = move2.split(",").sort((a, b) => this.sort(a, b));
         if (moves1.length !== moves2.length) { return false; }
         for (let i = 0; i < moves1.length; i++) {
             if (moves1[i] !== moves2[i]) { return false; }
@@ -369,7 +380,7 @@ export class CatchupGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        m = m.split(",").sort().join(",")
+        m = m.split(",").sort((a, b) => this.sort(a, b)).join(",")
         const moves = m.split(",");
 
         if (!trusted) {

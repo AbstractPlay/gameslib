@@ -1415,6 +1415,12 @@
                 "name": "Hide threatened"
             }
         },
+        "trike": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
+            }
+        },
         "tumbleweed": {
             "hide-influence": {
                 "description": "Don't show line of sight.",

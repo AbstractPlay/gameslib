@@ -710,7 +710,8 @@ export class LielowGame extends GameBase {
         const lst: string[] = [];
         for (const round of moves) {
             for (const move of round) {
-                lst.push(move.replace("-off",""));
+                const stripped = move.replace("x","-");
+                lst.push(stripped.replace("-off",""));
             }
         }
         return lst;

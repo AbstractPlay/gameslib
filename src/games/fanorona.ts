@@ -828,7 +828,7 @@ export class FanoronaGame extends GameBase {
     }
 
     public translateAiai(move: string): string {
-        const moves = move.split("|");
+        const moves = move.toLowerCase().split("|");
         const parts: string[] = [];
         for (const sub of moves) {
             if (sub === "pass") { continue; }

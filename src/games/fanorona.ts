@@ -768,9 +768,15 @@ export class FanoronaGame extends GameBase {
         return new FanoronaGame(this.serialize());
     }
 
+    /**
+     * Because AiAi only inserts a "pass" when choosing to stop possible continuations,
+     * this function needs to actually execute each move to determine whether "pass" is acceptable.
+     * Hopefully this doesn't become too onerous.
+     */
     public state2aiai(): string[] {
         const moves = this.moveHistory();
         const lst: string[] = [];
+        const g = new FanoronaGame();
         for (const round of moves) {
             for (const move of round) {
                 const squished = move.replace(/\s+/g, "");
@@ -809,7 +815,12 @@ export class FanoronaGame extends GameBase {
                             throw new Error(`Invalid game state discovered while translating Fanorona game to AiAi format: ${squished}`);
                         }
                     }
-                    lst.push("pass");
+                    // check if further continuations are possible
+                    const result = g.validateMove(move);
+                    if (result.complete !== 1) {
+                        lst.push("pass");
+                    }
+                    g.move(move);
                 }
             }
         }

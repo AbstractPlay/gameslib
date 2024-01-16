@@ -773,11 +773,12 @@ export class FanoronaGame extends GameBase {
         const lst: string[] = [];
         for (const round of moves) {
             for (const move of round) {
+                const squished = move.replace(/\s+/g, "");
                 // if noncapturing move
-                if (move.length === 4) {
-                    lst.push(`${move[0]}${move[1]}-${move[2]}${move[3]}`);
+                if (squished.length === 4) {
+                    lst.push(`${squished[0]}${squished[1]}-${squished[2]}${squished[3]}`);
                 } else {
-                    const subs = move.split(",");
+                    const subs = squished.split(",");
                     let last: string|undefined;
                     for (const sub of subs) {
                         // initial capture
@@ -805,7 +806,7 @@ export class FanoronaGame extends GameBase {
                         }
                         // error
                         else {
-                            throw new Error(`Invalid game state discovered while translating Fanorona game to AiAi format: ${move}`);
+                            throw new Error(`Invalid game state discovered while translating Fanorona game to AiAi format: ${squished}`);
                         }
                     }
                     lst.push("pass");

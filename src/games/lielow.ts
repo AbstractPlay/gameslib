@@ -721,7 +721,12 @@ export class LielowGame extends GameBase {
         if (move.length === 2) {
             return `${move}-off`;
         } else {
-            return move;
+            const [,to] = move.split("-");
+            if (this.board.has(to)) {
+                return move.replace("-", "x");
+            } else {
+                return move;
+            }
         }
     }
 }

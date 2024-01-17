@@ -565,6 +565,9 @@ export class VeletasGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        if (this.stack.length < 3) {
+            m = this.normalisePlacement(m);
+        }
         if (!trusted) {
             result = this.validateMove(m);
             if (!result.valid) {

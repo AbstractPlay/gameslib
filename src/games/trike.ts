@@ -546,10 +546,14 @@ export class TrikeGame extends GameBase {
         const lst: string[] = [];
         for (const round of moves) {
             for (const move of round) {
-                let [from,to] = move.split("-");
-                from = triAp2Ai(from, width);
-                to = triAp2Ai(to, width);
-                lst.push(`${from}-${to}`);
+                if (! move.includes("-")) {
+                    lst.push(triAp2Ai(move, width));
+                } else {
+                    let [from,to] = move.split("-");
+                    from = triAp2Ai(from, width);
+                    to = triAp2Ai(to, width);
+                    lst.push(`${from}-${to}`);
+                }
             }
         }
         return lst;
@@ -564,10 +568,14 @@ export class TrikeGame extends GameBase {
         } else if (this.variants.includes("standard-15")) {
             width = 15;
         }
-        let [from,to] = move.split("-");
-        from = triAi2Ap(from, width);
-        to = triAi2Ap(to, width);
-        return `${from}-${to}`;
+        if (! move.includes("-")) {
+            return triAi2Ap(move, width);
+        } else {
+            let [from,to] = move.split("-");
+            from = triAi2Ap(from, width);
+            to = triAi2Ap(to, width);
+            return `${from}-${to}`;
+        }
     }
 
 }

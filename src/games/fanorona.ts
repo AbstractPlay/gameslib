@@ -818,7 +818,7 @@ export class FanoronaGame extends GameBase {
                     // check if further continuations are possible
                     const result = g.validateMove(move);
                     if (result.complete !== 1) {
-                        lst.push("pass");
+                        lst.push("Pass");
                     }
                     g.move(move);
                 }

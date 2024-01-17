@@ -544,16 +544,16 @@ export class TrikeGame extends GameBase {
         }
         const moves = this.moveHistory();
         const lst: string[] = [];
+        let last: string|undefined;
         for (const round of moves) {
             for (const move of round) {
-                if (! move.includes("-")) {
-                    lst.push(triAp2Ai(move, width));
+                const to = triAp2Ai(move, width);
+                if (last !== undefined) {
+                    lst.push(`${last}-${to}`);
                 } else {
-                    let [from,to] = move.split("-");
-                    from = triAp2Ai(from, width);
-                    to = triAp2Ai(to, width);
-                    lst.push(`${from}-${to}`);
+                    lst.push(to);
                 }
+                last = to;
             }
         }
         return lst;
@@ -571,10 +571,9 @@ export class TrikeGame extends GameBase {
         if (! move.includes("-")) {
             return triAi2Ap(move, width);
         } else {
-            let [from,to] = move.split("-");
-            from = triAi2Ap(from, width);
+            let [,to] = move.split("-");
             to = triAi2Ap(to, width);
-            return `${from}-${to}`;
+            return to;
         }
     }
 

@@ -189,7 +189,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof IqishiqiGame | typeof FurlGame | typeof DiffusionGame |
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
                               typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
-                              typeof CatchupGame | typeof BloomsGame | typeof MimicGame | 
+                              typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
                               typeof VeletasGame
                 >();
 // Manually add each game to the following array

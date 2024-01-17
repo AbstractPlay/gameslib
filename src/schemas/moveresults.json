@@ -163,6 +163,9 @@
                 "type": {
                     "enum": ["block"]
                 },
+                "by": {
+                    "type": "string"
+                },
                 "where": {
                     "description": "Use this for blocking off a single space",
                     "type": "string"

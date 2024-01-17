@@ -33,3 +33,19 @@ export const hexhexAi2Ap = (cell: string, width: number): string => {
 
     return labels[height - y - 1] + (col + 1).toString();
 }
+
+export const triAp2Ai = (cell: string, width: number): string => {
+    const labels = "abcdefghijklmnopqrstuvwxyz";
+    const left = cell[0];
+    const col = parseInt(cell.substring(1), 10) - 1;
+    const row = labels.indexOf(left);
+    return `${labels[col]}${width - row}`;
+}
+
+export const triAi2Ap = (cell: string, width: number): string => {
+    const labels = "abcdefghijklmnopqrstuvwxyz";
+    const left = cell[0];
+    const row = parseInt(cell.substring(1), 10) - 1;
+    const col = labels.indexOf(left);
+    return `${labels[col]}${width - row}`;
+}

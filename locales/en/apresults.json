@@ -12,7 +12,8 @@
     },
     "BLOCK": {
         "bao": "The pit {{pit}} is in kutakatia (is blocked).",
-        "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}."
+        "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}.",
+        "veletas": "{{player}} placed a piece at {{where}}."
     },
     "CAPTURE": {
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
@@ -62,7 +63,8 @@
         "exxit": "{{player}} claimed the perimeter space at {{where}}.",
         "fnap_col": "{{player}} claimed column {{where}}.",
         "fnap_fnap": "{{player}} has claimed the FNAP token.",
-        "fnap_row": "{{player}} claimed row {{where}}."
+        "fnap_row": "{{player}} claimed row {{where}}.",
+        "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
     "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
     "CONVERT": {
@@ -149,7 +151,8 @@
         "phutball": "{{player}} moved the ball from {{from}} to {{to}},",
         "phutball_last": "{{player}} moved the ball from {{from}} to {{to}}.",
         "phutball_to": "to {{to}},",
-        "phutball_to_last": "to {{to}}."
+        "phutball_to_last": "to {{to}}.",
+        "veletas": "{{player}} moved shooter from {{from}} to {{to}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
     "ORIENT": {
@@ -183,7 +186,8 @@
             "tower": "{{player}} placed a tower at {{where}}.",
             "worker": "{{player}} placed an architect at {{where}}."
         },
-        "phutball": "{{player}} placed a player at {{where}}."
+        "phutball": "{{player}} placed a player at {{where}}.",
+        "veletas": "{{player}} placed a {{what}} at {{where}}."
     },
     "PROMOTE": {
         "lielow": "{{player}} has a new king crowned at {{where}}.",

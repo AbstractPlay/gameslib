@@ -735,7 +735,6 @@ export class MattockGame extends GameBase {
             points.push({ row: y, col: x });
         }
         const markers: Array<any> = [];
-        markers.push({ type: "flood", colour: "#FFF", opacity: 1.0, points });
         markers.push({ type: "flood", colour: "#444", opacity: 0.6, points });
 
         // Build rep

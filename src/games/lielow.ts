@@ -47,7 +47,7 @@ export class LielowGame extends GameBase {
                 name: "Alek Erickson",
             },
         ],
-        flags: ["multistep", "perspective"]
+        flags: ["multistep", "perspective", "aiai"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -703,5 +703,30 @@ export class LielowGame extends GameBase {
 
     public clone(): LielowGame {
         return new LielowGame(this.serialize());
+    }
+
+    public state2aiai(): string[] {
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        for (const round of moves) {
+            for (const move of round) {
+                const stripped = move.replace("x","-");
+                lst.push(stripped.replace("-off",""));
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        if (move.length === 2) {
+            return `${move}-off`;
+        } else {
+            const [,to] = move.split("-");
+            if (this.board.has(to)) {
+                return move.replace("-", "x");
+            } else {
+                return move;
+            }
+        }
     }
 }

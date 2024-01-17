@@ -79,6 +79,7 @@ import { MattockGame, IMattockState } from "./mattock";
 import { CatchupGame, ICatchupState } from "./catchup";
 import { BloomsGame, IBloomsState } from "./blooms";
 import { MimicGame, IMimicState } from "./mimic";
+import { VeletasGame, IVeletasState } from "./veletas";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -159,7 +160,11 @@ export {
     MattockGame, IMattockState,
     CatchupGame, ICatchupState,
     BloomsGame, IBloomsState,
+<<<<<<< HEAD
     MimicGame, IMimicState,
+=======
+    VeletasGame, IVeletasState,
+>>>>>>> develop
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -187,7 +192,11 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof IqishiqiGame | typeof FurlGame | typeof DiffusionGame |
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
                               typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
+<<<<<<< HEAD
                               typeof CatchupGame | typeof BloomsGame | typeof MimicGame
+=======
+                              typeof CatchupGame | typeof BloomsGame | typeof VeletasGame
+>>>>>>> develop
                 >();
 // Manually add each game to the following array
 [
@@ -201,7 +210,11 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
+<<<<<<< HEAD
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame
+=======
+    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, VeletasGame,
+>>>>>>> develop
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -367,8 +380,13 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CatchupGame(...args);
         case "blooms":
             return new BloomsGame(...args);
+<<<<<<< HEAD
         case "mimic":
             return new MimicGame(...args);
+=======
+        case "veletas":
+            return new VeletasGame(...args);
+>>>>>>> develop
     }
     return;
 }

@@ -74,6 +74,7 @@
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
+        "veletas": "Veletas is a drawless territory game for two players. It is played on the spaces (squares) of a checkered square board, which is initially empty. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
@@ -947,6 +948,24 @@
             "PARTIAL_PLACE": "Choose a cell to place a piece in.",
             "PARTIAL_PLACE_SIZE": "Select the size of a piece to place."
         },
+        "veletas": {
+            "NO_MOVELIST": "Move list not available during placement phase. Click on the board to place the shooter(s).",
+            "INITIAL_INSTRUCTIONS": "Select a shooter to move or select a cell to place your piece.",
+            "INITIAL_INSTRUCTIONS_PLACE": "Place {{count}} shooter(s) an empty space on the board, then place a piece of your colour on the board.",
+            "SORTED": "The move list needs to be sorted. Try {{normalised}}.",
+            "PLACE_SHOOTER": "Place {{count}} shooter(s) on the board, then place a piece of your colour on the board.",
+            "PLACE_PIECE": "Place a piece of your colour on the board.",
+            "SHOOTER_PERIMETER": "Shooters may not be placed on the perimeter of the board.",
+            "TOO_MANY_SHOOTERS": "You may only place {{count}} shooter(s).",
+            "DUPLICATE": "You have already placed a shooter at {{where}}.",
+            "STATIONARY_LOS": "There is no line of sight to place at {{where}}.",
+            "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
+            "ALREADY_SHOT": "You have already shot at {{where}}.",
+            "MOVE_NON_SHOOTER": "You may only move free shooters.",
+            "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the shooter to.",
+            "STRAIGHTLINE": "You can only move and place in straight lines.",
+            "POTENTIAL_PLACE": "So far so good. Provide the space you want to place your piece at."
+        },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",
             "INITIAL_INSTRUCTIONS": "Select a cap to move or a piece from your captured pile to place on the board.",
@@ -1385,6 +1404,16 @@
                 "name": "Monuments"
             }
         },
+        "veletas": {
+            "size-7": {
+                "name": "7x7 board",
+                "description": "Smaller board with 3 neutral pieces"
+            },
+            "size-9": {
+                "name": "9x9 board",
+                "description": "Medium board with 5 neutral pieces"
+            }
+        },
         "wyke": {
             "6x6": {
                 "name": "Larger board: 6x6"
@@ -1419,6 +1448,12 @@
             "hide-threatened": {
                 "description": "Don't show threatened stones.",
                 "name": "Hide threatened"
+            }
+        },
+        "trike": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
             }
         },
         "tumbleweed": {

@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { reviver, UserFacingError, triAi2Ap, triAp2Ai } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -46,7 +46,8 @@ export class TrikeGame extends GameBase {
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],
-        flags: ["pie", "automove"]
+        flags: ["pie", "automove", "aiai"],
+        displays: [{uid: "hide-moves"}],
     };
     public numplayers = 2;
     public currplayer!: playerid;
@@ -425,7 +426,17 @@ export class TrikeGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showMoves = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-moves") {
+                showMoves = false;
+            }
+        }
         // Build piece string
         const pieces: string[][] = [];
         const lastPosition = this.getLastPosition();
@@ -494,7 +505,7 @@ export class TrikeGame extends GameBase {
                     rep.annotations.push({type: "move", targets: [{row: fx, col: fy},{row: tx, col: ty}]});
                 }
             }
-            if (this.lastmove !== undefined) {
+            if (showMoves && this.lastmove !== undefined) {
                 for (const cell of this.moves()) {
                     const [x, y] = this.algebraic2coords(cell);
                     rep.annotations.push({type: "dots", targets: [{row: x, col: y}]});
@@ -509,4 +520,62 @@ export class TrikeGame extends GameBase {
         return Object.assign(new TrikeGame(), deepclone(this) as TrikeGame);
         // return new TrikeGame(this.serialize());
     }
+
+    public aiaiMgl(): string {
+        let mgl = "trike";
+        if (this.variants.includes("standard-7")) {
+            mgl = "trike-7";
+        } else if (this.variants.includes("standard-13")) {
+            mgl = "trike-13";
+        } else if (this.variants.includes("standard-15")) {
+            mgl = "trike-15";
+        }
+        return mgl;
+    }
+
+    public state2aiai(): string[] {
+        let width = 11;
+        if (this.variants.includes("standard-7")) {
+            width = 7;
+        } else if (this.variants.includes("standard-13")) {
+            width = 13;
+        } else if (this.variants.includes("standard-15")) {
+            width = 15;
+        }
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        for (const round of moves) {
+            for (const move of round) {
+                if (! move.includes("-")) {
+                    lst.push(triAp2Ai(move, width));
+                } else {
+                    let [from,to] = move.split("-");
+                    from = triAp2Ai(from, width);
+                    to = triAp2Ai(to, width);
+                    lst.push(`${from}-${to}`);
+                }
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        let width = 11;
+        if (this.variants.includes("standard-7")) {
+            width = 7;
+        } else if (this.variants.includes("standard-13")) {
+            width = 13;
+        } else if (this.variants.includes("standard-15")) {
+            width = 15;
+        }
+        if (! move.includes("-")) {
+            return triAi2Ap(move, width);
+        } else {
+            let [from,to] = move.split("-");
+            from = triAi2Ap(from, width);
+            to = triAi2Ap(to, width);
+            return `${from}-${to}`;
+        }
+    }
+
 }

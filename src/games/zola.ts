@@ -609,23 +609,43 @@ export class ZolaGame extends GameBase {
         return new ZolaGame(this.serialize());
     }
 
+    private static mirrorCell(cell: string, width: number): string {
+        const labels = "abcdefghijklmnopqrstuvwxyz".split("");
+        const letter = cell[0];
+        const num = cell.substring(1);
+        const idx = labels.indexOf(letter);
+        const newidx = width - idx - 1;
+        return `${labels[newidx]}${num}`;
+    }
+
     public state2aiai(): string[] {
+        let width = 6;
+        if (this.variants.includes("8x8")) {
+            width = 8;
+        }
         const moves = this.moveHistory();
         const lst: string[] = [];
         for (const round of moves) {
             for (const move of round) {
-                lst.push(move.replace("x","-"));
+                const [from, to] = move.split(/[x\-]/);
+                lst.push(`${ZolaGame.mirrorCell(from, width)}-${ZolaGame.mirrorCell(to, width)}`);
             }
         }
         return lst;
     }
 
     public translateAiai(move: string): string {
-        const [from, to] = move.split("-");
+        let width = 6;
+        if (this.variants.includes("8x8")) {
+            width = 8;
+        }
+        let [from, to] = move.split("-");
+        from = ZolaGame.mirrorCell(from, width);
+        to = ZolaGame.mirrorCell(to, width);
         if (this.board.has(to)) {
             return `${from}x${to}`;
         } else {
-            return move;
+            return `${from}-${to}`;
         }
     }
 

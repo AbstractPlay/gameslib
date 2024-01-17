@@ -966,7 +966,7 @@
             "MOVE_NON_SHOOTER": "You may only move free shooters.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the shooter to.",
             "STRAIGHTLINE": "You can only move and place in straight lines.",
-            "POTENTIAL_PLACE": "So far so good. Provide the space you want to place your piece at."
+            "POTENTIAL_BLOCK": "So far so good. Provide the space you want to place your piece at."
         },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",

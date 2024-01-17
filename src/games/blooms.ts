@@ -7,6 +7,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
+import { IKey } from "@abstractplay/renderer/build/renderers/_base";
 
 export type playerid = 1|2;
 export type tileid = 1|2;
@@ -194,8 +195,16 @@ export class BloomsGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.graph.coords2algebraic(col, row);
-            if (move === "") {
+            if (piece !== undefined && piece !== "") {
+                newmove = piece;
+            } else if (move === "") {
                 newmove = `1${cell}`;
+            } else if (move === "1" || move === "2") {
+                if (row === -1) {
+                    newmove = move;
+                } else {
+                    newmove = `${move}${cell}`;
+                }
             } else {
                 const moves = move.split(",");
                 if (moves.length === 1) {
@@ -269,6 +278,19 @@ export class BloomsGame extends GameBase {
             return result;
         }
 
+        if (m.length === 1) {
+            if (m === '1' || m === '2') {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.blooms.DESTINATION");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blooms.INVALID_PIECE", { piece: m });
+                return result;
+            }
+        }
         m = this.normaliseMove(m);
         const moves = m.split(",");
         // Don't exceed count
@@ -382,7 +404,7 @@ export class BloomsGame extends GameBase {
             }
         }
 
-        if (m.length === 0) { return this; }
+        if (m.length === 0 || m === "1" || m === "2") { return this; }
 
         this.results = [];
         for (const move of moves) {
@@ -583,6 +605,19 @@ export class BloomsGame extends GameBase {
             key: []
 
         };
+
+        // Add key so the user can click to select the color to place
+        const key: IKey = {
+            type: "key",
+            position: "left",
+            height: 0.7,
+            list: [
+                { piece: this.currplayer === 1 ? "A" : "C", name: "", value: "1" },
+                { piece: this.currplayer === 1 ? "B" : "D", name: "", value: "2" },
+            ],
+            clickable: true,
+        };
+        rep.areas = [key];
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {

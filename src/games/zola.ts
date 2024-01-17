@@ -56,7 +56,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
-        flags: ["automove", "limited-pieces", "pie"],
+        flags: ["automove", "limited-pieces", "pie", "aiai"],
     };
 
     public numplayers = 2;
@@ -608,4 +608,33 @@ export class ZolaGame extends GameBase {
     public clone(): ZolaGame {
         return new ZolaGame(this.serialize());
     }
+
+    public state2aiai(): string[] {
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        for (const round of moves) {
+            for (const move of round) {
+                lst.push(move.replace("x","-"));
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        const [from, to] = move.split("-");
+        if (this.board.has(to)) {
+            return `${from}x${to}`;
+        } else {
+            return move;
+        }
+    }
+
+    public aiaiMgl(): string {
+        let mgl = "zola";
+        if (this.variants.includes("8x8")) {
+            mgl = "zola-8";
+        }
+        return mgl;
+    }
+
 }

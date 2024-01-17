@@ -117,7 +117,7 @@ export class TrikeGame extends GameBase {
         return this;
     }
 
-    private coords2algebraic(x: number, y: number): string {
+    public coords2algebraic(x: number, y: number): string {
         if (y > x) {
             throw new Error(`The coordinates (${x},${y}) are invalid.`);
         }
@@ -125,7 +125,7 @@ export class TrikeGame extends GameBase {
         return columnLabels[y] + (x + 1).toString();
     }
 
-    private algebraic2coords(cell: string): [number,number] {
+    public algebraic2coords(cell: string): [number,number] {
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
         const pair: string[] = cell.split("");
         const num = (pair.slice(1)).join("");

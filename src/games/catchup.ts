@@ -7,6 +7,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
+import _ from "lodash";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -42,7 +43,7 @@ export class CatchupGame extends GameBase {
                 urls: ["https://www.nickbentley.games/"],
             }
         ],
-        flags: ["experimental", "multistep", "scores"],
+        flags: ["experimental", "multistep", "scores", "no-moves"],
         variants: [
             {
                 uid: "size-6",
@@ -150,40 +151,6 @@ export class CatchupGame extends GameBase {
         return 0;
     }
 
-    public moves(player?: playerid, permissive = false): string[] {
-        if (this.gameover) { return []; }
-        if (player === undefined) {
-            player = this.currplayer;
-        }
-
-        const moves: string[] = [];
-        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort((a, b) => this.sort(a, b));
-        const maxMoves = this.maxMoves(player);
-        // Get singles
-        for (const cell of empties) {
-            moves.push(cell);
-        }
-        // Get doubles
-        if (maxMoves >= 2) {
-            for (let i = 0; i < empties.length; i++) {
-                for (let j = permissive ? 0 : i + 1; j < empties.length; j++) {
-                    moves.push(`${empties[i]},${empties[j]}`);
-                }
-            }
-        }
-        // Get triples
-        if (maxMoves >= 3) {
-            for (let i = 0; i < empties.length; i++) {
-                for (let j = permissive ? 0 : i + 1; j < empties.length; j++) {
-                    for (let k = permissive ? 0 : j + 1; k < empties.length; k++) {
-                        moves.push(`${empties[i]},${empties[j]},${empties[k]}`);
-                    }
-                }
-            }
-        }
-        return moves;
-    }
-
     private getGroupSizes(player: playerid): number[] {
         // Get the sizes of all groups of pieces for `player`.
         const groups: Set<string>[] = [];
@@ -194,7 +161,7 @@ export class CatchupGame extends GameBase {
                 continue;
             }
             const group: Set<string> = new Set();
-            const todo: string[] = [piece]
+            const todo: string[] = [piece];
             while (todo.length > 0) {
                 const cell = todo.pop()!;
                 if (seen.has(cell)) {
@@ -237,9 +204,39 @@ export class CatchupGame extends GameBase {
         return true;
     }
 
+    private randomMoveCount(): number {
+        // Get weighted random number of moves to simulate picking from list of all moves.
+        const maxMoves = this.maxMoves(this.currplayer);
+        const spacesLeft = this.spacesLeft();
+        const weights: number[] = [];
+        for (let i = 0; i < maxMoves; i++) {
+            weights.push((weights.length === 0 ? 1 : weights[weights.length - 1]) * (spacesLeft - i));
+        }
+        const cumWeights: number[] = weights.map((w, i) => weights.slice(0, i + 1).reduce((a, b) => a + b));
+        const random = Math.random() * cumWeights[cumWeights.length - 1];
+        let weightedIndex = -1;
+        for (let i = 0; i < cumWeights.length; i++) {
+            weightedIndex = i;
+            if (cumWeights[i] > random) { break; }
+        }
+        return _.range(1, maxMoves + 1)[weightedIndex];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public moves(player?: playerid): string[] {
+        // Move list is too large for Catchup.
+        return [];
+    }
+
     public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
+        // Move list too large so we generate the random placement as needed.
+        const availableSpaces: string[] = [];
+        for (const cell of this.graph.listCells(false) as string[]) {
+            if (this.board.has(cell)) { continue; }
+            availableSpaces.push(cell);
+        }
+        const places = _.sampleSize(availableSpaces, this.randomMoveCount());
+        return places.sort((a, b) => this.sort(a, b)).join(",");
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -284,19 +281,16 @@ export class CatchupGame extends GameBase {
         return this.stack.length === 1 ? 1 : Math.min(spacesLeft, hasBonusMove ? 3 : 2);
     }
 
+    private normaliseMove(move: string): string {
+        // Sort the move list so that there is a unique representation.
+        move = move.toLowerCase();
+        move = move.replace(/\s+/g, "");
+        return move.split(",").sort((a, b) => this.sort(a, b)).join(",");
+    }
+
     public sameMove(move1: string, move2: string): boolean {
         // Check if two moves are the same.
-        move1 = move1.toLowerCase();
-        move1 = move1.replace(/\s+/g, "");
-        move2 = move2.toLowerCase();
-        move2 = move2.replace(/\s+/g, "");
-        const moves1 = move1.split(",").sort((a, b) => this.sort(a, b));
-        const moves2 = move2.split(",").sort((a, b) => this.sort(a, b));
-        if (moves1.length !== moves2.length) { return false; }
-        for (let i = 0; i < moves1.length; i++) {
-            if (moves1[i] !== moves2[i]) { return false; }
-        }
-        return true;
+        return this.normaliseMove(move1) === this.normaliseMove(move2);
     }
 
     public validateMove(m: string): IValidationResult {
@@ -344,6 +338,14 @@ export class CatchupGame extends GameBase {
             return result;
         }
 
+        // Since there is no move list for placement phase, we have to do some extra validation.
+        const regex = new RegExp(`^[a-z]\\d+(,[a-z]\\d+){0,${maxMoves - 1}}$`);
+        if (!regex.test(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.catchup.INVALID_PLACEMENT", {move: m});
+            return result;
+        }
+
         // No duplicate cells.
         const seen: Set<string> = new Set();
         const duplicates: Set<string> = new Set();
@@ -356,6 +358,14 @@ export class CatchupGame extends GameBase {
         if (duplicates.size > 0) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.catchup.DUPLICATE", {where: [...duplicates].join(", ")});
+            return result;
+        }
+
+        // Normalised move
+        const normalised = this.normaliseMove(m);
+        if (m !== normalised) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.catchup.NORMALISED", {move: normalised});
             return result;
         }
 
@@ -378,18 +388,13 @@ export class CatchupGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        m = m.toLowerCase();
-        m = m.replace(/\s+/g, "");
-        m = m.split(",").sort((a, b) => this.sort(a, b)).join(",")
+        m = this.normaliseMove(m);
         const moves = m.split(",");
 
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (!partial && !this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
         if (m.length === 0) { return this; }

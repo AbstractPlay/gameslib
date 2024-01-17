@@ -38,7 +38,7 @@ export class MimicGame extends GameBase {
                 name: "Andrew Bressette"
             }
         ],
-        flags: ["perspective"]
+        flags: ["experimental", "perspective"]
     };
 
     // Will need to update these methods to fully support board size variants

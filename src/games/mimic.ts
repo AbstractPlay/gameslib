@@ -313,7 +313,8 @@ export class MimicGame extends GameBase {
             return result;
         } else {
             let cell = cells[0];
-            let col1, row1 = null;
+            let col1: number|null = null;
+            let row1: number|null = null;
             try {
                 [col1, row1] = MimicGame.algebraic2coords(cell);
             } catch {
@@ -338,7 +339,8 @@ export class MimicGame extends GameBase {
 
             // validate second cell
             cell = cells[1];
-            let col2, row2 = null;
+            let col2: number|null = null;
+            let row2: number|null = null;
             try {
                 [col2, row2] = MimicGame.algebraic2coords(cell);
             } catch {
@@ -515,7 +517,7 @@ export class MimicGame extends GameBase {
     }
 
     protected checkStalemate(): MimicGame {
-        let prevPlayer: pieceType = (this.currplayer === MimicGame.PLAYER_ONE) ? MimicGame.PLAYER_TWO : MimicGame.PLAYER_ONE;
+        const prevPlayer: pieceType = (this.currplayer === MimicGame.PLAYER_ONE) ? MimicGame.PLAYER_TWO : MimicGame.PLAYER_ONE;
 
         if (this.moves().length === 0) {
             this.gameover = true;

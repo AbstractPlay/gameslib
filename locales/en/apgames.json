@@ -343,6 +343,8 @@
         "blooms": {
             "INITIAL_INSTRUCTIONS": "Place 1 or 2 pieces on the board. If you place 2 pieces, they must be of different colours.",
             "INITIAL_INSTRUCTIONS_FIRST": "Place 1 piece of either colour on the board.",
+            "DESTINATION": "Select a cell to place the piece.",
+            "INVALID_PIECE": "The only valid piece types are '1' and '2'. You gave '{{ piece }}'.",
             "TOO_MANY_MOVES": "You may only place two pieces on the board per turn.",
             "TOO_MANY_MOVES_FIRST": "You may only place one piece on the board on the first turn.",
             "INVALIDTILE": "The first character of the move notation has to be '1' or '2' for the tile type.",
@@ -964,7 +966,7 @@
             "MOVE_NON_SHOOTER": "You may only move free shooters.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the shooter to.",
             "STRAIGHTLINE": "You can only move and place in straight lines.",
-            "POTENTIAL_PLACE": "So far so good. Provide the space you want to place your piece at."
+            "POTENTIAL_BLOCK": "So far so good. Provide the space you want to place your piece at."
         },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",

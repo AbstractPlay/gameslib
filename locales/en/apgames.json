@@ -50,6 +50,7 @@
         "mattock": "In Mattock, you play miners digging corridors through the rock. You can’t dig too closely together though, or the mine will collapse. To win, trap your opponent so they run out of space to mine.",
         "mchess": "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
         "meridians": "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
+        "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
         "mirador": "Mirador is a fast and exhilerating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
@@ -703,6 +704,11 @@
             "ONE_MORE": "Place a piece of the other colour.",
             "SECOND_STONE_NEIGHBOUR": "The second stone placed must have a path to the first stone (cannot be adjacent).",
             "NOLOS": "There is no line of sight to {{where}} from any of your pieces."
+        },
+        "mimic": {
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
+            "FROZEN_PIECE": "The piece you tried to select is frozen because there are two or more orthogonally visible opponent pieces.",
+            "MOVE_TO_EMPTY": "Select an adjacent empty space to move to."
         },
         "mirador": {
             "INITIAL_INSTRUCTIONS": "Place a mirador, or, if you think your connection is unassailable, declare",

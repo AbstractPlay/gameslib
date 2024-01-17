@@ -63,6 +63,7 @@ export type APMoveResult =
     }
   | {
       type: "block";
+      by?: string;
       /**
        * Use this for blocking off a single space
        */

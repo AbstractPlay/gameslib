@@ -64,6 +64,7 @@ export class CatchupGame extends GameBase {
     public sizes: number[][] = [[], []];
     public lastMaxs: [number, number] = [0, 0];
     private boardSize = 0;
+    private currMoveHighlight: string[] = [];
 
     constructor(state?: ICatchupState | string, variants?: string[]) {
         super();
@@ -405,6 +406,7 @@ export class CatchupGame extends GameBase {
         for (const move of moves) {
             this.board.set(move, this.currplayer);
             this.results.push({type: "place", where: move});
+            this.currMoveHighlight.push(move);
         }
 
         this.lastmove = m;
@@ -413,6 +415,7 @@ export class CatchupGame extends GameBase {
 
         if (partial) { return this; }
 
+        this.currMoveHighlight = [];
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
         this.saveState();
@@ -505,12 +508,21 @@ export class CatchupGame extends GameBase {
             pstr.push(pieces);
         }
 
+        const points: { row: number, col: number }[] = [];
+        for (const cell of this.currMoveHighlight) {
+            const [x, y] = this.graph.algebraic2coords(cell);
+            points.push({ row: y, col: x });
+        }
+        let markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.4, points }] : undefined;
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
+                // @ts-ignore
+                markers,
             },
             legend: {
                 A: {

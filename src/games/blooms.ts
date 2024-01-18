@@ -68,6 +68,7 @@ export class BloomsGame extends GameBase {
     private threshold = 0;
     private boardSize = 0;
     private captured: Set<string>[] = [];
+    private currMoveHighlight: string[] = [];
 
     constructor(state?: IBloomsState | string, variants?: string[]) {
         super();
@@ -411,9 +412,11 @@ export class BloomsGame extends GameBase {
             const [tile, cell] = this.splitTileCell(move);
             this.board.set(cell, [this.currplayer, tile]);
             this.results.push({type: "place", where: cell, what: tile === 1 ? tileNames[0] : tileNames[1]});
+            this.currMoveHighlight.push(cell);
         }
         this.captured = this.toCapture(this.currplayer % 2 + 1 as playerid);
         if (partial) { return this; }
+        this.currMoveHighlight = [];
         const threatenedGroups = this.captured;
         for (const group of threatenedGroups) {
             // get tile of arbitrary member
@@ -583,12 +586,21 @@ export class BloomsGame extends GameBase {
             pstr.push(pieces);
         }
 
+        const points: { row: number, col: number }[] = [];
+        for (const cell of this.currMoveHighlight) {
+            const [x, y] = this.graph.algebraic2coords(cell);
+            points.push({ row: y, col: x });
+        }
+        let markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.4, points }] : undefined;
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
+                // @ts-ignore
+                markers,
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],

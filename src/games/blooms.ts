@@ -7,6 +7,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
+import { IKey } from "@abstractplay/renderer/build/renderers/_base";
 
 export type playerid = 1|2;
 export type tileid = 1|2;
@@ -67,6 +68,7 @@ export class BloomsGame extends GameBase {
     private threshold = 0;
     private boardSize = 0;
     private captured: Set<string>[] = [];
+    private currMoveHighlight: string[] = [];
 
     constructor(state?: IBloomsState | string, variants?: string[]) {
         super();
@@ -194,8 +196,16 @@ export class BloomsGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.graph.coords2algebraic(col, row);
-            if (move === "") {
+            if ((piece === "1" || piece === "2") && row === -1) {
+                newmove = piece;
+            } else if (move === "") {
                 newmove = `1${cell}`;
+            } else if (move === "1" || move === "2") {
+                if (row === -1) {
+                    newmove = move;
+                } else {
+                    newmove = `${move}${cell}`;
+                }
             } else {
                 const moves = move.split(",");
                 if (moves.length === 1) {
@@ -269,6 +279,19 @@ export class BloomsGame extends GameBase {
             return result;
         }
 
+        if (m.length === 1) {
+            if (m === '1' || m === '2') {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.blooms.DESTINATION");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blooms.INVALID_PIECE", { piece: m });
+                return result;
+            }
+        }
         m = this.normaliseMove(m);
         const moves = m.split(",");
         // Don't exceed count
@@ -382,16 +405,18 @@ export class BloomsGame extends GameBase {
             }
         }
 
-        if (m.length === 0) { return this; }
+        if (m.length === 0 || m === "1" || m === "2") { return this; }
 
         this.results = [];
         for (const move of moves) {
             const [tile, cell] = this.splitTileCell(move);
             this.board.set(cell, [this.currplayer, tile]);
             this.results.push({type: "place", where: cell, what: tile === 1 ? tileNames[0] : tileNames[1]});
+            this.currMoveHighlight.push(cell);
         }
         this.captured = this.toCapture(this.currplayer % 2 + 1 as playerid);
         if (partial) { return this; }
+        this.currMoveHighlight = [];
         const threatenedGroups = this.captured;
         for (const group of threatenedGroups) {
             // get tile of arbitrary member
@@ -561,28 +586,50 @@ export class BloomsGame extends GameBase {
             pstr.push(pieces);
         }
 
+        const points: { row: number, col: number }[] = [];
+        for (const cell of this.currMoveHighlight) {
+            const [x, y] = this.graph.algebraic2coords(cell);
+            points.push({ row: y, col: x });
+        }
+        const markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.4, points }] : undefined;
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
+                // @ts-ignore
+                markers,
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece-horse", player: 1, opacity: 0.5 }],
+                B: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 1, opacity: 0.5 }],
                 C: [{ name: "piece", player: 2 }],
-                D: [{ name: "piece-horse", player: 2, opacity: 0.5 }],
+                D: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 2, opacity: 0.5 }],
                 // threatened pieces
                 E: [{ name: "piece", player: 1 }, { name: "x" }],
-                F: [{ name: "piece-horse", player: 1, opacity: 0.5 }, { name: "x" }],
+                F: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 1, opacity: 0.5 }, { name: "x" }],
                 G: [{ name: "piece", player: 2 }, { name: "x" }],
-                H: [{ name: "piece-horse", player: 2, opacity: 0.5 }, { name: "x" }],
+                H: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 2, opacity: 0.5 }, { name: "x" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []
 
         };
+
+        // Add key so the user can click to select the color to place
+        const key: IKey = {
+            type: "key",
+            position: "left",
+            height: 0.7,
+            list: [
+                { piece: this.currplayer === 1 ? "A" : "C", name: "", value: "1" },
+                { piece: this.currplayer === 1 ? "B" : "D", name: "", value: "2" },
+            ],
+            clickable: true,
+        };
+        rep.areas = [key];
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {

@@ -56,7 +56,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
-        flags: ["automove", "limited-pieces", "pie"],
+        flags: ["automove", "limited-pieces", "pie", "aiai"],
     };
 
     public numplayers = 2;
@@ -608,4 +608,53 @@ export class ZolaGame extends GameBase {
     public clone(): ZolaGame {
         return new ZolaGame(this.serialize());
     }
+
+    private static mirrorCell(cell: string, width: number): string {
+        const labels = "abcdefghijklmnopqrstuvwxyz".split("");
+        const letter = cell[0];
+        const num = cell.substring(1);
+        const idx = labels.indexOf(letter);
+        const newidx = width - idx - 1;
+        return `${labels[newidx]}${num}`;
+    }
+
+    public state2aiai(): string[] {
+        let width = 6;
+        if (this.variants.includes("8x8")) {
+            width = 8;
+        }
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        for (const round of moves) {
+            for (const move of round) {
+                const [from, to] = move.split(/[x\-]/);
+                lst.push(`${ZolaGame.mirrorCell(from, width)}-${ZolaGame.mirrorCell(to, width)}`);
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        let width = 6;
+        if (this.variants.includes("8x8")) {
+            width = 8;
+        }
+        let [from, to] = move.split("-");
+        from = ZolaGame.mirrorCell(from, width);
+        to = ZolaGame.mirrorCell(to, width);
+        if (this.board.has(to)) {
+            return `${from}x${to}`;
+        } else {
+            return `${from}-${to}`;
+        }
+    }
+
+    public aiaiMgl(): string {
+        let mgl = "zola";
+        if (this.variants.includes("8x8")) {
+            mgl = "zola-8";
+        }
+        return mgl;
+    }
+
 }

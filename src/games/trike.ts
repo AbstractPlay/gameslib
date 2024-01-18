@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { reviver, UserFacingError, triAi2Ap, triAp2Ai } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -31,7 +31,8 @@ export class TrikeGame extends GameBase {
         name: "Trike",
         uid: "trike",
         playercounts: [2],
-        version: "20231225",
+        version: "20240118",
+        // version: "20231225",
         // i18next.t("apgames:descriptions.trike")
         description: "apgames:descriptions.trike",
         urls: ["https://boardgamegeek.com/boardgame/307379/trike"],
@@ -46,7 +47,8 @@ export class TrikeGame extends GameBase {
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],
-        flags: ["pie", "automove"]
+        flags: ["pie", "automove", "aiai"],
+        displays: [{uid: "hide-moves"}],
     };
     public numplayers = 2;
     public currplayer!: playerid;
@@ -116,15 +118,19 @@ export class TrikeGame extends GameBase {
         return this;
     }
 
-    private coords2algebraic(x: number, y: number): string {
-        if (y > x) {
+    public coords2algebraic(x: number, y: number): string {
+        if (x > y) {
             throw new Error(`The coordinates (${x},${y}) are invalid.`);
         }
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
+        if (this.stack[0]._version === "20231225") {
+            // For legacy games where col and rows were mistakenly flipped.
+            [x, y] = [y, x];
+        }
         return columnLabels[y] + (x + 1).toString();
     }
 
-    private algebraic2coords(cell: string): [number,number] {
+    public algebraic2coords(cell: string): [number,number] {
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
         const pair: string[] = cell.split("");
         const num = (pair.slice(1)).join("");
@@ -136,7 +142,14 @@ export class TrikeGame extends GameBase {
         if ( (x === undefined) || (isNaN(x)) ) {
             throw new Error(`The row label is invalid: ${pair[1]}`);
         }
-        if (y > x) {
+        if (this.stack[0]._version === "20231225") {
+            // For legacy games where col and rows were mistakenly flipped.
+            if (y > x) {
+                throw new Error(`The coordinates (${x},${y}) are invalid.`);
+            }
+            return [y, x - 1];
+        }
+        if (x - 1 > y) {
             throw new Error(`The coordinates (${x},${y}) are invalid.`);
         }
         return [x - 1, y];
@@ -176,7 +189,7 @@ export class TrikeGame extends GameBase {
     }
 
     private validCell(x: number, y: number): boolean {
-        if (x < 0 || y < 0 || y > x || x >= this.boardSize) {
+        if (x < 0 || y < 0 || x > y || y >= this.boardSize) {
             return false;
         }
         return true;
@@ -209,8 +222,8 @@ export class TrikeGame extends GameBase {
 
     private getAllCells(): string[] {
         const cells: string[] = [];
-        for (let x = 0; x < this.boardSize; x++) {
-            for (let y = 0; y <= x; y++) {
+        for (let y = 0; y < this.boardSize; y++) {
+            for (let x = 0; x <= y; x++) {
                 cells.push(this.coords2algebraic(x, y));
             }
         }
@@ -254,7 +267,7 @@ export class TrikeGame extends GameBase {
         move = move.replace(/\s+/g, "");
         try {
             // starting fresh
-            const cell = this.coords2algebraic(row, col);
+            const cell = this.coords2algebraic(col, row);
             const result = this.validateMove(cell) as IClickResult;
             if (!result.valid) {
                 result.move = move;
@@ -425,13 +438,23 @@ export class TrikeGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showMoves = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-moves") {
+                showMoves = false;
+            }
+        }
         // Build piece string
         const pieces: string[][] = [];
         const lastPosition = this.getLastPosition();
-        for (let x = 0; x < this.boardSize; x++) {
+        for (let y = 0; y < this.boardSize; y++) {
             const nodes: string[] = [];
-            for (let y = 0; y <= x; y++) {
+            for (let x = 0; x <= y; x++) {
                 const cell = this.coords2algebraic(x, y);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
@@ -487,17 +510,17 @@ export class TrikeGame extends GameBase {
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: x, col: y}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "move") {
                     const [fx, fy] = this.algebraic2coords(move.from);
                     const [tx, ty] = this.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", targets: [{row: fx, col: fy},{row: tx, col: ty}]});
+                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
                 }
             }
-            if (this.lastmove !== undefined) {
+            if (showMoves && this.lastmove !== undefined) {
                 for (const cell of this.moves()) {
                     const [x, y] = this.algebraic2coords(cell);
-                    rep.annotations.push({type: "dots", targets: [{row: x, col: y}]});
+                    rep.annotations.push({type: "dots", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -509,4 +532,61 @@ export class TrikeGame extends GameBase {
         return Object.assign(new TrikeGame(), deepclone(this) as TrikeGame);
         // return new TrikeGame(this.serialize());
     }
+
+    public aiaiMgl(): string {
+        let mgl = "trike";
+        if (this.variants.includes("standard-7")) {
+            mgl = "trike-7";
+        } else if (this.variants.includes("standard-13")) {
+            mgl = "trike-13";
+        } else if (this.variants.includes("standard-15")) {
+            mgl = "trike-15";
+        }
+        return mgl;
+    }
+
+    public state2aiai(): string[] {
+        let width = 11;
+        if (this.variants.includes("standard-7")) {
+            width = 7;
+        } else if (this.variants.includes("standard-13")) {
+            width = 13;
+        } else if (this.variants.includes("standard-15")) {
+            width = 15;
+        }
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        let last: string|undefined;
+        for (const round of moves) {
+            for (const move of round) {
+                const to = triAp2Ai(move, width);
+                if (last !== undefined) {
+                    lst.push(`${last}-${to}`);
+                } else {
+                    lst.push(to);
+                }
+                last = to;
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        let width = 11;
+        if (this.variants.includes("standard-7")) {
+            width = 7;
+        } else if (this.variants.includes("standard-13")) {
+            width = 13;
+        } else if (this.variants.includes("standard-15")) {
+            width = 15;
+        }
+        if (! move.includes("-")) {
+            return triAi2Ap(move, width);
+        } else {
+            let [,to] = move.split("-");
+            to = triAi2Ap(to, width);
+            return to;
+        }
+    }
+
 }

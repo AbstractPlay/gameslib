@@ -50,6 +50,7 @@
         "mattock": "In Mattock, you play miners digging corridors through the rock. You can’t dig too closely together though, or the mine will collapse. To win, trap your opponent so they run out of space to mine.",
         "mchess": "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
         "meridians": "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
+        "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
         "mirador": "Mirador is a fast and exhilerating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
@@ -73,6 +74,7 @@
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
+        "veletas": "Veletas is a drawless territory game for two players. It is played on the spaces (squares) of a checkered square board, which is initially empty. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
@@ -337,6 +339,18 @@
             "NOPIECE": "You do not have a piece of size {{size}} to place.",
             "PARTIAL": "Provide the destination.",
             "SIZEFIRST": "First provide the size of the piece to place. You can click on your stash."
+        },
+        "blooms": {
+            "INITIAL_INSTRUCTIONS": "Place 1 or 2 pieces on the board. If you place 2 pieces, they must be of different colours.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Place 1 piece of either colour on the board.",
+            "DESTINATION": "Select a cell to place the piece.",
+            "INVALID_PIECE": "The only valid piece types are '1' and '2'. You gave '{{ piece }}'.",
+            "TOO_MANY_MOVES": "You may only place two pieces on the board per turn.",
+            "TOO_MANY_MOVES_FIRST": "You may only place one piece on the board on the first turn.",
+            "INVALIDTILE": "The first character of the move notation has to be '1' or '2' for the tile type.",
+            "PLACE_NEXT": "Click on the recently placed piece to switch colours, or click on another space to place a tile of the other colour.",
+            "SAME_CELL": "Select two different cells to place the tiles.",
+            "SAME_TILE": "You cannot place two tiles of the same type in a the same move."
         },
         "blooms": {
             "INITIAL_INSTRUCTIONS": "Place 1 or 2 pieces on the board. If you place 2 pieces, they must be of different colours.",
@@ -704,6 +718,11 @@
             "SECOND_STONE_NEIGHBOUR": "The second stone placed must have a path to the first stone (cannot be adjacent).",
             "NOLOS": "There is no line of sight to {{where}} from any of your pieces."
         },
+        "mimic": {
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
+            "FROZEN_PIECE": "The piece you tried to select is frozen because there are two or more orthogonally visible opponent pieces.",
+            "MOVE_TO_EMPTY": "Select an adjacent empty space to move to."
+        },
         "mirador": {
             "INITIAL_INSTRUCTIONS": "Place a mirador, or, if you think your connection is unassailable, declare",
             "INITIAL_INSTRUCTIONS_CHALLENGE": "Place as many miradors as you would like.",
@@ -940,6 +959,24 @@
             "PARTIAL_MOVE": "Provide the destination.",
             "PARTIAL_PLACE": "Choose a cell to place a piece in.",
             "PARTIAL_PLACE_SIZE": "Select the size of a piece to place."
+        },
+        "veletas": {
+            "NO_MOVELIST": "Move list not available during placement phase. Click on the board to place the shooter(s).",
+            "INITIAL_INSTRUCTIONS": "Select a shooter to move or select a cell to place your piece.",
+            "INITIAL_INSTRUCTIONS_PLACE": "Place {{count}} shooter(s) an empty space on the board, then place a piece of your colour on the board.",
+            "SORTED": "The move list needs to be sorted. Try {{normalised}}.",
+            "PLACE_SHOOTER": "Place {{count}} shooter(s) on the board, then place a piece of your colour on the board.",
+            "PLACE_PIECE": "Place a piece of your colour on the board.",
+            "SHOOTER_PERIMETER": "Shooters may not be placed on the perimeter of the board.",
+            "TOO_MANY_SHOOTERS": "You may only place {{count}} shooter(s).",
+            "DUPLICATE": "You have already placed a shooter at {{where}}.",
+            "STATIONARY_LOS": "There is no line of sight to place at {{where}}.",
+            "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
+            "ALREADY_SHOT": "You have already shot at {{where}}.",
+            "MOVE_NON_SHOOTER": "You may only move free shooters.",
+            "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the shooter to.",
+            "STRAIGHTLINE": "You can only move and place in straight lines.",
+            "POTENTIAL_BLOCK": "So far so good. Provide the space you want to place your piece at."
         },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",
@@ -1379,6 +1416,16 @@
                 "name": "Monuments"
             }
         },
+        "veletas": {
+            "size-7": {
+                "name": "7x7 board",
+                "description": "Smaller board with 3 neutral pieces"
+            },
+            "size-9": {
+                "name": "9x9 board",
+                "description": "Medium board with 5 neutral pieces"
+            }
+        },
         "wyke": {
             "6x6": {
                 "name": "Larger board: 6x6"
@@ -1413,6 +1460,12 @@
             "hide-threatened": {
                 "description": "Don't show threatened stones.",
                 "name": "Hide threatened"
+            }
+        },
+        "trike": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
             }
         },
         "tumbleweed": {

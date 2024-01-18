@@ -339,7 +339,7 @@
             "NOPIECE": "You do not have a piece of size {{size}} to place.",
             "PARTIAL": "Provide the destination.",
             "SIZEFIRST": "First provide the size of the piece to place. You can click on your stash."
-        },  
+        },
         "blooms": {
             "INITIAL_INSTRUCTIONS": "Place 1 or 2 pieces on the board. If you place 2 pieces, they must be of different colours.",
             "INITIAL_INSTRUCTIONS_FIRST": "Place 1 piece of either colour on the board.",
@@ -403,10 +403,13 @@
             "UNCONTROLLED": "You can't control enemy pieces. If you're trying to capture it by cannon, click it again."
         },
         "catchup": {
-            "INITIAL_INSTRUCTIONS": "Place up to {{maxMoves}} piece(s) on the board.",
-            "TOO_MANY_MOVES": "You may only place up to {{maxMoves}} piece(s) on the board.",
+            "INITIAL_INSTRUCTIONS_one": "Place {{count}} piece on the board.",
+            "INITIAL_INSTRUCTIONS_other": "Place up to {{count}} pieces on the board.",
+            "TOO_MANY_MOVES_one": "You may only place {{count}} piece on the board.",
+            "TOO_MANY_MOVES_other": "You may only place up to {{count}} pieces on the board.",
             "DUPLICATE": "You have already placed a piece at {{where}}.",
-            "MAKE_MORE_MOVES": "Place up to {{count}} more piece(s), or complete your turn."
+            "MAKE_MORE_MOVES_one": "Place {{count}} more piece or complete your turn.",
+            "MAKE_MORE_MOVES_other": "Place up to {{count}} more pieces or complete your turn."
         },
         "ceph": {
             "DUPLICATECAP": "You can't capture the same piece more than once.",

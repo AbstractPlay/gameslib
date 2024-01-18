@@ -35,7 +35,7 @@ export class CatchupGame extends GameBase {
         version: "20240109",
         // i18next.t("apgames:descriptions.catchup")
         description: "apgames:descriptions.catchup",
-        urls: ["https://www.nickbentley.games/catchup-closest-game-lowest-winning-score/"],
+        urls: ["https://boardgamegeek.com/boardgame/68199/catchup"],
         people: [
             {
                 type: "designer",
@@ -301,7 +301,7 @@ export class CatchupGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.catchup.INITIAL_INSTRUCTIONS", {maxMoves});
+            result.message = i18next.t("apgames:validation.catchup.INITIAL_INSTRUCTIONS", {count: maxMoves});
             return result;
         }
 
@@ -311,7 +311,7 @@ export class CatchupGame extends GameBase {
         // Don't exceed count
         if (moves.length > maxMoves) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.catchup.TOO_MANY_MOVES", {maxMoves});
+            result.message = i18next.t("apgames:validation.catchup.TOO_MANY_MOVES", {count: maxMoves});
             return result;
         }
 

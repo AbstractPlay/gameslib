@@ -319,7 +319,9 @@ export class CatchupGame extends GameBase {
         try {
             for (const move of moves) {
                 currentMove = move;
-                this.graph.algebraic2coords(move);
+                const [, y] = this.graph.algebraic2coords(move);
+                // `algebraic2coords` does not check if the cell is on the board fully.
+                if (y < 0) { throw new Error("Invalid cell."); }
             }
         } catch {
             result.valid = false;

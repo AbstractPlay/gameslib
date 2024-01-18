@@ -15,7 +15,8 @@ export interface IMoveState extends IIndividualState {
     currplayer: pieceType;
     board: Map<string, Array<pieceType>>;
     lastmove?: string;
-    lastmimic?: string;
+    reversemove: string|null;
+    reversemimic: string|null;
 };
 
 export interface IMimicState extends IAPGameState {
@@ -61,6 +62,8 @@ export class MimicGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public reversemove: string|null = null;
+    public reversemimic: string|null = null;
 
     constructor(state?: IMimicState | string, variants?: string[]) {
         super();
@@ -76,6 +79,8 @@ export class MimicGame extends GameBase {
                 _version: MimicGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
+                reversemove: null,
+                reversemimic: null,
                 currplayer: 1,
                 board
             };
@@ -107,6 +112,8 @@ export class MimicGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = deepclone(state.board) as Map<string, Array<pieceType>>;
         this.lastmove = state.lastmove;
+        this.reversemove = state.reversemove;
+        this.reversemimic = state.reversemimic;
         this.results = [...state._results];
         return this;
     }
@@ -160,6 +167,46 @@ export class MimicGame extends GameBase {
         return mimicCount;
     }
 
+    // Get at least one mimic of the cell. Probably shouldn't use if you don't know that mimic count is 1.
+    public getMimic(cell: string): string|null {
+        if (!this.board.has(cell)) return null;
+        const player = this.getTopPiece(this.board.get(cell)!);
+        const [col, row] = MimicGame.algebraic2coords(cell);
+        for (let dcol = 1; col-dcol >= 0; dcol++) {
+            const cell2 = MimicGame.coords2algebraic(col-dcol, row);
+            if (this.board.has(cell2)) {
+                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                    return cell2;
+                }
+            }
+        }
+        for (let dcol = 1; col+dcol <= this.boardsize; dcol++) {
+            const cell2 = MimicGame.coords2algebraic(col+dcol, row);
+            if (this.board.has(cell2)) {
+                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                    return cell2;
+                }
+            }
+        }
+        for (let drow = 1; row-drow >= 0; drow++) {
+            const cell2 = MimicGame.coords2algebraic(col, row-drow);
+            if (this.board.has(cell2)) {
+                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                    return cell2;
+                }
+            }
+        }
+        for (let drow = 1; row+drow <= this.boardsize; drow++) {
+            const cell2 = MimicGame.coords2algebraic(col, row+drow);
+            if (this.board.has(cell2)) {
+                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                    return cell2;
+                }
+            }
+        }
+        return null;
+    }
+
     public moves(player?: pieceType): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
@@ -176,25 +223,81 @@ export class MimicGame extends GameBase {
                     const mimicCount = this.getMimicCount(cell);
                     if (mimicCount > 1) continue;
 
-                    // else, just make sure each king move is to a real, empty space
+                    let checkForReverse = mimicCount === 1 && this.reversemove !== null && this.reversemimic !== null;
+
+                    // else, make sure each king move is to a real, empty space
                     let cell2 = null;
                     if (row > 0) {
                         if (col > 0) {
                             cell2 = MimicGame.coords2algebraic(col-1, row-1);
                             if (!this.board.has(cell2)) {
-                                moves.push(`${cell}-${cell2}`);
+                                // Check that this isn't a reversing move
+                                const move = `${cell}-${cell2}`;
+                                if (!checkForReverse || this.reversemove !== move) {
+                                    moves.push(move);
+                                } else {
+                                    const mimic = this.getMimic(cell)!;
+                                    const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                    if (mimicFromCol >= this.boardsize-1 || mimicFromRow >= this.boardsize-1) {
+                                        moves.push(move);
+                                    } else {
+                                        const mimicTo = MimicGame.coords2algebraic(mimicFromCol+1, mimicFromRow+1);
+                                        if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                            moves.push(move);
+                                        } else {
+                                            // This is a reverse move and shouldn't be allowed, and since it's unique, we can stop checking.
+                                            checkForReverse = false;
+                                        }
+                                    }
+                                }
                             }
                         }
 
                         cell2 = MimicGame.coords2algebraic(col, row-1);
                         if (!this.board.has(cell2)) {
-                            moves.push(`${cell}-${cell2}`);
+                            // Check that this isn't a reversing move
+                            const move = `${cell}-${cell2}`;
+                            if (!checkForReverse || this.reversemove !== move) {
+                                moves.push(move);
+                            } else {
+                                const mimic = this.getMimic(cell)!;
+                                const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                if (mimicFromRow >= this.boardsize-1) {
+                                    moves.push(move);
+                                } else {
+                                    const mimicTo = MimicGame.coords2algebraic(mimicFromCol, mimicFromRow+1);
+                                    if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                        moves.push(move);
+                                    } else {
+                                        // This is a reverse move and shouldn't be allowed, and since it's unique, we can stop checking.
+                                        checkForReverse = false;
+                                    }
+                                }
+                            }
                         }
 
                         if (col < this.boardsize-1) {
                             cell2 = MimicGame.coords2algebraic(col+1, row-1);
                             if (!this.board.has(cell2)) {
-                                moves.push(`${cell}-${cell2}`);
+                                // Check that this isn't a reversing move
+                                const move = `${cell}-${cell2}`;
+                                if (!checkForReverse || this.reversemove !== move) {
+                                    moves.push(move);
+                                } else {
+                                    const mimic = this.getMimic(cell)!;
+                                    const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                    if (mimicFromCol < 1 || mimicFromRow >= this.boardsize-1) {
+                                        moves.push(move);
+                                    } else {
+                                        const mimicTo = MimicGame.coords2algebraic(mimicFromCol-1, mimicFromRow+1);
+                                        if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                            moves.push(move);
+                                        } else {
+                                            // This is a reverse move and shouldn't be allowed, and since it's unique, we can stop checking.
+                                            checkForReverse = false;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -202,14 +305,50 @@ export class MimicGame extends GameBase {
                     if (col > 0) {
                         cell2 = MimicGame.coords2algebraic(col-1, row);
                         if (!this.board.has(cell2)) {
-                            moves.push(`${cell}-${cell2}`);
+                            // Check that this isn't a reversing move
+                            const move = `${cell}-${cell2}`;
+                            if (!checkForReverse || this.reversemove !== move) {
+                                moves.push(move);
+                            } else {
+                                const mimic = this.getMimic(cell)!;
+                                const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                if (mimicFromCol >= this.boardsize-1) {
+                                    moves.push(move);
+                                } else {
+                                    const mimicTo = MimicGame.coords2algebraic(mimicFromCol+1, mimicFromRow);
+                                    if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                        moves.push(move);
+                                    } else {
+                                        // This is a reverse move and shouldn't be allowed, and since it's unique, we can stop checking.
+                                        checkForReverse = false;
+                                    }
+                                }
+                            }
                         }
                     }
 
                     if (col < this.boardsize-1) {
                         cell2 = MimicGame.coords2algebraic(col+1, row);
                         if (!this.board.has(cell2)) {
-                            moves.push(`${cell}-${cell2}`);
+                            // Check that this isn't a reversing move
+                            const move = `${cell}-${cell2}`;
+                            if (!checkForReverse || this.reversemove !== move) {
+                                moves.push(move);
+                            } else {
+                                const mimic = this.getMimic(cell)!;
+                                const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                if (mimicFromCol < 1) {
+                                    moves.push(move);
+                                } else {
+                                    const mimicTo = MimicGame.coords2algebraic(mimicFromCol-1, mimicFromRow);
+                                    if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                        moves.push(move);
+                                    } else {
+                                        // This is a reverse move and shouldn't be allowed, and since it's unique, we can stop checking.
+                                        checkForReverse = false;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -217,19 +356,71 @@ export class MimicGame extends GameBase {
                         if (col > 0) {
                             cell2 = MimicGame.coords2algebraic(col-1, row+1);
                             if (!this.board.has(cell2)) {
-                                moves.push(`${cell}-${cell2}`);
+                                // Check that this isn't a reversing move
+                                const move = `${cell}-${cell2}`;
+                                if (!checkForReverse || this.reversemove !== move) {
+                                    moves.push(move);
+                                } else {
+                                    const mimic = this.getMimic(cell)!;
+                                    const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                    if (mimicFromCol >= this.boardsize-1 || mimicFromRow < 1) {
+                                        moves.push(move);
+                                    } else {
+                                        const mimicTo = MimicGame.coords2algebraic(mimicFromCol+1, mimicFromRow-1);
+                                        if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                            moves.push(move);
+                                        } else {
+                                            // This is a reverse move and shouldn't be allowed, and since it's unique, we can stop checking.
+                                            checkForReverse = false;
+                                        }
+                                    }
+                                }
                             }
                         }
 
                         cell2 = MimicGame.coords2algebraic(col, row+1);
                         if (!this.board.has(cell2)) {
-                            moves.push(`${cell}-${cell2}`);
+                            // Check that this isn't a reversing move
+                            const move = `${cell}-${cell2}`;
+                            if (!checkForReverse || this.reversemove !== move) {
+                                moves.push(move);
+                            } else {
+                                const mimic = this.getMimic(cell)!;
+                                const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                if (mimicFromRow < 1) {
+                                    moves.push(move);
+                                } else {
+                                    const mimicTo = MimicGame.coords2algebraic(mimicFromCol, mimicFromRow-1);
+                                    if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                        moves.push(move);
+                                    } else {
+                                        // This is a reverse move and shouldn't be allowed, and since it's unique, we can stop checking.
+                                        checkForReverse = false;
+                                    }
+                                }
+                            }
                         }
 
                         if (col < this.boardsize-1) {
                             cell2 = MimicGame.coords2algebraic(col+1, row+1);
                             if (!this.board.has(cell2)) {
-                                moves.push(`${cell}-${cell2}`);
+                                // Check that this isn't a reversing move
+                                const move = `${cell}-${cell2}`;
+                                if (!checkForReverse || this.reversemove !== move) {
+                                    moves.push(move);
+                                } else {
+                                    const mimic = this.getMimic(cell)!;
+                                    const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
+                                    if (mimicFromCol < 1 || mimicFromRow < 1) {
+                                        moves.push(move);
+                                    } else {
+                                        const mimicTo = MimicGame.coords2algebraic(mimicFromCol-1, mimicFromRow-1);
+                                        if (this.reversemimic !== `${mimic}-${mimicTo}`) {
+                                            moves.push(move);
+                                        }
+                                        // Do not need an else, since this is the last block.
+                                    }
+                                }
                             }
                         }
                     }
@@ -255,7 +446,8 @@ export class MimicGame extends GameBase {
 
                 const result = this.validateMove(cell) as IClickResult;
                 if (!result.valid) {
-                    result.move = move;
+                    // Clean up the entry for them
+                    result.move = "";
                 } else {
                     result.move = cell;
                 }
@@ -265,7 +457,8 @@ export class MimicGame extends GameBase {
             } else {
                 const result = this.validateMove(`${move}-${cell}`) as IClickResult;
                 if (!result.valid) {
-                    result.move = move;
+                    // Clean up the entry for them
+                    result.move = "";
                 } else {
                     result.move = `${move}-${cell}`;
                 }
@@ -278,6 +471,13 @@ export class MimicGame extends GameBase {
                 message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
             }
         }
+    }
+
+    public movesStartWith(m: string): boolean {
+        for (const move of this.moves()) {
+            if (move.startsWith(`${m}-`)) return true;
+        }
+        return false;
     }
 
     public validateMove(m: string): IValidationResult {
@@ -300,6 +500,10 @@ export class MimicGame extends GameBase {
                 // validate that the piece isn't frozen
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.mimic.FROZEN_PIECE");
+                return result;
+            } else if (!this.movesStartWith(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.mimic.NO_LEGAL_MOVES");
                 return result;
             }
 
@@ -349,7 +553,7 @@ export class MimicGame extends GameBase {
                 return result;
             }
 
-            if (col1-col2 > 1 || col1-col2 < -1 || row1-row2 > 1 || row1-row2 < -1) {
+            if (col1-col2 > 1 || col1-col2 < -1 || row1-row2 > 1 || row1-row2 < -1 || (col1 === col2 && row1 === row2)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.mimic.MOVE_TO_EMPTY");
                 return result;
@@ -359,6 +563,13 @@ export class MimicGame extends GameBase {
             if (this.board.has(cell)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+                return result;
+            }
+
+            if (!this.moves().includes(m)) {
+                // Only possible scenario left is that this was a reversing move
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.mimic.NO_REVERSES");
                 return result;
             }
         }
@@ -398,50 +609,7 @@ export class MimicGame extends GameBase {
         }
 
         // Get mimic, we don't have to worry about multiple mimics here becuase the move was already validated
-        let mimic = null;
-        const [fromCol, fromRow] = MimicGame.algebraic2coords(cells[0]);
-        for (let dcol = 1; fromCol-dcol >= 0; dcol++) {
-            const cell2 = MimicGame.coords2algebraic(fromCol-dcol, fromRow);
-            if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== this.currplayer) {
-                    mimic = cell2;
-                }
-                break;
-            }
-        }
-        if (mimic === null) {
-            for (let dcol = 1; fromCol+dcol <= this.boardsize; dcol++) {
-                const cell2 = MimicGame.coords2algebraic(fromCol+dcol, fromRow);
-                if (this.board.has(cell2)) {
-                    if (this.getTopPiece(this.board.get(cell2)!) !== this.currplayer) {
-                        mimic = cell2;
-                    }
-                    break;
-                }
-            }
-        }
-        if (mimic === null) {
-            for (let drow = 1; fromRow-drow >= 0; drow++) {
-                const cell2 = MimicGame.coords2algebraic(fromCol, fromRow-drow);
-                if (this.board.has(cell2)) {
-                    if (this.getTopPiece(this.board.get(cell2)!) !== this.currplayer) {
-                        mimic = cell2;
-                    }
-                    break;
-                }
-            }
-        }
-        if (mimic === null) {
-            for (let drow = 1; fromRow+drow <= this.boardsize; drow++) {
-                const cell2 = MimicGame.coords2algebraic(fromCol, fromRow+drow);
-                if (this.board.has(cell2)) {
-                    if (this.getTopPiece(this.board.get(cell2)!) !== this.currplayer) {
-                        mimic = cell2;
-                    }
-                    break;
-                }
-            }
-        }
+        const mimic = this.getMimic(cells[0]);
 
         // Do first move
         const contents = this.board.get(cells[0])!;
@@ -461,6 +629,8 @@ export class MimicGame extends GameBase {
             return this;
         }
 
+        this.reversemove = null;
+        this.reversemimic = null;
         if (mimic !== null) {
             const mimicContent = this.board.get(mimic)!;
             const mimicPiece = mimicContent.pop()!;
@@ -470,6 +640,7 @@ export class MimicGame extends GameBase {
                 this.board.set(mimic, mimicContent);
             }
 
+            const [fromCol, fromRow] = MimicGame.algebraic2coords(cells[0]);
             const [toCol, toRow] = MimicGame.algebraic2coords(cells[1]);
             const [mimicFromCol, mimicFromRow] = MimicGame.algebraic2coords(mimic);
             const mimicToCol = mimicFromCol+fromCol-toCol;
@@ -484,6 +655,8 @@ export class MimicGame extends GameBase {
                     this.board.set(mimicTo, [mimicPiece]);
                 }
                 this.results.push({type: "move", from: mimic, to: mimicTo});
+                this.reversemove = `${mimicTo}-${mimic}`;
+                this.reversemimic = `${cells[1]}-${cells[0]}`;
             } else {
                 this.results.push({type: "destroy", where: mimic});
             }
@@ -551,6 +724,8 @@ export class MimicGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
+            reversemove: this.reversemove,
+            reversemimic: this.reversemimic,
             board: new Map(this.board),
         };
     }

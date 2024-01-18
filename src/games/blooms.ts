@@ -43,7 +43,7 @@ export class BloomsGame extends GameBase {
                 urls: ["https://www.nickbentley.games/"],
             }
         ],
-        flags: ["multistep", "scores"],
+        flags: ["multistep", "scores", "no-moves"],
         variants: [
             {
                 uid: "size-8",

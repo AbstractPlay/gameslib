@@ -33,6 +33,8 @@ export class BloomsGame extends GameBase {
         version: "20240114",
         // i18next.t("apgames:descriptions.blooms")
         description: "apgames:descriptions.blooms",
+        // i18next.t("apgames:notes.blooms")
+        notes: "apgames:notes.blooms",
         urls: ["https://www.nickbentley.games/blooms-rules/"],
         people: [
             {

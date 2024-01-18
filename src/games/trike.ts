@@ -360,7 +360,7 @@ export class TrikeGame extends GameBase {
         } else {
             this.results.push({type: "move", from: lastPosition, to: m});
         }
-        
+
         // reconstitute a normalized move rep
         this.lastmove = m;
         if (this.currplayer === 1) {

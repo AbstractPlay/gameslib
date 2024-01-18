@@ -519,7 +519,7 @@ export class VeletasGame extends GameBase {
             const [xTo, yTo] = this.algebraic2coords(to);
             const [xBlock, yBlock] = this.algebraic2coords(block);
             // destination is empty, unless you're placing on your starting space
-            if (this.board.has(block) && block !== from) {
+            if (this.board.has(block) && block !== from || to === block) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: block});
                 return result;
@@ -565,6 +565,9 @@ export class VeletasGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        if (this.stack.length < 3) {
+            m = this.normalisePlacement(m);
+        }
         if (!trusted) {
             result = this.validateMove(m);
             if (!result.valid) {

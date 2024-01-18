@@ -820,8 +820,8 @@ export class FanoronaGame extends GameBase {
                     if (result.complete !== 1) {
                         lst.push("Pass");
                     }
-                    g.move(move);
                 }
+                g.move(move);
             }
         }
         return lst;

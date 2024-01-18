@@ -167,7 +167,14 @@ export class VeletasGame extends GameBase {
                 const ray = this.grid.ray(...coords, dir);
                 for (const cell of ray) {
                     const toCell = this.coords2algebraic(...cell);
-                    if (this.board.has(toCell)) { break; }
+                    if (this.board.has(toCell)) {
+                        const contents = this.board.get(toCell);
+                        if (contents === 1 || contents === 2) {
+                            break;
+                        } else {
+                            continue;
+                        }
+                    }
                     fromTos.push([fromCell, toCell]);
                     blocks.add(toCell);
                 }
@@ -179,8 +186,15 @@ export class VeletasGame extends GameBase {
             allDirections.forEach((dir) => {
                 const ray = this.grid.ray(...coords, dir);
                 for (const cell of ray) {
-                    const block = this.coords2algebraic(cell[0], cell[1]);
-                    if (this.board.has(block) && block !== m[0]) { break; }
+                    const block = this.coords2algebraic(...cell);
+                    if (this.board.has(block)) {
+                        const contents = this.board.get(block);
+                        if (contents === 1 || contents === 2) {
+                            break;
+                        } else if (block !== m[0]) {
+                            continue;
+                        }
+                    }
                     moves.push(m[0] + "-" + m[1] + "/" + block);
                 }
             });
@@ -496,15 +510,6 @@ export class VeletasGame extends GameBase {
                 result.message = i18next.t("apgames:validation.veletas.STRAIGHTLINE");
                 return result;
             }
-            // nothing in the way
-            for (const cell of ray) {
-                if (cell === to) { break; }
-                if (this.board.has(cell)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
-                    return result;
-                }
-            }
             // possible partial
             if (block === undefined) {
                 result.valid = true;
@@ -533,13 +538,16 @@ export class VeletasGame extends GameBase {
                 result.message = i18next.t("apgames:validation.veletas.STRAIGHTLINE");
                 return result;
             }
-            // nothing in the way, except potentially the moving piece
+            // No stones in the way.
             for (const cell of ray) {
                 if (cell === block) { break; }
-                if (this.board.has(cell) && cell !== from) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: to, to: block, obstruction: cell});
-                    return result;
+                if (this.board.has(cell)) {
+                    const contents = this.board.get(cell);
+                    if (contents === 1 || contents === 2) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from: to, to: block, obstruction: cell});
+                        return result;
+                    }
                 }
             }
 
@@ -565,9 +573,6 @@ export class VeletasGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (this.stack.length < 3) {
-            m = this.normalisePlacement(m);
-        }
         if (!trusted) {
             result = this.validateMove(m);
             if (!result.valid) {
@@ -633,15 +638,32 @@ export class VeletasGame extends GameBase {
         // Returns a map of pieces that are blocked and who scores.
         // We check in the vicinity of `block` move.
         // `player` is needed to determine scorer in the case of a tie.
-        const neighbours = this.grid.adjacencies(...this.algebraic2coords(block)).map(c => this.coords2algebraic(...c));
         const blocked: Map<string, playerid> = new Map();
-        for (const neighbour of neighbours) {
-            if (this.board.has(neighbour) && this.board.get(neighbour) === 0) {
-                const ns = this.grid.adjacencies(...this.algebraic2coords(neighbour)).map(c => this.coords2algebraic(...c));
-                if (ns.every(c => this.board.has(c))) {
-                    blocked.set(neighbour, this.getScorer(neighbour, player));
+        // Get all shooters to check.
+        const shooters: string[] = [];
+        for (const dir of allDirections) {
+            const ray = this.grid.ray(...this.algebraic2coords(block), dir).map(pt => this.coords2algebraic(...pt));
+            for (const cell of ray) {
+                if (this.board.has(cell)) {
+                    const contents = this.board.get(cell);
+                    if (contents === 0) { shooters.push(cell); }
+                    if (contents === 1 || contents === 2) { continue; }
                 }
             }
+        }
+        // Check to see if the shooter has any space where it can go to.
+        blockedLoop:
+        for (const shooter of shooters) {
+            for (const dir of allDirections) {
+                const ray = this.grid.ray(...this.algebraic2coords(shooter), dir).map(pt => this.coords2algebraic(...pt));
+                for (const cell of ray) {
+                    if (cell === block) { break; }
+                    if (!this.board.has(cell)) { continue blockedLoop; }
+                    const contents = this.board.get(cell);
+                    if (contents === 1 || contents === 2) { break; }
+                }
+            }
+            blocked.set(shooter, this.getScorer(shooter, player));
         }
         return blocked;
     }

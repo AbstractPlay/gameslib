@@ -591,7 +591,7 @@ export class BloomsGame extends GameBase {
             const [x, y] = this.graph.algebraic2coords(cell);
             points.push({ row: y, col: x });
         }
-        let markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.4, points }] : undefined;
+        const markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.4, points }] : undefined;
 
         // Build rep
         const rep: APRenderRep =  {

@@ -713,8 +713,10 @@
         },
         "mimic": {
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
-            "FROZEN_PIECE": "The piece you tried to select is frozen because there are two or more orthogonally visible opponent pieces.",
-            "MOVE_TO_EMPTY": "Select an adjacent empty space to move to."
+            "FROZEN_PIECE": "This piece is frozen because there are two or more orthogonally visible opponent pieces.",
+            "MOVE_TO_EMPTY": "Select an adjacent empty space to move to.",
+            "NO_REVERSES": "You may not make a move which undoes the previous turn.",
+            "NO_LEGAL_MOVES": "This piece has no legal moves."
         },
         "mirador": {
             "INITIAL_INSTRUCTIONS": "Place a mirador, or, if you think your connection is unassailable, declare",

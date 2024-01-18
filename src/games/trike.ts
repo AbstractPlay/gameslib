@@ -31,7 +31,8 @@ export class TrikeGame extends GameBase {
         name: "Trike",
         uid: "trike",
         playercounts: [2],
-        version: "20231225",
+        version: "20240118",
+        // version: "20231225",
         // i18next.t("apgames:descriptions.trike")
         description: "apgames:descriptions.trike",
         urls: ["https://boardgamegeek.com/boardgame/307379/trike"],
@@ -118,10 +119,14 @@ export class TrikeGame extends GameBase {
     }
 
     public coords2algebraic(x: number, y: number): string {
-        if (y > x) {
+        if (x > y) {
             throw new Error(`The coordinates (${x},${y}) are invalid.`);
         }
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
+        if (this.stack[0]._version === "20231225") {
+            // For legacy games where col and rows were mistakenly flipped.
+            [x, y] = [y, x];
+        }
         return columnLabels[y] + (x + 1).toString();
     }
 
@@ -137,7 +142,14 @@ export class TrikeGame extends GameBase {
         if ( (x === undefined) || (isNaN(x)) ) {
             throw new Error(`The row label is invalid: ${pair[1]}`);
         }
-        if (y > x) {
+        if (this.stack[0]._version === "20231225") {
+            // For legacy games where col and rows were mistakenly flipped.
+            if (y > x) {
+                throw new Error(`The coordinates (${x},${y}) are invalid.`);
+            }
+            return [y, x - 1];
+        }
+        if (x - 1 > y) {
             throw new Error(`The coordinates (${x},${y}) are invalid.`);
         }
         return [x - 1, y];
@@ -177,7 +189,7 @@ export class TrikeGame extends GameBase {
     }
 
     private validCell(x: number, y: number): boolean {
-        if (x < 0 || y < 0 || y > x || x >= this.boardSize) {
+        if (x < 0 || y < 0 || x > y || y >= this.boardSize) {
             return false;
         }
         return true;
@@ -210,8 +222,8 @@ export class TrikeGame extends GameBase {
 
     private getAllCells(): string[] {
         const cells: string[] = [];
-        for (let x = 0; x < this.boardSize; x++) {
-            for (let y = 0; y <= x; y++) {
+        for (let y = 0; y < this.boardSize; y++) {
+            for (let x = 0; x <= y; x++) {
                 cells.push(this.coords2algebraic(x, y));
             }
         }
@@ -255,7 +267,7 @@ export class TrikeGame extends GameBase {
         move = move.replace(/\s+/g, "");
         try {
             // starting fresh
-            const cell = this.coords2algebraic(row, col);
+            const cell = this.coords2algebraic(col, row);
             const result = this.validateMove(cell) as IClickResult;
             if (!result.valid) {
                 result.move = move;
@@ -348,7 +360,7 @@ export class TrikeGame extends GameBase {
         } else {
             this.results.push({type: "move", from: lastPosition, to: m});
         }
-
+        
         // reconstitute a normalized move rep
         this.lastmove = m;
         if (this.currplayer === 1) {
@@ -440,9 +452,9 @@ export class TrikeGame extends GameBase {
         // Build piece string
         const pieces: string[][] = [];
         const lastPosition = this.getLastPosition();
-        for (let x = 0; x < this.boardSize; x++) {
+        for (let y = 0; y < this.boardSize; y++) {
             const nodes: string[] = [];
-            for (let y = 0; y <= x; y++) {
+            for (let x = 0; x <= y; x++) {
                 const cell = this.coords2algebraic(x, y);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
@@ -498,17 +510,17 @@ export class TrikeGame extends GameBase {
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: x, col: y}]});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "move") {
                     const [fx, fy] = this.algebraic2coords(move.from);
                     const [tx, ty] = this.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", targets: [{row: fx, col: fy},{row: tx, col: ty}]});
+                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
                 }
             }
             if (showMoves && this.lastmove !== undefined) {
                 for (const cell of this.moves()) {
                     const [x, y] = this.algebraic2coords(cell);
-                    rep.annotations.push({type: "dots", targets: [{row: x, col: y}]});
+                    rep.annotations.push({type: "dots", targets: [{row: y, col: x}]});
                 }
             }
         }

@@ -195,7 +195,7 @@ export class BloomsGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.graph.coords2algebraic(col, row);
-            if (piece !== undefined && piece !== "") {
+            if ((piece === "1" || piece === "2") && row === -1) {
                 newmove = piece;
             } else if (move === "") {
                 newmove = `1${cell}`;

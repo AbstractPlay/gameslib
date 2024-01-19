@@ -1024,6 +1024,16 @@
             "PARTIAL": "Select a destination."
         }
     },
+    "variantGroups": {
+        "exxit": {
+            "length": {
+                "name": "game length (39 tiles)"
+            },
+            "setup": {
+                "description": "Starts with a \"cross\" of two tiles of each colour."
+            }
+        }
+    },
     "variants": {
         "abande": {
             "hex": {

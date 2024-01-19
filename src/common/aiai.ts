@@ -45,7 +45,7 @@ export const triAp2Ai = (cell: string, width: number): string => {
 export const triAi2Ap = (cell: string, width: number): string => {
     const labels = "abcdefghijklmnopqrstuvwxyz";
     const left = cell[0];
-    const row = parseInt(cell.substring(1), 10) - 1;
+    const row = width - parseInt(cell.substring(1), 10);
     const col = labels.indexOf(left);
-    return `${labels[col]}${width - row}`;
+    return `${labels[row]}${col + 1}`;
 }

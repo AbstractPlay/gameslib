@@ -35,7 +35,7 @@ export class CatchupGame extends GameBase {
         version: "20240109",
         // i18next.t("apgames:descriptions.catchup")
         description: "apgames:descriptions.catchup",
-        urls: ["https://www.nickbentley.games/catchup-closest-game-lowest-winning-score/"],
+        urls: ["https://boardgamegeek.com/boardgame/68199/catchup"],
         people: [
             {
                 type: "designer",
@@ -43,7 +43,7 @@ export class CatchupGame extends GameBase {
                 urls: ["https://www.nickbentley.games/"],
             }
         ],
-        flags: ["experimental", "multistep", "scores", "no-moves"],
+        flags: ["multistep", "scores", "no-moves"],
         variants: [
             {
                 uid: "size-6",
@@ -64,6 +64,7 @@ export class CatchupGame extends GameBase {
     public sizes: number[][] = [[], []];
     public lastMaxs: [number, number] = [0, 0];
     private boardSize = 0;
+    private currMoveHighlight: string[] = [];
 
     constructor(state?: ICatchupState | string, variants?: string[]) {
         super();
@@ -300,7 +301,7 @@ export class CatchupGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.catchup.INITIAL_INSTRUCTIONS", {maxMoves});
+            result.message = i18next.t("apgames:validation.catchup.INITIAL_INSTRUCTIONS", {count: maxMoves});
             return result;
         }
 
@@ -310,7 +311,7 @@ export class CatchupGame extends GameBase {
         // Don't exceed count
         if (moves.length > maxMoves) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.catchup.TOO_MANY_MOVES", {maxMoves});
+            result.message = i18next.t("apgames:validation.catchup.TOO_MANY_MOVES", {count: maxMoves});
             return result;
         }
 
@@ -319,7 +320,9 @@ export class CatchupGame extends GameBase {
         try {
             for (const move of moves) {
                 currentMove = move;
-                this.graph.algebraic2coords(move);
+                const [, y] = this.graph.algebraic2coords(move);
+                // `algebraic2coords` does not check if the cell is on the board fully.
+                if (y < 0) { throw new Error("Invalid cell."); }
             }
         } catch {
             result.valid = false;
@@ -388,9 +391,6 @@ export class CatchupGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        m = this.normaliseMove(m);
-        const moves = m.split(",");
-
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {
@@ -399,10 +399,14 @@ export class CatchupGame extends GameBase {
         }
         if (m.length === 0) { return this; }
 
+        m = this.normaliseMove(m);
+        const moves = m.split(",");
+
         this.results = [];
         for (const move of moves) {
             this.board.set(move, this.currplayer);
             this.results.push({type: "place", where: move});
+            this.currMoveHighlight.push(move);
         }
 
         this.lastmove = m;
@@ -411,6 +415,7 @@ export class CatchupGame extends GameBase {
 
         if (partial) { return this; }
 
+        this.currMoveHighlight = [];
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
         this.saveState();
@@ -503,12 +508,21 @@ export class CatchupGame extends GameBase {
             pstr.push(pieces);
         }
 
+        const points: { row: number, col: number }[] = [];
+        for (const cell of this.currMoveHighlight) {
+            const [x, y] = this.graph.algebraic2coords(cell);
+            points.push({ row: y, col: x });
+        }
+        const markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.4, points }] : undefined;
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
+                // @ts-ignore
+                markers,
             },
             legend: {
                 A: {

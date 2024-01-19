@@ -1,0 +1,45 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Dev Server PR Validation
+
+on:
+  pull_request:
+    branches: [ "develop" ]
+  workflow_dispatch:
+
+jobs:
+    build-dev:
+
+        runs-on: ubuntu-latest
+
+        # strategy:
+        #   matrix:
+        #     node-version: [16.x, 18.x, 20.x]
+        #     # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+        steps:
+        - uses: actions/checkout@v3
+          with:
+            ref: "develop"
+        - name: Use Node.js 18.x
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18.x
+            cache: 'npm'
+        - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
+        # - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
+        - run: npm i
+        - run: npm i @abstractplay/renderer
+        - run: npm list @abstractplay/renderer
+        - run: cat package-lock.json
+        - run: npm test --if-present
+        # prerelease --preid=ci-$GITHUB_RUN_ID
+        - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
+        - run: npm run build
+        - run: npm pack
+        - name: Upload
+          uses: actions/upload-artifact@v3
+          with:
+            name: package
+            path: "*.tgz"

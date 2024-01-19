@@ -164,6 +164,23 @@ export abstract class GameBase  {
             "group": v.group
         }});
     }
+    public describeVariantGroupDefaults(grp: string): {name?: string; description?: string} {
+        const ctor = this.constructor as typeof GameBase;
+        const nameStr = `variantGroups.${ctor.gameinfo.uid}.${grp}.name`;
+        let name: string|undefined = i18next.t(`apgames:${nameStr}`);
+        if (name === nameStr) {
+            name = undefined;
+        }
+        const descStr = `variantGroups.${ctor.gameinfo.uid}.${grp}.description`;
+        let description: string|undefined = i18next.t(`apgames:${descStr}`);
+        if (description === descStr) {
+            description = undefined;
+        }
+        return {
+            name,
+            description,
+        }
+    }
     public alternativeDisplays(): AlternativeDisplay[] | undefined {
         const ctor = this.constructor as typeof GameBase;
         return ctor.gameinfo.displays?.map(v => {return {

@@ -178,6 +178,7 @@ export class MimicGame extends GameBase {
                 if (this.getTopPiece(this.board.get(cell2)!) !== player) {
                     return cell2;
                 }
+                break;
             }
         }
         for (let dcol = 1; col+dcol <= this.boardsize; dcol++) {
@@ -186,6 +187,7 @@ export class MimicGame extends GameBase {
                 if (this.getTopPiece(this.board.get(cell2)!) !== player) {
                     return cell2;
                 }
+                break;
             }
         }
         for (let drow = 1; row-drow >= 0; drow++) {
@@ -194,6 +196,7 @@ export class MimicGame extends GameBase {
                 if (this.getTopPiece(this.board.get(cell2)!) !== player) {
                     return cell2;
                 }
+                break;
             }
         }
         for (let drow = 1; row+drow <= this.boardsize; drow++) {
@@ -202,6 +205,7 @@ export class MimicGame extends GameBase {
                 if (this.getTopPiece(this.board.get(cell2)!) !== player) {
                     return cell2;
                 }
+                break;
             }
         }
         return null;

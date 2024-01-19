@@ -6,8 +6,6 @@ name: Dev Server CI
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
   repository_dispatch:
     types: [dep_update_dev]
   workflow_dispatch:

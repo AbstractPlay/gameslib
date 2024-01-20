@@ -1293,6 +1293,10 @@
             "size-15": {
                 "name": "Size 15 board.",
                 "description": "Larger board."
+            },
+            "size-19": {
+                "name": "Size 19 board.",
+                "description": "Much larger board."
             }
         },
         "hexy": {

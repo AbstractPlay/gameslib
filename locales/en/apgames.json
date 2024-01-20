@@ -1038,6 +1038,16 @@
         }
     },
     "variantGroups": {
+        "blooms": {
+            "board": {
+                "name": "Default board (base 6)"
+            }
+        },
+        "catchup": {
+            "board": {
+                "name": "Default board (base 5)"
+            }
+        },
         "exxit": {
             "length": {
                 "name": "game length (39 tiles)"
@@ -1046,10 +1056,48 @@
                 "description": "Starts with a \"cross\" of two tiles of each colour."
             }
         },
+        "havannah": {
+            "board": {
+                "name": "Size 8 board.",
+                "description": "Competitive board."
+            }
+        },
+        "hex": {
+            "board": {
+                "name": "Size 13 board.",
+                "description": "Competitive board"
+            }
+        },
+        "mattock": {
+            "board": {
+                "name": "Default board (base-7)"
+            }
+        },
+        "meridians": {
+            "size-6": {
+                "name": "Default board (base 7)"
+            }
+        },
+        "slither": {
+            "board": {
+                "name": "9x9 board"
+            }
+        },
+        "trike": {
+            "board": {
+                "name": "Triangle (11 wide)",
+                "description": "Casual board."
+            }
+        },
+        "tumbleweed": {
+            "board": {
+                "name": "Competitive board (8 cells)"
+            }
+        },
         "veletas": {
             "board": {
                 "name": "10x10 board",
-                "description": "Default board with 7 neutral pieces"
+                "description": "Default board with 7 neutral pieces."
             }
         }
     },
@@ -1226,25 +1274,25 @@
         "havannah": {
             "size-4": {
                 "name": "Size 4 board.",
-                "description": "Tiny board"
+                "description": "Tiny board."
             },
             "size-6": {
                 "name": "Size 6 board.",
-                "description": "Smaller board"
+                "description": "Smaller board."
             },
             "size-10": {
                 "name": "Size 10 board.",
-                "description": "Larger board"
+                "description": "Larger board."
             }
         },
         "hex": {
             "size-11": {
                 "name": "Size 11 board.",
-                "description": "Smaller board"
+                "description": "Smaller board."
             },
             "size-15": {
                 "name": "Size 15 board.",
-                "description": "Larger board"
+                "description": "Larger board."
             }
         },
         "hexy": {
@@ -1418,15 +1466,15 @@
         "trike": {
             "standard-7": {
                 "name": "Triangle (7 wide)",
-                "description": "Learning board"
+                "description": "Learning board."
             },
             "standard-13": {
                 "name": "Triangle (13 wide)",
-                "description": "Competitive board"
+                "description": "Competitive board."
             },
             "standard-15": {
                 "name": "Triangle (15 wide)",
-                "description": "Large board"
+                "description": "Large board."
             }
         },
         "tumbleweed": {

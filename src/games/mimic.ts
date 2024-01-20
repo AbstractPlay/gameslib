@@ -29,7 +29,7 @@ export class MimicGame extends GameBase {
         name: "Mimic",
         uid: "mimic",
         playercounts: [2],
-        version: "20240115",
+        version: "20240120",
         // i18next.t("apgames:descriptions.mimic")
         description: "apgames:descriptions.mimic",
         urls: ["https://geomegranate.com/wp-content/uploads/2024/01/Mimic.pdf"],
@@ -39,7 +39,7 @@ export class MimicGame extends GameBase {
                 name: "Andrew Bressette"
             }
         ],
-        flags: ["experimental", "perspective"]
+        flags: ["perspective"]
     };
 
     // Will need to update these methods to fully support board size variants
@@ -742,7 +742,11 @@ export class MimicGame extends GameBase {
                 const cell = MimicGame.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
-                    node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "B"));
+                    if (this.getMimicCount(cell) > 1) {
+                        node.push(contents.join("").replace(/1/g, "B").replace(/2/g, "D"));
+                    } else {
+                        node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "C"));
+                    }
                 } else {
                     node.push("-");
                 }
@@ -760,14 +764,10 @@ export class MimicGame extends GameBase {
                 height: this.boardsize
             },
             legend: {
-                A: {
-                    name: "piece",
-                    player: 1
-                },
-                B: {
-                    name: "piece",
-                    player: 2
-                },
+                A: [{ name: "piece", player: 1 }],
+                B: [{ name: "piece", colour: "#FFF"}, { name: "piece", player: 1, opacity: 0.5 }],
+                C: [{ name: "piece", player: 2 }],
+                D: [{ name: "piece", colour: "#FFF"}, { name: "piece", player: 2, opacity: 0.5 }],
             },
             pieces: pstr
         };

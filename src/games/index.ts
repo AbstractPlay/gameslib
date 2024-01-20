@@ -80,6 +80,7 @@ import { CatchupGame, ICatchupState } from "./catchup";
 import { BloomsGame, IBloomsState } from "./blooms";
 import { MimicGame, IMimicState } from "./mimic";
 import { VeletasGame, IVeletasState } from "./veletas";
+import { GessGame, IGessState } from "./gess";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -162,6 +163,7 @@ export {
     BloomsGame, IBloomsState,
     MimicGame, IMimicState,
     VeletasGame, IVeletasState,
+    GessGame, IGessState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -190,7 +192,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
                               typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
                               typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
-                              typeof VeletasGame
+                              typeof VeletasGame | typeof GessGame
                 >();
 // Manually add each game to the following array
 [
@@ -204,7 +206,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
-    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame, VeletasGame
+    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
+    VeletasGame, GessGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -374,6 +377,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new MimicGame(...args);
         case "veletas":
             return new VeletasGame(...args);
+        case "gess":
+            return new GessGame(...args);
     }
     return;
 }

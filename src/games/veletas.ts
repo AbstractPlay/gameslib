@@ -42,11 +42,11 @@ export class VeletasGame extends GameBase {
         ],
         variants: [
             {
-                uid: "size-7",
+                uid: "size-9",
                 group: "board",
             },
             {
-                uid: "size-9",
+                uid: "size-7",
                 group: "board",
             },
         ],
@@ -509,6 +509,18 @@ export class VeletasGame extends GameBase {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.veletas.STRAIGHTLINE");
                 return result;
+            }
+            // no stones in the way
+            for (const cell of ray) {
+                if (cell === to) { break; }
+                if (this.board.has(cell)) {
+                    const contents = this.board.get(cell);
+                    if (contents === 1 || contents === 2) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: cell});
+                        return result;
+                    }
+                }
             }
             // possible partial
             if (block === undefined) {

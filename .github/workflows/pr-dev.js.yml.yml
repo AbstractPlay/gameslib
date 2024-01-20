@@ -28,7 +28,7 @@ jobs:
             node-version: 18.x
             cache: 'npm'
         - run: echo "@abstractplay:registry=https://npm.pkg.github.com/" >> .npmrc
-        - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.PAT_READ_PACKAGES}}" >> .npmrc
+        - run: echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" >> .npmrc
         - run: npm i
         - run: npm i @abstractplay/renderer
         - run: npm list @abstractplay/renderer

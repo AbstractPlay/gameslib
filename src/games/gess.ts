@@ -583,13 +583,13 @@ export class GessGame extends GameBase {
             if (this.stack[this.stack.length - 1]._results.length > 0) {
                 for (const move of this.stack[this.stack.length - 1]._results) {
                     if (move.type === "move") {
-                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.4, points: this.pieceHighlightPoints(move.from) });
-                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.4, points: this.pieceHighlightPoints(move.to) });
+                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.25, points: this.pieceHighlightPoints(move.from) });
+                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.25, points: this.pieceHighlightPoints(move.to) });
                     }
                 }
             }
             for (const cell of this.nineCellHighlight) {
-                markers.push({ type: "shading", colour: "#00FF00", opacity: 0.4, points: this.pieceHighlightPoints(cell) });
+                markers.push({ type: "shading", colour: "#00FF00", opacity: 0.25, points: this.pieceHighlightPoints(cell) });
             }
         }
 

@@ -429,10 +429,9 @@ export class GessGame extends GameBase {
             this.dots = this.movesFrom(from, gridContents);
             this.nineCellHighlight = [from];
             return this;
-        } else {
-            this.dots = [];
         }
-        this.nineCellHighlight.push(to);
+        this.dots = [];
+        this.nineCellHighlight = [];
         this.results = [];
         const fromCells = this.gridContents2Cells(gridContents, from);
         const toCells = this.gridContents2Cells(gridContents, to);

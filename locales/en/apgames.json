@@ -39,6 +39,7 @@
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
+        "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
@@ -599,6 +600,18 @@
             "SELECT_CELL_start": "Select a plot NOT orthogonally adjacent to an existing plant (in the bottom-right-hand board).",
             "SELECT_COLOUR": "Select the seed you wish to plant.",
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
+        },
+        "gess": {
+            "INITIAL_INSTRUCTIONS": "Select the centre of a 3x3 piece to move.",
+            "TOO_MANY_MOVES": "You have already selected a piece to move.",
+            "FROM_EDGE": "The selected 3x3 piece centre cannot be on the edge of the board.",
+            "FROM_ENEMY": "The selected 3x3 piece centred at {{cell}} contains enemy stones.",
+            "FROM_EMPTY": "The selected 3x3 piece centred at {{cell}} contains no stones.",
+            "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre piece, so it cannot move.",
+            "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3x3 piece to.",
+            "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
+            "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
+            "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
         },
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
@@ -1474,6 +1487,12 @@
             "hide-threatened": {
                 "description": "Don't show threatened stones.",
                 "name": "Hide threatened"
+            }
+        },
+        "gess": {
+            "hide-piece-highlight": {
+                "description": "Don't highlight the 9x9 pieces.",
+                "name": "Hide 9x9 piece highlight"
             }
         },
         "trike": {

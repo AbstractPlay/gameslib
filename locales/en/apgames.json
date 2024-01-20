@@ -39,6 +39,7 @@
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
+        "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
@@ -74,7 +75,7 @@
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
-        "veletas": "Veletas is a drawless territory game for two players. It is played on the spaces (squares) of a checkered square board, which is initially empty. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
+        "veletas": "Veletas is a drawless territory game for two players. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
@@ -600,6 +601,18 @@
             "SELECT_COLOUR": "Select the seed you wish to plant.",
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
         },
+        "gess": {
+            "INITIAL_INSTRUCTIONS": "Select the centre of a 3x3 piece to move.",
+            "TOO_MANY_MOVES": "You have already selected a piece to move.",
+            "FROM_EDGE": "The selected 3x3 piece centre cannot be on the edge of the board.",
+            "FROM_ENEMY": "The selected 3x3 piece centred at {{cell}} contains enemy stones.",
+            "FROM_EMPTY": "The selected 3x3 piece centred at {{cell}} contains no stones.",
+            "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre piece, so it cannot move.",
+            "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3x3 piece to.",
+            "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
+            "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
+            "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
+        },
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
@@ -956,14 +969,17 @@
             "PARTIAL_PLACE_SIZE": "Select the size of a piece to place."
         },
         "veletas": {
-            "NO_MOVELIST": "Move list not available during placement phase. Click on the board to place the shooter(s).",
+            "NO_MOVELIST": "Move list not available during placement phase. Click on the board to place the shooters.",
             "INITIAL_INSTRUCTIONS": "Select a shooter to move or select a cell to place your piece.",
-            "INITIAL_INSTRUCTIONS_PLACE": "Place {{count}} shooter(s) an empty space on the board, then place a piece of your colour on the board.",
+            "INITIAL_INSTRUCTIONS_PLACE_one": "Place {{count}} more shooter an empty space on the board, then place a piece of your colour on the board.",
+            "INITIAL_INSTRUCTIONS_PLACE_other": "Place {{count}} more shooters on empty spaces on the board, then place a piece of your colour on the board.",
             "SORTED": "The move list needs to be sorted. Try {{normalised}}.",
-            "PLACE_SHOOTER": "Place {{count}} shooter(s) on the board, then place a piece of your colour on the board.",
+            "PLACE_SHOOTER_one": "Place {{count}} more shooter on the board, then place a piece of your colour on the board.",
+            "PLACE_SHOOTER_other": "Place {{count}} more shooters on the board, then place a piece of your colour on the board.",
             "PLACE_PIECE": "Place a piece of your colour on the board.",
             "SHOOTER_PERIMETER": "Shooters may not be placed on the perimeter of the board.",
-            "TOO_MANY_SHOOTERS": "You may only place {{count}} shooter(s).",
+            "TOO_MANY_SHOOTERS_one": "You may only place {{count}} shooter.",
+            "TOO_MANY_SHOOTERS_other": "You may only place {{count}} shooters.",
             "DUPLICATE": "You have already placed a shooter at {{where}}.",
             "STATIONARY_LOS": "There is no line of sight to place at {{where}}.",
             "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
@@ -1019,6 +1035,70 @@
             "MUST_MOVE": "If you have a move available you can not pass your turn.",
             "NONCAPTURES_KINGS": "Non-capturing moves can only move one space at a time.",
             "PARTIAL": "Select a destination."
+        }
+    },
+    "variantGroups": {
+        "blooms": {
+            "board": {
+                "name": "board (base 6)"
+            }
+        },
+        "catchup": {
+            "board": {
+                "name": "board (base 5)"
+            }
+        },
+        "exxit": {
+            "length": {
+                "name": "game length (39 tiles)"
+            },
+            "setup": {
+                "description": "Starts with a \"cross\" of two tiles of each colour."
+            }
+        },
+        "havannah": {
+            "board": {
+                "name": "Size 8 board.",
+                "description": "Competitive board."
+            }
+        },
+        "hex": {
+            "board": {
+                "name": "Size 13 board.",
+                "description": "Competitive board"
+            }
+        },
+        "mattock": {
+            "board": {
+                "name": "board (base-7)"
+            }
+        },
+        "meridians": {
+            "size-6": {
+                "name": "board (base 7)"
+            }
+        },
+        "slither": {
+            "board": {
+                "name": "9x9 board"
+            }
+        },
+        "trike": {
+            "board": {
+                "name": "Triangle (11 wide)",
+                "description": "Casual board."
+            }
+        },
+        "tumbleweed": {
+            "board": {
+                "name": "Competitive board (8 cells)"
+            }
+        },
+        "veletas": {
+            "board": {
+                "name": "10x10 board",
+                "description": "Default board with 7 neutral pieces."
+            }
         }
     },
     "variants": {
@@ -1194,25 +1274,29 @@
         "havannah": {
             "size-4": {
                 "name": "Size 4 board.",
-                "description": "Tiny board"
+                "description": "Tiny board."
             },
             "size-6": {
                 "name": "Size 6 board.",
-                "description": "Smaller board"
+                "description": "Smaller board."
             },
             "size-10": {
                 "name": "Size 10 board.",
-                "description": "Larger board"
+                "description": "Larger board."
             }
         },
         "hex": {
             "size-11": {
                 "name": "Size 11 board.",
-                "description": "Smaller board"
+                "description": "Smaller board."
             },
             "size-15": {
                 "name": "Size 15 board.",
-                "description": "Larger board"
+                "description": "Larger board."
+            },
+            "size-19": {
+                "name": "Size 19 board.",
+                "description": "Much larger board."
             }
         },
         "hexy": {
@@ -1386,15 +1470,15 @@
         "trike": {
             "standard-7": {
                 "name": "Triangle (7 wide)",
-                "description": "Learning board"
+                "description": "Learning board."
             },
             "standard-13": {
                 "name": "Triangle (13 wide)",
-                "description": "Competitive board"
+                "description": "Competitive board."
             },
             "standard-15": {
                 "name": "Triangle (15 wide)",
-                "description": "Large board"
+                "description": "Large board."
             }
         },
         "tumbleweed": {
@@ -1412,13 +1496,13 @@
             }
         },
         "veletas": {
-            "size-7": {
-                "name": "7x7 board",
-                "description": "Smaller board with 3 neutral pieces"
-            },
             "size-9": {
                 "name": "9x9 board",
-                "description": "Medium board with 5 neutral pieces"
+                "description": "Medium board with 5 neutral pieces."
+            },
+            "size-7": {
+                "name": "7x7 board",
+                "description": "Smaller board with 3 neutral pieces."
             }
         },
         "wyke": {
@@ -1455,6 +1539,12 @@
             "hide-threatened": {
                 "description": "Don't show threatened stones.",
                 "name": "Hide threatened"
+            }
+        },
+        "gess": {
+            "hide-piece-highlight": {
+                "description": "Don't highlight the 9x9 pieces.",
+                "name": "Hide 9x9 piece highlight"
             }
         },
         "trike": {

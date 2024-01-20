@@ -1032,6 +1032,12 @@
             "setup": {
                 "description": "Starts with a \"cross\" of two tiles of each colour."
             }
+        },
+        "veletas": {
+            "board": {
+                "name": "10x10 board",
+                "description": "Default board with 7 neutral pieces"
+            }
         }
     },
     "variants": {
@@ -1427,11 +1433,11 @@
         "veletas": {
             "size-7": {
                 "name": "7x7 board",
-                "description": "Smaller board with 3 neutral pieces"
+                "description": "Smaller board with 3 neutral pieces."
             },
             "size-9": {
                 "name": "9x9 board",
-                "description": "Medium board with 5 neutral pieces"
+                "description": "Medium board with 5 neutral pieces."
             }
         },
         "wyke": {

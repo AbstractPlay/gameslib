@@ -1431,13 +1431,13 @@
             }
         },
         "veletas": {
-            "size-7": {
-                "name": "7x7 board",
-                "description": "Smaller board with 3 neutral pieces."
-            },
             "size-9": {
                 "name": "9x9 board",
                 "description": "Medium board with 5 neutral pieces."
+            },
+            "size-7": {
+                "name": "7x7 board",
+                "description": "Smaller board with 3 neutral pieces."
             }
         },
         "wyke": {

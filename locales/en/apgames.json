@@ -1040,12 +1040,12 @@
     "variantGroups": {
         "blooms": {
             "board": {
-                "name": "Default board (base 6)"
+                "name": "board (base 6)"
             }
         },
         "catchup": {
             "board": {
-                "name": "Default board (base 5)"
+                "name": "board (base 5)"
             }
         },
         "exxit": {
@@ -1070,12 +1070,12 @@
         },
         "mattock": {
             "board": {
-                "name": "Default board (base-7)"
+                "name": "board (base-7)"
             }
         },
         "meridians": {
             "size-6": {
-                "name": "Default board (base 7)"
+                "name": "board (base 7)"
             }
         },
         "slither": {

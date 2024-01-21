@@ -604,7 +604,6 @@
         "gess": {
             "INITIAL_INSTRUCTIONS": "Select the centre of a 3x3 piece to move.",
             "TOO_MANY_MOVES": "You have already selected a piece to move.",
-            "FROM_EDGE": "The selected 3x3 piece centre cannot be on the edge of the board.",
             "FROM_ENEMY": "The selected 3x3 piece centred at {{cell}} contains enemy stones.",
             "FROM_EMPTY": "The selected 3x3 piece centred at {{cell}} contains no stones.",
             "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre piece, so it cannot move.",

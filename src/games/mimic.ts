@@ -118,20 +118,21 @@ export class MimicGame extends GameBase {
         return this;
     }
 
-    public getTopPiece(contents: Array<pieceType>): pieceType {
+    public getTopPiece(cell: string): pieceType {
+        const contents = this.board.get(cell);
         if (!Array.isArray(contents) || !contents.length) throw new Error("Cannot get top piece from bad array.");
         return contents[contents.length-1];
     }
 
     public getMimicCount(cell: string): number {
         if (!this.board.has(cell)) return 0;
-        const player = this.getTopPiece(this.board.get(cell)!);
+        const player = this.getTopPiece(cell);
         const [col, row] = MimicGame.algebraic2coords(cell);
         let mimicCount = 0;
         for (let dcol = 1; col-dcol >= 0; dcol++) {
             const cell2 = MimicGame.coords2algebraic(col-dcol, row);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     mimicCount++;
                 }
                 break;
@@ -140,7 +141,7 @@ export class MimicGame extends GameBase {
         for (let dcol = 1; col+dcol <= this.boardsize; dcol++) {
             const cell2 = MimicGame.coords2algebraic(col+dcol, row);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     mimicCount++;
                 }
                 break;
@@ -149,7 +150,7 @@ export class MimicGame extends GameBase {
         for (let drow = 1; row-drow >= 0; drow++) {
             const cell2 = MimicGame.coords2algebraic(col, row-drow);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     mimicCount++;
                 }
                 break;
@@ -158,7 +159,7 @@ export class MimicGame extends GameBase {
         for (let drow = 1; row+drow <= this.boardsize; drow++) {
             const cell2 = MimicGame.coords2algebraic(col, row+drow);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     mimicCount++;
                 }
                 break;
@@ -170,12 +171,12 @@ export class MimicGame extends GameBase {
     // Get at least one mimic of the cell. Probably shouldn't use if you don't know that mimic count is 1.
     public getMimic(cell: string): string|null {
         if (!this.board.has(cell)) return null;
-        const player = this.getTopPiece(this.board.get(cell)!);
+        const player = this.getTopPiece(cell);
         const [col, row] = MimicGame.algebraic2coords(cell);
         for (let dcol = 1; col-dcol >= 0; dcol++) {
             const cell2 = MimicGame.coords2algebraic(col-dcol, row);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     return cell2;
                 }
                 break;
@@ -184,7 +185,7 @@ export class MimicGame extends GameBase {
         for (let dcol = 1; col+dcol <= this.boardsize; dcol++) {
             const cell2 = MimicGame.coords2algebraic(col+dcol, row);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     return cell2;
                 }
                 break;
@@ -193,7 +194,7 @@ export class MimicGame extends GameBase {
         for (let drow = 1; row-drow >= 0; drow++) {
             const cell2 = MimicGame.coords2algebraic(col, row-drow);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     return cell2;
                 }
                 break;
@@ -202,7 +203,7 @@ export class MimicGame extends GameBase {
         for (let drow = 1; row+drow <= this.boardsize; drow++) {
             const cell2 = MimicGame.coords2algebraic(col, row+drow);
             if (this.board.has(cell2)) {
-                if (this.getTopPiece(this.board.get(cell2)!) !== player) {
+                if (this.getTopPiece(cell2) !== player) {
                     return cell2;
                 }
                 break;
@@ -222,7 +223,7 @@ export class MimicGame extends GameBase {
         for (let row = 0; row < this.boardsize; row++) {
             for (let col = 0; col < this.boardsize; col++) {
                 const cell = MimicGame.coords2algebraic(col, row);
-                if (this.board.has(cell) && this.getTopPiece(this.board.get(cell)!) === player) {
+                if (this.board.has(cell) && this.getTopPiece(cell) === player) {
                     // If mimic count is 2 or more, then the piece is frozen
                     const mimicCount = this.getMimicCount(cell);
                     if (mimicCount > 1) continue;
@@ -444,7 +445,7 @@ export class MimicGame extends GameBase {
         try {
             const cell = MimicGame.coords2algebraic(col, row);
             if (move === "") {
-                if (!this.board.has(cell) || this.getTopPiece(this.board.get(cell)!) !== this.currplayer) {
+                if (!this.board.has(cell) || this.getTopPiece(cell) !== this.currplayer) {
                     return {move: "", message: i18next.t("apgames:validation.mimic.INITIAL_INSTRUCTIONS")} as IClickResult;
                 }
 
@@ -496,7 +497,7 @@ export class MimicGame extends GameBase {
 
         const cells: string[] = m.split(new RegExp('[\-]'));
         if (cells.length === 1) {
-            if (!this.board.has(cells[0]) || this.getTopPiece(this.board.get(cells[0])!) !== this.currplayer) {
+            if (!this.board.has(cells[0]) || this.getTopPiece(cells[0]) !== this.currplayer) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.mimic.INITIAL_INSTRUCTIONS");
                 return result;
@@ -532,7 +533,7 @@ export class MimicGame extends GameBase {
             }
 
             // first cell must be occupied by own meeple
-            if (!this.board.has(cell) || this.getTopPiece(this.board.get(cell)!) !== this.currplayer) {
+            if (!this.board.has(cell) || this.getTopPiece(cell) !== this.currplayer) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.mimic.INITIAL_INSTRUCTIONS");
                 return result;
@@ -616,7 +617,7 @@ export class MimicGame extends GameBase {
         const mimic = this.getMimic(cells[0]);
 
         // Do first move
-        const contents = this.board.get(cells[0])!;
+        const contents = [...this.board.get(cells[0])!];
         contents.pop();
         if (contents.length === 0) {
             this.board.delete(cells[0]);
@@ -636,7 +637,7 @@ export class MimicGame extends GameBase {
         this.reversemove = null;
         this.reversemimic = null;
         if (mimic !== null) {
-            const mimicContent = this.board.get(mimic)!;
+            const mimicContent = [...this.board.get(mimic)!];
             const mimicPiece = mimicContent.pop()!;
             if (mimicContent.length === 0) {
                 this.board.delete(mimic);
@@ -652,7 +653,7 @@ export class MimicGame extends GameBase {
             if (mimicToCol >= 0 && mimicToCol < this.boardsize && mimicToRow >= 0 && mimicToRow < this.boardsize) {
                 const mimicTo = MimicGame.coords2algebraic(mimicToCol, mimicToRow);
                 if (this.board.has(mimicTo)) {
-                    const mimicToContents = this.board.get(mimicTo)!;
+                    const mimicToContents = [...this.board.get(mimicTo)!];
                     mimicToContents.push(mimicPiece);
                     this.board.set(mimicTo, mimicToContents);
                 } else {
@@ -680,7 +681,7 @@ export class MimicGame extends GameBase {
     protected checkVictory(): MimicGame {
         for (let col = 0; col < this.boardsize; col++) {
             const cell = (this.currplayer === MimicGame.PLAYER_ONE) ? MimicGame.coords2algebraic(col, 0) : MimicGame.coords2algebraic(col, this.boardsize-1);
-            if (this.board.has(cell) && this.getTopPiece(this.board.get(cell)!) === this.currplayer) {
+            if (this.board.has(cell) && this.getTopPiece(cell) === this.currplayer) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
                 this.results.push(
@@ -730,7 +731,7 @@ export class MimicGame extends GameBase {
             lastmove: this.lastmove,
             reversemove: this.reversemove,
             reversemimic: this.reversemimic,
-            board: new Map(this.board),
+            board: deepclone(this.board) as Map<string, Array<pieceType>>
         };
     }
 
@@ -741,7 +742,7 @@ export class MimicGame extends GameBase {
             for (let col = 0; col < this.boardsize; col++) {
                 const cell = MimicGame.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
-                    const contents = this.board.get(cell)!;
+                    const contents = [...this.board.get(cell)!];
                     if (this.getMimicCount(cell) > 1) {
                         node.push(contents.join("").replace(/1/g, "B").replace(/2/g, "D"));
                     } else {

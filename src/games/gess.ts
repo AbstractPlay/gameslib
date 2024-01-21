@@ -155,8 +155,8 @@ export class GessGame extends GameBase {
         }
         if (this.gameover) { return []; }
         const moves: string[] = [];
-        for (let i = 1; i < this.boardSize - 1; i++) {
-            for (let j = 1; j < this.boardSize - 1; j++) {
+        for (let i = 0; i < this.boardSize; i++) {
+            for (let j = 0; j < this.boardSize; j++) {
                 const cell = this.coords2algebraic(j, i);
                 const gridContents = this.getGridContents(cell, player);
                 if (gridContents === undefined) { continue; }
@@ -239,11 +239,6 @@ export class GessGame extends GameBase {
             return result;
         }
         const [from, to] = moves;
-        if (this.isOnEdge(...this.algebraic2coords(from))) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.gess.FROM_EDGE", { cell: from });
-            return result;
-        }
         const fromContents = this.getGridContents(from, this.currplayer);
         if (fromContents === undefined) {
             result.valid = false;
@@ -349,8 +344,8 @@ export class GessGame extends GameBase {
                     return i + 1;
                 }
             }
-            if (i === 2 && !hasCentre) { return 3; }
             if (this.isOnEdge(...coords)) { return i; }
+            if (i === 2 && !hasCentre) { return 3; }
         }
         // Should never get here because `from` can not be on the edge.
         return 0;
@@ -521,10 +516,10 @@ export class GessGame extends GameBase {
         // Get points that can be used in "shading" marker to highlight the nine cells surrounding `cell`.
         const [x, y] = this.algebraic2coords(cell);
         const points: { row: number, col: number }[] = [];
-        points.push({ row: y - 1, col: x - 1 });
-        points.push({ row: y - 1, col: x + 2 });
-        points.push({ row: y + 2, col: x + 2 });
-        points.push({ row: y + 2, col: x - 1 });
+        points.push({ row: Math.max(0, y - 1), col: Math.max(0, x - 1) });
+        points.push({ row: Math.max(0, y - 1), col: Math.min(this.boardSize, x + 2) });
+        points.push({ row: Math.min(this.boardSize, y + 2), col: Math.min(this.boardSize, x + 2) });
+        points.push({ row: Math.min(this.boardSize, y + 2), col: Math.max(0, x - 1) });
         return points;
     }
 

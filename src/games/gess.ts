@@ -344,8 +344,8 @@ export class GessGame extends GameBase {
                     return i + 1;
                 }
             }
-            if (i === 2 && !hasCentre) { return 3; }
             if (this.isOnEdge(...coords)) { return i; }
+            if (i === 2 && !hasCentre) { return 3; }
         }
         // Should never get here because `from` can not be on the edge.
         return 0;

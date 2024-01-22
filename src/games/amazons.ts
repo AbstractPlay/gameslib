@@ -38,7 +38,7 @@ export class AmazonsGame extends GameBase {
                 name: "Walter Zamkauskas"
             }
         ],
-        flags: ["multistep", "scores", "perspective", "pie"]
+        flags: ["multistep", "scores", "perspective", "pie", "aiai"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);
@@ -649,5 +649,22 @@ export class AmazonsGame extends GameBase {
 
     public clone(): AmazonsGame {
         return new AmazonsGame(this.serialize());
+    }
+
+    public state2aiai(): string[] {
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        for (const round of moves) {
+            for (const move of round) {
+                const [mv,shot] = move.split("/");
+                lst.push(mv, shot);
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        const [mv,shot] = move.split("|");
+        return `${mv}/${shot}`;
     }
 }

@@ -3,7 +3,8 @@ export const hexhexAp2Ai = (cell: string, width: number): string => {
     const height = (width * 2) - 1;
     const midrow = Math.floor(height / 2);
 
-    const [left,right] = cell.split("");
+    const left = cell[0];
+    const right = cell.substring(1);
     const row = height - labels.indexOf(left) - 1;
     const col = parseInt(right, 10);
     let letter = labels[col - 1];
@@ -20,7 +21,8 @@ export const hexhexAi2Ap = (cell: string, width: number): string => {
     const height = (width * 2) - 1;
     const midrow = Math.floor(height / 2);
 
-    const [left,right] = cell.split("");
+    const left = cell[0];
+    const right = cell.substring(1);
 
     const row = parseInt(right, 10);
     const y = height - row;

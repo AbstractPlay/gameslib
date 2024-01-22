@@ -50,7 +50,7 @@ export class VeletasGame extends GameBase {
                 group: "board",
             },
         ],
-        flags: ["experimental", "multistep", "scores", "pie"],
+        flags: ["multistep", "scores", "pie"],
     };
 
     public coords2algebraic(x: number, y: number): string {

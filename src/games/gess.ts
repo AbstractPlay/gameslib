@@ -35,7 +35,7 @@ export class GessGame extends GameBase {
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
         people: [],
         variants: [],
-        flags: ["experimental", "perspective"],
+        flags: ["perspective"],
         displays: [{uid: "hide-piece-highlight"}],
 
     };

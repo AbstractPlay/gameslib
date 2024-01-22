@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
 
@@ -43,7 +43,7 @@ export class TumbleweedGame extends GameBase {
                 name: "Mike Zapawa",
             }
         ],
-        flags: ["pie-even", "multistep", "scores"],
+        flags: ["pie-even", "multistep", "scores", "aiai"],
         variants: [
             {
                 uid: "size-6",
@@ -780,4 +780,67 @@ export class TumbleweedGame extends GameBase {
     public clone(): TumbleweedGame {
         return new TumbleweedGame(this.serialize());
     }
+
+    public state2aiai(): string[] {
+        let width = 8;
+        if (this.variants.includes("size-6")) {
+            width = 6;
+        } else if (this.variants.includes("size-10")) {
+            width = 10;
+        }
+        const moves = this.moveHistory();
+        const lst: string[] = [];
+        for (let i = 0; i < moves.length; i++) {
+            const round = moves[i];
+            for (const move of round) {
+                // special notation for first turn
+                // doesn't matter which special you choose (black or white)
+                if ((i === 0) && (move === "pass")) {
+                    lst.push("Play White (first)")
+                }
+                // all other passes
+                else if (move === "pass") {
+                    lst.push("Pass");
+                }
+                // regular placements
+                else {
+                    const cells: string[] = move.split(",");
+                    for (const cell of cells) {
+                        lst.push(hexhexAp2Ai(cell, width))
+                    }
+                }
+            }
+        }
+        return lst;
+    }
+
+    public translateAiai(move: string): string {
+        let width = 8;
+        if (this.variants.includes("size-6")) {
+            width = 6;
+        } else if (this.variants.includes("size-10")) {
+            width = 10;
+        }
+
+        if (move === "Play White (first)") {
+            return "Swap";
+        } else if (move === "Play Black (second)") {
+            return "pass";
+        } else {
+            const cells = move.split("|");
+            const translated = cells.map(cell => hexhexAi2Ap(cell, width));
+            return translated.join(",");
+        }
+    }
+
+    public aiaiMgl(): string {
+        let mgl = "tumbleweed";
+        if (this.variants.includes("size-6")) {
+            mgl = "tumbleweed-6";
+        } else if (this.variants.includes("size-10")) {
+            mgl = "tumbleweed-10";
+        }
+        return mgl;
+    }
+
 }

@@ -1067,6 +1067,12 @@
                 "description": "Competitive board"
             }
         },
+        "loa": {
+            "board": {
+                "name": "board (9x9)",
+                "description": "The default game is the 9x9 \"black hole\" variant. This will change eventually."
+            }
+        },
         "mattock": {
             "board": {
                 "name": "board (base-7)"

@@ -672,7 +672,9 @@ export class MimicGame extends GameBase {
         if (newplayer > this.numplayers) newplayer = 1;
         this.currplayer = newplayer as pieceType;
 
-        this.checkStalemate();
+        // Check for victory from mimic move, then check if stalemated
+        this.checkVictory();
+        if (!this.gameover) this.checkStalemate();
         this.lastmove = m;
         this.saveState();
         return this;

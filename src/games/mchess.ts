@@ -64,7 +64,7 @@ export class MchessGame extends GameBase {
         // i18next.t("apgames:descriptions.mchess")
         description: "apgames:descriptions.mchess",
         // i18next.t("apgames:notes.mchess")
-        notes: "apgames:descriptions.mchess",
+        notes: "apgames:notes.mchess",
         urls: ["https://www.looneylabs.com/rules/martian-chess", "http://www.wunderland.com/icehouse/MartianChess.html"],
         people: [
             {

@@ -464,7 +464,12 @@ export class GessGame extends GameBase {
         }
         const removedCount = offBoardCells.length + capturedCells.length;
         if (removedCount > 0) {
-            this.results.push({type: "capture", count: removedCount});
+            this.results.push({
+                type: "capture",
+                count: removedCount,
+                // where is for rendering "exit" annotations. Pieces moved completely off board are not captured here.
+                where: [...offBoardCells, ...capturedCells].filter((c) => c !== "off").sort((a, b) => a.localeCompare(b)).join(","),
+            });
         }
 
         this.lastmove = m;
@@ -628,6 +633,18 @@ export class GessGame extends GameBase {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
                     const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                } else if (move.type === "capture") {
+                    if (move.where === undefined) { continue; }
+                    const targets: {row: number, col: number}[] = [];
+                    for (const cell of move.where.split(",")) {
+                        if (cell.length === 0) { continue; }
+                        const [x, y] = this.algebraic2coords(cell);
+                        targets.push({row: y, col: x});
+                    }
+                    if (targets.length > 0) {
+                        // @ts-ignore
+                        rep.annotations.push({type: "exit", targets});
+                    }
                 }
             }
         }

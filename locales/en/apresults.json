@@ -77,6 +77,9 @@
         "armadas": "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
+    "DECLARE": {
+        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end in a draw."
+    },
     "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
     "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
     "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",

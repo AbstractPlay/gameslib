@@ -10,6 +10,20 @@ import i18next from "i18next";
 interface ILooseObj {
     [key: string]: any;
 }
+interface IKeyEntry {
+    piece: string;
+    name: string;
+    value?: string;
+}
+interface IKey {
+    [k: string]: unknown;
+    type: "key";
+    list: IKeyEntry[];
+    height?: number;
+    buffer?: number;
+    position?: "left"|"right";
+    clickable?: boolean;
+}
 
 export type playerid = 1|2;
 
@@ -18,6 +32,8 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, number>;
     lastmove?: string;
     scores: number[];
+    countdown?: number;
+    sinceCapture?: number;
 };
 
 export interface IMchessState extends IAPGameState {
@@ -48,6 +64,8 @@ export class MchessGame extends GameBase {
         version: "20211012",
         // i18next.t("apgames:descriptions.mchess")
         description: "apgames:descriptions.mchess",
+        // i18next.t("apgames:notes.mchess")
+        notes: "apgames:notes.mchess",
         urls: ["https://www.looneylabs.com/rules/martian-chess", "http://www.wunderland.com/icehouse/MartianChess.html"],
         people: [
             {
@@ -76,6 +94,8 @@ export class MchessGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Map<string, number>;
     public gameover = false;
+    public countdown?: number;
+    public sinceCapture?: number;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public scores!: number[];
@@ -133,6 +153,8 @@ export class MchessGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
+        this.countdown = state.countdown;
+        this.sinceCapture = state.sinceCapture;
         return this;
     }
 
@@ -202,7 +224,7 @@ export class MchessGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        const moves: string[] = [];
+        let moves: string[] = [];
         const grid = new RectGrid(4, 8);
 
         let myrows = ["1", "2", "3", "4"];
@@ -303,6 +325,12 @@ export class MchessGame extends GameBase {
             }
         }
 
+        // now add '*' to the end of each move for "calling the clock"
+        // only available if there have been at least seven consecutive moves without a capture
+        if ( (this.countdown === undefined) && (this.sinceCapture !== undefined) && (this.sinceCapture >= 7) ) {
+            moves = [...moves, ...moves.map(mv => `${mv}*`)];
+        }
+
         return moves;
     }
 
@@ -360,6 +388,15 @@ export class MchessGame extends GameBase {
             return result;
         }
 
+        // calling the clock is always valid, so strip it
+        if (m.endsWith("*")) {
+            if ( (this.countdown !== undefined) || (this.sinceCapture === undefined) || (this.sinceCapture < 7) ) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.mchess.BAD_CALL");
+                return result;
+            }
+            m = m.substring(0, m.length - 1);
+        }
         const [from, to] = m.split(/[-x\+]/);
 
         if (from !== undefined) {
@@ -440,7 +477,7 @@ export class MchessGame extends GameBase {
                     // valid move
                     result.valid = true;
                     result.complete = 1;
-                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    result.message = i18next.t("apgames:validation.mchess.VALID_MOVE", {context: this.countdown === undefined ? "nocounter" : "counter"});
                     return result;
                 } else {
                     // correct operator
@@ -454,7 +491,7 @@ export class MchessGame extends GameBase {
                     if (! isMine(to, this.currplayer)) {
                         result.valid = true;
                         result.complete = 1;
-                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        result.message = i18next.t("apgames:validation.mchess.VALID_MOVE", {context: this.countdown === undefined ? "nocounter" : "counter"});
                         return result;
                     } else {
                         // valid promotion
@@ -468,7 +505,7 @@ export class MchessGame extends GameBase {
                         // we're good
                         result.valid = true;
                         result.complete = 1;
-                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        result.message = i18next.t("apgames:validation.mchess.VALID_MOVE", {context: this.countdown === undefined ? "nocounter" : "counter"});
                         return result;
                     }
                 }
@@ -616,7 +653,7 @@ export class MchessGame extends GameBase {
             this._points = [];
         }
 
-        const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
+        const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)(\*?)$/;
         const match = m.match(rMove);
         if (match === null) {
             throw new Error("Malformed move encountered.");
@@ -624,6 +661,7 @@ export class MchessGame extends GameBase {
         const fromCell = match[1];
         const operator = match[2];
         const toCell = match[3];
+        const clockCall = match[4];
         const fromContents = this.board.get(fromCell);
         if (fromContents === undefined) {
             throw new Error("Malformed cell contents.");
@@ -667,6 +705,36 @@ export class MchessGame extends GameBase {
                 throw new Error("Invalid move operator.");
         }
 
+        // if not a capture
+        if (operator !== "x") {
+            // decrement countdown if active
+            if (this.countdown !== undefined) {
+                this.countdown--;
+            }
+            // increment sinceCapture
+            if (this.sinceCapture === undefined) {
+                this.sinceCapture = 1;
+            } else {
+                this.sinceCapture++;
+            }
+        }
+        // but if it's a capture
+        else {
+            // reset countdown and sinceCapture if active
+            if (this.countdown !== undefined) {
+                delete this.countdown;
+            }
+            if (this.sinceCapture !== undefined) {
+                delete this.sinceCapture;
+            }
+        }
+
+        // check for clock call
+        if ( (clockCall === "*") && (this.countdown === undefined) ) {
+            this.countdown = 7;
+            this.results.push({type: "declare"});
+        }
+
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -681,30 +749,48 @@ export class MchessGame extends GameBase {
     }
 
     protected checkEOG(): MchessGame {
-        const rowsTop = ["5", "6", "7", "8"];
-        let countTop = 0;
-        let countBottom = 0;
-        for (const cell of this.board.keys()) {
-            if (rowsTop.includes(cell.slice(1))) {
-                countTop++;
-            } else {
-                countBottom++;
-            }
-        }
-        if ( (countBottom === 0) || (countTop === 0)) {
+        // terminate at 19+ points
+        if (this.scores[0] >= 18) {
             this.gameover = true;
-            if (this.scores[0] > this.scores[1]) {
-                this.winner = [1];
-            } else if (this.scores[1] > this.scores[0]) {
-                this.winner = [2];
-            } else {
-                // In a tie, the player to last move wins
-                if (this.currplayer === 1) {
-                    this.winner = [2];
+            this.winner = [1];
+        }
+        else if (this.scores[1] >= 18) {
+            this.gameover = true;
+            this.winner = [2];
+        } else {
+            // otherwise, terminate if one side empty or countdown is 0
+            const rowsTop = ["5", "6", "7", "8"];
+            let countTop = 0;
+            let countBottom = 0;
+            for (const cell of this.board.keys()) {
+                if (rowsTop.includes(cell.slice(1))) {
+                    countTop++;
                 } else {
-                    this.winner = [1];
+                    countBottom++;
                 }
             }
+            if ( (countBottom === 0) || (countTop === 0) || ( (this.countdown !== undefined) && (this.countdown === 0) ) ) {
+                this.gameover = true;
+                if (this.scores[0] > this.scores[1]) {
+                    this.winner = [1];
+                } else if (this.scores[1] > this.scores[0]) {
+                    this.winner = [2];
+                } else {
+                    // In a tie, the player to last move wins
+                    // unless the clock has been called
+                    if ( (this.countdown !== undefined) && (this.countdown === 0) ) {
+                        this.winner = [1,2];
+                    }
+                    else if (this.currplayer === 1) {
+                        this.winner = [2];
+                    } else {
+                        this.winner = [1];
+                    }
+                }
+            }
+        }
+
+        if (this.gameover) {
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -721,7 +807,7 @@ export class MchessGame extends GameBase {
             variants: this.variants,
             gameover: this.gameover,
             winner: [...this.winner],
-            stack: [...this.stack]
+            stack: [...this.stack],
         };
     }
 
@@ -733,7 +819,9 @@ export class MchessGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            scores: [...this.scores]
+            scores: [...this.scores],
+            countdown: this.countdown,
+            sinceCapture: this.sinceCapture,
         };
     }
 
@@ -782,6 +870,11 @@ export class MchessGame extends GameBase {
                 player: n
             };
         }
+        if (this.countdown !== undefined) {
+            myLegend.COUNTER = {
+                text: this.countdown.toString()
+            };
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -795,9 +888,21 @@ export class MchessGame extends GameBase {
             pieces: pstr
         };
 
+        if (this.countdown !== undefined) {
+            // Add key to show the countdown
+            const key: IKey = {
+                type: "key",
+                position: "left",
+                height: 0.7,
+                list: [{ piece: "COUNTER", name: ""}],
+                clickable: false
+            };
+            rep.areas = [key];
+        }
+
         // Add annotations
         if ( (this.lastmove !== undefined) && !this.specialMove(this.lastmove) ) {
-            const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
+            const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)(\*?)$/;
             const match = this.lastmove.match(rMove);
             if (match === null) {
                 throw new Error("Malformed move encountered.");
@@ -873,6 +978,17 @@ export class MchessGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "declare":
+                node.push(i18next.t("apresults:DECLARE.mchess", {player}));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public status(): string {

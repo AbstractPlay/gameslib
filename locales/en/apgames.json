@@ -91,6 +91,7 @@
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
+        "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
         "razzle": "The implementation here is the so called tournament rules.",
@@ -606,7 +607,7 @@
             "TOO_MANY_MOVES": "You have already selected a piece to move.",
             "FROM_ENEMY": "The selected 3x3 piece centred at {{cell}} contains enemy stones.",
             "FROM_EMPTY": "The selected 3x3 piece centred at {{cell}} contains no stones.",
-            "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre piece, so it cannot move.",
+            "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre stone, so it cannot move.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3x3 piece to.",
             "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
@@ -706,11 +707,14 @@
             "INVALID_TO": "You may not move the miner from {{from}} to {{to}}."
         },
         "mchess": {
+            "BAD_CALL": "You may not \"call the clock\" before seven moves have passed without capture or when the coundown is already active.",
             "INITIAL_INSTRUCTIONS": "Select a piece on your side of the board to move.",
             "INVALID_MOVE": "You're either trying to move too far or jump another piece.",
             "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
             "NO_MIRROR_MOVE": "You can't just undo you opponent's move.",
-            "PARTIAL": "Select a destination."
+            "PARTIAL": "Select a destination.",
+            "VALID_MOVE_counter": "Looks like a valid move.",
+            "VALID_MOVE_nocounter": "Looks like a valid move. You may add an asterisk (*) to the end of the move to \"call the clock\" if you believe the game is deadlocked."
         },
         "meridians": {
             "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",

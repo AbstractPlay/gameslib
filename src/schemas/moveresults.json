@@ -651,7 +651,7 @@
             "additionalProperties": false
         },
         {
-            "description": "Declared a win (subject to a challenge)",
+            "description": "Declared a win (subject to a challenge). Also used in Martian Chess to \"call the clock.\"",
             "properties": {
                 "type": {
                     "enum": ["declare"]

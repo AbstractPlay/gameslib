@@ -819,6 +819,7 @@ export class MchessGame extends GameBase {
             board: new Map(this.board),
             scores: [...this.scores],
             countdown: this.countdown,
+            sinceCapture: this.sinceCapture,
         };
     }
 

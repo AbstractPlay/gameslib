@@ -723,6 +723,8 @@ export class MchessGame extends GameBase {
             // reset countdown and sinceCapture if active
             if (this.countdown !== undefined) {
                 delete this.countdown;
+            }
+            if (this.sinceCapture !== undefined) {
                 delete this.sinceCapture;
             }
         }

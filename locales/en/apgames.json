@@ -607,7 +607,7 @@
             "TOO_MANY_MOVES": "You have already selected a piece to move.",
             "FROM_ENEMY": "The selected 3x3 piece centred at {{cell}} contains enemy stones.",
             "FROM_EMPTY": "The selected 3x3 piece centred at {{cell}} contains no stones.",
-            "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre piece, so it cannot move.",
+            "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre stone, so it cannot move.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3x3 piece to.",
             "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",

@@ -81,6 +81,7 @@ import { BloomsGame, IBloomsState } from "./blooms";
 import { MimicGame, IMimicState } from "./mimic";
 import { VeletasGame, IVeletasState } from "./veletas";
 import { GessGame, IGessState } from "./gess";
+import { OnagerGame, IOnagerState } from "./onager";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -164,6 +165,7 @@ export {
     MimicGame, IMimicState,
     VeletasGame, IVeletasState,
     GessGame, IGessState,
+    OnagerGame, IOnagerState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -192,7 +194,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
                               typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
                               typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
-                              typeof VeletasGame | typeof GessGame
+                              typeof VeletasGame | typeof GessGame | typeof OnagerGame
                 >();
 // Manually add each game to the following array
 [
@@ -207,7 +209,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
-    VeletasGame, GessGame,
+    VeletasGame, GessGame, OnagerGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -379,6 +381,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new VeletasGame(...args);
         case "gess":
             return new GessGame(...args);
+        case "onager":
+            return new OnagerGame(...args);
     }
     return;
 }

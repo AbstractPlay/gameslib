@@ -496,7 +496,7 @@ export class ChaseGame extends GameBase {
                             // delete starting piece to avoid infinite loops
                             clone.board.delete(start);
                             try {
-                                clone.recurseMove(finalCell, [...pFrom], finalDir, true);
+                                clone.recurseMove(finalCell, [...pFrom], finalDir); // , true);
                                 moves.push(newmove);
                             } catch {
                                 // do nothing

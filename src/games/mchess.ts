@@ -10,6 +10,20 @@ import i18next from "i18next";
 interface ILooseObj {
     [key: string]: any;
 }
+interface IKeyEntry {
+    piece: string;
+    name: string;
+    value?: string;
+}
+interface IKey {
+    [k: string]: unknown;
+    type: "key";
+    list: IKeyEntry[];
+    height?: number;
+    buffer?: number;
+    position?: "left"|"right";
+    clickable?: boolean;
+}
 
 export type playerid = 1|2;
 
@@ -18,6 +32,7 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, number>;
     lastmove?: string;
     scores: number[];
+    counter?: number;
 };
 
 export interface IMchessState extends IAPGameState {
@@ -76,6 +91,7 @@ export class MchessGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Map<string, number>;
     public gameover = false;
+    public counter?: number;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public scores!: number[];
@@ -133,6 +149,7 @@ export class MchessGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.scores = [...state.scores];
+        this.counter = state.counter;
         return this;
     }
 
@@ -202,7 +219,7 @@ export class MchessGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
-        const moves: string[] = [];
+        let moves: string[] = [];
         const grid = new RectGrid(4, 8);
 
         let myrows = ["1", "2", "3", "4"];
@@ -303,6 +320,11 @@ export class MchessGame extends GameBase {
             }
         }
 
+        // now add '*' to the end of each move for "calling the clock"
+        if (this.counter === undefined) {
+            moves = [...moves, ...moves.map(mv => `${mv}*`)];
+        }
+
         return moves;
     }
 
@@ -360,6 +382,15 @@ export class MchessGame extends GameBase {
             return result;
         }
 
+        // calling the clock is always valid, so strip it
+        if (m.endsWith("*")) {
+            if (this.counter !== undefined) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.mchess.BAD_CALL");
+                return result;
+            }
+            m = m.substring(0, m.length - 1);
+        }
         const [from, to] = m.split(/[-x\+]/);
 
         if (from !== undefined) {
@@ -440,7 +471,7 @@ export class MchessGame extends GameBase {
                     // valid move
                     result.valid = true;
                     result.complete = 1;
-                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    result.message = i18next.t("apgames:validation.mchess.VALID_MOVE", {context: this.counter === undefined ? "nocounter" : "counter"});
                     return result;
                 } else {
                     // correct operator
@@ -454,7 +485,7 @@ export class MchessGame extends GameBase {
                     if (! isMine(to, this.currplayer)) {
                         result.valid = true;
                         result.complete = 1;
-                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        result.message = i18next.t("apgames:validation.mchess.VALID_MOVE", {context: this.counter === undefined ? "nocounter" : "counter"});
                         return result;
                     } else {
                         // valid promotion
@@ -468,7 +499,7 @@ export class MchessGame extends GameBase {
                         // we're good
                         result.valid = true;
                         result.complete = 1;
-                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        result.message = i18next.t("apgames:validation.mchess.VALID_MOVE", {context: this.counter === undefined ? "nocounter" : "counter"});
                         return result;
                     }
                 }
@@ -616,7 +647,7 @@ export class MchessGame extends GameBase {
             this._points = [];
         }
 
-        const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
+        const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)(\*?)$/;
         const match = m.match(rMove);
         if (match === null) {
             throw new Error("Malformed move encountered.");
@@ -624,6 +655,7 @@ export class MchessGame extends GameBase {
         const fromCell = match[1];
         const operator = match[2];
         const toCell = match[3];
+        const clockCall = match[4];
         const fromContents = this.board.get(fromCell);
         if (fromContents === undefined) {
             throw new Error("Malformed cell contents.");
@@ -667,6 +699,21 @@ export class MchessGame extends GameBase {
                 throw new Error("Invalid move operator.");
         }
 
+        // decrement counter if not a capture
+        if ( (operator !== "x") && (this.counter !== undefined) ) {
+            this.counter--;
+        }
+        // but if it's a capture, reset
+        else if ( (operator === "x") && (this.counter !== undefined) ) {
+            delete this.counter;
+        }
+
+        // check for clock call
+        if ( (clockCall === "*") && (this.counter === undefined) ) {
+            this.counter = 7;
+            this.results.push({type: "declare"});
+        }
+
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -691,7 +738,7 @@ export class MchessGame extends GameBase {
                 countBottom++;
             }
         }
-        if ( (countBottom === 0) || (countTop === 0)) {
+        if ( (countBottom === 0) || (countTop === 0) ) {
             this.gameover = true;
             if (this.scores[0] > this.scores[1]) {
                 this.winner = [1];
@@ -705,6 +752,12 @@ export class MchessGame extends GameBase {
                     this.winner = [1];
                 }
             }
+        } else if ( (this.counter !== undefined) && (this.counter === 0) ) {
+            this.gameover = true;
+            this.winner = [1,2];
+        }
+
+        if (this.gameover) {
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -733,7 +786,8 @@ export class MchessGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            scores: [...this.scores]
+            scores: [...this.scores],
+            counter: this.counter,
         };
     }
 
@@ -782,6 +836,11 @@ export class MchessGame extends GameBase {
                 player: n
             };
         }
+        if (this.counter !== undefined) {
+            myLegend.COUNTER = {
+                text: this.counter.toString()
+            };
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -795,9 +854,21 @@ export class MchessGame extends GameBase {
             pieces: pstr
         };
 
+        if (this.counter !== undefined) {
+            // Add key so the user can click to select the color to place
+            const key: IKey = {
+                type: "key",
+                position: "left",
+                height: 0.7,
+                list: [{ piece: "COUNTER", name: ""}],
+                clickable: false
+            };
+            rep.areas = [key];
+        }
+
         // Add annotations
         if ( (this.lastmove !== undefined) && !this.specialMove(this.lastmove) ) {
-            const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)$/;
+            const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)(\*?)$/;
             const match = this.lastmove.match(rMove);
             if (match === null) {
                 throw new Error("Malformed move encountered.");
@@ -873,6 +944,17 @@ export class MchessGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "declare":
+                node.push(i18next.t("apresults:DECLARE.mchess", {player}));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public status(): string {

@@ -706,11 +706,14 @@
             "INVALID_TO": "You may not move the miner from {{from}} to {{to}}."
         },
         "mchess": {
+            "BAD_CALL": "You may not \"call the clock\" when the counter is already active.",
             "INITIAL_INSTRUCTIONS": "Select a piece on your side of the board to move.",
             "INVALID_MOVE": "You're either trying to move too far or jump another piece.",
             "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
             "NO_MIRROR_MOVE": "You can't just undo you opponent's move.",
-            "PARTIAL": "Select a destination."
+            "PARTIAL": "Select a destination.",
+            "VALID_MOVE_counter": "Looks like a valid move.",
+            "VALID_MOVE_nocounter": "Looks like a valid move. You may add an asterisk (*) to the end of the move to \"call the clock\" if you believe the game is deadlocked."
         },
         "meridians": {
             "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",

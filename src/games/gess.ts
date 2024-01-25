@@ -12,6 +12,7 @@ type playerid = 1|2;
 type GridContents = Directions | "C";
 // Name of the nine cells surrounding a cell, in order.
 const nineCellMap: GridContents[] = ["NW", "N", "NE", "W", "C", "E", "SW", "S", "SE"];
+const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -29,7 +30,7 @@ export class GessGame extends GameBase {
         name: "Gess",
         uid: "gess",
         playercounts: [2],
-        version: "20240114",
+        version: "20240125",
         // i18next.t("apgames:descriptions.gess")
         description: "apgames:descriptions.gess",
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
@@ -41,11 +42,25 @@ export class GessGame extends GameBase {
     };
 
     public coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, this.boardSize);
+        // Custom method that supports "off" cell when x or y is out of bounds.
+        if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) { return "off" }
+        return columnLabels[x] + (this.boardSize - y).toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, this.boardSize);
+        // Custom method that supports "off" cell when x or y is out of bounds.
+        if (cell === "off") { return [-1, -1]; }
+        const pair: string[] = cell.split("");
+        const num = (pair.slice(1)).join("");
+        const x = columnLabels.indexOf(pair[0]);
+        if ( (x === undefined) || (x < 0) ) {
+            throw new Error(`The column label is invalid: ${pair[0]}`);
+        }
+        const y = parseInt(num, 10);
+        if ( (y === undefined) || (isNaN(y)) ) {
+            throw new Error(`The row label is invalid: ${pair[1]}`);
+        }
+        return [x, this.boardSize - y];
     }
 
     public numplayers = 2;
@@ -344,7 +359,7 @@ export class GessGame extends GameBase {
                     return i + 1;
                 }
             }
-            if (this.isOnEdge(...coords)) { return i; }
+            if (this.isOffBoard(...coords)) { return i + 1; }
             if (i === 2 && !hasCentre) { return 3; }
         }
         // Should never get here because `from` can not be on the edge.
@@ -378,21 +393,21 @@ export class GessGame extends GameBase {
         return cells;
     }
 
-    private getEdgeCells(toCells: string[]): string[] {
-        // Get the edge cells in `toCells`. These cells will be removed.
+    private getOffBoardCells(toCells: string[]): string[] {
+        // Get the off board cells in `toCells`. These cells will be removed.
         const edgeCells: string[] = [];
         for (const cell of toCells) {
             const [x, y] = this.algebraic2coords(cell);
-            if (this.isOnEdge(x, y)) {
+            if (this.isOffBoard(x, y)) {
                 edgeCells.push(cell);
             }
         }
         return edgeCells;
     }
 
-    private isOnEdge(x: number, y: number): boolean {
+    private isOffBoard(x: number, y: number): boolean {
         // Check if the cell at `x`, `y` is on the edge of the board.
-        return x === 0 || x === this.boardSize - 1 || y === 0 || y === this.boardSize - 1;
+        return x <= 0 || x >= this.boardSize - 1 || y <= 0 || y >= this.boardSize - 1;
     }
 
     public move(m: string, {partial = false, trusted = false} = {}): GessGame {
@@ -441,15 +456,20 @@ export class GessGame extends GameBase {
             this.board.set(cell, this.currplayer);
         }
         this.results.push({type: "move", from, to, count: gridContents.length});
-        const edgeCells = this.getEdgeCells(toCells);
-        if (edgeCells.length > 0) {
-            for (const cell of edgeCells) {
+        const offBoardCells = this.getOffBoardCells(toCells);
+        if (offBoardCells.length > 0) {
+            for (const cell of offBoardCells) {
                 this.board.delete(cell);
             }
         }
-        const removedCount = edgeCells.length + capturedCells.length;
+        const removedCount = offBoardCells.length + capturedCells.length;
         if (removedCount > 0) {
-            this.results.push({type: "capture", count: removedCount});
+            this.results.push({
+                type: "capture",
+                count: removedCount,
+                // where is for rendering "exit" annotations. Pieces moved completely off board are not captured here.
+                where: [...offBoardCells, ...capturedCells].filter((c) => c !== "off").sort((a, b) => a.localeCompare(b)).join(","),
+            });
         }
 
         this.lastmove = m;
@@ -613,6 +633,18 @@ export class GessGame extends GameBase {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
                     const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                } else if (move.type === "capture") {
+                    if (move.where === undefined) { continue; }
+                    const targets: {row: number, col: number}[] = [];
+                    for (const cell of move.where.split(",")) {
+                        if (cell.length === 0) { continue; }
+                        const [x, y] = this.algebraic2coords(cell);
+                        targets.push({row: y, col: x});
+                    }
+                    if (targets.length > 0) {
+                        // @ts-ignore
+                        rep.annotations.push({type: "exit", targets});
+                    }
                 }
             }
         }

@@ -787,7 +787,8 @@
             "INITIAL_INSTRUCTIONS_PLACE": "Select an empty cell to place a lake.",
             "CENTRE_PLACEMENT": "The lake cannot be placed at the centre cell, {{where}}.",
             "SELECT_TO": "Select a destination to walk to or jump to.",
-            "CONTINUE": "If you wish to continue your move, select another destination to jump to, otherwise submit the move."
+            "OPTIONAL_CONTINUE": "You have landed on your opponent's piece. If you wish to continue your move, select another destination to jump to, otherwise submit the move.",
+            "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
         },
         "orb": {
             "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",

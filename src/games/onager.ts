@@ -255,9 +255,18 @@ export class OnagerGame extends GameBase {
                     newmove = `${move}-${cell}`;
                 }
             }
-            const result = this.validateMove(newmove) as IClickResult;
-            if (! result.valid) {
-                result.move = "";
+            let result = this.validateMove(newmove) as IClickResult;
+            if (!result.valid) {
+                if (this.stack.length > 3 && this.getTopPiece(cell) === this.currplayer) {
+                    result = this.validateMove(cell) as IClickResult;
+                    if (!result.valid) {
+                        result.move = "";
+                    } else {
+                        result.move = cell;
+                    }
+                } else {
+                    result.move = "";
+                }
             } else {
                 result.move = newmove;
             }

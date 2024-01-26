@@ -32,6 +32,7 @@ export type APMoveResult =
       from: string;
       to: string;
       what?: string;
+      how?: string;
       count?: number;
     }
   | {

@@ -77,6 +77,7 @@
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "veletas": "Veletas is a drawless territory game for two players. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
+        "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
@@ -1001,6 +1002,10 @@
             "STRAIGHTLINE": "You can only move and place in straight lines.",
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to place your piece at."
         },
+        "verge": {
+            "INITIAL_INSTRUCTIONS": "Select an empty cell that is not adjacent to one of your frozen groups.",
+            "FROZEN_NEIGHBOUR": "You cannot place next one of your frozen groups."
+        },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",
             "INITIAL_INSTRUCTIONS": "Select a cap to move or a piece from your captured pile to place on the board.",
@@ -1116,6 +1121,11 @@
             "board": {
                 "name": "10x10 board",
                 "description": "Default board with 7 neutral pieces."
+            }
+        },
+        "verge": {
+            "board": {
+                "name": "Size 5 board (61 cells)"
             }
         }
     },
@@ -1521,6 +1531,11 @@
             "size-7": {
                 "name": "7x7 board",
                 "description": "Smaller board with 3 neutral pieces."
+            }
+        },
+        "verge": {
+            "size-7": {
+                "name": "Size 7 board (127 cells)"
             }
         },
         "wyke": {

@@ -38,6 +38,12 @@ export class TableroGame extends GameBase {
             {
                 type: "designer",
                 name: "James Ernest",
+                urls: ["https://crabfragmentlabs.com/"],
+            },
+            {
+                type: "publisher",
+                name: "Crab Fragment Labs",
+                urls: ["https://crabfragmentlabs.com/"],
             },
         ],
         flags: ["experimental", "limited-pieces", "perspective", "multistep", "scores"]
@@ -673,7 +679,10 @@ export class TableroGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
+        return [
+            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: this.pieces }
+        ];
     }
 
     public getPlayerScore(player: number): number {

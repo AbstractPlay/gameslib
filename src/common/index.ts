@@ -32,3 +32,9 @@ export const intersects = (left: any[], right: any[]): boolean => {
     }
     return false;
 }
+
+export const randomInt = (max: number, min = 1): number => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

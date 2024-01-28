@@ -78,7 +78,7 @@
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
     "DECLARE": {
-        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end in a draw."
+        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored."
     },
     "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
     "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",

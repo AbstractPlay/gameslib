@@ -64,6 +64,9 @@
                 "what": {
                     "type": "string"
                 },
+                "how": {
+                    "type": "string"
+                },
                 "count": {
                     "type": "number"
                 }

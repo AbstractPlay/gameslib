@@ -57,6 +57,7 @@
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
+        "onager": "In Onager each player tries to reach the opponent’s back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
@@ -76,6 +77,7 @@
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "veletas": "Veletas is a drawless territory game for two players. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
+        "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
@@ -781,6 +783,14 @@
             "PARTIAL_SUBSTACK_one": "Looks like you want to move the top piece from the stack. Provide the destination.",
             "PARTIAL_SUBSTACK_other": "Looks like you want to move the top {{count}} pieces from the stack. Provide the destination."
         },
+        "onager": {
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to walk or jump.",
+            "INITIAL_INSTRUCTIONS_PLACE": "Select an empty cell to place a lake.",
+            "CENTRE_PLACEMENT": "The lake cannot be placed at the centre cell, {{where}}.",
+            "SELECT_TO": "Select a destination to walk to or jump to.",
+            "OPTIONAL_CONTINUE": "You have landed on your opponent's piece. If you wish to continue your move, select another destination to jump to, otherwise submit the move.",
+            "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
+        },
         "orb": {
             "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",
             "SEED_PARTIAL": "Select a destination.",
@@ -992,6 +1002,10 @@
             "STRAIGHTLINE": "You can only move and place in straight lines.",
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to place your piece at."
         },
+        "verge": {
+            "INITIAL_INSTRUCTIONS": "Select an empty cell that is not adjacent to one of your frozen groups.",
+            "FROZEN_NEIGHBOUR": "You cannot place next one of your frozen groups."
+        },
         "volcano": {
             "BAD_FROM": "{{from}} doesn't look like a position on the board, or a piece in your stash.",
             "INITIAL_INSTRUCTIONS": "Select a cap to move or a piece from your captured pile to place on the board.",
@@ -1107,6 +1121,11 @@
             "board": {
                 "name": "10x10 board",
                 "description": "Default board with 7 neutral pieces."
+            }
+        },
+        "verge": {
+            "board": {
+                "name": "Size 5 board (61 cells)"
             }
         }
     },
@@ -1512,6 +1531,11 @@
             "size-7": {
                 "name": "7x7 board",
                 "description": "Smaller board with 3 neutral pieces."
+            }
+        },
+        "verge": {
+            "size-7": {
+                "name": "Size 7 board (127 cells)"
             }
         },
         "wyke": {

@@ -515,7 +515,7 @@ export class MchessGame extends GameBase {
         return result;
     }
 
-    private findPoints(cell: string): [number, number][] {
+    public findPoints(cell: string): [number, number][] {
         const points: [number, number][] = [];
         if (this.board.has(cell)) {
             let mirror = "";
@@ -536,7 +536,7 @@ export class MchessGame extends GameBase {
                         // chess king
                         for (const next of grid.adjacencies(x, y, true)) {
                             const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
-                            if (move !== undefined && move !== mirror) {
+                            if (move !== undefined && ! move.endsWith(`-${mirror}`)) {
                                 points.push(next)
                             }
                         }
@@ -545,7 +545,7 @@ export class MchessGame extends GameBase {
                         // chess knights
                         for (const next of grid.knights(x, y)) {
                             const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
-                            if (move !== undefined && move !== mirror) {
+                            if (move !== undefined && ! move.endsWith(`-${mirror}`)) {
                                 points.push(next)
                             }
                         }
@@ -574,7 +574,7 @@ export class MchessGame extends GameBase {
                         // just diagonal adjacencies
                         for (const next of grid.adjacencies(x, y, true).filter(pt => (pt[0] !== x) && (pt[1] !== y))) {
                             const move = this.moveType(cell, MchessGame.coords2algebraic(...next), piece, this.currplayer);
-                            if (move !== undefined && move !== mirror) {
+                            if (move !== undefined && ! move.endsWith(`-${mirror}`)) {
                                 points.push(next)
                             }
                         }
@@ -589,7 +589,7 @@ export class MchessGame extends GameBase {
                                     if (nextCell !== mirror) points.push(next);
                                 } else {
                                     const move = this.moveType(cell, nextCell, piece, this.currplayer);
-                                    if (move !== undefined && move !== mirror) {
+                                    if (move !== undefined && ! move.endsWith(`-${mirror}`)) {
                                         points.push(next)
                                     }
                                     break;
@@ -606,7 +606,7 @@ export class MchessGame extends GameBase {
                                     if (nextCell !== mirror) points.push(next);
                                 } else {
                                     const move = this.moveType(cell, nextCell, piece, this.currplayer);
-                                    if (move !== undefined && move !== mirror) {
+                                    if (move !== undefined && ! move.endsWith(`-${mirror}`)) {
                                         points.push(next)
                                     }
                                     break;

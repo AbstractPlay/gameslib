@@ -78,7 +78,7 @@
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
     "DECLARE": {
-        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end in a draw."
+        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored."
     },
     "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
     "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
@@ -150,6 +150,8 @@
         "monkey_single": "{{player}} moved a singleton from {{from}} to {{to}}.",
         "multiple": "{{player}} made the following moves: {{moves}}.",
         "nowhat": "{{player}} moved from {{from}} to {{to}}.",
+        "onager_walk": "{{player}} walked a piece from {{from}} to {{to}}.",
+        "onager_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
         "orb_1": "{{player}} moved an orb from {{from}} to {{to}}.",
         "orb_2": "{{player}} moved a spheroid from {{from}} to {{to}}.",
         "orb_2S": "{{player}} moved a split spheroid from {{from}} to {{to}}.",
@@ -183,6 +185,7 @@
         "mattock": "{{player}} placed a miner at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",
+        "onager": "{{player}} placed a lake at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
         "streetcar": "A building was placed at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",

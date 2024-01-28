@@ -33,6 +33,7 @@ export class TaijiGame extends GameBase {
             {
                 type: "designer",
                 name: "Néstor Romeral Andrés",
+                urls: ["http://www.nestorgames.com"]
             }
         ],
         variants: [

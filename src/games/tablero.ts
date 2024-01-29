@@ -93,6 +93,8 @@ export class TableroGame extends GameBase {
     constructor(state?: ITableroState | string) {
         super();
         if (state === undefined) {
+            const d1 = randomInt(6);
+            const d2= randomInt(6);
             const board = new Map<string, playerid[]>();
             const fresh: IMoveState = {
                 _version: TableroGame.gameinfo.version,
@@ -101,9 +103,9 @@ export class TableroGame extends GameBase {
                 currplayer: 1,
                 board,
                 pieces: [12,12],
-                roll: [randomInt(6), randomInt(6)],
+                roll: [d1, d2],
             };
-            this.results = []
+            this.results = [{type: "roll", values: [d1,d2]}];
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
@@ -700,7 +702,10 @@ export class TableroGame extends GameBase {
 
         this.lastmove = m;
         // reroll the dice
-        this.roll = [randomInt(6), randomInt(6)];
+        const d1 = randomInt(6);
+        const d2 = randomInt(6);
+        this.roll = [d1,d2];
+        this.results.push({type: "roll", values: [d1,d2]});
 
         // update currplayer
         // if player took a piece, force a pass and leave currplayer

@@ -222,6 +222,9 @@
         "simple": "{{player}} repairs."
     },
     "RESIGN": "{{player}} has resigned.",
+    "ROLL": {
+        "tablero": "The dice were rolled: {{values}}."
+    },
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {
         "fnap": "{{player}} selected the tile {{tile}}."
@@ -235,7 +238,8 @@
     "SOW_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber.",
-        "streetcar": "{{player}} took a housing limit from {{from}}."
+        "streetcar": "{{player}} took a housing limit from {{from}}.",
+        "tablero": "{{player}} took one of their checkers from the stack at {{from}}."
     },
     "TIMEOUT": "{{player}} lost on time.",
     "UNFURL": {

@@ -767,6 +767,25 @@
             },
             "required": ["type", "from", "to"],
             "additionalProperties": false
+        },
+        {
+            "description": "Player rolls dice",
+            "properties": {
+                "type": {
+                    "enum": ["roll"]
+                },
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "who": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "values"],
+            "additionalProperties": false
         }
     ]
 }

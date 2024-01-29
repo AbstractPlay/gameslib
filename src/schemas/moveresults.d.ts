@@ -255,4 +255,9 @@ export type APMoveResult =
       from: string;
       to: string;
       count?: number;
+    }
+  | {
+      type: "roll";
+      values: number[];
+      who?: number;
     };

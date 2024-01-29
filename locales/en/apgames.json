@@ -70,6 +70,7 @@
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "streetcar": "It’s against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
+        "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
@@ -97,6 +98,7 @@
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
         "razzle": "The implementation here is the so called tournament rules.",
+        "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are actually displayed on the previous turn.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
@@ -931,6 +933,17 @@
         "strings": {
             "INITIAL_INSTRUCTIONS": "Select a string to pull.",
             "NOSTRING": "There is no string numbered {{string}}."
+        },
+        "tablero": {
+            "BACKTRACKING": "When moving a stack, you may not revisit any previous space, including the starting space.",
+            "BAD_BUMP": "You may not bump if you have legal moves available, including taking a piece into your hand if you rolled doubles.",
+            "BAD_TAKE": "You may only take a piece off the board if you rolled doubles.",
+            "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece or select a stack you control to begin movement. Click the \"Bump\" or \"Take\" buttons to take one of those actions.",
+            "NOT_HOME": "You may only place pieces or move stacks on your home row.",
+            "PARTIAL_MOVE_one": "Keep moving until you have dropped all the pieces from the stack. You have {{count}} checker left to drop.",
+            "PARTIAL_MOVE_other": "Keep moving until you have dropped all the pieces from the stack. You have {{count}} checkers left to drop.",
+            "PARTIAL_TAKE": "Click the stack you control from which you wish to remove a checker.",
+            "VALID_PARTIAL": "First move complete. Now make a second."
         },
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",

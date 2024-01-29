@@ -628,7 +628,7 @@ export class VeletasGame extends GameBase {
                 }
             }
             if (checkTrapped) {
-                const trapped = this.getTrapped(block !== undefined ? block : from, this.currplayer);
+                const trapped = this.getTrapped(this.currplayer);
                 for (const [cell, player] of trapped) {
                     this.board.set(cell, player === 1 ? 3 : 4);
                     this.results.push({type: "claim", where: cell, "who": player});
@@ -646,35 +646,31 @@ export class VeletasGame extends GameBase {
         return this;
     }
 
-    private getTrapped(block: string, player: playerid): Map<string, playerid> {
+    private getTrapped(player: playerid): Map<string, playerid> {
         // Returns a map of pieces that are blocked and who scores.
-        // We check in the vicinity of `block` move.
         // `player` is needed to determine scorer in the case of a tie.
+        // Note that this function should be called after the moves have been made to the `board`.
         const blocked: Map<string, playerid> = new Map();
-        // Get all shooters to check.
-        const shooters: string[] = [];
-        for (const dir of allDirections) {
-            const ray = this.grid.ray(...this.algebraic2coords(block), dir).map(pt => this.coords2algebraic(...pt));
-            for (const cell of ray) {
-                if (this.board.has(cell)) {
-                    const contents = this.board.get(cell);
-                    if (contents === 0) { shooters.push(cell); }
-                    if (contents === 1 || contents === 2) { continue; }
-                }
-            }
-        }
+        const shooters: string[] = [...this.board.keys()].filter(k => this.board.get(k) === 0);
         // Check to see if the shooter has any space where it can go to.
         blockedLoop:
         for (const shooter of shooters) {
             for (const dir of allDirections) {
                 const ray = this.grid.ray(...this.algebraic2coords(shooter), dir).map(pt => this.coords2algebraic(...pt));
                 for (const cell of ray) {
-                    if (cell === block) { break; }
+                    // If there's a space in any direction, then the shooter is not blocked.
+                    // Continue to the next shooter.
                     if (!this.board.has(cell)) { continue blockedLoop; }
                     const contents = this.board.get(cell);
+                    // If we see player pieces, then shooter is blocked in this direction.
+                    // Break this ray and continue to next direction.
                     if (contents === 1 || contents === 2) { break; }
+                    // Otherwise, if we see a shooter, claimed or unclaimed,
+                    // we continue checking down down the ray.
+                    // if (contents === 0 || contents === 3 || contents === 4) { continue; }
                 }
             }
+            // If we get here, then the shooter is blocked.
             blocked.set(shooter, this.getScorer(shooter, player));
         }
         return blocked;
@@ -683,20 +679,23 @@ export class VeletasGame extends GameBase {
     private getScorer(shooter: string, player: playerid): playerid {
         // Once `shooter` is trapped, determine who has the largest orthogonally adjacent group to score.
         // `player` is needed to determine scorer in the case of a tie.
-        const coords = this.algebraic2coords(shooter);
-        const neighbours = this.grid.adjacencies(coords[0], coords[1], false).map(c => this.coords2algebraic(...c));
+        // Note that this function should be called after the moves have been made to the `board`.
+        const neighbours = this.grid.adjacencies(
+            ...this.algebraic2coords(shooter), false).map(c => this.coords2algebraic(...c));
         const largests = [0, 0];
         for (const neighbour of neighbours) {
+            // If neighbour is not a piece, then it's a shooter. No groups to be scored here.
             const contents = this.board.get(neighbour);
             if (contents !== 1 && contents !== 2) { continue; }
+            // Procedure to calculate the size of the group.
             const seen: Set<string> = new Set();
             const todo: string[] = [neighbour];
             while (todo.length > 0) {
                 const cell = todo.pop()!;
                 if (seen.has(cell)) { continue; }
                 seen.add(cell);
-                const coords2 = this.algebraic2coords(cell);
-                for (const n of this.grid.adjacencies(coords2[0], coords2[1], false).map(c => this.coords2algebraic(...c))) {
+                for (const n of this.grid.adjacencies(
+                    ...this.algebraic2coords(cell), false).map(c => this.coords2algebraic(...c))) {
                     if (this.board.has(n) && this.board.get(n) === contents) {
                         todo.push(n);
                     }

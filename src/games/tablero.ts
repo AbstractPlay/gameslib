@@ -269,6 +269,10 @@ export class TableroGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
+            let homerow = 0;
+            if (this.currplayer === 1) {
+                homerow = 2;
+            }
             const moves = move.split(/\s*,\s*/);
             const cloned = TableroGame.clone(this);
             // apply any previous moves
@@ -313,9 +317,32 @@ export class TableroGame extends GameBase {
                 }
                 // clicked on a cell
                 else if (cell !== undefined) {
-                    // if newmove is empty and clicked on empty cell, placement
-                    if (newmove.length === 0 && (! cloned.board.has(cell))) {
-                        newmove = `+${cell}`;
+                    // if newmove is empty and column matches a die
+                    if (newmove.length === 0 && cloned.roll.includes(col + 1)) {
+                        // if cell is empty and home row, placement
+                        if ( (! cloned.board.has(cell)) && (row === homerow) ) {
+                            newmove = `+${cell}`;
+                        }
+                        // if occupied and home row
+                        else if (cloned.board.has(cell) && row === homerow) {
+                            const stack = cloned.board.get(cell)!;
+                            // if enemy occupied, placement
+                            if (stack[stack.length - 1] !== cloned.currplayer) {
+                                newmove = `+${cell}`;
+                            }
+                            // otherwise, assume movement
+                            else {
+                                newmove = cell;
+                            }
+                        }
+                        // occupied and not home row, assume taking
+                        else if (cloned.board.has(cell) && row !== homerow) {
+                            newmove = `-${cell}`;
+                        }
+                    }
+                    // if newmove is empty but column doesn't match a die, take
+                    else if (newmove.length === 0) {
+                        newmove = `-${cell}`;
                     }
                     // newmove is empty or starts with a - or +
                     else if (newmove.length <= 1) {
@@ -655,7 +682,7 @@ export class TableroGame extends GameBase {
             else if (move.includes("-")) {
                 const subs = move.split("-");
                 const stack = [...this.board.get(subs[0])!];
-                this.moving = stack;
+                this.moving = stack.reverse();
                 for (let i = 1; i < subs.length; i++) {
                     const from = subs[i-1];
                     const to = subs[i];

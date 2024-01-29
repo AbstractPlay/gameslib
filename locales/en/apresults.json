@@ -170,7 +170,8 @@
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "pigs": "{{player}} idles.",
-        "simple": "{{player}} passed."
+        "simple": "{{player}} passed.",
+        "tablero": "{{player}} bumped!"
     },
     "PLACE": {
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",

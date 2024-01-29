@@ -60,8 +60,8 @@ export class TableroGame extends GameBase {
     }
     public static move2d6(move: string): number {
         // adding a piece
-        if (move.length === 2) {
-            return TableroGame.algebraic2d6(move);
+        if (move.startsWith("+")) {
+            return TableroGame.algebraic2d6(move.substring(1));
         }
         // movement
         else if ( (! move.startsWith("-")) && (move.includes("-")) ) {
@@ -199,8 +199,8 @@ export class TableroGame extends GameBase {
         const cell = TableroGame.coords2algebraic(num - 1, homerow);
         const first: string[] = [];
         // placement
-        if ( (this.pieces[this.currplayer - 1] > 0) && (! this.board.has(cell)) ) {
-            first.push(cell);
+        if (this.pieces[this.currplayer - 1] > 0) {
+            first.push(`+${cell}`);
         }
         // movement
         if (this.board.has(cell)) {
@@ -249,7 +249,7 @@ export class TableroGame extends GameBase {
             return true;
         }
         // placing on an empty space
-        if ( (move.length === 2) && (! this.board.has(move)) ) {
+        if ( (move.startsWith("+")) && (move.length === 3) ) {
             return true;
         }
         // move of correct length
@@ -281,6 +281,7 @@ export class TableroGame extends GameBase {
             }
             // first move complete; this is start of new second move
             else if (lastComplete && moves.length === 1) {
+                cloned.move(moves[0], {partial: true, trusted: true});
                 newmove = "";
             }
 
@@ -301,12 +302,26 @@ export class TableroGame extends GameBase {
                     } else {
                         newmove = "-";
                     }
+                } else if (cell === undefined && piece?.endsWith("Place")) {
+                    if (newmove.length === 2) {
+                        newmove = `+${newmove}`;
+                    } else {
+                        newmove = "+";
+                    }
                 }
                 // clicked on a cell
                 else if (cell !== undefined) {
-                    // newmove is empty or starts with a -
-                    if (newmove.length <= 1) {
+                    // if newmove is empty and clicked on empty cell, placement
+                    if (newmove.length === 0 && (! cloned.board.has(cell))) {
+                        newmove = `+${cell}`;
+                    }
+                    // newmove is empty or starts with a - or +
+                    else if (newmove.length <= 1) {
                         newmove += cell;
+                    }
+                    // clicked the same cell twice, assume placement
+                    else if (newmove === cell) {
+                        newmove = `+${cell}`;
                     }
                     // otherwise, assume it's a movement
                     else {
@@ -443,6 +458,14 @@ export class TableroGame extends GameBase {
                     return result;
                 }
 
+                // must match one of your dice
+                const d = TableroGame.algebraic2d6(subs[0]);
+                if (! cloned.roll.includes(d)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.tablero.NO_MATCHING_DIE", {die: d});
+                    return result;
+                }
+
                 // no backtracking
                 const unique = new Set<string>(subs);
                 if (unique.size !== subs.length) {
@@ -473,7 +496,51 @@ export class TableroGame extends GameBase {
                 }
             }
 
-            // placement (or very beginning of movement)
+            // placement
+            else if (move.startsWith("+")) {
+                const cell = move.substring(1);
+                // `cell` is potentially empty, which is a valid partial
+                if (cell === "") {
+                    result.valid = true;
+                    result.complete = 0;
+                    result.message = i18next.t("apgames:validation.tablero.PARTIAL_PLACE");
+                    return result;
+                }
+
+                // valid cell
+                try {
+                    TableroGame.algebraic2coords(cell);
+                } catch {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.INVALID_CELL", {cell});
+                    return result;
+                }
+                const [, row] = TableroGame.algebraic2coords(cell);
+
+                // must be home row
+                if (row !== homerow) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.tablero.NOT_HOME");
+                    return result;
+                }
+
+                // must match one of your dice
+                const d = TableroGame.algebraic2d6(cell);
+                if (! cloned.roll.includes(d)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.tablero.NO_MATCHING_DIE", {die: d});
+                    return result;
+                }
+
+                // must have a piece in hand
+                if (cloned.pieces[cloned.currplayer - 1] === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NOPIECES");
+                    return result;
+                }
+
+            }
+            // otherwise, very beginning of movement
             else {
                 // valid cell
                 try {
@@ -508,15 +575,10 @@ export class TableroGame extends GameBase {
                         result.message = i18next.t("apgames:validation.tablero.PARTIAL_MOVE", {count: stack.length});
                         return result;
                     }
-                }
-                // if unoccupied, it must be a placement, and you must have a piece in hand
-                else {
-                    // must have a piece in hand
-                    if (cloned.pieces[cloned.currplayer - 1] === 0) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.NOPIECES");
-                        return result;
-                    }
+                } else {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: move});
+                    return result;
                 }
             }
 
@@ -567,7 +629,9 @@ export class TableroGame extends GameBase {
         for (const move of moves) {
             // bump
             if (move === "bump") {
-                this.bumped = this.currplayer;
+                if (this.bumped === undefined) {
+                    this.bumped = this.currplayer;
+                }
                 this.results.push({type: "pass"});
             }
             // take
@@ -604,14 +668,24 @@ export class TableroGame extends GameBase {
                 }
                 this.board.delete(subs[0]);
             }
-            // placement or starting a new move
+            // placement
+            else if (move.startsWith("+")) {
+                const cell = move.substring(1);
+                if (this.board.has(cell)) {
+                    const stack = this.board.get(cell)!;
+                    this.board.set(cell, [...stack, this.currplayer]);
+                    this.pieces[this.currplayer - 1]--;
+                    this.results.push({type: "place", where: cell});
+                } else {
+                    this.board.set(cell, [this.currplayer]);
+                    this.pieces[this.currplayer - 1]--;
+                    this.results.push({type: "place", where: cell});
+                }
+            }
+            // starting a new move
             else if (move.length === 2) {
                 if (this.board.has(move)) {
                     this.moving = [...this.board.get(move)!];
-                } else {
-                    this.board.set(move, [this.currplayer]);
-                    this.pieces[this.currplayer - 1]--;
-                    this.results.push({type: "place", where: move});
                 }
             }
             // ERROR
@@ -909,11 +983,14 @@ export class TableroGame extends GameBase {
                     height: 0.5,
                     buttons: [
                         {
-                            label: "Bump"
+                            label: "Place"
                         },
                         {
                             label: "Take"
-                        }
+                        },
+                        {
+                            label: "Bump"
+                        },
                     ]
                 }
             ]
@@ -925,7 +1002,7 @@ export class TableroGame extends GameBase {
                 type: "pieces",
                 label: `Stack to be moved (next checker is on the right)`,
                 // @ts-ignore
-                pieces: [...this.moving.map(p => p === 1 ? "A": "B")]
+                pieces: [...this.moving.map(p => p === 1 ? "A": "B")].reverse()
             });
         }
 
@@ -977,6 +1054,10 @@ export class TableroGame extends GameBase {
                 break;
             case "roll":
                 node.push(i18next.t("apresults:ROLL.tablero", {player, values: r.values.join(",")}));
+                resolved = true;
+                break;
+            case "pass":
+                node.push(i18next.t("apresults:PASS.tablero", {player}));
                 resolved = true;
                 break;
         }

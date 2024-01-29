@@ -7,8 +7,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3;  // Player 3 is used for the neutral obstacle pieces.
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW"
@@ -127,7 +125,7 @@ export class OnagerGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, playerid[]>;
+        this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.boardSize = this.getBoardSize();
@@ -544,7 +542,7 @@ export class OnagerGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: deepclone(this.board) as Map<string, playerid[]>,
+            board: new Map(this.board),
         };
     }
 

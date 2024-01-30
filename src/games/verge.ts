@@ -42,7 +42,7 @@ export class VergeGame extends GameBase {
                 name: "Michael Amundsen"
             }
         ],
-        flags: ["pie", "experimental"],
+        flags: ["pie"],
         variants: [
             {
                 uid: "size-7",

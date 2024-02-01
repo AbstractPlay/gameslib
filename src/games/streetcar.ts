@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
@@ -461,16 +460,31 @@ export class StreetcarGame extends GameBase {
             if ( (edges.length === 1) && ( (house.length > 0) || (this.stack.length === 1) ) ) {
                 // convert what the user typed to a canonical edge
                 const realEdge = str2edge(edges[0])!;
-                console.log(JSON.stringify(realEdge));
                 // get list of all edges that extend the one line drawn
                 // filter out the ones that don't exist (extend off into blocked cells)
                 const extensions = edge2verts(realEdge).map(v => vert2edges(v)).flat().filter(e => e.uid !== realEdge.uid).filter(e => edge2string(e) !== undefined);
-                console.log(JSON.stringify(extensions));
                 // get list of vertices owned by opponents
                 const oppClaimedVerts = new Set<string>(this.getClaimedPts(otherPlayer).map(v => v.uid));
-                console.log(JSON.stringify(oppClaimedVerts));
                 let canDraw = false;
                 for (const edge of extensions) {
+                    // ignore if edge joins two blocked cells (off the edge of the board)
+                    const joined = edge2hexes(edge);
+                    let allBlocked = true;
+                    for (const {q,r} of joined) {
+                        const hex = hexGrid.getHex({q,r});
+                        if (hex === undefined) {
+                            continue;
+                        }
+                        const cell = StreetcarGame.coords2algebraic(hex.col, hex.row);
+                        if (! StreetcarGame.blockedCells.includes(cell)) {
+                            allBlocked = false;
+                            break;
+                        }
+                    }
+                    if (allBlocked) {
+                        // console.log(`Edge ${edge.uid} (${JSON.stringify(edge2celldir(edge))}) joins two blocked cells, so can be ignored`);
+                        continue;
+                    }
                     // check if either vertex is owned by opponent
                     if ([...edge2verts(edge)].filter(v => oppClaimedVerts.has(v.uid)).length > 0) {
                         continue;
@@ -479,7 +493,7 @@ export class StreetcarGame extends GameBase {
                     if ([...this.claimed.flat().map(e => e.uid)].includes(edge.uid)) {
                         continue;
                     }
-                    console.log(`Edge ${edge.uid} (${JSON.stringify(edge2celldir(edge))}) does not appear to be claimed by either player or touch a claimed vertex`);
+                    // console.log(`Edge ${edge.uid} (${JSON.stringify(edge2celldir(edge))}) does not appear to be claimed by either player or touch a claimed vertex`);
                     // otherwise, a second line is possible
                     canDraw = true;
                     break;

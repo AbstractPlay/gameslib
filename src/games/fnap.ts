@@ -6,7 +6,7 @@ import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 type playerid = 1|2;
-type Piece = [number, "O"|"D"|"A"|"C"]; // orth, diag, all, cicle
+type Piece = [number, "+"|"x"|"*"|"o"]; // orth, diag, all, cicle
 type CellContents = [...Piece, playerid];
 
 export interface IMoveState extends IIndividualState {
@@ -155,7 +155,7 @@ export class FnapGame extends GameBaseSimultaneous {
         const placed = [...this.board.values()].filter(p => p[2] === player);
         const stash: CellContents[] = [];
         for (let val = 0; val <= 5; val++) {
-            for (const type of ["O","D","A","C"] as const) {
+            for (const type of ["+","x","*","o"] as const) {
                 const pcPlaced = placed.find(p => p[0] === val && p[1] === type);
                 if ( (pcPlaced === undefined) && (! this.selected.includes([val, type, player].join(""))) ){
                     stash.push([val, type, player]);
@@ -163,7 +163,7 @@ export class FnapGame extends GameBaseSimultaneous {
             }
         }
         return stash.sort((a, b) => {
-            const order = ["O","D","A","C"];
+            const order = ["+","x","*","o"];
             if (a[1] === b[1]) {
                 return a[0] - b[0];
             } else {
@@ -527,7 +527,7 @@ export class FnapGame extends GameBaseSimultaneous {
             for (const mv of moves[mover - 1].split(";")) {
                 if (mv === undefined || mv === "" || ! mv.includes("-")) { continue; }
                 const [tile, cell] = mv.split("-");
-                const pc: CellContents = [parseInt(tile[0], 10), tile[1].toUpperCase() as "O"|"D"|"A"|"C", parseInt(tile[2], 10) as playerid];
+                const pc: CellContents = [parseInt(tile[0], 10), tile[1].toUpperCase() as "+"|"x"|"*"|"o", parseInt(tile[2], 10) as playerid];
                 this.board.set(cell, pc);
                 cells.push(cell);
                 this.results.push({type: "place", what: tile, where: cell, who: mover});
@@ -644,9 +644,9 @@ export class FnapGame extends GameBaseSimultaneous {
                 const tpc = this.board.get(tcell)!;
                 let correct: boolean;
                 if (trip.type === "orth") {
-                    correct = tpc[1] === "O" || tpc[1] === "A";
+                    correct = tpc[1] === "+" || tpc[1] === "*";
                 } else {
-                    correct = tpc[1] === "D" || tpc[1] === "A";
+                    correct = tpc[1] === "x" || tpc[1] === "*";
                 }
                 if (! correct) {
                     aligned = false;
@@ -712,11 +712,11 @@ export class FnapGame extends GameBaseSimultaneous {
                 }
                 if (next[2] === pc[2]) {
                     // orthogonal
-                    if ( (dir.length === 1) && ( (next[1] === "O") || (next[1] === "A") ) ) {
+                    if ( (dir.length === 1) && ( (next[1] === "+") || (next[1] === "*") ) ) {
                         isolated = false;
                         break;
                     }
-                    if ( (dir.length === 2) && ( (next[1] === "D") || (next[1] === "A") ) ) {
+                    if ( (dir.length === 2) && ( (next[1] === "x") || (next[1] === "*") ) ) {
                         isolated = false;
                         break;
                     }
@@ -728,7 +728,7 @@ export class FnapGame extends GameBaseSimultaneous {
 
     // mutates this.scores directly
     public scoreCircles() {
-        const circles = [...this.board.entries()].filter(([,v]) => v[1] === "C");
+        const circles = [...this.board.entries()].filter(([,v]) => v[1] === "o");
         for (const [cell, pc] of circles) {
             if (this.isIsolated(cell)) {
                 this.results.push({type: "set", what: "circle", where: cell});
@@ -802,7 +802,23 @@ export class FnapGame extends GameBaseSimultaneous {
             for (let col = 0; col < 6; col++) {
                 const cell = FnapGame.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
-                    contents.push(`x${this.board.get(cell)!.join("")}`);
+                    const [val, type, p] = this.board.get(cell)!;
+                    let mapped;
+                    switch (type) {
+                        case "*":
+                            mapped = "A";
+                            break;
+                        case "+":
+                            mapped = "O";
+                            break;
+                        case "x":
+                            mapped = "D";
+                            break;
+                        default:
+                            mapped = "C";
+                            break;
+                    }
+                    contents.push(`x${val}${mapped}${p}`);
                 } else {
                     contents.push("");
                 }
@@ -848,6 +864,9 @@ export class FnapGame extends GameBaseSimultaneous {
                 }
             }
         }
+        legend.SPACER = {
+            name: "piece-square-borderless"
+        };
 
         // Build rep
         const rep: APRenderRep =  {
@@ -870,11 +889,36 @@ export class FnapGame extends GameBaseSimultaneous {
             });
         }
         for (const player of [1,2] as playerid[]) {
-            const stash = this.genStash(player).map(pc => `x${pc.join("")}`);
+            const stash = this.genStash(player);
+            const strs: string[] = [];
+            for (let val = 0; val <= 5; val++) {
+                for (const type of ["+", "x", "*", "o"] as const) {
+                    if (stash.find(([v,t,]) => v === val && t === type) !== undefined) {
+                        let mapped;
+                        switch (type) {
+                            case "*":
+                                mapped = "A";
+                                break;
+                            case "+":
+                                mapped = "O";
+                                break;
+                            case "x":
+                                mapped = "D";
+                                break;
+                            default:
+                                mapped = "C";
+                                break;
+                        }
+                        strs.push(`x${val}${mapped}${player}`)
+                    } else {
+                        strs.push("SPACER");
+                    }
+                }
+            }
             // @ts-ignore
             rep.areas.push({
                 type: "pieces",
-                pieces: [...stash] as [string, ...string[]],
+                pieces: [...strs] as [string, ...string[]],
                 label: i18next.t("apgames:validation.fnap.LABEL_STASH", {playerNum: player}) || "local",
             });
         }

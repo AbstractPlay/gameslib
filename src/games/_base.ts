@@ -498,7 +498,7 @@ export abstract class GameBase  {
                                 node.push(i18next.t("apresults:REMOVE", {count: r.num , player: name, where: r.where }));
                                 break;
                             case "claim":
-                                node.push(i18next.t("apresults:CLAIM", {player: name, where: r.where }));
+                                node.push(i18next.t("apresults:CLAIM.default", {player: name, where: r.where }));
                                 break;
                             case "eog":
                                 node.push(i18next.t("apresults:EOG"));

@@ -49,16 +49,22 @@ export class VeletasGame extends GameBase {
                 uid: "size-7",
                 group: "board",
             },
+            {
+                uid: "random",
+                group: "setup",
+            }
         ],
-        flags: ["multistep", "scores", "pie"],
+        flags: ["multistep", "scores", "pie", "random-start"],
     };
 
-    public coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, this.boardSize);
+    public coords2algebraic(x: number, y: number, boardSize?: number): string {
+        if (boardSize === undefined) { boardSize = this.boardSize; }
+        return GameBase.coords2algebraic(x, y, boardSize);
     }
 
-    public algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, this.boardSize);
+    public algebraic2coords(cell: string, boardSize?: number): [number, number] {
+        if (boardSize === undefined) { boardSize = this.boardSize; }
+        return GameBase.algebraic2coords(cell, boardSize);
     }
 
     public numplayers = 2;
@@ -80,12 +86,18 @@ export class VeletasGame extends GameBase {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
+            let board: Map<string, CellContents>;
+            if (this.variants.includes("random")) {
+                board = this.getRandomPlacement(this.getBoardSize());
+            } else {
+                board = new Map();
+            }
             const fresh: IMoveState = {
                 _version: VeletasGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Map(),
+                board,
                 scores: [0, 0],
             };
             this.stack = [fresh];
@@ -150,13 +162,49 @@ export class VeletasGame extends GameBase {
         throw new Error(`Could not determine the starting placement from board size ${this.boardSize}`);
     }
 
+    private getRandomPlacement(boardSize?: number): Map<string, CellContents> {
+        // Get random placement for "random" setup variant.
+        if (boardSize === undefined) { boardSize = this.boardSize; }
+        const board = new Map<string, CellContents>();
+        let shooterCount;
+        if (boardSize === 7) { shooterCount = 3; }
+        if (boardSize === 9) { shooterCount = 5; }
+        if (boardSize === 10) { shooterCount = 7; }
+        if (shooterCount === undefined) {
+            throw new Error(`Could not determine the number of shooters from board size ${boardSize}`);
+        }
+        let currentShooterCount = 0;
+        while (currentShooterCount < shooterCount) {
+            const x = Math.floor(Math.random() * (boardSize - 2)) + 1;
+            const y = Math.floor(Math.random() * (boardSize - 2)) + 1;
+            const cell = this.coords2algebraic(x, y, boardSize);
+            if (board.has(cell)) { continue; }
+            board.set(cell, 0);
+            currentShooterCount++;
+        }
+        return board;
+    }
+
     public moves(player?: 1|2): string[] {
         if (player === undefined) {
             player = this.currplayer;
         }
         if (this.gameover) { return []; }
 
-        if (this.stack.length < 3) { return ["No movelist in placement phase"]; }
+        if (this.variants.includes("random") && this.stack.length === 1) {
+            // return a random free cell on the board
+            const freeCells: string[] = [];
+            for (let i = 0; i < this.boardSize; i++) {
+                for (let j = 0; j < this.boardSize; j++) {
+                    const cell = this.coords2algebraic(i, j);
+                    if (this.board.has(cell)) { continue; }
+                    freeCells.push(cell);
+                }
+            }
+            return freeCells;
+        } else if (!this.variants.includes("random") && this.stack.length < 3) {
+            return ["No movelist in placement phase"];
+        }
 
         const from: string[] = [...this.board.keys()].filter(k => this.board.get(k) === 0);
         const fromTos: Array<[string, string]> = [];
@@ -221,7 +269,7 @@ export class VeletasGame extends GameBase {
     }
 
     public randomMove(): string {
-        if (this.stack.length < 3) {
+        if (!this.variants.includes("random") && this.stack.length < 3) {
             // Move list too large so we generate the random placement as needed.
             const availableNonCornerSpaces: string[] = [];
             for (let i = 1; i < this.boardSize - 1; i++) {
@@ -272,7 +320,9 @@ export class VeletasGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.coords2algebraic(col, row);
-            if (this.stack.length < 3) {
+            if (this.variants.includes("random") && this.stack.length === 1) {
+                newmove = cell;
+            } else if (!this.variants.includes("random") && this.stack.length < 3) {
                 if (move === "") {
                     newmove = cell;
                 } else {
@@ -327,7 +377,13 @@ export class VeletasGame extends GameBase {
             return result;
         }
         if (m.length === 0) {
-            if (this.stack.length < 3) {
+            if (this.variants.includes("random") && this.stack.length === 1) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.veletas.INITIAL_INSTRUCTIONS_RANDOM");
+                return result;
+            } else if (!this.variants.includes("random") && this.stack.length < 3) {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
@@ -339,7 +395,32 @@ export class VeletasGame extends GameBase {
             result.message = i18next.t("apgames:validation.veletas.INITIAL_INSTRUCTIONS");
             return result;
         }
-        if (this.stack.length < 3) {
+
+        if (this.variants.includes("random") && this.stack.length === 1) {
+            // valid cell
+            try {
+                const [x, y] = this.algebraic2coords(m);
+                // `algebraic2coords` does not check if the cell is on the board.
+                if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) {
+                    throw new Error("Invalid cell");
+                }
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                return result;
+            }
+            // cell is empty
+            if (this.board.has(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
+                return result;
+            }
+            // looks good
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        } else if (!this.variants.includes("random") && this.stack.length < 3) {
             // Placement phase
             const [shootersString, placement] = m.split("/");
             const shooters = shootersString.split(",");
@@ -591,14 +672,17 @@ export class VeletasGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             // Because move generation is quite heavy, we don't do it for placement phase.
-            if (!partial && this.stack.length > 2 && !this.moves().includes(m)) {
+            if (!partial && !this.variants.includes("random") && this.stack.length > 2 && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }
         if (m.length === 0) { return this; }
         // Move valid, so change the state
         this.results = [];
-        if (this.stack.length < 3) {
+        if (this.variants.includes("random") && this.stack.length === 1) {
+            this.board.set(m, this.currplayer);
+            this.results.push({type: "place", where: m, what: "piece"});
+        } else if (!this.variants.includes("random") && this.stack.length < 3) {
             m = this.normalisePlacement(m);
             const [shootersString, ownPiece] = m.split("/");
             const shooters = shootersString.split(",");
@@ -934,6 +1018,11 @@ export class VeletasGame extends GameBase {
             }
         }
         return result;
+    }
+
+    public getStartingPosition(): string {
+        // Return the locations of shooters at starting position.
+        return [...this.stack[0].board.entries()].map(e => e[0]).sort().join(",");
     }
 
     public clone(): VeletasGame {

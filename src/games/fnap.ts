@@ -887,9 +887,19 @@ export class FnapGame extends GameBaseSimultaneous {
         // areas
         rep.areas = [];
         if (this.selected.length > 0) {
+            const pieces = [...this.selected].filter(s => s !== undefined && s !== null && s !== "");
+            const mapped: string[] = [];
+            for (let piece of pieces) {
+                // map letter type to real type
+                piece = piece.replace("O", "+");
+                piece = piece.replace("D", "x");
+                piece = piece.replace("A", "*");
+                piece = piece.replace("C", "o");
+                mapped.push(piece);
+            }
             rep.areas.push({
                 type: "pieces",
-                pieces: [...this.selected].filter(s => s !== undefined && s !== null && s !== "").map(s => `x${s}`) as [string, ...string[]],
+                pieces: mapped.map(s => `x${s}`) as [string, ...string[]],
                 label: i18next.t("apgames:validation.fnap.LABEL_SELECTED") || "local",
             });
         }

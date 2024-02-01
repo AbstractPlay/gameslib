@@ -62,6 +62,7 @@
         }
     },
     "CLAIM": {
+        "default": "{{player}} claimed {{where}}.",
         "exxit": "{{player}} claimed the perimeter space at {{where}}.",
         "fnap_col": "{{player}} claimed column {{where}}.",
         "fnap_fnap": "{{player}} has claimed the FNAP token.",

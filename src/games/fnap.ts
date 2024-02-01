@@ -344,7 +344,7 @@ export class FnapGame extends GameBaseSimultaneous {
         }
 
         if (this.phase === "select") {
-            const tile = m.toUpperCase();
+            const tile = m.toLowerCase();
             // tile is available
             const stash = this.genStash(player).map(p => p.join(""));
             if (! stash.includes(tile)) {
@@ -364,7 +364,7 @@ export class FnapGame extends GameBaseSimultaneous {
             const [m1, m2] = m.split(";");
             // m1 is guaranteed to exist, at least
             let [tile1, cell1] = m1.split("-");
-            tile1 = tile1.toUpperCase();
+            tile1 = tile1.toLowerCase();
             // tile is selected
             if (! this.selected.includes(tile1)) {
                 result.valid = false;
@@ -394,7 +394,7 @@ export class FnapGame extends GameBaseSimultaneous {
             }
             if (m2 !== undefined) {
                 let [tile2, cell2] = m2.split("-");
-                tile2 = tile2.toUpperCase();
+                tile2 = tile2.toLowerCase();
 
                 // tile is selected
                 if (! this.selected.includes(tile2)) {
@@ -493,7 +493,7 @@ export class FnapGame extends GameBaseSimultaneous {
         if (this.phase === "select") {
             this.selected = [];
             for (let i = 0; i < 2; i++) {
-                this.selected.push(moves[i].toUpperCase());
+                this.selected.push(moves[i].toLowerCase());
                 this.results.push({type: "select", who: i + 1, what: moves[i].substring(0, 2)});
             }
 
@@ -532,7 +532,7 @@ export class FnapGame extends GameBaseSimultaneous {
             for (const mv of moves[mover - 1].split(";")) {
                 if (mv === undefined || mv === "" || ! mv.includes("-")) { continue; }
                 const [tile, cell] = mv.split("-");
-                const pc: CellContents = [parseInt(tile[0], 10), tile[1].toUpperCase() as "+"|"x"|"*"|"o", parseInt(tile[2], 10) as playerid];
+                const pc: CellContents = [parseInt(tile[0], 10), tile[1].toLowerCase() as "+"|"x"|"*"|"o", parseInt(tile[2], 10) as playerid];
                 this.board.set(cell, pc);
                 cells.push(cell);
                 this.results.push({type: "place", what: tile, where: cell, who: mover});
@@ -890,11 +890,11 @@ export class FnapGame extends GameBaseSimultaneous {
             const pieces = [...this.selected].filter(s => s !== undefined && s !== null && s !== "");
             const mapped: string[] = [];
             for (let piece of pieces) {
-                // map letter type to real type
-                piece = piece.replace("O", "+");
-                piece = piece.replace("D", "x");
-                piece = piece.replace("A", "*");
-                piece = piece.replace("C", "o");
+                // map real type to letter
+                piece = piece.replace("+", "O");
+                piece = piece.replace("x", "D");
+                piece = piece.replace("*", "A");
+                piece = piece.replace("o", "C");
                 mapped.push(piece);
             }
             rep.areas.push({

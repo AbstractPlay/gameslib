@@ -240,6 +240,11 @@ export class FnapGame extends GameBaseSimultaneous {
                     throw new Error("If clicking off the board, then piece really should be defined!");
                 }
                 piece = piece.substring(1); // remove the leading `x`
+                // map letter type to real type
+                piece = piece.replace("O", "+");
+                piece = piece.replace("D", "x");
+                piece = piece.replace("A", "*");
+                piece = piece.replace("C", "o");
                 // if select phase, just keep replacing newmove
                 if (this.phase === "select") {
                     newmove = piece;

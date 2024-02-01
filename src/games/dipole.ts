@@ -636,7 +636,7 @@ export class DipoleGame extends GameBase {
                 width: this.boardsize,
                 height: this.boardsize,
                 buffer: {
-                    width: 0.2,
+                    width: 0.5,
                     pattern: "slant",
                 }
             },

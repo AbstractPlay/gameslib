@@ -891,8 +891,8 @@ export class FnapGame extends GameBaseSimultaneous {
         for (const player of [1,2] as playerid[]) {
             const stash = this.genStash(player);
             const strs: string[] = [];
-            for (let val = 0; val <= 5; val++) {
-                for (const type of ["+", "x", "*", "o"] as const) {
+            for (const type of ["+", "x", "*", "o"] as const) {
+                for (let val = 0; val <= 5; val++) {
                     if (stash.find(([v,t,]) => v === val && t === type) !== undefined) {
                         let mapped;
                         switch (type) {

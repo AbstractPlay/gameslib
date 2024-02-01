@@ -41,7 +41,7 @@ export class OnagerGame extends GameBase {
                 urls: ["http://www.nestorgames.com"]
             }
         ],
-        flags: ["experimental", "multistep", "check", "perspective"],
+        flags: ["multistep", "check", "perspective"],
         variants: [
             // { uid: "size-7", group: "board" },
         ],

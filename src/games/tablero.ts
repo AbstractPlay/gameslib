@@ -46,7 +46,7 @@ export class TableroGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        flags: ["experimental", "limited-pieces", "perspective", "multistep", "scores", "automove"]
+        flags: ["limited-pieces", "perspective", "multistep", "scores", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 3);
@@ -1094,6 +1094,10 @@ export class TableroGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    protected getMoveList(): any[] {
+        return this.getMovesAndResults(["place", "take", "pass", "eog", "winners"]);
     }
 
     public clone(): TableroGame {

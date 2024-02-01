@@ -532,7 +532,7 @@ export class BoomGame extends GameBase {
                 width: 8,
                 height: 8,
                 buffer: {
-                    width: 0.2,
+                    width: 0.5,
                     pattern: "slant",
                     show: ["N","S"],
                 },

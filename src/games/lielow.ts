@@ -577,7 +577,7 @@ export class LielowGame extends GameBase {
                 width: this.boardSize,
                 height: this.boardSize,
                 buffer: {
-                    width: 0.2,
+                    width: 0.5,
                     pattern: "slant",
                     show: ["N", "E", "S", "W"],
                 },

@@ -75,6 +75,7 @@ export class EntropyGame extends GameBaseSimultaneous {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
+    public highlight?: string;
 
     constructor(state?: IEntropyState | string) {
         super();
@@ -183,26 +184,31 @@ export class EntropyGame extends GameBaseSimultaneous {
             if (move.length === 0) {
                 if ( (this.phase === "order") && (myboard.has(cell)) ) {
                     newmove = cell;
+                    this.highlight = cell;
                 } else if ( (this.phase === "chaos") && (! theirboard.has(cell)) ) {
                     newmove = cell;
+                    this.highlight = cell;
                 } else {
-                    return {move: "", message: ""} as IClickResult;
+                    return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                 }
             } else {
                 const [from,] = move.split("-");
                 if (this.phase === "order") {
                     if (cell === from) {
-                        return {move: "", message: ""} as IClickResult;
+                        return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                     } else if (! myboard.has(cell)) {
                         newmove = `${from}-${cell}`;
+                        delete this.highlight;
                     } else {
                         newmove = cell;
+                        this.highlight = cell;
                     }
                 } else {
                     if (cell === from) {
-                        return {move: "", message: ""} as IClickResult;
+                        return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                     } else if (! theirboard.has(cell)) {
                         newmove = cell;
+                        this.highlight = cell;
                     }
                 }
             }
@@ -577,40 +583,57 @@ export class EntropyGame extends GameBaseSimultaneous {
             pieces: pstr
         };
 
-        if ( (this.stack[this.stack.length - 1]._results.length > 0) && (this.stack[this.stack.length - 1]._results.length === 2) ) {
-            // @ts-ignore
-            rep.annotations = [];
-            for (let i = 0; i < 2; i++) {
-                const move = this.stack[this.stack.length - 1]._results[i];
-                if (move.type !== "pass") {
-                    if (move.type === "move") {
-                        const [from, to] = [move.from, move.to];
-                        // eslint-disable-next-line prefer-const
-                        let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
-                        if (i === 1) { xFrom += 7; }
-                        // eslint-disable-next-line prefer-const
-                        let [xTo, yTo] = EntropyGame.algebraic2coords(to);
-                        if (i === 1) { xTo += 7; }
-                        rep.annotations.push({
-                            type: "move",
-                            targets: [
-                                {col: xFrom, row: yFrom},
-                                {col: xTo, row: yTo}
-                            ]
-                        });
-                    } else if (move.type === "place") {
-                        // eslint-disable-next-line prefer-const
-                        let [x, y] = EntropyGame.algebraic2coords(move.where!);
-                        if (i === 0) { x += 7; }
-                        rep.annotations.push({
-                            type: "enter",
-                            targets: [
-                                {col: x, row: y}
-                            ]
-                        });
+        // show the last two turns (place AND move)
+        rep.annotations = [];
+        if (this.highlight !== undefined && perspective !== undefined) {
+            const [col, row] = EntropyGame.algebraic2coords(this.highlight);
+            let x = col;
+            if ( (perspective === 1 && this.phase === "chaos") || (perspective === 2 && this.phase === "order") ) {
+                x += 7;
+            }
+            rep.annotations.push({type: "dots", targets: [{col: x, row}]});
+        }
+        for (let turn = 1; turn <= 2; turn++) {
+            // don't go out of bounds early in the game
+            if (this.stack.length > turn) {
+                // if all moves are in
+                if (this.stack[this.stack.length - turn]._results.length === 2) {
+                    for (let i = 0; i < 2; i++) {
+                        const move = this.stack[this.stack.length - turn]._results[i];
+                        if (move.type !== "pass") {
+                            if (move.type === "move") {
+                                const [from, to] = [move.from, move.to];
+                                // eslint-disable-next-line prefer-const
+                                let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
+                                if (i === 1) { xFrom += 7; }
+                                // eslint-disable-next-line prefer-const
+                                let [xTo, yTo] = EntropyGame.algebraic2coords(to);
+                                if (i === 1) { xTo += 7; }
+                                rep.annotations.push({
+                                    type: "move",
+                                    targets: [
+                                        {col: xFrom, row: yFrom},
+                                        {col: xTo, row: yTo}
+                                    ]
+                                });
+                            } else if (move.type === "place") {
+                                // eslint-disable-next-line prefer-const
+                                let [x, y] = EntropyGame.algebraic2coords(move.where!);
+                                if (i === 0) { x += 7; }
+                                rep.annotations.push({
+                                    type: "enter",
+                                    targets: [
+                                        {col: x, row: y}
+                                    ]
+                                });
+                            }
+                        }
                     }
                 }
             }
+        }
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
         return rep;
     }

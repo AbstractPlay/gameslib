@@ -41,7 +41,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 name: "Andrew Juell"
             }
         ],
-        flags: ["experimental", "simultaneous", "scores", "automove", "multistep"]
+        flags: ["simultaneous", "scores", "automove", "multistep"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

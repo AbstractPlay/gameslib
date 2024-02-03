@@ -590,7 +590,7 @@ export class EntropyGame extends GameBaseSimultaneous {
 
         // show the last two turns (place AND move)
         rep.annotations = [];
-        if (this.highlight !== undefined && perspective !== undefined) {
+        if (this.highlight !== undefined) {
             const [col, row] = EntropyGame.algebraic2coords(this.highlight);
             let x = col;
             if ( (perspective === 1 && this.phase === "chaos") || (perspective === 2 && this.phase === "order") ) {

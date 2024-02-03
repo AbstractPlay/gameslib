@@ -42,6 +42,7 @@ export class ArchimedesGame extends GameBase {
         variants: [
             {uid: "8x10"}
         ],
+        displays: [{uid: "hide-threatened"}],
     };
 
     public numplayers = 2;
@@ -503,7 +504,19 @@ export class ArchimedesGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showThreatened = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-threatened") {
+                showThreatened = false;
+            }
+        }
+        const threatened1 = showThreatened ? this.findVulnerable(1) : [];
+        const threatened2 = showThreatened ? this.findVulnerable(2) : [];
         // Build piece string
         let pstr = "";
         let boardHeight = 8;
@@ -520,9 +533,17 @@ export class ArchimedesGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents === 1) {
-                        pieces.push("A");
+                        if (threatened1.includes(cell)) {
+                            pieces.push("C");
+                        } else {
+                            pieces.push("A");
+                        }
                     } else {
-                        pieces.push("B");
+                        if (threatened2.includes(cell)) {
+                            pieces.push("D");
+                        } else {
+                            pieces.push("B");
+                        }
                     }
                 } else {
                     pieces.push("-");
@@ -556,26 +577,13 @@ export class ArchimedesGame extends GameBase {
                 ],
             },
             legend: {
-                A: {
-                    name: "piece",
-                    player: 1
-                },
-                AHome: {
-                    name: "piecepack-suit-anchors",
-                    player: 1,
-                    opacity: 0.5,
-                    scale: 0.85,
-                },
-                B: {
-                    name: "piece",
-                    player: 2
-                },
-                BHome: {
-                    name: "piecepack-suit-anchors",
-                    player: 2,
-                    opacity: 0.5,
-                    scale: 0.85,
-                },
+                A: { name: "piece", player: 1 },
+                AHome: { name: "piecepack-suit-anchors", player: 1, opacity: 0.5, scale: 0.85 },
+                B: { name: "piece", player: 2 },
+                BHome: { name: "piecepack-suit-anchors", player: 2, opacity: 0.5, scale: 0.85 },
+                // Threatened pieces
+                C: [{ name: "piece", player: 1 }, { name: "x" }],
+                D: [{ name: "piece", player: 2 }, { name: "x" }],
             },
             pieces: pstr
         };

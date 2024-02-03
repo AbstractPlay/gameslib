@@ -185,10 +185,8 @@ export class EntropyGame extends GameBaseSimultaneous {
             if (move.length === 0) {
                 if ( (this.phase === "order") && (myboard.has(cell)) ) {
                     newmove = cell;
-                    this.highlight = cell;
                 } else if ( (this.phase === "chaos") && (! theirboard.has(cell)) ) {
                     newmove = cell;
-                    this.highlight = cell;
                 } else {
                     return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                 }
@@ -199,22 +197,17 @@ export class EntropyGame extends GameBaseSimultaneous {
                         return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                     } else if (! myboard.has(cell)) {
                         newmove = `${from}-${cell}`;
-                        delete this.highlight;
                     } else {
                         newmove = cell;
-                        this.highlight = cell;
                     }
                 } else {
                     if (cell === from) {
                         return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                     } else if (! theirboard.has(cell)) {
                         newmove = cell;
-                        this.highlight = cell;
                     }
                 }
             }
-
-            console.log(`Highlight: ${this.highlight}`);
 
             const result = this.validateMove(newmove, player) as IClickResult;
             if (! result.valid) {
@@ -311,6 +304,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                 // valid partial
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.entropy.PARTIAL");
                 return result;
             } else {
@@ -374,9 +368,10 @@ export class EntropyGame extends GameBaseSimultaneous {
                 if (! result.valid) {
                     throw new UserFacingError("VALIDATION_GENERAL", result.message)
                 }
-                if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
-                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-                }
+                // if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
+                // if (! partial && this.moves((i + 1) as playerid).includes(moves[i])) {
+                //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                // }
             }
         }
 
@@ -389,27 +384,38 @@ export class EntropyGame extends GameBaseSimultaneous {
             next = this.bag.pop();
         }
         for (let i = 0; i < moves.length; i++) {
-            if (moves[i] === "pass") {
-                this.results.push({type: "pass"});
-                continue;
-            } else if (moves[i].includes("-")) {
-                const [from, to] = moves[i].split("-");
-                const piece = myboard[i].get(from);
-                if (piece === undefined) {
-                    throw new Error(`Could not find a piece at ${from}`);
+            if (moves[i] !== "") {
+                if (moves[i] === "pass") {
+                    this.results.push({type: "pass"});
+                    continue;
+                } else if (moves[i].includes("-") || this.phase === "order") {
+                    console.log("in the movement phase");
+                    const [from, to] = moves[i].split("-");
+                    this.highlight = from;
+                    console.log(`Move: ${moves[i]}, From: ${from}, To: ${to}, Highlight: ${this.highlight}`);
+                    if (to !== undefined) {
+                        const piece = myboard[i].get(from);
+                        if (piece === undefined) {
+                            throw new Error(`Could not find a piece at ${from}`);
+                        }
+                        myboard[i].set(to, piece);
+                        myboard[i].delete(from);
+                        this.results.push({type: "move", from, to});
+                    }
+                } else if (! (partial && moves[i] === '')) {
+                    console.log("In placement phase")
+                    if (next === undefined) {
+                        throw new Error("Could not find a piece to place.");
+                    }
+                    this.highlight = moves[i];
+                    theirboard[i].set(moves[i], next);
+                    this.results.push({type: "place", what: next, where: moves[i]});
+                    this.lastmove = this.lastmove.split(',').map((mv,idx) => (i === idx) ? `${next}${mv}` : mv).join(',');
                 }
-                myboard[i].set(to, piece);
-                myboard[i].delete(from);
-                this.results.push({type: "move", from, to});
-            } else if (! (partial && moves[i] === '')) {
-                if (next === undefined) {
-                    throw new Error("Could not find a piece to place.");
-                }
-                theirboard[i].set(moves[i], next);
-                this.results.push({type: "place", what: next, where: moves[i]});
-                this.lastmove = this.lastmove.split(',').map((mv,idx) => (i === idx) ? `${next}${mv}` : mv).join(',');
             }
         }
+
+        console.log(`Highlight: ${this.highlight}`);
 
         if (! partial) {
             delete this.highlight;

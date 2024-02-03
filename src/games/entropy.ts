@@ -408,6 +408,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
 
         if (! partial) {
+            delete this.highlight;
             if (this.phase === "chaos") {
                 this.phase = "order";
             } else {
@@ -593,10 +594,44 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
             rep.annotations.push({type: "dots", targets: [{col: x, row}]});
         }
+        // check for pending annotations
+        if (this.results.length > 0) {
+            for (const move of this.results) {
+                if (move.type !== "pass") {
+                    if (move.type === "move") {
+                        const [from, to] = [move.from, move.to];
+                        // eslint-disable-next-line prefer-const
+                        let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
+                        if (perspective === 1) { xFrom += 7; }
+                        // eslint-disable-next-line prefer-const
+                        let [xTo, yTo] = EntropyGame.algebraic2coords(to);
+                        if (perspective === 1) { xTo += 7; }
+                        rep.annotations.push({
+                            type: "move",
+                            targets: [
+                                {col: xFrom, row: yFrom},
+                                {col: xTo, row: yTo}
+                            ]
+                        });
+                    } else if (move.type === "place") {
+                        // eslint-disable-next-line prefer-const
+                        let [x, y] = EntropyGame.algebraic2coords(move.where!);
+                        if (perspective === 0) { x += 7; }
+                        rep.annotations.push({
+                            type: "enter",
+                            targets: [
+                                {col: x, row: y}
+                            ]
+                        });
+                    }
+                }
+            }
+        }
         for (let turn = 1; turn <= 2; turn++) {
             // don't go out of bounds early in the game
             if (this.stack.length > turn) {
-                if (this.stack[this.stack.length - turn]._results.length > 0) {
+                // if all moves are in
+                if (this.stack[this.stack.length - turn]._results.length === 2) {
                     for (let i = 0; i < 2; i++) {
                         const move = this.stack[this.stack.length - turn]._results[i];
                         if (move.type !== "pass") {

@@ -951,22 +951,22 @@ export class CannonGame extends GameBase {
                 ],
                 // Threatened pieces
                 C: [
-                    { name: "piece-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece-borderless", scale: 1.1, player: 2 },
                     { name: "piece", player: 1 },
                     { name: "cannon-piece", scale: 0.5 }
                 ],
                 D: [
-                    { name: "piece-square-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece-square-borderless", scale: 1.1, player: 2 },
                     { name: "piece-square", player: 1 },
                     { name: "cannon-town", scale: 0.75 }
                 ],
                 W: [
-                    { name: "piece-borderless", scale: 1.1, player: 1, opacity: 0.7 },
+                    { name: "piece-borderless", scale: 1.1, player: 1 },
                     { name: "piece", player: 2 },
                     { name: "cannon-piece", scale: 0.5, rotate: 180 }
                 ],
                 X: [
-                    { name: "piece-square-borderless", scale: 1.1, player: 1, opacity: 0.7 },
+                    { name: "piece-square-borderless", scale: 1.1, player: 1 },
                     { name: "piece-square", player: 2 },
                     { name: "cannon-town", scale: 0.75, rotate: 180 }
                 ],

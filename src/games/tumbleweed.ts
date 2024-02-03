@@ -578,20 +578,20 @@ export class TumbleweedGame extends GameBase {
                 ]
             } else if (piece === "F") {
                 legend[name] = [
-                    { name: "piece-borderless", scale: 1.1, player: 1, opacity: 0.7 },
+                    { name: "piece-borderless", scale: 1.1, player: 1 },
                     { name: "piece", player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             } else if (piece === "G") {
                 legend[name] = [
-                    { name: "piece-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece-borderless", scale: 1.1, player: 2 },
                     { name: "piece", player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             } else /* if (piece === "H") */ {
                 legend[name] = [
-                    { name: "piece-borderless", scale: 1.1, player: 1, opacity: 0.7 },
-                    { name: "piece-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece-borderless", scale: 1.1, player: 1 },
+                    { name: "piece-borderless", scale: 1.1, player: 2 },
                     { name: "piece", player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]

@@ -47,7 +47,7 @@ export class ConhexGame extends GameBase {
                 group: "board",
             },
         ],
-        flags: ["experimental", "pie", "rotate90"],
+        flags: ["pie", "rotate90"],
     };
 
     public numplayers = 2;
@@ -165,7 +165,7 @@ export class ConhexGame extends GameBase {
         const lineW: string[] = [];
         for (let y = 0; y < rowCount; y++) {
             const E = this.coords2space(rowCount - 1 + y, 0);
-            const W = this.coords2space(3 * (rowCount - 1) + y, 0);
+            const W = this.coords2space(y === rowCount - 1 ? 0 : 3 * (rowCount - 1) + y, 0);
             lineE.push(E);
             lineW.push(W);
         }

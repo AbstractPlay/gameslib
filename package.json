@@ -16,7 +16,8 @@
     "full-prod": "npm run test && npm run build && npm run dist-prod && npm run deploy",
     "deploy": "shx cp ./playground/index.html ./dist && npx serverless client deploy --no-confirm --no-delete-contents",
     "extract": "i18next 'src/**/*.ts'",
-    "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts"
+    "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts",
+    "npm-login": "npm login --scope=@abstractplay --auth-type=legacy --registry=https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",

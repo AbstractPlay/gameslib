@@ -24,6 +24,7 @@
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
+        "conhex": "In ConHex, the winner is the first player to connect his or her assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
@@ -460,6 +461,10 @@
         },
         "complica": {
             "INITIAL_INSTRUCTIONS": "Select the column into which to drop your stone."
+        },
+        "conhex": {
+            "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece.",
+            "INVALID_VERTEX": "The vertex {{vertex}} does not exist on the board."
         },
         "courtesan": {
             "DISTANCE_ONE": "Pieces may only move one space at a time.",
@@ -1010,7 +1015,6 @@
             "INITIAL_INSTRUCTIONS": "Select a shooter to move or select a cell to place your piece.",
             "INITIAL_INSTRUCTIONS_PLACE_one": "Place {{count}} more shooter an empty space on the board, then place a piece of your colour on the board.",
             "INITIAL_INSTRUCTIONS_PLACE_other": "Place {{count}} more shooters on empty spaces on the board, then place a piece of your colour on the board.",
-            "INITIAL_INSTRUCTIONS_RANDOM": "Place a piece of your colour on the board.",
             "SORTED": "The move list needs to be sorted. Try {{normalised}}.",
             "PLACE_SHOOTER_one": "Place {{count}} more shooter on the board, then place a piece of your colour on the board.",
             "PLACE_SHOOTER_other": "Place {{count}} more shooters on the board, then place a piece of your colour on the board.",
@@ -1098,6 +1102,11 @@
         "clusterfuss": {
             "board": {
                 "name": "board (8x8)"
+            }
+        },
+        "conhex": {
+            "board": {
+                "name": "board: 11x11"
             }
         },
         "exxit": {
@@ -1282,6 +1291,11 @@
         "clusterfuss": {
             "10": {
                 "name": "Larger board (10x10)"
+            }
+        },
+        "conhex": {
+            "size-15": {
+                "name": "Large board: 15x15"
             }
         },
         "dagnacht": {
@@ -1578,7 +1592,7 @@
             },
             "random": {
                 "name": "Randomised setup",
-                "description": "The starting board has shooters in randomised position. The first player places a stone of their colour, and the second player decides if they want to invoke the pie rule. The game begins after that."
+                "description": "The starting board has shooters in randomised position. The first player makes a normal move and the second player decides if they want to invoke the pie rule."
             }
         },
         "verge": {

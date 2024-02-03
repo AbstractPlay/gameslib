@@ -47,7 +47,7 @@ export class ConhexGame extends GameBase {
                 group: "board",
             },
         ],
-        flags: ["experimental", "pie", "rotate90"],
+        flags: ["pie", "rotate90"],
     };
 
     public numplayers = 2;

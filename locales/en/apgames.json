@@ -1595,6 +1595,12 @@
                 "name": "Expanding"
             }
         },
+        "archimedes": {
+            "hide-threatened": {
+                "description": "Don't highlight pieces that are threatened to be removed next turn.",
+                "name": "Hide threatened"
+            }
+        },
         "bao": {
             "pips": {
                 "description": "Display the stones as pips instead of as numerals.",

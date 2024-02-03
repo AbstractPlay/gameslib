@@ -63,6 +63,7 @@
     },
     "CLAIM": {
         "default": "{{player}} claimed {{where}}.",
+        "conhex": "{{player}} claimed the space at ({{where}}).",
         "exxit": "{{player}} claimed the perimeter space at {{where}}.",
         "fnap_col": "{{player}} claimed column {{where}}.",
         "fnap_fnap": "{{player}} has claimed the FNAP token.",
@@ -182,6 +183,7 @@
         "cannon": "{{player}} placed their town at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",
+        "conhex": "{{player}} placed a piece at vertex {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
         "mattock": "{{player}} placed a miner at {{where}}.",

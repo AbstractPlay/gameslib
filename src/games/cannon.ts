@@ -57,7 +57,8 @@ export class CannonGame extends GameBase {
                 name: "David E. Whitcher"
             }
         ],
-        flags: ["perspective", "limited-pieces", "check"]
+        flags: ["perspective", "limited-pieces", "check"],
+        displays: [{uid: "hide-threatened"}],
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -811,8 +812,68 @@ export class CannonGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    private threatenedPieces(): Set<string> {
+        // Get all pieces threatened by cannon fire.
+        const pieces = [...this.board.entries()].map(e => e[0]);
+        const grid = new RectGrid(10, 10);
+        const threatened = new Set<string>();
+        for (const piece of pieces) {
+            const [x, y] = CannonGame.algebraic2coords(piece);
+            const player = this.board.get(piece)![0];
+            const otherPlayer = player % 2 + 1 as playerid;
+            for (const dir of alldirs) {
+                const ray = grid.ray(x, y, dir).map(pt => CannonGame.coords2algebraic(...pt));
+                if (
+                    (ray.length > 3 &&
+                      !this.board.has(ray[0]) &&
+                      ray
+                        .slice(1, 4)
+                        .every(
+                          (c) =>
+                            this.board.has(c) &&
+                            this.board.get(c)![0] === otherPlayer &&
+                            this.board.get(c)![1] === "s"
+                        )) ||
+                    (ray.length > 4 &&
+                      !this.board.has(ray[1]) &&
+                      ray
+                        .slice(2, 5)
+                        .every(
+                          (c) =>
+                            this.board.has(c) &&
+                            this.board.get(c)![0] === otherPlayer &&
+                            this.board.get(c)![1] === "s"
+                        ))
+                  ) {
+                    threatened.add(piece);
+                    break;
+                  }
+            }
+        }
+        return threatened;
+    }
+
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showThreatened = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-threatened") {
+                showThreatened = false;
+            }
+        }
+        const threatenedPieces: Set<string> = showThreatened ? this.threatenedPieces() : new Set();
         // Build piece string
+        // A - player 1 soldier
+        // B - player 1 town
+        // C - player 1 threatened soldier
+        // D - player 1 threatened town
+        // Y - player 2 soldier
+        // Z - player 2 town
+        // W - player 2 threatened soldier
+        // X - player 2 threatened town
         let pstr = "";
         for (let row = 0; row < 10; row++) {
             if (pstr.length > 0) {
@@ -827,15 +888,31 @@ export class CannonGame extends GameBase {
                     }
                     if (contents[0] === 1) {
                         if (contents[1] === "s") {
-                            pstr += "A";
+                            if (threatenedPieces.has(cell)) {
+                                pstr += "C";
+                            } else {
+                                pstr += "A";
+                            }
                         } else {
-                            pstr += "B";
+                            if (threatenedPieces.has(cell)) {
+                                pstr += "D";
+                            } else {
+                                pstr += "B";
+                            }
                         }
                     } else if (contents[0] === 2) {
                         if (contents[1] === "s") {
-                            pstr += "Y";
+                            if (threatenedPieces.has(cell)) {
+                                pstr += "W";
+                            } else {
+                                pstr += "Y";
+                            }
                         } else {
-                            pstr += "Z";
+                            if (threatenedPieces.has(cell)) {
+                                pstr += "X";
+                            } else {
+                                pstr += "Z";
+                            }
                         }
                     } else {
                         throw new Error("Unrecognized cell contents.");
@@ -857,46 +934,41 @@ export class CannonGame extends GameBase {
             },
             legend: {
                 A: [
-                    {
-                        name: "piece",
-                        player: 1
-                    },
-                    {
-                        name: "cannon-piece",
-                        scale: 0.5
-                    }
+                    { name: "piece", player: 1 },
+                    { name: "cannon-piece", scale: 0.5 }
                 ],
                 B: [
-                    {
-                        name: "piece-square",
-                        player: 1
-                    },
-                    {
-                        name: "cannon-town",
-                        scale: 0.75
-                    }
+                    { name: "piece-square", player: 1 },
+                    { name: "cannon-town", scale: 0.75 }
                 ],
                 Y: [
-                    {
-                        name: "piece",
-                        player: 2
-                    },
-                    {
-                        name: "cannon-piece",
-                        scale: 0.5,
-                        rotate: 180
-                    }
+                    { name: "piece", player: 2 },
+                    { name: "cannon-piece", scale: 0.5, rotate: 180 }
                 ],
                 Z: [
-                    {
-                        name: "piece-square",
-                        player: 2
-                    },
-                    {
-                        name: "cannon-town",
-                        scale: 0.75,
-                        rotate: 180
-                    }
+                    { name: "piece-square", player: 2 },
+                    { name: "cannon-town", scale: 0.75, rotate: 180 }
+                ],
+                // Threatened pieces
+                C: [
+                    { name: "piece-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece", player: 1 },
+                    { name: "cannon-piece", scale: 0.5 }
+                ],
+                D: [
+                    { name: "piece-square-borderless", scale: 1.1, player: 2, opacity: 0.7 },
+                    { name: "piece-square", player: 1 },
+                    { name: "cannon-town", scale: 0.75 }
+                ],
+                W: [
+                    { name: "piece-borderless", scale: 1.1, player: 1, opacity: 0.7 },
+                    { name: "piece", player: 2 },
+                    { name: "cannon-piece", scale: 0.5, rotate: 180 }
+                ],
+                X: [
+                    { name: "piece-square-borderless", scale: 1.1, player: 1, opacity: 0.7 },
+                    { name: "piece-square", player: 2 },
+                    { name: "cannon-town", scale: 0.75, rotate: 180 }
                 ],
             },
             pieces: pstr

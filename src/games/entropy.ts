@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // import { IGame } from "./IGame";
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -212,6 +213,9 @@ export class EntropyGame extends GameBaseSimultaneous {
                     }
                 }
             }
+
+            console.log(`Highlight: ${this.highlight}`);
+
             const result = this.validateMove(newmove, player) as IClickResult;
             if (! result.valid) {
                 result.move = "";
@@ -517,7 +521,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
-    public render( { perspective } : { perspective: number | undefined } ): APRenderRep {
+    public render( { perspective } : { perspective: number | undefined } = {perspective: undefined}): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 7; row++) {
@@ -592,6 +596,7 @@ export class EntropyGame extends GameBaseSimultaneous {
             if ( (perspective === 1 && this.phase === "chaos") || (perspective === 2 && this.phase === "order") ) {
                 x += 7;
             }
+            console.log(`Highlight: ${this.highlight}, Row: ${row}, Col: ${col}, X: ${x}`);
             rep.annotations.push({type: "dots", targets: [{col: x, row}]});
         }
         // check for pending annotations
@@ -602,10 +607,10 @@ export class EntropyGame extends GameBaseSimultaneous {
                         const [from, to] = [move.from, move.to];
                         // eslint-disable-next-line prefer-const
                         let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
-                        if (perspective === 1) { xFrom += 7; }
+                        if (perspective === 2) { xFrom += 7; }
                         // eslint-disable-next-line prefer-const
                         let [xTo, yTo] = EntropyGame.algebraic2coords(to);
-                        if (perspective === 1) { xTo += 7; }
+                        if (perspective === 2) { xTo += 7; }
                         rep.annotations.push({
                             type: "move",
                             targets: [
@@ -616,7 +621,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                     } else if (move.type === "place") {
                         // eslint-disable-next-line prefer-const
                         let [x, y] = EntropyGame.algebraic2coords(move.where!);
-                        if (perspective === 0) { x += 7; }
+                        if (perspective === 1) { x += 7; }
                         rep.annotations.push({
                             type: "enter",
                             targets: [

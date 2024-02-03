@@ -84,6 +84,7 @@ import { GessGame, IGessState } from "./gess";
 import { OnagerGame, IOnagerState } from "./onager";
 import { VergeGame, IVergeState } from "./verge";
 import { TableroGame, ITableroState } from "./tablero";
+import { ClusterfussGame, IClusterfussState } from "./clusterfuss";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -170,6 +171,7 @@ export {
     OnagerGame, IOnagerState,
     VergeGame, IVergeState,
     TableroGame, ITableroState,
+    ClusterfussGame, IClusterfussState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -199,7 +201,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
                               typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
                               typeof VeletasGame | typeof GessGame | typeof OnagerGame |
-                              typeof VergeGame | typeof TableroGame
+                              typeof VergeGame | typeof TableroGame | typeof ClusterfussGame
                 >();
 // Manually add each game to the following array
 [
@@ -214,7 +216,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
-    VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame
+    VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -392,6 +394,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new VergeGame(...args);
         case "tablero":
             return new TableroGame(...args);
+        case "clusterfuss":
+            return new ClusterfussGame(...args);
     }
     return;
 }

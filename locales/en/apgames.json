@@ -1015,7 +1015,6 @@
             "INITIAL_INSTRUCTIONS": "Select a shooter to move or select a cell to place your piece.",
             "INITIAL_INSTRUCTIONS_PLACE_one": "Place {{count}} more shooter an empty space on the board, then place a piece of your colour on the board.",
             "INITIAL_INSTRUCTIONS_PLACE_other": "Place {{count}} more shooters on empty spaces on the board, then place a piece of your colour on the board.",
-            "INITIAL_INSTRUCTIONS_RANDOM": "Place a piece of your colour on the board.",
             "SORTED": "The move list needs to be sorted. Try {{normalised}}.",
             "PLACE_SHOOTER_one": "Place {{count}} more shooter on the board, then place a piece of your colour on the board.",
             "PLACE_SHOOTER_other": "Place {{count}} more shooters on the board, then place a piece of your colour on the board.",
@@ -1593,7 +1592,7 @@
             },
             "random": {
                 "name": "Randomised setup",
-                "description": "The starting board has shooters in randomised position. The first player places a stone of their colour, and the second player decides if they want to invoke the pie rule. The game begins after that."
+                "description": "The starting board has shooters in randomised position. The first player makes a normal move and the second player decides if they want to invoke the pie rule."
             }
         },
         "verge": {

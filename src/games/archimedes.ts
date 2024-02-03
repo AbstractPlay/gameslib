@@ -503,7 +503,7 @@ export class ArchimedesGame extends GameBase {
             board: new Map(this.board),
         };
     }
-    
+
     public render(opts?: { altDisplay: string | undefined }): APRenderRep {
         let altDisplay: string | undefined;
         if (opts !== undefined) {

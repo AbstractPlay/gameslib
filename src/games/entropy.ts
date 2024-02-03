@@ -75,6 +75,7 @@ export class EntropyGame extends GameBaseSimultaneous {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
+    public highlight?: string;
 
     constructor(state?: IEntropyState | string) {
         super();
@@ -186,13 +187,13 @@ export class EntropyGame extends GameBaseSimultaneous {
                 } else if ( (this.phase === "chaos") && (! theirboard.has(cell)) ) {
                     newmove = cell;
                 } else {
-                    return {move: "", message: ""} as IClickResult;
+                    return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                 }
             } else {
                 const [from,] = move.split("-");
                 if (this.phase === "order") {
                     if (cell === from) {
-                        return {move: "", message: ""} as IClickResult;
+                        return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                     } else if (! myboard.has(cell)) {
                         newmove = `${from}-${cell}`;
                     } else {
@@ -200,12 +201,13 @@ export class EntropyGame extends GameBaseSimultaneous {
                     }
                 } else {
                     if (cell === from) {
-                        return {move: "", message: ""} as IClickResult;
+                        return {move: "", message: i18next.t("apgames:validation.entropy.INITIAL_INSTRUCTIONS", {context: this.phase})} as IClickResult;
                     } else if (! theirboard.has(cell)) {
                         newmove = cell;
                     }
                 }
             }
+
             const result = this.validateMove(newmove, player) as IClickResult;
             if (! result.valid) {
                 result.move = "";
@@ -301,6 +303,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                 // valid partial
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.entropy.PARTIAL");
                 return result;
             } else {
@@ -364,9 +367,10 @@ export class EntropyGame extends GameBaseSimultaneous {
                 if (! result.valid) {
                     throw new UserFacingError("VALIDATION_GENERAL", result.message)
                 }
-                if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
-                    throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-                }
+                // if (! ((partial && moves[i] === "") || this.moves((i + 1) as playerid).includes(moves[i]))) {
+                // if (! partial && this.moves((i + 1) as playerid).includes(moves[i])) {
+                //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                // }
             }
         }
 
@@ -379,29 +383,36 @@ export class EntropyGame extends GameBaseSimultaneous {
             next = this.bag.pop();
         }
         for (let i = 0; i < moves.length; i++) {
-            if (moves[i] === "pass") {
-                this.results.push({type: "pass"});
-                continue;
-            } else if (moves[i].includes("-")) {
-                const [from, to] = moves[i].split("-");
-                const piece = myboard[i].get(from);
-                if (piece === undefined) {
-                    throw new Error(`Could not find a piece at ${from}`);
+            if (moves[i] !== "") {
+                if (moves[i] === "pass") {
+                    this.results.push({type: "pass"});
+                    continue;
+                } else if (moves[i].includes("-") || this.phase === "order") {
+                    const [from, to] = moves[i].split("-");
+                    this.highlight = from;
+                    if (to !== undefined) {
+                        const piece = myboard[i].get(from);
+                        if (piece === undefined) {
+                            throw new Error(`Could not find a piece at ${from}`);
+                        }
+                        myboard[i].set(to, piece);
+                        myboard[i].delete(from);
+                        this.results.push({type: "move", from, to});
+                    }
+                } else if (! (partial && moves[i] === '')) {
+                    if (next === undefined) {
+                        throw new Error("Could not find a piece to place.");
+                    }
+                    this.highlight = moves[i];
+                    theirboard[i].set(moves[i], next);
+                    this.results.push({type: "place", what: next, where: moves[i]});
+                    this.lastmove = this.lastmove.split(',').map((mv,idx) => (i === idx) ? `${next}${mv}` : mv).join(',');
                 }
-                myboard[i].set(to, piece);
-                myboard[i].delete(from);
-                this.results.push({type: "move", from, to});
-            } else if (! (partial && moves[i] === '')) {
-                if (next === undefined) {
-                    throw new Error("Could not find a piece to place.");
-                }
-                theirboard[i].set(moves[i], next);
-                this.results.push({type: "place", what: next, where: moves[i]});
-                this.lastmove = this.lastmove.split(',').map((mv,idx) => (i === idx) ? `${next}${mv}` : mv).join(',');
             }
         }
 
         if (! partial) {
+            delete this.highlight;
             if (this.phase === "chaos") {
                 this.phase = "order";
             } else {
@@ -510,7 +521,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
-    public render( { perspective } : { perspective: number | undefined } ): APRenderRep {
+    public render( { perspective } : { perspective: number | undefined } = {perspective: undefined}): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 7; row++) {
@@ -577,20 +588,28 @@ export class EntropyGame extends GameBaseSimultaneous {
             pieces: pstr
         };
 
-        if ( (this.stack[this.stack.length - 1]._results.length > 0) && (this.stack[this.stack.length - 1]._results.length === 2) ) {
-            // @ts-ignore
-            rep.annotations = [];
-            for (let i = 0; i < 2; i++) {
-                const move = this.stack[this.stack.length - 1]._results[i];
+        // show the last two turns (place AND move)
+        rep.annotations = [];
+        if (this.highlight !== undefined) {
+            const [col, row] = EntropyGame.algebraic2coords(this.highlight);
+            let x = col;
+            if ( (perspective === 1 && this.phase === "chaos") || (perspective === 2 && this.phase === "order") ) {
+                x += 7;
+            }
+            rep.annotations.push({type: "dots", targets: [{col: x, row}]});
+        }
+        // check for pending annotations
+        if (this.results.length > 0) {
+            for (const move of this.results) {
                 if (move.type !== "pass") {
                     if (move.type === "move") {
                         const [from, to] = [move.from, move.to];
                         // eslint-disable-next-line prefer-const
                         let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
-                        if (i === 1) { xFrom += 7; }
+                        if (perspective === 2) { xFrom += 7; }
                         // eslint-disable-next-line prefer-const
                         let [xTo, yTo] = EntropyGame.algebraic2coords(to);
-                        if (i === 1) { xTo += 7; }
+                        if (perspective === 2) { xTo += 7; }
                         rep.annotations.push({
                             type: "move",
                             targets: [
@@ -601,7 +620,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                     } else if (move.type === "place") {
                         // eslint-disable-next-line prefer-const
                         let [x, y] = EntropyGame.algebraic2coords(move.where!);
-                        if (i === 0) { x += 7; }
+                        if (perspective === 1) { x += 7; }
                         rep.annotations.push({
                             type: "enter",
                             targets: [
@@ -611,6 +630,48 @@ export class EntropyGame extends GameBaseSimultaneous {
                     }
                 }
             }
+        }
+        for (let turn = 1; turn <= 2; turn++) {
+            // don't go out of bounds early in the game
+            if (this.stack.length > turn) {
+                // if all moves are in
+                if (this.stack[this.stack.length - turn]._results.length === 2) {
+                    for (let i = 0; i < 2; i++) {
+                        const move = this.stack[this.stack.length - turn]._results[i];
+                        if (move.type !== "pass") {
+                            if (move.type === "move") {
+                                const [from, to] = [move.from, move.to];
+                                // eslint-disable-next-line prefer-const
+                                let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
+                                if (i === 1) { xFrom += 7; }
+                                // eslint-disable-next-line prefer-const
+                                let [xTo, yTo] = EntropyGame.algebraic2coords(to);
+                                if (i === 1) { xTo += 7; }
+                                rep.annotations.push({
+                                    type: "move",
+                                    targets: [
+                                        {col: xFrom, row: yFrom},
+                                        {col: xTo, row: yTo}
+                                    ]
+                                });
+                            } else if (move.type === "place") {
+                                // eslint-disable-next-line prefer-const
+                                let [x, y] = EntropyGame.algebraic2coords(move.where!);
+                                if (i === 0) { x += 7; }
+                                rep.annotations.push({
+                                    type: "enter",
+                                    targets: [
+                                        {col: x, row: y}
+                                    ]
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
         return rep;
     }

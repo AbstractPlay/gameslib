@@ -54,7 +54,7 @@
                 statusbox.innerHTML = resultStr;
                 if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
                     game.move(result.move + ",", {partial: true});
-                    var interim = JSON.stringify(game.render());
+                    var interim = JSON.stringify(game.render({perspective: 1}));
                     window.sessionStorage.setItem("interim", interim);
                 } else {
                     window.sessionStorage.removeItem("interim");

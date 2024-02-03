@@ -596,8 +596,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         for (let turn = 1; turn <= 2; turn++) {
             // don't go out of bounds early in the game
             if (this.stack.length > turn) {
-                // if all moves are in
-                if (this.stack[this.stack.length - turn]._results.length === 2) {
+                if (this.stack[this.stack.length - turn]._results.length > 0) {
                     for (let i = 0; i < 2; i++) {
                         const move = this.stack[this.stack.length - turn]._results[i];
                         if (move.type !== "pass") {

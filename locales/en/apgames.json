@@ -451,10 +451,10 @@
             "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut."
         },
         "clusterfuss": {
+            "ADJ_ONLY": "Pieces may only move to orthogonally adjacent spaces.",
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select one of your pieces with which to capture.",
             "MUST_CAPTURE": "Every move must capture, but there is no piece at {{where}} to capture.",
-            "ORTH_ONLY": "Pieces may only move orthogonally.",
             "PARTIAL": "Select an orthogonally adjacent piece to capture (yours or your opponent's).",
             "SINGLE_GROUP": "After your capture, there must be only one orthogonally connected group that contains your own checkers."
         },
@@ -1085,9 +1085,19 @@
                 "name": "board (base 6)"
             }
         },
+        "bounce": {
+            "board": {
+                "name": "board (8x8)"
+            }
+        },
         "catchup": {
             "board": {
                 "name": "board (base 5)"
+            }
+        },
+        "clusterfuss": {
+            "board": {
+                "name": "board (8x8)"
             }
         },
         "exxit": {
@@ -1267,6 +1277,11 @@
             "snub": {
                 "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
                 "name": "Board: Snub Square"
+            }
+        },
+        "clusterfuss": {
+            "10": {
+                "name": "Larger board: 10x10"
             }
         },
         "dagnacht": {

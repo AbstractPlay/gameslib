@@ -295,11 +295,10 @@ export class ClusterfussGame extends GameBase {
                 return result;
             }
             // is orthogonally adjacent
-            const [fx, fy] = this.algebraic2coords(from);
-            const [tx, ty] = this.algebraic2coords(to);
-            if (fx !== tx && fy !== ty) {
+            const graph = this.getGraph();
+            if (! graph.neighbours(from).includes(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.clusterfuss.ORTH_ONLY");
+                result.message = i18next.t("apgames:validation.clusterfuss.ADJ_ONLY");
                 return result;
             }
             // occupied

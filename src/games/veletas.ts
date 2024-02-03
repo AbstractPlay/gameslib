@@ -191,18 +191,7 @@ export class VeletasGame extends GameBase {
         }
         if (this.gameover) { return []; }
 
-        if (this.variants.includes("random") && this.stack.length === 1) {
-            // return a random free cell on the board
-            const freeCells: string[] = [];
-            for (let i = 0; i < this.boardSize; i++) {
-                for (let j = 0; j < this.boardSize; j++) {
-                    const cell = this.coords2algebraic(i, j);
-                    if (this.board.has(cell)) { continue; }
-                    freeCells.push(cell);
-                }
-            }
-            return freeCells;
-        } else if (!this.variants.includes("random") && this.stack.length < 3) {
+        if (!this.variants.includes("random") && this.stack.length < 3) {
             return ["No movelist in placement phase"];
         }
 
@@ -320,9 +309,7 @@ export class VeletasGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.coords2algebraic(col, row);
-            if (this.variants.includes("random") && this.stack.length === 1) {
-                newmove = cell;
-            } else if (!this.variants.includes("random") && this.stack.length < 3) {
+            if (!this.variants.includes("random") && this.stack.length < 3) {
                 if (move === "") {
                     newmove = cell;
                 } else {
@@ -377,13 +364,7 @@ export class VeletasGame extends GameBase {
             return result;
         }
         if (m.length === 0) {
-            if (this.variants.includes("random") && this.stack.length === 1) {
-                result.valid = true;
-                result.complete = -1;
-                result.canrender = true;
-                result.message = i18next.t("apgames:validation.veletas.INITIAL_INSTRUCTIONS_RANDOM");
-                return result;
-            } else if (!this.variants.includes("random") && this.stack.length < 3) {
+            if (!this.variants.includes("random") && this.stack.length < 3) {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
@@ -396,31 +377,7 @@ export class VeletasGame extends GameBase {
             return result;
         }
 
-        if (this.variants.includes("random") && this.stack.length === 1) {
-            // valid cell
-            try {
-                const [x, y] = this.algebraic2coords(m);
-                // `algebraic2coords` does not check if the cell is on the board.
-                if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) {
-                    throw new Error("Invalid cell");
-                }
-            } catch {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
-                return result;
-            }
-            // cell is empty
-            if (this.board.has(m)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
-                return result;
-            }
-            // looks good
-            result.valid = true;
-            result.complete = 1;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            return result;
-        } else if (!this.variants.includes("random") && this.stack.length < 3) {
+        if (!this.variants.includes("random") && this.stack.length < 3) {
             // Placement phase
             const [shootersString, placement] = m.split("/");
             const shooters = shootersString.split(",");
@@ -679,10 +636,7 @@ export class VeletasGame extends GameBase {
         if (m.length === 0) { return this; }
         // Move valid, so change the state
         this.results = [];
-        if (this.variants.includes("random") && this.stack.length === 1) {
-            this.board.set(m, this.currplayer);
-            this.results.push({type: "place", where: m, what: "piece"});
-        } else if (!this.variants.includes("random") && this.stack.length < 3) {
+        if (!this.variants.includes("random") && this.stack.length < 3) {
             m = this.normalisePlacement(m);
             const [shootersString, ownPiece] = m.split("/");
             const shooters = shootersString.split(",");

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // import { IGame } from "./IGame";
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -389,10 +388,8 @@ export class EntropyGame extends GameBaseSimultaneous {
                     this.results.push({type: "pass"});
                     continue;
                 } else if (moves[i].includes("-") || this.phase === "order") {
-                    console.log("in the movement phase");
                     const [from, to] = moves[i].split("-");
                     this.highlight = from;
-                    console.log(`Move: ${moves[i]}, From: ${from}, To: ${to}, Highlight: ${this.highlight}`);
                     if (to !== undefined) {
                         const piece = myboard[i].get(from);
                         if (piece === undefined) {
@@ -403,7 +400,6 @@ export class EntropyGame extends GameBaseSimultaneous {
                         this.results.push({type: "move", from, to});
                     }
                 } else if (! (partial && moves[i] === '')) {
-                    console.log("In placement phase")
                     if (next === undefined) {
                         throw new Error("Could not find a piece to place.");
                     }
@@ -414,8 +410,6 @@ export class EntropyGame extends GameBaseSimultaneous {
                 }
             }
         }
-
-        console.log(`Highlight: ${this.highlight}`);
 
         if (! partial) {
             delete this.highlight;
@@ -602,7 +596,6 @@ export class EntropyGame extends GameBaseSimultaneous {
             if ( (perspective === 1 && this.phase === "chaos") || (perspective === 2 && this.phase === "order") ) {
                 x += 7;
             }
-            console.log(`Highlight: ${this.highlight}, Row: ${row}, Col: ${col}, X: ${x}`);
             rep.annotations.push({type: "dots", targets: [{col: x, row}]});
         }
         // check for pending annotations

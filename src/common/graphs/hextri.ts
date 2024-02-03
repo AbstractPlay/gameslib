@@ -31,8 +31,8 @@ export class HexTriGraph implements IGraph {
     public algebraic2coords(cell: string): [number, number] {
         const pair: string[] = cell.split("");
         const num = (pair.slice(1)).join("");
-        const x = parseInt(num, 10);
-        if ( (x === undefined) || (isNaN(x)) ) {
+        const x = Number(num);
+        if ( (x === undefined) || (isNaN(x)) || num === "" ) {
             throw new Error(`The column label is invalid: ${num}`);
         }
         const y = columnLabels.indexOf(pair[0]);

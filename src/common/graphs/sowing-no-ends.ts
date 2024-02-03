@@ -32,8 +32,8 @@ export class SowingNoEndsGraph implements IGraph {
         if ( (x === undefined) || (x < 0) ) {
             throw new Error(`The column label is invalid: ${pair[0]}`);
         }
-        const y = parseInt(num, 10);
-        if ( (y === undefined) || (isNaN(y)) ) {
+        const y = Number(num);
+        if ( (y === undefined) || (isNaN(y)) || num === "" ) {
             throw new Error(`The row label is invalid: ${pair[1]}`);
         }
         return [x, this.height - y];

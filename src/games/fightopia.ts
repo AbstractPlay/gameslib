@@ -32,13 +32,14 @@ export class FightopiaGame extends GameBase {
             {
                 type: "designer",
                 name: "James Ernest",
+                urls: ["https://crabfragmentlabs.com/"],
             },
             {
                 type: "designer",
                 name: "Mike Selinker"
             }
         ],
-        flags: ["experimental", "perspective", "pie"]
+        flags: ["perspective", "pie"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

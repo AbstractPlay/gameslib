@@ -86,6 +86,7 @@ import { VergeGame, IVergeState } from "./verge";
 import { TableroGame, ITableroState } from "./tablero";
 import { ClusterfussGame, IClusterfussState } from "./clusterfuss";
 import { ConhexGame, IConhexState } from "./conhex";
+import { FightopiaGame, IFightopiaState } from "./fightopia";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -174,6 +175,7 @@ export {
     TableroGame, ITableroState,
     ClusterfussGame, IClusterfussState,
     ConhexGame, IConhexState,
+    FightopiaGame, IFightopiaState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -204,7 +206,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
                               typeof VeletasGame | typeof GessGame | typeof OnagerGame |
                               typeof VergeGame | typeof TableroGame | typeof ClusterfussGame |
-                              typeof ConhexGame
+                              typeof ConhexGame | typeof FightopiaGame
                 >();
 // Manually add each game to the following array
 [
@@ -220,6 +222,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
+    FightopiaGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -401,6 +404,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ClusterfussGame(...args);
         case "conhex":
             return new ConhexGame(...args);
+        case "fightopia":
+            return new FightopiaGame(...args);
     }
     return;
 }

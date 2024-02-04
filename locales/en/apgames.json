@@ -36,6 +36,7 @@
         "fabrik": "In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The \"Arbeiter\" variant gives each player control over a specific worker.",
         "fanorona": "Fanorona is the national game of Madagascar, and it is believed to have been derived from the game of Alquerque. Checkers can move to adjacent empty spaces and capture opposing pieces by approach or withdrawal. As long as you can keep capturing, you may continue to move. Continue until you capture all your opponent's pieces!",
         "fendo": "In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.",
+        "fightopia": "A \"get to your opponent's home row\" game where you have three different sizes of pieces. Each moves and captures differently.",
         "flume": "Place stones to make connections. Connecting to three or four other pieces allows you to place another stone. When the board is full, the player with the most stones on the board wins.",
         "fnap": "A tile laying game where players simultaneously select the tile they will play, but only one player gets to place them both. Points are scored by dominating rows and columns and by creating groups of connected (and disconnected) tiles.",
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
@@ -565,6 +566,15 @@
             "PARTIAL_MOVE": "Provide the destination.",
             "PLACE_IN_OPEN": "You may only place pieces in the open area.",
             "PLACE_IN_RANGE": "You may only place pieces that are within one regular move of an existing piece."
+        },
+        "fightopia": {
+            "BAD_CAPTURE_pawn": "Pawns can only be captured by opposing tanks if they lie along the tank's long axis and there are no obstructions.",
+            "BAD_CAPTURE_tank": "Tanks can only be captured if they are in direct contact with the enemy giant.",
+            "FRIENDLY_FIRE": "You may not capture your own pieces.",
+            "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move, or select the opposing piece to capture. If moving/pivoting a tank, it matters which end you click on.",
+            "INVALID_PARTIAL": "There are no valid moves based on the cell you clicked.",
+            "INVULNERABLE": "Giants may not be captured.",
+            "PARTIAL": "Select the destination."
         },
         "flume": {
             "CENTRE_START": "On the first turn of the game, you may not place on the centre space.",

@@ -826,6 +826,8 @@ export class TumbleweedGame extends GameBase {
             return "Swap";
         } else if (move === "Play Black (second)") {
             return "pass";
+        } else if (move === "Pass") {
+            return "pass";
         } else {
             const cells = move.split("|");
             const translated = cells.map(cell => hexhexAi2Ap(cell, width));

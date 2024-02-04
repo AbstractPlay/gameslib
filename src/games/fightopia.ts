@@ -343,8 +343,8 @@ export class FightopiaGame extends GameBase {
                     return {move: "", message: i18next.t("apgames:validation.fightopia.INITIAL_INSTRUCTIONS")} as IClickResult;
                 }
             } else {
-                // only option is movement, so must be empty
-                if (selected === undefined) {
+                // only option is movement, so must be empty (unless your own giant)
+                if (selected === undefined || (selected.size === 4 && selected.owner === this.currplayer) ) {
                     newmove = `${move}-${cell}`;
                 }
                 // otherwise ignore

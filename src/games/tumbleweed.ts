@@ -243,12 +243,12 @@ export class TumbleweedGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (m.length === 0) {
-            if (this.board.size < 3) {
+            if (this.stack.length === 1) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
                 return result;
-            } else if (this.board.size === 3 && this.currplayer === 2) {
+            } else if (this.stack.length === 4) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_PASS");

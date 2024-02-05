@@ -298,22 +298,22 @@ export class GardenGame extends GameBase {
         if (cell !== undefined) {
             // it's a valid cell
             try {
-                GardenGame.algebraic2coords(m);
+                GardenGame.algebraic2coords(cell);
             } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                 return result;
             }
 
             // must be empty
-            if (this.board.has(m)) {
+            if (this.board.has(cell)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
                 return result;
             }
 
             // check adjacencies
-            const [x, y] = GardenGame.algebraic2coords(m);
+            const [x, y] = GardenGame.algebraic2coords(cell);
             const neighbours = grid.adjacencies(x, y, false).map(node => GardenGame.coords2algebraic(...node));
             let hasNeighbour = false;
             for (const n of neighbours) {

@@ -526,11 +526,13 @@ export class CatchupGame extends GameBase {
             },
             legend: {
                 A: {
-                    name: "piece",
+                    name: "hex-pointy",
+                    scale: 1.25,
                     player: 1
                 },
                 B: {
-                    name: "piece",
+                    name: "hex-pointy",
+                    scale: 1.25,
                     player: 2
                 },
             },

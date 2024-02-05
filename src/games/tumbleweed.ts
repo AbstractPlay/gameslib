@@ -436,7 +436,7 @@ export class TumbleweedGame extends GameBase {
     protected checkEOG(): TumbleweedGame {
         // Making it impossible to end the game by passing before four plys have been played (stack length 5, was 3)
         // https://discord.com/channels/526483743180062720/1204190463234412594
-        if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" && this.stack.length > 5) {
+        if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" && this.stack.length >= 5) {
             this.gameover = true;
             const p1Score = this.getPlayerScore(1);
             const p2Score = this.getPlayerScore(2);

@@ -248,7 +248,7 @@ export class TumbleweedGame extends GameBase {
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
                 return result;
-            } else if (this.stack.length === 4) {
+            } else if (this.stack.length === 2) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_PASS");

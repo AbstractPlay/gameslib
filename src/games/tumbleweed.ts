@@ -181,7 +181,11 @@ export class TumbleweedGame extends GameBase {
             }
             moves.push(cell);
         }
-        moves.push("pass");
+        // forbidding pass on ply 3 because it's almost never wanted
+        // https://discord.com/channels/526483743180062720/1204190463234412594
+        if (this.stack.length !== 3) {
+            moves.push("pass");
+        }
         return moves;
     }
 
@@ -243,12 +247,12 @@ export class TumbleweedGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (m.length === 0) {
-            if (this.board.size < 3) {
+            if (this.stack.length === 1) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
                 return result;
-            } else if (this.board.size === 3 && this.currplayer === 2) {
+            } else if (this.stack.length === 2) {
                 result.valid = true;
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_PASS");
@@ -430,7 +434,9 @@ export class TumbleweedGame extends GameBase {
     }
 
     protected checkEOG(): TumbleweedGame {
-        if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" && this.stack.length > 3) {
+        // Making it impossible to end the game by passing before four plys have been played (stack length 5, was 3)
+        // https://discord.com/channels/526483743180062720/1204190463234412594
+        if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" && this.stack.length >= 5) {
             this.gameover = true;
             const p1Score = this.getPlayerScore(1);
             const p2Score = this.getPlayerScore(2);

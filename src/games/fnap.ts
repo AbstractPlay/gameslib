@@ -33,7 +33,7 @@ export class FnapGame extends GameBaseSimultaneous {
         // i18next.t("apgames:descriptions.fnap")
         description: "apgames:descriptions.fnap",
         urls: [
-            "https://boardgamegeek.com/boardgame/22698/fnap",
+            "https://docs.google.com/document/d/1wSdFpFY1qcCpNO_06f9lllZPOun4jcXgk_RBPnV6UQo/edit?usp=sharing",
         ],
         people: [
             {

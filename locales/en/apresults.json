@@ -26,6 +26,8 @@
         "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
         "gess_one": "{{count}} stone is removed from the board.",
         "gess_other": "{{count}} stones are removed from the board.",
+        "hens_chick": "{{player}} captured a chick at {{where}}.",
+        "hens_hen": "{{player}} captured a hen at {{where}}.",
         "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
         "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
         "mattock": "{{player}} captured a miner at {{where}}.",

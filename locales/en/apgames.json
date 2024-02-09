@@ -44,6 +44,7 @@
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
+        "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
@@ -643,6 +644,15 @@
         },
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
+        },
+        "hens": {
+            "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",
+            "ONLY_DIAG": "Chicks may only move diagonally.",
+            "ONLY_FORWARD": "Pieces may only move forward.",
+            "ONLY_HENS": "Only hens can make multiple jumps.",
+            "ONLY_TWO": "Hens may only move up to two spaces.",
+            "STRAIGHT_LINES": "Pieces may only be moved in straight lines.",
+            "VALID_PARTIAL": "Select a destination."
         },
         "hex": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
@@ -1380,6 +1390,11 @@
             "size-10": {
                 "name": "Size 10 board.",
                 "description": "Larger board."
+            }
+        },
+        "hens": {
+            "size-10": {
+                "name": "10x10 board (experimental)"
             }
         },
         "hex": {

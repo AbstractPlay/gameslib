@@ -963,6 +963,7 @@
             "BAD_BUMP": "You may not bump if you have legal moves available, including taking a piece into your hand if you rolled doubles.",
             "BAD_TAKE": "You may only take a piece off the board if you rolled doubles.",
             "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece or select a stack you control to begin movement. Click the \"Bump\" or \"Take\" buttons to take one of those actions.",
+            "LABEL_PREVIOUS": "Previous roll",
             "NO_MATCHING_DIE": "You didn't roll a {{die}}.",
             "NOT_HOME": "You may only place pieces or move stacks on your home row.",
             "PARTIAL_MOVE_one": "Keep moving until you have dropped all the pieces from the stack. You have {{count}} checker left to drop.",

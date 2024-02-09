@@ -1028,6 +1028,21 @@ export class TableroGame extends GameBase {
             ]
         };
 
+        // add previous dice rolls
+        if (this.stack.length > 1) {
+            const prevRoll = this.stack[this.stack.length - 2].roll;
+            for (let i = 0; i < prevRoll.length; i++) {
+                rep.legend![`PD${i+1}`] = {
+                    name: `d6-${prevRoll[i]}`,
+                }
+            }
+            rep.areas!.push({
+                type: "pieces",
+                pieces: ["PD1","PD2"],
+                label: i18next.t("apgames:validation.tablero.LABEL_PREVIOUS") || "local",
+            });
+        }
+
         // add pieces area if moving a stack
         if ( (this.moving !== undefined) && (this.moving.length > 0) ) {
             rep.areas!.push({

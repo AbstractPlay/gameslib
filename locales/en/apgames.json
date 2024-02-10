@@ -76,6 +76,7 @@
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
+        "tbt": "A simple dice game where you attempt to form stacks of equal height on your home row.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
@@ -102,8 +103,9 @@
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
         "razzle": "The implementation here is the so called tournament rules.",
-        "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are actually displayed on the previous turn.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
+        "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
+        "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
@@ -987,6 +989,15 @@
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
             "NO_NEIGHBOUR": "That space has no valid empty neighbour.",
             "PARTIAL": "Place the dark piece in an adjacent empty space."
+        },
+        "tbt": {
+            "BAD_PASS": "You must move a stack if it's possible to do so.",
+            "INITIAL_INSTRUCTIONS": "Select a stack to move.",
+            "LABEL_PREVIOUS": "Previous roll",
+            "NO_REVERSE": "You may not simply reverse your opponent's last move.",
+            "NOT_ORTH": "The cells {{from}} and {{to}} are not orthogonal to each other.",
+            "PARTIAL": "Select a destination.",
+            "TOO_SHORT": "The stack at {{where}} is too short (it needs at least {{roll}} pieces)."
         },
         "tintas": {
             "CAPTURED_LABEL": "Player {{playerNum}}'s captured pieces",

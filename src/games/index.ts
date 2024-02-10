@@ -88,6 +88,7 @@ import { ClusterfussGame, IClusterfussState } from "./clusterfuss";
 import { ConhexGame, IConhexState } from "./conhex";
 import { FightopiaGame, IFightopiaState } from "./fightopia";
 import { HensGame, IHensState } from "./hens";
+import { TBTGame, ITBTState } from "./tbt";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -178,6 +179,7 @@ export {
     ConhexGame, IConhexState,
     FightopiaGame, IFightopiaState,
     HensGame, IHensState,
+    TBTGame, ITBTState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -208,7 +210,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
                               typeof VeletasGame | typeof GessGame | typeof OnagerGame |
                               typeof VergeGame | typeof TableroGame | typeof ClusterfussGame |
-                              typeof ConhexGame | typeof FightopiaGame | typeof HensGame
+                              typeof ConhexGame | typeof FightopiaGame | typeof HensGame |
+                              typeof TBTGame
                 >();
 // Manually add each game to the following array
 [
@@ -224,7 +227,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
-    FightopiaGame, HensGame
+    FightopiaGame, HensGame, TBTGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -410,6 +413,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new FightopiaGame(...args);
         case "hens":
             return new HensGame(...args);
+        case "tbt":
+            return new TBTGame(...args);
     }
     return;
 }

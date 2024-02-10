@@ -179,6 +179,7 @@
     },
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",
+        "forced": "{{player}} was forced to pass.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",
         "tablero": "{{player}} bumped!"
@@ -235,7 +236,8 @@
     },
     "RESIGN": "{{player}} has resigned.",
     "ROLL": {
-        "tablero": "The dice were rolled: {{values}}."
+        "tablero": "The dice were rolled: {{values}}.",
+        "single": "The die was rolled: {{values}}."
     },
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {

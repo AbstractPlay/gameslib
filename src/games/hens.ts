@@ -22,10 +22,6 @@ export interface IHensState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-// used to tell the click handler how to expand a bracketed seed move
-// kludgy, but simple and efficient
-let expanded: string|undefined;
-
 export class HensGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Hens and Chicks",
@@ -294,9 +290,6 @@ export class HensGame extends GameBase {
             if (! result.valid) {
                 result.move = move;
             } else {
-                if ( (newmove.startsWith("[")) && (expanded !== undefined) ) {
-                    newmove = expanded;
-                }
                 result.move = newmove;
             }
             return result;

@@ -68,6 +68,7 @@
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
+        "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
@@ -882,6 +883,14 @@
             "MUST_FINISH_SETUP": "You cannot move a meeple until all meeples have been placed.",
             "LEGAL_MOVES": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
             "MAY_RUN": "You may submit or select another destination cell to run to."
+        },
+        "queensland": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move, or select an empty cell to place a piece.",
+            "MUST_PLACE": "Placing a new piece is mandatory.",
+            "NO_PIECES": "You don't have any pieces to place.",
+            "NOW_PLACE": "Movement is valid. Select an empty cell to place a piece on.",
+            "PARTIAL_MOVE": "Select the destination.",
+            "STRAIGHT_LINES": "Pieces may only be moved in straight lines."
         },
         "razzle": {
             "INITIAL_INSTRUCTIONS": "Make a chess knight's move with one of your pieces, or move your ball to one of your open pieces.",
@@ -1709,6 +1718,12 @@
             "hide-both": {
                 "description": "Don't show line of sight or non-suicidal captures.",
                 "name": "Hide Both"
+            }
+        },
+        "queensland": {
+            "hide-scored": {
+                "description": "Don't highlight scored cells.",
+                "name": "Hide scored"
             }
         },
         "mattock": {

@@ -89,6 +89,7 @@ import { ConhexGame, IConhexState } from "./conhex";
 import { FightopiaGame, IFightopiaState } from "./fightopia";
 import { HensGame, IHensState } from "./hens";
 import { TBTGame, ITBTState } from "./tbt";
+import { QueenslandGame, IQueenslandState } from "./queensland";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -180,6 +181,7 @@ export {
     FightopiaGame, IFightopiaState,
     HensGame, IHensState,
     TBTGame, ITBTState,
+    QueenslandGame, IQueenslandState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -211,7 +213,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VeletasGame | typeof GessGame | typeof OnagerGame |
                               typeof VergeGame | typeof TableroGame | typeof ClusterfussGame |
                               typeof ConhexGame | typeof FightopiaGame | typeof HensGame |
-                              typeof TBTGame
+                              typeof TBTGame | typeof QueenslandGame
                 >();
 // Manually add each game to the following array
 [
@@ -227,7 +229,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
-    FightopiaGame, HensGame, TBTGame,
+    FightopiaGame, HensGame, TBTGame, QueenslandGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -415,6 +417,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new HensGame(...args);
         case "tbt":
             return new TBTGame(...args);
+        case "queensland":
+            return new QueenslandGame(...args);
     }
     return;
 }

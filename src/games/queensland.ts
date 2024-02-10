@@ -36,7 +36,7 @@ export class QueenslandGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        flags: ["experimental", "multistep", "limited-pieces", "scores"]
+        flags: ["experimental", "multistep", "limited-pieces", "scores", "pie"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

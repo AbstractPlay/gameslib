@@ -12,6 +12,13 @@ import i18next from "i18next";
 type CellContents = 0 | 1 | 2;
 type playerid = 1|2;
 
+type FloodMarker = {
+    type: "flood";
+    colour: number;
+    opacity?: number;
+    points: [{row: number; col: number}, ...{row: number; col: number}[]];
+};
+
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
@@ -522,6 +529,51 @@ export class AmazonsGame extends GameBase {
         return [countedOne.size, countedTwo.size];
     }
 
+    private getHighlights(): FloodMarker[]  {
+        const pieces = this.findPieces();
+        const markers: FloodMarker[] = [];
+        pieces.forEach((start) => {
+            const player = this.board.get(start)!;
+            const toCheck: Set<string> = new Set([start]);
+            const visited: Set<string> = new Set();
+            let foundEnemy = false;
+            while (toCheck.size > 0) {
+                const cell = toCheck.values().next().value as string;
+                toCheck.delete(cell);
+                if (! visited.has(cell)) {
+                    visited.add(cell);
+                    const adjs = this.graph.neighbors(cell);
+                    for (const adj of adjs) {
+                        if (! this.board.has(adj)) {
+                            toCheck.add(adj);
+                        } else {
+                            const owner = this.board.get(adj)!;
+                            if (owner !== player) {
+                                foundEnemy = true;
+                                break;
+                            } else {
+                                toCheck.add(adj);
+                            }
+                        }
+                    }
+                }
+                if (foundEnemy) { break; }
+            }
+            if (! foundEnemy) {
+                markers.push({
+                    type: "flood",
+                    colour: player,
+                    opacity: 0.2,
+                    points: [...visited.values()].map(cell => {
+                        const [col, row] = AmazonsGame.algebraic2coords(cell);
+                        return {row, col};
+                    }) as [{row: number; col: number}, ...{row: number; col: number}[]],
+                });
+            }
+        });
+        return markers;
+    }
+
     public render(): APRenderRep {
         // Build piece string
         let pstr = "";
@@ -558,7 +610,8 @@ export class AmazonsGame extends GameBase {
             board: {
                 style: "squares-checkered",
                 width: 10,
-                height: 10
+                height: 10,
+                markers: this.getHighlights(),
             },
             legend: {
                 R: {

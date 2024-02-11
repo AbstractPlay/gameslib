@@ -532,6 +532,7 @@ export class AmazonsGame extends GameBase {
     private getHighlights(): FloodMarker[]  {
         const pieces = this.findPieces();
         const markers: FloodMarker[] = [];
+        const allHighlights = new Set<string>();
         pieces.forEach((start) => {
             const player = this.board.get(start)!;
             const toCheck: Set<string> = new Set([start]);
@@ -560,15 +561,19 @@ export class AmazonsGame extends GameBase {
                 if (foundEnemy) { break; }
             }
             if (! foundEnemy) {
-                markers.push({
-                    type: "flood",
-                    colour: player,
-                    opacity: 0.2,
-                    points: [...visited.values()].map(cell => {
-                        const [col, row] = AmazonsGame.algebraic2coords(cell);
-                        return {row, col};
-                    }) as [{row: number; col: number}, ...{row: number; col: number}[]],
-                });
+                const overlap = [...visited.values()].filter(cell => allHighlights.has(cell));
+                if (overlap.length === 0) {
+                    visited.forEach(cell => allHighlights.add(cell));
+                    markers.push({
+                        type: "flood",
+                        colour: player,
+                        opacity: 0.2,
+                        points: [...visited.values()].map(cell => {
+                            const [col, row] = AmazonsGame.algebraic2coords(cell);
+                            return {row, col};
+                        }) as [{row: number; col: number}, ...{row: number; col: number}[]],
+                    });
+                }
             }
         });
         return markers;

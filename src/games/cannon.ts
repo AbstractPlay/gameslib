@@ -480,6 +480,11 @@ export class CannonGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {where: to});
                 return result;
             }
+            if ( (m.includes("x")) && (this.board.has(to)) && (this.board.get(to)![0] === this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                return result;
+            }
             const [xFrom, yFrom] = CannonGame.algebraic2coords(from);
             const [xTo, yTo] = CannonGame.algebraic2coords(to);
             const bearing = RectGrid.bearing(xFrom, yFrom, xTo, yTo)!;

@@ -26,6 +26,8 @@
         "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
         "gess_one": "{{count}} stone is removed from the board.",
         "gess_other": "{{count}} stones are removed from the board.",
+        "hens_chick": "{{player}} captured a chick at {{where}}.",
+        "hens_hen": "{{player}} captured a hen at {{where}}.",
         "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
         "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
         "mattock": "{{player}} captured a miner at {{where}}.",
@@ -177,6 +179,7 @@
     },
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",
+        "forced": "{{player}} was forced to pass.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",
         "tablero": "{{player}} bumped!"
@@ -233,7 +236,8 @@
     },
     "RESIGN": "{{player}} has resigned.",
     "ROLL": {
-        "tablero": "The dice were rolled: {{values}}."
+        "tablero": "The dice were rolled: {{values}}.",
+        "single": "The die was rolled: {{values}}."
     },
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {

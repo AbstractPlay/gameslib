@@ -1118,4 +1118,12 @@ export class TableroGame extends GameBase {
     public clone(): TableroGame {
         return new TableroGame(this.serialize());
     }
+
+    // TODO: Short-term kludge until forced pass can be reflected in game tree
+    protected sameMove(move1: string, move2: string): boolean {
+        if (move1 === "pass" || move2 === "pass") {
+            return true;
+        }
+        return super.sameMove(move1, move2);
+    }
 }

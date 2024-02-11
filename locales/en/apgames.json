@@ -44,6 +44,7 @@
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
+        "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
@@ -67,6 +68,7 @@
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
+        "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
@@ -75,6 +77,7 @@
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
+        "tbt": "A simple dice game where you attempt to form stacks of equal height on your home row.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
@@ -101,8 +104,9 @@
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
         "razzle": "The implementation here is the so called tournament rules.",
-        "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are actually displayed on the previous turn.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
+        "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
+        "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
@@ -644,6 +648,15 @@
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
+        "hens": {
+            "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",
+            "ONLY_DIAG": "Chicks may only move diagonally.",
+            "ONLY_FORWARD": "Pieces may only move forward.",
+            "ONLY_HENS": "Only hens can make multiple jumps.",
+            "ONLY_TWO": "Hens may only move up to two spaces.",
+            "STRAIGHT_LINES": "Pieces may only be moved in straight lines.",
+            "VALID_PARTIAL": "Select a destination."
+        },
         "hex": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
@@ -871,6 +884,14 @@
             "LEGAL_MOVES": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
             "MAY_RUN": "You may submit or select another destination cell to run to."
         },
+        "queensland": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move, or select an empty cell to place a piece.",
+            "MUST_PLACE": "Placing a new piece is mandatory.",
+            "NO_PIECES": "You don't have any pieces to place.",
+            "NOW_PLACE": "Movement is valid. Select an empty cell to place a piece on.",
+            "PARTIAL_MOVE": "Select the destination.",
+            "STRAIGHT_LINES": "Pieces may only be moved in straight lines."
+        },
         "razzle": {
             "INITIAL_INSTRUCTIONS": "Make a chess knight's move with one of your pieces, or move your ball to one of your open pieces.",
             "OWN_RECEIVER": "You can only move the ball to one of your own pieces.",
@@ -977,6 +998,15 @@
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
             "NO_NEIGHBOUR": "That space has no valid empty neighbour.",
             "PARTIAL": "Place the dark piece in an adjacent empty space."
+        },
+        "tbt": {
+            "BAD_PASS": "You must move a stack if it's possible to do so.",
+            "INITIAL_INSTRUCTIONS": "Select a stack to move.",
+            "LABEL_PREVIOUS": "Previous roll",
+            "NO_REVERSE": "You may not simply reverse your opponent's last move.",
+            "NOT_ORTH": "The cells {{from}} and {{to}} are not orthogonal to each other.",
+            "PARTIAL": "Select a destination.",
+            "TOO_SHORT": "The stack at {{where}} is too short (it needs at least {{roll}} pieces)."
         },
         "tintas": {
             "CAPTURED_LABEL": "Player {{playerNum}}'s captured pieces",
@@ -1382,6 +1412,11 @@
                 "description": "Larger board."
             }
         },
+        "hens": {
+            "size-10": {
+                "name": "10x10 board (experimental)"
+            }
+        },
         "hex": {
             "size-11": {
                 "name": "Size 11 board.",
@@ -1683,6 +1718,12 @@
             "hide-both": {
                 "description": "Don't show line of sight or non-suicidal captures.",
                 "name": "Hide Both"
+            }
+        },
+        "queensland": {
+            "hide-scored": {
+                "description": "Don't highlight scored cells.",
+                "name": "Hide scored"
             }
         },
         "mattock": {

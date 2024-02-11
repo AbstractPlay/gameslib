@@ -528,11 +528,27 @@ export class MurusGame extends GameBase {
                     }
                 }
 
-                result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-                return result;
-
+                if (m.includes("x")) {
+                    const newmove = m.replace("x", "*");
+                    const allMoves = this.moves();
+                    if (allMoves.includes(newmove)) {
+                        result.valid = true;
+                        result.complete = 0;
+                        result.canrender = true;
+                        result.message = i18next.t("apgames:validation.murus.SACRIFICE_POSSIBLE");
+                        return result;
+                    } else {
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    }
+                } else {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                }
             }
         }
         // otherwise, partials

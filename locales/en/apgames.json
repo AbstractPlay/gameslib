@@ -805,6 +805,7 @@
             "PARTIAL": "Select the space to move to or capture.",
             "PARTIAL_REDIST": "Select an empty space on your second row.",
             "REDIST_ROW": "You may only redistribute onto your second row.",
+            "SACRIFICE_POSSIBLE": "The move is valid, but if you wish to fully sacrifice the tower, click the target again.",
             "STRAIGHTLINE": "Pieces may only move in straight lines.",
             "TOOFAR": "Towers may only move two spaces.",
             "WALLS_IMMOBILE": "Walls may not move or capture."

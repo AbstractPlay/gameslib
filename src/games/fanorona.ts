@@ -594,6 +594,17 @@ export class FanoronaGame extends GameBase {
             } else {
                 this.winner = [1];
             }
+        }
+
+        if (! this.gameover) {
+            const count = this.stateCount();
+            if (count >= 4) {
+                this.gameover = true;
+                this.winner = [1,2];
+            }
+        }
+
+        if (this.gameover) {
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}

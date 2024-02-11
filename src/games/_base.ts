@@ -6,6 +6,7 @@ import { APGameRecord } from "@abstractplay/recranks/src";
 import { replacer, sortingReplacer, UserFacingError } from '../common';
 import { omit } from "lodash";
 import i18next from "i18next";
+import JSDstringify from 'json-stringify-deterministic';
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
@@ -704,6 +705,39 @@ export abstract class GameBase  {
     public aiaiMgl(): string {
         const ctor = this.constructor as typeof GameBase;
         return ctor.gameinfo.uid;
+    }
+
+    // compares the most recent state to all previous states and returns
+    // the number of times the state has been repeated
+    public stateCount(): number {
+        const stack = [...this.stack];
+        const comparator = stack.pop();
+        let count = 0;
+        if (comparator !== undefined) {
+            if ("board" in comparator && "currplayer" in comparator) {
+                const srcStr = JSDstringify({
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    board: comparator.board,
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                    currplayer: comparator.currplayer,
+                }, {replacer});
+                for (const state of stack) {
+                    const test = {
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        board: state.board,
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                        currplayer: state.currplayer,
+                    }
+                    const otherStr = JSDstringify(test, {replacer});
+                    if (srcStr === otherStr) {
+                        count++;
+                    }
+                }
+            } else {
+                throw new Error("State counting only works if `board` and `currplayer` are part of the state.");
+            }
+        }
+        return count;
     }
 }
 

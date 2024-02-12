@@ -46,7 +46,7 @@ export class TableroGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        flags: ["limited-pieces", "perspective", "multistep", "scores", "automove"]
+        flags: ["limited-pieces", "perspective", "multistep", "scores", "automove", "no-explore"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 3);

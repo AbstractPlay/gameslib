@@ -364,15 +364,22 @@ export class TBTGame extends GameBase {
             for (let x = 0; x < 4; x++) {
                 cells.push(TBTGame.coords2algebraic(x, homerow));
             }
-            const occupied = cells.reduce((prev, curr) => prev && this.board.has(curr), true);
-            if (occupied) {
-                const size = this.board.get(cells[0])!;
-                const same = cells.reduce((prev, curr) => prev && this.board.get(curr)! === size, true);
-                if (same) {
-                    this.gameover = true;
-                    this.winner = [p];
-                    break;
+            const counts = new Map<number, number>();
+            for (const cell of cells) {
+                if (this.board.has(cell)) {
+                    const height = this.board.get(cell)!;
+                    if (counts.has(height)) {
+                        const curr = counts.get(height)!;
+                        counts.set(height, curr + 1);
+                    } else {
+                        counts.set(height, 1);
+                    }
                 }
+            }
+            if ([...counts.values()].includes(3)) {
+                this.gameover = true;
+                this.winner = [p];
+                break;
             }
         }
 

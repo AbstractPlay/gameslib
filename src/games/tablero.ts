@@ -1049,7 +1049,7 @@ export class TableroGame extends GameBase {
                 type: "pieces",
                 label: `Stack to be moved (next checker is on the right)`,
                 // @ts-ignore
-                pieces: [...this.moving.map(p => p === 1 ? "A": "B")].reverse()
+                pieces: [...this.moving.map(p => p === 1 ? "A": "B")]
             });
         }
 

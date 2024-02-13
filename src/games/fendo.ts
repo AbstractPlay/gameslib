@@ -137,7 +137,7 @@ export class FendoGame extends GameBase {
 
         // You can enter a piece into the open area within one move of a friendly piece
         if (this.pieces[player - 1] > 0) {
-            moves.push(...uniqueTargets);
+            moves.push(...[...uniqueTargets].filter(cell => ! this.board.has(cell)));
         }
 
         // You can move a piece then place a fence

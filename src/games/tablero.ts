@@ -714,7 +714,7 @@ export class TableroGame extends GameBase {
             // starting a new move
             else if (move.length === 2) {
                 if (this.board.has(move)) {
-                    this.moving = [...this.board.get(move)!];
+                    this.moving = [...this.board.get(move)!].reverse();
                 }
             }
             // ERROR

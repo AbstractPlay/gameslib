@@ -115,7 +115,7 @@ export class QueenslandGame extends GameBase {
         }
 
         // if the game just reset and it's player 1's turn, they must pass
-        if (this.g1scores !== undefined && this.pieces[0] === 12 && this.pieces[1] === 12 && player === 1) {
+        if (this.g1scores === undefined && this.pieces[0] === 0 && this.pieces[1] === 0 && player === 1) {
             return ["pass"];
         }
 
@@ -232,6 +232,19 @@ export class QueenslandGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+
+        if (m === "pass") {
+            if (this.g1scores !== undefined || this.pieces[0] !== 0 || this.pieces[1] !== 0 || this.currplayer !== 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.queensland.BAD_PASS");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
 
         const [left, right] = m.split(",");
         let from: string|undefined;
@@ -412,9 +425,19 @@ export class QueenslandGame extends GameBase {
             this.results = [];
         }
 
+        // passing means the game is resetting
         if (m === "pass") {
-            this.results.push({type: "pass"});
-        } else {
+            // log the reset in the chat log
+            this.results.push({type: "reset"});
+            // save the current score
+            this.g1scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
+            // reset the board
+            this.board = new Map<string, playerid>();
+            // reset the pieces
+            this.pieces = [12,12];
+        }
+        // otherwise, process every other move
+        else {
             const [left, right] = m.split(",");
 
             // move if relevant
@@ -452,25 +475,7 @@ export class QueenslandGame extends GameBase {
 
         this.checkEOG();
         this.saveState();
-        // This has to happen *after* the previous move is processed to be able to see the final state of the first game
-        this.checkGameRefresh();
         return this;
-    }
-
-    // This whole thing only works seamlessly if automoved.
-    private checkGameRefresh() {
-        if ( (this.pieces[0] + this.pieces[1] === 0) && (this.g1scores === undefined) ) {
-            // This takes place *after* the previous move is saved, so reset results
-            this.results = [];
-            // log the reset in the chat log
-            this.results.push({type: "reset"});
-            // save the current score
-            this.g1scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
-            // reset the board
-            this.board = new Map<string, playerid>();
-            // reset the pieces
-            this.pieces = [12,12];
-        }
     }
 
     protected checkEOG(): QueenslandGame {
@@ -721,6 +726,17 @@ export class QueenslandGame extends GameBase {
         }
 
         return status;
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "reset":
+                node.push(i18next.t("apresults:RESET.queensland"));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public clone(): QueenslandGame {

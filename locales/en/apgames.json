@@ -891,6 +891,7 @@
             "MAY_RUN": "You may submit or select another destination cell to run to."
         },
         "queensland": {
+            "BAD_PASS": "You can only pass in one specific circumstance. You should never see this message.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move, or select an empty cell to place a piece.",
             "MUST_PLACE": "Placing a new piece is mandatory.",
             "NO_PIECES": "You don't have any pieces to place.",

@@ -88,3 +88,39 @@ export const calcBearing = (x1: number, y1: number, x2: number, y2: number): num
     const deg = rad2deg(rad);
     return toggleFacing(deg);
 }
+
+/**
+ * To rotate -90, reverse rows then transpose
+ * Assumes the matrix is square
+ */
+export const matrixSquareRotN90 = (lst: any[][]): any[][] => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
+    const reversed = lst.map(l => [...l].reverse());
+    const transposed: any[][] = [];
+    for (let y = 0; y < reversed.length; y++) {
+        const row: any[] = [];
+        for (let x = 0; x < reversed[y].length; x++) {
+            // intentionally wrong order
+            row.push(reversed[x][y]);
+        }
+        transposed.push(row)
+    }
+    return transposed;
+}
+
+/**
+ * To rotate +90, transpose then reverse rows
+ * Assumes the matrix is square
+ */
+export const matrixSquareRot90 = (lst: any[][]): any[][] => {
+    const transposed: any[][] = [];
+    for (let y = 0; y < lst.length; y++) {
+        const row: any[] = [];
+        for (let x = 0; x < lst[y].length; x++) {
+            // intentionally wrong order
+            row.push(lst[x][y]);
+        }
+        transposed.push(row.reverse())
+    }
+    return transposed;
+}

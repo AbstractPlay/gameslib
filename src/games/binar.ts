@@ -92,7 +92,7 @@ export class BinarGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
-        flags: [],
+        flags: ["shared-pieces"],
         variants: [
             {
                 uid: "partisan",

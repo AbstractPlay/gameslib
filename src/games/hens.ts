@@ -41,7 +41,7 @@ export class HensGame extends GameBase {
         variants: [
             { uid: "size-10" }
         ],
-        flags: ["experimental", "multistep", "perspective"]
+        flags: ["multistep", "perspective"]
     };
 
     public coords2algebraic(x: number, y: number): string {

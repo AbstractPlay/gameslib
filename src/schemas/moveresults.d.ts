@@ -260,4 +260,7 @@ export type APMoveResult =
       type: "roll";
       values: number[];
       who?: number;
+    }
+  | {
+      type: "reset";
     };

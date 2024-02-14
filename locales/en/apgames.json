@@ -103,6 +103,7 @@
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
+        "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "razzle": "The implementation here is the so called tournament rules.",
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
@@ -178,6 +179,10 @@
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
         "PIECESREMAINING": "Pieces remaining",
+        "queensland": {
+            "GAME1": "Game 1",
+            "GAME2": "Game 2"
+        },
         "SCORES": "Scores",
         "TOPLACE": "Piece to place"
     },
@@ -886,6 +891,7 @@
             "MAY_RUN": "You may submit or select another destination cell to run to."
         },
         "queensland": {
+            "BAD_PASS": "You can only pass in one specific circumstance. You should never see this message.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move, or select an empty cell to place a piece.",
             "MUST_PLACE": "Placing a new piece is mandatory.",
             "NO_PIECES": "You don't have any pieces to place.",

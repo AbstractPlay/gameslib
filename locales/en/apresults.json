@@ -234,6 +234,9 @@
     "REPAIR": {
         "simple": "{{player}} repairs."
     },
+    "RESET": {
+        "queensland": "The second game has begun."
+    },
     "RESIGN": "{{player}} has resigned.",
     "ROLL": {
         "tablero": "The dice were rolled: {{values}}.",

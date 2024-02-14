@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStatus } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -13,6 +13,7 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, playerid>;
     pieces: [number,number];
     lastmove?: string;
+    g1scores?: [number,number];
 };
 
 export interface IQueenslandState extends IAPGameState {
@@ -28,6 +29,8 @@ export class QueenslandGame extends GameBase {
         version: "20240210",
         // i18next.t("apgames:descriptions.queensland")
         description: "apgames:descriptions.queensland",
+        // i18next.t("apgames:notes.queensland")
+        notes: "apgames:notes.queensland",
         urls: ["https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/64264b8894a17f6937a3cf3e/1680231305313/QueenslandPostcardB.pdf"],
         people: [
             {
@@ -36,7 +39,7 @@ export class QueenslandGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        flags: ["experimental", "multistep", "limited-pieces", "scores", "pie"],
+        flags: ["multistep", "limited-pieces", "scores", "automove"],
         displays: [{uid: "hide-scored"}],
     };
 
@@ -50,7 +53,8 @@ export class QueenslandGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public pieces!: [number,number];
+    public pieces: [number,number] = [12,12];
+    public g1scores?: [number,number];
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -69,7 +73,7 @@ export class QueenslandGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                pieces: [12,12],
+                pieces: [12,12]
             };
             this.stack = [fresh];
         } else {
@@ -99,6 +103,7 @@ export class QueenslandGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.pieces = [...state.pieces];
+        this.g1scores = state.g1scores === undefined ? undefined : [...state.g1scores];
         this.lastmove = state.lastmove;
         return this;
     }
@@ -107,6 +112,11 @@ export class QueenslandGame extends GameBase {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
+        }
+
+        // if the game just reset and it's player 1's turn, they must pass
+        if (this.g1scores === undefined && this.pieces[0] === 0 && this.pieces[1] === 0 && player === 1) {
+            return ["pass"];
         }
 
         const moves: string[] = [];
@@ -222,6 +232,19 @@ export class QueenslandGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+
+        if (m === "pass") {
+            if (this.g1scores !== undefined || this.pieces[0] !== 0 || this.pieces[1] !== 0 || this.currplayer !== 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.queensland.BAD_PASS");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
 
         const [left, right] = m.split(",");
         let from: string|undefined;
@@ -384,7 +407,7 @@ export class QueenslandGame extends GameBase {
         }
 
         // if partial and move not complete, just set the points and get out
-        if ( (partial) && (! m.includes("-")) ) {
+        if ( (partial) && (! m.includes("-")) && (m !== "pass") ) {
             const pts = this.findPoints(m);
             if (pts !== undefined) {
                 this._points = pts.map(c => QueenslandGame.algebraic2coords(c));
@@ -397,29 +420,47 @@ export class QueenslandGame extends GameBase {
             this._points = [];
         }
 
-        this.results = [];
-        const [left, right] = m.split(",");
-
-        // move if relevant
-        if (left.includes("-")) {
-            const [from, to] = left.split("-");
-            this.board.delete(from);
-            this.board.set(to, this.currplayer);
-            this.results.push({type: "move", from, to});
+        // only reset results if the game hasn't just reset
+        if (this.results.find(r => r.type === "reset") === undefined) {
+            this.results = [];
         }
 
-        // place
-        let place: string|undefined;
-        if (right === undefined && ! left.includes("-")) {
-            place = left;
-        } else if (right !== undefined) {
-            place = right;
+        // passing means the game is resetting
+        if (m === "pass") {
+            // log the reset in the chat log
+            this.results.push({type: "reset"});
+            // save the current score
+            this.g1scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
+            // reset the board
+            this.board = new Map<string, playerid>();
+            // reset the pieces
+            this.pieces = [12,12];
         }
+        // otherwise, process every other move
+        else {
+            const [left, right] = m.split(",");
 
-        if (place !== undefined) {
-            this.board.set(place, this.currplayer);
-            this.pieces[this.currplayer - 1]--;
-            this.results.push({type: "place", where: place});
+            // move if relevant
+            if (left.includes("-")) {
+                const [from, to] = left.split("-");
+                this.board.delete(from);
+                this.board.set(to, this.currplayer);
+                this.results.push({type: "move", from, to});
+            }
+
+            // place
+            let place: string|undefined;
+            if (right === undefined && ! left.includes("-")) {
+                place = left;
+            } else if (right !== undefined) {
+                place = right;
+            }
+
+            if (place !== undefined) {
+                this.board.set(place, this.currplayer);
+                this.pieces[this.currplayer - 1]--;
+                this.results.push({type: "place", where: place});
+            }
         }
 
         if (partial) { return this; }
@@ -438,7 +479,7 @@ export class QueenslandGame extends GameBase {
     }
 
     protected checkEOG(): QueenslandGame {
-        if (this.pieces[0] + this.pieces[1] === 0) {
+        if ( (this.pieces[0] + this.pieces[1] === 0) && (this.g1scores !== undefined) ) {
             this.gameover = true;
             const s1 = this.getPlayerScore(1);
             const s2 = this.getPlayerScore(2);
@@ -492,7 +533,11 @@ export class QueenslandGame extends GameBase {
                 }
             }
         }
-        return [...pairs.values()].reduce((prev, curr) => prev + curr, 0);
+        let currScore = [...pairs.values()].reduce((prev, curr) => prev + curr, 0);
+        if (this.g1scores !== undefined) {
+            currScore += this.g1scores[player - 1];
+        }
+        return currScore;
     }
 
     public getScored(player: playerid): string[] {
@@ -537,6 +582,7 @@ export class QueenslandGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             pieces: [...this.pieces],
+            g1scores: this.g1scores === undefined ? undefined : [...this.g1scores],
         };
     }
 
@@ -651,12 +697,21 @@ export class QueenslandGame extends GameBase {
         return rep;
     }
 
+    public statuses(): IStatus[] {
+        if (this.g1scores === undefined)
+            return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.queensland.GAME1")] }];
+        else
+            return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.queensland.GAME2")] }];
+    }
+
     public status(): string {
         let status = super.status();
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
+
+        status += `**Status**: Game ${this.g1scores === undefined ? "1" : "2"}\n\n`;
 
         status += "**Pieces In Hand**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {
@@ -671,6 +726,17 @@ export class QueenslandGame extends GameBase {
         }
 
         return status;
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "reset":
+                node.push(i18next.t("apresults:RESET.queensland"));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     public clone(): QueenslandGame {

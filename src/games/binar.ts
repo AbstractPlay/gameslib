@@ -6,7 +6,6 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { matrixSquareRot90, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-import { SquareOrthGraph } from "../common/graphs";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
@@ -93,7 +92,7 @@ export class BinarGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
-        flags: ["experimental"],
+        flags: [],
         variants: [
             {
                 uid: "partisan",
@@ -112,7 +111,6 @@ export class BinarGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: boolean[][];
     public boardsize = 4;
-    public graph: SquareOrthGraph = new SquareOrthGraph(this.boardsize, this.boardsize);
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];

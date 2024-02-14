@@ -470,6 +470,7 @@ export class ConhexGame extends GameBase {
             }
         }
 
+        this.results = [];
         this.boardVertex.set(m, this.currplayer);
         this.results.push({type: "place", where: m});
         const placedSpaces = this.getPlacedSpaces(m);
@@ -648,10 +649,10 @@ export class ConhexGame extends GameBase {
             { type:"edge", edge: "W", colour: 2 },
         ];
         if (spaces1.length > 0) {
-            markers.push({ type: "flood", points: spaces1, colour: 1 });
+            markers.push({ type: "flood", points: spaces1, colour: 1, opacity: 0.4 });
         }
         if (spaces2.length > 0) {
-            markers.push({ type: "flood", points: spaces2, colour: 2 });
+            markers.push({ type: "flood", points: spaces2, colour: 2, opacity: 0.4 });
         }
 
         // Build rep

@@ -786,6 +786,16 @@
             },
             "required": ["type", "values"],
             "additionalProperties": false
+        },
+        {
+            "description": "Used when a game (or perhaps piece or something) resets. Currently used in Queensland to signal the start of the next game.",
+            "properties": {
+                "type": {
+                    "enum": ["reset"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
         }
     ]
 }

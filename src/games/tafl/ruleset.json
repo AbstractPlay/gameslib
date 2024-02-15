@@ -1,0 +1,267 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "$id": "https://www.abstractplay.com/schemas/gameinfo/1-0-0.json#",
+    "title": "Ruleset",
+    "description": "When requested, the games library will produce the following information about Tafl rulesets",
+    "definitions": {
+        "urllist": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "format": "uri"
+            }
+        },
+        "pieceJump": {
+            "description": "The type of jump a piece can make",
+            "type": "string",
+            "enum": ["no-jump", "jump-taflmen", "jump-enemy-taflmen", "jump-capture-enemy-taflmen", "jump-enemy-taflmen-to-from-restricted"]
+        },
+        "pieceMovement": {
+            "description": "The type of movement a piece can make",
+            "type": "string",
+            "enum": ["rook", "rook-1"]
+        },
+        "pieceStrength": {
+            "description": "How the piece can be captured",
+            "type": "string",
+            "enum": ["strong-near-throne", "strong", "weak"]
+        },
+        "piecePower": {
+            "description": "How the piece can take part in custodian capture. Piercing hammers can capture strong pieces with a piercing anvil.",
+            "type": "string",
+            "enum": ["armed", "anvil-only", "hammer-only", "unarmed", "piercing"]
+        },
+        "anvilTo": {
+            "description": "The type of piece that a space is hostile to.",
+            "type": "string",
+            "enum": ["all", "none", "men-only", "king-only", "men-only-piercing", "all-piercing"]
+        },
+        "restrictedTo": {
+            "description": "The type of piece that a space is restricted to. If 'all', then all pieces can enter the space. If 'none', then no piece can enter the space. If 'king-only', then only the king can re-enter the space once it leaves.",
+            "type": "string",
+            "enum": ["all", "none", "king-only"]
+        },
+        "passableBy": {
+            "description": "The type of piece that a space is passable by",
+            "type": "string",
+            "enum": ["all", "none", "king-only"]
+        }
+    },
+    "type": "object",
+    "properties": {
+        "name": {
+            "description": "The name of the ruleset",
+            "type": "string"
+        },
+        "uid": {
+            "description": "The unique code by which this game is referred to by the system. It's typically lowercase and devoid of whitespace and special characters. It should mirror the game name as much as possible.",
+            "type": "string"
+        },
+        "description": {
+            "description": "A Markdown-formatted description of the game, which can include a rules summary",
+            "type": "string"
+        },
+        "notes": {
+            "description": "Markdown-formatted implementation notes. There is where we can explain implementation-specific details about how the game works on Abstract Play specifically. This should help keep the game descriptions clean.",
+            "type": "string"
+        },
+        "urls": {
+            "description": "List of URLs related to the game",
+            "$ref": "#/definitions/urllist"
+        },
+        "escapeType": {
+            "description": "The type of escape for defenders",
+            "enum": ["edge", "corner"],
+            "default": "edge"
+        },
+        "pieces": {
+            "description": "The pieces in the game",
+            "type": "object",
+            "properties": {
+                "king": {
+                    "type": "object",
+                    "properties": {
+                        "strength": {
+                            "$ref": "#/definitions/pieceStrength",
+                            "default": "strong-near-throne"
+                        },
+                        "power": {
+                            "$ref": "#/definitions/piecePower",
+                            "default": "armed"
+                        },
+                        "jump": {
+                            "$ref": "#/definitions/pieceJump",
+                            "default": "no-jump"
+                        },
+                        "movement": {
+                            "$ref": "#/definitions/pieceMovement",
+                            "default": "rook"
+                        },
+                        "berserkEscape": {
+                            "description": "Whether the king can escape from a berserk. Note that in current implementation, this can only be enabled if the game has berserk capture.",
+                            "type": "boolean",
+                            "default": false
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "taflman": {
+                    "description": "Regular piece",
+                    "type": "object",
+                    "properties": {
+                        "strength": {
+                            "$ref": "#/definitions/pieceStrength",
+                            "default": "weak"
+                        },
+                        "power": {
+                            "$ref": "#/definitions/piecePower",
+                            "default": "armed"
+                        },
+                        "jump": {
+                            "$ref": "#/definitions/pieceJump",
+                            "default": "no-jump"
+                        },
+                        "movement": {
+                            "$ref": "#/definitions/pieceMovement",
+                            "default": "rook"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "knight": {
+                    "description": "The knight piece",
+                    "type": "object",
+                    "properties": {
+                        "strength": {
+                            "$ref": "#/definitions/pieceStrength",
+                            "default": "weak"
+                        },
+                        "power": {
+                            "$ref": "#/definitions/piecePower",
+                            "default": "armed"
+                        },
+                        "jump": {
+                            "$ref": "#/definitions/pieceJump",
+                            "default": "jump-capture-enemy-taflmen"
+                        },
+                        "movement": {
+                            "$ref": "#/definitions/pieceMovement",
+                            "default": "rook"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "commander": {
+                    "description": "The commander piece",
+                    "type": "object",
+                    "properties": {
+                        "strength": {
+                            "$ref": "#/definitions/pieceStrength",
+                            "default": "weak"
+                        },
+                        "power": {
+                            "$ref": "#/definitions/piecePower",
+                            "default": "piercing"
+                        },
+                        "jump": {
+                            "$ref": "#/definitions/pieceJump",
+                            "default": "jump-enemy-taflmen"
+                        },
+                        "movement": {
+                            "$ref": "#/definitions/pieceMovement",
+                            "default": "rook"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            }
+        },
+        "throne": {
+            "description": "The type of throne",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "The type of throne",
+                    "enum": [
+                        "no-throne",
+                        "centre"
+                    ],
+                    "default": "centre"
+                },
+                "emptyRestrictedTo": {
+                    "$ref": "#/definitions/restrictedTo",
+                    "default": "king-only"
+                },
+                "emptyAnvilTo": {
+                    "$ref": "#/definitions/anvilTo",
+                    "default": "all"
+                },
+                "emptyPassableBy": {
+                    "$ref": "#/definitions/passableBy",
+                    "default": "all"
+                },
+                "linnaeanCapture": {
+                    "description": "Whether the Linnean capture rule is in effect, where a piece next to the king when the king is on the throne and surrounded on the other three sides by attackers may be captured against the throne. Note that this is not currently implemented.",
+                    "type": "boolean",
+                    "default": false
+                },
+                "additionalProperties": false
+            }
+        },
+        "corner": {
+            "description": "The type of corner",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "The type of corner",
+                    "enum": [
+                        "no-corner",
+                        "corner"
+                    ],
+                    "default": "no-corner"
+                },
+                "restrictedTo": {
+                    "$ref": "#/definitions/restrictedTo",
+                    "default": "king-only"
+                },
+                "anvilTo": {
+                    "$ref": "#/definitions/anvilTo",
+                    "default": "all"
+                }
+            },
+            "additionalProperties": false
+        },
+        "edge": {
+            "description": "The type of edge",
+            "type": "object",
+            "properties": {
+                "anvilTo": {
+                    "$ref": "#/definitions/anvilTo",
+                    "default": "none"
+                }
+            },
+            "additionalProperties": false
+        },
+        "hasShieldWalls": {
+            "description": "Whether the game has shield walls",
+            "type": "boolean",
+            "default": false
+        },
+        "hasExitForts": {
+            "description": "Whether the game has exit forts",
+            "type": "boolean",
+            "default": false
+        },
+        "enclosureWin": {
+            "description": "Whether the game has an enclosure win condition",
+            "type": "boolean",
+            "default": false
+        },
+        "berserkCapture": {
+            "description": "Whether the game has a berserk capture rule",
+            "type": "boolean",
+            "default": false
+        }
+    },
+    "required": ["name", "uid"]
+}

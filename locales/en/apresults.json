@@ -48,6 +48,7 @@
         "nowhat": "{{player}} captured a piece at {{where}}.",
         "orb_1": "{{player}} captured an orb at {{where}}.",
         "orb_2": "{{player}} captured a spheroid at {{where}}.",
+        "tafl": "{{player}} captured a piece at {{where}}.",
         "tumbleweed": "{{player}} captured a stack of size {{count}} at {{where}}.",
         "tumbleweed_self": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
         "witch": {
@@ -156,6 +157,8 @@
         "gess_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
         "iqishiqi": "{{player}} moved neutral stone {{from}} to {{to}}.",
         "mattock": "{{player}} moved a miner from {{from}} to {{to}}.",
+        "tafl": "{{player}} moved a piece from {{from}} to {{to}}.",
+        "tafl_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
         "monkey_queen": "{{player}} moved their queen from {{from}} to {{to}}.",
         "monkey_single": "{{player}} moved a singleton from {{from}} to {{to}}.",
         "multiple": "{{player}} made the following moves: {{moves}}.",

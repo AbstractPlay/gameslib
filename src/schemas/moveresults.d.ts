@@ -41,6 +41,7 @@ export type APMoveResult =
       what?: string;
       count?: number;
       whose?: number;
+      how?: string;
     }
   | {
       type: "take";

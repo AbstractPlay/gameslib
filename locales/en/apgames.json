@@ -1141,6 +1141,11 @@
         }
     },
     "variantGroups": {
+        "amazons": {
+            "setup": {
+                "description": "Queens of each colour are on opposite halves of the board."
+            }
+        },
         "blooms": {
             "board": {
                 "name": "board (base 6)"
@@ -1273,6 +1278,16 @@
             "advanced": {
                 "description": "Makes it harder for the defenders by allowing invaders to stack on top of a king on an exit space. Defender wins if they *start* their turn with the king on an escape spot.",
                 "name": "Advanced"
+            }
+        },
+        "amazons": {
+            "cross": {
+                "name": "Cross",
+                "description": "Queens of the same colour are situated across from each other."
+            },
+            "scrambled": {
+                "name": "Scrambled",
+                "description": "Queens alternate colour around the board."
             }
         },
         "archimedes": {

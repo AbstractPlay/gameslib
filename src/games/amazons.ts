@@ -45,6 +45,10 @@ export class AmazonsGame extends GameBase {
                 name: "Walter Zamkauskas"
             }
         ],
+        variants: [
+            {uid: "cross", group: "setup"},
+            {uid: "scrambled", group: "setup"},
+        ],
         flags: ["multistep", "scores", "perspective", "pie", "aiai"]
     };
     public static coords2algebraic(x: number, y: number): string {
@@ -104,7 +108,7 @@ export class AmazonsGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
 
-    constructor(state?: IAmazonsState | string) {
+    constructor(state?: IAmazonsState | string, variants?: string[]) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -117,21 +121,48 @@ export class AmazonsGame extends GameBase {
             this.winner = [...state.winner];
             this.stack = [...state.stack];
         } else {
+            let board = new Map<string, CellContents>([
+                ["d10", 2],
+                ["g10", 2],
+                ["a7", 2],
+                ["j7", 2],
+                ["a4", 1],
+                ["j4", 1],
+                ["d1", 1],
+                ["g1", 1]
+            ]);
+            if (variants !== undefined) {
+                this.variants = [...variants];
+                if (this.variants.includes("cross")) {
+                    board = new Map<string, CellContents>([
+                        ["d10", 2],
+                        ["g10", 2],
+                        ["a7", 1],
+                        ["j7", 1],
+                        ["a4", 1],
+                        ["j4", 1],
+                        ["d1", 2],
+                        ["g1", 2]
+                    ]);
+                } else if (this.variants.includes("scrambled")) {
+                    board = new Map<string, CellContents>([
+                        ["d10", 2],
+                        ["g10", 1],
+                        ["a7", 1],
+                        ["j7", 2],
+                        ["a4", 2],
+                        ["j4", 1],
+                        ["d1", 1],
+                        ["g1", 2]
+                    ]);
+                }
+            }
             const fresh: IMoveState = {
                 _version: AmazonsGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Map([
-                    ["d10", 2],
-                    ["g10", 2],
-                    ["a7", 2],
-                    ["j7", 2],
-                    ["a4", 1],
-                    ["j4", 1],
-                    ["d1", 1],
-                    ["g1", 1]
-                ])
+                board,
             };
             this.stack = [fresh];
         }

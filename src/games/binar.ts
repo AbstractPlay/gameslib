@@ -539,6 +539,18 @@ export class BinarGame extends GameBase {
         return status;
     }
 
+    public player2seat(player: playerid = this.currplayer): string {
+        if (this.variants.includes("partisan")) {
+            if (player === 1) {
+                return "Horizontal";
+            } else {
+                return "Vertical";
+            }
+        } else {
+            return `Player ${player}`;
+        }
+    }
+
     public clone(): BinarGame {
         return Object.assign(new BinarGame(), deepclone(this) as BinarGame);
         // return new BinarGame(this.serialize());

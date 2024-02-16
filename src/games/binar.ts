@@ -97,6 +97,14 @@ export class BinarGame extends GameBase {
             {
                 uid: "partisan",
             },
+            {
+                uid: "size-5",
+                group: "board",
+            },
+            {
+                uid: "size-6",
+                group: "board",
+            },
         ]
     };
 
@@ -110,12 +118,20 @@ export class BinarGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: boolean[][];
-    public boardsize = 4;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+
+    public get boardsize(): number {
+        if (this.variants.includes("size-5")) {
+            return 5;
+        } else if (this.variants.includes("size-6")) {
+            return 6;
+        }
+        return 4;
+    }
 
     constructor(state?: IBinarState | string, variants?: string[]) {
         super();
@@ -167,7 +183,6 @@ export class BinarGame extends GameBase {
         this.board = [...state.board.map(lst => [...lst])];
         this.lastmove = state.lastmove;
         this.results = [...state._results];
-        this.boardsize = 4;
         return this;
     }
 
@@ -318,7 +333,7 @@ export class BinarGame extends GameBase {
             }
             const currVal = parseInt(currStr.join(""), 2);
             const newStr = Number(currVal + 1).toString(2).split("");
-            while (newStr.length < 4) {
+            while (newStr.length < this.boardsize) {
                 newStr.unshift("0");
             }
 
@@ -337,7 +352,7 @@ export class BinarGame extends GameBase {
             const currStr: string[] = this.board[idx].map(b => b === true ? "1" : "0");
             const currVal = parseInt(currStr.join(""), 2);
             const newStr = Number(currVal + 1).toString(2).split("");
-            while (newStr.length < 4) {
+            while (newStr.length < this.boardsize) {
                 newStr.unshift("0");
             }
 

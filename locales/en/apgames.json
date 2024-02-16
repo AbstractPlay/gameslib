@@ -1146,6 +1146,11 @@
                 "description": "Queens of each colour are on opposite halves of the board."
             }
         },
+        "binar": {
+            "board": {
+                "name": "board (4x4)"
+            }
+        },
         "blooms": {
             "board": {
                 "name": "board (base 6)"
@@ -1329,6 +1334,12 @@
             "partisan": {
                 "name": "Partisan Variant",
                 "description": "Player 1 increments rows and player 2 increments columns. Victory condition is the same."
+            },
+            "size-5": {
+                "name": "5x5 board"
+            },
+            "size-6": {
+                "name": "6x6 board"
             }
         },
         "blooms": {

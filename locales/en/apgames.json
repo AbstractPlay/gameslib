@@ -1648,10 +1648,6 @@
                 "name": "copenhagen-11x11-tdiamond",
                 "description": "Popular Hnefatafl variant based on the Fetlar rules with strong armed king and corner escape rules. Has shield wall captures and exit forts."
             },
-            "old-11x11-tdiamond": {
-                "name": "old-11x11-tdiamond",
-                "description": "An earlier variant of the Fetlar rules with strong armed king and corner escape rules, but the king can be captured on the edge. It is said to be balanced."
-            },
             "berserk-11x11-tdiamondberserk": {
                 "name": "berserk-11x11-tdiamondberserk",
                 "description": "Berserk variant of the Fetlar rules with knights and commanders. Multiple captures are permitted, and the king may escape to the corner immediately after a capture."

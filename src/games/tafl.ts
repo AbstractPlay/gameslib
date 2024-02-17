@@ -1171,7 +1171,9 @@ export class TaflGame extends GameBase {
             if (!this.board.has(nextCell)) { continue; }
             const [pl, pc] = this.board.get(nextCell)!;
             if (pl !== 2 || pc === "K") { continue; }
-            return this.fromToConnected(nextCell, next, tos, [...path, nextCell]);
+            if (this.fromToConnected(nextCell, next, tos, [...path, nextCell])) {
+                return true;
+            }
         }
         return false;
     }

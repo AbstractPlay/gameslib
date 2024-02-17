@@ -1029,6 +1029,8 @@
             "CONTIGUOUS": "In berserk moves, the subsequent 'from' cells must be the previous 'to' cells.",
             "PREFIX": "The cell {{cell}} has to be prefixed with the piece symbol: {{prefixed}}",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",
+            "NO_MOVES": "The piece at {{from}} does not have any valid cells to move to.",
+            "INVALID_DESTINATION": "The piece at {{from}} cannot move to {{to}}.",
             "BERSERK": "Berserk move to {{to}} is invalid.",
             "BERSERK_CONTINUE": "You may continue with a berserk move."
         },

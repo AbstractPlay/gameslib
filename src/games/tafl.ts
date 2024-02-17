@@ -921,11 +921,25 @@ export class TaflGame extends GameBase {
             result.message = i18next.t("apgames:validation.tafl.NORMALISE", {normalised});
             return result;
         }
+        // Check that the piece can move
+        const tos = this.getTos(initialFromStripped);
+        if (tos.length === 0) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.tafl.NO_MOVES", {from: initialFromStripped});
+            return result;
+        }
+        // Incomplete move
         if (initialTo === undefined) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
+            return result;
+        }
+        // Check that initial destination is valid
+        if (!tos.includes(initialTo)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.tafl.INVALID_DESTINATION", {from: initialFromStripped, to: initialTo});
             return result;
         }
         // correctness of multistep moves

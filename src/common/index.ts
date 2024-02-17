@@ -4,10 +4,12 @@ import { shuffle } from "./shuffle";
 import { UserFacingError } from "./errors";
 import { HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph } from "./graphs";
 import { wng } from "./namegenerator";
-import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90 } from "./plotting";
+import { projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect } from "./plotting";
 import { hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai } from "./aiai";
+import stringify from "json-stringify-deterministic";
+import fnv from "fnv-plus";
 
-export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90 as matrixSquareRot90, matrixRectRotN90 as matrixSquareRotN90, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai };
+export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai };
 
 export type DirectionsCardinal = "N" | "E" | "S" | "W";
 export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";
@@ -37,4 +39,10 @@ export const randomInt = (max: number, min = 1): number => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export const x2uid = (x: any): string => {
+    fnv.seed("apgames");
+    const hash = fnv.hash(stringify(x));
+    return hash.hex();
 }

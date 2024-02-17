@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { matrixSquareRot90, reviver, UserFacingError } from "../common";
+import { matrixRectRot90, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -388,7 +388,7 @@ export class BinarGame extends GameBase {
             }
         }
         // rotate then check columns
-        const rotated = matrixSquareRot90([...this.board.map(lst => [...lst])]) as boolean[][];
+        const rotated = matrixRectRot90([...this.board.map(lst => [...lst])]) as boolean[][];
         for (const col of rotated) {
             if (col.reduce((prev, curr) => prev && curr, true)) {
                 return true;

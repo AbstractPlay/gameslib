@@ -41,6 +41,7 @@
         "flume": "Place stones to make connections. Connecting to three or four other pieces allows you to place another stone. When the board is full, the player with the most stones on the board wins.",
         "fnap": "A tile laying game where players simultaneously select the tile they will play, but only one player gets to place them both. Points are scored by dominating rows and columns and by creating groups of connected (and disconnected) tiles.",
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
+        "four": "A game in which four shapes in four colours are placed in a virtual grid according to four constraints. Be the last player able to place.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
@@ -625,6 +626,18 @@
             "ORTHOGONAL": "Stacks may only move orthogonally, never diagonally.",
             "TOOFAR": "You may not move the stack more spaces than the number of pieces in the stack.",
             "UNCONTROLLED": "You can only move stacks where your piece is on top."
+        },
+        "four": {
+            "DIFFERENT_MOVE": "You may not play the same size or colour piece as your opponent did on their last turn.",
+            "INITIAL_INSTRUCTIONS": "Select a piece from your stash to load and manipulate it.",
+            "LABEL_SELECTED": "Selected piece",
+            "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "NO_OVERLAP": "Placing a {{piece}} at {{coord}} would overlap an existing piece.",
+            "NO_PIECE": "Could not find the piece {{piece}} in your stash.",
+            "NOT_ADJACENT": "The placed piece may not be adjacent to a piece of the same size or colour.",
+            "MUST_CONNECT": "Each piece placed after the first must orthogonally connect to at least one other piece.",
+            "PARTIAL": "Click the cell on the board representing the top-left corner of the piece you wish to place.",
+            "TOO_BIG": "The grid may never be larger than 9 cells wide or high (or 7 cells in the simplified game)."
         },
         "furl": {
             "INITIAL_INSTRUCTIONS": "Select a piece to furl or a stack to unfurl.",
@@ -1460,6 +1473,12 @@
             },
             "7x7": {
                 "name": "Smaller board: 7x7"
+            }
+        },
+        "four": {
+            "simplified": {
+                "name": "Learning game",
+                "description": "You only play with three pieces of each colour, and the grid is constrained to 7x7 instead of 9x9."
             }
         },
         "havannah": {

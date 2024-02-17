@@ -60,7 +60,6 @@ export class TaflGame extends GameBase {
             { uid: "seabattle-9x9-starsquare", group: "variant" },
             { uid: "seabattle-11x11-tcross", group: "variant" },
             { uid: "copenhagen-11x11-tdiamond", group: "variant" },
-            { uid: "old-11x11-tdiamond", group: "variant" },
             { uid: "berserk-11x11-tdiamondberserk", group: "variant" },
             { uid: "tyr-11x11-tyr", group: "variant" },
             { uid: "tyr-15x15-tyr", group: "variant" },

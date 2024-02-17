@@ -328,7 +328,7 @@ export class TaflSettings {
         ruleset.hasShieldWalls ??= false;
         ruleset.hasExitForts ??= false;
         ruleset.berserkCapture ??= false;
-        ruleset.repetion ??= "defenders-lose";
+        ruleset.repetition ??= "defenders-lose";
         ruleset.enclosureWin ??= true;
         return ruleset;
     }

@@ -56,7 +56,7 @@ export class TaflGame extends GameBase {
         variants: [
             // default: "historical-9x9-tcross-w"
             { uid: "historical-11x11-belldiamond-w", group: "variant" },
-            { uid: "historical-11x11-lewiscross", group: "variant" },
+            { uid: "historical-11x11-lewiscross-w", group: "variant" },
             { uid: "seabattle-9x9-starsquare", group: "variant" },
             { uid: "seabattle-11x11-tcross", group: "variant" },
             { uid: "copenhagen-11x11-tdiamond", group: "variant" },

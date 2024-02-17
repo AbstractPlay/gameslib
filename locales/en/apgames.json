@@ -1632,8 +1632,8 @@
                 "name": "historical-11x11-belldiamond-w",
                 "description": "Bell-diamond setup with rules based on a recent reconstruction of Linnaeus' diary."
             },
-            "historical-11x11-lewiscross": {
-                "name": "historical-11x11-lewiscross",
+            "historical-11x11-lewiscross-w": {
+                "name": "historical-11x11-lewiscross-w",
                 "description": "Lewis-cross setup with rules based on a recent reconstruction of Linnaeus' diary."
             },
             "seabattle-9x9-starsquare": {

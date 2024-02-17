@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable max-classes-per-file */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -411,7 +414,7 @@ export class TaflGame extends GameBase {
         return tos;
     }
 
-    private getAllMoves(from: string, pastMoves: string = "", captured: string[] = [], initialFrom?: string): string[] {
+    private getAllMoves(from: string, pastMoves = "", captured: string[] = [], initialFrom?: string): string[] {
         // Get all possible moves from a cell at `from`.
         if (initialFrom === undefined) { initialFrom = from; }
         const tosJump = this.getTosJump(from, "all", captured, initialFrom);
@@ -1009,6 +1012,7 @@ export class TaflGame extends GameBase {
                 this.dots = this.getTos(this.stripPrefix(from));
             } else if (this.settings.ruleset.berserkCapture) {
                 const lastMove = moves[moves.length - 1];
+                // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
                 const [, to, ] = lastMove.split(/[-\^x]/);
                 const captured = this.extractCaptures(lastMove);
                 if (captured.length > 0) {

@@ -79,6 +79,7 @@
         "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "tbt": "A simple dice game where you attempt to form stacks of equal height on your home row.",
+        "tafl": "A collection of games from the Viking era. The defenders goal is to escape to the edge of the board, while the attackers try to capture the defender's king.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
@@ -108,6 +109,7 @@
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "razzle": "The implementation here is the so called tournament rules.",
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
+        "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'historical-9x9-tcross-w' is the historical rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -1009,6 +1011,14 @@
             "PARTIAL_TAKE": "Click the stack you control from which you wish to remove a checker.",
             "VALID_PARTIAL": "First move complete. Now make a second."
         },
+        "tafl": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "CONTIGUOUS": "In berserk moves, the subsequent 'from' cells must be the previous 'to' cells.",
+            "PREFIX": "The cell {{cell}} has to be prefixed with the piece symbol: {{prefixed}}",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",
+            "BERSERK": "Berserk move to {{to}} is invalid.",
+            "BERSERK_CONTINUE": "You may continue with a berserk move."
+        },
         "taiji": {
             "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
             "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
@@ -1215,6 +1225,12 @@
         "slither": {
             "board": {
                 "name": "9x9 board"
+            }
+        },
+        "tafl": {
+            "variant": {
+                "name": "historical-9x9-tcross-w",
+                "description": "Historical Saami Tablut based on recent reconstruction of Linnaeus' diary."
             }
         },
         "trike": {
@@ -1620,6 +1636,44 @@
             "15point": {
                 "name": "Higher penalty (-15)",
                 "description": "The higher penalty makes invading enemy territory more expensive, leading to a euro-style game that focuses on building."
+            }
+        },
+        "tafl": {
+            "historical-11x11-belldiamond-w": {
+                "name": "historical-11x11-belldiamond-w",
+                "description": "Bell-diamond setup with rules based on a recent reconstruction of Linnaeus' diary."
+            },
+            "historical-11x11-lewiscross-w": {
+                "name": "historical-11x11-lewiscross-w",
+                "description": "Lewis-cross setup with rules based on a recent reconstruction of Linnaeus' diary."
+            },
+            "seabattle-9x9-starsquare": {
+                "name": "seabattle-9x9-starsquare",
+                "description": "Strong unarmed king and edge escape on a 9x9 board."
+            },
+            "seabattle-11x11-tcross": {
+                "name": "seabattle-11x11-tcross",
+                "description": "Strong unarmed king and edge escape on a 11x11 board."
+            },
+            "copenhagen-11x11-tdiamond": {
+                "name": "copenhagen-11x11-tdiamond",
+                "description": "Popular Hnefatafl variant based on the Fetlar rules with strong armed king and corner escape rules. Has shield wall captures and exit forts."
+            },
+            "berserk-11x11-tdiamondberserk": {
+                "name": "berserk-11x11-tdiamondberserk",
+                "description": "Berserk variant of the Fetlar rules with knights and commanders. Multiple captures are permitted, and the king may escape to the corner immediately after a capture."
+            },
+            "tyr-11x11-tyr": {
+                "name": "tyr-11x11-tyr",
+                "description": "Berserk rules with weak armed king and edge escape on a 11x11 board. This is the simple setup without special pieces."
+            },
+            "tyr-15x15-tyr": {
+                "name": "tyr-15x15-tyr",
+                "description": "Berserk rules with weak armed king and edge escape on a 15x15 board. This is the simple setup without special pieces."
+            },
+            "magpie-7x7-cross": {
+                "name": "magpie-7x7-cross",
+                "description": "A Tafl variant from the book The Leprechaun Companion by Nigel Suckling. It has a strong armed King that only moves one space. The king can be captured on the edges. Find the rules here: http://tafl.cyningstan.com/download/968/magpie-leaflet"
             }
         },
         "taiji": {

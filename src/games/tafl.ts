@@ -786,8 +786,9 @@ export class TaflGame extends GameBase {
         try {
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
-            if (move === "" || this.board.has(cell)) {
-                if (this.board.has(cell)) {
+            const captured = this.extractCaptures(move);
+            if (move === "" || this.board.has(cell) && !captured.includes(cell)) {
+                if (this.board.has(cell) && !captured.includes(cell)) {
                     newmove = this.addPrefix(cell);
                 } else {
                     // If the cell is empty, we just assign the cell to the move
@@ -795,21 +796,17 @@ export class TaflGame extends GameBase {
                     newmove = cell;
                 }
             } else {
-                if (this.board.has(cell)) { newmove = cell; }
-                else {
-                    const moves = move.split(" ");
-                    const firstMove = moves[0];
-                    const lastMove = moves[moves.length - 1];
-                    const [initialFrom, ] = firstMove.split(/[-\^x]/);
-                    const [from, to, ] = lastMove.split(/[-\^x]/);
-                    if (to === undefined) {
-                        // This can only happen after first click.
-                        const latestMove = this.createMove(this.stripPrefix(from), cell);
-                        newmove = latestMove;
-                    } else {
-                        const captured = this.extractCaptures(move);
-                        newmove = move + " " + this.createMove(to, cell, captured, this.stripPrefix(initialFrom));
-                    }
+                const moves = move.split(" ");
+                const firstMove = moves[0];
+                const lastMove = moves[moves.length - 1];
+                const [initialFrom, ] = firstMove.split(/[-\^x]/);
+                const [from, to, ] = lastMove.split(/[-\^x]/);
+                if (to === undefined) {
+                    // This can only happen after first click.
+                    const latestMove = this.createMove(this.stripPrefix(from), cell);
+                    newmove = latestMove;
+                } else {
+                    newmove = move + " " + this.createMove(to, cell, captured, this.stripPrefix(initialFrom));
                 }
             }
             const result = this.validateMove(newmove) as IClickResult;

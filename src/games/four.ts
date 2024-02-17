@@ -54,7 +54,7 @@ export class FourGame extends GameBase {
         variants: [
             {uid: "simplified"}
         ],
-        flags: ["experimental", "player-stashes", "shared-pieces"]
+        flags: ["experimental", "shared-pieces", "multistep"]
     };
 
     public static piece2matrix = new Map<string, Polymatrix>([

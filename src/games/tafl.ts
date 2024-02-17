@@ -688,7 +688,7 @@ export class TaflGame extends GameBase {
                     const cell = ray[i];
                     if (cell === this.throne) { passedThrone = true; }
                     if (this.illegalCells.get(pcF)!.includes(cell)) { continue; }
-                    if (!this.board.has(cell) || captured.includes(cell)) {
+                    if (!this.board.has(cell) || captured.includes(cell) || cell === initialFrom) {
                         tos.push(cell);
                     } else {
                         break;
@@ -718,7 +718,7 @@ export class TaflGame extends GameBase {
             if (ray.length <= 1) { continue; }
             if (!this.board.has(ray[0]) || captured.includes(ray[0])) { continue; }
             const [plJ, pcJ] = this.board.get(ray[0])!;
-            if (this.board.has(ray[1]) && !captured.includes(ray[1])) { continue; }
+            if (this.board.has(ray[1]) && !captured.includes(ray[1]) && ray[1] !== initialFrom) { continue; }
             if (this.illegalCells.get(pcF)!.includes(ray[1])) { continue; }
             if (which === "no-capture" && plJ !== plF) { continue; }
             if (which === "capture" && plJ === plF) { continue; }
@@ -731,7 +731,7 @@ export class TaflGame extends GameBase {
             } else if (jumpType === "jump-enemy-taflmen-to-from-restricted" && plJ !== plF && pcJ === "T") {
                 // Jump over any enemy taflmen, but only if the to or from cells are restricted to the jumper.
                 const restrictedToCells = this.restrictedToCells.get(pcF)!;
-                if ((restrictedToCells.includes(from) || restrictedToCells.includes(ray[1]))) {
+                if (restrictedToCells.includes(from) || restrictedToCells.includes(ray[1])) {
                     tos.push(ray[1]);
                 }
             }

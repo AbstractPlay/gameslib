@@ -93,6 +93,15 @@ export class FourGame extends GameBase {
     ]);
     public static hash2piece: Map<string,string> = genHashes();
 
+    // helper function to ensure that you always load a copy
+    public static loadPiece(pc: string): Polymatrix|undefined {
+        if (FourGame.piece2matrix.has(pc)) {
+            return FourGame.piece2matrix.get(pc)!.map(lst => [...lst]);
+        } else {
+            return undefined;
+        }
+    }
+
     public get maxWidth(): number {
         if (this.variants.includes("simplified")) {
             return 7;
@@ -279,6 +288,12 @@ export class FourGame extends GameBase {
                 }
                 // polyomino buttons
                 if (piece.startsWith("_btn_")) {
+                    // populate selected with initial piece
+                    const [pc,] = move.split(",");
+                    if (pc === undefined || pc.length === 0) {
+                        throw new Error(`You tried to manipulate a polyomino before selecting one!`);
+                    }
+                    this.selected = FourGame.loadPiece(pc);
                     if (this.selected === undefined) {
                         throw new Error(`You tried to manipulate a polyomino before selecting one!`);
                     }
@@ -307,13 +322,13 @@ export class FourGame extends GameBase {
                 }
                 // otherwise it's a stash piece
                 else if (piece !== "SPACER") {
-                    this.selected = FourGame.piece2matrix.get(piece);
+                    this.selected = FourGame.loadPiece(piece);
                     newmove = piece;
                 }
             }
             // board clicks
             else {
-                if (this.selected !== undefined) {
+                if (move !== "") {
                     const {minX, minY, maxX, maxY} = this.getMinMax();
                     const realWidth = maxX - minX + 1;
                     const realHeight = maxY - minY + 1;
@@ -327,7 +342,7 @@ export class FourGame extends GameBase {
                     }
                     const realX = minX - marginX + col;
                     const realY = maxY + marginY - row;
-                    newmove = [FourGame.hash2piece.get(x2uid(this.selected))!, realX, realY].join(",");
+                    newmove = [move, realX, realY].join(",");
                 }
             }
 
@@ -360,6 +375,7 @@ export class FourGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.four.INITIAL_INSTRUCTIONS")
             return result;
         }
@@ -386,7 +402,7 @@ export class FourGame extends GameBase {
         if (x !== undefined && y !== undefined) {
             const col = parseInt(x, 10);
             const row = parseInt(y, 10);
-            const matrix = FourGame.piece2matrix.get(pieceStr)!;
+            const matrix = FourGame.loadPiece(pieceStr)!;
             const newPiece = new Piece({col, row, matrix});
 
             // no overlap
@@ -478,8 +494,11 @@ export class FourGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        m = m[0].toUpperCase() + m.substring(1).toLowerCase();
         m = m.replace(/\s+/g, "");
+        if (m.length > 0) {
+            m = m[0].toUpperCase() + m.substring(1).toLowerCase();
+        }
+
         if (! trusted) {
             const result = this.validateMove(m);
             if (! result.valid) {
@@ -494,8 +513,12 @@ export class FourGame extends GameBase {
         this.results = [];
 
         const [pieceStr, x, y] = m.split(",");
-        const matrix = FourGame.piece2matrix.get(pieceStr)!;
-        if (x !== undefined && y !== undefined) {
+        let matrix: Polymatrix|undefined;
+        if (pieceStr !== undefined && pieceStr.length > 0) {
+            matrix = FourGame.loadPiece(pieceStr)!;
+            this.selected = matrix;
+        }
+        if (matrix !== undefined && x !== undefined && y !== undefined) {
             const row = parseInt(y, 10);
             const col = parseInt(x, 10);
             const piece = new Piece({row, col, matrix});
@@ -613,7 +636,7 @@ export class FourGame extends GameBase {
         // add stash glyphs
         const pcs = new Set<PieceCode>(this.stashes.flat());
         for (const pc of pcs) {
-            const matrix = FourGame.piece2matrix.get(pc)!;
+            const matrix = FourGame.loadPiece(pc)!;
             rep.legend![pc] = matrix;
         }
 
@@ -665,7 +688,7 @@ export class FourGame extends GameBase {
                     const realRows = [...rowLabels].reverse();
                     const row = realRows.findIndex(l => l === y);
                     const col = columnLabels.findIndex(l => l === x);
-                    const matrix = FourGame.piece2matrix.get(move.what!)!;
+                    const matrix = FourGame.loadPiece(move.what!)!;
                     const polyHeight = matrix.length;
                     let polyWidth = 0;
                     if (polyHeight > 0) {

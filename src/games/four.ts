@@ -172,7 +172,7 @@ export class FourGame extends GameBase {
         this.board = state.board.map(obj => new Piece(obj));
         this.stashes = state.stashes.map(lst => [...lst]) as [PieceCode[],PieceCode[]];
         this.lastmove = state.lastmove;
-        // this.selected = state.selected?.map(lst => [...lst]);
+        this.selected = state.selected?.map(lst => [...lst]);
         return this;
     }
 
@@ -215,13 +215,19 @@ export class FourGame extends GameBase {
             const pieces = [...FourGame.piece2matrix.keys()].filter(pc => pc.startsWith(root));
             // for each configuration
             for (const piece of pieces) {
-                // check each and every possible placement
-                for (let y = minY - 2; y <= maxY + 2; y++) {
-                    for (let x = minX - 2; x <= maxX + 2; x++) {
-                        const move = `${piece},${x},${y}`;
-                        const result = this.validateMove(move);
-                        if (result.valid && result.complete === 1) {
-                            moves.push(move);
+                // if board is empty, then place all pieces at 0,0
+                if (this.board.length === 0) {
+                    moves.push(`${piece},0,0`);
+                }
+                // otherwise, check all possible placements
+                else {
+                    for (let y = minY - 2; y <= maxY + 2; y++) {
+                        for (let x = minX - 2; x <= maxX + 2; x++) {
+                            const move = `${piece},${x},${y}`;
+                            const result = this.validateMove(move);
+                            if (result.valid && result.complete === 1) {
+                                moves.push(move);
+                            }
                         }
                     }
                 }
@@ -561,7 +567,7 @@ export class FourGame extends GameBase {
             lastmove: this.lastmove,
             board: this.board.map(obj => obj.clone()),
             stashes: this.stashes.map(lst => [...lst]) as [PieceCode[],PieceCode[]],
-            // selected: this.selected?.map(lst => [...lst]),
+            selected: this.selected?.map(lst => [...lst]),
         };
     }
 

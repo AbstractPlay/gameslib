@@ -945,7 +945,7 @@ export class TaflGame extends GameBase {
         }
         const lastMove = moves[moves.length - 1];
         const [, lastTo, ] = lastMove.split(/[-\^x]/);
-        if (this.settings.ruleset.berserkCapture && this.getTos(lastTo, captures, initialFromStripped, "berserk").length > 0) {
+        if (this.settings.ruleset.berserkCapture && captures.length > 0 && this.getTos(lastTo, captures, initialFromStripped, "berserk").length > 0) {
             result.valid = true;
             result.complete = 0;
             result.canrender = true;

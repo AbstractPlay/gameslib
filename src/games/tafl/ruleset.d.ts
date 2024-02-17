@@ -208,6 +208,10 @@ export interface Ruleset {
    */
   enclosureWin?: boolean;
   /**
+   * What happens in the event of a repetition
+   */
+  repetition?: "defenders-lose" | "draw";
+  /**
    * Whether the game has a berserk capture rule
    */
   berserkCapture?: boolean;

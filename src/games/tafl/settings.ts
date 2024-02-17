@@ -42,6 +42,7 @@ export class TaflSettings {
                     ],
                     escapeType: "corner",
                     pieces: { king: { strength: "strong" } },
+                    repetition: "draw",
                 });
                 break;
             case "copenhagen":
@@ -327,6 +328,7 @@ export class TaflSettings {
         ruleset.hasShieldWalls ??= false;
         ruleset.hasExitForts ??= false;
         ruleset.berserkCapture ??= false;
+        ruleset.repetion ??= "defenders-lose";
         ruleset.enclosureWin ??= true;
         return ruleset;
     }

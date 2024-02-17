@@ -252,6 +252,12 @@
             "type": "boolean",
             "default": true
         },
+        "repetition": {
+            "description": "What happens in the event of a repetition",
+            "type": "string",
+            "enum": ["defenders-lose", "draw"],
+            "default": "defenders-lose"
+        },
         "berserkCapture": {
             "description": "Whether the game has a berserk capture rule",
             "type": "boolean",

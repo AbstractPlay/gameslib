@@ -1147,10 +1147,10 @@ export class TaflGame extends GameBase {
         const edgeDir = this.getEdgeDir(kingCell);
         const dirsToCheck: Directions[] = edgeDir === "N" || edgeDir === "S" ? ["E", "W"] : ["N", "S"];
         const fromsTos: string[][] = [];
-        let consecutiveFlag = false;
         for (const dir of dirsToCheck) {
             const cells: string[] = [];
             const ray = this.grid.ray(...this.algebraic2coords(kingCell), dir).map((c) => this.coords2algebraic(...c));
+            let consecutiveFlag = false;
             for (const cell of ray) {
                 if (this.board.has(cell)) {
                     const [pl,] = this.board.get(cell)!;

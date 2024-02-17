@@ -1182,7 +1182,7 @@ export class TaflGame extends GameBase {
         } else if (this.escaped()) {
             this.gameover = true;
             this.winner = [2];
-        } else if (this.stateCount() >= 3 && this.currplayer === 1) {
+        } else if (this.currplayer === 1 && this.stateCount() >= 2) {
             // Perpetual repetitions is a loss for the defender.
             // But we only enforce it if defender player makes their turn.
             this.gameover = true;

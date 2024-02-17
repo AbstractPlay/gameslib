@@ -255,7 +255,7 @@
         "enclosureWin": {
             "description": "Whether the game has an enclosure win condition",
             "type": "boolean",
-            "default": false
+            "default": true
         },
         "berserkCapture": {
             "description": "Whether the game has a berserk capture rule",

@@ -98,6 +98,7 @@ export class TaflSettings {
                     throne: { emptyAnvilTo: "all-piercing"},
                     corner: { type: "corner", anvilTo: "men-only-piercing" },
                     berserkCapture: true,
+                    enclosureWin: false,
                 });
                 break;
             case "tyr":
@@ -111,6 +112,7 @@ export class TaflSettings {
                     pieces: { king: { strength: "weak", berserkEscape: true }, knight: { jump: "jump-taflmen" } },
                     throne: { type: "no-throne" },
                     berserkCapture: true,
+                    enclosureWin: false,
                 });
                 break;
             case "magpie":
@@ -333,7 +335,7 @@ export class TaflSettings {
         ruleset.hasShieldWalls ??= false;
         ruleset.hasExitForts ??= false;
         ruleset.berserkCapture ??= false;
-        ruleset.enclosureWin ??= false;
+        ruleset.enclosureWin ??= true;
         return ruleset;
     }
 }

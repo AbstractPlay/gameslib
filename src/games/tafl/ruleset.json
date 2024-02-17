@@ -200,11 +200,6 @@
                     "$ref": "#/definitions/passableBy",
                     "default": "all"
                 },
-                "linnaeanCapture": {
-                    "description": "Whether the Linnean capture rule is in effect, where a piece next to the king when the king is on the throne and surrounded on the other three sides by attackers may be captured against the throne. Note that this is not currently implemented.",
-                    "type": "boolean",
-                    "default": false
-                },
                 "additionalProperties": false
             }
         },

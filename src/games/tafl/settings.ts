@@ -22,13 +22,6 @@ export class TaflSettings {
                     ],
                 });
                 break;
-            case "linnaean":
-                this.ruleset = TaflSettings.createRuleset({
-                    name: "Linnaean",
-                    uid: "linnaean",
-                    throne: { emptyRestrictedTo: "all", linnaeanCapture: true },
-                });
-                break;
             case "simple":
                 this.ruleset = TaflSettings.createRuleset({
                     name: "Simple",
@@ -325,7 +318,6 @@ export class TaflSettings {
         ruleset.throne.emptyRestrictedTo ??= "king-only";
         ruleset.throne.emptyAnvilTo ??= "all";
         ruleset.throne.emptyPassableBy ??= "all";
-        ruleset.throne.linnaeanCapture ??= false;
         ruleset.corner ??= {};
         ruleset.corner.type ??= "no-corner";
         ruleset.corner.restrictedTo ??= "king-only";

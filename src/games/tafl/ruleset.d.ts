@@ -166,10 +166,6 @@ export interface Ruleset {
      * The type of piece that a space is passable by
      */
     emptyPassableBy?: "all" | "none" | "king-only";
-    /**
-     * Whether the Linnean capture rule is in effect, where a piece next to the king when the king is on the throne and surrounded on the other three sides by attackers may be captured against the throne. Note that this is not currently implemented.
-     */
-    linnaeanCapture?: boolean;
     additionalProperties?: false;
     [k: string]: unknown;
   };

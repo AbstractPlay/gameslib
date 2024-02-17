@@ -574,7 +574,6 @@ export class TaflGame extends GameBase {
                     }
                 } else if (this.throne === anvilCell) {
                     // Check for capture against the throne.
-                    // TODO: Linnaean capture.
                     const emptyThroneAnvilTo = this.settings.ruleset.throne!.emptyAnvilTo!;
                     if (emptyThroneAnvilTo === "none") { continue; }
                     if (isStrong) {
@@ -1187,7 +1186,7 @@ export class TaflGame extends GameBase {
             // But we only enforce it if defender player makes their turn.
             this.gameover = true;
             this.winner = [1];
-        } else if (this.encircled()) {
+        } else if (this.settings.ruleset.enclosureWin! && this.encircled()) {
             this.gameover = true;
             this.winner = [1];
         } else if (this.settings.ruleset.hasExitForts! && this.hasExitFort()) {

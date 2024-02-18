@@ -45,6 +45,10 @@ export class BoomGame extends GameBase {
                 name: "Ty Bomba",
             },
         ],
+        variants: [
+            {uid: "pieces-6", group: "setup"},
+            {uid: "pieces-8", group: "setup"},
+        ],
         flags: ["scores","perspective"]
     };
 
@@ -65,13 +69,27 @@ export class BoomGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IBoomState | string) {
+    constructor(state?: IBoomState | string, variants?: string[]) {
         super();
         if (state === undefined) {
-            const board = new Map<string, CellContents>([
+            let board = new Map<string, CellContents>([
                 ["c1", [1, 3]], ["d1", [1, 3]], ["e1", [1, 3]], ["f1", [1, 3]],
                 ["c8", [2, 3]], ["d8", [2, 3]], ["e8", [2, 3]], ["f8", [2, 3]],
             ]);
+            if (variants !== undefined) {
+                this.variants = [...variants];
+                if (this.variants.includes("pieces-6")) {
+                    board = new Map<string, CellContents>([
+                        ["b1", [1, 3]], ["c1", [1, 3]], ["d1", [1, 3]], ["e1", [1, 3]], ["f1", [1, 3]], ["g1", [1, 3]],
+                        ["b8", [2, 3]], ["c8", [2, 3]], ["d8", [2, 3]], ["e8", [2, 3]], ["f8", [2, 3]], ["g8", [2, 3]],
+                    ]);
+                } else if (this.variants.includes("pieces-8")) {
+                    board = new Map<string, CellContents>([
+                        ["a1", [1, 3]], ["b1", [1, 3]], ["c1", [1, 3]], ["d1", [1, 3]], ["e1", [1, 3]], ["f1", [1, 3]], ["g1", [1, 3]], ["h1", [1, 3]],
+                        ["a8", [2, 3]], ["b8", [2, 3]], ["c8", [2, 3]], ["d8", [2, 3]], ["e8", [2, 3]], ["f8", [2, 3]], ["g8", [2, 3]], ["h8", [2, 3]],
+                    ]);
+                }
+            }
             const fresh: IMoveState = {
                 _version: BoomGame.gameinfo.version,
                 _results: [],

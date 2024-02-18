@@ -16,7 +16,7 @@
     "full-prod": "npm run test && npm run build && npm run dist-prod && npm run deploy",
     "deploy": "shx cp ./playground/index.html ./dist && npx serverless client deploy --no-confirm --no-delete-contents",
     "extract": "i18next 'src/**/*.ts'",
-    "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts",
+    "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts && npx json2ts -i src/games/tafl/ruleset.json -o src/games/tafl/ruleset.d.ts",
     "npm-login": "npm login --scope=@abstractplay --auth-type=legacy --registry=https://npm.pkg.github.com"
   },
   "repository": {
@@ -55,10 +55,12 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-7907196728.0",
+    "@abstractplay/renderer": "^1.0.0-ci-7935216027.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "@turf/points-within-polygon": "^6.5.0",
+    "@types/fnv-plus": "^1.3.2",
+    "fnv-plus": "^1.3.1",
     "graphology": "^0.25.1",
     "graphology-components": "^1.5.4",
     "graphology-shortest-path": "^2.0.2",

@@ -91,6 +91,9 @@
                 },
                 "whose": {
                     "type": "number"
+                },
+                "how": {
+                    "type": "string"
                 }
             },
             "required": ["type"],

@@ -157,6 +157,10 @@ export class ValleyGame extends GameBase {
         const mine = [...this.board.entries()].filter(([,[owner,]]) => owner === player).map(([cell,]) => cell);
 
         for (const from of mine) {
+            const piece = this.board.get(from)![1];
+            if (this.stack.length === 1 && piece === "king") {
+                continue;
+            }
             const [fx, fy] = this.algebraic2coords(from);
             for (const dir of allDirections) {
                 let ray = grid.ray(fx, fy, dir).map(pt => this.coords2algebraic(...pt));
@@ -167,7 +171,6 @@ export class ValleyGame extends GameBase {
                 }
                 if (ray.length > 0) {
                     const to = ray[ray.length - 1];
-                    const piece = this.board.get(from)![1];
                     if (to !== this.centre || piece === "king") {
                         moves.push(`${from}-${to}`);
                     }

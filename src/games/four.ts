@@ -622,8 +622,8 @@ export class FourGame extends GameBase {
                 style: "squares-beveled",
                 width: width + (marginX*2),
                 height: height + (marginY*2),
-                rowLabels,
-                columnLabels,
+                rowLabels: rowLabels.map(l => l.replace("-", "\u2212")),
+                columnLabels: columnLabels.map(l => l.replace("-", "\u2212")),
             },
             legend: {
                 SPACER: {

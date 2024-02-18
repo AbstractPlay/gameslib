@@ -41,6 +41,9 @@ export class ValleyGame extends GameBase {
         variants: [
             {
                 uid: "labyrinth"
+            },
+            {
+                uid: "king-swap"
             }
         ],
         flags: ["perspective"]
@@ -94,6 +97,15 @@ export class ValleyGame extends GameBase {
                         ["a1", [1,"pawn"]], ["b1", [1,"pawn"]], ["c1", [1,"pawn"]], ["d1", [1,"king"]], ["e1", [1,"pawn"]], ["f1", [1,"pawn"]], ["g1", [1,"pawn"]],
                         ["a7", [2,"pawn"]], ["b7", [2,"pawn"]], ["c7", [2,"pawn"]], ["d7", [2,"king"]], ["e7", [2,"pawn"]], ["f7", [2,"pawn"]], ["g7", [2,"pawn"]],
                     ]);
+                }
+                if (this.variants.includes("king-swap")) {
+                    if (this.variants.includes("labyrinth")) {
+                        board.set("d1", [2,"king"]);
+                        board.set("d7", [1,"king"]);
+                    } else {
+                        board.set("c1", [2,"king"]);
+                        board.set("c5", [1,"king"]);
+                    }
                 }
             }
             const fresh: IMoveState = {

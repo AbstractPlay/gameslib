@@ -254,7 +254,7 @@ export class ValleyGame extends GameBase {
                 return result;
             }
             // is empty
-            if (this.board.has(to)) {
+            if (this.board.has(to) || this.blocked.includes(to)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
                 return result;

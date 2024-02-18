@@ -93,6 +93,7 @@ import { QueenslandGame, IQueenslandState } from "./queensland";
 import { BinarGame, IBinarState } from "./binar";
 import { TaflGame, ITaflState } from "./tafl";
 import { FourGame, IFourState } from "./four";
+import { ValleyGame, IValleyState } from "./valley";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -188,6 +189,7 @@ export {
     BinarGame, IBinarState,
     TaflGame, ITaflState,
     FourGame, IFourState,
+    ValleyGame, IValleyState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -220,7 +222,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VergeGame | typeof TableroGame | typeof ClusterfussGame |
                               typeof ConhexGame | typeof FightopiaGame | typeof HensGame |
                               typeof TBTGame | typeof QueenslandGame | typeof BinarGame |
-                              typeof TaflGame | typeof FourGame
+                              typeof TaflGame | typeof FourGame | typeof ValleyGame
                 >();
 // Manually add each game to the following array
 [
@@ -236,7 +238,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
-    FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame,
+    FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -432,6 +434,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TaflGame(...args);
         case "four":
             return new FourGame(...args);
+        case "valley":
+            return new ValleyGame(...args);
     }
     return;
 }

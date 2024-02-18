@@ -1181,6 +1181,11 @@
                 "name": "board (base 6)"
             }
         },
+        "boom": {
+            "setup": {
+                "name": "setup (4 pieces each)"
+            }
+        },
         "bounce": {
             "board": {
                 "name": "board (8x8)"
@@ -1379,6 +1384,14 @@
             },
             "size-10": {
                 "name": "Larger board (base 10)"
+            }
+        },
+        "boom": {
+            "pieces-6": {
+                "name": "6 pieces each"
+            },
+            "pieces-8": {
+                "name": "8 pieces each"
             }
         },
         "bounce": {

@@ -1,3 +1,9 @@
+/**
+ * BINAR HAS BEEN SOLVED! Code has been marked as "experimental" so it is no longer available.
+ * For now, at least, the game code should remain. One day, I will purge the historical records
+ * and the code can be permanently removed.
+ */
+
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";

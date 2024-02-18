@@ -282,6 +282,7 @@
             "STRAIGHTLINE": "You can only move and block in straight lines."
         },
         "archimedes": {
+            "FLEET_FULL": "You may not have more than 12 pieces.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move, or click on your home port to rebuild a destroyed ship.",
             "MUST_MOVE": "Ships must move at least one space.",
             "PARTIAL": "Select a destination.",

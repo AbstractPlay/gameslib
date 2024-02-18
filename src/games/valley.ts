@@ -43,7 +43,7 @@ export class ValleyGame extends GameBase {
                 uid: "labyrinth"
             }
         ],
-        flags: ["experimental", "perspective"]
+        flags: ["perspective"]
     };
 
     public get boardsize(): number {

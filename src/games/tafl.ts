@@ -63,7 +63,10 @@ export class TaflGame extends GameBase {
         description: "apgames:descriptions.tafl",
         // i18next.t("apgames:notes.tafl")
         notes: "apgames:notes.tafl",
-        urls: ["http://aagenielsen.dk/tafl_rules.php"],
+        urls: [
+            "https://abstractplay.com/wiki/doku.php?id=tafl",
+            "http://aagenielsen.dk/tafl_rules.php",
+        ],
         people: [],
         variants: [
             // default: "historical-9x9-tcross-w"

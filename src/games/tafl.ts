@@ -1365,27 +1365,27 @@ export class TaflGame extends GameBase {
                 A: [{ name: "piece", player: 1 }],
                 B: [{ name: "piece", player: 2 }],
                 C: this.pieceMap.get("K")!.movement === "rook-1"
-                  ? [{ name: "piece-horse", player: 1 }, { text: "♧️", scale: 0.6 }]
+                  ? [{ name: "piece-horse", player: 1 }, { text: "♧️", scale: 0.4 }]
                   : this.pieceMap.get("K")!.power === "unarmed"
                   ? [{ name: "piece-horse", player: 1 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
                   : this.pieceMap.get("K")?.strength === "strong"
                   ? [ { name: "piece-horse", player: 1 }, { name: "cross-orth", scale: 0.4 } ]
                   : this.pieceMap.get("K")?.strength === "strong-near-throne"
-                  ? [ { name: "piece-horse", player: 1 }, { text: "〜", scale: 0.5 } ]
+                  ? [ { name: "piece-horse", player: 1 }, { text: "〜", scale: 0.4 } ]
                   : [{ name: "piece-horse", player: 1 }, { text: "━", scale: 0.4 }],
                 D: this.pieceMap.get("K")!.movement === "rook-1"
-                  ? [{ name: "piece-horse", player: 2 }, { text: "♧️", scale: 0.6 }]
+                  ? [{ name: "piece-horse", player: 2 }, { text: "♧️", scale: 0.4 }]
                   : this.pieceMap.get("K")!.power === "unarmed"
                   ? [{ name: "piece-horse", player: 2 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
                   : this.pieceMap.get("K")?.strength === "strong"
                   ? [ { name: "piece-horse", player: 2 }, { name: "cross-orth", scale: 0.4 } ]
                   : this.pieceMap.get("K")?.strength === "strong-near-throne"
-                  ? [ { name: "piece-horse", player: 2 }, { text: "〜", scale: 0.5 } ]
+                  ? [ { name: "piece-horse", player: 2 }, { text: "〜", scale: 0.4 } ]
                   : [{ name: "piece-horse", player: 2 }, { text: "━", scale: 0.4 }],
-                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.6 }],
-                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.6 }],
-                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.6 }],
-                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.6 }],
+                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.5 }],
+                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.5 }],
+                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.5 }],
+                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.5 }],
             },
             pieces: pstr,
         };

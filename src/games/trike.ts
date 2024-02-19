@@ -473,7 +473,7 @@ export class TrikeGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["reverse-columns"],
+            options: ["reverse-letters"],
             renderer: "stacking-offset",
             board: {
                 style: "hex-of-hex",

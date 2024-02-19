@@ -6,7 +6,7 @@ const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
 
 export class HexSlantedGraph implements IGraph {
-    // Ensure that `options: ["reverse-columns"]` is set in the renderer.
+    // Ensure that `options: ["reverse-letters"]` is set in the renderer.
     public readonly width: number;
     public readonly height: number;
     public graph: UndirectedGraph

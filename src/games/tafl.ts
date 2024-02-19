@@ -1325,11 +1325,17 @@ export class TaflGame extends GameBase {
         pstr = pstr.replace(new RegExp(`-{${this.settings.boardSize}}`, "g"), "_");
 
         let markers: Array<any> | undefined = []
+        if (this.settings.ruleset.berserkCapture) {
+            markers.push({
+                    type: "shading", colour: "#FFA500", opacity: 0.1,
+                    points: [{row: 0, col: 0}, {row: 0, col: this.settings.boardSize}, {row: this.settings.boardSize, col: this.settings.boardSize}, {row: this.settings.boardSize, col: 0}],
+                })
+        }
         if (this.throne !== undefined) {
             const [x, y] = this.algebraic2coords(this.throne);
             const thronePoints = [{row: y, col: x}];
             // @ts-ignore
-            markers.push({ type: "flood", colour: "#000", opacity: 0.25, points: thronePoints });
+            markers.push({ type: "flood", colour: 2, opacity: 0.4, points: thronePoints });
         }
         if (this.corners.length > 0) {
             const cornerPoints: Array<any> = [];
@@ -1338,7 +1344,7 @@ export class TaflGame extends GameBase {
                 cornerPoints.push({row: y, col: x});
                 // @ts-ignore
             }
-            markers.push({ type: "flood", colour: "#000", opacity: 0.25, points: cornerPoints });
+            markers.push({ type: "flood", colour: 2, opacity: 0.4, points: cornerPoints });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -1355,14 +1361,30 @@ export class TaflGame extends GameBase {
             legend: {
                 A: [{ name: "piece", player: 1 }],
                 B: [{ name: "piece", player: 2 }],
-                D: [{ name: "piece-horse", player: 2 }],
-                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.75 }],
-                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.75 }],
-                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.75 }],
-                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.75 }],
+                C: this.pieceMap.get("K")!.movement === "rook-1"
+                  ? [{ name: "piece-horse", player: 1 }, { text: "♧️", scale: 0.6 }]
+                  : this.pieceMap.get("K")!.power === "unarmed"
+                  ? [{ name: "piece-horse", player: 1 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
+                  : this.pieceMap.get("K")?.strength === "strong"
+                  ? [ { name: "piece-horse", player: 1 }, { name: "cross-orth", scale: 0.4 } ]
+                  : this.pieceMap.get("K")?.strength === "strong-near-throne"
+                  ? [ { name: "piece-horse", player: 1 }, { text: "〜", scale: 0.5 } ]
+                  : [{ name: "piece-horse", player: 1 }, { text: "━", scale: 0.4 }],
+                D: this.pieceMap.get("K")!.movement === "rook-1"
+                  ? [{ name: "piece-horse", player: 2 }, { text: "♧️", scale: 0.6 }]
+                  : this.pieceMap.get("K")!.power === "unarmed"
+                  ? [{ name: "piece-horse", player: 2 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
+                  : this.pieceMap.get("K")?.strength === "strong"
+                  ? [ { name: "piece-horse", player: 2 }, { name: "cross-orth", scale: 0.4 } ]
+                  : this.pieceMap.get("K")?.strength === "strong-near-throne"
+                  ? [ { name: "piece-horse", player: 2 }, { text: "〜", scale: 0.5 } ]
+                  : [{ name: "piece-horse", player: 2 }, { text: "━", scale: 0.4 }],
+                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.6 }],
+                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.6 }],
+                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.6 }],
+                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.6 }],
             },
             pieces: pstr,
-            // @ts-ignore
         };
 
         // Add annotations

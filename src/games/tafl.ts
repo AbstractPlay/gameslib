@@ -629,6 +629,7 @@ export class TaflGame extends GameBase {
         const edgeDir = this.getEdgeDir(to);
         const dirsToCheck: Directions[] = edgeDir === "N" || edgeDir === "S" ? ["E", "W"] : ["N", "S"];
         const captures: string[] = [];
+        const cornerAnvilTo = this.settings.ruleset.corner!.anvilTo!;
         loop:
         for (const dir of dirsToCheck) {
             // We add consecutive cells in a direction to `tentativeCaptures`.
@@ -636,9 +637,10 @@ export class TaflGame extends GameBase {
             const tentativeCaptures: string[] = [];
             const ray = this.grid.ray(...this.algebraic2coords(to), dir).map((c) => this.coords2algebraic(...c));
             for (const capture of ray) {
+                if ((cornerAnvilTo.includes("all") || cornerAnvilTo.includes("king-only")) && this.corners.includes(capture)) { break; }
                 if (!this.board.has(capture)) { continue loop; }
                 const [plC, pcC] = this.board.get(capture)!;
-                if (plC === plF || this.corners.includes(capture)) { break; }
+                if (plC === plF) { break; }
                 if (pcC !== "K" && !captured.includes(capture)) { tentativeCaptures.push(capture); }
                 const adjacent = this.coords2algebraic(...RectGrid.move(...this.algebraic2coords(capture), edgeDir));
                 if (!this.board.has(adjacent)) { continue loop; }

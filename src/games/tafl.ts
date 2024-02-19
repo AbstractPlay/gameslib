@@ -698,12 +698,9 @@ export class TaflGame extends GameBase {
                     }
                     const cell = ray[i];
                     if (cell === this.throne) { passedThrone = true; }
+                    if (this.board.has(cell) && !captured.includes(cell) && cell !== initialFrom) { break; }
                     if (this.illegalCells.get(pcF)!.includes(cell)) { continue; }
-                    if (!this.board.has(cell) || captured.includes(cell) || cell === initialFrom) {
-                        tos.push(cell);
-                    } else {
-                        break;
-                    }
+                    tos.push(cell);
                 }
             }
         }

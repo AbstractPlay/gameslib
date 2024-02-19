@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable max-classes-per-file */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, Directions } from "../common";
@@ -41,6 +37,19 @@ export interface ITaflState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
+
+interface IPiece {
+      strength?: "strong-near-throne" | "strong" | "weak";
+      power?: "armed" | "anvil-only" | "hammer-only" | "unarmed" | "piercing";
+      jump?:
+        | "no-jump"
+        | "jump-taflmen"
+        | "jump-enemy-taflmen"
+        | "jump-capture-enemy-taflmen"
+        | "jump-enemy-taflmen-to-from-restricted";
+      movement?: "rook" | "rook-1";
+      berserkEscape?: boolean;
+}
 
 const defaultVariant = "historical-9x9-tcross-w";
 
@@ -90,7 +99,7 @@ export class TaflGame extends GameBase {
     private grid!: RectGrid;
     private dots: string[] = [];
     private settings;
-    private pieceMap: Map<pieceid, any>;
+    private pieceMap: Map<pieceid, IPiece>;
     private throne;
     private nearThrone;
     private corners;
@@ -130,10 +139,10 @@ export class TaflGame extends GameBase {
         this.load();
         this.grid = new RectGrid(this.settings.boardSize, this.settings.boardSize);
         this.pieceMap = new Map([
-            ["T", this.settings.ruleset.pieces!.taflman],
-            ["K", this.settings.ruleset.pieces!.king],
-            ["C", this.settings.ruleset.pieces!.commander],
-            ["N", this.settings.ruleset.pieces!.knight],
+            ["T", this.settings.ruleset.pieces!.taflman!],
+            ["K", this.settings.ruleset.pieces!.king!],
+            ["C", this.settings.ruleset.pieces!.commander!],
+            ["N", this.settings.ruleset.pieces!.knight!],
         ]);
         this.throne = this.getThrone();
         this.nearThrone = this.getNearThrone();

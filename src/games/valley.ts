@@ -257,6 +257,12 @@ export class ValleyGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
             return result;
         }
+        // can't move king on first turn
+        if (this.stack.length === 1 && piece === "king") {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.valley.PAWN_FIRST");
+            return result;
+        }
 
         if (to !== undefined) {
             // valid cell

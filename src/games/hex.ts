@@ -391,7 +391,7 @@ export class HexGame extends GameBase {
                     { type: "edge", edge: "E", colour: 2 },
                 ],
             },
-            options: ["reverse-columns"],
+            options: ["reverse-letters"],
             legend: {
                 A: {
                     name: "piece",

@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-7935216027.0",
+    "@abstractplay/renderer": "^1.0.0-ci-7963804980.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "@turf/points-within-polygon": "^6.5.0",

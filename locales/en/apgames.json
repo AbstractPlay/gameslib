@@ -1098,7 +1098,8 @@
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "KING_ONLY": "Only the king may end its turn on the centre space.",
             "NO_STOPPING": "Pieces must move in their chosen direction until stopped by the edge of the board or another piece.",
-            "PARTIAL": "Select the destination."
+            "PARTIAL": "Select the destination.",
+            "PAWN_FIRST": "The first move of the game cannot be made with the king."
         },
         "veletas": {
             "NO_MOVELIST": "Move list not available during placement phase. Click on the board to place the shooters.",

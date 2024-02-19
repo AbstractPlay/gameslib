@@ -77,7 +77,7 @@ export class TaflGame extends GameBase {
             { uid: "tyr-15x15-tyr", group: "variant" },
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
-        flags: ["experimental", "multistep"],
+        flags: ["experimental", "multistep", "custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -105,6 +105,8 @@ export class TaflGame extends GameBase {
     private corners;
     private restrictedToCells: Map<pieceid, string[]>;
     private illegalCells: Map<pieceid, string[]>;
+    private playerAttacker: playerid;
+    private playerDefender: playerid;
 
     constructor(state?: ITaflState | string, variants?: string[]) {
         super();
@@ -118,7 +120,7 @@ export class TaflGame extends GameBase {
                 _version: TaflGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
-                currplayer: this.settings.firstPlayer,
+                currplayer: 1,
                 board: this.setupBoard(),
             };
             this.stack = [fresh];
@@ -144,6 +146,8 @@ export class TaflGame extends GameBase {
             ["C", this.settings.ruleset.pieces!.commander!],
             ["N", this.settings.ruleset.pieces!.knight!],
         ]);
+        this.playerAttacker = this.settings.firstPlayer;
+        this.playerDefender = this.playerAttacker === 1 ? 2 : 1;
         this.throne = this.getThrone();
         this.nearThrone = this.getNearThrone();
         this.corners = this.getCorners();
@@ -173,34 +177,36 @@ export class TaflGame extends GameBase {
     private setupBoard(): Map<string, CellContents> {
         // Get the board setup for a new game.
         const board = new Map<string, CellContents>();
+        const playerAttacker = this.settings.firstPlayer;
+        const playerDefender = playerAttacker === 1 ? 2 : 1;
         for (let row = 0; row < this.settings.boardSize; row++) {
             for (let col = 0; col < this.settings.boardSize; col++) {
                 const contents = this.settings.setupStrings[row][col];
                 const cell = this.coords2algebraic(col, row);
                 switch (contents) {
                     case "t":
-                        board.set(cell, [1, "T"]);
+                        board.set(cell, [playerAttacker, "T"]);
                         break;
                     case "k":
-                        board.set(cell, [1, "K"]);
+                        board.set(cell, [playerAttacker, "K"]);
                         break;
                     case "c":
-                        board.set(cell, [1, "C"]);
+                        board.set(cell, [playerAttacker, "C"]);
                         break;
                     case "n":
-                        board.set(cell, [1, "N"]);
+                        board.set(cell, [playerAttacker, "N"]);
                         break;
                     case "T":
-                        board.set(cell, [2, "T"]);
+                        board.set(cell, [playerDefender, "T"]);
                         break;
                     case "K":
-                        board.set(cell, [2, "K"]);
+                        board.set(cell, [playerDefender, "K"]);
                         break;
                     case "C":
-                        board.set(cell, [2, "C"]);
+                        board.set(cell, [playerDefender, "C"]);
                         break;
                     case "N":
-                        board.set(cell, [2, "N"]);
+                        board.set(cell, [playerDefender, "N"]);
                         break;
                 }
             }
@@ -1055,7 +1061,7 @@ export class TaflGame extends GameBase {
         // Check if King is dead.
         // If a list of captures is provided, check if the King is in the list.
         if (captures === undefined) {
-            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === 2 && pc === "K");
+            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K");
             if (kingArray.length === 0) { return true; }
             return false;
         }
@@ -1068,7 +1074,7 @@ export class TaflGame extends GameBase {
         // If a cell is provided, check that it is on the edge or on the corner.
         const escapeType = this.settings.ruleset.escapeType!;
         if (kingCell === undefined) {
-            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === 2 && pc === "K");
+            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K");
             if (kingArray.length === 0) { return false; }
             kingCell = kingArray[0][0];
         }
@@ -1080,7 +1086,7 @@ export class TaflGame extends GameBase {
 
     private encircled(): boolean {
         // Check if all defenders are encircled.
-        const defendersCount = Array.from(this.board.entries()).filter(([, [p,]]) => p === 2).length;
+        const defendersCount = Array.from(this.board.entries()).filter(([, [p,]]) => p === this.playerDefender).length;
         const seen: Set<string> = new Set();
         // Start from king.
         const todo: string[] = Array.from(this.board.entries()).filter(([, [, pc]]) => pc === "K").map(([c,]) => c);
@@ -1116,7 +1122,7 @@ export class TaflGame extends GameBase {
         // 4. King is trapped in a space with its own taflmen only.
         // 5. King has impenetrable fort around it.
         if (kingCell === undefined) {
-            const kingCells = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === 2 && pc === "K").map(([c,]) => c);
+            const kingCells = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K").map(([c,]) => c);
             // 1. King is present.
             if (kingCells.length === 0) { return false; }
             kingCell = kingCells[0];
@@ -1139,7 +1145,7 @@ export class TaflGame extends GameBase {
                 }
                 if (this.board.has(n)) {
                     const [pl,] = this.board.get(n)!
-                    if (pl === 2) { continue; }
+                    if (pl === this.playerDefender) { continue; }
                     // 4. King is trapped in a space with its own taflmen only.
                     return false;
                 }
@@ -1162,7 +1168,7 @@ export class TaflGame extends GameBase {
             for (const cell of ray) {
                 if (this.board.has(cell)) {
                     const [pl,] = this.board.get(cell)!;
-                    if (pl === 2) {
+                    if (pl === this.playerDefender) {
                         if (!consecutiveFlag) {
                             cells.push(cell);
                             consecutiveFlag = true;
@@ -1189,7 +1195,7 @@ export class TaflGame extends GameBase {
             const nextCell = this.coords2algebraic(...RectGrid.move(...this.algebraic2coords(curr), next));
             if (!this.board.has(nextCell)) { continue; }
             const [pl, pc] = this.board.get(nextCell)!;
-            if (pl !== 2 || pc === "K") { continue; }
+            if (pl !== this.playerDefender || pc === "K") { continue; }
             if (this.fromToConnected(nextCell, next, tos, [...path, nextCell])) {
                 return true;
             }
@@ -1201,24 +1207,24 @@ export class TaflGame extends GameBase {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
         if (this.kingDead()) {
             this.gameover = true;
-            this.winner = [1];
+            this.winner = [this.playerAttacker];
         } else if (this.escaped()) {
             this.gameover = true;
-            this.winner = [2];
-        } else if (this.settings.ruleset.repetition === "defenders-lose" && this.currplayer === 1 && this.stateCount() >= 2) {
+            this.winner = [this.playerDefender];
+        } else if (this.settings.ruleset.repetition === "defenders-lose" && this.currplayer === this.playerAttacker && this.stateCount() >= 2) {
             // Perpetual repetitions is a loss for the defender.
             // But we only enforce it if defender player makes their turn.
             this.gameover = true;
-            this.winner = [1];
+            this.winner = [this.playerAttacker];
         } else if (this.settings.ruleset.repetition === "draw" && this.stateCount() >= 2) {
             this.gameover = true;
             this.winner = [1, 2];
         } else if (this.settings.ruleset.enclosureWin! && this.encircled()) {
             this.gameover = true;
-            this.winner = [1];
+            this.winner = [this.playerAttacker];
         } else if (this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
             this.gameover = true;
-            this.winner = [2];
+            this.winner = [this.playerDefender];
         } else if (!this.hasMoves()) {
             this.gameover = true;
             this.winner = [otherPlayer];
@@ -1252,6 +1258,16 @@ export class TaflGame extends GameBase {
         };
     }
 
+    public getPlayerColour(p: playerid): number|string {
+        // We make it so that the attackers consistently have the colour of player 1
+        // and the defenders consistently have the colour of player 2.
+        if (p === this.playerAttacker) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     public render(): APRenderRep {
         // Build piece string
         // A - player 1 taflman
@@ -1270,10 +1286,13 @@ export class TaflGame extends GameBase {
                 const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const [player, contents] = this.board.get(cell)!;
-                    if (player === 1) {
+                    if (player === this.playerAttacker) {
                         switch (contents) {
                             case "T":
                                 pstr += "A";
+                                break
+                            case "K":
+                                pstr += "C";
                                 break;
                             case "C":
                                 pstr += "E";
@@ -1282,7 +1301,7 @@ export class TaflGame extends GameBase {
                                 pstr += "G";
                                 break;
                         }
-                    } else if (player === 2) {
+                    } else if (player === this.playerDefender) {
                         switch (contents) {
                             case "T":
                                 pstr += "B";

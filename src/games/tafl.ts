@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable max-classes-per-file */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, Directions } from "../common";
@@ -42,11 +38,24 @@ export interface ITaflState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
+interface IPiece {
+      strength?: "strong-near-throne" | "strong" | "weak";
+      power?: "armed" | "anvil-only" | "hammer-only" | "unarmed" | "piercing";
+      jump?:
+        | "no-jump"
+        | "jump-taflmen"
+        | "jump-enemy-taflmen"
+        | "jump-capture-enemy-taflmen"
+        | "jump-enemy-taflmen-to-from-restricted";
+      movement?: "rook" | "rook-1";
+      berserkEscape?: boolean;
+}
+
 const defaultVariant = "historical-9x9-tcross-w";
 
 export class TaflGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Tafl games",
+        name: "Tafl",
         uid: "tafl",
         playercounts: [2],
         version: "20240208",
@@ -54,21 +63,24 @@ export class TaflGame extends GameBase {
         description: "apgames:descriptions.tafl",
         // i18next.t("apgames:notes.tafl")
         notes: "apgames:notes.tafl",
-        urls: ["http://aagenielsen.dk/tafl_rules.php"],
+        urls: [
+            "https://abstractplay.com/wiki/doku.php?id=tafl",
+            "http://aagenielsen.dk/tafl_rules.php",
+        ],
         people: [],
         variants: [
             // default: "historical-9x9-tcross-w"
             { uid: "historical-11x11-belldiamond-w", group: "variant" },
             { uid: "historical-11x11-lewiscross-w", group: "variant" },
-            { uid: "seabattle-9x9-starsquare", group: "variant" },
-            { uid: "seabattle-11x11-tcross", group: "variant" },
             { uid: "copenhagen-11x11-tdiamond", group: "variant" },
             { uid: "berserk-11x11-tdiamondberserk", group: "variant" },
             { uid: "tyr-11x11-tyr", group: "variant" },
             { uid: "tyr-15x15-tyr", group: "variant" },
+            { uid: "seabattle-9x9-starsquare-w", group: "variant" },
+            { uid: "seabattle-11x11-tcross-w", group: "variant" },
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
-        flags: ["experimental", "multistep"],
+        flags: ["experimental", "multistep", "custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -90,12 +102,14 @@ export class TaflGame extends GameBase {
     private grid!: RectGrid;
     private dots: string[] = [];
     private settings;
-    private pieceMap: Map<pieceid, any>;
+    private pieceMap: Map<pieceid, IPiece>;
     private throne;
     private nearThrone;
     private corners;
     private restrictedToCells: Map<pieceid, string[]>;
     private illegalCells: Map<pieceid, string[]>;
+    private playerAttacker: playerid;
+    private playerDefender: playerid;
 
     constructor(state?: ITaflState | string, variants?: string[]) {
         super();
@@ -109,7 +123,7 @@ export class TaflGame extends GameBase {
                 _version: TaflGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
-                currplayer: this.settings.firstPlayer,
+                currplayer: 1,
                 board: this.setupBoard(),
             };
             this.stack = [fresh];
@@ -130,11 +144,13 @@ export class TaflGame extends GameBase {
         this.load();
         this.grid = new RectGrid(this.settings.boardSize, this.settings.boardSize);
         this.pieceMap = new Map([
-            ["T", this.settings.ruleset.pieces!.taflman],
-            ["K", this.settings.ruleset.pieces!.king],
-            ["C", this.settings.ruleset.pieces!.commander],
-            ["N", this.settings.ruleset.pieces!.knight],
+            ["T", this.settings.ruleset.pieces!.taflman!],
+            ["K", this.settings.ruleset.pieces!.king!],
+            ["C", this.settings.ruleset.pieces!.commander!],
+            ["N", this.settings.ruleset.pieces!.knight!],
         ]);
+        this.playerAttacker = this.settings.firstPlayer;
+        this.playerDefender = this.playerAttacker === 1 ? 2 : 1;
         this.throne = this.getThrone();
         this.nearThrone = this.getNearThrone();
         this.corners = this.getCorners();
@@ -164,34 +180,36 @@ export class TaflGame extends GameBase {
     private setupBoard(): Map<string, CellContents> {
         // Get the board setup for a new game.
         const board = new Map<string, CellContents>();
+        const playerAttacker = this.settings.firstPlayer;
+        const playerDefender = playerAttacker === 1 ? 2 : 1;
         for (let row = 0; row < this.settings.boardSize; row++) {
             for (let col = 0; col < this.settings.boardSize; col++) {
                 const contents = this.settings.setupStrings[row][col];
                 const cell = this.coords2algebraic(col, row);
                 switch (contents) {
                     case "t":
-                        board.set(cell, [1, "T"]);
+                        board.set(cell, [playerAttacker, "T"]);
                         break;
                     case "k":
-                        board.set(cell, [1, "K"]);
+                        board.set(cell, [playerAttacker, "K"]);
                         break;
                     case "c":
-                        board.set(cell, [1, "C"]);
+                        board.set(cell, [playerAttacker, "C"]);
                         break;
                     case "n":
-                        board.set(cell, [1, "N"]);
+                        board.set(cell, [playerAttacker, "N"]);
                         break;
                     case "T":
-                        board.set(cell, [2, "T"]);
+                        board.set(cell, [playerDefender, "T"]);
                         break;
                     case "K":
-                        board.set(cell, [2, "K"]);
+                        board.set(cell, [playerDefender, "K"]);
                         break;
                     case "C":
-                        board.set(cell, [2, "C"]);
+                        board.set(cell, [playerDefender, "C"]);
                         break;
                     case "N":
-                        board.set(cell, [2, "N"]);
+                        board.set(cell, [playerDefender, "N"]);
                         break;
                 }
             }
@@ -620,6 +638,7 @@ export class TaflGame extends GameBase {
         const edgeDir = this.getEdgeDir(to);
         const dirsToCheck: Directions[] = edgeDir === "N" || edgeDir === "S" ? ["E", "W"] : ["N", "S"];
         const captures: string[] = [];
+        const cornerAnvilTo = this.settings.ruleset.corner!.anvilTo!;
         loop:
         for (const dir of dirsToCheck) {
             // We add consecutive cells in a direction to `tentativeCaptures`.
@@ -627,9 +646,10 @@ export class TaflGame extends GameBase {
             const tentativeCaptures: string[] = [];
             const ray = this.grid.ray(...this.algebraic2coords(to), dir).map((c) => this.coords2algebraic(...c));
             for (const capture of ray) {
+                if ((cornerAnvilTo.includes("all") || cornerAnvilTo.includes("king-only")) && this.corners.includes(capture)) { break; }
                 if (!this.board.has(capture)) { continue loop; }
                 const [plC, pcC] = this.board.get(capture)!;
-                if (plC === plF || this.corners.includes(capture)) { break; }
+                if (plC === plF) { break; }
                 if (pcC !== "K" && !captured.includes(capture)) { tentativeCaptures.push(capture); }
                 const adjacent = this.coords2algebraic(...RectGrid.move(...this.algebraic2coords(capture), edgeDir));
                 if (!this.board.has(adjacent)) { continue loop; }
@@ -687,12 +707,9 @@ export class TaflGame extends GameBase {
                     }
                     const cell = ray[i];
                     if (cell === this.throne) { passedThrone = true; }
+                    if (this.board.has(cell) && !captured.includes(cell) && cell !== initialFrom) { break; }
                     if (this.illegalCells.get(pcF)!.includes(cell)) { continue; }
-                    if (!this.board.has(cell) || captured.includes(cell) || cell === initialFrom) {
-                        tos.push(cell);
-                    } else {
-                        break;
-                    }
+                    tos.push(cell);
                 }
             }
         }
@@ -1047,7 +1064,7 @@ export class TaflGame extends GameBase {
         // Check if King is dead.
         // If a list of captures is provided, check if the King is in the list.
         if (captures === undefined) {
-            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === 2 && pc === "K");
+            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K");
             if (kingArray.length === 0) { return true; }
             return false;
         }
@@ -1060,7 +1077,7 @@ export class TaflGame extends GameBase {
         // If a cell is provided, check that it is on the edge or on the corner.
         const escapeType = this.settings.ruleset.escapeType!;
         if (kingCell === undefined) {
-            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === 2 && pc === "K");
+            const kingArray = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K");
             if (kingArray.length === 0) { return false; }
             kingCell = kingArray[0][0];
         }
@@ -1072,7 +1089,7 @@ export class TaflGame extends GameBase {
 
     private encircled(): boolean {
         // Check if all defenders are encircled.
-        const defendersCount = Array.from(this.board.entries()).filter(([, [p,]]) => p === 2).length;
+        const defendersCount = Array.from(this.board.entries()).filter(([, [p,]]) => p === this.playerDefender).length;
         const seen: Set<string> = new Set();
         // Start from king.
         const todo: string[] = Array.from(this.board.entries()).filter(([, [, pc]]) => pc === "K").map(([c,]) => c);
@@ -1108,7 +1125,7 @@ export class TaflGame extends GameBase {
         // 4. King is trapped in a space with its own taflmen only.
         // 5. King has impenetrable fort around it.
         if (kingCell === undefined) {
-            const kingCells = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === 2 && pc === "K").map(([c,]) => c);
+            const kingCells = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K").map(([c,]) => c);
             // 1. King is present.
             if (kingCells.length === 0) { return false; }
             kingCell = kingCells[0];
@@ -1131,7 +1148,7 @@ export class TaflGame extends GameBase {
                 }
                 if (this.board.has(n)) {
                     const [pl,] = this.board.get(n)!
-                    if (pl === 2) { continue; }
+                    if (pl === this.playerDefender) { continue; }
                     // 4. King is trapped in a space with its own taflmen only.
                     return false;
                 }
@@ -1154,7 +1171,7 @@ export class TaflGame extends GameBase {
             for (const cell of ray) {
                 if (this.board.has(cell)) {
                     const [pl,] = this.board.get(cell)!;
-                    if (pl === 2) {
+                    if (pl === this.playerDefender) {
                         if (!consecutiveFlag) {
                             cells.push(cell);
                             consecutiveFlag = true;
@@ -1181,7 +1198,7 @@ export class TaflGame extends GameBase {
             const nextCell = this.coords2algebraic(...RectGrid.move(...this.algebraic2coords(curr), next));
             if (!this.board.has(nextCell)) { continue; }
             const [pl, pc] = this.board.get(nextCell)!;
-            if (pl !== 2 || pc === "K") { continue; }
+            if (pl !== this.playerDefender || pc === "K") { continue; }
             if (this.fromToConnected(nextCell, next, tos, [...path, nextCell])) {
                 return true;
             }
@@ -1193,24 +1210,24 @@ export class TaflGame extends GameBase {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
         if (this.kingDead()) {
             this.gameover = true;
-            this.winner = [1];
+            this.winner = [this.playerAttacker];
         } else if (this.escaped()) {
             this.gameover = true;
-            this.winner = [2];
-        } else if (this.settings.ruleset.repetition === "defenders-lose" && this.currplayer === 1 && this.stateCount() >= 2) {
+            this.winner = [this.playerDefender];
+        } else if (this.settings.ruleset.repetition === "defenders-lose" && this.currplayer === this.playerAttacker && this.stateCount() >= 2) {
             // Perpetual repetitions is a loss for the defender.
             // But we only enforce it if defender player makes their turn.
             this.gameover = true;
-            this.winner = [1];
+            this.winner = [this.playerAttacker];
         } else if (this.settings.ruleset.repetition === "draw" && this.stateCount() >= 2) {
             this.gameover = true;
             this.winner = [1, 2];
         } else if (this.settings.ruleset.enclosureWin! && this.encircled()) {
             this.gameover = true;
-            this.winner = [1];
+            this.winner = [this.playerAttacker];
         } else if (this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
             this.gameover = true;
-            this.winner = [2];
+            this.winner = [this.playerDefender];
         } else if (!this.hasMoves()) {
             this.gameover = true;
             this.winner = [otherPlayer];
@@ -1244,6 +1261,16 @@ export class TaflGame extends GameBase {
         };
     }
 
+    public getPlayerColour(p: playerid): number|string {
+        // We make it so that the attackers consistently have the colour of player 1
+        // and the defenders consistently have the colour of player 2.
+        if (p === this.playerAttacker) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
     public render(): APRenderRep {
         // Build piece string
         // A - player 1 taflman
@@ -1262,10 +1289,13 @@ export class TaflGame extends GameBase {
                 const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const [player, contents] = this.board.get(cell)!;
-                    if (player === 1) {
+                    if (player === this.playerAttacker) {
                         switch (contents) {
                             case "T":
                                 pstr += "A";
+                                break
+                            case "K":
+                                pstr += "C";
                                 break;
                             case "C":
                                 pstr += "E";
@@ -1274,7 +1304,7 @@ export class TaflGame extends GameBase {
                                 pstr += "G";
                                 break;
                         }
-                    } else if (player === 2) {
+                    } else if (player === this.playerDefender) {
                         switch (contents) {
                             case "T":
                                 pstr += "B";
@@ -1298,11 +1328,17 @@ export class TaflGame extends GameBase {
         pstr = pstr.replace(new RegExp(`-{${this.settings.boardSize}}`, "g"), "_");
 
         let markers: Array<any> | undefined = []
+        if (this.settings.ruleset.berserkCapture) {
+            markers.push({
+                    type: "shading", colour: "#FFA500", opacity: 0.1,
+                    points: [{row: 0, col: 0}, {row: 0, col: this.settings.boardSize}, {row: this.settings.boardSize, col: this.settings.boardSize}, {row: this.settings.boardSize, col: 0}],
+                })
+        }
         if (this.throne !== undefined) {
             const [x, y] = this.algebraic2coords(this.throne);
             const thronePoints = [{row: y, col: x}];
             // @ts-ignore
-            markers.push({ type: "flood", colour: "#000", opacity: 0.25, points: thronePoints });
+            markers.push({ type: "flood", colour: 2, opacity: 0.4, points: thronePoints });
         }
         if (this.corners.length > 0) {
             const cornerPoints: Array<any> = [];
@@ -1311,7 +1347,7 @@ export class TaflGame extends GameBase {
                 cornerPoints.push({row: y, col: x});
                 // @ts-ignore
             }
-            markers.push({ type: "flood", colour: "#000", opacity: 0.25, points: cornerPoints });
+            markers.push({ type: "flood", colour: 2, opacity: 0.4, points: cornerPoints });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -1328,14 +1364,30 @@ export class TaflGame extends GameBase {
             legend: {
                 A: [{ name: "piece", player: 1 }],
                 B: [{ name: "piece", player: 2 }],
-                D: [{ name: "piece-horse", player: 2 }],
-                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.75 }],
-                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.75 }],
-                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.75 }],
-                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.75 }],
+                C: this.pieceMap.get("K")!.movement === "rook-1"
+                  ? [{ name: "piece-horse", player: 1 }, { text: "♧️", scale: 0.3 }]
+                  : this.pieceMap.get("K")!.power === "unarmed"
+                  ? [{ name: "piece-horse", player: 1 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
+                  : this.pieceMap.get("K")?.strength === "strong"
+                  ? [ { name: "piece-horse", player: 1 }, { name: "cross-orth", scale: 0.4 } ]
+                  : this.pieceMap.get("K")?.strength === "strong-near-throne"
+                  ? [ { name: "piece-horse", player: 1 }, { text: "〜", scale: 0.3 } ]
+                  : [{ name: "piece-horse", player: 1 }, { text: "━", scale: 0.4 }],
+                D: this.pieceMap.get("K")!.movement === "rook-1"
+                  ? [{ name: "piece-horse", player: 2 }, { text: "♧️", scale: 0.3 }]
+                  : this.pieceMap.get("K")!.power === "unarmed"
+                  ? [{ name: "piece-horse", player: 2 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
+                  : this.pieceMap.get("K")?.strength === "strong"
+                  ? [ { name: "piece-horse", player: 2 }, { name: "cross-orth", scale: 0.4 } ]
+                  : this.pieceMap.get("K")?.strength === "strong-near-throne"
+                  ? [ { name: "piece-horse", player: 2 }, { text: "〜", scale: 0.3 } ]
+                  : [{ name: "piece-horse", player: 2 }, { text: "━", scale: 0.4 }],
+                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.5 }],
+                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.5 }],
+                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.5 }],
+                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.5 }],
             },
             pieces: pstr,
-            // @ts-ignore
         };
 
         // Add annotations

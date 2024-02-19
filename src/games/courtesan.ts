@@ -38,14 +38,23 @@ export class CourtesanGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
+        variants: [
+            {uid: "size-6", group: "board"}
+        ],
         flags: ["pie", "multistep", "perspective"],
     };
 
-    public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 8);
+    public coords2algebraic(x: number, y: number): string {
+        return GameBase.coords2algebraic(x, y, this.boardsize);
     }
-    public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 8);
+    public algebraic2coords(cell: string): [number, number] {
+        return GameBase.algebraic2coords(cell, this.boardsize);
+    }
+    public get boardsize(): number {
+        if (this.variants.includes("size-6")) {
+            return 6;
+        }
+        return 8;
     }
 
 
@@ -59,23 +68,28 @@ export class CourtesanGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private _points: [number, number][] = []; // if there are points here, the renderer will show them
 
-    constructor(state?: ICourtesanState | string) {
+    constructor(state?: ICourtesanState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             const board = new Map<string, CellContents>();
-            const [h1x, h1y, h2x, h2y] = [0,7,7,0];
-            for (let row = 0; row < 8; row++) {
-                for (let col = 0; col < 8; col++) {
+            const [h1x, h1y, h2x, h2y] = [0,this.boardsize-1,this.boardsize-1,0];
+            const h1cell = this.coords2algebraic(h1x, h1y);
+            const h2cell = this.coords2algebraic(h2x, h2y);
+            for (let row = 0; row < this.boardsize; row++) {
+                for (let col = 0; col < this.boardsize; col++) {
                     let p: playerid|undefined;
-                    if (RectGrid.manhattan(col, row, h1x, h1y) <= 6) {
+                    if (RectGrid.manhattan(col, row, h1x, h1y) <= this.boardsize-2) {
                         p = 1;
-                    } else if (RectGrid.manhattan(col, row, h2x, h2y) <= 6) {
+                    } else if (RectGrid.manhattan(col, row, h2x, h2y) <= this.boardsize-2) {
                         p = 2;
                     }
                     if (p !== undefined) {
-                        const cell = CourtesanGame.coords2algebraic(col, row);
+                        const cell = this.coords2algebraic(col, row);
                         let piece: Piece = "C";
-                        if ( (cell === "a1") || (cell === "h8") ) {
+                        if ( (cell === h1cell) || (cell === h2cell) ) {
                             piece = "K";
                         }
                         board.set(cell, [p, piece]);
@@ -127,16 +141,16 @@ export class CourtesanGame extends GameBase {
             player = this.currplayer;
         }
         const moves: string[] = [];
-        const grid = new RectGrid(8, 8);
+        const grid = new RectGrid(this.boardsize, this.boardsize);
         const mypieces = [...this.board.entries()].filter(e => e[1][0] === player).map(e => e[0]);
 
         for (const piece of mypieces) {
-            const [fx, fy] = CourtesanGame.algebraic2coords(piece);
+            const [fx, fy] = this.algebraic2coords(piece);
             // noncapturing in forward direction
             for (const dir of forwardDirs[player - 1]) {
                 const [tx,ty] = RectGrid.move(fx, fy, dir);
                 if (grid.inBounds(tx,ty)) {
-                    const next = CourtesanGame.coords2algebraic(tx,ty);
+                    const next = this.coords2algebraic(tx,ty);
                     if (! this.board.has(next)) {
                         moves.push(`${piece}-${next}`);
                     }
@@ -147,7 +161,7 @@ export class CourtesanGame extends GameBase {
             for (const dir of allDirections) {
                 const [tx,ty] = RectGrid.move(fx, fy, dir);
                 if (grid.inBounds(tx,ty)) {
-                    const next = CourtesanGame.coords2algebraic(tx,ty);
+                    const next = this.coords2algebraic(tx,ty);
                     if (this.board.has(next)) {
                         const contents = this.board.get(next)!;
                         if (contents[0]  !== player) {
@@ -159,11 +173,11 @@ export class CourtesanGame extends GameBase {
         }
         // exchange moves (in forward directions only)
         const king = [...this.board.entries()].filter(e => e[1][0] === player && e[1][1] === "K").map(e => e[0])[0];
-        const [kx, ky] = CourtesanGame.algebraic2coords(king);
+        const [kx, ky] = this.algebraic2coords(king);
         for (const dir of forwardDirs[player - 1]) {
             const [tx,ty] = RectGrid.move(kx, ky, dir);
             if (grid.inBounds(tx,ty)) {
-                const next = CourtesanGame.coords2algebraic(tx,ty);
+                const next = this.coords2algebraic(tx,ty);
                 if (this.board.has(next)) {
                     const contents = this.board.get(next)!;
                     if (contents[0] === player) {
@@ -183,7 +197,7 @@ export class CourtesanGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = CourtesanGame.coords2algebraic(col, row);
+            const cell = this.coords2algebraic(col, row);
             let contents: CellContents|undefined;
             if (this.board.has(cell)) {
                 contents = this.board.get(cell)!;
@@ -253,7 +267,7 @@ export class CourtesanGame extends GameBase {
         // valid cell
         let xFrom: number; let yFrom: number;
         try {
-            [xFrom, yFrom] = CourtesanGame.algebraic2coords(from);
+            [xFrom, yFrom] = this.algebraic2coords(from);
         } catch {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
@@ -285,7 +299,7 @@ export class CourtesanGame extends GameBase {
             let xTo: number; let yTo: number;
             let tcontents: CellContents|undefined;
             try {
-                [xTo, yTo] = CourtesanGame.algebraic2coords(to);
+                [xTo, yTo] = this.algebraic2coords(to);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
@@ -373,7 +387,7 @@ export class CourtesanGame extends GameBase {
         if ( (partial) && (! m.includes("-")) && (! m.includes("x")) && (! m.includes("/")) ) {
             const pts = this.moves().filter(mv => mv.startsWith(m)).map(mv => mv.substring(mv.length - 2));
             if (pts.length > 0) {
-                this._points = pts.map(c => CourtesanGame.algebraic2coords(c));
+                this._points = pts.map(c => this.algebraic2coords(c));
             } else {
                 this._points = [];
             }
@@ -415,7 +429,8 @@ export class CourtesanGame extends GameBase {
 
     protected checkEOG(): CourtesanGame {
         const home1 = this.board.get("a1");
-        const home2 = this.board.get("h8");
+        const h2cell = this.coords2algebraic(this.boardsize-1, 0);
+        const home2 = this.board.get(h2cell);
         const kings1 = [...this.board.values()].filter(([p, pc]) => p === 1 && pc === "K");
         const kings2 = [...this.board.values()].filter(([p, pc]) => p === 2 && pc === "K");
         if ( (home1 !== undefined) && (home1[0] === 2) && (home1[1] === "K") ) {
@@ -466,13 +481,13 @@ export class CourtesanGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         let pstr = "";
-        for (let row = 0; row < 8; row++) {
+        for (let row = 0; row < this.boardsize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
             const pieces: string[] = [];
-            for (let col = 0; col < 8; col++) {
-                const cell = CourtesanGame.coords2algebraic(col, row);
+            for (let col = 0; col < this.boardsize; col++) {
+                const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents[1] === "C") {
@@ -499,18 +514,18 @@ export class CourtesanGame extends GameBase {
         const rep: APRenderRep =  {
             board: {
                 style: "squares-checkered",
-                width: 8,
-                height: 8,
+                width: this.boardsize,
+                height: this.boardsize,
                 markers: [
                     {
                         type: "shading",
                         colour: 1,
                         opacity: 0.75,
                         points: [
-                            {col: 0, row: 7},
-                            {col: 1, row: 7},
-                            {col: 1, row: 8},
-                            {col: 0, row: 8}
+                            {col: 0, row: this.boardsize-1},
+                            {col: 1, row: this.boardsize-1},
+                            {col: 1, row: this.boardsize},
+                            {col: 0, row: this.boardsize}
                         ]
                     },
                     {
@@ -518,10 +533,10 @@ export class CourtesanGame extends GameBase {
                         colour: 2,
                         opacity: 0.75,
                         points: [
-                            {col: 7, row: 0},
-                            {col: 7, row: 1},
-                            {col: 8, row: 1},
-                            {col: 8, row: 0}
+                            {col: this.boardsize-1, row: 0},
+                            {col: this.boardsize-1, row: 1},
+                            {col: this.boardsize, row: 1},
+                            {col: this.boardsize, row: 0}
                         ]
                     }
                 ]
@@ -563,11 +578,11 @@ export class CourtesanGame extends GameBase {
             if (this.results.length > 0) {
                 for (const move of this.results) {
                     if (move.type === "move") {
-                        const [fromX, fromY] = CourtesanGame.algebraic2coords(move.from);
-                        const [toX, toY] = CourtesanGame.algebraic2coords(move.to);
+                        const [fromX, fromY] = this.algebraic2coords(move.from);
+                        const [toX, toY] = this.algebraic2coords(move.to);
                         rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                     } else if ( (move.type === "capture") || (move.type === "convert") ) {
-                        const [x, y] = CourtesanGame.algebraic2coords(move.where!);
+                        const [x, y] = this.algebraic2coords(move.where!);
                         rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                     }
                 }

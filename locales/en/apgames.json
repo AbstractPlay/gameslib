@@ -1215,6 +1215,11 @@
                 "name": "board: 11x11"
             }
         },
+        "courtesan": {
+            "board": {
+                "name": "board (8x8)"
+            }
+        },
         "exxit": {
             "length": {
                 "name": "game length (39 tiles)"
@@ -1438,6 +1443,11 @@
         "conhex": {
             "size-15": {
                 "name": "Larger board: 15x15"
+            }
+        },
+        "courtesan": {
+            "size-6": {
+                "name": "Shorter game (6x6)"
             }
         },
         "dagnacht": {

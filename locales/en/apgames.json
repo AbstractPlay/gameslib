@@ -1690,14 +1690,6 @@
                 "name": "historical-11x11-lewiscross-w",
                 "description": "Lewis-cross setup with rules based on a recent reconstruction of Linnaeus' diary."
             },
-            "seabattle-9x9-starsquare": {
-                "name": "seabattle-9x9-starsquare",
-                "description": "Strong unarmed king and edge escape on a 9x9 board."
-            },
-            "seabattle-11x11-tcross": {
-                "name": "seabattle-11x11-tcross",
-                "description": "Strong unarmed king and edge escape on a 11x11 board."
-            },
             "copenhagen-11x11-tdiamond": {
                 "name": "copenhagen-11x11-tdiamond",
                 "description": "Popular Hnefatafl variant based on the Fetlar rules with strong armed king and corner escape rules. Has shield wall captures and exit forts."
@@ -1713,6 +1705,14 @@
             "tyr-15x15-tyr": {
                 "name": "tyr-15x15-tyr",
                 "description": "Berserk rules with weak armed king and edge escape on a 15x15 board. This is the simple setup without special pieces."
+            },
+            "seabattle-9x9-starsquare-w": {
+                "name": "seabattle-9x9-starsquare-w",
+                "description": "Strong unarmed king and edge escape on a 9x9 board."
+            },
+            "seabattle-11x11-tcross-w": {
+                "name": "seabattle-11x11-tcross-w",
+                "description": "Strong unarmed king and edge escape on a 11x11 board."
             },
             "magpie-7x7-cross": {
                 "name": "magpie-7x7-cross",

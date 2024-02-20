@@ -46,7 +46,7 @@ export class DameoGame extends GameBase {
         variants: [
             { uid: "size-10", group: "board" }
         ],
-        flags: ["experimental", "multistep", "perspective", "automove"]
+        flags: ["multistep", "perspective", "automove"]
     };
 
     public static clone(obj: DameoGame): DameoGame {

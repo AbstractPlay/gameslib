@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";

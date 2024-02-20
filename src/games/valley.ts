@@ -29,6 +29,7 @@ export class ValleyGame extends GameBase {
         // i18next.t("apgames:descriptions.valley")
         description: "apgames:descriptions.valley",
         urls: [
+            "http://www.logygames.com/english/kingsvalley.html",
             "https://boardgamegeek.com/boardgame/86169/kings-valley",
             "https://boardgamegeek.com/boardgame/173325/kings-valley-labyrinth"
         ],

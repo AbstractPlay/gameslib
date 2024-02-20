@@ -6,6 +6,8 @@ import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
 import { DirectedGraph } from "graphology";
 import { allSimplePaths } from "graphology-simple-path";
 import i18next from "i18next";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Size = 1|2;
@@ -15,6 +17,7 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
+    countdown: number;
 };
 
 export interface IDameoState extends IAPGameState {
@@ -46,6 +49,12 @@ export class DameoGame extends GameBase {
         flags: ["experimental", "multistep", "perspective", "automove"]
     };
 
+    public static clone(obj: DameoGame): DameoGame {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const cloned = Object.assign(new DameoGame(), deepclone(obj) as DameoGame);
+        return cloned;
+    }
+
     public coords2algebraic(x: number, y: number): string {
         let boardsize = 8;
         if (this.variants.includes("size-10")) {
@@ -65,6 +74,7 @@ export class DameoGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
     public gameover = false;
+    public countdown = 0;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -99,6 +109,7 @@ export class DameoGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
+                countdown: 0,
             };
             this.stack = [fresh];
         } else {
@@ -128,6 +139,7 @@ export class DameoGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.countdown = state.countdown;
         return this;
     }
 
@@ -494,6 +506,7 @@ export class DameoGame extends GameBase {
 
         this.results = [];
         const cells = m.split("-");
+        const [,startsize] = this.board.get(cells[0])!;
         for (let i = 1; i < cells.length; i++) {
             const from = cells[i-1];
             const [fx, fy] = this.algebraic2coords(from);
@@ -535,6 +548,13 @@ export class DameoGame extends GameBase {
             this.results.push({type: "promote", where: last, to: "king"});
         }
 
+        // manage countdown
+        if (startsize === 1 || this.results.find(r => r.type === "capture") !== undefined) {
+            this.countdown = 0;
+        } else {
+            this.countdown++;
+        }
+
         if (partial) { return this; }
 
         // update currplayer
@@ -567,6 +587,25 @@ export class DameoGame extends GameBase {
         const men = [...this.board.entries()].filter(([,piece]) => piece[1] === 1).map(([,piece]) => piece[0]);
         const kings = [...this.board.entries()].filter(([,piece]) => piece[1] === 2).map(([,piece]) => piece[0]);
         if (men.length === 0 && kings.length === 2 && kings.includes(1) && kings.includes(2)) {
+            // check to see if next move captures the king
+            let capped = false;
+            for (const move of moves) {
+                const cloned = DameoGame.clone(this);
+                cloned.move(move);
+                const kings2 = [...cloned.board.entries()].filter(([,piece]) => piece[1] === 2).map(([,piece]) => piece[0]);
+                if (kings2.length === 1) {
+                    capped = true;
+                    break;
+                }
+            }
+            if (! capped) {
+                this.gameover = true;
+                this.winner = [1,2];
+            }
+        }
+
+        // draw if countdown reaches threshold
+        if (this.countdown >= 50) {
             this.gameover = true;
             this.winner = [1,2];
         }
@@ -599,6 +638,7 @@ export class DameoGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
+            countdown: this.countdown,
         };
     }
 

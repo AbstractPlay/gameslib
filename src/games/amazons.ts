@@ -532,31 +532,44 @@ export class AmazonsGame extends GameBase {
 
     public territory(): [number, number] {
         const pieces = this.findPieces();
-        const countedOne: Set<string> = new Set();
-        const countedTwo: Set<string> = new Set();
-        pieces.forEach((start) => {
+        let countedOne: Set<string> = new Set();
+        let countedTwo: Set<string> = new Set();
+        for (const start of pieces) {
             const player = this.board.get(start);
             const toCheck: Set<string> = new Set([start]);
             const visited: Set<string> = new Set();
+            const counted: Set<string> = new Set();
+            let abort = false;
             while (toCheck.size > 0) {
                 const cell = toCheck.values().next().value as string;
                 toCheck.delete(cell);
                 if (! visited.has(cell)) {
                     visited.add(cell);
                     const adjs = this.graph.neighbors(cell);
-                    adjs.forEach((adj) => {
+                    for (const adj of adjs) {
                         if (! this.board.has(adj)) {
                             toCheck.add(adj);
                             if (player === 1) {
-                                countedOne.add(adj);
+                                counted.add(adj);
                             } else {
-                                countedTwo.add(adj);
+                                counted.add(adj);
                             }
+                        } else if (this.board.get(adj)! !== player) {
+                            abort = true;
+                            break;
                         }
-                    });
+                    }
+                }
+                if (abort) { break; }
+            }
+            if (! abort) {
+                if (player === 1) {
+                    countedOne = new Set([...countedOne, ...counted]);
+                } else {
+                    countedTwo = new Set([...countedTwo, ...counted]);
                 }
             }
-        });
+        }
         return [countedOne.size, countedTwo.size];
     }
 

@@ -452,15 +452,17 @@ export class HensGame extends GameBase {
         return result;
     }
 
-    private findPoints(cell: string): string[]|undefined {
-        if (! this.board.has(cell)) {
+    private findPoints(partial: string): string[]|undefined {
+        const [start,] = partial.split("-");
+        if (! this.board.has(start)) {
             return undefined;
         }
-        const moves = this.moves().filter(mv => mv.startsWith(`${cell}-`));
+        const moves = this.moves().filter(mv => mv.startsWith(`${partial}-`));
         const points: string[] = [];
         for (const m of moves) {
-            const cells = m.split("-");
-            points.push(cells[1]);
+            const remainder = m.substring(`${partial}-`.length);
+            const cells = remainder.split("-");
+            points.push(cells[0]);
         }
         return points;
     }
@@ -482,15 +484,15 @@ export class HensGame extends GameBase {
             }
         }
 
-        // if partial, just set the points and get out
-        if ( (partial) && (! m.includes("-")) ) {
+        // if partial, set the movement indicator points
+        if (partial) {
             const pts = this.findPoints(m);
             if (pts !== undefined) {
                 this._points = pts.map(c => this.algebraic2coords(c));
             } else {
                 this._points = [];
             }
-            return this;
+            // return this;
         // otherwise delete the points and process the full move
         } else {
             this._points = [];

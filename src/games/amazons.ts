@@ -698,26 +698,19 @@ export class AmazonsGame extends GameBase {
         if (this.gameover) {
             return `**GAME OVER**\n\nWinner: ${this.winner.join(", ")}\n\n`;
         }
-        if (this.areIsolated()) {
-            const t = this.territory();
-            return `The queens are now isolated.\n\n**Territory**\n\nFirst player: ${t[0]}\n\nSecond player: ${t[1]}\n`;
-        } else {
-            return "";
-        }
+        const t = this.territory();
+        return `**Territory**\n\nFirst player: ${t[0]}\n\nSecond player: ${t[1]}\n`;
     }
 
-    public statuses(): IStatus[] {
-        if (this.areIsolated())
-            return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.amazons.ISOLATEDQUEENS")] }];
-        else
-            return [];
-    }
+    // public statuses(): IStatus[] {
+    //     if (this.areIsolated())
+    //         return [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.amazons.ISOLATEDQUEENS")] }];
+    //     else
+    //         return [];
+    // }
 
     public getPlayersScores(): IScores[] {
-        if (this.areIsolated())
-            return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory()}];
-        else
-            return [];
+        return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory()}];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

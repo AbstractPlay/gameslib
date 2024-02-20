@@ -21,6 +21,8 @@
         "blooms": "{{player}} captured a {{what}} group of size {{count}}.",
         "boom": "{{player}} destroyed a piece at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
+        "dameo_king": "{{player}} captured a king at {{where}}.",
+        "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
         "fightopia_1": "{{player}} captured a pawn at {{where}}.",
         "fightopia_2": "{{player}} captured a tank at {{where}}.",
         "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
@@ -216,6 +218,7 @@
         "veletas": "{{player}} placed a {{what}} at {{where}}."
     },
     "PROMOTE": {
+        "basicWhere": "The piece at {{where}} was promoted.",
         "lielow": "{{player}} has a new king crowned at {{where}}.",
         "mchess": "A {{into}} was created as a result.",
         "orb_12": "{{player}} promoted an orb to a spheroid at {{where}}.",

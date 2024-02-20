@@ -29,6 +29,7 @@
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
+        "dameo": "A modern draughts game with linear movement and orthogonal captures.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
@@ -510,6 +511,11 @@
             "MOVE_OCCUPIED": "You can only move a piece to an empty square. There is already a piece at {{where}}.",
             "NOT_ORTH_ADJ": "You can only move pieces one square orthogonally.",
             "PARTIAL_MOVE": "Looks like you would like to move the piece at {{cell}}. Provide the destination."
+        },
+        "dameo": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "INVALID_MOVE": "Remember that capturing is compulsory, as is capturing the maximum number of pieces. Movement can only happen in a forward direction, and captures can only happen orthogonally.",
+            "VALID_PARTIAL": "Looks good so far. Select the next empty cell to move to."
         },
         "diffusion": {
             "INITIAL_INSTRUCTIONS": "Select any pit to sow."
@@ -1220,6 +1226,9 @@
                 "name": "board (8x8)"
             }
         },
+        "dameo": {
+            "board": "board (8x8)"
+        },
         "exxit": {
             "length": {
                 "name": "game length (39 tiles)"
@@ -1462,6 +1471,11 @@
             },
             "19x19": {
                 "name": "19x19 board"
+            }
+        },
+        "dameo": {
+            "size-10": {
+                "name": "10x10 board (experimental)"
             }
         },
         "diffusion": {

@@ -1267,10 +1267,10 @@
         },
         "quagmire": {
             "board": {
-                "name": "Default board (37 cells)"
+                "name": "board (37 cells)"
             },
             "setup": {
-                "name": "Default setup",
+                "name": "setup",
                 "description": "The starting position will be an empty board."
             }
         },

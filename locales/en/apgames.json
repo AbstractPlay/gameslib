@@ -80,6 +80,7 @@
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
+        "take": "Grow root-like formations of stones from seeds. Plants die when they run out of room to grow. The winner is the last player with a plant alive on the board.",
         "tbt": "A simple dice game where you attempt to form stacks of equal height on your home row.",
         "tafl": "A collection of games from the Viking era. The defenders goal is to escape to the edge of the board, while the attackers try to capture the defender's king.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
@@ -1048,6 +1049,9 @@
             "NO_NEIGHBOUR": "That space has no valid empty neighbour.",
             "PARTIAL": "Place the dark piece in an adjacent empty space."
         },
+        "take": {
+            "INITIAL_INSTRUCTIONS": "Plant a new seed in dirt, or grow a plant by placing adjacent to exactly one ally piece (dirt or no dirt)."
+        },
         "tbt": {
             "BAD_PASS": "You must move a stack if it's possible to do so.",
             "INITIAL_INSTRUCTIONS": "Select a stack to move.",
@@ -1283,6 +1287,12 @@
             "variant": {
                 "name": "historical-9x9-tcross-w",
                 "description": "Historical Saami Tablut based on recent reconstruction of Linnaeus' diary."
+            }
+        },
+        "take": {
+            "rules": {
+                "name": "rules",
+                "description": "Play on a size 7 board where plant growth destroys dirt."
             }
         },
         "trike": {
@@ -1784,6 +1794,12 @@
             "products": {
                 "name": "Product",
                 "description": "Multiplies together the sizes of your n largest groups."
+            }
+        },
+        "take": {
+            "high-churn": {
+                "name": "High Churn",
+                "description": "Play on a size 5 board where plant growth does not destroy dirt."
             }
         },
         "trike": {

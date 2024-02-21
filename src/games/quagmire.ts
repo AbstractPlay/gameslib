@@ -37,7 +37,19 @@ export class QuagmireGame extends GameBase {
                 urls: ["https://cjffield.com/"]
             }
         ],
-        flags: []
+        flags: [],
+        variants: [
+            {
+                uid: "large",
+                name: "Large",
+                group: "board"
+            },
+            {
+                uid: "random",
+                name: "Random",
+                group: "setup"
+            }
+        ],
     };
 
     public static readonly PLAYER_ONE = 1;
@@ -61,12 +73,24 @@ export class QuagmireGame extends GameBase {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
+            const board = new Map<string, pieceType>();
+            if (this.variants !== undefined && this.variants.length > 0 && this.variants.includes("random")) {
+                const boardSize = this.getBoardSize();
+                let count = 4 + Math.floor(5*Math.random());
+                if (boardSize === 5) count = 5 + Math.floor(6*Math.random());
+                const graph = new HexTriGraph(boardSize, (boardSize * 2) - 1);
+                for (let i = 0; i < count; i++) {
+                    const empties = (graph.listCells() as string[]).filter(c => !board.has(c));
+                    const move = empties[Math.floor(Math.random() * empties.length)];
+                    board.set(move, QuagmireGame.FLOOD);
+                }
+            }
             const fresh: IMoveState = {
                 _version: QuagmireGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Map(),
+                board,
             };
             this.stack = [fresh];
         } else {
@@ -97,9 +121,18 @@ export class QuagmireGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
-        this.boardsize = 4;
+        this.boardsize = this.getBoardSize();
         this.buildGraph();
         return this;
+    }
+
+    private getBoardSize(): number {
+        if (this.variants !== undefined
+                && this.variants.length > 0
+                && this.variants.includes("large")) {
+            return 5;
+        }
+        return 4;
     }
 
     private getGraph(): HexTriGraph {
@@ -566,7 +599,12 @@ export class QuagmireGame extends GameBase {
     }
 
     public status(): string {
-        const status = super.status();
+        let status = super.status();
+
+        if (this.variants !== undefined) {
+            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
         return status;
     }
 

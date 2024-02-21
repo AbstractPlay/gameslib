@@ -1265,6 +1265,15 @@
                 "name": "board (base 7)"
             }
         },
+        "quagmire": {
+            "board": {
+                "name": "Default board (37 cells)"
+            },
+            "setup": {
+                "name": "Default setup",
+                "description": "The starting position will be an empty board."
+            }
+        },
         "slither": {
             "board": {
                 "name": "9x9 board"
@@ -1644,6 +1653,15 @@
             "15pts": {
                 "description": "The game doesn't end until you have 15 points worth of enemy soldiers.",
                 "name": "Longer Game: 15 points"
+            }
+        },
+        "quagmire": {
+            "large": {
+                "name": "Larger board (61 cells)"
+            },
+            "random": {
+                "name": "Random setup",
+                "description": "The starting position will have some pre-flooded spaces."
             }
         },
         "realm": {

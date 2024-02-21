@@ -359,11 +359,39 @@ export class ValleyGame extends GameBase {
         return this;
     }
 
+    protected kingLocked(player: playerid): boolean {
+        const king = [...this.board.entries()].find(([, [owner, size]]) => owner === player && size === "king");
+        if (king === undefined) {
+            throw new Error(`A king could not be found for player ${player}.`);
+        }
+        const [x,y] = this.algebraic2coords(king[0]);
+        const grid = new RectGrid(this.boardsize, this.boardsize);
+        let blocked = true;
+        for (const n of grid.adjacencies(x, y, true).map(pt => this.coords2algebraic(...pt))) {
+            if (! this.blocked.includes(n) && ! this.board.has(n)) {
+                blocked = false;
+                break;
+            }
+        }
+        return blocked;
+    }
+
     protected checkEOG(): ValleyGame {
+        // win if your king occupies the valley
         if (this.board.has(this.centre)) {
             const [owner,] = this.board.get(this.centre)!;
             this.gameover = true;
             this.winner = [owner];
+        }
+
+        // lose if your king can't move
+        if (this.kingLocked(this.currplayer)) {
+            this.gameover = true;
+            if (this.currplayer === 1) {
+                this.winner = [2];
+            } else {
+                this.winner = [1];
+            }
         }
 
         if (this.gameover) {

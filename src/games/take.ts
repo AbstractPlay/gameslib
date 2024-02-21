@@ -40,7 +40,7 @@ export class TakeGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "Mark Steere"
+                name: "Mark Steere",
                 urls: ["https://www.marksteeregames.com"]
             }
         ],

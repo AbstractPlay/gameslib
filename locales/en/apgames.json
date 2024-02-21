@@ -78,6 +78,7 @@
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
+        "symple": "A territory game where you get a point for every stone placed, and a penalty for each individual group of connected pieces. Find the right balance to maximize your score.",
         "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "take": "Grow root-like formations of stones from seeds. Plants die when they run out of room to grow. The winner is the last player with a plant alive on the board.",
@@ -1019,6 +1020,16 @@
             "INITIAL_INSTRUCTIONS": "Select a string to pull.",
             "NOSTRING": "There is no string numbered {{string}}."
         },
+        "symple": {
+            "BAD_PLACEMENT": "You cannot create a new group by placing at {{where}}.",
+            "CAN_BALANCE": "You are permitted to create a new group if you wish.",
+            "CANT_BALANCE": "You may not grow and create a new group in the same turn.",
+            "DUPLICATES": "Your move contains duplicate cells.",
+            "INITIAL_INSTRUCTIONS": "Click a cell to add a piece to the board.",
+            "NOT_LIBERTY": "The cell {{where}} is either not a liberty of one of your groups, or the group has already been grown during this turn.",
+            "PARTIAL": "So far so good. Keep placing pieces until you have expanded all groups you legally can.",
+            "TOO_LONG": "You may not add more stones if your first move is to create a new group."
+        },
         "tablero": {
             "BACKTRACKING": "When moving a stack, you may not revisit any previous space, including the starting space.",
             "BAD_BUMP": "You may not bump if you have legal moves available, including taking a piece into your hand if you rolled doubles.",
@@ -1281,6 +1292,12 @@
         "slither": {
             "board": {
                 "name": "9x9 board"
+            }
+        },
+        "symple": {
+            "penalty": {
+                "name": "penalty (8 pts)",
+                "description": "A lower penalty creates a more aggressive game, and a higher penalty, a more conservative one."
             }
         },
         "tafl": {
@@ -1731,6 +1748,20 @@
             "15point": {
                 "name": "Higher penalty (-15)",
                 "description": "The higher penalty makes invading enemy territory more expensive, leading to a euro-style game that focuses on building."
+            }
+        },
+        "symple": {
+            "p-4": {
+                "name": "Lower penalty (-4)"
+            },
+            "p-6": {
+                "name": "Lower penalty (-6)"
+            },
+            "p-10": {
+                "name": "Higher penalty (-10)"
+            },
+            "p-12": {
+                "name": "Higher penalty (-12)"
             }
         },
         "tafl": {

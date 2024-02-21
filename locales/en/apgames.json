@@ -1296,7 +1296,7 @@
         },
         "symple": {
             "penalty": {
-                "name": "penalty (8 pts)",
+                "name": "penalty (-8)",
                 "description": "A lower penalty creates a more aggressive game, and a higher penalty, a more conservative one."
             }
         },

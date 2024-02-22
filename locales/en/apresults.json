@@ -1,6 +1,9 @@
 {
-    "ADD_one": "{{player}} added 1 piece to {{where}}.",
-    "ADD_other": "{{player}} added {{count}} pieces to {{where}}.",
+    "ADD": {
+        "add_one": "{{player}} added 1 piece to {{where}}.",
+        "add_other": "{{player}} added {{count}} pieces to {{where}}.",
+        "nonum": "{{player}} added a piece to {{where}}."
+    },
     "AFFILIATE": {
         "witch_S": "{{player}} chose the Sunstones.",
         "witch_M": "{{player}} chose the Moonstones."
@@ -231,9 +234,10 @@
         "nowhat_one": "A piece was reclaimed.",
         "nowhat_other": "{{count}} pieces were reclaimed."
     },
-    "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
-    "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
     "REMOVE": {
+        "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
+        "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
+        "nonum": "{{player}} removed a piece from {{where}}.",
         "phutball_one": "{{count}} player was removed.",
         "phutball_other": "{{count}} players were removed."
     },

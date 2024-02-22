@@ -178,6 +178,11 @@ export class SympleGame extends GameBase {
                 if (cells.length === allEmpties.length) {
                     break;
                 }
+                if (! moveFound && cells.length === 0) {
+                    throw new Error("Cannot find a move!");
+                } else {
+                    break;
+                }
             }
 
             // always take advantage of balancing move if available

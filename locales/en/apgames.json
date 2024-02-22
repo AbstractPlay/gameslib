@@ -119,7 +119,7 @@
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
-        "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and the addition of commas to separate the moves.",
+        "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
     "homeworlds": {

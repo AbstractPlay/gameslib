@@ -493,10 +493,18 @@ export abstract class GameBase  {
                                 node.push(i18next.t("apresults:ORIENT.nowhat", {player: name, facing: r.facing, where: r.where}));
                                 break;
                             case "add":
-                                node.push(i18next.t("apresults:ADD", {count: r.num , player: name, where: r.where }));
+                                if (r.num === undefined) {
+                                    node.push(i18next.t("apresults:ADD.nonum", { player: name, where: r.where }));
+                                } else {
+                                    node.push(i18next.t("apresults:ADD.add", { count: r.num , player: name, where: r.where }));
+                                }
                                 break;
                             case "remove":
-                                node.push(i18next.t("apresults:REMOVE", {count: r.num , player: name, where: r.where }));
+                                if (r.num === undefined) {
+                                    node.push(i18next.t("apresults:REMOVE.nonum", { count: r.num , player: name, where: r.where }));
+                                } else {
+                                    node.push(i18next.t("apresults:REMOVE.remove", { count: r.num , player: name, where: r.where }));
+                                }
                                 break;
                             case "claim":
                                 node.push(i18next.t("apresults:CLAIM.default", {player: name, where: r.where }));

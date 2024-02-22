@@ -174,12 +174,12 @@ export type APMoveResult =
   | {
       type: "add";
       where: string;
-      num: number;
+      num?: number;
     }
   | {
       type: "remove";
       where: string;
-      num: number;
+      num?: number;
     }
   | {
       type: "claim";

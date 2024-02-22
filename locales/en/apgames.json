@@ -88,6 +88,7 @@
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
+        "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "valley": "Get your king to the center space, but your pieces must always move as far as they can. Teamwork is essential.",
         "veletas": "Veletas is a drawless territory game for two players. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
@@ -118,6 +119,7 @@
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
+        "twixt": "The notation is based on Hansel notation at http://www.ibiblio.org/twixtpuzzles/. Some modifications are that link removal specifically specifies the link direction, and the addition of commas to separate the moves.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
     "homeworlds": {
@@ -1088,6 +1090,26 @@
         "trike": {
             "INITIAL_INSTRUCTIONS": "Select the cell to place the neutral piece on."
         },
+        "twixt": {
+            "INITIAL_INSTRUCTIONS": "Select a space to place a peg. You may rearrange your links before you place your peg.",
+            "INITIAL_INSTRUCTIONS_PP": "Select a space to place a peg",
+            "INVALID_MOVE_SEGMENT": "The move {{move}} is invalid.",
+            "INVALID_LINK": "The link at from {{from}} to {{to}} is invalid.",
+            "OCCUPIED": "The space {{move}} is already occupied by a peg.",
+            "NORMALISED": "The move needs to be normalised. Try {{normalised}}.",
+            "NO_PEG": "When placing a link at {{link}}, there is no peg at {{peg}}.",
+            "LINK_ON_WRONG_PLAYER": "You may only place a link on a peg of your own colour.",
+            "LINK_PRESENT": "There is already a link between at {{link}}.",
+            "LINK_ABSENT": "There is no link between {{link}} to remove.",
+            "TOO_MANY_PEGS": "You may only place one peg per turn.",
+            "CROSSING": "The link at {{link}} is making an illegal cross.",
+            "INVALID_PARTIAL": "The partial move {{move}} is invalid.",
+            "PARTIAL_EMPTY": "Trying to begin a partial move at an empty space {{move}}.",
+            "PARTIAL_OPPONENT": "You may not rearrange your opponent's links.",
+            "PARTIAL_LINK": "Select another peg to add or remove a link to.",
+            "CORNER": "You may not place a peg at the corner of the board.",
+            "OPPONENTS_AREA": "You may not place a peg in your opponent's area."
+        },
         "tumbleweed": {
             "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",
             "INITIAL_INSTRUCTIONS_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
@@ -1322,6 +1344,15 @@
         "tumbleweed": {
             "board": {
                 "name": "Competitive board (8 cells)"
+            }
+        },
+        "twixt": {
+            "board": {
+                "name": "board (24x24)"
+            },
+            "ruleset": {
+                "name": "Standard ruleset",
+                "description": "Links cannot cross. You may rearrange your links before you place your peg."
             }
         },
         "veletas": {
@@ -1856,6 +1887,15 @@
                 "name": "Larger board (10 cells)"
             }
         },
+        "twixt": {
+            "size-30": {
+                "name": "board (24x24)"
+            },
+            "pp": {
+                "name": "Paper and pencil",
+                "description": "Players' own links are allowed to cross each other. There are no link rearrangements."
+            }
+        },
         "urbino": {
             "monuments": {
                 "description": "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties.",
@@ -1981,6 +2021,12 @@
             "hide-threatened": {
                 "description": "Don't show threatened stones.",
                 "name": "Hide threatened"
+            }
+        },
+        "twixt": {
+            "hide-diagonals": {
+                "description": "Don't show diagonal lines.",
+                "name": "Hide diagonals"
             }
         }
     }

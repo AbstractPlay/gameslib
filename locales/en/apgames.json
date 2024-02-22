@@ -1351,7 +1351,7 @@
                 "name": "board (24x24)"
             },
             "ruleset": {
-                "name": "Standard ruleset",
+                "name": "ruleset",
                 "description": "Links cannot cross. You may rearrange your links before you place your peg."
             }
         },
@@ -1889,7 +1889,7 @@
         },
         "twixt": {
             "size-30": {
-                "name": "board (30x30)"
+                "name": "Larger board (30x30)"
             },
             "pp": {
                 "name": "Paper and pencil",

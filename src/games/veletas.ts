@@ -54,7 +54,7 @@ export class VeletasGame extends GameBase {
                 group: "setup",
             }
         ],
-        flags: ["multistep", "scores", "pie", "random-start"],
+        flags: ["multistep", "scores", "pie", "random-start", "custom-randomization"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize?: number): string {

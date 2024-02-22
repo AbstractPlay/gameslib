@@ -44,7 +44,7 @@ export class SympleGame extends GameBase {
                 name: "Christian Freeling",
             },
         ],
-        flags: ["experimental", "scores", "multistep", "no-moves"],
+        flags: ["experimental", "scores", "multistep", "no-moves", "custom-randomization"],
         variants: [
             {
                 uid: "p-4",
@@ -159,11 +159,21 @@ export class SympleGame extends GameBase {
         // otherwise grow
         else {
             let remaining = [...groups].filter(grp => grp.liberties.size > 0);
+            const alreadyGrown: SympleGroup[] = [];
             while (remaining.length > 0) {
-                const group = shuffle([...remaining])[0] as SympleGroup;
-                const liberty = shuffle([...group.liberties])[0] as string;
-                cells.push(liberty);
-                remaining = remaining.filter(grp => ! grp.liberties.has(liberty));
+                let moveFound = false;
+                for (const group of shuffle([...remaining]) as SympleGroup[]) {
+                    for (const liberty of shuffle([...group.liberties]) as string[]) {
+                        if (! this.board.has(liberty) && alreadyGrown.find(grp => grp.liberties.has(liberty)) === undefined) {
+                            moveFound = true;
+                            cells.push(liberty);
+                            alreadyGrown.push(...remaining.filter(grp => grp.liberties.has(liberty)));
+                            remaining = remaining.filter(grp => ! grp.liberties.has(liberty));
+                            break;
+                        }
+                    }
+                    if (moveFound) { break; }
+                }
                 // break if board is full
                 if (cells.length === allEmpties.length) {
                     break;
@@ -334,6 +344,7 @@ export class SympleGame extends GameBase {
             // process all growth moves
             const clonedBoard = new Map(this.board);
             let remaining: SympleGroup[] = [...groups].filter(grp => grp.liberties.size > 0);
+            const alreadyGrown: SympleGroup[] = [];
             for (const cell of cells) {
                 // cell is a liberty
                 const found = remaining.find(grp => grp.liberties.has(cell));
@@ -342,9 +353,17 @@ export class SympleGame extends GameBase {
                     result.message = i18next.t("apgames:validation.symple.NOT_LIBERTY", {where: cell});
                     return result;
                 }
+                // make sure it doesn't also increase a group already grown
+                const already = alreadyGrown.find(grp => grp.liberties.has(cell));
+                if (already !== undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.symple.DOUBLE_GROW");
+                    return result;
+                }
                 // add the piece to the cloned board
                 clonedBoard.set(cell, this.currplayer);
                 // remove any groups that share that liberty
+                alreadyGrown.push(...remaining.filter(grp => grp.liberties.has(cell)))
                 remaining = remaining.filter(grp => ! grp.liberties.has(cell))
             }
 

@@ -43,7 +43,7 @@ export class CatchupGame extends GameBase {
                 urls: ["https://www.nickbentley.games/"],
             }
         ],
-        flags: ["multistep", "scores", "no-moves"],
+        flags: ["multistep", "scores", "no-moves", "custom-randomization"],
         variants: [
             {
                 uid: "size-6",

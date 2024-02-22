@@ -1024,6 +1024,7 @@
             "BAD_PLACEMENT": "You cannot create a new group by placing at {{where}}.",
             "CAN_BALANCE": "You are permitted to create a new group if you wish.",
             "CANT_BALANCE": "You may not grow and create a new group in the same turn.",
+            "DOUBLE_GROW": "You may not cause a group to be grown more than once in a turn.",
             "DUPLICATES": "Your move contains duplicate cells.",
             "INITIAL_INSTRUCTIONS": "Click a cell to add a piece to the board.",
             "NOT_LIBERTY": "The cell {{where}} is either not a liberty of one of your groups, or the group has already been grown during this turn.",

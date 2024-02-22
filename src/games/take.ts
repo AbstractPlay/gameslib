@@ -429,6 +429,11 @@ export class TakeGame extends GameBase {
             pstr.push(pieces);
         }
 
+        let dirtSpace = { name: "hex-flat", colour: "#532", scale: .575 };
+        if (this.isHighChurn()) {
+            dirtSpace = { name: "hex-pointy", colour: "#D28C46", scale: 1.25 };
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
@@ -438,10 +443,10 @@ export class TakeGame extends GameBase {
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
-                B: [{ name: "hex-pointy", colour: "#532", scale: 1.25 }, { name: "piece", player: 1 }],
+                B: [dirtSpace, { name: "piece", player: 1 }],
                 C: [{ name: "piece", player: 2 }],
-                D: [{ name: "hex-pointy", colour: "#532", scale: 1.25 }, { name: "piece", player: 2 }],
-                E: [{ name: "hex-pointy", colour: "#532", scale: 1.25 }]
+                D: [dirtSpace, { name: "piece", player: 2 }],
+                E: [dirtSpace]
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

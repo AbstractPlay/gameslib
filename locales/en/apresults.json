@@ -2,7 +2,8 @@
     "ADD": {
         "add_one": "{{player}} added 1 piece to {{where}}.",
         "add_other": "{{player}} added {{count}} pieces to {{where}}.",
-        "nonum": "{{player}} added a piece to {{where}}."
+        "nonum": "{{player}} added a piece to {{where}}.",
+        "twixt": "{{player}} added a link at {{where}}."
     },
     "AFFILIATE": {
         "witch_S": "{{player}} chose the Sunstones.",
@@ -218,6 +219,7 @@
             "worker": "{{player}} placed an architect at {{where}}."
         },
         "phutball": "{{player}} placed a player at {{where}}.",
+        "twixt": "{{player}} placed a peg at {{where}}.",
         "veletas": "{{player}} placed a {{what}} at {{where}}."
     },
     "PROMOTE": {
@@ -239,7 +241,8 @@
         "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
         "nonum": "{{player}} removed a piece from {{where}}.",
         "phutball_one": "{{count}} player was removed.",
-        "phutball_other": "{{count}} players were removed."
+        "phutball_other": "{{count}} players were removed.",
+        "twixt": "{{player}} removed a link at {{where}}."
     },
     "REPAIR": {
         "simple": "{{player}} repairs."

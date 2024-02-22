@@ -97,6 +97,7 @@ import { ValleyGame, IValleyState } from "./valley";
 import { DameoGame, IDameoState } from "./dameo";
 import { TakeGame, ITakeState } from "./take";
 import { SympleGame, ISympleState } from "./symple";
+import { TwixtGame, ITwixtState } from "./twixt";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -196,6 +197,7 @@ export {
     DameoGame, IDameoState,
     TakeGame, ITakeState,
     SympleGame, ISympleState,
+    TwixtGame, ITwixtState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -229,7 +231,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ConhexGame | typeof FightopiaGame | typeof HensGame |
                               typeof TBTGame | typeof QueenslandGame | typeof BinarGame |
                               typeof TaflGame | typeof FourGame | typeof ValleyGame |
-                              typeof DameoGame | typeof TakeGame | typeof SympleGame
+                              typeof DameoGame | typeof TakeGame | typeof SympleGame |
+                              typeof TwixtGame
                 >();
 // Manually add each game to the following array
 [
@@ -246,7 +249,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
-    DameoGame, TakeGame, SympleGame,
+    DameoGame, TakeGame, SympleGame, TwixtGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -450,6 +453,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TakeGame(...args);
         case "symple":
             return new SympleGame(...args);
+        case "twixt":
+            return new TwixtGame(...args);
     }
     return;
 }

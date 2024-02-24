@@ -1339,7 +1339,7 @@
         "take": {
             "rules": {
                 "name": "rules",
-                "description": "Play on a size 7 board where plant growth destroys dirt."
+                "description": "Play on a size 5 board where plant growth destroys dirt."
             }
         },
         "trike": {
@@ -1869,7 +1869,7 @@
         "take": {
             "high-churn": {
                 "name": "High Churn",
-                "description": "Play on a size 5 board where plant growth does not destroy dirt."
+                "description": "Play on a size 4 board where plant growth does not destroy dirt."
             }
         },
         "trike": {

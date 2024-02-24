@@ -13,10 +13,10 @@ export class TaflSettings {
     constructor(variant: string) {
         const [ruleset, boardSize, boardSetup, firstPlayer] = variant.split("-");
         switch (ruleset) {
-            case "historical":
+            case "linnaean":
                 this.ruleset = TaflSettings.createRuleset({
-                    name: "Historical",
-                    uid: "historical",
+                    name: "Linnaean",
+                    uid: "linnaean",
                     urls: [
                         "http://aagenielsen.dk/historical_hnefatafl_rules.php",
                     ],
@@ -288,8 +288,8 @@ export class TaflSettings {
     private static createRuleset(ruleset: Ruleset): Ruleset {
         // If anything is not defined, set it to the default value.
         // It is defined here because `Ruleset` is a generated interface.
-        // The default values should match "historical".
-        // Otherwise "fetlar" for properties that are turned off for "historical".
+        // The default values should match "linnaean".
+        // Otherwise "fetlar" for properties that are turned off for "linnaean".
         // Corner and throne are hostile, and edge is not by default.
         ruleset.escapeType ??= "edge";
         ruleset.pieces ??= {};

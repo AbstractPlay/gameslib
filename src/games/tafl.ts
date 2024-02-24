@@ -40,7 +40,7 @@ interface IPiece {
       berserkEscape?: boolean;
 }
 
-const defaultVariant = "historical-9x9-tcross-w";
+const defaultVariant = "linnaean-9x9-tcross-w";
 
 export class TaflGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -58,9 +58,9 @@ export class TaflGame extends GameBase {
         ],
         people: [],
         variants: [
-            // default: "historical-9x9-tcross-w"
-            { uid: "historical-11x11-belldiamond-w", group: "variant" },
-            { uid: "historical-11x11-lewiscross-w", group: "variant" },
+            // default: "linnaean-9x9-tcross-w"
+            { uid: "linnaean-11x11-belldiamond-w", group: "variant" },
+            { uid: "linnaean-11x11-lewiscross-w", group: "variant" },
             { uid: "copenhagen-11x11-tdiamond", group: "variant" },
             { uid: "berserk-11x11-tdiamondberserk", group: "variant" },
             { uid: "tyr-11x11-tyr", group: "variant" },
@@ -121,7 +121,7 @@ export class TaflGame extends GameBase {
                 state = JSON.parse(state, reviver) as ITaflState;
             }
             if (state.game !== TaflGame.gameinfo.uid) {
-                throw new Error(`The Tafl game code cannot process a game of '${state.game}'.`);
+                throw new Error(`The Hnefatafl game code cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];

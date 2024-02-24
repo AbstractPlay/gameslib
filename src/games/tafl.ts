@@ -533,7 +533,7 @@ export class TaflGame extends GameBase {
             // If it does not hit a `continue` statement, we add it to the `captures`.
             const ray = this.grid.ray(x, y, dir).map((c) => this.coords2algebraic(...c));
             if (ray.length === 0) { continue; }
-            if (ray.includes(from)) { continue; }
+            if (ray.includes(initialFrom) && initialFrom !== this.throne) { continue; }
             const capture = ray[0];
             if (!this.board.has(capture)) { continue; }
             const [plC, pcC] = this.board.get(capture)!;

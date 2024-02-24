@@ -614,6 +614,16 @@ export class RootBoundGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         const pstr: string[][] = [];
+        const scoringCells: Map<string, PlayerId> = new Map<string, PlayerId>();
+        const claimedRegions = this.computeClaimedRegions();
+        for (const claimedRegion of claimedRegions) {
+            if (claimedRegion[0] === 1 || claimedRegion[0] === 2) {
+                for (const scoredCell of claimedRegion[3]) {
+                    scoringCells.set(scoredCell, claimedRegion[0]);
+                }
+            }
+        }
+
         const cells = this.graph.listCells(true);
         for (const row of cells) {
             const pieces: string[] = [];
@@ -625,7 +635,15 @@ export class RootBoundGame extends GameBase {
                         pieces.push("B");
                     }
                 } else {
-                    pieces.push("-");
+                    if (scoringCells.has(cell)) {
+                        if (scoringCells.get(cell) === 1) {
+                            pieces.push("C");
+                        } else {
+                            pieces.push("D");
+                        }
+                    } else {
+                        pieces.push("-");
+                    }
                 }
             }
             pstr.push(pieces);
@@ -636,11 +654,13 @@ export class RootBoundGame extends GameBase {
             board: {
                 style: "hex-of-tri",
                 minWidth: this.boardsize,
-                maxWidth: (this.boardsize * 2) - 1,
+                maxWidth: (this.boardsize * 2) - 1
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }]
+                B: [{ name: "piece", player: 2 }],
+                C: [{ name: "piece-borderless", player: 1, opacity: 0.2 }],
+                D: [{ name: "piece-borderless", player: 2, opacity: 0.2 }]
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

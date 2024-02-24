@@ -506,7 +506,7 @@
                     "type": "number"
                 }
             },
-            "required": ["type", "where", "num"],
+            "required": ["type", "where"],
             "additionalProperties": false
         },
         {
@@ -522,7 +522,7 @@
                     "type": "number"
                 }
             },
-            "required": ["type", "where", "num"],
+            "required": ["type", "where"],
             "additionalProperties": false
         },
         {

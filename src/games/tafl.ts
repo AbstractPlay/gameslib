@@ -44,7 +44,7 @@ const defaultVariant = "historical-9x9-tcross-w";
 
 export class TaflGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Tafl",
+        name: "Hnefatafl",
         uid: "tafl",
         playercounts: [2],
         version: "20240208",

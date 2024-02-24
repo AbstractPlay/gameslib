@@ -11,7 +11,7 @@
 export type Urllist = string[];
 
 /**
- * When requested, the games library will produce the following information about Tafl rulesets
+ * When requested, the games library will produce the following information about Hnefatafl rulesets
  */
 export interface Ruleset {
   /**

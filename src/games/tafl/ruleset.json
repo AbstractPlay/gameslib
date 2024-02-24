@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/schema#",
     "$id": "https://www.abstractplay.com/schemas/gameinfo/1-0-0.json#",
     "title": "Ruleset",
-    "description": "When requested, the games library will produce the following information about Tafl rulesets",
+    "description": "When requested, the games library will produce the following information about Hnefatafl rulesets",
     "definitions": {
         "urllist": {
             "type": "array",

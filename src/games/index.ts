@@ -97,6 +97,7 @@ import { ValleyGame, IValleyState } from "./valley";
 import { DameoGame, IDameoState } from "./dameo";
 import { TakeGame, ITakeState } from "./take";
 import { SympleGame, ISympleState } from "./symple";
+import { RootBoundGame, IRootBoundState } from "./rootbound";
 import { TwixtGame, ITwixtState } from "./twixt";
 
 export {
@@ -197,6 +198,7 @@ export {
     DameoGame, IDameoState,
     TakeGame, ITakeState,
     SympleGame, ISympleState,
+    RootBoundGame, IRootBoundState,
     TwixtGame, ITwixtState,
 };
 
@@ -232,7 +234,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof TBTGame | typeof QueenslandGame | typeof BinarGame |
                               typeof TaflGame | typeof FourGame | typeof ValleyGame |
                               typeof DameoGame | typeof TakeGame | typeof SympleGame |
-                              typeof TwixtGame
+                              typeof RootBoundGame | typeof TwixtGame
                 >();
 // Manually add each game to the following array
 [
@@ -249,7 +251,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
-    DameoGame, TakeGame, SympleGame, TwixtGame,
+    DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -453,6 +455,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TakeGame(...args);
         case "symple":
             return new SympleGame(...args);
+        case "rootbound":
+            return new RootBoundGame(...args);
         case "twixt":
             return new TwixtGame(...args);
     }

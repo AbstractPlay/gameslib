@@ -581,6 +581,10 @@ export class RootBoundGame extends GameBase {
         return this;
     }
 
+    public getPlayerScore(player: PlayerId): number {
+        return this.scores[player - 1];
+    }
+
     public getPlayersScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.scores[0], this.scores[1]] }

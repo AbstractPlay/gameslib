@@ -69,7 +69,7 @@ export class TaflGame extends GameBase {
             { uid: "seabattle-11x11-tcross-w", group: "variant" },
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
-        flags: ["experimental", "multistep", "custom-colours"],
+        flags: ["experimental", "multistep", "custom-colours", "check"],
     };
 
     public coords2algebraic(x: number, y: number): string {

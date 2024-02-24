@@ -47,7 +47,7 @@ export class RootBoundGame extends GameBase {
                 urls: ["https://cjffield.com"]
             }
         ],
-        flags: ["scores", "automove", "experimental"]
+        flags: ["scores", "automove"]
     };
 
     public numplayers = 2;

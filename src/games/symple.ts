@@ -44,7 +44,7 @@ export class SympleGame extends GameBase {
                 name: "Christian Freeling",
             },
         ],
-        flags: ["experimental", "scores", "multistep", "no-moves", "custom-randomization"],
+        flags: ["scores", "multistep", "no-moves", "custom-randomization"],
         variants: [
             {
                 uid: "p-4",

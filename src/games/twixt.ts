@@ -85,7 +85,7 @@ export class TwixtGame extends GameBase {
                 group: "ruleset",
             }
         ],
-        flags: ["experimental", "pie", "multistep", "rotate90"],
+        flags: ["pie", "multistep", "rotate90"],
         displays: [{uid: "hide-diagonals"}],
     };
 

@@ -1103,7 +1103,7 @@ export class TaflGame extends GameBase {
                 if (this.isOnEdge(n)) { return false; }
                 if (this.board.has(n)) {
                     const [pl,] = this.board.get(n)!
-                    if (pl === 1) { continue; }
+                    if (pl === this.playerAttacker) { continue; }
                     defenders.add(n);
                 }
                 todo.push(n);

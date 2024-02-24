@@ -517,17 +517,8 @@ export class TwixtGame extends GameBase {
                                 } else {
                                     head.push(link);
                                 }
-                                newmove = this.normaliseMove(head.join(","));
-                            } else {
-                                newmove = this.normaliseMove(head.join(","));
-                                this.dots = [];
-                                return {
-                                    move: newmove,
-                                    valid: false,
-                                    canrender: true,
-                                    message: i18next.t("apgames:validation.twixt.INVALID_LINK", { from: firstPeg, to: cell }),
-                                };
                             }
+                            newmove = this.normaliseMove(head.join(","));
                         }
                     }
                 } else {
@@ -554,7 +545,6 @@ export class TwixtGame extends GameBase {
                 } else {
                     result.move = move;
                 }
-                this.dots = [];
             } else {
                 result.move = newmove;
             }
@@ -580,6 +570,7 @@ export class TwixtGame extends GameBase {
             } else {
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.twixt.INITIAL_INSTRUCTIONS")
                 return result;
             }
@@ -756,7 +747,10 @@ export class TwixtGame extends GameBase {
                 }
             }
         }
-
+        if (m.length === 0) {
+            this.dots = [];
+            return this;
+        }
         let fullMoves;
         if (m[m.length - 1] === "-") {
             const split = m.split(",");
@@ -773,6 +767,7 @@ export class TwixtGame extends GameBase {
             }
             const partialMove = split[split.length - 1];
             const from = partialMove.slice(0, partialMove.length - 1);
+            this.dots = [];
             for (const pegToCheck of this.potentialLinks(from)) {
                 if (this.board.has(pegToCheck) && this.board.get(pegToCheck) === this.currplayer) {
                     const link = this.pegs2link(from, pegToCheck);
@@ -784,6 +779,7 @@ export class TwixtGame extends GameBase {
             }
             fullMoves = head;
         } else {
+            this.dots = [];
             fullMoves = m.split(",");
         }
         this.results = [];

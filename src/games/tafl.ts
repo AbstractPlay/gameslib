@@ -1157,7 +1157,7 @@ export class TaflGame extends GameBase {
                 }
             }
             // if there is an encirclement, then the defender is in check.
-            if (this.settings.ruleset.enclosureWin! && this.encircled()) {
+            if (this.settings.ruleset.encirclementWin! && this.encircled()) {
                 return [this.playerDefender];
             }
         } else {
@@ -1197,7 +1197,7 @@ export class TaflGame extends GameBase {
         } else if (this.settings.ruleset.repetition === "draw" && this.stateCount() >= 2) {
             this.gameover = true;
             this.winner = [1, 2];
-        } else if (this.currplayer === this.playerAttacker && this.settings.ruleset.enclosureWin! && this.encircled()) {
+        } else if (this.currplayer === this.playerAttacker && this.settings.ruleset.encirclementWin! && this.encircled()) {
             this.gameover = true;
             this.winner = [this.playerAttacker];
         } else if (this.currplayer === this.playerDefender && this.settings.ruleset.hasExitForts! && this.hasExitFort()) {

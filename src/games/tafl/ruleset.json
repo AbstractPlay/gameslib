@@ -247,8 +247,8 @@
             "type": "boolean",
             "default": false
         },
-        "enclosureWin": {
-            "description": "Whether the game has an enclosure win condition",
+        "encirclementWin": {
+            "description": "Whether the game has an encirclement win condition",
             "type": "boolean",
             "default": true
         },

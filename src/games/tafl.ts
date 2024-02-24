@@ -715,7 +715,7 @@ export class TaflGame extends GameBase {
         if (jumpType === "no-jump") {
             return tos;
         }
-        if (which === "capture" && jumpType !== "jump-capture-enemy-taflmen") {
+        if (which === "capture" && !jumpType.includes("jump-capture")) {
             return tos;
         }
         const coordsFrom = this.algebraic2coords(from);
@@ -726,8 +726,8 @@ export class TaflGame extends GameBase {
             const [plJ, pcJ] = this.board.get(ray[0])!;
             if (this.board.has(ray[1]) && !captured.includes(ray[1]) && ray[1] !== initialFrom) { continue; }
             if (this.illegalCells.get(pcF)!.includes(ray[1])) { continue; }
-            if (which === "no-capture" && plJ !== plF) { continue; }
-            if (which === "capture" && plJ === plF) { continue; }
+            if (jumpType.includes("jump-capture") && which === "no-capture" && plJ !== plF) { continue; }
+            if (jumpType.includes("jump-capture") && which === "capture" && plJ === plF) { continue; }
             if ((jumpType === "jump-enemy-taflmen" || jumpType === "jump-capture-enemy-taflmen") && plJ !== plF && pcJ === "T") {
                 // Jump over any enemy taflmen.
                 tos.push(ray[1]);

@@ -204,9 +204,9 @@ export interface Ruleset {
    */
   hasExitForts?: boolean;
   /**
-   * Whether the game has an enclosure win condition
+   * Whether the game has an encirclement win condition
    */
-  enclosureWin?: boolean;
+  encirclementWin?: boolean;
   /**
    * What happens in the event of a repetition
    */

@@ -14,17 +14,6 @@ type pieceid = "T" | "K" | "C" | "N";
 const allPieces: pieceid[] = ["T", "K", "C", "N"];
 const orthDirections: Directions[] = ["N", "E", "S", "W"];
 
-const fortNextDirections: Map<Directions, Directions[]> = new Map([
-    ["N", ["W", "N", "E", "NW", "NE"]],
-    ["E", ["N", "E", "S", "NE", "SE"]],
-    ["S", ["E", "S", "W", "SE", "SW"]],
-    ["W", ["S", "W", "N", "SW", "NW"]],
-    ["NE", ["N", "E", "NE"]],
-    ["SE", ["E", "S", "SE"]],
-    ["SW", ["S", "W", "SW"]],
-    ["NW", ["W", "N", "NW"]],
-])  // Next directions to check.
-
 type CellContents = [playerid, pieceid];
 
 interface IMoveState extends IIndividualState {
@@ -55,7 +44,7 @@ const defaultVariant = "historical-9x9-tcross-w";
 
 export class TaflGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Tafl",
+        name: "Hnefatafl",
         uid: "tafl",
         playercounts: [2],
         version: "20240208",
@@ -1103,7 +1092,7 @@ export class TaflGame extends GameBase {
                 if (this.isOnEdge(n)) { return false; }
                 if (this.board.has(n)) {
                     const [pl,] = this.board.get(n)!
-                    if (pl === 1) { continue; }
+                    if (pl === this.playerAttacker) { continue; }
                     defenders.add(n);
                 }
                 todo.push(n);
@@ -1123,7 +1112,6 @@ export class TaflGame extends GameBase {
         // 2. King is on the edge.
         // 3. King has at least one space to move.
         // 4. King is trapped in a space with its own taflmen only.
-        // 5. King has impenetrable fort around it.
         if (kingCell === undefined) {
             const kingCells = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K").map(([c,]) => c);
             // 1. King is present.
@@ -1156,54 +1144,41 @@ export class TaflGame extends GameBase {
             }
             if (kingHasSpace === undefined) { kingHasSpace = false; }
         }
-        // 5. King has impenetrable fort around it.
-        // Get all non-consecutive pieces that are on the edge both sides of the king.
-        // Then check that there is a way to connect the pieces on one side a piece on
-        // the other side via a path of pieces in such a way that no piece can be captured.
-        // This effectively means that it there are no consecutive diagonal pieces on the path.
-        const edgeDir = this.getEdgeDir(kingCell);
-        const dirsToCheck: Directions[] = edgeDir === "N" || edgeDir === "S" ? ["E", "W"] : ["N", "S"];
-        const fromsTos: string[][] = [];
-        for (const dir of dirsToCheck) {
-            const cells: string[] = [];
-            const ray = this.grid.ray(...this.algebraic2coords(kingCell), dir).map((c) => this.coords2algebraic(...c));
-            let consecutiveFlag = false;
-            for (const cell of ray) {
-                if (this.board.has(cell)) {
-                    const [pl,] = this.board.get(cell)!;
-                    if (pl === this.playerDefender) {
-                        if (!consecutiveFlag) {
-                            cells.push(cell);
-                            consecutiveFlag = true;
-                        }
-                        continue;
-                    }
-                    break;
-                }
-                consecutiveFlag = false;
-            }
-            fromsTos.push(cells);
-        }
-        const [froms, tos] = fromsTos;
-        for (const from of froms) {
-            if (this.fromToConnected(from, edgeDir, tos, [from])) { return true; }
-        }
-        return false;
+        return true;
     }
 
-    private fromToConnected(curr: string, direction: Directions, tos: string[], path: string[]): boolean {
-        // Traverse to check if `from` is connected to any of the tos.
-        if (tos.includes(curr)) { return true; }
-        for (const next of fortNextDirections.get(direction)!) {
-            const nextCell = this.coords2algebraic(...RectGrid.move(...this.algebraic2coords(curr), next));
-            if (!this.board.has(nextCell)) { continue; }
-            const [pl, pc] = this.board.get(nextCell)!;
-            if (pl !== this.playerDefender || pc === "K") { continue; }
-            if (this.fromToConnected(nextCell, next, tos, [...path, nextCell])) {
-                return true;
+    public inCheck(): number[] {
+        // Only detects check for the current player
+        if (this.currplayer === this.playerDefender) {
+            // if the attacker can capture the king, then the defender is in check.
+            for (const move of this.moves(this.playerAttacker)) {
+                if (this.kingDead(this.extractCaptures(move))) {
+                    return [this.playerDefender];
+                }
+            }
+            // if there is an encirclement, then the defender is in check.
+            if (this.settings.ruleset.encirclementWin! && this.encircled()) {
+                return [this.playerDefender];
+            }
+        } else {
+            // if the defender can escape the next turn, then the attacker is in check.
+            const kingPos = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K").map(([c,]) => c);
+            if (kingPos.length > 0) {
+                for (const move of this.getAllMoves(kingPos[0])) {
+                    const moveSegments = move.split(" ");
+                    const breakups = moveSegments[moveSegments.length - 1].split(/[-\^x]/);
+                    const to = breakups[1];
+                    if (this.escaped(to)) {
+                        return [this.playerAttacker];
+                    }
+                }
+            }
+            // if there is an escape fort, then the attacker is in check.
+            if (this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
+                return [this.playerAttacker];
             }
         }
-        return false;
+        return [];
     }
 
     protected checkEOG(): TaflGame {
@@ -1222,10 +1197,10 @@ export class TaflGame extends GameBase {
         } else if (this.settings.ruleset.repetition === "draw" && this.stateCount() >= 2) {
             this.gameover = true;
             this.winner = [1, 2];
-        } else if (this.settings.ruleset.enclosureWin! && this.encircled()) {
+        } else if (this.currplayer === this.playerAttacker && this.settings.ruleset.encirclementWin! && this.encircled()) {
             this.gameover = true;
             this.winner = [this.playerAttacker];
-        } else if (this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
+        } else if (this.currplayer === this.playerDefender && this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
             this.gameover = true;
             this.winner = [this.playerDefender];
         } else if (!this.hasMoves()) {

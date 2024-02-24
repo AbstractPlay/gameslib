@@ -663,8 +663,8 @@ export class RootBoundGame extends GameBase {
             legend: {
                 A: [{ name: "piece", player: 1 }],
                 B: [{ name: "piece", player: 2 }],
-                C: [{ name: "piece-borderless", player: 1, opacity: 0.2 }],
-                D: [{ name: "piece-borderless", player: 2, opacity: 0.2 }]
+                C: [{ name: "hex-pointy", player: 1, scale: 1.25, opacity: 0.3 }],
+                D: [{ name: "hex-pointy", player: 2, scale: 1.25, opacity: 0.3 }]
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

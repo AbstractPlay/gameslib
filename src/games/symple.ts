@@ -372,6 +372,20 @@ export class SympleGame extends GameBase {
                 remaining = remaining.filter(grp => ! grp.liberties.has(cell))
             }
 
+            // do a final check to remove any remaining groups whose only liberties encroach
+            // on groups that have already grown
+            remaining = remaining.filter(grp => {
+                let hasLiberty = false;
+                for (const cell of grp.liberties) {
+                    const already = alreadyGrown.find(g => g.liberties.has(cell));
+                    if (already === undefined) {
+                        hasLiberty = true;
+                        break;
+                    }
+                }
+                return hasLiberty;
+            });
+
             // if there are still groups remaining, and the board isn't full, incomplete
             if (remaining.length > 0 && this.board.size < this.boardsize*this.boardsize) {
                 // valid partial

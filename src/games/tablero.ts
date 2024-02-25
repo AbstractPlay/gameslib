@@ -618,6 +618,13 @@ export class TableroGame extends GameBase {
         // If we've gotten here, all submoves are valid.
         // But how many submoves did we get? Is the move really complete?
         if ( (moves.length === 2) || (m === "bump") || (m.startsWith("-")) ) {
+            // final check against move list
+            if (! origMoves.includes(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tablero.INVALID_MOVE");
+                return result;
+            }
+
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");

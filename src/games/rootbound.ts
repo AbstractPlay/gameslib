@@ -47,7 +47,7 @@ export class RootBoundGame extends GameBase {
                 urls: ["https://cjffield.com"]
             }
         ],
-        flags: ["scores", "automove", "experimental"]
+        flags: ["scores", "automove"]
     };
 
     public numplayers = 2;
@@ -231,7 +231,7 @@ export class RootBoundGame extends GameBase {
         return false;
     }
 
-    private isValidFirstPlacement(player: PlayerId, cell: string): boolean {
+    private isValidPlacement(player: PlayerId, cell: string): boolean {
         if (this.board.has(cell)) return false;
 
         const neighbors = this.graph.neighbours(cell).filter(c => this.board.has(c) && this.getOwner(c) === player);
@@ -257,20 +257,34 @@ export class RootBoundGame extends GameBase {
             if (neighborNeighbors.length > 0) return false;
         }
 
-        const [firstCol, firstRow] = this.graph.algebraic2coords(firstCell);
-        const [secondCol, secondRow] = this.graph.algebraic2coords(secondCell);
-
-        if (2*firstCol-secondCol > 0 && 2*firstRow-secondRow > 0) {
-            const existingCell = this.graph.coords2algebraic(2*firstCol-secondCol, 2*firstRow-secondRow);
-            if (this.getOwner(existingCell) === player) return false;
-        }
-
-        if (2*secondCol-firstCol > 0 && 2*secondRow-firstRow > 0) {
-            const existingCell = this.graph.coords2algebraic(2*secondCol-firstCol, 2*secondRow-firstRow);
-            if (this.getOwner(existingCell) === player) return false;
-        }
-
         return true;
+    }
+
+    private isRapidGrowthMove(firstCell: string, secondCell: string, player?: PlayerId, reverse?: boolean): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+
+        if (!this.graph.neighbours(firstCell).includes(secondCell)) return false;
+
+        const [firstCol, firstRow] = this.graph.algebraic2coords(firstCell);
+        let dir: "NE"|"E"|"SE"|"SW"|"W"|"NW";
+        for (const tempDir of HexTriGraph.directions) {
+            // [col, row]
+            const tempCoords = this.graph.move(firstCol, firstRow, tempDir);
+            if (tempCoords && this.graph.coords2algebraic(tempCoords[0], tempCoords[1]) === secondCell) {
+                dir = tempDir;
+            }
+        }
+
+        const coords = this.graph.move(firstCol, firstRow, dir!, 2);
+        if (coords) {
+            const testCell = this.graph.coords2algebraic(coords[0], coords[1]);
+            if (this.board.has(testCell) && this.getOwner(testCell) === player) return true;
+        }
+
+        if (!reverse) return this.isRapidGrowthMove(secondCell, firstCell, player, true);
+        return false;
     }
 
     public moves(player?: PlayerId): string[] {
@@ -286,14 +300,16 @@ export class RootBoundGame extends GameBase {
             if (claimedRegion[0] !== 3) claimedCells.push(...claimedRegion[3]);
         }
 
-        const validFirstMoves = (this.graph.listCells() as string[]).filter(c => !claimedCells.includes(c) && this.isValidFirstPlacement(player!, c));
+        const validFirstMoves = (this.graph.listCells() as string[]).filter(c => !claimedCells.includes(c) && this.isValidPlacement(player!, c));
         moves.push(...validFirstMoves);
 
         if (this.stack.length > 1) {
             for (const firstMove of validFirstMoves) {
                 const validSecondMoves = (this.graph.listCells() as string[]).filter(c => !claimedCells.includes(c) && this.isValidSecondPlacement(player!, firstMove, c));
                 for (const secondMove of validSecondMoves) {
-                    moves.push(firstMove+","+secondMove);
+                    if (!this.isRapidGrowthMove(firstMove, secondMove)) {
+                        moves.push(firstMove+","+secondMove);
+                    }
                 }
             }
         }
@@ -303,40 +319,6 @@ export class RootBoundGame extends GameBase {
         }
 
         return moves;
-    }
-
-    private rapidGrowthMoves(player?: PlayerId): string[] {
-        if (this.stack.length === 1) {
-            return [];
-        }
-
-        if (player === undefined) {
-            player = this.currplayer;
-        }
-
-        const moves: string[] = [];
-        const rapidGrowthMoves: string[] = [];
-
-        const validFirstMoves = (this.graph.listCells() as string[]).filter(c => this.isValidFirstPlacement(player!, c));
-        moves.push(...validFirstMoves);
-
-        for (const firstMove of validFirstMoves) {
-            const neighbors = this.graph.neighbours(firstMove);
-            for (const neighbor of neighbors) {
-                if (this.board.has(neighbor)) continue;
-                const [firstCol, firstRow] = this.graph.algebraic2coords(firstMove);
-                const [secondCol, secondRow] = this.graph.algebraic2coords(neighbor);
-                if (2*firstCol-secondCol < 0) continue;
-                if (2*firstRow-secondRow < 0) continue;
-                const existingCell = this.graph.coords2algebraic(2*firstCol-secondCol, 2*firstRow-secondRow);
-                if (this.getOwner(existingCell) === player) {
-                    if (!rapidGrowthMoves.includes(firstMove+","+neighbor)) rapidGrowthMoves.push(firstMove+","+neighbor);
-                    if (!rapidGrowthMoves.includes(neighbor+","+firstMove)) rapidGrowthMoves.push(neighbor+","+firstMove);
-                }
-            }
-        }
-
-        return rapidGrowthMoves;
     }
 
     public randomMove(): string {
@@ -395,12 +377,6 @@ export class RootBoundGame extends GameBase {
                 return result;
             }
 
-            const rapidGrowthMoves = this.rapidGrowthMoves();
-            if (rapidGrowthMoves.includes(m)) {
-                result.message = i18next.t("apgames:validation.rootbound.RAPID_GROWTH");
-                return result;
-            }
-
             for (const cell of cells) {
                 try {
                     if (cell !== "pass") this.graph.algebraic2coords(cell);
@@ -430,6 +406,11 @@ export class RootBoundGame extends GameBase {
                         result.message = i18next.t("apgames:validation.rootbound.TOO_MANY_NEIGHBORS");
                         return result;
                     }
+                }
+
+                if (this.isRapidGrowthMove(cells[0], cells[1])) {
+                    result.message = i18next.t("apgames:validation.rootbound.RAPID_GROWTH");
+                    return result;
                 }
             }
         }
@@ -600,6 +581,10 @@ export class RootBoundGame extends GameBase {
         return this;
     }
 
+    public getPlayerScore(player: PlayerId): number {
+        return this.scores[player - 1];
+    }
+
     public getPlayersScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.scores[0], this.scores[1]] }
@@ -633,6 +618,16 @@ export class RootBoundGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         const pstr: string[][] = [];
+        const scoringCells: Map<string, PlayerId> = new Map<string, PlayerId>();
+        const claimedRegions = this.computeClaimedRegions();
+        for (const claimedRegion of claimedRegions) {
+            if (claimedRegion[0] === 1 || claimedRegion[0] === 2) {
+                for (const scoredCell of claimedRegion[3]) {
+                    scoringCells.set(scoredCell, claimedRegion[0]);
+                }
+            }
+        }
+
         const cells = this.graph.listCells(true);
         for (const row of cells) {
             const pieces: string[] = [];
@@ -644,7 +639,15 @@ export class RootBoundGame extends GameBase {
                         pieces.push("B");
                     }
                 } else {
-                    pieces.push("-");
+                    if (scoringCells.has(cell)) {
+                        if (scoringCells.get(cell) === 1) {
+                            pieces.push("C");
+                        } else {
+                            pieces.push("D");
+                        }
+                    } else {
+                        pieces.push("-");
+                    }
                 }
             }
             pstr.push(pieces);
@@ -655,11 +658,13 @@ export class RootBoundGame extends GameBase {
             board: {
                 style: "hex-of-tri",
                 minWidth: this.boardsize,
-                maxWidth: (this.boardsize * 2) - 1,
+                maxWidth: (this.boardsize * 2) - 1
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }]
+                B: [{ name: "piece", player: 2 }],
+                C: [{ name: "hex-pointy", player: 1, scale: 1.25, opacity: 0.3 }],
+                D: [{ name: "hex-pointy", player: 2, scale: 1.25, opacity: 0.3 }]
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

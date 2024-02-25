@@ -44,7 +44,7 @@ export class TakeGame extends GameBase {
                 urls: ["https://www.marksteeregames.com"]
             }
         ],
-        flags: ["experimental"],
+        flags: [],
         variants: [
             {
                 uid: "high-churn",
@@ -57,8 +57,8 @@ export class TakeGame extends GameBase {
     public numplayers = 2;
     public currplayer: PlayerId = 1;
     public board!: Map<string, CellContent>;
-    public boardsize = 7;
-    public graph: HexTriGraph = new HexTriGraph(7, 13);
+    public boardsize = 5;
+    public graph: HexTriGraph = new HexTriGraph(5, 9);
     public gameover = false;
     public winner: PlayerId[] = [];
     public variants: string[] = [];
@@ -121,8 +121,8 @@ export class TakeGame extends GameBase {
     }
 
     private getBoardSize(): number {
-        if (this.isHighChurn()) return 5;
-        return 7;
+        if (this.isHighChurn()) return 4;
+        return 5;
     }
 
     private getGraph(): HexTriGraph {

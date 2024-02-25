@@ -49,7 +49,7 @@ export class BaoGame extends GameBase {
         description: "apgames:descriptions.bao",
         // i18next.t("apgames:notes.bao")
         notes: "apgames:notes.bao",
-        urls: ["https://en.wikipedia.org/wiki/Bao_(game)"],
+        urls: ["https://mancala.fandom.com/wiki/Bao_la_Kiswahili"],
         flags: ["perspective", "limited-pieces", "automove"],
         variants: [
             {
@@ -381,7 +381,9 @@ export class BaoGame extends GameBase {
             // at this point, we must continue sowing
             sownCells.push(curr);
             // in namua phase, kutakata, very first turn, only tax nyumba
-            if ( (phase === "namua") && (isKutakata) && (distance === 0) && (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] >= 6) ) {
+            // Used to be >= 6, but that allowed the placed stone to reactivate the nyumba,
+            // and apparently that is not correct. So it's now >6.
+            if ( (phase === "namua") && (isKutakata) && (distance === 0) && (this.graph.getType(curr) === "nyumba") && (this.board[currRow][currCol] > 6) ) {
                 inhand = 2;
                 this.board[currRow][currCol] -= 2;
                 taxed = true;

@@ -44,7 +44,7 @@ export class TakeGame extends GameBase {
                 urls: ["https://www.marksteeregames.com"]
             }
         ],
-        flags: ["experimental"],
+        flags: [],
         variants: [
             {
                 uid: "high-churn",

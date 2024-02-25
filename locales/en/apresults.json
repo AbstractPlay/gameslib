@@ -54,6 +54,8 @@
         "nowhat": "{{player}} captured a piece at {{where}}.",
         "orb_1": "{{player}} captured an orb at {{where}}.",
         "orb_2": "{{player}} captured a spheroid at {{where}}.",
+        "reversi_one": "A piece is flipped.",
+        "reversi_other": "{{count}} pieces are flipped.",
         "tafl": "{{player}} captured a piece at {{where}}.",
         "tumbleweed": "{{player}} captured a stack of size {{count}} at {{where}}.",
         "tumbleweed_self": "{{player}} reinforces a stack of size {{count}} at {{where}}.",

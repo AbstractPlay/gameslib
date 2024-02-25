@@ -50,7 +50,7 @@ export class ReversiGame extends GameBase {
             {uid: "hexagon-6", group: "board"},
             {uid: "anti", group: "objective"},
         ],
-        flags: ["experimental", "scores", "automove"],
+        flags: ["scores", "automove"],
         displays: [{uid: "hide-moves"}],
     };
 

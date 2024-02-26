@@ -9,6 +9,7 @@ type playerid = 1 | 2;
 type HexDirections = "NE" | "E"| "SE" | "SW" | "W" | "NW"
 const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 const allHexDirections: HexDirections[] = ["NE", "E", "SE", "SW", "W", "NW"];
+const columnLabels = "abcdefghjklmnopqrstuvwxyz";
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -27,7 +28,7 @@ export class ReversiGame extends GameBase {
         name: "Reversi",
         uid: "reversi",
         playercounts: [2],
-        version: "20240225",
+        version: "20240226",
         // i18next.t("apgames:descriptions.reversi")
         description: "apgames:descriptions.reversi",
         urls: ["https://en.wikipedia.org/wiki/Reversi"],
@@ -58,13 +59,20 @@ export class ReversiGame extends GameBase {
         if (this.variants.some(v => v.includes("hex"))) {
             return this.hexTriGraph!.coords2algebraic(x, y);
         }
-        return GameBase.coords2algebraic(x, y, this.boardSize);
+        return columnLabels[x] + (y + 1).toString();
     }
     public algebraic2coords(cell: string): [number, number] {
-        if (this.variants.some(v => v.includes("hex"))) {
-            return this.hexTriGraph!.algebraic2coords(cell);
+        const pair: string[] = cell.split("");
+        const num = (pair.slice(1)).join("");
+        const x = columnLabels.indexOf(pair[0]);
+        if ( (x === undefined) || (x < 0) ) {
+            throw new Error(`The column label is invalid: ${pair[0]}`);
         }
-        return GameBase.algebraic2coords(cell, this.boardSize);
+        const y = Number(num);
+        if ( (y === undefined) || (isNaN(y)) || num === "" ) {
+            throw new Error(`The row label is invalid: ${pair[1]}`);
+        }
+        return [x, y - 1];
     }
 
     public numplayers = 2;
@@ -652,6 +660,7 @@ export class ReversiGame extends GameBase {
                 blocked: this.renderBlockedCorners === undefined ? undefined : this.renderBlockedCorners as [{row: number; col: number}, ...{row: number; col: number}[]],
                 markers,
             },
+            options: ["reverse-numbers"],
             legend: {
                 A: [{ name: "piece", player: 1 }],
                 B: [{ name: "piece", player: 2 }],

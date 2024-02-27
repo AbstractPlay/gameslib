@@ -1149,36 +1149,40 @@ export class TaflGame extends GameBase {
 
     public inCheck(): number[] {
         // Only detects check for the current player
-        if (this.currplayer === this.playerDefender) {
-            // if the attacker can capture the king, then the defender is in check.
-            for (const move of this.moves(this.playerAttacker)) {
-                if (this.kingDead(this.extractCaptures(move))) {
-                    return [this.playerDefender];
-                }
-            }
-            // if there is an encirclement, then the defender is in check.
-            if (this.settings.ruleset.encirclementWin! && this.encircled()) {
-                return [this.playerDefender];
-            }
-        } else {
-            // if the defender can escape the next turn, then the attacker is in check.
-            const kingPos = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K").map(([c,]) => c);
-            if (kingPos.length > 0) {
-                for (const move of this.getAllMoves(kingPos[0])) {
-                    const moveSegments = move.split(" ");
-                    const breakups = moveSegments[moveSegments.length - 1].split(/[-\^x]/);
-                    const to = breakups[1];
-                    if (this.escaped(to)) {
-                        return [this.playerAttacker];
-                    }
-                }
-            }
-            // if there is an escape fort, then the attacker is in check.
-            if (this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
-                return [this.playerAttacker];
+        const checks: playerid[] = [];
+        // if the attacker can capture the king, then the defender is in check.
+        for (const move of this.moves(this.playerAttacker)) {
+            if (this.kingDead(this.extractCaptures(move))) {
+                checks.push(this.playerDefender);
+                break;
             }
         }
-        return [];
+        // if there is an encirclement, then the defender is in check.
+        if (this.settings.ruleset.encirclementWin! && this.encircled()) {
+            if (!checks.includes(this.playerDefender)) {
+                checks.push(this.playerDefender);
+            }
+        }
+        // if the defender can escape the next turn, then the attacker is in check.
+        const kingPos = Array.from(this.board.entries()).filter(([, [p, pc]]) => p === this.playerDefender && pc === "K").map(([c,]) => c);
+        if (kingPos.length > 0) {
+            for (const move of this.getAllMoves(kingPos[0])) {
+                const moveSegments = move.split(" ");
+                const breakups = moveSegments[moveSegments.length - 1].split(/[-\^x]/);
+                const to = breakups[1];
+                if (this.escaped(to)) {
+                    checks.push(this.playerAttacker);
+                    break;
+                }
+            }
+        }
+        // if there is an escape fort, then the attacker is in check.
+        if (this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
+            if (!checks.includes(this.playerAttacker)) {
+                checks.push(this.playerAttacker);
+            }
+        }
+        return checks;
     }
 
     protected checkEOG(): TaflGame {

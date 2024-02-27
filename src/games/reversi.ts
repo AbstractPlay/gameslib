@@ -9,7 +9,7 @@ type playerid = 1 | 2;
 type HexDirections = "NE" | "E"| "SE" | "SW" | "W" | "NW"
 const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 const allHexDirections: HexDirections[] = ["NE", "E", "SE", "SW", "W", "NW"];
-const columnLabels = "abcdefghjklmnopqrstuvwxyz";
+const columnLabels = "abcdefghijklmnopqrstuvwxyz";
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;

@@ -135,55 +135,57 @@ export class HexTriGraph implements IGraph {
         const midrow = Math.floor(this.height / 2);
         let xNew = x;
         let yNew = y;
-        switch (dir) {
-            case "NE":
-                if (y <= midrow) {
-                    yNew -= dist;
-                } else {
-                    yNew -= dist;
-                    xNew += dist
-                }
-                break;
-            case "E":
-                xNew += dist;
-                break;
-            case "SE":
-                if (y >= midrow) {
-                    yNew += dist;
-                } else {
-                    yNew += dist;
-                    xNew += dist;
-                }
-                break;
-            case "SW":
-                if (y < midrow) {
-                    yNew += dist;
-                } else {
-                    yNew += dist;
-                    xNew -= dist;
-                }
-                break;
-            case "W":
-                xNew -= dist;
-                break;
-            case "NW":
-                if (y <= midrow) {
-                    yNew -= dist;
-                    xNew -= dist;
-                } else {
-                    yNew -= dist
-                }
-                break;
-            default:
-                throw new Error("Invalid direction requested.");
-        }
-        if ( (yNew < 0) || (yNew >= this.height) ) {
-            return undefined;
-        }
-        const delta = this.maxwidth - this.minwidth;
-        const rowWidth = this.minwidth + (midrow - Math.abs(delta - yNew));
-        if ( (xNew < 0) || (xNew >= rowWidth) ) {
-            return undefined;
+        for (let i = 0; i < dist; i++) {
+            switch (dir) {
+                case "NE":
+                    if (yNew <= midrow) {
+                        yNew--;
+                    } else {
+                        yNew--;
+                        xNew++;
+                    }
+                    break;
+                case "E":
+                    xNew++;
+                    break;
+                case "SE":
+                    if (yNew >= midrow) {
+                        yNew++;
+                    } else {
+                        yNew++;
+                        xNew++;
+                    }
+                    break;
+                case "SW":
+                    if (yNew < midrow) {
+                        yNew++;
+                    } else {
+                        yNew++;
+                        xNew--;
+                    }
+                    break;
+                case "W":
+                    xNew--;
+                    break;
+                case "NW":
+                    if (yNew <= midrow) {
+                        yNew--;
+                        xNew--;
+                    } else {
+                        yNew--;
+                    }
+                    break;
+                default:
+                    throw new Error("Invalid direction requested.");
+            }
+            if ( (yNew < 0) || (yNew >= this.height) ) {
+                return undefined;
+            }
+            const delta = this.maxwidth - this.minwidth;
+            const rowWidth = this.minwidth + (midrow - Math.abs(delta - yNew));
+            if ( (xNew < 0) || (xNew >= rowWidth) ) {
+                return undefined;
+            }
         }
         return [xNew, yNew];
     }

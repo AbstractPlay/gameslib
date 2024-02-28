@@ -66,6 +66,9 @@ describe("HexTriGraph", () => {
         expect(grid.move(3, 5, "NW")).to.have.deep.members([3, 4]);
         // Invalid
         expect(grid.move(0, 2, "NW")).to.be.undefined;
+
+        // NE, distance 3, across the midline
+        expect(grid.move(3, 5, "NE", 3)).to.have.deep.members([4,2]);
     });
 
     it ("Ray casting", () => {

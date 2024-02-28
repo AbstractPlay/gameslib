@@ -2035,6 +2035,12 @@
                 "name": "Hide moves"
             }
         },
+        "rootbound": {
+            "hide-highlights": {
+                "description": "Don't highlight the Claimed Regions.",
+                "name": "Hide highlights"
+            }
+        },
         "trike": {
             "hide-moves": {
                 "description": "Don't show possible moves.",

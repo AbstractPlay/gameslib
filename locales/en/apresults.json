@@ -239,8 +239,8 @@
         "nowhat_other": "{{count}} pieces were reclaimed."
     },
     "REMOVE": {
-        "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
-        "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
+        "remove_one": "{{player}} removed 1 piece from {{where}}.",
+        "remove_other": "{{player}} removed {{count}} pieces from {{where}}.",
         "nonum": "{{player}} removed a piece from {{where}}.",
         "phutball_one": "{{count}} player was removed.",
         "phutball_other": "{{count}} players were removed.",

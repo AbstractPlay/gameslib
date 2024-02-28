@@ -1148,8 +1148,10 @@ export class TaflGame extends GameBase {
     }
 
     public inCheck(): number[] {
-        // Only detects check for the current player
         const checks: playerid[] = [];
+        if (this.gameover && this.lastmove !== "resign" && this.lastmove !== "timeout") {
+            return checks;
+        }
         // if the attacker can capture the king, then the defender is in check.
         for (const move of this.moves(this.playerAttacker)) {
             if (this.kingDead(this.extractCaptures(move))) {

@@ -277,7 +277,8 @@ export class RootBoundGame extends GameBase {
             }
         }
 
-        const coords = this.graph.move(firstCol, firstRow, dir!, 2);
+        const [secondCol, secondRow] = this.graph.algebraic2coords(secondCell);
+        const coords = this.graph.move(secondCol, secondRow, dir!);
         if (coords) {
             const testCell = this.graph.coords2algebraic(coords[0], coords[1]);
             if (this.board.has(testCell) && this.getOwner(testCell) === player) return true;

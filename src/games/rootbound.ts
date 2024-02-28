@@ -47,7 +47,8 @@ export class RootBoundGame extends GameBase {
                 urls: ["https://cjffield.com"]
             }
         ],
-        flags: ["scores", "automove"]
+        flags: ["scores", "automove"],
+        displays: [{uid: "hide-highlights"}]
     };
 
     public numplayers = 2;
@@ -616,15 +617,20 @@ export class RootBoundGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        const displayHighlights = (opts === undefined || opts.altDisplay === undefined || opts.altDisplay !== "hide-highlights");
+
         // Build piece string
         const pstr: string[][] = [];
         const scoringCells: Map<string, PlayerId> = new Map<string, PlayerId>();
-        const claimedRegions = this.computeClaimedRegions();
-        for (const claimedRegion of claimedRegions) {
-            if (claimedRegion[0] === 1 || claimedRegion[0] === 2) {
-                for (const scoredCell of claimedRegion[3]) {
-                    scoringCells.set(scoredCell, claimedRegion[0]);
+
+        if (displayHighlights) {
+            const claimedRegions = this.computeClaimedRegions();
+            for (const claimedRegion of claimedRegions) {
+                if (claimedRegion[0] === 1 || claimedRegion[0] === 2) {
+                    for (const scoredCell of claimedRegion[3]) {
+                        scoringCells.set(scoredCell, claimedRegion[0]);
+                    }
                 }
             }
         }
@@ -640,7 +646,7 @@ export class RootBoundGame extends GameBase {
                         pieces.push("B");
                     }
                 } else {
-                    if (scoringCells.has(cell)) {
+                    if (displayHighlights && scoringCells.has(cell)) {
                         if (scoringCells.get(cell) === 1) {
                             pieces.push("C");
                         } else {

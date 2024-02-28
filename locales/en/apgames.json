@@ -74,6 +74,7 @@
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
+        "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
         "rootbound": "In Root Bound, two players’ plants vie for control of the space at the sides of a planter as the room for new growth rapidly dwindles.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
@@ -988,6 +989,13 @@
             "WRONG_REALM_createEnforcer": "You may only create an enforcer in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_rearrange": "You may only place pieces in the realm being rearranged ({{realm}})."
         },
+        "reversi": {
+            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
+            "ILLEGAL_PASS": "You may only pass if you have no legal moves.",
+            "INVALID_MOVE": "You may only place a piece where it will flip at least one of your opponent's pieces.",
+            "CENTRE_CELL": "In the hexagon variant, the centre cell cannot be placed on.",
+            "CORNER_CELL": "In the octagon variant, the corner cells cannot be placed on."
+        },
         "rootbound": {
             "FIRST_MOVE_INSTRUCTIONS": "Place a piece anywhere on the board.",
             "INITIAL_INSTRUCTIONS": "Place one or two pieces.",
@@ -1045,6 +1053,7 @@
             "BAD_BUMP": "You may not bump if you have legal moves available, including taking a piece into your hand if you rolled doubles.",
             "BAD_TAKE": "You may only take a piece off the board if you rolled doubles.",
             "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece or select a stack you control to begin movement. Click the \"Bump\" or \"Take\" buttons to take one of those actions.",
+            "INVALID_MOVE": "The move does not appear to be legal. Remember that you can only use each die once.",
             "LABEL_PREVIOUS": "Previous roll",
             "NO_MATCHING_DIE": "You didn't roll a {{die}}.",
             "NOT_HOME": "You may only place pieces or move stacks on your home row.",
@@ -1771,6 +1780,34 @@
                 "description": "Captured bases are immediately replaced by one of your own. Leads to a much faster game."
             }
         },
+        "reversi": {
+            "standard-6": {
+                "name": "Smaller board (6x6)"
+            },
+            "standard-10": {
+                "name": "Grand board (10x10)"
+            },
+            "octagon-8": {
+                "name": "Octagonal board (8x8)",
+                "description": "Standard 8x8 board with the corners blocked."
+            }, 
+            "octagon-10": {
+                "name": "Octagonal board (10x10)",
+                "description": "Standard 10x10 board with the corners blocked."
+            },
+            "hexagon-5": {
+                "name": "Hexagonal board (base-5)",
+                "description": "Hexagonal base-5 board with setup popularised by ItsYourTurn.com."
+            },
+            "hexagon-6": {
+                "name": "Hexagonal board (base-6)",
+                "description": "Hexagonal base-6 board with setup popularised by ItsYourTurn.com."
+            },
+            "anti": {
+                "name": "Anti-Reversi",
+                "description": "The player who has the fewest pieces at the end of the game wins."
+            }
+        },
         "slither": {
             "13x13": {
                 "name": "13x13 board"
@@ -1990,6 +2027,12 @@
             "hide-piece-highlight": {
                 "description": "Don't highlight the 9x9 pieces.",
                 "name": "Hide 9x9 piece highlight"
+            }
+        },
+        "reversi": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
             }
         },
         "trike": {

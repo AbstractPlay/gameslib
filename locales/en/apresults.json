@@ -54,6 +54,8 @@
         "nowhat": "{{player}} captured a piece at {{where}}.",
         "orb_1": "{{player}} captured an orb at {{where}}.",
         "orb_2": "{{player}} captured a spheroid at {{where}}.",
+        "reversi_one": "A piece is flipped.",
+        "reversi_other": "{{count}} pieces are flipped.",
         "tafl": "{{player}} captured a piece at {{where}}.",
         "tumbleweed": "{{player}} captured a stack of size {{count}} at {{where}}.",
         "tumbleweed_self": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
@@ -237,8 +239,8 @@
         "nowhat_other": "{{count}} pieces were reclaimed."
     },
     "REMOVE": {
-        "REMOVE_one": "{{player}} removed 1 piece from {{where}}.",
-        "REMOVE_other": "{{player}} removed {{count}} pieces from {{where}}.",
+        "remove_one": "{{player}} removed 1 piece from {{where}}.",
+        "remove_other": "{{player}} removed {{count}} pieces from {{where}}.",
         "nonum": "{{player}} removed a piece from {{where}}.",
         "phutball_one": "{{count}} player was removed.",
         "phutball_other": "{{count}} players were removed.",

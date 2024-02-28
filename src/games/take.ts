@@ -429,7 +429,7 @@ export class TakeGame extends GameBase {
             pstr.push(pieces);
         }
 
-        let dirtSpace = { name: "hex-flat", colour: "#532", scale: .575 };
+        let dirtSpace = { name: "hex-flat", colour: "#7F461B", scale: .575 };
         if (this.isHighChurn()) {
             dirtSpace = { name: "hex-pointy", colour: "#D28C46", scale: 1.25 };
         }

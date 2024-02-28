@@ -1342,7 +1342,7 @@
         "tafl": {
             "variant": {
                 "name": "linnaean-9x9-tcross-w",
-                "description": "Linnaean Sámi Tablut with historical rules based on recent reconstruction from Linnaeus' diary."
+                "description": "Linnaean Sámi Tablut with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else."
             }
         },
         "take": {
@@ -1843,11 +1843,11 @@
         "tafl": {
             "linnaean-11x11-belldiamond-w": {
                 "name": "linnaean-11x11-belldiamond-w",
-                "description": "Bell-diamond setup with historical rules based on a recent reconstruction from Linnaeus' diary."
+                "description": "Bell-diamond setup with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else."
             },
             "linnaean-11x11-lewiscross-w": {
                 "name": "linnaean-11x11-lewiscross-w",
-                "description": "Lewis-cross setup with historical rules based on a recent reconstruction from Linnaeus' diary."
+                "description": "Lewis-cross setup with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else."
             },
             "copenhagen-11x11-tdiamond": {
                 "name": "copenhagen-11x11-tdiamond",
@@ -1859,11 +1859,11 @@
             },
             "tyr-11x11-tyr": {
                 "name": "tyr-11x11-tyr",
-                "description": "Berserk rules with weak armed king and edge escape on a 11x11 board. This is the default simple setup without special pieces."
+                "description": "Berserk rules with weak armed king and edge escape on a 11x11 board. This is the default simple Tyr setup without special pieces."
             },
             "tyr-15x15-tyr": {
                 "name": "tyr-15x15-tyr",
-                "description": "Berserk rules with weak armed king and edge escape on a 15x15 board. This is the default simple setup without special pieces."
+                "description": "Berserk rules with weak armed king and edge escape on a 15x15 board. This is the default simple Tyr setup without special pieces."
             },
             "seabattle-9x9-starsquare-w": {
                 "name": "seabattle-9x9-starsquare-w",

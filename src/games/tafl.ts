@@ -1089,12 +1089,12 @@ export class TaflGame extends GameBase {
             seen.add(cell);
             const neighbours = this.getOrthCells(cell);
             for (const n of neighbours) {
-                if (this.isOnEdge(n)) { return false; }
                 if (this.board.has(n)) {
                     const [pl,] = this.board.get(n)!
                     if (pl === this.playerAttacker) { continue; }
                     defenders.add(n);
                 }
+                if (this.isOnEdge(n)) { return false; }
                 todo.push(n);
             }
         }

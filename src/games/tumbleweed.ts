@@ -60,12 +60,14 @@ export class TumbleweedGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, [playerid, number]>;
+    public graph: HexTriGraph;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public scores: [number, number] = [0, 0];
+    private boardSize = 0;
 
     constructor(state?: ITumbleweedState | string, variants?: string[]) {
         super();
@@ -75,8 +77,9 @@ export class TumbleweedGame extends GameBase {
             }
             // Graph and board size properties are assigned after because
             // they're common to both fresh and loaded games.
+            const boardSize = this.getBoardSize();
             const board: Map<string, [playerid, number]> = new Map();
-            board.set(this.centre, [3 as playerid, 2]);
+            board.set(this.getCentre(boardSize), [3 as playerid, 2]);
             const fresh: IMoveState = {
                 _version: TumbleweedGame.gameinfo.version,
                 _results: [],
@@ -99,6 +102,7 @@ export class TumbleweedGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.graph = this.getGraph();
     }
 
     public load(idx = -1): TumbleweedGame {
@@ -114,30 +118,39 @@ export class TumbleweedGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
+        this.boardSize = this.getBoardSize();
         this.scores = [...state.scores];
         return this;
     }
 
-    public get boardSize(): number {
+    private getBoardSize(): number {
         // Get board size from variants.
         if ( (this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0) ) {
             const sizeVariants = this.variants.filter(v => v.includes("size"))
             if (sizeVariants.length > 0) {
                 const size = sizeVariants[0].match(/\d+/);
                 return parseInt(size![0], 10);
-            } else {
+            }
+            if (isNaN(this.boardSize)) {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
         return 8;
     }
 
-    public get centre(): string {
-        return this.graph.coords2algebraic(this.boardSize - 1, this.boardSize - 1);
+    private getCentre(boardSize?: number): string {
+        if (boardSize === undefined) {
+            boardSize = this.boardSize;
+        }
+        const graph = this.graph !== undefined ? this.graph : this.getGraph(boardSize);
+        return graph.coords2algebraic(boardSize - 1, boardSize - 1);
     }
 
-    public get graph(): HexTriGraph {
-        return new HexTriGraph(this.boardSize, this.boardSize * 2 - 1);
+    private getGraph(boardSize?: number): HexTriGraph {
+        if (boardSize === undefined) {
+            boardSize = this.boardSize;
+        }
+        return new HexTriGraph(boardSize, boardSize * 2 - 1);
     }
 
     public moves(player?: playerid): string[] {
@@ -148,9 +161,10 @@ export class TumbleweedGame extends GameBase {
         const moves: string[] = [];
         if (this.board.size < 3) {
             // On first move, first player places two stones.
+            const centre = this.getCentre();
             for (const cell of this.graph.listCells() as string[]) {
                 for (const cell2 of this.graph.listCells() as string[]) {
-                    if (cell === cell2 || cell === this.centre || cell2 === this.centre) {
+                    if (cell === cell2 || cell === centre || cell2 === centre) {
                         continue;
                     }
                     moves.push(`${cell},${cell2}`);
@@ -283,7 +297,8 @@ export class TumbleweedGame extends GameBase {
         }
         // Special case where first player places two stones.
         if (this.board.size < 3) {
-            if (moves[0] === this.centre) {
+            const centre = this.getCentre();
+            if (moves[0] === centre) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.tumbleweed.NO_CENTRE", {cell: moves[0]});
                     return result;
@@ -294,7 +309,7 @@ export class TumbleweedGame extends GameBase {
                     result.message = i18next.t("apgames:validation.tumbleweed.SAMECELL", {cell: moves[0]});
                     return result;
                 }
-                if (moves[1] === this.centre) {
+                if (moves[1] === centre) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.tumbleweed.NO_CENTRE", {cell: moves[1]});
                     return result;

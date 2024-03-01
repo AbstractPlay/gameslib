@@ -93,6 +93,7 @@ export class RootBoundGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.buildGraph();
     }
 
     public load(idx = -1): RootBoundGame {
@@ -106,12 +107,10 @@ export class RootBoundGame extends GameBase {
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
         this.board = deepclone(state.board) as Map<string, CellContent>;
-        this.boardsize = 7;
         this.lastmove = state.lastmove;
         this.lastgroupid = state.lastgroupid;
         this.results = [...state._results];
         this.scores = [...state.scores];
-        this.buildGraph();
         return this;
     }
 

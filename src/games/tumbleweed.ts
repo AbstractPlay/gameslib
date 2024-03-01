@@ -101,8 +101,9 @@ export class TumbleweedGame extends GameBase {
             this.variants = state.variants;
             this.stack = [...state.stack];
         }
+        this.boardSize = this.getBoardSize();
         this.load();
-        this.graph = this.getGraph();
+        this.buildGraph();
     }
 
     public load(idx = -1): TumbleweedGame {
@@ -118,9 +119,34 @@ export class TumbleweedGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
-        this.boardSize = this.getBoardSize();
         this.scores = [...state.scores];
         return this;
+    }
+
+    private buildGraph(): HexTriGraph {
+        this.graph = new HexTriGraph(this.boardSize, (this.boardSize * 2) - 1);
+        return this.graph;
+    }
+
+    private getGraph(boardSize?: number): HexTriGraph {
+        if (boardSize === undefined) {
+            return (this.graph === undefined) ? this.buildGraph() : this.graph;
+        } else {
+            return new HexTriGraph(boardSize, (boardSize * 2) - 1);
+        }
+    }
+
+    // Fixes known issue with some edge cases not calling load
+    private listCells(ordered = false): string[] | string[][] {
+        try {
+            if (ordered === undefined) {
+                return this.getGraph().listCells();
+            } else {
+                return this.getGraph().listCells(ordered);
+            }
+        } catch (e) {
+            return this.buildGraph().listCells(ordered);
+        }
     }
 
     private getBoardSize(): number {
@@ -140,17 +166,10 @@ export class TumbleweedGame extends GameBase {
 
     private getCentre(boardSize?: number): string {
         if (boardSize === undefined) {
-            boardSize = this.boardSize;
+            return this.getGraph().coords2algebraic(this.boardSize - 1, this.boardSize - 1);
+        } else {
+            return this.getGraph(boardSize).coords2algebraic(boardSize - 1, boardSize - 1);
         }
-        const graph = this.graph !== undefined ? this.graph : this.getGraph(boardSize);
-        return graph.coords2algebraic(boardSize - 1, boardSize - 1);
-    }
-
-    private getGraph(boardSize?: number): HexTriGraph {
-        if (boardSize === undefined) {
-            boardSize = this.boardSize;
-        }
-        return new HexTriGraph(boardSize, boardSize * 2 - 1);
     }
 
     public moves(player?: playerid): string[] {
@@ -162,8 +181,8 @@ export class TumbleweedGame extends GameBase {
         if (this.board.size < 3) {
             // On first move, first player places two stones.
             const centre = this.getCentre();
-            for (const cell of this.graph.listCells() as string[]) {
-                for (const cell2 of this.graph.listCells() as string[]) {
+            for (const cell of this.listCells() as string[]) {
+                for (const cell2 of this.listCells() as string[]) {
                     if (cell === cell2 || cell === centre || cell2 === centre) {
                         continue;
                     }
@@ -174,7 +193,7 @@ export class TumbleweedGame extends GameBase {
         } else if (this.board.size === 3 && player === 2) {
             return ["pass"];
         }
-        for (const cell of this.graph.listCells() as string[]) {
+        for (const cell of this.listCells() as string[]) {
             const losCount = this.getLosCount(cell, player);
             if (losCount === 0 || this.board.has(cell) && this.board.get(cell)![1] >= losCount) {
                 continue;
@@ -198,7 +217,7 @@ export class TumbleweedGame extends GameBase {
         try {
             let newmove = "";
             const split = move.split(",");
-            const cell = this.graph.coords2algebraic(col, row);
+            const cell = this.getGraph().coords2algebraic(col, row);
             if (this.board.size < 3) {
                 if (split.length === 1 && split[0] !== "") {
                     newmove = `${move},${cell}`;
@@ -230,7 +249,7 @@ export class TumbleweedGame extends GameBase {
     private getLosCount(cell: string, player: playerid): number {
         let losCount = 0;
         for (const dir of allDirections) {
-            const ray = this.graph.ray(...this.graph.algebraic2coords(cell), dir).map(c => this.graph.coords2algebraic(c[0], c[1]));
+            const ray = this.getGraph().ray(...this.getGraph().algebraic2coords(cell), dir).map(c => this.getGraph().coords2algebraic(c[0], c[1]));
             for (const c of ray) {
                 if (this.board.has(c)) {
                     if (this.board.get(c)![0] === player) {
@@ -288,7 +307,7 @@ export class TumbleweedGame extends GameBase {
         try {
             for (const move of moves) {
                 currentMove = move;
-                this.graph.algebraic2coords(move);
+                this.getGraph().algebraic2coords(move);
             }
         } catch {
             result.valid = false;
@@ -420,7 +439,7 @@ export class TumbleweedGame extends GameBase {
     private updateScores(): void {
         // Updates `this.scores` with total influence for each player.
         this.scores = [0, 0];
-        for (const cell of this.graph.listCells() as string[]) {
+        for (const cell of this.listCells() as string[]) {
             const owner = this.cellOwner(cell);
             if (owner !== undefined) {
                 this.scores[owner - 1]++;
@@ -513,7 +532,7 @@ export class TumbleweedGame extends GameBase {
         // H - neutral threatened by both
         let pstr = "";
         const threatenedPieces: Set<string> = showThreatened ? this.threatenedPieces() : new Set();
-        for (const row of this.graph.listCells(true)) {
+        for (const row of this.listCells(true)) {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
@@ -643,7 +662,7 @@ export class TumbleweedGame extends GameBase {
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
-                    const [x, y] = this.graph.algebraic2coords(move.where!);
+                    const [x, y] = this.getGraph().algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
@@ -658,18 +677,18 @@ export class TumbleweedGame extends GameBase {
             [1, []],
             [2, []],
         ]);
-        for (const cell of this.graph.listCells() as string[]) {
+        for (const cell of this.listCells() as string[]) {
             if (this.board.has(cell)) {
                 const [player, ] = this.board.get(cell)!;
                 if (player === 3) { continue; }
-                const [x, y] = this.graph.algebraic2coords(cell);
+                const [x, y] = this.getGraph().algebraic2coords(cell);
                 const cellCoords = {row: y, col: x};
                 markers.get(player)!.push(cellCoords);
             } else {
                 const player1Los = this.getLosCount(cell, 1);
                 const player2Los = this.getLosCount(cell, 2);
                 if (player1Los === 0 && player2Los === 0) { continue; }
-                const [x, y] = this.graph.algebraic2coords(cell);
+                const [x, y] = this.getGraph().algebraic2coords(cell);
                 const cellCoords = {row: y, col: x};
                 if (player1Los >= player2Los) {
                     markers.get(1)!.push(cellCoords);
@@ -686,7 +705,7 @@ export class TumbleweedGame extends GameBase {
         // A piece is threatened if it can be captured by the other player,
         // and it cannot be captured back.
         const threatenedPieces = new Set<string>();
-        for (const cell of this.graph.listCells() as string[]) {
+        for (const cell of this.listCells() as string[]) {
             if (this.board.has(cell)) {
                 const [player, size] = this.board.get(cell)!;
                 const otherPlayer = player === 1 ? 2 : 1;

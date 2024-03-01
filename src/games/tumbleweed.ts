@@ -60,7 +60,7 @@ export class TumbleweedGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, [playerid, number]>;
-    public graph: HexTriGraph;
+    public graph?: HexTriGraph;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];

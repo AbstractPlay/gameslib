@@ -62,6 +62,9 @@ export class ReversiGame extends GameBase {
         return columnLabels[x] + (y + 1).toString();
     }
     public algebraic2coords(cell: string): [number, number] {
+        if (this.variants.some(v => v.includes("hex"))) {
+            return this.hexTriGraph!.algebraic2coords(cell);
+        }
         const pair: string[] = cell.split("");
         const num = (pair.slice(1)).join("");
         const x = columnLabels.indexOf(pair[0]);

@@ -55,6 +55,7 @@ export class RootBoundGame extends GameBase {
     public currplayer: PlayerId = 1;
     public board!: Map<string, CellContent>;
     public boardsize = 7;
+    public graph: HexTriGraph = new HexTriGraph(7, 13);
     public gameover = false;
     public winner: PlayerId[] = [];
     public variants: string[] = [];
@@ -110,11 +111,17 @@ export class RootBoundGame extends GameBase {
         this.lastgroupid = state.lastgroupid;
         this.results = [...state._results];
         this.scores = [...state.scores];
+        this.buildGraph();
         return this;
     }
 
     private getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardsize, (this.boardsize * 2) - 1);
+    }
+
+    private buildGraph(): RootBoundGame {
+        this.graph = this.getGraph();
+        return this;
     }
 
     private getOwner(cell: string): PlayerId|null {
@@ -128,7 +135,7 @@ export class RootBoundGame extends GameBase {
     }
 
     private getCellsInGroup(groupId: number): string[] {
-        return (this.getGraph().listCells() as string[]).filter(c => this.getGroupId(c) === groupId);
+        return (this.graph.listCells() as string[]).filter(c => this.getGroupId(c) === groupId);
     }
 
     private computeClaimedRegions(): ClaimedRegion[] {
@@ -138,9 +145,8 @@ export class RootBoundGame extends GameBase {
             return claimedRegions;
         }
 
-        const graph = this.getGraph();
         const exploredCells: string[] = [];
-        const emptyCells = (graph.listCells() as string[]).filter(c => !this.board.has(c));
+        const emptyCells = (this.graph.listCells() as string[]).filter(c => !this.board.has(c));
 
         while (exploredCells.length !== emptyCells.length) {
             const claimedRegion = [null, 0, [], []] as ClaimedRegion;
@@ -158,7 +164,7 @@ export class RootBoundGame extends GameBase {
                 for (const cell of currentWave) {
                     claimedRegion[1]++;
                     claimedRegion[3].push(cell);
-                    const neighbors = graph.neighbours(cell);
+                    const neighbors = this.graph.neighbours(cell);
                     for (const neighbor of neighbors) {
                         if (!this.board.has(neighbor)) {
                             if (!exploredCells.includes(neighbor)) {
@@ -193,7 +199,7 @@ export class RootBoundGame extends GameBase {
         const emptyNeighbors: string[] = [];
         const groupCells = this.getCellsInGroup(groupId);
         for (const cell of groupCells) {
-            const neighbors = this.getGraph().neighbours(cell);
+            const neighbors = this.graph.neighbours(cell);
             for (const neighbor of neighbors) {
                 if (!this.board.has(neighbor) && !emptyNeighbors.includes(neighbor))
                     emptyNeighbors.push(neighbor);
@@ -209,7 +215,7 @@ export class RootBoundGame extends GameBase {
 
         while (cellsToExplore.length > 0) {
             for (const cellToExplore of cellsToExplore) {
-                const neighbors = this.getGraph().neighbours(cellToExplore);
+                const neighbors = this.graph.neighbours(cellToExplore);
                 for (const neighbor of neighbors) {
                     if (!this.board.has(neighbor) && !exploredCells.includes(neighbor) && !nextWaveToExplore.includes(neighbor)) {
                         nextWaveToExplore.push(neighbor);
@@ -229,10 +235,9 @@ export class RootBoundGame extends GameBase {
     private isValidPlacement(player: PlayerId, cell: string): boolean {
         if (this.board.has(cell)) return false;
 
-        const graph = this.getGraph();
-        const neighbors = graph.neighbours(cell).filter(c => this.board.has(c) && this.getOwner(c) === player);
+        const neighbors = this.graph.neighbours(cell).filter(c => this.board.has(c) && this.getOwner(c) === player);
         for (const neighbor of neighbors) {
-            const neighborNeighbors = graph.neighbours(neighbor).filter(c => this.board.has(c) && this.getOwner(c) === player && neighbors.includes(c));
+            const neighborNeighbors = this.graph.neighbours(neighbor).filter(c => this.board.has(c) && this.getOwner(c) === player && neighbors.includes(c));
             if (neighborNeighbors.length > 0) return false;
         }
 
@@ -247,10 +252,9 @@ export class RootBoundGame extends GameBase {
         const boardClone = deepclone(this.board) as Map<string, CellContent>;
         boardClone.set(firstCell, [player, 10000]);
 
-        const graph = this.getGraph();
-        const neighbors = graph.neighbours(secondCell).filter(c => boardClone.has(c) && boardClone.get(c)![0] === player);
+        const neighbors = this.graph.neighbours(secondCell).filter(c => boardClone.has(c) && boardClone.get(c)![0] === player);
         for (const neighbor of neighbors) {
-            const neighborNeighbors = graph.neighbours(neighbor).filter(c => boardClone.has(c) && boardClone.get(c)![0] === player && neighbors.includes(c));
+            const neighborNeighbors = this.graph.neighbours(neighbor).filter(c => boardClone.has(c) && boardClone.get(c)![0] === player && neighbors.includes(c));
             if (neighborNeighbors.length > 0) return false;
         }
 
@@ -262,23 +266,22 @@ export class RootBoundGame extends GameBase {
             player = this.currplayer;
         }
 
-        const graph = this.getGraph();
-        if (!graph.neighbours(firstCell).includes(secondCell)) return false;
+        if (!this.graph.neighbours(firstCell).includes(secondCell)) return false;
 
-        const [firstCol, firstRow] = graph.algebraic2coords(firstCell);
+        const [firstCol, firstRow] = this.graph.algebraic2coords(firstCell);
         let dir: "NE"|"E"|"SE"|"SW"|"W"|"NW";
         for (const tempDir of HexTriGraph.directions) {
             // [col, row]
-            const tempCoords = graph.move(firstCol, firstRow, tempDir);
-            if (tempCoords && graph.coords2algebraic(tempCoords[0], tempCoords[1]) === secondCell) {
+            const tempCoords = this.graph.move(firstCol, firstRow, tempDir);
+            if (tempCoords && this.graph.coords2algebraic(tempCoords[0], tempCoords[1]) === secondCell) {
                 dir = tempDir;
             }
         }
 
-        const [secondCol, secondRow] = graph.algebraic2coords(secondCell);
-        const coords = graph.move(secondCol, secondRow, dir!);
+        const [secondCol, secondRow] = this.graph.algebraic2coords(secondCell);
+        const coords = this.graph.move(secondCol, secondRow, dir!);
         if (coords) {
-            const testCell = graph.coords2algebraic(coords[0], coords[1]);
+            const testCell = this.graph.coords2algebraic(coords[0], coords[1]);
             if (this.board.has(testCell) && this.getOwner(testCell) === player) return true;
         }
 
@@ -299,13 +302,12 @@ export class RootBoundGame extends GameBase {
             if (claimedRegion[0] !== 3) claimedCells.push(...claimedRegion[3]);
         }
 
-        const graph = this.getGraph();
-        const validFirstMoves = (graph.listCells() as string[]).filter(c => !claimedCells.includes(c) && this.isValidPlacement(player!, c));
+        const validFirstMoves = (this.graph.listCells() as string[]).filter(c => !claimedCells.includes(c) && this.isValidPlacement(player!, c));
         moves.push(...validFirstMoves);
 
         if (this.stack.length > 1) {
             for (const firstMove of validFirstMoves) {
-                const validSecondMoves = (graph.listCells() as string[]).filter(c => !claimedCells.includes(c) && this.isValidSecondPlacement(player!, firstMove, c));
+                const validSecondMoves = (this.graph.listCells() as string[]).filter(c => !claimedCells.includes(c) && this.isValidSecondPlacement(player!, firstMove, c));
                 for (const secondMove of validSecondMoves) {
                     if (!this.isRapidGrowthMove(firstMove, secondMove)) {
                         moves.push(firstMove+","+secondMove);
@@ -331,7 +333,7 @@ export class RootBoundGame extends GameBase {
         if (move.split(",").length === 2) return {move, message: ""} as IClickResult;
         try {
             let newMove = "";
-            const cell = this.getGraph().coords2algebraic(col, row);
+            const cell = this.graph.coords2algebraic(col, row);
             // If you click on an occupied cell, do nothing
             if (this.board.has(cell)) {
                 return {move, message: ""} as IClickResult;
@@ -377,18 +379,17 @@ export class RootBoundGame extends GameBase {
                 return result;
             }
 
-            const graph = this.getGraph();
             for (const cell of cells) {
                 try {
-                    if (cell !== "pass") graph.algebraic2coords(cell);
+                    if (cell !== "pass") this.graph.algebraic2coords(cell);
                 } catch (e) {
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result;
                 }
 
-                const neighbors = graph.neighbours(cell).filter(c => this.board.has(c) && this.getOwner(c) === this.currplayer);
+                const neighbors = this.graph.neighbours(cell).filter(c => this.board.has(c) && this.getOwner(c) === this.currplayer);
                 for (const neighbor of neighbors) {
-                    const neighborNeighbors = graph.neighbours(neighbor).filter(c => this.board.has(c) && this.getOwner(c) === this.currplayer && neighbors.includes(c));
+                    const neighborNeighbors = this.graph.neighbours(neighbor).filter(c => this.board.has(c) && this.getOwner(c) === this.currplayer && neighbors.includes(c));
                     if (neighborNeighbors.length > 0) {
                         result.message = i18next.t("apgames:validation.rootbound.TOO_MANY_NEIGHBORS");
                         return result;
@@ -396,13 +397,13 @@ export class RootBoundGame extends GameBase {
                 }
             }
 
-            if (cells.length === 2 && graph.neighbours(cells[0]).includes(cells[1])) {
+            if (cells.length === 2 && this.graph.neighbours(cells[0]).includes(cells[1])) {
                 const boardClone = deepclone(this.board) as Map<string, CellContent>;
                 boardClone.set(cells[0], [this.currplayer, 10000]);
 
-                const neighbors = graph.neighbours(cells[1]).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer);
+                const neighbors = this.graph.neighbours(cells[1]).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer);
                 for (const neighbor of neighbors) {
-                    const neighborNeighbors = graph.neighbours(neighbor).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer && neighbors.includes(c));
+                    const neighborNeighbors = this.graph.neighbours(neighbor).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer && neighbors.includes(c));
                     if (neighborNeighbors.length > 0) {
                         result.message = i18next.t("apgames:validation.rootbound.TOO_MANY_NEIGHBORS");
                         return result;
@@ -485,7 +486,7 @@ export class RootBoundGame extends GameBase {
                 // Get groups from neighbours
                 let groupId = this.lastgroupid;
                 const groupIds: number[] = [];
-                const neighbours = this.getGraph().neighbours(cell);
+                const neighbours = this.graph.neighbours(cell);
                 neighbours.forEach(neighbour => {
                     if (!this.board.has(neighbour)) return;
                     if (this.getOwner(neighbour) !== this.currplayer) return;
@@ -549,7 +550,7 @@ export class RootBoundGame extends GameBase {
         const deadGroups: number[] = [];
 
         const groupIds: number[] = [];
-        const cells = (this.getGraph().listCells() as string[]).filter(c => this.board.has(c));
+        const cells = (this.graph.listCells() as string[]).filter(c => this.board.has(c));
         for (const cell of cells) {
             if (this.getOwner(cell) === otherPlayer) {
                 const groupId = this.getGroupId(cell);
@@ -634,7 +635,7 @@ export class RootBoundGame extends GameBase {
             }
         }
 
-        const cells = this.getGraph().listCells(true);
+        const cells = this.graph.listCells(true);
         for (const row of cells) {
             const pieces: string[] = [];
             for (const cell of row) {
@@ -681,18 +682,17 @@ export class RootBoundGame extends GameBase {
         if (this.results.length > 0) {
             // @ts-ignore
             rep.annotations = [];
-            const graph = this.getGraph();
 
             // highlight last-placed piece
             // this has to happen after eog annotations to appear correctly
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const [x, y] = graph.algebraic2coords(move.where!);
+                    const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                 } else if (move.type === "capture") {
                     const targets: {row: number, col: number}[] = [];
                     for (const m of move.where!.split(",")) {
-                        const [x, y] = graph.algebraic2coords(m);
+                        const [x, y] = this.graph.algebraic2coords(m);
                         targets.push({row: y, col: x});
                     }
                     // @ts-ignore

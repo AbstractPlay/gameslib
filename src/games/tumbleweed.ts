@@ -625,7 +625,7 @@ export class TumbleweedGame extends GameBase {
 
         let points1: {row: number, col: number}[] = [];
         let points2: {row: number, col: number}[] = [];
-        if (showInfluence || this.gameover) {
+        if (showInfluence) {
             const points = this.influenceMarkers();
             points1 = points.get(1)!;
             points2 = points.get(2)!;

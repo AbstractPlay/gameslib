@@ -658,7 +658,7 @@ export class TaflGame extends GameBase {
         captures.push(...this.getCustodianCaptures(from, to, captured, initialFrom));
         captures.push(...this.getJumpCaptures(from, to, captured, initialFrom));
         captures.push(...this.getShieldWallCaptures(from, to, captured, initialFrom));
-        return captures;
+        return [...new Set(captures)];
     }
 
     private hasCaptures(from: string, to: string, captured: string[] = [], initialFrom?: string): boolean {
@@ -1012,11 +1012,13 @@ export class TaflGame extends GameBase {
                     this.results.push({type: "capture", where: capture, what: pcC,  how: "custodian"});
                 }
                 for (const capture of jumpCaptures) {
+                    if (!this.board.has(capture)) { continue; }
                     const [, pcC] = this.board.get(capture)!;
                     this.board.delete(capture);
                     this.results.push({type: "capture", where: capture, what: pcC, how: "jump"});
                 }
                 for (const capture of shieldWallCaptures) {
+                    if (!this.board.has(capture)) { continue; }
                     const [, pcC] = this.board.get(capture)!;
                     this.board.delete(capture);
                     this.results.push({type: "capture", where: capture, what: pcC, how: "shieldWall"});

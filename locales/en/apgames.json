@@ -495,7 +495,8 @@
         },
         "conhex": {
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece.",
-            "INVALID_VERTEX": "The vertex {{vertex}} does not exist on the board."
+            "INVALID_VERTEX": "The vertex {{vertex}} does not exist on the board.",
+            "OCCUPIED":"The vertex {{where}} is already occupied."
         },
         "courtesan": {
             "DISTANCE_ONE": "Pieces may only move one space at a time.",

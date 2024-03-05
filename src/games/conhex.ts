@@ -424,6 +424,11 @@ export class ConhexGame extends GameBase {
             result.message = i18next.t("apgames:validation.conhex.INVALID_VERTEX", {vertex: m});
             return result;
         }
+        if (this.boardVertex.has(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.conhex.OCCUPIED", {where: m});
+            return result;
+        }
         m = m.toLowerCase();
         result.valid = true;
         result.complete = 1;

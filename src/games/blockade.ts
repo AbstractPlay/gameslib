@@ -506,19 +506,20 @@ export class BlockadeGame extends GameBase {
         let playerLocs = this.playerLocs;
         if (!skipFirstCheck) {
             const moveSplit = first.split("-");
-            if (moveSplit.length === 1) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.blockade.MISSING_DASH", { move: first });
-                return result;
-            }
-            if (moveSplit[1] === "") { moveSplit.pop(); }
             for (const cell of moveSplit) {
+                if (cell === "") { continue; }
                 if (!this.validCell(cell)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.blockade.INVALID_CELL", { cell });
                     return result;
                 }
             }
+            if (moveSplit.length === 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blockade.MISSING_DASH", { move: first });
+                return result;
+            }
+            if (moveSplit[1] === "") { moveSplit.pop(); }
             const [from, to] = moveSplit;
             if (this.playerLocs[this.currplayer % 2].includes(from)) {
                 result.valid = false;
@@ -603,6 +604,17 @@ export class BlockadeGame extends GameBase {
                 result.message = i18next.t("apgames:validation.blockade.OCCUPIED_WALL", { wall: withoutDash });
                 return result;
             }
+            const [, , orientPartial] = this.splitWall(withoutDash);
+            if (orientPartial === "h" && this.hWalls[this.currplayer - 1] === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_HWALL");
+                return result;
+            }
+            if (orientPartial === "v" && this.vWalls[this.currplayer - 1] === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_VWALL");
+                return result;
+            }
             if (this.getCompletableWalls(withoutDash).length === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.blockade.NO_COMPLETEABLE_WALL", { wall: withoutDash });
@@ -622,23 +634,23 @@ export class BlockadeGame extends GameBase {
         const [, , orient] = this.splitWall(second);
         if (orient === "h" && this.hWalls[this.currplayer - 1] === 0) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INSUFFICIENT_HWALL");
+            result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_HWALL");
             return result;
         }
         if (orient === "v" && this.vWalls[this.currplayer - 1] === 0) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INSUFFICIENT_VWALL");
+            result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_VWALL");
             return result;
         }
         if (this.wallIntersects(second)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.blockade.OCCUPIED_WALL", { where: second });
+            result.message = i18next.t("apgames:validation.blockade.OCCUPIED_WALL", { wall: second });
             return result;
         }
         if (!playerLocs[this.currplayer - 1].some((cell) => this.winningSpaces[this.currplayer - 1].includes(cell)) &&
                 this.wallBlocks(second, playerLocs)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.blockade.BLOCKS_GOAL", { where: second });
+            result.message = i18next.t("apgames:validation.blockade.BLOCKS_GOAL", { wall: second });
             return result;
         }
         result.valid = true;
@@ -834,7 +846,7 @@ export class BlockadeGame extends GameBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            if (m !== "" && !partial && !this.moves().includes(m)) {
+            if (!partial && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }
@@ -963,24 +975,24 @@ export class BlockadeGame extends GameBase {
             const [x, y, orient] = this.splitWall(this.partialWall);
             if (orient === "h") {
                 // // Different colours for different orientations just make things confusing in digital form.
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFF", width: 8, shorten: 0.18 });
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 8, shorten: 0.18, opacity: 0.5 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 8, shorten: 0.18 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.18, opacity: 0.5 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFF", width: 6, shorten: 0.15 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15, opacity: 0.5 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFFF00", width: 6, shorten: 0.15, opacity: 0.5 });
             } else {
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: 3, width: 8, shorten: 0.18 });
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.18, opacity: 0.5 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.15, opacity: 0.5 });
             }
         }
         for (const wall of this.board) {
             const [x, y, orient] = this.splitWall(wall);
             if (orient === "h") {
                 // // Different colours for different orientations just make things confusing in digital form.
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFF", width: 8, shorten: 0.09 });
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 8, shorten: 0.09, opacity: 0.5 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 8, shorten: 0.09 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFF", width: 6, shorten: 0.075 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 6, shorten: 0.075, opacity: 0.5 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 6, shorten: 0.075 });
             } else {
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: 3, width: 8, shorten: 0.09 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: 3, width: 6, shorten: 0.075 });
             }
         }
 
@@ -990,7 +1002,7 @@ export class BlockadeGame extends GameBase {
                 style: "squares-beveled",
                 width: this.width,
                 height: this.height,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 markers,
             },
             options: ["clickable-edges"],
@@ -1018,9 +1030,9 @@ export class BlockadeGame extends GameBase {
                 if (move.type === "place") {
                     const [x, y, orient] = this.splitWall(move.where!);
                     if (orient === "h") {
-                        markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFFF00", width: 8, shorten: 0.09, opacity: 0.5 });
+                        markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFFF00", width: 6, shorten: 0.075, opacity: 0.5 });
                     } else {
-                        markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.09, opacity: 0.5 });
+                        markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: "#FFFF00", width: 6, shorten: 0.075, opacity: 0.5 });
                     }
                 }
                 if (move.type === "capture") {

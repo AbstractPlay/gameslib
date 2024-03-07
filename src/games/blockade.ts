@@ -964,24 +964,24 @@ export class BlockadeGame extends GameBase {
             const [x, y, orient] = this.splitWall(this.partialWall);
             if (orient === "h") {
                 // // Different colours for different orientations just make things confusing in digital form.
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFF", width: 8, shorten: 0.18 });
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 8, shorten: 0.18, opacity: 0.5 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 8, shorten: 0.18 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.18, opacity: 0.5 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFF", width: 6, shorten: 0.15 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15, opacity: 0.5 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFFF00", width: 6, shorten: 0.15, opacity: 0.5 });
             } else {
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: 3, width: 8, shorten: 0.18 });
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.18, opacity: 0.5 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.15, opacity: 0.5 });
             }
         }
         for (const wall of this.board) {
             const [x, y, orient] = this.splitWall(wall);
             if (orient === "h") {
                 // // Different colours for different orientations just make things confusing in digital form.
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFF", width: 8, shorten: 0.09 });
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 8, shorten: 0.09, opacity: 0.5 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 8, shorten: 0.09 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFF", width: 6, shorten: 0.075 });
+                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 6, shorten: 0.075, opacity: 0.5 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 6, shorten: 0.075 });
             } else {
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: 3, width: 8, shorten: 0.09 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: 3, width: 6, shorten: 0.075 });
             }
         }
 
@@ -991,7 +991,7 @@ export class BlockadeGame extends GameBase {
                 style: "squares-beveled",
                 width: this.width,
                 height: this.height,
-                strokeWeight: 2,
+                strokeWeight: 1,
                 markers,
             },
             options: ["clickable-edges"],
@@ -1019,9 +1019,9 @@ export class BlockadeGame extends GameBase {
                 if (move.type === "place") {
                     const [x, y, orient] = this.splitWall(move.where!);
                     if (orient === "h") {
-                        markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFFF00", width: 8, shorten: 0.09, opacity: 0.5 });
+                        markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFFF00", width: 6, shorten: 0.075, opacity: 0.5 });
                     } else {
-                        markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.09, opacity: 0.5 });
+                        markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: "#FFFF00", width: 6, shorten: 0.075, opacity: 0.5 });
                     }
                 }
                 if (move.type === "capture") {

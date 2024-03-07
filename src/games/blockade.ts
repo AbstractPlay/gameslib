@@ -507,19 +507,20 @@ export class BlockadeGame extends GameBase {
         let playerLocs = this.playerLocs;
         if (!skipFirstCheck) {
             const moveSplit = first.split("-");
-            if (moveSplit.length === 1) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.blockade.MISSING_DASH", { move: first });
-                return result;
-            }
-            if (moveSplit[1] === "") { moveSplit.pop(); }
             for (const cell of moveSplit) {
+                if (cell === "") { continue; }
                 if (!this.validCell(cell)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.blockade.INVALID_CELL", { cell });
                     return result;
                 }
             }
+            if (moveSplit.length === 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blockade.MISSING_DASH", { move: first });
+                return result;
+            }
+            if (moveSplit[1] === "") { moveSplit.pop(); }
             const [from, to] = moveSplit;
             if (this.playerLocs[this.currplayer % 2].includes(from)) {
                 result.valid = false;
@@ -604,6 +605,17 @@ export class BlockadeGame extends GameBase {
                 result.message = i18next.t("apgames:validation.blockade.OCCUPIED_WALL", { wall: withoutDash });
                 return result;
             }
+            const [, , orientPartial] = this.splitWall(withoutDash);
+            if (orientPartial === "h" && this.hWalls[this.currplayer - 1] === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_HWALL");
+                return result;
+            }
+            if (orientPartial === "v" && this.vWalls[this.currplayer - 1] === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_VWALL");
+                return result;
+            }
             if (this.getCompletableWalls(withoutDash).length === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.blockade.NO_COMPLETEABLE_WALL", { wall: withoutDash });
@@ -623,23 +635,23 @@ export class BlockadeGame extends GameBase {
         const [, , orient] = this.splitWall(second);
         if (orient === "h" && this.hWalls[this.currplayer - 1] === 0) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INSUFFICIENT_HWALL");
+            result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_HWALL");
             return result;
         }
         if (orient === "v" && this.vWalls[this.currplayer - 1] === 0) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INSUFFICIENT_VWALL");
+            result.message = i18next.t("apgames:validation.blockade.INSUFFICIENT_VWALL");
             return result;
         }
         if (this.wallIntersects(second)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.blockade.OCCUPIED_WALL", { where: second });
+            result.message = i18next.t("apgames:validation.blockade.OCCUPIED_WALL", { wall: second });
             return result;
         }
         if (!playerLocs[this.currplayer - 1].some((cell) => this.winningSpaces[this.currplayer - 1].includes(cell)) &&
                 this.wallBlocks(second, playerLocs)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.blockade.BLOCKS_GOAL", { where: second });
+            result.message = i18next.t("apgames:validation.blockade.BLOCKS_GOAL", { wall: second });
             return result;
         }
         result.valid = true;

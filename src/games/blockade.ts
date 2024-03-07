@@ -418,7 +418,6 @@ export class BlockadeGame extends GameBase {
                 } else {
                     result.move = "";
                 }
-                result.canrender = true;
             } else {
                 result.move = newmove;
             }

@@ -1055,8 +1055,8 @@ export class BlockadeGame extends GameBase {
 
     public getPlayerStash(player: number): IStashEntry[] | undefined {
         return [
-            {count: this.hWalls[player - 1], glyph: { name: "hex-flat", player: 3 }, movePart: ""},
-            {count: this.vWalls[player - 1], glyph: { name: "hex-pointy", player: 3 }, movePart: ""},
+            {count: this.hWalls[player - 1], glyph: { name: "hline", player: 3 }, movePart: ""},
+            {count: this.vWalls[player - 1], glyph: { name: "vline", player: 3 }, movePart: ""},
         ];
     }
 

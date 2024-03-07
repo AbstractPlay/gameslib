@@ -1270,15 +1270,15 @@
         "blockade": {
             "wall-placement": {
                 "name": "mandatory wall",
-                "description": "You must place a wall after moving your piece if you have some left."
+                "description": "You must place a wall after moving your piece if you have any in your stash."
             },
             "goal": {
                 "name": "opponent's starting space",
-                "description": "You win by moving one of your pieces to your opponent's starting space."
+                "description": "You win by moving one of your pieces to a starting space of one of your opponent's pieces."
             },
             "step-count": {
                 "name": "double-step",
-                "description": "You may move two spaces orthogonally, unless you are adjacent to a goal space, in which case you may move one space. Any opponent piece on the goal will be captured on the winning move."
+                "description": "Pieces move two spaces orthogonally or one space diagonally, unless they are adjacent to a goal space, in which case they may move one space orthogonally to the goal. Any opponent piece on the goal will be captured on the winning move."
             }
         },
         "blooms": {
@@ -1524,7 +1524,7 @@
         "blockade": {
             "optional-wall": {
                 "name": "Optional wall",
-                "description": "After making a move for one of your pieces, placement of the wall is optional."
+                "description": "After making a move with one of your pieces, the placement of the wall is optional."
             },
             "exclusive-wall": {
                 "name": "Exclusive wall",
@@ -1532,11 +1532,11 @@
             },
             "back-rank": {
                 "name": "Back rank goal",
-                "description": "You win by moving one of your pieces to your opponent's back rank."
+                "description": "You win by moving one of your pieces to the opponent's back rank."
             },
             "single-step": {
                 "name": "Single step",
-                "description": "Pieces move one step orthogonally. If there is an opponent's piece in the way, you may jump over it unless it is the goal space, in which case you may capture it. In the rare case where another opponent's piece is behind the piece to be jumped, that piece is captured."
+                "description": "Pieces move one step orthogonally. If there is an opponent's piece in the way, they may jump over it unless it is the on the goal space, in which case it would just land on the goal, capturing the opponent's piece. In the unlikely event where another opponent's piece is behind the piece to be jumped, that piece is captured."
             }
         },
         "blooms": {

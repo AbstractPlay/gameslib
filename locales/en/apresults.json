@@ -22,6 +22,7 @@
     "CAPTURE": {
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
         "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
+        "blockade": "{{player}} captured a blocking piece at {{where}}.",
         "blooms": "{{player}} captured a {{what}} group of size {{count}}.",
         "boom": "{{player}} destroyed a piece at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
@@ -147,6 +148,7 @@
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "armadas": "{{player}} moved their ship named {{name}}.",
         "bao": "Initial direction of movement: {{direction}}.",
+        "blockade": "{{player}} moved a piece from {{from}} to {{to}}.",
         "byte": {
             "full": "{{player}} moved a full stack from {{from}} to {{to}}.",
             "partial_one": "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
@@ -199,6 +201,8 @@
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
         "armadas_3": "{{player}} placed a large ship and named it {{name}}.",
+        "blockade_h": "{{player}} placed a horizontal fence at {{where}}.",
+        "blockade_v": "{{player}} placed a vertical fence at {{where}}.",
         "blooms": "{{player}} placed a {{what}} piece at {{where}}.",
         "cannon": "{{player}} placed their town at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",

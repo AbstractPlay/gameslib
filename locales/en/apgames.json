@@ -13,6 +13,7 @@
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "binar": "An \"in-a-row\" game where the rows (and possibly columns) are treated as binary numbers. Create a line of four \"1\"s on your turn to win.",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
+        "blockade": "Blockade (also known as Cul-de-sac) is a 'beat the barrier' game where you get one of your pawns to a starting space of your opponent. Players place 2-wide walls to block each other.",
         "blooms": "Each player owns 2 colours of stones. Players take turns placing one or two stones each turn (if you place two, they must be different colours), then capture all fenced enemy blooms. The first player to capture a certain number of stones wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
@@ -378,6 +379,26 @@
             "NOPIECE": "You do not have a piece of size {{size}} to place.",
             "PARTIAL": "Provide the destination.",
             "SIZEFIRST": "First provide the size of the piece to place. You can click on your stash."
+        },
+        "blockade": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move, then place a wall if you have any.",
+            "INITIAL_INSTRUCTIONS_OPTIONAL": "Select a piece to move, then optionally place a wall if you have any.",
+            "INITIAL_INSTRUCTIONS_EXCLUSIVE": "Select a piece to move or place a wall if you have any.",
+            "EXCLUSIVE": "You may only move a piece or place a wall, not both.",
+            "MISSING_DASH": "The partial move '{{move}}' is missing a dash.",
+            "SELECT_TO": "Select a destination to move to.",
+            "NO_VALID_MOVES": "The piece at {{where}} has no valid moves to make.",
+            "INVALID_TO": "You may not move the piece from {{from}} to {{to}}.",
+            "INVALID_CELL": "The space {{cell}} is not valid.",
+            "NO_WALL_OPTIONAL": "Place a wall if you wish, otherwise you may complete the move.",
+            "NO_WALL": "You must place a wall",
+            "INVALID_WALL": "The wall {{wall}} is not valid.",
+            "OCCUPIED_WALL": "Unable to place a wall at {{wall}} because that space is already occupied.",
+            "NO_COMPLETEABLE_WALL": "Partial wall at {{wall}} is not valid because there is no completeable wall.",
+            "SELECT_SECOND_WALL": "There are two possible ways to complete the wall from {{wall}}. Select the side you wish to complete.",
+            "INSUFFICIENT_HWALL": "You have run out of horizontal walls.",
+            "INSUFFICIENT_VWALL": "You have run out of vertical walls.",
+            "BLOCKS_GOAL": "Cannot place wall at {{wall}} because it blocks the goal(s) for one of the pieces on the board."
         },
         "blooms": {
             "INITIAL_INSTRUCTIONS": "Place 1 or 2 pieces on the board. If you place 2 pieces, they must be of different colours.",
@@ -1246,6 +1267,20 @@
                 "name": "board (4x4)"
             }
         },
+        "blockade": {
+            "wall-placement": {
+                "name": "mandatory wall",
+                "description": "You must place a wall after moving your piece if you have any in your stash."
+            },
+            "goal": {
+                "name": "opponent's starting space",
+                "description": "You win by moving one of your pieces to a starting space of one of your opponent's pieces."
+            },
+            "step-count": {
+                "name": "double-step",
+                "description": "Pieces move two spaces orthogonally or one space diagonally, unless they are adjacent to a goal space, in which case they may move one space orthogonally to the goal. Any opponent piece on the goal will be captured on the winning move."
+            }
+        },
         "blooms": {
             "board": {
                 "name": "board (base 6)"
@@ -1484,6 +1519,24 @@
             },
             "size-6": {
                 "name": "6x6 board"
+            }
+        },
+        "blockade": {
+            "optional-wall": {
+                "name": "Optional wall",
+                "description": "After making a move with one of your pieces, the placement of the wall is optional."
+            },
+            "exclusive-wall": {
+                "name": "Exclusive wall",
+                "description": "On your turn, you may either move a piece or place a wall, but not both."
+            },
+            "back-rank": {
+                "name": "Back rank goal",
+                "description": "You win by moving one of your pieces to the opponent's back rank."
+            },
+            "single-step": {
+                "name": "Single step",
+                "description": "Pieces move one step orthogonally. If there is an opponent's piece in the way, they may jump over it unless it is the on the goal space, in which case it would just land on the goal, capturing the opponent's piece. In the unlikely event where another opponent's piece is behind the piece to be jumped, that piece is captured."
             }
         },
         "blooms": {

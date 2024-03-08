@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -46,7 +46,7 @@ export class DameoGame extends GameBase {
         variants: [
             { uid: "size-10", group: "board" }
         ],
-        flags: ["multistep", "perspective", "automove"]
+        flags: ["multistep", "perspective", "automove", "limited-pieces"]
     };
 
     public static clone(obj: DameoGame): DameoGame {
@@ -752,6 +752,16 @@ export class DameoGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "winners", "eog"]);
+    }
+
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(p => p[0] === player).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
     }
 
     public clone(): DameoGame {

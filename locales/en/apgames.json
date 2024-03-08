@@ -2065,6 +2065,12 @@
                 "name": "Pips"
             }
         },
+        "blockade": {
+            "differentiated-walls": {
+                "description": "Display walls placed by each player in different colours.",
+                "name": "Differentated walls"
+            }
+        },
         "blooms": {
             "hide-threatened": {
                 "description": "Don't show threatened stones.",

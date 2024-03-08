@@ -10,7 +10,7 @@ const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
-    board: Set<string>;
+    board: Map<string, playerid>;
     playerLocs: string[][];
     lastmove?: string;
     hWalls: [number, number];
@@ -44,11 +44,12 @@ export class BlockadeGame extends GameBase {
             { uid: "single-step", group: "step-count" }
         ],
         flags: ["experimental", "multistep", "perspective", "player-stashes"],
+        displays: [{uid: "differentiated-walls"}],
     };
 
     public numplayers = 2;
     public currplayer!: playerid;
-    public board!: Set<string>;
+    public board!: Map<string, playerid>;
     public playerLocs!: string[][];
     public gameover = false;
     public winner: playerid[] = [];
@@ -75,7 +76,7 @@ export class BlockadeGame extends GameBase {
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Set(),
+                board: new Map(),
                 playerLocs: this.getStartingPlayerLocs(),
                 hWalls: [9, 9],
                 vWalls: [9, 9],
@@ -112,7 +113,7 @@ export class BlockadeGame extends GameBase {
         }
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        this.board = new Set(state.board);
+        this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.playerLocs = [[...state.playerLocs[0]], [...state.playerLocs[1]]];
         this.hWalls = [...state.hWalls];
@@ -858,7 +859,7 @@ export class BlockadeGame extends GameBase {
             if (this.endsWithHV(move)) {
                 const [, , orient] = this.splitWall(move);
                 this.results.push({ type: "place", where: move, what: orient });
-                this.board.add(move);
+                this.board.set(move, this.currplayer);
                 if (orient === "h") {
                     this.hWalls[this.currplayer - 1]--;
                 } else {
@@ -931,14 +932,24 @@ export class BlockadeGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Set(this.board),
+            board: new Map(this.board),
             playerLocs: [[...this.playerLocs[0]], [...this.playerLocs[1]]],
             hWalls: [...this.hWalls],
             vWalls: [...this.vWalls],
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let differentiatedWalls = false;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "differentiated-walls") {
+                differentiatedWalls = true;
+            }
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.height; row++) {
@@ -973,26 +984,22 @@ export class BlockadeGame extends GameBase {
         }
         if (this.partialWall !== undefined) {
             const [x, y, orient] = this.splitWall(this.partialWall);
+            const colour: playerid = differentiatedWalls ? this.currplayer : 3 as playerid;
             if (orient === "h") {
-                // // Different colours for different orientations just make things confusing in digital form.
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFF", width: 6, shorten: 0.15 });
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15, opacity: 0.5 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour, width: 6, shorten: 0.15 });
                 markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 1}], colour: "#FFFF00", width: 6, shorten: 0.15, opacity: 0.5 });
             } else {
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: 3, width: 6, shorten: 0.15 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour, width: 6, shorten: 0.15 });
                 markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y, col: x + 1}], colour: "#FFFF00", width: 8, shorten: 0.15, opacity: 0.5 });
             }
         }
-        for (const wall of this.board) {
+        for (const [wall, player] of this.board.entries()) {
             const [x, y, orient] = this.splitWall(wall);
+            const colour: playerid = differentiatedWalls ? player : 3 as playerid;
             if (orient === "h") {
-                // // Different colours for different orientations just make things confusing in digital form.
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: "#FFF", width: 6, shorten: 0.075 });
-                // markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 6, shorten: 0.075, opacity: 0.5 });
-                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour: 3, width: 6, shorten: 0.075 });
+                markers.push({ type: "line", points: [{row: y, col: x}, {row: y, col: x + 2}], colour, width: 6, shorten: 0.075 });
             } else {
-                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour: 3, width: 6, shorten: 0.075 });
+                markers.push({ type: "line", points: [{row: y + 1, col: x + 1}, {row: y - 1, col: x + 1}], colour, width: 6, shorten: 0.075 });
             }
         }
 

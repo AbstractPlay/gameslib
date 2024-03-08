@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, Directions } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -69,7 +69,7 @@ export class TaflGame extends GameBase {
             { uid: "seabattle-11x11-tcross-w", group: "variant" },
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
-        flags: ["multistep", "custom-colours", "check"],
+        flags: ["multistep", "custom-colours", "check", "limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -743,6 +743,16 @@ export class TaflGame extends GameBase {
             }
         }
         return tos;
+    }
+
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(([p,]) => p === player).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
     }
 
     public randomMove(): string {

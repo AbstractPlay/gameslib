@@ -746,7 +746,7 @@ export class TaflGame extends GameBase {
     }
 
     public getPlayerPieces(player: number): number {
-        return [...this.board.values()].filter(([p,]) => p === player).length;
+        return [...this.board.values()].filter(([p, pc]) => p === player && pc !== "K").length;
     }
 
     public getPlayersScores(): IScores[] {

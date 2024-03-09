@@ -1426,6 +1426,11 @@ export class TaflGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
+        status += "**Pieces On Board:**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
+        }
+
         return status;
     }
 

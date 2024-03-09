@@ -750,6 +750,10 @@ export class ReversiGame extends GameBase {
                 node.push(i18next.t("apresults:CAPTURE.reversi", {count: r.count}));
                 resolved = true;
                 break;
+            case "pass":
+                node.push(i18next.t("apresults:PASS.forced", {player}));
+                resolved = true;
+                break;
         }
         return resolved;
     }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -43,7 +43,7 @@ export class FurlGame extends GameBase {
                 urls: ["http://www.mrraow.com"]
             }
         ],
-        flags: ["multistep", "check", "perspective", "aiai"],
+        flags: ["multistep", "check", "perspective", "aiai", "limited-pieces"],
         variants: [
             // { uid: "size-5", group: "board" },
         ],
@@ -449,7 +449,6 @@ export class FurlGame extends GameBase {
                 this.results.push({type: "capture", count: size, where: to});
             }
         }
-        this.board.set(m, [this.currplayer, 1]);
 
         // update currplayer
         this.lastmove = m;
@@ -649,11 +648,26 @@ export class FurlGame extends GameBase {
         return resolved;
     }
 
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(v => v[0] === player).map(v => v[1]).reduce((a, b) => a + b, 0);
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
+    }
+
     public status(): string {
         let status = super.status();
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        status += "**Pieces On Board:**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
         }
 
         return status;

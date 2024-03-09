@@ -672,31 +672,43 @@ export class BlockadeGame extends GameBase {
 
     private wallBlocks(wall: string, playerLocs: string[][]): boolean {
         // Check if a wall placement does not block any player's path to any goal.
+        // This is very hacky because it was retrofitted to allow back-rank wall block check.
+        // Basically, in the normal variant, both pieces must have a path to both goals, so we check
+        // that from a piece's location, there is a path to both goals AND the other piece of that colour.
+        // For the back-rank variant, there needs to be a path to any back-rank square.
+        // This means that it's possible to cut off the player's pieces from each other as long as
+        // both pieces individually have a path to one of the back-rank squares.
         outer:
         for (const [i, locs] of playerLocs.entries()) {
-            const start = locs[0];
-            const mandatory: string[] = locs.slice(1);
-            const oneOf: string[] = [];
-            if (this.variants.includes("back-rank")) {
-                oneOf.push(...this.winningSpaces[i]);
-            } else {
-                mandatory.push(...this.winningSpaces[i]);
-            }
-            let oneOfSatisfied = oneOf.length === 0 ? true : false;
-            const seen: Set<string> = new Set();
-            const todo: string[] = [start];
-            while (todo.length > 0) {
-                const cell = todo.pop()!;
-                if (seen.has(cell)) { continue; }
-                seen.add(cell);
-                for (const to of this.getTos(cell, i + 1 as playerid, wall, false)) {
-                    if (mandatory.includes(to)) { mandatory.splice(mandatory.indexOf(to), 1); }
-                    if (!oneOfSatisfied && oneOf.includes(to)) { oneOfSatisfied = true; }
-                    if (mandatory.length === 0 && oneOfSatisfied) { continue outer; }
-                    if (!seen.has(to)) { todo.push(to); }
+            const startPoints: string[] = this.variants.includes("back-rank") ? locs : [locs[0]]
+            inner:
+            for (const [j, startPoint] of startPoints.entries()) {
+                const mandatory: string[] = this.variants.includes("back-rank") ? [] : locs.slice(1);
+                const oneOf: string[] = [];
+                if (this.variants.includes("back-rank")) {
+                    oneOf.push(...this.winningSpaces[i]);
+                } else {
+                    mandatory.push(...this.winningSpaces[i]);
                 }
+                let oneOfSatisfied = oneOf.length === 0 ? true : false;
+                const seen: Set<string> = new Set();
+                const todo: string[] = [startPoint];
+                while (todo.length > 0) {
+                    const cell = todo.pop()!;
+                    if (seen.has(cell)) { continue; }
+                    seen.add(cell);
+                    for (const to of this.getTos(cell, i + 1 as playerid, wall, false)) {
+                        if (mandatory.includes(to)) { mandatory.splice(mandatory.indexOf(to), 1); }
+                        if (!oneOfSatisfied && oneOf.includes(to)) { oneOfSatisfied = true; }
+                        if (mandatory.length === 0 && oneOfSatisfied) {
+                            if (j === startPoints.length - 1) { continue outer; }
+                            continue inner;
+                        }
+                        if (!seen.has(to)) { todo.push(to); }
+                    }
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }

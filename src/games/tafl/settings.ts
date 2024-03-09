@@ -89,7 +89,7 @@ export class TaflSettings {
                     ],
                     escapeType: "corner",
                     pieces: { king: { strength: "strong", jump: "jump-enemy-taflmen-to-from-restricted", berserkEscape: true } },
-                    throne: { emptyAnvilTo: "all-piercing"},
+                    throne: { emptyAnvilTo: "all" },
                     corner: { type: "corner", anvilTo: "men-only-piercing" },
                     berserkCapture: true,
                     encirclementWin: false,

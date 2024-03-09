@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -41,7 +41,7 @@ export class HensGame extends GameBase {
         variants: [
             { uid: "size-10" }
         ],
-        flags: ["multistep", "perspective"]
+        flags: ["multistep", "perspective", "limited-pieces"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -748,11 +748,26 @@ export class HensGame extends GameBase {
         return rep;
     }
 
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(([owner,]) => owner === player).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
+    }
+
     public status(): string {
         let status = super.status();
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        status += "**Pieces On Board:**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
         }
 
         return status;

@@ -1273,8 +1273,8 @@
                 "description": "You must place a wall after moving your piece if you have any in your stash."
             },
             "goal": {
-                "name": "opponent's starting space",
-                "description": "You win by moving one of your pieces to a starting space of one of your opponent's pieces."
+                "name": "opponent's starting space goal",
+                "description": "You win by moving one of your pieces to a starting space of one of your opponent's pieces. Every piece must be able to reach EVERY goal square."
             },
             "step-count": {
                 "name": "double-step",
@@ -1531,11 +1531,11 @@
                 "description": "On your turn, you may either move a piece or place a wall, but not both."
             },
             "back-rank": {
-                "name": "Back rank goal",
-                "description": "You win by moving one of your pieces to the opponent's back rank."
+                "name": "Opponent's back-rank goal",
+                "description": "You win by moving one of your pieces to the opponent's back rank. Every piece must be able to reach at least one goal square."
             },
             "single-step": {
-                "name": "Single step",
+                "name": "Single-step",
                 "description": "Pieces move one step orthogonally. If there is an opponent's piece in the way, they may jump over it unless it is the on the goal space, in which case it would just land on the goal, capturing the opponent's piece. In the unlikely event where another opponent's piece is behind the piece to be jumped, that piece is captured."
             }
         },
@@ -2063,6 +2063,12 @@
             "pips": {
                 "description": "Display the stones as pips instead of as numerals.",
                 "name": "Pips"
+            }
+        },
+        "blockade": {
+            "differentiated-walls": {
+                "description": "Display walls placed by each player in different colours.",
+                "name": "Differentated walls"
             }
         },
         "blooms": {

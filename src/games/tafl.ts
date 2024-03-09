@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, Directions } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -69,7 +69,7 @@ export class TaflGame extends GameBase {
             { uid: "seabattle-11x11-tcross-w", group: "variant" },
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
-        flags: ["multistep", "custom-colours", "check"],
+        flags: ["multistep", "custom-colours", "check", "limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -745,6 +745,16 @@ export class TaflGame extends GameBase {
         return tos;
     }
 
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(([p, pc]) => p === player && pc !== "K").length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
+    }
+
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
@@ -1414,6 +1424,11 @@ export class TaflGame extends GameBase {
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        status += "**Pieces On Board:**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
         }
 
         return status;

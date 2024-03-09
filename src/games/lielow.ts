@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -47,7 +47,7 @@ export class LielowGame extends GameBase {
                 name: "Alek Erickson",
             },
         ],
-        flags: ["multistep", "perspective", "aiai"]
+        flags: ["multistep", "perspective", "aiai", "limited-pieces"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -577,7 +577,7 @@ export class LielowGame extends GameBase {
                 width: this.boardSize,
                 height: this.boardSize,
                 buffer: {
-                    width: 0.5,
+                    width: 0.2,
                     pattern: "slant",
                     show: ["N", "E", "S", "W"],
                 },
@@ -691,11 +691,26 @@ export class LielowGame extends GameBase {
         return result;
     }
 
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(v => v[0] === player).map(v => v[1]).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
+    }
+
     public status(): string {
         let status = super.status();
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        status += "**Pieces On Board:**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
         }
 
         return status;

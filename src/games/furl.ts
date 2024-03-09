@@ -32,7 +32,8 @@ export class FurlGame extends GameBase {
         name: "Furl",
         uid: "furl",
         playercounts: [2],
-        version: "20231229",
+        // version: "20231229",
+        version: "20240309",
         // i18next.t("apgames:descriptions.furl")
         description: "apgames:descriptions.furl",
         urls: ["https://boardgamegeek.com/boardgame/325422/furl"],
@@ -653,6 +654,7 @@ export class FurlGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
+        if (this.stack[0]._version === "20231229") { return []; }
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]

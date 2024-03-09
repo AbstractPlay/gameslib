@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -39,7 +39,7 @@ export class MonkeyQueenGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"]
             },
         ],
-        flags: ["pie","perspective", "check"]
+        flags: ["pie", "perspective", "check", "limited-pieces"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -583,6 +583,31 @@ export class MonkeyQueenGame extends GameBase {
             }
         }
         return checked;
+    }
+
+    public getPlayerPieces(player: number): number {
+        return [...this.board.values()].filter(e => e[0] === player).map(e => e[1]).reduce((a,b) => a + b, 0);
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+        ]
+    }
+
+    public status(): string {
+        let status = super.status();
+
+        if (this.variants !== undefined) {
+            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        status += "**Pieces On Board:**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${n}: ${this.getPlayerPieces(n)}\n\n`;
+        }
+
+        return status;
     }
 
     public clone(): MonkeyQueenGame {

@@ -671,6 +671,9 @@ export class LielowGame extends GameBase {
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            case "gameabandoned":
+                                node.push(i18next.t("apresults:ABANDONED"));
+                                break;
                             case "winners":
                                 const names: string[] = [];
                                 for (const w of r.players) {
@@ -680,7 +683,10 @@ export class LielowGame extends GameBase {
                                         names.push(`Player ${w}`);
                                     }
                                 }
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                if (r.players.length === 0)
+                                    node.push(i18next.t("apresults:WINNERSNONE"));
+                                else
+                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
                             break;
                         }
                     }

@@ -650,11 +650,15 @@ export class FurlGame extends GameBase {
     }
 
     public getPlayerPieces(player: number): number {
+        if (this.stack[0]._version === "20231229") {
+            // Only filter for values where the length of the key is less than 4.
+            // This is because in this version, there are some errorneous keys that can't be removed now.
+            return [...this.board.entries()].filter(v => v[0].length < 4 && v[1][0] === player).map(v => v[1][1]).reduce((a, b) => a + b, 0);
+        }
         return [...this.board.values()].filter(v => v[0] === player).map(v => v[1]).reduce((a, b) => a + b, 0);
     }
 
     public getPlayersScores(): IScores[] {
-        if (this.stack[0]._version === "20231229") { return []; }
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]

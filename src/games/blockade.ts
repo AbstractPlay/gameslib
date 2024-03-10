@@ -43,7 +43,7 @@ export class BlockadeGame extends GameBase {
             { uid: "back-rank", group: "goal" },
             { uid: "single-step", group: "step-count" }
         ],
-        flags: ["experimental", "multistep", "perspective", "player-stashes"],
+        flags: ["multistep", "perspective", "player-stashes"],
         displays: [{uid: "differentiated-walls"}],
     };
 

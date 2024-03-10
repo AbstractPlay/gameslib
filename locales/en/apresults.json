@@ -1,4 +1,5 @@
 {
+    "ABANDONED": "The game was abandoned.",
     "ADD": {
         "add_one": "{{player}} added 1 piece to {{where}}.",
         "add_other": "{{player}} added {{count}} pieces to {{where}}.",
@@ -282,5 +283,6 @@
         "furl": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}."
     },
     "WINNERS_one": "The following player won: {{winners}}.",
-    "WINNERS_other": "The following players won: {{winners}}."
+    "WINNERS_other": "The following players won: {{winners}}.",
+    "WINNERSNONE": "There were no winners."
 }

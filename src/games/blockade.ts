@@ -249,7 +249,8 @@ export class BlockadeGame extends GameBase {
         // For games with exterior walls (like Dots and Boxes), we use the south and west edges.
         const orientation = side === "S" || side === "N" ? "h" : "v";
         const rowLabel = side === "S" ? this.height - row - 1 : this.height - row;
-        const colLabel = side === "W" ? "z" : columnLabels[col];
+        const colNumber = side === "W" ? col - 1 : col;
+        const colLabel = colNumber < 0 ? "z" : columnLabels[colNumber];
         return colLabel + rowLabel.toString() + orientation;
     }
 

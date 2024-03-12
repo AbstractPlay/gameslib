@@ -139,16 +139,16 @@ export class IqishiqiGame extends GameBase {
             player = this.currplayer;
         }
         const moves: string[] = [];
-        for (const cell of this.graph.listCells(false)) {
-            if (this.board.has(cell as string)) {
+        for (const cell of this.graph.listCells(false) as string[]) {
+            if (this.board.has(cell)) {
                 continue;
             }
-            const group = this.getGroup(cell as string);
-            const unblockedBearings = this.getBearingsFromPiecesInGroup(group).filter(b => this.checkBlocked(b, group.size));
+            const group = this.getGroup(cell);
+            const unblockedBearings = this.getBearingsFromPiecesInGroup(group).filter(b => this.checkBlocked(b, group.size, cell));
             for (const direction of unblockedBearings) {
                 const toLoc = this.moveHex(...this.graph.algebraic2coords(this.ball), direction, group.size);
                 if (toLoc !== undefined) {
-                    moves.push(`${cell as string}/${this.graph.coords2algebraic(...toLoc)}`);
+                    moves.push(`${cell}/${this.graph.coords2algebraic(...toLoc)}`);
                 }
             }
         }
@@ -173,7 +173,7 @@ export class IqishiqiGame extends GameBase {
             } else {
                 if (move.length === 0) {
                     const group = this.getGroup(cell);
-                    const bearingsFromPiecesInGroups = this.getBearingsFromPiecesInGroup(group).filter(b => this.checkBlocked(b, group.size));
+                    const bearingsFromPiecesInGroups = this.getBearingsFromPiecesInGroup(group).filter(b => this.checkBlocked(b, group.size, cell));
                     if (bearingsFromPiecesInGroups.length !== 1) {
                         newmove = `${cell}`
                     } else {
@@ -251,7 +251,7 @@ export class IqishiqiGame extends GameBase {
             return result;
         }
         // check if blocked
-        const unblockedBearings = bearingsFromPiecesInGroups.filter(b => this.checkBlocked(b, group.size));
+        const unblockedBearings = bearingsFromPiecesInGroups.filter(b => this.checkBlocked(b, group.size, place));
         if (unblockedBearings.length === 0) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.iqishiqi.BLOCKED", {place, spaces: group.size});
@@ -309,16 +309,18 @@ export class IqishiqiGame extends GameBase {
         return undefined;
     }
 
-    private checkBlocked(direction: directions, step: number): boolean {
+    private checkBlocked(direction: directions, step: number, place: string): boolean {
         // Check if the path of ball is blocked by white stones or edge
         // in the direction of `direction` for `step` steps.
+        // Returns false if blocked, true if not blocked.
         // Use with `getBearingsFromPiecesInGroup` as filter for valid moves.
+        // `place` is the most recently placed stone.
         const ray = this.graph.ray(...this.graph.algebraic2coords(this.ball), direction);
         if (ray.length < step) { return false; }
         let countDown = step;
         for (const cell of ray.map(c => this.graph.coords2algebraic(...c))) {
             if (countDown === 0) { break; }
-            if (this.board.has(cell)) {
+            if (this.board.has(cell) || cell === place) {
                 return false;
             }
             countDown -= 1;
@@ -521,7 +523,7 @@ export class IqishiqiGame extends GameBase {
             const move = this.results[0]
             if (move.type === "place") {
                 const group = this.getGroup(move.where!);
-                const bearingsFromPiecesInGroups = this.getBearingsFromPiecesInGroup(group).filter(b => this.checkBlocked(b, group.size));
+                const bearingsFromPiecesInGroups = this.getBearingsFromPiecesInGroup(group).filter(b => this.checkBlocked(b, group.size, move.where!));
                 const ballCoords = this.graph.algebraic2coords(this.ball);
                 for (const direction of bearingsFromPiecesInGroups) {
                     const toLoc = this.moveHex(...ballCoords, direction, group.size);

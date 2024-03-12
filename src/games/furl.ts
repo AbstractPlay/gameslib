@@ -184,11 +184,25 @@ export class FurlGame extends GameBase {
             } else {
                 const [, size] = this.board.get(move)!;
                 if (size === 1) {
+                    if (this.getFurls(move).includes(cell)) {
+                        newmove = `${move}<${cell}`;
+                    } else if (this.board.has(cell) && this.board.get(cell)![0] === this.currplayer) {
+                        newmove = cell;
+                    } else {
+                        // Let validation deal with it.
                     newmove = `${move}<${cell}`;
+                    }
                 } else {
+                    if (this.getUnfurls(move).includes(cell)) {
                     if (this.board.has(cell)) {
                         newmove = `${move}x${cell}`;
+                        } else {
+                            newmove = `${move}>${cell}`;
+                        }
+                    } else if (this.board.has(cell) && this.board.get(cell)![0] === this.currplayer) {
+                        newmove = cell;
                     } else {
+                        // Let validation deal with it.
                         newmove = `${move}>${cell}`;
                     }
                 }

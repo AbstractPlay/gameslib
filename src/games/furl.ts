@@ -190,12 +190,12 @@ export class FurlGame extends GameBase {
                         newmove = cell;
                     } else {
                         // Let validation deal with it.
-                    newmove = `${move}<${cell}`;
+                        newmove = `${move}<${cell}`;
                     }
                 } else {
                     if (this.getUnfurls(move).includes(cell)) {
-                    if (this.board.has(cell)) {
-                        newmove = `${move}x${cell}`;
+                        if (this.board.has(cell)) {
+                            newmove = `${move}x${cell}`;
                         } else {
                             newmove = `${move}>${cell}`;
                         }
@@ -433,6 +433,8 @@ export class FurlGame extends GameBase {
             const [, size] = this.board.get(from)!;
             if (size > 1) {
                 this._points = this.getUnfurls(from).map(c => this.graph.algebraic2coords(c));
+            } else {
+                this._points = this.getFurls(from).map(c => this.graph.algebraic2coords(c));
             }
             return this;
         } else {

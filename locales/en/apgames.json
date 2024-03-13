@@ -1961,6 +1961,10 @@
             "high-churn": {
                 "name": "High Churn",
                 "description": "Play on a size 4 board where plant growth does not destroy dirt."
+            },
+            "quick-churn": {
+                "name": "Quick Churn",
+                "description": "Play on a size 3 board where plant growth does not destroy dirt."
             }
         },
         "trike": {

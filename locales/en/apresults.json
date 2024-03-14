@@ -1,4 +1,5 @@
 {
+    "ABANDONED": "The game was abandoned.",
     "ADD": {
         "add_one": "{{player}} added 1 piece to {{where}}.",
         "add_other": "{{player}} added {{count}} pieces to {{where}}.",
@@ -205,6 +206,7 @@
         "blockade_v": "{{player}} placed a vertical fence at {{where}}.",
         "blooms": "{{player}} placed a {{what}} piece at {{where}}.",
         "cannon": "{{player}} placed their town at {{where}}.",
+        "ccorridor": "{{player}} placed a tile at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",
         "conhex": "{{player}} placed a piece at vertex {{where}}.",
@@ -282,5 +284,6 @@
         "furl": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}."
     },
     "WINNERS_one": "The following player won: {{winners}}.",
-    "WINNERS_other": "The following players won: {{winners}}."
+    "WINNERS_other": "The following players won: {{winners}}.",
+    "WINNERSNONE": "There were no winners."
 }

@@ -693,6 +693,9 @@ export class ByteGame extends GameBase {
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            case "gameabandoned":
+                                node.push(i18next.t("apresults:ABANDONED"));
+                                break;
                             case "drawagreed":
                                 node.push(i18next.t("apresults:DRAWAGREED"));
                             break;
@@ -705,7 +708,10 @@ export class ByteGame extends GameBase {
                                         names.push(`Player ${w}`);
                                     }
                                 }
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                if (r.players.length === 0)
+                                    node.push(i18next.t("apresults:WINNERSNONE"));
+                                else
+                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
                             break;
                         }
                     }

@@ -345,7 +345,7 @@ export class HavannahGame extends GameBase {
         if (this.currplayer === 1) {
             prevPlayer = 2;
         }
-        if ( (this.lastmove !== undefined) && (this.lastmove !== "timeout") && (this.lastmove !== "resign") ) {
+        if ( (this.lastmove !== undefined) && (this.lastmove !== "timeout") && (this.lastmove !== "abandoned") && (this.lastmove !== "resign") ) {
             const winningStructure = this.getWinningStructure(this.lastmove);
             if (winningStructure.win()) {
                 this.gameover = true;
@@ -484,7 +484,7 @@ export class HavannahGame extends GameBase {
                 }
             }
             if (this.winner.length === 1) {
-                if ( (this.lastmove !== undefined) && (this.lastmove !== "timeout") && (this.lastmove !== "resign") ) {
+                if ( (this.lastmove !== undefined) && (this.lastmove !== "timeout") && (this.lastmove !== "abandoned") && (this.lastmove !== "resign") ) {
                     // draw lines to show winning connections.
                     type RowCol = {row: number; col: number;};
                     for (const path of this.getWinningStructure(this.lastmove).getPaths()) {

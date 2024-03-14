@@ -239,8 +239,12 @@ export abstract class GameBase  {
         return this.eog(-1, "draw", {type: "drawagreed"});
     }
 
+    public abandoned(): GameBase {
+        return this.eog(-1, "abandoned", {type: "gameabandoned"});
+    }
+
     protected specialMove(move: string): boolean {
-        return move === "resign" || move === "draw" || move === "timeout";
+        return move === "resign" || move === "draw" || move === "timeout" || move === "abandoned";
     }
 
     private eog(player: number, move: string, result: APMoveResult): GameBase {
@@ -255,7 +259,8 @@ export abstract class GameBase  {
         const ctor = this.constructor as typeof GameBase;
         for (let n = 1; n <= this.numplayers; n++) {
             if (n !== player) {
-                winners.push(n);
+                if (result.type !== "gameabandoned")
+                    winners.push(n);
                 resigner.push('');
             } else {
                 found = true;
@@ -528,7 +533,10 @@ export abstract class GameBase  {
                                 break;
                             case "drawagreed":
                                 node.push(i18next.t("apresults:DRAWAGREED"));
-                            break;
+                                break;
+                            case "gameabandoned":
+                                node.push(i18next.t("apresults:ABANDONED"));
+                                break;
                             case "winners":
                                 const names: string[] = [];
                                 for (const w of r.players) {
@@ -538,7 +546,10 @@ export abstract class GameBase  {
                                         names.push(`Player ${w}`);
                                     }
                                 }
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                if (r.players.length === 0)
+                                    node.push(i18next.t("apresults:WINNERSNONE"));
+                                else
+                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
                             break;
                         }
                     }

@@ -101,6 +101,9 @@ export type APMoveResult =
       type: "drawagreed";
     }
   | {
+      type: "gameabandoned";
+    }
+  | {
       type: "kicked";
       player: number;
     }

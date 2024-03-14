@@ -21,6 +21,7 @@
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
+        "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
@@ -470,6 +471,10 @@
             "DUPLICATE": "You have already placed a piece at {{where}}.",
             "MAKE_MORE_MOVES_one": "Place {{count}} more piece or complete your turn.",
             "MAKE_MORE_MOVES_other": "Place up to {{count}} more pieces or complete your turn."
+        },
+        "ccorridor": {
+            "INITIAL_INSTRUCTIONS": "Select a space to place a tile.",
+            "ILLEGAL_PLACEMENT": "Placing a tile at {{where}} blocks the corridor."
         },
         "ceph": {
             "DUPLICATECAP": "You can't capture the same piece more than once.",
@@ -1961,6 +1966,10 @@
             "high-churn": {
                 "name": "High Churn",
                 "description": "Play on a size 4 board where plant growth does not destroy dirt."
+            },
+            "quick-churn": {
+                "name": "Small, High Churn",
+                "description": "Play on a size 3 board where plant growth does not destroy dirt."
             }
         },
         "trike": {

@@ -265,6 +265,16 @@
             "additionalProperties": false
         },
         {
+            "description": "Players abandoned the game.",
+            "properties": {
+                "type": {
+                    "enum": ["gameabandoned"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
             "description": "Announces someone was forcibly removed from the game.",
             "properties": {
                 "type": {

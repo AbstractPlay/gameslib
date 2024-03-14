@@ -50,6 +50,11 @@ export class TakeGame extends GameBase {
                 uid: "high-churn",
                 name: "High Churn",
                 group: "rules",
+            },
+            {
+                uid: "quick-churn",
+                name: "Small, High Churn",
+                group: "rules",
             }
         ],
     };
@@ -116,11 +121,17 @@ export class TakeGame extends GameBase {
         return this;
     }
 
+    private isQuickChurn() {
+        return this.variants !== undefined && this.variants.length > 0 && this.variants.includes("quick-churn");
+    }
+
     private isHighChurn() {
+        if (this.isQuickChurn()) return true;
         return this.variants !== undefined && this.variants.length > 0 && this.variants.includes("high-churn");
     }
 
     private getBoardSize(): number {
+        if (this.isQuickChurn()) return 3;
         if (this.isHighChurn()) return 4;
         return 5;
     }

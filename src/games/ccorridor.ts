@@ -14,7 +14,7 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
-    scores?: [number, number];
+    scores: [number, number];
     corridor: Set<string>;
     scored: Set<string>;
 }
@@ -131,7 +131,7 @@ export class CairoCorridorGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public scores: [number, number] | undefined;
+    public scores: [number, number] = [0, 0];
     public corridor: Set<string> = new Set();
     public scored: Set<string> = new Set();
     private boardSize = 0;
@@ -185,7 +185,7 @@ export class CairoCorridorGame extends GameBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.scores = state.scores === undefined ? undefined : [...state.scores];
+        this.scores = [...state.scores];
         this.corridor = new Set(state.corridor);
         this.scored = new Set(state.scored);
         this.lastmove = state.lastmove;
@@ -452,6 +452,7 @@ export class CairoCorridorGame extends GameBase {
         this.results = [];
         this.results.push({ type: "place", where: m });
         this.board.set(m, this.currplayer);
+        [this.scores, this.scored] = this.calculateScores();
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -490,7 +491,6 @@ export class CairoCorridorGame extends GameBase {
         const corridorRegion = this.getCorridorRegion();
         if (this.hasCorridor(corridorRegion)) {
             this.corridor = corridorRegion;
-            [this.scores, this.scored] = this.calculateScores(corridorRegion);
             this.gameover = true;
             this.winner = this.scores[0] > this.scores[1] ? [1] : this.scores[0] < this.scores[1] ? [2] : [1, 2];
         }
@@ -520,7 +520,7 @@ export class CairoCorridorGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            scores: this.scores === undefined ? undefined : [...this.scores],
+            scores: [...this.scores],
             corridor: new Set(this.corridor),
             scored: new Set(this.scored),
         };
@@ -617,12 +617,10 @@ export class CairoCorridorGame extends GameBase {
     }
 
     public getPlayerScore(player: playerid): number {
-        if (this.scores === undefined) { return 0; }
         return this.scores[player - 1];
     }
 
     public getPlayersScores(): IScores[] {
-        if (this.scores === undefined) { return []; }
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.scores[0], this.scores[1]] }];
     }
 

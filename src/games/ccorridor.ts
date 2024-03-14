@@ -353,7 +353,7 @@ export class CairoCorridorGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.gess.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.ccorridor.INITIAL_INSTRUCTIONS");
             return result;
         }
         m = m.replace(/\s+/g, "");

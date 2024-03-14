@@ -101,6 +101,7 @@ import { RootBoundGame, IRootBoundState } from "./rootbound";
 import { TwixtGame, ITwixtState } from "./twixt";
 import { ReversiGame, IReversiState } from "./reversi";
 import { BlockadeGame, IBlockadeState } from "./blockade";
+import { CairoCorridorGame, ICairoCorridorState } from "./ccorridor";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -204,6 +205,7 @@ export {
     TwixtGame, ITwixtState,
     ReversiGame, IReversiState,
     BlockadeGame, IBlockadeState,
+    CairoCorridorGame, ICairoCorridorState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -239,7 +241,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof TaflGame | typeof FourGame | typeof ValleyGame |
                               typeof DameoGame | typeof TakeGame | typeof SympleGame |
                               typeof RootBoundGame | typeof TwixtGame | typeof ReversiGame |
-                              typeof BlockadeGame
+                              typeof BlockadeGame | typeof CairoCorridorGame
                 >();
 // Manually add each game to the following array
 [
@@ -257,6 +259,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
+    CairoCorridorGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -468,6 +471,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ReversiGame(...args);
         case "blockade":
             return new BlockadeGame(...args);
+        case "ccorridor":
+            return new CairoCorridorGame(...args);
     }
     return;
 }

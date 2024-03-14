@@ -53,7 +53,7 @@ export class TakeGame extends GameBase {
             },
             {
                 uid: "quick-churn",
-                name: "Quick Churn",
+                name: "Small, High Churn",
                 group: "rules",
             }
         ],

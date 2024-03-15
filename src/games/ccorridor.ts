@@ -492,7 +492,8 @@ export class CairoCorridorGame extends GameBase {
         if (this.hasCorridor(corridorRegion)) {
             this.corridor = corridorRegion;
             this.gameover = true;
-            this.winner = this.scores[0] > this.scores[1] ? [1] : this.scores[0] < this.scores[1] ? [2] : [1, 2];
+            // Tiebreakker: last player to move loses.
+            this.winner = this.scores[0] > this.scores[1] ? [1] : this.scores[0] < this.scores[1] ? [2] : [this.currplayer];
         }
         if (this.gameover) {
             this.results.push({ type: "eog" });

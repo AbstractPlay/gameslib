@@ -43,7 +43,7 @@ export class CairoCorridorGame extends GameBase {
         variants: [
             // { uid: "size-5", group: "board" },
         ],
-        flags: ["experimental", "scores", "rotate90"],
+        flags: ["scores", "rotate90"],
         displays: [{uid: "hide-markers"}],
     };
 

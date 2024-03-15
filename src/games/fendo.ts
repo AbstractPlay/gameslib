@@ -933,7 +933,11 @@ export class FendoGame extends GameBase {
                                         names.push(`Player ${w}`);
                                     }
                                 }
-                                node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+                                if (r.players.length === 0)
+                                    node.push(i18next.t("apresults:WINNERSNONE"));
+                                else
+                                    node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
+
                                 break;
                         }
                 }

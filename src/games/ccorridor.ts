@@ -37,6 +37,7 @@ export class CairoCorridorGame extends GameBase {
             {
                 type: "designer",
                 name: "Markus Hagenauer",
+                urls: ["www.planundspiele.de"]
             }
         ],
         variants: [

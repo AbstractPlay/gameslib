@@ -43,6 +43,7 @@ export class CairoCorridorGame extends GameBase {
             // { uid: "size-5", group: "board" },
         ],
         flags: ["experimental", "scores", "rotate90"],
+        displays: [{uid: "hide-markers"}],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -248,7 +249,7 @@ export class CairoCorridorGame extends GameBase {
         for (let j = 0; j < this.boardSize; j++) {
             for (let i = 0; i < this.boardSize * 2; i++) {
                 const cell = this.coords2algebraic(i, j);
-                if (!this.board.has(cell) && this.legalPlacement(cell)) {
+                if (!this.board.has(cell) && this.legalPlacement(cell) && (this.stack.length === 1 || this.corridor.has(cell))) {
                     moves.push(cell);
                 }
             }
@@ -381,6 +382,12 @@ export class CairoCorridorGame extends GameBase {
             result.message = i18next.t("apgames:validation.ccorridor.ILLEGAL_PLACEMENT", { where: m });
             return result;
         }
+        // Dead zone.
+        if (this.stack.length > 1 && !this.corridor.has(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.ccorridor.DEAD_ZONE", { where: m });
+            return result;
+        }
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -432,12 +439,7 @@ export class CairoCorridorGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-
         let result;
-        if (m === "No movelist in placement phase") {
-            result = { valid: false, message: i18next.t("apgames:validation.gess.NO_MOVELIST") };
-            throw new UserFacingError("VALIDATION_GENERAL", result.message);
-        }
         m = m.replace(/\s+/g, "");
         if (!trusted) {
             result = this.validateMove(m);
@@ -452,7 +454,8 @@ export class CairoCorridorGame extends GameBase {
         this.results = [];
         this.results.push({ type: "place", where: m });
         this.board.set(m, this.currplayer);
-        [this.scores, this.scored] = this.calculateScores();
+        this.corridor = this.getCorridorRegion();
+        [this.scores, this.scored] = this.calculateScores(this.corridor);
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -469,6 +472,16 @@ export class CairoCorridorGame extends GameBase {
             if (this.legalPlacement(cell)) { return false; }
         }
         return true;
+    }
+
+    private blockingMoves(corridorRegion?: Set<string>): Set<string> {
+        // Get all illegal moves that block the corridor.
+        if (corridorRegion === undefined) { corridorRegion = this.getCorridorRegion(); }
+        const blocks: Set<string> = new Set();
+        for (const cell of corridorRegion) {
+            if (!this.legalPlacement(cell)) { blocks.add(cell) };
+        }
+        return blocks;
     }
 
     private calculateScores(corridorRegion?: Set<string>): [[number, number], Set<string>] {
@@ -527,12 +540,26 @@ export class CairoCorridorGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showMarkers = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-markers") {
+                showMarkers = false;
+            }
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
+            }
+            if (!showMarkers) {
+                pstr += "_";
+                continue;
             }
             for (let col = 0; col < 2 * this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);
@@ -542,11 +569,14 @@ export class CairoCorridorGame extends GameBase {
                     } else {
                         pstr += "B";
                     }
+                } else if (this.stack.length > 1 && !this.corridor.has(cell)) {
+                    pstr += "X";
                 } else {
                     pstr += "-";
                 }
             }
         }
+        pstr = pstr.replace(new RegExp(`-{${2 * this.boardSize}}`, "g"), "_");
         const spaces1 = [];
         const spaces2 = [];
         const highlight = [];
@@ -558,8 +588,8 @@ export class CairoCorridorGame extends GameBase {
                 spaces2.push({ row: y, col: x });
             }
         }
-        if (this.corridor.size > 0) {
-            for (const cell of this.corridor) {
+        if (showMarkers) {
+            for (const cell of this.blockingMoves(this.corridor)) {
                 const [x, y] = this.algebraic2coords(cell);
                 highlight.push({ row: y, col: x });
             }
@@ -572,7 +602,7 @@ export class CairoCorridorGame extends GameBase {
             markers.push({ type: "flood", points: spaces2, colour: 2, opacity: 0.5 });
         }
         if (highlight.length > 0) {
-            markers.push({ type: "flood", points: highlight, colour: "#FFFF00", opacity: 0.25 });
+            markers.push({ type: "flood", points: highlight, colour: "#FFFF00", opacity: 0.3 });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -587,8 +617,9 @@ export class CairoCorridorGame extends GameBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: 1, scale: 0.25 }],
-                B: [{ name: "piece", player: 2, scale: 0.25 }],
+                A: [{ name: "piece", player: 1, scale: 0.5 }],
+                B: [{ name: "piece", player: 2, scale: 0.5 }],
+                X: [{ name: "x", scale: 0.25 }],
             },
             pieces: pstr,
         };

@@ -474,7 +474,8 @@
         },
         "ccorridor": {
             "INITIAL_INSTRUCTIONS": "Select a space to place a tile.",
-            "ILLEGAL_PLACEMENT": "Placing a tile at {{where}} blocks the corridor."
+            "ILLEGAL_PLACEMENT": "Placing a tile at {{where}} blocks the corridor.",
+            "DEAD_ZONE": "Placing a tile at {{where}} is guaranteed not to score."
         },
         "ceph": {
             "DUPLICATECAP": "You can't capture the same piece more than once.",
@@ -2090,6 +2091,12 @@
             "hide-threatened": {
                 "description": "Don't highlight pieces that are threatened by cannon fire.",
                 "name": "Hide threatened by cannon"
+            }
+        },
+        "ccorridor": {
+            "hide-markers": {
+                "description": "Don't show visual markers for the location of the corridor and scored tiles.",
+                "name": "Hide markers"
             }
         },
         "gess": {

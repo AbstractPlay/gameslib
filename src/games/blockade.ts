@@ -215,6 +215,10 @@ export class BlockadeGame extends GameBase {
         const fromTos: string[] = [];
         for (const from of this.playerLocs[player - 1]) {
             for (const to of this.getTos(from)) {
+                if (!(this.variants.includes("optional-wall") || this.hWalls[player - 1] === 0 && this.vWalls[player - 1] === 0) &&
+                        this.winningSpaces[player - 1].includes(to)) {
+                    moves.push(from + "-" + to);
+                }
                 fromTos.push(from + "-" + to);
             }
         }
@@ -564,6 +568,13 @@ export class BlockadeGame extends GameBase {
                 }
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.blockade.INVALID_TO", { from, to });
+                return result;
+            }
+            // If it's a winning move, we don't need to place walls.
+            if (second === undefined && this.winningSpaces[this.currplayer - 1].includes(to)) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             }
             playerLocs = this.getNewPlayerLocs(this.currplayer, from, to);

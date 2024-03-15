@@ -273,17 +273,13 @@ export class CairoCorridorGame extends GameBase {
                 const cell = todo.pop()!;
                 if (seen.has(cell)) { continue; }
                 seen.add(cell);
+                if (this.edges.get("S")?.has(cell)) { seenSouth = true; }
+                if (this.edges.get("W")?.has(cell)) { seenWest = true; }
+                if (this.edges.get("E")?.has(cell)) { seenEast = true; }
+                if (seenSouth && seenWest && seenEast) { return true; }
                 for (const n of this.getNeighbours(cell)) {
-                    if (this.edges.get("N")!.has(n)) {
-                        northEdge.splice(northEdge.indexOf(n), 1);
-                    }
-                    if (!this.board.has(n) && n !== place) {
-                        if (this.edges.get("S")?.has(n)) { seenSouth = true; }
-                        if (this.edges.get("W")?.has(n)) { seenWest = true; }
-                        if (this.edges.get("E")?.has(n)) { seenEast = true; }
-                        todo.push(n);
-                    }
-                    if (seenSouth && seenWest && seenEast) { return true; }
+                    if (northEdge.includes(n)) { northEdge.splice(northEdge.indexOf(n), 1); }
+                    if (!this.board.has(n) && n !== place) { todo.push(n); }
                 }
             }
         }
@@ -306,16 +302,12 @@ export class CairoCorridorGame extends GameBase {
                 const cell = todo.pop()!;
                 if (seen.has(cell)) { continue; }
                 seen.add(cell);
+                if (this.edges.get("S")?.has(cell)) { seenSouth = true; }
+                if (this.edges.get("W")?.has(cell)) { seenWest = true; }
+                if (this.edges.get("E")?.has(cell)) { seenEast = true; }
                 for (const n of this.getNeighbours(cell)) {
-                    if (this.edges.get("N")!.has(n)) {
-                        northEdge.splice(northEdge.indexOf(n), 1);
-                    }
-                    if (!this.board.has(n) && n !== place) {
-                        if (this.edges.get("S")?.has(n)) { seenSouth = true; }
-                        if (this.edges.get("W")?.has(n)) { seenWest = true; }
-                        if (this.edges.get("E")?.has(n)) { seenEast = true; }
-                        todo.push(n);
-                    }
+                    if (northEdge.includes(n)) { northEdge.splice(northEdge.indexOf(n), 1); }
+                    if (!this.board.has(n) && n !== place) { todo.push(n); }
                 }
             }
             if (seenSouth && seenWest && seenEast) { return seen; }

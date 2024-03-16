@@ -249,7 +249,7 @@ export class SaltireGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.gess.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.saltire.INITIAL_INSTRUCTIONS");
             return result;
         }
         const split = m.split("-", 2);

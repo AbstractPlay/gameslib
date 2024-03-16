@@ -27,6 +27,7 @@ export class TBTGame extends GameBase {
         uid: "tbt",
         playercounts: [2],
         version: "20240209",
+        dateAdded: "2024-02-13",
         // i18next.t("apgames:descriptions.tbt")
         description: "apgames:descriptions.tbt",
         // i18next.t("apgames:notes.tbt")
@@ -44,6 +45,7 @@ export class TBTGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
+        categories: ["goal>align", "mechanic>share",  "mechanic>move", "mechanic>stack", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective", "automove", "no-explore"]
     };
     public static coords2algebraic(x: number, y: number): string {

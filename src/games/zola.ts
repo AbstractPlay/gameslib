@@ -40,6 +40,7 @@ export class ZolaGame extends GameBase {
         uid: "zola",
         playercounts: [2],
         version: "20211210",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.zola")
         description: "apgames:descriptions.zola",
         urls: ["http://www.marksteeregames.com/Zola.pdf"],
@@ -56,6 +57,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
+        categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["automove", "limited-pieces", "pie", "aiai"],
     };
 

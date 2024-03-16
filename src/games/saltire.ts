@@ -30,6 +30,7 @@ export class SaltireGame extends GameBase {
         uid: "saltire",
         playercounts: [2],
         version: "20240316",
+        dateAdded: "2024-03-16",
         // i18next.t("apgames:descriptions.saltire")
         description: "apgames:descriptions.saltire",
         urls: ["https://boardgamegeek.com/boardgame/402546/saltire"],
@@ -44,6 +45,7 @@ export class SaltireGame extends GameBase {
             { uid: "size-11", group: "board" },
             { uid: "size-15", group: "board" },
         ],
+        categories: ["goal>connect", "mechanic>place", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie", "multistep", "rotate90"],
     };
 

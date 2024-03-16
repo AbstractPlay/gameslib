@@ -34,6 +34,7 @@ export class FurlGame extends GameBase {
         playercounts: [2],
         // version: "20231229",
         version: "20240309",
+        dateAdded: "2023-12-29",
         // i18next.t("apgames:descriptions.furl")
         description: "apgames:descriptions.furl",
         urls: ["https://boardgamegeek.com/boardgame/325422/furl"],
@@ -44,6 +45,7 @@ export class FurlGame extends GameBase {
                 urls: ["http://www.mrraow.com"]
             }
         ],
+        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["multistep", "check", "perspective", "aiai", "limited-pieces"],
         variants: [
             // { uid: "size-5", group: "board" },

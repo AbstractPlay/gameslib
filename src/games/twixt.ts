@@ -64,6 +64,7 @@ export class TwixtGame extends GameBase {
         uid: "twixt",
         playercounts: [2],
         version: "20240220",
+        dateAdded: "2024-02-24",
         // i18next.t("apgames:descriptions.twixt")
         description: "apgames:descriptions.twixt",
         // i18next.t("apgames:notes.twixt")
@@ -85,6 +86,7 @@ export class TwixtGame extends GameBase {
                 group: "ruleset",
             }
         ],
+        categories: ["goal>connect", "mechanic>place",  "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["pie", "multistep", "rotate90"],
         displays: [{uid: "hide-diagonals"}],
     };

@@ -40,6 +40,10 @@ export interface APGamesInformation {
    */
   version: string;
   /**
+   * The date the game was pushed to production, in ISO year-month-day order.
+   */
+  dateAdded: string;
+  /**
    * The people and organizations involved in the game's creation
    */
   people?: Person[];
@@ -55,6 +59,12 @@ export interface APGamesInformation {
    * A list of the supported player counts
    */
   playercounts: number[];
+  /**
+   * A list categories. The list should not contain any duplicates. Nesting is accomplished by joining the names of levels with the greater-than symbol (>). Names should not contain spaces. Translation into proper labels is left to the client.
+   *
+   * @minItems 1
+   */
+  categories: [string, ...string[]];
   /**
    * A list of flags used by the front end to signal the presence or absence of a particular feature.
    */

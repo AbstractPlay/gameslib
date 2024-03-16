@@ -43,6 +43,7 @@ export class ACityGame extends GameBase {
         uid: "acity",
         playercounts: [2],
         version: "20230531",
+        dateAdded: "2023-06-22",
         // i18next.t("apgames:descriptions.acity")
         description: "apgames:descriptions.acity",
         urls: ["http://www.piecepack.org/rules/AlienCity.pdf", "https://boardgamegeek.com/boardgame/20623/alien-city"],
@@ -52,6 +53,7 @@ export class ACityGame extends GameBase {
                 name: "Michael Schoessow",
             }
         ],
+        categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],
         flags: ["player-stashes", "scores", "no-moves", "multistep", "custom-colours", "random-start"]
     };
 

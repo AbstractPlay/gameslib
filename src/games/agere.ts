@@ -34,6 +34,7 @@ export class AgereGame extends GameBase {
         uid: "agere",
         playercounts: [2],
         version: "20230727",
+        dateAdded: "2023-07-31",
         // i18next.t("apgames:descriptions.agere")
         description: "apgames:descriptions.agere",
         urls: ["https://agere.drew-edwards.com/"],
@@ -50,6 +51,7 @@ export class AgereGame extends GameBase {
             {uid: "standard-11", group: "board"},
             {uid: "standard-14", group: "board"},
         ],
+        categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "board>shape>circle", "board>connect>rect", "board>shape>tri", "board>connect>hex", "components>simple"],
         flags: ["pie", "check"]
     };
 

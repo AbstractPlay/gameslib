@@ -27,6 +27,7 @@ export class MixtourGame extends GameBase {
         uid: "mixtour",
         playercounts: [2],
         version: "20230624",
+        dateAdded: "2023-07-01",
         // i18next.t("apgames:descriptions.mixtour")
         description: "apgames:descriptions.mixtour",
         urls: ["https://spielstein.com/games/mixtour/rules"],
@@ -41,6 +42,7 @@ export class MixtourGame extends GameBase {
             {uid: "three", group: "scores"},
             {uid: "five", group: "scores"}
         ],
+        categories: ["goal>score>race", "mechanic>coopt",  "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["limited-pieces", "scores", "automove", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {

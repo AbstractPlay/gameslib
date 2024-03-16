@@ -78,6 +78,7 @@ export class VolcanoGame extends GameBase {
         uid: "volcano",
         playercounts: [2],
         version: "20211104",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.volcano")
         description: "apgames:descriptions.volcano",
         urls: ["https://www.looneylabs.com/content/volcano"],
@@ -88,6 +89,7 @@ export class VolcanoGame extends GameBase {
                 urls: ["http://www.wunderland.com/WTS/Kristin/Kristin.html"]
             }
         ],
+        categories: ["goal>set", "mechanic>place",  "mechanic>move", "mechanic>displace", "mechanic>set", "mechanic>share", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["shared-pieces", "stacking-expanding", "no-moves", "multistep", "random-start"],
         displays: [{uid: "expanding"}]
     };

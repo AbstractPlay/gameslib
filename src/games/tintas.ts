@@ -43,6 +43,7 @@ export class TintasGame extends GameBase {
         uid: "tintas",
         playercounts: [2],
         version: "20230627",
+        dateAdded: "2023-07-01",
         // i18next.t("apgames:descriptions.tintas")
         description: "apgames:descriptions.tintas",
         urls: ["https://spielstein.com/games/tintas/rules"],
@@ -53,6 +54,7 @@ export class TintasGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
+        categories: ["goal>set", "mechanic>set",  "mechanic>move", "mechanic>share", "board>shape>other", "board>connect>hex", "components>simple"],
         flags: ["multistep", "check", "pie", "automove", "shared-pieces", "random-start"]
     };
 

@@ -48,6 +48,7 @@ export class IqishiqiGame extends GameBase {
         uid: "iqishiqi",
         playercounts: [2,3],
         version: "20231227",
+        dateAdded: "2023-12-27",
         // i18next.t("apgames:descriptions.iqishiqi")
         description: "apgames:descriptions.iqishiqi",
         urls: ["https://boardgamegeek.com/boardgame/172250/iqishiqi"],
@@ -62,6 +63,7 @@ export class IqishiqiGame extends GameBase {
             }
         ],
         variants: [],
+        categories: ["goal>immobilize", "goal>breakthrough", "mechanic>place", "mechanic>displace", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["multistep"]
     };
 

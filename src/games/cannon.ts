@@ -44,6 +44,7 @@ export class CannonGame extends GameBase {
         uid: "cannon",
         playercounts: [2],
         version: "20211010",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.cannon")
         description: "apgames:descriptions.cannon",
         urls: [
@@ -57,6 +58,7 @@ export class CannonGame extends GameBase {
                 name: "David E. Whitcher"
             }
         ],
+        categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective", "limited-pieces", "check"],
         displays: [{uid: "hide-threatened"}],
     };

@@ -25,6 +25,7 @@ export class ComplicaGame extends GameBase {
         uid: "complica",
         playercounts: [2],
         version: "20230617",
+        dateAdded: "2023-06-18",
         // i18next.t("apgames:descriptions.complica")
         description: "apgames:descriptions.complica",
         urls: ["https://www.di.fc.ul.pt/~jpn/gv/complica.htm"],
@@ -34,6 +35,7 @@ export class ComplicaGame extends GameBase {
                 name: "Reiner Knizia",
             },
         ],
+        categories: ["goal>align", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: []
     };
     public static coords2algebraic(x: number, y: number): string {

@@ -41,6 +41,7 @@ export class FourGame extends GameBase {
         uid: "four",
         playercounts: [2],
         version: "20240216",
+        dateAdded: "2024-02-18",
         // i18next.t("apgames:descriptions.four")
         description: "apgames:descriptions.four",
         urls: ["https://boardgamegeek.com/boardgame/133842/four"],
@@ -54,6 +55,7 @@ export class FourGame extends GameBase {
         variants: [
             {uid: "simplified"}
         ],
+        categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "board>connect>rect", "board>dynamic", "components>poly"],
         flags: ["shared-pieces", "multistep"]
     };
 

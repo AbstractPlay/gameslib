@@ -66,6 +66,7 @@ export class GardenGame extends GameBase {
         uid: "garden",
         playercounts: [2],
         version: "20230619",
+        dateAdded: "2023-06-27",
         // i18next.t("apgames:descriptions.garden")
         description: "apgames:descriptions.garden",
         // i18next.t("apgames:notes.garden")
@@ -78,6 +79,7 @@ export class GardenGame extends GameBase {
                 urls: ["http://www.tjgames.com/"]
             },
         ],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["shared-pieces", "scores", "shared-stash"]
     };
     public static coords2algebraic(x: number, y: number): string {

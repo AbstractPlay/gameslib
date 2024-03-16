@@ -30,11 +30,13 @@ export class FanoronaGame extends GameBase {
         uid: "fanorona",
         playercounts: [2],
         version: "20230604",
+        dateAdded: "2023-06-22",
         // i18next.t("apgames:descriptions.fanorona")
         description: "apgames:descriptions.fanorona",
         urls: [
             "https://en.wikipedia.org/wiki/Fanorona",
         ],
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>other", "components>simple"],
         flags: ["perspective", "limited-pieces", "multistep", "no-moves", "aiai"]
     };
 

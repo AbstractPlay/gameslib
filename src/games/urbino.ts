@@ -39,6 +39,7 @@ export class UrbinoGame extends GameBase {
         uid: "urbino",
         playercounts: [2],
         version: "20211119",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.urbino")
         description: "apgames:descriptions.urbino",
         urls: ["https://spielstein.com/games/urbino"],
@@ -54,6 +55,7 @@ export class UrbinoGame extends GameBase {
                 uid: "monuments"
             }
         ],
+        categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "player-stashes", "automove", "scores"]
     };
 

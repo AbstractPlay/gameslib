@@ -31,6 +31,7 @@ export class BloomsGame extends GameBase {
         uid: "blooms",
         playercounts: [2],
         version: "20240114",
+        dateAdded: "2024-01-18",
         // i18next.t("apgames:descriptions.blooms")
         description: "apgames:descriptions.blooms",
         // i18next.t("apgames:notes.blooms")
@@ -44,6 +45,7 @@ export class BloomsGame extends GameBase {
             }
         ],
         flags: ["multistep", "scores", "no-moves", "custom-randomization"],
+        categories: ["goal>score>race", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple"],
         variants: [
             {
                 uid: "size-8",

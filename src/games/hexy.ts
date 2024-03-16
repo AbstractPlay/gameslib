@@ -28,6 +28,7 @@ export class HexYGame extends GameBase {
         uid: "hexy",
         playercounts: [2],
         version: "20230923",
+        dateAdded: "2023-09-23",
         // i18next.t("apgames:descriptions.hexy")
         description: "apgames:descriptions.hexy",
         urls: ["https://www.marksteeregames.com/Hexagonal_Y_rules.pdf"],
@@ -38,6 +39,7 @@ export class HexYGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
+        categories: ["goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["automove", "pie"],
         variants: [
             {

@@ -34,6 +34,7 @@ export class AccastaGame extends GameBase {
         uid: "accasta",
         playercounts: [2],
         version: "20211116",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.accasta")
         description: "apgames:descriptions.accasta",
         urls: ["https://spielstein.com/games/accasta"],
@@ -49,6 +50,7 @@ export class AccastaGame extends GameBase {
                 uid: "pari",
             },
         ],
+        categories: ["goal>breakthrough", "mechanic>move", "mechanic>stack", "mechanic>coopt", "board>shape>hex", "board>connect>hex", "components>simple", "components>special"],
         flags: ["multistep", "perspective"]
     };
 

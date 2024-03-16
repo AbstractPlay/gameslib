@@ -34,6 +34,7 @@ export class LielowGame extends GameBase {
         uid: "lielow",
         playercounts: [2],
         version: "20231224",
+        dateAdded: "2023-12-24",
         // i18next.t("apgames:descriptions.lielow")
         description: "apgames:descriptions.lielow",
         urls: ["https://boardgamegeek.com/boardgame/349408/lielow"],
@@ -47,6 +48,7 @@ export class LielowGame extends GameBase {
                 name: "Alek Erickson",
             },
         ],
+        categories: ["goal>royal-capture", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "perspective", "aiai", "limited-pieces"]
     };
 

@@ -32,6 +32,7 @@ export class AttangleGame extends GameBase {
         uid: "attangle",
         playercounts: [2],
         version: "20211114",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.attangle")
         description: "apgames:descriptions.attangle",
         urls: ["https://spielstein.com/games/attangle/rules", "https://spielstein.com/games/attangle/rules/grand-attangle"],
@@ -48,6 +49,7 @@ export class AttangleGame extends GameBase {
                 group: "board",
             },
         ],
+        categories: ["goal>score>race", "mechanic>place", "mechanic>move", "mechanic>stack", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["limited-pieces", "scores"]
     };
     public numplayers = 2;

@@ -26,6 +26,7 @@ export class BreakthroughGame extends GameBase {
         uid: "breakthrough",
         playercounts: [2],
         version: "20211118",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.breakthrough")
         description: "apgames:descriptions.breakthrough",
         urls: ["https://en.wikipedia.org/wiki/Breakthrough_(board_game)", "http://www.di.fc.ul.pt/~jpn/gv/bombardment.htm"],
@@ -44,6 +45,7 @@ export class BreakthroughGame extends GameBase {
                 uid: "bombardment"
             }
         ],
+        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective", "limited-pieces"]
     };
     public static coords2algebraic(x: number, y: number): string {

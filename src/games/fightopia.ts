@@ -25,6 +25,7 @@ export class FightopiaGame extends GameBase {
         uid: "fightopia",
         playercounts: [2],
         version: "20240203",
+        dateAdded: "2024-02-04",
         // i18next.t("apgames:descriptions.fightopia")
         description: "apgames:descriptions.fightopia",
         urls: ["https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/650f2c8b474f371e5dee3168/1695493264900/Fightopia2Pages.pdf"],
@@ -39,6 +40,7 @@ export class FightopiaGame extends GameBase {
                 name: "Mike Selinker"
             }
         ],
+        categories: ["goal>breakthrough", "goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["perspective", "pie"]
     };
     public static coords2algebraic(x: number, y: number): string {

@@ -45,6 +45,7 @@ export class BaoGame extends GameBase {
         uid: "bao",
         playercounts: [2],
         version: "20231126",
+        dateAdded: "2023-12-24",
         // i18next.t("apgames:descriptions.bao")
         description: "apgames:descriptions.bao",
         // i18next.t("apgames:notes.bao")
@@ -61,6 +62,7 @@ export class BaoGame extends GameBase {
                 group: "setup",
             }
         ],
+        categories: ["goal>cripple", "mechanic>convert", "mechanic>move>sow", "mechanic>traditional", "board>mancala", "components>simple"],
         displays: [{uid: "pips"}]
     };
 

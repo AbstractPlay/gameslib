@@ -33,6 +33,7 @@ export class CatchupGame extends GameBase {
         uid: "catchup",
         playercounts: [2],
         version: "20240109",
+        dateAdded: "2024-01-18",
         // i18next.t("apgames:descriptions.catchup")
         description: "apgames:descriptions.catchup",
         urls: ["https://boardgamegeek.com/boardgame/68199/catchup"],
@@ -43,6 +44,7 @@ export class CatchupGame extends GameBase {
                 urls: ["https://www.nickbentley.games/"],
             }
         ],
+        categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["multistep", "scores", "no-moves", "custom-randomization"],
         variants: [
             {

@@ -62,6 +62,7 @@ export class ExxitGame extends GameBase {
         uid: "exxit",
         playercounts: [2],
         version: "20240103",
+        dateAdded: "2024-01-08",
         // i18next.t("apgames:descriptions.exxit")
         description: "apgames:descriptions.exxit",
         // i18next.t("apgames:notes.exxit")
@@ -79,6 +80,7 @@ export class ExxitGame extends GameBase {
             {uid: "29tiles", group: "length"},
             {uid: "19tiles", group: "length"},
         ],
+        categories: ["goal>area", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>stack", "board>dynamic", "board>connect>hex", "components>special"],
         flags: ["pie", "scores", "limited-pieces", "automove", "shared-stash", "multistep"],
     };
 

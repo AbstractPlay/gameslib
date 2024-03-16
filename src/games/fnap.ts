@@ -30,6 +30,7 @@ export class FnapGame extends GameBaseSimultaneous {
         uid: "fnap",
         playercounts: [2],
         version: "20231225",
+        dateAdded: "2024-02-01",
         // i18next.t("apgames:descriptions.fnap")
         description: "apgames:descriptions.fnap",
         urls: [
@@ -41,6 +42,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 name: "Andrew Juell"
             }
         ],
+        categories: ["goal>align", "goal>score>eog", "mechanic>place", "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["simultaneous", "scores", "automove", "multistep"]
     };
 

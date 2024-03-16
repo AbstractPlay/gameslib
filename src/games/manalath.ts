@@ -45,6 +45,7 @@ export class ManalathGame extends GameBase {
         uid: "manalath",
         playercounts: [2],
         version: "20211118",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.manalath")
         description: "apgames:descriptions.manalath",
         urls: ["https://spielstein.com/games/manalath/rules"],
@@ -60,6 +61,7 @@ export class ManalathGame extends GameBase {
                 urls: ["http://nestorgames.com/"]
             }
         ],
+        categories: ["goal>align", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["automove"]
     };
 

@@ -29,6 +29,7 @@ export class ReversiGame extends GameBase {
         uid: "reversi",
         playercounts: [2],
         version: "20240226",
+        dateAdded: "2024-02-25",
         // i18next.t("apgames:descriptions.reversi")
         description: "apgames:descriptions.reversi",
         urls: ["https://en.wikipedia.org/wiki/Reversi"],
@@ -51,6 +52,7 @@ export class ReversiGame extends GameBase {
             {uid: "hexagon-6", group: "board"},
             {uid: "anti", group: "objective"},
         ],
+        categories: ["goal>majority", "mechanic>place",  "mechanic>convert", "board>shape>rect", "board>shape>oct", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["scores", "automove"],
         displays: [{uid: "hide-moves"}],
     };

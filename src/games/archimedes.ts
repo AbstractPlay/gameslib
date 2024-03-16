@@ -24,6 +24,7 @@ export class ArchimedesGame extends GameBase {
         uid: "archimedes",
         playercounts: [2],
         version: "20211210",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.archimedes")
         description: "apgames:descriptions.archimedes",
         urls: ["http://www.di.fc.ul.pt/~jpn/gv/archimedes.htm", "http://superdupergames.org/rules/archimedes.pdf"],
@@ -41,6 +42,7 @@ export class ArchimedesGame extends GameBase {
         variants: [
             {uid: "8x10"}
         ],
+        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         displays: [{uid: "hide-threatened"}],
     };
 

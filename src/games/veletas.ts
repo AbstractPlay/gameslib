@@ -31,6 +31,7 @@ export class VeletasGame extends GameBase {
         uid: "veletas",
         playercounts: [2],
         version: "20240114",
+        dateAdded: "2024-01-22",
         // i18next.t("apgames:descriptions.veletas")
         description: "apgames:descriptions.veletas",
         urls: ["https://boardgamegeek.com/boardgame/151224/veletas"],
@@ -54,6 +55,7 @@ export class VeletasGame extends GameBase {
                 group: "setup",
             }
         ],
+        categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>block", "mechanic>enclose", "mechanic>share", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "scores", "pie", "random-start", "custom-randomization"],
     };
 

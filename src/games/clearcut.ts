@@ -60,6 +60,7 @@ export class ClearcutGame extends GameBase {
         uid: "clearcut",
         playercounts: [2],
         version: "20230725",
+        dateAdded: "2023-07-31",
         // i18next.t("apgames:descriptions.clearcut")
         description: "apgames:descriptions.clearcut",
         urls: ["https://www.marksteeregames.com/Clearcut_rules.pdf"],
@@ -70,6 +71,7 @@ export class ClearcutGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
+        categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {

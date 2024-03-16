@@ -33,6 +33,7 @@ export class VergeGame extends GameBase {
         uid: "verge",
         playercounts: [2],
         version: "20240126",
+        dateAdded: "2024-01-30",
         // i18next.t("apgames:descriptions.verge")
         description: "apgames:descriptions.verge",
         urls: ["https://boardgamegeek.com/boardgame/396931/verge"],
@@ -42,6 +43,7 @@ export class VergeGame extends GameBase {
                 name: "Michael Amundsen"
             }
         ],
+        categories: ["goal>immobilize", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["pie"],
         variants: [
             {

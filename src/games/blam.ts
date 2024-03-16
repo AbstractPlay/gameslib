@@ -37,6 +37,7 @@ export class BlamGame extends GameBase {
         uid: "blam",
         playercounts: [2,3,4],
         version: "20211009",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.blam")
         description: "apgames:descriptions.blam",
         urls: ["http://invisible-city.com/content/blam"],
@@ -46,6 +47,7 @@ export class BlamGame extends GameBase {
                 name: "Jon Eargle"
             }
         ],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["player-stashes", "scores", "automove"]
     };
 

@@ -24,6 +24,7 @@ export class LinesOfActionGame extends GameBase {
         uid: "loa",
         playercounts: [2],
         version: "20211113",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.loa")
         description: "apgames:descriptions.loa",
         // i18next.t("apgames:notes.loa")
@@ -45,6 +46,7 @@ export class LinesOfActionGame extends GameBase {
                 group: "board"
             }
         ],
+        categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "check", "limited-pieces"]
     };
 

@@ -34,6 +34,7 @@ export class OrbGame extends GameBase {
         uid: "orb",
         playercounts: [2],
         version: "20230622",
+        dateAdded: "2023-07-01",
         // i18next.t("apgames:descriptions.orb")
         description: "apgames:descriptions.orb",
         urls: ["https://boardgamegeek.com/boardgame/18728/generatorb"],
@@ -47,6 +48,7 @@ export class OrbGame extends GameBase {
         variants: [
             { uid: "noglobes" }
         ],
+        categories: ["goal>breakthrough", "goal>majority", "mechanic>capture",  "mechanic>move", "mechanic>differentiate", "mechanic>merge", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "limited-pieces", "perspective", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {

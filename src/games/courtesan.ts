@@ -28,6 +28,7 @@ export class CourtesanGame extends GameBase {
         uid: "courtesan",
         playercounts: [2],
         version: "20230702",
+        dateAdded: "2023-07-02",
         // i18next.t("apgames:descriptions.courtesan")
         description: "apgames:descriptions.courtesan",
         urls: ["https://www.marksteeregames.com/King_and_Courtesan_rules.pdf"],
@@ -41,6 +42,7 @@ export class CourtesanGame extends GameBase {
         variants: [
             {uid: "size-6", group: "board"}
         ],
+        categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>move", "mechanic>displace", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "multistep", "perspective", "limited-pieces"],
     };
 

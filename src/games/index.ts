@@ -102,6 +102,7 @@ import { TwixtGame, ITwixtState } from "./twixt";
 import { ReversiGame, IReversiState } from "./reversi";
 import { BlockadeGame, IBlockadeState } from "./blockade";
 import { CairoCorridorGame, ICairoCorridorState } from "./ccorridor";
+import { SaltireGame, ISaltireState } from "./saltire";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -206,6 +207,7 @@ export {
     ReversiGame, IReversiState,
     BlockadeGame, IBlockadeState,
     CairoCorridorGame, ICairoCorridorState,
+    SaltireGame, ISaltireState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -241,7 +243,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof TaflGame | typeof FourGame | typeof ValleyGame |
                               typeof DameoGame | typeof TakeGame | typeof SympleGame |
                               typeof RootBoundGame | typeof TwixtGame | typeof ReversiGame |
-                              typeof BlockadeGame | typeof CairoCorridorGame
+                              typeof BlockadeGame | typeof CairoCorridorGame | typeof SaltireGame
                 >();
 // Manually add each game to the following array
 [
@@ -259,7 +261,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
-    CairoCorridorGame,
+    CairoCorridorGame, SaltireGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -473,6 +475,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BlockadeGame(...args);
         case "ccorridor":
             return new CairoCorridorGame(...args);
+        case "saltire":
+            return new SaltireGame(...args);
     }
     return;
 }

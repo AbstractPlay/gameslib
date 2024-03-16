@@ -28,6 +28,7 @@ export class CephalopodGame extends GameBase {
         uid: "ceph",
         playercounts: [2],
         version: "20211113",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.ceph")
         description: "apgames:descriptions.ceph",
         urls: ["http://www.marksteeregames.com/Cephalopod_rules.pdf"],
@@ -44,6 +45,7 @@ export class CephalopodGame extends GameBase {
                 group: "board"
             },
         ],
+        categories: ["goal>majority", "mechanic>place", "mechanic>capture", "mechanic>merge", "board>shape>rect", "board>connect>rect", "board>connect>snub", "components>dice"],
         flags: ["scores", "multistep"]
     };
 

@@ -32,11 +32,13 @@ export class ToguzGame extends GameBase {
         uid: "toguz",
         playercounts: [2],
         version: "20231224",
+        dateAdded: "2023-12-25",
         // i18next.t("apgames:descriptions.toguz")
         description: "apgames:descriptions.toguz",
         // i18next.t("apgames:notes.toguz")
         notes: "apgames:notes.toguz",
         urls: ["https://en.wikipedia.org/wiki/Toguz_korgol"],
+        categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "board>mancala", "components>simple"],
         flags: ["perspective", "scores", "automove"],
         displays: [{uid: "pips"}]
     };

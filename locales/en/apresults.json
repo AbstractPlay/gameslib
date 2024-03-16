@@ -186,6 +186,7 @@
         "phutball_last": "{{player}} moved the ball from {{from}} to {{to}}.",
         "phutball_to": "to {{to}},",
         "phutball_to_last": "to {{to}}.",
+        "saltire": "{{player}} moved a swapped the pieces at {{from}} and {{to}}.",
         "veletas": "{{player}} moved shooter from {{from}} to {{to}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",

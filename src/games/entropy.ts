@@ -42,6 +42,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         uid: "entropy",
         playercounts: [2],
         version: "20211101",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.entropy")
         description: "apgames:descriptions.entropy",
         // i18next.t("apgames:notes.entropy")
@@ -55,6 +56,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                 name: "Eric Solomon"
             }
         ],
+        categories: ["goal>score>eog", "mechanic>asymmetry", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["simultaneous", "shared-pieces", "shared-stash", "perspective", "scores"]
     };
 

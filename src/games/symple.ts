@@ -32,6 +32,7 @@ export class SympleGame extends GameBase {
         uid: "symple",
         playercounts: [2],
         version: "20240220",
+        dateAdded: "2024-02-24",
         // i18next.t("apgames:descriptions.symple")
         description: "apgames:descriptions.symple",
         urls: [
@@ -44,6 +45,7 @@ export class SympleGame extends GameBase {
                 name: "Christian Freeling",
             },
         ],
+        categories: ["goal>score>eog", "mechanic>place",  "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["scores", "multistep", "no-moves", "custom-randomization"],
         variants: [
             {

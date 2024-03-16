@@ -35,6 +35,7 @@ export class DipoleGame extends GameBase {
         uid: "dipole",
         playercounts: [2],
         version: "20211213",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.dipole")
         description: "apgames:descriptions.dipole",
         urls: ["http://www.marksteeregames.com/Dipole_rules.pdf"],
@@ -50,6 +51,7 @@ export class DipoleGame extends GameBase {
                 uid: "international"
             },
         ],
+        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["scores","perspective"]
     };
 

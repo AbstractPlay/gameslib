@@ -30,6 +30,7 @@ export class BounceGame extends GameBase {
         uid: "bounce",
         playercounts: [2],
         version: "20231029",
+        dateAdded: "2023-10-29",
         // i18next.t("apgames:descriptions.bounce")
         description: "apgames:descriptions.bounce",
         urls: ["https://marksteeregames.com/Bounce_rules.pdf"],
@@ -40,6 +41,7 @@ export class BounceGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
+        categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["automove", "pie"],
         variants: [
             {

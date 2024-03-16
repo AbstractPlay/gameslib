@@ -31,6 +31,7 @@ export class OnagerGame extends GameBase {
         uid: "onager",
         playercounts: [2],
         version: "20240121",
+        dateAdded: "2024-02-01",
         // i18next.t("apgames:descriptions.onager")
         description: "apgames:descriptions.onager",
         urls: ["https://boardgamegeek.com/boardgame/131047/onager"],
@@ -41,6 +42,7 @@ export class OnagerGame extends GameBase {
                 urls: ["http://www.nestorgames.com"]
             }
         ],
+        categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["multistep", "check", "perspective"],
         variants: [
             // { uid: "size-7", group: "board" },

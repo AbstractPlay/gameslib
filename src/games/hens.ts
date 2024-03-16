@@ -28,6 +28,7 @@ export class HensGame extends GameBase {
         uid: "hens",
         playercounts: [2],
         version: "20240205",
+        dateAdded: "2024-02-13",
         // i18next.t("apgames:descriptions.hens")
         description: "apgames:descriptions.hens",
         urls: ["https://crabfragmentlabs.com/verdigris-pawn"],
@@ -41,6 +42,7 @@ export class HensGame extends GameBase {
         variants: [
             { uid: "size-10" }
         ],
+        categories: ["goal>breakthrough", "goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "perspective", "limited-pieces"]
     };
 

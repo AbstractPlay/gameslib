@@ -61,6 +61,7 @@ export class AlfredsWykeGame extends GameBase {
         uid: "wyke",
         playercounts: [2],
         version: "20211226",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.wyke")
         description: "apgames:descriptions.wyke",
         urls: ["https://www.abstractgames.org/alfredswyke.html", "http://superdupergames.org/rules/wyke.pdf"],
@@ -75,6 +76,7 @@ export class AlfredsWykeGame extends GameBase {
                 uid: "6x6"
             }
         ],
+        categories: ["goal>align", "mechanic>asymmetry",  "mechanic>capture", "mechanic>economy", "mechanic>place", "mechanic>share", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["no-moves"]
     };
 

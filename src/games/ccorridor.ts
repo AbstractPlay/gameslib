@@ -30,6 +30,7 @@ export class CairoCorridorGame extends GameBase {
         uid: "ccorridor",
         playercounts: [2],
         version: "20240309",
+        dateAdded: "2024-03-15",
         // i18next.t("apgames:descriptions.ccorridor")
         description: "apgames:descriptions.ccorridor",
         urls: ["https://boardgamegeek.com/boardgame/137173/cairo-corridor"],
@@ -43,6 +44,7 @@ export class CairoCorridorGame extends GameBase {
         variants: [
             // { uid: "size-5", group: "board" },
         ],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>enclose", "board>shape>rect", "board>connect>pent", "components>simple"],
         flags: ["scores", "rotate90"],
         displays: [{uid: "hide-markers"}],
     };

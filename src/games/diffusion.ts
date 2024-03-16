@@ -29,6 +29,7 @@ export class DiffusionGame extends GameBase {
         uid: "diffusion",
         playercounts: [2],
         version: "20231228",
+        dateAdded: "2023-12-29",
         // i18next.t("apgames:descriptions.diffusion")
         description: "apgames:descriptions.diffusion",
         urls: ["https://marksteeregames.com/Diffusion_rules.pdf"],
@@ -39,6 +40,7 @@ export class DiffusionGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"]
             },
         ],
+        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>move>sow", "mechanic>coopt", "board>mancala", "components>simple"],
         flags: ["pie", "automove", "perspective"],
         variants: [
             {uid: "topBottom"}

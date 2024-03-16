@@ -27,6 +27,7 @@ export class FlumeGame extends GameBase {
         uid: "flume",
         playercounts: [2],
         version: "20230716",
+        dateAdded: "2023-07-17",
         // i18next.t("apgames:descriptions.flume")
         description: "apgames:descriptions.flume",
         urls: ["https://www.marksteeregames.com/Flume_Go_rules.pdf"],
@@ -47,6 +48,7 @@ export class FlumeGame extends GameBase {
                 group: "board",
             }
         ],
+        categories: ["goal>majority", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "multistep", "scores", "no-moves"]
     };
 

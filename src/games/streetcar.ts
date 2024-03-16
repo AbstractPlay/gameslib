@@ -113,6 +113,7 @@ export class StreetcarGame extends GameBase {
         uid: "streetcar",
         playercounts: [2],
         version: "20230629",
+        dateAdded: "2023-07-03",
         // i18next.t("apgames:descriptions.streetcar")
         description: "apgames:descriptions.streetcar",
         urls: ["https://streetcar.drew-edwards.com/rules"],
@@ -127,6 +128,7 @@ export class StreetcarGame extends GameBase {
             {uid: "5point", "group": "penalty"},
             {uid: "15point", "group": "penalty"},
         ],
+        categories: ["goal>score>eog", "mechanic>set",  "mechanic>network", "board>shape>other", "board>connect>hex", "components>special"],
         flags: ["multistep", "no-moves", "scores", "random-start"]
     };
 

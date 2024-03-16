@@ -29,6 +29,7 @@ export class MonkeyQueenGame extends GameBase {
         uid: "monkey",
         playercounts: [2],
         version: "20211213",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.monkey")
         description: "apgames:descriptions.monkey",
         urls: ["http://www.marksteeregames.com/Monkey_Queen_rules.html"],
@@ -39,6 +40,7 @@ export class MonkeyQueenGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"]
             },
         ],
+        categories: ["goal>royal-capture", "mechanic>capture",  "mechanic>differentiate", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "perspective", "check", "limited-pieces"]
     };
 

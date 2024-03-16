@@ -30,6 +30,7 @@ export class MimicGame extends GameBase {
         uid: "mimic",
         playercounts: [2],
         version: "20240120",
+        dateAdded: "2024-01-20",
         // i18next.t("apgames:descriptions.mimic")
         description: "apgames:descriptions.mimic",
         urls: ["https://geomegranate.com/wp-content/uploads/2024/01/Mimic.pdf"],
@@ -39,6 +40,7 @@ export class MimicGame extends GameBase {
                 name: "Andrew Bressette"
             }
         ],
+        categories: ["goal>breakthrough", "mechanic>displace",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective"]
     };
 

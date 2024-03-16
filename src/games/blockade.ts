@@ -28,6 +28,7 @@ export class BlockadeGame extends GameBase {
         uid: "blockade",
         playercounts: [2],
         version: "20240227",
+        dateAdded: "2024-03-10",
         // i18next.t("apgames:descriptions.blockade")
         description: "apgames:descriptions.blockade",
         urls: ["https://boardgamegeek.com/boardgame/2559/blockade"],
@@ -43,6 +44,7 @@ export class BlockadeGame extends GameBase {
             { uid: "back-rank", group: "goal" },
             { uid: "single-step", group: "step-count" }
         ],
+        categories: ["goal>breakthrough", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["multistep", "perspective", "player-stashes"],
         displays: [{uid: "differentiated-walls"}],
     };

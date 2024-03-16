@@ -78,6 +78,7 @@
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
         "rootbound": "In Root Bound, two players’ plants vie for control of the space at the sides of a planter as the room for new growth rapidly dwindles.",
+        "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
@@ -1030,6 +1031,14 @@
             "TOO_MANY_NEIGHBORS": "Your pieces cannot form a small triangle.",
             "RAPID_GROWTH": "You cannot grow a group in a straight line in a single turn."
         },
+        "saltire": {
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece, or select a piece to swap.",
+            "EMPTY_FROM": "You are indicating to swap but there is no piece at {{where}}.",
+            "NO_SWAPPABLE": "The piece at {{where}} cannot make a swap with any adjacent piece to reduce the number of crosscuts or supercuts.",
+            "SELECT_TO": "Select an adjacent piece to swap with.",
+            "INVALID_SWAP": "Swapping {{from}} with {{to}} is not valid.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
+        },
         "scaffold": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "INCOMPLETE": "You need to place stones to connect the groups.",
@@ -1368,6 +1377,11 @@
             "setup": {
                 "name": "setup",
                 "description": "The starting position will be an empty board."
+            }
+        },
+        "saltire": {
+            "board": {
+                "name": "13x13 board"
             }
         },
         "slither": {
@@ -1866,6 +1880,17 @@
             "anti": {
                 "name": "Anti-Reversi",
                 "description": "The player who has the fewest pieces at the end of the game wins."
+            }
+        },
+        "saltire": {
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-11": {
+                "name": "11x11 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
             }
         },
         "slither": {

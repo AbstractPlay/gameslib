@@ -27,6 +27,7 @@ export class QuagmireGame extends GameBase {
         uid: "quagmire",
         playercounts: [2],
         version: "20231122",
+        dateAdded: "2023-11-26",
         // i18next.t("apgames:descriptions.quagmire")
         description: "apgames:descriptions.quagmire",
         urls: ["https://cjffield.com/rules/quagmire.pdf"],
@@ -37,6 +38,7 @@ export class QuagmireGame extends GameBase {
                 urls: ["https://cjffield.com/"]
             }
         ],
+        categories: ["goal>immobilize", "mechanic>block",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: [],
         variants: [
             {

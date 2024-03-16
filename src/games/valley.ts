@@ -26,6 +26,7 @@ export class ValleyGame extends GameBase {
         uid: "valley",
         playercounts: [2],
         version: "20240218",
+        dateAdded: "2024-02-18",
         // i18next.t("apgames:descriptions.valley")
         description: "apgames:descriptions.valley",
         urls: [
@@ -47,6 +48,7 @@ export class ValleyGame extends GameBase {
                 uid: "king-swap"
             }
         ],
+        categories: ["goal>royal-escape", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective"]
     };
 

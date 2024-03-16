@@ -56,6 +56,7 @@ export class MvolcanoGame extends GameBase {
         uid: "mvolcano",
         playercounts: [2],
         version: "20211107",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.mvolcano")
         description: "apgames:descriptions.mvolcano",
         urls: ["http://www.wunderland.com/WTS/Kristin/Games/Volcano.html#MegaVolcano"],
@@ -66,6 +67,7 @@ export class MvolcanoGame extends GameBase {
                 urls: ["http://www.wunderland.com/WTS/Kristin/Kristin.html"]
             }
         ],
+        categories: ["goal>score>eog", "mechanic>displace",  "mechanic>move", "mechanic>set", "mechanic>share", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["shared-pieces", "scores", "stacking-expanding", "no-moves", "multistep", "random-start"],
         displays: [{uid: "expanding"}]
     };

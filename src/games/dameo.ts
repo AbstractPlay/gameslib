@@ -31,6 +31,7 @@ export class DameoGame extends GameBase {
         uid: "dameo",
         playercounts: [2],
         version: "20240219",
+        dateAdded: "2024-02-19",
         // i18next.t("apgames:descriptions.dameo")
         description: "apgames:descriptions.dameo",
         urls: [
@@ -46,6 +47,7 @@ export class DameoGame extends GameBase {
         variants: [
             { uid: "size-10", group: "board" }
         ],
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "perspective", "automove", "limited-pieces"]
     };
 

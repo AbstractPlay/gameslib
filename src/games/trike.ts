@@ -32,6 +32,7 @@ export class TrikeGame extends GameBase {
         uid: "trike",
         playercounts: [2],
         version: "20240118",
+        dateAdded: "2023-12-26",
         // version: "20231225",
         // i18next.t("apgames:descriptions.trike")
         description: "apgames:descriptions.trike",
@@ -47,6 +48,7 @@ export class TrikeGame extends GameBase {
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],
+        categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>enclose", "mechanic>share", "board>shape>tri", "board>connect>hex", "components>simple"],
         flags: ["pie", "automove", "aiai"],
         displays: [{uid: "hide-moves"}],
     };

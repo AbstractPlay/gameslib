@@ -36,6 +36,7 @@ export class AmazonsGame extends GameBase {
         uid: "amazons",
         playercounts: [2],
         version: "20211005",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.amazons")
         description: "apgames:descriptions.amazons",
         urls: ["https://en.wikipedia.org/wiki/Amazons_%28game%29"],
@@ -49,6 +50,7 @@ export class AmazonsGame extends GameBase {
             {uid: "cross", group: "setup"},
             {uid: "scrambled", group: "setup"},
         ],
+        categories: ["goal>immobilize", "mechanic>block", "mechanic>move", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "scores", "perspective", "pie", "aiai"]
     };
     public static coords2algebraic(x: number, y: number): string {

@@ -34,6 +34,7 @@ export class AlmataflGame extends GameBase {
         uid: "almatafl",
         playercounts: [2],
         version: "20231204",
+        dateAdded: "2023-12-08",
         // i18next.t("apgames:descriptions.almatafl")
         description: "apgames:descriptions.almatafl",
         urls: ["https://boardgamegeek.com/boardgame/401367/almatafl"],
@@ -45,6 +46,7 @@ export class AlmataflGame extends GameBase {
             }
         ],
         variants: [{uid: "advanced"}],
+        categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>stack", "mechanic>differentiate", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["custom-colours", "multistep"]
     };
 

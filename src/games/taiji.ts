@@ -24,6 +24,7 @@ export class TaijiGame extends GameBase {
         uid: "taiji",
         playercounts: [2],
         version: "20211118",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.taiji")
         description: "apgames:descriptions.taiji",
         // i18next.t("apgames:notes.taiji")
@@ -65,6 +66,7 @@ export class TaijiGame extends GameBase {
                 uid: "tonga",
             },
         ],
+        categories: ["goal>score>eog", "mechanic>place",  "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["scores", "multistep"]
     };
 

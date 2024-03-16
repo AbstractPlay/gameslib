@@ -29,6 +29,7 @@ export class TableroGame extends GameBase {
         uid: "tablero",
         playercounts: [2],
         version: "20240124",
+        dateAdded: "2024-02-01",
         // i18next.t("apgames:descriptions.tablero")
         description: "apgames:descriptions.tablero",
         // i18next.t("apgames:notes.tablero")
@@ -46,6 +47,7 @@ export class TableroGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
+        categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["limited-pieces", "perspective", "multistep", "scores", "automove", "no-explore"]
     };
     public static coords2algebraic(x: number, y: number): string {

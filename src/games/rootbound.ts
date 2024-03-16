@@ -37,6 +37,7 @@ export class RootBoundGame extends GameBase {
         uid: "rootbound",
         playercounts: [2],
         version: "20240301",
+        dateAdded: "2024-02-25",
         // i18next.t("apgames:descriptions.rootbound")
         description: "apgames:descriptions.rootbound",
         urls: ["https://cjffield.com/rules/rootbound.pdf"],
@@ -47,6 +48,7 @@ export class RootBoundGame extends GameBase {
                 urls: ["https://cjffield.com"]
             }
         ],
+        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["scores", "automove"],
         displays: [{uid: "hide-highlights"}]
     };

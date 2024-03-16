@@ -33,6 +33,7 @@ export class BideGame extends GameBase {
         uid: "bide",
         playercounts: [2,3,4,5,6],
         version: "20230729",
+        dateAdded: "2023-09-25",
         // i18next.t("apgames:descriptions.bide")
         description: "apgames:descriptions.bide",
         urls: ["https://boardgamegeek.com/boardgame/309892/bide"],
@@ -42,6 +43,7 @@ export class BideGame extends GameBase {
                 name: "Alek Erickson",
             }
         ],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["scores", "no-moves", "multistep"]
     };
     public numplayers = 2;

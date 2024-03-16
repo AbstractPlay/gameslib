@@ -36,6 +36,7 @@ export class PhutballGame extends GameBase {
         uid: "phutball",
         playercounts: [2],
         version: "20230704",
+        dateAdded: "2023-08-25",
         description: "apgames:descriptions.phutball",
         urls: ["https://en.wikipedia.org/wiki/Phutball"],
         people: [
@@ -44,6 +45,7 @@ export class PhutballGame extends GameBase {
                 name: "Elwyn Berlekamp, John Horton Conway, and Richard K. Guy",
             },
         ],
+        categories: ["goal>breakthrough", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "perspective", "pie"],
     };
     public static coords2algebraic(x: number, y: number): string {

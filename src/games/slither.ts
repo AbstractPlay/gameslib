@@ -31,6 +31,7 @@ export class SlitherGame extends GameBase {
         uid: "slither",
         playercounts: [2],
         version: "20231217",
+        dateAdded: "2023-12-20",
         // i18next.t("apgames:descriptions.slither")
         description: "apgames:descriptions.slither",
         urls: ["https://boardgamegeek.com/boardgame/75957/slither"],
@@ -50,6 +51,7 @@ export class SlitherGame extends GameBase {
                 group: "movement"
             }
         ],
+        categories: ["goal>connect", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "automove", "multistep", "rotate90"]
     };
 

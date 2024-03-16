@@ -25,6 +25,7 @@ export class EpamGame extends GameBase {
         uid: "epam",
         playercounts: [2],
         version: "20211117",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.epam")
         description: "apgames:descriptions.epam",
         urls: ["http://www.logicmazes.com/games/epam.html"],
@@ -41,6 +42,7 @@ export class EpamGame extends GameBase {
                 group: "setup"
             }
         ],
+        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective", "limited-pieces"]
     };
 

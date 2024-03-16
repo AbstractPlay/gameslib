@@ -27,6 +27,7 @@ export class QueenslandGame extends GameBase {
         uid: "queensland",
         playercounts: [2],
         version: "20240210",
+        dateAdded: "2024-02-13",
         // i18next.t("apgames:descriptions.queensland")
         description: "apgames:descriptions.queensland",
         // i18next.t("apgames:notes.queensland")
@@ -39,6 +40,7 @@ export class QueenslandGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
+        categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "limited-pieces", "scores", "automove"],
         displays: [{uid: "hide-scored"}],
     };

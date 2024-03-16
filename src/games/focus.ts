@@ -27,6 +27,7 @@ export class FocusGame extends GameBase {
         uid: "focus",
         playercounts: [2],
         version: "20230607",
+        dateAdded: "2023-06-27",
         // i18next.t("apgames:descriptions.focus")
         description: "apgames:descriptions.focus",
         urls: ["https://en.wikipedia.org/wiki/Focus_(board_game)"],
@@ -36,6 +37,7 @@ export class FocusGame extends GameBase {
                 name: "Sid Sackson",
             },
         ],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>oct", "board>connect>rect", "components>simple"],
         flags: ["limited-pieces", "scores"]
     };
     public static coords2algebraic(x: number, y: number): string {

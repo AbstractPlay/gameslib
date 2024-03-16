@@ -82,6 +82,7 @@ export class HomeworldsGame extends GameBase {
         uid: "homeworlds",
         playercounts: [2,3,4],
         version: "20211024",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.homeworlds")
         description: "apgames:descriptions.homeworlds",
         // i18next.t("apgames:notes.homeworlds")
@@ -97,6 +98,7 @@ export class HomeworldsGame extends GameBase {
                 name: "John Cooper"
             }
         ],
+        categories: ["goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>economy", "mechanic>place", "mechanic>share", "board>none", "components>pyramids"],
         flags: ["multistep", "shared-pieces", "perspective", "rotate90", "no-moves"]
     };
 

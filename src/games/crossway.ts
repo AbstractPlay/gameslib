@@ -46,6 +46,7 @@ export class CrosswayGame extends GameBase {
         uid: "crossway",
         playercounts: [2],
         version: "20230625",
+        dateAdded: "2023-06-25",
         // i18next.t("apgames:descriptions.crossway")
         description: "apgames:descriptions.crossway",
         urls: ["https://www.marksteeregames.com/Crossway_rules.pdf"],
@@ -56,6 +57,7 @@ export class CrosswayGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {

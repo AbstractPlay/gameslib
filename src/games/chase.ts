@@ -110,6 +110,7 @@ export class ChaseGame extends GameBase {
         uid: "chase",
         playercounts: [2],
         version: "20211009",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.chase")
         description: "apgames:descriptions.chase",
         // i18next.t("apgames:notes.chase")
@@ -125,6 +126,7 @@ export class ChaseGame extends GameBase {
                 name: "TSR"
             }
         ],
+        categories: ["goal>cripple", "mechanic>move", "mechanic>displace", "mechanic>merge", "board>shape>rect", "board>connect>hex", "components>dice"],
         flags: ["perspective"]
     };
 

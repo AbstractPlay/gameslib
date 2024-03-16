@@ -36,6 +36,7 @@ export class BoomGame extends GameBase {
         uid: "boom",
         playercounts: [2],
         version: "20230718",
+        dateAdded: "2023-07-18",
         // i18next.t("apgames:descriptions.boom")
         description: "apgames:descriptions.boom",
         urls: ["https://boardgamegeek.com/boardgame/243927/boom-zoom-second-edition"],
@@ -49,6 +50,7 @@ export class BoomGame extends GameBase {
             {uid: "pieces-6", group: "setup"},
             {uid: "pieces-8", group: "setup"},
         ],
+        categories: ["goal>score>eog", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["scores","perspective"]
     };
 

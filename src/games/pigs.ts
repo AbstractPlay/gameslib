@@ -77,6 +77,7 @@ export class PigsGame extends GameBaseSimultaneous {
         uid: "pigs",
         playercounts: [2,3,4],
         version: "20230618",
+        dateAdded: "2023-06-27",
         // i18next.t("apgames:descriptions.pigs")
         description: "apgames:descriptions.pigs",
         // i18next.t("apgames:notes.pigs")
@@ -92,6 +93,7 @@ export class PigsGame extends GameBaseSimultaneous {
                 urls: ["http://cox-tv.com/games/index.php"]
             }
         ],
+        categories: ["goal>annihilate", "mechanic>program",  "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["simultaneous", "scores", "no-moves"]
     };
 

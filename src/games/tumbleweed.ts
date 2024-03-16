@@ -34,6 +34,7 @@ export class TumbleweedGame extends GameBase {
         uid: "tumbleweed",
         playercounts: [2],
         version: "20231229",
+        dateAdded: "2024-01-03",
         // i18next.t("apgames:descriptions.tumbleweed")
         description: "apgames:descriptions.tumbleweed",
         urls: ["https://boardgamegeek.com/boardgame/318702/tumbleweed"],
@@ -43,6 +44,7 @@ export class TumbleweedGame extends GameBase {
                 name: "Mike Zapawa",
             }
         ],
+        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["pie-even", "multistep", "scores", "aiai"],
         variants: [
             {

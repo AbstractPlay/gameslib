@@ -30,6 +30,7 @@ export class AbandeGame extends GameBase {
         uid: "abande",
         playercounts: [2],
         version: "20211112",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.abande")
         description: "apgames:descriptions.abande",
         urls: ["https://spielstein.com/games/abande/rules"],
@@ -50,6 +51,7 @@ export class AbandeGame extends GameBase {
                 group: "board",
             }
         ],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>shape>hex", "board>connect>rect", "board>connect>hex", "board>connect>snub", "components>simple"],
         flags: ["limited-pieces", "scores", "automove"]
     };
 

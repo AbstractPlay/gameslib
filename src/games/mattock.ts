@@ -28,6 +28,7 @@ export class MattockGame extends GameBase {
         uid: "mattock",
         playercounts: [2],
         version: "20240106",
+        dateAdded: "2024-01-07",
         // i18next.t("apgames:descriptions.mattock")
         description: "apgames:descriptions.mattock",
         urls: ["https://mattock.drew-edwards.com/"],
@@ -38,6 +39,7 @@ export class MattockGame extends GameBase {
                 urls: ["https://games.drew-edwards.com/"]
             }
         ],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>share", "mechanic>move", "mechanic>place", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["multistep", "automove", "scores", "random-start"],
         variants: [
             {

@@ -37,6 +37,7 @@ export class MiradorGame extends GameBase {
         uid: "mirador",
         playercounts: [2],
         version: "20230729",
+        dateAdded: "2023-08-25",
         description: "apgames:descriptions.mirador",
         urls: ["https://www.abstractgames.org/mirador.html"],
         people: [
@@ -45,6 +46,7 @@ export class MiradorGame extends GameBase {
                 name: "Andrew Perkis",
             },
         ],
+        categories: ["goal>connect", "mechanic>block",  "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie"],
     };
 

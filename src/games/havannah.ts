@@ -81,6 +81,7 @@ export class HavannahGame extends GameBase {
         uid: "havannah",
         playercounts: [2],
         version: "20240101",
+        dateAdded: "2024-01-01",
         // i18next.t("apgames:descriptions.havannah")
         description: "apgames:descriptions.havannah",
         urls: ["https://www.mindsports.nl/index.php/arena/havannah", "https://en.wikipedia.org/wiki/Havannah_(board_game)"],
@@ -91,6 +92,7 @@ export class HavannahGame extends GameBase {
                 urls: ["https://www.mindsports.nl/"]
             }
         ],
+        categories: ["goal>align", "goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["automove", "pie"],
         variants: [
             {

@@ -101,6 +101,11 @@
             "description": "A string representing the version of the current implementation. The format of the string is irrelevant. Its main purpose is to identify incompatible game state representations. It should be changed whenever the internal game rep changes.",
             "type": "string"
         },
+        "dateAdded": {
+            "description": "The date the game was pushed to production, in ISO year-month-day order.",
+            "type": "string",
+            "format": "date"
+        },
         "people": {
             "description": "The people and organizations involved in the game's creation",
             "type": "array",
@@ -130,6 +135,14 @@
                 "minimum": 1
             }
         },
+        "categories": {
+            "description": "A list categories. The list should not contain any duplicates. Nesting is accomplished by joining the names of levels with the greater-than symbol (>). Names should not contain spaces. Translation into proper labels is left to the client.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1
+        },
         "flags": {
             "description": "A list of flags used by the front end to signal the presence or absence of a particular feature.",
             "type": "array",
@@ -138,5 +151,5 @@
             }
         }
     },
-    "required": ["name", "uid", "version", "playercounts"]
+    "required": ["name", "uid", "version", "playercounts", "categories", "dateAdded"]
 }

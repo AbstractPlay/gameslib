@@ -30,6 +30,7 @@ export class ClusterfussGame extends GameBase {
         uid: "clusterfuss",
         playercounts: [2],
         version: "20240202",
+        dateAdded: "2024-02-03",
         // i18next.t("apgames:descriptions.clusterfuss")
         description: "apgames:descriptions.clusterfuss",
         urls: ["https://marksteeregames.com/Clusterfuss_rules.pdf"],
@@ -40,6 +41,7 @@ export class ClusterfussGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["automove", "pie"],
         variants: [
             {

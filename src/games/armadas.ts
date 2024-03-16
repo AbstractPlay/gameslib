@@ -57,6 +57,7 @@ export class ArmadasGame extends GameBase {
         uid: "armadas",
         playercounts: [2,3,4],
         version: "20230714",
+        dateAdded: "2023-09-23",
         // i18next.t("apgames:descriptions.armadas")
         description: "apgames:descriptions.armadas",
         // i18next.t("apgames:notes.armadas")
@@ -71,6 +72,7 @@ export class ArmadasGame extends GameBase {
             }
         ],
         flags: ["multistep", "no-moves"],
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>asymmetry", "mechanic>differentiate", "mechanic>move", "board>none", "components>pyramids"],
         variants: [
             {
                 uid: "freeform",

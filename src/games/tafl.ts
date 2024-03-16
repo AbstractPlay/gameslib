@@ -48,6 +48,7 @@ export class TaflGame extends GameBase {
         uid: "tafl",
         playercounts: [2],
         version: "20240208",
+        dateAdded: "2024-02-24",
         // i18next.t("apgames:descriptions.tafl")
         description: "apgames:descriptions.tafl",
         // i18next.t("apgames:notes.tafl")
@@ -69,6 +70,7 @@ export class TaflGame extends GameBase {
             { uid: "seabattle-11x11-tcross-w", group: "variant" },
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
+        categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "mechanic>differentiate",  "mechanic>move", "mechanic>traditional", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "custom-colours", "check", "limited-pieces"],
     };
 

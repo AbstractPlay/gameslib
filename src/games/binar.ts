@@ -86,6 +86,7 @@ export class BinarGame extends GameBase {
         uid: "binar",
         playercounts: [2],
         version: "20240214",
+        dateAdded: "2024-02-14",
         // i18next.t("apgames:descriptions.binar")
         description: "apgames:descriptions.binar",
         // i18next.t("apgames:notes.binar")
@@ -98,6 +99,7 @@ export class BinarGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
+        categories: ["goal>align", "mechanic>place", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["shared-pieces", "experimental"],
         variants: [
             {

@@ -36,6 +36,7 @@ export class RazzleGame extends GameBase {
         uid: "razzle",
         playercounts: [2],
         version: "20230825",
+        dateAdded: "2023-09-16",
         description: "apgames:descriptions.razzle",
         urls: [
             "https://boardgamegeek.com/thread/169556/review-razzle-dazzle",
@@ -48,6 +49,7 @@ export class RazzleGame extends GameBase {
                 urls: ["http://www.donaldgreen.com/"],
             },
         ],
+        categories: ["goal>breakthrough", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective", "automove"],
     };
 

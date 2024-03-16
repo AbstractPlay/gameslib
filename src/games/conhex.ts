@@ -32,6 +32,7 @@ export class ConhexGame extends GameBase {
         uid: "conhex",
         playercounts: [2],
         version: "20240127",
+        dateAdded: "2024-02-03",
         // i18next.t("apgames:descriptions.conhex")
         description: "apgames:descriptions.conhex",
         urls: ["https://boardgamegeek.com/boardgame/10989/conhex"],
@@ -47,6 +48,7 @@ export class ConhexGame extends GameBase {
                 group: "board",
             },
         ],
+        categories: ["goal>connect", "mechanic>place", "board>other", "components>special"],
         flags: ["pie", "rotate90"],
     };
 

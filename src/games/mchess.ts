@@ -62,6 +62,7 @@ export class MchessGame extends GameBase {
         uid: "mchess",
         playercounts: [2],
         version: "20211012",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.mchess")
         description: "apgames:descriptions.mchess",
         // i18next.t("apgames:notes.mchess")
@@ -80,6 +81,7 @@ export class MchessGame extends GameBase {
                 group: "movement"
             }
         ],
+        categories: ["goal>score>eog", "mechanic>share", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["scores", "multistep","perspective"],
     };
 

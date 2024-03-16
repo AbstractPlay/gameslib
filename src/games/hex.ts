@@ -32,6 +32,7 @@ export class HexGame extends GameBase {
         uid: "hex",
         playercounts: [2],
         version: "20240101",
+        dateAdded: "2024-01-03",
         // i18next.t("apgames:descriptions.hex")
         description: "apgames:descriptions.hex",
         urls: ["https://en.wikipedia.org/wiki/Hex_(board_game)"],
@@ -45,6 +46,7 @@ export class HexGame extends GameBase {
                 name: "John Nash",
             },
         ],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple"],
         flags: ["pie"],
         variants: [
             {

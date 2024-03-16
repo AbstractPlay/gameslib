@@ -40,6 +40,7 @@ export class FendoGame extends GameBase {
         uid: "fendo",
         playercounts: [2],
         version: "20211119",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.fendo")
         description: "apgames:descriptions.fendo",
         urls: ["https://spielstein.com/games/fendo", "https://boardgamegeek.com/boardgame/159333/fendo"],
@@ -50,6 +51,7 @@ export class FendoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
+        categories: ["goal>area", "mechanic>block", "mechanic>move", "mechanic>enclose", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["limited-pieces", "scores", "automove", "multistep", "perspective"]
     };
 

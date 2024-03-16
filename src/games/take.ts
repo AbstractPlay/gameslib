@@ -34,6 +34,7 @@ export class TakeGame extends GameBase {
         uid: "take",
         playercounts: [2],
         version: "20240220",
+        dateAdded: "2024-02-25",
         // i18next.t("apgames:descriptions.take")
         description: "apgames:descriptions.take",
         urls: ["https://www.marksteeregames.com/Take_rules.pdf"],
@@ -44,6 +45,7 @@ export class TakeGame extends GameBase {
                 urls: ["https://www.marksteeregames.com"]
             }
         ],
+        categories: ["goal>annihilate", "mechanic>place",  "mechanic>enclose", "mechanic>capture", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: [],
         variants: [
             {

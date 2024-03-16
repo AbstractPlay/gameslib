@@ -35,6 +35,7 @@ export class FabrikGame extends GameBase {
         uid: "fabrik",
         playercounts: [2],
         version: "20211118",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.fabrik")
         description: "apgames:descriptions.fabrik",
         urls: ["https://spielstein.com/games/fabrik"],
@@ -50,6 +51,7 @@ export class FabrikGame extends GameBase {
                 uid: "arbeiter"
             }
         ],
+        categories: ["goal>align", "mechanic>place", "mechanic>move", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["multistep", "automove"]
     };
 

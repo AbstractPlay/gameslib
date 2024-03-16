@@ -29,6 +29,7 @@ export class MeridiansGame extends GameBase {
         uid: "meridians",
         playercounts: [2],
         version: "20240105",
+        dateAdded: "2024-01-05",
         // i18next.t("apgames:descriptions.meridians")
         description: "apgames:descriptions.meridians",
         urls: ["https://kanare-abstract.com/en/pages/meridians"],
@@ -39,6 +40,7 @@ export class MeridiansGame extends GameBase {
                 urls: ["https://kanare-abstract.com"],
             }
         ],
+        categories: ["goal>majority", "mechanic>capture", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["pie-even", "multistep"],
         variants: [
             {

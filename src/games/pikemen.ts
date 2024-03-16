@@ -38,6 +38,7 @@ export class PikemenGame extends GameBase {
         uid: "pikemen",
         playercounts: [2],
         version: "20211114",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.pikemen")
         description: "apgames:descriptions.pikemen",
         urls: ["http://playagaingames.com/games/pikemen/"],
@@ -54,6 +55,7 @@ export class PikemenGame extends GameBase {
                 group: "eog"
             }
         ],
+        categories: ["goal>score>race", "mechanic>capture",  "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["scores", "multistep", "perspective"]
     };
 

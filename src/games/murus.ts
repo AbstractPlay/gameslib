@@ -26,6 +26,7 @@ export class MurusGame extends GameBase {
         uid: "murus",
         playercounts: [2],
         version: "20231024",
+        dateAdded: "2023-10-24",
         // i18next.t("apgames:descriptions.murus")
         description: "apgames:descriptions.murus",
         // i18next.t("apgames:notes.murus")
@@ -49,6 +50,7 @@ export class MurusGame extends GameBase {
                 uid: "basic"
             }
         ],
+        categories: ["goal>breakthrough", "goal>immobilize", "mechanic>capture",  "mechanic>differentiate", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "perspective", "multistep"]
     };
 

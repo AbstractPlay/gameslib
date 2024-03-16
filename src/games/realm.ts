@@ -57,6 +57,7 @@ export class RealmGame extends GameBase {
         uid: "realm",
         playercounts: [2],
         version: "20230521",
+        dateAdded: "2023-06-08",
         // i18next.t("apgames:descriptions.realm")
         description: "apgames:descriptions.realm",
         urls: ["https://boardgamegeek.com/boardgame/3024/realm"],
@@ -107,6 +108,7 @@ export class RealmGame extends GameBase {
                 uid: "relaxed",
             },
         ],
+        categories: ["goal>area", "mechanic>block", "mechanic>differentiate", "mechanic>move", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["multistep", "player-stashes", "scores", "limited-pieces", "no-moves"]
     };
 

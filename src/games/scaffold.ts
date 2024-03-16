@@ -31,6 +31,7 @@ export class ScaffoldGame extends GameBase {
         uid: "scaffold",
         playercounts: [2],
         version: "20231209",
+        dateAdded: "2023-12-20",
         // i18next.t("apgames:descriptions.scaffold")
         description: "apgames:descriptions.scaffold",
         urls: ["https://boardgamegeek.com/boardgame/360432/scaffold"],
@@ -40,6 +41,7 @@ export class ScaffoldGame extends GameBase {
                 name: "Andrew Lannan",
             }
         ],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "automove", "multistep", "rotate90"]
     };
 

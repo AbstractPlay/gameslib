@@ -39,6 +39,7 @@ export class WitchGame extends GameBase {
         uid: "witch",
         playercounts: [2],
         version: "20230612",
+        dateAdded: "2023-06-22",
         // i18next.t("apgames:descriptions.witch")
         description: "apgames:descriptions.witch",
         // i18next.t("apgames:notes.witch")
@@ -50,6 +51,7 @@ export class WitchGame extends GameBase {
                 name: "Justin D. Jacobson",
             }
         ],
+        categories: ["goal>score>race", "mechanic>capture",  "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["shared-pieces", "player-stashes", "scores", "random-start"]
     };
 

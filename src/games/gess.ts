@@ -31,14 +31,15 @@ export class GessGame extends GameBase {
         uid: "gess",
         playercounts: [2],
         version: "20240125",
+        dateAdded: "2024-01-22",
         // i18next.t("apgames:descriptions.gess")
         description: "apgames:descriptions.gess",
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
         people: [],
         variants: [],
+        categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective"],
         displays: [{uid: "hide-piece-highlight"}],
-
     };
 
     public coords2algebraic(x: number, y: number): string {

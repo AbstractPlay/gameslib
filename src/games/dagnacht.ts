@@ -31,6 +31,7 @@ export class DagEnNachtGame extends GameBase {
         uid: "dagnacht",
         playercounts: [2],
         version: "20230904",
+        dateAdded: "2023-09-16",
         description: "apgames:descriptions.dagnacht",
         urls: [
             "https://www.abstractgames.org/unequalspaces.html",
@@ -60,6 +61,7 @@ export class DagEnNachtGame extends GameBase {
                 group: "board",
             },
         ],
+        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["aiai"],
     };
 

@@ -25,6 +25,7 @@ export class ByteGame extends GameBase {
         uid: "byte",
         playercounts: [2],
         version: "20231223",
+        dateAdded: "2023-12-24",
         // i18next.t("apgames:descriptions.byte")
         description: "apgames:descriptions.byte",
         urls: ["https://www.marksteeregames.com/Byte_rules.pdf"],
@@ -35,6 +36,7 @@ export class ByteGame extends GameBase {
                 urls: ["https://www.marksteeregames.com"],
             },
         ],
+        categories: ["goal>score>race", "mechanic>bearoff", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["scores", "pie", "automove"],
         variants: [
             {

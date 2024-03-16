@@ -36,6 +36,7 @@ export class OrdoGame extends GameBase {
         uid: "ordo",
         playercounts: [2],
         version: "20211114",
+        dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.ordo")
         description: "apgames:descriptions.ordo",
         urls: ["https://spielstein.com/games/ordo"],
@@ -46,6 +47,7 @@ export class OrdoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
+        categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["perspective", "limited-pieces"]
     };
 

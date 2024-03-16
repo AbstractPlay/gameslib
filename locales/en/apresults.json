@@ -51,6 +51,7 @@
             "nowhere": "A {{what}} was captured.",
             "nowhere_one": "A piece was captured.",
             "nowhere_other": "{{count}} pieces were captured.",
+            "nowhat": "A piece was captured at {{where}}.",
             "simple": "A {{what}} was captured at {{where}}."
         },
         "nowhat": "{{player}} captured a piece at {{where}}.",

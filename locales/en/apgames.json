@@ -219,6 +219,7 @@
             "NONEXISTENT": "Trying to interact with a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
             "NOT_ORTH": "The cells {{from}} and {{to}} are not orthogonal to each other.",
+            "NOT_ORTH_OR_DIAG": "The cells {{from}} and {{to}} are not orthogonal or diagonal to each other.",
             "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
             "OCCUPIED": "The cell {{where}} is already occupied.",
             "SAME_FROM_TO": "The 'from' and 'to' cells have to be different.",

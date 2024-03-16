@@ -665,6 +665,12 @@ export class OrdoGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
                     return result;
                 }
+                // Orthogonal or diagonal
+                if (! RectGrid.isOrth(...OrdoGame.algebraic2coords(left), ...OrdoGame.algebraic2coords(right)) && ! RectGrid.isDiag(...OrdoGame.algebraic2coords(left), ...OrdoGame.algebraic2coords(right))) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NOT_ORTH_OR_DIAG", {from: left, to: right});
+                    return result;
+                }
                 // direction is correct
                 const dirs: Directions[] = [...dirsForward[this.currplayer - 1]];
                 if (! this.isConnected(this.currplayer)) {

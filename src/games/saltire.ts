@@ -44,6 +44,7 @@ export class SaltireGame extends GameBase {
             { uid: "size-9", group: "board" },
             { uid: "size-11", group: "board" },
             { uid: "size-15", group: "board" },
+            { uid: "basic", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie", "multistep", "rotate90"],
@@ -441,7 +442,7 @@ export class SaltireGame extends GameBase {
                 const crosscutCount = this.getCrosscutCount(from, n);
                 if (crosscutCount < this.crosscutCount) {
                     swappable.push(n);
-                } else if (crosscutCount === this.crosscutCount) {
+                } else if (!this.variants.includes("basic") && crosscutCount === this.crosscutCount) {
                     const supercutCount = this.getSupercutCount(from, n);
                     if (supercutCount < this.supercutCount) {
                         swappable.push(n);
@@ -490,7 +491,9 @@ export class SaltireGame extends GameBase {
             }
         }
         this.crosscutCount = this.getCrosscutCount();
-        this.supercutCount = this.getSupercutCount();
+        if (!this.variants.includes("basic")) {
+            this.supercutCount = this.getSupercutCount();
+        }
         if (partial) { return this; }
 
         this.lastmove = m;

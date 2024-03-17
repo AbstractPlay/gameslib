@@ -485,7 +485,11 @@ export abstract class GameBase  {
                                         node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {what: r.what}));
                                     }
                                 } else {
-                                    node.push(i18next.t("apresults:CAPTURE.noperson.simple", {what: r.what, where: r.where}));
+                                    if (r.what === undefined) {
+                                        node.push(i18next.t("apresults:CAPTURE.noperson.nowhat", {where: r.where}));
+                                    } else {
+                                        node.push(i18next.t("apresults:CAPTURE.noperson.simple", {what: r.what, where: r.where}));
+                                    }
                                 }
                                 break;
                             case "bearoff":

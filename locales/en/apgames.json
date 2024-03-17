@@ -28,6 +28,7 @@
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
+        "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
@@ -73,6 +74,7 @@
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
+        "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
@@ -219,6 +221,7 @@
             "NONEXISTENT": "Trying to interact with a piece or stack that doesn't exist at {{where}}.",
             "NOPIECES": "You have no pieces to place.",
             "NOT_ORTH": "The cells {{from}} and {{to}} are not orthogonal to each other.",
+            "NOT_ORTH_OR_DIAG": "The cells {{from}} and {{to}} are not orthogonal or diagonal to each other.",
             "OBSTRUCTED": "There is an obstruction at {{obstruction}} between {{from}} and {{to}}.",
             "OCCUPIED": "The cell {{where}} is already occupied.",
             "SAME_FROM_TO": "The 'from' and 'to' cells have to be different.",
@@ -525,6 +528,14 @@
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece.",
             "INVALID_VERTEX": "The vertex {{vertex}} does not exist on the board.",
             "OCCUPIED":"The vertex {{where}} is already occupied."
+        },
+        "connecticut": {
+            "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Select a vertex to place a piece. You may not place a triomino on the first move.",
+            "FIRST_TRIOMINO": "You may not place a triomino on the first move.",
+            "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece.",
+            "INVALID_TO": "You may not place a triomino at {{from}}-{{to}}.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "courtesan": {
             "DISTANCE_ONE": "Pieces may only move one space at a time.",
@@ -957,6 +968,15 @@
             "LEGAL_MOVES": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
             "MAY_RUN": "You may submit or select another destination cell to run to."
         },
+        "quax": {
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece, or select a piece to link with a diagonal connection.",
+            "EMPTY_FROM": "You are indicating to place a diagonal connection but there is no piece at {{where}}.",
+            "OPPONENT_FROM": "You cannot make a diagonal connection with an opponent's piece at {{where}}.",
+            "NO_DIAGS": "The piece at {{where}} cannot make a diagonal connection with any neighbouring piece.",
+            "SELECT_TO": "Select an adjacent piece to make a diagonal connection.",
+            "INVALID_DIAG": "Diagonal connection {{from}} with {{to}} is not valid.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
+        },
         "queensland": {
             "BAD_PASS": "You can only pass in one specific circumstance. You should never see this message.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move, or select an empty cell to place a piece.",
@@ -1379,9 +1399,18 @@
                 "description": "The starting position will be an empty board."
             }
         },
+        "quax": {
+            "board": {
+                "name": "11x11 board"
+            }
+        },
         "saltire": {
             "board": {
                 "name": "13x13 board"
+            },
+            "ruleset": {
+                "name": "rules",
+                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts."
             }
         },
         "slither": {
@@ -1813,6 +1842,14 @@
                 "description": "The starting position will have some pre-flooded spaces."
             }
         },
+        "quax": {
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-13": {
+                "name": "13x13 board"
+            }
+        },
         "realm": {
             "capturedBases": {
                 "name": "Tie break: Captured bases",
@@ -1864,7 +1901,7 @@
             "octagon-8": {
                 "name": "Octagonal board (8x8)",
                 "description": "Standard 8x8 board with the corners blocked."
-            }, 
+            },
             "octagon-10": {
                 "name": "Octagonal board (10x10)",
                 "description": "Standard 10x10 board with the corners blocked."
@@ -1891,6 +1928,10 @@
             },
             "size-15": {
                 "name": "15x15 board"
+            },
+            "basic": {
+                "name": "Basic rules",
+                "description": "A swap must decrease the number of crosscuts. Draws are possible."
             }
         },
         "slither": {
@@ -2122,6 +2163,12 @@
             "hide-markers": {
                 "description": "Don't show visual markers for the location of the corridor and scored tiles.",
                 "name": "Hide markers"
+            }
+        },
+        "connecticut": {
+            "hide-triominoes": {
+                "description": "Don't show the triominoes.",
+                "name": "Hide triominoes"
             }
         },
         "gess": {

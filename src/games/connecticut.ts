@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError } from "../common";
+import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
@@ -14,40 +14,36 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     connPath: string[];
-    crosscutCount: number;
-    supercutCount: number;
     lastmove?: string;
 }
 
-export interface ISaltireState extends IAPGameState {
+export interface IConnecticutState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class SaltireGame extends GameBase {
+export class ConnecticutGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Saltire",
-        uid: "saltire",
+        name: "Connecticut",
+        uid: "connecticut",
         playercounts: [2],
-        version: "20240316",
-        dateAdded: "2024-03-17",
-        // i18next.t("apgames:descriptions.saltire")
-        description: "apgames:descriptions.saltire",
-        urls: ["https://boardgamegeek.com/boardgame/402546/saltire"],
+        version: "20240317",
+        dateAdded: "2022-03-17",
+        // i18next.t("apgames:descriptions.connecticut")
+        description: "apgames:descriptions.connecticut",
+        urls: ["https://boardgamegeek.com/boardgame/297319/connecticut"],
         people: [
             {
                 type: "designer",
-                name: "Luis Bolaños Mures"
+                name: "Corey Clark",
             }
         ],
         variants: [
-            { uid: "size-9", group: "board" },
-            { uid: "size-11", group: "board" },
-            { uid: "size-15", group: "board" },
-            { uid: "basic", group: "ruleset" },
+            // { uid: "size-25", group: "board" },
         ],
-        categories: ["goal>connect", "mechanic>place", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "multistep", "rotate90"],
+        displays: [{uid: "hide-triominoes"}],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -61,8 +57,6 @@ export class SaltireGame extends GameBase {
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, playerid>;
-    public crosscutCount = 0;
-    public supercutCount = 0;
     public connPath: string[] = [];
     public gameover = false;
     public winner: playerid[] = [];
@@ -74,29 +68,27 @@ export class SaltireGame extends GameBase {
     private grid: RectGrid;
     private lines: [PlayerLines,PlayerLines];
 
-    constructor(state?: ISaltireState | string, variants?: string[]) {
+    constructor(state?: IConnecticutState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: SaltireGame.gameinfo.version,
+                _version: ConnecticutGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                crosscutCount: 0,
-                supercutCount: 0,
                 connPath: [],
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as ISaltireState;
+                state = JSON.parse(state, reviver) as IConnecticutState;
             }
-            if (state.game !== SaltireGame.gameinfo.uid) {
-                throw new Error(`The Saltire game code cannot process a game of '${state.game}'.`);
+            if (state.game !== ConnecticutGame.gameinfo.uid) {
+                throw new Error(`The Connecticut game code cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -108,7 +100,7 @@ export class SaltireGame extends GameBase {
         this.lines = this.getLines();
     }
 
-    public load(idx = -1): SaltireGame {
+    public load(idx = -1): ConnecticutGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -123,8 +115,6 @@ export class SaltireGame extends GameBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.crosscutCount = state.crosscutCount;
-        this.supercutCount = state.supercutCount;
         this.connPath = [...state.connPath];
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
@@ -163,7 +153,7 @@ export class SaltireGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 13;
+        return 19;
     }
 
     public moves(player?: playerid): string[] {
@@ -178,11 +168,11 @@ export class SaltireGame extends GameBase {
                 const cell = this.coords2algebraic(x, y);
                 if (!this.board.has(cell)) {
                     moves.push(cell);
-                } else {
-                    const swappable = this.getSwappable(cell, resolved);
+                    if (this.stack.length === 1) { continue; }
+                    const tos = this.getTos(cell, resolved);
                     resolved.add(cell);
-                    for (const s of swappable) {
-                        moves.push(this.normaliseMove(cell + "-" + s));
+                    for (const t of tos) {
+                        moves.push(this.normaliseMove(cell + "-" + t));
                     }
                 }
             }
@@ -199,16 +189,10 @@ export class SaltireGame extends GameBase {
         try {
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
-            if (!this.board.has(cell)) {
+            if (move === "") {
                 newmove = cell;
             } else {
-                if (move === "") {
-                    newmove = cell + "-";
-                } else if (move.includes("-")) {
-                    newmove = this.normaliseMove(move + cell);
-                } else {
-                    newmove = move + "-" + cell;
-                }
+                newmove = this.normaliseMove(move + "-" + cell);
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
@@ -226,34 +210,22 @@ export class SaltireGame extends GameBase {
         }
     }
 
-    private sort(a: string, b: string): number {
-        // Sort two cells. This is necessary because "a10" should come after "a9".
-        const [ax, ay] = this.algebraic2coords(a);
-        const [bx, by] = this.algebraic2coords(b);
-        if (ax < bx) { return -1; }
-        if (ax > bx) { return 1; }
-        if (ay < by) { return 1; }
-        if (ay > by) { return -1; }
-        return 0;
-    }
-
-    private normaliseMove(m: string): string {
-        if (m[m.length - 1] === "-") { return m; }
-        const split = m.split("-", 2);
-        if (split.length === 1) { return m; }
-        return split.sort((a, b) => this.sort(a, b)).join("-");
-    }
-
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        m = m.replace(/\s+/g, "");
-        m = m.toLowerCase();
         if (m.length === 0) {
-            result.valid = true;
-            result.complete = -1;
-            result.canrender = true;
-            result.message = i18next.t("apgames:validation.saltire.INITIAL_INSTRUCTIONS");
-            return result;
+            if (this.stack.length === 1) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.connecticut.INITIAL_INSTRUCTIONS_FIRST");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.connecticut.INITIAL_INSTRUCTIONS");
+                return result;
+            }
         }
         const split = m.split("-", 2);
         // Valid cell.
@@ -274,39 +246,35 @@ export class SaltireGame extends GameBase {
             return result;
         }
         // Cell is already occupied.
+        if (this.board.has(split[0])) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+            return result;
+        }
+        const tos = this.getTos(split[0]);
         if (split.length === 1) {
-            if (this.board.has(m)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+            if (this.stack.length === 1 || tos.length === 0) {
+                result.valid = true;
+                result.complete = 1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else {
                 result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                result.complete = 0;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.connecticut.PARTIAL");
                 return result;
             }
         }
-        if (!this.board.has(split[0])) {
+        if (split.length > 1 && this.stack.length === 1) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.saltire.EMPTY_FROM", { where: split[0] });
+            result.message = i18next.t("apgames:validation.connecticut.FIRST_TRIOMINO");
             return result;
         }
-        const swappable = this.getSwappable(split[0]);
-        if (swappable.length === 0) {
+        if (!tos.includes(split[1])) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.saltire.NO_SWAPPABLE", { where: split[0] });
-            return result;
-        }
-        if (split[1] === "") {
-            result.valid = true;
-            result.complete = -1;
-            result.canrender = true;
-            result.message = i18next.t("apgames:validation.saltire.SELECT_TO");
-            return result;
-        }
-        if (!swappable.includes(split[1])) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.saltire.INVALID_SWAP", { from: split[0], to: split[1] });
+            result.message = i18next.t("apgames:validation.connecticut.INVALID_TO", { from: split[0], to: split[1] });
             return result;
         }
         const normalised = this.normaliseMove(m);
@@ -321,148 +289,56 @@ export class SaltireGame extends GameBase {
         return result;
     }
 
-    private getCrosscutCount(from?: string, to?: string): number {
-        // Count the number of crosscuts on the board.
-        // Swap the stones if `from` and `to` are provided.
-        if (from !== undefined && to !== undefined) {
-            this.board.set(from, this.board.get(from)! % 2 + 1 as playerid);
-            this.board.set(to, this.board.get(to)! % 2 + 1 as playerid);
-        }
-        let count = 0;
-        for (let x = 0; x < this.boardSize - 1; x++) {
-            for (let y = 0; y < this.boardSize - 1; y++) {
-                const nw = this.coords2algebraic(x, y);
-                if (!this.board.has(nw)) { continue; }
-                const ne = this.coords2algebraic(x + 1, y);
-                if (!this.board.has(ne)) { continue; }
-                const sw = this.coords2algebraic(x, y + 1);
-                if (!this.board.has(sw)) { continue; }
-                const se = this.coords2algebraic(x + 1, y + 1);
-                if (!this.board.has(se)) { continue; }
-                const nwP = this.board.get(nw);
-                const neP = this.board.get(ne);
-                if (nwP === neP) { continue; }
-                const seP = this.board.get(se);
-                if (nwP !== seP) { continue; }
-                const swP = this.board.get(sw);
-                if (neP !== swP) { continue; }
-                count++;
+    private sort(a: string, b: string): number {
+        // Sort two cells. This is necessary because "a10" should come after "a9".
+        const [ax, ay] = this.algebraic2coords(a);
+        const [bx, by] = this.algebraic2coords(b);
+        if (ax < bx) { return -1; }
+        if (ax > bx) { return 1; }
+        if (ay < by) { return 1; }
+        if (ay > by) { return -1; }
+        return 0;
+    }
+
+    private normaliseMove(m: string): string {
+        if (m[m.length - 1] === "-") { return m; }
+        const split = m.split("-", 2);
+        if (split.length === 1) { return m; }
+        return split.sort((a, b) => this.sort(a, b)).join("-");
+    }
+
+    private getTos(cell: string, resolved?: Set<string>): string[] {
+        // Get all cells where the triomino can be extended to.
+        const coords = this.algebraic2coords(cell);
+        const tos: string[] = [];
+        outer:
+        for (const dir of ["N", "E", "S", "W"] as Directions[]) {
+            const ray = this.grid.ray(...coords, dir);
+            if (ray.length < 2) { continue; }
+            for (const c of ray.slice(0, 2).map(x => this.coords2algebraic(...x))) {
+                if (this.board.has(c)) { continue outer; }
             }
+            const to = this.coords2algebraic(...ray[1]);
+            if (resolved?.has(to)) { continue; }
+            tos.push(to);
         }
-        // Swap back.
-        if (from !== undefined && to !== undefined) {
-            this.board.set(from, this.board.get(from)! % 2 + 1 as playerid);
-            this.board.set(to, this.board.get(to)! % 2 + 1 as playerid);
-        }
-        return count;
+        return tos;
     }
 
-    private getSupercutCount(from?: string, to?: string): number {
-        // Count the number of supercuts on the board.
-        // Swap the stones if `from` and `to` are provided.
-        if (from !== undefined && to !== undefined) {
-            this.board.set(from, this.board.get(from)! % 2 + 1 as playerid);
-            this.board.set(to, this.board.get(to)! % 2 + 1 as playerid);
-        }
-        let count = 0;
-        for (let x = 0; x < this.boardSize - 3; x++) {
-            for (let y = 0; y < this.boardSize - 3; y++) {
-                const nnw = this.coords2algebraic(x + 1, y);
-                if (!this.board.has(nnw)) { continue; }
-                const nww = this.coords2algebraic(x, y + 1);
-                if (!this.board.has(nww)) { continue; }
-                const nw = this.coords2algebraic(x + 1, y + 1);
-                if (!this.board.has(nw)) { continue; }
-                const se = this.coords2algebraic(x + 2, y + 2);
-                if (!this.board.has(se)) { continue; }
-                const sse = this.coords2algebraic(x + 2, y + 3);
-                if (!this.board.has(sse)) { continue; }
-                const see = this.coords2algebraic(x + 3, y + 2);
-                if (!this.board.has(see)) { continue; }
-                const nne = this.coords2algebraic(x + 2, y);
-                if (!this.board.has(nne)) { continue; }
-                const nee = this.coords2algebraic(x + 3, y + 1);
-                if (!this.board.has(nee)) { continue; }
-                const ne = this.coords2algebraic(x + 2, y + 1);
-                if (!this.board.has(ne)) { continue; }
-                const sw = this.coords2algebraic(x + 1, y + 2);
-                if (!this.board.has(sw)) { continue; }
-                const ssw = this.coords2algebraic(x + 1, y + 3);
-                if (!this.board.has(ssw)) { continue; }
-                const sww = this.coords2algebraic(x, y + 2);
-                if (!this.board.has(sww)) { continue; }
-                const nnwP = this.board.get(nnw);
-                const nwwP = this.board.get(nww);
-                if (nnwP !== nwwP) { continue; }
-                const nwP = this.board.get(nw);
-                if (nnwP !== nwP) { continue; }
-                const seP = this.board.get(se);
-                if (nnwP !== seP) { continue; }
-                const sseP = this.board.get(sse);
-                if (nnwP !== sseP) { continue; }
-                const seeP = this.board.get(see);
-                if (nnwP !== seeP) { continue; }
-                const nneP = this.board.get(nne);
-                if (nnwP === nneP) { continue; }
-                const neeP = this.board.get(nee);
-                if (neeP !== nneP) { continue; }
-                const neP = this.board.get(ne);
-                if (neeP !== neP) { continue; }
-                const swP = this.board.get(sw);
-                if (neeP !== swP) { continue; }
-                const sswP = this.board.get(ssw);
-                if (neeP !== sswP) { continue; }
-                const swwP = this.board.get(sww);
-                if (neeP !== swwP) { continue; }
-                count++;
-            }
-        }
-        // Swap back.
-        if (from !== undefined && to !== undefined) {
-            this.board.set(from, this.board.get(from)! % 2 + 1 as playerid);
-            this.board.set(to, this.board.get(to)! % 2 + 1 as playerid);
-        }
-        return count;
+    private getMiddle(from: string, to: string): string {
+        // Given the start and end cells of a triomino, return the middle cell.
+        const coords0 = this.algebraic2coords(from);
+        const coords1 = this.algebraic2coords(to);
+        const bearing = RectGrid.bearing(...coords0, ...coords1)!;
+        return this.coords2algebraic(...RectGrid.move(...coords0, bearing))
     }
 
-    private getNeighbours(cell: string): string[] {
-        // Get the neighbours of a given cell.
-        const [x,y] = this.algebraic2coords(cell);
-        return this.grid.adjacencies(x, y, true).map(n => this.coords2algebraic(...n));
-    }
-
-    private getSwappable(from: string, resolved?: Set<string>): string[] {
-        // Get the swappable cells for a given a `from`.
-        // Optionally, provide a `resolved` set to avoid returning cells that have already been checked.
-        const swappable: string[] = [];
-        const player = this.board.get(from)!;
-        for (const n of this.getNeighbours(from)) {
-            if (resolved !== undefined && resolved.has(n)) { continue; }
-            if (this.board.has(n) && this.board.get(n) !== player) {
-                const crosscutCount = this.getCrosscutCount(from, n);
-                if (crosscutCount < this.crosscutCount) {
-                    swappable.push(n);
-                } else if (!this.variants.includes("basic") && crosscutCount === this.crosscutCount) {
-                    const supercutCount = this.getSupercutCount(from, n);
-                    if (supercutCount < this.supercutCount) {
-                        swappable.push(n);
-                    }
-                }
-            }
-        }
-        return swappable;
-    }
-
-    public move(m: string, {partial = false, trusted = false} = {}): SaltireGame {
+    public move(m: string, {partial = false, trusted = false} = {}): ConnecticutGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         let result;
-        if (m === "No movelist in placement phase") {
-            result = { valid: false, message: i18next.t("apgames:validation.gess.NO_MOVELIST") };
-            throw new UserFacingError("VALIDATION_GENERAL", result.message);
-        }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (!trusted) {
@@ -474,27 +350,26 @@ export class SaltireGame extends GameBase {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", { move: m }));
             }
         }
-        if (m.length === 0) { return this; }
         this.dots = [];
         this.results = [];
+        if (m.length === 0) { return this; }
         const split = m.split("-");
         if (split.length === 1) {
-            this.results.push({ type: "place", where: m });
-            this.board.set(m, this.currplayer);
-        } else {
-            if (split[1] === "") {
-                this.dots = this.getSwappable(split[0]);
-            } else {
-                this.results.push({ type: "move", from: split[0], to: split[1] });
-                this.board.set(split[0], this.board.get(split[0])! % 2 + 1 as playerid);
-                this.board.set(split[1], this.board.get(split[1])! % 2 + 1 as playerid);
+            this.results.push({ type: "place", where: split[0] });
+            this.board.set(split[0], this.currplayer);
+            if (this.stack.length > 1) {
+                this.dots = this.getTos(split[0]);
             }
-        }
-        this.crosscutCount = this.getCrosscutCount();
-        if (!this.variants.includes("basic")) {
-            this.supercutCount = this.getSupercutCount();
+        } else {
+            const middle = this.getMiddle(split[0], split[1]);
+            this.board.set(split[0], this.currplayer);
+            this.board.set(middle, this.currplayer);
+            this.board.set(split[1], this.currplayer);
+            // This is abusing the "move" type slightly, but it works...
+            this.results.push({ type: "place", where: m });
         }
         if (partial) { return this; }
+        this.dots = [];
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -514,7 +389,7 @@ export class SaltireGame extends GameBase {
         // if any are in the graph, add an edge
         for (const node of graph.nodes()) {
             const [x,y] = this.algebraic2coords(node);
-            const neighbours = this.grid.adjacencies(x, y, false).map(n => this.coords2algebraic(...n));
+            const neighbours = this.grid.adjacencies(x, y, true).map(n => this.coords2algebraic(...n));
             for (const n of neighbours) {
                 if ( (graph.hasNode(n)) && (! graph.hasEdge(node, n)) ) {
                     graph.addEdge(node, n);
@@ -524,7 +399,7 @@ export class SaltireGame extends GameBase {
         return graph;
     }
 
-    protected checkEOG(): SaltireGame {
+    protected checkEOG(): ConnecticutGame {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
         const graph = this.buildGraph(otherPlayer);
         const [sources, targets] = this.lines[otherPlayer - 1];
@@ -551,9 +426,9 @@ export class SaltireGame extends GameBase {
         return this;
     }
 
-    public state(): ISaltireState {
+    public state(): IConnecticutState {
         return {
-            game: SaltireGame.gameinfo.uid,
+            game: ConnecticutGame.gameinfo.uid,
             numplayers: 2,
             variants: this.variants,
             gameover: this.gameover,
@@ -564,19 +439,27 @@ export class SaltireGame extends GameBase {
 
     protected moveState(): IMoveState {
         return {
-            _version: SaltireGame.gameinfo.version,
+            _version: ConnecticutGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            crosscutCount: this.crosscutCount,
-            supercutCount: this.supercutCount,
             connPath: [...this.connPath],
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showTriominoes = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-triominoes") {
+                showTriominoes = false;
+            }
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -599,18 +482,49 @@ export class SaltireGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
+        const markers: Array<any> = [
+            {type:"edge", edge: "N", colour:1},
+            {type:"edge", edge: "S", colour:1},
+            {type:"edge", edge: "E", colour:2},
+            {type:"edge", edge: "W", colour:2},
+        ];
+        if (showTriominoes) {
+            // // Current move.
+            // if (this.results.length > 0) {
+            //     for (const m of this.results) {
+            //         if (m.type === "place") {
+            //             const split = m.where!.split("-");
+            //             if (split.length > 1) {
+            //                 const player = this.board.get(split[0]);
+            //                 const [x0, y0] = this.algebraic2coords(split[0]);
+            //                 const [x2, y2] = this.algebraic2coords(split[1]);
+            //                 markers.push({ type: "line", points: [{ row: y0, col: x0 }, { row: y2, col: x2 }], colour: player, width: 20 });
+            //             }
+            //         }
+            //     }
+            // }
+            // Past moves.
+            for (const move of this.stack) {
+                for (const m of move._results) {
+                    if (m.type === "place") {
+                        const split = m.where!.split("-");
+                        if (split.length > 1) {
+                            const player = this.board.get(split[0]);
+                            const [x0, y0] = this.algebraic2coords(split[0]);
+                            const [x2, y2] = this.algebraic2coords(split[1]);
+                            markers.push({ type: "line", points: [{ row: y0, col: x0 }, { row: y2, col: x2 }], colour: player, width: 20 });
+                        }
+                    }
+                }
+            }
+        }
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "vertex",
                 width: this.boardSize,
                 height: this.boardSize,
-                markers: [
-                    {type:"edge", edge: "N", colour:1},
-                    {type:"edge", edge: "S", colour:1},
-                    {type:"edge", edge: "E", colour:2},
-                    {type:"edge", edge: "W", colour:2},
-                ]
+                markers,
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
@@ -624,13 +538,17 @@ export class SaltireGame extends GameBase {
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
-                } else if (move.type === "move") {
-                    const [fromX, fromY] = this.algebraic2coords(move.from);
-                    const [toX, toY] = this.algebraic2coords(move.to);
-                    rep.annotations.push({ type: "move", targets: [{ row: fromY, col: fromX }, { row: toY, col: toX }] });
-                    rep.annotations.push({ type: "move", targets: [{ row: toY, col: toX }, { row: fromY, col: fromX }] });
+                    const split = move.where!.split("-");
+                    if (split.length === 1) {
+                        const [x, y] = this.algebraic2coords(move.where!);
+                        rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
+                    } else {
+                        const middle = this.getMiddle(split[0], split[1]);
+                        const [x0, y0] = this.algebraic2coords(split[0]);
+                        const [x1, y1] = this.algebraic2coords(middle);
+                        const [x2, y2] = this.algebraic2coords(split[1]);
+                        rep.annotations.push({ type: "enter", targets: [{ row: y0, col: x0 }, { row: y1, col: x1 }, { row: y2, col: x2 }] });
+                    }
                 }
             }
             if (this.connPath.length > 0) {
@@ -656,6 +574,21 @@ export class SaltireGame extends GameBase {
         return rep;
     }
 
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                if (r.where!.includes("-")) {
+                    node.push(i18next.t("apresults:PLACE.connecticut", { player, where: r.where }));
+                } else {
+                    node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
+                }
+                resolved = true;
+                break;
+        }
+        return resolved;
+    }
+
     public status(): string {
         let status = super.status();
 
@@ -666,22 +599,7 @@ export class SaltireGame extends GameBase {
         return status;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
-        switch (r.type) {
-            case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
-                resolved = true;
-                break;
-            case "move":
-                node.push(i18next.t("apresults:MOVE.saltire", { player, from: r.from, to: r.to }));
-                resolved = true;
-                break;
-        }
-        return resolved;
-    }
-
-    public clone(): SaltireGame {
-        return new SaltireGame(this.serialize());
+    public clone(): ConnecticutGame {
+        return new ConnecticutGame(this.serialize());
     }
 }

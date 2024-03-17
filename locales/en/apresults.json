@@ -51,6 +51,7 @@
             "nowhere": "A {{what}} was captured.",
             "nowhere_one": "A piece was captured.",
             "nowhere_other": "{{count}} pieces were captured.",
+            "nowhat": "A piece was captured at {{where}}.",
             "simple": "A {{what}} was captured at {{where}}."
         },
         "nowhat": "{{player}} captured a piece at {{where}}.",
@@ -210,6 +211,7 @@
         "ccorridor": "{{player}} placed a tile at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",
+        "connecticut": "{{player}} placed a triomino at {{where}}.",
         "conhex": "{{player}} placed a piece at vertex {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
@@ -218,6 +220,7 @@
         "nowhat": "{{player}} placed a piece at {{where}}.",
         "onager": "{{player}} placed a lake at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
+        "quax_diag": "{{player}} placed a diagonal connection at {{where}}.",
         "streetcar": "A building was placed at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "tumbleweed": "{{player}} placed a stack of size {{count}} at {{where}}.",

@@ -532,7 +532,7 @@
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a vertex to place a piece. You may not place a triomino on the first move.",
             "FIRST_TRIOMINO": "You may not place a triomino on the first move.",
-            "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or click on Complete Move to finish your turn with the single piece.",
+            "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece.",
             "INVALID_TO": "You may not place a triomino at {{from}}-{{to}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
@@ -1878,7 +1878,7 @@
             "octagon-8": {
                 "name": "Octagonal board (8x8)",
                 "description": "Standard 8x8 board with the corners blocked."
-            }, 
+            },
             "octagon-10": {
                 "name": "Octagonal board (10x10)",
                 "description": "Standard 10x10 board with the corners blocked."

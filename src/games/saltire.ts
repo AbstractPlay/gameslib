@@ -30,7 +30,7 @@ export class SaltireGame extends GameBase {
         uid: "saltire",
         playercounts: [2],
         version: "20240316",
-        dateAdded: "2024-03-16",
+        dateAdded: "2024-03-17",
         // i18next.t("apgames:descriptions.saltire")
         description: "apgames:descriptions.saltire",
         urls: ["https://boardgamegeek.com/boardgame/402546/saltire"],
@@ -47,7 +47,7 @@ export class SaltireGame extends GameBase {
             { uid: "basic", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie", "multistep", "rotate90"],
+        flags: ["pie", "multistep", "rotate90"],
     };
 
     public coords2algebraic(x: number, y: number): string {

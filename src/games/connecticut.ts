@@ -42,7 +42,7 @@ export class ConnecticutGame extends GameBase {
             // { uid: "size-25", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie", "multistep", "rotate90"],
+        flags: ["pie", "multistep", "rotate90"],
         displays: [{uid: "hide-triominoes"}],
     };
 

@@ -28,6 +28,7 @@
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
+        "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
@@ -526,6 +527,14 @@
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece.",
             "INVALID_VERTEX": "The vertex {{vertex}} does not exist on the board.",
             "OCCUPIED":"The vertex {{where}} is already occupied."
+        },
+        "connecticut": {
+            "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Select a vertex to place a piece. You may not place a triomino on the first move.",
+            "FIRST_TRIOMINO": "You may not place a triomino on the first move.",
+            "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or click on Submit to finish your turn with the single piece.",
+            "INVALID_TO": "You may not place a triomino at {{from}}-{{to}}.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "courtesan": {
             "DISTANCE_ONE": "Pieces may only move one space at a time.",
@@ -2123,6 +2132,12 @@
             "hide-markers": {
                 "description": "Don't show visual markers for the location of the corridor and scored tiles.",
                 "name": "Hide markers"
+            }
+        },
+        "connecticut": {
+            "hide-triominoes": {
+                "description": "Don't show the triominoes.",
+                "name": "Hide triominoes"
             }
         },
         "gess": {

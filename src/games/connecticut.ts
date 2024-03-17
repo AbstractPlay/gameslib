@@ -512,6 +512,7 @@ export class ConnecticutGame extends GameBase {
                             const player = this.board.get(split[0]);
                             const [x0, y0] = this.algebraic2coords(split[0]);
                             const [x2, y2] = this.algebraic2coords(split[1]);
+                            markers.push({ type: "line", points: [{ row: y0, col: x0 }, { row: y2, col: x2 }], colour: "#000", width: 24 });
                             markers.push({ type: "line", points: [{ row: y0, col: x0 }, { row: y2, col: x2 }], colour: player, width: 20 });
                         }
                     }

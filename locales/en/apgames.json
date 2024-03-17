@@ -1392,6 +1392,10 @@
         "saltire": {
             "board": {
                 "name": "13x13 board"
+            },
+            "ruleset": {
+                "name": "rules",
+                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts."
             }
         },
         "slither": {
@@ -1901,6 +1905,10 @@
             },
             "size-15": {
                 "name": "15x15 board"
+            },
+            "basic": {
+                "name": "Basic rules",
+                "description": "A swap must decrease the number of crosscuts. Draws are possible."
             }
         },
         "slither": {

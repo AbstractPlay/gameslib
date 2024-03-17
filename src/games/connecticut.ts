@@ -481,7 +481,12 @@ export class ConnecticutGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
-        let markers: Array<any> | undefined = [];
+        const markers: Array<any> = [
+            {type:"edge", edge: "N", colour:1},
+            {type:"edge", edge: "S", colour:1},
+            {type:"edge", edge: "E", colour:2},
+            {type:"edge", edge: "W", colour:2},
+        ];
         if (showTriominoes) {
             // // Current move.
             // if (this.results.length > 0) {
@@ -512,7 +517,6 @@ export class ConnecticutGame extends GameBase {
                 }
             }
         }
-        if (markers.length === 0) { markers = undefined; }
         // Build rep
         const rep: APRenderRep =  {
             board: {
@@ -543,7 +547,6 @@ export class ConnecticutGame extends GameBase {
                         const [x1, y1] = this.algebraic2coords(middle);
                         const [x2, y2] = this.algebraic2coords(split[1]);
                         rep.annotations.push({ type: "enter", targets: [{ row: y0, col: x0 }, { row: y1, col: x1 }, { row: y2, col: x2 }] });
-                        rep.annotations.push({ type: "move", targets: [{ row: y0, col: x0 }, { row: y2, col: x2 }] });
                     }
                 }
             }

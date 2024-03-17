@@ -71,6 +71,9 @@ export class ClearcutGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"],
             }
         ],
+        variants: [
+            { uid: "halfcut", group: "ruleset" },
+        ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "automove"]
     };
@@ -91,9 +94,12 @@ export class ClearcutGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: IClearcutState | string) {
+    constructor(state?: IClearcutState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             const board = new Map<string, playerid>();
             const fresh: IMoveState = {
                 _version: ClearcutGame.gameinfo.version,
@@ -225,14 +231,30 @@ export class ClearcutGame extends GameBase {
         const cloned: ClearcutGame = Object.assign(new ClearcutGame(), deepclone(this) as ClearcutGame);
         cloned.board.set(cell, player);
         const crosses = cloned.getCrosscuts(cell);
-        const extended = cloned.extendCrosscuts(crosses);
-        const yours = extended.yours.find(lst => lst.includes(cell))!;
-        for (const ext of extended.theirs) {
-            if (yours.length <= ext.length) {
-                return false;
+        if (this.variants.includes("halfcut")) {
+            const yours = cloned.extendCell(cell);
+            for (const cross of crosses) {
+                // Placed group is longer than at least one of their group.
+                let longer = false;
+                for (const p of cross.theirs) {
+                    if (yours.length > cloned.extendCell(p).length) {
+                        longer = true;
+                        break;
+                    }
+                }
+                if (!longer) { return false; }
             }
+            return true;
+        } else {
+            const extended = cloned.extendCrosscuts(crosses);
+            const yours = extended.yours.find(lst => lst.includes(cell))!;
+            for (const ext of extended.theirs) {
+                if (yours.length <= ext.length) {
+                    return false;
+                }
+            }
+            return true;
         }
-        return true;
     }
 
     public moves(): string[] {
@@ -321,9 +343,15 @@ export class ClearcutGame extends GameBase {
 
         // doesn't break the rule
         if (! this.canPlace(m, this.currplayer)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.clearcut.BAD_CROSSING")
-            return result;
+            if (this.variants.includes("halfcut")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.clearcut.BAD_CROSSING_HALFCUT")
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.clearcut.BAD_CROSSING")
+                return result;
+            }
         }
 
         // Looks good
@@ -357,11 +385,29 @@ export class ClearcutGame extends GameBase {
             this.board.set(m, this.currplayer);
             this.results.push({type: "place", where: m});
         }
-        for (const cross of this.getCrosscuts(m, this.currplayer)) {
-            // I can already assume that all crosscuts are valid, so just capture the opposing pieces
-            for (const cell of cross.theirs) {
-                this.board.delete(cell);
-                this.results.push({type: "capture", where: cell});
+        if (this.variants.includes("halfcut")) {
+            const crosses = this.getCrosscuts(m);
+            const yours = this.extendCell(m);
+            const toDeletes: string[] = [];
+            for (const cross of crosses) {
+                for (const p of cross.theirs) {
+                    if (yours.length > this.extendCell(p).length) {
+                        toDeletes.push(p);
+                    }
+                }
+            }
+            for (const toDelete of toDeletes) {
+                if (!this.board.has(toDelete)) { continue; }
+                this.board.delete(toDelete);
+                this.results.push({type: "capture", where: toDelete});
+            }
+        } else {
+            for (const cross of this.getCrosscuts(m, this.currplayer)) {
+                // I can already assume that all crosscuts are valid, so just capture the opposing pieces
+                for (const cell of cross.theirs) {
+                    this.board.delete(cell);
+                    this.results.push({type: "capture", where: cell});
+                }
             }
         }
 

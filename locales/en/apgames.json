@@ -510,7 +510,8 @@
         "clearcut": {
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
-            "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut."
+            "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut.",
+            "BAD_CROSSING_HALFCUT": "Lines may only cross if the group created by the piece placed is larger than at least one opposing group in the crosscut."
         },
         "clusterfuss": {
             "ADJ_ONLY": "Pieces may only move to orthogonally adjacent spaces.",
@@ -1326,6 +1327,12 @@
                 "name": "board (base 5)"
             }
         },
+        "clearcut": {
+            "ruleset": {
+                "name": "Clearcut",
+                "description": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut"
+            }
+        },
         "clusterfuss": {
             "board": {
                 "name": "board (8x8)"
@@ -1614,6 +1621,12 @@
             "snub": {
                 "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
                 "name": "Board: Snub Square"
+            }
+        },
+        "clearcut": {
+            "halfcut": {
+                "name": "Halfcut",
+                "description": "Lines may only cross if the group created by the piece placed is larger than at least one opposing group in the crosscut. Full rules: <https://www.marksteeregames.com/Halfcut_rules.pdf>"
             }
         },
         "clusterfuss": {

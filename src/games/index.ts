@@ -104,6 +104,7 @@ import { BlockadeGame, IBlockadeState } from "./blockade";
 import { CairoCorridorGame, ICairoCorridorState } from "./ccorridor";
 import { SaltireGame, ISaltireState } from "./saltire";
 import { ConnecticutGame, IConnecticutState } from "./connecticut";
+import { QuaxGame, IQuaxState } from "./quax";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -210,6 +211,7 @@ export {
     CairoCorridorGame, ICairoCorridorState,
     SaltireGame, ISaltireState,
     ConnecticutGame, IConnecticutState,
+    QuaxGame, IQuaxState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -246,7 +248,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof DameoGame | typeof TakeGame | typeof SympleGame |
                               typeof RootBoundGame | typeof TwixtGame | typeof ReversiGame |
                               typeof BlockadeGame | typeof CairoCorridorGame | typeof SaltireGame |
-                              typeof ConnecticutGame
+                              typeof ConnecticutGame | typeof QuaxGame
                 >();
 // Manually add each game to the following array
 [
@@ -264,7 +266,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
-    CairoCorridorGame, SaltireGame, ConnecticutGame,
+    CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -482,6 +484,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SaltireGame(...args);
         case "connecticut":
             return new ConnecticutGame(...args);
+        case "quax":
+            return new QuaxGame(...args);
     }
     return;
 }

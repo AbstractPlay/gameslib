@@ -369,6 +369,7 @@ export class ConnecticutGame extends GameBase {
             this.results.push({ type: "place", where: m });
         }
         if (partial) { return this; }
+        this.dots = [];
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;

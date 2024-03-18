@@ -446,8 +446,8 @@ export class TaflGame extends GameBase {
             // If the king manages to escape, we do not continue recursing.
             if (
                 pcF === "K" &&
-                this.settings.ruleset.escapeType === "corner" && this.corners.includes(to) ||
-                this.settings.ruleset.escapeType === "edge" && this.isOnEdge(to)
+                (this.settings.ruleset.escapeType === "corner" && this.corners.includes(to) ||
+                this.settings.ruleset.escapeType === "edge" && this.isOnEdge(to))
             ) { continue; }
             moves.push(...this.getAllMoves(to, newMove, [...captured, ...newCaptured], initialFrom));
         }

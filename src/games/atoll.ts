@@ -456,8 +456,14 @@ export class AtollGame extends GameBase {
         }
 
         const markers: Array<any> = [];
-        // North markers
         const half = (this.boardSize - 1) / 2;
+        // Neutral fences at the intersection of different-coloured edges.
+        markers.push({ type: "fence", cell: { col: half, row: 0}, side: "N" });
+        markers.push({ type: "fence", cell: { col: half, row: this.boardSize - 2}, side: "S" });
+        markers.push({ type: "fence", cell: { col: 0, row: 1}, side: "NW" });
+        markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: 1}, side: "NE" });
+        markers.push({ type: "fence", cell: { col: 0, row: this.boardSize - 2}, side: "SW" });
+        markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: this.boardSize - 2}, side: "SE" });
         for (let i = 0; i < this.boardSize; i++) {
             if (i === half) {
                 markers.push({ type: "fence", cell: { col: i, row: 0}, side: "NW", colour: 2 });

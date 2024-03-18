@@ -128,7 +128,7 @@ export class StreetcarGame extends GameBase {
             {uid: "5point", "group": "penalty"},
             {uid: "15point", "group": "penalty"},
         ],
-        categories: ["goal>score>eog", "mechanic>set",  "mechanic>network", "board>shape>other", "board>connect>hex", "components>special"],
+        categories: ["goal>score>eog", "mechanic>set",  "mechanic>network", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>special"],
         flags: ["multistep", "no-moves", "scores", "random-start"]
     };
 

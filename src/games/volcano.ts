@@ -89,7 +89,7 @@ export class VolcanoGame extends GameBase {
                 urls: ["http://www.wunderland.com/WTS/Kristin/Kristin.html"]
             }
         ],
-        categories: ["goal>set", "mechanic>place",  "mechanic>move", "mechanic>displace", "mechanic>set", "mechanic>share", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>pyramids"],
+        categories: ["goal>set", "mechanic>place",  "mechanic>move", "mechanic>displace", "mechanic>set", "mechanic>share", "mechanic>stack", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["shared-pieces", "stacking-expanding", "no-moves", "multistep", "random-start"],
         displays: [{uid: "expanding"}]
     };

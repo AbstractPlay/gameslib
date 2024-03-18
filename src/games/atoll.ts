@@ -501,8 +501,8 @@ export class AtollGame extends GameBase {
                 style: "hex-odd-f",
                 width: this.boardSize,
                 height: this.boardSize - 1,
+                blocked: blocked as [{ row: number; col: number; }, ...{ row: number; col: number; }[]],
                 // @ts-ignore
-                blocked,
                 markers,
             },
             legend: {

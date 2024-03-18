@@ -1336,6 +1336,11 @@
                 "name": "board (base 5)"
             }
         },
+        "ccorridor": {
+            "board": {
+                "name": "size 6"
+            }
+        },
         "clusterfuss": {
             "board": {
                 "name": "board (8x8)"
@@ -1623,6 +1628,11 @@
         "catchup": {
             "size-6": {
                 "name": "Larger board (base 6)"
+            }
+        },
+        "ccorridor": {
+            "size-8": {
+                "name": "Size 8"
             }
         },
         "ceph": {

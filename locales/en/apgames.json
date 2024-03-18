@@ -8,6 +8,7 @@
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
+        "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So for example, a you could form one bridge between your North and West islands and a second bridge between your West and South islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -337,6 +338,9 @@
             "TOO_MANY_ATKS": "Ships may only attack once per turn for every pip of size (e.g., a medium ship can only attack twice in a turn).",
             "TOO_SHARP": "Ships cannot turn more than 75 degrees in one step.",
             "VALID_PARTIAL_MOVE": "Click the point you want the ship to point towards."
+        },
+        "atoll": {
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
         "attangle": {
             "EMPTYCAPTURE": "One of the cells involved with the capture doesn't have any pieces in it.",
@@ -1297,6 +1301,11 @@
                 "description": "Queens of each colour are on opposite halves of the board."
             }
         },
+        "atoll": {
+            "board": {
+                "name": "size-11 board"
+            }
+        },
         "binar": {
             "board": {
                 "name": "board (4x4)"
@@ -1545,6 +1554,14 @@
             },
             "twoislands": {
                 "name": "Two Islands"
+            }
+        },
+        "atoll": {
+            "size-15": {
+                "name": "size-15 board"
+            },
+            "size-19": {
+                "name": "size-19 board"
             }
         },
         "attangle": {

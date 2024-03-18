@@ -805,7 +805,7 @@ export class TaflGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
             const captured = this.extractCaptures(move);
-            if (move === "" || this.board.has(cell) && !captured.includes(cell)) {
+            if (move === "" || this.board.has(cell) && !captured.includes(cell) && cell !== move.split(" ")[0].split(/[-\^]/)[0]) {
                 if (this.board.has(cell) && !captured.includes(cell)) {
                     newmove = this.addPrefix(cell);
                 } else {

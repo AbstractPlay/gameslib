@@ -1869,6 +1869,11 @@
                 "description": "The starting position will have some pre-flooded spaces."
             }
         },
+        "quax": {
+            "size-15": {
+                "name": "15x15 board"
+            }
+        },
         "realm": {
             "capturedBases": {
                 "name": "Tie break: Captured bases",
@@ -2146,6 +2151,12 @@
             "expanding": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
+            }
+        },
+        "atoll": {
+            "show-labels": {
+                "name": "Show cell labels",
+                "description": "Show labels for each cell."
             }
         },
         "archimedes": {

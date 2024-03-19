@@ -39,7 +39,9 @@ export class QuaxGame extends GameBase {
                 name: "Bill Taylor"
             }
         ],
-        variants: [],
+        variants: [
+            { uid: "size-15", group: "board" },
+        ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie", "multistep", "rotate90"],
     };

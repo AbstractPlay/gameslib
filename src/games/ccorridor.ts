@@ -589,7 +589,48 @@ export class CairoCorridorGame extends GameBase {
                 highlight.push({ row: y, col: x });
             }
         }
-        let markers: Array<any> | undefined = []
+        let markers: Array<any> | undefined = [];
+        for (let i = 0; i < this.boardSize; i++) {
+            if (i % 2) {
+                markers.push(
+                    {
+                        type: "label",
+                        label: (this.boardSize - i).toString(),
+                        points: [{ col: 2, row: i }, { col: 3, row: i }],
+                        size: 15,
+                        nudge: { dx: -2.3, dy: -0.2 },
+                    }
+                );
+                markers.push(
+                    {
+                        type: "label",
+                        label: columnLabels[i],
+                        points: [{ col: 2 * i, row: 1 }, { col: 2 * i + 1, row: 1 }],
+                        size: 15,
+                        nudge: { dx: 0, dy: -3 },
+                    }
+                );
+            } else {
+                markers.push(
+                    {
+                        type: "label",
+                        label: (this.boardSize - i).toString(),
+                        points: [{ col: 0, row: i }, { col: 1, row: i }],
+                        size: 15,
+                        nudge: { dx: -1.3, dy: -0.2 },
+                    }
+                );
+                markers.push(
+                    {
+                        type: "label",
+                        label: columnLabels[i],
+                        points: [{ col: 2 * i, row: 0 }, { col: 2 * i + 1, row: 0 }],
+                        size: 15,
+                        nudge: { dx: 0, dy: -1 },
+                    }
+                );
+            }
+        }
         if (spaces1.length > 0) {
             markers.push({ type: "flood", points: spaces1, colour: 1, opacity: 0.5 });
         }

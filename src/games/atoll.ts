@@ -52,6 +52,7 @@ export class AtollGame extends GameBase {
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple"],
         flags: ["experimental", "pie", "rotate90"],
+        displays: [{uid: "show-labels"}],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -427,7 +428,17 @@ export class AtollGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showLabels = false;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "show-labels") {
+                showLabels = true;
+            }
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -502,7 +513,7 @@ export class AtollGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["hide-labels"],
+            options: [showLabels ? "swap-labels" : "hide-labels"],
             board: {
                 style: "hex-odd-f",
                 width: this.boardSize,

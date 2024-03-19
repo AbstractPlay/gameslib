@@ -2153,6 +2153,12 @@
                 "name": "Expanding"
             }
         },
+        "atoll": {
+            "show-labels": {
+                "name": "Show cell labels",
+                "description": "Show labels for each cell."
+            }
+        },
         "archimedes": {
             "hide-threatened": {
                 "description": "Don't highlight pieces that are threatened to be removed next turn.",

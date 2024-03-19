@@ -1869,6 +1869,11 @@
                 "description": "The starting position will have some pre-flooded spaces."
             }
         },
+        "quax": {
+            "size-15": {
+                "name": "15x15 board"
+            }
+        },
         "realm": {
             "capturedBases": {
                 "name": "Tie break: Captured bases",

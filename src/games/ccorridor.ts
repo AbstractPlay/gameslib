@@ -29,7 +29,7 @@ export class CairoCorridorGame extends GameBase {
         name: "Cairo Corridor",
         uid: "ccorridor",
         playercounts: [2],
-        version: "20240309",
+        version: "20240319",
         dateAdded: "2024-03-15",
         // i18next.t("apgames:descriptions.ccorridor")
         description: "apgames:descriptions.ccorridor",
@@ -484,7 +484,7 @@ export class CairoCorridorGame extends GameBase {
         if (corridorRegion === undefined) { corridorRegion = this.getCorridorRegion(); }
         const scores: [number, number] = [0, 0];
         const scored: Set<string> = new Set();
-        for (const cell of corridorRegion) {
+        for (const cell of this.blockingMoves(corridorRegion)) {
             for (const n of this.getNeighbours(cell)) {
                 if (this.board.has(n) && !scored.has(n)) {
                     scores[this.board.get(n)! - 1]++;
@@ -494,6 +494,21 @@ export class CairoCorridorGame extends GameBase {
         }
         return [scores, scored];
     }
+
+    private nonDeadRegion(corridorRegion?: Set<string>): Set<string> {
+        // Get the non-dead region of the corridor.
+        if (corridorRegion === undefined) { corridorRegion = this.getCorridorRegion(); }
+        const nonDead: Set<string> = new Set();
+        for (const cell of corridorRegion) {
+            for (const n of this.getNeighbours(cell)) {
+                if (this.board.has(n) && !nonDead.has(n)) {
+                    nonDead.add(n);
+                }
+            }
+        }
+        return nonDead;
+    }
+
 
     protected checkEOG(): CairoCorridorGame {
         const corridorRegion = this.getCorridorRegion();
@@ -548,6 +563,7 @@ export class CairoCorridorGame extends GameBase {
         }
         // Build piece string
         let pstr = "";
+        const nonDead: Set<string> | undefined = showMarkers ? this.nonDeadRegion() : undefined;
         for (let row = 0; row < this.boardSize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -564,7 +580,7 @@ export class CairoCorridorGame extends GameBase {
                     } else {
                         pstr += "B";
                     }
-                } else if (this.stack.length > 1 && !this.corridor.has(cell)) {
+                } else if (this.stack.length > 1 && !this.corridor.has(cell) && !nonDead!.has(cell)) {
                     pstr += "X";
                 } else {
                     pstr += "-";

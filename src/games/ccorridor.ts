@@ -614,7 +614,7 @@ export class CairoCorridorGame extends GameBase {
                         label: (this.boardSize - i).toString(),
                         points: [{ col: 2, row: i }, { col: 3, row: i }],
                         size: 15,
-                        nudge: { dx: -2.3, dy: -0.2 },
+                        nudge: { dx: -2.3, dy: 0 },
                     }
                 );
                 markers.push(
@@ -623,7 +623,7 @@ export class CairoCorridorGame extends GameBase {
                         label: columnLabels[i],
                         points: [{ col: 2 * i, row: 1 }, { col: 2 * i + 1, row: 1 }],
                         size: 15,
-                        nudge: { dx: 0, dy: -3 },
+                        nudge: { dx: 0, dy: -2.7 },
                     }
                 );
             } else {
@@ -633,7 +633,7 @@ export class CairoCorridorGame extends GameBase {
                         label: (this.boardSize - i).toString(),
                         points: [{ col: 0, row: i }, { col: 1, row: i }],
                         size: 15,
-                        nudge: { dx: -1.3, dy: -0.2 },
+                        nudge: { dx: -1.3, dy: 0 },
                     }
                 );
                 markers.push(
@@ -642,7 +642,7 @@ export class CairoCorridorGame extends GameBase {
                         label: columnLabels[i],
                         points: [{ col: 2 * i, row: 0 }, { col: 2 * i + 1, row: 0 }],
                         size: 15,
-                        nudge: { dx: 0, dy: -1 },
+                        nudge: { dx: 0, dy: -0.7 },
                     }
                 );
             }

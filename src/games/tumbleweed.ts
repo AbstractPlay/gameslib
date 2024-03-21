@@ -37,6 +37,8 @@ export class TumbleweedGame extends GameBase {
         dateAdded: "2024-01-03",
         // i18next.t("apgames:descriptions.tumbleweed")
         description: "apgames:descriptions.tumbleweed",
+        // i18next.t("apgames:notes.tumbleweed")
+        notes: "apgames:notes.tumbleweed",
         urls: ["https://boardgamegeek.com/boardgame/318702/tumbleweed"],
         people: [
             {
@@ -462,6 +464,17 @@ export class TumbleweedGame extends GameBase {
             const p1Score = this.getPlayerScore(1);
             const p2Score = this.getPlayerScore(2);
             this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
+        }
+        // If there are no score changes for both players for `plyCount` plys, the game is over.
+        const plyCount = 20;
+        if (this.stack.length > plyCount) {
+            const lastPlies = this.stack.slice(this.stack.length - plyCount).map(s => s.scores);
+            if (lastPlies.every(s => s[0] === lastPlies[0][0]) && lastPlies.every(s => s[1] === lastPlies[0][1])) {
+                this.gameover = true;
+                const p1Score = this.getPlayerScore(1);
+                const p2Score = this.getPlayerScore(2);
+                this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
+            }
         }
         if (this.gameover) {
             this.results.push(

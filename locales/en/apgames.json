@@ -2026,6 +2026,10 @@
                 "name": "berserk-11x11-tdiamondberserk",
                 "description": "Berserk variant of the Fetlar rules with knights and commanders. Multi-step captures are permitted, and the king may escape to the corner immediately after a capture."
             },
+            "total-11x11-tdiamond": {
+                "name": "total-11x11-tdiamond",
+                "description": "A combination of Fetlar, Copenhagen and Berserk rules. It is a strong armed king with corner escape rules, with shield wall captures, exit forts, and encirclement win. Berserk capture is enabled and the king can make a berserk escape. Repetitions result in a draw."
+            },
             "tyr-11x11-tyr": {
                 "name": "tyr-11x11-tyr",
                 "description": "Berserk rules with weak armed king and edge escape on a 11x11 board. This is the default simple Tyr setup without special pieces."

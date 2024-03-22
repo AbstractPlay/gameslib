@@ -1385,6 +1385,9 @@
             }
         },
         "halfcut": {
+            "board": {
+                "name": "19x19 board"
+            },
             "ruleset": {
                 "name": "Halfcut ruleset",
                 "description": "Captures can only be made if the piece placed is larger than at least one opposing group in a crosscut."
@@ -1758,6 +1761,9 @@
             }
         },
         "halfcut": {
+            "size-15": {
+                "name": "15x15 board"
+            },
             "clearcut": {
                 "name": "Clearcut ruleset",
                 "description": "Captures can only be made if the piece placed is larger than at both opposing groups in a crosscut. Full rulesheet: <https://www.marksteeregames.com/Clearcut_rules.pdf>"

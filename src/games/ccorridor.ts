@@ -623,7 +623,7 @@ export class CairoCorridorGame extends GameBase {
                         label: columnLabels[i],
                         points: [{ col: 2 * i, row: 1 }, { col: 2 * i + 1, row: 1 }],
                         size: 15,
-                        nudge: { dx: 0, dy: -2.7 },
+                        nudge: { dx: 0, dy: -2.8 },
                     }
                 );
             } else {
@@ -642,7 +642,7 @@ export class CairoCorridorGame extends GameBase {
                         label: columnLabels[i],
                         points: [{ col: 2 * i, row: 0 }, { col: 2 * i + 1, row: 0 }],
                         size: 15,
-                        nudge: { dx: 0, dy: -0.7 },
+                        nudge: { dx: 0, dy: -0.8 },
                     }
                 );
             }

@@ -50,6 +50,7 @@
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
+        "halfcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
@@ -125,6 +126,7 @@
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
+        "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
@@ -731,6 +733,12 @@
             "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
             "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
+        },
+        "halfcut": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
+            "BAD_CROSSING_CLEARCUT": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut.",
+            "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than at least one opposing group in the crosscut."
         },
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
@@ -1376,6 +1384,12 @@
                 "description": "Starts with a \"cross\" of two tiles of each colour."
             }
         },
+        "halfcut": {
+            "ruleset": {
+                "name": "Halfcut ruleset",
+                "description": "Captures can only be made if the piece placed is larger than at least one opposing group in a crosscut."
+            }
+        },
         "havannah": {
             "board": {
                 "name": "Size 8 board.",
@@ -1743,6 +1757,12 @@
                 "description": "You only play with three pieces of each colour, and the grid is constrained to 7x7 instead of 9x9."
             }
         },
+        "halfcut": {
+            "clearcut": {
+                "name": "Clearcut ruleset",
+                "description": "Captures can only be made if the piece placed is larger than at both opposing groups in a crosscut. Full rulesheet: <https://www.marksteeregames.com/Clearcut_rules.pdf>"
+            }
+        },
         "havannah": {
             "size-4": {
                 "name": "Size 4 board.",
@@ -2006,6 +2026,10 @@
             "berserk-11x11-tdiamondberserk": {
                 "name": "berserk-11x11-tdiamondberserk",
                 "description": "Berserk variant of the Fetlar rules with knights and commanders. Multi-step captures are permitted, and the king may escape to the corner immediately after a capture."
+            },
+            "total-11x11-tdiamond": {
+                "name": "total-11x11-tdiamond",
+                "description": "A combination of Fetlar, Copenhagen and Berserk rules. It is a strong armed king with corner escape rules, with shield wall captures, exit forts, and encirclement win. Berserk capture is enabled and the king can make a berserk escape. Repetitions result in a draw."
             },
             "tyr-11x11-tyr": {
                 "name": "tyr-11x11-tyr",

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -8,8 +6,6 @@ import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -252,31 +248,36 @@ export class HalfcutGame extends GameBase {
     }
 
     public canPlace(cell: string, player: playerid): boolean {
-        const cloned: HalfcutGame = Object.assign(new HalfcutGame(), deepclone(this) as HalfcutGame);
-        cloned.board.set(cell, player);
-        const crosses = cloned.getCrosscuts(cell);
+        this.board.set(cell, player);
+        const crosses = this.getCrosscuts(cell);
         if (this.variants.includes("clearcut")) {
-            const extended = cloned.extendCrosscuts(crosses);
+            const extended = this.extendCrosscuts(crosses);
             const yours = extended.yours.find(lst => lst.includes(cell))!;
             for (const ext of extended.theirs) {
                 if (yours.length <= ext.length) {
+                    this.board.delete(cell);
                     return false;
                 }
             }
+            this.board.delete(cell);
             return true;
         } else {
-            const yours = cloned.extendCell(cell);
+            const yours = this.extendCell(cell);
             for (const cross of crosses) {
                 // Placed group is longer than at least one of their group.
                 let longer = false;
                 for (const p of cross.theirs) {
-                    if (yours.length > cloned.extendCell(p).length) {
+                    if (yours.length > this.extendCell(p).length) {
                         longer = true;
                         break;
                     }
                 }
-                if (!longer) { return false; }
+                if (!longer) {
+                    this.board.delete(cell);
+                    return false;
+                }
             }
+            this.board.delete(cell);
             return true;
         }
     }

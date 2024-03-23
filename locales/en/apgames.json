@@ -1440,7 +1440,7 @@
         },
         "nex": {
             "board": {
-                "name": "13x13 board"
+                "name": "11x11 board"
             }
         },
         "quagmire": {
@@ -1897,8 +1897,8 @@
             }
         },
         "nex": {
-            "size-11": {
-                "name": "11x11 board"
+            "size-9": {
+                "name": "9x9 board"
             }
         },
         "orb": {

@@ -46,7 +46,7 @@ export class NexGame extends GameBase {
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple"],
         flags: ["experimental", "pie", "multistep", "rotate90"],
         variants: [
-            { uid: "size-11", group: "board" },
+            { uid: "size-9", group: "board" },
         ]
     };
 
@@ -154,7 +154,7 @@ export class NexGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 13;
+        return 11;
     }
 
     private getGraph(): HexSlantedGraph {

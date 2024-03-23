@@ -69,6 +69,7 @@
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
+        "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
@@ -918,6 +919,22 @@
             "PARTIAL_SUBSTACK_one": "Looks like you want to move the top piece from the stack. Provide the destination.",
             "PARTIAL_SUBSTACK_other": "Looks like you want to move the top {{count}} pieces from the stack. Provide the destination."
         },
+        "nex": {
+            "INITIAL_INSTRUCTIONS": "Either place your piece on an empty cell followed by a neutral piece on another empty cell, or choose two neutral pieces to swap to your colour and one of your piece to swap to the neutral colour.",
+            "SWAP_UNCONTROLLED": "You many not swap a your opponent's pieces.",
+            "SWAP_TOO_MANY_PLAYER": "You may only swap one of your pieces to the neutral colour.",
+            "SWAP_TOO_MANY_NEUTRAL": "You may only swap two neutral pieces to your colour.",
+            "SWAP_INSUFFICIENT_NEUTRAL": "There is not enough neutral stones on the board so you may not make swap moves. You should make placement moves instead.",
+            "PARTIAL_SWAP_TWO_NEUTRAL": "Select two neutral pieces to swap to your colour.",
+            "PARTIAL_SWAP_ONE_EACH": "Select one more neutral piece to swap to your colour, and one of your pieces to swap to the neutral colour.",
+            "PARTIAL_SWAP_ONE_NEUTRAL": "Select one more neutral piece to swap to your colour.",
+            "PARTIAL_SWAP_ONE_PLAYER": "Select one of your pieces to swap to the neutral colour.",
+            "PLACE_TOO_MANY": "You may only place one of your pieces followed by one neutral piece.",
+            "PARTIAL_PLACE": "Select an empty cell to place a neutral piece.",
+            "SWAP_EDGE_CASE_TOO_MANY": "There is only one neutral piece and no more empty cells. You may swap that neutral piece alone to your colour.",
+            "SWAP_EDGE_CASE_NOT_NEUTRAL": "There is only one neutral piece and no more empty cells. You may not swap a piece of your colour to a neutral piece. Just swap the neutral piece to your colour.",
+            "EDGE_CASE_ONE_EMPTY_NEUTRAL": "There is only one empty cell so you may not make a placement. You should make swap moves instead."
+        },
         "onager": {
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to walk or jump.",
             "INITIAL_INSTRUCTIONS_PLACE": "Select an empty cell to place a lake.",
@@ -1417,8 +1434,13 @@
             }
         },
         "meridians": {
-            "size-6": {
+            "board": {
                 "name": "board (base 7)"
+            }
+        },
+        "nex": {
+            "board": {
+                "name": "13x13 board"
             }
         },
         "quagmire": {
@@ -1872,6 +1894,11 @@
             "static": {
                 "description": "No initial redistribution of a starting tower.",
                 "name": "Static Start"
+            }
+        },
+        "nex": {
+            "size-11": {
+                "name": "11x11 board"
             }
         },
         "orb": {

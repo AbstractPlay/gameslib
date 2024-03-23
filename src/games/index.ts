@@ -107,6 +107,7 @@ import { ConnecticutGame, IConnecticutState } from "./connecticut";
 import { QuaxGame, IQuaxState } from "./quax";
 import { AtollGame, IAtollState } from "./atoll";
 import { HalfcutGame, IHalfcutState } from "./halfcut";
+import { NexGame, INexState } from "./nex";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -216,6 +217,7 @@ export {
     QuaxGame, IQuaxState,
     AtollGame, IAtollState,
     HalfcutGame, IHalfcutState,
+    NexGame, INexState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -253,7 +255,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof RootBoundGame | typeof TwixtGame | typeof ReversiGame |
                               typeof BlockadeGame | typeof CairoCorridorGame | typeof SaltireGame |
                               typeof ConnecticutGame | typeof QuaxGame | typeof AtollGame |
-                              typeof HalfcutGame
+                              typeof HalfcutGame | typeof NexGame
                 >();
 // Manually add each game to the following array
 [
@@ -271,7 +273,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
-    CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame,
+    CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -495,6 +497,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new AtollGame(...args);
         case "halfcut":
             return new HalfcutGame(...args);
+        case "nex":
+            return new NexGame(...args);
     }
     return;
 }

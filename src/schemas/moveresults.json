@@ -809,6 +809,25 @@
             },
             "required": ["type"],
             "additionalProperties": false
+        },
+        {
+            "description": "Use when swapping something, optionally with something else.",
+            "properties": {
+                "type": {
+                    "enum": ["swap"]
+                },
+                "where": {
+                    "type": "string"
+                },
+                "with": {
+                    "type": "string"
+                },
+                "who": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "where"],
+            "additionalProperties": false
         }
     ]
 }

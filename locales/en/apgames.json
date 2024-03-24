@@ -933,7 +933,8 @@
             "PARTIAL_PLACE": "Select an empty cell to place a neutral piece.",
             "SWAP_EDGE_CASE_TOO_MANY": "There is only one neutral piece and no more empty cells. You may swap that neutral piece alone to your colour.",
             "SWAP_EDGE_CASE_NOT_NEUTRAL": "There is only one neutral piece and no more empty cells. You may not swap a piece of your colour to a neutral piece. Just swap the neutral piece to your colour.",
-            "EDGE_CASE_ONE_EMPTY_NEUTRAL": "There is only one empty cell so you may not make a placement. You should make swap moves instead."
+            "EDGE_CASE_ONE_EMPTY_NEUTRAL": "There is only one empty cell so you may not make a placement. You should make swap moves instead.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "onager": {
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to walk or jump.",

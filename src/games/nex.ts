@@ -417,6 +417,12 @@ export class NexGame extends GameBase {
                 return result;
             }
         }
+        const normalised = this.normaliseMove(m);
+        if (normalised !== m) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.nex.NORMALISE", { normalised });
+            return result;
+        }
 
         // we're good
         result.valid = true;

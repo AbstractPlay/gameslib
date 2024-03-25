@@ -267,4 +267,10 @@ export type APMoveResult =
     }
   | {
       type: "reset";
+    }
+  | {
+      type: "swap";
+      where: string;
+      with?: string;
+      who?: number;
     };

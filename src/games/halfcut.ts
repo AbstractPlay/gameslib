@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -8,8 +6,6 @@ import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
@@ -26,23 +22,6 @@ export interface IHalfcutState extends IAPGameState {
 };
 
 type PlayerLines = [string[],string[]];
-const lineN: string[] = [];
-const lineS: string[] = [];
-for (let x = 0; x < 19; x++) {
-    const N = GameBase.coords2algebraic(x, 0, 19);
-    const S = GameBase.coords2algebraic(x, 18, 19);
-    lineN.push(N);
-    lineS.push(S);
-}
-const lineE: string[] = [];
-const lineW: string[] = [];
-for (let y = 0; y < 19; y++) {
-    const E = GameBase.coords2algebraic(18, y, 19);
-    const W = GameBase.coords2algebraic(0, y, 19);
-    lineE.push(E);
-    lineW.push(W);
-}
-const lines: [PlayerLines,PlayerLines] = [[lineN,lineS],[lineE,lineW]];
 
 interface ICrossCut {
     yours: [string,string];
@@ -72,16 +51,17 @@ export class HalfcutGame extends GameBase {
             }
         ],
         variants: [
+            { uid: "size-15", group: "board" },
             { uid: "clearcut", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie", "automove"]
     };
-    public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 19);
+    public coords2algebraic(x: number, y: number): string {
+        return GameBase.coords2algebraic(x, y, this.boardSize);
     }
-    public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 19);
+    public algebraic2coords(cell: string): [number, number] {
+        return GameBase.algebraic2coords(cell, this.boardSize);
     }
 
     public numplayers = 2;
@@ -93,6 +73,8 @@ export class HalfcutGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    private boardSize = 0;
+    private lines: [PlayerLines,PlayerLines];
 
     constructor(state?: IHalfcutState | string, variants?: string[]) {
         super();
@@ -123,6 +105,7 @@ export class HalfcutGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.lines = this.getLines();
     }
 
     public load(idx = -1): HalfcutGame {
@@ -138,8 +121,45 @@ export class HalfcutGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.connPath = [...state.connPath];
+        this.boardSize = this.getBoardSize();
         return this;
     }
+
+    private getLines(): [PlayerLines,PlayerLines] {
+        const lineN: string[] = [];
+        const lineS: string[] = [];
+        for (let x = 0; x < this.boardSize; x++) {
+            const N = this.coords2algebraic(x, 0);
+            const S = this.coords2algebraic(x, this.boardSize - 1);
+            lineN.push(N);
+            lineS.push(S);
+        }
+        const lineE: string[] = [];
+        const lineW: string[] = [];
+        for (let y = 0; y < this.boardSize; y++) {
+            const E = this.coords2algebraic(this.boardSize-1, y);
+            const W = this.coords2algebraic(0, y);
+            lineE.push(E);
+            lineW.push(W);
+        }
+        return [[lineN, lineS], [lineE, lineW]];
+    }
+
+    private getBoardSize(): number {
+        // Get board size from variants.
+        if (this.variants !== undefined && this.variants.length > 0 && this.variants[0] !== undefined && this.variants[0].length > 0) {
+            const sizeVariants = this.variants.filter(v => v.includes("size"))
+            if (sizeVariants.length > 0) {
+                const size = sizeVariants[0].match(/\d+/);
+                return parseInt(size![0], 10);
+            }
+            if (isNaN(this.boardSize)) {
+                throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
+            }
+        }
+        return 19;
+    }
+
 
     public getCrosscuts(cell: string, player?: playerid): ICrossCut[] {
         if (player === undefined) {
@@ -149,19 +169,19 @@ export class HalfcutGame extends GameBase {
             }
         }
         const crosscuts: ICrossCut[] = [];
-        const [x,y] = HalfcutGame.algebraic2coords(cell);
-        const grid = new RectGrid(19,19);
+        const [x,y] = this.algebraic2coords(cell);
+        const grid = new RectGrid(this.boardSize, this.boardSize);
         const nonos: [Directions,Directions][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
         for (const [left,right] of nonos) {
             let matchLeft = false;
-            const rayLeft = grid.ray(x, y, left).map(n => HalfcutGame.coords2algebraic(...n));
+            const rayLeft = grid.ray(x, y, left).map(n => this.coords2algebraic(...n));
             if (rayLeft.length > 0) {
                 if ( (this.board.has(rayLeft[0])) && (this.board.get(rayLeft[0])! !== player) ) {
                     matchLeft = true;
                 }
             }
             let matchRight = false;
-            const rayRight = grid.ray(x, y, right).map(n => HalfcutGame.coords2algebraic(...n));
+            const rayRight = grid.ray(x, y, right).map(n => this.coords2algebraic(...n));
             if (rayRight.length > 0) {
                 if ( (this.board.has(rayRight[0])) && (this.board.get(rayRight[0])! !== player) ) {
                     matchRight = true;
@@ -169,7 +189,7 @@ export class HalfcutGame extends GameBase {
             }
             const dirDiag = (left + right) as Directions;
             let matchDiag = false;
-            const rayDiag = grid.ray(x, y, dirDiag).map(n => HalfcutGame.coords2algebraic(...n));
+            const rayDiag = grid.ray(x, y, dirDiag).map(n => this.coords2algebraic(...n));
             if (rayDiag.length > 0) {
                 if ( (this.board.has(rayDiag[0])) && (this.board.get(rayDiag[0])! === player) ) {
                     matchDiag = true;
@@ -189,7 +209,7 @@ export class HalfcutGame extends GameBase {
         if (! this.board.has(start)) {
             throw new Error("Can only extend an occupied cell.");
         }
-        const grid = new RectGrid(19, 19);
+        const grid = new RectGrid(this.boardSize, this.boardSize);
         const player = this.board.get(start)!;
         const toVisit: string[] = [start];
         const visited = new Set<string>();
@@ -198,8 +218,8 @@ export class HalfcutGame extends GameBase {
             const cell = toVisit.pop()!;
             visited.add(cell);
             extension.add(cell);
-            const [x,y] = HalfcutGame.algebraic2coords(cell);
-            const adj = grid.adjacencies(x, y, false).map(n => HalfcutGame.coords2algebraic(...n));
+            const [x,y] = this.algebraic2coords(cell);
+            const adj = grid.adjacencies(x, y, false).map(n => this.coords2algebraic(...n));
             for (const next of adj) {
                 if (this.board.has(next)) {
                     const contents = this.board.get(next)!;
@@ -228,31 +248,36 @@ export class HalfcutGame extends GameBase {
     }
 
     public canPlace(cell: string, player: playerid): boolean {
-        const cloned: HalfcutGame = Object.assign(new HalfcutGame(), deepclone(this) as HalfcutGame);
-        cloned.board.set(cell, player);
-        const crosses = cloned.getCrosscuts(cell);
+        this.board.set(cell, player);
+        const crosses = this.getCrosscuts(cell);
         if (this.variants.includes("clearcut")) {
-            const extended = cloned.extendCrosscuts(crosses);
+            const extended = this.extendCrosscuts(crosses);
             const yours = extended.yours.find(lst => lst.includes(cell))!;
             for (const ext of extended.theirs) {
                 if (yours.length <= ext.length) {
+                    this.board.delete(cell);
                     return false;
                 }
             }
+            this.board.delete(cell);
             return true;
         } else {
-            const yours = cloned.extendCell(cell);
+            const yours = this.extendCell(cell);
             for (const cross of crosses) {
                 // Placed group is longer than at least one of their group.
                 let longer = false;
                 for (const p of cross.theirs) {
-                    if (yours.length > cloned.extendCell(p).length) {
+                    if (yours.length > this.extendCell(p).length) {
                         longer = true;
                         break;
                     }
                 }
-                if (!longer) { return false; }
+                if (!longer) {
+                    this.board.delete(cell);
+                    return false;
+                }
             }
+            this.board.delete(cell);
             return true;
         }
     }
@@ -262,9 +287,9 @@ export class HalfcutGame extends GameBase {
         const moves: string[] = [];
 
         // can place on any empty space as long as you don't cross paths
-        for (let y = 0; y < 19; y++) {
-            for (let x = 0; x < 19; x++) {
-                const cell = HalfcutGame.coords2algebraic(x, y);
+        for (let y = 0; y < this.boardSize; y++) {
+            for (let x = 0; x < this.boardSize; x++) {
+                const cell = this.coords2algebraic(x, y);
                 if (! this.board.has(cell)) {
                     if (this.canPlace(cell, this.currplayer)) {
                         moves.push(cell);
@@ -286,7 +311,7 @@ export class HalfcutGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = HalfcutGame.coords2algebraic(col, row);
+            const cell = this.coords2algebraic(col, row);
             const newmove = cell;
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -327,7 +352,7 @@ export class HalfcutGame extends GameBase {
 
         // valid cell
         try {
-            HalfcutGame.algebraic2coords(m);
+            this.algebraic2coords(m);
         } catch {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m})
@@ -425,7 +450,7 @@ export class HalfcutGame extends GameBase {
     }
 
     private buildGraph(player: playerid): UndirectedGraph {
-        const grid = new RectGrid(19,19);
+        const grid = new RectGrid(this.boardSize, this.boardSize);
         const graph = new UndirectedGraph();
         // seed nodes
         [...this.board.entries()].filter(([,p]) => p === player).forEach(([cell,]) => {
@@ -434,9 +459,9 @@ export class HalfcutGame extends GameBase {
         // for each node, check neighbours
         // if any are in the graph, add an edge
         for (const node of graph.nodes()) {
-            const [x,y] = HalfcutGame.algebraic2coords(node);
+            const [x,y] = this.algebraic2coords(node);
             // diagonal connections are not relevant
-            const neighbours = grid.adjacencies(x,y,false).map(n => HalfcutGame.coords2algebraic(...n));
+            const neighbours = grid.adjacencies(x,y,false).map(n => this.coords2algebraic(...n));
             for (const n of neighbours) {
                 if ( (graph.hasNode(n)) && (! graph.hasEdge(node, n)) ) {
                     graph.addEdge(node, n);
@@ -453,7 +478,7 @@ export class HalfcutGame extends GameBase {
         }
 
         const graph = this.buildGraph(prevPlayer);
-        const [sources, targets] = lines[prevPlayer - 1];
+        const [sources, targets] = this.lines[prevPlayer - 1];
         for (const source of sources) {
             for (const target of targets) {
                 if ( (graph.hasNode(source)) && (graph.hasNode(target)) ) {
@@ -506,13 +531,13 @@ export class HalfcutGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         let pstr = "";
-        for (let row = 0; row < 19; row++) {
+        for (let row = 0; row < this.boardSize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
             const pieces: string[] = [];
-            for (let col = 0; col < 19; col++) {
-                const cell = HalfcutGame.coords2algebraic(col, row);
+            for (let col = 0; col < this.boardSize; col++) {
+                const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents === 1) {
@@ -526,12 +551,14 @@ export class HalfcutGame extends GameBase {
             }
             pstr += pieces.join("");
         }
-        pstr = pstr.replace(/-{19}/g, "_");
+        pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "go",
+                style: "vertex",
+                width: this.boardSize,
+                height: this.boardSize,
                 markers: [
                     {type:"edge", edge: "N", colour:1},
                     {type:"edge", edge: "S", colour:1},
@@ -558,12 +585,12 @@ export class HalfcutGame extends GameBase {
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
-                    const [x, y] = HalfcutGame.algebraic2coords(move.where!);
+                    const [x, y] = this.algebraic2coords(move.where!);
                     // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
                 if (move.type === "capture") {
-                    const [x, y] = HalfcutGame.algebraic2coords(move.where!);
+                    const [x, y] = this.algebraic2coords(move.where!);
                     // rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
@@ -572,7 +599,7 @@ export class HalfcutGame extends GameBase {
                 type RowCol = {row: number; col: number;};
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
-                    const [x,y] = HalfcutGame.algebraic2coords(cell);
+                    const [x,y] = this.algebraic2coords(cell);
                     targets.push({row: y, col: x})                ;
                 }
                 // @ts-ignore

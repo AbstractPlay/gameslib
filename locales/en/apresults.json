@@ -217,6 +217,8 @@
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
         "mattock": "{{player}} placed a miner at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
+        "nex": "{{player}} placed a piece of their colour at {{where}}.",
+        "nex_neutral": "{{player}} placed a neutral piece at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",
         "onager": "{{player}} placed a lake at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
@@ -278,6 +280,10 @@
     },
     "SOW_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
     "SOW_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
+    "SWAP": {
+        "nex_neutral": "{{player}} swapped a neutral piece piece to a piece of their colour at {{where}}.",
+        "nex": "{{player}} swapped a piece of their colour to a neutral piece at {{where}}."
+    },
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber.",
         "streetcar": "{{player}} took a housing limit from {{from}}.",

@@ -101,7 +101,7 @@ export class TaflSettings {
                     uid: "terserk",
                     urls: [],
                     escapeType: "corner",
-                    pieces: { king: { strength: "strong", jump: "jump-enemy-taflmen-to-from-restricted", berserkEscape: true } },
+                    pieces: { king: { strength: "strong", berserkEscape: true } },
                     throne: { emptyAnvilTo: "all" },
                     corner: { type: "corner", anvilTo: "men-only-piercing" },
                     berserkCapture: true,

@@ -44,6 +44,7 @@ export class PenteGame extends GameBase {
         variants: [
             { uid: "size-15", group: "board" },
             { uid: "swap2", group: "opening" },
+            { uid: "swap5", group: "opening" },
             { uid: "overline-forbidden", group: "overline" },
             // { uid: "overline-ignored", group: "overline" },  // A lot of edge cases when pieces capture to form 5-in-a-rows.
             { uid: "capture-2-3", group: "capture" },
@@ -75,7 +76,7 @@ export class PenteGame extends GameBase {
     public captureCounts: [number, number] = [0, 0];
     public swapped = false;
     private boardSize = 0;
-    private openingProtocol: "pro" | "swap2";
+    private openingProtocol: "pro" | "swap2" | "swap5";
     private threshold: number;
     private dots: string[] = [];
 
@@ -109,7 +110,7 @@ export class PenteGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.openingProtocol = this.variants.includes("swap2") ? "swap2" : "pro";
+        this.openingProtocol = this.getOpeningProtocol();
         this.threshold = this.getThreshold();
     }
 
@@ -153,6 +154,10 @@ export class PenteGame extends GameBase {
 
     private getThreshold(): number {
         return this.variants.includes("capture-2-3") ? 15 : 10;
+    }
+
+    private getOpeningProtocol(): "pro" | "swap2" | "swap5" {
+        return this.variants.includes("swap2") ? "swap2" : this.variants.includes("swap5") ? "swap5" : "pro";
     }
 
     public moves(player?: playerid): string[] {
@@ -245,8 +250,21 @@ export class PenteGame extends GameBase {
 
     private canSwap(): boolean {
         if (this.openingProtocol === "pro") { return false; }
-        if (this.stack.length === 2) { return true; }
-        if (this.stack.length === 3 && this.stack[2].lastmove?.includes(",")) { return true; }
+        if (this.openingProtocol === "swap2") {
+            if (this.stack.length === 2) { return true; }
+            if (this.stack.length === 3 && this.stack[2].lastmove?.includes(",")) { return true; }
+            return false;
+        }
+        if (this.openingProtocol === "swap5") {
+            if (this.stack.length === 1) { return false; }
+            if (this.stack[this.stack.length - 1].lastmove === "pass") { return false; }
+            let count = 0;
+            for (const slice of this.stack) {
+                if (slice.lastmove !== "pass") { count++; }
+                if (count > 6) { return false; }
+            }
+            return true;
+        }
         return false;
     }
 
@@ -308,6 +326,9 @@ export class PenteGame extends GameBase {
                 } else if (this.stack.length === 3 && this.canSwap()) {
                     message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP23");
                 }
+            }
+            if (this.openingProtocol === "swap5" && this.canSwap()) {
+                message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP5");
             }
             if (this.openingProtocol === "pro") {
                 if (this.stack.length === 1) {

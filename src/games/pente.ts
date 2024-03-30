@@ -213,23 +213,24 @@ export class PenteGame extends GameBase {
                 moves.push(cell);
             }
         }
-        if (this.stack.length === 2 && this.openingProtocol === "swap2") {
-            // Get all pairs of cells
-            // We don't check for forbidden self-captures here because it's too expensive.
-            for (let row = 0; row < this.boardSize; row++) {
-                for (let col = 0; col < this.boardSize; col++) {
-                    const cell = this.coords2algebraic(col, row);
-                    for (let row1 = 0; row1 < this.boardSize; row1++) {
-                        for (let col1 = 0; col1 < this.boardSize; col1++) {
-                            const cell1 = this.coords2algebraic(col1, row1);
-                            if (cell !== cell1) {
-                                moves.push(cell + "," + cell1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        // This is also for swap2 and it seems like it's also too heavy for the dropdown box.
+        // if (this.stack.length === 2 && this.openingProtocol === "swap2") {
+        //     // Get all pairs of cells
+        //     // We don't check for forbidden self-captures here because it's too expensive.
+        //     for (let row = 0; row < this.boardSize; row++) {
+        //         for (let col = 0; col < this.boardSize; col++) {
+        //             const cell = this.coords2algebraic(col, row);
+        //             for (let row1 = 0; row1 < this.boardSize; row1++) {
+        //                 for (let col1 = 0; col1 < this.boardSize; col1++) {
+        //                     const cell1 = this.coords2algebraic(col1, row1);
+        //                     if (cell !== cell1) {
+        //                         moves.push(cell + "," + cell1);
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         if (this.canSwap()) {
             moves.push("pass");
         }
@@ -613,7 +614,7 @@ export class PenteGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             // Because move generation is quite heavy, we don't do it for swap2 opening.
-            if (!partial && (this.openingProtocol !== "swap2" || this.stack.length > 1) && !this.moves().includes(m)) {
+            if (!partial && (this.openingProtocol !== "swap2" || this.stack.length > 2) && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }

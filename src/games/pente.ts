@@ -452,6 +452,13 @@ export class PenteGame extends GameBase {
                 return result;
             }
         }
+        // Since there is no move list for placement phase, we have to do some extra validation.
+        const regex = new RegExp(`^([a-z]+[1-9][0-9]*,)+[a-z]+[1-9][0-9]*$`);
+        if (!regex.test(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.pente.INVALID_PLACEMENT", {move: m});
+            return result;
+        }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
@@ -606,7 +613,7 @@ export class PenteGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             // Because move generation is quite heavy, we don't do it for swap2 opening.
-            if (!partial && this.openingProtocol !== "swap2" && this.stack.length > 1 && !this.moves().includes(m)) {
+            if (!partial && (this.openingProtocol !== "swap2" || this.stack.length > 1) && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }

@@ -981,6 +981,7 @@
             "EXCESS": "You have placed too many stones. You may only place 1 stone.",
             "PRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the pro opening.",
             "PRO_RESTRICTION_THIRD": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
+            "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "phutball": {
@@ -1469,7 +1470,7 @@
         },
         "pente": {
             "board": {
-                "name": "board (19x19)"
+                "name": "19x19 board"
             },
             "opening": {
                 "name": "pro opening",

@@ -810,15 +810,19 @@ export class PenteGame extends GameBase {
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
             if (winningLinesMap.get(player)!.length > 0) {
+                // If the overtime-capture variant is enabled, players win if they have a 5-in-a-row at the end of the opponent's turn.
                 if (!this.variants.includes("overtime-capture") || this.variants.includes("overtime-capture") && player === this.currplayer) {
                     winner.push(player);
                 }
                 this.winningLines.push(...winningLinesMap.get(player)!);
             }
         }
-        const winnerCaptureCount = this.getWinnerCaptureCount();
-        if (winnerCaptureCount !== undefined && !winner.includes(winnerCaptureCount)) {
-            winner.push(winnerCaptureCount);
+        if (winner.length === 0) {
+            // In the case of overtime-capture, not being able to break the 5-in-a-row takes priority over potential win elsewhere.
+            const winnerCaptureCount = this.getWinnerCaptureCount();
+            if (winnerCaptureCount !== undefined && !winner.includes(winnerCaptureCount)) {
+                winner.push(winnerCaptureCount);
+            }
         }
         if (winner.length > 0) {
             this.gameover = true;

@@ -453,7 +453,7 @@ export class PenteGame extends GameBase {
             }
         }
         // Since there is no move list for placement phase, we have to do some extra validation.
-        const regex = new RegExp(`^([a-z]+[1-9][0-9]*,)+[a-z]+[1-9][0-9]*$`);
+        const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.pente.INVALID_PLACEMENT", {move: m});

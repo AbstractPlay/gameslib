@@ -51,7 +51,7 @@ export class PenteGame extends GameBase {
             { uid: "overtime-capture", group: "overtime-capture" },
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "automove", "scores", "multistep", "custom-colours", "check", "rotate90"],
+        flags: ["experimental", "scores", "multistep", "custom-colours", "check", "rotate90"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -854,6 +854,11 @@ export class PenteGame extends GameBase {
             markers.push({
                 belowGrid: true, type: "shading", colour: "#FFA500", opacity: 0.1,
                 points: [{row: 0, col: 0}, {row: 0, col: this.boardSize - 1}, {row: this.boardSize - 1, col: this.boardSize - 1}, {row: this.boardSize - 1, col: 0}],
+            });
+        }
+        if (this.openingProtocol === "pro" && this.stack.length === 1) {
+            markers.push({
+                type: "dots", points: [{ row: (this.boardSize - 1) / 2, col: (this.boardSize - 1) / 2 }]
             });
         }
         if (markers.length === 0) {

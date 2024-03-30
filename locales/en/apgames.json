@@ -1486,7 +1486,7 @@
             },
             "self-capture": {
                 "name": "self-capture ignored",
-                "description": "Players own stones may be placed in configurations that result in capture."
+                "description": "Players may place a stone in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture without consequences."
             },
             "overtime-capture": {
                 "name": "no overtime capture",
@@ -1975,15 +1975,15 @@
             },
             "self-capture": {
                 "name": "Self-capture allowed (Poof Pente)",
-                "description": "When players place a stone, they may create a line that captures their own stones. All captures are determined before any removal is made. This means that if we initially had XO_XXO, and the O player places at the empty space, it results in X___O, and each player gains two points."
+                "description": "When players place a stone in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture, those stones are removed as though the opponent captured them. All captures are determined before any removal is made. This means that if we initially had XO_XXO, and the O player places at the empty space, it results in X____O, and each player gains two points."
             },
             "self-capture-forbidden": {
                 "name": "Self-capture forbidden",
-                "description": "When players place a stone, they may not create a line that captures their own stones."
+                "description": "Players may not place their stones in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture."
             },
             "overtime-capture": {
                 "name": "Overtime capture (Boat Pente)",
-                "description": "When a player makes a winning alignment, the opponent has one move to break that alignment. If they fail to do so, the game ends."
+                "description": "When a player makes a winning alignment, the opponent has one move to try to break that alignment."
             }
         },
         "pikemen": {

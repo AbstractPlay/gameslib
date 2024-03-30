@@ -44,7 +44,8 @@ export class PenteGame extends GameBase {
         variants: [
             { uid: "size-15", group: "board" },
             { uid: "swap2", group: "opening" },
-            { uid: "no-overline-win", group: "overline" },
+            { uid: "overline-forbidden", group: "overline" },
+            // { uid: "overline-ignored", group: "overline" },  // A lot of edge cases when pieces capture to form 5-in-a-rows.
             { uid: "capture-2-3", group: "capture" },
             { uid: "self-capture", group: "self-capture" },
             { uid: "self-capture-forbidden", group: "self-capture" },
@@ -453,6 +454,13 @@ export class PenteGame extends GameBase {
                 return result;
             }
         }
+        if (this.variants.includes("overline-forbidden")) {
+            if (this.hasOverlines(moves[0])) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pente.OVERLINE_FORBIDDEN");
+                return result;
+            }
+        }
         // Since there is no move list for placement phase, we have to do some extra validation.
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
@@ -551,6 +559,35 @@ export class PenteGame extends GameBase {
         return captures;
     }
 
+    private hasOverlines(place: string, overlineLength = 6): boolean {
+        // Get self-captures given a placement at a given cell.
+        const [x, y] = this.algebraic2coords(place);
+        const player = this.currplayer;
+        const deltas = [[0, 1], [1, 0], [1, 1], [1, -1]];
+        for (const [dx, dy] of deltas) {
+            // We traverse in both the positive and negative directions.
+            let alignCount = 1;
+            for (const sign of [-1, 1]) {
+                let i = 1;
+                while (true) {
+                    const [x1, y1] = [x + sign * i * dx, y + sign * i * dy];
+                    if (x1 < 0 || x1 >= this.boardSize || y1 < 0 || y1 >= this.boardSize) { break; }
+                    const cell = this.coords2algebraic(x1, y1);
+                    if (!this.board.has(cell)) { break; }
+                    if (this.board.get(cell) === player) {
+                        alignCount++;
+                        if (alignCount >= overlineLength) { return true; }
+                        i++;
+                        continue;
+                    }
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+
+
     private checkPatterns(startX: number, startY: number, dx: number, dy: number, places: string[], playerPlaced: string[], winningPatterns: string[]): boolean {
         let line = "";
         for (let x = startX, y = startY; x < this.boardSize && y < this.boardSize; x += dx, y += dy) {
@@ -582,16 +619,12 @@ export class PenteGame extends GameBase {
         // In the captures-2-3 variant, captures can also look like XOOOX or OXXXO.
         const winningPatterns = this.variants.includes("capture-2-3") ? ["XOOX", "OXXO", "XOOOX", "OXXXO"] : ["XOOX", "OXXO"];
         for (let i = 0; i < this.boardSize; i++) {
-            if (this.checkPatterns(0, i, 1, 0, places, playerPlaced, winningPatterns) || // Check rows
-                this.checkPatterns(i, 0, 0, 1, places, playerPlaced, winningPatterns) || // Check columns
-                this.checkPatterns(i, 0, 1, 1, places, playerPlaced, winningPatterns) || // Check diagonals from top-left to bottom-right
-                this.checkPatterns(0, i + 1, 1, 1, places, playerPlaced, winningPatterns) || // Check diagonals from top-left to bottom-right
-                this.checkPatterns(i, 0, -1, 1, places, playerPlaced, winningPatterns) || // Check diagonals from bottom-left to top-right
-                this.checkPatterns(this.boardSize - 1, i + 1, -1, 1, places, playerPlaced, winningPatterns) || // Check diagonals from bottom-left to top-right
-                this.checkPatterns(i, 0, 1, 1, places, playerPlaced, winningPatterns) || // Check diagonals from top-right to bottom-left
-                this.checkPatterns(0, i + 1, 1, 1, places, playerPlaced, winningPatterns)) { // Check diagonals from top-right to bottom-left
-                return true;
-            }
+            if (this.checkPatterns(0, i, 1, 0, places, playerPlaced, winningPatterns)) { return true; }
+            if (this.checkPatterns(i, 0, 0, 1, places, playerPlaced, winningPatterns)) { return true; }
+            if (this.checkPatterns(i, 0, 1, 1, places, playerPlaced, winningPatterns)) { return true; }
+            if (this.checkPatterns(0, i + 1, 1, 1, places, playerPlaced, winningPatterns)) { return true; }
+            if (this.checkPatterns(i, 0, -1, 1, places, playerPlaced, winningPatterns)) { return true; }
+            if (this.checkPatterns(this.boardSize - 1, i + 1, -1, 1, places, playerPlaced, winningPatterns)) { return true; }
         }
         return false;
     }
@@ -663,9 +696,11 @@ export class PenteGame extends GameBase {
         return this;
     }
 
-    private checkLines(startX: number, startY: number, dx: number, dy: number): string[][] {
-        // Check for winning lines in a given direction
-        // Returns an array of winning lines, which are arrays of cells that are all occupied by the same player
+    private checkLines(startX: number, startY: number, dx: number, dy: number, inARow = 5, exact = false): string[][] {
+        // Check for winning lines in a given direction.
+        // Returns an array of winning lines, which are arrays of cells that are all occupied by the same player.
+        // `inARow` is the minimum number of pieces in a row to return a winning line.
+        // exact determines whether the line must be exactly `inARow` or at least `inARow`.
         let currentPlayer: playerid | undefined;
         let currentCounter = 0;
         let cells: string[] = [];
@@ -679,7 +714,7 @@ export class PenteGame extends GameBase {
                 cells.push(cell);
             }
             if (player !== currentPlayer || x === this.boardSize - 1 || y === this.boardSize - 1){
-                if (this.variants.includes("no-overline-win") && currentCounter === 5 || !this.variants.includes("no-overline-win") && currentCounter >= 5) {
+                if (exact && currentCounter === inARow || !exact && currentCounter >= inARow) {
                     winningLines.push(cells);
                 }
                 currentPlayer = player;
@@ -696,10 +731,11 @@ export class PenteGame extends GameBase {
             [1, []],
             [2, []],
         ]);
-
+        // If the overline-ignored variant is enabled, we only check for exact 5-in-a-row.
+        const exact = this.variants.includes("overline-ignored");
         // Check rows
         for (let j = 0; j < this.boardSize; j++) {
-            const lines = this.checkLines(0, j, 1, 0);
+            const lines = this.checkLines(0, j, 1, 0, 5, exact);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -708,7 +744,7 @@ export class PenteGame extends GameBase {
 
         // Check columns
         for (let i = 0; i < this.boardSize; i++) {
-            const lines = this.checkLines(i, 0, 0, 1);
+            const lines = this.checkLines(i, 0, 0, 1, 5, exact);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -717,7 +753,7 @@ export class PenteGame extends GameBase {
 
         // Check diagonals from bottom-left to top-right
         for (let i = 0; i < this.boardSize; i++) {
-            const lines = this.checkLines(i, 0, -1, 1).concat(this.checkLines(this.boardSize - 1, i + 1, -1, 1));
+            const lines = this.checkLines(i, 0, -1, 1, 5, exact).concat(this.checkLines(this.boardSize - 1, i + 1, -1, 1, 5, exact));
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -726,7 +762,7 @@ export class PenteGame extends GameBase {
 
         // Check diagonals from top-left to bottom-right
         for (let i = 0; i < this.boardSize; i++) {
-            const lines = this.checkLines(i, 0, 1, 1).concat(this.checkLines(0, i + 1, 1, 1));
+            const lines = this.checkLines(i, 0, 1, 1, 5, exact).concat(this.checkLines(0, i + 1, 1, 1, 5, exact));
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);

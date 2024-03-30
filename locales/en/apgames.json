@@ -973,6 +973,7 @@
             "DUPLICATE":"You have already placed a piece at {{where}}.",
             "SWAP22_PARTIAL": "Complete the move to continue as player 2, or place another stone on the board to allow the opponent to decide to play as player 1 or player 2.",
             "SELF_CAPTURE_FORBIDDEN": "In this variant, you may not make a placement that results in a self-capture.",
+            "OVERLINE_FORBIDDEN": "In this variant, you may not make a placement that creates an overline.",
             "SWAP2_CAPTURE": "This placement will result in a capture.",
             "SWAP21_other": "Place {{count}} more stones on the board.",
             "SWAP21_one": "Place 1 more stone on the board.",
@@ -1965,9 +1966,9 @@
                 "name": "swap2 opening",
                 "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
-            "no-overline-win": {
-                "name": "No overline win",
-                "description": "You can only win by forming a line of exactly five stones."
+            "overline-forbidden": {
+                "name": "Overline forbidden",
+                "description": "Any move that would create a line of six or more stones is illegal."
             },
             "capture-2-3": {
                 "name": "Capture 2-3 (Keryo Pente)",

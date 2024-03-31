@@ -57,6 +57,8 @@
         "nowhat": "{{player}} captured a piece at {{where}}.",
         "orb_1": "{{player}} captured an orb at {{where}}.",
         "orb_2": "{{player}} captured a spheroid at {{where}}.",
+        "pente": "{{player}} captured {{count}} pieces.",
+        "pente_self": "{{player}} captured {{count}} of their own pieces.",
         "reversi_one": "A piece is flipped.",
         "reversi_other": "{{count}} pieces are flipped.",
         "tafl": "{{player}} captured a piece at {{where}}.",
@@ -196,6 +198,7 @@
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
+        "pie": "{{player}} passed to invoke the pie rule.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",
         "tablero": "{{player}} bumped!"

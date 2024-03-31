@@ -325,7 +325,7 @@ export class MixtourGame extends GameBase {
         }
 
         // look for obstructions
-        const [fx,fy] = MixtourGame.algebraic2coords(from);
+        const [fx,fy] = MixtourGame.algebraic2coords(fcell);
         const [tx,ty] = MixtourGame.algebraic2coords(to);
         const between = RectGrid.between(fx,fy,tx,ty).map(n => MixtourGame.coords2algebraic(...n));
         for (const b of between) {

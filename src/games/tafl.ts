@@ -1137,16 +1137,14 @@ export class TaflGame extends GameBase {
         if (!this.isOnEdge(kingCell)) { return false; }
         const todo: string[] = [kingCell];
         const seen: Set<string> = new Set();
-        let kingHasSpace: boolean | undefined;
+        let kingHasSpace = false;
         while (todo.length > 0) {
-            // 3. King has at least one space to move.
-            if (kingHasSpace === false) { return false; }
             const cell = todo.pop()!;
             if (seen.has(cell)) { continue; }
             seen.add(cell);
             const neighbours = this.getOrthCells(cell);
             for (const n of neighbours) {
-                if (kingHasSpace === undefined && !this.board.has(n)) {
+                if (!kingHasSpace && !this.board.has(n)) {
                     kingHasSpace = true;
                 }
                 if (this.board.has(n)) {
@@ -1157,7 +1155,8 @@ export class TaflGame extends GameBase {
                 }
                 todo.push(n);
             }
-            if (kingHasSpace === undefined) { kingHasSpace = false; }
+            // 3. King has at least one space to move.
+            if (!kingHasSpace) { return false; }
         }
         return true;
     }

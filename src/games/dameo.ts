@@ -3,8 +3,6 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
-import { DirectedGraph } from "graphology";
-import { allSimplePaths } from "graphology-simple-path";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const deepclone = require("rfdc/default");
@@ -164,36 +162,21 @@ export class DameoGame extends GameBase {
         const grid = new RectGrid(this.boardsize, this.boardsize);
 
         // first, find all captures
-        const caps: string[] = [];
+        const allcaps: string[][] = [];
         // men
         for (const man of men) {
-            const graph = this.buildShortGraphFrom(man);
-            const paths: string[][] = [];
-            for (const node of graph.nodes()) {
-                if (node === man) { continue; }
-                paths.push(...allSimplePaths(graph, man, node));
-            }
-            for (const path of paths) {
-                caps.push(path.join("-"));
-            }
+            allcaps.push(...this.allManCaptures(man));
         }
         // kings
         for (const king of kings) {
-            const graph = this.buildLongGraphFrom(king);
-            const paths: string[][] = [];
-            for (const node of graph.nodes()) {
-                if (node === king) { continue; }
-                paths.push(...allSimplePaths(graph, king, node));
-            }
-            for (const path of paths) {
-                caps.push(path.join("-"));
-            }
+            allcaps.push(...this.allKingCaptures(king));
         }
 
-        const maxlen = Math.max(...caps.map(str => str.split("-").length));
-        const maxcaps = caps.filter(str => str.split("-").length === maxlen);
-        moves.push(...maxcaps);
-
+        const maxlen = Math.max(...allcaps.map(cap => cap.length));
+        if (maxlen > 1) {
+            const maxcaps = allcaps.filter(cap => cap.length === maxlen).map(cap => cap.join('-'));
+            moves.push(...maxcaps);
+        }
         // only calculate movement if there are no captures available
         if (moves.length === 0) {
             for (const man of men) {
@@ -232,8 +215,7 @@ export class DameoGame extends GameBase {
         return moves.sort();
     }
 
-    // build a graph of all legal short jumps from a given start location
-    public buildShortGraphFrom(start: string): DirectedGraph {
+    public allManCaptures(start: string): string[][] {
         if (! this.board.has(start)) {
             throw new Error(`There's no piece at ${start}, so targets cannot be found.`);
         }
@@ -241,100 +223,85 @@ export class DameoGame extends GameBase {
         if (size !== 1) {
             throw new Error("The buildShortGraphFrom() function should only be used for soldiers.");
         }
-
-        const grid = new RectGrid(this.boardsize, this.boardsize);
-        const graph = new DirectedGraph();
-        graph.addNode(start);
-        const toVisit = [start];
-        const visited = new Set<string>();
-        const jumped = new Set<string>();
-        while (toVisit.length > 0) {
-            const cell = toVisit.pop()!;
-            if (visited.has(cell)) { continue; }
-            visited.add(cell);
-            const [x,y] = this.algebraic2coords(cell);
-            for (const dir of ["N","E","S","W"] as const) {
-                const ray = grid.ray(x, y, dir).map(node => this.coords2algebraic(...node));
-                // must be at least two cells in the ray
-                if (ray.length >= 2) {
-                    const adj = ray[0];
-                    // the adjacent cell must be occupied, opposing, and not previously jumped
-                    if (this.board.has(adj) && this.board.get(adj)![0] !== player && ! jumped.has(adj)) {
-                        const far = ray[1];
-                        // if empty and not already explored, you can move there
-                        // and we should explore possible moves from there
-                        if (! this.board.has(far)) {
-                            if (! graph.hasNode(far)) {
-                                graph.addNode(far);
-                            }
-                            graph.addDirectedEdge(cell, far);
-                            toVisit.push(far);
-                            jumped.add(adj);
-                        }
-                    } // if adjacent occupied by enemy
-                } // if ray.length >= 2
-            } // foreach dir
-        }
-        return graph;
+        return this.moreManCaptures(player, start, []);
     }
 
-    // build a graph of all legal long jumps from a given start location
-    public buildLongGraphFrom(start: string): DirectedGraph {
+    private moreManCaptures(player: number, start: string, jumped: string[]): string[][] {
+        const grid = new RectGrid(this.boardsize, this.boardsize);
+        const [x,y] = this.algebraic2coords(start);
+        const ret: string[][] = [];
+        for (const dir of ["N","E","S","W"] as const) {
+            const ray = grid.ray(x, y, dir).map(node => this.coords2algebraic(...node));
+            // must be at least two cells in the ray
+            if (ray.length >= 2) {
+                const adj = ray[0];
+                // the adjacent cell must be occupied, opposing, and not previously jumped
+                if (this.board.has(adj) && this.board.get(adj)![0] !== player && ! jumped.includes(adj)) {
+                    const far = ray[1];
+                    // if empty and not already explored, you can move there
+                    // and we should explore possible moves from there
+                    if (! this.board.has(far)) {
+                        const more = this.moreManCaptures(player, far, [...jumped, adj]);
+                        ret.push(...more.map(m => [start, ...m]));
+                    }
+                } // if adjacent occupied by enemy
+            } // if ray.length >= 2
+        } // foreach dir
+        if (ret.length === 0) {
+            ret.push([start]);
+        }
+        return ret;
+    }
+
+    public allKingCaptures(start: string): string[][] {
         if (! this.board.has(start)) {
             throw new Error(`There's no piece at ${start}, so targets cannot be found.`);
         }
         const [player, size] = this.board.get(start)!;
         if (size !== 2) {
-            throw new Error("The buildShortGraphFrom() function should only be used for kings.");
+            throw new Error("The buildAllKingCaptures() function should only be used for kings.");
         }
+        return this.moreKingCaptures(player, start, []);
+    }
 
+    private moreKingCaptures(player: number, start: string, jumped: string[]): string[][] {
         const grid = new RectGrid(this.boardsize, this.boardsize);
-        const graph = new DirectedGraph();
-        graph.addNode(start);
-        const toVisit = [start];
-        const visited = new Set<string>();
-        const jumped = new Set<string>();
-        while (toVisit.length > 0) {
-            const cell = toVisit.pop()!;
-            if (visited.has(cell)) { continue; }
-            visited.add(cell);
-            const [x,y] = this.algebraic2coords(cell);
-            for (const dir of ["N","E","S","W"] as const) {
-                const ray = grid.ray(x, y, dir).map(node => this.coords2algebraic(...node));
-                // must be at least two cells in the ray
-                if (ray.length >= 2) {
-                    // find first occupied cell
-                    const idx = ray.findIndex(n => this.board.has(n));
-                    if (idx === -1) {
-                        continue;
+        const ret: string[][] = []
+        const [x,y] = this.algebraic2coords(start);
+        for (const dir of ["N","E","S","W"] as const) {
+            const ray = grid.ray(x, y, dir).map(node => this.coords2algebraic(...node));
+            // must be at least two cells in the ray
+            if (ray.length >= 2) {
+                // find first occupied cell
+                const idx = ray.findIndex(n => this.board.has(n));
+                if (idx === -1) {
+                    continue;
+                }
+                const adj = ray[idx];
+                // the adjacent cell must be opposing and not previously jumped
+                if (this.board.get(adj)![0] !== player && ! jumped.includes(adj)) {
+                    // get ray of cells after piece
+                    let rayAfter = ray.slice(idx+1);
+                    // find next occupied cell
+                    const idxAfter = rayAfter.findIndex(n => this.board.has(n));
+                    if (idxAfter !== -1) {
+                        rayAfter = rayAfter.slice(0, idxAfter);
                     }
-                    const adj = ray[idx];
-                    // the adjacent cell must be opposing and not previously jumped
-                    if (this.board.get(adj)![0] !== player && ! jumped.has(adj)) {
-                        // get ray of cells after piece
-                        let rayAfter = ray.slice(idx+1);
-                        // find next occupied cell
-                        const idxAfter = rayAfter.findIndex(n => this.board.has(n));
-                        if (idxAfter !== -1) {
-                            rayAfter = rayAfter.slice(0, idxAfter);
+                    for (const far of rayAfter) {
+                        // if empty and not already explored, you can move there
+                        // and we should explore possible moves from there
+                        if (! this.board.has(far)) {
+                            const more = this.moreKingCaptures(player, far, [...jumped, adj]);
+                            ret.push(...more.map(m => [start, ...m]));
                         }
-                        for (const far of rayAfter) {
-                            // if empty and not already explored, you can move there
-                            // and we should explore possible moves from there
-                            if (! this.board.has(far)) {
-                                if (! graph.hasNode(far)) {
-                                    graph.addNode(far);
-                                }
-                                graph.addDirectedEdge(cell, far);
-                                toVisit.push(far);
-                                jumped.add(adj);
-                            }
-                        } // for empty far
-                    } // if adjacent occupied by enemy
-                } // if ray.length >= 2
-            } // foreach dir
+                    } // for empty far
+                } // if adjacent occupied by enemy
+            } // if ray.length >= 2
+        } // foreach dir
+        if (ret.length === 0) {
+            ret.push([start]);
         }
-        return graph;
+        return ret;
     }
 
     public randomMove(): string {

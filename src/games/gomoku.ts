@@ -1,10 +1,10 @@
-import { IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
+import { APRenderRep } from "@abstractplay/renderer";
 
 type playerid = 1 | 2;
 
@@ -15,48 +15,42 @@ interface IMoveState extends IIndividualState {
     captureCounts: [number, number];
     winningLines: string[][];
     swapped: boolean;
+    tiebreaker?: playerid;
 }
 
-export interface IPenteState extends IAPGameState {
+export interface IGomokuState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class PenteGame extends InARowBase {
+export class GomokuGame extends InARowBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Pente",
-        uid: "pente",
+        name: "Gomoku",
+        uid: "gomoku",
         playercounts: [2],
         version: "20240328",
         dateAdded: "2024-03-28",
-        // i18next.t("apgames:descriptions.pente")
-        description: "apgames:descriptions.pente",
-        urls: ["https://boardgamegeek.com/boardgame/1295/pente"],
-        people: [
-            {
-                type: "designer",
-                name: "Tom Braunlich",
-            },
-            {
-                type: "designer",
-                name: "Gary Gabrel",
-            },
-        ],
+        // i18next.t("apgames:descriptions.gomoku")
+        description: "apgames:descriptions.gomoku",
+        urls: ["https://boardgamegeek.com/boardgame/11929/go-moku"],
+        people: [],
         variants: [
-            { uid: "standard-15", group: "board" },
+            { uid: "standard-19", group: "board" },
             { uid: "swap2", group: "opening" },
             { uid: "swap5", group: "opening" },
-            { uid: "overline-forbidden", group: "overline" },
-            { uid: "overline-ignored", group: "overline" },
-            { uid: "capture-2-3", group: "capture" },
-            { uid: "self-capture", group: "self-capture" },
-            { uid: "self-capture-forbidden", group: "self-capture" },
-            { uid: "overtime-capture", group: "overtime-capture" },
+            { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "scores", "multistep", "custom-colours", "check", "rotate90"],
-        displays: [{uid: "hide-threatened"}],
+        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
+        flags: ["experimental", "multistep", "custom-colours", "rotate90"],
     };
+
+    public coords2algebraic(x: number, y: number): string {
+        return GameBase.coords2algebraic(x, y, this.boardSize);
+    }
+
+    public algebraic2coords(cell: string): [number, number] {
+        return GameBase.algebraic2coords(cell, this.boardSize);
+    }
 
     public numplayers = 2;
     public currplayer!: playerid;
@@ -70,23 +64,21 @@ export class PenteGame extends InARowBase {
     public captureCounts: [number, number] = [0, 0];
     public swapped = false;
     public boardSize = 0;
-    public toroidal = false;
-    public overline;
-    public winningLineLength = 5;
     private openingProtocol: "pro" | "swap2" | "swap5";
-    private overtimeCapture: boolean;
-    private selfCapture: "ignored" | "allowed" | "forbidden";
-    private threshold: number;
-    private dots: string[] = [];
+    public toroidal = false;
+    public winningLineLength = 5;
+    public overline = "ignored" as "win" | "ignored" | "forbidden";
+    private passTiebreaker = false;
+    private tiebreaker?: playerid;
 
-    constructor(state?: IPenteState | string, variants?: string[]) {
+    constructor(state?: IGomokuState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: PenteGame.gameinfo.version,
+                _version: GomokuGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -94,14 +86,15 @@ export class PenteGame extends InARowBase {
                 captureCounts: [0, 0],
                 winningLines: [],
                 swapped: false,
+                tiebreaker: undefined,
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IPenteState;
+                state = JSON.parse(state, reviver) as IGomokuState;
             }
-            if (state.game !== PenteGame.gameinfo.uid) {
-                throw new Error(`The Pente game code cannot process a game of '${state.game}'.`);
+            if (state.game !== GomokuGame.gameinfo.uid) {
+                throw new Error(`The Gomoku game code cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -110,14 +103,11 @@ export class PenteGame extends InARowBase {
         }
         this.load();
         this.openingProtocol = this.getOpeningProtocol();
-        this.threshold = this.getThreshold();
-        this.overline = this.getOverlineType();
         this.toroidal = this.variants.some(v => v.startsWith("toroidal"));
-        this.overtimeCapture = this.getOvertimeCapture();
-        this.selfCapture = this.getSelfCaptureType();
+        this.passTiebreaker = this.variants.includes("pass");
     }
 
-    public load(idx = -1): PenteGame {
+    public load(idx = -1): GomokuGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -135,33 +125,29 @@ export class PenteGame extends InARowBase {
         this.captureCounts = [...state.captureCounts];
         this.winningLines  = state.winningLines.map(a => [...a]);
         this.swapped = state.swapped;
+        this.tiebreaker = state.tiebreaker;
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         return this;
     }
 
-    private getThreshold(): number {
-        return this.variants.includes("capture-2-3") ? 15 : 10;
+    protected getBoardSize(): number {
+        // Get board size from variants.
+        if (this.variants !== undefined && this.variants.length > 0 && this.variants[0] !== undefined && this.variants[0].length > 0) {
+            const sizeVariants = this.variants.filter(v => v.includes("standard") || v.includes("toroidal"))
+            if (sizeVariants.length > 0) {
+                const size = sizeVariants[0].match(/\d+/);
+                return parseInt(size![0], 10);
+            }
+            if (isNaN(this.boardSize)) {
+                throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
+            }
+        }
+        return 15;
     }
 
     private getOpeningProtocol(): "pro" | "swap2" | "swap5" {
         return this.variants.includes("swap2") ? "swap2" : this.variants.includes("swap5") ? "swap5" : "pro";
-    }
-
-    private getOverlineType(): "win" | "ignored" | "forbidden" {
-        if (this.variants.includes("overline-ignored")) { return "ignored"; }
-        if (this.variants.includes("overline-forbidden")) { return "forbidden"; }
-        return "win";
-    }
-
-    private getOvertimeCapture(): boolean {
-        return this.variants.includes("overtime-capture");
-    }
-
-    private getSelfCaptureType(): "ignored" | "allowed" | "forbidden" {
-        if (this.variants.includes("self-capture")) { return "allowed"; }
-        if (this.variants.includes("self-capture-forbidden")) { return "forbidden"; }
-        return "ignored";
     }
 
     public moves(player?: playerid): string[] {
@@ -219,7 +205,6 @@ export class PenteGame extends InARowBase {
             for (let col = 0; col < this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) { continue; }
-                if (this.selfCapture === "forbidden" && this.getSelfCaptures(cell, player).length > 0) { continue; }
                 moves.push(cell);
             }
         }
@@ -241,7 +226,7 @@ export class PenteGame extends InARowBase {
         //         }
         //     }
         // }
-        if (this.canSwap()) {
+        if (this.canSwap() || this.passTiebreaker && this.tiebreaker === undefined && this.pastOpening()) {
             moves.push("pass");
         }
         return moves;
@@ -269,6 +254,23 @@ export class PenteGame extends InARowBase {
                 if (count > 6) { return false; }
             }
             return true;
+        }
+        return false;
+    }
+
+    private pastOpening(): boolean {
+        // If pass tiebreaker is enabled, we can pass after the opening phase.
+        if (this.openingProtocol === "pro") {
+            if (this.stack.length > 3) { return true; }
+        } else if (this.openingProtocol === "swap2") {
+            if (this.stack.length > 3) { return true; }
+        } else if (this.openingProtocol === "swap5") {
+            if (this.stack.length > 10) { return true; }
+            let count = 0;
+            for (const slice of this.stack) {
+                if (slice.lastmove !== "pass") { count++; }
+                if (count > 6) { return true; }
+            }
         }
         return false;
     }
@@ -322,24 +324,24 @@ export class PenteGame extends InARowBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
-            let message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS");
+            let message = i18next.t("apgames:validation.gomoku.INITIAL_INSTRUCTIONS");
             if (this.openingProtocol === "swap2") {
                 if (this.stack.length === 1) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP21");
+                    message = i18next.t("apgames:validation.gomoku.INITIAL_INSTRUCTIONS_SWAP21");
                 } else if (this.stack.length === 2) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP22");
+                    message = i18next.t("apgames:validation.gomoku.INITIAL_INSTRUCTIONS_SWAP22");
                 } else if (this.stack.length === 3 && this.canSwap()) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP23");
+                    message = i18next.t("apgames:validation.gomoku.INITIAL_INSTRUCTIONS_SWAP23");
                 }
             }
             if (this.openingProtocol === "swap5" && this.canSwap()) {
-                message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP5");
+                message = i18next.t("apgames:validation.gomoku.INITIAL_INSTRUCTIONS_SWAP5");
             }
             if (this.openingProtocol === "pro") {
                 if (this.stack.length === 1) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_PRO1");
+                    message = i18next.t("apgames:validation.gomoku.INITIAL_INSTRUCTIONS_PRO1");
                 } else if (this.stack.length === 3) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_PRO3");
+                    message = i18next.t("apgames:validation.gomoku.INITIAL_INSTRUCTIONS_PRO3");
                 }
             }
             result.valid = true;
@@ -352,22 +354,32 @@ export class PenteGame extends InARowBase {
             // Special for swap2 because move list is too large on first move.
             result.valid = false;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.pente.NO_MOVELIST");
+            result.message = i18next.t("apgames:validation.gomoku.NO_MOVELIST");
             return result;
         }
 
         if (m === "pass") {
-            if (this.canSwap()) {
-                result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-                return result;
+            if (!this.pastOpening()) {
+                if (!this.canSwap()) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.gomoku.CANNOT_SWAP");
+                    return result;
+                }
+            } else if (this.passTiebreaker) {
+                if (this.tiebreaker !== undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.gomoku.TIEBREAKER_TAKEN");
+                    return result;
+                }
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.CANNOT_SWAP");
+                result.message = i18next.t("apgames:validation.gomoku.CANNOT_PASS");
                 return result;
-
             }
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
         }
         const moves = m.split(",");
         // Valid cell
@@ -408,7 +420,7 @@ export class PenteGame extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation.gomoku.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
@@ -418,72 +430,44 @@ export class PenteGame extends InARowBase {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.pente.SWAP21", { count: 3 - moves.length });
+                    result.message = i18next.t("apgames:validation.gomoku.SWAP21", { count: 3 - moves.length });
                     return result;
                 }
                 if (moves.length > 3) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.pente.SWAP21_EXCESS");
+                    result.message = i18next.t("apgames:validation.gomoku.SWAP21_EXCESS");
                     return result;
                 }
             } else if (this.stack.length === 2) {
                 if (moves.length < 2) {
-                    if (this.selfCapture === "forbidden") {
-                        if (this.getSelfCaptures(moves[0]).length > 0) {
-                            result.valid = false;
-                            result.message = i18next.t("apgames:validation.pente.SELF_CAPTURE_FORBIDDEN");
-                            return result;
-                        }
-                    }
                     result.valid = true;
                     result.complete = 0;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.pente.SWAP22_PARTIAL");
+                    result.message = i18next.t("apgames:validation.gomoku.SWAP22_PARTIAL");
                     return result;
                 }
                 if (moves.length > 2) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.pente.SWAP22_EXCESS");
+                    result.message = i18next.t("apgames:validation.gomoku.SWAP22_EXCESS");
                     return result;
-                }
-                if (moves.length > 1 && this.selfCapture === "forbidden") {
-                    if (this.hasCapturesOnBoard(moves)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.pente.SWAP22_CAPTURE");
-                        return result;
-                    }
                 }
             }
         } else {
             if (moves.length > 1) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.EXCESS");
+                result.message = i18next.t("apgames:validation.gomoku.EXCESS");
                 return result;
             }
         }
         if (this.openingProtocol === "pro") {
             if (this.stack.length === 1 && !this.isNearCentre(moves[0], 0)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.PRO_RESTRICTION_FIRST");
+                result.message = i18next.t("apgames:validation.gomoku.PRO_RESTRICTION_FIRST");
                 return result;
             }
             if (this.stack.length === 3 && this.isNearCentre(moves[0], 2)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.PRO_RESTRICTION_THIRD");
-                return result;
-            }
-        }
-        if (this.selfCapture === "forbidden") {
-            if (this.getSelfCaptures(moves[0]).length > 0) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.SELF_CAPTURE_FORBIDDEN");
-                return result;
-            }
-        }
-        if (this.overline === "forbidden") {
-            if (this.hasOverlines(moves[0])) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.OVERLINE_FORBIDDEN");
+                result.message = i18next.t("apgames:validation.gomoku.PRO_RESTRICTION_THIRD");
                 return result;
             }
         }
@@ -491,13 +475,13 @@ export class PenteGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.pente.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation.gomoku.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.pente.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation.gomoku.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -506,153 +490,7 @@ export class PenteGame extends InARowBase {
         return result;
     }
 
-    private getCaptures(place: string, player?: playerid): string[] {
-        // Get captures given a placement at a given cell.
-        if (player === undefined) {
-            player = this.currplayer;
-        }
-        const captures: string[] = [];
-        const [x, y] = this.algebraic2coords(place);
-        const deltas = [
-            [-1, 0], [1, 0], [0, -1], [0, 1],
-            [-1, -1], [1, 1], [-1, 1], [1, -1],
-        ];
-        // For the default variant, look for custodian captures exactly 2 stones away.
-        // For the 2-3 variant, look for custodian captures exactly 2 or 3 stones away.
-        const checkDistances = this.variants.includes("capture-2-3") ? [2, 3] : [2];
-        for (const [dx, dy] of deltas) {
-            for (const distance of checkDistances) {
-                const tentativeCaptures: string[] = [];
-                for (let i = 1; i <= distance + 1; i++) {
-                    const [x1, y1, wrapped] = this.wrap(x + i * dx, y + i * dy);
-                    if (!this.toroidal && wrapped) { break; }
-                    const cell = this.coords2algebraic(x1, y1);
-                    if (!this.board.has(cell)) { break; }
-                    if (i <= distance) {
-                        if (this.board.get(cell) === player) { break; }
-                        tentativeCaptures.push(cell);
-                        continue;
-                    }
-                    if (this.board.get(cell) !== player) { break; }
-                    captures.push(...tentativeCaptures);
-                }
-            }
-        }
-        return captures;
-    }
-
-    private getSelfCaptures(place: string, player?: playerid): string[] {
-        // Get self-captures given a placement at a given cell.
-        if (player === undefined) {
-            player = this.currplayer;
-        }
-        const captures: string[] = [];
-        const [x, y] = this.algebraic2coords(place);
-        const deltas = [[0, 1], [1, 0], [1, 1], [1, -1]];
-        const checkDistances = this.variants.includes("capture-2-3") ? [2, 3] : [2];
-        for (const [dx, dy] of deltas) {
-            loop:
-            for (const distance of checkDistances) {
-                const tentativeCaptures: string[] = [];
-                // We traverse in both the positive and negative directions.
-                // If we find that there is exactly `distance` stones in a row for that combined direction,
-                // and they are surronded by the opponent then there is a self-capture.
-                let captureCount = 1;
-                for (const sign of [-1, 1]) {
-                    for (let i = 1; i <= distance + 1; i++) {
-                        const [x1, y1, wrapped] = this.wrap(x + sign * i * dx, y + sign * i * dy);
-                        if (!this.toroidal && wrapped) { continue loop; }
-                        const cell = this.coords2algebraic(x1, y1);
-                        if (!this.board.has(cell)) { continue loop; }
-                        if (this.board.get(cell) === player) {
-                            captureCount++;
-                            if (captureCount > distance) { continue loop; }
-                            tentativeCaptures.push(cell);
-                            continue;
-                        }
-                        break;
-                    }
-                }
-                if (captureCount === distance) {
-                    captures.push(...tentativeCaptures);
-                }
-            }
-        }
-        if (captures.length > 0) { captures.push(place); }
-        return captures;
-    }
-
-    private hasOverlines(place: string, overlineLength = 6): boolean {
-        // Get self-captures given a placement at a given cell.
-        const [x, y] = this.algebraic2coords(place);
-        const player = this.currplayer;
-        const deltas = [[0, 1], [1, 0], [1, 1], [1, -1]];
-        for (const [dx, dy] of deltas) {
-            // We traverse in both the positive and negative directions.
-            let alignCount = 1;
-            for (const sign of [-1, 1]) {
-                let i = 1;
-                while (true) {
-                    const [x1, y1, wrapped] = this.wrap(x + sign * i * dx, y + sign * i * dy);
-                    if (!this.toroidal && wrapped) { break; }
-                    const cell = this.coords2algebraic(x1, y1);
-                    if (!this.board.has(cell)) { break; }
-                    if (this.board.get(cell) === player) {
-                        alignCount++;
-                        if (alignCount >= overlineLength) { return true; }
-                        i++;
-                        continue;
-                    }
-                    break;
-                }
-            }
-        }
-        return false;
-    }
-
-
-    private checkPatterns(startX: number, startY: number, dx: number, dy: number, places: string[], playerPlaced: string[], winningPatterns: string[]): boolean {
-        let line = "";
-        for (let x = startX, y = startY; x < this.boardSize && y < this.boardSize; x += dx, y += dy) {
-            const cell = this.coords2algebraic(x, y);
-            if (!this.board.has(cell) && !places.includes(cell)) {
-                line += ".";
-                continue;
-            }
-            const player = this.board.get(cell);
-            if (player === this.currplayer || playerPlaced.includes(cell)) {
-                line += "X";
-                continue;
-            }
-            line += "O";
-        }
-        return winningPatterns.some(pattern => line.includes(pattern));
-    }
-
-    private hasCapturesOnBoard(places: string[]): boolean {
-        // Used to check if there are illegal placements for the self-captures-forbidden variant.
-        // We assume that if there are multiple placements, pieces alternate in colours.
-        const playerPlaced: string[] = [];
-        for (const [i, place] of places.entries()) {
-            if (i % 2 === 0) {
-                playerPlaced.push(place);
-            }
-        }
-        // A cature looks like XOOX, or OXXO, where X is the player and O is the opponent.
-        // In the captures-2-3 variant, captures can also look like XOOOX or OXXXO.
-        const winningPatterns = this.variants.includes("capture-2-3") ? ["XOOX", "OXXO", "XOOOX", "OXXXO"] : ["XOOX", "OXXO"];
-        for (let i = 0; i < this.boardSize; i++) {
-            if (this.checkPatterns(0, i, 1, 0, places, playerPlaced, winningPatterns)) { return true; }
-            if (this.checkPatterns(i, 0, 0, 1, places, playerPlaced, winningPatterns)) { return true; }
-            if (this.checkPatterns(i, 0, 1, 1, places, playerPlaced, winningPatterns)) { return true; }
-            if (this.checkPatterns(0, i + 1, 1, 1, places, playerPlaced, winningPatterns)) { return true; }
-            if (this.checkPatterns(i, 0, -1, 1, places, playerPlaced, winningPatterns)) { return true; }
-            if (this.checkPatterns(this.boardSize - 1, i + 1, -1, 1, places, playerPlaced, winningPatterns)) { return true; }
-        }
-        return false;
-    }
-
-    public move(m: string, {partial = false, trusted = false} = {}): PenteGame {
+    public move(m: string, {partial = false, trusted = false} = {}): GomokuGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -675,37 +513,25 @@ export class PenteGame extends InARowBase {
             }
         }
         if (m.length === 0) { return this; }
-        this.dots = [];
         this.results = [];
         if (m === "pass") {
-            // Swap all pieces on the board.
-            this.swapped = !this.swapped;
-            this.board.forEach((v, k) => {
-                this.board.set(k, v === 1 ? 2 : 1);
-            })
-            this.results.push({ type: "pie" });
+            if (this.canSwap()) {
+                // Swap all pieces on the board.
+                this.swapped = !this.swapped;
+                this.board.forEach((v, k) => {
+                    this.board.set(k, v === 1 ? 2 : 1);
+                })
+                this.results.push({ type: "pie" });
+            } else if (this.pastOpening()) {
+                this.tiebreaker = this.currplayer;
+                this.results.push({ type: "pass" });
+            }
         } else {
             const moves = m.split(",");
             let placePlayer = this.currplayer;
             for (const move of moves) {
                 this.results.push({ type: "place", where: move });
                 this.board.set(move, placePlayer);
-                const captures = this.getCaptures(move);
-                const selfCaptures = this.selfCapture === "allowed" ? this.getSelfCaptures(move) : [];
-                for (const capture of captures) {
-                    this.captureCounts[placePlayer - 1]++;
-                    this.board.delete(capture);
-                }
-                if (captures.length > 0) {
-                    this.results.push({ type: "capture", where: captures.join(","), count: captures.length });
-                }
-                for (const capture of selfCaptures) {
-                    this.captureCounts[placePlayer % 2]++;
-                    this.board.delete(capture);
-                }
-                if (selfCaptures.length > 0) {
-                    this.results.push({ type: "capture", where: selfCaptures.join(","), count: selfCaptures.length, what: "self" });
-                }
                 placePlayer = placePlayer % 2 + 1 as playerid;
             }
         }
@@ -719,56 +545,31 @@ export class PenteGame extends InARowBase {
         return this;
     }
 
-    private getWinnerCaptureCount(): playerid | undefined {
-        // Check for capture count win.
-        // In order to count, there must be at least `minCount` captures,
-        // and a player must have more captures than the opponent.
-        // This handles the edge cases where a player makes a capture with a self-capture
-        // and the scores are tied.
-        const captureCount1 = this.captureCounts[0];
-        const captureCount2 = this.captureCounts[1];
-        if (captureCount1 >= this.threshold && captureCount1 > captureCount2) {
-            return 1;
-        }
-        if (captureCount2 >= this.threshold && captureCount2 > captureCount1) {
-            return 2;
-        }
-        return undefined;
-    }
-
-    public inCheck(): number[] {
-        // Only for when overtime-capture variant is enabled, players can only win
-        // when they have a 5-in-a-row at the end of the opponent's turn.
-        const checks: playerid[] = [];
-        if (this.overtimeCapture) {
-            const winningLinesMap = this.getWinningLinesMap();
-            for (const player of [1, 2] as playerid[]) {
-                if (winningLinesMap.get(player)!.length > 0) {
-                    checks.push(player % 2 + 1 as playerid);
-                }
-            }
-        }
-        return checks;
-    }
-
-    protected checkEOG(): PenteGame {
+    protected checkEOG(): GomokuGame {
         const winningLinesMap = this.getWinningLinesMap();
         const winner: playerid[] = [];
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
             if (winningLinesMap.get(player)!.length > 0) {
-                // If the overtime-capture variant is enabled, players win if they have a 5-in-a-row at the end of the opponent's turn.
-                if (!this.overtimeCapture || this.overtimeCapture && player === this.currplayer) {
-                    winner.push(player);
-                }
+                winner.push(player);
                 this.winningLines.push(...winningLinesMap.get(player)!);
             }
         }
-        if (winner.length === 0 || this.stack.length > 1 && this.stack[this.stack.length - 1].winningLines.length === 0) {
-            // In the case of overtime-capture, not being able to break the 5-in-a-row takes priority over potential win elsewhere.
-            const winnerCaptureCount = this.getWinnerCaptureCount();
-            if (winnerCaptureCount !== undefined && !winner.includes(winnerCaptureCount)) {
-                winner.push(winnerCaptureCount);
+        if (winner.length === 0) {
+            const allMoves = this.moves();
+            if (this.passTiebreaker) {
+                if (allMoves.length === 0 || allMoves.length === 1 && allMoves[0] === "pass") {
+                    if (this.tiebreaker === undefined) {
+                        winner.push(this.swapped ? 1 : 2);
+                    } else {
+                        winner.push(this.tiebreaker);
+                    }
+                }
+            } else {
+                if (allMoves.length === 0) {
+                    winner.push(1);
+                    winner.push(2);
+                }
             }
         }
         if (winner.length > 0) {
@@ -782,69 +583,7 @@ export class PenteGame extends InARowBase {
         return this;
     }
 
-    public state(): IPenteState {
-        return {
-            game: PenteGame.gameinfo.uid,
-            numplayers: 2,
-            variants: this.variants,
-            gameover: this.gameover,
-            winner: [...this.winner],
-            stack: [...this.stack],
-        };
-    }
-
-    protected moveState(): IMoveState {
-        return {
-            _version: PenteGame.gameinfo.version,
-            _results: [...this.results],
-            _timestamp: new Date(),
-            currplayer: this.currplayer,
-            lastmove: this.lastmove,
-            board: new Map(this.board),
-            captureCounts: [...this.captureCounts],
-            winningLines: this.winningLines.map(a => [...a]),
-            swapped: this.swapped,
-        };
-    }
-
-    public getPlayerColour(p: playerid): number | string {
-        if (p === 1) {
-            return this.swapped ? 2 : 1;
-        }
-        return this.swapped ? 1 : 2;
-    }
-
-    private getThreatened(): [Set<string>, Set<string>] {
-        // Get all threatened cells for both players.
-        const threatened1: Set<string> = new Set();
-        const threatened2: Set<string> = new Set();
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                if (this.board.has(cell)) { continue; }
-                if (this.selfCapture !== "forbidden" || this.getSelfCaptures(cell, 2).length > 0) {
-                    this.getCaptures(cell, 2).forEach((capture) => threatened1.add(capture));
-                }
-                if (this.selfCapture !== "forbidden" || this.getSelfCaptures(cell, 1).length > 0) {
-                    this.getCaptures(cell, 1).forEach((capture) => threatened2.add(capture));
-                }
-            }
-        }
-        return [threatened1, threatened2];
-    }
-
-    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
-        let altDisplay: string | undefined;
-        if (opts !== undefined) {
-            altDisplay = opts.altDisplay;
-        }
-        let showThreatened = true;
-        if (altDisplay !== undefined) {
-            if (altDisplay === "hide-threatened") {
-                showThreatened = false;
-            }
-        }
-        const [threatened1, threatened2]: [Set<string>, Set<string>] = showThreatened ? this.getThreatened() : [new Set(), new Set()];
+    public render(): APRenderRep {
         // Build piece string
         let pstr = "";
         const renderBoardSize = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;
@@ -857,17 +596,9 @@ export class PenteGame extends InARowBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell);
                     if (contents === 1) {
-                        if (threatened1.has(cell)) {
-                            pstr += "C";
-                        } else {
-                            pstr += "A";
-                        }
+                        pstr += "A";
                     } else if (contents === 2) {
-                        if (threatened2.has(cell)) {
-                            pstr += "D";
-                        } else {
-                            pstr += "B";
-                        }
+                        pstr += "B";
                     }
                 } else {
                     pstr += "-";
@@ -924,14 +655,6 @@ export class PenteGame extends InARowBase {
             legend: {
                 A: [{ name: "piece", player: this.getPlayerColour(1) as playerid }],
                 B: [{ name: "piece", player: this.getPlayerColour(2) as playerid }],
-                C: [
-                    { name: "piece-borderless", scale: 1.1, player: this.getPlayerColour(2) as playerid },
-                    { name: "piece", player: this.getPlayerColour(1) as playerid },
-                ],
-                D: [
-                    { name: "piece-borderless", scale: 1.1, player: this.getPlayerColour(1) as playerid },
-                    { name: "piece", player: this.getPlayerColour(2) as playerid },
-                ],
             },
             pieces: pstr,
         };
@@ -968,26 +691,33 @@ export class PenteGame extends InARowBase {
                 }
             }
         }
-        if (this.dots.length > 0) {
-            const points = [];
-            for (const cell of this.dots) {
-                const [x, y] = this.algebraic2coords(cell);
-                points.push({ row: y, col: x });
-            }
-            // @ts-ignore
-            rep.annotations.push({ type: "dots", targets: points });
-        }
         return rep;
     }
 
-    public getPlayerScore(player: playerid): number {
-        return this.captureCounts[player - 1];
+    public state(): IGomokuState {
+        return {
+            game: GomokuGame.gameinfo.uid,
+            numplayers: 2,
+            variants: this.variants,
+            gameover: this.gameover,
+            winner: [...this.winner],
+            stack: [...this.stack],
+        };
     }
 
-    public getPlayersScores(): IScores[] {
-        return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [`${this.getPlayerScore(1)} / ${this.threshold}`, `${this.getPlayerScore(2)} / ${this.threshold}`] },
-        ]
+    protected moveState(): IMoveState {
+        return {
+            _version: GomokuGame.gameinfo.version,
+            _results: [...this.results],
+            _timestamp: new Date(),
+            currplayer: this.currplayer,
+            lastmove: this.lastmove,
+            board: new Map(this.board),
+            captureCounts: [...this.captureCounts],
+            winningLines: this.winningLines.map(a => [...a]),
+            swapped: this.swapped,
+            tiebreaker: this.tiebreaker,
+        };
     }
 
     public status(): string {
@@ -997,42 +727,10 @@ export class PenteGame extends InARowBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
-        status += "**Scores**\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n as playerid);
-            status += `Player ${n}: ${score} / ${this.threshold}\n\n`;
-        }
-
-        status += "**In Check**\n\n";
-        status += `In check: ${this.inCheck().join(",")}\n\n`;
-
         return status;
     }
 
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
-        switch (r.type) {
-            case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
-                resolved = true;
-                break;
-            case "capture":
-                if (r.what === "self") {
-                    node.push(i18next.t("apresults:CAPTURE.pente_self", { player, count: r.count }));
-                } else {
-                    node.push(i18next.t("apresults:CAPTURE.pente", { player, count: r.count }));
-                }
-                resolved = true;
-                break;
-            case "pass":
-                node.push(i18next.t("apresults:PASS.pie", { player }));
-                resolved = true;
-                break;
-        }
-        return resolved;
-    }
-
-    public clone(): PenteGame {
-        return new PenteGame(this.serialize());
+    public clone(): GomokuGame {
+        return new GomokuGame(this.serialize());
     }
 }

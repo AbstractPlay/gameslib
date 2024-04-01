@@ -198,11 +198,12 @@
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
-        "pie": "{{player}} passed to invoke the pie rule.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",
-        "tablero": "{{player}} bumped!"
+        "tablero": "{{player}} bumped!",
+        "tiebreaker": "{{player}} passed to win the tiebreaker."
     },
+    "PIE": "{{player}} invoked the pie rule.",
     "PLACE": {
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",

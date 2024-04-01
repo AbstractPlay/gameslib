@@ -109,6 +109,8 @@ import { AtollGame, IAtollState } from "./atoll";
 import { HalfcutGame, IHalfcutState } from "./halfcut";
 import { NexGame, INexState } from "./nex";
 import { PenteGame, IPenteState } from "./pente";
+import { Connect6Game, IConnect6State } from "./connect6";
+import { GomokuGame, IGomokuState } from "./gomoku";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -220,6 +222,8 @@ export {
     HalfcutGame, IHalfcutState,
     NexGame, INexState,
     PenteGame, IPenteState,
+    Connect6Game, IConnect6State,
+    GomokuGame, IGomokuState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -257,7 +261,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof RootBoundGame | typeof TwixtGame | typeof ReversiGame |
                               typeof BlockadeGame | typeof CairoCorridorGame | typeof SaltireGame |
                               typeof ConnecticutGame | typeof QuaxGame | typeof AtollGame |
-                              typeof HalfcutGame | typeof NexGame | typeof PenteGame
+                              typeof HalfcutGame | typeof NexGame | typeof PenteGame |
+                              typeof Connect6Game | typeof GomokuGame
                 >();
 // Manually add each game to the following array
 [
@@ -276,7 +281,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
-    PenteGame,
+    PenteGame, Connect6Game, GomokuGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -504,6 +509,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new NexGame(...args);
         case "pente":
             return new PenteGame(...args);
+        case "connect6":
+            return new Connect6Game(...args);
+        case "gomoku":
+            return new GomokuGame(...args);
     }
     return;
 }

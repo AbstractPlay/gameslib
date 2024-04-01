@@ -273,4 +273,7 @@ export type APMoveResult =
       where: string;
       with?: string;
       who?: number;
+    }
+  | {
+      type: "pie";
     };

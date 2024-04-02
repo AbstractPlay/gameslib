@@ -51,7 +51,7 @@ export class AtollGame extends GameBase {
             { uid: "size-19", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple"],
-        flags: ["experimental", "pie", "rotate90"],
+        flags: ["pie", "rotate90"],
         displays: [{uid: "show-labels"}],
     };
 

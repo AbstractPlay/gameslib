@@ -357,7 +357,7 @@ export class AtollGame extends GameBase {
                 [lines[0], lines[1], lines[2]],
                 [lines[0], lines[1], lines[3]],
                 [lines[2], lines[3], lines[0]],
-                [lines[2], lines[3], lines[3]],
+                [lines[2], lines[3], lines[1]],
             ]) {
                 if (this.gameover) { break; }
                 const paths: string[][] = [];

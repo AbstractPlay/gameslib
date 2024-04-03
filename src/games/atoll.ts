@@ -523,8 +523,16 @@ export class AtollGame extends GameBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }],
+                A: {
+                    name: "hex-flat",
+                    scale: 1.75,
+                    player: 1
+                },
+                B: {
+                    name: "hex-flat",
+                    scale: 1.75,
+                    player: 2
+                },
             },
             pieces: pstr,
         };

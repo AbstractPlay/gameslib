@@ -354,7 +354,8 @@
             "POTENTIAL_ONE": "This could potentially be a capture. Provide the location of the second stack.",
             "POTENTIAL_TWO": "This could potentially be a capture. Provide the target location.",
             "TOOHIGH": "The combined stack after the capture will be too high.",
-            "TRIPLESTACK": "Triple stacks cannot participate in captures."
+            "TRIPLESTACK": "Triple stacks cannot participate in captures.",
+            "SAMESOURCE": "The two attacking stacks must be different."
         },
         "bao": {
             "BAD_TAX": "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",

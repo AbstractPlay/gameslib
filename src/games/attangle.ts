@@ -291,6 +291,11 @@ export class AttangleGame extends GameBase {
                             result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                             return result;
                         }
+                        if (one === two) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.attangle.SAMESOURCE");
+                            return result;
+                        }
                         // the stack is too large
                         if (c2.length > 2) {
                             result.valid = false;

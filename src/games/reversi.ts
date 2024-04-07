@@ -696,14 +696,16 @@ export class ReversiGame extends GameBase {
             pstr.push(pieces);
         }
         const points: Array<any> | undefined = []
-        let markers: Array<any> | undefined;
+        const markers: Array<any> | undefined = [
+            { type: "flood", colour: "#444", opacity: 0.6, points: [{ row: this.boardSize - 1, col: this.boardSize - 1}] }
+        ];
         if (this.variants.includes("anti")) {
             for (const cell of this.hexTriGraph!.listCells() as string[]) {
                 if (cell === this.centreCell) { continue; }
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            markers = [{ type: "flood", colour: "#FFA500", opacity: 0.1, points }];
+            markers.push({ type: "flood", colour: "#FFA500", opacity: 0.1, points });
         }
         // Build rep
         const rep: APRenderRep =  {

@@ -705,7 +705,7 @@ export class ReversiGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            markers = [{ type: "flood", colour: "#FFA500", opacity: 0.1, points }];
+            markers.push({ type: "flood", colour: "#FFA500", opacity: 0.1, points });
         }
         // Build rep
         const rep: APRenderRep =  {

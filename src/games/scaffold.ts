@@ -41,6 +41,9 @@ export class ScaffoldGame extends GameBase {
                 name: "Andrew Lannan",
             }
         ],
+        variants: [
+            { uid: "size-25", group: "board" },
+        ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie", "automove", "multistep", "rotate90"]
     };
@@ -59,9 +62,12 @@ export class ScaffoldGame extends GameBase {
     private lines: [PlayerLines,PlayerLines];
     private dots: string[] = [];
 
-    constructor(state?: IScaffoldState | string) {
+    constructor(state?: IScaffoldState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             const board = new Map<string, playerid>();
             const fresh: IMoveState = {
                 _version: ScaffoldGame.gameinfo.version,
@@ -102,7 +108,7 @@ export class ScaffoldGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.connPath = [...state.connPath];
-        this.boardSize = 19;
+        this.boardSize = this.getBoardSize();
         return this;
     }
 
@@ -124,6 +130,21 @@ export class ScaffoldGame extends GameBase {
             lineW.push(W);
         }
         return [[lineN,lineS],[lineE,lineW]];
+    }
+
+    private getBoardSize(): number {
+        // Get board size from variants.
+        if (this.variants !== undefined && this.variants.length > 0 && this.variants[0] !== undefined && this.variants[0].length > 0) {
+            const sizeVariants = this.variants.filter(v => v.includes("size"))
+            if (sizeVariants.length > 0) {
+                const size = sizeVariants[0].match(/\d+/);
+                return parseInt(size![0], 10);
+            }
+            if (isNaN(this.boardSize)) {
+                throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
+            }
+        }
+        return 19;
     }
 
     public moves(player?: playerid): string[] {

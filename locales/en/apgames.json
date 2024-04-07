@@ -1418,6 +1418,11 @@
                 "name": "board (8x8)"
             }
         },
+        "crossway": {
+            "board": {
+                "name": "board (19x19)"
+            }
+        },
         "dameo": {
             "board": "board (8x8)"
         },
@@ -1517,6 +1522,11 @@
             "ruleset": {
                 "name": "rules",
                 "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts."
+            }
+        },
+        "scaffold": {
+            "board": {
+                "name": "board (19x19)"
             }
         },
         "slither": {
@@ -1763,6 +1773,11 @@
         "courtesan": {
             "size-6": {
                 "name": "Shorter game (6x6)"
+            }
+        },
+        "crossway": {
+            "size-25": {
+                "name": "Board (25x25)"
             }
         },
         "dagnacht": {
@@ -2095,6 +2110,11 @@
             "basic": {
                 "name": "Basic rules",
                 "description": "A swap must decrease the number of crosscuts. Draws are possible."
+            }
+        },
+        "scaffold": {
+            "size-25": {
+                "name": "Board (25x25)"
             }
         },
         "slither": {

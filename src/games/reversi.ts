@@ -696,7 +696,9 @@ export class ReversiGame extends GameBase {
             pstr.push(pieces);
         }
         const points: Array<any> | undefined = []
-        let markers: Array<any> | undefined;
+        let markers: Array<any> | undefined = [
+            { type: "flood", colour: "#000", opacity: 0.2, points: [{ row: this.boardSize - 1, col: this.boardSize - 1}] }
+        ];
         if (this.variants.includes("anti")) {
             for (const cell of this.hexTriGraph!.listCells() as string[]) {
                 if (cell === this.centreCell) { continue; }

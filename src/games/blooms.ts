@@ -36,12 +36,14 @@ export class BloomsGame extends GameBase {
         description: "apgames:descriptions.blooms",
         // i18next.t("apgames:notes.blooms")
         notes: "apgames:notes.blooms",
-        urls: ["https://www.nickbentley.games/blooms-rules/"],
+        // urls: ["https://www.nickbentley.games/blooms-rules/"],
+        urls: ["https://boardgamegeek.com/boardgame/249095/blooms"],
         people: [
             {
                 type: "designer",
                 name: "Nick Bentley",
-                urls: ["https://www.nickbentley.games/"],
+                urls: ["https://boardgamegeek.com/boardgamedesigner/7958/nick-bentley"],
+                // urls: ["https://www.nickbentley.games/"],
             }
         ],
         flags: ["multistep", "scores", "no-moves", "custom-randomization"],

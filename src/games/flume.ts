@@ -48,7 +48,7 @@ export class FlumeGame extends GameBase {
                 group: "board",
             }
         ],
-        categories: ["goal>majority", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>majority", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
         flags: ["pie", "multistep", "scores", "no-moves"]
     };
 

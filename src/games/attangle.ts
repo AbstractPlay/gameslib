@@ -49,7 +49,7 @@ export class AttangleGame extends GameBase {
                 group: "board",
             },
         ],
-        categories: ["goal>score>race", "mechanic>place", "mechanic>move", "mechanic>stack", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>score>race", "mechanic>place", "mechanic>move", "mechanic>stack", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["limited-pieces", "scores"]
     };
     public numplayers = 2;

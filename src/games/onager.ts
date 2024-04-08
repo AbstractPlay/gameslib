@@ -42,7 +42,7 @@ export class OnagerGame extends GameBase {
                 urls: ["http://www.nestorgames.com"]
             }
         ],
-        categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
         flags: ["multistep", "check", "perspective"],
         variants: [
             // { uid: "size-7", group: "board" },

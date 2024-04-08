@@ -46,7 +46,7 @@ export class HexGame extends GameBase {
                 name: "John Nash",
             },
         ],
-        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
         flags: ["pie"],
         variants: [
             {

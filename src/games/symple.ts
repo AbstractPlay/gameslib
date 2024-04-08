@@ -45,7 +45,7 @@ export class SympleGame extends GameBase {
                 name: "Christian Freeling",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place",  "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>eog", "mechanic>place",  "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["scores", "multistep", "no-moves", "custom-randomization"],
         variants: [
             {

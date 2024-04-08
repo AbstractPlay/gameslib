@@ -38,7 +38,7 @@ export class QuagmireGame extends GameBase {
                 urls: ["https://cjffield.com/"]
             }
         ],
-        categories: ["goal>immobilize", "mechanic>block",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>immobilize", "mechanic>block",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
         flags: [],
         variants: [
             {

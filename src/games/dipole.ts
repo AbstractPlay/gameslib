@@ -51,7 +51,7 @@ export class DipoleGame extends GameBase {
                 uid: "international"
             },
         ],
-        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["scores","perspective"]
     };
 

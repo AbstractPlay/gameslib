@@ -55,7 +55,7 @@ export class VeletasGame extends GameBase {
                 group: "setup",
             }
         ],
-        categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>block", "mechanic>enclose", "mechanic>share", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>block", "mechanic>enclose", "mechanic>share", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
         flags: ["multistep", "scores", "pie", "random-start", "custom-randomization"],
     };
 

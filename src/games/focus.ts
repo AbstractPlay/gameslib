@@ -37,7 +37,7 @@ export class FocusGame extends GameBase {
                 name: "Sid Sackson",
             },
         ],
-        categories: ["goal>immobilize", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>oct", "board>connect>rect", "components>simple"],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>oct", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "scores"]
     };
     public static coords2algebraic(x: number, y: number): string {

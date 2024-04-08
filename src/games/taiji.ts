@@ -66,7 +66,7 @@ export class TaijiGame extends GameBase {
                 uid: "tonga",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place",  "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>eog", "mechanic>place",  "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["scores", "multistep"]
     };
 

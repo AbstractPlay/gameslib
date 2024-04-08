@@ -46,7 +46,7 @@ export class LinesOfActionGame extends GameBase {
                 group: "board"
             }
         ],
-        categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["multistep", "check", "limited-pieces"]
     };
 

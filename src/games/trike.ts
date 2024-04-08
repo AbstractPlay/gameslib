@@ -48,7 +48,7 @@ export class TrikeGame extends GameBase {
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],
-        categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>enclose", "mechanic>share", "board>shape>tri", "board>connect>hex", "components>simple"],
+        categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>enclose", "mechanic>share", "board>shape>tri", "board>connect>hex", "components>simple>3c"],
         flags: ["pie", "automove", "aiai"],
         displays: [{uid: "hide-moves"}],
     };

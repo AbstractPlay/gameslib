@@ -40,7 +40,7 @@ export class DiffusionGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"]
             },
         ],
-        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>move>sow", "mechanic>coopt", "board>mancala", "components>simple"],
+        categories: ["goal>evacuate", "mechanic>bearoff", "mechanic>move>sow", "mechanic>coopt", "board>mancala", "components>simple>1c"],
         flags: ["pie", "automove", "perspective"],
         variants: [
             {uid: "topBottom"}

@@ -47,7 +47,7 @@ export class OrdoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "limited-pieces"]
     };
 

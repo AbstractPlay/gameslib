@@ -92,7 +92,7 @@ export class HavannahGame extends GameBase {
                 urls: ["https://www.mindsports.nl/"]
             }
         ],
-        categories: ["goal>align", "goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>align", "goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove", "pie"],
         variants: [
             {

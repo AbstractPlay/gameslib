@@ -43,7 +43,7 @@ export class NexGame extends GameBase {
                 name: "João Pedro Neto",
             },
         ],
-        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple>3c"],
         flags: ["pie", "multistep", "rotate90"],
         variants: [
             { uid: "size-9", group: "board" },

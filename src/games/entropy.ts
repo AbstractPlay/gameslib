@@ -56,7 +56,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                 name: "Eric Solomon"
             }
         ],
-        categories: ["goal>score>eog", "mechanic>asymmetry", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>eog", "mechanic>asymmetry", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>7c"],
         flags: ["simultaneous", "shared-pieces", "shared-stash", "perspective", "scores"]
     };
 

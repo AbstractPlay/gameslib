@@ -39,7 +39,7 @@ export class MattockGame extends GameBase {
                 urls: ["https://games.drew-edwards.com/"]
             }
         ],
-        categories: ["goal>immobilize", "mechanic>capture", "mechanic>share", "mechanic>move", "mechanic>place", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>share", "mechanic>move", "mechanic>place", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["multistep", "automove", "scores", "random-start"],
         variants: [
             {

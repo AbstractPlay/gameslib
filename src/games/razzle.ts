@@ -49,7 +49,7 @@ export class RazzleGame extends GameBase {
                 urls: ["http://www.donaldgreen.com/"],
             },
         ],
-        categories: ["goal>breakthrough", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>breakthrough", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
         flags: ["perspective", "automove"],
     };
 

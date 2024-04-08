@@ -52,7 +52,7 @@ export class PenteGame extends GameBase {
             { uid: "self-capture-forbidden", group: "self-capture" },
             { uid: "overtime-capture", group: "overtime-capture" },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "scores", "multistep", "custom-colours", "check", "rotate90"],
     };
 

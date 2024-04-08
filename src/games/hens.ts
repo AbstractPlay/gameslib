@@ -42,7 +42,7 @@ export class HensGame extends GameBase {
         variants: [
             { uid: "size-10" }
         ],
-        categories: ["goal>breakthrough", "goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>breakthrough", "goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["multistep", "perspective", "limited-pieces"]
     };
 

@@ -36,7 +36,7 @@ export class ByteGame extends GameBase {
                 urls: ["https://www.marksteeregames.com"],
             },
         ],
-        categories: ["goal>score>race", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>race", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["scores", "pie", "automove"],
         variants: [
             {

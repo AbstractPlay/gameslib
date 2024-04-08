@@ -40,7 +40,7 @@ export class QueenslandGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["multistep", "limited-pieces", "scores", "automove"],
         displays: [{uid: "hide-scored"}],
     };

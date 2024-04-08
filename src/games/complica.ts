@@ -35,7 +35,7 @@ export class ComplicaGame extends GameBase {
                 name: "Reiner Knizia",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>align", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: []
     };
     public static coords2algebraic(x: number, y: number): string {

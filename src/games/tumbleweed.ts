@@ -46,7 +46,7 @@ export class TumbleweedGame extends GameBase {
                 name: "Mike Zapawa",
             }
         ],
-        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
         flags: ["pie-even", "multistep", "scores", "aiai"],
         variants: [
             {

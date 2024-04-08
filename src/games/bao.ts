@@ -62,7 +62,7 @@ export class BaoGame extends GameBase {
                 group: "setup",
             }
         ],
-        categories: ["goal>cripple", "mechanic>convert", "mechanic>move>sow", "mechanic>traditional", "board>mancala", "components>simple"],
+        categories: ["goal>cripple", "mechanic>convert", "mechanic>move>sow", "mechanic>traditional", "board>mancala", "components>simple>1c"],
         displays: [{uid: "pips"}]
     };
 

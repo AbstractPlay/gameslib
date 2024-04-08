@@ -46,7 +46,7 @@ export class SaltireGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "basic", group: "ruleset" },
         ],
-        categories: ["goal>connect", "mechanic>place", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "multistep", "rotate90"],
     };
 

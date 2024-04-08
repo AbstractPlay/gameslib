@@ -48,7 +48,7 @@ export class RootBoundGame extends GameBase {
                 urls: ["https://cjffield.com"]
             }
         ],
-        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["scores", "automove"],
         displays: [{uid: "hide-highlights"}]
     };

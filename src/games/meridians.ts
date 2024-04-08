@@ -40,7 +40,7 @@ export class MeridiansGame extends GameBase {
                 urls: ["https://kanare-abstract.com"],
             }
         ],
-        categories: ["goal>majority", "mechanic>capture", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>majority", "mechanic>capture", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["pie-even", "multistep"],
         variants: [
             {

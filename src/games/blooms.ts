@@ -47,7 +47,7 @@ export class BloomsGame extends GameBase {
             }
         ],
         flags: ["multistep", "scores", "no-moves", "custom-randomization"],
-        categories: ["goal>score>race", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>score>race", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
             {
                 uid: "size-8",

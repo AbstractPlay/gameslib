@@ -41,7 +41,7 @@ export class ScaffoldGame extends GameBase {
                 name: "Andrew Lannan",
             }
         ],
-        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove", "multistep", "rotate90"]
     };
 

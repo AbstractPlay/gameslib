@@ -41,7 +41,7 @@ export class ClusterfussGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
-        categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "pie"],
         variants: [
             {

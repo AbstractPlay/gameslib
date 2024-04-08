@@ -469,58 +469,63 @@ export class AtollGame extends GameBase {
         const markers: Array<any> = [];
         const half = (this.boardSize - 1) / 2;
         // Neutral fences at the intersection of different-coloured edges.
-        markers.push({ type: "fence", cell: { col: half, row: 0}, side: "N" });
-        markers.push({ type: "fence", cell: { col: half, row: this.boardSize - 2}, side: "S" });
-        markers.push({ type: "fence", cell: { col: 0, row: 1}, side: "NW" });
-        markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: 1}, side: "NE" });
-        markers.push({ type: "fence", cell: { col: 0, row: this.boardSize - 2}, side: "SW" });
-        markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: this.boardSize - 2}, side: "SE" });
+        markers.push({ cell: { col: half, row: 0}, side: "N" });
+        markers.push({ cell: { col: half, row: this.boardSize - 2}, side: "S" });
+        markers.push({ cell: { col: 0, row: 1}, side: "NW" });
+        markers.push({ cell: { col: this.boardSize - 1, row: 1}, side: "NE" });
+        markers.push({ cell: { col: 0, row: this.boardSize - 2}, side: "SW" });
+        markers.push({ cell: { col: this.boardSize - 1, row: this.boardSize - 2}, side: "SE" });
         for (let i = 0; i < this.boardSize; i++) {
             if (i === half) {
-                markers.push({ type: "fence", cell: { col: i, row: 0}, side: "NW", colour: 2 });
-                markers.push({ type: "fence", cell: { col: i, row: 0}, side: "NE", colour: 1 });
-                markers.push({ type: "fence", cell: { col: i, row: this.boardSize - 2}, side: "SW", colour: 1 });
-                markers.push({ type: "fence", cell: { col: i, row: this.boardSize - 2}, side: "SE", colour: 2 });
+                markers.push({ cell: { col: i, row: 0}, side: "NW", colour: 2 });
+                markers.push({ cell: { col: i, row: 0}, side: "NE", colour: 1 });
+                markers.push({ cell: { col: i, row: this.boardSize - 2}, side: "SW", colour: 1 });
+                markers.push({ cell: { col: i, row: this.boardSize - 2}, side: "SE", colour: 2 });
                 continue;
             }
             const topRow = i % 2 ? 0 : 1;
-            markers.push({ type: "fence", cell: { col: i, row: topRow}, side: "N", colour: i < half ? 2 : 1 });
-            markers.push({ type: "fence", cell: { col: i, row: this.boardSize - 2}, side: "S", colour: i < half ? 1 : 2 });
+            markers.push({ cell: { col: i, row: topRow}, side: "N", colour: i < half ? 2 : 1 });
+            markers.push({ cell: { col: i, row: this.boardSize - 2}, side: "S", colour: i < half ? 1 : 2 });
             if (i % 2) {
-                markers.push({ type: "fence", cell: { col: i, row: topRow}, side: "NW", colour: i < half ? 2 : 1 });
-                markers.push({ type: "fence", cell: { col: i, row: topRow}, side: "NE", colour: i < half ? 2 : 1 });
-                markers.push({ type: "fence", cell: { col: i, row: this.boardSize - 2}, side: "SW", colour: i < half ? 1 : 2 });
-                markers.push({ type: "fence", cell: { col: i, row: this.boardSize - 2}, side: "SE", colour: i < half ? 1 : 2 });
+                markers.push({ cell: { col: i, row: topRow}, side: "NW", colour: i < half ? 2 : 1 });
+                markers.push({ cell: { col: i, row: topRow}, side: "NE", colour: i < half ? 2 : 1 });
+                markers.push({ cell: { col: i, row: this.boardSize - 2}, side: "SW", colour: i < half ? 1 : 2 });
+                markers.push({ cell: { col: i, row: this.boardSize - 2}, side: "SE", colour: i < half ? 1 : 2 });
             }
         }
         for (let j = 1; j < this.boardSize - 1; j++) {
             if (j === half) {
-                markers.push({ type: "fence", cell: { col: 0, row: j}, side: "NW", colour: 1 });
-                markers.push({ type: "fence", cell: { col: 0, row: j}, side: "SW", colour: 2 });
-                markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: j}, side: "NE", colour: 2 });
-                markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: j}, side: "SE", colour: 1 });
+                markers.push({ cell: { col: 0, row: j}, side: "NW", colour: 1 });
+                markers.push({ cell: { col: 0, row: j}, side: "SW", colour: 2 });
+                markers.push({ cell: { col: this.boardSize - 1, row: j}, side: "NE", colour: 2 });
+                markers.push({ cell: { col: this.boardSize - 1, row: j}, side: "SE", colour: 1 });
                 continue;
             }
             if (j > 1) {
-                markers.push({ type: "fence", cell: { col: 0, row: j}, side: "NW", colour: j < half ? 1 : 2 });
-                markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: j}, side: "NE", colour: j < half ? 2 : 1 });
+                markers.push({ cell: { col: 0, row: j}, side: "NW", colour: j < half ? 1 : 2 });
+                markers.push({ cell: { col: this.boardSize - 1, row: j}, side: "NE", colour: j < half ? 2 : 1 });
             }
             if (j < this.boardSize - 2) {
-                markers.push({ type: "fence", cell: { col: 0, row: j}, side: "SW", colour: j < half ? 1 : 2 });
-                markers.push({ type: "fence", cell: { col: this.boardSize - 1, row: j}, side: "SE", colour: j < half ? 2 : 1 });
+                markers.push({ cell: { col: 0, row: j}, side: "SW", colour: j < half ? 1 : 2 });
+                markers.push({ cell: { col: this.boardSize - 1, row: j}, side: "SE", colour: j < half ? 2 : 1 });
             }
         }
 
         // Build rep
         const rep: APRenderRep =  {
             options: [showLabels ? "swap-labels" : "hide-labels"],
+            // @ts-ignore
             board: {
                 style: "hex-odd-f",
                 width: this.boardSize,
                 height: this.boardSize - 1,
                 blocked: blocked as [{ row: number; col: number; }, ...{ row: number; col: number; }[]],
-                // @ts-ignore
-                markers,
+                markers: [
+                    {
+                        type: "fences",
+                        sides: markers,
+                    }
+                ],
             },
             legend: {
                 A: {

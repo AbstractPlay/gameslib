@@ -285,8 +285,8 @@
     "SOW_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
     "SOW_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
     "SWAP": {
-        "nex_neutral": "{{player}} swapped a neutral piece piece to a piece of their colour at {{where}}.",
-        "nex": "{{player}} swapped a piece of their colour to a neutral piece at {{where}}."
+        "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
+        "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece."
     },
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber.",

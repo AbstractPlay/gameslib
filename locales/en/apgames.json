@@ -29,7 +29,7 @@
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
-        "connect6": "Players take turns placing two stones of their own colour to try to get six in a row. In the default opening, the first player places one stone in the middle of the board.",
+        "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
@@ -51,7 +51,7 @@
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
-        "gomoku": "A classic game where you try to get five in a row.",
+        "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win.",
         "halfcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
@@ -1455,7 +1455,7 @@
         },
         "connect6": {
             "board": {
-                "name": "standard board (19x19)"
+                "name": "standard 19x19 board"
             },
             "tiebreaker": {
                 "name": "no tiebreak"
@@ -1479,15 +1479,14 @@
         },
         "gomoku": {
             "board": {
-                "name": "standard board (15x15)"
+                "name": "standard 15x15 board"
             },
             "opening": {
                 "name": "pro opening",
                 "description": "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre."
             },
-            "pass": {
-                "name": "pass tiebreak",
-                "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
+            "tiebreaker": {
+                "name": "no tiebreak"
             }
         },
         "halfcut": {
@@ -1534,7 +1533,7 @@
         },
         "pente": {
             "board": {
-                "name": "standard board (19x19)"
+                "name": "standard 19x19 board"
             },
             "opening": {
                 "name": "pro opening",
@@ -1823,10 +1822,10 @@
         },
         "connect6": {
             "toroidal-15": {
-                "name": "Toroidal board (15x15)"
+                "name": "Toroidal 15x15 board"
             },
             "pass": {
-                "name": "pass tiebreak",
+                "name": "Pass tiebreak",
                 "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
             }
         },
@@ -1907,7 +1906,7 @@
         },
         "gomoku": {
             "standard-19": {
-                "name": "Standard board (19x19)"
+                "name": "Standard 19x19 board"
             },
             "swap2": {
                 "name": "swap2 opening",
@@ -1918,7 +1917,7 @@
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "pass": {
-                "name": "pass tiebreak",
+                "name": "Pass tiebreak",
                 "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
             }
         },
@@ -2049,7 +2048,7 @@
         },
         "pente": {
             "standard-15": {
-                "name": "Standard board (15x15)"
+                "name": "Standard 15x15 board"
             },
             "swap2": {
                 "name": "swap2 opening",

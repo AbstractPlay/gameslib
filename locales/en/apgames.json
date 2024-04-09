@@ -29,6 +29,7 @@
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
+        "connect6": "Players take turns placing two stones of their own colour to try to get six in a row. In the default opening, the first player places one stone in the middle of the board.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
@@ -50,6 +51,7 @@
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
+        "gomoku": "A classic game where you try to get five in a row.",
         "halfcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
@@ -538,6 +540,19 @@
             "INVALID_VERTEX": "The vertex {{vertex}} does not exist on the board.",
             "OCCUPIED":"The vertex {{where}} is already occupied."
         },
+        "connect6": {
+            "INITIAL_INSTRUCTIONS": "Select two intersections to place your pieces.",
+            "INITIAL_INSTRUCTIONS_CENTRE1": "Place your first stone in the centre of the board.",
+            "CANNOT_PASS": "You may not pass.",
+            "TIEBREAKER_TAKEN": "The tiebreaker has already been taken.",
+            "EXCESS_FIRST": "You have placed too many stones. You may only place 1 stone in the normal opening as the first player.",
+            "CENTRE_FIRST": "You must place your first stone in the centre of the board in the normal opening.",
+            "DUPLICATE":"You have already placed a piece at {{where}}.",
+            "EXCESS": "You have placed too many stones. You may only place 2 stones.",
+            "ONE_MORE": "Place 1 more stone on the board.",
+            "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
+        },
         "connecticut": {
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a vertex to place a piece. You may not place a triomino on the first move.",
@@ -736,6 +751,31 @@
             "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
             "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
+        },
+        "gomoku": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to place a stone.",
+            "INITIAL_INSTRUCTIONS_PRO1": "Place your first stone in the centre of the board.",
+            "INITIAL_INSTRUCTIONS_PRO3": "Select an intersection to place a stone. Your move must be at least three intersections away from the centre of the board.",
+            "INITIAL_INSTRUCTIONS_SWAP21": "Place three stones on the board",
+            "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single stone to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
+            "INITIAL_INSTRUCTIONS_SWAP23": "You may place a stone to continue as player 1, or pass to swap colours to play as player 2.",
+            "INITIAL_INSTRUCTIONS_SWAP5": "Select an intersection to place a stone, or pass to swap colours.",
+            "NO_MOVELIST": "Move list not available during swap2 first move. Click on the board to place three stones.",
+            "CANNOT_SWAP": "You may not swap colours at this time.",
+            "CANNOT_PASS": "You may not pass.",
+            "TIEBREAKER_TAKEN": "The tiebreaker has already been taken.",
+            "DUPLICATE":"You have already placed a piece at {{where}}.",
+            "SWAP22_PARTIAL": "Complete the move to continue as player 2, or place another stone on the board to allow the opponent to decide to play as player 1 or player 2.",
+            "SWAP2_CAPTURE": "This placement will result in a capture.",
+            "SWAP21_other": "Place {{count}} more stones on the board.",
+            "SWAP21_one": "Place 1 more stone on the board.",
+            "SWAP21_EXCESS": "You have placed too many stones. You may only place 3 stones.",
+            "SWAP22_EXCESS": "You have placed too many stones. You may only place 2 stone.",
+            "EXCESS": "You have placed too many stones. You may only place 1 stone.",
+            "PRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the pro opening.",
+            "PRO_RESTRICTION_THIRD": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
+            "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "halfcut": {
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -1413,6 +1453,14 @@
                 "name": "board: 11x11"
             }
         },
+        "connect6": {
+            "board": {
+                "name": "standard board (19x19)"
+            },
+            "tiebreaker": {
+                "name": "no tiebreak"
+            }
+        },
         "courtesan": {
             "board": {
                 "name": "board (8x8)"
@@ -1427,6 +1475,19 @@
             },
             "setup": {
                 "description": "Starts with a \"cross\" of two tiles of each colour."
+            }
+        },
+        "gomoku": {
+            "board": {
+                "name": "standard board (15x15)"
+            },
+            "opening": {
+                "name": "pro opening",
+                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre."
+            },
+            "pass": {
+                "name": "pass tiebreak",
+                "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
             }
         },
         "halfcut": {
@@ -1473,7 +1534,7 @@
         },
         "pente": {
             "board": {
-                "name": "19x19 board"
+                "name": "standard board (19x19)"
             },
             "opening": {
                 "name": "pro opening",
@@ -1760,6 +1821,15 @@
                 "name": "Larger board: 15x15"
             }
         },
+        "connect6": {
+            "toroidal-15": {
+                "name": "Toroidal board (15x15)"
+            },
+            "pass": {
+                "name": "pass tiebreak",
+                "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
+            }
+        },
         "courtesan": {
             "size-6": {
                 "name": "Shorter game (6x6)"
@@ -1833,6 +1903,23 @@
             "simplified": {
                 "name": "Learning game",
                 "description": "You only play with three pieces of each colour, and the grid is constrained to 7x7 instead of 9x9."
+            }
+        },
+        "gomoku": {
+            "standard-19": {
+                "name": "Standard board (19x19)"
+            },
+            "swap2": {
+                "name": "swap2 opening",
+                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+            },
+            "swap5": {
+                "name": "swap5 opening",
+                "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
+            },
+            "pass": {
+                "name": "pass tiebreak",
+                "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
             }
         },
         "halfcut": {
@@ -1961,8 +2048,8 @@
             }
         },
         "pente": {
-            "size-15": {
-                "name": "15x15 board"
+            "standard-15": {
+                "name": "Standard board (15x15)"
             },
             "swap2": {
                 "name": "swap2 opening",
@@ -1971,6 +2058,10 @@
             "swap5": {
                 "name": "swap5 opening",
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
+            },
+            "overline-ignored": {
+                "name": "Overline ignored",
+                "description": "Overline moves are legal, but they do not count as a win. It's possible to capture a stone such that your opponent wins. Draws are possible if both players simultaneously meet the win condition."
             },
             "overline-forbidden": {
                 "name": "Overline forbidden",
@@ -2348,6 +2439,12 @@
             "hide-piece-highlight": {
                 "description": "Don't highlight the 9x9 pieces.",
                 "name": "Hide 9x9 piece highlight"
+            }
+        },
+        "pente": {
+            "hide-threatened": {
+                "description": "Don't highlight pieces that are threatened to be captured.",
+                "name": "Hide threatened pieces"
             }
         },
         "reversi": {

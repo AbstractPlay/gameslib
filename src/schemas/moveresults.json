@@ -828,6 +828,16 @@
             },
             "required": ["type", "where"],
             "additionalProperties": false
+        },
+        {
+            "description": "Used when invoking custom pie rule.",
+            "properties": {
+                "type": {
+                    "enum": ["pie"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
         }
     ]
 }

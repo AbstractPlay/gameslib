@@ -123,6 +123,9 @@
                 },
                 "who": {
                     "type": "number"
+                },
+                "why": {
+                    "type": "string"
                 }
             },
             "required": ["type"],
@@ -667,10 +670,13 @@
             "additionalProperties": false
         },
         {
-            "description": "Declared a win (subject to a challenge). Also used in Martian Chess to \"call the clock.\"",
+            "description": "Declared a win (subject to a challenge). Also used in Martian Chess to \"call the clock.\", or when calling a number.",
             "properties": {
                 "type": {
                     "enum": ["declare"]
+                },
+                "count": {
+                    "type": "number"
                 }
             },
             "required": ["type"],

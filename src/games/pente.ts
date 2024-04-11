@@ -44,8 +44,8 @@ export class PenteGame extends InARowBase {
         ],
         variants: [
             { uid: "standard-15", group: "board" },
-            { uid: "swap2", group: "opening" },
-            { uid: "swap5", group: "opening" },
+            { uid: "swap-2", group: "opening" },
+            { uid: "swap-5", group: "opening" },
             { uid: "overline-forbidden", group: "overline" },
             { uid: "overline-ignored", group: "overline" },
             { uid: "capture-2-3", group: "capture" },
@@ -73,7 +73,7 @@ export class PenteGame extends InARowBase {
     public toroidal = false;
     public overline;
     public winningLineLength = 5;
-    private openingProtocol: "pro" | "swap2" | "swap5";
+    private openingProtocol: "pro" | "swap-2" | "swap-5";
     private overtimeCapture: boolean;
     private selfCapture: "ignored" | "allowed" | "forbidden";
     private threshold: number;
@@ -144,8 +144,8 @@ export class PenteGame extends InARowBase {
         return this.variants.includes("capture-2-3") ? 15 : 10;
     }
 
-    private getOpeningProtocol(): "pro" | "swap2" | "swap5" {
-        return this.variants.includes("swap2") ? "swap2" : this.variants.includes("swap5") ? "swap5" : "pro";
+    private getOpeningProtocol(): "pro" | "swap-2" | "swap-5" {
+        return this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "pro";
     }
 
     private getOverlineType(): "win" | "ignored" | "forbidden" {
@@ -164,11 +164,18 @@ export class PenteGame extends InARowBase {
         return "ignored";
     }
 
+    private hasMoveGeneration(): boolean {
+        // If the number of moves is too large, we don't want to generate the entire move list.
+        if (this.openingProtocol === "swap-2" && this.stack.length < 3) { return false; }
+        return true;
+    }
+
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
         }
         if (this.gameover) { return []; }
+        if (!this.hasMoveGeneration()) { return ["No movelist in opening"] }
         const moves: string[] = [];
         if (this.stack.length === 1 && this.openingProtocol === "pro") {
             return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];
@@ -185,36 +192,6 @@ export class PenteGame extends InARowBase {
             }
             return moves;
         }
-        if (this.stack.length === 1 && this.openingProtocol === "swap2") {
-            return ["No movelist in swap2 opening"]
-            // The swap2 opening has too many possible moves to list them all.
-            // // Get all double cells such that we don't get reversed duplicates.
-            // // For example, doubleCells = [["a1", "a2"], ["a2", "a1"]] is not allowed.
-            // const doubleCells: string[][] = [];
-            // for (let row = 0; row < this.boardSize; row++) {
-            //     for (let col = 0; col < this.boardSize; col++) {
-            //         const cell = this.coords2algebraic(col, row);
-            //         for (let row1 = row; row1 < this.boardSize; row1++) {
-            //             for (let col1 = row1 === row ? col + 1 : 0; col1 < this.boardSize; col1++) {
-            //                 const cell1 = this.coords2algebraic(col1, row1);
-            //                 doubleCells.push([cell, cell1]);
-            //             }
-            //         }
-            //     }
-            // }
-            // // Now we get a third cell for each doubleCell
-            // for (const doubleCell of doubleCells) {
-            //     for (let row = 0; row < this.boardSize; row++) {
-            //         for (let col = 0; col < this.boardSize; col++) {
-            //             const cell = this.coords2algebraic(col, row);
-            //             if (!doubleCell.includes(cell)) {
-            //                 moves.push(this.normalisePlacement(doubleCell[0] + "," + cell + "," + doubleCell[1]));
-            //             }
-            //         }
-            //     }
-            // }
-            // return moves;
-        }
         for (let row = 0; row < this.boardSize; row++) {
             for (let col = 0; col < this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);
@@ -223,24 +200,6 @@ export class PenteGame extends InARowBase {
                 moves.push(cell);
             }
         }
-        // This is also for swap2 and it seems like it's also too heavy for the dropdown box.
-        // if (this.stack.length === 2 && this.openingProtocol === "swap2") {
-        //     // Get all pairs of cells
-        //     // We don't check for forbidden self-captures here because it's too expensive.
-        //     for (let row = 0; row < this.boardSize; row++) {
-        //         for (let col = 0; col < this.boardSize; col++) {
-        //             const cell = this.coords2algebraic(col, row);
-        //             for (let row1 = 0; row1 < this.boardSize; row1++) {
-        //                 for (let col1 = 0; col1 < this.boardSize; col1++) {
-        //                     const cell1 = this.coords2algebraic(col1, row1);
-        //                     if (cell !== cell1) {
-        //                         moves.push(cell + "," + cell1);
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
         if (this.canSwap()) {
             moves.push("pass");
         }
@@ -253,22 +212,17 @@ export class PenteGame extends InARowBase {
     }
 
     private canSwap(): boolean {
-        if (this.openingProtocol === "pro") { return false; }
-        if (this.openingProtocol === "swap2") {
+        // Check if the player is able to invoke the pie rule on this turn.
+        if (this.openingProtocol === "swap-2") {
             if (this.stack.length === 2) { return true; }
             if (this.stack.length === 3 && this.stack[2].lastmove?.includes(",")) { return true; }
-            return false;
         }
-        if (this.openingProtocol === "swap5") {
+        if (this.openingProtocol === "swap-5") {
+            if (this.stack.length > 10) { return false; }
             if (this.stack.length === 1) { return false; }
             if (this.stack[this.stack.length - 1].lastmove === "pass") { return false; }
-            if (this.stack.length > 10) { return false; }
-            let count = 0;
-            for (const slice of this.stack) {
-                if (slice.lastmove !== "pass") { count++; }
-                if (count > 6) { return false; }
-            }
-            return true;
+            const placeMoveCount = this.placeMoveCount();
+            if (placeMoveCount < 6) { return true; }
         }
         return false;
     }
@@ -285,7 +239,7 @@ export class PenteGame extends InARowBase {
     }
 
     private normalisePlacement(m: string): string {
-        // Normalise placement string for swap2 opening.
+        // Normalise placement string for swap-2 opening.
         // If there are three placements, sort the first and third placements.
         const moves = m.split(",");
         if (moves.length < 3) { return m; }
@@ -322,24 +276,24 @@ export class PenteGame extends InARowBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
-            let message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS");
-            if (this.openingProtocol === "swap2") {
+            let message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS");
+            if (this.openingProtocol === "swap-2") {
                 if (this.stack.length === 1) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP21");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP21");
                 } else if (this.stack.length === 2) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP22");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP22");
                 } else if (this.stack.length === 3 && this.canSwap()) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP23");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP23");
                 }
             }
-            if (this.openingProtocol === "swap5" && this.canSwap()) {
-                message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_SWAP5");
+            if (this.openingProtocol === "swap-5" && this.canSwap()) {
+                message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP5");
             }
             if (this.openingProtocol === "pro") {
                 if (this.stack.length === 1) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_PRO1");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_PRO1");
                 } else if (this.stack.length === 3) {
-                    message = i18next.t("apgames:validation.pente.INITIAL_INSTRUCTIONS_PRO3");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_PRO3");
                 }
             }
             result.valid = true;
@@ -348,11 +302,10 @@ export class PenteGame extends InARowBase {
             result.message = message;
             return result;
         }
-        if (m === "No movelist in swap2 opening") {
-            // Special for swap2 because move list is too large on first move.
+        if (m === "No movelist in opening") {
             result.valid = false;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.pente.NO_MOVELIST");
+            result.message = i18next.t("apgames:validation._inarow.NO_MOVELIST");
             return result;
         }
 
@@ -364,7 +317,7 @@ export class PenteGame extends InARowBase {
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.CANNOT_SWAP");
+                result.message = i18next.t("apgames:validation._inarow.CANNOT_SWAP");
                 return result;
 
             }
@@ -408,22 +361,22 @@ export class PenteGame extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
-        if (this.openingProtocol === "swap2" && this.stack.length < 3) {
+        if (this.openingProtocol === "swap-2" && this.stack.length < 3) {
             if (this.stack.length === 1) {
                 if (moves.length < 3) {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.pente.SWAP21", { count: 3 - moves.length });
+                    result.message = i18next.t("apgames:validation._inarow.SWAP21", { count: 3 - moves.length });
                     return result;
                 }
                 if (moves.length > 3) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.pente.SWAP21_EXCESS");
+                    result.message = i18next.t("apgames:validation._inarow.SWAP21_EXCESS");
                     return result;
                 }
             } else if (this.stack.length === 2) {
@@ -431,19 +384,19 @@ export class PenteGame extends InARowBase {
                     if (this.selfCapture === "forbidden") {
                         if (this.getSelfCaptures(moves[0]).length > 0) {
                             result.valid = false;
-                            result.message = i18next.t("apgames:validation.pente.SELF_CAPTURE_FORBIDDEN");
+                            result.message = i18next.t("apgames:validation._inarow.SELF_CAPTURE_FORBIDDEN");
                             return result;
                         }
                     }
                     result.valid = true;
                     result.complete = 0;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.pente.SWAP22_PARTIAL");
+                    result.message = i18next.t("apgames:validation._inarow.SWAP22_PARTIAL");
                     return result;
                 }
                 if (moves.length > 2) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.pente.SWAP22_EXCESS");
+                    result.message = i18next.t("apgames:validation._inarow.SWAP22_EXCESS");
                     return result;
                 }
                 if (moves.length > 1 && this.selfCapture === "forbidden") {
@@ -457,19 +410,19 @@ export class PenteGame extends InARowBase {
         } else {
             if (moves.length > 1) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.EXCESS");
+                result.message = i18next.t("apgames:validation._inarow.EXCESS");
                 return result;
             }
         }
         if (this.openingProtocol === "pro") {
             if (this.stack.length === 1 && !this.isNearCentre(moves[0], 0)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.PRO_RESTRICTION_FIRST");
+                result.message = i18next.t("apgames:validation._inarow.PRO_RESTRICTION_FIRST");
                 return result;
             }
             if (this.stack.length === 3 && this.isNearCentre(moves[0], 2)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pente.PRO_RESTRICTION_THIRD");
+                result.message = i18next.t("apgames:validation._inarow.PRO_RESTRICTION_THIRD");
                 return result;
             }
         }
@@ -491,13 +444,13 @@ export class PenteGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.pente.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.pente.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -658,7 +611,7 @@ export class PenteGame extends InARowBase {
         }
 
         let result;
-        if (m === "No movelist in swap2 opening") {
+        if (m === "No movelist in opening") {
             result = {valid: false, message: i18next.t("apgames:validation.pente.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
@@ -669,8 +622,7 @@ export class PenteGame extends InARowBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            // Because move generation is quite heavy, we don't do it for swap2 opening.
-            if (!partial && (this.openingProtocol !== "swap2" || this.stack.length > 2) && !this.moves().includes(m)) {
+            if (!partial && this.hasMoveGeneration() && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }
@@ -875,16 +827,35 @@ export class PenteGame extends InARowBase {
             }
         }
         pstr = pstr.replace(new RegExp(`-{${renderBoardSize}}`, "g"), "_");
-        let markers: Array<any> | undefined = []
+        const referencePoints: [number, number][] = [];
+        if (this.boardSize === 15) {
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 4, (this.boardSize - 1) / 2 - 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 4, (this.boardSize - 1) / 2 + 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 4, (this.boardSize - 1) / 2 - 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 4, (this.boardSize - 1) / 2 + 4]);
+        } else if (this.boardSize === 19) {
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2]);
+        }
+        const referencePointsObj: { row: number, col: number }[] = [];
+        for (const point of referencePoints) {
+            for (const [x1, y1] of this.renderCoordsAll(...point)) {
+                referencePointsObj.push({ row: y1, col: x1 });
+            }
+        }
+        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj }] : [];
         if (this.variants.includes("capture-2-3")) {
             markers.push({
                 belowGrid: true, type: "shading", colour: "#FFA500", opacity: 0.1,
                 points: [{row: 0, col: 0}, {row: 0, col: renderBoardSize - 1}, {row: renderBoardSize - 1, col: renderBoardSize - 1}, {row: renderBoardSize - 1, col: 0}],
-            });
-        }
-        if (this.openingProtocol === "pro" && this.stack.length === 1) {
-            markers.push({
-                type: "dots", points: [{ row: (renderBoardSize - 1) / 2, col: (renderBoardSize - 1) / 2 }]
             });
         }
         if (this.toroidal) {
@@ -908,9 +879,7 @@ export class PenteGame extends InARowBase {
                 },
             ]);
         }
-        if (markers.length === 0) {
-            markers = undefined;
-        }
+        if (markers.length === 0) { markers = undefined; }
         // Build rep
         const rep: APRenderRep =  {
             board: {

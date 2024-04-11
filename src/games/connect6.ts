@@ -43,7 +43,7 @@ export class Connect6Game extends InARowBase {
             { uid: "toroidal-15", group: "board" },
             { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "multistep", "custom-colours", "rotate90"],
     };
 
@@ -138,11 +138,17 @@ export class Connect6Game extends InARowBase {
         return "centre";
     }
 
+    private hasMoveGeneration(): boolean {
+        // If the number of moves is too large, we don't want to generate the entire move list.
+        return true;
+    }
+
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
         }
         if (this.gameover) { return []; }
+        if (!this.hasMoveGeneration()) { return ["No movelist in opening"] }
         if (this.stack.length === 1 && this.openingProtocol === "centre") {
             return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];
         }
@@ -160,15 +166,22 @@ export class Connect6Game extends InARowBase {
                 }
             }
         }
-        if (this.passTiebreaker && this.tiebreaker === undefined && this.pastOpening()) {
+        if (this.canSwap() || this.pastOpening()) {
             moves.push("pass");
         }
         return moves;
     }
 
-    private pastOpening(): boolean {
-        // If pass tiebreaker is enabled, we can pass after the opening phase.
-        if (this.stack.length > 1) { return true; }
+    private canSwap(): boolean {
+        // Check if the player is able to invoke the pie rule on this turn.
+        return false;
+    }
+
+    private pastOpening(buffer = 2): boolean {
+        // This is usually used to check if we are past the opening phase so that players can pass.
+        // Pass is also used to invoke the pie rule during the opening phase.
+        // For safety, passing is not allowed for the first two moves after the opening phase.
+        if (this.stack.length > 1 + buffer) { return true; }
         return false;
     }
 
@@ -189,8 +202,7 @@ export class Connect6Game extends InARowBase {
     }
 
     private normalisePlacement(m: string): string {
-        // Normalise placement string for swap2 opening.
-        // If there are three placements, sort the first and third placements.
+        // Sort the two cells in a move.
         const moves = m.split(",");
         return moves.sort((a, b) => this.sort(a, b)).join(",");
     }
@@ -235,16 +247,22 @@ export class Connect6Game extends InARowBase {
             result.message = message;
             return result;
         }
+        if (m === "No movelist in opening") {
+            result.valid = false;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation._inarow.NO_MOVELIST");
+            return result;
+        }
         if (m === "pass") {
-            if (this.passTiebreaker && this.pastOpening()) {
-                if (this.tiebreaker !== undefined) {
+            if (!this.pastOpening(0)) {
+                if (!this.canSwap()) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.connect6.TIEBREAKER_TAKEN");
+                    result.message = i18next.t("apgames:validation._inarow.CANNOT_SWAP");
                     return result;
                 }
-            } else {
+            } else if (!this.pastOpening()) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.connect6.CANNOT_PASS");
+                result.message = i18next.t("apgames:validation._inarow.CANNOT_PASS");
                 return result;
             }
             result.valid = true;
@@ -287,7 +305,7 @@ export class Connect6Game extends InARowBase {
             }
             if (this.openingProtocol === "centre" && !this.isNearCentre(moves[0], 0)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.connect6.CENTRE_FIRST");
+                result.message = i18next.t("apgames:validation._inarow.CENTRE_OFFCENTRE");
                 return result;
             }
         } else {
@@ -316,7 +334,7 @@ export class Connect6Game extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.connect6.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
@@ -324,13 +342,13 @@ export class Connect6Game extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.connect6.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.connect6.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -345,7 +363,7 @@ export class Connect6Game extends InARowBase {
         }
 
         let result;
-        if (m === "No movelist in swap2 opening") {
+        if (m === "No movelist in opening") {
             result = {valid: false, message: i18next.t("apgames:validation.connect6.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
@@ -356,15 +374,19 @@ export class Connect6Game extends InARowBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            if (!partial && !this.moves().includes(m)) {
+            if (!partial && this.hasMoveGeneration() && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }
         if (m.length === 0) { return this; }
         this.results = [];
         if (m === "pass") {
-            this.tiebreaker = this.currplayer;
-            this.results.push({ type: "pass" });
+            if (this.passTiebreaker && this.tiebreaker === undefined) {
+                this.tiebreaker = this.currplayer;
+                this.results.push({ type: "pass", why: "tiebreaker" });
+            } else {
+                this.results.push({ type: "pass" });
+            }
         } else {
             const moves = m.split(",");
             for (const move of moves) {
@@ -392,18 +414,18 @@ export class Connect6Game extends InARowBase {
                 this.winningLines.push(...winningLinesMap.get(player)!);
             }
         }
-        if (winner.length === 0) {
+        if (winner.length === 0 && this.pastOpening(1)) {
             const allMoves = this.moves();
-            if (this.passTiebreaker) {
-                if (allMoves.length === 0 || allMoves.length === 1 && allMoves[0] === "pass") {
+            if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" ||
+                    allMoves.length === 0 ||
+                    allMoves.length === 1 && allMoves[0] === "pass") {
+                if (this.passTiebreaker) {
                     if (this.tiebreaker === undefined) {
                         winner.push(this.swapped ? 1 : 2);
                     } else {
                         winner.push(this.tiebreaker);
                     }
-                }
-            } else {
-                if (allMoves.length === 0) {
+                } else {
                     winner.push(1);
                     winner.push(2);
                 }
@@ -443,12 +465,31 @@ export class Connect6Game extends InARowBase {
             }
         }
         pstr = pstr.replace(new RegExp(`-{${renderBoardSize}}`, "g"), "_");
-        let markers: Array<any> | undefined = []
-        if (this.stack.length === 1 && this.openingProtocol === "centre") {
-            markers.push({
-                type: "dots", points: [{ row: (renderBoardSize - 1) / 2, col: (renderBoardSize - 1) / 2 }]
-            });
+        const referencePoints: [number, number][] = [];
+        if (this.boardSize === 15) {
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 4, (this.boardSize - 1) / 2 - 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 4, (this.boardSize - 1) / 2 + 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 4, (this.boardSize - 1) / 2 - 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 4, (this.boardSize - 1) / 2 + 4]);
+        } else if (this.boardSize === 19) {
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2]);
         }
+        const referencePointsObj: { row: number, col: number }[] = [];
+        for (const point of referencePoints) {
+            for (const [x1, y1] of this.renderCoordsAll(...point)) {
+                referencePointsObj.push({ row: y1, col: x1 });
+            }
+        }
+        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj }] : [];
         if (this.toroidal) {
             const end = this.boardSize + 2 * this.toroidalPadding;
             markers.push(...[
@@ -470,9 +511,7 @@ export class Connect6Game extends InARowBase {
                 },
             ]);
         }
-        if (markers.length === 0) {
-            markers = undefined;
-        }
+        if (markers.length === 0) { markers = undefined; }
         // Build rep
         const rep: APRenderRep =  {
             board: {

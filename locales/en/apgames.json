@@ -29,7 +29,7 @@
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
-        "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board.",
+        "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
@@ -51,7 +51,7 @@
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
-        "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win.",
+        "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         "halfcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
@@ -84,6 +84,7 @@
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
+        "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
         "rootbound": "In Root Bound, two players’ plants vie for control of the space at the sides of a planter as the room for new growth rapidly dwindles.",
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
@@ -237,6 +238,32 @@
             "UNCONTROLLED": "You cannot move pieces you don't control.",
             "UNKNOWN_CLICK": "I don't know how to interpret that click.",
             "VALID_MOVE": "Looks like a valid move."
+        },
+        "_inarow": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to place a stone.",
+            "INITIAL_INSTRUCTIONS_CENTRE1": "Place your first stone in the centre of the board.",
+            "INITIAL_INSTRUCTIONS_PRO1": "Place your first stone in the centre of the board.",
+            "INITIAL_INSTRUCTIONS_PRO3": "Select an intersection to place a stone. Your move must be at least three intersections away from the centre of the board.",
+            "INITIAL_INSTRUCTIONS_SWAP21": "Place three stones on the board",
+            "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single stone to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
+            "INITIAL_INSTRUCTIONS_SWAP23": "You may place a stone to continue as player 1, or pass to swap colours to play as player 2.",
+            "INITIAL_INSTRUCTIONS_SWAP5": "Select an intersection to place a stone, or pass to swap colours.",
+            "NO_MOVELIST": "Move list not available during this opening move. Click on the board to place stones.",
+            "CANNOT_SWAP": "You may not swap colours at this time.",
+            "CANNOT_PASS": "You may not pass for the first two moves after the opening phase.",
+            "DUPLICATE":"You have already placed a piece at {{where}}.",
+            "CENTRE_OFFCENTRE": "You must place your first stone in the centre of the board in the normal opening.",
+            "SWAP22_PARTIAL": "Complete the move to continue as player 2, or place another stone on the board to allow the opponent to decide to play as player 1 or player 2.",
+            "SWAP2_CAPTURE": "This placement will result in a capture.",
+            "SWAP21_other": "Place {{count}} more stones on the board.",
+            "SWAP21_one": "Place 1 more stone on the board.",
+            "SWAP21_EXCESS": "You have placed too many stones. You may only place 3 stones.",
+            "SWAP22_EXCESS": "You have placed too many stones. You may only place 2 stone.",
+            "EXCESS": "You have placed too many stones. You may only place 1 stone.",
+            "PRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the pro opening.",
+            "PRO_RESTRICTION_THIRD": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
+            "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "abande": {
             "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
@@ -542,16 +569,10 @@
         },
         "connect6": {
             "INITIAL_INSTRUCTIONS": "Select two intersections to place your pieces.",
-            "INITIAL_INSTRUCTIONS_CENTRE1": "Place your first stone in the centre of the board.",
-            "CANNOT_PASS": "You may not pass.",
-            "TIEBREAKER_TAKEN": "The tiebreaker has already been taken.",
             "EXCESS_FIRST": "You have placed too many stones. You may only place 1 stone in the normal opening as the first player.",
-            "CENTRE_FIRST": "You must place your first stone in the centre of the board in the normal opening.",
             "DUPLICATE":"You have already placed a piece at {{where}}.",
             "EXCESS": "You have placed too many stones. You may only place 2 stones.",
-            "ONE_MORE": "Place 1 more stone on the board.",
-            "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
-            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
+            "ONE_MORE": "Place 1 more stone on the board."
         },
         "connecticut": {
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
@@ -751,31 +772,6 @@
             "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
             "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
-        },
-        "gomoku": {
-            "INITIAL_INSTRUCTIONS": "Select an intersection to place a stone.",
-            "INITIAL_INSTRUCTIONS_PRO1": "Place your first stone in the centre of the board.",
-            "INITIAL_INSTRUCTIONS_PRO3": "Select an intersection to place a stone. Your move must be at least three intersections away from the centre of the board.",
-            "INITIAL_INSTRUCTIONS_SWAP21": "Place three stones on the board",
-            "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single stone to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
-            "INITIAL_INSTRUCTIONS_SWAP23": "You may place a stone to continue as player 1, or pass to swap colours to play as player 2.",
-            "INITIAL_INSTRUCTIONS_SWAP5": "Select an intersection to place a stone, or pass to swap colours.",
-            "NO_MOVELIST": "Move list not available during swap2 first move. Click on the board to place three stones.",
-            "CANNOT_SWAP": "You may not swap colours at this time.",
-            "CANNOT_PASS": "You may not pass.",
-            "TIEBREAKER_TAKEN": "The tiebreaker has already been taken.",
-            "DUPLICATE":"You have already placed a piece at {{where}}.",
-            "SWAP22_PARTIAL": "Complete the move to continue as player 2, or place another stone on the board to allow the opponent to decide to play as player 1 or player 2.",
-            "SWAP2_CAPTURE": "This placement will result in a capture.",
-            "SWAP21_other": "Place {{count}} more stones on the board.",
-            "SWAP21_one": "Place 1 more stone on the board.",
-            "SWAP21_EXCESS": "You have placed too many stones. You may only place 3 stones.",
-            "SWAP22_EXCESS": "You have placed too many stones. You may only place 2 stone.",
-            "EXCESS": "You have placed too many stones. You may only place 1 stone.",
-            "PRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the pro opening.",
-            "PRO_RESTRICTION_THIRD": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
-            "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
-            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "halfcut": {
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -1003,29 +999,9 @@
             "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
         },
         "pente": {
-            "INITIAL_INSTRUCTIONS": "Select an intersection to place a stone.",
-            "INITIAL_INSTRUCTIONS_PRO1": "Place your first stone in the centre of the board.",
-            "INITIAL_INSTRUCTIONS_PRO3": "Select an intersection to place a stone. Your move must be at least three intersections away from the centre of the board.",
-            "INITIAL_INSTRUCTIONS_SWAP21": "Place three stones on the board",
-            "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single stone to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
-            "INITIAL_INSTRUCTIONS_SWAP23": "You may place a stone to continue as player 1, or pass to swap colours to play as player 2.",
-            "INITIAL_INSTRUCTIONS_SWAP5": "Select an intersection to place a stone, or pass to swap colours.",
-            "NO_MOVELIST": "Move list not available during swap2 first move. Click on the board to place three stones.",
-            "CANNOT_SWAP": "You may not swap colours at this time.",
-            "DUPLICATE":"You have already placed a piece at {{where}}.",
-            "SWAP22_PARTIAL": "Complete the move to continue as player 2, or place another stone on the board to allow the opponent to decide to play as player 1 or player 2.",
             "SELF_CAPTURE_FORBIDDEN": "In this variant, you may not make a placement that results in a self-capture.",
             "OVERLINE_FORBIDDEN": "In this variant, you may not make a placement that creates an overline.",
-            "SWAP2_CAPTURE": "This placement will result in a capture.",
-            "SWAP21_other": "Place {{count}} more stones on the board.",
-            "SWAP21_one": "Place 1 more stone on the board.",
-            "SWAP21_EXCESS": "You have placed too many stones. You may only place 3 stones.",
-            "SWAP22_EXCESS": "You have placed too many stones. You may only place 2 stone.",
-            "EXCESS": "You have placed too many stones. You may only place 1 stone.",
-            "PRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the pro opening.",
-            "PRO_RESTRICTION_THIRD": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
-            "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
-            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
+            "SWAP2_CAPTURE": "This placement will result in a capture."
         },
         "phutball": {
             "INITIAL_INSTRUCTIONS": "Place a player at an empty vertex or jump the ball over adjacent players.",
@@ -1134,6 +1110,85 @@
             "WRONG_REALM_createBase": "You may only create a base in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_createEnforcer": "You may only create an enforcer in the realm you just moved to ({{realm}}).",
             "WRONG_REALM_rearrange": "You may only place pieces in the realm being rearranged ({{realm}})."
+        },
+        "renju": {
+            "INITIAL_INSTRUCTIONS_RIF1": "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_RIF2_PASSED": "Select an intersection to place the second stone.",
+            "INITIAL_INSTRUCTIONS_RIF2": "Select an intersection to place the second stone, or pass to swap colours.",
+            "INITIAL_INSTRUCTIONS_RIF3": "Select two intersections to place the fifth stone.",
+            "INITIAL_INSTRUCTIONS_RIF4": "Choose one of the 2 tentative fifths, then place the sixth stone.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV1": "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV2_PASSED": "Place the fourth stone, and then declare the number of tentative fifths.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV2": "Place the fourth stone, and then declare the number of tentative fifths. You may pass to swap colours.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED": "Place {{count}} tentative fifths.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV3": "Place {{count}} tentative fifths. You may pass to swap colours.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV4_one": "Choose the one tentative fifths, then place the sixth stone.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "Choose one of the {{count}} tentative fifths, then place the sixth stone.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI1": "Place the first stone in the centre of the board.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI2_PASSED": "Place the second stone in the centre 3x3 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI2": "Place the second stone in the centre 3x3 square, or pass to swap colours. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI3_PASSED": "Place the third stone in the centre 5x5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI3": "Place the third stone in the centre 5x5 square, or pass to swap colours. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI4_PASSED": "Place the fourth stone in the centre 7x7 square.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI4": "Place the fourth stone in the centre 7x7 square, or pass to swap colours.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI5_PASSED": "Place the fifth stone in the centre 9x9 square.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI5": "You may do one of (1) place the fifth stone in the centre 9x9 square, (2) pass to swap colours, or (3) place 10 tentative fifths anywhere on the board.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI6_CHOOSE": "Choose one of the 10 tentative fifths, then place the sixth stone.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI6": "Select an intersection to place a stone, or pass to swap colours.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI1": "Select a renju opening, then declare the number of tentative fifths. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI2_PASSED": "Select an intersection to place the fourth stone.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI2": "Select an intersection to place the fourth stone, or pass to swap colours.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI3_one": "Place 1 tentative fifth.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI3_other": "Place {{count}} tentative fifths.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI4_one": "Choose the one tentative fifth, then place the sixth stone.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI4_other": "Choose one of the {{count}} tentative fifths, then place the sixth stone.",
+            "RIF32": "Place 1 more tentative fifth.",
+            "RIF3_EXCESS": "You may place only 2 tentative fifths.",
+            "SYMMETRY": "The tentative fifths must not be placed in symmetrical positions.",
+            "RIF4_CHOOSE": "You have to choose one of the 2 tentative fifths",
+            "RIF42": "Select an intersection to place the sixth stone.",
+            "RIF4_EXCESS": "You have too many items in your move.",
+            "SOOSYRV2_STONES_BEFORE_TENTATIVE": "You need to place your stone before declaring the number of tentative fifths.",
+            "SOOSYRV2_TENTATIVE": "Declare the number of tentative fifths.",
+            "SOOSYRV2_TENTATIVE_COUNT_EXCEED": "The number of tentative fifths must be at most 8.",
+            "SOOSYRV3_MORE_one": "Place 1 more tentative fifth.",
+            "SOOSYRV3_MORE_other": "Place {{count}} more tentative fifths.",
+            "SOOSYRV3_EXCESS_one": "You may only place 1 tentative fifth.",
+            "SOOSYRV3_EXCESS_other": "You may only place {{count}} tentative fifths.",
+            "SOOSYRV4_CHOOSE_one": "You have to choose the one tentative fifth.",
+            "SOOSYRV4_CHOOSE_other": "You have to choose one of the {{count}} tentative fifths.",
+            "SOOSYRV42": "Select an intersection to place the sixth stone.",
+            "SOOSYRV4_EXCESS": "You have too many items in your move.",
+            "TARAGUCHI_RESTRICTION1": "The first stone has to be at the centre of the board.",
+            "TARAGUCHI_RESTRICTION2": "The second stone has to be at the centre 3x3 square. Symmetries are disallowed. Choose one of the 2 highlighted intersections.",
+            "TARAGUCHI_RESTRICTION3": "The third stone has to be at the centre 5x5 square. Symmetries are disallowed. Choose one of the 13 highlighted intersections.",
+            "TARAGUCHI_RESTRICTION4": "The fourth stone has to be at the centre 7x7 square.",
+            "TARAGUCHI_RESTRICTION5": "The fifth stone has to be at the centre 9x9 square.",
+            "TARAGUCHI_RESTRICTION5_INSIDE": "Submit the move, or continue placing 9 more tentative fifths.",
+            "TARAGUCHI_RESTRICTION5_MORE_other": "Place {{count}} more tentative fifths.",
+            "TARAGUCHI_RESTRICTION5_MORE_one": "Place 1 more tentative fifth.",
+            "TARAGUCHI_RESTRICTION5_EXCESS": "You may place only 10 tentative fifths.",
+            "TARAGUCHI6_CHOOSE": "You have to choose one of the 10 tentative fifths.",
+            "TARAGUCHI62": "Select an intersection to place the sixth stone.",
+            "TARAGUCHI6_EXCESS": "You have too many items in your move.",
+            "YAMAGUCHI1_STONES_BEFORE_TENTATIVE": "You need to place the 3 stones before declaring the number of tentative fifths.",
+            "YAMAGUCHI1_EXCESS": "You may only place 3 stones.",
+            "YAMAGUCHI1_TENTATIVE": "Declare the number of tentative fifths.",
+            "YAMAGUCHI1_TENTATIVE_COUNT_EXCEED": "The number of tentative fifths must be at most 12.",
+            "YAMAGUCHI3_EXCESS_one": "You may only place 1 tentative fifth.",
+            "YAMAGUCHI3_EXCESS_other": "You may only place {{count}} tentative fifths.",
+            "YAMAGUCHI3_MORE_one": "Place 1 more tentative fifth.",
+            "YAMAGUCHI3_MORE_other": "Place {{count}} more tentative fifths.",
+            "YAMAGUCHI4_CHOOSE_one": "You have to choose the one tentative fifth.",
+            "YAMAGUCHI4_CHOOSE_other": "You have to choose one of the {{count}} tentative fifths.",
+            "YAMAGUCHI42": "Select an intersection to place the sixth stone.",
+            "YAMAGUCHI4_EXCESS": "You have too many items in your move.",
+            "RENJU_OPENING1_INCORRECT": "The first stone has to be at the centre of the board.",
+            "RENJU_OPENING2_INCORRECT": "The second stone has to be at the centre 3x3 square. In this this implementation, symmetries are disallowed. Choose one of the 2 highlighted intersections.",
+            "RENJU_OPENING3_INCORRECT": "The third stone has to be at the centre 5x5 square. In this this implementation, symmetries are disallowed. Choose one of the 13 highlighted intersections.",
+            "RENJU_OPENING2": "Place the second stone at the centre 3x3 square. Choose one of the 2 highlighted intersections.",
+            "RENJU_OPENING3": "Place the third stone at the centre 5x5 square. Choose one of the 13 highlighted intersections.",
+            "RENJU_OPENING_EXCESS": "You may only place 3 stones."
         },
         "reversi": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
@@ -1570,6 +1625,15 @@
                 "name": "11x11 board"
             }
         },
+        "renju": {
+            "opening": {
+                "name": "centre opening",
+                "description": "The first player has to place their first stone in the centre of the board. There are no other opening placement restrictions."
+            },
+            "tiebreaker": {
+                "name": "no tiebreak"
+            }
+        },
         "saltire": {
             "board": {
                 "name": "13x13 board"
@@ -1826,7 +1890,7 @@
             },
             "pass": {
                 "name": "Pass tiebreak",
-                "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
+                "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins."
             }
         },
         "courtesan": {
@@ -1908,17 +1972,17 @@
             "standard-19": {
                 "name": "Standard 19x19 board"
             },
-            "swap2": {
-                "name": "swap2 opening",
+            "swap-2": {
+                "name": "swap-2 opening",
                 "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
-            "swap5": {
-                "name": "swap5 opening",
+            "swap-5": {
+                "name": "swap-5 opening",
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "pass": {
                 "name": "Pass tiebreak",
-                "description": "After the opening phase, a player may pass instead of making a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no players passed, then the second player wins."
+                "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, second player wins."
             }
         },
         "halfcut": {
@@ -2050,12 +2114,12 @@
             "standard-15": {
                 "name": "Standard 15x15 board"
             },
-            "swap2": {
-                "name": "swap2 opening",
+            "swap-2": {
+                "name": "swap-2 opening",
                 "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
-            "swap5": {
-                "name": "swap5 opening",
+            "swap-5": {
+                "name": "swap-5 opening",
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "overline-ignored": {
@@ -2142,6 +2206,36 @@
             "replacement": {
                 "name": "Capture by replacement",
                 "description": "Captured bases are immediately replaced by one of your own. Leads to a much faster game."
+            }
+        },
+        "renju": {
+            "rif": {
+                "name": "Classic RIF opening",
+                "description": "Classic Renju International Federation rules. Select a classic opening. Two tentative fifths are given. <https://www.renju.net/rule/1/>"
+            },
+            "taraguchi-10": {
+                "name": "Taraguchi-10 opening",
+                "description": "Popular correspondence rules. Each player places one stone. 10 tentative fifths can optionally be given. <https://www.renju.net/rule/25/>"
+            },
+            "soosyrv-8": {
+                "name": "Soosõrv-8 opening",
+                "description": "Official tournament rule since 2015. Upon placing the fourth stone, up to 8 tentative fifths can be declared. <https://www.renju.net/rule/24/>"
+            },
+            "yamaguchi": {
+                "name": "Yamaguchi opening",
+                "description": "Official tournament rule from 2009 to 2015. Simple modificatino to RIF opening where on the first move, the player declares the number of tentative fifths. <https://www.renju.net/rule/5/>"
+            },
+            "swap-2": {
+                "name": "swap-2 opening",
+                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+            },
+            "swap-5": {
+                "name": "swap-5 opening",
+                "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
+            },
+            "pass": {
+                "name": "Pass tiebreak",
+                "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, second player wins."
             }
         },
         "reversi": {
@@ -2494,6 +2588,12 @@
             "hide-threatened": {
                 "description": "Don't show threatened stones.",
                 "name": "Hide threatened"
+            }
+        },
+        "renju": {
+            "hide-restrictions": {
+                "description": "Don't show intersections where the first player cannot place their stones.",
+                "name": "Hide restriction indicators"
             }
         },
         "twixt": {

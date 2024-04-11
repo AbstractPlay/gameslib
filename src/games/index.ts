@@ -111,6 +111,7 @@ import { NexGame, INexState } from "./nex";
 import { PenteGame, IPenteState } from "./pente";
 import { Connect6Game, IConnect6State } from "./connect6";
 import { GomokuGame, IGomokuState } from "./gomoku";
+import { RenjuGame, IRenjuState } from "./renju";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -224,6 +225,7 @@ export {
     PenteGame, IPenteState,
     Connect6Game, IConnect6State,
     GomokuGame, IGomokuState,
+    RenjuGame, IRenjuState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -262,7 +264,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BlockadeGame | typeof CairoCorridorGame | typeof SaltireGame |
                               typeof ConnecticutGame | typeof QuaxGame | typeof AtollGame |
                               typeof HalfcutGame | typeof NexGame | typeof PenteGame |
-                              typeof Connect6Game | typeof GomokuGame
+                              typeof Connect6Game | typeof GomokuGame | typeof RenjuGame
                 >();
 // Manually add each game to the following array
 [
@@ -281,7 +283,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
-    PenteGame, Connect6Game, GomokuGame,
+    PenteGame, Connect6Game, GomokuGame, RenjuGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -513,6 +515,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new Connect6Game(...args);
         case "gomoku":
             return new GomokuGame(...args);
+        case "renju":
+            return new RenjuGame(...args);
     }
     return;
 }

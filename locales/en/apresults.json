@@ -98,7 +98,8 @@
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
     "DECLARE": {
-        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored."
+        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
+        "renju": "{{player}} has declared {{count}} tentative fifths."
     },
     "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
     "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
@@ -201,7 +202,7 @@
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",
         "tablero": "{{player}} bumped!",
-        "tiebreaker": "{{player}} passed to win the tiebreaker."
+        "tiebreaker": "{{player}} passed, winning the tiebreaker."
     },
     "PIE": "{{player}} invoked the pie rule.",
     "PLACE": {
@@ -227,6 +228,8 @@
         "onager": "{{player}} placed a lake at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
         "quax_diag": "{{player}} placed a diagonal connection at {{where}}.",
+        "renju_tentative": "{{player}} placed a tentative fifth at {{where}}.",
+        "renju_tentative_choose": "{{player}} chose the fifth stone at {{where}}.",
         "streetcar": "A building was placed at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "tumbleweed": "{{player}} placed a stack of size {{count}} at {{where}}.",

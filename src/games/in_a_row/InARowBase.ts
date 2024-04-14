@@ -42,6 +42,47 @@ export abstract class InARowBase extends GameBase {
         return 19;
     }
 
+    protected pastOpeningFunc(actualPlacements: number, swapOpportunities: number, swapAfterLast: boolean, buffer: number): boolean {
+        // This is the algorithm for determining if we are past the opening phase.
+        // `actualPlacements` is the number of placements involved in the opening phase.
+        // `swapOpportunities` is the number of opportunities to invoke the pie rule in between. This does not include the last move.
+        // `swapAfterLast` is whether the pie rule can be invoked after the last placement in the opening.
+        // `buffer` is the number of moves to consider after the opening phase.
+        if (this.stack.length > actualPlacements + swapOpportunities + (swapAfterLast ? 1 : 0) + buffer) { return true; }
+        let count = 0;
+        let pastOpening = 0
+        let swapIgnoreAfterLast = swapAfterLast;
+        for (const [i, slice] of this.stack.entries()) {
+            if (count >= actualPlacements) {
+                if (count === actualPlacements && slice.lastmove === "pass" && swapIgnoreAfterLast) {
+                    swapIgnoreAfterLast = false;
+                    // We need to consider that pass after the last placement separately.
+                    if (buffer === 0 && i === this.stack.length - 1) { return true; }
+                } else {
+                    pastOpening++;
+                    if (pastOpening >= buffer) { return true; }
+                }
+            } else if (slice.lastmove !== undefined && slice.lastmove !== "pass") {
+                count++;
+                if (count >= actualPlacements && !swapAfterLast && buffer === 0 && i === this.stack.length - 1) { return true; }
+            }
+        }
+        return false;
+    }
+
+    protected placeMoveCount(): number {
+        // Count the moves that involve some form of placement (non-passes) before this turn.
+        // This makes it easier to determine when to invoke logic when moves in
+        // the stack are interspersed with passes.
+        // In order to avoid unnecessary computation, I usually only call
+        // this method if `this.stack.length` is smaller than some max threshold.
+        let count = 0;
+        for (const slice of this.stack) {
+            if (slice.lastmove !== undefined && slice.lastmove !== "pass") { count++; }
+        }
+        return count;
+    }
+
     private checkLines(startX: number, startY: number, dx: number, dy: number, inARow = 5, exact = false, toroidal = false): string[][] {
         // Check for winning lines in a given direction.
         // Returns an array of winning lines, which are arrays of cells that are all occupied by the same player.
@@ -197,16 +238,13 @@ export abstract class InARowBase extends GameBase {
         return this.isOverlineAll(x, y, player, 5) || this.isDoubleFour(x, y, player) || this.isDoubleOpenThree(x, y, player);
     }
 
-    protected isRenjuWin(x: number, y: number, player: playerid): boolean {
-        // Check if a player has won by Renju rules if make a placement.
+    protected isFiveAll(x: number, y: number, player: playerid): boolean {
+        // Check if a player has a five-in-a-row.
+        // This is useful because a five-in-a-row takes priority over a foul.
         // Placement need not actually be done for this method.
         for (const [dx, dy] of checkDirs) {
             const inRowCount = this.placeInARowCount(x, y, dx, dy, player);
-            if (this.getPlayerColour(player) === 1) {
-                if (inRowCount === 5) { return true; }
-            } else {
-                if (inRowCount >= 5) { return true; }
-            }
+            if (inRowCount === 5) { return true; }
         }
         return false;
     }
@@ -215,11 +253,12 @@ export abstract class InARowBase extends GameBase {
         // Check if there are two 4-in-a-row in any direction.
         let fourCount = 0;
         const cell = this.coords2algebraic(x, y);
-        this.board.set(cell, player);
+        const placed = !this.board.has(cell);
+        if (placed) { this.board.set(cell, player) };
         for (const [dx, dy] of checkDirs) {
             fourCount += this.fourCountOpen(x, y, dx, dy, player)[0];
         }
-        this.board.delete(cell);
+        if (placed) { this.board.delete(cell) };
         if (fourCount >= 2) { return true; }
         return false;
     }
@@ -230,15 +269,36 @@ export abstract class InARowBase extends GameBase {
         // variants that restrict double open threes without also restricting double fours or overlines.
         let openThreeCount = 0;
         const cell = this.coords2algebraic(x, y);
-        this.board.set(cell, player);
+        const placed = !this.board.has(cell);
+        if (placed) { this.board.set(cell, player) };
         for (const [dx, dy] of checkDirs) {
             if (this.isOpenThree(x, y, dx, dy, player)) {
                 openThreeCount++;
             }
         }
-        this.board.delete(cell);
+        if (placed) { this.board.delete(cell) };
         if (openThreeCount >= 2) { return true; }
         return false;
+    }
+
+    protected getRestrictions(player: playerid): Map<string, "33" | "44" | "6+"> {
+        // Get all restrictions for `player` assuming that faults apply.
+        const faults = new Map<string, "33" | "44" | "6+">();
+        for (let i = 0; i < this.boardSize; i++) {
+            for (let j = 0; j < this.boardSize; j++) {
+                const cell = this.coords2algebraic(j, i);
+                if (this.board.has(cell)) { continue; }
+                if (this.isFiveAll(j, i, player)) { continue; }
+                if (this.isDoubleOpenThree(j, i, player)) {
+                    faults.set(cell, "33");
+                } else if (this.isDoubleFour(j, i, player)) {
+                    faults.set(cell, "44");
+                } else if (this.isOverlineAll(j, i, player, 5)) {
+                    faults.set(cell, "6+");
+                }
+            }
+        }
+        return faults;
     }
 
     private isFive(x: number, y: number, dx: number, dy: number, player: playerid): boolean {
@@ -353,7 +413,7 @@ export abstract class InARowBase extends GameBase {
         return [actualX, actualY];
     }
 
-    private renderCoordsAll(x: number, y: number): [number, number][] {
+    protected renderCoordsAll(x: number, y: number): [number, number][] {
         // Get all render coordinates that are equivalent to the given coordinates on the toroidal board.
         if (!this.toroidal) {
             return [[x, y]];
@@ -456,11 +516,15 @@ export abstract class InARowBase extends GameBase {
                 resolved = true;
                 break;
             case "pass":
-                node.push(i18next.t("apresults:PASS.tiebreaker", { player }));
-                resolved = true;
+                if (r.why === "tiebreaker") {
+                    node.push(i18next.t("apresults:PASS.tiebreaker", { player }));
+                    resolved = true;
+                } else {
+                    node.push(i18next.t("apresults:PASS.simple", { player }));
+                    resolved = true;
+                }
                 break;
         }
         return resolved;
     }
-
 }

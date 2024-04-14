@@ -1079,7 +1079,7 @@ export class RenjuGame extends InARowBase {
                     this.openingProtocol === "taraguchi-10" && (moves.length === 1 && !this.isNearCentre(moves[0], 4) || moves.length > 1) && this.stack.length < 10 && this.placeMoveCount() === 4) {
                 if (this.openingProtocol === "taraguchi-10") {
                     // For Taraguchi, the declare result should be at the top.
-                    tentativeCount = 10;
+                    this.tentativeCount = 10;
                     this.results.push({ type: "declare", count: tentativeCount });
                 }
                 for (const move of moves) {

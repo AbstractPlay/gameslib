@@ -16,6 +16,12 @@ const renjuMove3is: Set<string> = new Set([
 const renjuMove3ds: Set<string> = new Set([
     "h10", "i10", "j10", "i9", "j9", "i8", "j8", "h7", "i7", "j7", "h6", "i6", "j6",
 ]);
+const canonicalOpenings: string[] = [
+    "h8,h9,h10", "h8,h9,i10", "h8,h9,j10", "h8,h9,i9", "h8,h9,j9", "h8,h9,i8", "h8,h9,j8",
+    "h8,h9,h7", "h8,h9,i7", "h8,h9,j7", "h8,h9,h6", "h8,h9,i6", "h8,h9,j6",
+    "h8,i9,j10", "h8,i9,j9", "h8,i9,j8", "h8,i9,j7", "h8,i9,j6", "h8,i9,i8", "h8,i9,i7",
+    "h8,i9,i6", "h8,i9,h7", "h8,i9,h6", "h8,i9,g7", "h8,i9,g6", "h8,i9,f6",
+]
 
 interface ILooseObj {
     [key: string]: any;
@@ -48,13 +54,13 @@ export class RenjuGame extends InARowBase {
         dateAdded: "2024-03-28",
         // i18next.t("apgames:descriptions.renju")
         description: "apgames:descriptions.renju",
-        urls: ["https://boardgamegeek.com/boardgame/11929/go-moku"],
+        urls: ["https://boardgamegeek.com/boardgame/11930/renju"],
         people: [],
         variants: [
-            { uid: "rif", group: "opening" },
             { uid: "taraguchi-10", group: "opening" },
             { uid: "soosyrv-8", group: "opening" },
             { uid: "yamaguchi", group: "opening" },
+            { uid: "rif", group: "opening" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
@@ -185,24 +191,16 @@ export class RenjuGame extends InARowBase {
     private hasMoveGeneration(): boolean {
         // Whether move generation is programmed for the current move.
         // Some of these are just too large, and for others I just haven't bothered for now.
-        // TOOD: Implement move generation for these.
         if (this.openingProtocol === "swap-2" && this.stack.length < 3) { return false; }
-        if (this.openingProtocol === "rif" || this.openingProtocol === "yamaguchi") {
-            if (this.stack.length === 1) { return false; }
+        if (this.openingProtocol === "rif" || this.openingProtocol === "yamaguchi" || this.openingProtocol === "soosyrv-8") {
             if (this.stack.length > 6) { return true; }
             const placeMoveCount = this.placeMoveCount();
-            if (placeMoveCount === 2 || placeMoveCount === 3) { return false; }
+            if (placeMoveCount === 2) { return false; }
         }
         if (this.openingProtocol === "taraguchi-10") {
             if (this.stack.length > 10) { return true; }
             const placeMoveCount = this.placeMoveCount();
-            if (placeMoveCount < 5) { return false; }
-            if (placeMoveCount === 5 && this.tentativeCount === 10) { return false; }
-        }
-        if (this.openingProtocol === "soosyrv-8") {
-            if (this.stack.length > 7) { return true; }
-            const placeMoveCount = this.placeMoveCount();
-            if (placeMoveCount < 4) { return false; }
+            if (placeMoveCount === 4 && this.stack[this.stack.length - 1].lastmove !== "pass") { return false; }
         }
         return true;
     }
@@ -212,10 +210,115 @@ export class RenjuGame extends InARowBase {
             player = this.currplayer;
         }
         if (this.gameover) { return []; }
-        if (!this.hasMoveGeneration()) { return ["No movelist in opening"] }
-        const moves: string[] = [];
-        if (this.stack.length === 1 && this.openingProtocol === "centre") {
-            return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];
+        if (!this.hasMoveGeneration() && this.openingProtocol !== "taraguchi-10") {
+            // For taraguchi-10, after placement of the fourth stone, there could be placement of
+            // 10 tentative fifths. We do not generate those, but we will return everything else
+            // for the purpose of the random button.
+            if (this.canSwap()) { return ["No movelist in opening", "pass"] }
+            return ["No movelist in opening"]
+        }
+        let moves: string[] = [];
+        if (this.stack.length === 1) {
+            if (this.openingProtocol === "rif" || this.openingProtocol === "soosyrv-8") {
+                return canonicalOpenings;
+            }
+            if (this.openingProtocol === "yamaguchi") {
+                for (const opening of canonicalOpenings) {
+                    for (let i = 1; i <= 12; i++) {
+                        moves.push(`${opening},${i}`);
+                    }
+                }
+                return moves;
+            }
+            if (this.openingProtocol === "centre" || this.openingProtocol === "taraguchi-10") {
+                return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];
+            }
+        }
+        if (this.openingProtocol === "rif" || this.openingProtocol === "soosyrv-8" || this.openingProtocol === "yamaguchi") {
+            if (this.stack.length < 7) {
+                const placeMoveCount = this.placeMoveCount();
+                if (placeMoveCount === 1) {
+                    const currMoves = [];
+                    for (let row = 0; row < this.boardSize; row++) {
+                        for (let col = 0; col < this.boardSize; col++) {
+                            const cell = this.coords2algebraic(col, row);
+                            if (this.board.has(cell)) { continue; }
+                            currMoves.push(cell);
+                        }
+                    }
+                    if (this.openingProtocol === "soosyrv-8") {
+                        for (let i = 1; i <= 8; i++) {
+                            moves.push(...currMoves.map(m => `${m},${i}`));
+                        }
+                    } else {
+                        moves = currMoves;
+                    }
+                    if (this.canSwap() || this.pastOpening()) { moves.push("pass"); }
+                    return moves
+                } else if (placeMoveCount === 3) {
+                    const tentatives = this.tentatives;
+                    for (const t of tentatives) {
+                        for (let row = 0; row < this.boardSize; row++) {
+                            for (let col = 0; col < this.boardSize; col++) {
+                                const cell = this.coords2algebraic(col, row);
+                                if (this.board.has(cell)) { continue; }
+                                moves.push(`${t},${cell}`);
+                            }
+                        }
+                    }
+                    if (this.canSwap() || this.pastOpening()) { moves.push("pass"); }
+                    return moves
+                }
+            }
+        }
+        if (this.openingProtocol === "taraguchi-10") {
+            if (this.stack.length < 11) {
+                const middle = (this.boardSize - 1) / 2;
+                const placeMoveCount = this.placeMoveCount();
+                if (placeMoveCount === 1) {
+                    moves.push(...renjuMove2s);
+                    if (this.canSwap() || this.pastOpening()) { moves.push("pass"); }
+                    return moves
+                } else if (placeMoveCount === 2) {
+                    const lastPlace = this.stack[this.stack.length - 1].lastmove === "pass" ? this.stack[this.stack.length - 2].lastmove : this.stack[this.stack.length - 1].lastmove;
+                    moves.push(...(lastPlace === "i9" ? renjuMove3is : renjuMove3ds));
+                    if (this.canSwap() || this.pastOpening()) { moves.push("pass"); }
+                    return moves
+                } else if (placeMoveCount === 3) {
+                    for (let row = middle - 3; row <= middle + 3; row++) {
+                        for (let col = middle - 3; col < middle + 3; col++) {
+                            const cell = this.coords2algebraic(col, row);
+                            if (this.board.has(cell)) { continue; }
+                            moves.push(cell);
+                        }
+                    }
+                    if (this.canSwap() || this.pastOpening()) { moves.push("pass"); }
+                    return moves
+                } else if (placeMoveCount === 4) {
+                    for (let row = middle - 4; row <= middle + 4; row++) {
+                        for (let col = middle - 4; col < middle + 4; col++) {
+                            const cell = this.coords2algebraic(col, row);
+                            if (this.board.has(cell)) { continue; }
+                            moves.push(cell);
+                        }
+                    }
+                    if (this.canSwap() || this.pastOpening()) { moves.push("pass"); }
+                    return moves
+                } else if (placeMoveCount === 5 && this.tentativeCount === 10) {
+                    const tentatives = this.tentatives;
+                    for (const t of tentatives) {
+                        for (let row = 0; row < this.boardSize; row++) {
+                            for (let col = 0; col < this.boardSize; col++) {
+                                const cell = this.coords2algebraic(col, row);
+                                if (this.board.has(cell)) { continue; }
+                                moves.push(`${t},${cell}`);
+                            }
+                        }
+                    }
+                    if (this.canSwap() || this.pastOpening()) { moves.push("pass"); }
+                    return moves
+                }
+            }
         }
         for (let row = 0; row < this.boardSize; row++) {
             for (let col = 0; col < this.boardSize; col++) {
@@ -1028,7 +1131,7 @@ export class RenjuGame extends InARowBase {
 
         let result;
         if (m === "No movelist in opening") {
-            result = {valid: false, message: i18next.t("apgames:validation.pente.NO_MOVELIST")};
+            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
         m = m.toLowerCase();

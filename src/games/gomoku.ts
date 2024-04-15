@@ -161,7 +161,10 @@ export class GomokuGame extends InARowBase {
             player = this.currplayer;
         }
         if (this.gameover) { return []; }
-        if (!this.hasMoveGeneration()) { return ["No movelist in opening"] }
+        if (!this.hasMoveGeneration()) {
+            if (this.canSwap()) { return ["No movelist in opening", "pass"] }
+            return ["No movelist in opening"]
+        }
         const moves: string[] = [];
         if (this.stack.length === 1 && this.openingProtocol === "pro") {
             return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];

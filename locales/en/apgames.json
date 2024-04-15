@@ -2209,29 +2209,29 @@
             }
         },
         "renju": {
-            "rif": {
-                "name": "Classic RIF opening",
-                "description": "Classic Renju International Federation rules. Select a classic opening. Two tentative fifths are given. <https://www.renju.net/rule/1/>"
-            },
             "taraguchi-10": {
                 "name": "Taraguchi-10 opening",
-                "description": "Popular correspondence rules. Each player places one stone. 10 tentative fifths can optionally be given. <https://www.renju.net/rule/25/>"
+                "description": "Beginner-friendly rule that is popular in correspondence games. Each player places one stone during the opening and the other player may swap. 10-tentative-fifths rule is implemented in case a player tries to make an exploitive opening (beginners may ignore this). <https://www.renju.net/rule/25/>"
             },
             "soosyrv-8": {
                 "name": "Soosõrv-8 opening",
-                "description": "Official tournament rule since 2015. Upon placing the fourth stone, up to 8 tentative fifths can be declared. <https://www.renju.net/rule/24/>"
+                "description": "Official tournament rule since 2015. Starts like RIF, but upon placing the fourth stone, up to 8 tentative fifths can be declared, and the other player may swap. <https://www.renju.net/rule/24/>"
             },
             "yamaguchi": {
                 "name": "Yamaguchi opening",
-                "description": "Official tournament rule from 2009 to 2015. Simple modificatino to RIF opening where on the first move, the player declares the number of tentative fifths. <https://www.renju.net/rule/5/>"
+                "description": "Official tournament rule from 2009 to 2015. Simple modification to the RIF opening where instead of a fixed number of tentative fifths (two), on the first move, the player declares the number of tentative fifths. <https://www.renju.net/rule/5/>"
+            },
+            "rif": {
+                "name": "Classic RIF opening",
+                "description": "Classic Renju International Federation rules. Select a canonical opening and the other player may swap. Two tentative fifths are given. <https://www.renju.net/rule/1/>"
             },
             "swap-2": {
                 "name": "swap-2 opening",
-                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "Free opening. The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "swap-5 opening",
-                "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
+                "description": "Free opening. For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "pass": {
                 "name": "Pass tiebreak",

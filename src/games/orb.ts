@@ -799,7 +799,7 @@ export class OrbGame extends GameBase {
                     player: 1
                 },
                 C: {
-                    name: "sphere-spiral",
+                    name: "orb",
                     player: 1
                 },
                 X: {
@@ -811,7 +811,7 @@ export class OrbGame extends GameBase {
                     player: 2
                 },
                 Z: {
-                    name: "sphere-spiral",
+                    name: "orb",
                     player: 2
                 }
             },

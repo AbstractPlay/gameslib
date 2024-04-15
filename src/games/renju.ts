@@ -286,7 +286,7 @@ export class RenjuGame extends InARowBase {
                     return moves
                 } else if (placeMoveCount === 3) {
                     for (let row = middle - 3; row <= middle + 3; row++) {
-                        for (let col = middle - 3; col < middle + 3; col++) {
+                        for (let col = middle - 3; col <= middle + 3; col++) {
                             const cell = this.coords2algebraic(col, row);
                             if (this.board.has(cell)) { continue; }
                             moves.push(cell);
@@ -296,7 +296,7 @@ export class RenjuGame extends InARowBase {
                     return moves
                 } else if (placeMoveCount === 4) {
                     for (let row = middle - 4; row <= middle + 4; row++) {
-                        for (let col = middle - 4; col < middle + 4; col++) {
+                        for (let col = middle - 4; col <= middle + 4; col++) {
                             const cell = this.coords2algebraic(col, row);
                             if (this.board.has(cell)) { continue; }
                             moves.push(cell);

@@ -568,11 +568,14 @@
             "OCCUPIED":"The vertex {{where}} is already occupied."
         },
         "connect6": {
-            "INITIAL_INSTRUCTIONS": "Select two intersections to place your pieces.",
+            "INITIAL_INSTRUCTIONS": "Select 2 intersections to place your stones.",
+            "INITIAL_INSTRUCTIONS_SWAP3RD2": "Place 2 stones in the centre 5x5 square.",
+            "INITIAL_INSTRUCTIONS_SWAP3RD4": "Select 2 intersections to place your stones, or pass to swap colours.",
+            "SWAP3RD2_ONE_MORE": "Place 1 more stone in the centre 5x5 square.",
             "EXCESS_FIRST": "You have placed too many stones. You may only place 1 stone in the normal opening as the first player.",
-            "DUPLICATE":"You have already placed a piece at {{where}}.",
             "EXCESS": "You have placed too many stones. You may only place 2 stones.",
-            "ONE_MORE": "Place 1 more stone on the board."
+            "ONE_MORE": "Place 1 more stone on the board.",
+            "SWAP3RD2_INVALID": "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening."
         },
         "connecticut": {
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
@@ -1511,6 +1514,10 @@
         "connect6": {
             "board": {
                 "name": "standard 19x19 board"
+            },
+            "opening": {
+                "name": "centre opening",
+                "description": "The first stone has to be at the centre."
             },
             "tiebreaker": {
                 "name": "no tiebreak"

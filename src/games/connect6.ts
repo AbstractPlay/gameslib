@@ -41,6 +41,7 @@ export class Connect6Game extends InARowBase {
         ],
         variants: [
             { uid: "toroidal-15", group: "board" },
+            { uid: "swap-3rd", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -67,7 +68,7 @@ export class Connect6Game extends InARowBase {
     public captureCounts: [number, number] = [0, 0];
     public swapped = false;
     public boardSize = 0;
-    private openingProtocol: "centre";
+    private openingProtocol: "centre" | "swap-3rd";
     public toroidal = false;
     public winningLineLength = 6;
     public overline = "win" as "win" | "ignored" | "forbidden";
@@ -134,7 +135,8 @@ export class Connect6Game extends InARowBase {
         return this;
     }
 
-    private getOpeningProtocol(): "centre" {
+    private getOpeningProtocol(): "centre" | "swap-3rd" {
+        if (this.variants.includes("swap-3rd")) { return "swap-3rd"; }
         return "centre";
     }
 
@@ -152,10 +154,27 @@ export class Connect6Game extends InARowBase {
             if (this.canSwap()) { return ["No movelist in opening", "pass"] }
             return ["No movelist in opening"]
         }
-        if (this.stack.length === 1 && this.openingProtocol === "centre") {
+        if (this.stack.length === 1) {
             return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];
         }
         const moves: string[] = [];
+        if (this.openingProtocol === "swap-3rd" && this.stack.length === 2) {
+            const middle = (this.boardSize - 1) / 2;
+            for (let row = middle - 2; row <= middle + 2; row++) {
+                for (let col = middle - 2; col <= middle + 2; col++) {
+                    const cell = this.coords2algebraic(col, row);
+                    if (this.board.has(cell)) { continue; }
+                    for (let row1 = row; row1 <= middle + 2; row1++) {
+                        for (let col1 = row1 === row ? col + 1 : middle - 2; col1 <= middle + 2; col1++) {
+                            const cell1 = this.coords2algebraic(col1, row1);
+                            if (this.board.has(cell1)) { continue; }
+                            moves.push(this.normalisePlacement(cell + "," + cell1));
+                        }
+                    }
+                }
+            }
+            return moves;
+        }
         for (let row = 0; row < this.boardSize; row++) {
             for (let col = 0; col < this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);
@@ -177,6 +196,7 @@ export class Connect6Game extends InARowBase {
 
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
+        if (this.stack.length === 4) { return true; }
         return false;
     }
 
@@ -184,7 +204,9 @@ export class Connect6Game extends InARowBase {
         // This is usually used to check if we are past the opening phase so that players can pass.
         // Pass is also used to invoke the pie rule during the opening phase.
         // For safety, passing is not allowed for the first two moves after the opening phase.
-        if (this.stack.length > 1 + buffer) { return true; }
+        if (this.openingProtocol === "swap-3rd") {
+            return this.pastOpeningFunc(3, 0, true, buffer);
+        }
         return false;
     }
 
@@ -239,9 +261,13 @@ export class Connect6Game extends InARowBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
             let message = i18next.t("apgames:validation.connect6.INITIAL_INSTRUCTIONS");
-            if (this.openingProtocol === "centre") {
-                if (this.stack.length === 1) {
-                    message += i18next.t("apgames:validation.connect6.INITIAL_INSTRUCTIONS_CENTRE1");
+            if (this.stack.length === 1) {
+                message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_CENTRE1");
+            } else if (this.openingProtocol === "swap-3rd") {
+                if (this.stack.length === 2) {
+                    message = i18next.t("apgames:validation.connect6.INITIAL_INSTRUCTIONS_SWAP3RD2");
+                } else if (this.stack.length === 4) {
+                    message = i18next.t("apgames:validation.connect6.INITIAL_INSTRUCTIONS_SWAP3RD4");
                 }
             }
             result.valid = true;
@@ -300,23 +326,38 @@ export class Connect6Game extends InARowBase {
             result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: notEmpty });
             return result;
         }
+        let singleStone = false;
         if (this.stack.length === 1) {
             if (moves.length > 1) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.connect6.EXCESS_FIRST");
                 return result;
             }
-            if (this.openingProtocol === "centre" && !this.isNearCentre(moves[0], 0)) {
+            if (!this.isNearCentre(moves[0], 0)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._inarow.CENTRE_OFFCENTRE");
                 return result;
             }
-        } else {
+            singleStone = true;
+        } else if (this.stack.length === 2 && this.openingProtocol === "swap-3rd") {
+            for (const move of moves) {
+                if (!this.isNearCentre(move, 2)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.connect6.SWAP3RD2_INVALID");
+                    return result;
+                }
+            }
+        }
+        if (!singleStone) {
             if (moves.length === 1) {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.connect6.ONE_MORE");
+                if (this.stack.length === 2 && this.openingProtocol === "swap-3rd") {
+                    result.message = i18next.t("apgames:validation.connect6.SWAP3RD2_ONE_MORE");
+                } else {
+                    result.message = i18next.t("apgames:validation.connect6.ONE_MORE");
+                }
                 return result;
             }
             if (moves.length > 2) {
@@ -384,11 +425,20 @@ export class Connect6Game extends InARowBase {
         if (m.length === 0) { return this; }
         this.results = [];
         if (m === "pass") {
-            if (this.passTiebreaker && this.tiebreaker === undefined) {
-                this.tiebreaker = this.currplayer;
-                this.results.push({ type: "pass", why: "tiebreaker" });
-            } else {
-                this.results.push({ type: "pass" });
+            if (this.canSwap()) {
+                // Swap all pieces on the board.
+                this.swapped = !this.swapped;
+                this.board.forEach((v, k) => {
+                    this.board.set(k, v === 1 ? 2 : 1);
+                })
+                this.results.push({ type: "pie" });
+            } else if (this.pastOpening()) {
+                if (this.passTiebreaker && this.tiebreaker === undefined) {
+                    this.tiebreaker = this.currplayer;
+                    this.results.push({ type: "pass", why: "tiebreaker" });
+                } else {
+                    this.results.push({ type: "pass" });
+                }
             }
         } else {
             const moves = m.split(",");

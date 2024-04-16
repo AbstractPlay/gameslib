@@ -48,6 +48,7 @@
         "fnap": "A tile laying game where players simultaneously select the tile they will play, but only one player gets to place them both. Points are scored by dominating rows and columns and by creating groups of connected (and disconnected) tiles.",
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "four": "A game in which four shapes in four colours are placed in a virtual grid according to four constraints. Be the last player able to place.",
+        "fourinarow": "A simple game of getting four (or more) in a row with the twist: there is gravity.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
@@ -740,6 +741,20 @@
             "MUST_CONNECT": "Each piece placed after the first must orthogonally connect to at least one other piece.",
             "PARTIAL": "Click the cell on the board representing the top-left corner of the piece you wish to place.",
             "TOO_BIG": "The grid may never be larger than 9 cells wide or high (or 7 cells in the simplified game)."
+        },
+        "fourinarow": {
+            "INITIAL_INSTRUCTIONS": "Select a supported space to place a piece.",
+            "INITIAL_INSTRUCTIONS_SWAP21": "Place three pieces on the board.",
+            "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single piece to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2.",
+            "INITIAL_INSTRUCTIONS_SWAP23": "You may place a piece to continue as player 1, or pass to swap colours to play as player 2.",
+            "INITIAL_INSTRUCTIONS_SWAP5": "Select an space to place a piece, or pass to swap colours.",
+            "SWAP22_PARTIAL": "Complete the move to continue as player 2, or place another piece on the board to allow the opponent to decide to play as player 1 or player 2.",
+            "SWAP21_other": "Place {{count}} more pieces on the board.",
+            "SWAP21_one": "Place 1 more piece on the board.",
+            "SWAP21_EXCESS": "You have placed too many pieces. You may only place 3 pieces.",
+            "SWAP22_EXCESS": "You have placed too many pieces. You may only place 2 piece.",
+            "EXCESS": "You have placed too many pieces. You may only place 1 piece.",
+            "NOT_PLACEABLE": "You may not place at {{where}}. The piece has to be supported."
         },
         "furl": {
             "INITIAL_INSTRUCTIONS": "Select a piece to furl or a stack to unfurl.",
@@ -1539,6 +1554,14 @@
                 "description": "Starts with a \"cross\" of two tiles of each colour."
             }
         },
+        "fourinarow": {
+            "clear": {
+                "name": "no clear"
+            },
+            "sticky": {
+                "name": "Gravity downwards."
+            }
+        },
         "gomoku": {
             "board": {
                 "name": "standard 15x15 board"
@@ -1895,6 +1918,10 @@
             "toroidal-15": {
                 "name": "Toroidal 15x15 board"
             },
+            "swap-3rd": {
+                "name": "Swap-3rd opening",
+                "description": "The first player places one stone of their colour in the centre, then the second places two stones of their colour in the centre 5x5, and finally the first player places two stones of their colour anywhere on the board. The second player has the option to swap colours."
+            },
             "pass": {
                 "name": "Pass tiebreak",
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins."
@@ -1975,12 +2002,30 @@
                 "description": "You only play with three pieces of each colour, and the grid is constrained to 7x7 instead of 9x9."
             }
         },
+        "fourinarow": {
+            "swap-2": {
+                "name": "Swap-2 opening",
+                "description": "The first player places three pieces. The second player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2."
+            },
+            "swap-5": {
+                "name": "Swap-5 opening",
+                "description": "For the first five pieces on the board, after placement, the next player has the option to swap colours."
+            },
+            "sticky": {
+                "name": "Sticky",
+                "description": "You may place on any space as long as it's supported in any direction (top, bottom, left, right)."
+            },
+            "clear": {
+                "name": "Clear",
+                "description": "If a row is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the sticky variant, the board will shift in any direction(s) where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour."
+            }
+        },
         "gomoku": {
             "standard-19": {
                 "name": "Standard 19x19 board"
             },
             "swap-2": {
-                "name": "swap-2 opening",
+                "name": "Swap-2 opening",
                 "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
@@ -2122,11 +2167,11 @@
                 "name": "Standard 15x15 board"
             },
             "swap-2": {
-                "name": "swap-2 opening",
+                "name": "Swap-2 opening",
                 "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
-                "name": "swap-5 opening",
+                "name": "Swap-5 opening",
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "overline-ignored": {
@@ -2233,11 +2278,11 @@
                 "description": "Classic Renju International Federation rules. Select a canonical opening and the other player may swap. Two tentative fifths are given. <https://www.renju.net/rule/1/>"
             },
             "swap-2": {
-                "name": "swap-2 opening",
+                "name": "Swap-2 opening",
                 "description": "Free opening. The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
-                "name": "swap-5 opening",
+                "name": "Swap-5 opening",
                 "description": "Free opening. For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "pass": {
@@ -2533,6 +2578,12 @@
             "hide-triominoes": {
                 "description": "Don't show the triominoes.",
                 "name": "Hide triominoes"
+            }
+        },
+        "fourinarow": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
             }
         },
         "gess": {

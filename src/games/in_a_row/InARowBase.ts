@@ -129,7 +129,7 @@ export abstract class InARowBase extends GameBase {
                     }
                 }
                 if (skipFirst && skipPlayer !== player) { skipFirst = false; }
-                currentPlayer = player;
+                currentPlayer = !toroidal && wrapped ? undefined : player;
                 currentCounter = currentPlayer === undefined ? 0 : 1;
                 if (cells.length > 0) { cells = []; }
                 if (player !== undefined) { cells.push(cell); }

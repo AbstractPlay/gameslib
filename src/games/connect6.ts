@@ -12,7 +12,6 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
-    captureCounts: [number, number];
     winningLines: string[][];
     swapped: boolean;
     tiebreaker?: playerid;
@@ -65,7 +64,6 @@ export class Connect6Game extends InARowBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public captureCounts: [number, number] = [0, 0];
     public swapped = false;
     public boardSize = 0;
     private openingProtocol: "centre" | "swap-3rd";
@@ -87,7 +85,6 @@ export class Connect6Game extends InARowBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                captureCounts: [0, 0],
                 winningLines: [],
                 swapped: false,
                 tiebreaker: undefined,
@@ -126,7 +123,6 @@ export class Connect6Game extends InARowBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.captureCounts = [...state.captureCounts];
         this.winningLines  = state.winningLines.map(a => [...a]);
         this.swapped = state.swapped;
         this.tiebreaker = state.tiebreaker;
@@ -458,7 +454,7 @@ export class Connect6Game extends InARowBase {
     }
 
     protected checkEOG(): Connect6Game {
-        const winningLinesMap = this.getWinningLinesMap();
+        const winningLinesMap = this.getWinningLinesMap(this.overline === "ignored" ? [1, 2] : []);
         const winner: playerid[] = [];
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
@@ -468,10 +464,8 @@ export class Connect6Game extends InARowBase {
             }
         }
         if (winner.length === 0 && this.pastOpening(1)) {
-            const allMoves = this.moves();
             if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" ||
-                    allMoves.length === 0 ||
-                    allMoves.length === 1 && allMoves[0] === "pass") {
+                    !this.hasEmptySpace()) {
                 if (this.passTiebreaker) {
                     if (this.tiebreaker === undefined) {
                         winner.push(this.swapped ? 1 : 2);
@@ -636,7 +630,6 @@ export class Connect6Game extends InARowBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            captureCounts: [...this.captureCounts],
             winningLines: this.winningLines.map(a => [...a]),
             swapped: this.swapped,
             tiebreaker: this.tiebreaker,

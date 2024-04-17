@@ -108,14 +108,6 @@
     "DESTROY": {
         "armadas": "{{player}} sunk the enemy ship named {{name}}.",
         "bao": "The nyumba at {{pit}} was destroyed.",
-        "fourinarow_n": "{{player}} cleared a line, shifting the pieces on the board upwards.",
-        "fourinarow_s": "{{player}} cleared a line, shifting the pieces on the board downwards.",
-        "fourinarow_w": "{{player}} cleared a line, shifting the pieces on the board leftwards.",
-        "fourinarow_e": "{{player}} cleared a line, shifting the pieces on the board rightwards.",
-        "fourinarow_nw": "{{player}} cleared two lines, shifting the pieces on the board upwards and leftwards.",
-        "fourinarow_ne": "{{player}} cleared two lines, shifting the pieces on the board upwards and rightwards.",
-        "fourinarow_sw": "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
-        "fourinarow_se": "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
         "enemy": {
             "minimal_one": "{{count}} enemy piece was destroyed.",
             "minimal_other": "{{count}} enemy pieces were destroyed."
@@ -266,6 +258,14 @@
         "nowhat_other": "{{count}} pieces were reclaimed."
     },
     "REMOVE": {
+        "fourinarow_n": "{{player}} cleared a line, shifting the pieces on the board upwards.",
+        "fourinarow_s": "{{player}} cleared a line, shifting the pieces on the board downwards.",
+        "fourinarow_w": "{{player}} cleared a line, shifting the pieces on the board leftwards.",
+        "fourinarow_e": "{{player}} cleared a line, shifting the pieces on the board rightwards.",
+        "fourinarow_nw": "{{player}} cleared two lines, shifting the pieces on the board upwards and leftwards.",
+        "fourinarow_ne": "{{player}} cleared two lines, shifting the pieces on the board upwards and rightwards.",
+        "fourinarow_sw": "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
+        "fourinarow_se": "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
         "remove_one": "{{player}} removed 1 piece from {{where}}.",
         "remove_other": "{{player}} removed {{count}} pieces from {{where}}.",
         "nonum": "{{player}} removed a piece from {{where}}.",

@@ -60,6 +60,7 @@
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
+        "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
@@ -865,6 +866,10 @@
             "NEED_DESTINATION": "Provide the destination for the neutral stone.",
             "INVALID_DESTINATION": "Placement at {{place}} cannot move the neutral stone from {{from}} to {{to}}."
         },
+        "irensei": {
+            "SELF_CAPTURE": "You may not place your stones in self-capture unless it is a winning move.",
+            "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to captured one of yours."
+        },
         "lielow": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "TOOFAR": "You cannot bear off from here.",
@@ -1564,7 +1569,7 @@
                 "name": "no clear"
             },
             "sticky": {
-                "name": "Gravity downwards."
+                "name": "gravity downwards."
             }
         },
         "gomoku": {
@@ -1598,6 +1603,14 @@
             "board": {
                 "name": "Size 13 board.",
                 "description": "Competitive board"
+            }
+        },
+        "irensei": {
+            "board": {
+                "name": "standard 19x19 board"
+            },
+            "tiebreaker": {
+                "name": "no tiebreak"
             }
         },
         "loa": {
@@ -2033,7 +2046,7 @@
             },
             "clear": {
                 "name": "Clear",
-                "description": "If a row is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the sticky variant, the board will shift in any direction(s) where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour."
+                "description": "If a row at the edge is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the sticky variant, the board will shift in any direction(s) where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour."
             }
         },
         "gomoku": {
@@ -2106,6 +2119,24 @@
                 "name": "11-21 board (331 total cells)"
             }
         },
+        "irensei": {
+            "toroidal-15": {
+                "name": "Toroidal 15x15 board"
+            },
+            "swap-2": {
+                "name": "Swap-2 opening",
+                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+            },
+            "swap-5": {
+                "name": "swap-5 opening",
+                "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
+            },
+            "pass": {
+                "name": "Pass tiebreak",
+                "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins."
+            }
+        },
+
         "loa": {
             "scrambled": {
                 "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",
@@ -2612,6 +2643,12 @@
             "hide-piece-highlight": {
                 "description": "Don't highlight the 9x9 pieces.",
                 "name": "Hide 9x9 piece highlight"
+            }
+        },
+        "irensei": {
+            "hide-restrictions": {
+                "description": "Don't show intersections where the first player cannot place their stones.",
+                "name": "Hide restriction indicators"
             }
         },
         "pente": {

@@ -704,7 +704,7 @@ export class PenteGame extends InARowBase {
     }
 
     protected checkEOG(): PenteGame {
-        const winningLinesMap = this.getWinningLinesMap();
+        const winningLinesMap = this.getWinningLinesMap(this.overline === "ignored" ? [1, 2] : []);
         const winner: playerid[] = [];
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
@@ -721,6 +721,12 @@ export class PenteGame extends InARowBase {
             const winnerCaptureCount = this.getWinnerCaptureCount();
             if (winnerCaptureCount !== undefined && !winner.includes(winnerCaptureCount)) {
                 winner.push(winnerCaptureCount);
+            }
+        }
+        if (winner.length === 0) {
+            if (!this.hasEmptySpace()) {
+                winner.push(1);
+                winner.push(2);
             }
         }
         if (winner.length > 0) {

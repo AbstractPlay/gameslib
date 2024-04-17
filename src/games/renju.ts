@@ -32,7 +32,6 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
-    captureCounts: [number, number];
     winningLines: string[][];
     swapped: boolean;
     tiebreaker?: playerid;
@@ -87,13 +86,11 @@ export class RenjuGame extends InARowBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public captureCounts: [number, number] = [0, 0];
     public swapped = false;
     public boardSize = 0;
     private openingProtocol: OpeningProtocol;
     public toroidal = false;
     public winningLineLength = 5;
-    public overline = "ignored" as "win" | "ignored" | "forbidden";
     private passTiebreaker = false;
     private tiebreaker?: playerid;
     private tentativeCount: number | undefined;
@@ -112,7 +109,6 @@ export class RenjuGame extends InARowBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                captureCounts: [0, 0],
                 winningLines: [],
                 swapped: false,
                 tiebreaker: undefined,
@@ -153,7 +149,6 @@ export class RenjuGame extends InARowBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.captureCounts = [...state.captureCounts];
         this.winningLines  = state.winningLines.map(a => [...a]);
         this.swapped = state.swapped;
         this.tiebreaker = state.tiebreaker;
@@ -1239,7 +1234,7 @@ export class RenjuGame extends InARowBase {
     }
 
     protected checkEOG(): RenjuGame {
-        const winningLinesMap = this.getWinningLinesMap();
+        const winningLinesMap = this.getWinningLinesMap([this.player1()]);
         const winner: playerid[] = [];
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
@@ -1248,20 +1243,17 @@ export class RenjuGame extends InARowBase {
                 this.winningLines.push(...winningLinesMap.get(player)!);
             }
         }
-        if (winner.length === 0 && this.currplayer === this.getPlayerColour(2)) {
+        if (winner.length === 0 && this.currplayer === this.player2()) {
             if (this.lastmove !== undefined && !this.specialMove(this.lastmove) && this.lastmove !== "pass" && this.lastmove.split(",").length === 1) {
-                const player1 = this.getPlayerColour(1) as playerid;
-                if (this.isRenjuFoul(...this.algebraic2coords(this.lastmove), player1)) {
+                if (this.isRenjuFoul(...this.algebraic2coords(this.lastmove), this.player1())) {
                     winner.push(this.currplayer);
                 }
             }
 
         }
         if (winner.length === 0 && this.pastOpening(1)) {
-            const allMoves = this.moves();
             if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" ||
-                    allMoves.length === 0 ||
-                    allMoves.length === 1 && allMoves[0] === "pass") {
+                    !this.hasEmptySpace()) {
                 if (this.passTiebreaker) {
                     if (this.tiebreaker === undefined) {
                         winner.push(this.swapped ? 1 : 2);
@@ -1328,7 +1320,7 @@ export class RenjuGame extends InARowBase {
         }
         // Build piece string
         let pstr = "";
-        const restrictions = showRestrictions ? this.getRestrictions(this.getPlayerColour(1) === 1 ? 1 : 2 as playerid) : new Map();
+        const restrictions = showRestrictions && !this.gameover ? this.getRestrictions(this.player1()) : new Map();
         const renderBoardSize = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;
         const tentativeCountSelector = this.isNewResult() && this.showTenteativeCountSelector(this.results.length) ? this.getTentativeCountSelector() : new Map<string, string>();
         for (let row = 0; row < renderBoardSize; row++) {
@@ -1415,18 +1407,24 @@ export class RenjuGame extends InARowBase {
             A: [{ name: "piece", player: this.getPlayerColour(1) as playerid }],
             B: [{ name: "piece", player: this.getPlayerColour(2) as playerid }],
             C: [
+                { name: "piece-borderless", colour: "#FFF" },
                 { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
                 { text: "33" },
             ],
             D: [
+                { name: "piece-borderless", colour: "#FFF" },
                 { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
                 { text: "44" },
             ],
             E: [
+                { name: "piece-borderless", colour: "#FFF" },
                 { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
                 { text: "6+" },
             ],
-            F: [{ name: "piece", player: 1 as playerid, opacity: 0.5 }],
+            F: [
+                { name: "piece", colour: "#FFF" },
+                { name: "piece", player: 1 as playerid, opacity: 0.5 },
+            ],
         }
         if (tentativeCountSelector.size > 0) {
             for (let i = 1; i <= tentativeCountSelector.size; i++) {
@@ -1538,7 +1536,6 @@ export class RenjuGame extends InARowBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            captureCounts: [...this.captureCounts],
             winningLines: this.winningLines.map(a => [...a]),
             swapped: this.swapped,
             tiebreaker: this.tiebreaker,

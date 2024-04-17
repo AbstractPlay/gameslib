@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, reviver, UserFacingError } from "../common";
+import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
 import { APRenderRep } from "@abstractplay/renderer";
@@ -14,42 +14,39 @@ interface IMoveState extends IIndividualState {
     lastmove?: string;
     winningLines: string[][];
     swapped: boolean;
+    tiebreaker?: playerid;
 }
 
-export interface IFourInARowState extends IAPGameState {
+export interface IIrenseiState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class FourInARowGame extends InARowBase {
+export class IrenseiGame extends InARowBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Four In A Row",
-        uid: "fourinarow",
+        name: "Irensei",
+        uid: "irensei",
         playercounts: [2],
         version: "20240328",
         dateAdded: "2024-03-28",
-        // i18next.t("apgames:descriptions.fourinarow")
-        description: "apgames:descriptions.fourinarow",
-        urls: ["https://boardgamegeek.com/boardgame/2719/connect-four"],
+        // i18next.t("apgames:descriptions.irensei")
+        description: "apgames:descriptions.irensei",
+        urls: ["https://boardgamegeek.com/boardgame/48871/irensei"],
         people: [
             {
                 type: "designer",
-                name: "Ned Strongin",
-            },
-            {
-                type: "designer",
-                name: "Howard Wexler",
+                name: "Toki Higashi",
             },
         ],
         variants: [
+            { uid: "toroidal-15", group: "board" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
-            { uid: "sticky", group: "sticky" },
-            { uid: "clear", group: "clear" },
+            { uid: "pass", group: "tiebreaker" },
         ],
-        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "multistep", "custom-colours", "rotate90"],
-        displays: [{uid: "hide-moves"}],
+        displays: [{uid: "hide-restrictions"}],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -73,33 +70,34 @@ export class FourInARowGame extends InARowBase {
     public boardSize = 0;
     private openingProtocol: "none" | "swap-2" | "swap-5";
     public toroidal = false;
-    public winningLineLength = 4;
-    public overline = "win" as "win" | "ignored" | "forbidden";
-    private clear: boolean;
-    private sticky: boolean;
+    public winningLineLength = 7;
+    private passTiebreaker = false;
+    private tiebreaker?: playerid;
+    private border = 2;
 
-    constructor(state?: IFourInARowState | string, variants?: string[]) {
+    constructor(state?: IIrenseiState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: FourInARowGame.gameinfo.version,
+                _version: IrenseiGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
                 winningLines: [],
                 swapped: false,
+                tiebreaker: undefined,
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IFourInARowState;
+                state = JSON.parse(state, reviver) as IIrenseiState;
             }
-            if (state.game !== FourInARowGame.gameinfo.uid) {
-                throw new Error(`The FourInARow game code cannot process a game of '${state.game}'.`);
+            if (state.game !== IrenseiGame.gameinfo.uid) {
+                throw new Error(`The Irensei game code cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -108,12 +106,11 @@ export class FourInARowGame extends InARowBase {
         }
         this.load();
         this.openingProtocol = this.getOpeningProtocol();
-        this.clear = this.variants.includes("clear");
-        // this.sticky = this.variants.includes("sticky");
-        this.sticky = true;
+        this.toroidal = this.variants.some(v => v.startsWith("toroidal"));
+        this.passTiebreaker = this.variants.includes("pass");
     }
 
-    public load(idx = -1): FourInARowGame {
+    public load(idx = -1): IrenseiGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -130,6 +127,7 @@ export class FourInARowGame extends InARowBase {
         this.board = new Map(state.board);
         this.winningLines  = state.winningLines.map(a => [...a]);
         this.swapped = state.swapped;
+        this.tiebreaker = state.tiebreaker;
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         return this;
@@ -147,7 +145,7 @@ export class FourInARowGame extends InARowBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 8;
+        return 19;
     }
 
     private getOpeningProtocol(): "none" | "swap-2" | "swap-5" {
@@ -169,52 +167,19 @@ export class FourInARowGame extends InARowBase {
             if (this.canSwap()) { return ["No movelist in opening", "pass"] }
             return ["No movelist in opening"]
         }
-        const moves = this.placeableCells().sort();
-        if (this.canSwap()) {
+        const moves: string[] = [];
+        for (let row = 0; row < this.boardSize; row++) {
+            for (let col = 0; col < this.boardSize; col++) {
+                const cell = this.coords2algebraic(col, row);
+                if (this.board.has(cell)) { continue; }
+                if (this.isSelfCapture(cell, player)) { continue; }
+                moves.push(cell);
+            }
+        }
+        if (this.canSwap() || this.pastOpening()) {
             moves.push("pass");
         }
         return moves;
-    }
-
-    private placeableCells(placed: string[] = []): string[] {
-        // Get all spaces where a piece can be placed.
-        // `placed` is a list of cells that have already been placed but not committed to `this.board`.
-        const moveSet: Set<string> = new Set();
-        for (let col = 0; col < this.boardSize; col++) {
-            for (let row = 0; row < this.boardSize; row++) {
-                const cell = this.coords2algebraic(col, this.boardSize - row - 1);
-                if (this.board.has(cell) || placed.includes(cell)) { continue; }
-                moveSet.add(cell);
-                break;
-            }
-        }
-        if (this.sticky) {
-            for (let col = 0; col < this.boardSize; col++) {
-                for (let row = 0; row < this.boardSize; row++) {
-                    const cell = this.coords2algebraic(col, row);
-                    if (this.board.has(cell) || placed.includes(cell)) { continue; }
-                    moveSet.add(cell);
-                    break;
-                }
-            }
-            for (let row = 0; row < this.boardSize; row++) {
-                for (let col = 0; col < this.boardSize; col++) {
-                    const cell = this.coords2algebraic(col, row);
-                    if (this.board.has(cell) || placed.includes(cell)) { continue; }
-                    moveSet.add(cell);
-                    break;
-                }
-            }
-            for (let row = 0; row < this.boardSize; row++) {
-                for (let col = 0; col < this.boardSize; col++) {
-                    const cell = this.coords2algebraic(this.boardSize - col - 1, row);
-                    if (this.board.has(cell) || placed.includes(cell)) { continue; }
-                    moveSet.add(cell);
-                    break;
-                }
-            }
-        }
-        return [...moveSet];
     }
 
     public randomMove(): string {
@@ -238,6 +203,26 @@ export class FourInARowGame extends InARowBase {
         return false;
     }
 
+    private pastOpening(buffer = 2): boolean {
+        // This is usually used to check if we are past the opening phase so that players can pass.
+        // Pass is also used to invoke the pie rule during the opening phase.
+        // For safety, passing is not allowed for the first two moves after the opening phase.
+        if (this.openingProtocol === "none") {
+            if (this.stack.length > buffer) { return true; }
+        } else if (this.openingProtocol === "swap-2") {
+            if (this.stack.length < 3) { return false; }
+            if (this.stack.length > 4 + buffer) { return true; }
+            if (this.stack[2].lastmove?.includes(",")) {
+                return this.pastOpeningFunc(2, 0, true, buffer);
+            } else {
+                return this.pastOpeningFunc(1, 0, true, buffer);
+            }
+        } else if (this.openingProtocol === "swap-5") {
+            return this.pastOpeningFunc(5, 4, true, buffer);
+        }
+        return false;
+    }
+
     private sort(a: string, b: string): number {
         // Sort two cells. This is necessary because "a10" should come after "a9".
         const [ax, ay] = this.algebraic2coords(a);
@@ -251,22 +236,12 @@ export class FourInARowGame extends InARowBase {
 
     private normalisePlacement(m: string): string {
         // Normalise placement string for swap-2 opening.
-        // If there are three placements, sort the first and third placements
-        // as long as there is no order dependency.
-        // A bit complicated, but as long as the users click on the board it should be fine.
+        // If there are three placements, sort the first and third placements.
         const moves = m.split(",");
         if (moves.length < 3) { return m; }
-        const [first, second, third] = moves;
-        if (!this.placeableCells().includes(third) && this.placeableCells([first, second]).includes(third)) {
-            return m;
-        }
-        if (this.placeableCells([first]).includes(second) && !this.placeableCells([third]).includes(second)) {
-            return m;
-        }
-        if (this.sort(first, third) === 1) {
-            return [third, second, first].join(",");
-        }
-        return m;
+        let [first, second, third] = moves;
+        [first, third] = this.sort(first, third) === -1 ? [first, third] : [third, first];
+        return [first, second, third].join(",");
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -297,18 +272,18 @@ export class FourInARowGame extends InARowBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
-            let message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS");
+            let message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS");
             if (this.openingProtocol === "swap-2") {
                 if (this.stack.length === 1) {
-                    message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS_SWAP21");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP21");
                 } else if (this.stack.length === 2) {
-                    message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS_SWAP22");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP22");
                 } else if (this.stack.length === 3 && this.canSwap()) {
-                    message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS_SWAP23");
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP23");
                 }
             }
             if (this.openingProtocol === "swap-5" && this.canSwap()) {
-                message = i18next.t("apgames:validation.fourinarow.INITIAL_INSTRUCTIONS_SWAP5");
+                message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP5");
             }
             result.valid = true;
             result.complete = -1;
@@ -324,9 +299,15 @@ export class FourInARowGame extends InARowBase {
         }
 
         if (m === "pass") {
-            if (!this.canSwap()) {
+            if (!this.pastOpening(0)) {
+                if (!this.canSwap()) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._inarow.CANNOT_SWAP");
+                    return result;
+                }
+            } else if (!this.pastOpening()) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.CANNOT_SWAP");
+                result.message = i18next.t("apgames:validation._inarow.CANNOT_PASS");
                 return result;
             }
             result.valid = true;
@@ -377,12 +358,15 @@ export class FourInARowGame extends InARowBase {
                 return result;
             }
         }
-        for (const [i, move] of moves.entries()) {
-            if (!this.placeableCells(moves.slice(0, i)).includes(move)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.fourinarow.NOT_PLACEABLE", { where: move });
-                return result;
-            }
+        if (this.isSelfCapture(moves[0], this.currplayer)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.irensei.SELFCAPTURE", { where: moves[0] });
+            return result;
+        }
+        if (this.checkKo(moves[0], this.currplayer)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.irensei.KO");
+            return result;
         }
         if (this.openingProtocol === "swap-2" && this.stack.length < 3) {
             if (this.stack.length === 1) {
@@ -390,12 +374,12 @@ export class FourInARowGame extends InARowBase {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.fourinarow.SWAP21", { count: 3 - moves.length });
+                    result.message = i18next.t("apgames:validation._inarow.SWAP21", { count: 3 - moves.length });
                     return result;
                 }
                 if (moves.length > 3) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.fourinarow.SWAP21_EXCESS");
+                    result.message = i18next.t("apgames:validation._inarow.SWAP21_EXCESS");
                     return result;
                 }
             } else if (this.stack.length === 2) {
@@ -403,19 +387,19 @@ export class FourInARowGame extends InARowBase {
                     result.valid = true;
                     result.complete = 0;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.fourinarow.SWAP22_PARTIAL");
+                    result.message = i18next.t("apgames:validation._inarow.SWAP22_PARTIAL");
                     return result;
                 }
                 if (moves.length > 2) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.fourinarow.SWAP22_EXCESS");
+                    result.message = i18next.t("apgames:validation._inarow.SWAP22_EXCESS");
                     return result;
                 }
             }
         } else {
             if (moves.length > 1) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.fourinarow.EXCESS");
+                result.message = i18next.t("apgames:validation._inarow.EXCESS");
                 return result;
             }
         }
@@ -423,13 +407,13 @@ export class FourInARowGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", { move: m });
+            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.NORMALISE", { normalised });
+            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -438,63 +422,65 @@ export class FourInARowGame extends InARowBase {
         return result;
     }
 
-    public lineClear(): Directions | undefined {
-        // Get direction to clear. If no clear, return undefined.
-        const clears: Directions[] = [];
-        let add = true;
-        for (let i = 0; i < this.boardSize; i++) {
-            if (!this.board.has(this.coords2algebraic(i, this.boardSize - 1))) {
-                add = false;
-                break;
+
+    private getGroupLiberties(cell: string, opponentPlaced: string[], player: playerid): [Set<string>, number] {
+        // Get all groups associated with `cell` and the liberties of the group.
+        // The `cell` does not need to be placed on the `board`. We assume that it's already there.
+        const seen: Set<string> = new Set();
+        const liberties = new Set<string>();
+        const todo: string[] = [cell]
+        while (todo.length > 0) {
+            const cell1 = todo.pop()!;
+            if (seen.has(cell1)) { continue; }
+            seen.add(cell1);
+            for (const n of this.orthNeighbours(cell1)) {
+                if (!this.board.has(n) && !opponentPlaced.includes(n) && n !== cell) {
+                    liberties.add(n);
+                    continue;
+                }
+                if (this.board.get(n) === player) { todo.push(n);
+                }
             }
         }
-        if (add) { clears.push("S"); }
-        if (this.sticky) {
-            add = true;
-            for (let i = 0; i < this.boardSize; i++) {
-                if (!this.board.has(this.coords2algebraic(i, 0))) {
-                    add = false;
-                    break;
-                }
-            }
-            if (add) { clears.push("N"); }
-            add = true;
-            for (let j = 0; j < this.boardSize; j++) {
-                if (!this.board.has(this.coords2algebraic(0, j))) {
-                    add = false;
-                    break;
-                }
-            }
-            if (add) { clears.push("W"); }
-            add = true;
-            for (let j = 0; j < this.boardSize; j++) {
-                if (!this.board.has(this.coords2algebraic(this.boardSize - 1, j))) {
-                    add = false;
-                    break;
-                }
-            }
-            if (add) { clears.push("E"); }
-        }
-        return clears.length > 0 ? clears.join("") as Directions : undefined;
+        return [seen, liberties.size];
     }
 
-    private shiftBoard(direction: Directions): Map<string, playerid>{
-        // Get a new board with all pieces shifted in the given direction.
-        const newBoard: Map<string, playerid> = new Map();
-        for (const [cell, player] of this.board) {
-            const [x, y] = this.algebraic2coords(cell);
-            let [newX, newY] = [x, y];
-            if (direction.includes("N")) { newY--; }
-            if (direction.includes("S")) { newY++; }
-            if (direction.includes("W")) { newX--; }
-            if (direction.includes("E")) { newX++; }
-            if (newX < 0 || newX >= this.boardSize || newY < 0 || newY >= this.boardSize) { continue; }
-            newBoard.set(this.coords2algebraic(newX, newY), player);
+    private getCaptures(cell: string, player: playerid): Set<string> {
+        // Get all captured cells if `cell` is placed on the board.
+        const captures: Set<string> = new Set();
+        for (const n of this.orthNeighbours(cell)) {
+            if (captures.has(n) || !this.board.has(n) || this.board.get(n) === this.currplayer) { continue; }
+            const [group, liberties] = this.getGroupLiberties(n, [cell], player % 2 + 1 as playerid);
+            if (liberties === 0) {
+                for (const c of group) {
+                    captures.add(c);
+                }
+            }
         }
-        return newBoard;
+        return captures;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): FourInARowGame {
+    private isSelfCapture(cell: string, player: playerid): boolean {
+        // Check if placing `cell` would result in a self-capture.
+        if (this.hasInARow(...this.algebraic2coords(cell), player, 7, this.getPlayerColour(player) === 1)) { return false; }
+        if (this.getCaptures(cell, player).size > 0) { return false; }
+        return this.getGroupLiberties(cell, [], player)[1] === 0;
+    }
+
+    private checkKo(cell: string, player: playerid): boolean {
+        // Check if the move is a ko.
+        if (this.stack.length < 2) { return false; }
+        const captures = this.getCaptures(cell, player);
+        if (captures.size !== 1) { return false; }
+        const previous = this.stack[this.stack.length - 1];
+        const previousMove = previous.lastmove!;
+        if (!captures.has(previousMove)) { return false; }
+        const previousCaptures = previous._results.filter(r => r.type === "capture")
+        if (previousCaptures.length !== 1) { return false; }
+        return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).count! === 1;
+    }
+
+    public move(m: string, {partial = false, trusted = false} = {}): IrenseiGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -525,6 +511,13 @@ export class FourInARowGame extends InARowBase {
                     this.board.set(k, v === 1 ? 2 : 1);
                 })
                 this.results.push({ type: "pie" });
+            } else if (this.pastOpening()) {
+                if (this.passTiebreaker && this.tiebreaker === undefined) {
+                    this.tiebreaker = this.currplayer;
+                    this.results.push({ type: "pass", why: "tiebreaker" });
+                } else {
+                    this.results.push({ type: "pass" });
+                }
             }
         } else {
             const moves = m.split(",");
@@ -534,15 +527,10 @@ export class FourInARowGame extends InARowBase {
                 this.board.set(move, placePlayer);
                 placePlayer = placePlayer % 2 + 1 as playerid;
             }
-            if (this.clear && !this.hasInARow(...this.algebraic2coords(moves[0]), this.currplayer, 4, false)) {
-                let clearDirection;
-                do {
-                    clearDirection = this.lineClear();
-                    if (clearDirection !== undefined) {
-                        this.board = this.shiftBoard(clearDirection);
-                        this.results.push({ type: "remove", where: clearDirection });
-                    }
-                } while (clearDirection !== undefined);
+            const captures = this.getCaptures(m, this.currplayer);
+            for (const capture of captures) { this.board.delete(capture); }
+            if (captures.size > 0) {
+                this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
             }
         }
         if (partial) { return this; }
@@ -555,8 +543,8 @@ export class FourInARowGame extends InARowBase {
         return this;
     }
 
-    protected checkEOG(): FourInARowGame {
-        const winningLinesMap = this.getWinningLinesMap(this.overline === "ignored" ? [1, 2] : []);
+    protected checkEOG(): IrenseiGame {
+        const winningLinesMap = this.getWinningLinesMap([this.player1()], this.toroidal ? 0 : 2);
         const winner: playerid[] = [];
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
@@ -565,20 +553,30 @@ export class FourInARowGame extends InARowBase {
                 this.winningLines.push(...winningLinesMap.get(player)!);
             }
         }
-        if (winner.length === 0) {
-            if (!this.hasEmptySpace()) {
-                winner.push(1);
-                winner.push(2);
+        if (winner.length === 0 && this.currplayer === this.player2()) {
+            if (this.lastmove !== undefined && !this.specialMove(this.lastmove) && this.lastmove !== "pass" && this.lastmove.split(",").length === 1) {
+                if (this.isOverlineAll(...this.algebraic2coords(this.lastmove), this.player1())) {
+                    winner.push(this.currplayer);
+                }
+            }
+
+        }
+        if (winner.length === 0 && this.pastOpening(1)) {
+            if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" ||
+                    !this.hasEmptySpace()) {
+                if (this.passTiebreaker) {
+                    if (this.tiebreaker === undefined) {
+                        winner.push(this.swapped ? 1 : 2);
+                    } else {
+                        winner.push(this.tiebreaker);
+                    }
+                } else {
+                    winner.push(1);
+                    winner.push(2);
+                }
             }
         }
         if (winner.length > 0) {
-            const winningLinesMap2 = this.getWinningLinesMap();
-            for (const player of [1, 2] as playerid[]) {
-                if (winningLinesMap2.get(player)!.length > 0) {
-                    winner.push(player);
-                    this.winningLines.push(...winningLinesMap2.get(player)!);
-                }
-            }
             this.gameover = true;
             this.winner = winner;
         }
@@ -589,9 +587,18 @@ export class FourInARowGame extends InARowBase {
         return this;
     }
 
-    private isNewResult(): boolean {
-        // Check if the `this.result` is new, or if it was copied from the previous state.
-        return this.results.every(r => r !== this.stack[this.stack.length - 1]._results[0]);
+    private getOverlines(player: playerid): Set<string> {
+        // Get all restrictions for `player` assuming that faults apply.
+        const faults = new Set<string>();
+        for (let i = 0; i < this.boardSize; i++) {
+            for (let j = 0; j < this.boardSize; j++) {
+                const cell = this.coords2algebraic(j, i);
+                if (this.isOverlineAll(j, i, player, 7)) {
+                    faults.add(cell);
+                }
+            }
+        }
+        return faults;
     }
 
     public render(opts?: { altDisplay: string | undefined }): APRenderRep {
@@ -599,15 +606,16 @@ export class FourInARowGame extends InARowBase {
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;
         }
-        let showMoves = true;
+        let showRestrictions = true;
         if (altDisplay !== undefined) {
-            if (altDisplay === "hide-moves") {
-                showMoves = false;
+            if (altDisplay === "hide-restrictions") {
+                showRestrictions = false;
             }
         }
         // Build piece string
         let pstr = "";
-        const renderBoardSize = this.boardSize;
+        const renderBoardSize = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;
+        const overlines = showRestrictions && !this.gameover ? this.getOverlines(this.player1()) : new Map();
         for (let row = 0; row < renderBoardSize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -621,54 +629,64 @@ export class FourInARowGame extends InARowBase {
                     } else if (contents === 2) {
                         pstr += "B";
                     }
+                } else if (overlines.has(cell)) {
+                    pstr += "E";
                 } else {
                     pstr += "-";
                 }
             }
         }
         pstr = pstr.replace(new RegExp(`-{${renderBoardSize}}`, "g"), "_");
-        let markers: Array<any> | undefined = [];
-        if (this.clear) {
-            if (this.sticky) {
-                markers.push(...[
-                    {
-                        type: "shading", colour: "#FFA500", opacity: 0.1,
-                        points: [{row: 0, col: 0}, {row: 0, col: 1}, {row: this.boardSize, col: 1}, {row: this.boardSize, col: 0}],
-                    },
-                    {
-                        type: "shading", colour: "#FFA500", opacity: 0.1,
-                        points: [{row: 0, col: this.boardSize - 1}, {row: 0, col: this.boardSize}, {row: this.boardSize, col: this.boardSize}, {row: this.boardSize, col: this.boardSize - 1}],
-                    },
-                    {
-                        type: "shading", colour: "#FFA500", opacity: 0.1,
-                        points: [{row: 0, col: 1}, {row: 0, col: this.boardSize - 1}, {row: 1, col: this.boardSize - 1}, {row: 1, col: 1}],
-                    },
-                    {
-                        type: "shading", colour: "#FFA500", opacity: 0.1,
-                        points: [{row: this.boardSize - 1, col: 1}, {row: this.boardSize - 1, col: this.boardSize - 1}, {row: this.boardSize, col: this.boardSize - 1}, {row: this.boardSize, col: 1}],
-                    },
-                ]);
-            } else {
-                markers.push({
-                    type: "shading", colour: "#FFA500", opacity: 0.1,
-                    points: [{row: this.boardSize - 1, col: 0}, {row: this.boardSize - 1, col: this.boardSize}, {row: this.boardSize, col: this.boardSize}, {row: this.boardSize, col: 0}],
-                })
+        const referencePoints: [number, number][] = [];
+        if (this.boardSize === 15) {
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 4, (this.boardSize - 1) / 2 - 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 4, (this.boardSize - 1) / 2 + 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 4, (this.boardSize - 1) / 2 - 4]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 4, (this.boardSize - 1) / 2 + 4]);
+        } else if (this.boardSize === 19) {
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2 - 6]);
+            referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2 + 6]);
+            referencePoints.push([(this.boardSize - 1) / 2 - 6, (this.boardSize - 1) / 2]);
+            referencePoints.push([(this.boardSize - 1) / 2 + 6, (this.boardSize - 1) / 2]);
+        }
+        const referencePointsObj: { row: number, col: number }[] = [];
+        for (const point of referencePoints) {
+            for (const [x1, y1] of this.renderCoordsAll(...point)) {
+                referencePointsObj.push({ row: y1, col: x1 });
             }
         }
-        if (this.results.some(r => r.type === "remove")) {
-            const clearDirections = this.results.filter(r => r.type === "remove").map(r => (r as Extract<APMoveResult, { type: 'remove' }>).where);
-            for (const dir of clearDirections) {
-                if (dir.includes("N")) { markers.push({type:"edge", edge: "N", colour: "#FFA500"}); }
-                if (dir.includes("S")) { markers.push({type:"edge", edge: "S", colour: "#FFA500"}); }
-                if (dir.includes("E")) { markers.push({type:"edge", edge: "E", colour: "#FFA500"}); }
-                if (dir.includes("W")) { markers.push({type:"edge", edge: "W", colour: "#FFA500"}); }
-            }
-        }
+        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj }] : [];
+        const end = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;
+        const padding = this.toroidal ? this.toroidalPadding : this.border;
+        markers.push(...[
+            {
+                type: "shading", colour: "#000", opacity: 0.2,
+                points: [{row: 0, col: 0}, {row: 0, col: padding}, {row: end - 1, col: padding}, {row: end - 1, col: 0}],
+            },
+            {
+                type: "shading", colour: "#000", opacity: 0.2,
+                points: [{row: 0, col: end - 1 - padding}, {row: 0, col: end - 1}, {row: end - 1, col: end - 1}, {row: end - 1, col: end - 1 - padding}],
+            },
+            {
+                type: "shading", colour: "#000", opacity: 0.2,
+                points: [{row: 0, col: padding}, {row: 0, col: end - 1 - padding}, {row: padding, col: end - 1 - padding}, {row: padding, col: padding}],
+            },
+            {
+                type: "shading", colour: "#000", opacity: 0.2,
+                points: [{row: end - 1 - padding, col: padding}, {row: end - 1 - padding, col: end - 1 - padding}, {row: end - 1, col: end - 1 - padding}, {row: end - 1, col: padding}],
+            },
+        ]);
         if (markers.length === 0) { markers = undefined; }
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "squares",
+                style: "vertex",
                 width: renderBoardSize,
                 height: renderBoardSize,
                 rowLabels: this.toroidal ? this.renderRowLabels() : undefined,
@@ -678,6 +696,11 @@ export class FourInARowGame extends InARowBase {
             legend: {
                 A: [{ name: "piece", player: this.getPlayerColour(1) as playerid }],
                 B: [{ name: "piece", player: this.getPlayerColour(2) as playerid }],
+                E: [
+                    { name: "piece-borderless", colour: "#FFF" },
+                    { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
+                    { text: "6+" },
+                ],
             },
             pieces: pstr,
         };
@@ -704,33 +727,22 @@ export class FourInARowGame extends InARowBase {
             if (renderWinningLines.length > 0) {
                 for (const connPath of renderWinningLines) {
                     if (connPath.length === 1) { continue; }
-                    type RowCol = { row: number; col: number; };
+                    type RowCol = {row: number; col: number;};
                     const targets: RowCol[] = [];
                     for (const coords of connPath) {
-                        targets.push({ row: coords[1], col: coords[0] })
+                        targets.push({row: coords[1], col: coords[0]})
                     }
                     // @ts-ignore
-                    rep.annotations.push({ type: "move", targets, arrow: false });
+                    rep.annotations.push({type: "move", targets, arrow: false});
                 }
-            }
-        }
-        if (showMoves) {
-            const places: string[] = [];
-            if (this.isNewResult()) {
-                const placeResults = this.results.filter(r => r.type === "place");
-                places.push(...placeResults.map(r => (r as Extract<APMoveResult, { type: 'remove' }>).where));
-            }
-            for (const cell of this.placeableCells(places)){
-                const [x, y] = this.algebraic2coords(cell);
-                rep.annotations.push({ type: "dots", targets: [{ row: y, col: x }] });
             }
         }
         return rep;
     }
 
-    public state(): IFourInARowState {
+    public state(): IIrenseiState {
         return {
-            game: FourInARowGame.gameinfo.uid,
+            game: IrenseiGame.gameinfo.uid,
             numplayers: 2,
             variants: this.variants,
             gameover: this.gameover,
@@ -741,7 +753,7 @@ export class FourInARowGame extends InARowBase {
 
     protected moveState(): IMoveState {
         return {
-            _version: FourInARowGame.gameinfo.version,
+            _version: IrenseiGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -749,6 +761,7 @@ export class FourInARowGame extends InARowBase {
             board: new Map(this.board),
             winningLines: this.winningLines.map(a => [...a]),
             swapped: this.swapped,
+            tiebreaker: this.tiebreaker,
         };
     }
 
@@ -769,19 +782,19 @@ export class FourInARowGame extends InARowBase {
                 node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
                 resolved = true;
                 break;
-            case "pie":
-                node.push(i18next.t("apresults:PIE", { player }));
+            case "capture":
+                node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", { player, count: r.count }));
                 resolved = true;
                 break;
-            case "remove":
-                node.push(i18next.t(`apresults:REMOVE.fourinarow_${r.where.toLowerCase()}`, { player }));
+            case "pass":
+                node.push(i18next.t("apresults:PASS.pie", { player }));
                 resolved = true;
                 break;
         }
         return resolved;
     }
 
-    public clone(): FourInARowGame {
-        return new FourInARowGame(this.serialize());
+    public clone(): IrenseiGame {
+        return new IrenseiGame(this.serialize());
     }
 }

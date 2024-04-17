@@ -2305,6 +2305,10 @@
             "replacement": {
                 "name": "Capture by replacement",
                 "description": "Captured bases are immediately replaced by one of your own. Leads to a much faster game."
+            },
+            "TEST": {
+                "name": "TESTING",
+                "description": "Do not select."
             }
         },
         "renju": {

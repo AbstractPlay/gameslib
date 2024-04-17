@@ -146,11 +146,7 @@ export class BloomsExpGame extends GameBase {
     }
 
     private getThreshold(): number {
-        // Get threshold from board size.
-        return this.boardSize * 5;
-        // // Alternative: fraction of number of cells.
-        // const fraction = 0.25;
-        // return Math.floor(fraction * (1 + 3 * this.boardSize * (this.boardSize + 1)));
+        return 100;
     }
 
     private getGraph(): HexTriGraph {

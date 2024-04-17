@@ -162,7 +162,8 @@ export abstract class GameBase  {
             "uid": v.uid,
             "name": i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.name`),
             "description": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) : undefined,
-            "group": v.group
+            "group": v.group,
+            "experimental": v.experimental,
         }});
     }
     public describeVariantGroupDefaults(grp: string): {name?: string; description?: string} {

@@ -20,7 +20,6 @@ export abstract class InARowBase extends GameBase {
     }
 
     abstract winningLineLength: number;
-    abstract overline: "win" | "ignored" | "forbidden";
     abstract boardSize: number;
     abstract board: Map<string, playerid>;
     abstract swapped: boolean;
@@ -83,7 +82,7 @@ export abstract class InARowBase extends GameBase {
         return count;
     }
 
-    private checkLines(startX: number, startY: number, dx: number, dy: number, inARow = 5, exact = false, toroidal = false): string[][] {
+    private checkLines(startX: number, startY: number, dx: number, dy: number, inARow = 5, exact: playerid[], toroidal = false, border = 0): string[][] {
         // Check for winning lines in a given direction.
         // Returns an array of winning lines, which are arrays of cells that are all occupied by the same player.
         // `inARow` is the minimum number of pieces in a row to return a winning line.
@@ -102,7 +101,7 @@ export abstract class InARowBase extends GameBase {
         let skipFirst = false;
         let skipPlayer: playerid | undefined;
         if (toroidal && this.board.has(this.coords2algebraic(startX, startY))) {
-            const [finalX, finalY, ] = this.wrap(startX - dx, startY - dy);
+            const [finalX, finalY, ] = this.wrap(startX - dx, startY - dy, border);
             if (
                 this.board.has(this.coords2algebraic(finalX, finalY)) &&
                 this.board.get(this.coords2algebraic(startX, startY)) ===
@@ -113,7 +112,7 @@ export abstract class InARowBase extends GameBase {
             }
         }
         // We loop until we reach the boardSize, or if it's toroidal, we continue until currentCounter !== skipPlayer.
-        while (c < this.boardSize || toroidal && skipPlayer !== undefined && currentPlayer === skipPlayer ) {
+        while (c < this.boardSize - 2 * border || toroidal && skipPlayer !== undefined && currentPlayer === skipPlayer ) {
             const cell = this.coords2algebraic(x, y);
             const player = this.board.has(cell) ? this.board.get(cell) : undefined;
             if (player !== undefined && currentPlayer === player) {
@@ -121,9 +120,12 @@ export abstract class InARowBase extends GameBase {
                 cells.push(cell);
             }
             let wrapped = false;
-            [x, y, wrapped] = this.wrap(x + dx, y + dy);
+            [x, y, wrapped] = this.wrap(x + dx, y + dy, border);
             if (player !== currentPlayer || !toroidal && wrapped) {
-                if (exact && currentCounter === inARow || !exact && currentCounter >= inARow) {
+                if (currentPlayer !== undefined && (
+                    exact.includes(currentPlayer) && currentCounter === inARow ||
+                    !exact.includes(currentPlayer) && currentCounter >= inARow
+                )) {
                     if (!skipFirst) {
                         winningLines.push(cells);
                     }
@@ -139,41 +141,41 @@ export abstract class InARowBase extends GameBase {
         return winningLines;
     }
 
-    protected getWinningLinesMap(): Map<playerid, string[][]> {
+    protected getWinningLinesMap(exact: playerid[] = [], border = 0): Map<playerid, string[][]> {
         // To get the winning lines so that we can highlight it at the end of the game.
+        // `exact` is an array of player ids that require an exact winning line.
+        // Note that playerid 1 is not necessarily the first player. Call `player1` and `player2` to get the playerids.
         const winningLines = new Map<playerid, string[][]>([
             [1, []],
             [2, []],
         ]);
-        // If the overline-ignored variant is enabled, we only check for exact 5-in-a-row.
-        const exact = this.overline === "ignored";
         // Check rows
-        for (let j = 0; j < this.boardSize; j++) {
-            const lines = this.checkLines(0, j, 1, 0, this.winningLineLength, exact, this.toroidal);
+        for (let j = border; j < this.boardSize - 2 * border; j++) {
+            const lines = this.checkLines(border, j, 1, 0, this.winningLineLength, exact, this.toroidal);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
             }
         }
         // Check columns
-        for (let i = 0; i < this.boardSize; i++) {
-            const lines = this.checkLines(i, 0, 0, 1, this.winningLineLength, exact, this.toroidal);
+        for (let i = border; i < this.boardSize - 2 * border; i++) {
+            const lines = this.checkLines(i, border, 0, 1, this.winningLineLength, exact, this.toroidal);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
             }
         }
         // Check upwards diagonals
-        for (let i = 0; i < this.boardSize; i++) {
-            const lines = this.checkLines(i, 0, -1, 1, this.winningLineLength, exact, this.toroidal)
+        for (let i = border; i < this.boardSize - 2 * border; i++) {
+            const lines = this.checkLines(i, border, -1, 1, this.winningLineLength, exact, this.toroidal)
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
             }
         }
         // Check downwards diagonals
-        for (let i = 0; i < this.boardSize; i++) {
-            const lines = this.checkLines(i, 0, 1, 1, this.winningLineLength, exact, this.toroidal)
+        for (let i = border; i < this.boardSize - 2 * border; i++) {
+            const lines = this.checkLines(i, border, 1, 1, this.winningLineLength, exact, this.toroidal)
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -183,6 +185,27 @@ export abstract class InARowBase extends GameBase {
         return winningLines;
     }
 
+    protected player1(): playerid {
+        // Get the playerid of the first player.
+        return this.swapped ? 2 : 1;
+    }
+
+    protected player2(): playerid {
+        // Get the playerid of the second player.
+        return this.swapped ? 1 : 2;
+    }
+
+    protected hasEmptySpace(excludeBorders = false, border = 0): boolean {
+        // Check if there is any empty space on the board.
+        // This is used to determine if there are still moves left.
+        for (let i = excludeBorders ? border : 0; i < this.boardSize - (excludeBorders ? 2 * border : 0); i++) {
+            for (let j = excludeBorders ? border : 0; j < this.boardSize - (excludeBorders ? 2 * border : 0); j++) {
+                if (!this.board.has(this.coords2algebraic(j, i))) { return true; }
+            }
+        }
+        return false;
+    }
+
     protected isNearCentre(cell: string, distance: number): boolean {
         // Check if a cell is within a certain Manhattan distance from the centre.
         const [x, y] = this.algebraic2coords(cell);
@@ -190,24 +213,24 @@ export abstract class InARowBase extends GameBase {
         return Math.abs(x - centre) <= distance && Math.abs(y - centre) <= distance;
     }
 
-    protected wrap(x: number, y: number): [number, number, boolean] {
+    protected wrap(x: number, y: number, border = 0): [number, number, boolean] {
         // Return the wrapped coordinates and whether the coordinates were wrapped.
         let wrapped = false;
-        if (x < 0) { x += this.boardSize; wrapped = true; }
-        if (x >= this.boardSize) { x -= this.boardSize; wrapped = true; }
-        if (y < 0) { y += this.boardSize; wrapped = true; }
-        if (y >= this.boardSize) { y -= this.boardSize; wrapped = true; }
+        if (x < border) { x += this.boardSize - 2 * border; wrapped = true; }
+        if (x >= this.boardSize - border) { x -= this.boardSize - 2 * border; wrapped = true; }
+        if (y < border) { y += this.boardSize - 2 * border; wrapped = true; }
+        if (y >= this.boardSize - border) { y -= this.boardSize - 2 * border; wrapped = true; }
         return [x, y, wrapped];
     }
 
-    private placeInARowCount(x: number, y: number, dx: number, dy: number, player: playerid): number {
+    private placeInARowCount(x: number, y: number, dx: number, dy: number, player: playerid, border = 0): number {
         // Count the number of pieces in a row in a given dx and dy assuming that a piece is placed.
         // Placement need not actually be done for this method.
         let countTotal = 1;
         for (const sign of [-1, 1]) {
             let count = 1;
-            while (countTotal < this.boardSize) {
-                const [x1, y1, wrapped] = this.wrap(x + count * sign * dx, y + count * sign * dy);
+            while (countTotal < this.boardSize - 2 * border) {
+                const [x1, y1, wrapped] = this.wrap(x + count * sign * dx, y + count * sign * dy, border);
                 if (!this.toroidal && wrapped) { break; }
                 if (this.board.get(this.coords2algebraic(x1, y1)) !== player) { break; }
                 count++;
@@ -217,20 +240,44 @@ export abstract class InARowBase extends GameBase {
         return countTotal;
     }
 
-    private isOverline(x: number, y: number, dx: number, dy: number, player: playerid, winningLineLength = this.winningLineLength): boolean {
+    private isOverline(x: number, y: number, dx: number, dy: number, player: playerid, winningLineLength = this.winningLineLength, border = 0): boolean {
         // Check if a player has an overline.
-        return this.placeInARowCount(x, y, dx, dy, player) > winningLineLength;
+        return this.placeInARowCount(x, y, dx, dy, player, border) > winningLineLength;
     }
 
-    protected isOverlineAll(x: number, y: number, player: playerid, winningLineLength = this.winningLineLength): boolean {
+    protected isOverlineAll(x: number, y: number, player: playerid, winningLineLength = this.winningLineLength, border = 0): boolean {
         // Check if a player has an overline in any direction.
         for (const [dx, dy] of checkDirs) {
-            if (this.isOverline(x, y, dx, dy, player, winningLineLength)) { return true; }
+            if (this.isOverline(x, y, dx, dy, player, winningLineLength, border)) { return true; }
+        }
+        return false;
+    }
+
+    protected orthNeighbours(cell: string, border = 0): string[] {
+        // Get all orthogonal neighbours of a cell.
+        const [x, y] = this.algebraic2coords(cell);
+        const neighbours: string[] = [];
+        for (const [dx, dy] of [[1, 0], [0, 1], [-1, 0], [0, -1]]) {
+            const [x1, y1, wrapped] = this.wrap(x + dx, y + dy, border);
+            if (!this.toroidal && wrapped) { continue; }
+            neighbours.push(this.coords2algebraic(x1, y1));
+        }
+        return neighbours;
+    }
+
+    protected hasInARow(x: number, y: number, player: playerid, inARow: number, exact: boolean): boolean {
+        // Check if placement at x, y results in a player having `inARow` in a row.
+        // If `exact` is true, it must be exactly `inARow` in a row, otherwise, it is at least `inARow`.
+        // Placement need not actually be done for this method.
+        for (const [dx, dy] of checkDirs) {
+            const inRowCount = this.placeInARowCount(x, y, dx, dy, player);
+            if (exact && inRowCount === inARow || !exact && inRowCount >= inARow) { return true; }
         }
         return false;
     }
 
     // Renju-related methods
+    // Note: For now, these only work if border is 0.
 
     protected isRenjuFoul(x: number, y: number, player: playerid): boolean {
         // Check if a player has a foul by Renju rules.
@@ -242,11 +289,7 @@ export abstract class InARowBase extends GameBase {
         // Check if a player has a five-in-a-row.
         // This is useful because a five-in-a-row takes priority over a foul.
         // Placement need not actually be done for this method.
-        for (const [dx, dy] of checkDirs) {
-            const inRowCount = this.placeInARowCount(x, y, dx, dy, player);
-            if (inRowCount === 5) { return true; }
-        }
-        return false;
+        return this.hasInARow(x, y, player, 5, true);
     }
 
     protected isDoubleFour(x: number, y: number, player: playerid): boolean {

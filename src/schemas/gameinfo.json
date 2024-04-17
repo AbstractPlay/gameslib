@@ -52,6 +52,11 @@
                 "group": {
                     "description": "If present, variants of the same `group` are considered mutually exclusive",
                     "type": "string"
+                },
+                "experimental": {
+                    "description": "If present and `false`, the variant will not appear in the production environment.",
+                    "type": "boolean",
+                    "default": false
                 }
             },
             "required": ["uid"]

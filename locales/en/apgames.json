@@ -2067,7 +2067,7 @@
                 "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
-                "name": "swap-5 opening",
+                "name": "Swap-5 opening",
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "pass": {
@@ -2137,7 +2137,7 @@
                 "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
-                "name": "swap-5 opening",
+                "name": "Swap-5 opening",
                 "description": "For the first five stones on the board, after placement, the next player has the option to swap colours."
             },
             "pass": {

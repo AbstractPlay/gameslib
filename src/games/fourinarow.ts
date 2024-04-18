@@ -109,8 +109,7 @@ export class FourInARowGame extends InARowBase {
         this.load();
         this.openingProtocol = this.getOpeningProtocol();
         this.clear = this.variants.includes("clear");
-        // this.sticky = this.variants.includes("sticky");
-        this.sticky = true;
+        this.placement = this.getPlacement();
     }
 
     public load(idx = -1): FourInARowGame {
@@ -572,13 +571,6 @@ export class FourInARowGame extends InARowBase {
             }
         }
         if (winner.length > 0) {
-            const winningLinesMap2 = this.getWinningLinesMap();
-            for (const player of [1, 2] as playerid[]) {
-                if (winningLinesMap2.get(player)!.length > 0) {
-                    winner.push(player);
-                    this.winningLines.push(...winningLinesMap2.get(player)!);
-                }
-            }
             this.gameover = true;
             this.winner = winner;
         }

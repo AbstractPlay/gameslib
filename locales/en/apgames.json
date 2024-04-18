@@ -1568,8 +1568,9 @@
             "clear": {
                 "name": "no clear"
             },
-            "sticky": {
-                "name": "gravity downwards."
+            "placement": {
+                "name": "gravity downwards.",
+                "description": "Pieces must always be placed such that they're supported by at least one piece from below."
             }
         },
         "gomoku": {
@@ -2040,13 +2041,21 @@
                 "name": "Swap-5 opening",
                 "description": "For the first five pieces on the board, after placement, the next player has the option to swap colours."
             },
-            "sticky": {
-                "name": "Sticky",
-                "description": "You may place on any space as long as it's supported in any direction (top, bottom, left, right)."
+            "edge-grow-4": {
+                "name": "Edge-grow-4",
+                "description": "Pieces \"grow\" from the edges: you may place on any first free space from any edge."
+            },
+            "edge-drop-4": {
+                "name": "Edge-drop-4",
+                "description": "Pieces \"drop\" from the edges: you may place on a free space right before the first filled space from any edge. Edges cannot be blocked, so the pieces are actually dropped from the first free space from the edge."
+            },
+            "interior-gravity-4": {
+                "name": "Interior gravity-4",
+                "description": "Pieces appear from any free space on the board, then slide to the free space right before the first filled space in the direction of the closest edge. On the diagonal where it is equidistant to two edges, the piece will slide to the closest corner."
             },
             "clear": {
                 "name": "Clear",
-                "description": "If a row at the edge is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the sticky variant, the board will shift in any direction(s) where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour."
+                "description": "If a row at the edge is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the 4-directional variants, the board will shift in any direction(s) where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour."
             }
         },
         "gomoku": {

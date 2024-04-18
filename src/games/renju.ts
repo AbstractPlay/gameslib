@@ -1196,6 +1196,12 @@ export class RenjuGame extends InARowBase {
                     this.board.set(move, placePlayer);
                     placePlayer = placePlayer % 2 + 1 as playerid;
                 }
+                if (this.stack.length === 2 && this.openingProtocol === "swap-2" && moves.length === 2) {
+                    this.swapped = !this.swapped;
+                    this.board.forEach((v, k) => {
+                        this.board.set(k, v === 1 ? 2 : 1);
+                    })
+                }
             }
             if (tentativeCount > 0 && this.openingProtocol !== "taraguchi-10") {
                 this.tentativeCount = tentativeCount;

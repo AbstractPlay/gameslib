@@ -445,25 +445,27 @@ export class IrenseiGame extends InARowBase {
         return [seen, liberties.size];
     }
 
-    private getCaptures(cell: string, player: playerid): Set<string> {
+    private getCaptures(cell: string, player: playerid): Set<string>[] {
         // Get all captured cells if `cell` is placed on the board.
-        const captures: Set<string> = new Set();
+        const allCaptures: Set<string>[] = []
         for (const n of this.orthNeighbours(cell)) {
-            if (captures.has(n) || !this.board.has(n) || this.board.get(n) === this.currplayer) { continue; }
+            if (allCaptures.some(x => x.has(n)) || !this.board.has(n) || this.board.get(n) === this.currplayer) { continue; }
             const [group, liberties] = this.getGroupLiberties(n, [cell], player % 2 + 1 as playerid);
             if (liberties === 0) {
+                const captures = new Set<string>();
                 for (const c of group) {
                     captures.add(c);
                 }
+                if (captures.size > 0) { allCaptures.push(captures); }
             }
         }
-        return captures;
+        return allCaptures;
     }
 
     private isSelfCapture(cell: string, player: playerid): boolean {
         // Check if placing `cell` would result in a self-capture.
         if (this.hasInARow(...this.algebraic2coords(cell), player, 7, this.getPlayerColour(player) === 1)) { return false; }
-        if (this.getCaptures(cell, player).size > 0) { return false; }
+        if (this.getCaptures(cell, player).length > 0) { return false; }
         return this.getGroupLiberties(cell, [], player)[1] === 0;
     }
 
@@ -471,10 +473,10 @@ export class IrenseiGame extends InARowBase {
         // Check if the move is a ko.
         if (this.stack.length < 2) { return false; }
         const captures = this.getCaptures(cell, player);
-        if (captures.size !== 1) { return false; }
+        if (captures.length !== 1) { return false; }
         const previous = this.stack[this.stack.length - 1];
         const previousMove = previous.lastmove!;
-        if (!captures.has(previousMove)) { return false; }
+        if (!captures.some(x => x.has(previousMove))) { return false; }
         const previousCaptures = previous._results.filter(r => r.type === "capture")
         if (previousCaptures.length !== 1) { return false; }
         return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).count! === 1;
@@ -527,10 +529,12 @@ export class IrenseiGame extends InARowBase {
                 this.board.set(move, placePlayer);
                 placePlayer = placePlayer % 2 + 1 as playerid;
             }
-            const captures = this.getCaptures(m, this.currplayer);
-            for (const capture of captures) { this.board.delete(capture); }
-            if (captures.size > 0) {
-                this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
+            const allCaptures = this.getCaptures(moves[0], this.currplayer);
+            if (allCaptures.length > 0) {
+                for (const captures of allCaptures) {
+                    for (const capture of captures) { this.board.delete(capture); }
+                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
+                }
             }
         }
         if (partial) { return this; }
@@ -784,7 +788,7 @@ export class IrenseiGame extends InARowBase {
                 resolved = true;
                 break;
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", { player, count: r.count }));
+                node.push(i18next.t("apresults:CAPTURE.noperson.group_nowhere", { player, count: r.count }));
                 resolved = true;
                 break;
             case "pass":

@@ -54,7 +54,7 @@
                     "type": "string"
                 },
                 "experimental": {
-                    "description": "If present and `false`, the variant will not appear in the production environment.",
+                    "description": "If present and `true`, the variant will not appear in the production environment.",
                     "type": "boolean",
                     "default": false
                 }

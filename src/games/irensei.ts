@@ -554,7 +554,6 @@ export class IrenseiGame extends InARowBase {
     }
 
     protected checkEOG(): IrenseiGame {
-        const winningLinesMap = this.getWinningLinesMap([this.player1()], this.toroidal ? 0 : 2);
         const winner: playerid[] = [];
         if (this.currplayer === this.player2()) {
             if (this.lastmove !== undefined && !this.specialMove(this.lastmove) && this.lastmove !== "pass" && this.lastmove.split(",").length === 1) {
@@ -565,6 +564,7 @@ export class IrenseiGame extends InARowBase {
         }
         if (this.winner.length === 0) {
             this.winningLines = [];
+            const winningLinesMap = this.getWinningLinesMap([this.player1()], this.toroidal ? 0 : 2);
             for (const player of [1, 2] as playerid[]) {
                 if (winningLinesMap.get(player)!.length > 0) {
                     winner.push(player);

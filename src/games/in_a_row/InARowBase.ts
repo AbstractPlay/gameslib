@@ -151,7 +151,7 @@ export abstract class InARowBase extends GameBase {
         ]);
         // Check rows
         for (let j = border; j < this.boardSize - border; j++) {
-            const lines = this.checkLines(border, j, 1, 0, this.winningLineLength, exact, this.toroidal);
+            const lines = this.checkLines(border, j, 1, 0, this.winningLineLength, exact, this.toroidal, border);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -159,7 +159,7 @@ export abstract class InARowBase extends GameBase {
         }
         // Check columns
         for (let i = border; i < this.boardSize - border; i++) {
-            const lines = this.checkLines(i, border, 0, 1, this.winningLineLength, exact, this.toroidal);
+            const lines = this.checkLines(i, border, 0, 1, this.winningLineLength, exact, this.toroidal, border);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -167,7 +167,7 @@ export abstract class InARowBase extends GameBase {
         }
         // Check upwards diagonals
         for (let i = border; i < this.boardSize - border; i++) {
-            const lines = this.checkLines(i, border, -1, 1, this.winningLineLength, exact, this.toroidal)
+            const lines = this.checkLines(i, border, -1, 1, this.winningLineLength, exact, this.toroidal, border)
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -175,7 +175,7 @@ export abstract class InARowBase extends GameBase {
         }
         // Check downwards diagonals
         for (let i = border; i < this.boardSize - border; i++) {
-            const lines = this.checkLines(i, border, 1, 1, this.winningLineLength, exact, this.toroidal)
+            const lines = this.checkLines(i, border, 1, 1, this.winningLineLength, exact, this.toroidal, border)
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);

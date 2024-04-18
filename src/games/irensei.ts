@@ -710,7 +710,7 @@ export class IrenseiGame extends InARowBase {
                 E: [
                     { name: "piece-borderless", colour: "#FFF" },
                     { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
-                    { text: "6+" },
+                    { text: "8+" },
                 ],
             },
             pieces: pstr,

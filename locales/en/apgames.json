@@ -52,7 +52,6 @@
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
-        "halfcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
@@ -539,11 +538,6 @@
             "PARTIAL_MOVE": "Select a destination, or select the same piece again to begin an exchange.",
             "UNEQUAL_EXCHANGE": "Exchanges must result in the same combined speed. The original combined speed was {{original}}. Your requested move would change that to {{proposed}}."
         },
-        "clearcut": {
-            "BAD_PASS": "You may not pass if legal moves are available.",
-            "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
-            "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut."
-        },
         "clusterfuss": {
             "ADJ_ONLY": "Pieces may only move to orthogonally adjacent spaces.",
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -783,7 +777,7 @@
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
             "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
         },
-        "halfcut": {
+        "clearcut": {
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "BAD_CROSSING_CLEARCUT": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut.",
@@ -1571,7 +1565,7 @@
                 "name": "no tiebreak"
             }
         },
-        "halfcut": {
+        "clearcut": {
             "board": {
                 "name": "19x19 board"
             },
@@ -2049,7 +2043,7 @@
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, second player wins."
             }
         },
-        "halfcut": {
+        "clearcut": {
             "size-15": {
                 "name": "15x15 board"
             },

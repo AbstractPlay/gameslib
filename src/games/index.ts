@@ -48,7 +48,6 @@ import { PhutballGame, IPhutballState } from "./phutball";
 import { ArmadasGame, IArmadasState } from "./armadas";
 import { FlumeGame, IFlumeState } from "./flume";
 import { BoomGame, IBoomState } from "./boom";
-import { ClearcutGame, IClearcutState } from "./clearcut";
 import { AgereGame, IAgereState } from "./agere";
 import { BideGame, IBideState } from "./bide";
 import { MiradorGame, IMiradorState } from "./mirador";
@@ -106,7 +105,7 @@ import { SaltireGame, ISaltireState } from "./saltire";
 import { ConnecticutGame, IConnecticutState } from "./connecticut";
 import { QuaxGame, IQuaxState } from "./quax";
 import { AtollGame, IAtollState } from "./atoll";
-import { HalfcutGame, IHalfcutState } from "./halfcut";
+import { HalfcutGame, IHalfcutState } from "./clearcut";
 import { NexGame, INexState } from "./nex";
 import { PenteGame, IPenteState } from "./pente";
 import { Connect6Game, IConnect6State } from "./connect6";
@@ -164,7 +163,6 @@ export {
     ArmadasGame, IArmadasState,
     FlumeGame, IFlumeState,
     BoomGame, IBoomState,
-    ClearcutGame, IClearcutState,
     AgereGame, IAgereState,
     BideGame, IBideState,
     MiradorGame, IMiradorState,
@@ -247,7 +245,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof GardenGame | typeof OrbGame | typeof MixtourGame |
                               typeof CrosswayGame | typeof TintasGame | typeof StreetcarGame |
                               typeof CourtesanGame | typeof PhutballGame | typeof ArmadasGame |
-                              typeof FlumeGame | typeof BoomGame | typeof ClearcutGame |
+                              typeof FlumeGame | typeof BoomGame |
                               typeof AgereGame | typeof BideGame | typeof MiradorGame |
                               typeof RazzleGame | typeof DagEnNachtGame | typeof HexYGame |
                               typeof MurusGame | typeof BounceGame | typeof QuagmireGame |
@@ -279,7 +277,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame,
     DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame,
     WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame,
-    StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame,
+    StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame,
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
@@ -395,7 +393,7 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
         case "boom":
             return new BoomGame(...args);
         case "clearcut":
-            return new ClearcutGame(...args);
+            return new HalfcutGame(...args);
         case "agere":
             return new AgereGame(...args);
         case "bide":
@@ -510,8 +508,6 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new QuaxGame(...args);
         case "atoll":
             return new AtollGame(...args);
-        case "halfcut":
-            return new HalfcutGame(...args);
         case "nex":
             return new NexGame(...args);
         case "pente":

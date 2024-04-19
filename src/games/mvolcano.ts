@@ -803,7 +803,7 @@ export class MvolcanoGame extends GameBase {
                 }
             };
 
-        const opacity = 0.75;
+        const opacity = altDisplay === 'expanding' ? 0.75 : 1;
         for (let n = 0; n < allColours.length; n++) {
             myLegend[allColours[n] + "1"] = {
                 name: altDisplay === 'expanding' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",

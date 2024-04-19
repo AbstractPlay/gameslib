@@ -69,6 +69,7 @@ export class Connect6Game extends InARowBase {
     private openingProtocol: "centre" | "swap-3rd";
     public toroidal = false;
     public winningLineLength = 6;
+    public defaultBoardSize = 19;
     public overline = "win" as "win" | "ignored" | "forbidden";
     private passTiebreaker = false;
     private tiebreaker?: playerid;

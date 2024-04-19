@@ -25,6 +25,7 @@ export abstract class InARowBase extends GameBase {
     abstract swapped: boolean;
     public toroidal = false;
     public toroidalPadding = 5;
+    public defaultBoardSize = 15;
 
     protected getBoardSize(): number {
         // Get board size from variants.
@@ -38,7 +39,7 @@ export abstract class InARowBase extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 19;
+        return this.defaultBoardSize;
     }
 
     protected pastOpeningFunc(actualPlacements: number, swapOpportunities: number, swapAfterLast: boolean, buffer: number): boolean {
@@ -150,32 +151,32 @@ export abstract class InARowBase extends GameBase {
             [2, []],
         ]);
         // Check rows
-        for (let j = border; j < this.boardSize - 2 * border; j++) {
-            const lines = this.checkLines(border, j, 1, 0, this.winningLineLength, exact, this.toroidal);
+        for (let j = border; j < this.boardSize - border; j++) {
+            const lines = this.checkLines(border, j, 1, 0, this.winningLineLength, exact, this.toroidal, border);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
             }
         }
         // Check columns
-        for (let i = border; i < this.boardSize - 2 * border; i++) {
-            const lines = this.checkLines(i, border, 0, 1, this.winningLineLength, exact, this.toroidal);
+        for (let i = border; i < this.boardSize - border; i++) {
+            const lines = this.checkLines(i, border, 0, 1, this.winningLineLength, exact, this.toroidal, border);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
             }
         }
         // Check upwards diagonals
-        for (let i = border; i < this.boardSize - 2 * border; i++) {
-            const lines = this.checkLines(i, border, -1, 1, this.winningLineLength, exact, this.toroidal)
+        for (let i = border; i < this.boardSize - border; i++) {
+            const lines = this.checkLines(i, border, -1, 1, this.winningLineLength, exact, this.toroidal, border)
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
             }
         }
         // Check downwards diagonals
-        for (let i = border; i < this.boardSize - 2 * border; i++) {
-            const lines = this.checkLines(i, border, 1, 1, this.winningLineLength, exact, this.toroidal)
+        for (let i = border; i < this.boardSize - border; i++) {
+            const lines = this.checkLines(i, border, 1, 1, this.winningLineLength, exact, this.toroidal, border)
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -198,8 +199,8 @@ export abstract class InARowBase extends GameBase {
     protected hasEmptySpace(excludeBorders = false, border = 0): boolean {
         // Check if there is any empty space on the board.
         // This is used to determine if there are still moves left.
-        for (let i = excludeBorders ? border : 0; i < this.boardSize - (excludeBorders ? 2 * border : 0); i++) {
-            for (let j = excludeBorders ? border : 0; j < this.boardSize - (excludeBorders ? 2 * border : 0); j++) {
+        for (let i = excludeBorders ? border : 0; i < this.boardSize - (excludeBorders ? border : 0); i++) {
+            for (let j = excludeBorders ? border : 0; j < this.boardSize - (excludeBorders ? border : 0); j++) {
                 if (!this.board.has(this.coords2algebraic(j, i))) { return true; }
             }
         }

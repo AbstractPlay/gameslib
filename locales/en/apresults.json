@@ -47,6 +47,7 @@
         "multiple_other": "{{count}} pieces were captured.",
         "murus_double": "{{player}} captured two pieces at {{where}}.",
         "noperson": {
+            "group_nowhere": "A group of size {{count}} was captured.",
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhere": "A {{what}} was captured.",
             "nowhere_one": "A piece was captured.",

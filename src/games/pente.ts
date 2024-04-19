@@ -43,7 +43,7 @@ export class PenteGame extends InARowBase {
             },
         ],
         variants: [
-            { uid: "standard-15", group: "board" },
+            { uid: "standard-19", group: "board" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
             { uid: "capture-2-3", group: "capture" },
@@ -659,6 +659,12 @@ export class PenteGame extends InARowBase {
                     this.results.push({ type: "capture", where: selfCaptures.join(","), count: selfCaptures.length, what: "self" });
                 }
                 placePlayer = placePlayer % 2 + 1 as playerid;
+            }
+            if (this.stack.length === 2 && this.openingProtocol === "swap-2" && moves.length === 2) {
+                this.swapped = !this.swapped;
+                this.board.forEach((v, k) => {
+                    this.board.set(k, v === 1 ? 2 : 1);
+                })
             }
         }
         if (partial) { return this; }

@@ -44,7 +44,9 @@ export class FourInARowGame extends InARowBase {
         variants: [
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
-            { uid: "sticky", group: "sticky" },
+            { uid: "edge-grow-4", group: "placement" },
+            // { uid: "edge-drop-4", group: "placement" },
+            { uid: "interior-gravity-4", group: "placement" },
             { uid: "clear", group: "clear" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -71,12 +73,13 @@ export class FourInARowGame extends InARowBase {
     public variants: string[] = [];
     public swapped = false;
     public boardSize = 0;
+    public defaultBoardSize = 8;
     private openingProtocol: "none" | "swap-2" | "swap-5";
     public toroidal = false;
     public winningLineLength = 4;
     public overline = "win" as "win" | "ignored" | "forbidden";
     private clear: boolean;
-    private sticky: boolean;
+    private placement: "bottom" | "grow-4" | "drop-4" | "gravity-4";
 
     constructor(state?: IFourInARowState | string, variants?: string[]) {
         super();
@@ -109,8 +112,7 @@ export class FourInARowGame extends InARowBase {
         this.load();
         this.openingProtocol = this.getOpeningProtocol();
         this.clear = this.variants.includes("clear");
-        // this.sticky = this.variants.includes("sticky");
-        this.sticky = true;
+        this.placement = this.getPlacement();
     }
 
     public load(idx = -1): FourInARowGame {
@@ -154,6 +156,16 @@ export class FourInARowGame extends InARowBase {
         return this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "none";
     }
 
+    private getPlacement(): "bottom" | "grow-4" | "drop-4" | "gravity-4" {
+        return this.variants.includes("edge-grow-4")
+            ? "grow-4"
+            : this.variants.includes("edge-drop-4")
+            ? "drop-4"
+            : this.variants.includes("interior-gravity-4")
+            ? "gravity-4"
+            : "bottom";
+    }
+
     private hasMoveGeneration(): boolean {
         // If the number of moves is too large, we don't want to generate the entire move list.
         if (this.openingProtocol === "swap-2" && this.stack.length < 3) { return false; }
@@ -180,41 +192,158 @@ export class FourInARowGame extends InARowBase {
         // Get all spaces where a piece can be placed.
         // `placed` is a list of cells that have already been placed but not committed to `this.board`.
         const moveSet: Set<string> = new Set();
-        for (let col = 0; col < this.boardSize; col++) {
-            for (let row = 0; row < this.boardSize; row++) {
-                const cell = this.coords2algebraic(col, this.boardSize - row - 1);
-                if (this.board.has(cell) || placed.includes(cell)) { continue; }
-                moveSet.add(cell);
-                break;
-            }
-        }
-        if (this.sticky) {
+        if (this.placement === "drop-4") {
             for (let col = 0; col < this.boardSize; col++) {
+                let foundEmpty = false;
+                let prevCell: string | undefined;
+                for (let row = 0; row < this.boardSize; row++) {
+                    const cell = this.coords2algebraic(col, this.boardSize - row - 1);
+                    if (this.board.has(cell) || placed.includes(cell)) {
+                        if (!foundEmpty) { continue; }
+                        moveSet.add(prevCell!);
+                        prevCell = undefined;
+                        break;
+                    }
+                    foundEmpty = true;
+                    prevCell = cell;
+                }
+                if (prevCell !== undefined) { moveSet.add(prevCell); }
+            }
+            for (let col = 0; col < this.boardSize; col++) {
+                let foundEmpty = false;
+                let prevCell: string | undefined;
                 for (let row = 0; row < this.boardSize; row++) {
                     const cell = this.coords2algebraic(col, row);
-                    if (this.board.has(cell) || placed.includes(cell)) { continue; }
-                    moveSet.add(cell);
-                    break;
+                    if (this.board.has(cell) || placed.includes(cell)) {
+                        if (!foundEmpty) { continue; }
+                        moveSet.add(prevCell!);
+                        prevCell = undefined;
+                        break;
+                    }
+                    foundEmpty = true;
+                    prevCell = cell;
                 }
+                if (prevCell !== undefined) { moveSet.add(prevCell); }
             }
             for (let row = 0; row < this.boardSize; row++) {
+                let foundEmpty = false;
+                let prevCell: string | undefined;
                 for (let col = 0; col < this.boardSize; col++) {
                     const cell = this.coords2algebraic(col, row);
+                    if (this.board.has(cell) || placed.includes(cell)) {
+                        if (!foundEmpty) { continue; }
+                        moveSet.add(prevCell!);
+                        prevCell = undefined;
+                        break;
+                    }
+                    foundEmpty = true;
+                    prevCell = cell;
+                }
+                if (prevCell !== undefined) { moveSet.add(prevCell); }
+            }
+            for (let row = 0; row < this.boardSize; row++) {
+                let foundEmpty = false;
+                let prevCell: string | undefined;
+                for (let col = 0; col < this.boardSize; col++) {
+                    const cell = this.coords2algebraic(this.boardSize - col - 1, row);
+                    if (this.board.has(cell) || placed.includes(cell)) {
+                        if (!foundEmpty) { continue; }
+                        moveSet.add(prevCell!);
+                        prevCell = undefined;
+                        break;
+                    }
+                    foundEmpty = true;
+                    prevCell = cell;
+                }
+                if (prevCell !== undefined) { moveSet.add(prevCell); }
+            }
+        } else if (this.placement === "gravity-4") {
+            for (let i = 0; i < this.boardSize; i++) {
+                for (let j = 0; j < this.boardSize; j++) {
+                    const cell = this.coords2algebraic(i, j);
+                    if (this.board.has(cell) || placed.includes(cell)) { continue; }
+                    moveSet.add(this.gravityMove(i, j));
+                }
+            }
+        } else {
+            // Normal downwards four in a row.
+            for (let col = 0; col < this.boardSize; col++) {
+                for (let row = 0; row < this.boardSize; row++) {
+                    const cell = this.coords2algebraic(col, this.boardSize - row - 1);
                     if (this.board.has(cell) || placed.includes(cell)) { continue; }
                     moveSet.add(cell);
                     break;
                 }
             }
-            for (let row = 0; row < this.boardSize; row++) {
+            if (this.placement === "grow-4") {
                 for (let col = 0; col < this.boardSize; col++) {
-                    const cell = this.coords2algebraic(this.boardSize - col - 1, row);
-                    if (this.board.has(cell) || placed.includes(cell)) { continue; }
-                    moveSet.add(cell);
-                    break;
+                    for (let row = 0; row < this.boardSize; row++) {
+                        const cell = this.coords2algebraic(col, row);
+                        if (this.board.has(cell) || placed.includes(cell)) { continue; }
+                        moveSet.add(cell);
+                        break;
+                    }
+                }
+                for (let row = 0; row < this.boardSize; row++) {
+                    for (let col = 0; col < this.boardSize; col++) {
+                        const cell = this.coords2algebraic(col, row);
+                        if (this.board.has(cell) || placed.includes(cell)) { continue; }
+                        moveSet.add(cell);
+                        break;
+                    }
+                }
+                for (let row = 0; row < this.boardSize; row++) {
+                    for (let col = 0; col < this.boardSize; col++) {
+                        const cell = this.coords2algebraic(this.boardSize - col - 1, row);
+                        if (this.board.has(cell) || placed.includes(cell)) { continue; }
+                        moveSet.add(cell);
+                        break;
+                    }
                 }
             }
         }
         return [...moveSet];
+    }
+
+    private gravityMove(i: number, j: number): string {
+        // Get the cell where the piece will fall to for the gravity-4 variant.
+        const cell = this.coords2algebraic(i, j);
+        const d1 = i + j - this.boardSize + 1;
+        const d2 = i - j;
+        if (d1 < 0) {
+            if (d2 === 0) { return this.lastAvailableSpace(cell, -1, -1); }
+            else if (d2 < 0) { return this.lastAvailableSpace(cell, -1, 0); }
+            else if (d2 > 0) { return this.lastAvailableSpace(cell, 0, -1); }
+        } else if (d1 > 0) {
+            if (d2 === 0) { return this.lastAvailableSpace(cell, 1, 1); }
+            else if (d2 < 0) { return this.lastAvailableSpace(cell, 0, 1); }
+            else if (d2 > 0) { return this.lastAvailableSpace(cell, 1, 0); }
+        } else {
+            if (d2 === 0) { return cell; }
+            else if (d2 < 0) { return this.lastAvailableSpace(cell, -1, 1); }
+            else if (d2 > 0) { return this.lastAvailableSpace(cell, 1, -1); }
+        }
+        // Should never reach here.
+        return cell;
+    }
+
+    private lastAvailableSpace(cell: string, dx: number, dy: number): string {
+        // Step in direction (dx, dy) until we find non-empty space or the edge of the board.
+        // The last empty space is space right before the non-empty space or the edge of the board.
+        // If the next space is immediately non-empty or the edge, just return the original cell.
+        let prevCell = cell;
+        let [x, y] = this.algebraic2coords(cell);
+        while (true) {
+            x += dx;
+            y += dy;
+            if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) { break }
+            const nextCell = this.coords2algebraic(x, y);
+            if (this.board.has(nextCell)) {
+                return prevCell;
+            }
+            prevCell = nextCell;
+        }
+        return prevCell;
     }
 
     public randomMove(): string {
@@ -449,7 +578,7 @@ export class FourInARowGame extends InARowBase {
             }
         }
         if (add) { clears.push("S"); }
-        if (this.sticky) {
+        if (this.placement.includes("4")) {
             add = true;
             for (let i = 0; i < this.boardSize; i++) {
                 if (!this.board.has(this.coords2algebraic(i, 0))) {
@@ -534,6 +663,12 @@ export class FourInARowGame extends InARowBase {
                 this.board.set(move, placePlayer);
                 placePlayer = placePlayer % 2 + 1 as playerid;
             }
+            if (this.stack.length === 2 && this.openingProtocol === "swap-2" && moves.length === 2) {
+                this.swapped = !this.swapped;
+                this.board.forEach((v, k) => {
+                    this.board.set(k, v === 1 ? 2 : 1);
+                })
+            }
             if (this.clear && !this.hasInARow(...this.algebraic2coords(moves[0]), this.currplayer, 4, false)) {
                 let clearDirection;
                 do {
@@ -572,13 +707,6 @@ export class FourInARowGame extends InARowBase {
             }
         }
         if (winner.length > 0) {
-            const winningLinesMap2 = this.getWinningLinesMap();
-            for (const player of [1, 2] as playerid[]) {
-                if (winningLinesMap2.get(player)!.length > 0) {
-                    winner.push(player);
-                    this.winningLines.push(...winningLinesMap2.get(player)!);
-                }
-            }
             this.gameover = true;
             this.winner = winner;
         }
@@ -629,7 +757,7 @@ export class FourInARowGame extends InARowBase {
         pstr = pstr.replace(new RegExp(`-{${renderBoardSize}}`, "g"), "_");
         let markers: Array<any> | undefined = [];
         if (this.clear) {
-            if (this.sticky) {
+            if (this.placement.includes("4")) {
                 markers.push(...[
                     {
                         type: "shading", colour: "#FFA500", opacity: 0.1,

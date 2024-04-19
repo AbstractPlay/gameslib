@@ -123,7 +123,7 @@ export interface Variant {
    */
   group?: string;
   /**
-   * If present and `false`, the variant will not appear in the production environment.
+   * If present and `true`, the variant will not appear in the production environment.
    */
   experimental?: boolean;
   [k: string]: unknown;

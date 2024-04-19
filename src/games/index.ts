@@ -91,7 +91,6 @@ import { FightopiaGame, IFightopiaState } from "./fightopia";
 import { HensGame, IHensState } from "./hens";
 import { TBTGame, ITBTState } from "./tbt";
 import { QueenslandGame, IQueenslandState } from "./queensland";
-import { BinarGame, IBinarState } from "./binar";
 import { TaflGame, ITaflState } from "./tafl";
 import { FourGame, IFourState } from "./four";
 import { ValleyGame, IValleyState } from "./valley";
@@ -208,7 +207,6 @@ export {
     HensGame, IHensState,
     TBTGame, ITBTState,
     QueenslandGame, IQueenslandState,
-    BinarGame, IBinarState,
     TaflGame, ITaflState,
     FourGame, IFourState,
     ValleyGame, IValleyState,
@@ -263,7 +261,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VeletasGame | typeof GessGame | typeof OnagerGame |
                               typeof VergeGame | typeof TableroGame | typeof ClusterfussGame |
                               typeof ConhexGame | typeof FightopiaGame | typeof HensGame |
-                              typeof TBTGame | typeof QueenslandGame | typeof BinarGame |
+                              typeof TBTGame | typeof QueenslandGame |
                               typeof TaflGame | typeof FourGame | typeof ValleyGame |
                               typeof DameoGame | typeof TakeGame | typeof SympleGame |
                               typeof RootBoundGame | typeof TwixtGame | typeof ReversiGame |
@@ -287,7 +285,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
     TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, BloomsExpGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
-    FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
+    FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame,
@@ -482,8 +480,6 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TBTGame(...args);
         case "queensland":
             return new QueenslandGame(...args);
-        case "binar":
-            return new BinarGame(...args);
         case "tafl":
             return new TaflGame(...args);
         case "four":

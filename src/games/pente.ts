@@ -43,7 +43,7 @@ export class PenteGame extends InARowBase {
             },
         ],
         variants: [
-            { uid: "standard-15", group: "board" },
+            { uid: "standard-19", group: "board" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
             { uid: "capture-2-3", group: "capture" },

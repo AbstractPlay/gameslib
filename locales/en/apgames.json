@@ -1637,7 +1637,7 @@
         },
         "pente": {
             "board": {
-                "name": "standard 19x19 board"
+                "name": "standard 15x15 board"
             },
             "opening": {
                 "name": "pro opening",
@@ -2219,8 +2219,8 @@
             }
         },
         "pente": {
-            "standard-15": {
-                "name": "Standard 15x15 board"
+            "standard-19": {
+                "name": "Standard 19x19 board"
             },
             "swap-2": {
                 "name": "Swap-2 opening",

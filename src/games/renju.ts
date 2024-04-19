@@ -159,21 +159,6 @@ export class RenjuGame extends InARowBase {
         return this;
     }
 
-    protected getBoardSize(): number {
-        // Get board size from variants.
-        if (this.variants !== undefined && this.variants.length > 0 && this.variants[0] !== undefined && this.variants[0].length > 0) {
-            const sizeVariants = this.variants.filter(v => v.includes("standard") || v.includes("toroidal"))
-            if (sizeVariants.length > 0) {
-                const size = sizeVariants[0].match(/\d+/);
-                return parseInt(size![0], 10);
-            }
-            if (isNaN(this.boardSize)) {
-                throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
-            }
-        }
-        return 15;
-    }
-
     private getOpeningProtocol(): OpeningProtocol {
         // Get opening protocol from variants.
         const openingVariants = this.variants.filter(v => openingProtocols.includes(v as OpeningProtocol));

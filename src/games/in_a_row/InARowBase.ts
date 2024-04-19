@@ -25,6 +25,7 @@ export abstract class InARowBase extends GameBase {
     abstract swapped: boolean;
     public toroidal = false;
     public toroidalPadding = 5;
+    public defaultBoardSize = 15;
 
     protected getBoardSize(): number {
         // Get board size from variants.
@@ -38,7 +39,7 @@ export abstract class InARowBase extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 19;
+        return this.defaultBoardSize;
     }
 
     protected pastOpeningFunc(actualPlacements: number, swapOpportunities: number, swapAfterLast: boolean, buffer: number): boolean {

@@ -68,6 +68,7 @@ export class IrenseiGame extends InARowBase {
     public variants: string[] = [];
     public swapped = false;
     public boardSize = 0;
+    public defaultBoardSize = 19;
     private openingProtocol: "none" | "swap-2" | "swap-5";
     public toroidal = false;
     public winningLineLength = 7;

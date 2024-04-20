@@ -699,7 +699,7 @@ export class PenteGame extends InARowBase {
         // Only for when overtime-capture variant is enabled, players can only win
         // when they have a 5-in-a-row at the end of the opponent's turn.
         const checks: playerid[] = [];
-        if (this.overtimeCapture) {
+        if (this.overtimeCapture && !this.gameover) {
             const winningLinesMap = this.getWinningLinesMap();
             for (const player of [1, 2] as playerid[]) {
                 if (winningLinesMap.get(player)!.length > 0) {
@@ -718,9 +718,9 @@ export class PenteGame extends InARowBase {
             if (winningLinesMap.get(player)!.length > 0) {
                 // If the overtime-capture variant is enabled, players win if they have a 5-in-a-row at the end of the opponent's turn.
                 if (!this.overtimeCapture || this.overtimeCapture && player === this.currplayer) {
+                    this.winningLines.push(...winningLinesMap.get(player)!);
                     winner.push(player);
                 }
-                this.winningLines.push(...winningLinesMap.get(player)!);
             }
         }
         if (winner.length === 0 || this.stack.length > 1 && this.stack[this.stack.length - 1].winningLines.length === 0) {

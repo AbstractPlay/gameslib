@@ -38,7 +38,7 @@ export class IrenseiGame extends InARowBase {
             },
         ],
         variants: [
-            { uid: "toroidal-15", group: "board" },
+            // { uid: "toroidal-15", group: "board" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
         ],

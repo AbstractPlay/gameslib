@@ -635,6 +635,7 @@ export class PenteGame extends InARowBase {
             this.board.forEach((v, k) => {
                 this.board.set(k, v === 1 ? 2 : 1);
             })
+            this.captureCounts = [this.captureCounts[1], this.captureCounts[0]];
             this.results.push({ type: "pie" });
         } else {
             const moves = m.split(",");

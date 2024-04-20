@@ -334,7 +334,7 @@ export class IrenseiGame extends InARowBase {
         }
         if (this.isSelfCapture(moves[0], this.currplayer)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.irensei.SELFCAPTURE", { where: moves[0] });
+            result.message = i18next.t("apgames:validation.irensei.SELF_CAPTURE", { where: moves[0] });
             return result;
         }
         if (this.checkKo(moves[0], this.currplayer)) {

@@ -1153,7 +1153,7 @@
             "RIF32": "Place 1 more tentative fifth.",
             "RIF3_EXCESS": "You may place only 2 tentative fifths.",
             "SYMMETRY": "The tentative fifths must not be placed in symmetrical positions.",
-            "RIF4_CHOOSE": "You have to choose one of the 2 tentative fifths",
+            "RIF4_CHOOSE": "You have to choose one of the two tentative fifths",
             "RIF42": "Select an intersection to place the sixth stone.",
             "RIF4_EXCESS": "You have too many items in your move.",
             "SOOSYRV2_STONES_BEFORE_TENTATIVE": "You need to place your stone before declaring the number of tentative fifths.",
@@ -1174,7 +1174,7 @@
             "TARAGUCHI_RESTRICTION5": "The fifth stone has to be at the centre 9x9 square.",
             "TARAGUCHI_RESTRICTION5_INSIDE": "Submit the move, or continue placing 9 more tentative fifths.",
             "TARAGUCHI_RESTRICTION5_MORE_other": "Place {{count}} more tentative fifths.",
-            "TARAGUCHI_RESTRICTION5_MORE_one": "Place 1 more tentative fifth.",
+            "TARAGUCHI_RESTRICTION5_MORE_one": "Place one more tentative fifth.",
             "TARAGUCHI_RESTRICTION5_EXCESS": "You may place only 10 tentative fifths.",
             "TARAGUCHI6_CHOOSE": "You have to choose one of the 10 tentative fifths.",
             "TARAGUCHI62": "Select an intersection to place the sixth stone.",
@@ -1185,16 +1185,16 @@
             "YAMAGUCHI1_TENTATIVE_COUNT_EXCEED": "The number of tentative fifths must be at most 12.",
             "YAMAGUCHI3_EXCESS_one": "You may only place 1 tentative fifth.",
             "YAMAGUCHI3_EXCESS_other": "You may only place {{count}} tentative fifths.",
-            "YAMAGUCHI3_MORE_one": "Place 1 more tentative fifth.",
+            "YAMAGUCHI3_MORE_one": "Place one more tentative fifth.",
             "YAMAGUCHI3_MORE_other": "Place {{count}} more tentative fifths.",
             "YAMAGUCHI4_CHOOSE_one": "You have to choose the one tentative fifth.",
             "YAMAGUCHI4_CHOOSE_other": "You have to choose one of the {{count}} tentative fifths.",
             "YAMAGUCHI42": "Select an intersection to place the sixth stone.",
             "YAMAGUCHI4_EXCESS": "You have too many items in your move.",
             "RENJU_OPENING1_INCORRECT": "The first stone has to be at the centre of the board.",
-            "RENJU_OPENING2_INCORRECT": "The second stone has to be at the centre 3x3 square. In this this implementation, symmetries are disallowed. Choose one of the 2 highlighted intersections.",
+            "RENJU_OPENING2_INCORRECT": "The second stone has to be at the centre 3x3 square. In this this implementation, symmetries are disallowed. Choose one of the two highlighted intersections.",
             "RENJU_OPENING3_INCORRECT": "The third stone has to be at the centre 5x5 square. In this this implementation, symmetries are disallowed. Choose one of the 13 highlighted intersections.",
-            "RENJU_OPENING2": "Place the second stone at the centre 3x3 square. Choose one of the 2 highlighted intersections.",
+            "RENJU_OPENING2": "Place the second stone at the centre 3x3 square. Choose one of the two highlighted intersections.",
             "RENJU_OPENING3": "Place the third stone at the centre 5x5 square. Choose one of the 13 highlighted intersections.",
             "RENJU_OPENING_EXCESS": "You may only place 3 stones."
         },
@@ -1518,7 +1518,7 @@
         },
         "connect6": {
             "board": {
-                "name": "standard 19x19 board"
+                "name": "19x19 board"
             },
             "opening": {
                 "name": "centre opening",
@@ -1555,7 +1555,7 @@
         },
         "gomoku": {
             "board": {
-                "name": "standard 15x15 board"
+                "name": "15x15 board"
             },
             "opening": {
                 "name": "pro opening",
@@ -1588,7 +1588,7 @@
         },
         "irensei": {
             "board": {
-                "name": "standard 19x19 board"
+                "name": "19x19 board"
             },
             "tiebreaker": {
                 "name": "no tiebreak"
@@ -1617,7 +1617,7 @@
         },
         "pente": {
             "board": {
-                "name": "standard 15x15 board"
+                "name": "15x15 board"
             },
             "opening": {
                 "name": "pro opening",
@@ -2023,7 +2023,7 @@
             },
             "clear": {
                 "name": "Clear",
-                "description": "If a row at the edge is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the 4-directional variants, the board will shift in any direction(s) where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour."
+                "description": "If a row at the edge is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the 4-directional variants, the board will shift in any directions where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour."
             }
         },
         "gomoku": {
@@ -2113,7 +2113,6 @@
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins."
             }
         },
-
         "loa": {
             "scrambled": {
                 "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",

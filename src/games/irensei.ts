@@ -43,7 +43,7 @@ export class IrenseiGame extends InARowBase {
             { uid: "swap-5", group: "opening" },
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "multistep", "custom-colours", "rotate90"],
+        flags: ["multistep", "custom-colours", "rotate90"],
         displays: [{uid: "hide-restrictions"}],
     };
 

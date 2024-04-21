@@ -51,7 +51,7 @@ export class FendoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             }
         ],
-        categories: ["goal>area", "mechanic>block", "mechanic>move", "mechanic>enclose", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>area", "mechanic>block", "mechanic>move", "mechanic>enclose", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "scores", "automove", "multistep", "perspective"]
     };
 

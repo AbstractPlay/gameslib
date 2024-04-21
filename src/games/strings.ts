@@ -50,7 +50,7 @@ export class StringsGame extends GameBaseSimultaneous {
                 name: "Clark D. Rodeffer"
             }
         ],
-        categories: ["goal>area", "mechanic>displace",  "mechanic>share", "mechanic>simultaneous", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>area", "mechanic>displace",  "mechanic>share", "mechanic>simultaneous", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         flags: ["simultaneous", "scores"]
     };
 

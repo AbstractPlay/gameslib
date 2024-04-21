@@ -45,7 +45,7 @@ export class TBTGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        categories: ["goal>align", "mechanic>share",  "mechanic>move", "mechanic>stack", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>align", "mechanic>share",  "mechanic>move", "mechanic>stack", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         flags: ["perspective", "automove", "no-explore"]
     };
     public static coords2algebraic(x: number, y: number): string {

@@ -41,7 +41,7 @@ export class BounceGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
-        categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "pie"],
         variants: [
             {

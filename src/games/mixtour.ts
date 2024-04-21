@@ -42,7 +42,7 @@ export class MixtourGame extends GameBase {
             {uid: "three", group: "scores"},
             {uid: "five", group: "scores"}
         ],
-        categories: ["goal>score>race", "mechanic>coopt",  "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>race", "mechanic>coopt",  "mechanic>move", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "scores", "automove", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {

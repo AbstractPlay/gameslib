@@ -122,6 +122,10 @@ export interface Variant {
    * If present, variants of the same `group` are considered mutually exclusive
    */
   group?: string;
+  /**
+   * If present and `true`, the variant will not appear in the production environment.
+   */
+  experimental?: boolean;
   [k: string]: unknown;
 }
 export interface AlternativeDisplay {

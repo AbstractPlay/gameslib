@@ -42,7 +42,7 @@ export class EpamGame extends GameBase {
                 group: "setup"
             }
         ],
-        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "limited-pieces"]
     };
 

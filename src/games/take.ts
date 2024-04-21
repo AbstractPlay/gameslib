@@ -45,7 +45,7 @@ export class TakeGame extends GameBase {
                 urls: ["https://www.marksteeregames.com"]
             }
         ],
-        categories: ["goal>annihilate", "mechanic>place",  "mechanic>enclose", "mechanic>capture", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>annihilate", "mechanic>place",  "mechanic>enclose", "mechanic>capture", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
         flags: [],
         variants: [
             {

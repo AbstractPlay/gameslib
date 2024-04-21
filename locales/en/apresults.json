@@ -47,6 +47,7 @@
         "multiple_other": "{{count}} pieces were captured.",
         "murus_double": "{{player}} captured two pieces at {{where}}.",
         "noperson": {
+            "group_nowhere": "A group of size {{count}} was captured.",
             "multiple": "The following pieces were captured: {{capped}}.",
             "nowhere": "A {{what}} was captured.",
             "nowhere_one": "A piece was captured.",
@@ -98,7 +99,8 @@
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
     "DECLARE": {
-        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored."
+        "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
+        "renju": "{{player}} has declared {{count}} tentative fifths."
     },
     "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
     "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
@@ -198,11 +200,12 @@
     "PASS": {
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
-        "pie": "{{player}} passed to invoke the pie rule.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",
-        "tablero": "{{player}} bumped!"
+        "tablero": "{{player}} bumped!",
+        "tiebreaker": "{{player}} passed, winning the tiebreaker."
     },
+    "PIE": "{{player}} invoked the pie rule.",
     "PLACE": {
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
@@ -226,6 +229,8 @@
         "onager": "{{player}} placed a lake at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
         "quax_diag": "{{player}} placed a diagonal connection at {{where}}.",
+        "renju_tentative": "{{player}} placed a tentative fifth at {{where}}.",
+        "renju_tentative_choose": "{{player}} chose the fifth stone at {{where}}.",
         "streetcar": "A building was placed at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "tumbleweed": "{{player}} placed a stack of size {{count}} at {{where}}.",
@@ -254,6 +259,14 @@
         "nowhat_other": "{{count}} pieces were reclaimed."
     },
     "REMOVE": {
+        "fourinarow_n": "{{player}} cleared a line, shifting the pieces on the board upwards.",
+        "fourinarow_s": "{{player}} cleared a line, shifting the pieces on the board downwards.",
+        "fourinarow_w": "{{player}} cleared a line, shifting the pieces on the board leftwards.",
+        "fourinarow_e": "{{player}} cleared a line, shifting the pieces on the board rightwards.",
+        "fourinarow_nw": "{{player}} cleared two lines, shifting the pieces on the board upwards and leftwards.",
+        "fourinarow_ne": "{{player}} cleared two lines, shifting the pieces on the board upwards and rightwards.",
+        "fourinarow_sw": "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
+        "fourinarow_se": "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
         "remove_one": "{{player}} removed 1 piece from {{where}}.",
         "remove_other": "{{player}} removed {{count}} pieces from {{where}}.",
         "nonum": "{{player}} removed a piece from {{where}}.",
@@ -284,8 +297,8 @@
     "SOW_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
     "SOW_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
     "SWAP": {
-        "nex_neutral": "{{player}} swapped a neutral piece piece to a piece of their colour at {{where}}.",
-        "nex": "{{player}} swapped a piece of their colour to a neutral piece at {{where}}."
+        "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
+        "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece."
     },
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber.",

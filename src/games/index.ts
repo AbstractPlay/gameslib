@@ -48,7 +48,6 @@ import { PhutballGame, IPhutballState } from "./phutball";
 import { ArmadasGame, IArmadasState } from "./armadas";
 import { FlumeGame, IFlumeState } from "./flume";
 import { BoomGame, IBoomState } from "./boom";
-import { ClearcutGame, IClearcutState } from "./clearcut";
 import { AgereGame, IAgereState } from "./agere";
 import { BideGame, IBideState } from "./bide";
 import { MiradorGame, IMiradorState } from "./mirador";
@@ -78,6 +77,7 @@ import { ExxitGame, IExxitState } from "./exxit";
 import { MattockGame, IMattockState } from "./mattock";
 import { CatchupGame, ICatchupState } from "./catchup";
 import { BloomsGame, IBloomsState } from "./blooms";
+import { BloomsExpGame, IBloomsExpState } from "./bloomsexp";
 import { MimicGame, IMimicState } from "./mimic";
 import { VeletasGame, IVeletasState } from "./veletas";
 import { GessGame, IGessState } from "./gess";
@@ -90,7 +90,6 @@ import { FightopiaGame, IFightopiaState } from "./fightopia";
 import { HensGame, IHensState } from "./hens";
 import { TBTGame, ITBTState } from "./tbt";
 import { QueenslandGame, IQueenslandState } from "./queensland";
-import { BinarGame, IBinarState } from "./binar";
 import { TaflGame, ITaflState } from "./tafl";
 import { FourGame, IFourState } from "./four";
 import { ValleyGame, IValleyState } from "./valley";
@@ -106,9 +105,14 @@ import { SaltireGame, ISaltireState } from "./saltire";
 import { ConnecticutGame, IConnecticutState } from "./connecticut";
 import { QuaxGame, IQuaxState } from "./quax";
 import { AtollGame, IAtollState } from "./atoll";
-import { HalfcutGame, IHalfcutState } from "./halfcut";
+import { HalfcutGame, IHalfcutState } from "./clearcut";
 import { NexGame, INexState } from "./nex";
 import { PenteGame, IPenteState } from "./pente";
+import { Connect6Game, IConnect6State } from "./connect6";
+import { GomokuGame, IGomokuState } from "./gomoku";
+import { RenjuGame, IRenjuState } from "./renju";
+import { FourInARowGame, IFourInARowState } from "./fourinarow";
+import { IrenseiGame, IIrenseiState } from "./irensei";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -159,7 +163,6 @@ export {
     ArmadasGame, IArmadasState,
     FlumeGame, IFlumeState,
     BoomGame, IBoomState,
-    ClearcutGame, IClearcutState,
     AgereGame, IAgereState,
     BideGame, IBideState,
     MiradorGame, IMiradorState,
@@ -189,6 +192,7 @@ export {
     MattockGame, IMattockState,
     CatchupGame, ICatchupState,
     BloomsGame, IBloomsState,
+    BloomsExpGame, IBloomsExpState,
     MimicGame, IMimicState,
     VeletasGame, IVeletasState,
     GessGame, IGessState,
@@ -201,7 +205,6 @@ export {
     HensGame, IHensState,
     TBTGame, ITBTState,
     QueenslandGame, IQueenslandState,
-    BinarGame, IBinarState,
     TaflGame, ITaflState,
     FourGame, IFourState,
     ValleyGame, IValleyState,
@@ -220,6 +223,11 @@ export {
     HalfcutGame, IHalfcutState,
     NexGame, INexState,
     PenteGame, IPenteState,
+    Connect6Game, IConnect6State,
+    GomokuGame, IGomokuState,
+    RenjuGame, IRenjuState,
+    FourInARowGame, IFourInARowState,
+    IrenseiGame, IIrenseiState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -237,7 +245,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof GardenGame | typeof OrbGame | typeof MixtourGame |
                               typeof CrosswayGame | typeof TintasGame | typeof StreetcarGame |
                               typeof CourtesanGame | typeof PhutballGame | typeof ArmadasGame |
-                              typeof FlumeGame | typeof BoomGame | typeof ClearcutGame |
+                              typeof FlumeGame | typeof BoomGame |
                               typeof AgereGame | typeof BideGame | typeof MiradorGame |
                               typeof RazzleGame | typeof DagEnNachtGame | typeof HexYGame |
                               typeof MurusGame | typeof BounceGame | typeof QuagmireGame |
@@ -247,17 +255,19 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof IqishiqiGame | typeof FurlGame | typeof DiffusionGame |
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
                               typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
-                              typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
+                              typeof CatchupGame | typeof BloomsGame | typeof BloomsExpGame | typeof MimicGame |
                               typeof VeletasGame | typeof GessGame | typeof OnagerGame |
                               typeof VergeGame | typeof TableroGame | typeof ClusterfussGame |
                               typeof ConhexGame | typeof FightopiaGame | typeof HensGame |
-                              typeof TBTGame | typeof QueenslandGame | typeof BinarGame |
+                              typeof TBTGame | typeof QueenslandGame |
                               typeof TaflGame | typeof FourGame | typeof ValleyGame |
                               typeof DameoGame | typeof TakeGame | typeof SympleGame |
                               typeof RootBoundGame | typeof TwixtGame | typeof ReversiGame |
                               typeof BlockadeGame | typeof CairoCorridorGame | typeof SaltireGame |
                               typeof ConnecticutGame | typeof QuaxGame | typeof AtollGame |
-                              typeof HalfcutGame | typeof NexGame | typeof PenteGame
+                              typeof HalfcutGame | typeof NexGame | typeof PenteGame |
+                              typeof Connect6Game | typeof GomokuGame | typeof RenjuGame |
+                              typeof FourInARowGame | typeof IrenseiGame
                 >();
 // Manually add each game to the following array
 [
@@ -267,16 +277,16 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     FabrikGame, ManalathGame, UrbinoGame, FendoGame, ArchimedesGame, ZolaGame, MonkeyQueenGame,
     DipoleGame, AlfredsWykeGame, RealmGame, ACityGame, FanoronaGame, FocusGame, StringsGame,
     WitchGame, ComplicaGame, PigsGame, GardenGame, OrbGame, MixtourGame, CrosswayGame, TintasGame,
-    StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame, ClearcutGame,
+    StreetcarGame, CourtesanGame, PhutballGame, ArmadasGame, FlumeGame, BoomGame,
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
-    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, MimicGame,
+    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, BloomsExpGame, MimicGame,
     VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
-    FightopiaGame, HensGame, TBTGame, QueenslandGame, BinarGame, TaflGame, FourGame, ValleyGame,
+    FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
-    PenteGame,
+    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -383,7 +393,7 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
         case "boom":
             return new BoomGame(...args);
         case "clearcut":
-            return new ClearcutGame(...args);
+            return new HalfcutGame(...args);
         case "agere":
             return new AgereGame(...args);
         case "bide":
@@ -442,6 +452,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CatchupGame(...args);
         case "blooms":
             return new BloomsGame(...args);
+        case "bloomsexp":
+            return new BloomsExpGame(...args);
         case "mimic":
             return new MimicGame(...args);
         case "veletas":
@@ -466,8 +478,6 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TBTGame(...args);
         case "queensland":
             return new QueenslandGame(...args);
-        case "binar":
-            return new BinarGame(...args);
         case "tafl":
             return new TaflGame(...args);
         case "four":
@@ -498,12 +508,20 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new QuaxGame(...args);
         case "atoll":
             return new AtollGame(...args);
-        case "halfcut":
-            return new HalfcutGame(...args);
         case "nex":
             return new NexGame(...args);
         case "pente":
             return new PenteGame(...args);
+        case "connect6":
+            return new Connect6Game(...args);
+        case "gomoku":
+            return new GomokuGame(...args);
+        case "renju":
+            return new RenjuGame(...args);
+        case "fourinarow":
+            return new FourInARowGame(...args);
+        case "irensei":
+            return new IrenseiGame(...args);
     }
     return;
 }

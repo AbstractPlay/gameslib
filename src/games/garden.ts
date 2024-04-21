@@ -79,7 +79,7 @@ export class GardenGame extends GameBase {
                 urls: ["http://www.tjgames.com/"]
             },
         ],
-        categories: ["goal>score>eog", "mechanic>place", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
         flags: ["shared-pieces", "scores", "shared-stash"]
     };
     public static coords2algebraic(x: number, y: number): string {

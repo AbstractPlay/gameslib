@@ -52,7 +52,7 @@ export class ReversiGame extends GameBase {
             {uid: "hexagon-6", group: "board"},
             {uid: "anti", group: "objective"},
         ],
-        categories: ["goal>majority", "mechanic>place",  "mechanic>convert", "board>shape>rect", "board>shape>oct", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>majority", "mechanic>place",  "mechanic>convert", "board>shape>rect", "board>shape>oct", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["scores", "automove"],
         displays: [{uid: "hide-moves"}],
     };
@@ -696,8 +696,8 @@ export class ReversiGame extends GameBase {
             pstr.push(pieces);
         }
         const points: Array<any> | undefined = []
-        let markers: Array<any> | undefined = [
-            { type: "flood", colour: "#000", opacity: 0.2, points: [{ row: this.boardSize - 1, col: this.boardSize - 1}] }
+        const markers: Array<any> | undefined = [
+            { type: "flood", colour: "#444", opacity: 0.6, points: [{ row: this.boardSize - 1, col: this.boardSize - 1}] }
         ];
         if (this.variants.includes("anti")) {
             for (const cell of this.hexTriGraph!.listCells() as string[]) {
@@ -705,7 +705,7 @@ export class ReversiGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            markers = [{ type: "flood", colour: "#FFA500", opacity: 0.1, points }];
+            markers.push({ type: "flood", colour: "#FFA500", opacity: 0.1, points });
         }
         // Build rep
         const rep: APRenderRep =  {

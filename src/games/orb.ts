@@ -48,7 +48,7 @@ export class OrbGame extends GameBase {
         variants: [
             { uid: "noglobes" }
         ],
-        categories: ["goal>breakthrough", "goal>majority", "mechanic>capture",  "mechanic>move", "mechanic>differentiate", "mechanic>merge", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>breakthrough", "goal>majority", "mechanic>capture",  "mechanic>move", "mechanic>differentiate", "mechanic>merge", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["multistep", "limited-pieces", "perspective", "check"]
     };
     public static coords2algebraic(x: number, y: number): string {
@@ -799,7 +799,7 @@ export class OrbGame extends GameBase {
                     player: 1
                 },
                 C: {
-                    name: "sphere-spiral",
+                    name: "orb",
                     player: 1
                 },
                 X: {
@@ -811,7 +811,7 @@ export class OrbGame extends GameBase {
                     player: 2
                 },
                 Z: {
-                    name: "sphere-spiral",
+                    name: "orb",
                     player: 2
                 }
             },

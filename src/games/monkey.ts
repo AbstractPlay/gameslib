@@ -40,7 +40,7 @@ export class MonkeyQueenGame extends GameBase {
                 urls: ["http://www.marksteeregames.com/"]
             },
         ],
-        categories: ["goal>royal-capture", "mechanic>capture",  "mechanic>differentiate", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>royal-capture", "mechanic>capture",  "mechanic>differentiate", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "perspective", "check", "limited-pieces"]
     };
 

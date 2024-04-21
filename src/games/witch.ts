@@ -51,7 +51,7 @@ export class WitchGame extends GameBase {
                 name: "Justin D. Jacobson",
             }
         ],
-        categories: ["goal>score>race", "mechanic>capture",  "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>race", "mechanic>capture",  "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>4c"],
         flags: ["shared-pieces", "player-stashes", "scores", "random-start"]
     };
 

@@ -20,15 +20,15 @@ export interface IMoveState extends IIndividualState {
     scores: number[];
 };
 
-export interface IBloomsState extends IAPGameState {
+export interface IBloomsExpState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class BloomsGame extends GameBase {
+export class BloomsExpGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Blooms",
-        uid: "blooms",
+        name: "BloomsExp",
+        uid: "bloomsexp",
         playercounts: [2],
         version: "20240114",
         dateAdded: "2024-01-18",
@@ -46,7 +46,7 @@ export class BloomsGame extends GameBase {
                 // urls: ["https://www.nickbentley.games/"],
             }
         ],
-        flags: ["multistep", "scores", "no-moves", "custom-randomization"],
+        flags: ["multistep", "scores", "no-moves", "custom-randomization", "experimental"],
         categories: ["goal>score>race", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
             {
@@ -57,6 +57,10 @@ export class BloomsGame extends GameBase {
                 uid: "size-10",
                 group: "board",
             },
+            {
+                uid: "size-13",
+                group: "board",
+            }
         ],
         displays: [{uid: "hide-threatened"}],
     };
@@ -76,14 +80,14 @@ export class BloomsGame extends GameBase {
     private captured: Set<string>[] = [];
     private currMoveHighlight: string[] = [];
 
-    constructor(state?: IBloomsState | string, variants?: string[]) {
+    constructor(state?: IBloomsExpState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: BloomsGame.gameinfo.version,
+                _version: BloomsExpGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -93,10 +97,10 @@ export class BloomsGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IBloomsState;
+                state = JSON.parse(state, reviver) as IBloomsExpState;
             }
-            if (state.game !== BloomsGame.gameinfo.uid) {
-                throw new Error(`The Blooms engine cannot process a game of '${state.game}'.`);
+            if (state.game !== BloomsExpGame.gameinfo.uid) {
+                throw new Error(`The BloomsExp engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -106,7 +110,7 @@ export class BloomsGame extends GameBase {
         this.load();
     }
 
-    public load(idx = -1): BloomsGame {
+    public load(idx = -1): BloomsExpGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -142,18 +146,14 @@ export class BloomsGame extends GameBase {
     }
 
     private getThreshold(): number {
-        // Get threshold from board size.
-        return this.boardSize * 5;
-        // // Alternative: fraction of number of cells.
-        // const fraction = 0.25;
-        // return Math.floor(fraction * (1 + 3 * this.boardSize * (this.boardSize + 1)));
+        return 100;
     }
 
     private getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardSize, this.boardSize * 2 - 1);
     }
 
-    private buildGraph(): BloomsGame {
+    private buildGraph(): BloomsExpGame {
         this.graph = this.getGraph();
         return this;
     }
@@ -393,7 +393,7 @@ export class BloomsGame extends GameBase {
         return result;
     }
 
-    public move(m: string, { partial = false, trusted = false } = {}): BloomsGame {
+    public move(m: string, { partial = false, trusted = false } = {}): BloomsExpGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -494,7 +494,7 @@ export class BloomsGame extends GameBase {
         return captured;
     }
 
-    protected checkEOG(): BloomsGame {
+    protected checkEOG(): BloomsExpGame {
         const prevPlayer = this.currplayer % 2 + 1 as playerid;
         if (this.scores[prevPlayer - 1] >= this.threshold) {
             this.gameover = true;
@@ -511,9 +511,9 @@ export class BloomsGame extends GameBase {
         return this;
     }
 
-    public state(): IBloomsState {
+    public state(): IBloomsExpState {
         return {
-            game: BloomsGame.gameinfo.uid,
+            game: BloomsExpGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -524,7 +524,7 @@ export class BloomsGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: BloomsGame.gameinfo.version,
+            _version: BloomsExpGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -610,14 +610,14 @@ export class BloomsGame extends GameBase {
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],
-                B: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 1, opacity: 0.5 }],
+                B: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 1, opacity: 0.5 }],
                 C: [{ name: "piece", player: 2 }],
-                D: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 2, opacity: 0.5 }],
+                D: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 2, opacity: 0.5 }],
                 // threatened pieces
                 E: [{ name: "piece", player: 1 }, { name: "x" }],
-                F: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 1, opacity: 0.5 }, { name: "x" }],
+                F: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 1, opacity: 0.5 }, { name: "x" }],
                 G: [{ name: "piece", player: 2 }, { name: "x" }],
-                H: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 2, opacity: 0.5 }, { name: "x" }],
+                H: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", player: 2, opacity: 0.5 }, { name: "x" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []
@@ -697,7 +697,7 @@ export class BloomsGame extends GameBase {
         return resolved;
     }
 
-    public clone(): BloomsGame {
-        return new BloomsGame(this.serialize());
+    public clone(): BloomsExpGame {
+        return new BloomsExpGame(this.serialize());
     }
 }

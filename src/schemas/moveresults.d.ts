@@ -51,6 +51,7 @@ export type APMoveResult =
   | {
       type: "pass";
       who?: number;
+      why?: string;
     }
   | {
       type: "deltaScore";
@@ -227,6 +228,7 @@ export type APMoveResult =
     }
   | {
       type: "declare";
+      count?: number;
     }
   | {
       type: "infinite";
@@ -273,4 +275,7 @@ export type APMoveResult =
       where: string;
       with?: string;
       who?: number;
+    }
+  | {
+      type: "pie";
     };

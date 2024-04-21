@@ -50,7 +50,7 @@ export class BoomGame extends GameBase {
             {uid: "pieces-6", group: "setup"},
             {uid: "pieces-8", group: "setup"},
         ],
-        categories: ["goal>score>eog", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>score>eog", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["scores","perspective"]
     };
 

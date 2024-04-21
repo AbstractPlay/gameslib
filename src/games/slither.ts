@@ -51,7 +51,7 @@ export class SlitherGame extends GameBase {
                 group: "movement"
             }
         ],
-        categories: ["goal>connect", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>connect", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove", "multistep", "rotate90"]
     };
 

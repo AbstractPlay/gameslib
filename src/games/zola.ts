@@ -57,7 +57,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
-        categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "limited-pieces", "pie", "aiai"],
     };
 

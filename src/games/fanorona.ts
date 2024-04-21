@@ -36,7 +36,7 @@ export class FanoronaGame extends GameBase {
         urls: [
             "https://en.wikipedia.org/wiki/Fanorona",
         ],
-        categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "mechanic>traditional", "board>shape>rect", "board>connect>other", "components>simple"],
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "mechanic>traditional", "board>shape>rect", "board>connect>other", "components>simple>1per"],
         flags: ["perspective", "limited-pieces", "multistep", "no-moves", "aiai"]
     };
 

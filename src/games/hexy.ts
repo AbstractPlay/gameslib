@@ -39,7 +39,7 @@ export class HexYGame extends GameBase {
                 urls: ["https://marksteeregames.com/"]
             }
         ],
-        categories: ["goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove", "pie"],
         variants: [
             {

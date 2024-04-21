@@ -61,7 +61,7 @@ export class DagEnNachtGame extends GameBase {
                 group: "board",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["aiai"],
     };
 

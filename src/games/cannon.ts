@@ -58,7 +58,7 @@ export class CannonGame extends GameBase {
                 name: "David E. Whitcher"
             }
         ],
-        categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "limited-pieces", "check"],
         displays: [{uid: "hide-threatened"}],
     };

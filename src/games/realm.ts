@@ -107,6 +107,10 @@ export class RealmGame extends GameBase {
             {
                 uid: "relaxed",
             },
+            {
+                uid: "TEST",
+                experimental: true,
+            }
         ],
         categories: ["goal>area", "mechanic>block", "mechanic>differentiate", "mechanic>move", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["multistep", "player-stashes", "scores", "limited-pieces", "no-moves"]

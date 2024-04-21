@@ -43,7 +43,7 @@ export class BideGame extends GameBase {
                 name: "Alek Erickson",
             }
         ],
-        categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>hex", "board>connect>hex", "components>simple"],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["scores", "no-moves", "multistep"]
     };
     public numplayers = 2;

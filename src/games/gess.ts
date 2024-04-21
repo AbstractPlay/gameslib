@@ -37,7 +37,7 @@ export class GessGame extends GameBase {
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
         people: [],
         variants: [],
-        categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective"],
         displays: [{uid: "hide-piece-highlight"}],
     };

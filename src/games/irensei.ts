@@ -588,16 +588,16 @@ export class IrenseiGame extends InARowBase {
                 }
             }
         }
-        if (!this.gameover) {
-            const count = this.stateCount();
-            if (count >= 4) {
-                this.gameover = true;
-                this.winner = [this.currplayer];
-            }
-        }
         if (winner.length > 0) {
             this.gameover = true;
             this.winner = winner;
+        }
+        if (!this.gameover) {
+            const count = this.stateCount();
+            if (count >= 2) {
+                this.gameover = true;
+                this.winner = [this.currplayer];
+            }
         }
         if (this.gameover) {
             this.results.push({ type: "eog" });

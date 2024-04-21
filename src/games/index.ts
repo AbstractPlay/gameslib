@@ -114,6 +114,7 @@ import { RenjuGame, IRenjuState } from "./renju";
 import { FourInARowGame, IFourInARowState } from "./fourinarow";
 import { IrenseiGame, IIrenseiState } from "./irensei";
 import { PrudhGame, IPrudhState } from "./prudh";
+import { SponnectGame, ISponnectState } from "./sponnect";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -230,6 +231,7 @@ export {
     FourInARowGame, IFourInARowState,
     IrenseiGame, IIrenseiState,
     PrudhGame, IPrudhState,
+    SponnectGame, ISponnectState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -269,7 +271,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ConnecticutGame | typeof QuaxGame | typeof AtollGame |
                               typeof HalfcutGame | typeof NexGame | typeof PenteGame |
                               typeof Connect6Game | typeof GomokuGame | typeof RenjuGame |
-                              typeof FourInARowGame | typeof IrenseiGame | typeof PrudhGame
+                              typeof FourInARowGame | typeof IrenseiGame | typeof PrudhGame |
+                              typeof SponnectGame
                 >();
 // Manually add each game to the following array
 [
@@ -288,7 +291,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ConhexGame, FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
-    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
+    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame, SponnectGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -526,6 +529,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new IrenseiGame(...args);
         case "prudh":
             return new PrudhGame(...args);
+        case "sponnect":
+            return new SponnectGame(...args);
     }
     return;
 }

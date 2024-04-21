@@ -1528,9 +1528,19 @@
                 "name": "no tiebreak"
             }
         },
+        "connecticut": {
+            "board": {
+                "name": "board (19x19)"
+            }
+        },
         "courtesan": {
             "board": {
                 "name": "board (8x8)"
+            }
+        },
+        "crossway": {
+            "board": {
+                "name": "board (19x19)"
             }
         },
         "dameo": {
@@ -1670,6 +1680,11 @@
             "ruleset": {
                 "name": "rules",
                 "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts."
+            }
+        },
+        "scaffold": {
+            "board": {
+                "name": "board (19x19)"
             }
         },
         "slither": {
@@ -1925,9 +1940,19 @@
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins."
             }
         },
+        "connecticut": {
+            "size-15": {
+                "name": "Board (15x15)"
+            }
+        },
         "courtesan": {
             "size-6": {
                 "name": "Shorter game (6x6)"
+            }
+        },
+        "crossway": {
+            "size-25": {
+                "name": "Board (25x25)"
             }
         },
         "dagnacht": {
@@ -2358,6 +2383,11 @@
             "basic": {
                 "name": "Basic rules",
                 "description": "A swap must decrease the number of crosscuts. Draws are possible."
+            }
+        },
+        "scaffold": {
+            "size-25": {
+                "name": "Board (25x25)"
             }
         },
         "slither": {

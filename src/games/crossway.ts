@@ -41,7 +41,7 @@ export class CrosswayGame extends GameBase {
             }
         ],
         variants: [
-            { uid: "size-25", group: "board" },
+            { uid: "size-25", group: "board", experimental: true },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove"]

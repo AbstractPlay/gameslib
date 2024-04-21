@@ -1528,6 +1528,11 @@
                 "name": "no tiebreak"
             }
         },
+        "connecticut": {
+            "board": {
+                "name": "board (19x19)"
+            }
+        },
         "courtesan": {
             "board": {
                 "name": "board (8x8)"
@@ -1933,6 +1938,11 @@
             "pass": {
                 "name": "Pass tiebreak",
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins."
+            }
+        },
+        "connecticut": {
+            "size-15": {
+                "name": "Board (15x15)"
             }
         },
         "courtesan": {

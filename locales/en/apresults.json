@@ -294,8 +294,11 @@
         "fnap_triplets_one": "{{player}} scored {{count}} triplet.",
         "fnap_triplets_other": "{{player}} scored {{count}} triplets."
     },
-    "SOW_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
-    "SOW_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
+    "SOW": {
+        "general_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
+        "general_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
+        "prudh": "{{player}} sowed checkers from {{from}} to {{to}}."
+    },
     "SWAP": {
         "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
         "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece."

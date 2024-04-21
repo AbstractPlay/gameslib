@@ -79,6 +79,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
+        "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
@@ -1040,6 +1041,17 @@
             "TOOSMALL": "Upright pieces can only be captured by larger pieces.",
             "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
+        },
+        "prudh": {
+            "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",
+            "PARTIAL": "Select a destination.",
+            "TOOCLOSE": "When running, stacks must move as far as they can.",
+            "TOOFAR_run": "Runs can't extend further than the starting stack can reach.",
+            "TOOFAR_slide": "Slides must stop at the first occupied cell.",
+            "TOOSMALL_run": "Runs must start with a stack of at least two pieces.",
+            "TOOSMALL_slide": "Slides must start with a stack of at least one piece.",
+            "WRONGDIR_run": "Runs must move orthogonally.",
+            "WRONGDIR_slide": "Slides must move diagonally."
         },
         "quagmire": {
             "PLACE_MEEPLE": "Select an empty cell to place a meeple on. The second player should do this twice in a row.",

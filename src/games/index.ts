@@ -113,6 +113,7 @@ import { GomokuGame, IGomokuState } from "./gomoku";
 import { RenjuGame, IRenjuState } from "./renju";
 import { FourInARowGame, IFourInARowState } from "./fourinarow";
 import { IrenseiGame, IIrenseiState } from "./irensei";
+import { PrudhGame, IPrudhState } from "./prudh";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -228,6 +229,7 @@ export {
     RenjuGame, IRenjuState,
     FourInARowGame, IFourInARowState,
     IrenseiGame, IIrenseiState,
+    PrudhGame, IPrudhState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -267,7 +269,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ConnecticutGame | typeof QuaxGame | typeof AtollGame |
                               typeof HalfcutGame | typeof NexGame | typeof PenteGame |
                               typeof Connect6Game | typeof GomokuGame | typeof RenjuGame |
-                              typeof FourInARowGame | typeof IrenseiGame
+                              typeof FourInARowGame | typeof IrenseiGame | typeof PrudhGame
                 >();
 // Manually add each game to the following array
 [
@@ -281,12 +283,12 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
-    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, BloomsExpGame, MimicGame,
-    VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame, ConhexGame,
-    FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
+    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, BloomsExpGame,
+    MimicGame, VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame,
+    ConhexGame, FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
-    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame,
+    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -522,6 +524,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new FourInARowGame(...args);
         case "irensei":
             return new IrenseiGame(...args);
+        case "prudh":
+            return new PrudhGame(...args);
     }
     return;
 }

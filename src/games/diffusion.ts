@@ -451,7 +451,7 @@ export class DiffusionGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "sow":
-                node.push(i18next.t("apresults:SOW", {player, pits: r.pits.join(", "), count: r.pits.length}));
+                node.push(i18next.t("apresults:SOW.general", {player, pits: r.pits.join(", "), count: r.pits.length}));
                 resolved = true;
                 break;
         }

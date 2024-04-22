@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -171,7 +170,15 @@ export class PrudhGame extends GameBase {
                     ray = ray.slice(0, sizeFrom);
                 }
                 if (ray.length > 0) {
-                    moves.push(`${from}-${ray[ray.length - 1]}`);
+                    // possible run
+                    // make sure there's at least one capture
+                    const to = ray[ray.length - 1];
+                    const [tx, ty] = PrudhGame.algebraic2coords(to);
+                    const between = RectGrid.between(x, y, tx, ty).map(pt => PrudhGame.coords2algebraic(...pt));
+                    const results = [...between, to].map(c => this.runResult(sizeFrom, c, player));
+                    if (results.includes("capture")) {
+                        moves.push(`${from}-${to}`);
+                    }
                 }
             }
         }
@@ -181,15 +188,32 @@ export class PrudhGame extends GameBase {
 
     // This function relies on the move list
     private findPoints(start: string): string[] | undefined {
-        console.log(`Finding points from ${start}`);
         if (! this.board.has(start)) {
             return undefined;
         }
         const allMoves = this.moves();
         const matching = allMoves.filter(m => m.startsWith(start));
         const targets = matching.map(m => m.substring(3));
-        console.log(`Returning ${JSON.stringify(targets)}`);
         return targets;
+    }
+
+    // Determine the result of "running" a piece onto a given cell.
+    // Used by both move generation and execution to resolve runs.
+    private runResult(sizeFrom: number, to: string, runner?: playerid): "place"|"capture" {
+        if (runner === undefined) {
+            runner = this.currplayer;
+        }
+        const [tx, ty] = PrudhGame.algebraic2coords(to);
+        const sizeTo = this.board.get(to) || 0;
+        let evenOffset: 0|1 = 1;
+        if (runner === 2) {
+            evenOffset = 0;
+        }
+        const toMine = ( ( (ty % 2 === 0) && (tx % 2 === evenOffset) ) || ( (ty % 2 !== 0) && (tx % 2 !== evenOffset) ) );
+        if ( (! toMine) && (sizeTo > 0) && (sizeFrom > sizeTo) ) {
+            return "capture";
+        }
+        return "place";
     }
 
     public randomMove(): string {
@@ -244,6 +268,7 @@ export class PrudhGame extends GameBase {
             return result;
         }
 
+        const allMoves = this.moves();
         const [from, to] = m.split(/[\-\+]/);
         let evenOffset: 0|1 = 1;
         if (this.currplayer === 2) {
@@ -332,10 +357,14 @@ export class PrudhGame extends GameBase {
                     result.message = i18next.t("apgames:validation.prudh.TOOCLOSE");
                     return result;
                 }
+                if (! allMoves.includes(m)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.prudh.RUN_MUST_CAP");
+                    return result;
+                }
             }
 
             // failsafe
-            const allMoves = this.moves();
             if (! allMoves.includes(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.FAILSAFE", {move: m});
@@ -399,11 +428,6 @@ export class PrudhGame extends GameBase {
         if (bearing === undefined) {
             throw new Error(`Invalid bearing made it through: ${m}`);
         }
-        let evenOffset: 0|1 = 1;
-        if (this.currplayer === 2) {
-            evenOffset = 0;
-        }
-        const toMine = ( ( (ty % 2 === 0) && (tx % 2 === evenOffset) ) || ( (ty % 2 !== 0) && (tx % 2 !== evenOffset) ) );
 
         // slide
         if (bearing.length === 2) {
@@ -413,26 +437,26 @@ export class PrudhGame extends GameBase {
         }
         // run
         else {
-            // sow pieces
             this.results.push({type: "sow", pits: [from, to]});
             const between = RectGrid.between(fx, fy, tx, ty).map(pt => PrudhGame.coords2algebraic(...pt));
             for (const cell of [...between, to]) {
                 const oldSize = this.board.get(cell) || 0;
-                this.board.set(cell, oldSize + 1);
                 this.results.push({type: "eject", from, to: cell});
+                const result = this.runResult(sizeFrom, cell);
+                if (result === "capture") {
+                    this.board.delete(cell);
+                    this.results.push({type: "capture", where: cell, what: (oldSize + 1).toString()});
+                    this.scores[this.currplayer - 1] += oldSize + 1;
+                    this.results.push({type: "deltaScore", delta: oldSize + 1});
+                } else {
+                    this.board.set(cell, oldSize + 1);
+                }
             }
             const remaining = sizeFrom - (between.length + 1);
             if (remaining > 0) {
                 this.board.set(from, remaining);
             } else {
                 this.board.delete(from);
-            }
-            // capture if relevant
-            if (! toMine && sizeTo > 0 && sizeFrom > sizeTo) {
-                this.board.delete(to);
-                this.results.push({type: "capture", where: to, what: (sizeTo + 1).toString()});
-                this.scores[this.currplayer - 1] += sizeTo + 1;
-                this.results.push({type: "deltaScore", delta: sizeTo + 1});
             }
         }
 

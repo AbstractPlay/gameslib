@@ -1045,6 +1045,7 @@
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",
             "PARTIAL": "Select a destination.",
+            "RUN_MUST_CAP": "Runs must capture at least one piece.",
             "TOOCLOSE": "When running, stacks must move as far as they can.",
             "TOOFAR_run": "Runs can't extend further than the starting stack can reach.",
             "TOOFAR_slide": "Slides must stop at the first occupied cell.",

@@ -594,7 +594,7 @@ export class IrenseiGame extends InARowBase {
         }
         if (!this.gameover) {
             const count = this.stateCount();
-            if (count >= 2) {
+            if (count >= 1) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
             }

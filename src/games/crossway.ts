@@ -422,6 +422,30 @@ export class CrosswayGame extends GameBase {
             pstr += pieces.join("");
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
+        const referencePoints: [number, number][] = [];
+        const space = this.boardSize < 11 ? 2 : 3;
+        referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
+        referencePoints.push([space, space]);
+        referencePoints.push([space, this.boardSize - space - 1]);
+        referencePoints.push([this.boardSize - space - 1, space]);
+        referencePoints.push([this.boardSize - space - 1, this.boardSize - space - 1]);
+        if (this.boardSize > 15) {
+            referencePoints.push([(this.boardSize - 1) / 2, space]);
+            referencePoints.push([(this.boardSize - 1) / 2, this.boardSize - space - 1]);
+            referencePoints.push([space, (this.boardSize - 1) / 2]);
+            referencePoints.push([this.boardSize - space - 1, (this.boardSize - 1) / 2]);
+        }
+        const referencePointsObj: { row: number, col: number }[] = [];
+        for (const point of referencePoints) {
+            referencePointsObj.push({ row: point[1], col: point[0] });
+        }
+        const markers: Array<any> = [
+            { type:"edge", edge: "N", colour: 1 },
+            { type:"edge", edge: "S", colour: 1 },
+            { type:"edge", edge: "E", colour: 2 },
+            { type:"edge", edge: "W", colour: 2 },
+            { type: "dots", points: referencePointsObj },
+        ];
 
         // Build rep
         const rep: APRenderRep =  {
@@ -429,12 +453,7 @@ export class CrosswayGame extends GameBase {
                 style: "vertex",
                 width: this.boardSize,
                 height: this.boardSize,
-                markers: [
-                    {type:"edge", edge: "N", colour:1},
-                    {type:"edge", edge: "S", colour:1},
-                    {type:"edge", edge: "E", colour:2},
-                    {type:"edge", edge: "W", colour:2},
-                ]
+                markers,
             },
             legend: {
                 A: {

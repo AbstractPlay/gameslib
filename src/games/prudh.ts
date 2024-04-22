@@ -573,6 +573,7 @@ export class PrudhGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
+            options: ["no-piece-click"],
             renderer: "stacking-offset",
             board: {
                 style: "squares-checkered",
@@ -603,18 +604,20 @@ export class PrudhGame extends GameBase {
             pieces: pstr
         };
 
-        // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0 || this._points.length > 0) {
-            rep.annotations = [];
-
-            if (this._points.length > 0) {
-                const points = [];
-                for (const cell of this._points) {
-                    points.push({row: cell[1], col: cell[0]});
-                }
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+        // add valid move indicators by flood filling cells instead of dots
+        if (this._points.length > 0) {
+            const points = [];
+            for (const cell of this._points) {
+                points.push({row: cell[1], col: cell[0]});
             }
+            // @ts-ignore
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+            rep.board.markers.push({type: "flood", points, colour: 2, opacity: 0.5});
+        }
+
+        // Add annotations
+        if (this.stack[this.stack.length - 1]._results.length > 0) {
+            rep.annotations = [];
 
             // @ts-ignore
             for (const move of this.stack[this.stack.length - 1]._results) {

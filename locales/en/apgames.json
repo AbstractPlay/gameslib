@@ -91,6 +91,7 @@
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
+        "sponnect": "A simple Shibumi connection game where every internal space that can be burried in a fully-filled board is pre-filled. You may pass on your turn as long as your opponent didn't pass immediately before.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "symple": "A territory game where you get a point for every stone placed, and a penalty for each individual group of connected pieces. Find the right balance to maximize your score.",
@@ -1247,6 +1248,13 @@
             "NEED_PLACEMENT": "You must place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available."
         },
+        "sponnect": {
+            "INITIAL_INSTRUCTIONS": "Select a space to place a ball.",
+            "INITIAL_INSTRUCTIONS_PASS": "Select a space to place a ball, or pass your turn.",
+            "FIRST_PASS": "You may not pass on the first turn.",
+            "CONSECUTIVE_PASS": "You may not pass if your opponent just passed.",
+            "CANNOT_PLACE": "You may not place at {{move}}."
+        },
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",
             "ALREADY_CLAIMED": "The edge '{{edge}}' is already claimed.",
@@ -1703,6 +1711,11 @@
         "slither": {
             "board": {
                 "name": "9x9 board"
+            }
+        },
+        "sponnect" : {
+            "board": {
+                "name": "4x4 board"
             }
         },
         "symple": {
@@ -2409,6 +2422,11 @@
             },
             "classic": {
                 "name": "Classic movement rules"
+            }
+        },
+        "sponnect": {
+            "size-5": {
+                "name": "5x5 board"
             }
         },
         "streetcar": {

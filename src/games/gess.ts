@@ -577,7 +577,7 @@ export class GessGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
-        const markers: Array<any> | undefined = [
+        const markers: Array<any> = [
             {
                 type: "shading", colour: "#000", opacity: 0.2,
                 points: [{row: 0, col: 0}, {row: 0, col: 1}, {row: this.boardSize, col: 1}, {row: this.boardSize, col: 0}],

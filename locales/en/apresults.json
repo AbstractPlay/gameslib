@@ -154,6 +154,9 @@
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "armadas": "{{player}} moved their ship named {{name}}.",
         "bao": "Initial direction of movement: {{direction}}.",
+        "ball": "{{player}} moved a ball from {{from}} to {{to}}.",
+        "ball_drop_one": "A ball dropped from {{from}} to {{to}}.",
+        "ball_drop_other": "{{count}} balls dropped from {{from}} to {{to}}.",
         "blockade": "{{player}} moved a piece from {{from}} to {{to}}.",
         "byte": {
             "full": "{{player}} moved a full stack from {{from}} to {{to}}.",
@@ -210,6 +213,7 @@
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
         "armadas_3": "{{player}} placed a large ship and named it {{name}}.",
+        "ball": "{{player}} placed a ball at {{where}}.",
         "blockade_h": "{{player}} placed a horizontal fence at {{where}}.",
         "blockade_v": "{{player}} placed a vertical fence at {{where}}.",
         "blooms": "{{player}} placed a {{what}} piece at {{where}}.",

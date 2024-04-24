@@ -7,7 +7,7 @@ import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
 
-type playerid = 1 | 2 | 3;
+type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
 
 interface IMoveState extends IIndividualState {
@@ -17,29 +17,34 @@ interface IMoveState extends IIndividualState {
     lastmove?: string;
 }
 
-export interface ISponnectState extends IAPGameState {
+export interface IAkronState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class SponnectGame extends GameBase {
+export class AkronGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Sponnect",
-        uid: "sponnect",
+        name: "Akron",
+        uid: "akron",
         playercounts: [2],
         version: "20240421",
         dateAdded: "2024-04-21",
-        // i18next.t("apgames:descriptions.sponnect")
-        description: "apgames:descriptions.sponnect",
-        urls: ["https://boardgamegeek.com/boardgame/113670/sponnect"],
+        // i18next.t("apgames:descriptions.akron")
+        description: "apgames:descriptions.akron",
+        urls: [
+            "https://cambolbro.com/games/akron",
+            "https://boardgamegeek.com/boardgame/10889/akron"
+        ],
         people: [
             {
                 type: "designer",
-                name: "Martin Windischer",
+                name: "Cameron Browne",
+                urls: ["http://cambolbro.com/"]
             },
         ],
         variants: [
-            { uid: "size-5", group: "board" },
+            { uid: "size-6", group: "board" },
+            { uid: "size-10", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie", "rotate90"],
@@ -67,7 +72,7 @@ export class SponnectGame extends GameBase {
         return `${l}${this.coords2algebraic(x, y, boardSize)}`;
     }
 
-    private algebraicToPosition(cell: string): [number, number] {
+    private algebraic2position(cell: string): [number, number] {
         // Convert algebraic coordinates to position on the board for annotations.
         const [x, y, l] = this.algebraic2coords2(cell);
         let row = (y - l) / 2;
@@ -114,6 +119,14 @@ export class SponnectGame extends GameBase {
         return undefined;
     }
 
+    private placeableFirstCell(i: number, j: number): string | undefined {
+        // Same as placeableCell, but only for the first layer.
+        if (i % 2 !== 0 || j % 2 !== 0) { return undefined; }
+        const cell = `${1}${this.coords2algebraic(i, j)}`
+        if (this.board.has(cell)) { return undefined; }
+        return cell;
+    }
+
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, playerid>;
@@ -124,31 +137,30 @@ export class SponnectGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
     private boardSize = 0;
-    // private dots: string[] = [];
+    private dots: string[] = [];
     private lines: [PlayerLines,PlayerLines];
 
-    constructor(state?: ISponnectState | string, variants?: string[]) {
+    constructor(state?: IAkronState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
-            const board = new Map(this.getMiddleFill(this.getBoardSize()).map(cell => [cell, 3 as playerid]));
             const fresh: IMoveState = {
-                _version: SponnectGame.gameinfo.version,
+                _version: AkronGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board,
+                board: new Map(),
                 connPath: [],
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as ISponnectState;
+                state = JSON.parse(state, reviver) as IAkronState;
             }
-            if (state.game !== SponnectGame.gameinfo.uid) {
-                throw new Error(`The Sponnect game code cannot process a game of '${state.game}'.`);
+            if (state.game !== AkronGame.gameinfo.uid) {
+                throw new Error(`The Akron game code cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -159,7 +171,7 @@ export class SponnectGame extends GameBase {
         this.lines = this.getLines();
     }
 
-    public load(idx = -1): SponnectGame {
+    public load(idx = -1): AkronGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -212,20 +224,7 @@ export class SponnectGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 4;
-    }
-
-    private getMiddleFill(boardSize = this.boardSize): string[] {
-        // Get the middle layer of the board.
-        const fill: string[] = [];
-        for (let layer = 0; layer < boardSize - 1; layer++) {
-            for (let row = 0; row < boardSize - layer - 2; row++) {
-                for (let col = 0; col < boardSize - layer - 2; col++) {
-                    fill.push(this.layerCoords2algebraic(col + 1, row + 1, layer, boardSize));
-                }
-            }
-        }
-        return fill;
+        return 8;
     }
 
     public moves(player?: playerid): string[] {
@@ -234,16 +233,25 @@ export class SponnectGame extends GameBase {
         }
         if (this.gameover) { return []; }
         const moves: string[] = [];
+        const froms: string[] = [];
         for (let i = 0; i < 2 * this.boardSize - 1; i++) {
             for (let j = 0; j < 2 * this.boardSize - 1; j++) {
-                const cell = this.placeableCell(i, j);
+                if (i % 2 !== j % 2) { continue; }
+                const cell = this.placeableFirstCell(i, j);
                 if (cell !== undefined) {
                     moves.push(cell);
+                } else {
+                    const topMostCell = this.getTopMostCell(i, j);
+                    if (topMostCell !== undefined && this.board.get(topMostCell) === player && this.canMove(topMostCell)) {
+                        froms.push(topMostCell);
+                    }
                 }
             }
         }
-        if (this.stack.length > 1 && this.stack[this.stack.length - 1].lastmove !== "pass") {
-            moves.push("pass");
+        for (const from of froms) {
+            for (const to of this.getTos(from)) {
+                moves.push(`${from}-${to}`);
+            }
         }
         return moves;
     }
@@ -255,16 +263,21 @@ export class SponnectGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.placeableCell(col, row);
-            if (cell === undefined) {
-                return {
-                    move,
-                    valid: false,
-                    message: i18next.t("apgames:validation.sponnect.CANNOT_PLACE", {move: this.coords2algebraic(col, row)})
-                };
+            const topMostCell = this.getTopMostCell(col, row);
+            let newmove = move;
+            if (move === "" && topMostCell !== undefined && this.canMove(topMostCell)) {
+                newmove = topMostCell + "-";
+            } else {
+                const cell = this.placeableCell(col, row);
+                if (cell === undefined) {
+                    return {
+                        move,
+                        valid: false,
+                        message: i18next.t("apgames:validation.akron.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
+                    };
+                }
+                newmove += cell;
             }
-            let newmove = "";
-            newmove = cell;
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
                 result.move = "";
@@ -281,52 +294,106 @@ export class SponnectGame extends GameBase {
         }
     }
 
+    private canMove(cell: string): boolean {
+        // A ball can be moved if it is below one ball or less.
+        if (!this.board.has(cell)) { return false; }
+        const [x, y, layer] = this.algebraic2coords2(cell);
+        let aboveCount = 0;
+        if (this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))) { aboveCount += 1; }
+        if (this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))) { aboveCount += 1; }
+        if (aboveCount > 1) { return false; }
+        if (this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))) { aboveCount += 1; }
+        if (aboveCount > 1) { return false; }
+        if (this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))) { aboveCount += 1; }
+        if (aboveCount > 1) { return false; }
+        return true;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = this.stack.length > 1 && this.stack[this.stack.length - 1].lastmove !== "pass"
-                                ? i18next.t("apgames:validation.sponnect.INITIAL_INSTRUCTIONS_PASS")
-                                : i18next.t("apgames:validation.sponnect.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.akron.INITIAL_INSTRUCTIONS");
             return result;
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (m === "pass") {
-            if (this.stack.length === 1) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.sponnect.FIRST_PASS");
-                return result;
-            }
-            if (this.stack[this.stack.length - 1].lastmove === "pass") {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.sponnect.CONSECUTIVE_PASS");
-                return result;
-            }
-        } else {
-            // valid cell
+        // valid cell
+        const cells = m.split("-");
+        let tryCell;
+        for (const cell of cells) {
+            if (cell === undefined || cell === "") { continue; }
             try {
-                const [x, y] = this.algebraic2coords(m);
+                tryCell = cell;
+                const [x, y] = this.algebraic2coords(cell);
                 if (x < 0 || x >= 2 * this.boardSize - 1 || y < 0 || y >= 2 * this.boardSize - 1) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: tryCell});
                     return result;
                 }
             } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: tryCell});
                 return result;
             }
+        }
+        if (m.includes("-")) {
+            const [from, to] = cells;
+            if (!this.canMove(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.akron.CANNOT_MOVE", {here: from});
+                return result;
+            }
+            if (!this.board.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: from});
+                return result;
+            }
+            if (this.board.get(from) !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", {where: from});
+                return result;
+            }
+            const tos = this.getTos(from);
+            if (tos.length === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.akron.NO_TOS", {move: from});
+                return result;
+            }
+            if (to === undefined || to === "") {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.akron.MOVE_TO");
+                return result;
+            }
+            if (from === to) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
+                return result;
+            }
+            if (!tos.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.akron.INVALID_TO", {from, to});
+                return result;
+            }
+        } else {
             if (this.board.has(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
                 return result;
             }
-            if (!this.moves().includes(m)) {
+            const [x, y, l] = this.algebraic2coords2(m);
+            if (m !== this.placeableCell(x, y)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.sponnect.CANNOT_PLACE", {move: m});
+                result.message = i18next.t("apgames:validation.akron.CANNOT_PLACE", {where: m});
+                return result;
+            }
+            if (l > 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.akron.LEVEL1", {where: m});
                 return result;
             }
         }
@@ -336,7 +403,148 @@ export class SponnectGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): SponnectGame {
+    private getGroup(from: string, player: playerid): Set<string> {
+        // Returns all balls that are connected to the given cell.
+        const seen: Set<string> = new Set();
+        const todo: string[] = [from]
+        while (todo.length > 0) {
+            const cell1 = todo.pop()!;
+            if (seen.has(cell1)) { continue; }
+            seen.add(cell1);
+            for (const n of this.getPresentNeighbours(cell1, player)) {
+                todo.push(n);
+            }
+        }
+        return seen;
+    }
+
+    private getGroupIntersection(from: string, player: playerid): Set<string> {
+        // Get the intersection of groups before and after drop.
+        const dropMap = this.getDropMap(from, player);
+        const groupBefore = this.getGroup(from, player);
+        if (dropMap === undefined) { return groupBefore; }
+        this.applyDrop(dropMap);
+        const groupAfter = this.getGroup(from, player);
+        this.unapplyDrop(dropMap);
+        return new Set([...groupBefore].filter(x => groupAfter.has(x)));
+    }
+
+    private isOn(cell: string, on: string): boolean {
+        // Check if a cell is on top of another cell.
+        const [x, y, l] = this.algebraic2coords2(cell);
+        const [x1, y1, l1] = this.algebraic2coords2(on);
+        if (l - l1 !== 1) { return false; }
+        if (Math.abs(x - x1) === 1 && Math.abs(y - y1) === 1) { return true; }
+        return false;
+    }
+
+    // private isNeighbour(cell: string, check: string, player: playerid): boolean {
+    //     // Check if cell is neighbour to cell `check`.
+    //     const [x, y] = this.algebraic2coords2(cell);
+    //     const [cx, cy] = this.algebraic2coords(check);
+    //     if (Math.abs(x - cx) === 1 && Math.abs(y - cy) === 1) { return true; }
+    //     if (Math.abs(x - cx) === 2 && y === cy) { return true; }
+    //     if (Math.abs(y - cy) === 2 && x === cx) { return true; }
+    //     return false;
+    // }
+
+    private getNeighbours(cell: string): string[] {
+        // Get all diagonal and orthogonal neighbours of a cell.
+        const [x, y] = this.algebraic2coords(cell);
+        const neighbours = [];
+        if (x - 1 >= 0) {
+            if (y - 1 >= 0) { neighbours.push(this.coords2algebraic(x - 1, y - 1)); }
+            if (y + 1 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x - 1, y + 1)); }
+        }
+        if (x + 1 < 2 * this.boardSize - 1) {
+            if (y - 1 >= 0) { neighbours.push(this.coords2algebraic(x + 1, y - 1)); }
+            if (y + 1 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x + 1, y + 1)); }
+        }
+        if (x - 2 >= 0) { neighbours.push(this.coords2algebraic(x - 2, y)); }
+        if (x + 2 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x + 2, y)); }
+        if (y - 2 >= 0) { neighbours.push(this.coords2algebraic(x, y - 2)); }
+        if (y + 2 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x, y + 2)); }
+        return neighbours;
+    }
+
+    private getTos(from: string): string[] {
+        // Get all tos form a cell
+        const tos: string[] = [];
+        const group = this.getGroupIntersection(from, this.currplayer);
+        group.delete(from);
+        const dropBalls = this.dropBalls(from);
+        const drop = dropBalls.length > 0 ? dropBalls[dropBalls.length - 1] : undefined;
+        const allNeighbours = new Set<string>();
+        for (const cell of group) {
+            for (const neighbour of this.getNeighbours(cell)) {
+                allNeighbours.add(neighbour);
+            }
+        }
+        for (const neighbour of allNeighbours) {
+            const place = this.placeableCell(...this.algebraic2coords(neighbour));
+            if (place === undefined) { continue; }
+            if (this.isOn(place, from)) { continue; }
+            if (drop !== undefined && this.isOn(place, drop)) { continue; }
+            tos.push(place);
+        }
+        return tos;
+    }
+
+    private dropBalls(from: string): string[] {
+        // Upon movement, drop balls that are not supported.
+        // Return the highest cell that was dropped if there was a drop.
+        // Assumes that there is only one ball above the `from` cell.
+        const [x, y, layer] = this.algebraic2coords2(from);
+        const direction = this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))
+            ? [-1, -1]
+            : this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))
+            ? [-1, 1]
+            : this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))
+            ? [1, -1]
+            : this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))
+            ? [1, 1]
+            : undefined;
+        if (direction === undefined) { return []; }
+        let i = 1
+        const drops: string[] = [];
+        while (true) {
+            const above = this.coords2algebraic2(x + i * direction[0], y + i * direction[1], layer + i);
+            if (!this.board.has(above)) { break; }
+            drops.push(above);
+            i++;
+        }
+        return drops;
+    }
+
+    private getDropMap(from: string, player?: playerid): [string[], playerid[]] | undefined {
+        // Return the information needed to perform the transformation of `board` for drops.
+        const drops = this.dropBalls(from);
+        if (drops.length === 0) { return undefined; }
+        if (player === undefined) { player = this.currplayer; }
+        const dropPlayers = drops.map(d => this.board.get(d)!);
+        drops.unshift(from);
+        dropPlayers.unshift(player);
+        return [drops, dropPlayers];
+    }
+
+    private applyDrop(dropMap: [string[], playerid[]]): void {
+        // Apply the drop transformation to the board.
+        const [drops, dropPlayers] = dropMap;
+        for (let i = 0; i < drops.length - 1; i++) {
+            this.board.delete(drops[i + 1]);
+            this.board.set(drops[i], dropPlayers[i + 1]);
+        }
+    }
+
+    private unapplyDrop(dropMap: [string[], playerid[]]): void {
+        // Unapply the drop transformation to the board.
+        const [drops, dropPlayers] = dropMap;
+        for (let i = 0; i < drops.length; i++) {
+            this.board.set(drops[i], dropPlayers[i]);
+        }
+    }
+
+    public move(m: string, {partial = false, trusted = false} = {}): AkronGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -355,12 +563,27 @@ export class SponnectGame extends GameBase {
         }
         if (m.length === 0) { return this; }
         this.results = [];
-        if (m === "pass") {
-            this.results.push({ type: "pass" });
+        if (m.includes("-")) {
+            const [from, to] = m.split("-");
+            if (to === undefined || to === "") {
+                this.dots = this.getTos(from);
+            } else {
+                this.board.delete(from);
+                this.board.set(to, this.currplayer);
+                this.results.push({ type: "move", from, to });
+                const dropMap = this.getDropMap(from, this.currplayer);
+                if (dropMap !== undefined) {
+                    this.applyDrop(dropMap);
+                    const dropTopMost = dropMap[0][dropMap[0].length - 1];
+                    this.results.push({ type: "move", from: dropTopMost, to: from, how: "drop", count: dropMap[0].length - 1 });
+                }
+            }
         } else {
             this.results.push({ type: "place", where: m });
             this.board.set(m, this.currplayer);
         }
+        if (partial) { return this; }
+        this.dots = [];
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -396,6 +619,7 @@ export class SponnectGame extends GameBase {
 
     private getPresentNeighbours(cell: string, player: playerid): string[] {
         // Get neighbours for a `cell` that are already present for `player`.
+        // If `from` is provided, we assume that balls are dropped.
         const neighbours: string[] = [];
         const [col, row, layer] = this.algebraic2coords2(cell);
         if (col > 0) {
@@ -472,7 +696,19 @@ export class SponnectGame extends GameBase {
         return graph;
     }
 
-    protected checkEOG(): SponnectGame {
+    private hasMoves(): boolean {
+        // Check if there is a placeable space in the first layer.
+        for (let i = 0; i < 2 * this.boardSize - 1; i++) {
+            for (let j = 0; j < 2 * this.boardSize - 1; j++) {
+                if (i % 2 === 0 && j % 2 === 0 && this.placeableFirstCell(i, j) !== undefined) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    protected checkEOG(): AkronGame {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
         const graph = this.buildGraph(otherPlayer);
         const [sources, targets] = this.lines[otherPlayer - 1];
@@ -492,6 +728,10 @@ export class SponnectGame extends GameBase {
                 break;
             }
         }
+        if (!this.gameover && !this.hasMoves()) {
+            this.gameover = true;
+            this.winner = [1, 2];
+        }
         if (this.gameover) {
             this.results.push({ type: "eog" });
             this.results.push({ type: "winners", players: [...this.winner] });
@@ -499,9 +739,9 @@ export class SponnectGame extends GameBase {
         return this;
     }
 
-    public state(): ISponnectState {
+    public state(): IAkronState {
         return {
-            game: SponnectGame.gameinfo.uid,
+            game: AkronGame.gameinfo.uid,
             numplayers: 2,
             variants: this.variants,
             gameover: this.gameover,
@@ -512,7 +752,7 @@ export class SponnectGame extends GameBase {
 
     protected moveState(): IMoveState {
         return {
-            _version: SponnectGame.gameinfo.version,
+            _version: AkronGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -538,8 +778,6 @@ export class SponnectGame extends GameBase {
                             pstr += "A";
                         } else if (contents === 2) {
                             pstr += "B";
-                        } else {
-                            pstr += "C";
                         }
                     } else {
                         pstr += "-";
@@ -565,7 +803,6 @@ export class SponnectGame extends GameBase {
             legend: {
                 A: { name: "orb", player: 1, scale: 1.15 },
                 B: { name: "orb", player: 2, scale: 1.15 },
-                C: { name: "orb", player: 3, scale: 1.15 },
             },
             pieces: pstr,
         };
@@ -575,24 +812,37 @@ export class SponnectGame extends GameBase {
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const [x, y] = this.algebraicToPosition(move.where!);
+                    const [x, y] = this.algebraic2position(move.where!);
                     rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
                 } else if (move.type === "move") {
-                    const [fromX, fromY] = this.algebraicToPosition(move.from);
-                    const [toX, toY] = this.algebraicToPosition(move.to);
-                    rep.annotations.push({ type: "move", targets: [{ row: fromY, col: fromX }, { row: toY, col: toX }] });
+                    const [fromX, fromY] = this.algebraic2position(move.from);
+                    const [toX, toY] = this.algebraic2position(move.to);
+                    if (move.how === "drop") {
+                        rep.annotations.push({ type: "move", targets: [{ row: fromY, col: fromX }, { row: toY, col: toX }], style: "dashed" });
+                    } else {
+                        rep.annotations.push({ type: "move", targets: [{ row: fromY, col: fromX }, { row: toY, col: toX }] });
+                    }
                 }
             }
             if (this.connPath.length > 0) {
                 type RowCol = {row: number; col: number;};
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
-                    const [x, y] = this.algebraicToPosition(cell);
+                    const [x, y] = this.algebraic2position(cell);
                     targets.push({row: y, col: x})
                 }
                 // @ts-ignore
                 rep.annotations.push({type: "move", targets, arrow: false});
             }
+        }
+        if (this.dots.length > 0) {
+            const points = [];
+            for (const cell of this.dots) {
+                const [x, y] = this.algebraic2position(cell);
+                points.push({row: y, col: x});
+            }
+            // @ts-ignore
+            rep.annotations.push({type: "dots", targets: points});
         }
         return rep;
     }
@@ -614,15 +864,19 @@ export class SponnectGame extends GameBase {
                 node.push(i18next.t("apresults:PLACE.ball", { player, where: r.where }));
                 resolved = true;
                 break;
-            case "pass":
-                node.push(i18next.t("apresults:PASS.simple", { player }));
+            case "move":
+                if (r.how === "drop") {
+                    node.push(i18next.t("apresults:MOVE.ball_drop", { player, from: r.from, to: r.to, count: r.count }));
+                } else {
+                    node.push(i18next.t("apresults:MOVE.ball", { player, from: r.from, to: r.to }));
+                }
                 resolved = true;
                 break;
         }
         return resolved;
     }
 
-    public clone(): SponnectGame {
-        return new SponnectGame(this.serialize());
+    public clone(): AkronGame {
+        return new AkronGame(this.serialize());
     }
 }

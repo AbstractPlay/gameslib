@@ -4,6 +4,7 @@
         "accasta": "Accasta is the first of Dieter Stein's stacking trilogy. The goal is to get three of your own stacks into the enemy's castle area. There are three different types of pieces in the base version. In the \"Pari\" variant, movement is determined by how many friendly pieces are in the stack.",
         "acity": "Alien City is a combination Piecepack/Icehouse game about building a city on a newly colonized world. Four guilds compete for customers, and the player has to predict which bets are going to pay off. Each turn, the player places either a tower or dome and may optionally claim a tower they think is going to score big when the game ends. Play continues until no more construction is possible. Scores are based on the relative positions of buildings to claimed towers.",
         "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
+        "akron": "Akron is an extension of standard connection games to three dimensions. On their turn, players may introduce new balls of their colour on the lowest layer of the board, or move a ball that is not pinned (having balls resting on it in two or more directions) to a space that is connected to the same group both before and after movement. When balls move, balls resting on it will drop, changing the connection on the board.",
         "almatafl": "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
@@ -313,6 +314,15 @@
             "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece, or select a piece to move.",
             "PARTIAL": "Select where you want to move the piece.",
             "SAME_HEIGHT": "Pieces may only move between stacks of the same height."
+        },
+        "akron": {
+            "INITIAL_INSTRUCTIONS": "Place a ball on the board, or move an existing ball to a playable connected point.",
+            "CANNOT_MOVE": "The selected ball at {{where}} cannot be moved.",
+            "NO_TOS": "The selected ball at {{where}} has no possible destinations.",
+            "MOVE_TO": "Select a destination to move your ball.",
+            "INVALID_TO": "The selected ball at {{from}} cannot move to {{to}}",
+            "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",
+            "LEVEL1": "You may only place on the bottom level."
         },
         "almatafl": {
             "BAD_DISTANCE": "Pieces must move a number of spaces equal to the height of its stack.",
@@ -1473,6 +1483,11 @@
         }
     },
     "variantGroups": {
+        "akron": {
+            "board": {
+                "name": "size-6 board"
+            }
+        },
         "amazons": {
             "setup": {
                 "description": "Queens of each colour are on opposite halves of the board."
@@ -1805,6 +1820,14 @@
             "standard-14": {
                 "name": "Triangle (14 wide)",
                 "description": "A larger version of the standard board."
+            }
+        },
+        "akron": {
+            "size-6": {
+                "name": "size-6 board"
+            },
+            "size-10": {
+                "name": "size-10 board"
             }
         },
         "almatafl": {

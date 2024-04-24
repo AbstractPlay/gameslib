@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -744,7 +745,8 @@ export abstract class GameBase  {
                     board: comparator.board,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                     currplayer: comparator.currplayer,
-                }, {replacer});
+                }, {replacer: sortingReplacer});
+                console.log(`Comparing previous states to the following:\n${srcStr}`);
                 for (const state of stack) {
                     const test = {
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -752,8 +754,9 @@ export abstract class GameBase  {
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                         currplayer: state.currplayer,
                     }
-                    const otherStr = JSDstringify(test, {replacer});
+                    const otherStr = JSDstringify(test, {replacer: sortingReplacer});
                     if (srcStr === otherStr) {
+                        console.log(`Match found: ${otherStr}`);
                         count++;
                     }
                 }

@@ -28,7 +28,7 @@ export class PenteGame extends InARowBase {
         uid: "pente",
         playercounts: [2],
         version: "20240328",
-        dateAdded: "2024-03-28",
+        dateAdded: "2024-04-20",
         // i18next.t("apgames:descriptions.pente")
         description: "apgames:descriptions.pente",
         urls: ["https://boardgamegeek.com/boardgame/1295/pente"],

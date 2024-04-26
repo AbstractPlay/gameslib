@@ -50,7 +50,7 @@ export class RenjuGame extends InARowBase {
         uid: "renju",
         playercounts: [2],
         version: "20240328",
-        dateAdded: "2024-03-28",
+        dateAdded: "2024-04-20",
         // i18next.t("apgames:descriptions.renju")
         description: "apgames:descriptions.renju",
         urls: ["https://boardgamegeek.com/boardgame/11930/renju"],

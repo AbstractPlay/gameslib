@@ -28,7 +28,7 @@ export class IrenseiGame extends InARowBase {
         uid: "irensei",
         playercounts: [2],
         version: "20240328",
-        dateAdded: "2024-03-28",
+        dateAdded: "2024-04-20",
         // i18next.t("apgames:descriptions.irensei")
         description: "apgames:descriptions.irensei",
         urls: ["https://boardgamegeek.com/boardgame/48871/irensei"],

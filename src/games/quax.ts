@@ -29,7 +29,7 @@ export class QuaxGame extends GameBase {
         uid: "quax",
         playercounts: [2],
         version: "20240316",
-        dateAdded: "2024-03-16",
+        dateAdded: "2024-04-02",
         // i18next.t("apgames:descriptions.quax")
         description: "apgames:descriptions.quax",
         urls: ["https://boardgamegeek.com/boardgame/36804/quax"],

@@ -29,7 +29,7 @@ export class GomokuGame extends InARowBase {
         uid: "gomoku",
         playercounts: [2],
         version: "20240328",
-        dateAdded: "2024-03-28",
+        dateAdded: "2024-04-20",
         // i18next.t("apgames:descriptions.gomoku")
         description: "apgames:descriptions.gomoku",
         urls: ["https://boardgamegeek.com/boardgame/11929/go-moku"],

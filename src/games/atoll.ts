@@ -35,7 +35,7 @@ export class AtollGame extends GameBase {
         uid: "atoll",
         playercounts: [2],
         version: "20240317",
-        dateAdded: "2024-03-18",
+        dateAdded: "2024-04-02",
         // i18next.t("apgames:descriptions.atoll")
         description: "apgames:descriptions.atoll",
         urls: ["http://www.marksteeregames.com/Atoll_rules.pdf"],

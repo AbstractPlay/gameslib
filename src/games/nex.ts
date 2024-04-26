@@ -33,7 +33,7 @@ export class NexGame extends GameBase {
         uid: "nex",
         playercounts: [2],
         version: "20240317",
-        dateAdded: "2024-03-23",
+        dateAdded: "2024-04-02",
         // i18next.t("apgames:descriptions.nex")
         description: "apgames:descriptions.nex",
         urls: ["https://boardgamegeek.com/boardgame/187651/nex"],

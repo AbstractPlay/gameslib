@@ -300,7 +300,7 @@ export class MargoGame extends GameBase {
         }
         if (!this.moves().includes(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.margo.CANNOT_PLACE", { move: m });
+            result.message = i18next.t("apgames:validation.margo.CANNOT_PLACE", { where: m });
             return result;
         }
         if (this.isSelfCapture(m, this.currplayer)) {
@@ -613,12 +613,6 @@ export class MargoGame extends GameBase {
                 style: "squares-stacked",
                 width: this.boardSize,
                 height: this.boardSize,
-                markers: [
-                    {type:"edge", edge: "N", colour: 1},
-                    {type:"edge", edge: "S", colour: 1},
-                    {type:"edge", edge: "E", colour: 2},
-                    {type:"edge", edge: "W", colour: 2},
-                ]
             },
             legend: {
                 A: { name: "orb", player: 1, scale: 1.15 },

@@ -117,6 +117,7 @@ import { PrudhGame, IPrudhState } from "./prudh";
 import { SponnectGame, ISponnectState } from "./sponnect";
 import { AkronGame, IAkronState } from "./akron";
 import { MargoGame, IMargoState } from "./margo";
+import { NecklaceGame, INecklaceState } from "./necklace";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -236,6 +237,7 @@ export {
     SponnectGame, ISponnectState,
     AkronGame, IAkronState,
     MargoGame, IMargoState,
+    NecklaceGame, INecklaceState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -276,7 +278,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof HalfcutGame | typeof NexGame | typeof PenteGame |
                               typeof Connect6Game | typeof GomokuGame | typeof RenjuGame |
                               typeof FourInARowGame | typeof IrenseiGame | typeof PrudhGame |
-                              typeof SponnectGame | typeof AkronGame | typeof MargoGame
+                              typeof SponnectGame | typeof AkronGame | typeof MargoGame |
+                              typeof NecklaceGame
                 >();
 // Manually add each game to the following array
 [
@@ -296,7 +299,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame, SponnectGame,
-    AkronGame, MargoGame,
+    AkronGame, MargoGame, NecklaceGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -540,6 +543,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new AkronGame(...args);
         case "margo":
             return new MargoGame(...args);
+        case "necklace":
+            return new NecklaceGame(...args);
     }
     return;
 }

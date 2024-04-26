@@ -205,12 +205,12 @@ export class MargoGame extends GameBase {
         }
         if (this.gameover) { return []; }
         const moves: string[] = [];
-        // We don't check for ko because it's rare.
         for (let i = 0; i < 2 * this.boardSize - 1; i++) {
             for (let j = 0; j < 2 * this.boardSize - 1; j++) {
                 const cell = this.placeableCell(i, j);
                 if (cell !== undefined) {
                     if (this.isSelfCapture(cell, player)) { continue; }
+                    if (this.checkKo(cell, player)) { continue; }
                     moves.push(cell);
                 }
             }
@@ -219,7 +219,7 @@ export class MargoGame extends GameBase {
     }
 
     private hasMoves(player?: playerid): boolean {
-        // Short-circuited version of above. We need to check for ko for this one.
+        // Short-circuited version of above.
         if (player === undefined) {
             player = this.currplayer;
         }

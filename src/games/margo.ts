@@ -430,16 +430,19 @@ export class MargoGame extends GameBase {
     }
 
     private isZombie(cell: string, player: playerid): boolean {
-        // Check if there is an opponent's ball on top of `cell`.
+        // Check if there is an opponent's ball on top of `cell` recursively.
         const [col, row, layer] = this.algebraic2coords2(cell);
-        const topLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
-        if (this.board.has(topLeft) && this.board.get(topLeft) !== player) { return true; }
-        const topRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
-        if (this.board.has(topRight) && this.board.get(topRight) !== player) { return true; }
-        const bottomLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
-        if (this.board.has(bottomLeft) && this.board.get(bottomLeft) !== player) { return true; }
-        const bottomRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-        if (this.board.has(bottomRight) && this.board.get(bottomRight) !== player) { return true; }
+        const directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
+        for (const direction of directions) {
+            const [x, y, l] = [col + direction[0], row + direction[1], layer + 1];
+            if (x < 0 || y < 0 || x >= 2 * this.boardSize - l || y >= 2 * this.boardSize - l) { continue; }
+            const above = this.coords2algebraic2(x, y, l);
+            if (this.board.has(above)) {
+                if (this.board.get(above) !== player) { return true; }
+                const nextZombie = this.isZombie(above, player);
+                if (nextZombie) { return true; }
+            }
+        }
         return false;
     }
 

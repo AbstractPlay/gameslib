@@ -73,6 +73,7 @@
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
+        "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
@@ -983,6 +984,12 @@
             "PARTIAL_FULLSTACK": "Looks like you want to move an entire stack. Provide the destination.",
             "PARTIAL_SUBSTACK_one": "Looks like you want to move the top piece from the stack. Provide the destination.",
             "PARTIAL_SUBSTACK_other": "Looks like you want to move the top {{count}} pieces from the stack. Provide the destination."
+        },
+        "necklace": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
+            "NO_CROSSINGS": "Placement at {{where}} will create a crosscut.",
+            "BLOCKS_PATH": "Placement at {{where}} blocks the only path of some free spaces to the edge."
         },
         "nex": {
             "INITIAL_INSTRUCTIONS": "Either place your piece on an empty cell followed by a neutral piece on another empty cell, or choose two neutral pieces to swap to your colour and one of your piece to swap to the neutral colour.",

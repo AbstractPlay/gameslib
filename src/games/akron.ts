@@ -47,7 +47,7 @@ export class AkronGame extends GameBase {
             { uid: "size-10", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie", "rotate90"],
+        flags: ["experimental", "pie", "rotate90", "check"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {
@@ -343,7 +343,7 @@ export class AkronGame extends GameBase {
             const [from, to] = cells;
             if (!this.canMove(from)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.akron.CANNOT_MOVE", {here: from});
+                result.message = i18next.t("apgames:validation.akron.CANNOT_MOVE", {where: from});
                 return result;
             }
             if (!this.board.has(from)) {
@@ -359,7 +359,7 @@ export class AkronGame extends GameBase {
             const tos = this.getTos(from);
             if (tos.length === 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.akron.NO_TOS", {move: from});
+                result.message = i18next.t("apgames:validation.akron.NO_TOS", {where: from});
                 return result;
             }
             if (to === undefined || to === "") {
@@ -708,25 +708,31 @@ export class AkronGame extends GameBase {
         return false;
     }
 
-    protected checkEOG(): AkronGame {
-        const otherPlayer = this.currplayer % 2 + 1 as playerid;
-        const graph = this.buildGraph(otherPlayer);
-        const [sources, targets] = this.lines[otherPlayer - 1];
+    private isConnected(player: playerid): string[] | undefined {
+        // Check if the player has a connection between their lines.
+        // If it's connected, return the connection path.
+        const graph = this.buildGraph(player);
+        const [sources, targets] = this.lines[player - 1];
         for (const source of sources) {
             for (const target of targets) {
                 if ( (graph.hasNode(source)) && (graph.hasNode(target)) ) {
                     const path = bidirectional(graph, source, target);
                     if (path !== null) {
-                        this.gameover = true;
-                        this.winner = [otherPlayer];
-                        this.connPath = [...path];
-                        break;
+                        return [...path];
                     }
                 }
             }
-            if (this.gameover) {
-                break;
-            }
+        }
+        return undefined;
+    }
+
+    protected checkEOG(): AkronGame {
+        // Check for your win at the end of the opponent's turn.
+        const connPath = this.isConnected(this.currplayer);
+        if (connPath !== undefined) {
+            this.connPath = connPath;
+            this.gameover = true;
+            this.winner = [this.currplayer];
         }
         if (!this.gameover && !this.hasMoves()) {
             this.gameover = true;
@@ -854,7 +860,17 @@ export class AkronGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
+        status += `In check: ${this.inCheck().join(",")}\n\n`;
+
         return status;
+    }
+
+    public inCheck(): number[] {
+        if (this.isConnected(this.currplayer % 2 + 1 as playerid) !== undefined) {
+            return [this.currplayer];
+        } else {
+            return [];
+        }
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

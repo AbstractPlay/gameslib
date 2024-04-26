@@ -446,19 +446,20 @@ export class MargoGame extends GameBase {
         return false;
     }
 
-    private getCaptures(cell: string, player: playerid): Set<string>[] {
-        // Get all captured cells if `cell` is placed on the board.
+    private getCaptures(place: string, player: playerid): Set<string>[] {
+        // Get all captured cells if `place` is placed on the board.
+        // `place` can either be a ball that is already placed on the board or a ball that is to be placed.
         const allCaptures: Set<string>[] = []
         const otherPlayer = player % 2 + 1 as playerid;
-        for (const n of this.orthNeighboursLayer1(cell)) {
-            if (allCaptures.some(x => x.has(n)) || !this.board.has(n) || this.board.get(n) === this.currplayer) { continue; }
-            const [group, liberties] = this.getGroupLiberties(n, [cell], otherPlayer);
+        for (const n of this.orthNeighboursLayer1(place)) {
+            if (allCaptures.some(x => x.has(n)) || !this.board.has(n) || this.board.get(n) === player) { continue; }
+            const [group, liberties] = this.getGroupLiberties(n, [place], otherPlayer);
             if (liberties === 0) {
                 const captures = new Set<string>();
                 for (const c of group) {
                     captures.add(c);
                 }
-                if (captures.size > 0) { allCaptures.push(captures); }
+                allCaptures.push(captures);
             }
         }
         allCaptures.forEach(captures => {
@@ -469,26 +470,87 @@ export class MargoGame extends GameBase {
         return allCaptures.filter(captures => captures.size > 0);
     }
 
-    private isSelfCapture(cell: string, player: playerid): boolean {
-        // Check if placing `cell` would result in a self-capture.
-        const allCaptures = this.getCaptures(cell, player);
+    private getCapturesExisting(cells: string[], player: playerid): Set<string>[] {
+        // Get balls that are in the same groups in one of the cell in `cells` that have no more liberties.
+        // This is called in a loop in the `move` method to sequentially get balls that are to be removed
+        // due to removal of balls zombifying them from above.
+        const allCaptures: Set<string>[] = [];
+        const checked = [...cells];
+        while (checked.length > 0) {
+            const cell = checked.pop()!;
+            if (allCaptures.some(x => x.has(cell))) { continue; }
+            const [group, liberties] = this.getGroupLiberties(cell, checked, player);
+            if (liberties === 0) {
+                const captures = new Set<string>();
+                for (const c of group) {
+                    captures.add(c);
+                }
+                allCaptures.push(captures);
+            }
+        }
+        allCaptures.forEach(captures => {
+            captures.forEach(c => {
+                if (this.isZombie(c, player)) { captures.delete(c); }
+            });
+        });
+        return allCaptures.filter(captures => captures.size > 0);
+    }
+
+    private getBelow(groups: Set<string>[], player: playerid): Set<string> {
+        // When a capture is made and stones are removed, it may result in more captures.
+        // This method is used to get all balls that are directly below any captured ball.
+        // `player` is the player's balls to check for that are below the groups.
+        const ballsBelow = new Set<string>();
+        for (const group of groups) {
+            for (const ball of group) {
+                const [col, row, layer] = this.algebraic2coords2(ball);
+                if (layer > 0) {
+                    if (col > layer + 1) {
+                        const cell = this.coords2algebraic2(col - 1, row + 1, layer - 1);
+                        if (this.board.get(cell) === player) { ballsBelow.add(cell); }
+                    }
+                    if (col < 2 * this.boardSize - layer - 2) {
+                        const cell = this.coords2algebraic2(col + 1, row + 1, layer - 1);
+                        if (this.board.get(cell) === player) { ballsBelow.add(cell); }
+                    }
+                    if (row > layer + 1) {
+                        const cell = this.coords2algebraic2(col - 1, row - 1, layer - 1);
+                        if (this.board.get(cell) === player) { ballsBelow.add(cell); }
+                    }
+                    if (row < 2 * this.boardSize - layer - 2) {
+                        const cell = this.coords2algebraic2(col + 1, row - 1, layer - 1);
+                        if (this.board.get(cell) === player) { ballsBelow.add(cell); }
+                    }
+                }
+            }
+        }
+        return ballsBelow;
+    }
+
+    private isSelfCapture(place: string, player: playerid): boolean {
+        // Check if placing `place` would result in a self-capture.
+        // This does not check for revealed captures, but I am not yet able to
+        // construct situations where it may make a difference.
+        // Revealed captures in itself is supposed to be rare, so perhaps it won't happen
+        // even if such a construction is possible.
+        const allCaptures = this.getCaptures(place, player);
         if (allCaptures.length === 0) {
-            return this.getGroupLiberties(cell, [], player)[1] === 0;
+            return this.getGroupLiberties(place, [], player)[1] === 0;
         }
         for (const captures of allCaptures) {
             for (const capture of captures) { this.board.delete(capture); }
         }
-        const groupLiberties = this.getGroupLiberties(cell, [], player)[1];
+        const groupLiberties = this.getGroupLiberties(place, [], player)[1];
         for (const captures of allCaptures) {
             for (const capture of captures) { this.board.set(capture, player % 2 + 1 as playerid); }
         }
         return groupLiberties === 0;
     }
 
-    private checkKo(cell: string, player: playerid): boolean {
+    private checkKo(place: string, player: playerid): boolean {
         // Check if the move is a ko.
         if (this.stack.length < 2) { return false; }
-        const captures = this.getCaptures(cell, player);
+        const captures = this.getCaptures(place, player);
         if (captures.length !== 1) { return false; }
         const previous = this.stack[this.stack.length - 1];
         const previousMove = previous.lastmove!;
@@ -519,12 +581,26 @@ export class MargoGame extends GameBase {
         this.results = [];
         this.results.push({ type: "place", where: m });
         this.board.set(m, this.currplayer);
-        const allCaptures = this.getCaptures(m, this.currplayer);
-        if (allCaptures.length > 0) {
-            for (const captures of allCaptures) {
+        const firstCaptures = this.getCaptures(m, this.currplayer);
+        if (firstCaptures.length > 0) {
+            for (const captures of firstCaptures) {
                 for (const capture of captures) { this.board.delete(capture); }
                 this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
             }
+        }
+        let checkPlayer = this.currplayer;
+        while (true) {
+            // For "revealed captures" edge case where a capture results in
+            // more captures as zombies are no longer zombies.
+            const belowCells = this.getBelow(firstCaptures, checkPlayer);
+            if (belowCells.size === 0) { break; }
+            const chainCaptures = this.getCapturesExisting([...belowCells], checkPlayer);
+            if (chainCaptures.length === 0) { break; }
+            for (const captures of chainCaptures) {
+                for (const capture of captures) { this.board.delete(capture); }
+                this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
+            }
+            checkPlayer = checkPlayer % 2 + 1 as playerid;
         }
         this.pieceCount[0] = [...this.board.values()].filter(x => x === 1).length;
         this.pieceCount[1] = [...this.board.values()].filter(x => x === 2).length;

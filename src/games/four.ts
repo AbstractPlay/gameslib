@@ -630,6 +630,7 @@ export class FourGame extends GameBase {
             legend: {
                 SPACER: {
                     name: "piece-square-borderless",
+                    colour: "_context_background",
                 },
             },
             pieces: this.board.map(p => p.render(columnLabels, [...rowLabels].reverse()))

@@ -507,6 +507,7 @@ export class ValleyGame extends GameBase {
             rep.legend!.TOWER = {
                 name: "chess-rook-outline-montreal",
                 opacity: 0.5,
+                colour: "_context_fill"
             };
             // @ts-ignore
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call

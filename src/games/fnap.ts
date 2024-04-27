@@ -872,7 +872,8 @@ export class FnapGame extends GameBaseSimultaneous {
             }
         }
         legend.SPACER = {
-            name: "piece-square-borderless"
+            name: "piece-square-borderless",
+            colour: "_context_background",
         };
 
         // Build rep

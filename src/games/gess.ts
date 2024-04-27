@@ -579,19 +579,19 @@ export class GessGame extends GameBase {
 
         const markers: Array<any> = [
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: 0, col: 0}, {row: 0, col: 1}, {row: this.boardSize, col: 1}, {row: this.boardSize, col: 0}],
             },
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: 0, col: this.boardSize - 1}, {row: 0, col: this.boardSize}, {row: this.boardSize, col: this.boardSize}, {row: this.boardSize, col: this.boardSize - 1}],
             },
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: 0, col: 1}, {row: 0, col: this.boardSize - 1}, {row: 1, col: this.boardSize - 1}, {row: 1, col: 1}],
             },
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: this.boardSize - 1, col: 1}, {row: this.boardSize - 1, col: this.boardSize - 1}, {row: this.boardSize, col: this.boardSize - 1}, {row: this.boardSize, col: 1}],
             },
         ]

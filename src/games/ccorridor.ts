@@ -630,7 +630,7 @@ export class CairoCorridorGame extends GameBase {
             legend: {
                 A: [{ name: "piece", player: 1, scale: 0.5 }],
                 B: [{ name: "piece", player: 2, scale: 0.5 }],
-                X: [{ name: "x", scale: 0.25 }],
+                X: [{ name: "x", scale: 0.25, colour: "_context_strokes" }],
             },
             pieces: pstr,
         };

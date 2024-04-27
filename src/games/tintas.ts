@@ -732,7 +732,7 @@ export class TintasGame extends GameBase {
                 },
                 X: {
                     name: "chess-queen-outline-montreal",
-                    colour: "#000"
+                    colour: "_context_strokes"
                 },
             },
             pieces: pstr

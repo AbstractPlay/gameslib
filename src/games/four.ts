@@ -27,14 +27,6 @@ export interface IFourState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-const genHashes = (): Map<string,string> => {
-    const map = new Map<string,string>();
-    for (const [k,v] of FourGame.piece2matrix.entries()) {
-        map.set(x2uid(v), k);
-    }
-    return map;
-}
-
 export class FourGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Four",
@@ -58,6 +50,14 @@ export class FourGame extends GameBase {
         categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "board>connect>rect", "board>dynamic", "components>poly"],
         flags: ["shared-pieces", "multistep"]
     };
+
+    public static genHashes = (): Map<string,string> => {
+        const map = new Map<string,string>();
+        for (const [k,v] of FourGame.piece2matrix.entries()) {
+            map.set(x2uid(v), k);
+        }
+        return map;
+    }
 
     public static piece2matrix = new Map<string, Polymatrix>([
         ["R1", [[1]]],
@@ -93,7 +93,7 @@ export class FourGame extends GameBase {
         ["Y3(3)", [[4,4],[4,0]]],
         ["Y4", [[4,4],[4,4]]],
     ]);
-    public static hash2piece: Map<string,string> = genHashes();
+    public static hash2piece: Map<string,string> = FourGame.genHashes();
 
     // helper function to ensure that you always load a copy
     public static loadPiece(pc: string): Polymatrix|undefined {

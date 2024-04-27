@@ -32,6 +32,7 @@
   "devDependencies": {
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
+    "@types/svgdom": "^0.1.2",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "chai": "^4.3.7",
@@ -47,16 +48,17 @@
     "rimraf": "^5.0.1",
     "serverless-finch": "^4.0.3",
     "shx": "^0.3.4",
+    "svgdom": "^0.1.19",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
-    "tsx": "^4.7.1",
+    "tsx": "^4.7.3",
     "typescript": "^5.0.4",
     "webpack": "^5.78.0",
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-8791654917.0",
+    "@abstractplay/renderer": "^1.0.0-ci-8860858822.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "@turf/points-within-polygon": "^6.5.0",

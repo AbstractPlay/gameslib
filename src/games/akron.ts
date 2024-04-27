@@ -270,26 +270,22 @@ export class AkronGame extends GameBase {
                 if (piece === undefined) {
                     throw new Error(`A click was registered off the board, but no 'piece' parameter was passed.`);
                 }
-                // calculate maximum layer (0 indexed)
-                const maxLayer = Math.max(...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
-                if (this.hideLayer === undefined) {
-                    this.hideLayer = maxLayer + 1;
+                if (! piece.startsWith("scroll_newval_")) {
+                    throw new Error(`An invalid scroll bar value was returned: ${piece}`);
                 }
-                switch (piece) {
-                    case "scroll_downOne":
-                        this.hideLayer = this.hideLayer > 2 ? this.hideLayer - 1 : 2;
-                        break;
-                    case "scroll_downAll":
-                        this.hideLayer = 2;
-                        break;
-                    case "scroll_upOne":
-                        this.hideLayer = this.hideLayer < maxLayer ? this.hideLayer + 1 : undefined;
-                        break;
-                    case "scroll_upAll":
-                        this.hideLayer = undefined;
-                        break;
-                    default:
-                        throw new Error(`Unrecognized button click encountered: ${piece}`);
+                // calculate maximum layer (0 indexed)
+                const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
+                const [,,nstr] = piece.split("_");
+                const n = parseInt(nstr, 10);
+                if (isNaN(n)) {
+                    throw new Error(`Could not parse '${nstr}' into an integer.`);
+                }
+                if (n > maxLayer) {
+                    this.hideLayer = undefined;
+                } else if (n < 2) {
+                    this.hideLayer = 2;
+                } else {
+                    this.hideLayer = n;
                 }
             } else {
                 if (move === "" && topMostCell !== undefined && this.canMove(topMostCell)) {

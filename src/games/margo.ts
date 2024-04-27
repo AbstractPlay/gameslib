@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -129,6 +130,7 @@ export class MargoGame extends GameBase {
     public variants: string[] = [];
     private boardSize = 0;
     public pieceCount: [number, number] = [0, 0];
+    private hideLayer: number|undefined;
     // private dots: string[] = [];
 
     constructor(state?: IMargoState | string, variants?: string[]) {
@@ -243,16 +245,39 @@ export class MargoGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.placeableCell(col, row);
-            if (cell === undefined) {
-                return {
-                    move,
-                    valid: false,
-                    message: i18next.t("apgames:validation.margo.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
-                };
-            }
             let newmove = "";
-            newmove = cell;
+            if (row === -1 && col === -1) {
+                if (piece === undefined) {
+                    throw new Error(`A click was registered off the board, but no 'piece' parameter was passed.`);
+                }
+                if (! piece.startsWith("scroll_newval_")) {
+                    throw new Error(`An invalid scroll bar value was returned: ${piece}`);
+                }
+                // calculate maximum layer (0 indexed)
+                const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
+                const [,,nstr] = piece.split("_");
+                const n = parseInt(nstr, 10);
+                if (isNaN(n)) {
+                    throw new Error(`Could not parse '${nstr}' into an integer.`);
+                }
+                if (n > maxLayer) {
+                    this.hideLayer = undefined;
+                } else if (n < 2) {
+                    this.hideLayer = 2;
+                } else {
+                    this.hideLayer = n;
+                }
+            } else {
+                const cell = this.placeableCell(col, row);
+                if (cell === undefined) {
+                    return {
+                        move,
+                        valid: false,
+                        message: i18next.t("apgames:validation.margo.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
+                    };
+                }
+                newmove = cell;
+            }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
                 result.move = "";
@@ -605,6 +630,8 @@ export class MargoGame extends GameBase {
         this.pieceCount[0] = [...this.board.values()].filter(x => x === 1).length;
         this.pieceCount[1] = [...this.board.values()].filter(x => x === 2).length;
 
+        if (partial) { return this; }
+        this.hideLayer = undefined;
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
 
@@ -659,9 +686,11 @@ export class MargoGame extends GameBase {
     }
 
     public render(): APRenderRep {
+        // calculate maximum layer (0 indexed)
+        const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
         // Build piece string
         let pstr = "";
-        for (let layer = 0; layer < this.boardSize; layer++) {
+        for (let layer = 0; layer <= maxLayer; layer++) {
             for (let row = 0; row < this.boardSize - layer; row++) {
                 if (pstr.length > 0) {
                     pstr += "\n";
@@ -671,9 +700,17 @@ export class MargoGame extends GameBase {
                     if (this.board.has(cell)) {
                         const contents = this.board.get(cell);
                         if (contents === 1) {
-                            pstr += "A";
+                            if (this.hideLayer !== undefined && this.hideLayer <= layer) {
+                                pstr += "Y";
+                            } else {
+                                pstr += "A";
+                            }
                         } else if (contents === 2) {
-                            pstr += "B";
+                            if (this.hideLayer !== undefined && this.hideLayer <= layer) {
+                                pstr += "Z";
+                            } else {
+                                pstr += "B";
+                            }
                         }
                     } else {
                         pstr += "-";
@@ -693,6 +730,8 @@ export class MargoGame extends GameBase {
             legend: {
                 A: { name: "orb", player: 1, scale: 1.15 },
                 B: { name: "orb", player: 2, scale: 1.15 },
+                Y: { name: "circle", player: 1, scale: 1.15, opacity: 0.5 },
+                Z: { name: "circle", player: 2, scale: 1.15, opacity: 0.5 },
             },
             pieces: pstr,
         };
@@ -722,6 +761,19 @@ export class MargoGame extends GameBase {
                 rep.annotations.push({type: "move", targets, arrow: false});
             }
         }
+
+        if (maxLayer >= 2) {
+            rep.areas = [
+                {
+                    type: "scrollBar",
+                    position: "left",
+                    min: 2,
+                    max: maxLayer + 1,
+                    current: this.hideLayer !== undefined ? this.hideLayer : maxLayer + 1,
+                }
+            ];
+        }
+
         return rep;
     }
 

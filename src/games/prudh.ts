@@ -26,7 +26,7 @@ export class PrudhGame extends GameBase {
         uid: "prudh",
         playercounts: [2],
         version: "20240421",
-        dateAdded: "2024-04-21",
+        dateAdded: "2024-04-28",
         // i18next.t("apgames:descriptions.prudh")
         description: "apgames:descriptions.prudh",
         urls: ["https://crabfragmentlabs.com/prudh"],
@@ -38,7 +38,7 @@ export class PrudhGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>move>sow", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["experimental", "scores", "perspective", "pie", "custom-colours", "multistep"],
+        flags: ["scores", "perspective", "pie", "custom-colours", "multistep", "automove"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 6);

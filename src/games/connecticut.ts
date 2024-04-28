@@ -28,7 +28,7 @@ export class ConnecticutGame extends GameBase {
         uid: "connecticut",
         playercounts: [2],
         version: "20240317",
-        dateAdded: "2022-03-17",
+        dateAdded: "2024-03-17",
         // i18next.t("apgames:descriptions.connecticut")
         description: "apgames:descriptions.connecticut",
         urls: ["https://boardgamegeek.com/boardgame/297319/connecticut"],

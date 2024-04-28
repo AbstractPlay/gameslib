@@ -31,7 +31,7 @@ export class MargoGame extends GameBase {
         // i18next.t("apgames:descriptions.margo")
         description: "apgames:descriptions.margo",
         urls: [
-            "https://cambolbro.com/games/margo",
+            "http://cambolbro.com/games/margo",
             "https://boardgamegeek.com/boardgame/24923/margo"
         ],
         people: [

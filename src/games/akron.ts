@@ -32,7 +32,7 @@ export class AkronGame extends GameBase {
         // i18next.t("apgames:descriptions.akron")
         description: "apgames:descriptions.akron",
         urls: [
-            "https://cambolbro.com/games/akron",
+            "http://cambolbro.com/games/akron",
             "https://boardgamegeek.com/boardgame/10889/akron"
         ],
         people: [

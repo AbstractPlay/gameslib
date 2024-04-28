@@ -15,6 +15,7 @@ const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
 type Colour = 1|2|3|4;
+// orange, yellow, black, white
 
 interface IHouse {
     colour: Colour;
@@ -871,6 +872,7 @@ export class StreetcarGame extends GameBase {
                 width: 8,
                 height: 8,
                 strokeWeight: 15,
+                labelColour: "#000",
                 strokeColour: "#fff",
                 hexFill: "#cede86",
                 backFill: "#cede86",
@@ -1090,7 +1092,24 @@ export class StreetcarGame extends GameBase {
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "take") {
                     const [x, y] = StreetcarGame.algebraic2coords(move.from);
-                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
+                    if (move.what !== undefined) {
+                        switch (move.what) {
+                            case "1":
+                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], player: 6});
+                                break;
+                            case "2":
+                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], player: 4});
+                                break;
+                            case "3":
+                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: "#000"});
+                                break;
+                            case "4":
+                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: "#999"});
+                                break;
+                        }
+                    } else {
+                        rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
+                    }
                 }
             }
         }
@@ -1102,11 +1121,11 @@ export class StreetcarGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "take":
-                node.push(i18next.t("apresults:TAKE.streetcar", {player, from: r.from}));
+                node.push(i18next.t("apresults:TAKE.streetcar", {player, from: r.from, context: r.what}));
                 resolved = true;
                 break;
             case "place":
-                node.push(i18next.t("apresults:PLACE.streetcar", {player, where: r.where}));
+                node.push(i18next.t("apresults:PLACE.streetcar", {player, where: r.where, context: r.what}));
                 resolved = true;
                 break;
         }

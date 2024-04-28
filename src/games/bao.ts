@@ -236,7 +236,7 @@ export class BaoGame extends GameBase {
 
     /**
      * This function doesn't do any validation, but it is aware of the basic sowing rules.
-     * All it does is execute a givem move exactly as provided and return the results.
+     * All it does is execute a given move exactly as provided and return the results.
      * It is used by the `move()` function to execute a valid move, by `getBlocked()` to check
      * for kutakatia, and `moves()` for move generation.
      *
@@ -327,7 +327,7 @@ export class BaoGame extends GameBase {
                         if (currType === undefined) {
                             throw new Error(`Could not determine pit type for ${curr}`);
                         }
-                        // if capture occured in kimbi or kichwa, predetermined
+                        // if capture occurred in kimbi or kichwa, predetermined
                         if (currType.startsWith("ki")) {
                             const enterType: PitType = `kichwa${player}${currType[currType.length - 1]}` as PitType;
                             enterPit = this.graph.findType(enterType);

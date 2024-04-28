@@ -487,7 +487,7 @@ export class TaflGame extends GameBase {
     }
 
     private strongCaptureCheck(to: string, capture: string, initialFrom: string): boolean {
-        // Check if a pice moves from `from` to `to` will result in a strong capture of piece at `capture`.
+        // Check if a piece moves from `from` to `to` will result in a strong capture of piece at `capture`.
         // This is called by the custodian capture algorithm.
         const [plF,] = this.board.get(initialFrom)!;
         const [, pcC] = this.board.get(capture)!;
@@ -918,7 +918,7 @@ export class TaflGame extends GameBase {
                 }
             }
             previousTo = to;
-            // Chcek that all cells have the correct prefix.
+            // Check that all cells have the correct prefix.
             const toCheck = i === 0 ? [from, ...toCaptures] : toCaptures;
             for (const cell of toCheck) {
                 const prefixed = this.addPrefix(this.stripPrefix(cell))

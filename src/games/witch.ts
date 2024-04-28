@@ -233,7 +233,7 @@ export class WitchGame extends GameBase {
                         if ( (contents !== "E") && (aff !== undefined) && (contents !== aff) ) {
                             continue;
                         }
-                        // at this point, it's either Earth, or you're unaffliated, or it matches your affiliation
+                        // at this point, it's either Earth, or you're unaffiliated, or it matches your affiliation
                         if (affs.length === 1) {
                             moves.push(cell);
                         } else {

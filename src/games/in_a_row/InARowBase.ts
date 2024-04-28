@@ -88,7 +88,7 @@ export abstract class InARowBase extends GameBase {
         // Returns an array of winning lines, which are arrays of cells that are all occupied by the same player.
         // `inARow` is the minimum number of pieces in a row to return a winning line.
         // `exact` determines whether the line must be exactly `inARow` or at least `inARow`.
-        // `toroidal` determines if lines can wrap aronud.
+        // `toroidal` determines if lines can wrap around.
         let currentPlayer: playerid | undefined;
         let currentCounter = 0;
         let cells: string[] = [];
@@ -97,7 +97,7 @@ export abstract class InARowBase extends GameBase {
         let y = startY;
         let c = 0;
         // If toroidal, the first stone could be a continuation of a line from the other side of the board.
-        // If it is, we will not count put it into the winnig line on the first pass, but add it as part
+        // If it is, we will not count put it into the winning line on the first pass, but add it as part
         // of the last line as it wraps around.
         let skipFirst = false;
         let skipPlayer: playerid | undefined;

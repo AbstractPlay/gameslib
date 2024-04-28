@@ -409,7 +409,7 @@ export class CannonGame extends GameBase {
                             startidx = 2;
                         }
                     }
-                    // remaning three must be your soldiers
+                    // remaining three must be your soldiers
                     let iscannon = true;
                     for (let i = startidx; i < startidx + 3; i++) {
                         if (! mysoldiers.includes(ray[i])) {

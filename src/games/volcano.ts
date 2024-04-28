@@ -668,7 +668,7 @@ export class VolcanoGame extends GameBase {
                 }
             }
         }
-        // All remaning mediums now form the basis of their own stack and see if there is a matching small
+        // All remaining mediums now form the basis of their own stack and see if there is a matching small
         while (mds.length > 0) {
             const stack: CellContents[] = [];
             const next = mds.pop();

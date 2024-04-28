@@ -675,7 +675,7 @@ export class AmazonsGame extends GameBase {
                 },
                 X: {
                     name: "piece-square",
-                    colour: "#000"
+                    colour: "_context_fill"
                 }
             },
             pieces: pstr

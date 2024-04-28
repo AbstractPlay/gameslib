@@ -685,19 +685,19 @@ export class IrenseiGame extends InARowBase {
         const padding = this.toroidal ? this.toroidalPadding : this.border;
         markers.push(...[
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: 0, col: 0}, {row: 0, col: padding}, {row: end - 1, col: padding}, {row: end - 1, col: 0}],
             },
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: 0, col: end - 1 - padding}, {row: 0, col: end - 1}, {row: end - 1, col: end - 1}, {row: end - 1, col: end - 1 - padding}],
             },
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: 0, col: padding}, {row: 0, col: end - 1 - padding}, {row: padding, col: end - 1 - padding}, {row: padding, col: padding}],
             },
             {
-                type: "shading", colour: "#000", opacity: 0.2,
+                type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: end - 1 - padding, col: padding}, {row: end - 1 - padding, col: end - 1 - padding}, {row: end - 1, col: end - 1 - padding}, {row: end - 1, col: padding}],
             },
         ]);

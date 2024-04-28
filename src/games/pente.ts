@@ -509,7 +509,7 @@ export class PenteGame extends InARowBase {
                 const tentativeCaptures: string[] = [];
                 // We traverse in both the positive and negative directions.
                 // If we find that there is exactly `distance` stones in a row for that combined direction,
-                // and they are surronded by the opponent then there is a self-capture.
+                // and they are surrounded by the opponent then there is a self-capture.
                 let captureCount = 1;
                 for (const sign of [-1, 1]) {
                     for (let i = 1; i <= distance + 1; i++) {
@@ -591,7 +591,7 @@ export class PenteGame extends InARowBase {
                 playerPlaced.push(place);
             }
         }
-        // A cature looks like XOOX, or OXXO, where X is the player and O is the opponent.
+        // A capture looks like XOOX, or OXXO, where X is the player and O is the opponent.
         // In the captures-2-3 variant, captures can also look like XOOOX or OXXXO.
         const winningPatterns = this.variants.includes("capture-2-3") ? ["XOOX", "OXXO", "XOOOX", "OXXXO"] : ["XOOX", "OXXO"];
         for (let i = 0; i < this.boardSize; i++) {

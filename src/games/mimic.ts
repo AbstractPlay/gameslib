@@ -615,7 +615,7 @@ export class MimicGame extends GameBase {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
         }
 
-        // Get mimic, we don't have to worry about multiple mimics here becuase the move was already validated
+        // Get mimic, we don't have to worry about multiple mimics here because the move was already validated
         const mimic = this.getMimic(cells[0]);
 
         // Do first move

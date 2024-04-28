@@ -285,7 +285,7 @@ export class MonkeyQueenGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: to});
                     return result;
                 }
-                // queens can only do noncapturing moves if the stack is higer than 2
+                // queens can only do noncapturing moves if the stack is higher than 2
                 if (this.board.get(from)![1] === 2) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.monkey.QUEEN_DEPLETED");

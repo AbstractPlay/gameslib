@@ -62,7 +62,7 @@ This function is how you instantiate a particular game. Pass it the game's `uid`
 This is how to get long-form, localized messages from the games library. A list of supported locales is available in the exported variable `supportedLocales: string[]`.
 
 * If you're using i18next on your front end, do the following after initializing: `const i18n = APGames.addResource(lang); const { t } = i18n;`. This will merge the library's translations with yours under the `apgames` and `apresults` namespaces.
-* If you're not using i18next yourself, then simply call `APGames.addResource(lang)` at the beginning and every time the user changes their language. The library will use it's own i18next instance.
+* If you're not using i18next yourself, then simply call `APGames.addResource(lang)` at the beginning and every time the user changes their language. The library will use its own i18next instance.
 
 The only errors that are translated are those that could realistically be triggered by player input. They are captured using a specific error class, which inherits from `Error`, with the name `UserFacingError`. The `message` property is just an error code used internally by the library. The property `client` contains the localized string.
 

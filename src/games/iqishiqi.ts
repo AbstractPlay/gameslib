@@ -20,7 +20,7 @@ const oppositeDirection: Map<directions, directions> = new Map([
     ["NW", "SE"],
 ]);
 
-// Because I'm lazy to figure out how to do this programatically...
+// Because I'm lazy to figure out how to do this programmatically...
 const edgeSW = new Set(["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"]);
 const edgeS = new Set(["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"]);
 const edgeSE = new Set(["a8", "b9", "c10", "d11", "e12", "f13", "g14", "h15"]);

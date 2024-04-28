@@ -328,7 +328,7 @@ export class HomeworldsGame extends GameBase {
                     }
                 }
                 if (catas.length > 0) {
-                    // Make a PowerSet of catstrophe combinations
+                    // Make a PowerSet of catastrophe combinations
                     const it = new PowerSet(catas);
                     for (const c of [...it]) {
                         // Append those to this move

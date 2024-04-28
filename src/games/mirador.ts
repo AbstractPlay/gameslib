@@ -19,7 +19,7 @@ export type Stage = "play" | "challenge";
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
-    // board is 27 x 27. A1 corresponds to board[0][0], booard[0][1], board[1][0], and board[1][1],
+    // board is 27 x 27. A1 corresponds to board[0][0], board[0][1], board[1][0], and board[1][1],
     // Z26 corresponds to board[25][25], board[25][26], board[26][25], board[26][26]
     board: Array<Array<CellContents>>;
     stage: Stage;

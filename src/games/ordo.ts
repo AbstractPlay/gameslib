@@ -248,7 +248,7 @@ export class OrdoGame extends GameBase {
                 const ordoStart = this.getOrdo(cell1, cell2);
                 const ordoEnd = this.getMovedOrdo(cell1, cell2, right);
                 if ( (ordoStart === undefined) || (ordoEnd === undefined) ) {
-                    throw new Error("An error occured while calculating ordos.");
+                    throw new Error("An error occurred while calculating ordos.");
                 }
                 const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
                 for (const cell of ordoStart) {
@@ -588,7 +588,7 @@ export class OrdoGame extends GameBase {
                 const ordoStart = this.getOrdo(cell1, cell2);
                 const ordoEnd = this.getMovedOrdo(cell1, cell2, right);
                 if ( (ordoStart === undefined) || (ordoEnd === undefined) ) {
-                    throw new Error("An error occured while calculating ordos.");
+                    throw new Error("An error occurred while calculating ordos.");
                 }
                 const cloned: OrdoGame = Object.assign(new OrdoGame(), deepclone(this) as OrdoGame);
                 for (const cell of ordoStart) {

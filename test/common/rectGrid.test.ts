@@ -170,7 +170,7 @@ describe("RectGrid", () => {
         expect(RectGrid.isOrth(0, 0, 1, 1)).to.be.false;
     });
 
-    it ("Visiblity: diagonal", () => {
+    it ("Visibility: diagonal", () => {
         expect(RectGrid.isDiag(0, 0, 0, 1)).to.be.false;
         expect(RectGrid.isDiag(0, 0, 1, 0)).to.be.false;
         expect(RectGrid.isDiag(0, 0, 1, 1)).to.be.true;

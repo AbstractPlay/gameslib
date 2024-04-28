@@ -186,7 +186,7 @@ export class EpamGame extends GameBase {
     }
 
     /**
-     * A valid phalanx is the starting piece, followed optionally by an unroken line of friendly pieces.
+     * A valid phalanx is the starting piece, followed optionally by an unbroken line of friendly pieces.
      * For movement purposes, the phalanx must be terminated, meaning followed by an empty space.
      * For capturing purposes, though, you want to identify phalanxes even if they are against a board edge.
      * If `wantmoves` is true, then it only returns phalanxes terminated with an empty space.

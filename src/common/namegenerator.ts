@@ -1,4 +1,4 @@
-// Modifed from https://github.com/ghwilson4456/Weird-Name-Generator-jQuery-Plugin
+// Modified from https://github.com/ghwilson4456/Weird-Name-Generator-jQuery-Plugin
 
 type Sound = "hard"|"soft"|"random";
 

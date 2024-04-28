@@ -318,7 +318,7 @@ export class AttangleGame extends GameBase {
                             // unobstructed line of sight
                             for (const cell of [one, two]) {
                                 const [x, y] = this.graph.algebraic2coords(cell);
-                                // Doing indiscrimnate ray casting because I'm tired today and can't
+                                // Doing indiscriminate ray casting because I'm tired today and can't
                                 // figure out how to make a `bearing` function work in a HexTri graph.
                                 let seen = false;
                                 let ray: string[] = [];

@@ -576,7 +576,8 @@
             "EXCESS_FIRST": "You have placed too many stones. You may only place 1 stone in the normal opening as the first player.",
             "EXCESS": "You have placed too many stones. You may only place 2 stones.",
             "ONE_MORE": "Place 1 more stone on the board.",
-            "SWAP3RD2_INVALID": "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening."
+            "SWAP3RD2_INVALID": "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening.",
+            "NO_MOVELIST": "Move list not available for this game. Click on the board to place stones."
         },
         "connecticut": {
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",

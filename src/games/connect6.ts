@@ -44,7 +44,7 @@ export class Connect6Game extends InARowBase {
             { uid: "pass", group: "tiebreaker" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "custom-colours", "rotate90", "no-moves", "custom-randomization"],
+        flags: ["multistep", "custom-colours", "rotate90", "custom-randomization"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -139,7 +139,7 @@ export class Connect6Game extends InARowBase {
 
     private hasMoveGeneration(): boolean {
         // If the number of moves is too large, we don't want to generate the entire move list.
-        return true;
+        return this.stack.length === 1;
     }
 
     public moves(player?: playerid): string[] {
@@ -147,44 +147,14 @@ export class Connect6Game extends InARowBase {
             player = this.currplayer;
         }
         if (this.gameover) { return []; }
-        if (!this.hasMoveGeneration()) {
-            if (this.canSwap()) { return ["No movelist in opening", "pass"] }
-            return ["No movelist in opening"]
+        if (!this.hasMoveGeneration() || this.pastOpening()) {
+            if (this.canSwap()) { return ["No movelist", "pass"] }
+            return ["No movelist"]
         }
         if (this.stack.length === 1) {
             return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];
         }
         const moves: string[] = [];
-        if (this.openingProtocol === "swap-3rd" && this.stack.length === 2) {
-            const middle = (this.boardSize - 1) / 2;
-            for (let row = middle - 2; row <= middle + 2; row++) {
-                for (let col = middle - 2; col <= middle + 2; col++) {
-                    const cell = this.coords2algebraic(col, row);
-                    if (this.board.has(cell)) { continue; }
-                    for (let row1 = row; row1 <= middle + 2; row1++) {
-                        for (let col1 = row1 === row ? col + 1 : middle - 2; col1 <= middle + 2; col1++) {
-                            const cell1 = this.coords2algebraic(col1, row1);
-                            if (this.board.has(cell1)) { continue; }
-                            moves.push(this.normalisePlacement(cell + "," + cell1));
-                        }
-                    }
-                }
-            }
-            return moves;
-        }
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                if (this.board.has(cell)) { continue; }
-                for (let row1 = row; row1 < this.boardSize; row1++) {
-                    for (let col1 = row1 === row ? col + 1 : 0; col1 < this.boardSize; col1++) {
-                        const cell1 = this.coords2algebraic(col1, row1);
-                        if (this.board.has(cell1)) { continue; }
-                        moves.push(this.normalisePlacement(cell + "," + cell1));
-                    }
-                }
-            }
-        }
         if (this.canSwap() || this.pastOpening()) {
             moves.push("pass");
         }
@@ -206,11 +176,48 @@ export class Connect6Game extends InARowBase {
         if (this.openingProtocol === "swap-3rd") {
             return this.pastOpeningFunc(3, 0, true, buffer);
         }
-        return false;
+        return this.pastOpeningFunc(1, 0, false, buffer);
     }
 
     public randomMove(): string {
-        const moves = this.moves();
+        const moves: string[] = [];
+        if (this.stack.length === 1) {
+            moves.push(this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2));
+        } else {
+            if (this.openingProtocol === "swap-3rd" && this.stack.length === 2) {
+                const middle = (this.boardSize - 1) / 2;
+                for (let row = middle - 2; row <= middle + 2; row++) {
+                    for (let col = middle - 2; col <= middle + 2; col++) {
+                        const cell = this.coords2algebraic(col, row);
+                        if (this.board.has(cell)) { continue; }
+                        for (let row1 = row; row1 <= middle + 2; row1++) {
+                            for (let col1 = row1 === row ? col + 1 : middle - 2; col1 <= middle + 2; col1++) {
+                                const cell1 = this.coords2algebraic(col1, row1);
+                                if (this.board.has(cell1)) { continue; }
+                                moves.push(this.normalisePlacement(cell + "," + cell1));
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (let row = 0; row < this.boardSize; row++) {
+                    for (let col = 0; col < this.boardSize; col++) {
+                        const cell = this.coords2algebraic(col, row);
+                        if (this.board.has(cell)) { continue; }
+                        for (let row1 = row; row1 < this.boardSize; row1++) {
+                            for (let col1 = row1 === row ? col + 1 : 0; col1 < this.boardSize; col1++) {
+                                const cell1 = this.coords2algebraic(col1, row1);
+                                if (this.board.has(cell1)) { continue; }
+                                moves.push(this.normalisePlacement(cell + "," + cell1));
+                            }
+                        }
+                    }
+                }
+            }
+            if (this.canSwap() || this.pastOpening()) {
+                moves.push("pass");
+            }
+        }
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
@@ -275,10 +282,10 @@ export class Connect6Game extends InARowBase {
             result.message = message;
             return result;
         }
-        if (m === "No movelist in opening") {
+        if (m === "No movelist") {
             result.valid = false;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation._inarow.NO_MOVELIST");
+            result.message = i18next.t("apgames:validation.connect6.NO_MOVELIST");
             return result;
         }
         if (m === "pass") {
@@ -406,7 +413,7 @@ export class Connect6Game extends InARowBase {
         }
 
         let result;
-        if (m === "No movelist in opening") {
+        if (m === "No movelist") {
             result = {valid: false, message: i18next.t("apgames:validation.connect6.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }

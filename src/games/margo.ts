@@ -531,19 +531,19 @@ export class MargoGame extends GameBase {
             for (const ball of group) {
                 const [col, row, layer] = this.algebraic2coords2(ball);
                 if (layer > 0) {
-                    if (col > layer + 1) {
+                    if (col > layer) {
                         const cell = this.coords2algebraic2(col - 1, row + 1, layer - 1);
                         if (this.board.get(cell) === player) { ballsBelow.add(cell); }
                     }
-                    if (col < 2 * this.boardSize - layer - 2) {
+                    if (col < 2 * this.boardSize - layer - 1) {
                         const cell = this.coords2algebraic2(col + 1, row + 1, layer - 1);
                         if (this.board.get(cell) === player) { ballsBelow.add(cell); }
                     }
-                    if (row > layer + 1) {
+                    if (row > layer) {
                         const cell = this.coords2algebraic2(col - 1, row - 1, layer - 1);
                         if (this.board.get(cell) === player) { ballsBelow.add(cell); }
                     }
-                    if (row < 2 * this.boardSize - layer - 2) {
+                    if (row < 2 * this.boardSize - layer - 1) {
                         const cell = this.coords2algebraic2(col + 1, row - 1, layer - 1);
                         if (this.board.get(cell) === player) { ballsBelow.add(cell); }
                     }

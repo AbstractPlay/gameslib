@@ -147,8 +147,8 @@ export class Connect6Game extends InARowBase {
             player = this.currplayer;
         }
         if (this.gameover) { return []; }
-        if (!this.hasMoveGeneration() || this.pastOpening()) {
-            if (this.canSwap()) { return ["No movelist", "pass"] }
+        if (!this.hasMoveGeneration()) {
+            if (this.canSwap() || this.pastOpening()) { return ["No movelist", "pass"] }
             return ["No movelist"]
         }
         if (this.stack.length === 1) {

@@ -1605,6 +1605,9 @@
             }
         },
         "fourinarow": {
+            "board": {
+                "name": "8x8 board"
+            },
             "clear": {
                 "name": "no clear"
             },
@@ -2094,6 +2097,9 @@
             }
         },
         "fourinarow": {
+            "standard-10": {
+                "name": "10x10 board"
+            },
             "swap-2": {
                 "name": "Swap-2 opening",
                 "description": "The first player places three pieces. The second player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2."

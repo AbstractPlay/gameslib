@@ -42,6 +42,7 @@ export class FourInARowGame extends InARowBase {
             },
         ],
         variants: [
+            { uid: "standard-10", group: "board" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
             { uid: "edge-grow-4", group: "placement" },

@@ -193,7 +193,9 @@ export class Connect6Game extends InARowBase {
 
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
-        if (this.stack.length === 4) { return true; }
+        if (this.openingProtocol == "swap-3rd") {
+            if (this.stack.length === 4) { return true; }
+        }
         return false;
     }
 

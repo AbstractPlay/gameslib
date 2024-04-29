@@ -476,7 +476,8 @@ export class MargoGame extends GameBase {
         // `place` can either be a ball that is already placed on the board or a ball that is to be placed.
         const allCaptures: Set<string>[] = []
         const otherPlayer = player % 2 + 1 as playerid;
-        for (const n of this.orthNeighboursLayer1(place)) {
+        const toCheck = this.algebraic2coords2(place)[2] === 0 ? this.orthNeighboursLayer1(place) : this.getBelow([new Set([place])], player % 2 + 1 as playerid);
+        for (const n of toCheck) {
             if (allCaptures.some(x => x.has(n)) || !this.board.has(n) || this.board.get(n) === player) { continue; }
             const [group, liberties] = this.getGroupLiberties(n, [place], otherPlayer);
             if (liberties === 0) {

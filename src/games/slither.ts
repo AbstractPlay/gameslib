@@ -110,6 +110,7 @@ export class SlitherGame extends GameBase {
         }
 
         const state = this.stack[idx];
+        this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
@@ -515,9 +516,8 @@ export class SlitherGame extends GameBase {
         }
 
         if (m === "pass") {
-            this.results.push({type: "pass"});
+            this.results = [{ type: "pass" }];
         } else {
-            this.results = [];
             const moves = m.split(/[\/-]+/);
             if (moves.length === 1) {
                 if (!this.board.has(moves[0])) {
@@ -704,8 +704,8 @@ export class SlitherGame extends GameBase {
         // Add annotations
         // @ts-ignore
         rep.annotations = [];
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
-            for (const move of this.stack[this.stack.length - 1]._results) {
+        if (this.results.length > 0) {
+            for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = SlitherGame.algebraic2coords(move.where!, this.boardSize);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

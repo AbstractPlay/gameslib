@@ -168,7 +168,7 @@ export class SlitherGame extends GameBase {
                                 for (let x2 = 0; x2 < this.boardSize; x2++) {
                                     const place = SlitherGame.coords2algebraic(x2, y2, this.boardSize);
                                     if (place === to) { continue; }
-                                    if (place === cell && this.isValid(player, [to]) || !this.board.has(place) && this.isValid(player, [to, place], [cell])) {
+                                    if (!this.board.has(place) && this.isValid(player, [to, place], [cell])) {
                                         moves.push(`${cell}-${to}/${place}`);
                                     }
                                 }
@@ -438,7 +438,7 @@ export class SlitherGame extends GameBase {
             const [x,y] = SlitherGame.algebraic2coords(cell, this.boardSize);
             for (const n of this.grid.adjacencies(x, y)) {
                 const place = SlitherGame.coords2algebraic(...n, this.boardSize);
-                if (place === from && this.isValid(player, [to]) || !this.board.has(place) && this.isValid(player, [to, place], [from])) {
+                if (this.isValid(player, [to, place], [from])) {
                     return true;
                 }
             }
@@ -457,7 +457,7 @@ export class SlitherGame extends GameBase {
             const [x,y] = SlitherGame.algebraic2coords(cell, this.boardSize);
             for (const n of this.grid.adjacencies(x, y)) {
                 const place = SlitherGame.coords2algebraic(...n, this.boardSize);
-                if (place === from && this.isValid(player, [to]) || !this.board.has(place) && this.isValid(player, [to, place], [from])) {
+                if (this.isValid(player, [to, place], [from])) {
                     followups.add(place);
                 }
             }

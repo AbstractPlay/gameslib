@@ -1360,27 +1360,27 @@ export class TaflGame extends GameBase {
                 A: [{ name: "piece", player: 1 }],
                 B: [{ name: "piece", player: 2 }],
                 C: this.pieceMap.get("K")!.movement === "rook-1"
-                  ? [{ name: "piece-horse", player: 1 }, { text: "♧️", scale: 0.3 }]
+                  ? [{ name: "piece-horse", player: 1 }, { text: "♧️", scale: 0.3, colour: "_context_fill" }]
                   : this.pieceMap.get("K")!.power === "unarmed"
-                  ? [{ name: "piece-horse", player: 1 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
+                  ? [{ name: "piece-horse", player: 1 }, { name: "piecepack-suit-diamonds", scale: 0.4, colour: "_context_fill" }]
                   : this.pieceMap.get("K")?.strength === "strong"
-                  ? [ { name: "piece-horse", player: 1 }, { name: "cross-orth", scale: 0.4 } ]
+                  ? [ { name: "piece-horse", player: 1 }, { name: "cross-orth", scale: 0.4, colour: "_context_fill" } ]
                   : this.pieceMap.get("K")?.strength === "strong-near-throne"
-                  ? [ { name: "piece-horse", player: 1 }, { text: "〜", scale: 0.3 } ]
-                  : [{ name: "piece-horse", player: 1 }, { text: "━", scale: 0.4 }],
+                  ? [ { name: "piece-horse", player: 1 }, { text: "〜", scale: 0.3, colour: "_context_fill" } ]
+                  : [{ name: "piece-horse", player: 1 }, { text: "━", scale: 0.4, colour: "_context_fill" }],
                 D: this.pieceMap.get("K")!.movement === "rook-1"
-                  ? [{ name: "piece-horse", player: 2 }, { text: "♧️", scale: 0.3 }]
+                  ? [{ name: "piece-horse", player: 2 }, { text: "♧️", scale: 0.3, colour: "_context_fill" }]
                   : this.pieceMap.get("K")!.power === "unarmed"
-                  ? [{ name: "piece-horse", player: 2 }, { name: "piecepack-suit-diamonds", scale: 0.4 }]
+                  ? [{ name: "piece-horse", player: 2 }, { name: "piecepack-suit-diamonds", scale: 0.4, colour: "_context_fill" }]
                   : this.pieceMap.get("K")?.strength === "strong"
-                  ? [ { name: "piece-horse", player: 2 }, { name: "cross-orth", scale: 0.4 } ]
+                  ? [ { name: "piece-horse", player: 2 }, { name: "cross-orth", scale: 0.4, colour: "_context_fill" } ]
                   : this.pieceMap.get("K")?.strength === "strong-near-throne"
-                  ? [ { name: "piece-horse", player: 2 }, { text: "〜", scale: 0.3 } ]
-                  : [{ name: "piece-horse", player: 2 }, { text: "━", scale: 0.4 }],
-                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.5 }],
-                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.5 }],
-                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.5 }],
-                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.5 }],
+                  ? [ { name: "piece-horse", player: 2 }, { text: "〜", scale: 0.3, colour: "_context_fill" } ]
+                  : [{ name: "piece-horse", player: 2 }, { text: "━", scale: 0.4, colour: "_context_fill" }],
+                E: [{ name: "piece", player: 1 }, { text: "C", scale: 0.5, colour: "_context_fill" }],
+                F: [{ name: "piece", player: 2 }, { text: "C", scale: 0.5, colour: "_context_fill" }],
+                G: [{ name: "piece", player: 1 }, { text: "N", scale: 0.5, colour: "_context_fill" }],
+                H: [{ name: "piece", player: 2 }, { text: "N", scale: 0.5, colour: "_context_fill" }],
             },
             pieces: pstr,
         };

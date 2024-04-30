@@ -2227,10 +2227,10 @@
                 "name": "size-4 board (Spargo)"
             },
             "size-6": {
-                "name": "size-6 board"
+                "name": "size-6 board (small)"
             },
-            "size-8": {
-                "name": "size-8 board"
+            "size-9": {
+                "name": "size-9 board (large)"
             }
         },
         "mattock": {

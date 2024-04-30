@@ -44,7 +44,7 @@ export class MargoGame extends GameBase {
         variants: [
             { uid: "size-4", group: "board" },
             { uid: "size-6", group: "board" },
-            { uid: "size-8", group: "board" },
+            { uid: "size-9", group: "board" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie", "scores", "rotate90"],

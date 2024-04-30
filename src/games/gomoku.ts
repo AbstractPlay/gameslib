@@ -12,7 +12,6 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
-    captureCounts: [number, number];
     winningLines: string[][];
     swapped: boolean;
     tiebreaker?: playerid;
@@ -61,7 +60,6 @@ export class GomokuGame extends InARowBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public captureCounts: [number, number] = [0, 0];
     public swapped = false;
     public boardSize = 0;
     private openingProtocol: "pro" | "swap-2" | "swap-5";
@@ -83,7 +81,6 @@ export class GomokuGame extends InARowBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                captureCounts: [0, 0],
                 winningLines: [],
                 swapped: false,
                 tiebreaker: undefined,
@@ -122,7 +119,6 @@ export class GomokuGame extends InARowBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.captureCounts = [...state.captureCounts];
         this.winningLines  = state.winningLines.map(a => [...a]);
         this.swapped = state.swapped;
         this.tiebreaker = state.tiebreaker;
@@ -493,7 +489,7 @@ export class GomokuGame extends InARowBase {
     }
 
     protected checkEOG(): GomokuGame {
-        const winningLinesMap = this.getWinningLinesMap();
+        const winningLinesMap = this.getWinningLinesMap(this.overline === "ignored" ? [1, 2] : []);
         const winner: playerid[] = [];
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
@@ -503,10 +499,8 @@ export class GomokuGame extends InARowBase {
             }
         }
         if (winner.length === 0 && this.pastOpening(1)) {
-            const allMoves = this.moves();
             if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" ||
-                    allMoves.length === 0 ||
-                    allMoves.length === 1 && allMoves[0] === "pass") {
+                    !this.hasEmptySpace()) {
                 if (this.passTiebreaker) {
                     if (this.tiebreaker === undefined) {
                         winner.push(this.swapped ? 1 : 2);
@@ -578,12 +572,6 @@ export class GomokuGame extends InARowBase {
             }
         }
         let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj }] : [];
-        if (this.variants.includes("capture-2-3")) {
-            markers.push({
-                belowGrid: true, type: "shading", colour: "#FFA500", opacity: 0.1,
-                points: [{row: 0, col: 0}, {row: 0, col: renderBoardSize - 1}, {row: renderBoardSize - 1, col: renderBoardSize - 1}, {row: renderBoardSize - 1, col: 0}],
-            });
-        }
         if (this.toroidal) {
             const end = this.boardSize + 2 * this.toroidalPadding;
             markers.push(...[
@@ -677,7 +665,6 @@ export class GomokuGame extends InARowBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            captureCounts: [...this.captureCounts],
             winningLines: this.winningLines.map(a => [...a]),
             swapped: this.swapped,
             tiebreaker: this.tiebreaker,

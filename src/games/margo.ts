@@ -27,7 +27,7 @@ export class MargoGame extends GameBase {
         uid: "margo",
         playercounts: [2],
         version: "20240421",
-        dateAdded: "2024-04-21",
+        dateAdded: "2024-04-30",
         // i18next.t("apgames:descriptions.margo")
         description: "apgames:descriptions.margo",
         urls: [
@@ -47,7 +47,7 @@ export class MargoGame extends GameBase {
             { uid: "size-9", group: "board" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie", "scores", "rotate90"],
+        flags: ["pie", "scores", "rotate90"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {

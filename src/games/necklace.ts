@@ -29,7 +29,7 @@ export class NecklaceGame extends GameBase {
         uid: "necklace",
         playercounts: [2],
         version: "20240426",
-        dateAdded: "2024-04-26",
+        dateAdded: "2024-04-30",
         // i18next.t("apgames:descriptions.necklace")
         description: "apgames:descriptions.necklace",
         urls: [
@@ -49,7 +49,7 @@ export class NecklaceGame extends GameBase {
         ],
         variants: [],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "pie", "automove", "rotate90"]
+        flags: ["pie", "automove", "rotate90"]
     };
 
     public coords2algebraic(x: number, y: number): string {

@@ -28,7 +28,7 @@ export class SponnectGame extends GameBase {
         uid: "sponnect",
         playercounts: [2],
         version: "20240421",
-        dateAdded: "2024-04-21",
+        dateAdded: "2024-04-30",
         // i18next.t("apgames:descriptions.sponnect")
         description: "apgames:descriptions.sponnect",
         urls: ["https://boardgamegeek.com/boardgame/113670/sponnect"],
@@ -42,7 +42,7 @@ export class SponnectGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie", "rotate90"],
+        flags: ["pie", "rotate90"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {

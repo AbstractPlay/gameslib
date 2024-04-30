@@ -28,7 +28,7 @@ export class AkronGame extends GameBase {
         uid: "akron",
         playercounts: [2],
         version: "20240421",
-        dateAdded: "2024-04-21",
+        dateAdded: "2024-04-30",
         // i18next.t("apgames:descriptions.akron")
         description: "apgames:descriptions.akron",
         urls: [
@@ -47,7 +47,7 @@ export class AkronGame extends GameBase {
             { uid: "size-11", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie", "rotate90", "check"],
+        flags: ["pie", "rotate90", "check"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {

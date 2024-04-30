@@ -1500,7 +1500,7 @@
     "variantGroups": {
         "akron": {
             "board": {
-                "name": "size-8 board"
+                "name": "size-9 board"
             }
         },
         "amazons": {
@@ -1846,11 +1846,11 @@
             }
         },
         "akron": {
-            "size-6": {
-                "name": "size-6 board"
+            "size-7": {
+                "name": "size-7 board (small)"
             },
-            "size-10": {
-                "name": "size-10 board"
+            "size-11": {
+                "name": "size-11 board (large)"
             }
         },
         "almatafl": {

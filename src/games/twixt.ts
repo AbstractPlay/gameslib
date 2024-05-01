@@ -973,7 +973,6 @@ export class TwixtGame extends GameBase {
                 markers.push({
                     type: "line",
                     points: diagonal,
-                    colour: "#000",
                     width: 5,
                     opacity: 0.2,
                     centered: true,

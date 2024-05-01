@@ -784,6 +784,20 @@ export class FourInARowGame extends InARowBase {
                 })
             }
         }
+        if (this.placement === "gravity-4") {
+            markers.push({
+                type: "line",
+                points: [ { "row": 0, "col": 0 }, { "row": this.boardSize, "col": this.boardSize } ],
+                width: 2,
+                opacity: 0.2,
+            });
+            markers.push({
+                type: "line",
+                points: [ { "row": 0, "col": this.boardSize }, { "row": this.boardSize, "col": 0 } ],
+                width: 2,
+                opacity: 0.2,
+            });
+        }
         if (this.results.some(r => r.type === "remove")) {
             const clearDirections = this.results.filter(r => r.type === "remove").map(r => (r as Extract<APMoveResult, { type: 'remove' }>).where);
             for (const dir of clearDirections) {

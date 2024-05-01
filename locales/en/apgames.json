@@ -2118,7 +2118,7 @@
                 "description": "Pieces \"drop\" from the edges: you may place on a free space right before the first filled space from any edge. Edges cannot be blocked, so the pieces are actually dropped from the first free space from the edge."
             },
             "interior-gravity-4": {
-                "name": "Interior gravity-4",
+                "name": "Interior-gravity-4",
                 "description": "Pieces appear from any free space on the board, then slide to the free space right before the first filled space in the direction of the closest edge. On the diagonal where it is equidistant to two edges, the piece will slide to the closest corner."
             },
             "clear": {

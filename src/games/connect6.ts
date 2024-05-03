@@ -515,12 +515,12 @@ export class Connect6Game extends InARowBase {
         const cells: Set<string> = new Set();
         for (const delta of [[0, 1], [1, 0], [-1, 0], [0, -1], [-1, -1], [-1, 1], [1, -1], [1, 1]]) {
             const [dx, dy] = delta;
-            let [cx, cy] = [x, y];
-            while (true) {
-                cx += dx;
-                cy += dy;
-                if (cx < 0 || cx >= this.boardSize || cy < 0 || cy >= this.boardSize) { break; }
-                const cell1 = this.coords2algebraic(cx, cy);
+            let count = 1;
+            while (count < this.boardSize) {
+                const [x1, y1, wrapped] = this.wrap(x + dx, y + dy);
+                if (!this.toroidal && wrapped) { break; }
+                count++;
+                const cell1 = this.coords2algebraic(x1, y1);
                 if (this.board.has(cell1)) { continue; }
                 cells.add(cell1);
             }

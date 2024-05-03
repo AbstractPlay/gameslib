@@ -83,6 +83,19 @@ export abstract class InARowBase extends GameBase {
         return count;
     }
 
+    protected lastNonPass(): string | undefined {
+        // Get the last non-pass move.
+        if (this.stack.length === 1) { return undefined; }
+        let lastMove = "";
+        for (let i = this.stack.length - 1; i >= 0; i--) {
+            if (this.stack[i].lastmove !== "pass") {
+                lastMove = this.stack[i].lastmove as string;
+                break;
+            }
+        }
+        return lastMove;
+    }
+
     private checkLines(startX: number, startY: number, dx: number, dy: number, inARow = 5, exact: playerid[], toroidal = false, border = 0): string[][] {
         // Check for winning lines in a given direction.
         // Returns an array of winning lines, which are arrays of cells that are all occupied by the same player.

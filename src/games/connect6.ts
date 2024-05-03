@@ -40,6 +40,8 @@ export class Connect6Game extends InARowBase {
         ],
         variants: [
             { uid: "toroidal-15", group: "board" },
+            { uid: "collinear6", group: "ruleset", experimental: true },
+            { uid: "noncollinear5", group: "ruleset", experimental: true },
             { uid: "swap-3rd", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
         ],
@@ -73,6 +75,7 @@ export class Connect6Game extends InARowBase {
     public overline = "win" as "win" | "ignored" | "forbidden";
     private passTiebreaker = false;
     private tiebreaker?: playerid;
+    private ruleset: "default" | "collinear6" | "noncollinear5";
 
     constructor(state?: IConnect6State | string, variants?: string[]) {
         super();
@@ -107,6 +110,8 @@ export class Connect6Game extends InARowBase {
         this.openingProtocol = this.getOpeningProtocol();
         this.toroidal = this.variants.some(v => v.startsWith("toroidal"));
         this.passTiebreaker = this.variants.includes("pass");
+        this.ruleset = this.getRuleset();
+        this.winningLineLength = this.ruleset === "noncollinear5" ? 5 : 6;
     }
 
     public load(idx = -1): Connect6Game {
@@ -135,6 +140,12 @@ export class Connect6Game extends InARowBase {
     private getOpeningProtocol(): "centre" | "swap-3rd" {
         if (this.variants.includes("swap-3rd")) { return "swap-3rd"; }
         return "centre";
+    }
+
+    private getRuleset(): "default" | "collinear6" | "noncollinear5" {
+        if (this.variants.includes("collinear6")) { return "collinear6"; }
+        if (this.variants.includes("noncollinear5")) { return "noncollinear5"; }
+        return "default";
     }
 
     private hasMoveGeneration(): boolean {
@@ -186,29 +197,91 @@ export class Connect6Game extends InARowBase {
         } else {
             if (this.openingProtocol === "swap-3rd" && this.stack.length === 2) {
                 const middle = (this.boardSize - 1) / 2;
-                for (let row = middle - 2; row <= middle + 2; row++) {
-                    for (let col = middle - 2; col <= middle + 2; col++) {
-                        const cell = this.coords2algebraic(col, row);
-                        if (this.board.has(cell)) { continue; }
-                        for (let row1 = row; row1 <= middle + 2; row1++) {
-                            for (let col1 = row1 === row ? col + 1 : middle - 2; col1 <= middle + 2; col1++) {
-                                const cell1 = this.coords2algebraic(col1, row1);
-                                if (this.board.has(cell1)) { continue; }
-                                moves.push(this.normalisePlacement(cell + "," + cell1));
+                if (this.ruleset === "collinear6") {
+                    const collinearPrev = this.collinearPrev();
+                    const moveSet: Set<string> = new Set();
+                    for (const cell of collinearPrev) {
+                        const [x, y] = this.algebraic2coords(cell);
+                        if (x < middle - 2 || x > middle + 2 || y < middle - 2 || y > middle + 2) { continue; }
+                        for (const cell1 of this.cellsFrom(cell)) {
+                            const [x1, y1] = this.algebraic2coords(cell1);
+                            if (x1 < middle - 2 || x1 > middle + 2 || y1 < middle - 2 || y1 > middle + 2) { continue; }
+                            moveSet.add(this.normalisePlacement(cell + "," + cell1));
+                        }
+                    }
+                    moves.push(...moveSet);
+                } else if (this.ruleset === "noncollinear5") {
+                    const moveSet: Set<string> = new Set();
+                    for (let row = middle - 2; row <= middle + 2; row++) {
+                        for (let col = middle - 2; col <= middle + 2; col++) {
+                            const cell = this.coords2algebraic(col, row);
+                            if (this.board.has(cell)) { continue; }
+                            const fromFirst = this.cellsFrom(cell);
+                            for (let row1 = row; row1 <= middle + 2; row1++) {
+                                for (let col1 = row1 === row ? col + 1 : middle - 2; col1 <= middle + 2; col1++) {
+                                    const cell1 = this.coords2algebraic(col1, row1);
+                                    if (this.board.has(cell1)) { continue; }
+                                    if (fromFirst.has(cell1)) { continue; }
+                                    moveSet.add(this.normalisePlacement(cell + "," + cell1));
+                                }
+                            }
+                        }
+                    }
+                    moves.push(...moveSet);
+                } else {
+                    for (let row = middle - 2; row <= middle + 2; row++) {
+                        for (let col = middle - 2; col <= middle + 2; col++) {
+                            const cell = this.coords2algebraic(col, row);
+                            if (this.board.has(cell)) { continue; }
+                            for (let row1 = row; row1 <= middle + 2; row1++) {
+                                for (let col1 = row1 === row ? col + 1 : middle - 2; col1 <= middle + 2; col1++) {
+                                    const cell1 = this.coords2algebraic(col1, row1);
+                                    if (this.board.has(cell1)) { continue; }
+                                    moves.push(this.normalisePlacement(cell + "," + cell1));
+                                }
                             }
                         }
                     }
                 }
             } else {
-                for (let row = 0; row < this.boardSize; row++) {
-                    for (let col = 0; col < this.boardSize; col++) {
-                        const cell = this.coords2algebraic(col, row);
-                        if (this.board.has(cell)) { continue; }
-                        for (let row1 = row; row1 < this.boardSize; row1++) {
-                            for (let col1 = row1 === row ? col + 1 : 0; col1 < this.boardSize; col1++) {
-                                const cell1 = this.coords2algebraic(col1, row1);
-                                if (this.board.has(cell1)) { continue; }
-                                moves.push(this.normalisePlacement(cell + "," + cell1));
+                if (this.ruleset === "collinear6") {
+                    const collinearPrev = this.collinearPrev();
+                    const moveSet: Set<string> = new Set();
+                    for (const cell of collinearPrev) {
+                        for (const cell1 of this.cellsFrom(cell)) {
+                            moveSet.add(this.normalisePlacement(cell + "," + cell1));
+                        }
+                    }
+                    moves.push(...moveSet);
+                } else if (this.ruleset === "noncollinear5") {
+                    const moveSet: Set<string> = new Set();
+                    for (let row = 0; row < this.boardSize; row++) {
+                        for (let col = 0; col < this.boardSize; col++) {
+                            const cell = this.coords2algebraic(col, row);
+                            if (this.board.has(cell)) { continue; }
+                            const fromFirst = this.cellsFrom(cell);
+                            for (let row1 = row; row1 < this.boardSize; row1++) {
+                                for (let col1 = row1 === row ? col + 1 : 0; col1 < this.boardSize; col1++) {
+                                    const cell1 = this.coords2algebraic(col1, row1);
+                                    if (this.board.has(cell1)) { continue; }
+                                    if (fromFirst.has(cell1)) { continue; }
+                                    moveSet.add(this.normalisePlacement(cell + "," + cell1));
+                                }
+                            }
+                        }
+                    }
+                    moves.push(...moveSet);
+                } else {
+                    for (let row = 0; row < this.boardSize; row++) {
+                        for (let col = 0; col < this.boardSize; col++) {
+                            const cell = this.coords2algebraic(col, row);
+                            if (this.board.has(cell)) { continue; }
+                            for (let row1 = row; row1 < this.boardSize; row1++) {
+                                for (let col1 = row1 === row ? col + 1 : 0; col1 < this.boardSize; col1++) {
+                                    const cell1 = this.coords2algebraic(col1, row1);
+                                    if (this.board.has(cell1)) { continue; }
+                                    moves.push(this.normalisePlacement(cell + "," + cell1));
+                                }
                             }
                         }
                     }
@@ -354,6 +427,22 @@ export class Connect6Game extends InARowBase {
                 }
             }
         }
+        if (this.stack.length > 1 && this.ruleset === "collinear6") {
+            const collinearPrev = this.collinearPrev();
+            if (moves.length === 1) {
+                if (!collinearPrev.has(moves[0])) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.connect6.COLLINEAR_FIRST");
+                    return result;
+                }
+            } else {
+                if (!collinearPrev.has(moves[0]) && !collinearPrev.has(moves[1])) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.connect6.COLLINEAR_OPPONENT");
+                    return result;
+                }
+            }
+        }
         if (!singleStone) {
             if (moves.length === 1) {
                 result.valid = true;
@@ -387,6 +476,19 @@ export class Connect6Game extends InARowBase {
                 result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
+            if (this.ruleset === "collinear6") {
+                if (!this.cellsFrom(moves[0]).has(moves[1])) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.connect6.COLLINEAR_SECOND");
+                    return result;
+                }
+            } else if (this.ruleset === "noncollinear5") {
+                if (this.cellsFrom(moves[0]).has(moves[1])) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.connect6.NONCOLLINEAR_SECOND");
+                    return result;
+                }
+            }
         }
         // Since there is no move list for placement phase, we have to do some extra validation.
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
@@ -405,6 +507,38 @@ export class Connect6Game extends InARowBase {
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
+    }
+
+    private cellsFrom(cell: string): Set<string> {
+        // Return all unoccupied cells that can be seen from the given cell.
+        const [x, y] = this.algebraic2coords(cell);
+        const cells: Set<string> = new Set();
+        for (const delta of [[0, 1], [1, 0], [-1, 0], [0, -1], [-1, -1], [-1, 1], [1, -1], [1, 1]]) {
+            const [dx, dy] = delta;
+            let [cx, cy] = [x, y];
+            while (true) {
+                cx += dx;
+                cy += dy;
+                if (cx < 0 || cx >= this.boardSize || cy < 0 || cy >= this.boardSize) { break; }
+                const cell1 = this.coords2algebraic(cx, cy);
+                if (this.board.has(cell1)) { continue; }
+                cells.add(cell1);
+            }
+        }
+        return cells;
+    }
+
+    private collinearPrev(): Set<string> {
+        // Get last non-pass move and return all cells that can be seen from it.
+        if (this.stack.length === 1) { return new Set(); }
+        const lastMove = this.lastNonPass()!;
+        const cells: Set<string> = new Set();
+        for (const c of lastMove.split(",")) {
+            for (const cell of this.cellsFrom(c)) {
+                cells.add(cell);
+            }
+        }
+        return cells;
     }
 
     public move(m: string, {partial = false, trusted = false} = {}): Connect6Game {
@@ -497,6 +631,11 @@ export class Connect6Game extends InARowBase {
             this.results.push({ type: "winners", players: [...this.winner] });
         }
         return this;
+    }
+
+    private isNewResult(): boolean {
+        // Check if the `this.result` is new, or if it was copied from the previous state.
+        return this.results.every(r => r !== this.stack[this.stack.length - 1]._results[0]);
     }
 
     public render(): APRenderRep {
@@ -615,6 +754,17 @@ export class Connect6Game extends InARowBase {
                     }
                     // @ts-ignore
                     rep.annotations.push({type: "move", targets, arrow: false});
+                }
+            }
+        }
+        // If the last move was a pass, we want to annotate the last non-pass move.
+        if (this.lastmove === "pass" && !this.isNewResult()) {
+            const lastNonPass = this.lastNonPass()!;
+            for (const cell of lastNonPass.split(",")) {
+                const coordsAll = this.renderAlgebraic2coords(cell);
+                for (const [x, y] of coordsAll) {
+                    // @ts-ignore
+                    rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
                 }
             }
         }

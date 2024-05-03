@@ -578,7 +578,11 @@
             "EXCESS": "You have placed too many stones. You may only place 2 stones.",
             "ONE_MORE": "Place 1 more stone on the board.",
             "SWAP3RD2_INVALID": "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening.",
-            "NO_MOVELIST": "Move list not available for this game. Click on the board to place stones."
+            "NO_MOVELIST": "Move list not available for this game. Click on the board to place stones.",
+            "COLLINEAR_FIRST": "Select an intersection that is collinear with a stone placed in the last turn.",
+            "COLLINEAR_OPPONENT": "One of the intersections you selected must be collinear with a stone placed in the last turn.",
+            "COLLINEAR_SECOND": "Both your intersections must be collinear with each other.",
+            "NONCOLLINEAR_SECOND": "Your second stone cannot be collinear with your first stone."
         },
         "connecticut": {
             "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
@@ -1580,6 +1584,10 @@
                 "name": "centre opening",
                 "description": "The first stone has to be at the centre."
             },
+            "ruleset": {
+                "name": "ruleset",
+                "description": "Free placement of both stones."
+            },
             "tiebreaker": {
                 "name": "no tiebreak"
             }
@@ -2012,6 +2020,14 @@
         "connect6": {
             "toroidal-15": {
                 "name": "Toroidal 15x15 board"
+            },
+            "collinear6": {
+                "name": "Collinear Connect6",
+                "description": "The first stone placed has to be collinear with a stone placed in the last turn, and the second stone has to be collinear with the first stone."
+            },
+            "noncollinear5": {
+                "name": "Non-Collinear Connect5",
+                "description": "The two stones placed must not be collinear with each other. The win condition is to get at least a five-in-a-row."
             },
             "swap-3rd": {
                 "name": "Swap-3rd opening",

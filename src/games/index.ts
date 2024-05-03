@@ -118,6 +118,7 @@ import { SponnectGame, ISponnectState } from "./sponnect";
 import { AkronGame, IAkronState } from "./akron";
 import { MargoGame, IMargoState } from "./margo";
 import { NecklaceGame, INecklaceState } from "./necklace";
+import { UpperHandGame, IUpperHandState } from "./upperhand";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -238,6 +239,7 @@ export {
     AkronGame, IAkronState,
     MargoGame, IMargoState,
     NecklaceGame, INecklaceState,
+    UpperHandGame, IUpperHandState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -279,7 +281,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof Connect6Game | typeof GomokuGame | typeof RenjuGame |
                               typeof FourInARowGame | typeof IrenseiGame | typeof PrudhGame |
                               typeof SponnectGame | typeof AkronGame | typeof MargoGame |
-                              typeof NecklaceGame
+                              typeof NecklaceGame | typeof UpperHandGame
                 >();
 // Manually add each game to the following array
 [
@@ -299,7 +301,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame, SponnectGame,
-    AkronGame, MargoGame, NecklaceGame
+    AkronGame, MargoGame, NecklaceGame, UpperHandGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -545,6 +547,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new MargoGame(...args);
         case "necklace":
             return new NecklaceGame(...args);
+        case "upperhand":
+            return new UpperHandGame(...args);
     }
     return;
 }

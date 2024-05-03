@@ -250,6 +250,7 @@
         "streetcar_43": "A height-3 WHITE building was placed at {{where}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "tumbleweed": "{{player}} placed a stack of size {{count}} at {{where}}.",
+        "upperhand_chain": "A ball of {{whose}} was placed at {{where}}.",
         "urbino": {
             "house": "{{player}} placed a house at {{where}}.",
             "palace": "{{player}} placed a palace at {{where}}.",

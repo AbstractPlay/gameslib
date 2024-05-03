@@ -515,11 +515,11 @@ export class Connect6Game extends InARowBase {
         const cells: Set<string> = new Set();
         for (const delta of [[0, 1], [1, 0], [-1, 0], [0, -1], [-1, -1], [-1, 1], [1, -1], [1, 1]]) {
             const [dx, dy] = delta;
-            let count = 1;
-            while (count < this.boardSize) {
-                const [x1, y1, wrapped] = this.wrap(x + dx, y + dy);
+            let i = 1;
+            while (i < this.boardSize) {
+                const [x1, y1, wrapped] = this.wrap(x + i * dx, y + i * dy);
                 if (!this.toroidal && wrapped) { break; }
-                count++;
+                i++;
                 const cell1 = this.coords2algebraic(x1, y1);
                 if (this.board.has(cell1)) { continue; }
                 cells.add(cell1);
@@ -528,10 +528,10 @@ export class Connect6Game extends InARowBase {
         return cells;
     }
 
-    private collinearPrev(): Set<string> {
+    private collinearPrev(lastMove?: string): Set<string> {
         // Get last non-pass move and return all cells that can be seen from it.
         if (this.stack.length === 1) { return new Set(); }
-        const lastMove = this.lastNonPass()!;
+        lastMove ??= this.lastNonPass()!;
         const cells: Set<string> = new Set();
         for (const c of lastMove.split(",")) {
             for (const cell of this.cellsFrom(c)) {
@@ -597,6 +597,38 @@ export class Connect6Game extends InARowBase {
         return this;
     }
 
+    protected hasMovesCollinear6(): boolean {
+        // This is used to determine if there are still moves left for collinear6.
+        const lastMove = this.lastmove === "pass" ? this.lastNonPass() : this.lastmove;
+        const collinearPrev = this.collinearPrev(lastMove);
+        if (collinearPrev.size === 0) { return false; }
+        for (const cell of collinearPrev) {
+            const cellsFrom = this.cellsFrom(cell);
+            if (cellsFrom.size > 0) { return true; }
+        }
+        return false;
+    }
+
+    protected hasMovesNonCollinear5(): boolean {
+        // This is used to determine if there are still moves left for noncollinear5.
+        for (let i = 0; i < this.boardSize; i++) {
+            for (let j = 0; j < this.boardSize; j++) {
+                const cell = this.coords2algebraic(j, i);
+                if (this.board.has(cell)) { continue; }
+                const cellsFrom = this.cellsFrom(cell);
+                for (let i1 = i; i1 < this.boardSize; i1++) {
+                    for (let j1 = i1 === i ? j + 1 : 0; j1 < this.boardSize; j1++) {
+                        const cell1 = this.coords2algebraic(j1, i1);
+                        if (this.board.has(cell1)) { continue; }
+                        if (cellsFrom.has(cell1)) { continue; }
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     protected checkEOG(): Connect6Game {
         const winningLinesMap = this.getWinningLinesMap(this.overline === "ignored" ? [1, 2] : []);
         const winner: playerid[] = [];
@@ -609,7 +641,9 @@ export class Connect6Game extends InARowBase {
         }
         if (winner.length === 0 && this.pastOpening(1)) {
             if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass" ||
-                    !this.hasEmptySpace()) {
+                    this.ruleset === "default" && !this.hasEmptySpace() ||
+                    this.ruleset === "collinear6" && !this.hasMovesCollinear6() ||
+                    this.ruleset === "noncollinear5" && !this.hasMovesNonCollinear5()) {
                 if (this.passTiebreaker) {
                     if (this.tiebreaker === undefined) {
                         winner.push(this.swapped ? 1 : 2);

@@ -307,8 +307,20 @@ export class Connect6Game extends InARowBase {
 
     private normalisePlacement(m: string): string {
         // Sort the two cells in a move.
-        const moves = m.split(",");
-        return moves.sort((a, b) => this.sort(a, b)).join(",");
+        if (this.ruleset === "collinear6") {
+            // We sort only if both cells are collinear with a previous move.
+            const moves = m.split(",");
+            const collinearPrev = this.collinearPrev();
+            if (collinearPrev.has(moves[0]) && collinearPrev.has(moves[1])) {
+                return moves.sort((a, b) => this.sort(a, b)).join(",");
+            } else {
+                return m;
+            }
+
+        } else {
+            const moves = m.split(",");
+            return moves.sort((a, b) => this.sort(a, b)).join(",");
+        }
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -429,18 +441,10 @@ export class Connect6Game extends InARowBase {
         }
         if (this.stack.length > 1 && this.ruleset === "collinear6") {
             const collinearPrev = this.collinearPrev();
-            if (moves.length === 1) {
-                if (!collinearPrev.has(moves[0])) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.connect6.COLLINEAR_FIRST");
-                    return result;
-                }
-            } else {
-                if (!collinearPrev.has(moves[0]) && !collinearPrev.has(moves[1])) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.connect6.COLLINEAR_OPPONENT");
-                    return result;
-                }
+            if (!collinearPrev.has(moves[0])) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.connect6.COLLINEAR_FIRST");
+                return result;
             }
         }
         if (!singleStone) {

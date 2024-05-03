@@ -579,9 +579,8 @@
             "ONE_MORE": "Place 1 more stone on the board.",
             "SWAP3RD2_INVALID": "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening.",
             "NO_MOVELIST": "Move list not available for this game. Click on the board to place stones.",
-            "COLLINEAR_FIRST": "Select an intersection that is collinear with a stone placed in the last turn.",
-            "COLLINEAR_OPPONENT": "One of the intersections you selected must be collinear with a stone placed in the last turn.",
-            "COLLINEAR_SECOND": "Both your intersections must be collinear with each other.",
+            "COLLINEAR_FIRST": "Your first stone must be collinear with a stone placed on the last turn.",
+            "COLLINEAR_SECOND": "Your second stone must be collinear with your first stone.",
             "NONCOLLINEAR_SECOND": "Your second stone cannot be collinear with your first stone."
         },
         "connecticut": {

@@ -1,4 +1,5 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+/* eslint-disable no-console */
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -125,6 +126,7 @@ export class UpperHandGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
     private boardSize = 0;
+    private hideLayer: number|undefined;
 
     constructor(state?: IUpperHandState | string, variants?: string[]) {
         super();
@@ -233,22 +235,46 @@ export class UpperHandGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.placeableCell(col, row);
-            if (cell === undefined) {
-                return {
-                    move,
-                    valid: false,
-                    message: i18next.t("apgames:validation.upperhand.CANNOT_PLACE", {move: this.coords2algebraic(col, row)})
-                };
-            }
             let newmove = "";
-            newmove = cell;
+            if (row === -1 && col === -1) {
+                if (piece === undefined) {
+                    throw new Error(`A click was registered off the board, but no 'piece' parameter was passed.`);
+                }
+                if (! piece.startsWith("scroll_newval_")) {
+                    throw new Error(`An invalid scroll bar value was returned: ${piece}`);
+                }
+                // calculate maximum layer (0 indexed)
+                const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
+                const [,,nstr] = piece.split("_");
+                const n = parseInt(nstr, 10);
+                if (isNaN(n)) {
+                    throw new Error(`Could not parse '${nstr}' into an integer.`);
+                }
+                if (n > maxLayer) {
+                    this.hideLayer = undefined;
+                } else if (n < 2) {
+                    this.hideLayer = 2;
+                } else {
+                    this.hideLayer = n;
+                }
+            } else {
+                const cell = this.placeableCell(col, row);
+                if (cell === undefined) {
+                    return {
+                        move,
+                        valid: false,
+                        message: i18next.t("apgames:validation.upperhand.CANNOT_PLACE", {move: this.coords2algebraic(col, row)})
+                    };
+                }
+                newmove = cell;
+            }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
                 result.move = "";
             } else {
                 result.move = newmove;
             }
+            result.opts = {hideLayer: this.hideLayer};
             return result;
         } catch (e) {
             return {
@@ -380,6 +406,8 @@ export class UpperHandGame extends GameBase {
             }
             chain = newChain;
         }
+        if (partial) { return this; }
+        this.hideLayer = undefined;
 
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
@@ -429,9 +457,12 @@ export class UpperHandGame extends GameBase {
         };
     }
 
-    private getPiece(player: number, layer: number): [Glyph, ...Glyph[]]  {
+    private getPiece(player: number, layer: number, trans = false): [Glyph, ...Glyph[]]  {
         // Choose max blackness and whiteness.
         // Returns a combined glypth based on the player colour for a given layer 1 to boardSize.
+        if (trans) {
+            return [{ name: "circle", colour: "#FFF", scale: 1.15, opacity: 0.5 }, { name: "circle", player, scale: 1.15, opacity: 0.5 }];
+        }
         const blackness = 0.1;
         const whiteness = 0.5;
         const layers = this.boardSize;
@@ -445,11 +476,17 @@ export class UpperHandGame extends GameBase {
         }
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let hideLayer = this.hideLayer;
+        if (opts?.hideLayer !== undefined) {
+            hideLayer = opts.hideLayer;
+        }
+        // calculate maximum layer (0 indexed)
+        const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
         // Build piece string
         let pstr = "";
         const labels: Set<string> = new Set();
-        for (let layer = 0; layer < this.boardSize; layer++) {
+        for (let layer = 0; layer <= (hideLayer ?? maxLayer); layer++) {
             for (let row = 0; row < this.boardSize - layer; row++) {
                 if (pstr.length > 0) {
                     pstr += "\n";
@@ -461,11 +498,23 @@ export class UpperHandGame extends GameBase {
                         const contents = this.board.get(cell);
                         let key;
                         if (contents === 1) {
-                            key = `A${layer + 1}`;
+                            if (hideLayer !== undefined && hideLayer <= layer) {
+                                key = `X${layer + 1}`;
+                            } else {
+                                key = `A${layer + 1}`;
+                            }
                         } else if (contents === 2) {
-                            key = `B${layer + 1}`;
+                            if (hideLayer !== undefined && hideLayer <= layer) {
+                                key = `Y${layer + 1}`;
+                            } else {
+                                key = `B${layer + 1}`;
+                            }
                         } else {
-                            key = `C${layer + 1}`;
+                            if (hideLayer !== undefined && hideLayer <= layer) {
+                                key = `Z${layer + 1}`;
+                            } else {
+                                key = `C${layer + 1}`;
+                            }
                         }
                         pieces.push(key);
                         labels.add(key);
@@ -485,8 +534,8 @@ export class UpperHandGame extends GameBase {
         for (const label of labels) {
             const piece = label[0];
             const layer = parseInt(label.slice(1), 10);
-            const player = piece === "A" ? 1 : piece === "B" ? 2 : 3;
-            legend[label] = this.getPiece(player, layer);
+            const player = piece === "A" || piece === "X" ? 1 : piece === "B" || piece === "Y" ? 2 : 3;
+            legend[label] = this.getPiece(player, layer, ["X", "Y", "Z"].includes(piece));
         }
 
         // Build rep
@@ -514,6 +563,18 @@ export class UpperHandGame extends GameBase {
                 }
             }
         }
+        if (maxLayer >= 2) {
+            rep.areas = [
+                {
+                    type: "scrollBar",
+                    position: "left",
+                    min: 2,
+                    max: maxLayer + 1,
+                    current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
+                }
+            ];
+        }
+
         return rep;
     }
 

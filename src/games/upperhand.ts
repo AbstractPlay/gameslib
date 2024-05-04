@@ -1,12 +1,15 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 type playerid = 1 | 2 | 3;
 
+interface ILooseObj {
+    [key: string]: any;
+}
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
@@ -426,32 +429,65 @@ export class UpperHandGame extends GameBase {
         };
     }
 
+    private getPiece(player: number, layer: number): [Glyph, ...Glyph[]]  {
+        // Choose max blackness and whiteness.
+        // Returns a combined glypth based on the player colour for a given layer 1 to boardSize.
+        const blackness = 0.1;
+        const whiteness = 0.5;
+        const layers = this.boardSize;
+        const scaled = (whiteness + blackness) * (layer - 1) / (layers - 1) - blackness;
+        if (scaled === 0) {
+            return [{ name: "piece", player, scale: 1.15 }];
+        } else {
+            const colour = scaled < 0 ? "#000" : "#FFF";
+            const opacity = scaled < 0 ? 1 + scaled : 1 - scaled;
+            return [{ name: "piece", colour, scale: 1.15 }, { name: "piece", player, scale: 1.15, opacity }]
+        }
+    }
+
     public render(): APRenderRep {
         // Build piece string
         let pstr = "";
+        const labels: Set<string> = new Set();
         for (let layer = 0; layer < this.boardSize; layer++) {
             for (let row = 0; row < this.boardSize - layer; row++) {
                 if (pstr.length > 0) {
                     pstr += "\n";
                 }
+                let pieces: string[] = [];
                 for (let col = 0; col < this.boardSize - layer; col++) {
                     const cell = this.layerCoords2algebraic(col, row, layer);
                     if (this.board.has(cell)) {
                         const contents = this.board.get(cell);
+                        let key;
                         if (contents === 1) {
-                            pstr += "A";
+                            key = `A${layer + 1}`;
                         } else if (contents === 2) {
-                            pstr += "B";
+                            key = `B${layer + 1}`;
                         } else {
-                            pstr += "C";
+                            key = `C${layer + 1}`;
                         }
+                        pieces.push(key);
+                        labels.add(key);
                     } else {
-                        pstr += "-";
+                        pieces.push("-");
                     }
                 }
+                // If all elements are "-", replace with "_"
+                if (pieces.every(p => p === "-")) {
+                    pieces = ["_"];
+                }
+                pstr += pieces.join(",");
             }
         }
-        pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
+
+        const legend: ILooseObj = {};
+        for (const label of labels) {
+            const piece = label[0];
+            const layer = parseInt(label.slice(1), 10);
+            const player = piece === "A" ? 1 : "B" ? 2 : 3;
+            legend[label] = this.getPiece(player, layer);
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -460,11 +496,7 @@ export class UpperHandGame extends GameBase {
                 width: this.boardSize,
                 height: this.boardSize,
             },
-            legend: {
-                A: { name: "piece", player: 1, scale: 1.15 },
-                B: { name: "piece", player: 2, scale: 1.15 },
-                C: { name: "piece", player: 3, scale: 1.15 },
-            },
+            legend,
             pieces: pstr,
         };
 

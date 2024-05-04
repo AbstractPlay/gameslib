@@ -572,7 +572,7 @@ export class UpperHandGame extends GameBase {
                 {
                     type: "scrollBar",
                     position: "left",
-                    min: 1,
+                    min: 0,
                     max: maxLayer + 1,
                     current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
                 }

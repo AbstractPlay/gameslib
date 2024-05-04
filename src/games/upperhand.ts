@@ -252,8 +252,8 @@ export class UpperHandGame extends GameBase {
                 }
                 if (n > maxLayer) {
                     this.hideLayer = undefined;
-                } else if (n < 2) {
-                    this.hideLayer = 2;
+                } else if (n < 1) {
+                    this.hideLayer = 1;
                 } else {
                     this.hideLayer = n;
                 }
@@ -563,12 +563,12 @@ export class UpperHandGame extends GameBase {
                 }
             }
         }
-        if (maxLayer >= 2) {
+        if (maxLayer >= 1) {
             rep.areas = [
                 {
                     type: "scrollBar",
                     position: "left",
-                    min: 2,
+                    min: 1,
                     max: maxLayer + 1,
                     current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
                 }

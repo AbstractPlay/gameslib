@@ -485,7 +485,7 @@ export class UpperHandGame extends GameBase {
         for (const label of labels) {
             const piece = label[0];
             const layer = parseInt(label.slice(1), 10);
-            const player = piece === "A" ? 1 : "B" ? 2 : 3;
+            const player = piece === "A" ? 1 : piece === "B" ? 2 : 3;
             legend[label] = this.getPiece(player, layer);
         }
 

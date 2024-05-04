@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -449,7 +449,7 @@ export class ConnecticutGame extends GameBase {
         };
     }
 
-    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
         let altDisplay: string | undefined;
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;

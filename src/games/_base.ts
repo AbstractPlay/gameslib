@@ -81,6 +81,20 @@ export interface IAPGameState {
 }
 
 /**
+ * Describes the options that can be passed to the `render()` function.
+ * Sometimes, you need to explicitly pass options to this function because
+ * you can't pass an object affected by a partial move (e.g., scrollBar feature).
+ *
+ * @export
+ * @interface IAPRenderOpts
+ */
+export interface IRenderOpts {
+    perspective?: number;
+    altDisplay?: string;
+    hideLayer?: number;
+}
+
+/**
  * valid: A simple boolean that tells you whether the move to this point is valid, even if only partially so.
  * See `message` for details.
  * message: A localized message that explains the state of the move at this point.
@@ -107,14 +121,19 @@ export interface IAPGameState {
 }
 
 /**
- * Subset of IValidationResult. Just adds what the client is expected to put into the move box.
+ * Superset of IValidationResult. Used to pass information when you can't trust that the
+ * receiver will pass the resulting object itself. Used by the scrollBar feature and likely
+ * other future needs.
+ *
  * move: The new result that should be placed in the move entry area
+ * opts: Container object that can be passed directly to the `render()` function.
  *
  * @export
  * @interface IClickResult
  */
 export interface IClickResult extends IValidationResult {
     move: string;
+    opts?: IRenderOpts;
 }
 
 interface IPlayerDetails {
@@ -222,7 +241,7 @@ export abstract class GameBase  {
     public abstract currplayer: number|undefined;
 
     public abstract move(move: string, opts?: IMoveOptions): GameBase;
-    public abstract render({ perspective, altDisplay} : { perspective: number | undefined, altDisplay: string | undefined }): APRenderRep;
+    public abstract render(opts: IRenderOpts): APRenderRep;
     public abstract state(): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract clone(): GameBase;

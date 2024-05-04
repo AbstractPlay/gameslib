@@ -1,5 +1,5 @@
 // import { IGame } from "./IGame";
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult, IRenderOpts } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
@@ -523,7 +523,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
-    public render( { perspective } : { perspective: number | undefined } = {perspective: undefined}): APRenderRep {
+    public render({perspective}: IRenderOpts): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 7; row++) {

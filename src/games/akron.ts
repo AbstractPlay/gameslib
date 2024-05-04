@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -308,6 +308,7 @@ export class AkronGame extends GameBase {
             } else {
                 result.move = newmove;
             }
+            result.opts = {hideLayer: this.hideLayer};
             return result;
         } catch (e) {
             return {
@@ -793,8 +794,11 @@ export class AkronGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
-        // calculate maximum layer (0 indexed)
+    public render(opts?: IRenderOpts): APRenderRep {
+        let hideLayer = this.hideLayer;
+        if (opts?.hideLayer !== undefined) {
+            hideLayer = opts.hideLayer;
+        }
         const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
         // Build piece string
         let pstr = "";
@@ -808,13 +812,13 @@ export class AkronGame extends GameBase {
                     if (this.board.has(cell)) {
                         const contents = this.board.get(cell);
                         if (contents === 1) {
-                            if (this.hideLayer !== undefined && this.hideLayer <= layer) {
+                            if (hideLayer !== undefined && hideLayer <= layer) {
                                 pstr += "Y";
                             } else {
                                 pstr += "A";
                             }
                         } else if (contents === 2) {
-                            if (this.hideLayer !== undefined && this.hideLayer <= layer) {
+                            if (hideLayer !== undefined && hideLayer <= layer) {
                                 pstr += "Z";
                             } else {
                                 pstr += "B";
@@ -895,7 +899,7 @@ export class AkronGame extends GameBase {
                     position: "left",
                     min: 2,
                     max: maxLayer + 1,
-                    current: this.hideLayer !== undefined ? this.hideLayer : maxLayer + 1,
+                    current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
                 }
             ];
         }

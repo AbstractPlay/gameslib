@@ -1,4 +1,4 @@
-import { IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -798,7 +798,7 @@ export class PenteGame extends InARowBase {
         return [threatened1, threatened2];
     }
 
-    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
         let altDisplay: string | undefined;
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
 import { Directions, reviver, UserFacingError } from "../common";
@@ -723,7 +723,7 @@ export class FourInARowGame extends InARowBase {
         return this.results.every(r => r !== this.stack[this.stack.length - 1]._results[0]);
     }
 
-    public render(opts?: { altDisplay: string | undefined }): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
         let altDisplay: string | undefined;
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;

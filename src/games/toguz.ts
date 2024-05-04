@@ -5,7 +5,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { SowingNoEndsGraph, reviver, UserFacingError } from "../common";
-import type { IScores } from "./_base";
+import type { IRenderOpts, IScores } from "./_base";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const deepclone = require("rfdc/default");
@@ -384,7 +384,7 @@ export class ToguzGame extends GameBase {
         };
     }
 
-    public render(opts?: { altDisplay: string | undefined}): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
         let altDisplay: string|undefined;
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;

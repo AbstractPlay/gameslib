@@ -68,7 +68,7 @@
         "mchess": "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
         "meridians": "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
         "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
-        "mirador": "Mirador is a fast and exhilerating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
+        "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
@@ -94,7 +94,7 @@
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
-        "sponnect": "A simple Shibumi connection game where every internal space that can be burried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
+        "sponnect": "A simple Shibumi connection game where every internal space that can be buried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "symple": "A territory game where you get a point for every stone placed, and a penalty for each individual group of connected pieces. Find the right balance to maximize your score.",
@@ -120,7 +120,7 @@
     },
     "notes": {
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
-        "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are higlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
+        "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
@@ -222,7 +222,7 @@
             "CAPTURE4MOVE": "You signalled a capture, but there's no piece at {{where}}.",
             "DEFAULT_HANDLER": "This is the default handler and should never be called directly. Please inform the administrator.",
             "FAILSAFE": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
-            "GENERIC": "A generic error occured while processing your click:\nError message: {{emessage}}\nStack: {{estack}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
+            "GENERIC": "A generic error occurred while processing your click:\nError message: {{emessage}}\nStack: {{estack}}\nMove: {{move}}, Row: {{row}}, Col: {{col}}, Index: {{index}}",
             "INCOMPLETE_MOVE": "This move looks incomplete.",
             "INVALID_MOVE": "'{{move}}' doesn't look like a valid move.",
             "INVALID_NUMBER": "{{num}} could not be processed as a number.",
@@ -915,7 +915,7 @@
             "INVALID_TO": "You may not move the miner from {{from}} to {{to}}."
         },
         "mchess": {
-            "BAD_CALL": "You may not \"call the clock\" before seven moves have passed without capture or when the coundown is already active.",
+            "BAD_CALL": "You may not \"call the clock\" before seven moves have passed without capture or when the countdown is already active.",
             "INITIAL_INSTRUCTIONS": "Select a piece on your side of the board to move.",
             "INVALID_MOVE": "You're either trying to move too far or jump another piece.",
             "INVALID_PROMOTION": "Invalid field promotion. You can only promote to piece sizes you don't already control.",
@@ -1114,7 +1114,7 @@
             "INITIAL_INSTRUCTIONS": "Make a chess knight's move with one of your pieces, or move your ball to one of your open pieces.",
             "OWN_RECEIVER": "You can only move the ball to one of your own pieces.",
             "NO_RECEIVER": "There is no one at {{cell}} to receive the ball.",
-            "INELIGBLE_RECEIVER": "This piece is inelgible to receive the ball.",
+            "INELIGBLE_RECEIVER": "This piece is ineligible to receive the ball.",
             "REPEAT_RECEIVER": "You can't move the ball to the same piece twice in a row.",
             "OBSTRUCTED": "Moving the ball from {{from}} to {{to}} isn't valid as there is an obstruction at {{obstruction}}.",
             "INCOMPLETE_BALL_MOVE": "You must keep moving the ball, because this position repeats an earlier position and would therefore not be valid.",
@@ -1272,7 +1272,7 @@
             "PLACEMENT_MADE": "You have already made a move at {{where}}.",
             "DIAGONAL": "A piece may not be diagonally adjacent unless orthogonally connected by like-coloured piece.",
             "CANNOT_MOVE": "Advanced Slither: Movement only possible if a piece is part of a contiguous orthogonal group consisting of pieces of both colors.",
-            "NOT_ADJACENT": "Pieces can only move to unoccupied othogonally or diagonally adjacent spaces.",
+            "NOT_ADJACENT": "Pieces can only move to unoccupied orthogonally or diagonally adjacent spaces.",
             "NO_VALID_FOLLOWUP": "Movement here will not result in a valid follow-up move.",
             "NEED_PLACEMENT": "You must place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available."
@@ -1476,7 +1476,7 @@
             "ALREADY_AFFLIATED": "Pieces have already been chosen.",
             "BOTH_EMPTY": "When selecting a line of pieces, both the start and end cells must be empty.",
             "EMPTY_CAPTURE": "Captures must include at least one piece.",
-            "INCOMPLETE_AFFILIATION": "To choose your affliation, the move must start with '(S)' or '(M)'.",
+            "INCOMPLETE_AFFILIATION": "To choose your affiliation, the move must start with '(S)' or '(M)'.",
             "INITIAL_INSTRUCTIONS": "Click a piece to remove or an empty space to start removing a line of pieces.",
             "NO_CROWNS": "You may not pick up crowns directly.",
             "NO_ENEMY": "You may not pick up your opponent's pieces.",
@@ -2104,7 +2104,7 @@
         },
         "fabrik": {
             "arbeiter": {
-                "description": "Each player controls one worker and cannot move the other. The victory condition is comensurately reduced to three pieces in a row instead of four.",
+                "description": "Each player controls one worker and cannot move the other. The victory condition is commensurately reduced to three pieces in a row instead of four.",
                 "name": "Arbeiter"
             }
         },
@@ -2656,7 +2656,7 @@
         },
         "urbino": {
             "monuments": {
-                "description": "Monuments are combinations of specific pieces in a row. Each district will score the most valuble monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties.",
+                "description": "Monuments are combinations of specific pieces in a row. Each district will score the most valuable monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties.",
                 "name": "Monuments"
             }
         },

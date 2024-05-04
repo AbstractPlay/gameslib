@@ -461,7 +461,7 @@ export class UpperHandGame extends GameBase {
         // Choose max blackness and whiteness.
         // Returns a combined glypth based on the player colour for a given layer 1 to boardSize.
         if (trans) {
-            return [{ name: "circle", colour: "#FFF", scale: 1.15, opacity: 0.5 }, { name: "circle", player, scale: 1.15, opacity: 0.5 }];
+            return [{ name: "circle", colour: "#FFF", scale: 1.15, opacity: 0.25 }, { name: "circle", player, scale: 1.15, opacity: 0.25 }];
         }
         const blackness = 0.1;
         const whiteness = 0.5;

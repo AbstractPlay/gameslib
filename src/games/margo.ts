@@ -323,11 +323,6 @@ export class MargoGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
             return result;
         }
-        if (!this.moves().includes(m)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.margo.CANNOT_PLACE", { where: m });
-            return result;
-        }
         if (this.isSelfCapture(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.margo.SELF_CAPTURE", { where: m });
@@ -336,6 +331,11 @@ export class MargoGame extends GameBase {
         if (this.checkKo(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.margo.KO");
+            return result;
+        }
+        if (!this.moves().includes(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.margo.CANNOT_PLACE", { where: m });
             return result;
         }
         result.valid = true;

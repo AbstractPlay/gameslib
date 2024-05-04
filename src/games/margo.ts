@@ -566,6 +566,7 @@ export class MargoGame extends GameBase {
         if (this.stack.length < 2) { return false; }
         const captures = this.getCaptures(place, player);
         if (captures.length !== 1) { return false; }
+        if (captures[0].size !== 1) { return false; }
         const previous = this.stack[this.stack.length - 1];
         const previousMove = previous.lastmove!;
         if (!captures.some(x => x.has(previousMove))) { return false; }

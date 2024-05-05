@@ -29,7 +29,7 @@ export class UpperHandGame extends GameBase {
         uid: "upperhand",
         playercounts: [2],
         version: "20240501",
-        dateAdded: "2024-05-01",
+        dateAdded: "2024-05-05",
         // i18next.t("apgames:descriptions.upperhand")
         description: "apgames:descriptions.upperhand",
         urls: ["https://boardgamegeek.com/boardgame/4545/upper-hand"],
@@ -43,8 +43,8 @@ export class UpperHandGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "size-9", group: "board" },
         ],
-        categories: ["goal>score>race", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie", "scores", "rotate90"],
+        categories: ["goal>score>race", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["pie", "scores", "rotate90"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {

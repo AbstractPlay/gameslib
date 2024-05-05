@@ -40,8 +40,8 @@ export class Connect6Game extends InARowBase {
         ],
         variants: [
             { uid: "toroidal-15", group: "board" },
-            { uid: "collinear6", group: "ruleset", experimental: true },
-            { uid: "noncollinear5", group: "ruleset", experimental: true },
+            { uid: "collinear6", group: "ruleset" },
+            { uid: "noncollinear5", group: "ruleset" },
             { uid: "swap-3rd", group: "opening" },
             { uid: "pass", group: "tiebreaker" },
         ],

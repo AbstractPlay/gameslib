@@ -433,9 +433,10 @@ export class BaoGame extends GameBase {
          * Decision tree:
          *   Namua
          *     - Any pits with seeds with opposing seeds? --> Mtaji
-         *     - If house and pits with seeds that are not house --> Kutakata
-         *     - If any pits with 2+ seeds --> Kutakata
-         *     - If any pits with any seeds --> Kutakata
+         *     - If functional house and pits with seeds that are not house --> Kutakata
+         *     - If any non-house pits with 2+ seeds --> Kutakata
+         *     - If any non-house pits with any seeds --> Kutakata
+         *     - If all that's left is the house --> Kutakata
          *   Mtaji
          *     - Any pits with opposing seeds that can be reached by sowing (<16 seeds)? --> Mtaji
          *     - Any unblocked inner pits with 2+ seeds ? --> Kutakata
@@ -495,23 +496,32 @@ export class BaoGame extends GameBase {
                         }
                     }
                 }
-                // without a working house, any cell with 2+ stones
+                // without a working house, any cell with 2+ stones that is not an owned house
                 else {
                     for (const col of cols) {
                         const cell = this.graph.coords2algebraic(col, myFront);
-                        if (this.board[myFront][col] >= 2) {
+                        if ( (this.board[myFront][col] >= 2) && (cell !== this.houses[player-1]) ) {
                             noncaps.push(`${cell}<*`);
                             noncaps.push(`${cell}>*`);
                         }
                     }
                 }
+                // at this point, any unowned house cell can be sown
                 if (noncaps.length === 0) {
                     for (const col of cols) {
                         const cell = this.graph.coords2algebraic(col, myFront);
-                        if (this.board[myFront][col] >= 1) {
+                        if ( (this.board[myFront][col] >= 1) && (cell !== this.houses[player-1]) ) {
                             noncaps.push(`${cell}<*`);
                             noncaps.push(`${cell}>*`);
                         }
+                    }
+                }
+                // and if still nothing, then either only the house remains, or the game is over
+                if ( (noncaps.length === 0) && (cols.length > 0) ) {
+                    for (const col of cols) {
+                        const cell = this.graph.coords2algebraic(col, myFront);
+                        noncaps.push(`${cell}<*`);
+                        noncaps.push(`${cell}>*`);
                     }
                 }
             }

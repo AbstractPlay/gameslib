@@ -573,7 +573,7 @@ export class MargoGame extends GameBase {
         if (!captures.some(x => x.has(previousMove))) { return false; }
         const previousCaptures = previous._results.filter(r => r.type === "capture")
         if (previousCaptures.length !== 1) { return false; }
-        return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).count! === 1;
+        return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).where! === place;
     }
 
     public move(m: string, {partial = false, trusted = false} = {}): MargoGame {

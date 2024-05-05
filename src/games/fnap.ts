@@ -1011,7 +1011,7 @@ export class FnapGame extends GameBaseSimultaneous {
                             }
                             break;
                         case "eog":
-                            node.push(i18next.t("apresults:EOG"));
+                            node.push(i18next.t("apresults:EOG.default"));
                             break;
                         case "resigned":
                             let rname = `Player ${r.player}`;

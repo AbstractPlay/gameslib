@@ -47,7 +47,7 @@ export class TaflGame extends GameBase {
         name: "Hnefatafl",
         uid: "tafl",
         playercounts: [2],
-        version: "20240208",
+        version: "20240505",
         dateAdded: "2024-02-24",
         // i18next.t("apgames:descriptions.tafl")
         description: "apgames:descriptions.tafl",
@@ -1206,29 +1206,35 @@ export class TaflGame extends GameBase {
         if (this.kingDead()) {
             this.gameover = true;
             this.winner = [this.playerAttacker];
+            this.results.push({ type: "eog", reason: "king-captured" });
         } else if (this.escaped()) {
             this.gameover = true;
             this.winner = [this.playerDefender];
+            this.results.push({ type: "eog", reason: "king-escaped" });
         } else if (this.settings.ruleset.repetition === "defenders-lose" && this.currplayer === this.playerAttacker && this.stateCount() >= 2) {
             // Perpetual repetitions is a loss for the defender.
             // But we only enforce it if defender player makes their turn.
             this.gameover = true;
             this.winner = [this.playerAttacker];
+            this.results.push({ type: "eog", reason: "repetition" });
         } else if (this.settings.ruleset.repetition === "draw" && this.stateCount() >= 2) {
             this.gameover = true;
             this.winner = [1, 2];
+            this.results.push({ type: "eog", reason: "repetition" });
         } else if (this.currplayer === this.playerAttacker && this.settings.ruleset.encirclementWin! && this.encircled()) {
             this.gameover = true;
             this.winner = [this.playerAttacker];
+            this.results.push({ type: "eog", reason: "encirclement" });
         } else if (this.currplayer === this.playerDefender && this.settings.ruleset.hasExitForts! && this.hasExitFort()) {
             this.gameover = true;
             this.winner = [this.playerDefender];
+            this.results.push({ type: "eog", reason: "exit-fort" });
         } else if (!this.hasMoves()) {
             this.gameover = true;
             this.winner = [otherPlayer];
+            this.results.push({ type: "eog", reason: "stalemate" });
         }
         if (this.gameover) {
-            this.results.push({type: "eog"});
             this.results.push({type: "winners", players: [...this.winner]});
         }
         return this;
@@ -1449,6 +1455,29 @@ export class TaflGame extends GameBase {
                 break;
             case "capture":
                 node.push(i18next.t("apresults:CAPTURE.tafl", { player, where: r.where }));
+                resolved = true;
+                break;
+            case "eog":
+                switch (r.reason) {
+                    case "king-captured":
+                        node.push(i18next.t("apresults:EOG.tafl_king_captured"));
+                        break;
+                    case "king-escaped":
+                        node.push(i18next.t("apresults:EOG.tafl_king_escaped"));
+                        break;
+                    case "repetition":
+                        node.push(i18next.t("apresults:EOG.repetition", { count: 3 }));
+                        break;
+                    case "stalemate":
+                        node.push(i18next.t("apresults:EOG.stalemate"));
+                        break;
+                    case "encirclement":
+                        node.push(i18next.t("apresults:EOG.tafl_encirclement"));
+                        break;
+                    case "exit-fort":
+                        node.push(i18next.t("apresults:EOG.tafl_exit_fort"));
+                        break;
+                }
                 resolved = true;
                 break;
         }

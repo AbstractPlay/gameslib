@@ -940,7 +940,7 @@ export class VeletasGame extends GameBase {
                                 node.push(i18next.t("apresults:CLAIM.veletas", {where: r.where, who: r.who !== state.currplayer ? name : players.filter(p => p !== name)[0]}));
                                 break;
                             case "eog":
-                                node.push(i18next.t("apresults:EOG"));
+                                node.push(i18next.t("apresults:EOG.default"));
                                 break;
                             case "resigned":
                                 let rname = `Player ${r.player}`;

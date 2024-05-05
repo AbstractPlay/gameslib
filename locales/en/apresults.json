@@ -125,7 +125,16 @@
     },
     "DRAWAGREED": "Players agreed to a draw.",
     "ELIMINATED": "{{player}} was eliminated.",
-    "EOG": "The game has ended.",
+    "EOG": {
+        "default": "The game has ended.",
+        "stalemate": "The game has ended because one player has run out of moves.",
+        "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
+        "repetition_one": "The game has ended because the same position has occurred by the same player.",
+        "tafl_encirclement": "The game has ended because the defenders are encircled.",
+        "tafl_exit_fort": "The game has ended because the defenders created an exit fort.",
+        "tafl_king_captured": "The game has ended because the king was captured.",
+        "tafl_king_escaped": "The game has ended because the king escaped."
+    },
     "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
     "FIRE": {
         "murus": "{{player}} fired a catapult from {{from}} to {{to}}.",

@@ -592,16 +592,17 @@ export class IrenseiGame extends InARowBase {
         if (winner.length > 0) {
             this.gameover = true;
             this.winner = winner;
+            this.results.push({ type: "eog" });
         }
         if (!this.gameover) {
             const count = this.stateCount();
             if (count >= 1) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
+                this.results.push({ type: "eog", reason: "repetition" });
             }
         }
         if (this.gameover) {
-            this.results.push({ type: "eog" });
             this.results.push({ type: "winners", players: [...this.winner] });
         }
         return this;
@@ -808,6 +809,14 @@ export class IrenseiGame extends InARowBase {
                 break;
             case "pass":
                 node.push(i18next.t("apresults:PASS.pie", { player }));
+                resolved = true;
+                break;
+            case "eog":
+                if (r.reason === "repetition") {
+                    node.push(i18next.t("apresults:EOG.repetition", { count: 1 }));
+                } else {
+                    node.push(i18next.t("apresults:EOG.default"));
+                }
                 resolved = true;
                 break;
         }

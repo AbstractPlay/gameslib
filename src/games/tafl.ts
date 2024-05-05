@@ -1477,6 +1477,9 @@ export class TaflGame extends GameBase {
                     case "exit-fort":
                         node.push(i18next.t("apresults:EOG.tafl_exit_fort"));
                         break;
+                    case undefined:
+                        node.push(i18next.t("apresults:EOG.default"));
+                        break;
                 }
                 resolved = true;
                 break;

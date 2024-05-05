@@ -679,7 +679,7 @@ export class ByteGame extends GameBase {
                                 node.push(i18next.t("apresults:SCORE_REPORT", {player: scorer, score: (state.scores as number[])[(r.who as number) - 1]}));
                                 break;
                             case "eog":
-                                node.push(i18next.t("apresults:EOG"));
+                                node.push(i18next.t("apresults:EOG.default"));
                                 break;
                             case "resigned":
                                 let rname = `Player ${r.player}`;

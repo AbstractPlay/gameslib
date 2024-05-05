@@ -596,6 +596,7 @@ export class FanoronaGame extends GameBase {
             } else {
                 this.winner = [1];
             }
+            this.results.push({ type: "eog" });
         }
 
         if (! this.gameover) {
@@ -603,14 +604,12 @@ export class FanoronaGame extends GameBase {
             if (count >= 4) {
                 this.gameover = true;
                 this.winner = [1,2];
+                this.results.push({ type: "eog", reason: "repetition" });
             }
         }
 
         if (this.gameover) {
-            this.results.push(
-                {type: "eog"},
-                {type: "winners", players: [...this.winner]}
-            );
+            this.results.push({ type: "winners", players: [...this.winner] });
         }
 
         return this;
@@ -749,7 +748,11 @@ export class FanoronaGame extends GameBase {
                 for (const r of state._results) {
                     switch (r.type) {
                         case "eog":
-                            node.push(i18next.t("apresults:EOG"));
+                            if (r.reason === "repetition") {
+                                node.push(i18next.t("apresults:EOG.repetition", {count: 4}));
+                            } else {
+                                node.push(i18next.t("apresults:EOG.default"));
+                            }
                             break;
                         case "resigned":
                             let rname = `Player ${r.player}`;

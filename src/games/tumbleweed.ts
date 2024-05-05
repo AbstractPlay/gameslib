@@ -763,7 +763,7 @@ export class TumbleweedGame extends GameBase {
                                 node.push(i18next.t("apresults:PASS.simple", {player: name}));
                                 break;
                             case "eog":
-                                node.push(i18next.t("apresults:EOG"));
+                                node.push(i18next.t("apresults:EOG.default"));
                                 break;
                             case "resigned":
                                 let rname = `Player ${r.player}`;

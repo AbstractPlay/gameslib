@@ -637,16 +637,17 @@ export class MargoGame extends GameBase {
             const p1Score = this.getPlayerScore(1);
             const p2Score = this.getPlayerScore(2);
             this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
+            this.results.push({ type: "eog" });
         }
         if (!this.gameover) {
             const count = this.stateCount();
             if (count >= 1) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
+                this.results.push({ type: "eog", reason: "repetition" });
             }
         }
         if (this.gameover) {
-            this.results.push({ type: "eog" });
             this.results.push({ type: "winners", players: [...this.winner] });
         }
         return this;
@@ -807,6 +808,14 @@ export class MargoGame extends GameBase {
                 break;
             case "capture":
                 node.push(i18next.t("apresults:CAPTURE.noperson.group_nowhere", { player, count: r.count }));
+                resolved = true;
+                break;
+            case "eog":
+                if (r.reason === "repetition") {
+                    node.push(i18next.t("apresults:EOG.repetition", { count: 1 }));
+                } else {
+                    node.push(i18next.t("apresults:EOG.default"));
+                }
                 resolved = true;
                 break;
         }

@@ -317,6 +317,7 @@ export class OustGame extends GameBase {
             if (this.board.has(cell)) { continue; }
             moves.push(...this.followupsFrom(cell, this.currplayer).map(x => x.join(",")));
         }
+        if (moves.length === 0) { return "pass"; }
         return moves[Math.floor(Math.random() * moves.length)];
     }
 

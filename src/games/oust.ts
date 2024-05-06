@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -43,6 +43,7 @@ export class OustGame extends GameBase {
         ],
         categories: ["goal>annihilate", "mechanic>place", "board>shape>hex", "board>shape>rect", "board>shape>hex", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "scores", "multistep", "automove"],
+        displays: [{uid: "hide-moves"}],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -182,6 +183,18 @@ export class OustGame extends GameBase {
             }
         }
         return false;
+    }
+
+    private legalPlacements(player: playerid, placed: string[], captured: string[][]): string[] {
+        // Check if a player has any moves left.
+        const cells: string[] = [];
+        for (const cell of this.allCells()) {
+            if (this.board.has(cell)) { continue; }
+            if (this.canPlace(cell, player, placed, captured)[0]) {
+                cells.push(cell);
+            }
+        }
+        return cells;
     }
 
     private followupsFrom(place: string, player: playerid, placed: string[] = [], captured: string[][] = [], capturedCount: number | undefined = undefined): string[][] {
@@ -512,7 +525,22 @@ export class OustGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    private isNewResult(): boolean {
+        // Check if the `this.result` is new, or if it was copied from the previous state.
+        return this.results.every(r => r !== this.stack[this.stack.length - 1]._results[0]);
+    }
+
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showMoves = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-moves") {
+                showMoves = false;
+            }
+        }
         const rep = this.geometry === "hex" ? this.renderHexTri() : this.renderSquare();
         // Add annotations
         // @ts-ignore
@@ -531,6 +559,26 @@ export class OustGame extends GameBase {
                     // @ts-ignore
                     rep.annotations.push({type: "exit", targets});
                 }
+            }
+        }
+        if (showMoves) {
+            let moves: [number, number][] = [];
+            if (this.isNewResult()) {
+                const placedResults = this.results.filter(x => x.type === "place") as Extract<APMoveResult, { type: 'place' }>[];
+                const capturedResults = this.results.filter(x => x.type === "capture") as Extract<APMoveResult, { type: 'capture' }>[];
+                const placed = placedResults.map(x => x.where!);
+                const captured = capturedResults.map(x => x.where).map(x => x!.split(","));
+                moves = this.legalPlacements(this.currplayer, placed, captured).map(x => this.algebraic2coords(x));
+            } else {
+                moves = this.legalPlacements(this.currplayer, [], []).map(x => this.algebraic2coords(x));
+            }
+            if (moves.length) {
+                const points = [];
+                for (const cell of moves) {
+                    points.push({row: cell[1], col: cell[0]});
+                }
+                // @ts-ignore
+                rep.annotations.push({type: "dots", targets: points});
             }
         }
         return rep;

@@ -2809,6 +2809,12 @@
                 "name": "Hide restriction indicators"
             }
         },
+        "oust": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
+            }
+        },
         "pente": {
             "hide-threatened": {
                 "description": "Don't highlight pieces that are threatened to be captured.",

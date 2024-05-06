@@ -42,7 +42,7 @@ export class OustGame extends GameBase {
             { uid: "square-11", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "board>shape>hex", "board>shape>rect", "board>shape>hex", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "scores", "multistep", "automove"],
+        flags: ["experimental", "scores", "multistep", "no-moves", "custom-randomization"],
         displays: [{uid: "hide-moves"}],
     };
 
@@ -159,16 +159,15 @@ export class OustGame extends GameBase {
     }
 
     public moves(player?: 1|2): string[] {
+        // Move generation is disabled for this game, this function will never be called.
+        // In the event that we remove the "no-moves" flag, this game will still work.
+        // It will just put a placeholder item in the move list.
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
         }
-        const moves = [];
-        for (const cell of this.allCells()) {
-            if (this.board.has(cell)) { continue; }
-            moves.push(...this.followupsFrom(cell, player).map(x => x.join(",")));
-        }
-        if (moves.length === 0) {
+        const moves = ["No movelist"]
+        if (!this.hasMoves(player)) {
             moves.push("pass");
         }
         return moves;
@@ -313,7 +312,11 @@ export class OustGame extends GameBase {
     }
 
     public randomMove(): string {
-        const moves = this.moves();
+        const moves = [];
+        for (const cell of this.allCells()) {
+            if (this.board.has(cell)) { continue; }
+            moves.push(...this.followupsFrom(cell, this.currplayer).map(x => x.join(",")));
+        }
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
@@ -344,6 +347,12 @@ export class OustGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        if (m === "No movelist") {
+            result.valid = false;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.oust.NO_MOVELIST");
+            return result;
+        }
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
@@ -367,8 +376,10 @@ export class OustGame extends GameBase {
                 for (const p of moves) {
                     currentMove = p;
                     const [x, y] = this.algebraic2coords(p);
-                    if (this.geometry === "square") {
-                        // `algebraic2coords` does not check if the cell is on the board for rectangular grids.
+                    // `algebraic2coords` does not check if the cell is on the board fully.
+                    if (this.geometry === "hex") {
+                        if (y < 0) { throw new Error("Invalid cell."); }
+                    } else {
                         if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) {
                             throw new Error("Invalid cell");
                         }
@@ -377,6 +388,12 @@ export class OustGame extends GameBase {
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
+                return result;
+            }
+            const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
+            if (!regex.test(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.oust.INVALID_MOVE_STRING", {move: m});
                 return result;
             }
             const placed: string[] = [];
@@ -426,8 +443,11 @@ export class OustGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-
         let result;
+        if (m === "No movelist") {
+            result = {valid: false, message: i18next.t("apgames:validation.oust.NO_MOVELIST")};
+            throw new UserFacingError("VALIDATION_GENERAL", result.message);
+        }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (!trusted) {
@@ -435,9 +455,10 @@ export class OustGame extends GameBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            if (!partial && !this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
-            }
+            // // This can potentially blow up so it's disabled.
+            // if (!partial && !this.moves().includes(m)) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
+            // }
         }
         if (m.length === 0) { return this; }
         if (m === "pass") {

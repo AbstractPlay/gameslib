@@ -1043,7 +1043,8 @@
             "ILLEGAL_PLACEMENT": "Placement at {{where}} is not legal.",
             "MORE": "You have just made a capture placement. You must continue making placements.",
             "PLACEMENT_AFTER_NONCAPTURE": "You may not make any more placements after a non-capture placement.",
-            "ALREADY_WON": "There are no more enemy pieces to capture. You have already won."
+            "ALREADY_WON": "There are no more enemy pieces to capture. You have already won.",
+            "INVALID_MOVE_STRING": "Unable to interpret the move notation: {{move}}."
         },
         "pente": {
             "SELF_CAPTURE_FORBIDDEN": "In this variant, you may not make a placement that results in a self-capture.",

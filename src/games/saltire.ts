@@ -459,10 +459,6 @@ export class SaltireGame extends GameBase {
         }
 
         let result;
-        if (m === "No movelist in placement phase") {
-            result = { valid: false, message: i18next.t("apgames:validation.gess.NO_MOVELIST") };
-            throw new UserFacingError("VALIDATION_GENERAL", result.message);
-        }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (!trusted) {

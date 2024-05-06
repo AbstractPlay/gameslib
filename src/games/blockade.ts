@@ -862,10 +862,6 @@ export class BlockadeGame extends GameBase {
         }
 
         let result;
-        if (m === "No movelist in placement phase") {
-            result = {valid: false, message: i18next.t("apgames:validation.blockade.NO_MOVELIST")};
-            throw new UserFacingError("VALIDATION_GENERAL", result.message);
-        }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (!trusted) {

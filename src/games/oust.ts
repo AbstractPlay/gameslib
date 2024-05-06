@@ -578,7 +578,7 @@ export class OustGame extends GameBase {
                     points.push({row: cell[1], col: cell[0]});
                 }
                 // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+                rep.annotations.push({ type: "dots", targets: points, opacity: 0.2 });
             }
         }
         return rep;

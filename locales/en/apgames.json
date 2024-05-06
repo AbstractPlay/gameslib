@@ -1041,6 +1041,7 @@
         "oust": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
             "ILLEGAL_PLACEMENT": "Placement at {{where}} is not legal.",
+            "ILLEGAL_PASS": "You may only pass if you have no legal moves.",
             "MORE": "You have just made a capture placement. You must continue making placements.",
             "PLACEMENT_AFTER_NONCAPTURE": "You may not make any more placements after a non-capture placement.",
             "ALREADY_WON": "There are no more enemy pieces to capture. You have already won.",

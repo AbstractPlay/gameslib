@@ -78,6 +78,7 @@
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
+        "oust": "Oust is the classic 'exnihilation' game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
@@ -1040,6 +1041,15 @@
             "PARTIAL": "Select a destination or select a second piece to form an ordo.",
             "WRONG_DIRECTION": "You may only move forward or side-to-side unless your pieces are disconnected."
         },
+        "oust": {
+            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
+            "ILLEGAL_PLACEMENT": "Placement at {{where}} is not legal.",
+            "ILLEGAL_PASS": "You may only pass if you have no legal moves.",
+            "MORE": "You have just made a capture placement. You must continue making placements.",
+            "PLACEMENT_AFTER_NONCAPTURE": "You may not make any more placements after a non-capture placement.",
+            "ALREADY_WON": "There are no more enemy pieces to capture. You have already won.",
+            "INVALID_MOVE_STRING": "Unable to interpret the move notation: {{move}}."
+        },
         "pente": {
             "SELF_CAPTURE_FORBIDDEN": "In this variant, you may not make a placement that results in a self-capture.",
             "OVERLINE_FORBIDDEN": "In this variant, you may not make a placement that creates an overline.",
@@ -1699,6 +1709,11 @@
                 "name": "11x11 board"
             }
         },
+        "oust": {
+            "board": {
+                "name": "size-7 hex"
+            }
+        },
         "pente": {
             "board": {
                 "name": "15x15 board"
@@ -2324,6 +2339,17 @@
                 "name": "No Starting Globes"
             }
         },
+        "oust": {
+            "hex-6": {
+                "name": "size-6 hex"
+            },
+            "hex-8": {
+                "name": "size-8 hex"
+            },
+            "square-11": {
+                "name": "size-11 square"
+            }
+        },
         "pente": {
             "standard-19": {
                 "name": "Standard 19x19 board"
@@ -2786,6 +2812,12 @@
             "hide-restrictions": {
                 "description": "Don't show intersections where the first player cannot place their stones.",
                 "name": "Hide restriction indicators"
+            }
+        },
+        "oust": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
             }
         },
         "pente": {

@@ -196,7 +196,7 @@
             "NUMPIECES_other": "{{count}} pieces"
         },
         "bao": {
-            "BALANCE": "Material balance (p1/p2)"
+            "BALANCE": "Material balance"
         },
         "chase": {
             "BALANCE": "Imbalance",

@@ -194,6 +194,9 @@
             "NUMPIECES_one": "{{count}} piece",
             "NUMPIECES_other": "{{count}} pieces"
         },
+        "bao": {
+            "BALANCE": "Material balance (p1/p2)"
+        },
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."

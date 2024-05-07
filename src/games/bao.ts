@@ -5,7 +5,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { BaoGraph, reviver, UserFacingError } from "../common";
-import type { IRenderOpts, IScores } from "./_base";
+import type { IRenderOpts, IScores, IStatus } from "./_base";
 import i18next from "i18next";
 import type { PitType } from "../common/graphs/bao";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
@@ -1153,6 +1153,7 @@ export class BaoGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
         status += "**Pieces in hand**: " + this.inhand.join(", ") + "\n\n";
+        status += (this.statuses()[0].value as string[])[0] + "\n\n";
 
         return status;
     }
@@ -1203,6 +1204,14 @@ export class BaoGame extends GameBase {
         } else {
             return [];
         }
+    }
+
+    public statuses(): IStatus[] {
+        const p2count = [...this.board[0], ...this.board[1]].reduce((prev, curr) => prev + curr, 0);
+        const p1count = [...this.board[2], ...this.board[3]].reduce((prev, curr) => prev + curr, 0);
+        const p1delta = p1count - p2count;
+        const p2delta = p2count - p1count;
+        return [{ key: i18next.t("apgames:status.bao.BALANCE"), value: [`${p1delta} / ${p2delta}`] }];
     }
 
     public sameMove(move1: string, move2: string): boolean {

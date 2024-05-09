@@ -533,6 +533,12 @@
                 },
                 "num": {
                     "type": "number"
+                },
+                "how": {
+                    "type": "string"
+                },
+                "whose": {
+                    "type": "number"
                 }
             },
             "required": ["type", "where"],

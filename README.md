@@ -16,6 +16,7 @@ This is a basic NPM module; it's just private. It's not meant to be generally us
 
 - Clone the repo.
 - From the newly created folder, run the following commands:
+  - `npm run npm-login` (provide your personal GitHub credentials; this is necessary to use the GitHub package system)
   - `npm install` (installs dependencies)
   - `npm run test` (makes sure everything is working)
   - `npm run build` (compiles the TypeScript files into the `./build` folder)
@@ -26,9 +27,9 @@ If you modify a schema, "compile" it with (for, e.g. the moveresults schema)
   `npx json2ts .\moveresults.json .\moveresults.d.ts`
 or (better)
   `npm run json2ts`
-json2ts adds 
-  /* tslint:disable */ 
-to the header. We need to replace this with 
+json2ts adds
+  /* tslint:disable */
+to the header. We need to replace this with
   /* eslint-disable @typescript-eslint/naming-convention */
 to keep eslint happy.
 

@@ -43,7 +43,7 @@ export class UpperHandGame extends GameBase {
             { uid: "size-7", group: "board" },
             { uid: "size-9", group: "board" },
         ],
-        categories: ["goal>score>race", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>score>race", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "board>3d"],
         flags: ["pie", "scores", "rotate90"],
     };
 

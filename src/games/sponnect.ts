@@ -41,7 +41,7 @@ export class SponnectGame extends GameBase {
         variants: [
             { uid: "size-5", group: "board" },
         ],
-        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple", "board>3d"],
         flags: ["pie", "rotate90"],
     };
 

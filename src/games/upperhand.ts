@@ -355,7 +355,6 @@ export class UpperHandGame extends GameBase {
         const [x, y, l] = this.algebraic2coords2(place);
         const autoPlacements: [string, playerid][] = [];
         const piecesLeft = [...this.piecesLeft];
-        if (piecesLeft[0] === 0 || piecesLeft[1] === 0) { return autoPlacements; }
         for (const [x1, y1] of [[x - 2, y - 2], [x - 2, y], [x, y - 2], [x, y]] as [number, number][]) {
             if (x1 < l || y1 < l || x1 >= 2 * this.boardSize - l - 1 || y1 >= 2 * this.boardSize - l - 1) { continue; }
             const majority = this.checkPlatformMajority(x1, y1, l);
@@ -401,7 +400,10 @@ export class UpperHandGame extends GameBase {
                 this.results.push({ type: "place", where: cell, who: player, what: "chain" });
                 this.piecesLeft[player - 1]--;
             }
+            const seen: Set<string> = new Set();
             for (const [cell,] of chain) {
+                if (seen.has(cell)) { continue; }
+                seen.add(cell);
                 newChain.push(...this.platfromCreated(cell));
             }
             chain = newChain;

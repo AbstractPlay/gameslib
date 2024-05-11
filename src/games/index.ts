@@ -120,6 +120,7 @@ import { MargoGame, IMargoState } from "./margo";
 import { NecklaceGame, INecklaceState } from "./necklace";
 import { UpperHandGame, IUpperHandState } from "./upperhand";
 import { OustGame, IOustState } from "./oust";
+import { SusanGame, ISusanState } from "./susan";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -242,6 +243,7 @@ export {
     NecklaceGame, INecklaceState,
     UpperHandGame, IUpperHandState,
     OustGame, IOustState,
+    SusanGame, ISusanState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -283,7 +285,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof Connect6Game | typeof GomokuGame | typeof RenjuGame |
                               typeof FourInARowGame | typeof IrenseiGame | typeof PrudhGame |
                               typeof SponnectGame | typeof AkronGame | typeof MargoGame |
-                              typeof NecklaceGame | typeof UpperHandGame | typeof OustGame
+                              typeof NecklaceGame | typeof UpperHandGame | typeof OustGame |
+                              typeof SusanGame
                 >();
 // Manually add each game to the following array
 [
@@ -303,7 +306,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame, SponnectGame,
-    AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame,
+    AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -553,6 +556,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new UpperHandGame(...args);
         case "oust":
             return new OustGame(...args);
+        case "susan":
+            return new SusanGame(...args);
     }
     return;
 }

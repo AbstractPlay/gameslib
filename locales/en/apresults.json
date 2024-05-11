@@ -133,7 +133,8 @@
         "tafl_encirclement": "The game has ended because the defenders are encircled.",
         "tafl_exit_fort": "The game has ended because the defenders created an exit fort.",
         "tafl_king_captured": "The game has ended because the king was captured.",
-        "tafl_king_escaped": "The game has ended because the king escaped."
+        "tafl_king_escaped": "The game has ended because the king escaped.",
+        "susan_nonplacement": "The game has ended because no player has placed a piece for 6 plies."
     },
     "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
     "FIRE": {
@@ -203,6 +204,7 @@
         "phutball_to": "to {{to}},",
         "phutball_to_last": "to {{to}}.",
         "saltire": "{{player}} swapped the pieces at {{from}} and {{to}}.",
+        "susan": "{{player}} slid a piece from {{from}} to {{to}}.",
         "veletas": "{{player}} moved shooter from {{from}} to {{to}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",

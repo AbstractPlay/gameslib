@@ -242,6 +242,7 @@ export class SusanGame extends GameBase {
             if (!this.graph.neighbours(from).includes(to)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.susan.NOT_ADJACENT", { from, to });
+                return result;
             }
             if (this.board.has(to)) {
                 result.valid = false;

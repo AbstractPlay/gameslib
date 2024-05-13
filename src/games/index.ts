@@ -121,6 +121,7 @@ import { NecklaceGame, INecklaceState } from "./necklace";
 import { UpperHandGame, IUpperHandState } from "./upperhand";
 import { OustGame, IOustState } from "./oust";
 import { SusanGame, ISusanState } from "./susan";
+import { OwareGame, IOwareState } from "./oware";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -244,6 +245,7 @@ export {
     UpperHandGame, IUpperHandState,
     OustGame, IOustState,
     SusanGame, ISusanState,
+    OwareGame, IOwareState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -286,7 +288,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof FourInARowGame | typeof IrenseiGame | typeof PrudhGame |
                               typeof SponnectGame | typeof AkronGame | typeof MargoGame |
                               typeof NecklaceGame | typeof UpperHandGame | typeof OustGame |
-                              typeof SusanGame
+                              typeof SusanGame | typeof OwareGame
                 >();
 // Manually add each game to the following array
 [
@@ -305,8 +307,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ConhexGame, FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
-    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame, SponnectGame,
-    AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame,
+    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
+    SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -558,6 +560,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new OustGame(...args);
         case "susan":
             return new SusanGame(...args);
+        case "oware":
+            return new OwareGame(...args);
     }
     return;
 }

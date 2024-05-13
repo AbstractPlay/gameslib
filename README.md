@@ -12,7 +12,7 @@ The [main website](https://www.abstractplay.com) houses the development blog and
 
 ## Build
 
-This is a basic NPM module; it's just private. It's not meant to be generally useful to anyone outside of myself. It is designed specifically for Abstract Play. If someone does use this elsewhere, let me know :)
+This module is designed specifically for Abstract Play. If someone does use this elsewhere, let me know :)
 
 - Clone the repo.
 - From the newly created folder, run the following commands:

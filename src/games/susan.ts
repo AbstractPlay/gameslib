@@ -25,7 +25,7 @@ export class SusanGame extends GameBase {
         uid: "susan",
         playercounts: [2],
         version: "20240505",
-        dateAdded: "2024-05-05",
+        dateAdded: "2024-05-13",
         // i18next.t("apgames:descriptions.susan")
         description: "apgames:descriptions.susan",
         urls: [
@@ -40,8 +40,8 @@ export class SusanGame extends GameBase {
             },
         ],
         variants: [],
-        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental"],
+        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        flags: [],
     };
 
     public coords2algebraic(x: number, y: number): string {

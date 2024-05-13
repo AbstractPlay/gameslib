@@ -25,7 +25,7 @@ export class OustGame extends GameBase {
         uid: "oust",
         playercounts: [2],
         version: "20240505",
-        dateAdded: "2024-05-05",
+        dateAdded: "2024-05-13",
         // i18next.t("apgames:descriptions.oust")
         description: "apgames:descriptions.oust",
         urls: ["https://www.marksteeregames.com/Oust_rules.pdf"],
@@ -42,7 +42,7 @@ export class OustGame extends GameBase {
             { uid: "square-11", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "board>shape>hex", "board>shape>rect", "board>shape>hex", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "scores", "multistep", "no-moves", "custom-randomization"],
+        flags: ["scores", "multistep", "no-moves", "custom-randomization"],
         displays: [{uid: "hide-moves"}],
     };
 

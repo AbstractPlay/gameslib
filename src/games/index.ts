@@ -77,7 +77,6 @@ import { ExxitGame, IExxitState } from "./exxit";
 import { MattockGame, IMattockState } from "./mattock";
 import { CatchupGame, ICatchupState } from "./catchup";
 import { BloomsGame, IBloomsState } from "./blooms";
-import { BloomsExpGame, IBloomsExpState } from "./bloomsexp";
 import { MimicGame, IMimicState } from "./mimic";
 import { VeletasGame, IVeletasState } from "./veletas";
 import { GessGame, IGessState } from "./gess";
@@ -201,7 +200,6 @@ export {
     MattockGame, IMattockState,
     CatchupGame, ICatchupState,
     BloomsGame, IBloomsState,
-    BloomsExpGame, IBloomsExpState,
     MimicGame, IMimicState,
     VeletasGame, IVeletasState,
     GessGame, IGessState,
@@ -273,7 +271,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof IqishiqiGame | typeof FurlGame | typeof DiffusionGame |
                               typeof HavannahGame | typeof HexGame | typeof TumbleweedGame |
                               typeof MeridiansGame | typeof ExxitGame | typeof MattockGame |
-                              typeof CatchupGame | typeof BloomsGame | typeof BloomsExpGame | typeof MimicGame |
+                              typeof CatchupGame | typeof BloomsGame | typeof MimicGame |
                               typeof VeletasGame | typeof GessGame | typeof OnagerGame |
                               typeof VergeGame | typeof TableroGame | typeof ClusterfussGame |
                               typeof ConhexGame | typeof FightopiaGame | typeof HensGame |
@@ -302,7 +300,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AgereGame, BideGame, MiradorGame, RazzleGame, DagEnNachtGame, HexYGame, MurusGame, BounceGame,
     QuagmireGame, BaoGame, AlmataflGame, SlitherGame, ScaffoldGame, ByteGame, LielowGame, ToguzGame,
     TrikeGame, FnapGame, IqishiqiGame, FurlGame, DiffusionGame, HavannahGame, HexGame,
-    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame, BloomsExpGame,
+    TumbleweedGame, MeridiansGame, ExxitGame, MattockGame, CatchupGame, BloomsGame,
     MimicGame, VeletasGame, GessGame, OnagerGame, VergeGame, TableroGame, ClusterfussGame,
     ConhexGame, FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
@@ -474,8 +472,6 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CatchupGame(...args);
         case "blooms":
             return new BloomsGame(...args);
-        case "bloomsexp":
-            return new BloomsExpGame(...args);
         case "mimic":
             return new MimicGame(...args);
         case "veletas":

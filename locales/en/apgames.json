@@ -1567,11 +1567,6 @@
                 "name": "board (base 6)"
             }
         },
-        "bloomsexp": {
-            "board": {
-                "name": "board (base 6)"
-            }
-        },
         "boom": {
             "setup": {
                 "name": "setup (4 pieces each)"
@@ -1985,17 +1980,6 @@
             },
             "size-10": {
                 "name": "Larger board (base 10)"
-            }
-        },
-        "bloomsexp": {
-            "size-8": {
-                "name": "Larger board (base 8)"
-            },
-            "size-10": {
-                "name": "Larger board (base 10)"
-            },
-            "size-13": {
-                "name": "Larger board (base 13)"
             }
         },
         "boom": {
@@ -2781,12 +2765,6 @@
             }
         },
         "blooms": {
-            "hide-threatened": {
-                "description": "Don't show threatened stones.",
-                "name": "Hide threatened"
-            }
-        },
-        "bloomsexp": {
             "hide-threatened": {
                 "description": "Don't show threatened stones.",
                 "name": "Hide threatened"

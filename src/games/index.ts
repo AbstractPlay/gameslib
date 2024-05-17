@@ -307,6 +307,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     ConhexGame, FightopiaGame, HensGame, TBTGame, QueenslandGame, TaflGame, FourGame, ValleyGame,
     DameoGame, TakeGame, SympleGame, RootBoundGame, TwixtGame, ReversiGame, BlockadeGame,
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
+    PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
     SpookGame,
 ].forEach((g) => {

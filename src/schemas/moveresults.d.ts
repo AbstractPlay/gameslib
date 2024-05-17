@@ -184,6 +184,8 @@ export type APMoveResult =
       type: "remove";
       where: string;
       num?: number;
+      how?: string;
+      whose?: number;
     }
   | {
       type: "claim";

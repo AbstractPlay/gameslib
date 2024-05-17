@@ -230,7 +230,7 @@ export class MargoGame extends GameBase {
                 const cell = this.placeableCell(i, j);
                 if (cell !== undefined) {
                     if (this.isSelfCapture(cell, player)) { continue; }
-                    if (this.checkKo(cell, player)) { continue; }
+                    if (this.checkKo(cell, player, true)) { continue; }
                     return true;
                 }
             }
@@ -562,16 +562,18 @@ export class MargoGame extends GameBase {
         return groupLiberties === 0;
     }
 
-    private checkKo(place: string, player: playerid): boolean {
+    private checkKo(place: string, player: playerid, unsubmitted = false): boolean {
         // Check if the move is a ko.
+        // `unsubmitted` is true if the move is not yet submitted to the stack.
+        // This is used in the `checkEOG` method.
         if (this.stack.length < 2) { return false; }
         const captures = this.getCaptures(place, player);
         if (captures.length !== 1) { return false; }
         if (captures[0].size !== 1) { return false; }
-        const previous = this.stack[this.stack.length - 1];
-        const previousMove = previous.lastmove!;
+        const previousMove = unsubmitted ? this.lastmove! : this.stack[this.stack.length - 1].lastmove!;
         if (!captures.some(x => x.has(previousMove))) { return false; }
-        const previousCaptures = previous._results.filter(r => r.type === "capture")
+        const previousResults = unsubmitted ? this.results : this.stack[this.stack.length - 1]._results;
+        const previousCaptures = previousResults.filter(r => r.type === "capture")
         if (previousCaptures.length !== 1) { return false; }
         return (previousCaptures[0] as Extract<APMoveResult, { type: 'capture' }>).where! === place;
     }

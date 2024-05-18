@@ -274,7 +274,7 @@ export class SusanGame extends GameBase {
     private updateSurrounded(cell: string): void {
         // Check if there are any pieces that are surrounded.
         outer:
-        for (const neighbour of this.graph.neighbours(cell)) {
+        for (const neighbour of [cell, ...this.graph.neighbours(cell)]) {
             if (!this.board.has(neighbour)) { continue; }
             for (const neighbour2 of this.graph.neighbours(neighbour)) {
                 if (!this.board.has(neighbour2)) { continue outer; }
@@ -345,14 +345,14 @@ export class SusanGame extends GameBase {
                 surroundedPlayers.add(this.board.get(cell)!);
             }
             this.gameover = true;
-            if (surroundedPlayers.has(this.currplayer)) {
+            if (surroundedPlayers.size > 1) {
                 if (surroundedPlayers.has(this.currplayer % 2 + 1 as playerid)) {
                     this.winner = [this.currplayer];
                 } else {
                     this.winner = [this.currplayer % 2 + 1 as playerid];
                 }
             } else {
-                this.winner = [this.currplayer % 2 + 1 as playerid];
+                this.winner = [surroundedPlayers.values().next().value % 2 + 1 as playerid];
             }
             this.results.push({ type: "eog" });
         }

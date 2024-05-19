@@ -846,8 +846,8 @@ export class AkronGame extends GameBase {
                 ]
             },
             legend: {
-                A: { name: "orb", player: 1, scale: 1.15 },
-                B: { name: "orb", player: 2, scale: 1.15 },
+                A: { name: "orb", player: 1, scale: 1.2 },
+                B: { name: "orb", player: 2, scale: 1.2 },
                 Y: { name: "circle", player: 1, scale: 1.15, opacity: 0.5 },
                 Z: { name: "circle", player: 2, scale: 1.15, opacity: 0.5 },
             },

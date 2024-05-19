@@ -563,9 +563,9 @@ export class SponnectGame extends GameBase {
                 ]
             },
             legend: {
-                A: { name: "orb", player: 1, scale: 1.15 },
-                B: { name: "orb", player: 2, scale: 1.15 },
-                C: { name: "orb", player: 3, scale: 1.15 },
+                A: { name: "orb", player: 1, scale: 1.2 },
+                B: { name: "orb", player: 2, scale: 1.2 },
+                C: { name: "orb", player: 3, scale: 1.2 },
             },
             pieces: pstr,
         };

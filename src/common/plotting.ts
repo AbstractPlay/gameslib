@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+import { IPoint } from ".";
+
 /**
  * Ensures a degree measurement lies [0, 360)
  */
@@ -67,6 +69,10 @@ export const ptDistance = (x1: number, y1: number, x2: number, y2: number): numb
     return Math.sqrt(((x1 - x2)**2) + ((y1 - y2)**2));
 }
 
+export const midpoint = (x1: number, y1: number, x2: number, y2: number): [number,number] => {
+    return [(x1 + x2) / 2, (y1 + y2) / 2];
+}
+
 export const smallestDegreeDiff = (deg1: number, deg2: number): number => {
     let diff = deg1 - deg2;
     while (diff > 180) {
@@ -124,4 +130,18 @@ export const matrixRectRotN90 = (lst: any[][]): any[][] => {
 export const matrixRectRot90 = (lst: any[][]): any[][] => {
     const transposed: any[][] = transposeRect(lst);
     return transposed.map(row => [...row].reverse());
+}
+
+// Builds a circle as a polygon of `steps` sides
+export const circle2poly = (cx: number, cy: number, r: number, steps = 64): [number,number][] => {
+    const coordinates: [number,number][] = [];
+    for (let i = 0; i < steps; i++) {
+        coordinates.push(projectPoint(cx, cy, r, (i * 360) / steps));
+    }
+    return coordinates;
+}
+
+// shortest distance from point to circle
+export const distFromCircle = (circle: {cx: number, cy: number, r: number}, point: IPoint): number => {
+    return Math.abs(Math.sqrt((point.x - circle.cx)**2 + (point.y - circle.cy)**2) - circle.r);
 }

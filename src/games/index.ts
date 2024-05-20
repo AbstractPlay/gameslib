@@ -123,6 +123,7 @@ import { SusanGame, ISusanState } from "./susan";
 import { OwareGame, IOwareState } from "./oware";
 import { SpookGame, ISpookState } from "./spook";
 import { AyuGame, IAyuState } from "./ayu";
+import { CalculusGame, ICalculusState } from "./calculus";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -248,6 +249,7 @@ export {
     OwareGame, IOwareState,
     SpookGame, ISpookState,
     AyuGame, IAyuState,
+    CalculusGame, ICalculusState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -291,7 +293,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SponnectGame | typeof AkronGame | typeof MargoGame |
                               typeof NecklaceGame | typeof UpperHandGame | typeof OustGame |
                               typeof SusanGame | typeof OwareGame | typeof SpookGame |
-                              typeof AyuGame
+                              typeof AyuGame | typeof CalculusGame
                 >();
 // Manually add each game to the following array
 [
@@ -312,7 +314,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
-    SpookGame, AyuGame,
+    SpookGame, AyuGame, CalculusGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -568,6 +570,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SpookGame(...args);
         case "ayu":
             return new AyuGame(...args);
+        case "calculus":
+            return new CalculusGame(...args);
     }
     return;
 }

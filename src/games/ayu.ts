@@ -383,6 +383,12 @@ export class AyuGame extends GameBase {
         return seen.size === cells.size;
     }
 
+    private allOneGroup(player: playerid): boolean {
+        // Check if all the cells are in one group.
+        return this.oneGroup(new Set([...this.board.entries()].filter(([, contents]) => contents === player).map(([cell]) => cell)));
+    }
+
+
     private getTos(from: string): string[] {
         // Get the cells that a piece at `from` can move to.
         // Remember that the piece cannot break the group upon movement.
@@ -440,7 +446,7 @@ export class AyuGame extends GameBase {
 
     protected checkEOG(): AyuGame {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
-        if (!this.hasMoves(otherPlayer)) {
+        if (this.allOneGroup(otherPlayer)) {
             this.gameover = true;
             this.winner = [otherPlayer];
             this.results.push({ type: "eog" });

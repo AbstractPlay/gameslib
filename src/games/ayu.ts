@@ -126,7 +126,7 @@ export class AyuGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 11;
+        return 13;
     }
 
     private initBoard(): Map<string, playerid> {

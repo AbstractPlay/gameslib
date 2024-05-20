@@ -11,6 +11,7 @@
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
+        "ayu": "Ayu is short for 'Attach your units', where every on every turn, you have to move your stones such that the units approach each other and eventually merge. The player that runs out of moves first wins.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
@@ -409,6 +410,11 @@
             "TOOHIGH": "The combined stack after the capture will be too high.",
             "TRIPLESTACK": "Triple stacks cannot participate in captures.",
             "SAMESOURCE": "The two attacking stacks must be different."
+        },
+        "ayu": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "NO_MOVES": "The piece at {{where}} cannot move.",
+            "INVALID_TO": "The piece at {{from}} cannot move to {{to}}."
         },
         "bao": {
             "BAD_TAX": "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",
@@ -1573,6 +1579,11 @@
                 "name": "size-11 board"
             }
         },
+        "ayu": {
+            "board": {
+                "name": "size-13 board"
+            }
+        },
         "blockade": {
             "wall-placement": {
                 "name": "mandatory wall",
@@ -1980,6 +1991,18 @@
                 "name": "Grand Attangle"
             }
         },
+        "ayu": {
+            "size-9": {
+                "name": "size-9 board"
+            },
+            "size-11": {
+                "name": "size-11 board"
+            },
+            "size-15": {
+                "name": "size-11 board"
+            }
+        },
+
         "bao": {
             "kujifunza": {
                 "description": "The \"beginner\" version with no \"kunamua\" setup phase. The game starts with two stones in each pit.",

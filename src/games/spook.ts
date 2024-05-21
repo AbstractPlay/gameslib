@@ -204,24 +204,29 @@ export class SpookGame extends GameBase {
             return false;
         }
 
-        // Check if there is a equal number pyramids of a single colour at the bottom layer.
-        let count1 = 0;
-        let count2 = 0;
+        // Check if there is a equal number of balls in pyramids of a single colour at the bottom layer.
+        const player1: Set<string> = new Set();
+        const player2: Set<string> = new Set();
         for (let x = 0; x < this.boardSize - 1; x++) {
             for (let y = 0; y < this.boardSize - 1; y++) {
-                const player = board.get(this.layerCoords2algebraic(x, y, 0));
-                if (player !== board.get(this.layerCoords2algebraic(x + 1, y, 0))) { continue; }
-                if (player !== board.get(this.layerCoords2algebraic(x, y + 1, 0))) { continue; }
-                if (player !== board.get(this.layerCoords2algebraic(x + 1, y + 1, 0))) { continue; }
-                if (player !== board.get(this.layerCoords2algebraic(x, y, 1))) { continue; }
+                const nw = this.layerCoords2algebraic(x, y, 0);
+                const player = board.get(nw);
+                const ne = this.layerCoords2algebraic(x + 1, y, 0);
+                if (player !== board.get(ne)) { continue; }
+                const sw = this.layerCoords2algebraic(x, y + 1, 0);
+                if (player !== board.get(sw)) { continue; }
+                const se = this.layerCoords2algebraic(x + 1, y + 1, 0);
+                if (player !== board.get(se)) { continue; }
+                const top = this.layerCoords2algebraic(x, y, 1);
+                if (player !== board.get(top)) { continue; }
                 if (player === 1) {
-                    count1++;
+                    [nw, ne, sw, se, top].forEach(cell => player1.add(cell));
                 } else {
-                    count2++;
+                    [nw, ne, sw, se, top].forEach(cell => player2.add(cell));
                 }
             }
         }
-        if (count1 !== count2) { return false; }
+        if (player1.size !== player2.size) { return false; }
         return true;
     }
 
@@ -276,7 +281,7 @@ export class SpookGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 4;
+        return 6;
     }
 
     public moves(player?: playerid): string[] {

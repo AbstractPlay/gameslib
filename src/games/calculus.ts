@@ -9,7 +9,7 @@ import { Cycle } from "./calculus/cycle";
 import { Navmesh, calcBearing, projectPoint, ptDistance, reviver } from "../common";
 import { fundamentalGraphCycles } from "../common/graphs";
 import { polygon as turfPoly } from "@turf/helpers";
-import turfContains from "@turf/boolean-contains";
+import turfDiff from "@turf/difference";
 import turfIntersects from "@turf/boolean-intersects";
 import { UserFacingError } from "../common";
 import { Combination } from "js-combinatorics";
@@ -266,7 +266,7 @@ export class CalculusGame extends GameBase {
             const comp = polys[i];
             const test = polys.slice(i+1);
             for (const t of test) {
-                if (turfIntersects(comp, t) && turfContains(comp, t)) {
+                if (turfIntersects(comp, t) && turfDiff(t, comp) === null) {
                     containers.add(goodCycles[i].join("|"));
                     break;
                 }

@@ -15,6 +15,7 @@ import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import { PowerSet } from "js-combinatorics";
+import { allSimplePaths } from "graphology-simple-path";
 
 export const spanningTree = (g: UndirectedGraph): UndirectedGraph|null => {
     const components = connectedComponents(g);
@@ -47,6 +48,72 @@ export const spanningTree = (g: UndirectedGraph): UndirectedGraph|null => {
 export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
     const bases: string[][] = [];
     const cycles: string[][] = [];
+
+    // ensures edges are always presented in the same order
+    const normalizeEdges = (inlst: string[]): string[] => {
+        const normed: string[] = [];
+        for (let i = 0; i < inlst.length - 1; i++) {
+            const split = [inlst[i], inlst[i+1]];
+            split.sort((a,b) => a.localeCompare(b));
+            normed.push(split.join("|"));
+        }
+        return normed;
+    }
+
+    // Takes a cycle and converts it to a graph
+    const cycle2graph = (inlst: string[]): UndirectedGraph => {
+        // add each edge to a new graph
+        const graph = new UndirectedGraph();
+        for (const pair of inlst) {
+            const [leftNode, rightNode] = pair.split("|");
+            if (! graph.hasNode(leftNode)) {
+                graph.addNode(leftNode);
+            }
+            if (! graph.hasNode(rightNode)) {
+                graph.addNode(rightNode);
+            }
+            graph.addEdge(leftNode, rightNode);
+        }
+        return graph;
+    }
+
+    // ANDing 3+ base cycles doesn't work, so we need a special function.
+    // There must only be one path to the node, and it must be the same length
+    // as the total number of edges in the graph.
+    const validMergedCycle = (inlst: string[]): boolean => {
+        const graph = cycle2graph(inlst);
+        const edge = graph.edges()[0];
+        const [left, right] = graph.extremities(edge);
+        const pathLens = allSimplePaths(graph, left, right).map(lst => lst.length);
+        // console.log(`\t\tPath lengths: ${JSON.stringify(pathLens)}; Num edges: ${graph.edges().length}`);
+        return (pathLens.length === 2 &&
+                pathLens.includes(2) &&
+                pathLens.includes(graph.edges().length)
+        );
+    }
+
+    // Takes a list of present edges, builds the cycle,
+    // and returns it in normalized order, not circular
+    const unwindEdges = (inlst: string[]): string[] => {
+        // add each edge to a new graph
+        const graph = cycle2graph(inlst);
+        // pick an edge, record the extremities, delete it
+        // get the path, and normalize
+        const edge = graph.edges()[0];
+        const [left, right] = graph.extremities(edge);
+        graph.dropEdge(edge);
+        const path = bidirectional(graph, left, right)!;
+
+        const scratch = [...path];
+        scratch.sort((a, b) => a.localeCompare(b));
+        const min = scratch[0];
+        const idx = scratch.indexOf(min);
+        if (idx === -1) {
+            throw new Error(`Error occured while normalizing the list`);
+        }
+        return [...path.slice(idx), ...path.slice(0, idx)];
+    }
+
     const components = connectedComponents(g);
     for (const grp of components) {
         const subset = g.copy();
@@ -54,20 +121,14 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
         for (const missing of g.nodes().filter(n => ! grp.includes(n))) {
             subset.dropNode(missing);
         }
+        const expectedBases = subset.edges().length - subset.nodes().length + 1;
         const st = spanningTree(subset);
         if (st === null) {
             throw new Error(`Could not form a spanning tree`);
         }
-        const edgesOrig = subset.edges().map(e => {
-            const lst = subset.extremities(e);
-            lst.sort((a,b) => a.localeCompare(b));
-            return lst.join("|");
-        });
-        const edgesNew = st.edges().map(e => {
-            const lst = st.extremities(e);
-            lst.sort((a,b) => a.localeCompare(b));
-            return lst.join("|");
-        });
+        const edgesOrig = subset.edges().map(e => normalizeEdges(subset.extremities(e)).join("|")
+        );
+        const edgesNew = st.edges().map(e => normalizeEdges(st.extremities(e)).join("|"));
         const missing = edgesOrig.filter(e => ! edgesNew.includes(e));
         for (const miss of missing) {
             const [left, right] = miss.split("|");
@@ -78,47 +139,8 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
             // must be circular
             bases.push([...path, path[0]]);
         }
-
-        const normalizeEdges = (inlst: string[]): string[] => {
-            const normed: string[] = [];
-            for (let i = 0; i < inlst.length - 1; i++) {
-                const split = [inlst[i], inlst[i+1]];
-                split.sort((a,b) => a.localeCompare(b));
-                normed.push(split.join("|"));
-            }
-            return normed;
-        }
-
-        // Takes a list of present edges, builds the cycle,
-        // and returns it in normalized order, not circular
-        const unwindEdges = (inlst: string[]): string[] => {
-            // add each edge to a new graph
-            const graph = new UndirectedGraph();
-            for (const pair of inlst) {
-                const [leftNode, rightNode] = pair.split("|");
-                if (! graph.hasNode(leftNode)) {
-                    graph.addNode(leftNode);
-                }
-                if (! graph.hasNode(rightNode)) {
-                    graph.addNode(rightNode);
-                }
-                graph.addEdge(leftNode, rightNode);
-            }
-            // pick an edge, record the extremities, delete it
-            // get the path, and normalize
-            const edge = graph.edges()[0];
-            const [left, right] = graph.extremities(edge);
-            graph.dropEdge(edge);
-            const path = bidirectional(graph, left, right)!;
-
-            const scratch = [...path];
-            scratch.sort((a, b) => a.localeCompare(b));
-            const min = scratch[0];
-            const idx = scratch.indexOf(min);
-            if (idx === -1) {
-                throw new Error(`Error occured while normalizing the list`);
-            }
-            return [...path.slice(idx), ...path.slice(0, idx)];
+        if (bases.length !== expectedBases) {
+            throw new Error(`The number of bases expected (${expectedBases}) does not equal the number generated (${bases.length}).`);
         }
 
         // do XOR analysis to build all cycles
@@ -132,22 +154,16 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
 
         const pset = new PowerSet(bits);
         for (const [first, ...rest] of pset) {
+            if (rest.length > 0) {
+                // console.log(`Combining the following ${[first, ...rest].length} base sets together`);
+                // console.log(JSON.stringify([first, ...rest].map(bstr => unwindEdges(bstr.map((n, idx) => n === 1 ? edgesOrig[idx] : null).filter(s => s !== null) as string[]))));
+            }
             // first item in the powerset is empty
             if (first === undefined) {
                 continue;
             }
-            // if AND is all zeroes, skip
-            const anded: number[] = [...first];
-            for (const other of rest) {
-                for (let i = 0; i < other.length; i++) {
-                    // eslint-disable-next-line no-bitwise
-                    anded[i] = anded[i] & other[i];
-                }
-            }
-            if (anded.reduce((prev, curr) => prev + curr, 0) === 0) {
-                continue;
-            }
-            // Otherwise, do XOR
+
+            // Do XOR
             const xord: number[] = [...first];
             for (const other of rest) {
                 for (let i = 0; i < other.length; i++) {
@@ -156,7 +172,15 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
                 }
             }
             const cycle = xord.map((n, idx) => n === 1 ? edgesOrig[idx] : null).filter(s => s !== null) as string[];
-            cycles.push(unwindEdges(cycle));
+
+            // Validate cycle
+            if (validMergedCycle(cycle)) {
+                // console.log(`\tResult:`)
+                // console.log("\t" + JSON.stringify(unwindEdges(cycle)));
+                cycles.push(unwindEdges(cycle));
+            } else {
+                // console.log(`\tDisjoint. Skipping.`);
+            }
         }
     }
 

@@ -204,24 +204,29 @@ export class SpookGame extends GameBase {
             return false;
         }
 
-        // Check if there is a equal number pyramids of a single colour at the bottom layer.
-        let count1 = 0;
-        let count2 = 0;
+        // Check if there is a equal number of balls in pyramids of a single colour at the bottom layer.
+        const player1: Set<string> = new Set();
+        const player2: Set<string> = new Set();
         for (let x = 0; x < this.boardSize - 1; x++) {
             for (let y = 0; y < this.boardSize - 1; y++) {
-                const player = board.get(this.layerCoords2algebraic(x, y, 0));
-                if (player !== board.get(this.layerCoords2algebraic(x + 1, y, 0))) { continue; }
-                if (player !== board.get(this.layerCoords2algebraic(x, y + 1, 0))) { continue; }
-                if (player !== board.get(this.layerCoords2algebraic(x + 1, y + 1, 0))) { continue; }
-                if (player !== board.get(this.layerCoords2algebraic(x, y, 1))) { continue; }
+                const nw = this.layerCoords2algebraic(x, y, 0);
+                const player = board.get(nw);
+                const ne = this.layerCoords2algebraic(x + 1, y, 0);
+                if (player !== board.get(ne)) { continue; }
+                const sw = this.layerCoords2algebraic(x, y + 1, 0);
+                if (player !== board.get(sw)) { continue; }
+                const se = this.layerCoords2algebraic(x + 1, y + 1, 0);
+                if (player !== board.get(se)) { continue; }
+                const top = this.layerCoords2algebraic(x, y, 1);
+                if (player !== board.get(top)) { continue; }
                 if (player === 1) {
-                    count1++;
+                    [nw, ne, sw, se, top].forEach(cell => player1.add(cell));
                 } else {
-                    count2++;
+                    [nw, ne, sw, se, top].forEach(cell => player2.add(cell));
                 }
             }
         }
-        if (count1 !== count2) { return false; }
+        if (player1.size !== player2.size) { return false; }
         return true;
     }
 
@@ -279,6 +284,14 @@ export class SpookGame extends GameBase {
         return 4;
     }
 
+    private parityPass(): boolean {
+        // Check if the game should pass to the next player because of parity when starting the getaway phase.
+        if (this.variants.includes("random")) { return false; }
+        const moveNumber = spookyMoveNumber.get(this.boardSize)!;
+        if (moveNumber % 2 === 0) { return false; }
+        return this.stack.length === moveNumber + 1;
+    }
+
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
@@ -294,6 +307,8 @@ export class SpookGame extends GameBase {
                     }
                 }
             }
+        } else if (this.parityPass()) {
+            moves.push("pass");
         } else if (this.spookyIsolated()) {
             for (let i = 0; i < 2 * this.boardSize - 1; i++) {
                 for (let j = 0; j < 2 * this.boardSize - 1; j++) {
@@ -420,6 +435,8 @@ export class SpookGame extends GameBase {
             let message;
             if (!this.spookyPresent()) {
                 message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_PLACEMENT");
+            } else if (this.parityPass()) {
+                message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_PARITY_PASS");
             } else if (this.noCaptures()) {
                 if (this.spookyIsolated()) {
                     message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_ISOLATED");
@@ -439,7 +456,18 @@ export class SpookGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-
+        
+        if (this.parityPass()) {
+            if (m === "pass") {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_PARITY_PASS");
+            return result;
+        }
         if (m === "pass") {
             if (this.spookyPresent() && this.noCaptures() && !this.spookyIsolated() && this.notPinned(this.currplayer % 2 + 1 as playerid).length === 0) {
                 result.valid = true;

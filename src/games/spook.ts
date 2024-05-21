@@ -284,6 +284,14 @@ export class SpookGame extends GameBase {
         return 4;
     }
 
+    private parityPass(): boolean {
+        // Check if the game should pass to the next player because of parity when starting the getaway phase.
+        if (this.variants.includes("random")) { return false; }
+        const moveNumber = spookyMoveNumber.get(this.boardSize)!;
+        if (moveNumber % 2 === 0) { return false; }
+        return this.stack.length === moveNumber + 1;
+    }
+
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
@@ -299,6 +307,8 @@ export class SpookGame extends GameBase {
                     }
                 }
             }
+        } else if (this.parityPass()) {
+            moves.push("pass");
         } else if (this.spookyIsolated()) {
             for (let i = 0; i < 2 * this.boardSize - 1; i++) {
                 for (let j = 0; j < 2 * this.boardSize - 1; j++) {
@@ -425,6 +435,8 @@ export class SpookGame extends GameBase {
             let message;
             if (!this.spookyPresent()) {
                 message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_PLACEMENT");
+            } else if (this.parityPass()) {
+                message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_PARITY_PASS");
             } else if (this.noCaptures()) {
                 if (this.spookyIsolated()) {
                     message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_ISOLATED");
@@ -444,7 +456,18 @@ export class SpookGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-
+        
+        if (this.parityPass()) {
+            if (m === "pass") {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.spook.INITIAL_INSTRUCTIONS_PARITY_PASS");
+            return result;
+        }
         if (m === "pass") {
             if (this.spookyPresent() && this.noCaptures() && !this.spookyIsolated() && this.notPinned(this.currplayer % 2 + 1 as playerid).length === 0) {
                 result.valid = true;

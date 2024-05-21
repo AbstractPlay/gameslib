@@ -1331,6 +1331,7 @@
             "INITIAL_INSTRUCTIONS_REMOVE": "There are no adjacent free balls. Select an unpinned opponent ball to be removed.",
             "INITIAL_INSTRUCTIONS_PASS": "There are no adjacent free balls and unpinned opponent balls. You must pass.",
             "INITIAL_INSTRUCTIONS_CAPTURE": "Select an adjacent ball to capture.",
+            "INITIAL_INSTRUCTIONS_PARITY_PASS": "Player 1 starts the getaway phase. You must pass.",
             "INVALID_PASS": "You may only pass if you have no other moves available.",
             "SINGLE_MOVE_PLACE": "You may only place one ball.",
             "CANNOT_PLACE": "You may not place at {{where}}.",

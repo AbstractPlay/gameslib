@@ -456,7 +456,7 @@ export class SpookGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        
+
         if (this.parityPass()) {
             if (m === "pass") {
                 result.valid = true;

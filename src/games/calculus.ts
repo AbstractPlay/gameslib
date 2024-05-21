@@ -7,7 +7,7 @@ import { Board } from "./calculus/board";
 import { Piece } from "./calculus/piece";
 import { Cycle } from "./calculus/cycle";
 import { Navmesh, calcBearing, projectPoint, ptDistance, reviver } from "../common";
-import { findGraphCycles } from "../common/graphs";
+import { fundamentalGraphCycles } from "../common/graphs";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfContains from "@turf/boolean-contains";
 import turfIntersects from "@turf/boolean-intersects";
@@ -39,13 +39,20 @@ export interface ICalculusState extends IAPGameState {
 };
 
 const id2vert = (id: string): Vertex => {
-    const [left, right] = id.split(",");
-    const nLeft = parseFloat(left);
-    const nRight = parseFloat(right);
-    if (isNaN(nLeft) || isNaN(nRight)) {
-        throw new Error(`Error interpreting id ${id}`);
+    if (id.includes("|")) {
+        const verts = id.split("|").map(v => v.split(",").map(str => parseFloat(str)) as Vertex);
+        const xs = verts.map(([x,]) => x);
+        const ys = verts.map(([,y]) => y);
+        return [xs.reduce((prev, curr) => prev + curr, 0) / xs.length, ys.reduce((prev, curr) => prev + curr, 0) / ys.length];
+    } else {
+        const [left, right] = id.split(",");
+        const nLeft = parseFloat(left);
+        const nRight = parseFloat(right);
+        if (isNaN(nLeft) || isNaN(nRight)) {
+            throw new Error(`Error interpreting id ${id}`);
+        }
+        return [nLeft, nRight] as Vertex;
     }
-    return [nLeft, nRight] as Vertex;
 }
 
 export class CalculusGame extends GameBase {
@@ -232,7 +239,7 @@ export class CalculusGame extends GameBase {
 
     public getCycles(g: UndirectedGraph): Cycle[] {
         // const t0 = Date.now();
-        const allCycles = findGraphCycles(g);
+        const allCycles = fundamentalGraphCycles(g);
         // const t1 = Date.now();
         // console.log(`Raw list of cycles generated in ${t1-t0} ms`);
 
@@ -307,11 +314,13 @@ export class CalculusGame extends GameBase {
         } else if (overlaps.length === 1) {
             const overlap = overlaps[0];
             const bearing = calcBearing(...overlap.vert, x, y);
+            let pt: Vertex;
             if (overlap.type === "piece") {
-                return truncate(projectPoint(...overlap.vert, CalculusGame.SNAP_RADIUS, bearing));
+                pt = truncate(projectPoint(...overlap.vert, CalculusGame.SNAP_RADIUS, bearing));
             } else {
-                return truncate(projectPoint(...overlap.vert, CalculusGame.EDGE_SNAP_RADIUS, bearing));
+                pt = truncate(projectPoint(...overlap.vert, CalculusGame.EDGE_SNAP_RADIUS, bearing));
             }
+            return pt;
         } else {
             /**
              * BRUTE FORCE METHOD
@@ -602,11 +611,10 @@ export class CalculusGame extends GameBase {
                     this.results.push({type: "place", where: to});
                 }
                 this.ghosts = [];
+                // update graph and cycles
+                this.graph = this.getGraph();
+                this.cycles = this.getCycles(this.graph);
             }
-
-            // update graph and cycles
-            this.graph = this.getGraph();
-            this.cycles = this.getCycles(this.graph);
         }
 
         if (partial) { return this; }
@@ -630,10 +638,9 @@ export class CalculusGame extends GameBase {
         }
 
         // start with the piece graph
-        const g = this.getGraph()
+        const g = this.graph.copy()
         // add the cycles as nodes that connect to each perimeter cell
-        const cycles = this.getCycles(g);
-        for (const cycle of cycles) {
+        for (const cycle of this.cycles) {
             const cycleNode = g.addNode(cycle.id);
             for (const pNode of cycle.perimeterIds) {
                 g.addEdge(cycleNode, pNode);
@@ -643,7 +650,7 @@ export class CalculusGame extends GameBase {
         const owned: string[] = [];
         owned.push(...this.board.ownedVerts(p).map(v => v.join(",")));
         owned.push(...this.pieces.filter(pc => pc.owner === p).map(pc => pc.id));
-        owned.push(...cycles.filter(c => c.owner === p).map(c => c.id));
+        owned.push(...this.cycles.filter(c => c.owner === p).map(c => c.id));
         // Drop all the nodes that don't match
         for (const node of g.nodes()) {
             if (! owned.includes(node)) {
@@ -659,7 +666,6 @@ export class CalculusGame extends GameBase {
                 const result = bidirectional(g, left.join(","), right.join(","));
                 if (result !== null) {
                     paths.push(result.map(n => id2vert(n)));
-                    break;
                 }
             }
         }

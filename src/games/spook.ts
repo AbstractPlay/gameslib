@@ -281,7 +281,7 @@ export class SpookGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 6;
+        return 4;
     }
 
     public moves(player?: playerid): string[] {

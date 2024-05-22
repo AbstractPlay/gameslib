@@ -281,7 +281,7 @@ export class CalculusGame extends GameBase {
             const pcs = cycle.map(node => this.pieces.find(pc => pc.id === node)).filter(pc => pc !== undefined) as Piece[];
             const p1 = pcs.filter(pc => pc.owner === 1).length;
             const p2 = pcs.filter(pc => pc.owner === 2).length;
-            if (p1 === p2) {
+            if (p1 === p2 && p1 > 0) {
                 throw new Error(`Invalid cycle found containing equal numbers of player pieces: ${JSON.stringify(pcs)}`);
             }
             const owner = (p1 > p2 ? 1 : 2) as playerid;
@@ -543,6 +543,7 @@ export class CalculusGame extends GameBase {
             cloned.pieces.push(newPiece);
             cloned.graph = cloned.getGraph();
             try {
+                // console.log(`Graph: ${JSON.stringify(cloned.graph.nodes())}`);
                 cloned.getCycles(cloned.graph);
             } catch {
                 result.valid = false;

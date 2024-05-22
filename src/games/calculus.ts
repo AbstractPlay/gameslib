@@ -313,25 +313,19 @@ export class CalculusGame extends GameBase {
             return truncate([x,y]);
         } else if (overlaps.length === 1) {
             const overlap = overlaps[0];
-            const bearing = calcBearing(...overlap.vert, x, y);
             let pt: Vertex;
             if (overlap.type === "piece") {
+                const bearing = calcBearing(...overlap.vert, x, y);
                 pt = truncate(projectPoint(...overlap.vert, CalculusGame.SNAP_RADIUS, bearing));
             } else {
+                // for edges, you need to project towards the centre to avoid overlap
+                const bearing = calcBearing(...overlap.vert, this.board.r, this.board.r);
                 pt = truncate(projectPoint(...overlap.vert, CalculusGame.EDGE_SNAP_RADIUS, bearing));
             }
             return pt;
         } else {
-            /**
-             * BRUTE FORCE METHOD
-             * - Pick any overlapped vertex.
-             * - For every degree at whatever precision, calculate a point 2r away from the overlapped centre.
-             * - Check to see if that point is within 2r+buffer of all the other vertices.
-             * - If so, store it.
-             * - If when done you have at least one value stored, return the one closest to the clicked point.
-             */
-            const last = overlaps.pop()!;
             const stored: Vertex[] = [];
+            const last = overlaps.pop()!;
             for (let deg = 0; deg < 360; deg++) {
                 let pt: Vertex;
                 if (last.type === "piece") {
@@ -342,18 +336,31 @@ export class CalculusGame extends GameBase {
                 let matchesAll = true;
                 for (const v of overlaps) {
                     const dist = ptDistance(...pt, ...v.vert);
-                    if ( (v.type === "piece") && (dist > CalculusGame.DETECT_RADIUS) ) {
+                    if ( (v.type === "piece") &&
+                            ( (dist > CalculusGame.DETECT_RADIUS) ||
+                            (dist < CalculusGame.PIECE_RADIUS * 2)
+                            )
+                        ) {
                         matchesAll = false;
                         break;
-                    } else if ( (v.type === "edge") && (dist > CalculusGame.EDGE_DETECT_RADIUS) ) {
+                    } else if ( (v.type === "edge") &&
+                                ( (dist > CalculusGame.EDGE_DETECT_RADIUS) ||
+                                    (dist < CalculusGame.PIECE_RADIUS)
+                                )
+                                ) {
                         matchesAll = false;
                         break;
                     }
                 }
                 if (matchesAll) {
-                    stored.push(pt);
+                    // check for containment; owner is irrelevant
+                    const pc = new Piece({cx: pt[0], cy: pt[1], owner: 1});
+                    if (this.board.contains(pc.circularForm)) {
+                        stored.push(pt);
+                    }
                 }
             }
+
             if (stored.length === 0) {
                 return null;
             } else if (stored.length === 1) {

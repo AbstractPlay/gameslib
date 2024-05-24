@@ -316,7 +316,8 @@ export class NexGame extends GameBase {
                     return result;
                 }
             }
-            const neutralCount = moves.filter(p => this.board.get(p) === 3).length;
+            const neutralMoves = moves.filter(p => this.board.get(p) === 3);
+            const neutralCount = neutralMoves.length;
             const playerCount = moves.filter(p => this.board.get(p) === this.currplayer).length;
             if (playerCount > 1) {
                 result.valid = false;
@@ -381,6 +382,11 @@ export class NexGame extends GameBase {
                     return result;
                 }
             }
+            if (neutralMoves[0] === neutralMoves[1]) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.nex.SWAP_DUPLICATE");
+                return result;
+            }
         } else {
             for (const move of moves) {
                 if (this.board.has(move)) {
@@ -406,7 +412,6 @@ export class NexGame extends GameBase {
                     result.canrender = true;
                     result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                     return result;
-
                 }
             }
             if (moves.length < 2) {
@@ -415,6 +420,13 @@ export class NexGame extends GameBase {
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation.nex.PARTIAL_PLACE");
                 return result;
+            }
+            if (moves.length === 2) {
+                if (moves[0] === moves[1]) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.nex.PLACE_DUPLICATE");
+                    return result;
+                }
             }
         }
         const normalised = this.normaliseMove(m);

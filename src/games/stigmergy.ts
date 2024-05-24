@@ -438,17 +438,6 @@ export class StigmergyGame extends GameBase {
             const p2Score = this.getPlayerScore(2);
             this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
         }
-        // If there are no score changes for both players for `plyCount` plys, the game is over.
-        const plyCount = 20;
-        if (this.stack.length > plyCount) {
-            const lastPlies = this.stack.slice(this.stack.length - plyCount).map(s => s.scores);
-            if (lastPlies.every(s => s[0] === lastPlies[0][0]) && lastPlies.every(s => s[1] === lastPlies[0][1])) {
-                this.gameover = true;
-                const p1Score = this.getPlayerScore(1);
-                const p2Score = this.getPlayerScore(2);
-                this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
-            }
-        }
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},

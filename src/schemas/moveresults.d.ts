@@ -54,6 +54,11 @@ export type APMoveResult =
       why?: string;
     }
   | {
+      type: "button";
+      who?: number;
+      why?: string;
+    }
+  | {
       type: "deltaScore";
       delta?: number;
       who?: number;
@@ -280,4 +285,8 @@ export type APMoveResult =
     }
   | {
       type: "pie";
+    }
+  | {
+      type: "komi";
+      value: number;
     };

@@ -20,6 +20,7 @@
         "between": "{{player}} erected a fence between {{cell1}} and {{cell2}}.",
         "veletas": "{{player}} placed a piece at {{where}}."
     },
+    "BUTTON": "{{player}} took the button.",
     "CAPTURE": {
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
         "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
@@ -166,6 +167,7 @@
         "realm": "{{player}} immobilized the enforcer at {{where}}."
     },
     "INFINITE": "{{player}} has triggered an infinite loop!",
+    "KOMI": "{{player}} sets komi to {{value}}.",
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "armadas": "{{player}} moved their ship named {{name}}.",

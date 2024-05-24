@@ -132,6 +132,22 @@
             "additionalProperties": false
         },
         {
+            "description": "Describes a player taking the button.",
+            "properties": {
+                "type": {
+                    "enum": ["button"]
+                },
+                "who": {
+                    "type": "number"
+                },
+                "why": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
             "description": "Describes a change in a player's score (by default, the current player)",
             "properties": {
                 "type": {
@@ -849,6 +865,19 @@
                 }
             },
             "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Used when setting komi pie offer.",
+            "properties": {
+                "type": {
+                    "enum": ["komi"]
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "value"],
             "additionalProperties": false
         }
     ]

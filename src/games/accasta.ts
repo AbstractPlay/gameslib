@@ -429,6 +429,11 @@ export class AccastaGame extends GameBase {
                 subsize = stack.length;
             } else {
                 subsize = parseInt(num, 10);
+                if (subsize === stack.length) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.accasta.INVALID_SIZE", {move: m, step});
+                    return result;
+                }
             }
 
             if ( (destination === undefined) || (! allcells.includes(destination)) ) {

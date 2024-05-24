@@ -270,7 +270,7 @@ export class StigmergyGame extends GameBase {
             try {
                 parseInt(m, 10);
                 result.valid = true;
-                result.complete = -1;
+                result.complete = 0;
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_SETUP");
                 return result;
             } catch {

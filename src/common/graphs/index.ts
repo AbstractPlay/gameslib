@@ -46,7 +46,6 @@ export const spanningTree = (g: UndirectedGraph): UndirectedGraph|null => {
 }
 
 export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
-    const bases: string[][] = [];
     const cycles: string[][] = [];
 
     // ensures edges are always presented in the same order
@@ -119,6 +118,7 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
 
     const components = connectedComponents(g);
     for (const grp of components) {
+        const bases: string[][] = [];
         const subset = g.copy();
         // eslint-disable-next-line @typescript-eslint/no-shadow
         for (const missing of g.nodes().filter(n => ! grp.includes(n))) {

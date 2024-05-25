@@ -803,7 +803,7 @@ export class CalculusGame extends GameBase {
                     type: "path",
                     path: `M${r.from}L${r.to}`,
                     fillOpacity: 0,
-                    stroke: "#000",
+                    stroke: 3,
                 });
             }
         }

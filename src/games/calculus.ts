@@ -110,7 +110,7 @@ export class CalculusGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    private board!: Board;              // defined in load()
+    public board!: Board;              // defined in load()
     private graph!: UndirectedGraph;    // defined in load()
     private cycles!: Cycle[];           // defined in load();
     public connPath: Vertex[] = [];
@@ -500,7 +500,7 @@ export class CalculusGame extends GameBase {
             if (from !== undefined) {
                 actualPieces = actualPieces.filter(pc => pc.id !== from);
             }
-            const mesh = new Navmesh({container: this.board.verts, obstacles: actualPieces.map(pc => pc.verts), minEdgeLength: CalculusGame.PIECE_RADIUS});
+            const mesh = new Navmesh({container: this.board.verts, obstacles: actualPieces.map(pc => pc.verts), minEdgeLength: CalculusGame.PIECE_RADIUS * 2});
             let canNav = false;
             if (from !== undefined) {
                 const path = mesh.findPath(id2vert(from), id2vert(to));
@@ -509,7 +509,9 @@ export class CalculusGame extends GameBase {
                 }
             } else {
                 for (const v of this.board.verts) {
-                    const path = mesh.findPath(v, id2vert(to));
+                    const bearing = calcBearing(...v, this.board.r, this.board.r);
+                    const pt = projectPoint(...v, CalculusGame.PIECE_RADIUS, bearing);
+                    const path = mesh.findPath(pt, id2vert(to));
                     if (path !== null) {
                         canNav = true;
                         break;
@@ -518,7 +520,7 @@ export class CalculusGame extends GameBase {
             }
             if (! canNav) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.calculus.NO_PATH", {from, to});
+                result.message = i18next.t("apgames:validation.calculus.NO_PATH", {from: from || "the board edge", to});
                 return result;
             }
 

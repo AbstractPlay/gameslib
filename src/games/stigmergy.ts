@@ -53,7 +53,7 @@ export class StigmergyGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
-        flags: ["pie-even", "scores", "automove"],
+        flags: ["experimental", "pie-even", "scores", "automove"],
         variants: [
             {
                 uid: "size-6",

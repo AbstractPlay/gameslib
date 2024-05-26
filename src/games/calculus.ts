@@ -97,7 +97,7 @@ export class CalculusGame extends GameBase {
     public static readonly PIECE_RADIUS = 10;
     public static readonly SNAP_RADIUS = (this.PIECE_RADIUS * 2); // + 2;
     public static readonly EDGE_SNAP_RADIUS = this.PIECE_RADIUS + 0.25; // + 2;
-    public static readonly DETECT_RADIUS = (this.PIECE_RADIUS * 2) + 0.5; // + 4;
+    public static readonly DETECT_RADIUS = (this.PIECE_RADIUS * 2) + 0.25; // + 4;
     public static readonly EDGE_DETECT_RADIUS = this.PIECE_RADIUS + 0.5; // + 3;
 
     public numplayers = 2;

@@ -10,7 +10,6 @@ import { Navmesh, calcBearing, projectPoint, ptDistance, reviver } from "../comm
 import { fundamentalGraphCycles } from "../common/graphs";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfDiff from "@turf/difference";
-import turfIntersects from "@turf/boolean-intersects";
 import { UserFacingError } from "../common";
 import { Combination } from "js-combinatorics";
 import { UndirectedGraph } from "graphology";
@@ -96,10 +95,10 @@ export class CalculusGame extends GameBase {
     }
 
     public static readonly PIECE_RADIUS = 10;
-    public static readonly SNAP_RADIUS = (this.PIECE_RADIUS * 2) + 2;
-    public static readonly EDGE_SNAP_RADIUS = this.PIECE_RADIUS + 2;
-    public static readonly DETECT_RADIUS = (this.PIECE_RADIUS * 2) + 4;
-    public static readonly EDGE_DETECT_RADIUS = this.PIECE_RADIUS + 3;
+    public static readonly SNAP_RADIUS = (this.PIECE_RADIUS * 2); // + 2;
+    public static readonly EDGE_SNAP_RADIUS = this.PIECE_RADIUS + 0.25; // + 2;
+    public static readonly DETECT_RADIUS = (this.PIECE_RADIUS * 2) + 0.5; // + 4;
+    public static readonly EDGE_DETECT_RADIUS = this.PIECE_RADIUS + 0.5; // + 3;
 
     public numplayers = 2;
     public currplayer!: playerid;
@@ -258,7 +257,8 @@ export class CalculusGame extends GameBase {
             }
         }
 
-        // strip out any cycles that wholly include other cycles
+        // strip out any cycles that wholly include a cycle that shares a point with it
+        // fully detached inclusions are fine
         const containers = new Set<string>();
         goodCycles.sort((a,b) => b.length - a.length);
         const polys = goodCycles.map(c => [...c, c[0]].map(n => n.split(",").map(num => parseFloat(num)) as Vertex)).map(v => turfPoly([v]));
@@ -266,7 +266,8 @@ export class CalculusGame extends GameBase {
             const comp = polys[i];
             const test = polys.slice(i+1);
             for (const t of test) {
-                if (turfIntersects(comp, t) && turfDiff(t, comp) === null) {
+                const sharedPts = comp.geometry.coordinates.flat().filter(p1 => t.geometry.coordinates.flat().find(p2 => p2[0] === p1[0] && p2[1] === p1[1]) !== undefined);
+                if (sharedPts.length > 0 && turfDiff(t, comp) === null) {
                     containers.add(goodCycles[i].join("|"));
                     break;
                 }
@@ -306,7 +307,7 @@ export class CalculusGame extends GameBase {
         }
 
         const truncate = (v: Vertex): Vertex => {
-            return v.map(n => Math.round(n * 1000) / 1000) as Vertex;
+            return v.map(n => Math.round(n * 100) / 100) as Vertex;
         }
 
         if (overlaps.length === 0) {
@@ -505,6 +506,7 @@ export class CalculusGame extends GameBase {
             if (from !== undefined) {
                 const path = mesh.findPath(id2vert(from), id2vert(to));
                 if (path !== null) {
+                    // this.lastnav = path.map(id => id.split(",").map(n => parseInt(n, 10))).map(tri => tri.map(idx => mesh.allVerts[idx]) as [Vertex,Vertex,Vertex]);
                     canNav = true;
                 }
             } else {
@@ -513,6 +515,7 @@ export class CalculusGame extends GameBase {
                     const pt = projectPoint(...v, CalculusGame.PIECE_RADIUS, bearing);
                     const path = mesh.findPath(pt, id2vert(to));
                     if (path !== null) {
+                        // this.lastnav = path.map(id => id.split(",").map(n => parseInt(n, 10))).map(tri => tri.map(idx => mesh.allVerts[idx]) as [Vertex,Vertex,Vertex]);
                         canNav = true;
                         break;
                     }
@@ -776,6 +779,20 @@ export class CalculusGame extends GameBase {
             }
         }
 
+        // // add nav triangles if present (TEMPORARY)
+        // if (this.lastnav !== undefined) {
+        //     for (const tri of this.lastnav) {
+        //         const path = `M${tri[0].join(",")}L${tri.slice(0).map(v => v.join(",")).join("L")}Z`;
+        //         markers.push({
+        //             type: "path",
+        //             path,
+        //             stroke: "#000",
+        //             strokeWidth: 0.1,
+        //             fillOpacity: 0,
+        //         });
+        //     }
+        // }
+
         // fill in enclosures
         for (const cycle of this.cycles) {
             markers.push({
@@ -891,23 +908,23 @@ export class CalculusGame extends GameBase {
                 "A": {
                     name: "piece",
                     player: 1,
-                    scale: 0.45,
+                    scale: 0.4,
                 },
                 "B": {
                     name: "piece",
                     player: 2,
-                    scale: 0.45,
+                    scale: 0.4,
                 },
                 "C": {
                     name: "piece",
                     player: 1,
-                    scale: 0.45,
+                    scale: 0.4,
                     opacity: 0.5,
                 },
                 "D": {
                     name: "piece",
                     player: 2,
-                    scale: 0.45,
+                    scale: 0.4,
                     opacity: 0.5,
                 }
             },

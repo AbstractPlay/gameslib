@@ -40,7 +40,7 @@ export class AyuGame extends GameBase {
             { uid: "size-15", group: "board" },
         ],
         categories: ["goal>unify", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "pie", "multistep", "rotate90"],
+        flags: ["pie", "multistep", "rotate90"],
     };
 
     public coords2algebraic(x: number, y: number): string {

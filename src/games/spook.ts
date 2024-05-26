@@ -56,7 +56,7 @@ export class SpookGame extends GameBase {
             { uid: "random", group: "setup" },
         ],
         categories: ["goal>evacuate", "mechanic>place", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>3c", "board>3d"],
-        flags: ["experimental", "scores", "rotate90", "random-start"],
+        flags: ["scores", "rotate90", "random-start"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {

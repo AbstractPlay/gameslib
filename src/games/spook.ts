@@ -35,7 +35,7 @@ export class SpookGame extends GameBase {
         uid: "spook",
         playercounts: [2],
         version: "20240501",
-        dateAdded: "2024-05-05",
+        dateAdded: "2024-05-26",
         // i18next.t("apgames:descriptions.spook")
         description: "apgames:descriptions.spook",
         // i18next.t("apgames:notes.spook")

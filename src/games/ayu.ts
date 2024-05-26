@@ -24,7 +24,7 @@ export class AyuGame extends GameBase {
         uid: "ayu",
         playercounts: [2],
         version: "20240517",
-        dateAdded: "2024-05-17",
+        dateAdded: "2024-05-26",
         // i18next.t("apgames:descriptions.ayu")
         description: "apgames:descriptions.ayu",
         urls: ["https://boardgamegeek.com/boardgame/114484/ayu"],

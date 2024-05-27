@@ -315,14 +315,14 @@ export class SpookGame extends GameBase {
                     const cell = this.placeableCell(i, j);
                     if (cell !== undefined) {
                         if (!this.hasAdjacent(cell)) { continue; }
-                        moves.push(cell);
+                        moves.push(`m${cell}`);
                     }
                 }
             }
         } else if (this.noCaptures()) {
             const notPinned = this.notPinned(player % 2 + 1 as playerid);
             for (const cell of notPinned) {
-                moves.push(cell);
+                moves.push(`r${cell}`);
             }
             if (moves.length === 0) {
                 moves.push("pass");
@@ -330,7 +330,7 @@ export class SpookGame extends GameBase {
         } else {
             const captures = this.getCaptures();
             for (const capture of captures) {
-                moves.push(capture.join("-"));
+                moves.push(`c${capture.join("-")}`);
             }
         }
         return moves;
@@ -385,7 +385,7 @@ export class SpookGame extends GameBase {
                     this.hideLayer = n;
                 }
             } else {
-                if (!this.spookyPresent() || this.spookyIsolated()) {
+                if (!this.spookyPresent()) {
                     const placeableCell = this.placeableCell(col, row);
                     if (placeableCell === undefined) {
                         return {
@@ -395,6 +395,16 @@ export class SpookGame extends GameBase {
                         };
                     }
                     newmove = placeableCell;
+                } else if (this.spookyIsolated()) {
+                    const placeableCell = this.placeableCell(col, row);
+                    if (placeableCell === undefined) {
+                        return {
+                            move,
+                            valid: false,
+                            message: i18next.t("apgames:validation.spook.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
+                        };
+                    }
+                    newmove = `m${placeableCell}`;
                 } else {
                     const topMostCell = this.getTopMostCell(col, row);
                     if (topMostCell === undefined) {
@@ -404,8 +414,9 @@ export class SpookGame extends GameBase {
                             message: i18next.t("apgames:validation.spook.NO_BALL", { where: this.coords2algebraic(col, row) })
                         };
                     }
+                    const prefix = this.noCaptures() ? "r" : "c";
                     if (move === "") {
-                        newmove = topMostCell;
+                        newmove = `${prefix}${topMostCell}`;
                     } else {
                         newmove = `${move}-${topMostCell}`;
                     }
@@ -456,7 +467,8 @@ export class SpookGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-
+        const prefix = m.startsWith("c") ? "c" : m.startsWith("m") ? "m" : m.startsWith("r") ? "r" : "";
+        m = m.replace(/^[cmr]/, "");
         if (this.parityPass()) {
             if (m === "pass") {
                 result.valid = true;
@@ -513,6 +525,11 @@ export class SpookGame extends GameBase {
                 result.message = i18next.t("apgames:validation.spook.CANNOT_PLACE", { where: m });
                 return result;
             }
+            if (prefix !== "") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.spook.WRONG_PREFIX_PLACE", { prefix });
+                return result;
+            }
         } else {
             const spooky = this.spookyPos();
             if (this.noCaptures(spooky)) {
@@ -530,6 +547,11 @@ export class SpookGame extends GameBase {
                     if (!this.hasAdjacent(m)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.spook.NO_ADJACENT", { where: m });
+                        return result;
+                    }
+                    if (prefix !== "m") {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.spook.WRONG_PREFIX_MOVE");
                         return result;
                     }
                 } else {
@@ -553,6 +575,11 @@ export class SpookGame extends GameBase {
                         result.message = i18next.t("apgames:validation.spook.PINNED", { where: m });
                         return result;
                     }
+                    if (prefix !== "r") {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.spook.WRONG_PREFIX_REMOVE");
+                        return result;
+                    }
                 }
             } else if (this.underSpooky(moves[0], spooky)) {
                 if (moves.length > 1) {
@@ -563,6 +590,11 @@ export class SpookGame extends GameBase {
                 if (this.ballsAboveCount(m) > 1) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.spook.PINNED", { where: m });
+                    return result;
+                }
+                if (prefix !== "c") {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.spook.WRONG_PREFIX_CAPTURE");
                     return result;
                 }
             } else {
@@ -595,6 +627,11 @@ export class SpookGame extends GameBase {
                     captured.push(move);
                     nexts = this.getNext(move, captured, capturedPlayer);
                     from = captured[captured.length - 1]
+                }
+                if (prefix !== "c") {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.spook.WRONG_PREFIX_CAPTURE");
+                    return result;
                 }
                 if (nexts.length > 0) {
                     result.valid = true;
@@ -829,31 +866,32 @@ export class SpookGame extends GameBase {
                 this.results.push({ type: "place", where: spooky, what: "spooky" });
             }
         } else {
+            const withoutPrefix = m.startsWith("c") || m.startsWith("r") || m.startsWith("m") ? m.slice(1) : m;
             if (this.spookyIsolated()) {
                 const spooky = this.spookyPos();
                 this.board.delete(spooky);
-                this.board.set(m, 3);
-                this.results.push({ type: "move", from: spooky, to: m });
+                this.board.set(withoutPrefix, 3);
+                this.results.push({ type: "move", from: spooky, to: withoutPrefix });
             } else if (this.noCaptures()) {
-                const dropMap = this.getDropMap(m, this.currplayer);
+                const dropMap = this.getDropMap(withoutPrefix, this.currplayer);
                 if (dropMap !== undefined) {
                     this.applyDrop(dropMap);
                     const dropTopMost = dropMap[0][dropMap[0].length - 1];
-                    this.results.push({ type: "remove", where: m, num: dropMap[0].length - 1, how: dropTopMost });
+                    this.results.push({ type: "remove", where: withoutPrefix, num: dropMap[0].length - 1, how: dropTopMost });
                 } else {
-                    this.board.delete(m);
-                    this.results.push({ type: "remove", where: m, num: 0 });
+                    this.board.delete(withoutPrefix);
+                    this.results.push({ type: "remove", where: withoutPrefix, num: 0 });
                 }
                 this.pieceCounts[this.currplayer % 2]--;
             } else {
                 const spooky = this.spookyPos();
-                const split = m.split("-");
+                const split = withoutPrefix.split("-");
                 if (this.underSpooky(split[0], spooky)) {
-                    const what = this.board.get(m) === this.currplayer ? "self" : "opponent";
-                    const whose = this.board.get(m)!;
-                    this.results.push({ type: "capture", where: m, how: "drop", whose, what });
+                    const what = this.board.get(withoutPrefix) === this.currplayer ? "self" : "opponent";
+                    const whose = this.board.get(withoutPrefix)!;
+                    this.results.push({ type: "capture", where: withoutPrefix, how: "drop", whose, what });
                     this.board.delete(spooky);
-                    this.board.set(m, 3);
+                    this.board.set(withoutPrefix, 3);
                     this.pieceCounts[whose - 1]--
                 } else {
                     const what = this.board.get(split[0]) === this.currplayer ? "self" : "opponent";

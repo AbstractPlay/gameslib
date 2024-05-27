@@ -6,11 +6,9 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-import { HexTriGraph } from "../common/graphs";
+import { SquareOrthGraph } from "../common/graphs";
 
 export type playerid = 1|2;
-type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
-const allDirections: directions[] = ["NE","E","SE","SW","W","NW"];
 
 interface ILooseObj {
     [key: string]: any;
@@ -25,54 +23,39 @@ export interface IMoveState extends IIndividualState {
     komi?: number;
 };
 
-export interface IStigmergyState extends IAPGameState {
+export interface IPletoreState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class StigmergyGame extends GameBase {
+export class PletoreGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Stigmergy",
-        uid: "stigmergy",
+        name: "Pletore",
+        uid: "pletore",
         playercounts: [2],
-        version: "20240524",
-        dateAdded: "2024-05-24",
-        // i18next.t("apgames:descriptions.stigmergy")
-        description: "apgames:descriptions.stigmergy",
-        // i18next.t("apgames:notes.stigmergy")
-        notes: "apgames:notes.stigmergy",
-        urls: ["https://boardgamegeek.com/boardgame/333767/stigmergy"],
+        version: "20240527",
+        dateAdded: "2024-05-27",
+        // i18next.t("apgames:descriptions.pletore")
+        description: "apgames:descriptions.pletore",
+        // i18next.t("apgames:notes.pletore")
+        notes: "apgames:notes.pletore",
+        urls: ["https://boardgamegeek.com/boardgame/358881/pletore"],
         people: [
-            {
-                type: "designer",
-                name: "Steve Metzger",
-                urls: ["https://boardgamegeek.com/boardgamedesigner/11879/steve-metzger"]
-            },
             {
                 type: "designer",
                 name: "Luis Bolaños Mures",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/47001/luis-bolanos-mures"]
             }
         ],
-        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
+        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect"],
         flags: ["experimental", "pie-even", "scores", "automove"],
-        variants: [
-            {
-                uid: "size-6",
-                group: "board",
-            },
-            {
-                uid: "size-10",
-                group: "board",
-            }
-        ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };
 
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public graph?: HexTriGraph;
+    public graph?: SquareOrthGraph;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -83,7 +66,7 @@ export class StigmergyGame extends GameBase {
     public komi?: number;
     private boardSize = 0;
 
-    constructor(state?: IStigmergyState | string, variants?: string[]) {
+    constructor(state?: IPletoreState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
@@ -93,7 +76,7 @@ export class StigmergyGame extends GameBase {
             // they're common to both fresh and loaded games.
             const board: Map<string, playerid> = new Map();
             const fresh: IMoveState = {
-                _version: StigmergyGame.gameinfo.version,
+                _version: PletoreGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -103,10 +86,10 @@ export class StigmergyGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IStigmergyState;
+                state = JSON.parse(state, reviver) as IPletoreState;
             }
-            if (state.game !== StigmergyGame.gameinfo.uid) {
-                throw new Error(`The Stigmergy engine cannot process a game of '${state.game}'.`);
+            if (state.game !== PletoreGame.gameinfo.uid) {
+                throw new Error(`The Pletore engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -118,7 +101,7 @@ export class StigmergyGame extends GameBase {
         this.buildGraph();
     }
 
-    public load(idx = -1): StigmergyGame {
+    public load(idx = -1): PletoreGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -137,16 +120,16 @@ export class StigmergyGame extends GameBase {
         return this;
     }
 
-    private buildGraph(): HexTriGraph {
-        this.graph = new HexTriGraph(this.boardSize, (this.boardSize * 2) - 1);
+    private buildGraph(): SquareOrthGraph {
+        this.graph = new SquareOrthGraph(this.boardSize, this.boardSize);
         return this.graph;
     }
 
-    private getGraph(boardSize?: number): HexTriGraph {
+    private getGraph(boardSize?: number): SquareOrthGraph {
         if (boardSize === undefined) {
             return (this.graph === undefined) ? this.buildGraph() : this.graph;
         } else {
-            return new HexTriGraph(boardSize, (boardSize * 2) - 1);
+            return new SquareOrthGraph(boardSize, boardSize);
         }
     }
 
@@ -175,7 +158,7 @@ export class StigmergyGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 8;
+        return 12;
     }
 
     public moves(player?: playerid): string[] {
@@ -194,22 +177,23 @@ export class StigmergyGame extends GameBase {
 
         const moves: string[] = [];
         for (const cell of this.listCells() as string[]) {
-            const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
-            const playerLos = this.getLosCount(cell, player);
-            const otherPlayerLos = this.getLosCount(cell, otherPlayer);
-
-            if (this.board.has(cell) && this.board.get(cell) === otherPlayer && playerLos >= losTarget) {
+            if (this.board.has(cell) && this.board.get(cell) === otherPlayer && this.getController(cell) === player) {
                 moves.push(cell);
-            } else if (!this.board.has(cell) && otherPlayerLos < losTarget) {
+            } else if (!this.board.has(cell) && this.getController(cell) !== otherPlayer) {
                 moves.push(cell);
             }
 
-            if (!freeSpaces && !this.board.has(cell) && playerLos < losTarget && otherPlayerLos < losTarget) {
+            if (!freeSpaces && !this.board.has(cell) && this.getController(cell) === undefined) {
                 freeSpaces = true;
             }
         }
-        if (!freeSpaces || (this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1)) moves.push("pass");
+        if (!freeSpaces || this.isButtonActive()) moves.push("pass");
         return moves;
+    }
+
+    private isButtonActive(): boolean {
+        return this.firstpass === undefined && this.komi !== undefined
+            && (this.komi + (this.boardSize * this.boardSize)) % 2 === 0;
     }
 
     public randomMove(): string {
@@ -242,20 +226,32 @@ export class StigmergyGame extends GameBase {
         }
     }
 
-    private getLosCount(cell: string, player: playerid): number {
-        let losCount = 0;
-        for (const dir of allDirections) {
-            const ray = this.getGraph().ray(...this.getGraph().algebraic2coords(cell), dir).map(c => this.getGraph().coords2algebraic(c[0], c[1]));
-            for (const c of ray) {
-                if (this.board.has(c)) {
-                    if (this.board.get(c)! === player) {
-                        losCount++;
-                    }
-                    break;
-                }
+    private traceRay(cell: string, dir: "N"|"E"|"S"|"W"): playerid | undefined {
+        const ray = this.getGraph().ray(...this.getGraph().algebraic2coords(cell), dir).map(c => this.getGraph().coords2algebraic(c[0], c[1]));
+        for (const c of ray) {
+            if (this.board.has(c)) {
+                return this.board.get(c);
             }
         }
-        return losCount;
+        return undefined;
+    }
+
+    private hasPinch(cell: string, player: playerid): boolean {
+        const northPlayer = this.traceRay(cell, "N");
+        const eastPlayer = this.traceRay(cell, "E");
+        const southPlayer = this.traceRay(cell, "S");
+        const westPlayer = this.traceRay(cell, "W");
+
+        return (northPlayer === player && eastPlayer === player) ||
+            (northPlayer === player && westPlayer === player) ||
+            (southPlayer === player && eastPlayer === player) ||
+            (southPlayer === player && westPlayer === player);
+    }
+
+    private getController(cell: string): playerid | undefined {
+        if (this.hasPinch(cell, 1) && !this.hasPinch(cell, 2)) return 1;
+        if (!this.hasPinch(cell, 1) && this.hasPinch(cell, 2)) return 2;
+        return undefined;
     }
 
     public validateMove(m: string): IValidationResult {
@@ -265,7 +261,7 @@ export class StigmergyGame extends GameBase {
             if (m.length === 0) {
                 result.valid = true;
                 result.complete = -1;
-                result.message = i18next.t("apgames:validation.stigmergy.INITIAL_SETUP");
+                result.message = i18next.t("apgames:validation.pletore.INITIAL_SETUP");
                 return result;
             }
 
@@ -273,11 +269,11 @@ export class StigmergyGame extends GameBase {
                 parseInt(m, 10);
                 result.valid = true;
                 result.complete = 0;
-                result.message = i18next.t("apgames:validation.stigmergy.INITIAL_SETUP");
+                result.message = i18next.t("apgames:validation.pletore.INITIAL_SETUP");
                 return result;
             } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.stigmergy.INVALIDKOMI");
+                result.message = i18next.t("apgames:validation.pletore.INVALIDKOMI");
                 return result;
             }
         }
@@ -285,10 +281,10 @@ export class StigmergyGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1)
-                result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS_BUTTON");
+            if (this.isButtonActive())
+                result.message = i18next.t("apgames:validation.pletore.INITIAL_INSTRUCTIONS_BUTTON");
             else
-                result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS");
+                result.message = i18next.t("apgames:validation.pletore.INITIAL_INSTRUCTIONS");
             return result;
         }
 
@@ -300,7 +296,7 @@ export class StigmergyGame extends GameBase {
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.stigmergy.INVALIDPASS");
+                result.message = i18next.t("apgames:validation.pletore.INVALIDPASS");
                 return result;
             }
         }
@@ -316,26 +312,22 @@ export class StigmergyGame extends GameBase {
 
         if (this.board.has(m) && this.board.get(m) === this.currplayer) {
             result.valid = false;
-            if (this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1)
-                result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS_BUTTON");
+            if (this.isButtonActive())
+                result.message = i18next.t("apgames:validation.pletore.INITIAL_INSTRUCTIONS_BUTTON");
             else
-                result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS");
+                result.message = i18next.t("apgames:validation.pletore.INITIAL_INSTRUCTIONS");
             return result;
         }
 
-        let losCount = this.getLosCount(m, this.currplayer);
-        const otherPlayer = this.getOtherPlayer(this.currplayer);
-        const losTarget = Math.floor(this.getGraph().neighbours(m).length / 2) + 1;
-        if (this.board.has(m) && this.board.get(m) === this.getOtherPlayer(this.currplayer) && losCount < losTarget) {
+        if (this.board.has(m) && this.board.get(m) === this.getOtherPlayer(this.currplayer) && this.getController(m) !== this.currplayer) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.stigmergy.INSUFFICIENT_LOS", {cell: m});
+            result.message = i18next.t("apgames:validation.pletore.INSUFFICIENT_CONTROL", {cell: m});
             return result;
         }
 
-        losCount = this.getLosCount(m, otherPlayer);
-        if (!this.board.has(m) && losCount >= losTarget) {
+        if (!this.board.has(m) && this.getController(m) === this.getOtherPlayer(this.currplayer)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.stigmergy.OPPONENT_CONTROL", {cell: m});
+            result.message = i18next.t("apgames:validation.pletore.OPPONENT_CONTROL", {cell: m});
             return result;
         }
 
@@ -348,7 +340,7 @@ export class StigmergyGame extends GameBase {
         return result;
     }
 
-    public move(m: string, { partial = false, trusted = false } = {}): StigmergyGame {
+    public move(m: string, { partial = false, trusted = false } = {}): PletoreGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -372,7 +364,7 @@ export class StigmergyGame extends GameBase {
             this.komi = parseInt(m, 10);
             this.results.push({type: "komi", value: this.komi});
         } else if (m === "pass") {
-            if (this.stack.length > 2 && this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1) {
+            if (this.stack.length > 2 && this.isButtonActive()) {
                 this.firstpass = this.currplayer;
                 m = "button";
                 this.results.push({type: "button"});
@@ -406,15 +398,7 @@ export class StigmergyGame extends GameBase {
 
     private cellOwner(cell: string): playerid | undefined {
         if (this.board.has(cell)) return this.board.get(cell);
-        const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
-        const player1Los = this.getLosCount(cell, 1);
-        const player2Los = this.getLosCount(cell, 2);
-        if (player1Los >= losTarget) {
-            return 1;
-        } else if (player2Los >= losTarget) {
-            return 2;
-        }
-        return undefined;
+        return this.getController(cell);
     }
 
     private updateScores(): void {
@@ -433,7 +417,7 @@ export class StigmergyGame extends GameBase {
         return [...this.board.values()].filter(v => v === player).length;
     }
 
-    protected checkEOG(): StigmergyGame {
+    protected checkEOG(): PletoreGame {
         if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass") {
             this.gameover = true;
             const p1Score = this.getPlayerScore(1);
@@ -459,9 +443,9 @@ export class StigmergyGame extends GameBase {
         ]
     }
 
-    public state(): IStigmergyState {
+    public state(): IPletoreState {
         return {
-            game: StigmergyGame.gameinfo.uid,
+            game: PletoreGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -472,7 +456,7 @@ export class StigmergyGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: StigmergyGame.gameinfo.version,
+            _version: PletoreGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -573,11 +557,11 @@ export class StigmergyGame extends GameBase {
         let markers: Array<any> | undefined = []
         if (points1.length > 0) {
             // @ts-ignore
-            markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+            markers.push({ type: "dots", colour: 1, opacity: 1, points: points1 });
         }
         if (points2.length > 0) {
             // @ts-ignore
-            markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+            markers.push({ type: "dots", colour: 2, opacity: 1, points: points2 });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -586,9 +570,9 @@ export class StigmergyGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "hex-of-hex",
-                minWidth: this.boardSize,
-                maxWidth: this.boardSize * 2 - 1,
+                style: "vertex",
+                width: this.boardSize,
+                height: this.boardSize,
                 // @ts-ignore
                 markers,
             },
@@ -618,22 +602,14 @@ export class StigmergyGame extends GameBase {
             [2, []],
         ]);
         for (const cell of this.listCells() as string[]) {
-            if (this.board.has(cell)) {
-                const player = this.board.get(cell)!;
+            if (!this.board.has(cell)) {
+                const controller = this.getController(cell);
+                if (controller === undefined) continue;
                 const [x, y] = this.getGraph().algebraic2coords(cell);
                 const cellCoords = {row: y, col: x};
-                markers.get(player)!.push(cellCoords);
-            } else {
-                const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
-                const player1Los = this.getLosCount(cell, 1);
-                const player2Los = this.getLosCount(cell, 2);
-                if (player1Los === 0 && player2Los === 0) { continue; }
-                const [x, y] = this.getGraph().algebraic2coords(cell);
-                const cellCoords = {row: y, col: x};
-                if (player1Los >= losTarget) {
+                if (controller === 1) {
                     markers.get(1)!.push(cellCoords);
-                }
-                if (player2Los >= losTarget) {
+                } else {
                     markers.get(2)!.push(cellCoords);
                 }
             }
@@ -646,10 +622,8 @@ export class StigmergyGame extends GameBase {
         const threatenedPieces = new Set<string>();
         for (const cell of this.listCells() as string[]) {
             if (this.board.has(cell)) {
-                const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
-                const otherPlayer = this.getOtherPlayer(this.board.get(cell)!);
-                const losCount = this.getLosCount(cell, otherPlayer);
-                if (losCount >= losTarget) {
+                const controller = this.getController(cell);
+                if (controller !== undefined && controller === this.getOtherPlayer(this.board.get(cell)!)) {
                     threatenedPieces.add(cell);
                 }
             }
@@ -677,8 +651,8 @@ export class StigmergyGame extends GameBase {
         return status;
     }
 
-    public clone(): StigmergyGame {
-        return new StigmergyGame(this.serialize());
+    public clone(): PletoreGame {
+        return new PletoreGame(this.serialize());
     }
 
 }

@@ -125,6 +125,7 @@ import { SpookGame, ISpookState } from "./spook";
 import { AyuGame, IAyuState } from "./ayu";
 import { CalculusGame, ICalculusState } from "./calculus";
 import { StigmergyGame, IStigmergyState } from "./stigmergy";
+import { PletoreGame, IPletoreState } from "./pletore";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -252,6 +253,7 @@ export {
     AyuGame, IAyuState,
     CalculusGame, ICalculusState,
     StigmergyGame, IStigmergyState,
+    PletoreGame, IPletoreState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -295,7 +297,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SponnectGame | typeof AkronGame | typeof MargoGame |
                               typeof NecklaceGame | typeof UpperHandGame | typeof OustGame |
                               typeof SusanGame | typeof OwareGame | typeof SpookGame |
-                              typeof AyuGame | typeof CalculusGame | typeof StigmergyGame
+                              typeof AyuGame | typeof CalculusGame | typeof StigmergyGame |
+                              typeof PletoreGame
                 >();
 // Manually add each game to the following array
 [
@@ -316,7 +319,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
-    SpookGame, AyuGame, CalculusGame, StigmergyGame,
+    SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -576,6 +579,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CalculusGame(...args);
         case "stigmergy":
             return new StigmergyGame(...args);
+        case "pletore":
+            return new PletoreGame(...args);
     }
     return;
 }

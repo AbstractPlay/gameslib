@@ -86,6 +86,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
+        "pletore": "Pletore is a territorial line of sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupries more of the board at the end.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
@@ -140,10 +141,11 @@
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
+        "pletore": "An intersection is controlled by a player if they have a piece on it, or if they 'pinch' the intersection while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. The score is the number of intersections controlled by each player plus a komi bonus for the second player and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may 'pass' to take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass without claiming the button until the entire board is occupied or controlled.",
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "razzle": "The implementation here is the so called tournament rules.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
-        "stigmergy": "A space is claimed by a player if they have a piece on it, or if they have more than half of the line of sights to it. The score is the number of spaces controlled by each player plus a komi bonus for the second player and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may 'pass' to take a turn and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass without claiming the button until the entire board is occupied or controlled.",
+        "stigmergy": "A space is controlled by a player if they have a piece on it, or if they have more than half of the line of sights to it. The score is the number of spaces controlled by each player plus a komi bonus for the second player and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may 'pass' to take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass without claiming the button until the entire board is occupied or controlled.",
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
@@ -1117,6 +1119,15 @@
             "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
         },
+        "pletore": {
+            "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
+            "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
+            "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' to take the button (worth .5 points).",
+            "INSUFFICIENT_CONTROL": "You cannot replace a piece on {{cell}}. You do not control the intersection.",
+            "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent.",
+            "INVALIDPASS": "The button is already taken and you cannot pass while uncontrolled intersections exist.",
+            "INVALIDKOMI": "Please enter a valid number for the komi offer."
+        },
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",
             "PARTIAL": "Select a destination.",
@@ -1819,6 +1830,11 @@
                 "description": "The game ends immediately when a player makes a winning alignment."
             }
         },
+        "pletore": {
+            "board": {
+                "name": "board (12x12)"
+            }
+        },
         "quagmire": {
             "board": {
                 "name": "board (37 cells)"
@@ -1877,7 +1893,7 @@
         },
         "stigmergy": {
             "board": {
-                "name": "Competitive board (8 cells)"
+                "name": "Competitive board (127 cells)"
             }
         },
         "symple": {
@@ -2659,10 +2675,10 @@
         },
         "stigmergy": {
             "size-6": {
-                "name": "Smaller board (6 cells)"
+                "name": "Smaller board (61 cells)"
             },
             "size-10": {
-                "name": "Larger board (10 cells)"
+                "name": "Larger board (217 cells)"
             }
         },
         "streetcar": {
@@ -2940,6 +2956,20 @@
             "hide-threatened": {
                 "description": "Don't highlight pieces that are threatened to be captured.",
                 "name": "Hide threatened pieces"
+            }
+        },
+        "pletore": {
+            "hide-influence": {
+                "description": "Don't show controlled intersections.",
+                "name": "Hide influence"
+            },
+            "hide-threatened": {
+                "description": "Don't show possible replacements.",
+                "name": "Hide threatened"
+            },
+            "hide-both": {
+                "description": "Don't show controlled intersections nor possible replacements.",
+                "name": "Hide Both"
             }
         },
         "reversi": {

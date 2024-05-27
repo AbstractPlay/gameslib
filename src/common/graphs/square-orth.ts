@@ -111,4 +111,44 @@ export class SquareOrthGraph implements IGraph {
         const connected = connectedComponents(this.graph);
         return connected.length === 1;
     }
+
+    public move(x: number, y: number, dir: "N"|"E"|"S"|"W", dist = 1): [number, number] | undefined {
+        let xNew = x;
+        let yNew = y;
+        for (let i = 0; i < dist; i++) {
+            switch (dir) {
+                case "N":
+                    yNew--;
+                    break;
+                case "E":
+                    xNew++;
+                    break;
+                case "S":
+                    yNew++;
+                    break;
+                case "W":
+                    xNew--;
+                    break;
+                default:
+                    throw new Error("Invalid direction requested.");
+            }
+            if ((yNew < 0) || (yNew >= this.height)) {
+                return undefined;
+            }
+            if ((xNew < 0) || (xNew >= this.width)) {
+                return undefined;
+            }
+        }
+        return [xNew, yNew];
+    }
+
+    public ray(x: number, y: number, dir: "N"|"E"|"S"|"W"): [number, number][] {
+        const cells: [number, number][] = [];
+        let next = this.move(x, y, dir);
+        while (next !== undefined) {
+            cells.push(next);
+            next = this.move(...next, dir);
+        }
+        return cells;
+    }
 }

@@ -58,7 +58,11 @@ export class StigmergyGame extends GameBase {
         flags: ["experimental", "pie-even", "scores", "automove"],
         variants: [
             {
-                uid: "size-6",
+                uid: "size-7",
+                group: "board",
+            },
+            {
+                uid: "size-9",
                 group: "board",
             },
             {

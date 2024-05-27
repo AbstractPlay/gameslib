@@ -49,6 +49,20 @@ export class PletoreGame extends GameBase {
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect"],
         flags: ["experimental", "pie-even", "scores", "automove"],
+        variants: [
+            {
+                uid: "size-11",
+                group: "board",
+            },
+            {
+                uid: "size-15",
+                group: "board",
+            },
+            {
+                uid: "size-17",
+                group: "board",
+            }
+        ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };
 
@@ -158,7 +172,7 @@ export class PletoreGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 12;
+        return 13;
     }
 
     public moves(player?: playerid): string[] {

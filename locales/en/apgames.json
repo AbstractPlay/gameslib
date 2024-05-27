@@ -1832,7 +1832,7 @@
         },
         "pletore": {
             "board": {
-                "name": "board (12x12)"
+                "name": "board (13x13)"
             }
         },
         "quagmire": {
@@ -1893,7 +1893,7 @@
         },
         "stigmergy": {
             "board": {
-                "name": "Competitive board (127 cells)"
+                "name": "Competitive board (169 cells)"
             }
         },
         "symple": {
@@ -2514,6 +2514,17 @@
                 "name": "Longer Game: 15 points"
             }
         },
+        "pletore": {
+            "size-11": {
+                "name": "Smaller board (11x11)"
+            },
+            "size-15": {
+                "name": "Larger board (15x15)"
+            },
+            "size-17": {
+                "name": "Largest board (17x17)"
+            }
+        },
         "quagmire": {
             "large": {
                 "name": "Larger board (61 cells)"
@@ -2674,11 +2685,14 @@
             }
         },
         "stigmergy": {
-            "size-6": {
-                "name": "Smaller board (61 cells)"
+            "size-7": {
+                "name": "Smaller board (127 cells)"
+            },
+            "size-9": {
+                "name": "Larger board (217 cells)"
             },
             "size-10": {
-                "name": "Larger board (217 cells)"
+                "name": "Largest board (271 cells)"
             }
         },
         "streetcar": {

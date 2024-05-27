@@ -1350,7 +1350,11 @@
             "NOT_FREE": "The ball at {{where}} is not free to be captured.",
             "CHAIN_WRONG_PLAYER": "You may only make chain captures of balls of the same colour.",
             "NOT_CAPTURABLE": "The ball at {{where}} is not capturable.",
-            "CONTINUE": "You may have Spooky continue to capture more balls of the same colour, or end your turn."
+            "CONTINUE": "You may have Spooky continue to capture more balls of the same colour, or end your turn.",
+            "WRONG_PREFIX_PLACE": "Placements should not include a prefix.",
+            "WRONG_PREFIX_MOVE": "Movements should be prefixed with 'm'.",
+            "WRONG_PREFIX_REMOVE": "Removals should be prefixed with 'r'.",
+            "WRONG_PREFIX_CAPTURE": "Captures should be prefixed with 'c'."
         },
         "stigmergy": {
             "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",

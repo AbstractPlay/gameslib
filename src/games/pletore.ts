@@ -201,7 +201,8 @@ export class PletoreGame extends GameBase {
                 freeSpaces = true;
             }
         }
-        if (!freeSpaces || this.isButtonActive()) moves.push("pass");
+        if (this.isButtonActive()) moves.push("button");
+        if (!freeSpaces && !this.isButtonActive()) moves.push("pass");
         return moves;
     }
 
@@ -269,6 +270,9 @@ export class PletoreGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (this.stack.length === 1) {
@@ -311,6 +315,19 @@ export class PletoreGame extends GameBase {
             } else {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pletore.INVALIDPASS");
+                return result;
+            }
+        }
+
+        if (m === "button") {
+            if (this.moves().includes("button")) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pletore.INVALIDBUTTON");
                 return result;
             }
         }
@@ -378,13 +395,10 @@ export class PletoreGame extends GameBase {
             this.komi = parseInt(m, 10);
             this.results.push({type: "komi", value: this.komi});
         } else if (m === "pass") {
-            if (this.stack.length > 2 && this.isButtonActive()) {
-                this.firstpass = this.currplayer;
-                m = "button";
-                this.results.push({type: "button"});
-            } else {
-                this.results.push({type: "pass"});
-            }
+            this.results.push({type: "pass"});
+        } else if (m === "button") {
+            this.firstpass = this.currplayer;
+            this.results.push({type: "button"});
         } else {
             if (this.board.has(m)) {
                 this.results.push({type: "capture", where: m});

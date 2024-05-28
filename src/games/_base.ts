@@ -758,17 +758,20 @@ export abstract class GameBase  {
 
     // compares the most recent state to all previous states and returns
     // the number of times the state has been repeated
-    public stateCount(): number {
+    // arguments are optional. if provided, it will override the current state
+    public stateCount(board: any = undefined, currplayer: number | undefined = undefined): number {
         const stack = [...this.stack];
         const comparator = stack.pop();
+        board ??= comparator?.board;
+        currplayer ??= comparator?.currplayer;
         let count = 0;
         if (comparator !== undefined) {
             if ("board" in comparator && "currplayer" in comparator) {
                 const srcStr = JSDstringify({
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    board: comparator.board,
+                    board,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    currplayer: comparator.currplayer,
+                    currplayer,
                 }, {replacer: sortingReplacer});
                 for (const state of stack) {
                     const test = {

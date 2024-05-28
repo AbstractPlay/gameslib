@@ -170,6 +170,10 @@
     "KOMI": "{{player}} sets komi to {{value}}.",
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        "anache_dragon": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
+        "anache_dragon_jump": "{{player}} jumps their dragon from {{from}} to {{to}}.",
+        "anache_knight": "{{player}} moved a group of size {{count}} via a knight move from {{from}} in the direction {{dir}}.",
+        "anache_man": "{{player}} moved a group of size {{count}} from {{from}} in the direction {{dir}}.",
         "armadas": "{{player}} moved their ship named {{name}}.",
         "bao": "Initial direction of movement: {{direction}}.",
         "ball": "{{player}} moved a ball from {{from}} to {{to}}.",

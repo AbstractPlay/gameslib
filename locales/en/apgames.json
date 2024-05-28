@@ -7,6 +7,7 @@
         "akron": "Akron is an extension of standard connection games to three dimensions. On their turn, players may introduce new balls of their colour on the lowest layer of the board, or move a ball that is not pinned (having balls resting on it in two or more directions) to a space that is connected to the same group both before and after movement. When balls move, balls resting on it will drop, changing the connections on the board.",
         "almatafl": "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
+        "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
@@ -128,6 +129,7 @@
     },
     "notes": {
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
+        "anache": "This implementation follows David Ploog's rulesheet. Two notable changes are that barriers are forbidden and instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
@@ -359,6 +361,38 @@
             "POTENTIAL_BLOCK": "So far so good. Provide the space you want to block.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move to.",
             "STRAIGHTLINE": "You can only move and block in straight lines."
+        },
+        "anache": {
+            "INITIAL_INSTRUCTIONS": "Select your pieces to move.",
+            "FIRST_MOVE_NO_DOUBLE": "On the first turn, you may only move one group.",
+            "TOO_MANY_MOVES": "You may only move two groups in a normal turn.",
+            "DRAGON_NO_CONTINUE": "The previous move was not a capture so you may not continue making dragon moves.",
+            "DUPLICATE": "You have already selected the piece at {{where}}.",
+            "DRAGON_TOO_MANY": "You may select only the dragon when making a dragon jump.",
+            "INVALID_DRAGON_TO": "The destination space {{to}} is invalid.",
+            "NOT_DRAGON_JUMPABLE": "The dragon may not jump to the opposing quadrant in the opponent's base.",
+            "DRAGON_SELECT_MORE_MANDATORY": "You must select the dragon to make a move",
+            "DRAGON_MUST_INCLUDE": "You must include the dragon at {{cell}} if you want to continue making dragon moves.",
+            "CORNER_NO_MOVE": "You may not select a dragon piece in the middle of a turn",
+            "IMMOBILISED": "The piece at {{where}} is immobilised.",
+            "NOT_CONNECTED": "The selected group is not connected.",
+            "SELECT_MORE_PIECES_one": "You may select one more piece to move as a group, or select a direction to move the group.",
+            "SELECT_MORE_PIECES_other": "You may select {{count}} more pieces to move as a group, or select a direction to move the group.",
+            "INCLUDE_UNMOVED": "You must include at least one piece that has not moved yet.",
+            "SELECT_DIR": "Select a direction to move the group.",
+            "TOO_MANY": "You may only select up to {{count}} pieces to move as a group.",
+            "INVALID_DIR": "The direction {{dir}} is not a valid direction to move the group to.",
+            "DIR_MISSING": "You are missing the direction in one of the earlier group moves.",
+            "DRAGON_SELECT_MORE_SUPERKO": "You must continue to make dragon moves because the current board state is a superko.",
+            "DRAGON_SELECT_MORE_BARRIER": "You must continue to make dragon moves because you have created a barrier.",
+            "DRAGON_SELECT_MORE": "You may continue to make dragon moves because your previous move was a capture.",
+            "SELECT_MORE_SUPERKO": "You must continue to make moves because the current board state is a superko.",
+            "SELECT_MORE_BARRIER": "You must continue to make moves because you have created a barrier.",
+            "SELECT_MORE_one": "You may continue to make one more group move.",
+            "SELECT_MORE_many": "You may continue to make {{count}} more group moves.",
+            "SUPERKO": "Superko: you may not repeat a board state.",
+            "BARRIER": "You may not create a barrier.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
         "archimedes": {
             "FLEET_FULL": "You may not have more than 12 pieces.",
@@ -1615,6 +1649,11 @@
                 "description": "Queens of each colour are on opposite halves of the board."
             }
         },
+        "anache": {
+            "board": {
+                "name": "size-12 board"
+            }
+        },
         "atoll": {
             "board": {
                 "name": "size-11 board"
@@ -2012,6 +2051,14 @@
             "scrambled": {
                 "name": "Scrambled",
                 "description": "Queens alternate colour around the board."
+            }
+        },
+        "anache": {
+            "size-10": {
+                "name": "size-10 board"
+            },
+            "size-15": {
+                "name": "size-15 board"
             }
         },
         "archimedes": {

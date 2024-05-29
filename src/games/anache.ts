@@ -58,7 +58,7 @@ export class AnacheGame extends GameBase {
             { uid: "size-15", group: "board" },
         ],
         categories: ["goal>breakthrough", "goal>immobilise", "mechanic>move>group", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "perspective", "limited-pieces"],
+        flags: ["experimental", "perspective", "limited-pieces", "no-moves"],
     };
 
     public coords2algebraic(x: number, y: number): string {

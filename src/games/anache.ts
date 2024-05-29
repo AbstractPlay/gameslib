@@ -756,14 +756,14 @@ export class AnacheGame extends GameBase {
         const [xT, yT] = this.algebraic2coords(to);
         if (player === 1) {
             if (xF === 0) {
-                return xT < Math.ceil(this.boardSize / 2) && yT >= Math.floor(this.boardSize / 2);
+                return xT < Math.ceil(this.boardSize / 2) || yT >= Math.floor(this.boardSize / 2);
             }
-            return xT >= Math.floor(this.boardSize / 2) && yT >= Math.floor(this.boardSize / 2);
+            return xT >= Math.floor(this.boardSize / 2) || yT >= Math.floor(this.boardSize / 2);
         }
         if (xF === 0) {
-            return xT < Math.ceil(this.boardSize / 2) && yT < Math.ceil(this.boardSize / 2);
+            return xT < Math.ceil(this.boardSize / 2) || yT < Math.ceil(this.boardSize / 2);
         }
-        return xT >= Math.floor(this.boardSize / 2) && yT < Math.ceil(this.boardSize / 2);
+        return xT >= Math.floor(this.boardSize / 2) || yT < Math.ceil(this.boardSize / 2);
     }
 
     private shiftGroup(group: string[], direction: Directions): string[] {

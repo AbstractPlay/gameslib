@@ -366,31 +366,30 @@
             "INITIAL_INSTRUCTIONS": "Select your pieces to move.",
             "FIRST_MOVE_NO_DOUBLE": "On the first turn, you may only move one group.",
             "TOO_MANY_MOVES": "You may only move two groups in a normal turn.",
-            "DRAGON_NO_CONTINUE": "The previous move was not a capture so you may not continue making dragon moves.",
-            "DUPLICATE": "You have already selected the piece at {{where}}.",
-            "DRAGON_TOO_MANY": "You may select only the dragon when making a dragon jump.",
+            "DRAGON_NO_CONTINUE": "The previous group move did not result in any captures so you may not continue making group moves in your dragon turn.",
+            "DUPLICATE": "Duplicated piece selection {{where}} in group move.",
+            "DRAGON_TOO_MANY": "If you wish to make a dragon group move, you must select only the dragon.",
             "INVALID_DRAGON_TO": "The destination space {{to}} is invalid.",
             "NOT_DRAGON_JUMPABLE": "The dragon may not jump to the opposing quadrant in the opponent's base.",
-            "DRAGON_SELECT_MORE_MANDATORY": "You must select the dragon to make a move",
-            "DRAGON_MUST_INCLUDE": "You must include the dragon at {{cell}} if you want to continue making dragon moves.",
-            "CORNER_NO_MOVE": "You may not select a dragon piece in the middle of a turn",
+            "DRAGON_SELECT_DESTINATION": "Select a destination to jump the dragon.",
+            "DRAGON_SELECT_MORE_MANDATORY": "You must select the dragon and continue with a dragon group move.",
+            "DRAGON_MUST_INCLUDE": "You must include the dragon at {{cell}} if you wish to continue making dragon group moves.",
+            "CORNER_NO_MOVE": "You may not select a dragon piece in the middle of a normal move.",
             "IMMOBILISED": "The piece at {{where}} is immobilised.",
             "NOT_CONNECTED": "The selected group is not connected.",
             "SELECT_MORE_PIECES_one": "You may select one more piece to move as a group, or select a direction to move the group.",
-            "SELECT_MORE_PIECES_other": "You may select {{count}} more pieces to move as a group, or select a direction to move the group.",
+            "SELECT_MORE_PIECES_other": "You may select up to {{count}} pieces to move as a group, or select a direction to move the group.",
             "INCLUDE_UNMOVED": "You must include at least one piece that has not moved yet.",
             "SELECT_DIR": "Select a direction to move the group.",
             "TOO_MANY": "You may only select up to {{count}} pieces to move as a group.",
             "INVALID_DIR": "The direction {{dir}} is not a valid direction to move the group to.",
-            "DIR_MISSING": "You are missing the direction in one of the earlier group moves.",
-            "DRAGON_SELECT_MORE_SUPERKO": "You must continue to make dragon moves because the current board state is a superko.",
-            "DRAGON_SELECT_MORE_BARRIER": "You must continue to make dragon moves because you have created a barrier.",
-            "DRAGON_SELECT_MORE": "You may continue to make dragon moves because your previous move was a capture.",
-            "SELECT_MORE_SUPERKO": "You must continue to make moves because the current board state is a superko.",
-            "SELECT_MORE_BARRIER": "You must continue to make moves because you have created a barrier.",
+            "DIR_MISSING": "You are missing the direction in your earlier group move {{move}}.",
+            "DRAGON_SELECT_MORE": "You may continue to make group moves because your previous move was a capture.",
+            "SELECT_MORE_SUPERKO": "You must continue to make group moves because the current board state is invalid due to superko.",
+            "SELECT_MORE_BARRIER": "You must continue to make group moves because you have created a barrier.",
             "SELECT_MORE_one": "You may continue to make one more group move.",
             "SELECT_MORE_many": "You may continue to make {{count}} more group moves.",
-            "SUPERKO": "Superko: you may not repeat a board state.",
+            "SUPERKO": "Superko: you may not repeat a previous board state.",
             "BARRIER": "You may not create a barrier.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
@@ -1651,7 +1650,8 @@
         },
         "anache": {
             "board": {
-                "name": "size-12 board"
+                "name": "size-12 board",
+                "description": "12x12 board with 4 rows of 10 pieces per player."
             }
         },
         "atoll": {
@@ -2055,10 +2055,12 @@
         },
         "anache": {
             "size-10": {
-                "name": "size-10 board"
+                "name": "Size-10 board",
+                "description": "10x10 board with 3 rows of 8 pieces per player."
             },
             "size-15": {
-                "name": "size-15 board"
+                "name": "Size-15 board",
+                "description": "12x12 board with 5 rows of 14 pieces per player."
             }
         },
         "archimedes": {

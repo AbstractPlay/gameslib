@@ -564,7 +564,7 @@ export class IrenseiGame extends InARowBase {
                 }
             }
         }
-        if (this.winner.length === 0) {
+        if (winner.length === 0) {
             this.winningLines = [];
             const winningLinesMap = this.getWinningLinesMap([this.player1()], this.toroidal ? 0 : 2);
             for (const player of [1, 2] as playerid[]) {

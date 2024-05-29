@@ -225,10 +225,12 @@ export class CalculusGame extends GameBase {
         }
 
         // Now look for pieces touching the edge
-        // Pieces should only connect to a single edge vertex---the closest one
+        // Edge checking is now purely mathematical,
+        // but the piece still technically connects to the closest vertex.
         for (const pc of this.pieces) {
-            const {distance, closest} = this.board.closestTo(pc.centre);
-            if (distance <= CalculusGame.EDGE_DETECT_RADIUS) {
+            const distance = this.board.edgeDistance(pc.centre);
+            if (distance >= 0 && distance <= CalculusGame.EDGE_DETECT_RADIUS) {
+                const {closest} = this.board.closestTo(pc.centre);
                 g.addEdge(pc.id, closest.join(","));
             }
         }
@@ -294,16 +296,27 @@ export class CalculusGame extends GameBase {
 
     // Takes a given point and returns a new snap point if the piece overlaps.
     // Returns null if a snap point cannot be determined.
+    // Only takes into consideration the two closest objects.
     private snapPoint(x: number, y: number): Vertex|null {
-        const overlaps: {type: "edge"|"piece", vert: Vertex}[] = [];
-        const {distance, closest} = this.board.closestTo([x,y]);
-        if (distance <= CalculusGame.EDGE_DETECT_RADIUS) {
-            overlaps.push({type: "edge", vert: closest});
+        let overlaps: {type: "edge"|"piece", vert: Vertex, d: number}[] = [];
+
+        // edge first
+        const distPerimeter = this.board.edgeDistance([x,y]);
+        if (distPerimeter >= 0 && distPerimeter <= CalculusGame.EDGE_DETECT_RADIUS) {
+            const {closest} = this.board.closestTo([x,y]);
+            overlaps.push({type: "edge", vert: closest, d: distPerimeter});
+
         }
+        // then pieces
         for (const pc of this.pieces) {
-            if (pc.distanceFrom([x,y]) <= CalculusGame.DETECT_RADIUS) {
-                overlaps.push({type: "piece", vert: pc.centre});
+            const dist = pc.distanceFrom([x,y]);
+            if (dist <= CalculusGame.DETECT_RADIUS) {
+                overlaps.push({type: "piece", vert: pc.centre, d: dist});
             }
+        }
+        overlaps.sort((a,b) => a.d - b.d);
+        if (overlaps.length > 2) {
+            overlaps = overlaps.slice(0, 2);
         }
 
         const truncate = (v: Vertex): Vertex => {
@@ -324,33 +337,35 @@ export class CalculusGame extends GameBase {
                 pt = truncate(projectPoint(...overlap.vert, CalculusGame.EDGE_SNAP_RADIUS, bearing));
             }
             return pt;
-        } else {
+        }
+        // In this context, the only option is two pieces or piece + edge
+        else {
             const stored: Vertex[] = [];
-            const last = overlaps.pop()!;
+            // only do projection from pieces
+            const idx = overlaps.findIndex(o => o.type === "piece");
+            const last = overlaps[idx];
+            overlaps.splice(idx, 1);
             for (let deg = 0; deg < 360; deg++) {
-                let pt: Vertex;
-                if (last.type === "piece") {
-                    pt = projectPoint(...last.vert, CalculusGame.SNAP_RADIUS, deg);
-                } else {
-                    pt = projectPoint(...last.vert, CalculusGame.EDGE_SNAP_RADIUS, deg);
-                }
+                // let pt: Vertex;
+                // if (last.type === "piece") {
+                    const pt = projectPoint(...last.vert, CalculusGame.SNAP_RADIUS, deg);
+                // } else {
+                //     pt = projectPoint(...last.vert, CalculusGame.EDGE_SNAP_RADIUS, deg);
+                // }
                 let matchesAll = true;
                 for (const v of overlaps) {
-                    const dist = ptDistance(...pt, ...v.vert);
-                    if ( (v.type === "piece") &&
-                            ( (dist > CalculusGame.DETECT_RADIUS) ||
-                            (dist < CalculusGame.PIECE_RADIUS * 2)
-                            )
-                        ) {
-                        matchesAll = false;
-                        break;
-                    } else if ( (v.type === "edge") &&
-                                ( (dist > CalculusGame.EDGE_DETECT_RADIUS) ||
-                                    (dist < CalculusGame.PIECE_RADIUS)
-                                )
-                                ) {
-                        matchesAll = false;
-                        break;
+                    if (v.type === "piece") {
+                        const dist = ptDistance(...pt, ...v.vert);
+                        if (dist > CalculusGame.DETECT_RADIUS || dist < CalculusGame.PIECE_RADIUS * 2) {
+                            matchesAll = false;
+                            break;
+                        }
+                    } else {
+                        const dist = this.board.edgeDistance(pt);
+                        if (dist > CalculusGame.EDGE_DETECT_RADIUS || dist < CalculusGame.PIECE_RADIUS) {
+                            matchesAll = false;
+                            break;
+                        }
                     }
                 }
                 if (matchesAll) {

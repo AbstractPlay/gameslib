@@ -1,4 +1,4 @@
-import { IPoint, circle2poly, ptDistance } from "../../common";
+import { IPoint, calcBearing, circle2poly, projectPoint, ptDistance } from "../../common";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfContans from "@turf/boolean-contains";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
@@ -70,5 +70,43 @@ export class Board {
             }
         }
         return {distance: smallestDist, closest: closestVert!};
+    }
+
+    /**
+     * Given a point, return the the bearing relatie to the centre point, table facing
+     *
+     * @param pt Vertex
+     * @returns Vertex
+     */
+    public bearing(pt: Vertex): number {
+        return calcBearing(this.r, this.r, ...pt);
+    }
+
+    /**
+     * Given an angle, return the point on the perimeter of the board.
+     *
+     * @param theta angle in degrees in table facing
+     * @returns Vertex
+     */
+    public perimeterPoint(theta: number): Vertex {
+        return projectPoint(this.r, this.r, this.r, theta);
+    }
+
+    /**
+     * Calculates the distance from the perimeter of the board of a given point.
+     * Negative values lie outside of the perimeter
+     *
+     * @param pt Vertex
+     * @returns number
+     */
+    public edgeDistance(pt: Vertex): number {
+        const bearing = this.bearing(pt);
+        const perimeter = this.perimeterPoint(bearing);
+        const distCentre = ptDistance(this.r, this.r, ...pt);
+        let distPerimeter = ptDistance(...pt, ...perimeter);
+        if (distCentre > this.r) {
+            distPerimeter *= -1;
+        }
+        return distPerimeter;
     }
 }

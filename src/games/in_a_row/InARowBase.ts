@@ -135,7 +135,7 @@ export abstract class InARowBase extends GameBase {
             }
             let wrapped = false;
             [x, y, wrapped] = this.wrap(x + dx, y + dy, border);
-            if (player !== currentPlayer || !toroidal && wrapped) {
+            if (player !== currentPlayer || wrapped && (!toroidal || toroidal && skipPlayer === undefined)) {
                 if (currentPlayer !== undefined && (
                     exact.includes(currentPlayer) && currentCounter === inARow ||
                     !exact.includes(currentPlayer) && currentCounter >= inARow

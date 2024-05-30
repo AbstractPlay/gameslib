@@ -2061,7 +2061,7 @@
             },
             "size-15": {
                 "name": "Size-15 board",
-                "description": "12x12 board with 5 rows of 14 pieces per player."
+                "description": "15x15 board with 5 rows of 13 pieces per player."
             }
         },
         "archimedes": {

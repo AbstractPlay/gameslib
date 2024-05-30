@@ -127,6 +127,7 @@ import { CalculusGame, ICalculusState } from "./calculus";
 import { StigmergyGame, IStigmergyState } from "./stigmergy";
 import { PletoreGame, IPletoreState } from "./pletore";
 import { AnacheGame, IAnacheState } from "./anache";
+import { SplineGame, ISplineState } from "./spline";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -256,6 +257,7 @@ export {
     StigmergyGame, IStigmergyState,
     PletoreGame, IPletoreState,
     AnacheGame, IAnacheState,
+    SplineGame, ISplineState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -300,7 +302,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof NecklaceGame | typeof UpperHandGame | typeof OustGame |
                               typeof SusanGame | typeof OwareGame | typeof SpookGame |
                               typeof AyuGame | typeof CalculusGame | typeof StigmergyGame |
-                              typeof PletoreGame | typeof AnacheGame
+                              typeof PletoreGame | typeof AnacheGame | typeof SplineGame
                 >();
 // Manually add each game to the following array
 [
@@ -321,7 +323,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
-    SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame,
+    SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -585,6 +587,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new PletoreGame(...args);
         case "anache":
             return new AnacheGame(...args);
+        case "spline":
+            return new SplineGame(...args);
+        case "spline":
+            return new SplineGame(...args);
     }
     return;
 }

@@ -632,7 +632,7 @@ export class AnacheGame extends GameBase {
                         result.message = i18next.t("apgames:validation.anache.DRAGON_SELECT_DESTINATION");
                         return result;
                     } else {
-                        // The click handler will automatically add the dragon after the first move, but just in case it isn't.
+                        // After dragon jump, it can optionally continue to move.
                         result.valid = true;
                         result.complete = 0;
                         result.canrender = true;
@@ -678,7 +678,7 @@ export class AnacheGame extends GameBase {
                         // Optionally select more pieces.
                         if (froms.length < groupSizeLimit) {
                             result.valid = true;
-                            result.complete = 0;
+                            result.complete = -1;
                             result.canrender = true;
                             result.message = i18next.t("apgames:validation.anache.SELECT_MORE_PIECES", { count: groupSizeLimit });
                             return result;

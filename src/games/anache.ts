@@ -447,13 +447,6 @@ export class AnacheGame extends GameBase {
                             }
                         }
                     }
-                    if (isDragonMove) {
-                        // Automatically reselect dragon because it is mandatory to move it.
-                        const newsplit = newmove.split(" ");
-                        if (newsplit.length === 1 && newsplit[0].includes("-")) {
-                            newmove = `${newmove} ${cell}`;
-                        }
-                    }
                 }
             }
             const result = this.validateMove(newmove) as IClickResult;
@@ -618,6 +611,17 @@ export class AnacheGame extends GameBase {
                         result.message = i18next.t("apgames:validation.anache.NOT_DRAGON_JUMPABLE");
                         return result;
                     }
+                    if (newBoard.has(dir)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: dir });
+                        return result;
+                    }
+                    // Cannot jump to a corner.
+                    if (this.corners.includes(dir)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.anache.NOT_DRAGON_JUMPABLE_CORNER");
+                        return result;
+                    }
                 }
                 if (moves.length === 1) {
                     if (dir === undefined || dir === "") {
@@ -630,9 +634,9 @@ export class AnacheGame extends GameBase {
                     } else {
                         // The click handler will automatically add the dragon after the first move, but just in case it isn't.
                         result.valid = true;
-                        result.complete = -1;
+                        result.complete = 0;
                         result.canrender = true;
-                        result.message = i18next.t("apgames:validation.anache.DRAGON_SELECT_MORE_MANDATORY");
+                        result.message = i18next.t("apgames:validation.anache.DRAGON_SELECT_MORE_FIRST");
                         return result;
                     }
                 }

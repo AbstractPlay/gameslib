@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -9,6 +9,10 @@ import { bidirectional } from "graphology-shortest-path";
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
+
+interface ILooseObj {
+    [key: string]: any;
+}
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -48,6 +52,7 @@ export class AkronGame extends GameBase {
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple", "board>3d"],
         flags: ["pie", "rotate90", "check"],
+        displays: [{ uid: "orb-3d" }],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {
@@ -282,8 +287,8 @@ export class AkronGame extends GameBase {
                 }
                 if (n > maxLayer) {
                     this.hideLayer = undefined;
-                } else if (n < 2) {
-                    this.hideLayer = 2;
+                } else if (n < 1) {
+                    this.hideLayer = 1;
                 } else {
                     this.hideLayer = n;
                 }
@@ -794,43 +799,113 @@ export class AkronGame extends GameBase {
         };
     }
 
+    private getPiece(player: number, layer: number, trans = false, orb3d = false): [Glyph, ...Glyph[]]  {
+        // Choose max blackness and whiteness.
+        // Returns a combined glyphs based on the player colour for a given layer 1 to boardSize.
+        // orb_3d: if true, only return pure orb glyphs, for which some people prefer.
+        if (orb3d) {
+            if (trans) {
+                return [{ name: "circle", player, scale: 1.15, opacity: 0.5 }];
+            }
+            return [{ name: "orb", player, scale: 1.2 }];
+        }
+        const layers = this.boardSize;
+        if (trans) {
+            const minOpacity = 0.2;
+            const maxOpacity = 0.6;
+            const opacity = (maxOpacity - minOpacity) * (layer - 2) / (layers - 2) + minOpacity;
+            return [
+                { name: "circle", colour: "#FFF", scale: 1.15, opacity: opacity * 0.75 },
+                { name: "circle", player, scale: 1.15, opacity },
+            ];
+        } else {
+            const blackness = 0.1;
+            const whiteness = 0.5;
+            const scaled = (whiteness + blackness) * (layer - 1) / (layers - 1) - blackness;
+            if (scaled === 0) {
+                return [
+                    { name: "piece-borderless", player, scale: 1.15 },
+                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece", scale: 1.15, opacity: 0 },
+                ];
+            } else {
+                const colour = scaled < 0 ? "#000" : "#FFF";
+                const opacity = scaled < 0 ? 1 + scaled : 1 - scaled;
+                return [
+                    { name: "piece-borderless", colour, scale: 1.15 },
+                    { name: "piece-borderless", player, scale: 1.15, opacity },
+                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece", scale: 1.15, opacity: 0 },
+                ];
+            }
+        }
+    }
+
     public render(opts?: IRenderOpts): APRenderRep {
         let hideLayer = this.hideLayer;
         if (opts?.hideLayer !== undefined) {
             hideLayer = opts.hideLayer;
         }
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let orb3d = false;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "orb-3d") {
+                orb3d = true;
+            }
+        }
+        // calculate maximum layer (0 indexed)
         const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
         // Build piece string
         let pstr = "";
-        for (let layer = 0; layer <= maxLayer; layer++) {
+        const labels: Set<string> = new Set();
+        for (let layer = 0; layer <= (hideLayer ?? maxLayer); layer++) {
             for (let row = 0; row < this.boardSize - layer; row++) {
                 if (pstr.length > 0) {
                     pstr += "\n";
                 }
+                let pieces: string[] = [];
                 for (let col = 0; col < this.boardSize - layer; col++) {
                     const cell = this.layerCoords2algebraic(col, row, layer);
                     if (this.board.has(cell)) {
                         const contents = this.board.get(cell);
+                        let key;
                         if (contents === 1) {
                             if (hideLayer !== undefined && hideLayer <= layer) {
-                                pstr += "Y";
+                                key = `X${layer + 1}`;
                             } else {
-                                pstr += "A";
+                                key = `A${layer + 1}`;
                             }
-                        } else if (contents === 2) {
+                        } else {
                             if (hideLayer !== undefined && hideLayer <= layer) {
-                                pstr += "Z";
+                                key = `Y${layer + 1}`;
                             } else {
-                                pstr += "B";
+                                key = `B${layer + 1}`;
                             }
                         }
+                        pieces.push(key);
+                        labels.add(key);
                     } else {
-                        pstr += "-";
+                        pieces.push("-");
                     }
                 }
+                // If all elements are "-", replace with "_"
+                if (pieces.every(p => p === "-")) {
+                    pieces = ["_"];
+                }
+                pstr += pieces.join(",");
             }
         }
-        pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
+
+        const legend: ILooseObj = {};
+        for (const label of labels) {
+            const piece = label[0];
+            const layer = parseInt(label.slice(1), 10);
+            const player = piece === "A" || piece === "X" ? 1 : piece === "B" || piece === "Y" ? 2 : 3;
+            legend[label] = this.getPiece(player, layer, ["X", "Y", "Z"].includes(piece), orb3d);
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -845,12 +920,7 @@ export class AkronGame extends GameBase {
                     {type:"edge", edge: "W", colour: 2},
                 ]
             },
-            legend: {
-                A: { name: "orb", player: 1, scale: 1.2 },
-                B: { name: "orb", player: 2, scale: 1.2 },
-                Y: { name: "circle", player: 1, scale: 1.15, opacity: 0.5 },
-                Z: { name: "circle", player: 2, scale: 1.15, opacity: 0.5 },
-            },
+            legend,
             pieces: pstr,
         };
 
@@ -892,17 +962,15 @@ export class AkronGame extends GameBase {
             rep.annotations.push({type: "dots", targets: points});
         }
 
-        if (maxLayer >= 2) {
-            rep.areas = [
-                {
-                    type: "scrollBar",
-                    position: "left",
-                    min: 2,
-                    max: maxLayer + 1,
-                    current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
-                }
-            ];
-        }
+        rep.areas = [
+            {
+                type: "scrollBar",
+                position: "left",
+                min: 0,
+                max: maxLayer + 1,
+                current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
+            }
+        ];
 
         return rep;
     }

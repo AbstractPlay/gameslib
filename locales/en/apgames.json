@@ -2930,6 +2930,12 @@
                 "name": "Expanding"
             }
         },
+        "akron": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
+            }
+        },
         "atoll": {
             "show-labels": {
                 "name": "Show cell labels",
@@ -3074,6 +3080,12 @@
                 "name": "Hide scored"
             }
         },
+        "margo": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
+            }
+        },
         "mattock": {
             "hide-blocked": {
                 "description": "Don't highlight cells that cannot be mined.",
@@ -3092,10 +3104,28 @@
                 "name": "Hide restriction indicators"
             }
         },
+        "sponnect": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
+            }
+        },
+        "spook": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
+            }
+        },
         "twixt": {
             "hide-diagonals": {
                 "description": "Don't show diagonal lines.",
                 "name": "Hide diagonals"
+            }
+        },
+        "upperhand": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
             }
         }
     }

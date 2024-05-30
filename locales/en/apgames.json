@@ -100,6 +100,7 @@
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
+        "spline": "Make a full line of your colour in any layer to win. On your turn, you may place a ball or move an unpinned ball. In the case of several lines being created as a result of balls dropping, the largest line prevails.",
         "sponnect": "A simple Shibumi connection game where every internal space that can be buried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
         "stigmergy": "Stigmergy is a territorial line of sight game. Cells are controlled and pieces are flipped based on how many pieces of a color can see the space. The winner is the player who occupies more of the board at the end.",
@@ -1367,6 +1368,14 @@
             "NEED_PLACEMENT": "You must place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available."
         },
+        "spline": {
+            "INITIAL_INSTRUCTIONS": "Select a space to place a ball, or select a ball to move.",
+            "CANNOT_MOVE": "The selected ball at {{where}} cannot be moved.",
+            "NO_TOS": "The selected ball at {{where}} has no possible destinations.",
+            "MOVE_TO": "Select a destination to move your ball.",
+            "INVALID_TO": "The selected ball at {{from}} cannot move to {{to}}",
+            "CANNOT_PLACE": "{{where}} is not a valid place to put a ball."
+        },
         "sponnect": {
             "INITIAL_INSTRUCTIONS": "Select a space to place a ball.",
             "INITIAL_INSTRUCTIONS_PASS": "Select a space to place a ball, or pass your turn.",
@@ -1915,6 +1924,11 @@
         "slither": {
             "board": {
                 "name": "9x9 board"
+            }
+        },
+        "spline" : {
+            "board": {
+                "name": "4x4 board"
             }
         },
         "sponnect" : {
@@ -2709,6 +2723,11 @@
                 "name": "Classic movement rules"
             }
         },
+        "spline": {
+            "size-5": {
+                "name": "5x5 board"
+            }
+        },
         "sponnect": {
             "size-5": {
                 "name": "5x5 board"
@@ -3102,6 +3121,12 @@
             "hide-restrictions": {
                 "description": "Don't show intersections where the first player cannot place their stones.",
                 "name": "Hide restriction indicators"
+            }
+        },
+        "spline": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
             }
         },
         "sponnect": {

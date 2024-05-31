@@ -4,9 +4,9 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Board } from "./calculus/board";
-import { Piece } from "./calculus/piece";
+import { Piece, type RelativePos, type Quadrant } from "./calculus/piece";
 import { Cycle } from "./calculus/cycle";
-import { Navmesh, calcBearing, projectPoint, ptDistance, reviver } from "../common";
+import { calcBearing, midpoint, projectPoint, ptDistance, replacer, reviver } from "../common";
 import { fundamentalGraphCycles } from "../common/graphs";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfDiff from "@turf/difference";
@@ -52,6 +52,10 @@ const id2vert = (id: string): Vertex => {
         }
         return [nLeft, nRight] as Vertex;
     }
+}
+
+const truncate = (v: Vertex): Vertex => {
+    return v.map(n => Math.round(n * 100) / 100) as Vertex;
 }
 
 export class CalculusGame extends GameBase {
@@ -243,6 +247,7 @@ export class CalculusGame extends GameBase {
         const allCycles = fundamentalGraphCycles(g);
         // const t1 = Date.now();
         // console.log(`Raw list of cycles generated in ${t1-t0} ms`);
+        console.log(allCycles);
 
         let goodCycles: string[][] = [];
         // only keep cycles that contain <=2 transition points
@@ -258,6 +263,8 @@ export class CalculusGame extends GameBase {
                 goodCycles.push(cycle)
             }
         }
+        console.log(`Remove large groups`);
+        console.log(goodCycles);
 
         // strip out any cycles that wholly include a cycle that shares a point with it
         // fully detached inclusions are fine
@@ -275,6 +282,9 @@ export class CalculusGame extends GameBase {
                 }
             }
         }
+        console.log("Containers");
+        console.log(containers.size);
+        console.log(JSON.stringify(containers, replacer));
         goodCycles = goodCycles.filter(c => ! containers.has(c.join("|")));
 
         // determine owner
@@ -297,7 +307,15 @@ export class CalculusGame extends GameBase {
     // Takes a given point and returns a new snap point if the piece overlaps.
     // Returns null if a snap point cannot be determined.
     // Only takes into consideration the two closest objects.
-    private snapPoint(x: number, y: number): Vertex|null {
+    private snapPoint(x: number, y: number, move: string): Vertex|null {
+        let from: string|undefined;
+        if (! /^\s*$/.test(move)) {
+            const [left,] = move.split(";");
+            if (left.length !== 0) {
+                from = left;
+            }
+        }
+
         let overlaps: {type: "edge"|"piece", vert: Vertex, d: number}[] = [];
 
         // edge first
@@ -309,6 +327,10 @@ export class CalculusGame extends GameBase {
         }
         // then pieces
         for (const pc of this.pieces) {
+            // skip the piece being moved, if present
+            if (from !== undefined && pc.centre.join(",") === from) {
+                continue;
+            }
             const dist = pc.distanceFrom([x,y]);
             if (dist <= CalculusGame.DETECT_RADIUS) {
                 overlaps.push({type: "piece", vert: pc.centre, d: dist});
@@ -317,10 +339,6 @@ export class CalculusGame extends GameBase {
         overlaps.sort((a,b) => a.d - b.d);
         if (overlaps.length > 2) {
             overlaps = overlaps.slice(0, 2);
-        }
-
-        const truncate = (v: Vertex): Vertex => {
-            return v.map(n => Math.round(n * 100) / 100) as Vertex;
         }
 
         if (overlaps.length === 0) {
@@ -346,12 +364,7 @@ export class CalculusGame extends GameBase {
             const last = overlaps[idx];
             overlaps.splice(idx, 1);
             for (let deg = 0; deg < 360; deg++) {
-                // let pt: Vertex;
-                // if (last.type === "piece") {
-                    const pt = projectPoint(...last.vert, CalculusGame.SNAP_RADIUS, deg);
-                // } else {
-                //     pt = projectPoint(...last.vert, CalculusGame.EDGE_SNAP_RADIUS, deg);
-                // }
+                const pt = projectPoint(...last.vert, CalculusGame.SNAP_RADIUS, deg);
                 let matchesAll = true;
                 for (const v of overlaps) {
                     if (v.type === "piece") {
@@ -400,7 +413,7 @@ export class CalculusGame extends GameBase {
             let newmove: string;
             // click on the open area of the board
             if (piece === "_field") {
-                const newPt = this.snapPoint(col, row);
+                const newPt = this.snapPoint(col, row, move);
                 if (newPt === null) {
                     return {
                         move,
@@ -511,37 +524,6 @@ export class CalculusGame extends GameBase {
             result.message = i18next.t("apgames:validation.calculus.VALID_PARTIAL");
             return result;
         } else {
-            // can navigate to the given position
-            let actualPieces = [...this.pieces];
-            if (from !== undefined) {
-                actualPieces = actualPieces.filter(pc => pc.id !== from);
-            }
-            const mesh = new Navmesh({container: this.board.verts, obstacles: actualPieces.map(pc => pc.verts), minEdgeLength: CalculusGame.PIECE_RADIUS * 2});
-            let canNav = false;
-            if (from !== undefined) {
-                const path = mesh.findPath(id2vert(from), id2vert(to));
-                if (path !== null) {
-                    // this.lastnav = path.map(id => id.split(",").map(n => parseInt(n, 10))).map(tri => tri.map(idx => mesh.allVerts[idx]) as [Vertex,Vertex,Vertex]);
-                    canNav = true;
-                }
-            } else {
-                for (const v of this.board.verts) {
-                    const bearing = calcBearing(...v, this.board.r, this.board.r);
-                    const pt = projectPoint(...v, CalculusGame.PIECE_RADIUS, bearing);
-                    const path = mesh.findPath(pt, id2vert(to));
-                    if (path !== null) {
-                        // this.lastnav = path.map(id => id.split(",").map(n => parseInt(n, 10))).map(tri => tri.map(idx => mesh.allVerts[idx]) as [Vertex,Vertex,Vertex]);
-                        canNav = true;
-                        break;
-                    }
-                }
-            }
-            if (! canNav) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.calculus.NO_PATH", {from: from || "the board edge", to});
-                return result;
-            }
-
             const newVert = id2vert(to);
             const newPiece = new Piece({cx: newVert[0], cy: newVert[1], owner: this.currplayer});
             // resulting piece is within the board
@@ -560,6 +542,15 @@ export class CalculusGame extends GameBase {
                     result.message = i18next.t("apgames:validation.calculus.COLLIDES", {with: pc.id});
                     return result;
                 }
+            }
+
+            // there's a valid path to that point
+            const path = this.findPath(newVert, from !== undefined ? id2vert(from) : undefined);
+            if (path === null) {
+                // console.log("no path");
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.calculus.NO_PATH", {from: from || "the board edge", to});
+                return result;
             }
 
             // Check if new piece would create an illegal cycle
@@ -794,20 +785,6 @@ export class CalculusGame extends GameBase {
             }
         }
 
-        // // add nav triangles if present (TEMPORARY)
-        // if (this.lastnav !== undefined) {
-        //     for (const tri of this.lastnav) {
-        //         const path = `M${tri[0].join(",")}L${tri.slice(0).map(v => v.join(",")).join("L")}Z`;
-        //         markers.push({
-        //             type: "path",
-        //             path,
-        //             stroke: "#000",
-        //             strokeWidth: 0.1,
-        //             fillOpacity: 0,
-        //         });
-        //     }
-        // }
-
         // fill in enclosures
         for (const cycle of this.cycles) {
             markers.push({
@@ -956,6 +933,122 @@ export class CalculusGame extends GameBase {
         }
 
         return rep;
+    }
+
+    // Don't need to check for validity of `to` here.
+    // It should already be checked upstream.
+    // Instead of dealing with recursion and building the path that way,
+    // build a graph and just stop when you find an end point.
+    // Then use the graph to generate the final path.
+    // All board edges are simply annotated as the string `edge`.
+    protected findPath(to: Vertex, from?: Vertex): string[]|null {
+        // console.log(`From: ${from?.join(",")}, to: ${to?.join(",")}`);
+        const g = new UndirectedGraph();
+        g.addNode("edge");
+        g.addNode(to.join(","));
+        const toVisit: Vertex[] = [to];
+        while (toVisit.length > 0) {
+            // get next point
+            const curr = toVisit.shift()!;
+            const id = curr.join(",");
+
+            // get all piece details in relation to this point
+            const relative = this.pieces.map(pc => pc.relativePosition(curr));
+            relative.sort((a,b) => a.d - b.d);
+            const nearestNE = relative.find(p => p.bearing >= 0 && p.bearing < 90);
+            const nearestSE = relative.find(p => p.bearing >= 90 && p.bearing < 180);
+            const nearestSW = relative.find(p => p.bearing >= 180 && p.bearing < 270);
+            const nearestNW = relative.find(p => p.bearing >= 270);
+            const combined: (RelativePos|null)[] = [nearestNE || null, nearestSE || null, nearestSW || null, nearestNW || null];
+            // console.log(JSON.stringify(combined));
+            // console.log(JSON.stringify(nearestNE));
+            // console.log(JSON.stringify(nearestSE));
+            // console.log(JSON.stringify(nearestSW));
+            // console.log(JSON.stringify(nearestNW));
+
+            // if there is no nearest piece in one of the quadrants and we're
+            // entering a new piece, then we're done
+            if (from === undefined && combined.includes(null) ) {
+                // console.log("Found edge")
+                g.addEdge(id, "edge");
+                break;
+            }
+            // If one of the nearest pieces is the `from` piece, we're done
+            if (from !== undefined && combined.find(p => p !== null && p.pt.join(",") === from.join(",")) !== undefined) {
+                // console.log("Found from")
+                g.addNode(from.join(","));
+                g.addEdge(id, from.join(","));
+                break;
+            }
+
+            for (const quad of ["NE", "SE", "SW", "NW"] as const) {
+                let left: RelativePos|undefined;
+                let right: RelativePos|undefined;
+                let leftBearing: number;
+                let rightBearing: number;
+                let rquad: Quadrant;
+                switch (quad) {
+                    case "NE":
+                        left = nearestNE;
+                        leftBearing = 45;
+                        right = nearestSE;
+                        rightBearing = 135;
+                        rquad = "SE";
+                        break;
+                    case "SE":
+                        left = nearestSE;
+                        leftBearing = 135;
+                        right = nearestSW;
+                        rightBearing = 225;
+                        rquad = "SW";
+                        break;
+                    case "SW":
+                        left = nearestSW;
+                        leftBearing = 225;
+                        right = nearestNW;
+                        rightBearing = 315;
+                        rquad = "NW";
+                        break;
+                    case "NW":
+                        left = nearestNW;
+                        leftBearing = 315;
+                        right = nearestNE;
+                        rightBearing = 45;
+                        rquad = "NE";
+                        break;
+                }
+                // if there's no piece in one of the quadrants,
+                // populate it with the nearest board edge
+                if (left === undefined) {
+                    const pt = this.board.perimeterPoint(leftBearing);
+                    const d = ptDistance(...pt, ...curr);
+                    left = {d, bearing: leftBearing, pt, quadrant: quad};
+                }
+                if (right === undefined) {
+                    const pt = this.board.perimeterPoint(rightBearing);
+                    const d = ptDistance(...pt, ...curr);
+                    right = {d, bearing: rightBearing, pt, quadrant: rquad};
+                }
+                // calc distance between left and right
+                const distance = ptDistance(...left.pt, ...right.pt);
+                // if distance <2r, then too narrow
+                if (distance < CalculusGame.PIECE_RADIUS*2) {
+                    continue;
+                }
+                // calculate the midpoint
+                const mid = midpoint(...left.pt, ...right.pt);
+                // if this node already exists on the graph, skip it
+                if (g.hasNode(mid.join(","))) {
+                    continue;
+                }
+                // otherwise, add it to the graph and connect it
+                g.addNode(mid.join(","));
+                g.addEdge(id, mid.join(","));
+                // now add it as something to explore later
+                toVisit.push(mid);
+            }
+        }
+        return bidirectional(g, from === undefined ? "edge" : from.join(","), to.join(","));
     }
 
     public clone(): CalculusGame {

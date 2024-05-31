@@ -1,4 +1,4 @@
-import { IPoint, circle2poly, ptDistance } from "../../common";
+import { IPoint, calcBearing, circle2poly, ptDistance } from "../../common";
 import { playerid } from "../calculus";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfWithin from "@turf/boolean-within";
@@ -12,6 +12,13 @@ export interface IPieceOpts {
 
 type Vertex = [number,number];
 type CircularForm = Vertex[][];
+export type Quadrant = "NE"|"SE"|"SW"|"NW";
+export type RelativePos = {
+    d: number;
+    bearing: number;
+    quadrant: Quadrant;
+    pt: Vertex;
+};
 
 export class Piece {
     public readonly owner: playerid;
@@ -60,6 +67,22 @@ export class Piece {
 
     public distanceFrom(pt: Vertex): number {
         return ptDistance(this.cx, this.cy, ...pt);
+    }
+
+    public relativePosition(pt: Vertex): RelativePos {
+        const d = ptDistance(...pt, ...this.centre);
+        const bearing = calcBearing(...pt, ...this.centre);
+        let quadrant: Quadrant;
+        if (bearing >= 0 && bearing < 90) {
+            quadrant = "NE";
+        } else if (bearing >= 90 && bearing < 180) {
+            quadrant = "SE";
+        } else if (bearing >= 180 && bearing < 270) {
+            quadrant = "SW";
+        } else {
+            quadrant = "NW";
+        }
+        return {d, bearing, quadrant, pt: this.centre};
     }
 
     public clone(): Piece {

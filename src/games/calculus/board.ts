@@ -9,7 +9,7 @@ type CircularForm = Vertex[][];
 export class Board {
     public readonly r: number;
     public readonly points: IPoint[];
-    public readonly steps = 100;
+    public readonly steps = 72;
 
     get circularForm(): CircularForm {
         return [[...this.points.map(p => [p.x, p.y] as Vertex), [this.points[0].x, this.points[0].y]]];

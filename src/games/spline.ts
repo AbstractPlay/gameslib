@@ -832,17 +832,15 @@ export class SplineGame extends GameBase {
             rep.annotations.push({type: "dots", targets: points});
         }
 
-        if (maxLayer >= 1) {
-            rep.areas = [
-                {
-                    type: "scrollBar",
-                    position: "left",
-                    min: 0,
-                    max: maxLayer + 1,
-                    current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
-                }
-            ];
-        }
+        rep.areas = [
+            {
+                type: "scrollBar",
+                position: "left",
+                min: 0,
+                max: maxLayer + 1,
+                current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
+            }
+        ];
 
         return rep;
     }

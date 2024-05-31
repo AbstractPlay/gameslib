@@ -6,7 +6,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { Board } from "./calculus/board";
 import { Piece, type RelativePos, type Quadrant } from "./calculus/piece";
 import { Cycle } from "./calculus/cycle";
-import { calcBearing, midpoint, projectPoint, ptDistance, replacer, reviver } from "../common";
+import { calcBearing, midpoint, projectPoint, ptDistance, reviver } from "../common";
 import { fundamentalGraphCycles } from "../common/graphs";
 import { polygon as turfPoly } from "@turf/helpers";
 import turfDiff from "@turf/difference";
@@ -247,7 +247,7 @@ export class CalculusGame extends GameBase {
         const allCycles = fundamentalGraphCycles(g);
         // const t1 = Date.now();
         // console.log(`Raw list of cycles generated in ${t1-t0} ms`);
-        console.log(allCycles);
+        // console.log(allCycles);
 
         let goodCycles: string[][] = [];
         // only keep cycles that contain <=2 transition points
@@ -263,8 +263,8 @@ export class CalculusGame extends GameBase {
                 goodCycles.push(cycle)
             }
         }
-        console.log(`Remove large groups`);
-        console.log(goodCycles);
+        // console.log(`Remove large groups`);
+        // console.log(goodCycles);
 
         // strip out any cycles that wholly include a cycle that shares a point with it
         // fully detached inclusions are fine
@@ -282,9 +282,9 @@ export class CalculusGame extends GameBase {
                 }
             }
         }
-        console.log("Containers");
-        console.log(containers.size);
-        console.log(JSON.stringify(containers, replacer));
+        // console.log("Containers");
+        // console.log(containers.size);
+        // console.log(JSON.stringify(containers, replacer));
         goodCycles = goodCycles.filter(c => ! containers.has(c.join("|")));
 
         // determine owner

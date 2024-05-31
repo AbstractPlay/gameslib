@@ -1,14 +1,12 @@
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-import { UndirectedGraph } from "graphology";
-import { bidirectional } from "graphology-shortest-path";
 
 type playerid = 1 | 2;
-type PlayerLines = [string[], string[]];
 
 interface ILooseObj {
     [key: string]: any;
@@ -17,41 +15,37 @@ interface ILooseObj {
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
-    connPath: string[];
     lastmove?: string;
+    winningLines: string[][];
 }
 
-export interface IAkronState extends IAPGameState {
+export interface ISplineState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class AkronGame extends GameBase {
+export class SplineGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Akron",
-        uid: "akron",
+        name: "Spline+",
+        uid: "spline",
         playercounts: [2],
-        version: "20240421",
-        dateAdded: "2024-04-30",
-        // i18next.t("apgames:descriptions.akron")
-        description: "apgames:descriptions.akron",
-        urls: [
-            "http://cambolbro.com/games/akron",
-            "https://boardgamegeek.com/boardgame/10889/akron"
-        ],
+        version: "20240530",
+        dateAdded: "2024-05-30",
+        // i18next.t("apgames:descriptions.spline")
+        description: "apgames:descriptions.spline",
+        urls: ["https://boardgamegeek.com/boardgame/109044/spline-plus"],
         people: [
             {
                 type: "designer",
-                name: "Cameron Browne",
-                urls: ["http://cambolbro.com/"]
-            },
+                name: "Néstor Romeral Andrés",
+                urls: ["http://nestorgames.com/"]
+            }
         ],
         variants: [
-            { uid: "size-7", group: "board" },
-            { uid: "size-11", group: "board" },
+            { uid: "size-5", group: "board" },
         ],
-        categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple", "board>3d"],
-        flags: ["pie", "rotate90", "check"],
+        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per", "board>3d"],
+        flags: ["experimental", "rotate90"],
         displays: [{ uid: "orb-3d" }],
     };
 
@@ -124,49 +118,40 @@ export class AkronGame extends GameBase {
         return undefined;
     }
 
-    private placeableFirstCell(i: number, j: number): string | undefined {
-        // Same as placeableCell, but only for the first layer.
-        if (i % 2 !== 0 || j % 2 !== 0) { return undefined; }
-        const cell = `${1}${this.coords2algebraic(i, j)}`
-        if (this.board.has(cell)) { return undefined; }
-        return cell;
-    }
-
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, playerid>;
-    public connPath: string[] = [];
+    public winningLines: string[][] = [];
     public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
     private boardSize = 0;
-    private dots: string[] = [];
-    private lines: [PlayerLines,PlayerLines];
     private hideLayer: number|undefined;
+    private dots: string[] = [];
 
-    constructor(state?: IAkronState | string, variants?: string[]) {
+    constructor(state?: ISplineState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: AkronGame.gameinfo.version,
+                _version: SplineGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                connPath: [],
+                winningLines: [],
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IAkronState;
+                state = JSON.parse(state, reviver) as ISplineState;
             }
-            if (state.game !== AkronGame.gameinfo.uid) {
-                throw new Error(`The Akron game code cannot process a game of '${state.game}'.`);
+            if (state.game !== SplineGame.gameinfo.uid) {
+                throw new Error(`The UpperHanSpline process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -174,10 +159,9 @@ export class AkronGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
-        this.lines = this.getLines();
     }
 
-    public load(idx = -1): AkronGame {
+    public load(idx = -1): SplineGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -192,30 +176,10 @@ export class AkronGame extends GameBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.connPath = [...state.connPath];
+        this.winningLines  = state.winningLines.map(a => [...a]);
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         return this;
-    }
-
-    private getLines(): [PlayerLines,PlayerLines] {
-        const lineN: string[] = [];
-        const lineS: string[] = [];
-        for (let x = 0; x < this.boardSize; x++) {
-            const N = this.layerCoords2algebraic(x, 0, 0);
-            const S = this.layerCoords2algebraic(x, this.boardSize - 1, 0);
-            lineN.push(N);
-            lineS.push(S);
-        }
-        const lineE: string[] = [];
-        const lineW: string[] = [];
-        for (let y = 0; y < this.boardSize; y++) {
-            const E = this.layerCoords2algebraic(this.boardSize - 1, y, 0);
-            const W = this.layerCoords2algebraic(0, y, 0);
-            lineE.push(E);
-            lineW.push(W);
-        }
-        return [[lineN, lineS], [lineE, lineW]];
     }
 
     private getBoardSize(): number {
@@ -230,7 +194,7 @@ export class AkronGame extends GameBase {
                 throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
             }
         }
-        return 9;
+        return 4;
     }
 
     public moves(player?: playerid): string[] {
@@ -243,7 +207,7 @@ export class AkronGame extends GameBase {
         for (let i = 0; i < 2 * this.boardSize - 1; i++) {
             for (let j = 0; j < 2 * this.boardSize - 1; j++) {
                 if (i % 2 !== j % 2) { continue; }
-                const cell = this.placeableFirstCell(i, j);
+                const cell = this.placeableCell(i, j);
                 if (cell !== undefined) {
                     moves.push(cell);
                 } else {
@@ -265,6 +229,39 @@ export class AkronGame extends GameBase {
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
+    }
+
+    private canMove(cell: string): boolean {
+        // A ball can be moved if it is below one ball or less.
+        if (!this.board.has(cell)) { return false; }
+        const [x, y, layer] = this.algebraic2coords2(cell);
+        let aboveCount = 0;
+        if (this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))) { aboveCount += 1; }
+        if (this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))) { aboveCount += 1; }
+        if (aboveCount > 1) { return false; }
+        if (this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))) { aboveCount += 1; }
+        if (aboveCount > 1) { return false; }
+        if (this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))) { aboveCount += 1; }
+        if (aboveCount > 1) { return false; }
+        return true;
+    }
+
+    private getTopMostCell(x: number, y: number): string | undefined {
+        // Get the top-most ball at a coordinate.
+        // If there is no ball at that coordinate, return undefined.
+        let layer = x % 2 ? 1 : 0;
+        let cell = this.coords2algebraic2(x, y, layer);
+        while (layer < this.boardSize) {
+            if (x < layer || y < layer || x >= 2 * this.boardSize - layer || y >= 2 * this.boardSize - layer) { return undefined; }
+            layer += 2;
+            const nextCell = this.coords2algebraic2(x, y, layer);
+            if (this.board.has(nextCell)) {
+                cell = nextCell;
+                continue;
+            }
+            return cell;
+        }
+        return undefined;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -301,7 +298,7 @@ export class AkronGame extends GameBase {
                         return {
                             move,
                             valid: false,
-                            message: i18next.t("apgames:validation.akron.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
+                            message: i18next.t("apgames:validation.spline.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
                         };
                     }
                     newmove += cell;
@@ -324,28 +321,13 @@ export class AkronGame extends GameBase {
         }
     }
 
-    private canMove(cell: string): boolean {
-        // A ball can be moved if it is below one ball or less.
-        if (!this.board.has(cell)) { return false; }
-        const [x, y, layer] = this.algebraic2coords2(cell);
-        let aboveCount = 0;
-        if (this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))) { aboveCount += 1; }
-        if (this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))) { aboveCount += 1; }
-        if (aboveCount > 1) { return false; }
-        if (this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))) { aboveCount += 1; }
-        if (aboveCount > 1) { return false; }
-        if (this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))) { aboveCount += 1; }
-        if (aboveCount > 1) { return false; }
-        return true;
-    }
-
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.akron.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.spline.INITIAL_INSTRUCTIONS");
             return result;
         }
         m = m.toLowerCase();
@@ -360,12 +342,12 @@ export class AkronGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 if (x < 0 || x >= 2 * this.boardSize - 1 || y < 0 || y >= 2 * this.boardSize - 1) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: tryCell});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: tryCell });
                     return result;
                 }
             } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: tryCell});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: tryCell });
                 return result;
             }
         }
@@ -373,30 +355,30 @@ export class AkronGame extends GameBase {
             const [from, to] = cells;
             if (!this.canMove(from)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.akron.CANNOT_MOVE", {where: from});
+                result.message = i18next.t("apgames:validation.spline.CANNOT_MOVE", { where: from });
                 return result;
             }
             if (!this.board.has(from)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: from});
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: from });
                 return result;
             }
             if (this.board.get(from) !== this.currplayer) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", {where: from});
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
                 return result;
             }
             const tos = this.getTos(from);
             if (tos.length === 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.akron.NO_TOS", {where: from});
+                result.message = i18next.t("apgames:validation.spline.NO_TOS", { where: from });
                 return result;
             }
             if (to === undefined || to === "") {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.akron.MOVE_TO");
+                result.message = i18next.t("apgames:validation.spline.MOVE_TO");
                 return result;
             }
             if (from === to) {
@@ -406,24 +388,19 @@ export class AkronGame extends GameBase {
             }
             if (!tos.includes(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.akron.INVALID_TO", {from, to});
+                result.message = i18next.t("apgames:validation.spline.INVALID_TO", { from, to });
                 return result;
             }
         } else {
             if (this.board.has(m)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
                 return result;
             }
-            const [x, y, l] = this.algebraic2coords2(m);
+            const [x, y, ] = this.algebraic2coords2(m);
             if (m !== this.placeableCell(x, y)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.akron.CANNOT_PLACE", {where: m});
-                return result;
-            }
-            if (l > 0) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.akron.LEVEL1", {where: m});
+                result.message = i18next.t("apgames:validation.spline.CANNOT_PLACE", { where: m });
                 return result;
             }
         }
@@ -431,93 +408,6 @@ export class AkronGame extends GameBase {
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
-    }
-
-    private getGroup(from: string, player: playerid): Set<string> {
-        // Returns all balls that are connected to the given cell.
-        const seen: Set<string> = new Set();
-        const todo: string[] = [from]
-        while (todo.length > 0) {
-            const cell1 = todo.pop()!;
-            if (seen.has(cell1)) { continue; }
-            seen.add(cell1);
-            for (const n of this.getPresentNeighbours(cell1, player)) {
-                todo.push(n);
-            }
-        }
-        return seen;
-    }
-
-    private getGroupIntersection(from: string, player: playerid): Set<string> {
-        // Get the intersection of groups before and after drop.
-        const dropMap = this.getDropMap(from, player);
-        const groupBefore = this.getGroup(from, player);
-        if (dropMap === undefined) { return groupBefore; }
-        this.applyDrop(dropMap);
-        const groupAfter = this.getGroup(from, player);
-        this.unapplyDrop(dropMap);
-        return new Set([...groupBefore].filter(x => groupAfter.has(x)));
-    }
-
-    private isOn(cell: string, on: string): boolean {
-        // Check if a cell is on top of another cell.
-        const [x, y, l] = this.algebraic2coords2(cell);
-        const [x1, y1, l1] = this.algebraic2coords2(on);
-        if (l - l1 !== 1) { return false; }
-        if (Math.abs(x - x1) === 1 && Math.abs(y - y1) === 1) { return true; }
-        return false;
-    }
-
-    // private isNeighbour(cell: string, check: string, player: playerid): boolean {
-    //     // Check if cell is neighbour to cell `check`.
-    //     const [x, y] = this.algebraic2coords2(cell);
-    //     const [cx, cy] = this.algebraic2coords(check);
-    //     if (Math.abs(x - cx) === 1 && Math.abs(y - cy) === 1) { return true; }
-    //     if (Math.abs(x - cx) === 2 && y === cy) { return true; }
-    //     if (Math.abs(y - cy) === 2 && x === cx) { return true; }
-    //     return false;
-    // }
-
-    private getNeighbours(cell: string): string[] {
-        // Get all diagonal and orthogonal neighbours of a cell.
-        const [x, y] = this.algebraic2coords(cell);
-        const neighbours = [];
-        if (x - 1 >= 0) {
-            if (y - 1 >= 0) { neighbours.push(this.coords2algebraic(x - 1, y - 1)); }
-            if (y + 1 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x - 1, y + 1)); }
-        }
-        if (x + 1 < 2 * this.boardSize - 1) {
-            if (y - 1 >= 0) { neighbours.push(this.coords2algebraic(x + 1, y - 1)); }
-            if (y + 1 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x + 1, y + 1)); }
-        }
-        if (x - 2 >= 0) { neighbours.push(this.coords2algebraic(x - 2, y)); }
-        if (x + 2 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x + 2, y)); }
-        if (y - 2 >= 0) { neighbours.push(this.coords2algebraic(x, y - 2)); }
-        if (y + 2 < 2 * this.boardSize - 1) { neighbours.push(this.coords2algebraic(x, y + 2)); }
-        return neighbours;
-    }
-
-    private getTos(from: string): string[] {
-        // Get all tos form a cell
-        const tos: string[] = [];
-        const group = this.getGroupIntersection(from, this.currplayer);
-        group.delete(from);
-        const dropBalls = this.dropBalls(from);
-        const drop = dropBalls.length > 0 ? dropBalls[dropBalls.length - 1] : undefined;
-        const allNeighbours = new Set<string>();
-        for (const cell of group) {
-            for (const neighbour of this.getNeighbours(cell)) {
-                allNeighbours.add(neighbour);
-            }
-        }
-        for (const neighbour of allNeighbours) {
-            const place = this.placeableCell(...this.algebraic2coords(neighbour));
-            if (place === undefined) { continue; }
-            if (this.isOn(place, from)) { continue; }
-            if (drop !== undefined && this.isOn(place, drop)) { continue; }
-            tos.push(place);
-        }
-        return tos;
     }
 
     private dropBalls(from: string): string[] {
@@ -566,15 +456,34 @@ export class AkronGame extends GameBase {
         }
     }
 
-    private unapplyDrop(dropMap: [string[], playerid[]]): void {
-        // Unapply the drop transformation to the board.
-        const [drops, dropPlayers] = dropMap;
-        for (let i = 0; i < drops.length; i++) {
-            this.board.set(drops[i], dropPlayers[i]);
-        }
+    private isOn(cell: string, on: string): boolean {
+        // Check if a cell is on top of another cell.
+        const [x, y, l] = this.algebraic2coords2(cell);
+        const [x1, y1, l1] = this.algebraic2coords2(on);
+        if (l - l1 !== 1) { return false; }
+        if (Math.abs(x - x1) === 1 && Math.abs(y - y1) === 1) { return true; }
+        return false;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): AkronGame {
+    private getTos(from: string): string[] {
+        // Get all tos form a cell
+        const tos: string[] = [];
+        const dropBalls = this.dropBalls(from);
+        const drop = dropBalls.length > 0 ? dropBalls[dropBalls.length - 1] : undefined;
+        from = from.toLowerCase();
+        for (let i = 0; i < 2 * this.boardSize - 1; i++) {
+            for (let j = 0; j < 2 * this.boardSize - 1; j++) {
+                const cell = this.placeableCell(i, j);
+                if (cell === undefined) { continue; }
+                if (this.isOn(cell, from)) { continue; }
+                if (drop !== undefined && this.isOn(cell, drop)) { continue; }
+                tos.push(cell);
+            }
+        }
+        return tos;
+    }
+
+    public move(m: string, {partial = false, trusted = false} = {}): SplineGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -613,7 +522,6 @@ export class AkronGame extends GameBase {
             this.board.set(m, this.currplayer);
         }
         if (partial) { return this; }
-        this.dots = [];
         this.hideLayer = undefined;
 
         this.lastmove = m;
@@ -624,150 +532,109 @@ export class AkronGame extends GameBase {
         return this;
     }
 
-    private getTopMostCell(x: number, y: number): string | undefined {
-        // Get the top-most ball at a coordinate.
-        // If there is no ball at that coordinate, return undefined.
-        let layer = x % 2 ? 1 : 0;
-        let cell = this.coords2algebraic2(x, y, layer);
-        while (layer < this.boardSize) {
-            if (x < layer || y < layer || x >= 2 * this.boardSize - layer || y >= 2 * this.boardSize - layer) { return undefined; }
-            layer += 2;
-            const nextCell = this.coords2algebraic2(x, y, layer);
-            if (this.board.has(nextCell)) {
-                cell = nextCell;
-                continue;
-            }
-            return cell;
-        }
-        return undefined;
-    }
-
-    private isTopMostCell(cell: string): boolean {
-        // Check if a cell has a ball at the top-most layer.
-        const [col, row,] = this.algebraic2coords2(cell);
-        return this.getTopMostCell(col, row) === cell;
-    }
-
-    private getPresentNeighbours(cell: string, player: playerid): string[] {
-        // Get neighbours for a `cell` that are already present for `player`.
-        // If `from` is provided, we assume that balls are dropped.
-        const neighbours: string[] = [];
-        const [col, row, layer] = this.algebraic2coords2(cell);
-        if (col > 0) {
-            if (row > 0) {
-                const topMost = this.getTopMostCell(col - 1, row - 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
-            }
-            if (row < 2 * this.boardSize - layer - 1) {
-                const topMost = this.getTopMostCell(col - 1, row + 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
-            }
-        }
-        if (col < 2 * this.boardSize - layer - 1) {
-            if (row > 0) {
-                const topMost = this.getTopMostCell(col + 1, row - 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
-            }
-            if (row < 2 * this.boardSize - layer - 1) {
-                const topMost = this.getTopMostCell(col + 1, row + 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
-            }
-        }
-        const otherPlayer = player % 2 + 1 as playerid;
-        if (col > layer + 1) {
-            const topLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
-            const bottomLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
-            if (this.board.get(topLeft) !== otherPlayer || this.board.get(bottomLeft) !== otherPlayer) {
-                const left = this.coords2algebraic2(col - 2, row, layer);
-                if (this.board.has(left) && this.board.get(left) === player) { neighbours.push(left); }
-            }
-        }
-        if (col < 2 * this.boardSize - layer - 2) {
-            const topRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
-            const bottomRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-            if (this.board.get(topRight) !== otherPlayer || this.board.get(bottomRight) !== otherPlayer) {
-                const right = this.coords2algebraic2(col + 2, row, layer);
-                if (this.board.has(right) && this.board.get(right) === player) { neighbours.push(right); }
-            }
-        }
-        if (row > layer + 1) {
-            const leftTop = this.coords2algebraic2(col - 1, row - 1, layer + 1);
-            const rightTop = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-            if (this.board.get(leftTop) !== otherPlayer || this.board.get(rightTop) !== otherPlayer) {
-                const top = this.coords2algebraic2(col, row - 2, layer);
-                if (this.board.has(top) && this.board.get(top) === player) { neighbours.push(top); }
-            }
-        }
-        if (row < 2 * this.boardSize - layer - 2) {
-            const leftBottom = this.coords2algebraic2(col - 1, row + 1, layer + 1);
-            const rightBottom = this.coords2algebraic2(col + 1, row + 1, layer + 1);
-            if (this.board.get(leftBottom) !== otherPlayer || this.board.get(rightBottom) !== otherPlayer) {
-                const bottom = this.coords2algebraic2(col, row + 2, layer);
-                if (this.board.has(bottom) && this.board.get(bottom) === player) { neighbours.push(bottom); }
-            }
-        }
-        return neighbours;
-    }
-
-    private buildGraph(player: playerid): UndirectedGraph {
-        const graph = new UndirectedGraph();
-        // seed nodes
-        [...this.board.entries()].filter(([c, p]) => p === player && this.isTopMostCell(c)).forEach(([cell,]) => {
-            graph.addNode(cell);
-        });
-        // for each node, check neighbours
-        // if any are in the graph, add an edge
-        for (const node of graph.nodes()) {
-            for (const n of this.getPresentNeighbours(node, player)) {
-                if (graph.hasNode(n) && !graph.hasEdge(node, n)) {
-                    graph.addEdge(node, n);
-                }
-            }
-        }
-        return graph;
-    }
-
-    private hasMoves(): boolean {
-        // Check if there is a placeable space in the first layer.
-        for (let i = 0; i < 2 * this.boardSize - 1; i++) {
-            for (let j = 0; j < 2 * this.boardSize - 1; j++) {
-                if (i % 2 === 0 && j % 2 === 0 && this.placeableFirstCell(i, j) !== undefined) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private isConnected(player: playerid): string[] | undefined {
-        // Check if the player has a connection between their lines.
-        // If it's connected, return the connection path.
-        const graph = this.buildGraph(player);
-        const [sources, targets] = this.lines[player - 1];
-        for (const source of sources) {
-            for (const target of targets) {
-                if ( (graph.hasNode(source)) && (graph.hasNode(target)) ) {
-                    const path = bidirectional(graph, source, target);
-                    if (path !== null) {
-                        return [...path];
+    protected getWinningLinesMap(): Map<playerid, string[][]> {
+        // Get the winning lines for each player.
+        // Check for horizontal, vertical, and diagonal lines of size equal to the full width of that layer.
+        // Layer 0 needs boardSize in a row, layer 1 needs boardSize - 1 in a row, and so on.
+        const winningLines = new Map<playerid, string[][]>([
+            [1, []],
+            [2, []],
+        ]);
+        for (let l = 0; l < this.boardSize - 1; l++) {
+            // Horizontal lines
+            loop_h:
+            for (let i = 0; i < this.boardSize - l; i++) {
+                const tentativeLine: string[] = [];
+                let player: playerid | undefined;
+                for (let j = 0; j < this.boardSize - l; j++) {
+                    const cell = this.layerCoords2algebraic(j, i, l);
+                    tentativeLine.push(cell);
+                    if (!this.board.has(cell)) { continue loop_h; }
+                    if (player === undefined) {
+                        player = this.board.get(cell);
+                    } else if (player !== this.board.get(cell)) {
+                        continue loop_h;
                     }
                 }
+                winningLines.get(player!)!.push(tentativeLine);
+            }
+
+            // Vertical lines
+            loop_v:
+            for (let i = 0; i < this.boardSize - l; i++) {
+                const tentativeLine: string[] = [];
+                let player: playerid | undefined;
+                for (let j = 0; j < this.boardSize - l; j++) {
+                    const cell = this.layerCoords2algebraic(i, j, l);
+                    tentativeLine.push(cell);
+                    if (!this.board.has(cell)) { continue loop_v; }
+                    if (player === undefined) {
+                        player = this.board.get(cell);
+                    } else if (player !== this.board.get(cell)) {
+                        continue loop_v;
+                    }
+                }
+                winningLines.get(player!)!.push(tentativeLine);
+            }
+
+            // Now the two diagonals.
+            const tentativeLine1: string[] = [];
+            let player1: playerid | undefined;
+            let hasLine1 = true;
+            for (let j = 0; j < this.boardSize - l; j++) {
+                const cell = this.layerCoords2algebraic(j, j, l);
+                tentativeLine1.push(cell);
+                if (!this.board.has(cell)) {
+                    hasLine1 = false;
+                    break;
+                }
+                if (player1 === undefined) {
+                    player1 = this.board.get(cell);
+                } else if (player1 !== this.board.get(cell)) {
+                    hasLine1 = false;
+                    break;
+                }
+            }
+            if (player1 !== undefined && hasLine1) { winningLines.get(player1)!.push(tentativeLine1); }
+
+            const tentativeLine2: string[] = [];
+            let player2: playerid | undefined;
+            let hasLine2 = true;
+            for (let j = 0; j < this.boardSize - l; j++) {
+                const cell = this.layerCoords2algebraic(j, this.boardSize - l - 1 - j, l);
+                tentativeLine2.push(cell);
+                if (!this.board.has(cell)) {
+                    hasLine2 = false;
+                    break;
+                }
+                if (player2 === undefined) {
+                    player2 = this.board.get(cell);
+                } else if (player2 !== this.board.get(cell)) {
+                    hasLine2 = false;
+                    break;
+                }
+            }
+            if (player2 !== undefined && hasLine2) { winningLines.get(player2)!.push(tentativeLine2); }
+            if (winningLines.get(1)!.length > 0 || winningLines.get(2)!.length > 0) {
+                break;
             }
         }
-        return undefined;
+        return winningLines;
     }
 
-    protected checkEOG(): AkronGame {
-        // Check for your win at the end of the opponent's turn.
-        const connPath = this.isConnected(this.currplayer);
-        if (connPath !== undefined) {
-            this.connPath = connPath;
-            this.gameover = true;
-            this.winner = [this.currplayer];
+    protected checkEOG(): SplineGame {
+        const winningLinesMap = this.getWinningLinesMap();
+        const winner: playerid[] = [];
+        this.winningLines = [];
+        for (const player of [1, 2] as playerid[]) {
+            if (winningLinesMap.get(player)!.length > 0) {
+                winner.push(player);
+                this.winningLines.push(...winningLinesMap.get(player)!);
+            }
         }
-        if (!this.gameover && !this.hasMoves()) {
+        if (winner.length > 0) {
             this.gameover = true;
-            this.winner = [1, 2];
+            this.winner = winner;
         }
         if (this.gameover) {
             this.results.push({ type: "eog" });
@@ -776,9 +643,9 @@ export class AkronGame extends GameBase {
         return this;
     }
 
-    public state(): IAkronState {
+    public state(): ISplineState {
         return {
-            game: AkronGame.gameinfo.uid,
+            game: SplineGame.gameinfo.uid,
             numplayers: 2,
             variants: this.variants,
             gameover: this.gameover,
@@ -789,13 +656,13 @@ export class AkronGame extends GameBase {
 
     protected moveState(): IMoveState {
         return {
-            _version: AkronGame.gameinfo.version,
+            _version: SplineGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            connPath: [...this.connPath],
+            winningLines: this.winningLines.map(a => [...a]),
         };
     }
 
@@ -941,15 +808,18 @@ export class AkronGame extends GameBase {
                     }
                 }
             }
-            if (this.connPath.length > 0) {
-                type RowCol = {row: number; col: number;};
-                const targets: RowCol[] = [];
-                for (const cell of this.connPath) {
-                    const [x, y] = this.algebraic2position(cell);
-                    targets.push({row: y, col: x})
+            if (this.winningLines.length > 0) {
+                for (const connPath of this.winningLines) {
+                    if (connPath.length === 1) { continue; }
+                    type RowCol = {row: number; col: number;};
+                    const targets: RowCol[] = [];
+                    for (const cell of connPath) {
+                        const [x, y] = this.algebraic2position(cell);
+                        targets.push({row: y, col: x})
+                    }
+                    // @ts-ignore
+                    rep.annotations.push({type: "move", targets, arrow: false});
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "move", targets, arrow: false});
             }
         }
         if (this.dots.length > 0) {
@@ -962,37 +832,19 @@ export class AkronGame extends GameBase {
             rep.annotations.push({type: "dots", targets: points});
         }
 
-        rep.areas = [
-            {
-                type: "scrollBar",
-                position: "left",
-                min: 0,
-                max: maxLayer + 1,
-                current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
-            }
-        ];
+        if (maxLayer >= 1) {
+            rep.areas = [
+                {
+                    type: "scrollBar",
+                    position: "left",
+                    min: 0,
+                    max: maxLayer + 1,
+                    current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
+                }
+            ];
+        }
 
         return rep;
-    }
-
-    public status(): string {
-        let status = super.status();
-
-        if (this.variants !== undefined) {
-            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
-        }
-
-        status += `In check: ${this.inCheck().join(",")}\n\n`;
-
-        return status;
-    }
-
-    public inCheck(): number[] {
-        if (this.isConnected(this.currplayer % 2 + 1 as playerid) !== undefined) {
-            return [this.currplayer];
-        } else {
-            return [];
-        }
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
@@ -1014,7 +866,17 @@ export class AkronGame extends GameBase {
         return resolved;
     }
 
-    public clone(): AkronGame {
-        return new AkronGame(this.serialize());
+    public status(): string {
+        let status = super.status();
+
+        if (this.variants !== undefined) {
+            status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        return status;
+    }
+
+    public clone(): SplineGame {
+        return new SplineGame(this.serialize());
     }
 }

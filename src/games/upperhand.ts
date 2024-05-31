@@ -45,6 +45,7 @@ export class UpperHandGame extends GameBase {
         ],
         categories: ["goal>score>race", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per", "board>3d"],
         flags: ["pie", "scores", "rotate90"],
+        displays: [{ uid: "orb-3d" }],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {
@@ -459,25 +460,44 @@ export class UpperHandGame extends GameBase {
         };
     }
 
-    private getPiece(player: number, layer: number, trans = false): [Glyph, ...Glyph[]]  {
+    private getPiece(player: number, layer: number, trans = false, orb3d = false): [Glyph, ...Glyph[]]  {
         // Choose max blackness and whiteness.
-        // Returns a combined glypth based on the player colour for a given layer 1 to boardSize.
+        // Returns a combined glyphs based on the player colour for a given layer 1 to boardSize.
+        // orb_3d: if true, only return pure orb glyphs, for which some people prefer.
+        if (orb3d) {
+            if (trans) {
+                return [{ name: "circle", player, scale: 1.15, opacity: 0.5 }];
+            }
+            return [{ name: "orb", player, scale: 1.2 }];
+        }
         const layers = this.boardSize;
         if (trans) {
             const minOpacity = 0.2;
             const maxOpacity = 0.6;
             const opacity = (maxOpacity - minOpacity) * (layer - 2) / (layers - 2) + minOpacity;
-            return [{ name: "circle", colour: "#FFF", scale: 1.15, opacity: opacity * 0.75 }, { name: "circle", player, scale: 1.15, opacity }];
+            return [
+                { name: "circle", colour: "#FFF", scale: 1.15, opacity: opacity * 0.75 },
+                { name: "circle", player, scale: 1.15, opacity },
+            ];
         } else {
             const blackness = 0.1;
             const whiteness = 0.5;
             const scaled = (whiteness + blackness) * (layer - 1) / (layers - 1) - blackness;
             if (scaled === 0) {
-                return [{ name: "piece", player, scale: 1.15 }];
+                return [
+                    { name: "piece-borderless", player, scale: 1.15 },
+                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece", scale: 1.15, opacity: 0 },
+                ];
             } else {
                 const colour = scaled < 0 ? "#000" : "#FFF";
                 const opacity = scaled < 0 ? 1 + scaled : 1 - scaled;
-                return [{ name: "piece", colour, scale: 1.15 }, { name: "piece", player, scale: 1.15, opacity }]
+                return [
+                    { name: "piece-borderless", colour, scale: 1.15 },
+                    { name: "piece-borderless", player, scale: 1.15, opacity },
+                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece", scale: 1.15, opacity: 0 },
+                ];
             }
         }
     }
@@ -486,6 +506,16 @@ export class UpperHandGame extends GameBase {
         let hideLayer = this.hideLayer;
         if (opts?.hideLayer !== undefined) {
             hideLayer = opts.hideLayer;
+        }
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let orb3d = false;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "orb-3d") {
+                orb3d = true;
+            }
         }
         // calculate maximum layer (0 indexed)
         const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
@@ -541,7 +571,7 @@ export class UpperHandGame extends GameBase {
             const piece = label[0];
             const layer = parseInt(label.slice(1), 10);
             const player = piece === "A" || piece === "X" ? 1 : piece === "B" || piece === "Y" ? 2 : 3;
-            legend[label] = this.getPiece(player, layer, ["X", "Y", "Z"].includes(piece));
+            legend[label] = this.getPiece(player, layer, ["X", "Y", "Z"].includes(piece), orb3d);
         }
 
         // Build rep
@@ -569,17 +599,16 @@ export class UpperHandGame extends GameBase {
                 }
             }
         }
-        if (maxLayer >= 1) {
-            rep.areas = [
-                {
-                    type: "scrollBar",
-                    position: "left",
-                    min: 0,
-                    max: maxLayer + 1,
-                    current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
-                }
-            ];
-        }
+
+        rep.areas = [
+            {
+                type: "scrollBar",
+                position: "left",
+                min: 0,
+                max: maxLayer + 1,
+                current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
+            }
+        ];
 
         return rep;
     }

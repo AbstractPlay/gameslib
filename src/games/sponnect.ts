@@ -1,6 +1,6 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -9,6 +9,10 @@ import { bidirectional } from "graphology-shortest-path";
 
 type playerid = 1 | 2 | 3;
 type PlayerLines = [string[], string[]];
+
+interface ILooseObj {
+    [key: string]: any;
+}
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -43,6 +47,7 @@ export class SponnectGame extends GameBase {
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple", "board>3d"],
         flags: ["pie", "rotate90"],
+        displays: [{ uid: "orb-3d" }],
     };
 
     public coords2algebraic(x: number, y: number, boardSize = this.boardSize): string {
@@ -126,6 +131,7 @@ export class SponnectGame extends GameBase {
     private boardSize = 0;
     // private dots: string[] = [];
     private lines: [PlayerLines,PlayerLines];
+    private hideLayer: number|undefined;
 
     constructor(state?: ISponnectState | string, variants?: string[]) {
         super();
@@ -255,22 +261,46 @@ export class SponnectGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.placeableCell(col, row);
-            if (cell === undefined) {
-                return {
-                    move,
-                    valid: false,
-                    message: i18next.t("apgames:validation.sponnect.CANNOT_PLACE", {move: this.coords2algebraic(col, row)})
-                };
-            }
             let newmove = "";
-            newmove = cell;
+            if (row === -1 && col === -1) {
+                if (piece === undefined) {
+                    throw new Error(`A click was registered off the board, but no 'piece' parameter was passed.`);
+                }
+                if (! piece.startsWith("scroll_newval_")) {
+                    throw new Error(`An invalid scroll bar value was returned: ${piece}`);
+                }
+                // calculate maximum layer (0 indexed)
+                const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
+                const [,,nstr] = piece.split("_");
+                const n = parseInt(nstr, 10);
+                if (isNaN(n)) {
+                    throw new Error(`Could not parse '${nstr}' into an integer.`);
+                }
+                if (n > maxLayer) {
+                    this.hideLayer = undefined;
+                } else if (n < 1) {
+                    this.hideLayer = 1;
+                } else {
+                    this.hideLayer = n;
+                }
+            } else {
+                const cell = this.placeableCell(col, row);
+                if (cell === undefined) {
+                    return {
+                        move,
+                        valid: false,
+                        message: i18next.t("apgames:validation.sponnect.CANNOT_PLACE", { move: this.coords2algebraic(col, row) })
+                    };
+                }
+                newmove = cell;
+            }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
                 result.move = "";
             } else {
                 result.move = newmove;
             }
+            result.opts = { hideLayer: this.hideLayer };
             return result;
         } catch (e) {
             return {
@@ -522,32 +552,119 @@ export class SponnectGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    private getPiece(player: number, layer: number, trans = false, orb3d = false): [Glyph, ...Glyph[]]  {
+        // Choose max blackness and whiteness.
+        // Returns a combined glyphs based on the player colour for a given layer 1 to boardSize.
+        // orb_3d: if true, only return pure orb glyphs, for which some people prefer.
+        if (orb3d) {
+            if (trans) {
+                return [{ name: "circle", player, scale: 1.15, opacity: 0.5 }];
+            }
+            return [{ name: "orb", player, scale: 1.2 }];
+        }
+        const layers = this.boardSize;
+        if (trans) {
+            const minOpacity = 0.2;
+            const maxOpacity = 0.6;
+            const opacity = (maxOpacity - minOpacity) * (layer - 2) / (layers - 2) + minOpacity;
+            return [
+                { name: "circle", colour: "#FFF", scale: 1.15, opacity: opacity * 0.75 },
+                { name: "circle", player, scale: 1.15, opacity },
+            ];
+        } else {
+            const blackness = 0.1;
+            const whiteness = 0.5;
+            const scaled = (whiteness + blackness) * (layer - 1) / (layers - 1) - blackness;
+            if (scaled === 0) {
+                return [
+                    { name: "piece-borderless", player, scale: 1.15 },
+                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece", scale: 1.15, opacity: 0 },
+                ];
+            } else {
+                const colour = scaled < 0 ? "#000" : "#FFF";
+                const opacity = scaled < 0 ? 1 + scaled : 1 - scaled;
+                return [
+                    { name: "piece-borderless", colour, scale: 1.15 },
+                    { name: "piece-borderless", player, scale: 1.15, opacity },
+                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece", scale: 1.15, opacity: 0 },
+                ];
+            }
+        }
+    }
+
+    public render(opts?: IRenderOpts): APRenderRep {
+        let hideLayer = this.hideLayer;
+        if (opts?.hideLayer !== undefined) {
+            hideLayer = opts.hideLayer;
+        }
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let orb3d = false;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "orb-3d") {
+                orb3d = true;
+            }
+        }
+        // calculate maximum layer (0 indexed)
+        const maxLayer = Math.max(0, ...[...this.board.keys()].map(cell => this.algebraic2coords2(cell)).map(([,,l]) => l));
         // Build piece string
         let pstr = "";
-        for (let layer = 0; layer < this.boardSize; layer++) {
+        const labels: Set<string> = new Set();
+        for (let layer = 0; layer <= (hideLayer ?? maxLayer); layer++) {
             for (let row = 0; row < this.boardSize - layer; row++) {
                 if (pstr.length > 0) {
                     pstr += "\n";
                 }
+                let pieces: string[] = [];
                 for (let col = 0; col < this.boardSize - layer; col++) {
                     const cell = this.layerCoords2algebraic(col, row, layer);
                     if (this.board.has(cell)) {
                         const contents = this.board.get(cell);
+                        let key;
                         if (contents === 1) {
-                            pstr += "A";
+                            if (hideLayer !== undefined && hideLayer <= layer) {
+                                key = `X${layer + 1}`;
+                            } else {
+                                key = `A${layer + 1}`;
+                            }
                         } else if (contents === 2) {
-                            pstr += "B";
+                            if (hideLayer !== undefined && hideLayer <= layer) {
+                                key = `Y${layer + 1}`;
+                            } else {
+                                key = `B${layer + 1}`;
+                            }
                         } else {
-                            pstr += "C";
+                            if (hideLayer !== undefined && hideLayer <= layer) {
+                                key = `Z${layer + 1}`;
+                            } else {
+                                key = `C${layer + 1}`;
+                            }
                         }
+                        pieces.push(key);
+                        labels.add(key);
                     } else {
-                        pstr += "-";
+                        pieces.push("-");
                     }
                 }
+                // If all elements are "-", replace with "_"
+                if (pieces.every(p => p === "-")) {
+                    pieces = ["_"];
+                }
+                pstr += pieces.join(",");
             }
         }
-        pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
+
+        const legend: ILooseObj = {};
+        for (const label of labels) {
+            const piece = label[0];
+            const layer = parseInt(label.slice(1), 10);
+            const player = piece === "A" || piece === "X" ? 1 : piece === "B" || piece === "Y" ? 2 : 3;
+            legend[label] = this.getPiece(player, layer, ["X", "Y", "Z"].includes(piece), orb3d);
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -562,11 +679,7 @@ export class SponnectGame extends GameBase {
                     {type:"edge", edge: "W", colour: 2},
                 ]
             },
-            legend: {
-                A: { name: "orb", player: 1, scale: 1.2 },
-                B: { name: "orb", player: 2, scale: 1.2 },
-                C: { name: "orb", player: 3, scale: 1.2 },
-            },
+            legend,
             pieces: pstr,
         };
 
@@ -594,6 +707,17 @@ export class SponnectGame extends GameBase {
                 rep.annotations.push({type: "move", targets, arrow: false});
             }
         }
+
+        // rep.areas = [
+        //     {
+        //         type: "scrollBar",
+        //         position: "left",
+        //         min: 0,
+        //         max: maxLayer + 1,
+        //         current: hideLayer !== undefined ? hideLayer : maxLayer + 1,
+        //     }
+        // ];
+
         return rep;
     }
 

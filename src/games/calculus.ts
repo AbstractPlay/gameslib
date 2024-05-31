@@ -247,7 +247,7 @@ export class CalculusGame extends GameBase {
         const allCycles = fundamentalGraphCycles(g);
         // const t1 = Date.now();
         // console.log(`Raw list of cycles generated in ${t1-t0} ms`);
-        // console.log(allCycles);
+        // console.log(JSON.stringify(allCycles));
 
         let goodCycles: string[][] = [];
         // only keep cycles that contain <=2 transition points
@@ -276,7 +276,7 @@ export class CalculusGame extends GameBase {
             const test = polys.slice(i+1);
             for (const t of test) {
                 const sharedPts = comp.geometry.coordinates.flat().filter(p1 => t.geometry.coordinates.flat().find(p2 => p2[0] === p1[0] && p2[1] === p1[1]) !== undefined);
-                if (sharedPts.length > 0 && turfDiff(t, comp) === null) {
+                if (sharedPts.length >= 2 && turfDiff(t, comp) === null) {
                     containers.add(goodCycles[i].join("|"));
                     break;
                 }

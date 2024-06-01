@@ -73,6 +73,7 @@ export interface APGamesInformation {
     | "automove"
     | "check"
     | "custom-colours"
+    | "custom-pass"
     | "custom-randomization"
     | "experimental"
     | "limited-pieces"

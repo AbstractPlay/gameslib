@@ -365,6 +365,10 @@ export class CalculusGame extends GameBase {
             overlaps.splice(idx, 1);
             for (let deg = 0; deg < 360; deg++) {
                 const pt = projectPoint(...last.vert, CalculusGame.SNAP_RADIUS, deg);
+                // skip points more than 1.5r away from click point
+                if (ptDistance(x, y, ...pt) > CalculusGame.PIECE_RADIUS * 1.5) {
+                    continue;
+                }
                 let matchesAll = true;
                 for (const v of overlaps) {
                     if (v.type === "piece") {
@@ -955,11 +959,11 @@ export class CalculusGame extends GameBase {
             // get all piece details in relation to this point
             const relative = this.pieces.map(pc => pc.relativePosition(curr));
             relative.sort((a,b) => a.d - b.d);
-            const nearestNE = relative.find(p => p.bearing >= 0 && p.bearing < 90);
-            const nearestSE = relative.find(p => p.bearing >= 90 && p.bearing < 180);
-            const nearestSW = relative.find(p => p.bearing >= 180 && p.bearing < 270);
-            const nearestNW = relative.find(p => p.bearing >= 270);
-            const combined: (RelativePos|null)[] = [nearestNE || null, nearestSE || null, nearestSW || null, nearestNW || null];
+            const nearestNE = relative.find(p => p.bearing >= 0 && p.bearing < 90) || null;
+            const nearestSE = relative.find(p => p.bearing >= 90 && p.bearing < 180) || null;
+            const nearestSW = relative.find(p => p.bearing >= 180 && p.bearing < 270) || null;
+            const nearestNW = relative.find(p => p.bearing >= 270) || null;
+            const combined = [nearestNE, nearestSE, nearestSW, nearestNW];
             // console.log(JSON.stringify(combined));
             // console.log(JSON.stringify(nearestNE));
             // console.log(JSON.stringify(nearestSE));
@@ -982,8 +986,8 @@ export class CalculusGame extends GameBase {
             }
 
             for (const quad of ["NE", "SE", "SW", "NW"] as const) {
-                let left: RelativePos|undefined;
-                let right: RelativePos|undefined;
+                let left: RelativePos|null;
+                let right: RelativePos|null;
                 let leftBearing: number;
                 let rightBearing: number;
                 let rquad: Quadrant;
@@ -1019,12 +1023,12 @@ export class CalculusGame extends GameBase {
                 }
                 // if there's no piece in one of the quadrants,
                 // populate it with the nearest board edge
-                if (left === undefined) {
+                if (left === null) {
                     const pt = this.board.perimeterPoint(leftBearing);
                     const d = ptDistance(...pt, ...curr);
                     left = {d, bearing: leftBearing, pt, quadrant: quad};
                 }
-                if (right === undefined) {
+                if (right === null) {
                     const pt = this.board.perimeterPoint(rightBearing);
                     const d = ptDistance(...pt, ...curr);
                     right = {d, bearing: rightBearing, pt, quadrant: rquad};

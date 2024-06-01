@@ -212,7 +212,7 @@ export class StigmergyGame extends GameBase {
                 freeSpaces = true;
             }
         }
-        if (this.isButtonActive()) moves.push("button");
+        if (this.isButtonActive()) moves.push("_btn|takebutton|button");
         if (!freeSpaces && !this.isButtonActive()) moves.push("pass");
         return moves;
     }
@@ -270,7 +270,7 @@ export class StigmergyGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        
+
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (this.stack.length === 1) {

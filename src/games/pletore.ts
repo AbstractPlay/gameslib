@@ -201,7 +201,7 @@ export class PletoreGame extends GameBase {
                 freeSpaces = true;
             }
         }
-        if (this.isButtonActive()) moves.push("button");
+        if (this.isButtonActive()) moves.push("_btn|takebutton|button");
         if (!freeSpaces && !this.isButtonActive()) moves.push("pass");
         return moves;
     }

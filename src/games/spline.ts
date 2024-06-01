@@ -26,14 +26,14 @@ export interface ISplineState extends IAPGameState {
 
 export class SplineGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Spline+",
+        name: "Spline",
         uid: "spline",
         playercounts: [2],
         version: "20240530",
         dateAdded: "2024-05-30",
         // i18next.t("apgames:descriptions.spline")
         description: "apgames:descriptions.spline",
-        urls: ["https://boardgamegeek.com/boardgame/109044/spline-plus"],
+        urls: ["https://boardgamegeek.com/boardgame/93164/spline"],
         people: [
             {
                 type: "designer",
@@ -43,6 +43,7 @@ export class SplineGame extends GameBase {
         ],
         variants: [
             { uid: "size-5", group: "board" },
+            { uid: "plus" }
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per", "board>3d"],
         flags: ["experimental", "rotate90"],
@@ -210,7 +211,7 @@ export class SplineGame extends GameBase {
                 const cell = this.placeableCell(i, j);
                 if (cell !== undefined) {
                     moves.push(cell);
-                } else {
+                } else if (this.variants.includes("plus")) {
                     const topMostCell = this.getTopMostCell(i, j);
                     if (topMostCell !== undefined && this.board.get(topMostCell) === player && this.canMove(topMostCell)) {
                         froms.push(topMostCell);
@@ -218,9 +219,11 @@ export class SplineGame extends GameBase {
                 }
             }
         }
-        for (const from of froms) {
-            for (const to of this.getTos(from)) {
-                moves.push(`${from}-${to}`);
+        if (this.variants.includes("plus")) {
+            for (const from of froms) {
+                for (const to of this.getTos(from)) {
+                    moves.push(`${from}-${to}`);
+                }
             }
         }
         return moves;
@@ -290,7 +293,7 @@ export class SplineGame extends GameBase {
                     this.hideLayer = n;
                 }
             } else {
-                if (move === "" && topMostCell !== undefined && this.canMove(topMostCell)) {
+                if (move === "" && this.variants.includes("plus") && topMostCell !== undefined && this.canMove(topMostCell)) {
                     newmove = topMostCell + "-";
                 } else {
                     const cell = this.placeableCell(col, row);
@@ -351,7 +354,7 @@ export class SplineGame extends GameBase {
                 return result;
             }
         }
-        if (m.includes("-")) {
+        if (this.variants.includes("plus") && m.includes("-")) {
             const [from, to] = cells;
             if (!this.canMove(from)) {
                 result.valid = false;

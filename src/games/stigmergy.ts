@@ -58,7 +58,11 @@ export class StigmergyGame extends GameBase {
         flags: ["experimental", "pie-even", "scores", "automove"],
         variants: [
             {
-                uid: "size-6",
+                uid: "size-7",
+                group: "board",
+            },
+            {
+                uid: "size-9",
                 group: "board",
             },
             {
@@ -208,8 +212,13 @@ export class StigmergyGame extends GameBase {
                 freeSpaces = true;
             }
         }
-        if (!freeSpaces || (this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1)) moves.push("pass");
+        if (this.isButtonActive()) moves.push("button");
+        if (!freeSpaces && !this.isButtonActive()) moves.push("pass");
         return moves;
+    }
+
+    private isButtonActive(): boolean {
+        return this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1;
     }
 
     public randomMove(): string {
@@ -259,6 +268,9 @@ export class StigmergyGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+        
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (this.stack.length === 1) {
@@ -285,7 +297,7 @@ export class StigmergyGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1)
+            if (this.isButtonActive())
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS_BUTTON");
             else
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS");
@@ -305,6 +317,19 @@ export class StigmergyGame extends GameBase {
             }
         }
 
+        if (m === "button") {
+            if (this.moves().includes("button")) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.stigmergy.INVALIDBUTTON");
+                return result;
+            }
+        }
+
         // valid cell
         try {
             this.getGraph().algebraic2coords(m);
@@ -316,7 +341,7 @@ export class StigmergyGame extends GameBase {
 
         if (this.board.has(m) && this.board.get(m) === this.currplayer) {
             result.valid = false;
-            if (this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1)
+            if (this.isButtonActive())
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS_BUTTON");
             else
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS");
@@ -372,13 +397,10 @@ export class StigmergyGame extends GameBase {
             this.komi = parseInt(m, 10);
             this.results.push({type: "komi", value: this.komi});
         } else if (m === "pass") {
-            if (this.stack.length > 2 && this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1) {
-                this.firstpass = this.currplayer;
-                m = "button";
-                this.results.push({type: "button"});
-            } else {
-                this.results.push({type: "pass"});
-            }
+            this.results.push({type: "pass"});
+        } else if (m === "button") {
+            this.firstpass = this.currplayer;
+            this.results.push({type: "button"});
         } else {
             if (this.board.has(m)) {
                 this.results.push({type: "capture", where: m});

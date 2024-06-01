@@ -8,7 +8,7 @@ import { Piece, type RelativePos, type Quadrant } from "./calculus/piece";
 import { Cycle } from "./calculus/cycle";
 import { calcBearing, midpoint, projectPoint, ptDistance, reviver } from "../common";
 import { fundamentalGraphCycles } from "../common/graphs";
-import { polygon as turfPoly } from "@turf/helpers";
+import { Feature, Polygon, polygon as turfPoly } from "@turf/helpers";
 import turfDiff from "@turf/difference";
 import { UserFacingError } from "../common";
 import { Combination } from "js-combinatorics";
@@ -247,9 +247,10 @@ export class CalculusGame extends GameBase {
         const allCycles = fundamentalGraphCycles(g);
         // const t1 = Date.now();
         // console.log(`Raw list of cycles generated in ${t1-t0} ms`);
+        // console.log(`${allCycles.length} cycles detected`);
         // console.log(JSON.stringify(allCycles));
 
-        let goodCycles: string[][] = [];
+        const goodCycles: string[][] = [];
         // only keep cycles that contain <=2 transition points
         const pts = this.board.transitionVerts.map(pt => pt.join(","));
         for (const cycle of allCycles) {
@@ -263,34 +264,51 @@ export class CalculusGame extends GameBase {
                 goodCycles.push(cycle)
             }
         }
+        // const t2 = Date.now();
+        // console.log(`Large groups removed in ${t2-t1} ms`);
+        // console.log(`${goodCycles.length} right-sized cycles found`);
         // console.log(`Remove large groups`);
         // console.log(goodCycles);
 
-        // strip out any cycles that wholly include a cycle that shares a point with it
-        // fully detached inclusions are fine
-        const containers = new Set<string>();
-        goodCycles.sort((a,b) => b.length - a.length);
+        // sort cycles from smallest to largest
+        // add each cycle to the master list, one at a time,
+        // skipping any that share 2+ points and wholly occlude
+        const masterPolys: Feature<Polygon>[] = [];
+        const pcids = this.pieces.map(pc => pc.id);
+        goodCycles.sort((a,b) => {
+            const pcsA = a.filter(c => pcids.includes(c)).length;
+            const pcsB = b.filter(c => pcids.includes(c)).length;
+            if (pcsA === pcsB) {
+                return a.length - b.length;
+            } else {
+                return pcsA - pcsB;
+            }
+        });
         const polys = goodCycles.map(c => [...c, c[0]].map(n => n.split(",").map(num => parseFloat(num)) as Vertex)).map(v => turfPoly([v]));
-        for (let i = 0; i < goodCycles.length; i++) {
-            const comp = polys[i];
-            const test = polys.slice(i+1);
-            for (const t of test) {
+        for (const comp of polys) {
+            let overlaps = false;
+            for (const t of masterPolys) {
                 const sharedPts = comp.geometry.coordinates.flat().filter(p1 => t.geometry.coordinates.flat().find(p2 => p2[0] === p1[0] && p2[1] === p1[1]) !== undefined);
                 if (sharedPts.length >= 2 && turfDiff(t, comp) === null) {
-                    containers.add(goodCycles[i].join("|"));
+                    overlaps = true;
                     break;
                 }
             }
+            if (! overlaps) {
+                masterPolys.push(comp);
+            }
         }
-        // console.log("Containers");
-        // console.log(containers.size);
-        // console.log(JSON.stringify(containers, replacer));
-        goodCycles = goodCycles.filter(c => ! containers.has(c.join("|")));
+        const masterCycles = masterPolys.map(poly => poly.geometry.coordinates.flat().map(v => v.join(",")).slice(0, -1));
+
+        // console.log(`${count} total tests done!`);
+        // const t3 = Date.now();
+        // console.log(`Container cycles removed in ${t3-t2} ms`);
+        // console.log(`${masterCycles.length} cycles remain`);
 
         // determine owner
         // throw error if invalid cycle is found
         const realCycles: Cycle[] = [];
-        for (const cycle of goodCycles) {
+        for (const cycle of masterCycles) {
             const pcs = cycle.map(node => this.pieces.find(pc => pc.id === node)).filter(pc => pc !== undefined) as Piece[];
             const p1 = pcs.filter(pc => pc.owner === 1).length;
             const p2 = pcs.filter(pc => pc.owner === 2).length;

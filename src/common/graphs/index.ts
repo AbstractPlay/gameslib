@@ -125,10 +125,12 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
             subset.dropNode(missing);
         }
         // const expectedBases = subset.edges().length - subset.nodes().length + 1;
+
         const st = spanningTree(subset);
         if (st === null) {
             throw new Error(`Could not form a spanning tree`);
         }
+
         const edgesOrig = subset.edges().map(e => normalizeEdges(subset.extremities(e)).join("|")
         );
         const edgesNew = st.edges().map(e => normalizeEdges(st.extremities(e)).join("|"));
@@ -157,10 +159,10 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
 
         const pset = new PowerSet(bits);
         for (const [first, ...rest] of pset) {
-            if (rest.length > 0) {
-                // console.log(`Combining the following ${[first, ...rest].length} base sets together`);
-                // console.log(JSON.stringify([first, ...rest].map(bstr => unwindEdges(bstr.map((n, idx) => n === 1 ? edgesOrig[idx] : null).filter(s => s !== null) as string[]))));
-            }
+            // if (rest.length > 0) {
+            //     console.log(`Combining the following ${[first, ...rest].length} base sets together`);
+            //     console.log(JSON.stringify([first, ...rest].map(bstr => unwindEdges(bstr.map((n, idx) => n === 1 ? edgesOrig[idx] : null).filter(s => s !== null) as string[]))));
+            // }
             // first item in the powerset is empty
             if (first === undefined) {
                 continue;

@@ -21,7 +21,7 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, playerid>;
     lastmove?: string;
     scores: [number, number];
-    firstpass?: playerid;
+    buttontaker?: playerid;
     komi?: number;
 };
 
@@ -83,7 +83,7 @@ export class StigmergyGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public scores: [number, number] = [0, 0];
-    public firstpass?: playerid;
+    public buttontaker?: playerid;
     public komi?: number;
     private boardSize = 0;
 
@@ -136,7 +136,7 @@ export class StigmergyGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.scores = [...state.scores];
-        this.firstpass = state.firstpass;
+        this.buttontaker = state.buttontaker;
         this.komi = state.komi;
         return this;
     }
@@ -218,7 +218,7 @@ export class StigmergyGame extends GameBase {
     }
 
     private isButtonActive(): boolean {
-        return this.firstpass === undefined && this.komi !== undefined && this.komi % 2 === 1;
+        return this.buttontaker === undefined && this.komi !== undefined && this.komi % 2 === 1;
     }
 
     public randomMove(): string {
@@ -318,7 +318,7 @@ export class StigmergyGame extends GameBase {
         }
 
         if (m === "button") {
-            if (this.moves().includes("button")) {
+            if (this.isButtonActive()) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -387,7 +387,7 @@ export class StigmergyGame extends GameBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && this.stack.length > 1 && !this.moves().includes(m)) {
+            if (!partial && this.stack.length > 1 && !this.moves().includes(m) && (!this.isButtonActive() || m !== "button")) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
@@ -399,7 +399,7 @@ export class StigmergyGame extends GameBase {
         } else if (m === "pass") {
             this.results.push({type: "pass"});
         } else if (m === "button") {
-            this.firstpass = this.currplayer;
+            this.buttontaker = this.currplayer;
             this.results.push({type: "button"});
         } else {
             if (this.board.has(m)) {
@@ -472,7 +472,7 @@ export class StigmergyGame extends GameBase {
     }
 
     public getPlayerScore(player: playerid): number {
-        return this.scores[player - 1] + ((this.firstpass === player) ? .5 : 0) + ((player === 2 && this.komi !== undefined) ? this.komi : 0);
+        return this.scores[player - 1] + ((this.buttontaker === player) ? .5 : 0) + ((player === 2 && this.komi !== undefined) ? this.komi : 0);
     }
 
     public getPlayersScores(): IScores[] {
@@ -501,7 +501,7 @@ export class StigmergyGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             scores: [...this.scores],
-            firstpass: this.firstpass,
+            buttontaker: this.buttontaker,
             komi: this.komi
         };
     }

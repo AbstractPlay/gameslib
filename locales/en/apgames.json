@@ -1155,6 +1155,7 @@
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
         },
         "pletore": {
+            "KOMI_CHOICE": "Invoke pie or pass to accept playing as second player.",
             "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
             "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or take the button (worth .5 points).",
@@ -1412,6 +1413,7 @@
             "WRONG_PREFIX_CAPTURE": "Captures should be prefixed with 'c'."
         },
         "stigmergy": {
+            "KOMI_CHOICE": "Invoke pie or pass to accept playing as second player.",
             "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",
             "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or take the button (worth .5 points).",

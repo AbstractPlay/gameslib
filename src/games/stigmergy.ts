@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -212,9 +212,20 @@ export class StigmergyGame extends GameBase {
                 freeSpaces = true;
             }
         }
-        if (this.isButtonActive()) moves.push("_btn|takebutton|button");
+        if (this.isButtonActive()) moves.push("button");
         if (!freeSpaces && !this.isButtonActive()) moves.push("pass");
         return moves;
+    }
+
+    public getButtons(): ICustomButton[] {
+        if (this.isButtonActive())
+            return [
+                {
+                    label: "takebutton",
+                    move: "button"
+                }
+            ];
+        return [];
     }
 
     private isButtonActive(): boolean {

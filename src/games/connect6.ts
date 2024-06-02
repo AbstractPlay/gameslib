@@ -46,7 +46,7 @@ export class Connect6Game extends InARowBase {
             { uid: "pass", group: "tiebreaker" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "custom-colours", "rotate90"],
+        flags: ["multistep", "custom-colours", "rotate90", "no-moves", "custom-pass"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -151,6 +151,10 @@ export class Connect6Game extends InARowBase {
     private hasMoveGeneration(): boolean {
         // If the number of moves is too large, we don't want to generate the entire move list.
         return this.stack.length === 1;
+    }
+
+    public canPass(): boolean {
+        return this.pastOpening() || this.canSwap();
     }
 
     public moves(player?: playerid): string[] {

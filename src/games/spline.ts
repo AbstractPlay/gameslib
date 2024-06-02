@@ -783,12 +783,6 @@ export class SplineGame extends GameBase {
                 style: "squares-stacked",
                 width: this.boardSize,
                 height: this.boardSize,
-                markers: [
-                    {type:"edge", edge: "N", colour: 1},
-                    {type:"edge", edge: "S", colour: 1},
-                    {type:"edge", edge: "E", colour: 2},
-                    {type:"edge", edge: "W", colour: 2},
-                ]
             },
             legend,
             pieces: pstr,

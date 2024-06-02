@@ -297,7 +297,9 @@ export class StigmergyGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.isButtonActive())
+            if (this.stack.length === 2) {
+                result.message = i18next.t("apgames:validation.stigmergy.KOMI_CHOICE");
+            } else if (this.isButtonActive())
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS_BUTTON");
             else
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS");

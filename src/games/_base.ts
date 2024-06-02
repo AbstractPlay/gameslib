@@ -61,6 +61,20 @@ export interface IStashEntry {
 }
 
 /**
+ * For use with games flagged as `custom-buttons`.
+ * The `getButtons()` function returns a list of this type.
+ *
+ * @export
+ * @interface ICustomButton
+ */
+export interface ICustomButton {
+    // key to translatable string (translation lives in front end)
+    label: string;
+    // the string to pass to the game engine as a move
+    move: string;
+}
+
+/**
  * All game states must have the same basic shape:
  * - The name of the game the state represents (the UID from APGamesInformation)
  * - The number of players
@@ -754,6 +768,10 @@ export abstract class GameBase  {
     public aiaiMgl(): string {
         const ctor = this.constructor as typeof GameBase;
         return ctor.gameinfo.uid;
+    }
+
+    public getButtons(): ICustomButton[] {
+        return [];
     }
 
     // compares the most recent state to all previous states and returns

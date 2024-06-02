@@ -152,7 +152,7 @@
             "description": "A list of flags used by the front end to signal the presence or absence of a particular feature.",
             "type": "array",
             "items": {
-                "enum": ["aiai", "automove", "check", "custom-colours", "custom-pass", "custom-randomization", "experimental", "limited-pieces", "multistep", "no-explore", "no-moves", "perspective", "pie-even", "pie", "player-stashes", "random-start", "rotate90", "scores", "shared-pieces", "shared-stash", "simultaneous", "stacking-expanding"]
+                "enum": ["aiai", "automove", "check", "custom-buttons", "custom-colours", "custom-randomization", "experimental", "limited-pieces", "multistep", "no-explore", "no-moves", "perspective", "pie-even", "pie", "player-stashes", "random-start", "rotate90", "scores", "shared-pieces", "shared-stash", "simultaneous", "stacking-expanding"]
             }
         }
     },

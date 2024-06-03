@@ -28,7 +28,8 @@
         "urbino": "[FR]In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "volcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "wyke": "[FR]A two-player game where one places the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
-        "zola": "[FR]A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
+        "zola": "[FR]A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
+        "hex": "Au Hex, les deux joueurs doivent connecter les côtés opposés d'un plateau formé de cases hexagonales"
     },
     "homeworlds": {
         "CMD_ATK_OWNER": "[FR]In games with more than two players, you have to always specify the owner of the ship you are attacking.",
@@ -447,6 +448,36 @@
             "DISTANCE_NONCAPTURES": "[FR]Non-capture moves must increase your distance from the centre.",
             "INITIAL_INSTRUCTIONS": "[FR]Select one of your own pieces.",
             "PARTIAL": "[FR]Select a destination."
+        }
+    },
+    "variants": {
+        "abande": {
+            "hex": {
+                "name": "Plateau : Hexagonal"
+            }
+        },
+        "hex": {
+            "size-15": {
+                "name": "Plateau de taille 15."
+            },
+            "size-19": {
+                "name": "Plateau de taille 19."
+            },
+            "size-11": {
+                "name": "Plateau de taille 11."
+            }
+        }
+    },
+    "variantGroups": {
+        "conhex": {
+            "board": {
+                "name": "plateau : 11x11"
+            }
+        },
+        "hex": {
+            "board": {
+                "name": "Plateau de taille 13."
+            }
         }
     }
 }

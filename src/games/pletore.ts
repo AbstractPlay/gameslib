@@ -206,7 +206,9 @@ export class PletoreGame extends GameBase {
         return moves;
     }
 
+    // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
+        if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
         if (this.isButtonActive()) return [{ label: "takebutton", move: "button" }];
         if (this.stack.length === 2) return [{ label: "acceptpie", move: "pie" }];
         return [];
@@ -214,7 +216,8 @@ export class PletoreGame extends GameBase {
 
     private isButtonActive(): boolean {
         return this.buttontaker === undefined && this.komi !== undefined
-            && (this.komi + (this.boardSize * this.boardSize)) % 2 === 0;
+            && (this.komi + (this.boardSize * this.boardSize)) % 2 === 0
+            && this.stack.length !== 2;
     }
 
     public randomMove(): string {

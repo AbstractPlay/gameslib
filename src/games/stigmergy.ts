@@ -217,14 +217,19 @@ export class StigmergyGame extends GameBase {
         return moves;
     }
 
+    // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
+        if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
         if (this.isButtonActive()) return [{ label: "takebutton", move: "button" }];
         if (this.stack.length === 2) return [{ label: "acceptpie", move: "pie" }];
         return [];
     }
 
     private isButtonActive(): boolean {
-        return this.buttontaker === undefined && this.komi !== undefined && this.komi % 2 === 1;
+        return this.buttontaker === undefined
+            && this.komi !== undefined
+            && this.komi % 2 === 1
+            && this.stack.length !== 2;
     }
 
     public randomMove(): string {

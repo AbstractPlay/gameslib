@@ -1155,15 +1155,16 @@
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
         },
         "pletore": {
-            "KOMI_CHOICE": "Invoke pie or pass to accept playing as second player.",
+            "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
             "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
             "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or take the button (worth .5 points).",
             "INSUFFICIENT_CONTROL": "You cannot replace a piece on {{cell}}. You do not control the intersection.",
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent.",
-            "INVALIDPASS": "The button is already taken and you cannot pass while uncontrolled intersections exist.",
+            "INVALIDPASS": "You cannot pass while uncontrolled intersections exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "Please enter a valid number for the komi offer."
+            "INVALIDKOMI": "Please enter a valid number for the komi offer.",
+            "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",
@@ -1413,15 +1414,16 @@
             "WRONG_PREFIX_CAPTURE": "Captures should be prefixed with 'c'."
         },
         "stigmergy": {
-            "KOMI_CHOICE": "Invoke pie or pass to accept playing as second player.",
+            "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
             "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",
             "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or take the button (worth .5 points).",
             "INSUFFICIENT_LOS": "You cannot replace a piece on {{cell}}. You do not control the space.",
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent.",
-            "INVALIDPASS": "The button is already taken and you cannot pass while uncontrolled spaces exist.",
+            "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "Please enter a valid number for the komi offer."
+            "INVALIDKOMI": "Please enter a valid number for the komi offer.",
+            "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",

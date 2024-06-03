@@ -55,7 +55,7 @@ export class StigmergyGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
-        flags: ["experimental", "pie-even", "scores", "automove"],
+        flags: ["experimental", "pie-even", "scores", "automove", "custom-buttons"],
         variants: [
             {
                 uid: "size-7",
@@ -193,7 +193,7 @@ export class StigmergyGame extends GameBase {
         if (this.stack.length === 1) {
             return [];
         } else if (this.stack.length === 2) {
-            return ["pass"];
+            return ["pie"];
         }
 
         const moves: string[] = [];
@@ -218,13 +218,8 @@ export class StigmergyGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        if (this.isButtonActive())
-            return [
-                {
-                    label: "takebutton",
-                    move: "button"
-                }
-            ];
+        if (this.isButtonActive()) return [{ label: "takebutton", move: "button" }];
+        if (this.stack.length === 2) return [{ label: "acceptpie", move: "pie" }];
         return [];
     }
 
@@ -343,6 +338,19 @@ export class StigmergyGame extends GameBase {
             }
         }
 
+        if (m === "pie") {
+            if (this.stack.length === 2) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.stigmergy.INVALIDPIE");
+                return result;
+            }
+        }
+
         // valid cell
         try {
             this.getGraph().algebraic2coords(m);
@@ -414,6 +422,8 @@ export class StigmergyGame extends GameBase {
         } else if (m === "button") {
             this.buttontaker = this.currplayer;
             this.results.push({type: "button"});
+        } else if (m === "pie") {
+            this.results.push({type: "pie"});
         } else {
             if (this.board.has(m)) {
                 this.results.push({type: "capture", where: m});

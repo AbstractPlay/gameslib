@@ -8,7 +8,8 @@
         "complete_other": "[FR]{{player}} bore off {{count}} pieces from {{from}}."
     },
     "BLOCK": {
-        "between": "[FR]{{player}} erected a fence between {{cell1}} and {{cell2}}."
+        "between": "[FR]{{player}} erected a fence between {{cell1}} and {{cell2}}.",
+        "veletas": "{{player}} a placé une pièce à {{where}}."
     },
     "CAPTURE": {
         "complete": "[FR]{{player}} captured a {{what}} at {{where}}.",
@@ -116,5 +117,14 @@
     "TIMEOUT": "[FR]{{player}} lost on time.",
     "WINNERS_one": "[FR]The following player won: {{winners}}.",
     "WINNERS_many": "",
-    "WINNERS_other": "[FR]The following players won: {{winners}}."
+    "WINNERS_other": "[FR]The following players won: {{winners}}.",
+    "ABANDONED": "La partie a été abandonnée.",
+    "ADD": {
+        "nonum": "{{player}} a ajouté une pièce à {{where}}.",
+        "twixt": "{{player}} a ajouté un lien à {{where}}.",
+        "add_one": "{{player}} a ajouté 1 pièce à {{where}}.",
+        "add_many": "{{player}} a ajouté {{count}} pièces à {{where}}.",
+        "add_other": "{{player}} a ajouté {{count}} pièces à {{where}}."
+    },
+    "BUTTON": "{{player}} a pris le bouton."
 }

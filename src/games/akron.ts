@@ -499,25 +499,27 @@ export class AkronGame extends GameBase {
 
     private getTos(from: string): string[] {
         // Get all tos form a cell
-        const tos: string[] = [];
+        const tos: Set<string> = new Set();
         const group = this.getGroupIntersection(from, this.currplayer);
         group.delete(from);
         const dropBalls = this.dropBalls(from);
         const drop = dropBalls.length > 0 ? dropBalls[dropBalls.length - 1] : undefined;
-        const allNeighbours = new Set<string>();
+        const allNeighbours = new Map<string, string[]>();
         for (const cell of group) {
-            for (const neighbour of this.getNeighbours(cell)) {
-                allNeighbours.add(neighbour);
+            allNeighbours.set(cell, this.getNeighbours(cell));
+        }
+        for (const [cell, neighbours] of allNeighbours) {
+            for (const neighbour of neighbours) {
+                const place = this.placeableCell(...this.algebraic2coords(neighbour));
+                if (place === undefined) { continue; }
+                if (tos.has(place)) { continue; }
+                if (this.isOn(place, from)) { continue; }
+                if (drop !== undefined && this.isOn(place, drop)) { continue; }
+                if (Math.abs(this.algebraic2coords2(cell)[2] - this.algebraic2coords2(place)[2]) > 1) { continue; }
+                tos.add(place);
             }
         }
-        for (const neighbour of allNeighbours) {
-            const place = this.placeableCell(...this.algebraic2coords(neighbour));
-            if (place === undefined) { continue; }
-            if (this.isOn(place, from)) { continue; }
-            if (drop !== undefined && this.isOn(place, drop)) { continue; }
-            tos.push(place);
-        }
-        return tos;
+        return [...tos];
     }
 
     private dropBalls(from: string): string[] {

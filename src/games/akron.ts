@@ -648,65 +648,111 @@ export class AkronGame extends GameBase {
         return this.getTopMostCell(col, row) === cell;
     }
 
-    private getPresentNeighbours(cell: string, player: playerid): string[] {
+    private getPresentNeighbours(cell: string, player: playerid, orthogonalCut = true): string[] {
         // Get neighbours for a `cell` that are already present for `player`.
-        // If `from` is provided, we assume that balls are dropped.
+        // If `orthogonalCut` is true, orthogonal connections only count if they're not blocked from above.
+        // Note that this method does not check if `cell` is visible.
         const neighbours: string[] = [];
         const [col, row, layer] = this.algebraic2coords2(cell);
-        if (col > 0) {
-            if (row > 0) {
-                const topMost = this.getTopMostCell(col - 1, row - 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
+        // Check layer above.
+        if (col > layer) {
+            if (row > layer) {
+                const topLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
+                if (this.board.has(topLeft) && this.board.get(topLeft) === player) { neighbours.push(topLeft); }
             }
             if (row < 2 * this.boardSize - layer - 1) {
-                const topMost = this.getTopMostCell(col - 1, row + 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
+                const bottomLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
+                if (this.board.has(bottomLeft) && this.board.get(bottomLeft) === player) { neighbours.push(bottomLeft); }
             }
         }
         if (col < 2 * this.boardSize - layer - 1) {
-            if (row > 0) {
-                const topMost = this.getTopMostCell(col + 1, row - 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
+            if (row > layer) {
+                const topRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
+                if (this.board.has(topRight) && this.board.get(topRight) === player) { neighbours.push(topRight); }
             }
             if (row < 2 * this.boardSize - layer - 1) {
-                const topMost = this.getTopMostCell(col + 1, row + 1);
-                if (topMost !== undefined && this.board.get(topMost) === player) { neighbours.push(topMost); }
+                const bottomRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
+                if (this.board.has(bottomRight) && this.board.get(bottomRight) === player) { neighbours.push(bottomRight); }
             }
         }
-        const otherPlayer = player % 2 + 1 as playerid;
-        if (col > layer + 1) {
-            const topLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
-            const bottomLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
-            if (this.board.get(topLeft) !== otherPlayer || this.board.get(bottomLeft) !== otherPlayer) {
+        // Check layer below.
+        if (layer > 0) {
+            const topLeft = this.coords2algebraic2(col - 1, row - 1, layer - 1);
+            if (this.board.get(topLeft) === player) { neighbours.push(topLeft); }
+            const topRight = this.coords2algebraic2(col + 1, row - 1, layer - 1);
+            if (this.board.get(topRight) === player) { neighbours.push(topRight); }
+            const bottomLeft = this.coords2algebraic2(col - 1, row + 1, layer - 1);
+            if (this.board.get(bottomLeft) === player) { neighbours.push(bottomLeft); }
+            const bottomRight = this.coords2algebraic2(col + 1, row + 1, layer - 1);
+            if (this.board.get(bottomRight) === player) { neighbours.push(bottomRight); }
+        }
+        // Check same layer.
+        if (orthogonalCut) {
+            if (col > layer + 1) {
+                const topLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
+                const bottomLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
+                if (!this.board.has(topLeft) || !this.board.has(bottomLeft)) {
+                    const left = this.coords2algebraic2(col - 2, row, layer);
+                    if (this.board.has(left) && this.board.get(left) === player) { neighbours.push(left); }
+                }
+            }
+            if (col < 2 * this.boardSize - layer - 2) {
+                const topRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
+                const bottomRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
+                if (!this.board.has(topRight) || !this.board.has(bottomRight)) {
+                    const right = this.coords2algebraic2(col + 2, row, layer);
+                    if (this.board.has(right) && this.board.get(right) === player) { neighbours.push(right); }
+                }
+            }
+            if (row > layer + 1) {
+                const leftTop = this.coords2algebraic2(col - 1, row - 1, layer + 1);
+                const rightTop = this.coords2algebraic2(col + 1, row - 1, layer + 1);
+                if (!this.board.has(leftTop) || !this.board.has(rightTop)) {
+                    const top = this.coords2algebraic2(col, row - 2, layer);
+                    if (this.board.has(top) && this.board.get(top) === player) { neighbours.push(top); }
+                }
+            }
+            if (row < 2 * this.boardSize - layer - 2) {
+                const leftBottom = this.coords2algebraic2(col - 1, row + 1, layer + 1);
+                const rightBottom = this.coords2algebraic2(col + 1, row + 1, layer + 1);
+                if (!this.board.has(leftBottom) || !this.board.has(rightBottom)) {
+                    const bottom = this.coords2algebraic2(col, row + 2, layer);
+                    if (this.board.has(bottom) && this.board.get(bottom) === player) { neighbours.push(bottom); }
+                }
+            }
+        } else {
+            if (col > layer + 1) {
                 const left = this.coords2algebraic2(col - 2, row, layer);
                 if (this.board.has(left) && this.board.get(left) === player) { neighbours.push(left); }
             }
-        }
-        if (col < 2 * this.boardSize - layer - 2) {
-            const topRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
-            const bottomRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-            if (this.board.get(topRight) !== otherPlayer || this.board.get(bottomRight) !== otherPlayer) {
+            if (col < 2 * this.boardSize - layer - 2) {
                 const right = this.coords2algebraic2(col + 2, row, layer);
                 if (this.board.has(right) && this.board.get(right) === player) { neighbours.push(right); }
             }
-        }
-        if (row > layer + 1) {
-            const leftTop = this.coords2algebraic2(col - 1, row - 1, layer + 1);
-            const rightTop = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-            if (this.board.get(leftTop) !== otherPlayer || this.board.get(rightTop) !== otherPlayer) {
+            if (row > layer + 1) {
                 const top = this.coords2algebraic2(col, row - 2, layer);
                 if (this.board.has(top) && this.board.get(top) === player) { neighbours.push(top); }
             }
-        }
-        if (row < 2 * this.boardSize - layer - 2) {
-            const leftBottom = this.coords2algebraic2(col - 1, row + 1, layer + 1);
-            const rightBottom = this.coords2algebraic2(col + 1, row + 1, layer + 1);
-            if (this.board.get(leftBottom) !== otherPlayer || this.board.get(rightBottom) !== otherPlayer) {
+            if (row < 2 * this.boardSize - layer - 2) {
                 const bottom = this.coords2algebraic2(col, row + 2, layer);
                 if (this.board.has(bottom) && this.board.get(bottom) === player) { neighbours.push(bottom); }
             }
         }
         return neighbours;
+    }
+
+    private isVisible(cell: string): boolean {
+        // Check that a cell is visible from above.
+        const [x, y, l] = this.algebraic2coords2(cell);
+        if (x === l || y === l || x === 2 * this.boardSize - l - 1 || y === 2 * this.boardSize - l - 1) { return true; }
+        if (!this.board.has(this.coords2algebraic2(x - 1, y - 1, l + 1))) { return true; }
+        if (!this.board.has(this.coords2algebraic2(x - 1, y + 1, l + 1))) { return true; }
+        if (!this.board.has(this.coords2algebraic2(x + 1, y - 1, l + 1))) { return true; }
+        if (!this.board.has(this.coords2algebraic2(x + 1, y + 1, l + 1))) { return true; }
+        if (l < this.boardSize - 2) {
+            if (!this.board.has(this.coords2algebraic2(x, y, l + 2))) { return true; }
+        }
+        return false;
     }
 
     private buildGraph(player: playerid): UndirectedGraph {
@@ -719,7 +765,7 @@ export class AkronGame extends GameBase {
         // if any are in the graph, add an edge
         for (const node of graph.nodes()) {
             for (const n of this.getPresentNeighbours(node, player)) {
-                if (graph.hasNode(n) && !graph.hasEdge(node, n)) {
+                if (graph.hasNode(n) && !graph.hasEdge(node, n) && this.isVisible(n)) {
                     graph.addEdge(node, n);
                 }
             }

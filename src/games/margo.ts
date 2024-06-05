@@ -218,6 +218,9 @@ export class MargoGame extends GameBase {
                 if (cell !== undefined) {
                     if (this.isSelfCapture(cell, player)) { continue; }
                     if (this.checkKo(cell, player)) { continue; }
+                    // // Don't check for superko here, because it's rare.
+                    // // The validation method will catch it anyway.
+                    // if (this.checkSuperko(cell, player)) { continue; }
                     moves.push(cell);
                 }
             }
@@ -227,19 +230,24 @@ export class MargoGame extends GameBase {
 
     private hasMoves(player?: playerid): boolean {
         // Short-circuited version of above.
+        // If there are at least two moves, return true.
+        // If there is only one move, check if it's a superko.
         if (player === undefined) {
             player = this.currplayer;
         }
+        let move: string | undefined;
         for (let i = 0; i < 2 * this.boardSize - 1; i++) {
             for (let j = 0; j < 2 * this.boardSize - 1; j++) {
                 const cell = this.placeableCell(i, j);
                 if (cell !== undefined) {
                     if (this.isSelfCapture(cell, player)) { continue; }
                     if (this.checkKo(cell, player, true)) { continue; }
-                    return true;
+                    if (move !== undefined) { return true; }
+                    move = cell;
                 }
             }
         }
+        if (move !== undefined && !this.checkSuperko(move, player)) { return true; }
         return false;
     }
 
@@ -339,6 +347,11 @@ export class MargoGame extends GameBase {
             result.message = i18next.t("apgames:validation.margo.KO");
             return result;
         }
+        if (this.checkSuperko(m, this.currplayer)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.margo.SUPERKO");
+            return result;
+        }
         if (!this.moves().includes(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.margo.CANNOT_PLACE", { where: m });
@@ -362,102 +375,104 @@ export class MargoGame extends GameBase {
         return neighbours;
     }
 
-    private getPresentNeighbours(cell: string, player: playerid, orthogonalCut = true): string[] {
+    private getPresentNeighbours(cell: string, player: playerid, board?: Map<string, playerid>, orthogonalCut = true): string[] {
         // Get neighbours for a `cell` that are already present for `player`.
         // If `orthogonalCut` is true, orthogonal connections only count if they're not blocked from above.
         // Note that this method does not check if `cell` is visible.
+        board ??= this.board;
         const neighbours: string[] = [];
         const [col, row, layer] = this.algebraic2coords2(cell);
         // Check layer above.
         if (col > layer) {
             if (row > layer) {
                 const topLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
-                if (this.board.has(topLeft) && this.board.get(topLeft) === player) { neighbours.push(topLeft); }
+                if (board.has(topLeft) && board.get(topLeft) === player) { neighbours.push(topLeft); }
             }
             if (row < 2 * this.boardSize - layer - 1) {
                 const bottomLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
-                if (this.board.has(bottomLeft) && this.board.get(bottomLeft) === player) { neighbours.push(bottomLeft); }
+                if (board.has(bottomLeft) && board.get(bottomLeft) === player) { neighbours.push(bottomLeft); }
             }
         }
         if (col < 2 * this.boardSize - layer - 1) {
             if (row > layer) {
                 const topRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-                if (this.board.has(topRight) && this.board.get(topRight) === player) { neighbours.push(topRight); }
+                if (board.has(topRight) && board.get(topRight) === player) { neighbours.push(topRight); }
             }
             if (row < 2 * this.boardSize - layer - 1) {
                 const bottomRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
-                if (this.board.has(bottomRight) && this.board.get(bottomRight) === player) { neighbours.push(bottomRight); }
+                if (board.has(bottomRight) && board.get(bottomRight) === player) { neighbours.push(bottomRight); }
             }
         }
         // Check layer below.
         if (layer > 0) {
             const topLeft = this.coords2algebraic2(col - 1, row - 1, layer - 1);
-            if (this.board.get(topLeft) === player) { neighbours.push(topLeft); }
+            if (board.get(topLeft) === player) { neighbours.push(topLeft); }
             const topRight = this.coords2algebraic2(col + 1, row - 1, layer - 1);
-            if (this.board.get(topRight) === player) { neighbours.push(topRight); }
+            if (board.get(topRight) === player) { neighbours.push(topRight); }
             const bottomLeft = this.coords2algebraic2(col - 1, row + 1, layer - 1);
-            if (this.board.get(bottomLeft) === player) { neighbours.push(bottomLeft); }
+            if (board.get(bottomLeft) === player) { neighbours.push(bottomLeft); }
             const bottomRight = this.coords2algebraic2(col + 1, row + 1, layer - 1);
-            if (this.board.get(bottomRight) === player) { neighbours.push(bottomRight); }
+            if (board.get(bottomRight) === player) { neighbours.push(bottomRight); }
         }
         // Check same layer.
         if (orthogonalCut) {
             if (col > layer + 1) {
                 const topLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
                 const bottomLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
-                if (!this.board.has(topLeft) || !this.board.has(bottomLeft)) {
+                if (!board.has(topLeft) || !board.has(bottomLeft)) {
                     const left = this.coords2algebraic2(col - 2, row, layer);
-                    if (this.board.has(left) && this.board.get(left) === player) { neighbours.push(left); }
+                    if (board.has(left) && board.get(left) === player) { neighbours.push(left); }
                 }
             }
             if (col < 2 * this.boardSize - layer - 2) {
                 const topRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
                 const bottomRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-                if (!this.board.has(topRight) || !this.board.has(bottomRight)) {
+                if (!board.has(topRight) || !board.has(bottomRight)) {
                     const right = this.coords2algebraic2(col + 2, row, layer);
-                    if (this.board.has(right) && this.board.get(right) === player) { neighbours.push(right); }
+                    if (board.has(right) && board.get(right) === player) { neighbours.push(right); }
                 }
             }
             if (row > layer + 1) {
                 const leftTop = this.coords2algebraic2(col - 1, row - 1, layer + 1);
                 const rightTop = this.coords2algebraic2(col + 1, row - 1, layer + 1);
-                if (!this.board.has(leftTop) || !this.board.has(rightTop)) {
+                if (!board.has(leftTop) || !board.has(rightTop)) {
                     const top = this.coords2algebraic2(col, row - 2, layer);
-                    if (this.board.has(top) && this.board.get(top) === player) { neighbours.push(top); }
+                    if (board.has(top) && board.get(top) === player) { neighbours.push(top); }
                 }
             }
             if (row < 2 * this.boardSize - layer - 2) {
                 const leftBottom = this.coords2algebraic2(col - 1, row + 1, layer + 1);
                 const rightBottom = this.coords2algebraic2(col + 1, row + 1, layer + 1);
-                if (!this.board.has(leftBottom) || !this.board.has(rightBottom)) {
+                if (!board.has(leftBottom) || !board.has(rightBottom)) {
                     const bottom = this.coords2algebraic2(col, row + 2, layer);
-                    if (this.board.has(bottom) && this.board.get(bottom) === player) { neighbours.push(bottom); }
+                    if (board.has(bottom) && board.get(bottom) === player) { neighbours.push(bottom); }
                 }
             }
         } else {
             if (col > layer + 1) {
                 const left = this.coords2algebraic2(col - 2, row, layer);
-                if (this.board.has(left) && this.board.get(left) === player) { neighbours.push(left); }
+                if (board.has(left) && board.get(left) === player) { neighbours.push(left); }
             }
             if (col < 2 * this.boardSize - layer - 2) {
                 const right = this.coords2algebraic2(col + 2, row, layer);
-                if (this.board.has(right) && this.board.get(right) === player) { neighbours.push(right); }
+                if (board.has(right) && board.get(right) === player) { neighbours.push(right); }
             }
             if (row > layer + 1) {
                 const top = this.coords2algebraic2(col, row - 2, layer);
-                if (this.board.has(top) && this.board.get(top) === player) { neighbours.push(top); }
+                if (board.has(top) && board.get(top) === player) { neighbours.push(top); }
             }
             if (row < 2 * this.boardSize - layer - 2) {
                 const bottom = this.coords2algebraic2(col, row + 2, layer);
-                if (this.board.has(bottom) && this.board.get(bottom) === player) { neighbours.push(bottom); }
+                if (board.has(bottom) && board.get(bottom) === player) { neighbours.push(bottom); }
             }
         }
         return neighbours;
     }
 
-    private getGroupLiberties(cell: string, opponentPlaced: string[], player: playerid): [Set<string>, number] {
+    private getGroupLiberties(cell: string, opponentPlaced: string[], player: playerid, board?: Map<string, playerid>): [Set<string>, number] {
         // Get all groups associated with `cell` and the liberties of the group.
         // The `cell` does not need to be placed on the `board`. We assume that it's already there.
+        board ??= this.board;
         const seen: Set<string> = new Set();
         const liberties = new Set<string>();
         const todo: string[] = [cell]
@@ -466,40 +481,42 @@ export class MargoGame extends GameBase {
             if (seen.has(cell1)) { continue; }
             seen.add(cell1);
             for (const n of this.orthNeighboursLayer1(cell1)) {
-                if (this.board.has(n) || opponentPlaced.includes(n) || n === cell) { continue; }
+                if (board.has(n) || opponentPlaced.includes(n) || n === cell) { continue; }
                 liberties.add(n);
             }
-            this.getPresentNeighbours(cell1, player).forEach(n => todo.push(n));
+            this.getPresentNeighbours(cell1, player, board).forEach(n => todo.push(n));
         }
         return [seen, liberties.size];
     }
 
-    private isZombie(cell: string, player: playerid): boolean {
+    private isZombie(cell: string, player: playerid, board?: Map<string, playerid>): boolean {
         // Check if there is an opponent's ball on top of `cell` recursively.
+        board ??= this.board
         const [col, row, layer] = this.algebraic2coords2(cell);
         const directions = [[-1, -1], [-1, 1], [1, -1], [1, 1]];
         for (const direction of directions) {
             const [x, y, l] = [col + direction[0], row + direction[1], layer + 1];
             if (x < 0 || y < 0 || x >= 2 * this.boardSize - l || y >= 2 * this.boardSize - l) { continue; }
             const above = this.coords2algebraic2(x, y, l);
-            if (this.board.has(above)) {
-                if (this.board.get(above) !== player) { return true; }
-                const nextZombie = this.isZombie(above, player);
+            if (board.has(above)) {
+                if (board.get(above) !== player) { return true; }
+                const nextZombie = this.isZombie(above, player, board);
                 if (nextZombie) { return true; }
             }
         }
         return false;
     }
 
-    private getCaptures(place: string, player: playerid): Set<string>[] {
+    private getCaptures(place: string, player: playerid, board?: Map<string, playerid>): Set<string>[] {
         // Get all captured cells if `place` is placed on the board.
         // `place` can either be a ball that is already placed on the board or a ball that is to be placed.
+        board ??= this.board;
         const allCaptures: Set<string>[] = []
         const otherPlayer = player % 2 + 1 as playerid;
-        const toCheck = this.algebraic2coords2(place)[2] === 0 ? this.orthNeighboursLayer1(place) : this.getBelow([new Set([place])], player % 2 + 1 as playerid);
+        const toCheck = this.algebraic2coords2(place)[2] === 0 ? this.orthNeighboursLayer1(place) : this.getBelow([new Set([place])], player % 2 + 1 as playerid, board);
         for (const n of toCheck) {
-            if (allCaptures.some(x => x.has(n)) || !this.board.has(n) || this.board.get(n) === player) { continue; }
-            const [group, liberties] = this.getGroupLiberties(n, [place], otherPlayer);
+            if (allCaptures.some(x => x.has(n)) || !board.has(n) || board.get(n) === player) { continue; }
+            const [group, liberties] = this.getGroupLiberties(n, [place], otherPlayer, board);
             if (liberties === 0) {
                 const captures = new Set<string>();
                 for (const c of group) {
@@ -510,13 +527,13 @@ export class MargoGame extends GameBase {
         }
         allCaptures.forEach(captures => {
             captures.forEach(c => {
-                if (this.isZombie(c, otherPlayer)) { captures.delete(c); }
+                if (this.isZombie(c, otherPlayer, board)) { captures.delete(c); }
             });
         });
         return allCaptures.filter(captures => captures.size > 0);
     }
 
-    private getCapturesExisting(cells: string[], player: playerid): Set<string>[] {
+    private getCapturesExisting(cells: string[], player: playerid, board?: Map<string, playerid>): Set<string>[] {
         // Get balls that are in the same groups in one of the cell in `cells` that have no more liberties.
         // This is called in a loop in the `move` method to sequentially get balls that are to be removed
         // due to removal of balls zombifying them from above.
@@ -525,7 +542,7 @@ export class MargoGame extends GameBase {
         while (checked.length > 0) {
             const cell = checked.pop()!;
             if (allCaptures.some(x => x.has(cell))) { continue; }
-            const [group, liberties] = this.getGroupLiberties(cell, checked, player);
+            const [group, liberties] = this.getGroupLiberties(cell, checked, player, board);
             if (liberties === 0) {
                 const captures = new Set<string>();
                 for (const c of group) {
@@ -536,16 +553,17 @@ export class MargoGame extends GameBase {
         }
         allCaptures.forEach(captures => {
             captures.forEach(c => {
-                if (this.isZombie(c, player)) { captures.delete(c); }
+                if (this.isZombie(c, player, board)) { captures.delete(c); }
             });
         });
         return allCaptures.filter(captures => captures.size > 0);
     }
 
-    private getBelow(groups: Set<string>[], player: playerid): Set<string> {
+    private getBelow(groups: Set<string>[], player: playerid, board?: Map<string, playerid>): Set<string> {
         // When a capture is made and stones are removed, it may result in more captures.
         // This method is used to get all balls that are directly below any captured ball.
         // `player` is the player's balls to check for that are below the groups.
+        board ??= this.board;
         const ballsBelow = new Set<string>();
         for (const group of groups) {
             for (const ball of group) {
@@ -553,7 +571,7 @@ export class MargoGame extends GameBase {
                 if (layer > 0) {
                     for (const [c, r] of [[col - 1, row + 1], [col + 1, row + 1], [col - 1, row - 1], [col + 1, row - 1]]) {
                         const cell = this.coords2algebraic2(c, r, layer - 1);
-                        if (this.board.get(cell) === player) { ballsBelow.add(cell); }
+                        if (board.get(cell) === player) { ballsBelow.add(cell); }
                     }
                 }
             }
@@ -579,6 +597,33 @@ export class MargoGame extends GameBase {
             for (const capture of captures) { this.board.set(capture, player % 2 + 1 as playerid); }
         }
         return groupLiberties === 0;
+    }
+
+    private checkSuperko(place: string, player: playerid): boolean {
+        // Check if the move is a superko.
+        // We check for revealed captures here so I try not to call this often.
+        const firstCaptures = this.getCaptures(place, player);
+        const newBoard = new Map(this.board);
+        newBoard.set(place, player);
+        if (firstCaptures.length > 0) {
+            for (const captures of firstCaptures) {
+                for (const capture of captures) { newBoard.delete(capture); }
+            }
+        }
+        let checkPlayer = player;
+        while (true) {
+            // For "revealed captures" edge case where a capture results in
+            // more captures as zombies are no longer zombies.
+            const belowCells = this.getBelow(firstCaptures, checkPlayer, newBoard);
+            if (belowCells.size === 0) { break; }
+            const chainCaptures = this.getCapturesExisting([...belowCells], checkPlayer, newBoard);
+            if (chainCaptures.length === 0) { break; }
+            for (const captures of chainCaptures) {
+                for (const capture of captures) { newBoard.delete(capture); }
+            }
+            checkPlayer = checkPlayer % 2 + 1 as playerid;
+        }
+        return this.stateCount(newBoard, player % 2 + 1 as playerid) >= 1;
     }
 
     private checkKo(place: string, player: playerid, unsubmitted = false): boolean {
@@ -659,14 +704,6 @@ export class MargoGame extends GameBase {
             const p2Score = this.getPlayerScore(2);
             this.winner = p1Score > p2Score ? [1] : p1Score < p2Score ? [2] : [1, 2];
             this.results.push({ type: "eog" });
-        }
-        if (!this.gameover) {
-            const count = this.stateCount();
-            if (count >= 1) {
-                this.gameover = true;
-                this.winner = [this.currplayer];
-                this.results.push({ type: "eog", reason: "repetition" });
-            }
         }
         if (this.gameover) {
             this.results.push({ type: "winners", players: [...this.winner] });

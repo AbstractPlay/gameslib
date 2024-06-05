@@ -963,7 +963,8 @@
             "INITIAL_INSTRUCTIONS": "Select a location to place a ball.",
             "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",
             "SELF_CAPTURE":"You may not place your balls in self-capture.",
-            "KO": "Ko rule: you may not immediately recapture your opponent's single ball if they just used it to capture one of yours."
+            "KO": "Ko rule: you may not immediately recapture your opponent's single ball if they just used it to capture one of yours.",
+            "SUPERKO": "Superko rule: you may not recreate a previous board position with the same player to play."
         },
         "mattock": {
             "INITIAL_INSTRUCTIONS": "Select a space to mine, then optionally move a miner.",

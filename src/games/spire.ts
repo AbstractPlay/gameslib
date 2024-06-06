@@ -220,7 +220,7 @@ export class SpireGame extends GameBase {
         for (const p of neutralPlacements) {
             for (let i = 0; i < 2 * this.boardSize - 1; i++) {
                 for (let j = 0; j < 2 * this.boardSize - 1; j++) {
-                    const cell = this.placeableCell(i, j);
+                    const cell = this.placeableCell(i, j, p);
                     if (cell !== undefined) {
                         if (cell === p) { continue; }
                         if (this.canPlace(cell, player, p)) { moves.push(`${p},${cell}`); }

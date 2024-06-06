@@ -259,6 +259,8 @@
         "quax_diag": "{{player}} placed a diagonal connection at {{where}}.",
         "renju_tentative": "{{player}} placed a tentative fifth at {{where}}.",
         "renju_tentative_choose": "{{player}} chose the fifth stone at {{where}}.",
+        "spire_neutral": "{{player}} placed a neutral ball at {{where}}.",
+        "spire_player": "{{player}} placed a ball of their colour at {{where}}.",
         "spooky": "Spooky has entered the board at {{where}}.",
         "streetcar": "A building was placed at {{where}}.",
         "streetcar_11": "A height-1 ORANGE building was placed at {{where}}.",
@@ -332,7 +334,8 @@
     },
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {
-        "fnap": "{{player}} selected the tile {{tile}}."
+        "fnap": "{{player}} selected the tile {{tile}}.",
+        "spree": "{{player}} handed a ball of colour {{who}} to the opponent."
     },
     "SET": {
         "fnap_circles": "The circle tile at {{where}} is isolated.",
@@ -350,6 +353,7 @@
     },
     "TAKE": {
         "chase": "A {{what}} was fed to the chamber.",
+        "sploof": "{{player}} took a neutral ball at {{from}}.",
         "streetcar": "{{player}} took a housing limit from {{from}}.",
         "streetcar_1": "{{player}} took an ORANGE housing limit from {{from}}.",
         "streetcar_2": "{{player}} took a YELLOW housing limit from {{from}}.",

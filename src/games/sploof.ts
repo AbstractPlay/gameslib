@@ -943,7 +943,7 @@ export class SploofGame extends GameBase {
 
     public getPlayersScores(): IScores[] {
         return [
-            { name: i18next.t("apgames:status.HAND_STASH"), scores: [`${this.hands[0]} / ${this.stash[0]}`, `${this.hands[1]} / ${this.stash[1]}`] }
+            { name: i18next.t("apgames:status.PIECESINHANDSTASH"), scores: [`${this.hands[0]} / ${this.stash[0]}`, `${this.hands[1]} / ${this.stash[1]}`] }
         ]
     }
 

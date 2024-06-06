@@ -761,7 +761,7 @@ export class MargoGame extends GameBase {
             if (scaled === 0) {
                 return [
                     { name: "piece-borderless", player, scale: 1.15 },
-                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
             } else {

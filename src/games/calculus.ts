@@ -1029,7 +1029,6 @@ export class CalculusGame extends GameBase {
             // If one of the nearest pieces is the `from` piece, we're done
             if (from !== undefined && combined.find(p => p !== null && p.pt.join(",") === from.join(",")) !== undefined) {
                 // console.log("Found from")
-                g.addNode(from.join(","));
                 g.addEdge(id, from.join(","));
                 break;
             }

@@ -968,6 +968,9 @@ export class CalculusGame extends GameBase {
         const g = new UndirectedGraph();
         g.addNode("edge");
         g.addNode(to.join(","));
+        if (from !== undefined) {
+            g.addNode(from.join(","));
+        }
         const toVisit: Vertex[] = [to];
         while (toVisit.length > 0) {
             // get next point

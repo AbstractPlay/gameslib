@@ -32,7 +32,7 @@ export class SpreeGame extends GameBase {
         uid: "spree",
         playercounts: [2],
         version: "20240602",
-        dateAdded: "2024-06-02",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.spree")
         description: "apgames:descriptions.spree",
         // i18next.t("apgames:notes.spree")

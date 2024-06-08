@@ -33,7 +33,7 @@ export class SploofGame extends GameBase {
         uid: "sploof",
         playercounts: [2],
         version: "20240602",
-        dateAdded: "2024-06-02",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.sploof")
         description: "apgames:descriptions.sploof",
         urls: ["https://boardgamegeek.com/boardgame/114188/sploof"],

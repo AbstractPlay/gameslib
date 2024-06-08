@@ -36,7 +36,7 @@ export class StigmergyGame extends GameBase {
         uid: "stigmergy",
         playercounts: [2],
         version: "20240524",
-        dateAdded: "2024-05-24",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.stigmergy")
         description: "apgames:descriptions.stigmergy",
         // i18next.t("apgames:notes.stigmergy")

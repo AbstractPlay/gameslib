@@ -41,7 +41,7 @@ export class AnacheGame extends GameBase {
         uid: "anache",
         playercounts: [2],
         version: "20240501",
-        dateAdded: "2024-05-01",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.anache")
         description: "apgames:descriptions.anache",
         // i18next.t("apgames:notes.anache")

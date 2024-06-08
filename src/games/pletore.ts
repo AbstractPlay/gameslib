@@ -34,7 +34,7 @@ export class PletoreGame extends GameBase {
         uid: "pletore",
         playercounts: [2],
         version: "20240527",
-        dateAdded: "2024-05-27",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.pletore")
         description: "apgames:descriptions.pletore",
         // i18next.t("apgames:notes.pletore")

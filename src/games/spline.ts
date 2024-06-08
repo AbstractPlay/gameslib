@@ -30,7 +30,7 @@ export class SplineGame extends GameBase {
         uid: "spline",
         playercounts: [2],
         version: "20240530",
-        dateAdded: "2024-05-30",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.spline")
         description: "apgames:descriptions.spline",
         urls: ["https://boardgamegeek.com/boardgame/93164/spline"],

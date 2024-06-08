@@ -48,7 +48,7 @@ export class PletoreGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect"],
-        flags: ["experimental", "pie-even", "scores", "automove", "custom-buttons"],
+        flags: ["pie-even", "scores", "automove", "custom-buttons"],
         variants: [
             {
                 uid: "size-11",

@@ -48,7 +48,7 @@ export class SpreeGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>3c", "components>shibumi", "board>3d"],
-        flags: ["experimental", "rotate90", "shared-pieces"],
+        flags: ["rotate90", "shared-pieces"],
         displays: [{ uid: "orb-3d" }],
     };
 

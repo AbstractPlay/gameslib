@@ -351,7 +351,7 @@ export class UpperHandGame extends GameBase {
 
     private platfromCreated(place: string): [string, playerid][] {
         // Check that a 2x2 platform is created and if there is a majority owner.
-        // If yes, return the cell in the middel of the platform and the owner.
+        // If yes, return the cell in the middle of the platform and the owner.
         // Be sure to check for repeated cells returned by this function.
         const [x, y, l] = this.algebraic2coords2(place);
         const autoPlacements: [string, playerid][] = [];

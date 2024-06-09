@@ -111,7 +111,7 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
         const min = scratch[0];
         const idx = scratch.indexOf(min);
         if (idx === -1) {
-            throw new Error(`Error occured while normalizing the list`);
+            throw new Error(`Error occurred while normalizing the list`);
         }
         return [...path.slice(idx), ...path.slice(0, idx)];
     }

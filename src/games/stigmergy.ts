@@ -318,7 +318,7 @@ export class StigmergyGame extends GameBase {
         }
 
         if (m === "pass") {
-            if (this.moves().includes("pass")) {
+            if (this.stack.length === 2 || this.moves().includes("pass")) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -411,10 +411,10 @@ export class StigmergyGame extends GameBase {
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+                throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            if (!partial && this.stack.length > 1 && !this.moves().includes(m) && (!this.isButtonActive() || m !== "button")) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if (!partial && this.stack.length > 2 && !this.moves().includes(m) && (!this.isButtonActive() || m !== "button")) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }
 
@@ -423,7 +423,13 @@ export class StigmergyGame extends GameBase {
             this.komi = parseInt(m, 10);
             this.results.push({type: "komi", value: this.komi});
         } else if (m === "pass") {
-            this.results.push({type: "pass"});
+            // This happens iff the invoke pie option is used.
+            if (this.stack.length === 2) {
+                m = "pie";
+                this.results.push({type: "pie"});
+            } else {
+                this.results.push({type: "pass"});
+            }
         } else if (m === "button") {
             this.buttontaker = this.currplayer;
             this.results.push({type: "button"});

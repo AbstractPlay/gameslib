@@ -379,7 +379,7 @@ export class SpireGame extends GameBase {
         }
         const [m1, m2] = moves;
         const canPlacePlayer1 = this.canPlace(m1, this.currplayer);
-        const canPlaceNeutral1 = this.canPlace(m1, 3);
+        const canPlaceNeutral1 = this.canPlace(m1, this.currplayer, undefined, true);
         if (m2 === undefined || m2 === "") {
             if (canPlacePlayer1 && canPlaceNeutral1) {
                 result.valid = true;
@@ -452,12 +452,36 @@ export class SpireGame extends GameBase {
         return committed ? counts > 2 : counts > 1;
     }
 
-    private canPlace(cell: string, player: playerid, placed?: string): boolean {
+    private canPlace(cell: string, player: playerid, placed?: string, neutral = false): boolean {
         // Check if a ball can be placed at `cell` for `player`.
         // Assumes that `placed` is by player 3.
-        if (this.violatesL(cell, player)) { return false; }
-        if (this.violatesPlatform(cell, player, placed)) { return false; }
+        // If `neutral` is true, then we are checking for a neutral ball.
+        // Previously, `player` could be 1, 2, or 3, but then I realised that it's useful to also
+        // check if the placement of the neutral ball has a valid followup.
+        // In order to do that, we need to know the player's colour, so whether the ball is neutral
+        // or not is now determined by the `neutral` parameter.
+        // It's a bit of monkey patching, but that was just the history just in case anybody reads this code.
+        if (this.violatesL(cell, neutral ? 3 : player)) { return false; }
+        if (this.violatesPlatform(cell, neutral ? 3 : player, placed)) { return false; }
+        if (neutral) {
+            if (!this.hasFollowUp(cell, player)) { return false; }
+        }
         return true;
+    }
+
+    private hasFollowUp(neutral: string, player: playerid): boolean {
+        // Check if it's possible to place a ball of the player's colour after
+        // placing a neutral ball at `cell`.
+        for (let i = 0; i < 2 * this.boardSize - 1; i++) {
+            for (let j = 0; j < 2 * this.boardSize - 1; j++) {
+                const cell = this.placeableCell(i, j, neutral);
+                if (cell !== undefined) {
+                    if (cell === neutral) { continue; }
+                    if (this.canPlace(cell, player, neutral)) { return true; }
+                }
+            }
+        }
+        return false;
     }
 
     private violatesL(cell: string, player: playerid): boolean {
@@ -510,7 +534,7 @@ export class SpireGame extends GameBase {
         const [m1, m2] = m.split(",");
         if (m2 === undefined || m2 === "") {
             const canPlacePlayer1 = this.canPlace(m1, this.currplayer);
-            const canPlaceNeutral1 = this.canPlace(m1, 3);
+            const canPlaceNeutral1 = this.canPlace(m1, this.currplayer, undefined, true);
             if (canPlacePlayer1 && canPlaceNeutral1) {
                 this.tentative = m1;
                 this.results.push({ type: "place", where: m1, who: this.currplayer, what: "player" });

@@ -40,6 +40,7 @@ export class ConhexGame extends GameBase {
             {
                 type: "designer",
                 name: "Michail Antonow",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/3573/michail-antonow"],
             }
         ],
         variants: [

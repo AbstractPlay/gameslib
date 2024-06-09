@@ -40,6 +40,7 @@ export class BideGame extends GameBase {
             {
                 type: "designer",
                 name: "Alek Erickson",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/101050/alek-erickson"],
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

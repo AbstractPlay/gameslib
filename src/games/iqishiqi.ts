@@ -56,10 +56,12 @@ export class IqishiqiGame extends GameBase {
             {
                 type: "designer",
                 name: "João Pedro Neto",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
             },
             {
                 type: "designer",
                 name: "Bill Taylor",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/9249/bill-taylor"],
             }
         ],
         variants: [],

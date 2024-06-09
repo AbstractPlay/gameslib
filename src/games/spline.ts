@@ -38,7 +38,7 @@ export class SplineGame extends GameBase {
             {
                 type: "designer",
                 name: "Néstor Romeral Andrés",
-                urls: ["http://nestorgames.com/"]
+                urls: ["https://boardgamegeek.com/boardgamedesigner/9393/nestor-romeral-andres"]
             }
         ],
         variants: [

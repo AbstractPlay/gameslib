@@ -36,7 +36,8 @@ export class QuaxGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "Bill Taylor"
+                name: "Bill Taylor",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/9249/bill-taylor"],
             }
         ],
         variants: [

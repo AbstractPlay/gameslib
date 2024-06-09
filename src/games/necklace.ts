@@ -44,7 +44,8 @@ export class NecklaceGame extends GameBase {
             },
             {
                 type: "designer",
-                name: "Luis Bolaños Mures"
+                name: "Luis Bolaños Mures",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/47001/luis-bolanos-mures"],
             },
         ],
         variants: [],

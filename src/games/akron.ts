@@ -508,13 +508,11 @@ export class AkronGame extends GameBase {
         for (const cell of group) {
             allNeighbours.set(cell, this.getNeighbours(cell));
         }
-        const seen: Set<string> = new Set();
         for (const [cell, neighbours] of allNeighbours) {
             for (const neighbour of neighbours) {
-                if (seen.has(neighbour)) { continue; }
-                seen.add(neighbour);
                 const place = this.placeableCell(...this.algebraic2coords(neighbour));
                 if (place === undefined) { continue; }
+                if (tos.has(place)) { continue; }
                 if (this.isOn(place, from)) { continue; }
                 if (drop !== undefined && this.isOn(place, drop)) { continue; }
                 if (Math.abs(this.algebraic2coords2(cell)[2] - this.algebraic2coords2(place)[2]) > 1) { continue; }

@@ -45,7 +45,7 @@ export class SponnectGame extends GameBase {
         variants: [
             { uid: "size-5", group: "board" },
         ],
-        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple", "board>3d"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple", "components>shibumi", "board>3d"],
         flags: ["pie", "rotate90"],
         displays: [{ uid: "orb-3d" }],
     };
@@ -611,7 +611,7 @@ export class SponnectGame extends GameBase {
             if (scaled === 0) {
                 return [
                     { name: "piece-borderless", player, scale: 1.15 },
-                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
             } else {

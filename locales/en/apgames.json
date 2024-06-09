@@ -87,7 +87,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
-        "pletore": "Pletore is a territorial line of sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupries more of the board at the end.",
+        "pletore": "Pletore is a territorial line of sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
@@ -100,9 +100,12 @@
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
+        "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
         "spline": "Make a full line of your colour in any layer to win.",
+        "sploof": "Create a string of four touching balls at any level visible as a straight line from directly above the board. Players start with two balls in their hand, but can take two balls from their stash every time a neutral ball is removed. Players also lose when they have no moves on their turn.",
         "sponnect": "A simple Shibumi connection game where every internal space that can be buried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
+        "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "stigmergy": "Stigmergy is a territorial line of sight game. Cells are controlled and pieces are flipped based on how many pieces of a color can see the space. The winner is the player who occupies more of the board at the end.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
@@ -147,7 +150,9 @@
         "pletore": "An intersection is controlled by a player if they have a piece on it, or if they 'pinch' the intersection while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. The score is the number of intersections controlled by each player plus a komi bonus for the second player and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "razzle": "The implementation here is the so called tournament rules.",
+        "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
+        "spree": "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
         "stigmergy": "A space is controlled by a player if they have a piece on it, or if they have more than half of the line of sights to it. The score is the number of spaces controlled by each player plus a komi bonus for the second player and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
@@ -228,6 +233,7 @@
         "focus": "Controlled",
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
+        "PIECESINHANDSTASH": "Pieces in hand / stash",
         "PIECESREMAINING": "Pieces remaining",
         "PIECESONBOARD": "Pieces on board",
         "queensland": {
@@ -1372,6 +1378,19 @@
             "NEED_PLACEMENT": "You must place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available."
         },
+        "spire": {
+            "INITIAL_INSTRUCTIONS": "Select a space to a ball of your colour, or a neutral ball before placing ball of your colour.",
+            "TOO_MANY_MOVES": "You may only place up to two balls on your turn.",
+            "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",
+            "VIOLATES_BOTH": "Placement at {{where}} is illegal for both the neutral ball and the ball of your colour.",
+            "VIOLATES_NEUTRAL_L": "You may not place a neutral ball at {{where}} because it creates 3 neutral balls in a 2x2 area.",
+            "VIOLATES_NEUTRAL_PLATFORM": "You may not place a neutral ball at {{where}} because platform has two neutral balls.",
+            "VIOLATES_PLAYER_L": "You may not place a ball of your colour at {{where}} because it creates 3 balls of your colour in a 2x2 area.",
+            "VIOLATES_PLAYER_PLATFORM": "You may not place a ball of your colour at {{where}} because platform has two balls of your colour.",
+            "PLACE_PLAYER": "Complete your turn to have a ball of your colour at {{where}}, or select another space to place a ball of your colour.",
+            "PLACE_PLAYER_MANDATORY": "Select another space to place a ball of your colour.",
+            "SAME_CELL": "You have already placed at {{cell}}."
+        },
         "spline": {
             "INITIAL_INSTRUCTIONS": "Select a space to place a ball, or select a ball to move.",
             "CANNOT_MOVE": "The selected ball at {{where}} cannot be moved.",
@@ -1379,6 +1398,15 @@
             "MOVE_TO": "Select a destination to move your ball.",
             "INVALID_TO": "The selected ball at {{from}} cannot move to {{to}}",
             "CANNOT_PLACE": "{{where}} is not a valid place to put a ball."
+        },
+        "sploof": {
+            "INITIAL_INSTRUCTIONS": "Select a space to place a ball of your colour, or select a neutral ball to take.",
+            "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",
+            "NO_BALLS_STASH": "You have no balls in your stash, so you cannot take a neutral ball.",
+            "UNOCCUPIED": "You have indicated that you want to take a neutral ball, but there is no neutral ball at {{where}}.",
+            "NOT_NEUTRAL": "You have indicated that you want to take a neutral ball, but the ball at {{where}} is not neutral.",
+            "PINNED": "The neutral ball at {{where}} is pinned.",
+            "NO_BALLS_HAND": "You have no balls in your hand, so you cannot place a ball of your colour."
         },
         "sponnect": {
             "INITIAL_INSTRUCTIONS": "Select a space to place a ball.",
@@ -1413,6 +1441,17 @@
             "WRONG_PREFIX_MOVE": "Movements should be prefixed with 'm'.",
             "WRONG_PREFIX_REMOVE": "Removals should be prefixed with 'r'.",
             "WRONG_PREFIX_CAPTURE": "Captures should be prefixed with 'c'."
+        },
+        "spree": {
+            "INITIAL_INSTRUCTIONS": "Select a space to place the ball of colour {{choice}}, then choose a colour to hand to your opponent.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Choose a colour to hand to your opponent.",
+            "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",
+            "FIRST_MOVE_CHOICE": "The first move must be the ball to hand to your opponent (1, 2, or 3).",
+            "PLACE_FIRST": "You must place the ball before choosing a colour to hand to your opponent.",
+            "ALREADY_WON": "You have already won the game, so you don't have to pick a colour to hand to your opponent.",
+            "CHOOSE_NEXT": "Choose a colour to hand to your opponent.",
+            "INVALID_CHOICE": "Colour choice {{choice}} is not valid. Choose 1, 2, or 3.",
+            "SAME_CHOICE": "You cannot hand your opponent the colour {{choice}} because the same colour cannot be chosen twice in a row."
         },
         "stigmergy": {
             "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
@@ -1933,9 +1972,20 @@
                 "name": "9x9 board"
             }
         },
+        "spire" : {
+            "board": {
+                "name": "4x4 board"
+            }
+        },
         "spline" : {
             "board": {
                 "name": "4x4 board"
+            }
+        },
+        "sploof" : {
+            "board": {
+                "name": "4x4 board",
+                "description": "Default board that starts with a ring of neutral balls on the edges."
             }
         },
         "sponnect" : {
@@ -1950,6 +2000,11 @@
             "setup": {
                 "name": "manual setup",
                 "description": "Players take turn placing balls until the pyramid is filled at the start of the game."
+            }
+        },
+        "spree" : {
+            "board": {
+                "name": "4x4 board"
             }
         },
         "stigmergy": {
@@ -2741,6 +2796,11 @@
                 "name": "Classic movement rules"
             }
         },
+        "spire": {
+            "size-5": {
+                "name": "5x5 board"
+            }
+        },
         "spline": {
             "size-5": {
                 "name": "5x5 board"
@@ -2748,6 +2808,12 @@
             "plus": {
                 "name": "Spline+",
                 "description": "On your turn, you may place a ball or move an unpinned ball. In the case of several lines being created as a result of balls dropping, the largest line prevails."
+            }
+        },
+        "sploof": {
+            "size-5": {
+                "name": "5x5 board",
+                "description": "A larger 5x5 board that starts with the bottom layer filled with neutral balls."
             }
         },
         "sponnect": {
@@ -2762,6 +2828,11 @@
             "random": {
                 "name": "Random setup",
                 "description": "The pyramid is randomly filled so the game begins in the getaway phase."
+            }
+        },
+        "spree": {
+            "size-5": {
+                "name": "5x5 board"
             }
         },
         "stigmergy": {
@@ -3148,7 +3219,19 @@
                 "name": "Hide restriction indicators"
             }
         },
+        "spire": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
+            }
+        },
         "spline": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
+            }
+        },
+        "sploof": {
             "orb-3d": {
                 "name": "3D orbs",
                 "description": "Use plain 3D orb textures."
@@ -3161,6 +3244,12 @@
             }
         },
         "spook": {
+            "orb-3d": {
+                "name": "3D orbs",
+                "description": "Use plain 3D orb textures."
+            }
+        },
+        "spree": {
             "orb-3d": {
                 "name": "3D orbs",
                 "description": "Use plain 3D orb textures."

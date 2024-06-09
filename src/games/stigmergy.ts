@@ -36,7 +36,7 @@ export class StigmergyGame extends GameBase {
         uid: "stigmergy",
         playercounts: [2],
         version: "20240524",
-        dateAdded: "2024-05-24",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.stigmergy")
         description: "apgames:descriptions.stigmergy",
         // i18next.t("apgames:notes.stigmergy")
@@ -55,7 +55,7 @@ export class StigmergyGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
-        flags: ["experimental", "pie-even", "scores", "automove", "custom-buttons"],
+        flags: ["pie-even", "scores", "automove", "custom-buttons"],
         variants: [
             {
                 uid: "size-7",

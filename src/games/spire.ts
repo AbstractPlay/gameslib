@@ -6,7 +6,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-type playerid = 1 | 2;
+type playerid = 1 | 2 | 3;
 
 interface ILooseObj {
     [key: string]: any;
@@ -16,36 +16,36 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
-    winningLines: string[][];
 }
 
-export interface ISplineState extends IAPGameState {
+export interface ISpireState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class SplineGame extends GameBase {
+export class SpireGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Spline",
-        uid: "spline",
+        name: "Spire",
+        uid: "spire",
         playercounts: [2],
-        version: "20240530",
+        version: "20240602",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.spline")
-        description: "apgames:descriptions.spline",
-        urls: ["https://boardgamegeek.com/boardgame/93164/spline"],
+        // i18next.t("apgames:descriptions.spire")
+        description: "apgames:descriptions.spire",
+        // i18next.t("apgames:notes.spire")
+        notes: "apgames:notes.spire",
+        urls: ["https://boardgamegeek.com/boardgame/113641/spire"],
         people: [
             {
                 type: "designer",
-                name: "Néstor Romeral Andrés",
-                urls: ["http://nestorgames.com/"]
+                name: "Dieter Stein",
+                urls: ["https://spielstein.com/"]
             }
         ],
         variants: [
             { uid: "size-5", group: "board" },
-            { uid: "plus" }
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per", "components>shibumi", "board>3d"],
+        categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>3c", "components>shibumi", "board>3d"],
         flags: ["rotate90"],
         displays: [{ uid: "orb-3d" }],
     };
@@ -95,24 +95,29 @@ export class SplineGame extends GameBase {
         return [x, y, layer];
     }
 
-    private placeableCell(i: number, j: number): string | undefined {
+    private placeableCell(i: number, j: number, placed?: string): string | undefined {
         // Get the highest supported layer for a cell.
         // If that cell is not placeable, return undefined.
+        // Modified to support an optional "placed" parameter, which is a cell that has already been placed.
         if (i % 2 !== j % 2) { return undefined; }
         let layer = i % 2 ? 1 : 0;
         while (layer < this.boardSize) {
             const cell = `${layer + 1}${this.coords2algebraic(i, j)}`
-            if (this.board.has(cell)) {
+            if (this.board.has(cell) || cell === placed) {
                 layer += 2;
                 continue;
             }
             if (layer > 0) {
                 if (i < layer || j < layer || i >= 2 * this.boardSize - layer || j >= 2 * this.boardSize - layer) { return undefined; }
                 // Check the four cells below the currentone.
-                if (!this.board.has(this.coords2algebraic2(i - 1, j - 1, layer - 1))) { return undefined; }
-                if (!this.board.has(this.coords2algebraic2(i - 1, j + 1, layer - 1))) { return undefined; }
-                if (!this.board.has(this.coords2algebraic2(i + 1, j - 1, layer - 1))) { return undefined; }
-                if (!this.board.has(this.coords2algebraic2(i + 1, j + 1, layer - 1))) { return undefined; }
+                const topLeft = this.coords2algebraic2(i - 1, j - 1, layer - 1);
+                if (!this.board.has(topLeft) && topLeft !== placed) { return undefined; }
+                const bottomLeft = this.coords2algebraic2(i - 1, j + 1, layer - 1);
+                if (!this.board.has(bottomLeft) && bottomLeft !== placed) { return undefined; }
+                const topRight = this.coords2algebraic2(i + 1, j - 1, layer - 1);
+                if (!this.board.has(topRight) && topRight !== placed) { return undefined; }
+                const bottomRight = this.coords2algebraic2(i + 1, j + 1, layer - 1);
+                if (!this.board.has(bottomRight) && bottomRight !== placed) { return undefined; }
             }
             return cell;
         }
@@ -122,7 +127,6 @@ export class SplineGame extends GameBase {
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, playerid>;
-    public winningLines: string[][] = [];
     public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
@@ -130,29 +134,29 @@ export class SplineGame extends GameBase {
     public variants: string[] = [];
     private boardSize = 0;
     private hideLayer: number|undefined;
-    private dots: string[] = [];
+    // private dots: string[] = [];
+    private tentative: string | undefined;
 
-    constructor(state?: ISplineState | string, variants?: string[]) {
+    constructor(state?: ISpireState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {
-                _version: SplineGame.gameinfo.version,
+                _version: SpireGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                winningLines: [],
             };
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as ISplineState;
+                state = JSON.parse(state, reviver) as ISpireState;
             }
-            if (state.game !== SplineGame.gameinfo.uid) {
-                throw new Error(`The UpperHanSpline process a game of '${state.game}'.`);
+            if (state.game !== SpireGame.gameinfo.uid) {
+                throw new Error(`The UpperHanSpire process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -162,7 +166,7 @@ export class SplineGame extends GameBase {
         this.load();
     }
 
-    public load(idx = -1): SplineGame {
+    public load(idx = -1): SpireGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -177,7 +181,6 @@ export class SplineGame extends GameBase {
         this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
-        this.winningLines  = state.winningLines.map(a => [...a]);
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
         return this;
@@ -204,29 +207,57 @@ export class SplineGame extends GameBase {
         }
         if (this.gameover) { return []; }
         const moves: string[] = [];
-        const froms: string[] = [];
+        const neutralPlacements: string[] = [];
         for (let i = 0; i < 2 * this.boardSize - 1; i++) {
             for (let j = 0; j < 2 * this.boardSize - 1; j++) {
-                if (i % 2 !== j % 2) { continue; }
                 const cell = this.placeableCell(i, j);
                 if (cell !== undefined) {
-                    moves.push(cell);
-                } else if (this.variants.includes("plus")) {
-                    const topMostCell = this.getTopMostCell(i, j);
-                    if (topMostCell !== undefined && this.board.get(topMostCell) === player && this.canMove(topMostCell)) {
-                        froms.push(topMostCell);
+                    if (this.canPlace(cell, player)) { moves.push(cell); }
+                    if (this.canPlace(cell, 3)) { neutralPlacements.push(cell); }
+                }
+            }
+        }
+        for (const p of neutralPlacements) {
+            for (let i = 0; i < 2 * this.boardSize - 1; i++) {
+                for (let j = 0; j < 2 * this.boardSize - 1; j++) {
+                    const cell = this.placeableCell(i, j, p);
+                    if (cell !== undefined) {
+                        if (cell === p) { continue; }
+                        if (this.canPlace(cell, player, p)) { moves.push(`${p},${cell}`); }
                     }
                 }
             }
         }
-        if (this.variants.includes("plus")) {
-            for (const from of froms) {
-                for (const to of this.getTos(from)) {
-                    moves.push(`${from}-${to}`);
+        return moves;
+    }
+
+    private hasMoves(player: playerid): boolean {
+        // Check if a player has any moves left.
+        // Same as above but short circuited.
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const neutralPlacements: string[] = [];
+        for (let i = 0; i < 2 * this.boardSize - 1; i++) {
+            for (let j = 0; j < 2 * this.boardSize - 1; j++) {
+                const cell = this.placeableCell(i, j);
+                if (cell !== undefined) {
+                    if (this.canPlace(cell, player)) { return true; }
+                    if (this.canPlace(cell, 3)) { neutralPlacements.push(cell); }
                 }
             }
         }
-        return moves;
+        for (const p of neutralPlacements) {
+            for (let i = 0; i < 2 * this.boardSize - 1; i++) {
+                for (let j = 0; j < 2 * this.boardSize - 1; j++) {
+                    const cell = this.placeableCell(i, j);
+                    if (cell !== undefined) {
+                        if (this.canPlace(cell, player, p)) { return true; }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public randomMove(): string {
@@ -234,43 +265,9 @@ export class SplineGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    private canMove(cell: string): boolean {
-        // A ball can be moved if it is below one ball or less.
-        if (!this.board.has(cell)) { return false; }
-        const [x, y, layer] = this.algebraic2coords2(cell);
-        let aboveCount = 0;
-        if (this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))) { aboveCount += 1; }
-        if (this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))) { aboveCount += 1; }
-        if (aboveCount > 1) { return false; }
-        if (this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))) { aboveCount += 1; }
-        if (aboveCount > 1) { return false; }
-        if (this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))) { aboveCount += 1; }
-        if (aboveCount > 1) { return false; }
-        return true;
-    }
-
-    private getTopMostCell(x: number, y: number): string | undefined {
-        // Get the top-most ball at a coordinate.
-        // If there is no ball at that coordinate, return undefined.
-        let layer = x % 2 ? 1 : 0;
-        let cell = this.coords2algebraic2(x, y, layer);
-        while (layer < this.boardSize) {
-            if (x < layer || y < layer || x >= 2 * this.boardSize - layer || y >= 2 * this.boardSize - layer) { return undefined; }
-            layer += 2;
-            const nextCell = this.coords2algebraic2(x, y, layer);
-            if (this.board.has(nextCell)) {
-                cell = nextCell;
-                continue;
-            }
-            return cell;
-        }
-        return undefined;
-    }
-
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const topMostCell = this.getTopMostCell(col, row);
-            let newmove = move;
+            let newmove = "";
             if (row === -1 && col === -1) {
                 if (piece === undefined) {
                     throw new Error(`A click was registered off the board, but no 'piece' parameter was passed.`);
@@ -293,18 +290,29 @@ export class SplineGame extends GameBase {
                     this.hideLayer = n;
                 }
             } else {
-                if (move === "" && this.variants.includes("plus") && topMostCell !== undefined && this.canMove(topMostCell)) {
-                    newmove = topMostCell + "-";
-                } else {
+                if (move === "") {
                     const cell = this.placeableCell(col, row);
                     if (cell === undefined) {
                         return {
                             move,
                             valid: false,
-                            message: i18next.t("apgames:validation.spline.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
+                            message: i18next.t("apgames:validation.spire.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
                         };
                     }
-                    newmove += cell;
+                    newmove = cell;
+                } else if (move.split(",").length === 1) {
+                    const cell = this.placeableCell(col, row, move);
+                    if (cell === undefined) {
+                        return {
+                            move,
+                            valid: false,
+                            message: i18next.t("apgames:validation.spire.CANNOT_PLACE", { where: this.coords2algebraic(col, row) })
+                        };
+                    }
+                    newmove = `${move},${cell}`;
+                } else {
+                    const cell = this.coords2algebraic(col, row);
+                    newmove = `${move},${cell}`
                 }
             }
             const result = this.validateMove(newmove) as IClickResult;
@@ -330,15 +338,20 @@ export class SplineGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.spline.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.spire.INITIAL_INSTRUCTIONS");
             return result;
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        // valid cell
-        const cells = m.split("-");
+        const moves = m.split(",");
+        if (moves.length > 2) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.spire.TOO_MANY_MOVES");
+            return result;
+        }
+        // Valid cell
         let tryCell;
-        for (const cell of cells) {
+        for (const cell of moves) {
             if (cell === undefined || cell === "") { continue; }
             try {
                 tryCell = cell;
@@ -354,57 +367,66 @@ export class SplineGame extends GameBase {
                 return result;
             }
         }
-        if (this.variants.includes("plus") && m.includes("-")) {
-            const [from, to] = cells;
-            if (!this.canMove(from)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.spline.CANNOT_MOVE", { where: from });
+        // Cell is empty
+        let notEmpty;
+        for (const p of moves) {
+            if (this.board.has(p)) { notEmpty = p; break; }
+        }
+        if (notEmpty) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: notEmpty });
+            return result;
+        }
+        const [m1, m2] = moves;
+        const canPlacePlayer1 = this.canPlace(m1, this.currplayer);
+        const canPlaceNeutral1 = this.canPlace(m1, 3);
+        if (m2 === undefined || m2 === "") {
+            if (canPlacePlayer1 && canPlaceNeutral1) {
+                result.valid = true;
+                result.complete = 0;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.spire.PLACE_PLAYER", { where: m1 });
                 return result;
-            }
-            if (!this.board.has(from)) {
+            } else if (!canPlacePlayer1 && !canPlaceNeutral1) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: from });
+                result.message = i18next.t("apgames:validation.spire.VIOLATES_BOTH", { where: m1 });
                 return result;
-            }
-            if (this.board.get(from) !== this.currplayer) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
-                return result;
-            }
-            const tos = this.getTos(from);
-            if (tos.length === 0) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.spline.NO_TOS", { where: from });
-                return result;
-            }
-            if (to === undefined || to === "") {
+            } else if (canPlaceNeutral1) {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.spline.MOVE_TO");
-                return result;
-            }
-            if (from === to) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
-                return result;
-            }
-            if (!tos.includes(to)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.spline.INVALID_TO", { from, to });
+                result.message = i18next.t("apgames:validation.spire.PLACE_PLAYER_MANDATORY", { where: m1 });
                 return result;
             }
         } else {
-            if (this.board.has(m)) {
+            if (m1 === m2) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+                result.message = i18next.t("apgames:validation._general.SAME_CELL", { cell: m1 });
                 return result;
             }
-            const [x, y, ] = this.algebraic2coords2(m);
-            if (m !== this.placeableCell(x, y)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.spline.CANNOT_PLACE", { where: m });
-                return result;
+            if (!canPlaceNeutral1) {
+                if (this.violatesL(m1, 3)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.spire.VIOLATES_NEUTRAL_L", { where: m1 });
+                    return result;
+                }
+                if (this.violatesPlatform(m1, 3)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.spire.VIOLATES_NEUTRAL_PLATFORM", { where: m1 });
+                    return result;
+                }
+            }
+            if (!this.canPlace(m2, this.currplayer, m1)) {
+                if (this.violatesL(m2, this.currplayer)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.spire.VIOLATES_PLAYER_L", { where: m2 });
+                    return result;
+                }
+                if (this.violatesPlatform(m2, this.currplayer, m1)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.spire.VIOLATES_PLAYER_PLATFORM", { where: m2 });
+                    return result;
+                }
             }
         }
         result.valid = true;
@@ -413,80 +435,60 @@ export class SplineGame extends GameBase {
         return result;
     }
 
-    private dropBalls(from: string): string[] {
-        // Upon movement, drop balls that are not supported.
-        // Return the highest cell that was dropped if there was a drop.
-        // Assumes that there is only one ball above the `from` cell.
-        const [x, y, layer] = this.algebraic2coords2(from);
-        const direction = this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))
-            ? [-1, -1]
-            : this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))
-            ? [-1, 1]
-            : this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))
-            ? [1, -1]
-            : this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))
-            ? [1, 1]
-            : undefined;
-        if (direction === undefined) { return []; }
-        let i = 1
-        const drops: string[] = [];
-        while (true) {
-            const above = this.coords2algebraic2(x + i * direction[0], y + i * direction[1], layer + i);
-            if (!this.board.has(above)) { break; }
-            drops.push(above);
-            i++;
+    private checkL(x: number, y: number, l: number, player: playerid, committed = false): boolean {
+        // Check if there is an L shape of `player`'s balls.
+        // Starting from the top left.
+        let counts = 0;
+        for (let i = x; i < x + 4; i += 2) {
+            for (let j = y; j < y + 4; j += 2) {
+                const c = this.coords2algebraic2(i, j, l);
+                if (this.board.has(c)) {
+                    if (this.board.get(c) === player) {
+                        counts++;
+                    }
+                }
+            }
         }
-        return drops;
+        return committed ? counts > 2 : counts > 1;
     }
 
-    private getDropMap(from: string, player?: playerid): [string[], playerid[]] | undefined {
-        // Return the information needed to perform the transformation of `board` for drops.
-        const drops = this.dropBalls(from);
-        if (drops.length === 0) { return undefined; }
-        if (player === undefined) { player = this.currplayer; }
-        const dropPlayers = drops.map(d => this.board.get(d)!);
-        drops.unshift(from);
-        dropPlayers.unshift(player);
-        return [drops, dropPlayers];
+    private canPlace(cell: string, player: playerid, placed?: string): boolean {
+        // Check if a ball can be placed at `cell` for `player`.
+        // Assumes that `placed` is by player 3.
+        if (this.violatesL(cell, player)) { return false; }
+        if (this.violatesPlatform(cell, player, placed)) { return false; }
+        return true;
     }
 
-    private applyDrop(dropMap: [string[], playerid[]]): void {
-        // Apply the drop transformation to the board.
-        const [drops, dropPlayers] = dropMap;
-        for (let i = 0; i < drops.length - 1; i++) {
-            this.board.delete(drops[i + 1]);
-            this.board.set(drops[i], dropPlayers[i + 1]);
+    private violatesL(cell: string, player: playerid): boolean {
+        // Check for L violation at `cell` for `player`.
+        const [x, y, layer] = this.algebraic2coords2(cell);
+        for (const [x1, y1] of [[x - 2, y - 2], [x - 2, y], [x, y - 2], [x, y]] as [number, number][]) {
+            if (x1 < layer || y1 < layer || x1 >= 2 * this.boardSize - layer - 1 || y1 >= 2 * this.boardSize - layer - 1) { continue; }
+            if (this.checkL(x1, y1, layer, player)) { return true; }
         }
-    }
-
-    private isOn(cell: string, on: string): boolean {
-        // Check if a cell is on top of another cell.
-        const [x, y, l] = this.algebraic2coords2(cell);
-        const [x1, y1, l1] = this.algebraic2coords2(on);
-        if (l - l1 !== 1) { return false; }
-        if (Math.abs(x - x1) === 1 && Math.abs(y - y1) === 1) { return true; }
         return false;
     }
 
-    private getTos(from: string): string[] {
-        // Get all tos form a cell
-        const tos: string[] = [];
-        const dropBalls = this.dropBalls(from);
-        const drop = dropBalls.length > 0 ? dropBalls[dropBalls.length - 1] : undefined;
-        from = from.toLowerCase();
-        for (let i = 0; i < 2 * this.boardSize - 1; i++) {
-            for (let j = 0; j < 2 * this.boardSize - 1; j++) {
-                const cell = this.placeableCell(i, j);
-                if (cell === undefined) { continue; }
-                if (this.isOn(cell, from)) { continue; }
-                if (drop !== undefined && this.isOn(cell, drop)) { continue; }
-                tos.push(cell);
-            }
+    private violatesPlatform(cell: string, player: playerid, placed?: string): boolean {
+        // Check that placement at `cell` is not on more than two balls of the `player`'s colour.
+        // Assumes that `placed` is by player 3.
+        const [x, y, layer] = this.algebraic2coords2(cell);
+        let count = 0;
+        if (layer > 0) {
+            const topLeft = this.coords2algebraic2(x - 1, y - 1, layer - 1);
+            if (this.board.get(topLeft) === player || player === 3 && topLeft === placed ) { count++; }
+            const bottomLeft = this.coords2algebraic2(x - 1, y + 1, layer - 1);
+            if (this.board.get(bottomLeft) === player || player === 3 && bottomLeft === placed ) { count++; }
+            const topRight = this.coords2algebraic2(x + 1, y - 1, layer - 1);
+            if (this.board.get(topRight) === player || player === 3 && topRight === placed ) { count++; }
+            const bottomRight = this.coords2algebraic2(x + 1, y + 1, layer - 1);
+            if (this.board.get(bottomRight) === player || player === 3 && bottomRight === placed ) { count++; }
         }
-        return tos;
+        return count > 1;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): SplineGame {
+    public move(m: string, {partial = false, trusted = false} = {}): SpireGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -505,26 +507,29 @@ export class SplineGame extends GameBase {
         }
         if (m.length === 0) { return this; }
         this.results = [];
-        if (m.includes("-")) {
-            const [from, to] = m.split("-");
-            if (to === undefined || to === "") {
-                this.dots = this.getTos(from);
-            } else {
-                this.board.delete(from);
-                this.board.set(to, this.currplayer);
-                this.results.push({ type: "move", from, to });
-                const dropMap = this.getDropMap(from, this.currplayer);
-                if (dropMap !== undefined) {
-                    this.applyDrop(dropMap);
-                    const dropTopMost = dropMap[0][dropMap[0].length - 1];
-                    this.results.push({ type: "move", from: dropTopMost, to: from, how: "drop", count: dropMap[0].length - 1 });
-                }
+        const [m1, m2] = m.split(",");
+        if (m2 === undefined || m2 === "") {
+            const canPlacePlayer1 = this.canPlace(m1, this.currplayer);
+            const canPlaceNeutral1 = this.canPlace(m1, 3);
+            if (canPlacePlayer1 && canPlaceNeutral1) {
+                this.tentative = m1;
+                this.results.push({ type: "place", where: m1, who: this.currplayer, what: "player" });
+                this.board.set(m1, this.currplayer);
+            } else if (canPlacePlayer1) {
+                this.results.push({ type: "place", where: m1, who: this.currplayer, what: "player" });
+                this.board.set(m1, this.currplayer);
+            } else if (canPlaceNeutral1) {
+                this.results.push({ type: "place", where: m1, who: 3, what: "neutral" });
+                this.board.set(m1, 3);
             }
         } else {
-            this.results.push({ type: "place", where: m });
-            this.board.set(m, this.currplayer);
+            this.results.push({ type: "place", where: m1, who: 3, what: "neutral" });
+            this.board.set(m1, 3);
+            this.results.push({ type: "place", where: m2, who: this.currplayer, what: "player" });
+            this.board.set(m2, this.currplayer);
         }
         if (partial) { return this; }
+        this.tentative = undefined;
         this.hideLayer = undefined;
 
         this.lastmove = m;
@@ -535,109 +540,10 @@ export class SplineGame extends GameBase {
         return this;
     }
 
-    protected getWinningLinesMap(): Map<playerid, string[][]> {
-        // Get the winning lines for each player.
-        // Check for horizontal, vertical, and diagonal lines of size equal to the full width of that layer.
-        // Layer 0 needs boardSize in a row, layer 1 needs boardSize - 1 in a row, and so on.
-        const winningLines = new Map<playerid, string[][]>([
-            [1, []],
-            [2, []],
-        ]);
-        for (let l = 0; l < this.boardSize - 1; l++) {
-            // Horizontal lines
-            loop_h:
-            for (let i = 0; i < this.boardSize - l; i++) {
-                const tentativeLine: string[] = [];
-                let player: playerid | undefined;
-                for (let j = 0; j < this.boardSize - l; j++) {
-                    const cell = this.layerCoords2algebraic(j, i, l);
-                    tentativeLine.push(cell);
-                    if (!this.board.has(cell)) { continue loop_h; }
-                    if (player === undefined) {
-                        player = this.board.get(cell);
-                    } else if (player !== this.board.get(cell)) {
-                        continue loop_h;
-                    }
-                }
-                winningLines.get(player!)!.push(tentativeLine);
-            }
-
-            // Vertical lines
-            loop_v:
-            for (let i = 0; i < this.boardSize - l; i++) {
-                const tentativeLine: string[] = [];
-                let player: playerid | undefined;
-                for (let j = 0; j < this.boardSize - l; j++) {
-                    const cell = this.layerCoords2algebraic(i, j, l);
-                    tentativeLine.push(cell);
-                    if (!this.board.has(cell)) { continue loop_v; }
-                    if (player === undefined) {
-                        player = this.board.get(cell);
-                    } else if (player !== this.board.get(cell)) {
-                        continue loop_v;
-                    }
-                }
-                winningLines.get(player!)!.push(tentativeLine);
-            }
-
-            // Now the two diagonals.
-            const tentativeLine1: string[] = [];
-            let player1: playerid | undefined;
-            let hasLine1 = true;
-            for (let j = 0; j < this.boardSize - l; j++) {
-                const cell = this.layerCoords2algebraic(j, j, l);
-                tentativeLine1.push(cell);
-                if (!this.board.has(cell)) {
-                    hasLine1 = false;
-                    break;
-                }
-                if (player1 === undefined) {
-                    player1 = this.board.get(cell);
-                } else if (player1 !== this.board.get(cell)) {
-                    hasLine1 = false;
-                    break;
-                }
-            }
-            if (player1 !== undefined && hasLine1) { winningLines.get(player1)!.push(tentativeLine1); }
-
-            const tentativeLine2: string[] = [];
-            let player2: playerid | undefined;
-            let hasLine2 = true;
-            for (let j = 0; j < this.boardSize - l; j++) {
-                const cell = this.layerCoords2algebraic(j, this.boardSize - l - 1 - j, l);
-                tentativeLine2.push(cell);
-                if (!this.board.has(cell)) {
-                    hasLine2 = false;
-                    break;
-                }
-                if (player2 === undefined) {
-                    player2 = this.board.get(cell);
-                } else if (player2 !== this.board.get(cell)) {
-                    hasLine2 = false;
-                    break;
-                }
-            }
-            if (player2 !== undefined && hasLine2) { winningLines.get(player2)!.push(tentativeLine2); }
-            if (winningLines.get(1)!.length > 0 || winningLines.get(2)!.length > 0) {
-                break;
-            }
-        }
-        return winningLines;
-    }
-
-    protected checkEOG(): SplineGame {
-        const winningLinesMap = this.getWinningLinesMap();
-        const winner: playerid[] = [];
-        this.winningLines = [];
-        for (const player of [1, 2] as playerid[]) {
-            if (winningLinesMap.get(player)!.length > 0) {
-                winner.push(player);
-                this.winningLines.push(...winningLinesMap.get(player)!);
-            }
-        }
-        if (winner.length > 0) {
+    protected checkEOG(): SpireGame {
+        if (!this.hasMoves(this.currplayer)) {
+            this.winner = [this.currplayer % 2 + 1 as playerid];
             this.gameover = true;
-            this.winner = winner;
         }
         if (this.gameover) {
             this.results.push({ type: "eog" });
@@ -646,9 +552,9 @@ export class SplineGame extends GameBase {
         return this;
     }
 
-    public state(): ISplineState {
+    public state(): ISpireState {
         return {
-            game: SplineGame.gameinfo.uid,
+            game: SpireGame.gameinfo.uid,
             numplayers: 2,
             variants: this.variants,
             gameover: this.gameover,
@@ -659,20 +565,20 @@ export class SplineGame extends GameBase {
 
     protected moveState(): IMoveState {
         return {
-            _version: SplineGame.gameinfo.version,
+            _version: SpireGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            winningLines: this.winningLines.map(a => [...a]),
         };
     }
 
-    private getPiece(player: number, layer: number, trans = false, orb3d = false): [Glyph, ...Glyph[]]  {
+    private getPiece(player: number, layer: number, trans = false, orb3d = false, tentative = false): [Glyph, ...Glyph[]]  {
         // Choose max blackness and whiteness.
         // Returns a combined glyphs based on the player colour for a given layer 1 to boardSize.
         // orb_3d: if true, only return pure orb glyphs, for which some people prefer.
+        // tentative: if true, return a transparent piece.
         if (orb3d) {
             if (trans) {
                 return [{ name: "circle", player, scale: 1.15, opacity: 0.5 }];
@@ -694,7 +600,8 @@ export class SplineGame extends GameBase {
             const scaled = (whiteness + blackness) * (layer - 1) / (layers - 1) - blackness;
             if (scaled === 0) {
                 return [
-                    { name: "piece-borderless", player, scale: 1.15 },
+                    { name: "piece-borderless", player, scale: 1.15, opacity: tentative ? 0.2 : 1 },
+                    ...(tentative ? [{ name: "piece-borderless", player: 3, scale: 1.15, opacity: 0.5 }] : []),
                     { name: "orb", player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
@@ -702,8 +609,9 @@ export class SplineGame extends GameBase {
                 const colour = scaled < 0 ? "#000" : "#FFF";
                 const opacity = scaled < 0 ? 1 + scaled : 1 - scaled;
                 return [
-                    { name: "piece-borderless", colour, scale: 1.15 },
-                    { name: "piece-borderless", player, scale: 1.15, opacity },
+                    { name: "piece-borderless", colour, scale: 1.15, opacity: tentative ? 0.2 : 1 },
+                    { name: "piece-borderless", player, scale: 1.15, opacity: opacity * (tentative ? 0.2 : 1) },
+                    ...(tentative ? [{ name: "piece-borderless", player: 3, scale: 1.15, opacity: 0.5 }] : []),
                     { name: "orb", player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
@@ -743,16 +651,26 @@ export class SplineGame extends GameBase {
                         const contents = this.board.get(cell);
                         let key;
                         if (contents === 1) {
-                            if (hideLayer !== undefined && hideLayer <= layer) {
+                            if (this.tentative === cell) {
+                                key = `D${layer + 1}`;
+                            } else if (hideLayer !== undefined && hideLayer <= layer) {
                                 key = `X${layer + 1}`;
                             } else {
                                 key = `A${layer + 1}`;
                             }
-                        } else {
-                            if (hideLayer !== undefined && hideLayer <= layer) {
+                        } else if (contents === 2) {
+                            if (this.tentative === cell) {
+                                key = `E${layer + 1}`;
+                            } else if (hideLayer !== undefined && hideLayer <= layer) {
                                 key = `Y${layer + 1}`;
                             } else {
                                 key = `B${layer + 1}`;
+                            }
+                        } else {
+                            if (hideLayer !== undefined && hideLayer <= layer) {
+                                key = `Z${layer + 1}`;
+                            } else {
+                                key = `C${layer + 1}`;
                             }
                         }
                         pieces.push(key);
@@ -773,8 +691,8 @@ export class SplineGame extends GameBase {
         for (const label of labels) {
             const piece = label[0];
             const layer = parseInt(label.slice(1), 10);
-            const player = piece === "A" || piece === "X" ? 1 : piece === "B" || piece === "Y" ? 2 : 3;
-            legend[label] = this.getPiece(player, layer, ["X", "Y", "Z"].includes(piece), orb3d);
+            const player = piece === "A" || piece === "X" || piece === "D" ? 1 : piece === "B" || piece === "Y" || piece === "E" ? 2 : 3;
+            legend[label] = this.getPiece(player, layer, ["X", "Y", "Z"].includes(piece), orb3d, ["D", "E"].includes(piece));
         }
 
         // Build rep
@@ -795,40 +713,9 @@ export class SplineGame extends GameBase {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2position(move.where!);
                     rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
-                } else if (move.type === "move") {
-                    const [fromX, fromY] = this.algebraic2position(move.from);
-                    const [toX, toY] = this.algebraic2position(move.to);
-                    if (move.how === "drop") {
-                        rep.annotations.push({ type: "move", targets: [{ row: fromY, col: fromX }, { row: toY, col: toX }], style: "dashed" });
-                    } else {
-                        rep.annotations.push({ type: "move", targets: [{ row: fromY, col: fromX }, { row: toY, col: toX }] });
-                    }
-                }
-            }
-            if (this.winningLines.length > 0) {
-                for (const connPath of this.winningLines) {
-                    if (connPath.length === 1) { continue; }
-                    type RowCol = {row: number; col: number;};
-                    const targets: RowCol[] = [];
-                    for (const cell of connPath) {
-                        const [x, y] = this.algebraic2position(cell);
-                        targets.push({row: y, col: x})
-                    }
-                    // @ts-ignore
-                    rep.annotations.push({type: "move", targets, arrow: false});
                 }
             }
         }
-        if (this.dots.length > 0) {
-            const points = [];
-            for (const cell of this.dots) {
-                const [x, y] = this.algebraic2position(cell);
-                points.push({row: y, col: x});
-            }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: points});
-        }
-
         rep.areas = [
             {
                 type: "scrollBar",
@@ -846,14 +733,10 @@ export class SplineGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.ball", { player, where: r.where }));
-                resolved = true;
-                break;
-            case "move":
-                if (r.how === "drop") {
-                    node.push(i18next.t("apresults:MOVE.ball_drop", { player, from: r.from, to: r.to, count: r.count }));
+                if (r.who === 3) {
+                    node.push(i18next.t("apresults:PLACE.spire_neutral", { player, where: r.where }));
                 } else {
-                    node.push(i18next.t("apresults:MOVE.ball", { player, from: r.from, to: r.to }));
+                    node.push(i18next.t("apresults:PLACE.spire_player", { player, where: r.where }));
                 }
                 resolved = true;
                 break;
@@ -871,7 +754,7 @@ export class SplineGame extends GameBase {
         return status;
     }
 
-    public clone(): SplineGame {
-        return new SplineGame(this.serialize());
+    public clone(): SpireGame {
+        return new SpireGame(this.serialize());
     }
 }

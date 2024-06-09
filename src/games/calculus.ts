@@ -968,11 +968,15 @@ export class CalculusGame extends GameBase {
         const g = new UndirectedGraph();
         g.addNode("edge");
         g.addNode(to.join(","));
+        if (from !== undefined) {
+            g.addNode(from.join(","));
+        }
         const toVisit: Vertex[] = [to];
         while (toVisit.length > 0) {
             // get next point
             const curr = toVisit.shift()!;
             const id = curr.join(",");
+            // console.log(`Visiting ${id}`);
 
             // get all piece details in relation to this point
             const relative = this.pieces.map(pc => pc.relativePosition(curr));
@@ -983,22 +987,48 @@ export class CalculusGame extends GameBase {
             const nearestNW = relative.find(p => p.bearing >= 270) || null;
             const combined = [nearestNE, nearestSE, nearestSW, nearestNW];
             // console.log(JSON.stringify(combined));
-            // console.log(JSON.stringify(nearestNE));
-            // console.log(JSON.stringify(nearestSE));
-            // console.log(JSON.stringify(nearestSW));
-            // console.log(JSON.stringify(nearestNW));
 
-            // if there is no nearest piece in one of the quadrants and we're
+            // if there is no nearest piece in two adjacent quadrants, and we're
             // entering a new piece, then we're done
+            let foundEdge = false;
             if (from === undefined && combined.includes(null) ) {
-                // console.log("Found edge")
-                g.addEdge(id, "edge");
-                break;
+                // but first we have to check the adjacent quadrants
+                const nullIdxs: number[] = [];
+                let idx = -1;
+                while (combined.slice(idx+1).findIndex(x => x === null) !== -1) {
+                    const nidx = combined.slice(idx+1).findIndex(x => x === null);
+                    idx += nidx + 1;
+                    nullIdxs.push(idx);
+                }
+                for (const nullIdx of nullIdxs) {
+                    let idxLeft = nullIdx - 1;
+                    if (idxLeft < 0) {
+                        idxLeft += combined.length;
+                    }
+                    let idxRight = nullIdx + 1;
+                    if (idxRight >= combined.length) {
+                        idxRight -= combined.length;
+                    }
+                    const quadLeft = combined[idxLeft];
+                    const quadRight = combined[idxRight];
+                    let distance = 0;
+                    if (quadLeft !== null && quadRight !== null) {
+                        distance = ptDistance(...quadLeft.pt, ...quadRight.pt);
+                    }
+                    // if either adjacent quadrant is null, or if the distance is great enough
+                    // we're done
+                    if (quadLeft === null || quadRight === null || distance >= CalculusGame.PIECE_RADIUS*4) {
+                        // console.log(`Combined: ${JSON.stringify(combined)}\nNull indices: ${JSON.stringify(nullIdxs)}\nNull index: ${nullIdx}, Left: ${JSON.stringify(quadLeft)}, Right: ${JSON.stringify(quadRight)}, Distance: ${distance}`);
+                        g.addEdge(id, "edge");
+                        foundEdge = true;
+                        break;
+                    }
+                }
             }
+            if (foundEdge) { break; }
             // If one of the nearest pieces is the `from` piece, we're done
             if (from !== undefined && combined.find(p => p !== null && p.pt.join(",") === from.join(",")) !== undefined) {
                 // console.log("Found from")
-                g.addNode(from.join(","));
                 g.addEdge(id, from.join(","));
                 break;
             }
@@ -1039,6 +1069,12 @@ export class CalculusGame extends GameBase {
                         rquad = "NE";
                         break;
                 }
+                // if we're entering a piece, and this quadrant is null,
+                // and we've reached this point, then abandon looking in this direction.
+                if (from === undefined && (left === null || right === null)) {
+                    // console.log(`Abandoning search in a null direction while entering a piece.`)
+                    continue;
+                }
                 // if there's no piece in one of the quadrants,
                 // populate it with the nearest board edge
                 if (left === null) {
@@ -1053,17 +1089,20 @@ export class CalculusGame extends GameBase {
                 }
                 // calc distance between left and right
                 const distance = ptDistance(...left.pt, ...right.pt);
-                // if distance <2r, then too narrow
-                if (distance < CalculusGame.PIECE_RADIUS*2) {
+                // console.log(`Distance between ${left.pt.join(",")} and ${right.pt.join(",")} is ${distance}`)
+                // if distance <4r, then too narrow
+                if (distance < CalculusGame.PIECE_RADIUS*4) {
                     continue;
                 }
                 // calculate the midpoint
                 const mid = midpoint(...left.pt, ...right.pt);
                 // if this node already exists on the graph, skip it
                 if (g.hasNode(mid.join(","))) {
+                    // console.log(`\tSkipping ${mid.join(",")}`);
                     continue;
                 }
                 // otherwise, add it to the graph and connect it
+                // console.log(`\tAdding ${mid.join(",")} to the list`)
                 g.addNode(mid.join(","));
                 g.addEdge(id, mid.join(","));
                 // now add it as something to explore later

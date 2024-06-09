@@ -55,7 +55,7 @@ export class SpookGame extends GameBase {
             { uid: "size-5", group: "board" },
             { uid: "random", group: "setup" },
         ],
-        categories: ["goal>evacuate", "mechanic>place", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>3c", "board>3d"],
+        categories: ["goal>evacuate", "mechanic>place", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>3c", "components>shibumi", "board>3d"],
         flags: ["scores", "rotate90", "random-start"],
         displays: [{ uid: "orb-3d" }],
     };
@@ -994,7 +994,7 @@ export class SpookGame extends GameBase {
             if (scaled === 0) {
                 return [
                     { name: "piece-borderless", player, scale: 1.15 },
-                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
             } else {

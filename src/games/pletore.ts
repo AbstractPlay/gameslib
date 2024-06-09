@@ -34,7 +34,7 @@ export class PletoreGame extends GameBase {
         uid: "pletore",
         playercounts: [2],
         version: "20240527",
-        dateAdded: "2024-05-27",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.pletore")
         description: "apgames:descriptions.pletore",
         // i18next.t("apgames:notes.pletore")
@@ -48,7 +48,7 @@ export class PletoreGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>rect"],
-        flags: ["experimental", "pie-even", "scores", "automove", "custom-buttons"],
+        flags: ["pie-even", "scores", "automove", "custom-buttons"],
         variants: [
             {
                 uid: "size-11",

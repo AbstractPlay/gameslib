@@ -50,7 +50,7 @@ export class MargoGame extends GameBase {
             { uid: "size-6", group: "board" },
             { uid: "size-9", group: "board" },
         ],
-        categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple", "board>3d"],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple", "components>shibumi", "board>3d"],
         flags: ["pie", "scores", "rotate90"],
         displays: [{ uid: "orb-3d" }],
     };
@@ -761,7 +761,7 @@ export class MargoGame extends GameBase {
             if (scaled === 0) {
                 return [
                     { name: "piece-borderless", player, scale: 1.15 },
-                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
             } else {

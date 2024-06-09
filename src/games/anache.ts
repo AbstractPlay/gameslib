@@ -41,7 +41,7 @@ export class AnacheGame extends GameBase {
         uid: "anache",
         playercounts: [2],
         version: "20240501",
-        dateAdded: "2024-05-01",
+        dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.anache")
         description: "apgames:descriptions.anache",
         // i18next.t("apgames:notes.anache")
@@ -58,7 +58,7 @@ export class AnacheGame extends GameBase {
             { uid: "size-15", group: "board" },
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>move>group", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "perspective", "limited-pieces", "no-moves"],
+        flags: ["perspective", "limited-pieces", "no-moves"],
     };
 
     public coords2algebraic(x: number, y: number): string {

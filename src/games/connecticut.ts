@@ -36,6 +36,7 @@ export class ConnecticutGame extends GameBase {
             {
                 type: "designer",
                 name: "Corey Clark",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/38921/corey-clark"],
             }
         ],
         variants: [

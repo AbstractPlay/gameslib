@@ -58,7 +58,7 @@ export class ManalathGame extends GameBase {
             {
                 type: "designer",
                 name: "Néstor Romeral Andrés",
-                urls: ["http://nestorgames.com/"]
+                urls: ["https://boardgamegeek.com/boardgamedesigner/9393/nestor-romeral-andres"]
             }
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

@@ -41,6 +41,7 @@ export class SploofGame extends GameBase {
             {
                 type: "designer",
                 name: "Matt Green (I)",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/56134/matt-green-i"],
             }
         ],
         variants: [

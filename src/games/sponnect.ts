@@ -40,6 +40,7 @@ export class SponnectGame extends GameBase {
             {
                 type: "designer",
                 name: "Martin Windischer",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/9042/avri-klemer"],
             },
         ],
         variants: [

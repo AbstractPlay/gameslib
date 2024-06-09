@@ -42,10 +42,12 @@ export class LielowGame extends GameBase {
             {
                 type: "designer",
                 name: "Michael Amundsen",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/133389/michael-amundsen"],
             },
             {
                 type: "designer",
                 name: "Alek Erickson",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/101050/alek-erickson"],
             },
         ],
         categories: ["goal>royal-capture", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],

@@ -41,6 +41,7 @@ export class NexGame extends GameBase {
             {
                 type: "designer",
                 name: "João Pedro Neto",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
             },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple>3c"],

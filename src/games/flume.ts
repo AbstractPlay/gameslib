@@ -236,17 +236,17 @@ export class FlumeGame extends GameBase {
 
             // valid cell
             try {
-                FlumeGame.algebraic2coords(m, this.boardsize);
+                FlumeGame.algebraic2coords(cell, this.boardsize);
             } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m})
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell})
                 return result;
             }
 
             // is empty
-            if (scratchBoard.has(m)) {
+            if (scratchBoard.has(cell)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m})
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell})
                 return result;
             }
 

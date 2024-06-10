@@ -29,7 +29,9 @@
         "volcano": "[FR]An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "wyke": "[FR]A two-player game where one places the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
         "zola": "[FR]A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
-        "hex": "Au Hex, les deux joueurs doivent connecter les côtés opposés d'un plateau formé de cases hexagonales"
+        "hex": "Au Hex, les deux joueurs doivent connecter les côtés opposés d'un plateau formé de cases hexagonales",
+        "agere": "Un jeu de connexion où vous pouvez également empiler des pièces. Joué soit sur un plateau triangulaire où vous devez connecter les trois côtés, ou une planche \"toile d'araignée\" circulaire où vous connectez les côtés opposés.",
+        "anache": "Dans Anache, le but est d'occuper les coins de l'adversaire en coordonnant vos pièces."
     },
     "homeworlds": {
         "CMD_ATK_OWNER": "[FR]In games with more than two players, you have to always specify the owner of the ship you are attacking.",

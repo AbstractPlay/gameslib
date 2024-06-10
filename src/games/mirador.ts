@@ -522,8 +522,10 @@ export class MiradorGame extends GameBase {
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const [x, y] = GameBase.algebraic2coords(move.where!, 26);
-                    rep.annotations.push({type: "dots", targets: [{row: y + 1, col: x + 1}], size: 0.3, colour: "#f4ea56"});
+                    for (const placement of move.where!.split("-")) {
+                        const [x, y] = GameBase.algebraic2coords(placement, 26);
+                        rep.annotations.push({type: "dots", targets: [{row: y + 1, col: x + 1}], size: 0.3, colour: "#f4ea56"});
+                    }
                 }
             }
         }

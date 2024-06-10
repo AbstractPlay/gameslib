@@ -330,7 +330,7 @@ export class TumbleweedGame extends GameBase {
             if (moves.length === 2) {
                 if (moves[0] === moves[1]) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.tumbleweed.SAMECELL", {cell: moves[0]});
+                    result.message = i18next.t("apgames:validation.tumbleweed.SAME_CELL", {cell: moves[0]});
                     return result;
                 }
                 if (moves[1] === centre) {

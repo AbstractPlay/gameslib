@@ -345,7 +345,7 @@ export class MeridiansGame extends GameBase {
             if (moves.length === 2) {
                 if (moves[0] === moves[1]) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.meridians.SAMECELL", {cell: moves[0]});
+                    result.message = i18next.t("apgames:validation.meridians.SAME_CELL", {cell: moves[0]});
                     return result;
                 }
                 result.valid = true;

@@ -267,7 +267,6 @@ export class CalculusGame extends GameBase {
         // const t2 = Date.now();
         // console.log(`Large groups removed in ${t2-t1} ms`);
         // console.log(`${goodCycles.length} right-sized cycles found`);
-        // console.log(`Remove large groups`);
         // console.log(goodCycles);
 
         // sort cycles from smallest to largest
@@ -290,6 +289,8 @@ export class CalculusGame extends GameBase {
             for (const t of masterPolys) {
                 const sharedPts = comp.geometry.coordinates.flat().filter(p1 => t.geometry.coordinates.flat().find(p2 => p2[0] === p1[0] && p2[1] === p1[1]) !== undefined);
                 if (sharedPts.length >= 2 && turfDiff(t, comp) === null) {
+                    // console.log(`Overlap:`)
+                    // console.log(JSON.stringify([comp.geometry.coordinates.flat(), t.geometry.coordinates.flat()]));
                     overlaps = true;
                     break;
                 }

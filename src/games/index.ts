@@ -131,6 +131,7 @@ import { SplineGame, ISplineState } from "./spline";
 import { SploofGame, ISploofState } from "./sploof";
 import { SpireGame, ISpireState } from "./spire";
 import { SpreeGame, ISpreeState } from "./spree";
+import { AsliGame, IAsliState } from "./asli";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -264,6 +265,7 @@ export {
     SploofGame, ISploofState,
     SpireGame, ISpireState,
     SpreeGame, ISpreeState,
+    AsliGame, IAsliState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -309,7 +311,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SusanGame | typeof OwareGame | typeof SpookGame |
                               typeof AyuGame | typeof CalculusGame | typeof StigmergyGame |
                               typeof PletoreGame | typeof AnacheGame | typeof SplineGame |
-                              typeof SploofGame | typeof SpireGame | typeof SpreeGame
+                              typeof SploofGame | typeof SpireGame | typeof SpreeGame |
+                              typeof AsliGame
                 >();
 // Manually add each game to the following array
 [
@@ -330,8 +333,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     CairoCorridorGame, SaltireGame, ConnecticutGame, QuaxGame, AtollGame, HalfcutGame, NexGame,
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
-    SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame, SploofGame,
-    SpireGame, SpreeGame,
+    SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
+    SploofGame, SpireGame, SpreeGame, AsliGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -603,6 +606,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SpireGame(...args);
         case "spree":
             return new SpreeGame(...args);
+        case "asli":
+            return new AsliGame(...args);
     }
     return;
 }

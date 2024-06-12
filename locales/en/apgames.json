@@ -10,6 +10,7 @@
         "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
+        "asli": "Groups must be able to see friendly groups. Cut off your opponent's sight lines and defeat them by leaving them with no moves.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "ayu": "Ayu is short for 'Attach your units', where on every turn, you have to move your stones such that the units approach each other and eventually merge. The player that runs out of moves first wins.",
@@ -443,6 +444,14 @@
             "TOO_MANY_ATKS": "Ships may only attack once per turn for every pip of size (e.g., a medium ship can only attack twice in a turn).",
             "TOO_SHARP": "Ships cannot turn more than 75 degrees in one step.",
             "VALID_PARTIAL_MOVE": "Click the point you want the ship to point towards."
+        },
+        "asli": {
+            "BAD_INCURSION": "You may not make back-to-back minimal incursions.",
+            "BAD_KOMI": "The first move of the game must be an integer representing the number of first-player pieces to place in the starting prison.",
+            "BAD_PIE": "You may not accept pie at this point in the game.",
+            "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
+            "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
+            "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn."
         },
         "atoll": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece."
@@ -1710,6 +1719,11 @@
                 "description": "12x12 board with 4 rows of 10 pieces per player."
             }
         },
+        "asli": {
+            "board": {
+                "name": "size-13 board"
+            }
+        },
         "atoll": {
             "board": {
                 "name": "size-11 board"
@@ -2157,6 +2171,17 @@
             },
             "twoislands": {
                 "name": "Two Islands"
+            }
+        },
+        "asli": {
+            "board-11": {
+                "name": "Smaller board (11x11)"
+            },
+            "board-15": {
+                "name": "Larger board (15x15)"
+            },
+            "board-17": {
+                "name": "Larger board (17x17)"
             }
         },
         "atoll": {

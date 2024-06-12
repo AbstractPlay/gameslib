@@ -225,6 +225,7 @@
         "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
     },
     "PASS": {
+        "asli": "{{player}} took an opposing piece from the prison and passed their turn.",
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
         "pigs": "{{player}} idles.",

@@ -223,10 +223,10 @@ export class DameoGame extends GameBase {
         if (size !== 1) {
             throw new Error("The buildShortGraphFrom() function should only be used for soldiers.");
         }
-        return this.moreManCaptures(player, start, []);
+        return this.moreManCaptures(player, start, start, []);
     }
 
-    private moreManCaptures(player: number, start: string, jumped: string[]): string[][] {
+    private moreManCaptures(player: number, first: string, start: string, jumped: string[]): string[][] {
         const grid = new RectGrid(this.boardsize, this.boardsize);
         const [x,y] = this.algebraic2coords(start);
         const ret: string[][] = [];
@@ -240,8 +240,8 @@ export class DameoGame extends GameBase {
                     const far = ray[1];
                     // if empty and not already explored, you can move there
                     // and we should explore possible moves from there
-                    if (! this.board.has(far)) {
-                        const more = this.moreManCaptures(player, far, [...jumped, adj]);
+                    if (! this.board.has(far) || far === first) {
+                        const more = this.moreManCaptures(player, first, far, [...jumped, adj]);
                         ret.push(...more.map(m => [start, ...m]));
                     }
                 } // if adjacent occupied by enemy
@@ -261,10 +261,10 @@ export class DameoGame extends GameBase {
         if (size !== 2) {
             throw new Error("The buildAllKingCaptures() function should only be used for kings.");
         }
-        return this.moreKingCaptures(player, start, []);
+        return this.moreKingCaptures(player, start, start, []);
     }
 
-    private moreKingCaptures(player: number, start: string, jumped: string[]): string[][] {
+    private moreKingCaptures(player: number, first: string, start: string, jumped: string[]): string[][] {
         const grid = new RectGrid(this.boardsize, this.boardsize);
         const ret: string[][] = []
         const [x,y] = this.algebraic2coords(start);
@@ -290,8 +290,8 @@ export class DameoGame extends GameBase {
                     for (const far of rayAfter) {
                         // if empty and not already explored, you can move there
                         // and we should explore possible moves from there
-                        if (! this.board.has(far)) {
-                            const more = this.moreKingCaptures(player, far, [...jumped, adj]);
+                        if (! this.board.has(far) || far === first) {
+                            const more = this.moreKingCaptures(player, first, far, [...jumped, adj]);
                             ret.push(...more.map(m => [start, ...m]));
                         }
                     } // for empty far
@@ -394,7 +394,7 @@ export class DameoGame extends GameBase {
             // otherwise
             else {
                 // empty
-                if (this.board.has(cell)) {
+                if (this.board.has(cell) && cell !== cells[0]) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: cell});
                     return result;

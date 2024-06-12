@@ -630,9 +630,14 @@ export class AsliGame extends GameBase {
             pieces: pstr,
             areas: [
                 {
-                    type: "pieces",
-                    label: "Prison",
-                    pieces: ["P"],
+                    type: "key",
+                    height: 1,
+                    list: [
+                        {
+                            name: "",
+                            piece: "P",
+                        }
+                    ],
                 }
             ],
         };

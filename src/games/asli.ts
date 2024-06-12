@@ -472,8 +472,10 @@ export class AsliGame extends GameBase {
         } else if (m === "pie") {
             this.results.push({type: "pie"});
         } else if (m === "pass") {
-            this.prison[enemy - 1] -= 1;
-            this.results.push({type: "pass"});
+            if (this.stack.length > 2) {
+                this.prison[enemy - 1] -= 1;
+                this.results.push({type: "pass"});
+            }
         } else {
             // need to check for incursion before modifying state
             let incursion = false;

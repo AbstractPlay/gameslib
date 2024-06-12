@@ -214,8 +214,13 @@ export class AsliGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.coords2algebraic(col, row);
-            const newmove = cell;
+            let newmove: string;
+            if (row === -1 && col === -1) {
+                newmove = "pass";
+            } else {
+                const cell = this.coords2algebraic(col, row);
+                newmove = cell;
+            }
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = "";
@@ -624,8 +629,25 @@ export class AsliGame extends GameBase {
                     opacity: 0.25,
                     scale: 1.15,
                 },
+                P: [
+                    {
+                        name: "piece",
+                        player: this.prison[0] > 0 ? 1 : 2,
+                    },
+                    {
+                        text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
+                        colour: "_context_strokes"
+                    }
+                ]
             },
-            pieces: pstr
+            pieces: pstr,
+            areas: [
+                {
+                    type: "pieces",
+                    label: "Prison",
+                    pieces: ["P"],
+                }
+            ],
         };
 
         // Add annotations

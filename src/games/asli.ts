@@ -488,6 +488,7 @@ export class AsliGame extends GameBase {
             this.results.push({type: "place", where: m});
             const {dead, numGroups} = this.findDead(enemy);
             if (numGroups > 0) {
+                this.prison[enemy - 1] += dead.length;
                 dead.forEach(cell => this.board.delete(cell));
                 this.results.push({type: "capture", where: dead.join(",")});
             }
@@ -576,7 +577,6 @@ export class AsliGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        const territories = this.getTerritories();
         let pstr = "";
         for (let row = 0; row < this.boardsize; row++) {
             if (pstr.length > 0) {
@@ -593,12 +593,7 @@ export class AsliGame extends GameBase {
                         pieces.push("B");
                     }
                 } else {
-                    const terr = territories.find(t => t.cells.includes(cell));
-                    if (terr === undefined || terr.owner === undefined) {
-                        pieces.push("-");
-                    } else {
-                        pieces.push(terr.owner === 1 ? "Y" : "Z");
-                    }
+                    pieces.push("-");
                 }
             }
             pstr += pieces.join("");
@@ -621,18 +616,6 @@ export class AsliGame extends GameBase {
                     name: "piece",
                     player: 2
                 },
-                Y: {
-                    name: "piece-square-borderless",
-                    player: 1,
-                    opacity: 0.25,
-                    scale: 1.15,
-                },
-                Z: {
-                    name: "piece-square-borderless",
-                    player: 2,
-                    opacity: 0.25,
-                    scale: 1.15,
-                },
                 P: [
                     {
                         name: "piece",
@@ -653,6 +636,25 @@ export class AsliGame extends GameBase {
                 }
             ],
         };
+
+        // add territory dots
+        if (this.stack.length > 4) {
+            const territories = this.getTerritories();
+            let markers: Array<any> | undefined = []
+            for (const t of territories) {
+                if (t.owner !== undefined) {
+                    const points = t.cells.map(c => this.algebraic2coords(c));
+                    markers.push({type: "dots", colour: t.owner, points: points.map(p => { return {col: p[0], row: p[1]}; })});
+                }
+            }
+            if (markers.length === 0) {
+                markers = undefined;
+            }
+            if (markers !== undefined) {
+                // @ts-ignore
+                rep.board!.markers = markers;
+            }
+        }
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {

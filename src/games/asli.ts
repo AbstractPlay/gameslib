@@ -475,17 +475,19 @@ export class AsliGame extends GameBase {
             this.prison[enemy - 1] -= 1;
             this.results.push({type: "pass"});
         } else {
+            // need to check for incursion before modifying state
+            let incursion = false;
+            const terr = this.getTerritories().find(t => t.cells.includes(m))!;
+            if (terr !== undefined && terr.owner !== this.currplayer) {
+                incursion = true;
+            }
+            // modify state
             this.board.set(m, this.currplayer);
             this.results.push({type: "place", where: m});
             const {dead, numGroups} = this.findDead(enemy);
             if (numGroups > 0) {
                 dead.forEach(cell => this.board.delete(cell));
                 this.results.push({type: "capture", where: dead.join(",")});
-            }
-            let incursion = false;
-            const terr = this.getTerritories().find(t => t.cells.includes(m))!;
-            if (terr !== undefined && terr.owner !== this.currplayer) {
-                incursion = true;
             }
             // set incursion flag
             if (incursion && numGroups === 1) {

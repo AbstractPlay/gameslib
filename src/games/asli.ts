@@ -49,7 +49,7 @@ export class AsliGame extends GameBase {
             {uid: "board-15", group: "board"},
             {uid: "board-17", group: "board"},
         ],
-        categories: ["goal>immobilize", "mechanic>place", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization"]
     };
 

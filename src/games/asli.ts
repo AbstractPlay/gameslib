@@ -535,8 +535,14 @@ export class AsliGame extends GameBase {
                 // since we don't want to generate a full move list, check instead
                 // to see if randomMove() returns a move. If not, then no moves are possible.
                 // This keeps things fast for the most part, but will take a couple seconds
-                // as the game gets closer to completion.
-                if (this.randomMove() === "") {
+                // as the game gets closer to completion. But to speed this up further,
+                // if the player can pass, then it doesn't even bother going further.
+                const otherPlayer = this.currplayer === 1 ? 2 : 1;
+                let canpass = false;
+                if (this.prison[otherPlayer - 1] > 0) {
+                    canpass = true;
+                }
+                if (!canpass && this.randomMove() === "") {
                     const other = this.currplayer === 1 ? 2 : 1;
                     this.gameover = true;
                     this.winner = [other];

@@ -5,6 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+import { Glyph } from "@abstractplay/renderer";
 
 export type playerid = 1|2;
 type Territory = {
@@ -49,7 +50,7 @@ export class AsliGame extends GameBase {
             {uid: "board-17", group: "board"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "pie-even", "custom-buttons", "no-moves", "custom-randomization"]
+        flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -208,6 +209,9 @@ export class AsliGame extends GameBase {
                     return cell
                 }
             }
+            if (canpass) {
+                return "pass";
+            }
             return "";
         }
     }
@@ -288,6 +292,12 @@ export class AsliGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         } else {
+            // no moves allowed at this point of the game
+            if (this.stack.length === 2) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.asli.MUST_PIE");
+                return result;
+            }
             const g = this.getGraph();
             // valid cell
             if (! g.graph.hasNode(m)) {
@@ -475,6 +485,7 @@ export class AsliGame extends GameBase {
             if (this.stack.length > 2) {
                 this.prison[enemy - 1] -= 1;
                 this.results.push({type: "pass"});
+                this.incursion = false;
             }
         } else {
             // need to check for incursion before modifying state
@@ -532,8 +543,14 @@ export class AsliGame extends GameBase {
                 // since we don't want to generate a full move list, check instead
                 // to see if randomMove() returns a move. If not, then no moves are possible.
                 // This keeps things fast for the most part, but will take a couple seconds
-                // as the game gets closer to completion.
-                if (this.randomMove() === "") {
+                // as the game gets closer to completion. But to speed this up further,
+                // if the player can pass, then it doesn't even bother going further.
+                const otherPlayer = this.currplayer === 1 ? 2 : 1;
+                let canpass = false;
+                if (this.prison[otherPlayer - 1] > 0) {
+                    canpass = true;
+                }
+                if (!canpass && this.randomMove() === "") {
                     const other = this.currplayer === 1 ? 2 : 1;
                     this.gameover = true;
                     this.winner = [other];
@@ -600,6 +617,24 @@ export class AsliGame extends GameBase {
         }
         // pstr = pstr.replace(/-{4}/g, "_");
 
+        const hasPrison = this.prison.reduce((prev, curr) => prev + curr, 0) > 0;
+        const prisonPiece: Glyph[] = [];
+        if (hasPrison) {
+            prisonPiece.push({
+                name: "piece",
+                player: this.prison[0] > 0 ? 1 : 2,
+            });
+            prisonPiece.push({
+                text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
+                colour: "_context_strokes",
+                scale: 0.9,
+            });
+        } else {
+            prisonPiece.push({
+                name: "piece-borderless",
+                colour: "_context_background",
+            });
+        }
         // Build rep
         const rep: APRenderRep =  {
             board: {
@@ -616,16 +651,8 @@ export class AsliGame extends GameBase {
                     name: "piece",
                     player: 2
                 },
-                P: [
-                    {
-                        name: "piece",
-                        player: this.prison[0] > 0 ? 1 : 2,
-                    },
-                    {
-                        text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
-                        colour: "_context_strokes"
-                    }
-                ]
+                // @ts-ignore
+                P: prisonPiece
             },
             pieces: pstr,
             areas: [

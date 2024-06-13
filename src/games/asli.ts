@@ -208,6 +208,9 @@ export class AsliGame extends GameBase {
                     return cell
                 }
             }
+            if (canpass) {
+                return "pass";
+            }
             return "";
         }
     }
@@ -628,7 +631,9 @@ export class AsliGame extends GameBase {
                 ]
             },
             pieces: pstr,
-            areas: [
+        };
+        if (this.prison.reduce((prev, curr) => prev + curr, 0) > 0) {
+            rep.areas = [
                 {
                     type: "key",
                     height: 1,
@@ -639,8 +644,8 @@ export class AsliGame extends GameBase {
                         }
                     ],
                 }
-            ],
-        };
+            ];
+        }
 
         // add territory dots
         if (this.stack.length > 4) {

@@ -249,7 +249,7 @@ export class AsliGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.asli.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "komi" : "play"});
+            result.message = i18next.t("apgames:validation.asli.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "komi" : this.stack.length === 2 ? "pie" : "play"});
             return result;
         }
 

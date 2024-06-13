@@ -450,6 +450,7 @@
             "BAD_KOMI": "The first move of the game must be an integer representing the number of first-player pieces to place in the starting prison.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
+            "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Invoke pie rule' to change seats.",
             "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
             "MUST_PIE": "At this point of the game, placing pieces is not allowed.",
             "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn."

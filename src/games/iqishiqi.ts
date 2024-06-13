@@ -144,7 +144,7 @@ export class IqishiqiGame extends GameBase {
         }
         const moves: string[] = [];
         for (const cell of this.graph.listCells(false) as string[]) {
-            if (this.board.has(cell)) {
+            if (this.board.has(cell) || this.ball === cell) {
                 continue;
             }
             const group = this.getGroup(cell);

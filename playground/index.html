@@ -287,7 +287,7 @@
                     if (state !== null) {
                         var gamename = window.sessionStorage.getItem("gamename");
                         var game = APGames.GameFactory(gamename, state);
-                        if (typeof game.moves !== 'function') {
+                        if (typeof game.moves !== 'function' && !APGames.gameinfo.get(gamename).flags.includes("custom-randomization")) {
                             alert("This game doesn't support random moves.")
                             return;
                         }

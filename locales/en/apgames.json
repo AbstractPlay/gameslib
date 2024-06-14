@@ -1723,7 +1723,7 @@
         },
         "asli": {
             "board": {
-                "name": "board (13x13)"
+                "name": "13x13 board"
             }
         },
         "atoll": {
@@ -2176,14 +2176,20 @@
             }
         },
         "asli": {
+            "board-9": {
+                "name": "9x9 board"
+            },
             "board-11": {
-                "name": "Smaller board (11x11)"
+                "name": "11x11 board"
             },
             "board-15": {
-                "name": "Larger board (15x15)"
+                "name": "15x15 board"
             },
             "board-17": {
-                "name": "Largest board (17x17)"
+                "name": "17x17 board"
+            },
+            "board-19": {
+                "name": "19x19 board"
             }
         },
         "atoll": {

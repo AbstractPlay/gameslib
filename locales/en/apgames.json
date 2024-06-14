@@ -2026,6 +2026,10 @@
         "stigmergy": {
             "board": {
                 "name": "board (169 cells)"
+            },
+            "rules": {
+                "name": "rules",
+                "description": "Players control spaces if more than half of the lines-of-sight are controlled."
             }
         },
         "symple": {
@@ -2871,6 +2875,10 @@
             },
             "size-10": {
                 "name": "Largest board (271 cells)"
+            },
+            "tumpletore": {
+                "name": "Tumpletore",
+                "description": "Players control spaces if they control more lines-of-sight than the enemy."
             }
         },
         "streetcar": {

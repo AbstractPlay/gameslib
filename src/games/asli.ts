@@ -316,7 +316,7 @@ export class AsliGame extends GameBase {
             // check if incursion (for later validation check)
             let incursion = false;
             const terr = this.getTerritories().find(t => t.cells.includes(m))!;
-            if (terr.owner !== this.currplayer) {
+            if (terr.owner === (this.currplayer === 1 ? 2 : 1)) {
                 incursion = true;
             }
 

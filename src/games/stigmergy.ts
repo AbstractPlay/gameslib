@@ -68,6 +68,10 @@ export class StigmergyGame extends GameBase {
             {
                 uid: "size-10",
                 group: "board",
+            },
+            {
+                uid: "tumpletore",
+                group: "rules",
             }
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
@@ -198,17 +202,14 @@ export class StigmergyGame extends GameBase {
 
         const moves: string[] = [];
         for (const cell of this.listCells() as string[]) {
-            const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
-            const playerLos = this.getLosCount(cell, player);
-            const otherPlayerLos = this.getLosCount(cell, otherPlayer);
-
-            if (this.board.has(cell) && this.board.get(cell) === otherPlayer && playerLos >= losTarget) {
+            const cellController = this.cellController(cell);
+            if (this.board.has(cell) && this.board.get(cell) === otherPlayer && cellController === player) {
                 moves.push(cell);
-            } else if (!this.board.has(cell) && otherPlayerLos < losTarget) {
+            } else if (!this.board.has(cell) && cellController !== otherPlayer) {
                 moves.push(cell);
             }
 
-            if (!freeSpaces && !this.board.has(cell) && playerLos < losTarget && otherPlayerLos < losTarget) {
+            if (!freeSpaces && !this.board.has(cell) && cellController === undefined) {
                 freeSpaces = true;
             }
         }
@@ -374,17 +375,15 @@ export class StigmergyGame extends GameBase {
             return result;
         }
 
-        let losCount = this.getLosCount(m, this.currplayer);
         const otherPlayer = this.getOtherPlayer(this.currplayer);
-        const losTarget = Math.floor(this.getGraph().neighbours(m).length / 2) + 1;
-        if (this.board.has(m) && this.board.get(m) === this.getOtherPlayer(this.currplayer) && losCount < losTarget) {
+        const cellController = this.cellController(m);
+        if (this.board.has(m) && this.board.get(m) === otherPlayer && cellController !== this.currplayer) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.stigmergy.INSUFFICIENT_LOS", {cell: m});
             return result;
         }
 
-        losCount = this.getLosCount(m, otherPlayer);
-        if (!this.board.has(m) && losCount >= losTarget) {
+        if (!this.board.has(m) && cellController === otherPlayer) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.stigmergy.OPPONENT_CONTROL", {cell: m});
             return result;
@@ -460,17 +459,20 @@ export class StigmergyGame extends GameBase {
         return otherplayer as playerid;
     }
 
-    private cellOwner(cell: string): playerid | undefined {
-        if (this.board.has(cell)) return this.board.get(cell);
-        const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
+    private cellController(cell: string): playerid | undefined {
         const player1Los = this.getLosCount(cell, 1);
         const player2Los = this.getLosCount(cell, 2);
-        if (player1Los >= losTarget) {
-            return 1;
-        } else if (player2Los >= losTarget) {
-            return 2;
+        if (this.variants !== undefined && this.variants.length > 0 && this.variants.includes("tumpletore")) {
+            return player1Los > player2Los ? 1 : player2Los > player1Los ? 2 : undefined;
+        } else {
+            const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2);
+            return player1Los > losTarget ? 1 : player2Los > losTarget ? 2 : undefined;
         }
-        return undefined;
+    }
+
+    private cellOwner(cell: string): playerid | undefined {
+        if (this.board.has(cell)) return this.board.get(cell);
+        return this.cellController(cell);
     }
 
     private updateScores(): void {
@@ -674,22 +676,17 @@ export class StigmergyGame extends GameBase {
             [2, []],
         ]);
         for (const cell of this.listCells() as string[]) {
+            const [x, y] = this.getGraph().algebraic2coords(cell);
+            const cellCoords = {row: y, col: x};
             if (this.board.has(cell)) {
                 const player = this.board.get(cell)!;
-                const [x, y] = this.getGraph().algebraic2coords(cell);
-                const cellCoords = {row: y, col: x};
                 markers.get(player)!.push(cellCoords);
             } else {
-                const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
-                const player1Los = this.getLosCount(cell, 1);
-                const player2Los = this.getLosCount(cell, 2);
-                if (player1Los === 0 && player2Los === 0) { continue; }
-                const [x, y] = this.getGraph().algebraic2coords(cell);
-                const cellCoords = {row: y, col: x};
-                if (player1Los >= losTarget) {
+                const cellController = this.cellController(cell);
+                if (cellController === undefined) continue;
+                if (cellController === 1) {
                     markers.get(1)!.push(cellCoords);
-                }
-                if (player2Los >= losTarget) {
+                } else {
                     markers.get(2)!.push(cellCoords);
                 }
             }
@@ -702,10 +699,7 @@ export class StigmergyGame extends GameBase {
         const threatenedPieces = new Set<string>();
         for (const cell of this.listCells() as string[]) {
             if (this.board.has(cell)) {
-                const losTarget = Math.floor(this.getGraph().neighbours(cell).length / 2) + 1;
-                const otherPlayer = this.getOtherPlayer(this.board.get(cell)!);
-                const losCount = this.getLosCount(cell, otherPlayer);
-                if (losCount >= losTarget) {
+                if (this.cellController(cell) === this.getOtherPlayer(this.board.get(cell)!)) {
                     threatenedPieces.add(cell);
                 }
             }

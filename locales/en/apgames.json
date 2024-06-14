@@ -88,7 +88,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
-        "pletore": "Pletore is a territorial line of sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
+        "pletore": "Pletore is a territorial line-of-sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
@@ -148,7 +148,7 @@
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
-        "pletore": "An intersection is controlled by a player if they have a piece on it, or if they 'pinch' the intersection while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. The score is the number of intersections controlled by each player plus a komi bonus for the second player and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
+        "pletore": "An intersection is controlled by a player if they 'pinch' it while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. Your score is the sum of the number of stones of your color on the board and the number of empty points you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "razzle": "The implementation here is the so called tournament rules.",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
@@ -450,6 +450,7 @@
             "BAD_KOMI": "The first move of the game must be an integer representing the number of first-player pieces to place in the starting prison.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
+            "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Invoke pie rule' to change seats.",
             "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
             "MUST_PIE": "At this point of the game, placing pieces is not allowed.",
             "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn."
@@ -2024,7 +2025,11 @@
         },
         "stigmergy": {
             "board": {
-                "name": "Competitive board (169 cells)"
+                "name": "board (169 cells)"
+            },
+            "rules": {
+                "name": "rules",
+                "description": "Players control spaces if more than half of the lines-of-sight are controlled."
             }
         },
         "symple": {
@@ -2870,6 +2875,10 @@
             },
             "size-10": {
                 "name": "Largest board (271 cells)"
+            },
+            "tumpletore": {
+                "name": "Tumpletore",
+                "description": "Players control spaces if they control more lines-of-sight than the enemy."
             }
         },
         "streetcar": {

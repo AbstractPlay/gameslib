@@ -586,7 +586,7 @@ export class SympleGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "go",
+                style: "vertex",
                 width: this.boardsize,
                 height: this.boardsize,
             },

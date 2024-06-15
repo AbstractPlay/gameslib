@@ -601,8 +601,8 @@ export class PletoreGame extends GameBase {
                 ];
             } else if (piece === "C" || piece === "D") {
                 legend[piece] = [
-                    { name: "piece-borderless", scale: 1.1, player: player % 2 + 1 },
-                    { name: "piece", player }
+                    { name: "piece-borderless", scale: 1, player: player % 2 + 1 },
+                    { name: "piece", scale: 0.85, player }
                 ];
             }
         }
@@ -629,6 +629,7 @@ export class PletoreGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
+            options: ["hide-star-points"],
             board: {
                 style: "vertex",
                 width: this.boardSize,

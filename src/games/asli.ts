@@ -45,9 +45,11 @@ export class AsliGame extends GameBase {
             },
         ],
         variants: [
+            {uid: "board-9", group: "board"},
             {uid: "board-11", group: "board"},
             {uid: "board-15", group: "board"},
             {uid: "board-17", group: "board"},
+            {uid: "board-19", group: "board"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization"]
@@ -491,7 +493,7 @@ export class AsliGame extends GameBase {
             // need to check for incursion before modifying state
             let incursion = false;
             const terr = this.getTerritories().find(t => t.cells.includes(m))!;
-            if (terr !== undefined && terr.owner !== this.currplayer) {
+            if (terr.owner === (this.currplayer === 1 ? 2 : 1)) {
                 incursion = true;
             }
             // modify state
@@ -623,11 +625,12 @@ export class AsliGame extends GameBase {
             prisonPiece.push({
                 name: "piece",
                 player: this.prison[0] > 0 ? 1 : 2,
+                scale: 0.85,
             });
             prisonPiece.push({
                 text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
                 colour: "_context_strokes",
-                scale: 0.9,
+                scale: 0.75,
             });
         } else {
             prisonPiece.push({

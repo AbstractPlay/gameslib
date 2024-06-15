@@ -636,6 +636,7 @@ export class AsliGame extends GameBase {
             prisonPiece.push({
                 name: "piece-borderless",
                 colour: "_context_background",
+                scale: 0.85,
             });
         }
         // Build rep

@@ -625,11 +625,12 @@ export class AsliGame extends GameBase {
             prisonPiece.push({
                 name: "piece",
                 player: this.prison[0] > 0 ? 1 : 2,
+                scale: 0.85,
             });
             prisonPiece.push({
                 text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
                 colour: "_context_strokes",
-                scale: 0.9,
+                scale: 0.75,
             });
         } else {
             prisonPiece.push({

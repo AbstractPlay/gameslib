@@ -494,6 +494,7 @@ export class MiradorGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep = {
+            options: ["hide-star-points"],
             board: {
                 style: "vertex",
                 width: 28,

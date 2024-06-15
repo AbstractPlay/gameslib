@@ -493,7 +493,7 @@ export class AsliGame extends GameBase {
             // need to check for incursion before modifying state
             let incursion = false;
             const terr = this.getTerritories().find(t => t.cells.includes(m))!;
-            if (terr !== undefined && terr.owner !== this.currplayer) {
+            if (terr.owner === (this.currplayer === 1 ? 2 : 1)) {
                 incursion = true;
             }
             // modify state

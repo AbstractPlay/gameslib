@@ -454,11 +454,13 @@ export class StringsGame extends GameBaseSimultaneous {
                 name: "piece-borderless",
                 player: 1,
                 opacity: 0.25,
+                scale: 0.85,
             },
             B: {
                 name: "piece-borderless",
                 player: 2,
                 opacity: 0.25,
+                scale: 0.85,
             },
         };
         // strings
@@ -472,7 +474,7 @@ export class StringsGame extends GameBaseSimultaneous {
                 {
                     text: n.toString(),
                     colour: "#000",
-                    scale: 0.5
+                    scale: 0.5,
                 }
             ];
         }
@@ -482,19 +484,20 @@ export class StringsGame extends GameBaseSimultaneous {
             legend[`C${n}`] = [
                 {
                     "name": "piece",
-                    "colour": "#fff"
+                    "colour": "#fff",
+                    scale: 0.85,
                 },
                 {
                     "text": n.toString(),
                     "colour": "#000",
-                    "scale": 0.75
+                    "scale": 0.75 * 0.85,
                 }
             ];
         }
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["hide-labels", "no-border"],
+            options: ["hide-labels", "no-border", "hide-star-points"],
             board: {
                 style: "vertex",
                 width: 7,

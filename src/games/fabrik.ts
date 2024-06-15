@@ -645,11 +645,13 @@ export class FabrikGame extends GameBase {
                 },
                 C: {
                     name: "chess-queen-outline-montreal",
-                    player: 3
+                    player: 3,
+                    scale: 0.85,
                 },
                 D: {
                     name: "chess-queen-outline-montreal",
-                    player: 3
+                    player: 3,
+                    scale: 0.85,
                 }
             },
             pieces: pstr

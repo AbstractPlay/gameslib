@@ -648,6 +648,7 @@ export class OustGame extends GameBase {
         const markers: Array<any> = [{ type: "dots", points: referencePointsObj }];
         // Build rep
         const rep: APRenderRep =  {
+            options: ["hide-star-points"],
             board: {
                 style: "vertex",
                 width: this.boardSize,

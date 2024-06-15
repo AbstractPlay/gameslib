@@ -470,12 +470,11 @@ export class StringsGame extends GameBaseSimultaneous {
                 {
                     name: "piece-borderless",
                     colour: "#fff",
-                    scale: 0.85,
                 },
                 {
                     text: n.toString(),
                     colour: "#000",
-                    scale: 0.5 * 0.85,
+                    scale: 0.5,
                 }
             ];
         }

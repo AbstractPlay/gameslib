@@ -643,8 +643,8 @@ export class PenteGame extends InARowBase {
             for (const move of moves) {
                 this.results.push({ type: "place", where: move });
                 this.board.set(move, placePlayer);
-                const captures = this.getCaptures(move);
-                const selfCaptures = this.selfCapture === "allowed" ? this.getSelfCaptures(move) : [];
+                const captures = this.getCaptures(move, placePlayer);
+                const selfCaptures = this.selfCapture === "allowed" ? this.getSelfCaptures(move, placePlayer) : [];
                 for (const capture of captures) {
                     this.captureCounts[placePlayer - 1]++;
                     this.board.delete(capture);

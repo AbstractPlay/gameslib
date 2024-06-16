@@ -450,7 +450,7 @@ export class IrenseiGame extends InARowBase {
         // Get all captured cells if `cell` is placed on the board.
         const allCaptures: Set<string>[] = []
         for (const n of this.orthNeighbours(cell)) {
-            if (allCaptures.some(x => x.has(n)) || !this.board.has(n) || this.board.get(n) === this.currplayer) { continue; }
+            if (allCaptures.some(x => x.has(n)) || !this.board.has(n) || this.board.get(n) === player) { continue; }
             const [group, liberties] = this.getGroupLiberties(n, [cell], player % 2 + 1 as playerid);
             if (liberties === 0) {
                 const captures = new Set<string>();
@@ -529,6 +529,13 @@ export class IrenseiGame extends InARowBase {
             for (const move of moves) {
                 this.results.push({ type: "place", where: move });
                 this.board.set(move, placePlayer);
+                const allCaptures = this.getCaptures(move, placePlayer);
+                if (allCaptures.length > 0) {
+                    for (const captures of allCaptures) {
+                        for (const capture of captures) { this.board.delete(capture); }
+                        this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
+                    }
+                }
                 placePlayer = placePlayer % 2 + 1 as playerid;
             }
             if (this.stack.length === 2 && this.openingProtocol === "swap-2" && moves.length === 2) {
@@ -536,13 +543,6 @@ export class IrenseiGame extends InARowBase {
                 this.board.forEach((v, k) => {
                     this.board.set(k, v === 1 ? 2 : 1);
                 })
-            }
-            const allCaptures = this.getCaptures(moves[0], this.currplayer);
-            if (allCaptures.length > 0) {
-                for (const captures of allCaptures) {
-                    for (const capture of captures) { this.board.delete(capture); }
-                    this.results.push({ type: "capture", where: [...captures].join(), count: captures.size });
-                }
             }
         }
         if (partial) { return this; }

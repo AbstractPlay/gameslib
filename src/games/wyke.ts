@@ -546,13 +546,34 @@ export class AlfredsWykeGame extends GameBase {
                     name: "piece-square",
                     player: 2
                 },
-                W1: "wyke-1",
-                W2: "wyke-2",
-                W3: "wyke-3",
-                W4: "wyke-4",
-                W5: "wyke-5",
-                W6: "wyke-6",
-                W7: "wyke-7",
+                W1: {
+                    name: "wyke-1",
+                    scale: 0.85,
+                },
+                W2: {
+                    name: "wyke-2",
+                    scale: 0.85,
+                },
+                W3: {
+                    name: "wyke-3",
+                    scale: 0.85,
+                },
+                W4: {
+                    name: "wyke-4",
+                    scale: 0.85,
+                },
+                W5: {
+                    name: "wyke-5",
+                    scale: 0.85,
+                },
+                W6: {
+                    name: "wyke-6",
+                    scale: 0.85,
+                },
+                W7: {
+                    name: "wyke-7",
+                    scale: 0.85,
+                }
             },
             pieces: pstr
         };

@@ -559,11 +559,13 @@ export class DameoGame extends GameBase {
             // check to see if next move captures the king
             let capped = false;
             for (const move of moves) {
-                const cloned = DameoGame.clone(this);
-                cloned.move(move);
-                const kings2 = [...cloned.board.entries()].filter(([,piece]) => piece[1] === 2).map(([,piece]) => piece[0]);
-                if (kings2.length === 1) {
-                    capped = true;
+                const cells = move.split("-");
+                const [fx, fy] = this.algebraic2coords(cells[0]);
+                const [tx, ty] = this.algebraic2coords(cells[1]);
+                capped = RectGrid.between(fx, fy, tx, ty)
+                    .map(pt => this.coords2algebraic(...pt))
+                    .some(cell => this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer);
+                if (capped) {
                     break;
                 }
             }

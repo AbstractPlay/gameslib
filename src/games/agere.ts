@@ -900,11 +900,11 @@ export class AgereGame extends GameBase {
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}], colour: "#fff"});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "move") {
                     const [fx, fy] = this.algebraic2coords(move.from);
                     const [tx, ty] = this.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}], colour: "#fff"});
+                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
                 }
             }
         }

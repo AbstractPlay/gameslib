@@ -725,7 +725,7 @@ export class AmazonsGame extends GameBase {
     // }
 
     public getPlayersScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory()}];
+        return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores: this.territory(), spoiler: true}];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

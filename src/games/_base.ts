@@ -56,8 +56,9 @@ export interface IStashEntry {
  * @interface IScores
  */
  export interface IScores {
-    name: string,
-    scores: (number | string)[]
+    name: string;
+    scores: (number | string)[];
+    spoiler?: boolean;
 }
 
 /**

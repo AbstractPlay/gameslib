@@ -2328,11 +2328,11 @@
             }
         },
         "conect": {
-            "size-9": {
-                "name": "Size-9 board"
-            },
             "size-13": {
                 "name": "Size-13 board"
+            },
+            "size-15": {
+                "name": "Size-15 board"
             },
             "narrow": {
                 "name": "Narrow cone"

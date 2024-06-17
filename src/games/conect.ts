@@ -44,8 +44,8 @@ export class ConectGame extends GameBase {
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
         flags: ["experimental", "pie"],
         variants: [
-            { uid: "size-9", group: "board" },
             { uid: "size-13", group: "board" },
+            { uid: "size-15", group: "board" },
             { uid: "narrow", group: "cone" },
         ],
         displays: [{uid: "display-hex"}],
@@ -702,6 +702,7 @@ export class ConectGame extends GameBase {
                 height: this.boardSize,
                 blocked: displayHex && this.coneType === "narrow" ? [{ row: this.boardSize - 1, col: this.boardSize - 1 }] : undefined,
                 markers,
+                strokeWeight: displayHex ? undefined : 5,
             },
             options: displayHex ? ["reverse-letters"] : undefined,
             legend: displayHex ? {

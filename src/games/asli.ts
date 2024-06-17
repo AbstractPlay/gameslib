@@ -426,6 +426,9 @@ export class AsliGame extends GameBase {
 
     public getTerritories(): Territory[] {
         const territories: Territory[] = [];
+        if (this.stack.length <= 4) {
+            return [];
+        }
 
         const gEmpties = this.getGraph();
         for (const pc of this.board.keys()) {

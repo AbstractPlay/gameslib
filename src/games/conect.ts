@@ -44,8 +44,8 @@ export class ConectGame extends GameBase {
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
         flags: ["experimental", "pie"],
         variants: [
-            { uid: "size-9", group: "board" },
             { uid: "size-13", group: "board" },
+            { uid: "size-15", group: "board" },
             { uid: "narrow", group: "cone" },
         ],
         displays: [{uid: "display-hex"}],
@@ -671,12 +671,12 @@ export class ConectGame extends GameBase {
         if (!displayHex) {
             const p1: Array<any> = [];
             const p2: Array<any> = [];
-            const winning: Array<any> = [];
+            // const winning: Array<any> = [];
             for (const [cell, player] of this.board) {
                 const [x, y] = this.graph.algebraic2coords(cell);
-                if (this.connPath.includes(cell)) {
-                    winning.push({ row: y, col: x });
-                }
+                // if (this.connPath.includes(cell)) {
+                //     winning.push({ row: y, col: x });
+                // }
                 if (player === 1) {
                     p1.push({ row: y, col: x });
                 } else {
@@ -689,8 +689,40 @@ export class ConectGame extends GameBase {
             if (p2.length > 0) {
                 markers.push({ type: "flood", colour: 2, points: p2, opacity: 0.95 });
             }
-            if (winning.length > 0) {
-                markers.push({ type: "flood", colour: "#FFFF00", points: winning, opacity: 0.2 });
+            // if (winning.length > 0) {
+            //     markers.push({ type: "flood", colour: "#FFFF00", points: winning, opacity: 0.2 });
+            // }
+        }
+
+        let legend: {[key: string]: any} | undefined;
+        if (displayHex) {
+            legend = {
+                A: {
+                    name: "piece",
+                    player: 1
+                },
+                B: {
+                    name: "piece",
+                    player: 2
+                },
+            };
+            for (let i = 0; i < this.boardSize - 1; i++) {
+                legend[`n${i}`] = {
+                    text: (i + 1).toString(),
+                    opacity: 0.4,
+                    scale: 0.6,
+                };
+                markers.push({
+                    type: "glyph",
+                    glyph: `n${i}`,
+                    points: this.coneType === "narrow" ? [
+                        { row: i, col: this.boardSize - 1 },
+                        { row: this.boardSize - 1, col: i },
+                    ] : [
+                        { row: i, col: 0 },
+                        { row: this.boardSize - 1, col: this.boardSize - 1 - i },
+                    ]
+                })
             }
         }
 
@@ -702,18 +734,10 @@ export class ConectGame extends GameBase {
                 height: this.boardSize,
                 blocked: displayHex && this.coneType === "narrow" ? [{ row: this.boardSize - 1, col: this.boardSize - 1 }] : undefined,
                 markers,
+                strokeWeight: displayHex ? undefined : 5,
             },
             options: displayHex ? ["reverse-letters"] : undefined,
-            legend: displayHex ? {
-                A: {
-                    name: "piece",
-                    player: 1
-                },
-                B: {
-                    name: "piece",
-                    player: 2
-                },
-            } : undefined,
+            legend,
             pieces: displayHex ? pstr.map(p => p.join("")).join("\n") : "-",
         };
 

@@ -30,7 +30,7 @@ export class ConectGame extends GameBase {
         uid: "conect",
         playercounts: [2],
         version: "20240614",
-        dateAdded: "2024-06-14",
+        dateAdded: "2024-06-17",
         // i18next.t("apgames:descriptions.conect")
         description: "apgames:descriptions.conect",
         urls: ["https://www.marksteeregames.com/Conect_rules.pdf"],
@@ -42,7 +42,7 @@ export class ConectGame extends GameBase {
             }
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
         variants: [
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },

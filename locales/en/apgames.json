@@ -32,7 +32,7 @@
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
-        "conect": "A connection game played on the curved surface of a cone. The goal is to create a closed loop from the player's edge to the centre, or to connect a path to the centre. The game can be played on a projection, which is isomorphic to the usual Hex rhombus with some cells removed.",
+        "conect": "A connection game played on the curved surface of a cone. The goal is to create a closed loop from the player's edge to the centre, or to connect a path to the centre. The game can be played on a projection, which is isomorphic to the usual Hex rhombus with some cells overlapping or removed.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
@@ -1793,7 +1793,7 @@
         },
         "conect": {
             "board": {
-                "name": "Size-11 board"
+                "name": "size-11 board"
             },
             "cone": {
                 "name": "wide cone"

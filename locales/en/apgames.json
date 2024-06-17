@@ -1739,7 +1739,7 @@
         },
         "ayu": {
             "board": {
-                "name": "size-13 board"
+                "name": "board (13x13)"
             }
         },
         "blockade": {
@@ -2226,13 +2226,13 @@
         },
         "ayu": {
             "size-9": {
-                "name": "size-9 board"
+                "name": "Smallest board (9x9)"
             },
             "size-11": {
-                "name": "size-11 board"
+                "name": "Smaller board (11x11)"
             },
             "size-15": {
-                "name": "size-15 board"
+                "name": "Larger board (15x15)"
             }
         },
 

@@ -1371,7 +1371,7 @@ export class RenjuGame extends InARowBase {
                 referencePointsObj.push({ row: y1, col: x1 });
             }
         }
-        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj }] : [];
+        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj, size: 0.15 }] : [];
         if (this.toroidal) {
             const end = this.boardSize + 2 * this.toroidalPadding;
             markers.push(...[
@@ -1427,6 +1427,8 @@ export class RenjuGame extends InARowBase {
         }
         // Build rep
         const rep: APRenderRep =  {
+            // We use custom star points for toroidal board support.
+            options: ["hide-star-points"],
             board: {
                 style: "vertex",
                 width: renderBoardSize,

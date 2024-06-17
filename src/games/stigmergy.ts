@@ -560,15 +560,8 @@ export class StigmergyGame extends GameBase {
             }
         }
 
-        const legendNames: Set<string> = new Set();
-        // A - player1 normal
-        // B - player2 normal
-        // C - player1 threatened
-        // D - player2 threatened
-
-        // Build piece string
         let pstr = "";
-        const threatenedPieces: Set<string> = showThreatened ? this.threatenedPieces() : new Set();
+        const legendNames: Set<string> = new Set();
         for (const row of this.listCells(true)) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -579,17 +572,9 @@ export class StigmergyGame extends GameBase {
                     const player = this.board.get(cell)!;
                     let key;
                     if (player === 1) {
-                        if (threatenedPieces.has(cell)) {
-                            key = "C";
-                        } else {
-                            key = "A";
-                        }
+                        key = "A";
                     } else {
-                        if (threatenedPieces.has(cell)) {
-                            key = "D";
-                        } else {
-                            key = "B";
-                        }
+                        key = "B";
                     }
                     legendNames.add(key);
                     pieces.push(key);
@@ -605,38 +590,50 @@ export class StigmergyGame extends GameBase {
             pstr += pieces.join(",");
         }
 
-        // build legend based on stack sizes
         const legend: ILooseObj = {};
         for (const piece of legendNames) {
-            const player = piece === "A" || piece === "C" ? 1 : 2;
-            if (piece === "A" || piece === "B" || piece === "E") {
-                legend[piece] = [
-                    { name: "piece", player }
-                ];
-            } else if (piece === "C" || piece === "D") {
-                legend[piece] = [
-                    { name: "piece-borderless", scale: 1.1, player: player % 2 + 1 },
-                    { name: "piece", player }
-                ];
-            }
+            const player = piece === "A" ? 1 : 2;
+            legend[piece] = [
+                { name: "piece", player }
+            ];
         }
 
+        let markers: Array<any> | undefined = []
         let points1: {row: number, col: number}[] = [];
         let points2: {row: number, col: number}[] = [];
+
         if (showInfluence) {
             const points = this.influenceMarkers();
             points1 = points.get(1)!;
             points2 = points.get(2)!;
+
+            if (points1.length > 0) {
+                // @ts-ignore
+                markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+            }
+
+            if (points2.length > 0) {
+                // @ts-ignore
+                markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+            }
         }
-        let markers: Array<any> | undefined = []
-        if (points1.length > 0) {
-            // @ts-ignore
-            markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+
+        if (showThreatened) {
+            const points = this.threatenedMarkers();
+            points1 = points.get(1)!;
+            points2 = points.get(2)!;
+
+            if (points1.length > 0) {
+                // @ts-ignore
+                markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+            }
+
+            if (points2.length > 0) {
+                // @ts-ignore
+                markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+            }
         }
-        if (points2.length > 0) {
-            // @ts-ignore
-            markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
-        }
+
         if (markers.length === 0) {
             markers = undefined;
         }
@@ -654,36 +651,29 @@ export class StigmergyGame extends GameBase {
             pieces: pstr,
         };
 
-        // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
-            rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
-                if (move.type === "place") {
-                    const [x, y] = this.getGraph().algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
-                }
+        rep.annotations = [];
+        for (const move of this.stack[this.stack.length - 1]._results) {
+            if (move.type === "place" || move.type === "capture") {
+                const [x, y] = this.getGraph().algebraic2coords(move.where!);
+                rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
             }
         }
+
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
+        }
+
         return rep;
     }
 
     private influenceMarkers(): Map<playerid, {row: number, col: number}[]> {
-        // Get cells that are occupied by each player or have equal or greater LOS by each player.
-        // Unoccupied cells with equal LOS will be in both groups.
-        const markers = new Map<playerid, {row: number, col: number}[]>([
-            [1, []],
-            [2, []],
-        ]);
+        const markers = new Map<playerid, {row: number, col: number}[]>([[1, []], [2, []]]);
         for (const cell of this.listCells() as string[]) {
-            const [x, y] = this.getGraph().algebraic2coords(cell);
-            const cellCoords = {row: y, col: x};
-            if (this.board.has(cell)) {
-                const player = this.board.get(cell)!;
-                markers.get(player)!.push(cellCoords);
-            } else {
+            if (!this.board.has(cell)) {
                 const cellController = this.cellController(cell);
                 if (cellController === undefined) continue;
+                const [x, y] = this.getGraph().algebraic2coords(cell);
+                const cellCoords = {row: y, col: x};
                 if (cellController === 1) {
                     markers.get(1)!.push(cellCoords);
                 } else {
@@ -694,17 +684,19 @@ export class StigmergyGame extends GameBase {
         return markers;
     }
 
-    private threatenedPieces(): Set<string> {
-        // A piece is threatened if it can be captured by the other player.
-        const threatenedPieces = new Set<string>();
+    private threatenedMarkers(): Map<playerid, {row: number, col: number}[]> {
+        const markers = new Map<playerid, {row: number, col: number}[]>([[1, []], [2, []]]);
         for (const cell of this.listCells() as string[]) {
             if (this.board.has(cell)) {
-                if (this.cellController(cell) === this.getOtherPlayer(this.board.get(cell)!)) {
-                    threatenedPieces.add(cell);
+                const otherPlayer = this.getOtherPlayer(this.board.get(cell)!);
+                if (this.cellController(cell) === otherPlayer) {
+                    const [x, y] = this.getGraph().algebraic2coords(cell);
+                    const cellCoords = {row: y, col: x};
+                    markers.get(otherPlayer)!.push(cellCoords);
                 }
             }
         }
-        return threatenedPieces;
+        return markers;
     }
 
     public status(): string {

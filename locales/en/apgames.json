@@ -1796,9 +1796,7 @@
                 "name": "Size-11 board"
             },
             "cone": {
-                "wide": {
-                    "name": "wide cone"
-                }
+                "name": "wide cone"
             }
         },
         "conhex": {

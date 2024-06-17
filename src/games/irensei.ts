@@ -682,7 +682,7 @@ export class IrenseiGame extends InARowBase {
                 referencePointsObj.push({ row: y1, col: x1 });
             }
         }
-        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj }] : [];
+        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj, size: 0.15 }] : [];
         const end = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;
         const padding = this.toroidal ? this.toroidalPadding : this.border;
         markers.push(...[
@@ -706,6 +706,8 @@ export class IrenseiGame extends InARowBase {
         if (markers.length === 0) { markers = undefined; }
         // Build rep
         const rep: APRenderRep =  {
+            // We use custom star points for toroidal board support.
+            options: ["hide-star-points"],
             board: {
                 style: "vertex",
                 width: renderBoardSize,

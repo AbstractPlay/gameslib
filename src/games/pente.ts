@@ -864,7 +864,7 @@ export class PenteGame extends InARowBase {
                 referencePointsObj.push({ row: y1, col: x1 });
             }
         }
-        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj }] : [];
+        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj, size: 0.15 }] : [];
         if (this.variants.includes("capture-2-3")) {
             markers.push({
                 belowGrid: true, type: "shading", colour: "#FFA500", opacity: 0.1,
@@ -895,6 +895,8 @@ export class PenteGame extends InARowBase {
         if (markers.length === 0) { markers = undefined; }
         // Build rep
         const rep: APRenderRep =  {
+            // We use custom star points for toroidal board support.
+            options: ["hide-star-points"],
             board: {
                 style: "vertex",
                 width: renderBoardSize,

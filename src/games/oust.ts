@@ -628,24 +628,6 @@ export class OustGame extends GameBase {
             }
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        const referencePoints: [number, number][] = [];
-        const space = this.boardSize < 11 ? 2 : 3;
-        referencePoints.push([(this.boardSize - 1) / 2, (this.boardSize - 1) / 2]);
-        referencePoints.push([space, space]);
-        referencePoints.push([space, this.boardSize - space - 1]);
-        referencePoints.push([this.boardSize - space - 1, space]);
-        referencePoints.push([this.boardSize - space - 1, this.boardSize - space - 1]);
-        if (this.boardSize > 15) {
-            referencePoints.push([(this.boardSize - 1) / 2, space]);
-            referencePoints.push([(this.boardSize - 1) / 2, this.boardSize - space - 1]);
-            referencePoints.push([space, (this.boardSize - 1) / 2]);
-            referencePoints.push([this.boardSize - space - 1, (this.boardSize - 1) / 2]);
-        }
-        const referencePointsObj: { row: number, col: number }[] = [];
-        for (const point of referencePoints) {
-            referencePointsObj.push({ row: point[1], col: point[0] });
-        }
-        const markers: Array<any> = [{ type: "dots", points: referencePointsObj }];
         // Build rep
         const rep: APRenderRep =  {
             options: ["hide-star-points"],
@@ -653,7 +635,6 @@ export class OustGame extends GameBase {
                 style: "vertex",
                 width: this.boardSize,
                 height: this.boardSize,
-                markers,
             },
             legend: {
                 A: [{ name: "piece", player: 1 }],

@@ -517,6 +517,7 @@ export class AyuGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
+            options: ["hide-star-points"],
             board: {
                 style: "vertex",
                 width: this.boardSize,

@@ -5,11 +5,12 @@ import { SquareFanoronaGraph } from "./square-fanorona";
 import { SnubSquareGraph } from "./snubsquare";
 import { HexTriGraph } from "./hextri";
 import { HexSlantedGraph } from "./hex-slanted";
+import { HexConeGraph } from "./hex-cone";
 import { BaoGraph } from "./bao";
 import { SowingNoEndsGraph } from "./sowing-no-ends";
 import { IGraph } from "./IGraph";
 
-export { IGraph, SquareGraph, SquareOrthGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, HexTriGraph, HexSlantedGraph, BaoGraph, SowingNoEndsGraph };
+export { IGraph, SquareGraph, SquareOrthGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, HexTriGraph, HexSlantedGraph, HexConeGraph, BaoGraph, SowingNoEndsGraph };
 
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";

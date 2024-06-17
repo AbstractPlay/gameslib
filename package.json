@@ -14,7 +14,7 @@
     "dist-prod": "rimraf dist && webpack --mode=production",
     "full-dev": "npm run test && npm run build && npm run dist-dev && npm run deploy",
     "full-prod": "npm run test && npm run build && npm run dist-prod && npm run deploy",
-    "deploy": "shx cp ./playground/index.html ./dist && npx serverless client deploy --no-confirm --no-delete-contents",
+    "deploy": "shx cp ./playground/index.html ./dist && npx serverless client deploy --no-confirm --no-delete-contents && aws cloudfront create-invalidation --profile AbstractPlayProd --distribution-id E19KPZXKKYK444 --paths /*",
     "extract": "i18next 'src/**/*.ts'",
     "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts && npx json2ts -i src/games/tafl/ruleset.json -o src/games/tafl/ruleset.d.ts",
     "npm-login": "npm login --scope=@abstractplay --auth-type=legacy --registry=https://npm.pkg.github.com"

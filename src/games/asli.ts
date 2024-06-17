@@ -747,7 +747,7 @@ export class AsliGame extends GameBase {
             terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[1],
             terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[0],
         ]
-        return [{ name: i18next.t("apgames:status.amazons.TERRITORY"), scores, spoiler: true}];
+        return [{ name: i18next.t("apgames:status.asli.TERRITORY"), scores, spoiler: true}];
     }
 
     public clone(): AsliGame {

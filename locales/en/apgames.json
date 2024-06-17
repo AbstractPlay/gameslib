@@ -213,6 +213,9 @@
             "ISOLATEDQUEENS": "The queens are now isolated",
             "TERRITORY": "Territory"
         },
+        "asli": {
+            "TERRITORY": "Estimated score"
+        },
         "blam": {
             "NUMPIECES_one": "{{count}} piece",
             "NUMPIECES_other": "{{count}} pieces"

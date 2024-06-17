@@ -694,6 +694,38 @@ export class ConectGame extends GameBase {
             }
         }
 
+        let legend: {[key: string]: any} | undefined;
+        if (displayHex) {
+            legend = {
+                A: {
+                    name: "piece",
+                    player: 1
+                },
+                B: {
+                    name: "piece",
+                    player: 2
+                },
+            };
+            for (let i = 0; i < this.boardSize - 1; i++) {
+                legend[`n${i}`] = {
+                    text: (i + 1).toString(),
+                    opacity: 0.4,
+                    scale: 0.6,
+                };
+                markers.push({
+                    type: "glyph",
+                    glyph: `n${i}`,
+                    points: this.coneType === "narrow" ? [
+                        { row: i, col: this.boardSize - 1 },
+                        { row: this.boardSize - 1, col: i },
+                    ] : [
+                        { row: i, col: 0 },
+                        { row: this.boardSize - 1, col: this.boardSize - 1 - i },
+                    ]
+                })
+            }
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
@@ -705,16 +737,7 @@ export class ConectGame extends GameBase {
                 strokeWeight: displayHex ? undefined : 5,
             },
             options: displayHex ? ["reverse-letters"] : undefined,
-            legend: displayHex ? {
-                A: {
-                    name: "piece",
-                    player: 1
-                },
-                B: {
-                    name: "piece",
-                    player: 2
-                },
-            } : undefined,
+            legend,
             pieces: displayHex ? pstr.map(p => p.join("")).join("\n") : "-",
         };
 

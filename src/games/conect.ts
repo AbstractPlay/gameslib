@@ -671,12 +671,12 @@ export class ConectGame extends GameBase {
         if (!displayHex) {
             const p1: Array<any> = [];
             const p2: Array<any> = [];
-            const winning: Array<any> = [];
+            // const winning: Array<any> = [];
             for (const [cell, player] of this.board) {
                 const [x, y] = this.graph.algebraic2coords(cell);
-                if (this.connPath.includes(cell)) {
-                    winning.push({ row: y, col: x });
-                }
+                // if (this.connPath.includes(cell)) {
+                //     winning.push({ row: y, col: x });
+                // }
                 if (player === 1) {
                     p1.push({ row: y, col: x });
                 } else {
@@ -689,9 +689,9 @@ export class ConectGame extends GameBase {
             if (p2.length > 0) {
                 markers.push({ type: "flood", colour: 2, points: p2, opacity: 0.95 });
             }
-            if (winning.length > 0) {
-                markers.push({ type: "flood", colour: "#FFFF00", points: winning, opacity: 0.2 });
-            }
+            // if (winning.length > 0) {
+            //     markers.push({ type: "flood", colour: "#FFFF00", points: winning, opacity: 0.2 });
+            // }
         }
 
         let legend: {[key: string]: any} | undefined;

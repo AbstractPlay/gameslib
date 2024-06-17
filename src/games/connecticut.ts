@@ -529,8 +529,8 @@ export class ConnecticutGame extends GameBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }],
+                A: [{ name: "piece", player: 1, scale: 0.9 }],
+                B: [{ name: "piece", player: 2, scale: 0.9 }],
             },
             pieces: pstr,
         };

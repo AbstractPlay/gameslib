@@ -32,7 +32,7 @@
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
-        "conect": "A connection game played on the curved surface of a cone. The goal is to create a closed loop from the player's edge to the centre, or to connect a path to the centre. The game can be played on a projection, which is isomorphic to the usual Hex rhombus with some cells removed.",
+        "conect": "A connection game played on the curved surface of a cone. The goal is to create a closed loop from the player's edge to the centre, or to connect a path to the centre. The game can be played on a projection, which is isomorphic to the usual Hex rhombus with some cells overlapping or removed.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
@@ -108,7 +108,7 @@
         "sponnect": "A simple Shibumi connection game where every internal space that can be buried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
-        "stigmergy": "Stigmergy is a territorial line of sight game. Cells are controlled and pieces are flipped based on how many pieces of a color can see the space. The winner is the player who occupies more of the board at the end.",
+        "stigmergy": "Stigmergy is a territorial line-of-sight game. Cells are controlled and pieces are flipped based on how many pieces of a color can see the space. The winner is the player who occupies more of the board at the end.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "susan": "In Susan, the goal is to surround any opponent's piece with other pieces. On your turn, you may place a piece or slide a piece to an adjacent empty space. If both players have a stone surrounded simultaneously, the player that just took their turn loses. The game ends in a tie if both players performed three slides each consecutively.",
@@ -155,7 +155,7 @@
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
         "spree": "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
-        "stigmergy": "A space is controlled by a player if they have a piece on it, or if they have more than half of the line of sights to it. The score is the number of spaces controlled by each player plus a komi bonus for the second player and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
+        "stigmergy": "You control a space if more than half of the lines of sight to it end at a piece of your color. Your score is the sum of the number of pieces of your color on the board and the number of empty spaces you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
@@ -212,6 +212,9 @@
         "amazons": {
             "ISOLATEDQUEENS": "The queens are now isolated",
             "TERRITORY": "Territory"
+        },
+        "asli": {
+            "TERRITORY": "Estimated score"
         },
         "blam": {
             "NUMPIECES_one": "{{count}} piece",
@@ -1793,7 +1796,7 @@
         },
         "conect": {
             "board": {
-                "name": "Size-11 board"
+                "name": "size-11 board"
             },
             "cone": {
                 "name": "wide cone"
@@ -1957,7 +1960,7 @@
         },
         "pletore": {
             "board": {
-                "name": "board (13x13)"
+                "name": "board (base-13 square board, 169 intersections)"
             }
         },
         "quagmire": {
@@ -2039,11 +2042,11 @@
         },
         "stigmergy": {
             "board": {
-                "name": "board (169 cells)"
+                "name": "board (base-8 hexagonal board, 169 cells)"
             },
             "rules": {
                 "name": "rules",
-                "description": "Players control spaces if more than half of the lines-of-sight are controlled."
+                "description": "You control a space by controlling more than half of its lines of sight."
             }
         },
         "symple": {
@@ -2704,13 +2707,13 @@
         },
         "pletore": {
             "size-11": {
-                "name": "Smaller board (11x11)"
+                "name": "Smaller board (base-11 square board, 121 intersections)"
             },
             "size-15": {
-                "name": "Larger board (15x15)"
+                "name": "Larger board (base-15 square board, 225 intersections)"
             },
             "size-17": {
-                "name": "Largest board (17x17)"
+                "name": "Largest board (base-17 square board, 289 insersections)"
             }
         },
         "quagmire": {
@@ -2899,17 +2902,17 @@
         },
         "stigmergy": {
             "size-7": {
-                "name": "Smaller board (127 cells)"
+                "name": "Smaller board (base-7 hexagonal board, 127 cells)"
             },
             "size-9": {
-                "name": "Larger board (217 cells)"
+                "name": "Larger board (base-9 hexagonal board, 217 cells)"
             },
             "size-10": {
-                "name": "Largest board (271 cells)"
+                "name": "Largest board (base-10 hexagonal board, 271 cells)"
             },
             "tumpletore": {
                 "name": "Tumpletore",
-                "description": "Players control spaces if they control more lines-of-sight than the enemy."
+                "description": "You control a space by controlling more of its lines of sight than your opponent."
             }
         },
         "streetcar": {
@@ -3203,15 +3206,15 @@
         },
         "pletore": {
             "hide-influence": {
-                "description": "Don't show controlled intersections.",
+                "description": "Don't highlight empty controlled intersections.",
                 "name": "Hide influence"
             },
             "hide-threatened": {
-                "description": "Don't show possible replacements.",
+                "description": "Don't highlight possible replacements.",
                 "name": "Hide threatened"
             },
             "hide-both": {
-                "description": "Don't show controlled intersections nor possible replacements.",
+                "description": "Don't highlight empty controlled intersections nor possible replacements.",
                 "name": "Hide Both"
             }
         },
@@ -3235,15 +3238,15 @@
         },
         "stigmergy": {
             "hide-influence": {
-                "description": "Don't show controlled spaces.",
+                "description": "Don't highlight empty controlled spaces.",
                 "name": "Hide influence"
             },
             "hide-threatened": {
-                "description": "Don't show possible replacements.",
+                "description": "Don't highlight possible replacements.",
                 "name": "Hide threatened"
             },
             "hide-both": {
-                "description": "Don't show controlled spaces nor possible replacements.",
+                "description": "Don't highlight empty controlled spaces nor possible replacements.",
                 "name": "Hide Both"
             }
         },

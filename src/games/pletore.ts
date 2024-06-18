@@ -191,13 +191,13 @@ export class PletoreGame extends GameBase {
 
         const moves: string[] = [];
         for (const cell of this.listCells() as string[]) {
-            if (this.board.has(cell) && this.board.get(cell) === otherPlayer && this.getController(cell) === player) {
+            if (this.board.has(cell) && this.board.get(cell) === otherPlayer && this.cellController(cell) === player) {
                 moves.push(cell);
-            } else if (!this.board.has(cell) && this.getController(cell) !== otherPlayer) {
+            } else if (!this.board.has(cell) && this.cellController(cell) !== otherPlayer) {
                 moves.push(cell);
             }
 
-            if (!freeSpaces && !this.board.has(cell) && this.getController(cell) === undefined) {
+            if (!freeSpaces && !this.board.has(cell) && this.cellController(cell) === undefined) {
                 freeSpaces = true;
             }
         }
@@ -272,7 +272,7 @@ export class PletoreGame extends GameBase {
             (southPlayer === player && westPlayer === player);
     }
 
-    private getController(cell: string): playerid | undefined {
+    private cellController(cell: string): playerid | undefined {
         if (this.hasPinch(cell, 1) && !this.hasPinch(cell, 2)) return 1;
         if (!this.hasPinch(cell, 1) && this.hasPinch(cell, 2)) return 2;
         return undefined;
@@ -374,13 +374,13 @@ export class PletoreGame extends GameBase {
             return result;
         }
 
-        if (this.board.has(m) && this.board.get(m) === this.getOtherPlayer(this.currplayer) && this.getController(m) !== this.currplayer) {
+        if (this.board.has(m) && this.board.get(m) === this.getOtherPlayer(this.currplayer) && this.cellController(m) !== this.currplayer) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.pletore.INSUFFICIENT_CONTROL", {cell: m});
             return result;
         }
 
-        if (!this.board.has(m) && this.getController(m) === this.getOtherPlayer(this.currplayer)) {
+        if (!this.board.has(m) && this.cellController(m) === this.getOtherPlayer(this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.pletore.OPPONENT_CONTROL", {cell: m});
             return result;
@@ -458,7 +458,7 @@ export class PletoreGame extends GameBase {
 
     private cellOwner(cell: string): playerid | undefined {
         if (this.board.has(cell)) return this.board.get(cell);
-        return this.getController(cell);
+        return this.cellController(cell);
     }
 
     private updateScores(): void {
@@ -546,15 +546,8 @@ export class PletoreGame extends GameBase {
             }
         }
 
-        const legendNames: Set<string> = new Set();
-        // A - player1 normal
-        // B - player2 normal
-        // C - player1 threatened
-        // D - player2 threatened
-
-        // Build piece string
         let pstr = "";
-        const threatenedPieces: Set<string> = showThreatened ? this.threatenedPieces() : new Set();
+        const legendNames: Set<string> = new Set();
         for (const row of this.listCells(true)) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -565,17 +558,9 @@ export class PletoreGame extends GameBase {
                     const player = this.board.get(cell)!;
                     let key;
                     if (player === 1) {
-                        if (threatenedPieces.has(cell)) {
-                            key = "C";
-                        } else {
-                            key = "A";
-                        }
+                        key = "A";
                     } else {
-                        if (threatenedPieces.has(cell)) {
-                            key = "D";
-                        } else {
-                            key = "B";
-                        }
+                        key = "B";
                     }
                     legendNames.add(key);
                     pieces.push(key);
@@ -591,38 +576,34 @@ export class PletoreGame extends GameBase {
             pstr += pieces.join(",");
         }
 
-        // build legend based on stack sizes
         const legend: ILooseObj = {};
         for (const piece of legendNames) {
-            const player = piece === "A" || piece === "C" ? 1 : 2;
-            if (piece === "A" || piece === "B" || piece === "E") {
-                legend[piece] = [
-                    { name: "piece", player }
-                ];
-            } else if (piece === "C" || piece === "D") {
-                legend[piece] = [
-                    { name: "piece-borderless", scale: 1, player: player % 2 + 1 },
-                    { name: "piece", scale: 0.85, player }
-                ];
-            }
+            const player = piece === "A" ? 1 : 2;
+            legend[piece] = [
+                { name: "piece", player }
+            ];
         }
 
+        let markers: Array<any> | undefined = []
         let points1: {row: number, col: number}[] = [];
         let points2: {row: number, col: number}[] = [];
+
         if (showInfluence) {
             const points = this.influenceMarkers();
             points1 = points.get(1)!;
             points2 = points.get(2)!;
+
+            if (points1.length > 0) {
+                // @ts-ignore
+                markers.push({ type: "dots", colour: 1, opacity: 1, points: points1 });
+            }
+
+            if (points2.length > 0) {
+                // @ts-ignore
+                markers.push({ type: "dots", colour: 2, opacity: 1, points: points2 });
+            }
         }
-        let markers: Array<any> | undefined = []
-        if (points1.length > 0) {
-            // @ts-ignore
-            markers.push({ type: "dots", colour: 1, opacity: 1, points: points1 });
-        }
-        if (points2.length > 0) {
-            // @ts-ignore
-            markers.push({ type: "dots", colour: 2, opacity: 1, points: points2 });
-        }
+
         if (markers.length === 0) {
             markers = undefined;
         }
@@ -641,30 +622,42 @@ export class PletoreGame extends GameBase {
             pieces: pstr,
         };
 
-        // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
-            rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
-                if (move.type === "place") {
-                    const [x, y] = this.getGraph().algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
-                }
+        rep.annotations = [];
+        for (const move of this.stack[this.stack.length - 1]._results) {
+            if (move.type === "place" || move.type === "capture") {
+                const [x, y] = this.getGraph().algebraic2coords(move.where!);
+                rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
             }
         }
+
+        if (showThreatened) {
+            const points = this.threatenedMarkers();
+            points1 = points.get(1)!;
+            points2 = points.get(2)!;
+
+            if (points1.length > 0) {
+                // @ts-ignore
+                rep.annotations.push({type: "dots", player: 1, targets: points1 });
+            }
+
+            if (points2.length > 0) {
+                // @ts-ignore
+                rep.annotations.push({type: "dots", player: 2, targets: points2 });
+            }
+        }
+
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
+        }
+
         return rep;
     }
 
     private influenceMarkers(): Map<playerid, {row: number, col: number}[]> {
-        // Get cells that are occupied by each player or have equal or greater LOS by each player.
-        // Unoccupied cells with equal LOS will be in both groups.
-        const markers = new Map<playerid, {row: number, col: number}[]>([
-            [1, []],
-            [2, []],
-        ]);
+        const markers = new Map<playerid, {row: number, col: number}[]>([[1, []], [2, []]]);
         for (const cell of this.listCells() as string[]) {
             if (!this.board.has(cell)) {
-                const controller = this.getController(cell);
+                const controller = this.cellController(cell);
                 if (controller === undefined) continue;
                 const [x, y] = this.getGraph().algebraic2coords(cell);
                 const cellCoords = {row: y, col: x};
@@ -678,18 +671,19 @@ export class PletoreGame extends GameBase {
         return markers;
     }
 
-    private threatenedPieces(): Set<string> {
-        // A piece is threatened if it can be captured by the other player.
-        const threatenedPieces = new Set<string>();
+    private threatenedMarkers(): Map<playerid, {row: number, col: number}[]> {
+        const markers = new Map<playerid, {row: number, col: number}[]>([[1, []], [2, []]]);
         for (const cell of this.listCells() as string[]) {
             if (this.board.has(cell)) {
-                const controller = this.getController(cell);
-                if (controller !== undefined && controller === this.getOtherPlayer(this.board.get(cell)!)) {
-                    threatenedPieces.add(cell);
+                const otherPlayer = this.getOtherPlayer(this.board.get(cell)!);
+                if (this.cellController(cell) === otherPlayer) {
+                    const [x, y] = this.getGraph().algebraic2coords(cell);
+                    const cellCoords = {row: y, col: x};
+                    markers.get(otherPlayer)!.push(cellCoords);
                 }
             }
         }
-        return threatenedPieces;
+        return markers;
     }
 
     public status(): string {

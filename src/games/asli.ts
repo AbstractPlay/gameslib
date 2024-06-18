@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -52,7 +52,7 @@ export class AsliGame extends GameBase {
             {uid: "board-19", group: "board"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization"]
+        flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization", "scores"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -426,6 +426,9 @@ export class AsliGame extends GameBase {
 
     public getTerritories(): Territory[] {
         const territories: Territory[] = [];
+        if (this.stack.length <= 4) {
+            return [];
+        }
 
         const gEmpties = this.getGraph();
         for (const pc of this.board.keys()) {
@@ -739,6 +742,15 @@ export class AsliGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getPlayersScores(): IScores[] {
+        const terr = this.getTerritories();
+        const scores: number[] = [
+            terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[1],
+            terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[0],
+        ]
+        return [{ name: i18next.t("apgames:status.asli.TERRITORY"), scores, spoiler: true}];
     }
 
     public clone(): AsliGame {

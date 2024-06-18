@@ -426,9 +426,6 @@ export class AsliGame extends GameBase {
 
     public getTerritories(): Territory[] {
         const territories: Territory[] = [];
-        if (this.stack.length <= 4) {
-            return [];
-        }
 
         const gEmpties = this.getGraph();
         for (const pc of this.board.keys()) {
@@ -455,7 +452,7 @@ export class AsliGame extends GameBase {
                 }
             }
             let owner: playerid|undefined;
-            if (! contested) {
+            if (!contested) {
                 owner = [...surr][0];
             }
             territories.push({cells: group, owner});
@@ -745,11 +742,14 @@ export class AsliGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        const terr = this.getTerritories();
-        const scores: number[] = [
-            terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[1],
-            terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[0],
-        ]
+        let scores: number[] = [this.prison[1], this.prison[0]];
+        if (this.stack.length > 4) {
+            const terr = this.getTerritories();
+            scores = [
+                terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[1],
+                terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[0],
+            ];
+        }
         return [{ name: i18next.t("apgames:status.asli.TERRITORY"), scores, spoiler: true}];
     }
 

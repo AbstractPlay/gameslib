@@ -874,8 +874,9 @@ export class StreetcarGame extends GameBase {
                 strokeWeight: 15,
                 labelColour: "#000",
                 strokeColour: "#fff",
-                hexFill: "#cede86",
-                backFill: "#cede86",
+                backFill: {
+                    colour: "#cede86"
+                },
                 stackOffset: 0.39,
                 blocked: [
                     {row: 1, col: 0},

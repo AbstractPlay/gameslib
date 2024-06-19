@@ -249,6 +249,7 @@ export type APMoveResult =
       who?: number;
       what?: string;
       where?: string;
+      how?: string;
     }
   | {
       type: "set";

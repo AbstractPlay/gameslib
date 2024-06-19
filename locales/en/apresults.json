@@ -198,6 +198,7 @@
         "gess_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
         "iqishiqi": "{{player}} moved neutral stone {{from}} to {{to}}.",
         "mattock": "{{player}} moved a miner from {{from}} to {{to}}.",
+        "slyde": "{{player}} slid a piece from {{from}} to {{to}}.",
         "spook": "{{player}} moved Spooky from {{from}} to {{to}}.",
         "tafl": "{{player}} moved a piece from {{from}} to {{to}}.",
         "tafl_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
@@ -336,6 +337,10 @@
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {
         "fnap": "{{player}} selected the tile {{tile}}.",
+        "slyde_fixed_self": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
+        "slyde_mobile_self": "{{player}} changed the state of their own piece at {{where}} from fixed to mobile.",
+        "slyde_fixed_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from mobile to fixed.",
+        "slyde_mobile_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
         "spree": "{{player}} handed a ball of colour {{who}} to the opponent."
     },
     "SET": {

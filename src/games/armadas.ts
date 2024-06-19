@@ -1267,7 +1267,9 @@ export class ArmadasGame extends GameBase {
             board: {
                 width: this.boardsize * ArmadasGame.BOARD_UNIT_DIMENSIONS,
                 height: this.boardsize * ArmadasGame.BOARD_UNIT_DIMENSIONS,
-                backFill: "#eee",
+                backFill: {
+                    colour: "#eee"
+                },
             },
             legend: myLegend,
             // @ts-ignore

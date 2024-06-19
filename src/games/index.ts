@@ -133,6 +133,7 @@ import { SpireGame, ISpireState } from "./spire";
 import { SpreeGame, ISpreeState } from "./spree";
 import { AsliGame, IAsliState } from "./asli";
 import { ConectGame, IConectState } from "./conect";
+import { SlydeGame, ISlydeState } from "./slyde";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -268,6 +269,7 @@ export {
     SpreeGame, ISpreeState,
     AsliGame, IAsliState,
     ConectGame, IConectState,
+    SlydeGame, ISlydeState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -314,7 +316,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AyuGame | typeof CalculusGame | typeof StigmergyGame |
                               typeof PletoreGame | typeof AnacheGame | typeof SplineGame |
                               typeof SploofGame | typeof SpireGame | typeof SpreeGame |
-                              typeof AsliGame | typeof ConectGame
+                              typeof AsliGame | typeof ConectGame | typeof SlydeGame
                 >();
 // Manually add each game to the following array
 [
@@ -336,7 +338,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
-    SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame,
+    SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -612,6 +614,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new AsliGame(...args);
         case "conect":
             return new ConectGame(...args);
+        case "slyde":
+            return new SlydeGame(...args);
     }
     return;
 }

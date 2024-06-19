@@ -744,6 +744,9 @@
                 },
                 "where": {
                     "type": "string"
+                },
+                "how": {
+                    "type": "string"
                 }
             },
             "required": ["type"],

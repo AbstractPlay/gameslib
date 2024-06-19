@@ -102,6 +102,7 @@
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
+        "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
         "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
         "spline": "Make a full line of your colour in any layer to win.",
         "sploof": "Create a string of four touching balls at any level visible as a straight line from directly above the board. Players start with two balls in their hand, but can take two balls from their stash every time a neutral ball is removed. Players also lose when they have no moves on their turn.",
@@ -1398,6 +1399,21 @@
             "NEED_PLACEMENT": "You must place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available."
         },
+        "slyde": {
+            "INITIAL_INSTRUCTIONS": "Select a mobile piece to swap.",
+            "INITIAL_INSTRUCTIONS_SYMMETRIC": "Current board state is symmetric. Select a mobile piece to swap, or select a piece to change its state.",
+            "NO_CHANGE_FIRST_MOVE": "You may not change the state of a piece on the first move.",
+            "NON_SYMMETRIC": "The board state is not symmetric. You may not change the state of a piece.",
+            "FIXED_PIECE_FROM": "The selected piece at {{from}} is fixed and cannot be moved.",
+            "NO_MOVES_FROM": "The selected piece at {{from}} has no available moves.",
+            "SELECT_DESTINATION_OR_CHANGE": "Select a destination to move the piece to, or select the piece again to change its state.",
+            "SELECT_CHANGE": "Select the piece again to change its state.",
+            "SELECT_DESTINATION": "Select a destination to move the piece to.",
+            "SAME_PLAYER": "You may not swap a piece with another piece of the same colour.",
+            "FIXED_PIECE_TO": "The selected piece at {{to}} is fixed and cannot be swapped with.",
+            "NOT_ADJACENT": "The selected piece at {{to}} is not adjacent to the piece at {{from}}.",
+            "ONLY_CHANGE": "The selected piece at {{from}} cannot be moved."
+        },
         "spire": {
             "INITIAL_INSTRUCTIONS": "Select a space to a ball of your colour, or a neutral ball before placing ball of your colour.",
             "TOO_MANY_MOVES": "You may only place up to two balls on your turn.",
@@ -2003,6 +2019,11 @@
         "slither": {
             "board": {
                 "name": "9x9 board"
+            }
+        },
+        "slyde": {
+            "board": {
+                "name": "12x12 board"
             }
         },
         "spire" : {
@@ -2859,6 +2880,17 @@
             },
             "classic": {
                 "name": "Classic movement rules"
+            }
+        },
+        "slyde": {
+            "size-8": {
+                "name": "8x8 board"
+            },
+            "size-10": {
+                "name": "10x10 board"
+            },
+            "size-16": {
+                "name": "16x16 board"
             }
         },
         "spire": {

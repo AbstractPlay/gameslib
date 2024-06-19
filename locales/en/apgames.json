@@ -451,6 +451,7 @@
             "VALID_PARTIAL_MOVE": "Click the point you want the ship to point towards."
         },
         "asli": {
+            "BAD_PASS": "You may not remove your own pieces from the prison.",
             "BAD_INCURSION": "You may not make back-to-back minimal incursions.",
             "BAD_KOMI": "The first move of the game must be an integer representing the number of first-player pieces to place in the starting prison.",
             "BAD_PIE": "You may not accept pie at this point in the game.",

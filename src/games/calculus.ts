@@ -917,7 +917,9 @@ export class CalculusGame extends GameBase {
             board: {
                 width: this.board.width,
                 height: this.board.height,
-                backFill: "#eee",
+                backFill: {
+                    colour: "#eee"
+                },
             },
             legend: {
                 "A": {

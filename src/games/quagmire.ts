@@ -553,7 +553,10 @@ export class QuagmireGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardsize,
                 maxWidth: (this.boardsize * 2) - 1,
-                hexFill: "#bbb",
+                backFill: {
+                    type: "board",
+                    colour: "#bbb"
+                },
                 markers: floodMarkers === undefined ? undefined : [{
                     type: "flood",
                     colour: "#009",

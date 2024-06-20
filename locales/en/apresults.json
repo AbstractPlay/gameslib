@@ -134,6 +134,7 @@
     "ELIMINATED": "{{player}} was eliminated.",
     "EOG": {
         "default": "The game has ended.",
+        "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
         "stalemate": "The game has ended because one player has run out of moves.",
         "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
         "repetition_one": "The game has ended because the same position has occurred by the same player.",
@@ -234,7 +235,10 @@
         "tablero": "{{player}} bumped!",
         "tiebreaker": "{{player}} passed, winning the tiebreaker."
     },
-    "PIE": "{{player}} invoked the pie rule.",
+    "PIE": {
+        "default": "{{player}} invoked the pie rule.",
+        "unlur": "{{player}} has passed to be the Y player."
+    },
     "PLACE": {
         "armadas_1": "{{player}} placed a small ship and named it {{name}}.",
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",

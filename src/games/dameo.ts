@@ -183,8 +183,8 @@ export class DameoGame extends GameBase {
                 const [fx, fy] = this.algebraic2coords(man);
                 for (const dir of allDirections.filter(d => d.startsWith(forward))) {
                     const ray = grid.ray(fx, fy, dir).map(pt => this.coords2algebraic(...pt));
-                    // find the first cell that's empty or not occupied by enemy
-                    const idx = ray.findIndex(n => ! this.board.has(n) || this.board.get(n)![0] !== player);
+                    // find the first cell that's empty, has a friendly king or is occupied by the enemy
+                    const idx = ray.findIndex(n => ! this.board.has(n) || this.board.get(n)![1] === 2 || this.board.get(n)![0] !== player);
                     if (idx !== -1) {
                         const next = ray[idx];
                         if (! this.board.has(next)) {

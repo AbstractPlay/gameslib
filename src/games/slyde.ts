@@ -235,6 +235,8 @@ export class SlydeGame extends GameBase {
                 } else {
                     newmove = "";
                 }
+            } else if (this.board.has(cell) && this.board.get(cell)![0] === this.currplayer && !this.board.get(cell)![1]) {
+                newmove = cell;
             } else {
                 newmove = `${move}-${cell}`;
             }

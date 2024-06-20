@@ -769,8 +769,8 @@ export class Connect6Game extends InARowBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: this.getPlayerColour(1) as playerid }],
-                B: [{ name: "piece", player: this.getPlayerColour(2) as playerid }],
+                A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
+                B: [{ name: "piece", colour: this.getPlayerColour(2) as playerid }],
             },
             pieces: pstr,
         };

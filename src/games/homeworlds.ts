@@ -2461,15 +2461,15 @@ export class HomeworldsGame extends GameBase {
         for (let i = 0; i < cs.length; i++) {
             myLegend[cs[i] + "1"] = {
                 name: "pyramid-up-small-upscaled",
-                player: nums[i]
+                colour: nums[i]
             };
             myLegend[cs[i] + "2"] = {
                 name: "pyramid-up-medium-upscaled",
-                player: nums[i]
+                colour: nums[i]
             };
             myLegend[cs[i] + "3"] = {
                 name: "pyramid-up-large-upscaled",
-                player: nums[i]
+                colour: nums[i]
             };
         }
 
@@ -2494,7 +2494,7 @@ export class HomeworldsGame extends GameBase {
                 for (let j = 0; j < sizeNames.length; j++) {
                     const node: ILooseObj = {
                         name: "pyramid-flat-" + sizeNames[j],
-                        player: nums[i]
+                        colour: nums[i]
                     };
                     if (r !== undefined) {
                         node.rotate = r;

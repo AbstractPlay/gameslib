@@ -451,10 +451,10 @@ export class VergeGame extends GameBase {
                 maxWidth: (this.boardsize * 2) - 1,
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", colour: "#FFF"}, { name: "piece", player: 1, opacity: 0.5 }],
-                C: [{ name: "piece", player: 2 }],
-                D: [{ name: "piece", colour: "#FFF"}, { name: "piece", player: 2, opacity: 0.5 }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: "#FFF"}, { name: "piece", colour: 1, opacity: 0.5 }],
+                C: [{ name: "piece", colour: 2 }],
+                D: [{ name: "piece", colour: "#FFF"}, { name: "piece", colour: 2, opacity: 0.5 }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

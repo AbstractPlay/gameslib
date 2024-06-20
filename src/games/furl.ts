@@ -590,10 +590,10 @@ export class FurlGame extends GameBase {
             const player = piece === "A" ? 1 : 2;
             const sizeStr = size.join("");
             if (sizeStr === "1") {
-                legend[name] = [{ name: "piece", player }]
+                legend[name] = [{ name: "piece", colour: player }]
             } else {
                 legend[name] = [
-                    { name: "piece", player },
+                    { name: "piece", colour: player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             }

@@ -567,12 +567,12 @@ export class QuagmireGame extends GameBase {
             legend: {
                 A: {
                     name: "meeple",
-                    player: 1,
+                    colour: 1,
                     scale: 0.85
                 },
                 B: {
                     name: "meeple",
-                    player: 2,
+                    colour: 2,
                     scale: 0.85
                 },
             },

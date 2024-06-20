@@ -941,40 +941,40 @@ export class CannonGame extends GameBase {
             },
             legend: {
                 A: [
-                    { name: "piece", player: 1 },
+                    { name: "piece", colour: 1 },
                     { name: "cannon-piece", scale: 0.5 }
                 ],
                 B: [
-                    { name: "piece-square", player: 1 },
+                    { name: "piece-square", colour: 1 },
                     { name: "cannon-town", scale: 0.75 }
                 ],
                 Y: [
-                    { name: "piece", player: 2 },
+                    { name: "piece", colour: 2 },
                     { name: "cannon-piece", scale: 0.5, rotate: 180 }
                 ],
                 Z: [
-                    { name: "piece-square", player: 2 },
+                    { name: "piece-square", colour: 2 },
                     { name: "cannon-town", scale: 0.75, rotate: 180 }
                 ],
                 // Threatened pieces
                 C: [
-                    { name: "piece-borderless", scale: 1.1, player: 2 },
-                    { name: "piece", player: 1 },
+                    { name: "piece-borderless", scale: 1.1, colour: 2 },
+                    { name: "piece", colour: 1 },
                     { name: "cannon-piece", scale: 0.5 }
                 ],
                 D: [
-                    { name: "piece-square-borderless", scale: 1.1, player: 2 },
-                    { name: "piece-square", player: 1 },
+                    { name: "piece-square-borderless", scale: 1.1, colour: 2 },
+                    { name: "piece-square", colour: 1 },
                     { name: "cannon-town", scale: 0.75 }
                 ],
                 W: [
-                    { name: "piece-borderless", scale: 1.1, player: 1 },
-                    { name: "piece", player: 2 },
+                    { name: "piece-borderless", scale: 1.1, colour: 1 },
+                    { name: "piece", colour: 2 },
                     { name: "cannon-piece", scale: 0.5, rotate: 180 }
                 ],
                 X: [
-                    { name: "piece-square-borderless", scale: 1.1, player: 1 },
-                    { name: "piece-square", player: 2 },
+                    { name: "piece-square-borderless", scale: 1.1, colour: 1 },
+                    { name: "piece-square", colour: 2 },
                     { name: "cannon-town", scale: 0.75, rotate: 180 }
                 ],
             },

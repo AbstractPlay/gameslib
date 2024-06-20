@@ -861,15 +861,15 @@ export class MchessGame extends GameBase {
         for (let n = 1; n <= this.numplayers; n++) {
             myLegend["P" + n.toString() + "1"] = {
                 name: "pyramid-up-small-upscaled",
-                player: n
+                colour: n
             };
             myLegend["P" + n.toString() + "2"] = {
                 name: "pyramid-up-medium-upscaled",
-                player: n
+                colour: n
             };
             myLegend["P" + n.toString() + "3"] = {
                 name: "pyramid-up-large-upscaled",
-                player: n
+                colour: n
             };
         }
         if (this.countdown !== undefined) {

@@ -631,9 +631,9 @@ export class NexGame extends GameBase {
             },
             options: ["reverse-letters"],
             legend: {
-                A: { name: "piece", player: 1 },
-                B: { name: "piece", player: 2 },
-                C: { name: "piece", player: 3 },
+                A: { name: "piece", colour: 1 },
+                B: { name: "piece", colour: 2 },
+                C: { name: "piece", colour: 3 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

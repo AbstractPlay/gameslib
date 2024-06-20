@@ -1395,32 +1395,32 @@ export class RenjuGame extends InARowBase {
         }
         if (markers.length === 0) { markers = undefined; }
         const legend: ILooseObj = {
-            A: [{ name: "piece", player: this.getPlayerColour(1) as playerid }],
-            B: [{ name: "piece", player: this.getPlayerColour(2) as playerid }],
+            A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
+            B: [{ name: "piece", colour: this.getPlayerColour(2) as playerid }],
             C: [
                 { name: "piece-borderless", colour: "#FFF" },
-                { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
+                { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
                 { text: "33" },
             ],
             D: [
                 { name: "piece-borderless", colour: "#FFF" },
-                { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
+                { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
                 { text: "44" },
             ],
             E: [
                 { name: "piece-borderless", colour: "#FFF" },
-                { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
+                { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
                 { text: "6+" },
             ],
             F: [
                 { name: "piece", colour: "#FFF" },
-                { name: "piece", player: 1 as playerid, opacity: 0.5 },
+                { name: "piece", colour: 1 as playerid, opacity: 0.5 },
             ],
         }
         if (tentativeCountSelector.size > 0) {
             for (let i = 1; i <= tentativeCountSelector.size; i++) {
                 legend[`G${i}`] = [
-                    { name: "piece", player: 1 as playerid, opacity: 0.5 },
+                    { name: "piece", colour: 1 as playerid, opacity: 0.5 },
                     { text: i.toString() },
                 ];
             }

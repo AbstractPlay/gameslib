@@ -434,11 +434,11 @@ export class TaijiGame extends GameBase {
             legend: {
                 A: {
                     name: "piece-square",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece-square",
-                    player: 2
+                    colour: 2
                 },
             },
             pieces: pstr

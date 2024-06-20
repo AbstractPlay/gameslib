@@ -829,15 +829,15 @@ export class ACityGame extends GameBase {
             legend: {
                 RD: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 BD: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 GD: {
                     name: "piece",
-                    player: 3
+                    colour: 3
                 },
                 ND: {
                     name: "piece",
@@ -845,15 +845,15 @@ export class ACityGame extends GameBase {
                 },
                 RT: {
                     name: "pyramid-up-large-upscaled",
-                    player: 1
+                    colour: 1
                 },
                 BT: {
                     name: "pyramid-up-large-upscaled",
-                    player: 2
+                    colour: 2
                 },
                 GT: {
                     name: "pyramid-up-large-upscaled",
-                    player: 3
+                    colour: 3
                 },
                 Claim1: {
                     name: "pyramid-up-small",
@@ -865,19 +865,19 @@ export class ACityGame extends GameBase {
                 },
                 MarkRed: {
                     name: "piecepack-suit-suns",
-                    player: 1,
+                    colour: 1,
                     scale: 0.5,
                     opacity: 0.15,
                 },
                 MarkBlue: {
                     name: "piecepack-suit-anchors",
-                    player: 2,
+                    colour: 2,
                     scale: 0.5,
                     opacity: 0.15,
                 },
                 MarkGreen: {
                     name: "piecepack-suit-crowns",
-                    player: 3,
+                    colour: 3,
                     scale: 0.5,
                     opacity: 0.15,
                 },
@@ -967,25 +967,25 @@ export class ACityGame extends GameBase {
             let glyph: Glyph;
             switch (pc) {
                 case "BD":
-                    glyph = {name: "piece", player: 2};
+                    glyph = {name: "piece", colour: 2};
                     break;
                 case "BT":
-                    glyph = {name: "pyramid-up-large-upscaled", player: 2};
+                    glyph = {name: "pyramid-up-large-upscaled", colour: 2};
                     break;
                 case "GD":
-                    glyph = {name: "piece", player: 3};
+                    glyph = {name: "piece", colour: 3};
                     break;
                 case "GT":
-                    glyph = {name: "pyramid-up-large-upscaled", player: 3};
+                    glyph = {name: "pyramid-up-large-upscaled", colour: 3};
                     break;
                 case "ND":
                     glyph = {name: "piece", colour: "#000000"};
                     break;
                 case "RD":
-                    glyph = {name: "piece", player: 1};
+                    glyph = {name: "piece", colour: 1};
                     break;
                 case "RT":
-                    glyph = {name: "pyramid-up-large-upscaled", player: 1};
+                    glyph = {name: "pyramid-up-large-upscaled", colour: 1};
                     break;
             }
             entry.push({

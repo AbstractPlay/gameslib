@@ -1069,31 +1069,31 @@ export class UrbinoGame extends GameBase {
             legend: {
                 R1: {
                     name: "house",
-                    player: 1
+                    colour: 1
                 },
                 R2: {
                     name: "palace",
-                    player: 1
+                    colour: 1
                 },
                 R3: {
                     name: "tower",
-                    player: 1
+                    colour: 1
                 },
                 B1: {
                     name: "house",
-                    player: 2
+                    colour: 2
                 },
                 B2: {
                     name: "palace",
-                    player: 2
+                    colour: 2
                 },
                 B3: {
                     name: "tower",
-                    player: 2
+                    colour: 2
                 },
                 X: {
                     name: "chess-queen-outline-montreal",
-                    player: 3
+                    colour: 3
                 },
             },
             pieces: pstr
@@ -1199,9 +1199,9 @@ export class UrbinoGame extends GameBase {
             return {
                 handler: this.stashClick,
                 stash: [
-                    { count: stash[0], glyph: { name: "house", player }, movePart: ",1" },
-                    { count: stash[1], glyph: { name: "palace", player }, movePart: ",2" },
-                    { count: stash[2], glyph: { name: "tower", player }, movePart: ",3" },
+                    { count: stash[0], glyph: { name: "house", colour: player }, movePart: ",1" },
+                    { count: stash[1], glyph: { name: "palace", colour: player }, movePart: ",2" },
+                    { count: stash[2], glyph: { name: "tower", colour: player }, movePart: ",3" },
                 ],
             };
         }

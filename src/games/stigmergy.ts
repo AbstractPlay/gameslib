@@ -595,7 +595,7 @@ export class StigmergyGame extends GameBase {
         for (const piece of legendNames) {
             const player = piece === "A" ? 1 : 2;
             legend[piece] = [
-                { name: "piece", player }
+                { name: "piece", colour: player }
             ];
         }
 

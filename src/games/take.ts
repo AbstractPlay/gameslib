@@ -455,10 +455,10 @@ export class TakeGame extends GameBase {
                 maxWidth: (this.boardsize * 2) - 1,
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [dirtSpace, { name: "piece", player: 1 }],
-                C: [{ name: "piece", player: 2 }],
-                D: [dirtSpace, { name: "piece", player: 2 }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [dirtSpace, { name: "piece", colour: 1 }],
+                C: [{ name: "piece", colour: 2 }],
+                D: [dirtSpace, { name: "piece", colour: 2 }],
                 E: [dirtSpace]
             },
             pieces: pstr.map(p => p.join("")).join("\n"),

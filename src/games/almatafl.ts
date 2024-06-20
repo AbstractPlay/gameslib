@@ -620,7 +620,7 @@ export class AlmataflGame extends GameBase {
                 },
                 C: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 }
             },
             pieces: pstr

@@ -488,12 +488,12 @@ export class MonkeyQueenGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 AQ: [
                     {
                         name: "piece",
-                        player: 1
+                        colour: 1
                     },
                     {
                         text: aSize.toString(),
@@ -503,12 +503,12 @@ export class MonkeyQueenGame extends GameBase {
                 ],
                 B: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 BQ: [
                     {
                         name: "piece",
-                        player: 2
+                        colour: 2
                     },
                     {
                         text: bSize.toString(),

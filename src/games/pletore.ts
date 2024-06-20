@@ -292,17 +292,16 @@ export class PletoreGame extends GameBase {
                 return result;
             }
 
-            try {
-                parseInt(m, 10);
-                result.valid = true;
-                result.complete = 0;
-                result.message = i18next.t("apgames:validation.pletore.INITIAL_SETUP");
-                return result;
-            } catch {
+            const komi = parseInt(m, 10);
+            if (isNaN(komi) || komi < -99 || komi > 99) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pletore.INVALIDKOMI");
                 return result;
             }
+            result.valid = true;
+            result.complete = 0;
+            result.message = i18next.t("apgames:validation.pletore.INITIAL_SETUP");
+            return result;
         }
 
         if (m.length === 0) {
@@ -417,6 +416,8 @@ export class PletoreGame extends GameBase {
         this.results = [];
         if (this.stack.length === 1) {
             this.komi = parseInt(m, 10);
+            if (this.komi > 99) this.komi = 99;
+            if (this.komi < -99) this.komi = -99;
             this.results.push({type: "komi", value: this.komi});
         } else if (m === "pass") {
             // This happens iff the invoke pie option is used.

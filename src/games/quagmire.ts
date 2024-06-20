@@ -585,9 +585,12 @@ export class QuagmireGame extends GameBase {
             rep.annotations = [];
             // highlight last-placed piece
             for (const move of this.results) {
-                if (move.type === "place") {
+                if (move.type === "pass") {
+                    const [x, y] = this.graph.algebraic2coords(this.stack[this.stack.length-2].lastmove!);
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                } else if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}], colour: "#000"});
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "move") {
                     const [fromX, fromY] = this.graph.algebraic2coords(move.from);
                     const [toX, toY] = this.graph.algebraic2coords(move.to);

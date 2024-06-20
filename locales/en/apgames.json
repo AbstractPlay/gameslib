@@ -124,6 +124,7 @@
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
+        "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
         "upperhand": "A shedding game where you try to be the first to place all your pieces. If a platform is created and at least three of the pieces are of a player's colour, an additional piece of that colour is automatically placed on top of it, causing chain reactions. The pie rule applies.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "valley": "Get your king to the center space, but your pieces must always move as far as they can. Teamwork is essential.",
@@ -1629,6 +1630,11 @@
             "ONE_MORE": "Place a piece of the other colour.",
             "INSUFFICIENT_LOS": "There is insufficient line of sight to place a piece on {{cell}}."
         },
+        "unlur": {
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece, or pass to play as the cross player.",
+            "INITIAL_INSTRUCTIONS_PASSED": "Select a point to place a piece.",
+            "BAD_PASS": "The contract phase is over. You may no longer pass."
+        },
         "upperhand": {
             "INITIAL_INSTRUCTIONS": "Select a space to place a ball.",
             "CANNOT_PLACE": "You may not place at {{move}}."
@@ -2107,6 +2113,11 @@
             "ruleset": {
                 "name": "ruleset",
                 "description": "Links cannot cross. You may rearrange your links before you place your peg."
+            }
+        },
+        "unlur": {
+            "board": {
+                "name": "size-8 board"
             }
         },
         "upperhand": {
@@ -3078,6 +3089,14 @@
             "pp": {
                 "name": "Paper and pencil",
                 "description": "Players' own links are allowed to cross each other. There are no link rearrangements."
+            }
+        },
+        "unlur": {
+            "size-6": {
+                "name": "Size-6 board"
+            },
+            "size-10": {
+                "name": "Size-10 board"
             }
         },
         "upperhand": {

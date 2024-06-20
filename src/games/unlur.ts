@@ -272,9 +272,14 @@ export class UnlurGame extends GameBase {
                 if (y < 0) { throw new Error("Invalid cell."); }
             } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m})
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m })
                 return result;
             }
+        }
+        if (this.board.has(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+            return result;
         }
         result.valid = true;
         result.complete = 1;

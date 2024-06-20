@@ -1631,8 +1631,8 @@
             "INSUFFICIENT_LOS": "There is insufficient line of sight to place a piece on {{cell}}."
         },
         "unlur": {
-            "INITIAL_INSTRUCTIONS": "Select a point to place a piece, or pass to play as the cross player.",
-            "INITIAL_INSTRUCTIONS_PASSED": "Select a point to place a piece.",
+            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece, or pass to play as the Y player.",
+            "INITIAL_INSTRUCTIONS_PASSED": "Select a cell to place a piece.",
             "BAD_PASS": "The contract phase is over. You may no longer pass."
         },
         "upperhand": {

@@ -569,7 +569,7 @@ export abstract class InARowBase extends GameBase {
                 resolved = true;
                 break;
             case "pie":
-                node.push(i18next.t("apresults:PIE", { player }));
+                node.push(i18next.t("apresults:PIE.default", { player }));
                 resolved = true;
                 break;
             case "pass":

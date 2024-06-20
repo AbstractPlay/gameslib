@@ -667,11 +667,11 @@ export class AmazonsGame extends GameBase {
             legend: {
                 R: {
                     name: "chess-queen-solid-millenia",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "chess-queen-solid-millenia",
-                    player: 2
+                    colour: 2
                 },
                 X: {
                     name: "piece-square",

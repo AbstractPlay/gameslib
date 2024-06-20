@@ -627,7 +627,7 @@ export class AsliGame extends GameBase {
         if (hasPrison) {
             prisonPiece.push({
                 name: "piece",
-                player: this.prison[0] > 0 ? 1 : 2,
+                colour: this.prison[0] > 0 ? 1 : 2,
                 scale: 0.85,
             });
             prisonPiece.push({
@@ -652,11 +652,11 @@ export class AsliGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 // @ts-ignore
                 P: prisonPiece

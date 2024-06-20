@@ -853,9 +853,9 @@ export class AkronGame extends GameBase {
         // orb_3d: if true, only return pure orb glyphs, for which some people prefer.
         if (orb3d) {
             if (trans) {
-                return [{ name: "circle", player, scale: 1.15, opacity: 0.5 }];
+                return [{ name: "circle", colour: player, scale: 1.15, opacity: 0.5 }];
             }
-            return [{ name: "orb", player, scale: 1.2 }];
+            return [{ name: "orb", colour: player, scale: 1.2 }];
         }
         const layers = this.boardSize;
         if (trans) {
@@ -864,7 +864,7 @@ export class AkronGame extends GameBase {
             const opacity = (maxOpacity - minOpacity) * (layer - 2) / (layers - 2) + minOpacity;
             return [
                 { name: "circle", colour: "#FFF", scale: 1.15, opacity: opacity * 0.75 },
-                { name: "circle", player, scale: 1.15, opacity },
+                { name: "circle", colour: player, scale: 1.15, opacity },
             ];
         } else {
             const blackness = 0.1;
@@ -872,8 +872,8 @@ export class AkronGame extends GameBase {
             const scaled = (whiteness + blackness) * (layer - 1) / (layers - 1) - blackness;
             if (scaled === 0) {
                 return [
-                    { name: "piece-borderless", player, scale: 1.15 },
-                    { name: "orb-borderless", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece-borderless", colour: player, scale: 1.15 },
+                    { name: "orb-borderless", colour: player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
             } else {
@@ -881,8 +881,8 @@ export class AkronGame extends GameBase {
                 const opacity = scaled < 0 ? 1 + scaled : 1 - scaled;
                 return [
                     { name: "piece-borderless", colour, scale: 1.15 },
-                    { name: "piece-borderless", player, scale: 1.15, opacity },
-                    { name: "orb", player, scale: 1.15, opacity: 0.5 },
+                    { name: "piece-borderless", colour: player, scale: 1.15, opacity },
+                    { name: "orb", colour: player, scale: 1.15, opacity: 0.5 },
                     { name: "piece", scale: 1.15, opacity: 0 },
                 ];
             }

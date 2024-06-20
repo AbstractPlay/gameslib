@@ -897,7 +897,7 @@ export class StreetcarGame extends GameBase {
                 A: [
                     {
                         name: "piece-borderless",
-                        player: 6
+                        colour: 6
                     },
                     {
                         name: "streetcar-house",
@@ -907,7 +907,7 @@ export class StreetcarGame extends GameBase {
                 B: [
                     {
                         name: "piece-borderless",
-                        player: 4
+                        colour: 4
                     },
                     {
                         name: "streetcar-house",
@@ -936,11 +936,11 @@ export class StreetcarGame extends GameBase {
                 ],
                 E: {
                     name: "piece-borderless",
-                    player: 6
+                    colour: 6
                 },
                 F: {
                     name: "piece-borderless",
-                    player: 4
+                    colour: 4
                 },
                 G: {
                     name: "piece-borderless",
@@ -953,12 +953,12 @@ export class StreetcarGame extends GameBase {
                 K: {
                     name: "cube-cat-plant",
                     scale: 0.85,
-                    player: 6
+                    colour: 6
                 },
                 L: {
                     name: "cube-cat-plant",
                     scale: 0.85,
-                    player: 4
+                    colour: 4
                 },
                 M: {
                     name: "cube-cat-plant",
@@ -973,12 +973,12 @@ export class StreetcarGame extends GameBase {
                 O: {
                     name: "cube-lamp-cat",
                     scale: 0.85,
-                    player: 6
+                    colour: 6
                 },
                 P: {
                     name: "cube-lamp-cat",
                     scale: 0.85,
-                    player: 4
+                    colour: 4
                 },
                 Q: {
                     name: "cube-lamp-cat",
@@ -993,12 +993,12 @@ export class StreetcarGame extends GameBase {
                 S: {
                     name: "cube-plant-person",
                     scale: 0.85,
-                    player: 6
+                    colour: 6
                 },
                 T: {
                     name: "cube-plant-person",
                     scale: 0.85,
-                    player: 4
+                    colour: 4
                 },
                 U: {
                     name: "cube-plant-person",
@@ -1013,12 +1013,12 @@ export class StreetcarGame extends GameBase {
                 W: {
                     name: "cube-person-lamp",
                     scale: 0.85,
-                    player: 6
+                    colour: 6
                 },
                 X: {
                     name: "cube-person-lamp",
                     scale: 0.85,
-                    player: 4
+                    colour: 4
                 },
                 Y: {
                     name: "cube-person-lamp",

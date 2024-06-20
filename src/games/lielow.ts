@@ -564,7 +564,7 @@ export class LielowGame extends GameBase {
             myLegend[legendName] = [
                 {
                     name,
-                    player,
+                    colour: player,
                 },
                 {
                     text: sizeStr,

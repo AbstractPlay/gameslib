@@ -856,7 +856,7 @@ export class FnapGame extends GameBaseSimultaneous {
                     legend[key] = [
                         {
                             name: piece,
-                            player,
+                            colour: player,
                         },
                         {
                             "name": "piece-borderless",

@@ -1329,51 +1329,51 @@ export class ChaseGame extends GameBase {
             legend: {
                 A1: {
                     name: "d6-1",
-                    player: 1
+                    colour: 1
                 },
                 A2: {
                     name: "d6-2",
-                    player: 1
+                    colour: 1
                 },
                 A3: {
                     name: "d6-3",
-                    player: 1
+                    colour: 1
                 },
                 A4: {
                     name: "d6-4",
-                    player: 1
+                    colour: 1
                 },
                 A5: {
                     name: "d6-5",
-                    player: 1
+                    colour: 1
                 },
                 A6: {
                     name: "d6-6",
-                    player: 1
+                    colour: 1
                 },
                 B1: {
                     name: "d6-1",
-                    player: 2
+                    colour: 2
                 },
                 B2: {
                     name: "d6-2",
-                    player: 2
+                    colour: 2
                 },
                 B3: {
                     name: "d6-3",
-                    player: 2
+                    colour: 2
                 },
                 B4: {
                     name: "d6-4",
-                    player: 2
+                    colour: 2
                 },
                 B5: {
                     name: "d6-5",
-                    player: 2
+                    colour: 2
                 },
                 B6: {
                     name: "d6-6",
-                    player: 2
+                    colour: 2
                 },
                 X: {
                     name: "piecepack-number-void",

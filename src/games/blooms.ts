@@ -609,15 +609,15 @@ export class BloomsGame extends GameBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 1, opacity: 0.5 }],
-                C: [{ name: "piece", player: 2 }],
-                D: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 2, opacity: 0.5 }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", colour: 1, opacity: 0.5 }],
+                C: [{ name: "piece", colour: 2 }],
+                D: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", colour: 2, opacity: 0.5 }],
                 // threatened pieces
-                E: [{ name: "piece", player: 1 }, { name: "x" }],
-                F: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 1, opacity: 0.5 }, { name: "x" }],
-                G: [{ name: "piece", player: 2 }, { name: "x" }],
-                H: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", player: 2, opacity: 0.5 }, { name: "x" }],
+                E: [{ name: "piece", colour: 1 }, { name: "x" }],
+                F: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", colour: 1, opacity: 0.5 }, { name: "x" }],
+                G: [{ name: "piece", colour: 2 }, { name: "x" }],
+                H: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", colour: 2, opacity: 0.5 }, { name: "x" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

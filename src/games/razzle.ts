@@ -741,16 +741,16 @@ export class RazzleGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1,
+                    colour: 1,
                 },
                 B: {
                     name: "piece",
-                    player: 2,
+                    colour: 2,
                 },
                 C: [
                     {
                         name: "piece",
-                        player: 1
+                        colour: 1
                     },
                     {
                         name: "piece",
@@ -761,7 +761,7 @@ export class RazzleGame extends GameBase {
                 D: [
                     {
                         name: "piece",
-                        player: 2
+                        colour: 2
                     },
                     {
                         name: "piece",
@@ -772,7 +772,7 @@ export class RazzleGame extends GameBase {
                 X: [
                     {
                         name: "piece",
-                        player: 1
+                        colour: 1
                     },
                     {
                         name: "x",
@@ -782,7 +782,7 @@ export class RazzleGame extends GameBase {
                 Y: [
                     {
                         name: "piece",
-                        player: 2
+                        colour: 2
                     },
                     {
                         name: "x",

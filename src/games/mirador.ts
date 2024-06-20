@@ -506,12 +506,12 @@ export class MiradorGame extends GameBase {
                 A: {
                     name: "piece-square",
                     scale: 2.1,
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece-square",
                     scale: 2.1,
-                    player: 2
+                    colour: 2
                 },
             },
             pieces: pstr,

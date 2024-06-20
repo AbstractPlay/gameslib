@@ -579,7 +579,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
 
         const legend : { [k: string]: Glyph } = {};
-        allColours.map((c, i) => legend[c] = { name: "piece", player: i + 1 } as Glyph);
+        allColours.map((c, i) => legend[c] = { name: "piece", colour: i + 1 } as Glyph);
 
         // Build rep
         const rep: APRenderRep =  {
@@ -710,7 +710,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         const returned = [{ key: i18next.t("apgames:status.PHASE"), value: [i18next.t("apgames:status.entropy." + this.phase.toUpperCase())] } as IStatus];
         if (this.phase === "chaos" && !isPartial) {
             const key = i18next.t("apgames:status.TOPLACE");
-            const value = { glyph: "piece", player: allColours.findIndex(c => c === this.nextPiece()) + 1 };
+            const value = { glyph: "piece", colour: allColours.findIndex(c => c === this.nextPiece()) + 1 };
             returned.push({ key, value: [value] });
         }
         return returned;
@@ -726,7 +726,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         return Object.entries(this.bagContents()).sort((a, b) => { return a[0].localeCompare(b[0]); }).map(
             p => { return {
                     count: p[1],
-                    glyph: { name: "piece", player: allColours.findIndex(c => c === p[0]) + 1 },
+                    glyph: { name: "piece", colour: allColours.findIndex(c => c === p[0]) + 1 },
                     movePart: ""
                 }});
     }

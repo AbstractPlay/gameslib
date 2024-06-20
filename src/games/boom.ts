@@ -511,11 +511,11 @@ export class BoomGame extends GameBase {
         const myLegend: ILooseObj = {
             X1: {
                 name: "piece",
-                player: 1,
+                colour: 1,
             },
             Y1: {
                 name: "piece",
-                player: 2,
+                colour: 2,
             }
         };
         for (let p = 0; p < stacks.length; p++) {

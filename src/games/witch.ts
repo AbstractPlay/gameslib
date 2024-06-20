@@ -184,9 +184,9 @@ export class WitchGame extends GameBase {
         if ( (aff !== undefined) && (aff !== null) ) {
             let glyph: Glyph;
             if (aff === "M") {
-                glyph = {"name":"piecepack-suit-moons","player": 2};
+                glyph = {"name":"piecepack-suit-moons","colour": 2};
             } else {
-                glyph = {"name":"piecepack-suit-suns","player": 1};
+                glyph = {"name":"piecepack-suit-suns","colour": 1};
             }
             entry.push({
                 glyph,
@@ -653,7 +653,7 @@ export class WitchGame extends GameBase {
                 "S": [
                     {
                         "name": "piece",
-                        "player": 1
+                        "colour": 1
                     },
                     {
                         "name": "piecepack-suit-suns",
@@ -663,7 +663,7 @@ export class WitchGame extends GameBase {
                 "M": [
                     {
                         "name": "piece",
-                        "player": 2
+                        "colour": 2
                     },
                     {
                         "name": "piecepack-suit-moons",
@@ -673,7 +673,7 @@ export class WitchGame extends GameBase {
                 "C": [
                     {
                         "name": "piece",
-                        "player": 4
+                        "colour": 4
                     },
                     {
                         "name": "piecepack-suit-crowns",

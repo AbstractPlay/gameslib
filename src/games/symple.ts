@@ -593,11 +593,11 @@ export class SympleGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),

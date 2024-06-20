@@ -619,15 +619,15 @@ export class SlydeGame extends GameBase {
                 height: this.boardSize,
             },
             legend: {
-                A: [{ name: "piece-square", player: 1, scale: 1.1, opacity: 0.95 }],
-                B: [{ name: "piece-square", player: 2, scale: 1.1, opacity: 0.95 }],
+                A: [{ name: "piece-square", colour: 1, scale: 1.1, opacity: 0.95 }],
+                B: [{ name: "piece-square", colour: 2, scale: 1.1, opacity: 0.95 }],
                 C: [
-                    { name: "piece-square", player: 1, scale: 1.1, opacity: 0.95 },
-                    { name: "piece", player: 3, scale: 0.3 },
+                    { name: "piece-square", colour: 1, scale: 1.1, opacity: 0.95 },
+                    { name: "piece", colour: 3, scale: 0.3 },
                 ],
                 D: [
-                    { name: "piece-square", player: 2, scale: 1.1, opacity: 0.95 },
-                    { name: "piece", player: 3, scale: 0.3 },
+                    { name: "piece-square", colour: 2, scale: 1.1, opacity: 0.95 },
+                    { name: "piece", colour: 3, scale: 0.3 },
                 ],
             },
             pieces: pstr,

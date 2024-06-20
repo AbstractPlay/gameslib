@@ -427,27 +427,27 @@ export class BideGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 C: {
                     name: "piece",
-                    player: 3
+                    colour: 3
                 },
                 D: {
                     name: "piece",
-                    player: 4
+                    colour: 4
                 },
                 E: {
                     name: "piece",
-                    player: 5
+                    colour: 5
                 },
                 F: {
                     name: "piece",
-                    player: 6
+                    colour: 6
                 },
             },
             pieces: pstr,

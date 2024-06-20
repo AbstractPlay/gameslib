@@ -548,10 +548,10 @@ export class MeridiansGame extends GameBase {
                 maxWidth: (this.boardSize - 1) * 2,
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }],
-                C: [{ name: "piece", player: 1 }, { name: "x" }],
-                D: [{ name: "piece", player: 2 }, { name: "x" }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: 2 }],
+                C: [{ name: "piece", colour: 1 }, { name: "x" }],
+                D: [{ name: "piece", colour: 2 }, { name: "x" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };

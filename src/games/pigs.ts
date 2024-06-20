@@ -575,13 +575,13 @@ export class PigsGame extends GameBaseSimultaneous {
                 // @ts-ignore
                 legend[label] = {
                     name: "pyramid-up-large-upscaled",
-                    player
+                    colour: player
                 };
             } else {
                 // @ts-ignore
                 legend[label] = {
                     name: "pyramid-flat-large",
-                    player,
+                    colour: player,
                     rotate: facing2rot.get(facing)
                 };
             }
@@ -593,7 +593,7 @@ export class PigsGame extends GameBaseSimultaneous {
                 // @ts-ignore
                 legend[label] = {
                     name: "pyramid-up-large-upscaled",
-                    player,
+                    colour: player,
                     opacity: 0.25,
                     scale: 0.75,
                 };
@@ -602,7 +602,7 @@ export class PigsGame extends GameBaseSimultaneous {
                 legend[label] = {
                     name: "pyramid-flat-large",
                     rotate: facing2rot.get(facing),
-                    player,
+                    colour: player,
                     opacity: 0.25,
                     scale: 0.75,
                 };

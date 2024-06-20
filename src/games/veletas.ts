@@ -830,12 +830,12 @@ export class VeletasGame extends GameBase {
                 height: this.boardSize,
             },
             legend: {
-                A: [{ name: "piece-square", player: 1 }],
-                B: [{ name: "piece-square", player: 2 }],
-                C: [{ name: "chess-queen-solid-millenia", player: 3 }],
+                A: [{ name: "piece-square", colour: 1 }],
+                B: [{ name: "piece-square", colour: 2 }],
+                C: [{ name: "chess-queen-solid-millenia", colour: 3 }],
                 // Trapped shooters.
-                D: [{ name: "chess-queen-solid-millenia", player: 1 }],
-                E: [{ name: "chess-queen-solid-millenia", player: 2 }],
+                D: [{ name: "chess-queen-solid-millenia", colour: 1 }],
+                E: [{ name: "chess-queen-solid-millenia", colour: 2 }],
             },
             pieces: pstr,
         };

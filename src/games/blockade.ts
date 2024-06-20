@@ -1036,8 +1036,8 @@ export class BlockadeGame extends GameBase {
             },
             options: ["clickable-edges"],
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: 2 }],
             },
             pieces: pstr,
         };
@@ -1084,8 +1084,8 @@ export class BlockadeGame extends GameBase {
 
     public getPlayerStash(player: number): IStashEntry[] | undefined {
         return [
-            {count: this.hWalls[player - 1], glyph: { name: "hline", player: 3 }, movePart: ""},
-            {count: this.vWalls[player - 1], glyph: { name: "vline", player: 3 }, movePart: ""},
+            {count: this.hWalls[player - 1], glyph: { name: "hline", colour: 3 }, movePart: ""},
+            {count: this.vWalls[player - 1], glyph: { name: "vline", colour: 3 }, movePart: ""},
         ];
     }
 

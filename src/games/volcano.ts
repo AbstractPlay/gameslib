@@ -821,43 +821,43 @@ export class VolcanoGame extends GameBase {
         for (let n = 0; n < allColours.length; n++) {
             myLegend[allColours[n] + "1"] = {
                 name: altDisplay === 'expanding' ? "pyramid-up-small-upscaled" : "pyramid-up-small-3D",
-                player: n+1,
+                colour: n+1,
                 opacity
             };
             myLegend[allColours[n] + "2"] = {
                 name: altDisplay === 'expanding' ? "pyramid-up-medium-upscaled" : "pyramid-up-medium-3D",
-                player: n+1,
+                colour: n+1,
                 opacity
             };
             myLegend[allColours[n] + "3"] = {
                 name: altDisplay === 'expanding' ? "pyramid-up-large-upscaled" : "pyramid-up-large-3D",
-                player: n+1,
+                colour: n+1,
                 opacity
             };
             if (altDisplay === 'expanding') {
                 myLegend[allColours[n] + "1N"] = {
                     name: "pyramid-flat-small",
-                    player: n+1
+                    colour: n+1
                 };
                 myLegend[allColours[n] + "2N"] = {
                     name: "pyramid-flat-medium",
-                    player: n+1
+                    colour: n+1
                 };
                 myLegend[allColours[n] + "3N"] = {
                     name: "pyramid-flat-large",
-                    player: n+1
+                    colour: n+1
                 };
                 myLegend[allColours[n] + "1c"] = {
                     name: "pyramid-flattened-small",
-                    player: n+1
+                    colour: n+1
                 };
                 myLegend[allColours[n] + "2c"] = {
                     name: "pyramid-flattened-medium",
-                    player: n+1
+                    colour: n+1
                 };
                 myLegend[allColours[n] + "3c"] = {
                     name: "pyramid-flattened-large",
-                    player: n+1
+                    colour: n+1
                 };
             }
         }

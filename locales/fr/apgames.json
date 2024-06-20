@@ -450,6 +450,25 @@
             "DISTANCE_NONCAPTURES": "[FR]Non-capture moves must increase your distance from the centre.",
             "INITIAL_INSTRUCTIONS": "[FR]Select one of your own pieces.",
             "PARTIAL": "[FR]Select a destination."
+        },
+        "connecticut": {
+            "INVALID_TO": "Vous ne pouvez pas placer un triomino en {{from}}-{{to}}.",
+            "NORMALISE": "Le mouvement doit être normalisé. Essayez {{normalised}}."
+        },
+        "courtesan": {
+            "DISTANCE_ONE": "Les pièces peuvent se déplacer de seulement un espace à la fois.",
+            "INITIAL_INSTRUCTIONS": "Sélectionnez une de vos pièces à déplacer."
+        },
+        "crossway": {
+            "BAD_PASS": "Vous ne pouvez pas passer si des coups sont possibles.",
+            "NO_CROSSINGS": "Les lignes ne peuvent pas se croiser."
+        },
+        "dagnacht": {
+            "MOVE_EMPTY": "Il n'y a pas de pièce sur {{where}} à déplacer.",
+            "PARTIAL_MOVE": "On dirait que vous voulez déplacer la pièce en {{cell}}. Choisissez la destination.",
+            "NOT_BLACK": "Vous pouvez seulement placer les pièces sur les cases noires.",
+            "MOVE_OCCUPIED": "Vous pouvez seulement déplacer une pièce sur une case vide. Il y a déjà une pièce sur {{where}}.",
+            "NOT_ORTH_ADJ": "Vous pouvez seulement déplacer les pièces d'une case orthogonalement."
         }
     },
     "variants": {

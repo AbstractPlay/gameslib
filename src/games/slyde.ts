@@ -40,7 +40,7 @@ export class SlydeGame extends GameBase {
         ],
         variants: [
             { uid: "size-8", group: "board" },
-            // { uid: "size-10", group: "board" },
+            { uid: "size-10", group: "board" },
             // { uid: "size-16", group: "board" },
         ],
         categories: ["goal>score>eog", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
@@ -235,6 +235,8 @@ export class SlydeGame extends GameBase {
                 } else {
                     newmove = "";
                 }
+            } else if (this.board.has(cell) && this.board.get(cell)![0] === this.currplayer && !this.board.get(cell)![1]) {
+                newmove = cell;
             } else {
                 newmove = `${move}-${cell}`;
             }

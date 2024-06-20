@@ -264,6 +264,7 @@ export class UnlurGame extends GameBase {
             if (this.linePlayer !== undefined) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.unlur.BAD_PASS")
+                return result;
             }
         } else {
             try {

@@ -924,23 +924,23 @@ export class CalculusGame extends GameBase {
             legend: {
                 "A": {
                     name: "piece",
-                    player: 1,
+                    colour: 1,
                     scale: 0.4,
                 },
                 "B": {
                     name: "piece",
-                    player: 2,
+                    colour: 2,
                     scale: 0.4,
                 },
                 "C": {
                     name: "piece",
-                    player: 1,
+                    colour: 1,
                     scale: 0.4,
                     opacity: 0.5,
                 },
                 "D": {
                     name: "piece",
-                    player: 2,
+                    colour: 2,
                     scale: 0.4,
                     opacity: 0.5,
                 }

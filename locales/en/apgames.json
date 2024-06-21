@@ -452,9 +452,9 @@
             "VALID_PARTIAL_MOVE": "Click the point you want the ship to point towards."
         },
         "asli": {
-            "BAD_PASS": "You may not remove your own pieces from the prison.",
+            "BAD_PASS": "You must remove an enemy piece from the prison to pass.",
             "BAD_INCURSION": "You may not make back-to-back minimal incursions.",
-            "BAD_KOMI": "The first move of the game must be an integer representing the number of first-player pieces to place in the starting prison.",
+            "BAD_KOMI": "The first move of the game must be a 1 or 2-digit integer representing the number of pieces to place in the starting prison.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
             "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Invoke pie rule' to change seats.",
@@ -1193,7 +1193,7 @@
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent.",
             "INVALIDPASS": "You cannot pass while uncontrolled intersections exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "Please enter a valid number for the komi offer.",
+            "INVALIDKOMI": "Please enter a 1 or 2-digit number for the komi offer.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "prudh": {
@@ -1500,7 +1500,7 @@
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent.",
             "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "Please enter a valid number for the komi offer.",
+            "INVALIDKOMI": "Please enter a 1 or 2-digit number for the komi offer.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "streetcar": {

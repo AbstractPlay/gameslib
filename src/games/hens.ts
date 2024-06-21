@@ -703,19 +703,19 @@ export class HensGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece-chariot",
-                    player: 1
+                    colour: 1
                 },
                 X: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 Y: {
                     name: "piece-chariot",
-                    player: 2
+                    colour: 2
                 },
             },
             pieces: pstr

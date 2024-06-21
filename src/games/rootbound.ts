@@ -682,10 +682,10 @@ export class RootBoundGame extends GameBase {
                 maxWidth: (this.boardsize * 2) - 1
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }],
-                C: [{ name: "hex-pointy", player: 1, scale: 1.25, opacity: 0.3 }],
-                D: [{ name: "hex-pointy", player: 2, scale: 1.25, opacity: 0.3 }]
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: 2 }],
+                C: [{ name: "hex-pointy", colour: 1, scale: 1.25, opacity: 0.3 }],
+                D: [{ name: "hex-pointy", colour: 2, scale: 1.25, opacity: 0.3 }]
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
             key: []

@@ -517,15 +517,15 @@ export class BlamGame extends GameBase {
         for (let n = 1; n <= this.numplayers; n++) {
             myLegend["P" + n.toString() + "1"] = {
                 name: "pyramid-up-small-upscaled",
-                player: n
+                colour: n
             };
             myLegend["P" + n.toString() + "2"] = {
                 name: "pyramid-up-medium-upscaled",
-                player: n
+                colour: n
             };
             myLegend["P" + n.toString() + "3"] = {
                 name: "pyramid-up-large-upscaled",
-                player: n
+                colour: n
             };
         }
 
@@ -588,9 +588,9 @@ export class BlamGame extends GameBase {
         const stash = this.stashes.get(player as playerid);
         if (stash !== undefined) {
             return [
-                {count: stash[0], glyph: { name: "pyramid-up-small-upscaled",  player }, movePart: "1"},
-                {count: stash[1], glyph: { name: "pyramid-up-medium-upscaled", player }, movePart: "2"},
-                {count: stash[2], glyph: { name: "pyramid-up-large-upscaled",  player }, movePart: "3"}
+                {count: stash[0], glyph: { name: "pyramid-up-small-upscaled",  colour: player }, movePart: "1"},
+                {count: stash[1], glyph: { name: "pyramid-up-medium-upscaled", colour: player }, movePart: "2"},
+                {count: stash[2], glyph: { name: "pyramid-up-large-upscaled",  colour: player }, movePart: "3"}
             ];
         }
         return;

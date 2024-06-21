@@ -531,12 +531,12 @@ export class CatchupGame extends GameBase {
                 A: {
                     name: "hex-pointy",
                     scale: 1.25,
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "hex-pointy",
                     scale: 1.25,
-                    player: 2
+                    colour: 2
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),

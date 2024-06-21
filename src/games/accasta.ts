@@ -744,27 +744,27 @@ export class AccastaGame extends GameBase {
             legend: {
                 S1: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 S2: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 H1: {
                     name: "piece-horse",
-                    player: 1
+                    colour: 1
                 },
                 H2: {
                     name: "piece-horse",
-                    player: 2
+                    colour: 2
                 },
                 C1: {
                     name: "piece-chariot",
-                    player: 1
+                    colour: 1
                 },
                 C2: {
                     name: "piece-chariot",
-                    player: 2
+                    colour: 2
                 },
             },
             // @ts-ignore

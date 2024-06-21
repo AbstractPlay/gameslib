@@ -452,13 +452,13 @@ export class StringsGame extends GameBaseSimultaneous {
         const legend = {
             R: {
                 name: "piece-borderless",
-                player: 1,
+                colour: 1,
                 opacity: 0.25,
                 scale: 0.85,
             },
             B: {
                 name: "piece-borderless",
-                player: 2,
+                colour: 2,
                 opacity: 0.25,
                 scale: 0.85,
             },

@@ -608,32 +608,32 @@ export class TumbleweedGame extends GameBase {
             const sizeStr = size.join("");
             if (piece === "A" || piece === "B" || piece === "E") {
                 legend[name] = [
-                    { name: "piece", player },
+                    { name: "piece", colour: player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             } else if (piece === "C" || piece === "D") {
                 legend[name] = [
-                    { name: "piece-borderless", scale: 1.1, player: player % 2 + 1 },
-                    { name: "piece", player },
+                    { name: "piece-borderless", scale: 1.1, colour: player % 2 + 1 },
+                    { name: "piece", colour: player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             } else if (piece === "F") {
                 legend[name] = [
-                    { name: "piece-borderless", scale: 1.1, player: 1 },
-                    { name: "piece", player },
+                    { name: "piece-borderless", scale: 1.1, colour: 1 },
+                    { name: "piece", colour: player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             } else if (piece === "G") {
                 legend[name] = [
-                    { name: "piece-borderless", scale: 1.1, player: 2 },
-                    { name: "piece", player },
+                    { name: "piece-borderless", scale: 1.1, colour: 2 },
+                    { name: "piece", colour: player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             } else /* if (piece === "H") */ {
                 legend[name] = [
-                    { name: "piece-borderless", scale: 1.1, player: 1 },
-                    { name: "piece-borderless", scale: 1.1, player: 2 },
-                    { name: "piece", player },
+                    { name: "piece-borderless", scale: 1.1, colour: 1 },
+                    { name: "piece-borderless", scale: 1.1, colour: 2 },
+                    { name: "piece", colour: player },
                     { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             }

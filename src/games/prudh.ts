@@ -598,7 +598,7 @@ export class PrudhGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
             },
             pieces: pstr

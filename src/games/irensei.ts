@@ -717,11 +717,11 @@ export class IrenseiGame extends InARowBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: this.getPlayerColour(1) as playerid }],
-                B: [{ name: "piece", player: this.getPlayerColour(2) as playerid }],
+                A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
+                B: [{ name: "piece", colour: this.getPlayerColour(2) as playerid }],
                 E: [
                     { name: "piece-borderless", colour: "#FFF" },
-                    { name: "piece-borderless", player: 1 as playerid, opacity: 0.2 },
+                    { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
                     { text: "8+" },
                 ],
             },

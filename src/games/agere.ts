@@ -783,11 +783,11 @@ export class AgereGame extends GameBase {
             legend: {
                 A: {
                         name: "piece",
-                        player: 1,
+                        colour: 1,
                 },
                 B: {
                         name: "piece",
-                        player: 2,
+                        colour: 2,
                 },
             },
             pieces: pstr
@@ -865,12 +865,12 @@ export class AgereGame extends GameBase {
             legend: {
                 A: {
                         name: "piece",
-                        player: 1,
+                        colour: 1,
                         scale: 0.75,
                 },
                 B: {
                         name: "piece",
-                        player: 2,
+                        colour: 2,
                         scale: 0.75,
                 },
             },

@@ -637,20 +637,20 @@ export class FabrikGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 C: {
                     name: "chess-queen-outline-montreal",
-                    player: 3,
+                    colour: 3,
                     scale: 0.85,
                 },
                 D: {
                     name: "chess-queen-outline-montreal",
-                    player: 3,
+                    colour: 3,
                     scale: 0.85,
                 }
             },

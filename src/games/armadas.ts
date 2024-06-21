@@ -1133,7 +1133,7 @@ export class ArmadasGame extends GameBase {
             for (let j = 0; j < sizeNames.length; j++) {
                 const node: ILooseObj = {
                     name: "pyramid-flat-" + sizeNames[j],
-                    player: nums[i]
+                    colour: nums[i]
                 };
                 myLegend[cs[i] + (j + 1).toString()] = node;
                 const ghostNode = {...node, opacity: 0.25};

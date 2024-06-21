@@ -257,7 +257,7 @@ export class AsliGame extends GameBase {
 
         if (this.stack.length === 1) {
             const n = parseInt(m, 10);
-            if (isNaN(n)) {
+            if (isNaN(n) || n > 99 || n < -99) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
                 return result
@@ -268,7 +268,7 @@ export class AsliGame extends GameBase {
             result.complete = 0;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
-        } else if (m === "pie") {
+        } else if (m === "pie" || (m === "pass" && this.stack.length === 2)) {
             if (this.stack.length !== 2) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.BAD_PIE");
@@ -468,9 +468,9 @@ export class AsliGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (! trusted && this.stack.length > 2) {
+        if (!trusted) {
             const result = this.validateMove(m);
-            if (! result.valid) {
+            if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
         }
@@ -478,10 +478,13 @@ export class AsliGame extends GameBase {
         this.results = [];
         const enemy = this.currplayer === 1 ? 2 : 1;
         if (this.stack.length === 1) {
-            const n = parseInt(m, 10);
+            let n = parseInt(m, 10);
+            if (n > 99) n = 99;
+            if (n < -99) n = -99;
             this.prison[0] = n;
             this.results.push({type: "komi", value: n});
-        } else if (m === "pie") {
+        } else if (m === "pie" || (m === "pass" && this.stack.length === 2)) {
+            m = "pie";
             this.results.push({type: "pie"});
         } else if (m === "pass") {
             if (this.stack.length > 2) {
@@ -624,7 +627,7 @@ export class AsliGame extends GameBase {
         if (hasPrison) {
             prisonPiece.push({
                 name: "piece",
-                player: this.prison[0] > 0 ? 1 : 2,
+                colour: this.prison[0] > 0 ? 1 : 2,
                 scale: 0.85,
             });
             prisonPiece.push({
@@ -649,11 +652,11 @@ export class AsliGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 // @ts-ignore
                 P: prisonPiece
@@ -674,7 +677,7 @@ export class AsliGame extends GameBase {
         };
 
         // add territory dots
-        if (this.stack.length > 4) {
+        if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
             const territories = this.getTerritories();
             let markers: Array<any> | undefined = []
             for (const t of territories) {
@@ -743,7 +746,7 @@ export class AsliGame extends GameBase {
 
     public getPlayersScores(): IScores[] {
         let scores: number[] = [this.prison[1], this.prison[0]];
-        if (this.stack.length > 4) {
+        if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
             const terr = this.getTerritories();
             scores = [
                 terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0) + this.prison[1],

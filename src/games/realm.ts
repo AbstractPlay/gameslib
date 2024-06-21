@@ -1490,103 +1490,103 @@ export class RealmGame extends GameBase {
                 },
                 B1: {
                     name: "piece-square",
-                    player: 1,
+                    colour: 1,
                     scale: 0.75
                 },
                 B2: {
                     name: "piece-square",
-                    player: 2,
+                    colour: 2,
                     scale: 0.75
                 },
                 P1: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 P2: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 En1N: {
                     name: "piece-triangle",
-                    player: 1
+                    colour: 1
                 },
                 En1E: {
                     name: "piece-triangle",
-                    player: 1,
+                    colour: 1,
                     rotate: 90
                 },
                 En1S: {
                     name: "piece-triangle",
-                    player: 1,
+                    colour: 1,
                     rotate: 180
                 },
                 En1W: {
                     name: "piece-triangle",
-                    player: 1,
+                    colour: 1,
                     rotate: 270
                 },
                 En2N: {
                     name: "piece-triangle",
-                    player: 2
+                    colour: 2
                 },
                 En2E: {
                     name: "piece-triangle",
-                    player: 2,
+                    colour: 2,
                     rotate: 90
                 },
                 En2S: {
                     name: "piece-triangle",
-                    player: 2,
+                    colour: 2,
                     rotate: 180
                 },
                 En2W: {
                     name: "piece-triangle",
-                    player: 2,
+                    colour: 2,
                     rotate: 270
                 },
                 Ex1N: {
                     name: "piece-triangle-dot",
-                    player: 1,
+                    colour: 1,
                     opacity: 0.25,
                 },
                 Ex1E: {
                     name: "piece-triangle-dot",
-                    player: 1,
+                    colour: 1,
                     opacity: 0.25,
                     rotate: 90,
                 },
                 Ex1S: {
                     name: "piece-triangle-dot",
-                    player: 1,
+                    colour: 1,
                     opacity: 0.25,
                     rotate: 180,
                 },
                 Ex1W: {
                     name: "piece-triangle-dot",
-                    player: 1,
+                    colour: 1,
                     opacity: 0.25,
                     rotate: 270,
                 },
                 Ex2N: {
                     name: "piece-triangle-dot",
-                    player: 2,
+                    colour: 2,
                     opacity: 0.25
                 },
                 Ex2E: {
                     name: "piece-triangle-dot",
-                    player: 2,
+                    colour: 2,
                     opacity: 0.25,
                     rotate: 90,
                 },
                 Ex2S: {
                     name: "piece-triangle-dot",
-                    player: 2,
+                    colour: 2,
                     opacity: 0.25,
                     rotate: 180,
                 },
                 Ex2W: {
                     name: "piece-triangle-dot",
-                    player: 2,
+                    colour: 2,
                     opacity: 0.25,
                     rotate: 270,
                 },
@@ -1704,9 +1704,9 @@ export class RealmGame extends GameBase {
         const stash = this.pieces[player - 1];
         if (stash !== undefined) {
             return [
-                {count: stash[0], glyph: { name: "piece-square",  player }, movePart: "B"},
-                {count: stash[1], glyph: { name: "piece", player }, movePart: "P"},
-                {count: stash[2], glyph: { name: "piece-triangle",  player }, movePart: "E"}
+                {count: stash[0], glyph: { name: "piece-square",  colour: player }, movePart: "B"},
+                {count: stash[1], glyph: { name: "piece", colour: player }, movePart: "P"},
+                {count: stash[2], glyph: { name: "piece-triangle",  colour: player }, movePart: "E"}
             ];
         }
         return;

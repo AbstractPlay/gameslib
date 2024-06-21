@@ -421,11 +421,11 @@ export class SusanGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 X: {
                     name: "x",

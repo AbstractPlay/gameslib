@@ -481,19 +481,19 @@ export class ValleyGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "piece-chariot",
-                    player: 1
+                    colour: 1
                 },
                 Y: {
                     name: "piece",
-                    player: 2
+                    colour: 2
                 },
                 Z: {
                     name: "piece-chariot",
-                    player: 2
+                    colour: 2
                 },
                 VALLEY: {
                     name: "piecepack-suit-suns",

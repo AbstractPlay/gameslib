@@ -531,12 +531,12 @@ export class AtollGame extends GameBase {
                 A: {
                     name: "hex-flat",
                     scale: 1.75,
-                    player: 1
+                    colour: 1
                 },
                 B: {
                     name: "hex-flat",
                     scale: 1.75,
-                    player: 2
+                    colour: 2
                 },
             },
             pieces: pstr,

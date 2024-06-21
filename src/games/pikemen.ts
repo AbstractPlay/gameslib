@@ -585,14 +585,14 @@ export class PikemenGame extends GameBase {
                     // eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow
                     const node: ILooseObj = {
                         name: "pyramid-flat-" + sizeNames[size - 1],
-                        player,
+                        colour: player,
                         rotate: dir[1],
                     };
                     myLegend[playerNames[player - 1] + size.toString() + dir[0]] = node;
                 }
                 const node: ILooseObj = {
                     name: "pyramid-up-" + sizeNames[size - 1],
-                    player,
+                    colour: player,
                 };
                 myLegend[playerNames[player - 1] + size.toString() + "U"] = node;
             }

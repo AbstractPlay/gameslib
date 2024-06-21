@@ -540,11 +540,11 @@ export class AlfredsWykeGame extends GameBase {
             legend: {
                 B: {
                     name: "piece-square",
-                    player: 1
+                    colour: 1
                 },
                 D: {
                     name: "piece-square",
-                    player: 2
+                    colour: 2
                 },
                 W1: {
                     name: "wyke-1",

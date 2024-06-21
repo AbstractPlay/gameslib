@@ -906,15 +906,15 @@ export class PenteGame extends InARowBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: this.getPlayerColour(1) as playerid }],
-                B: [{ name: "piece", player: this.getPlayerColour(2) as playerid }],
+                A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
+                B: [{ name: "piece", colour: this.getPlayerColour(2) as playerid }],
                 C: [
-                    { name: "piece-borderless", scale: 1, player: this.getPlayerColour(2) as playerid },
-                    { name: "piece", scale: 0.85, player: this.getPlayerColour(1) as playerid },
+                    { name: "piece-borderless", scale: 1, colour: this.getPlayerColour(2) as playerid },
+                    { name: "piece", scale: 0.85, colour: this.getPlayerColour(1) as playerid },
                 ],
                 D: [
-                    { name: "piece-borderless", scale: 1, player: this.getPlayerColour(1) as playerid },
-                    { name: "piece", scale: 0.85, player: this.getPlayerColour(2) as playerid },
+                    { name: "piece-borderless", scale: 1, colour: this.getPlayerColour(1) as playerid },
+                    { name: "piece", scale: 0.85, colour: this.getPlayerColour(2) as playerid },
                 ],
             },
             pieces: pstr,

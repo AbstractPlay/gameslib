@@ -615,8 +615,8 @@ export class GessGame extends GameBase {
                 markers,
             },
             legend: {
-                A: [{ name: "piece", player: 1 }],
-                B: [{ name: "piece", player: 2 }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: 2 }],
             },
             pieces: pstr,
         };

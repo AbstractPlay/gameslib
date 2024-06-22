@@ -428,7 +428,6 @@ export class FlumeGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             const pts: [number,number][] = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
@@ -438,12 +437,10 @@ export class FlumeGame extends GameBase {
                 }
             }
             if (pts.length > 0) {
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }), colour: "#fff"});
+                rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }) as [{row: number; col: number;}, ...{row: number; col: number;}[]], colour: "#fff"});
             }
         }
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             const pts: [number,number][] = [];
             for (const move of this.results) {
@@ -453,8 +450,7 @@ export class FlumeGame extends GameBase {
                 }
             }
             if (pts.length > 0) {
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }), colour: "#000"});
+                rep.annotations.push({type: "dots", targets: pts.map(n => {return {col: n[0], row: n[1]}; }) as [{row: number; col: number;}, ...{row: number; col: number;}[]], colour: "#000"});
             }
         }
 

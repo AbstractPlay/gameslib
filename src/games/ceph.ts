@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -470,7 +470,7 @@ export class CephalopodGame extends GameBase {
         pstr = pstr.replace(/\n,{4}\n/g, "\n_\n");
 
         // Build rep
-        let board = {
+        let board: BoardBasic = {
             style: "squares",
             width: 5,
             height: 5,
@@ -483,7 +483,6 @@ export class CephalopodGame extends GameBase {
             };
         }
         const rep: APRenderRep =  {
-            // @ts-ignore
             board,
             legend: {
                 A1: {
@@ -540,7 +539,6 @@ export class CephalopodGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "capture") {

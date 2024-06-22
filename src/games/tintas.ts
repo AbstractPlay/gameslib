@@ -3,7 +3,7 @@
 import { Direction, Grid, rectangle, defineHex, Orientation } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";
@@ -740,8 +740,7 @@ export class TintasGame extends GameBase {
 
         if (this.pawnPos !== undefined) {
             const [col, row] = TintasGame.algebraic2coords(this.pawnPos);
-            // @ts-ignore
-            rep.board.markers = [{
+            (rep.board as BoardBasic).markers = [{
                 type: "glyph",
                 glyph: "X",
                 points: [{row, col}],
@@ -753,7 +752,6 @@ export class TintasGame extends GameBase {
             if (this.captured[player - 1].length > 0) {
                 // Put any inhand pieces in the bar
                 const captured = this.captured[player - 1].sort((a,b) => a - b).map(n => letters[n - 1]);
-                // @ts-ignore
                 rep.areas.push({
                     type: "pieces",
                     pieces: [...captured] as [string, ...string[]],
@@ -767,7 +765,6 @@ export class TintasGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {

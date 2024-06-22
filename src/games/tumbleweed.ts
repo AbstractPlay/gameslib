@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -648,12 +648,10 @@ export class TumbleweedGame extends GameBase {
         }
         let markers: Array<any> | undefined = []
         if (points1.length > 0) {
-            // @ts-ignore
-            markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+            markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 as [RowCol, ...RowCol[]] });
         }
         if (points2.length > 0) {
-            // @ts-ignore
-            markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+            markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 as [RowCol, ...RowCol[]] });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -665,7 +663,6 @@ export class TumbleweedGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: this.boardSize * 2 - 1,
-                // @ts-ignore
                 markers,
             },
             legend,
@@ -674,7 +671,6 @@ export class TumbleweedGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {

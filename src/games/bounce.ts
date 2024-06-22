@@ -495,7 +495,6 @@ export class BounceGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
 
             // highlight last-placed piece
@@ -504,7 +503,7 @@ export class BounceGame extends GameBase {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.algebraic2coords(move.from);
                     const [toX, toY] = this.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", colour: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "remove") {
                     const [x, y] = this.algebraic2coords(move.where);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});

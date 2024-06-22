@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerEdge, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
@@ -593,7 +593,7 @@ export class PrudhGame extends GameBase {
                         colour: "#fff",
                         opacity: 0.75,
                     },
-                ],
+                ] as (MarkerEdge|MarkerFlood)[],
             },
             legend: {
                 A: {
@@ -610,16 +610,13 @@ export class PrudhGame extends GameBase {
             for (const cell of this._points) {
                 points.push({row: cell[1], col: cell[0]});
             }
-            // @ts-ignore
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            rep.board.markers.push({type: "flood", points, colour: 2, opacity: 0.5});
+            (rep.board as BoardBasic).markers!.push({type: "flood", points: points as [{row: number; col: number}, ...{row: number; col: number}[]], colour: 2, opacity: 0.5});
         }
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             rep.annotations = [];
 
-            // @ts-ignore
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = PrudhGame.algebraic2coords(move.from);

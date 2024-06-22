@@ -682,14 +682,13 @@ export class FanoronaGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             // for (const move of this.stack[this.stack.length - 1]._results) {
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = FanoronaGame.algebraic2coords(move.from);
                     const [toX, toY] = FanoronaGame.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", colour: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     const [x, y] = FanoronaGame.algebraic2coords(move.where!);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
@@ -742,7 +741,6 @@ export class FanoronaGame extends GameBase {
                 }).join(", ")}));
                 const captures = state._results.filter(r => r.type === "capture");
                 if (captures.length > 0) {
-                    // @ts-ignore
                     node.push(i18next.t("apresults:CAPTURE.noperson.nowhere", {count: captures.length}));
                 }
                 for (const r of state._results) {

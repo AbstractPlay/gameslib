@@ -452,7 +452,6 @@ export class CrosswayGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
@@ -468,8 +467,7 @@ export class CrosswayGame extends GameBase {
                     const [x,y] = this.algebraic2coords(cell);
                     targets.push({row: y, col: x})                ;
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "move", targets, arrow: false});
+                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
 

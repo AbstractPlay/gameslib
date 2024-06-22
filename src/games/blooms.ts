@@ -2,12 +2,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-import { IKey } from "@abstractplay/renderer/build/renderers/_base";
 
 export type playerid = 1|2;
 export type tileid = 1|2;
@@ -605,7 +604,6 @@ export class BloomsGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
-                // @ts-ignore
                 markers,
             },
             legend: {
@@ -620,12 +618,10 @@ export class BloomsGame extends GameBase {
                 H: [{ name: "ring-13", colour: "#FFF" }, { name: "ring-13", colour: 2, opacity: 0.5 }, { name: "x" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add key so the user can click to select the color to place
-        const key: IKey = {
+        const key: AreaKey = {
             type: "key",
             position: "left",
             height: 0.7,
@@ -639,7 +635,6 @@ export class BloomsGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
@@ -651,8 +646,7 @@ export class BloomsGame extends GameBase {
                         const [x, y] = this.graph.algebraic2coords(m);
                         targets.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "exit", targets});
+                    rep.annotations.push({type: "exit", targets: targets as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
                 }
             }
         }

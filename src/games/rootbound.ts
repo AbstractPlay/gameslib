@@ -688,13 +688,10 @@ export class RootBoundGame extends GameBase {
                 D: [{ name: "hex-pointy", colour: 2, scale: 1.25, opacity: 0.3 }]
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
 
             // highlight last-placed piece
@@ -709,8 +706,7 @@ export class RootBoundGame extends GameBase {
                         const [x, y] = this.getGraph().algebraic2coords(m);
                         targets.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "exit", targets});
+                    rep.annotations.push({type: "exit", targets: targets as [{row: number; col: number}, ...{row: number; col: number}[]]});
                 }
             }
 

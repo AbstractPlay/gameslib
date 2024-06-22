@@ -586,7 +586,6 @@ export class ReversiGame extends GameBase {
         }
         const rep = this.variants.some(x => x.includes("hex")) ? this.renderHexTri() : this.renderSquare();
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -599,8 +598,7 @@ export class ReversiGame extends GameBase {
                     for (const m of move.how!.split(",")) {
                         const [xT, yT] = this.algebraic2coords(m);
                         const targets = [{ row: yF, col: xF }, { row: yT, col: xT }];
-                        // @ts-ignore
-                        rep.annotations.push({type: "move", style: "dashed", targets, arrow: false});
+                        rep.annotations.push({type: "move", style: "dashed", targets: targets as [{row: number; col: number}, ...{row: number; col: number}[]], arrow: false});
                     }
                 }
             }
@@ -612,8 +610,7 @@ export class ReversiGame extends GameBase {
                 for (const cell of moves) {
                     points.push({row: cell[1], col: cell[0]});
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+                rep.annotations.push({type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]]});
             }
         }
         return rep;
@@ -710,7 +707,6 @@ export class ReversiGame extends GameBase {
                 maxWidth: (this.boardSize * 2) - 1,
                 // blocked removed because it messes with markers.
                 // blocked: [{ row: this.boardSize - 1, col: this.boardSize - 1 }],
-                // @ts-ignore
                 markers,
             },
             legend: {

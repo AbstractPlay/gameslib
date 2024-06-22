@@ -3,7 +3,7 @@
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerFence } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle, oppositeDirections } from "../common";
 import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, vert2edges, vert2hexes } from "../common/hexes";
@@ -1035,31 +1035,27 @@ export class StreetcarGame extends GameBase {
         };
 
         if ( (this.claimed[0].length > 0) || (this.claimed[1].length > 0) ) {
-            // @ts-ignore
-            rep.board!.markers = [];
+            (rep.board as BoardBasic).markers = [];
             for (const p of [1,2] as playerid[]) {
                 for (const claim of this.claimed[p - 1]) {
                     // check if just now claimed
                     const justnow = this.results.filter(r => r.type === "claim" && r.where === edge2string(claim)).length === 1;
                     const [cell, dir] = edge2celldir(claim)!;
                     const [col, row] = StreetcarGame.algebraic2coords(cell);
-                    const node = {
+                    const node: MarkerFence = {
                         type: "fence",
                         cell: {
                             row,
                             col,
                         },
-                        side: dir,
+                        side: dir as "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW",
                         colour: p,
                         width: 0.5,
                     }
                     if (justnow) {
-                        // @ts-ignore
                         node.dashed = [1,9];
                     }
-                    // @ts-ignore
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                    rep.board!.markers.push(node);
+                    (rep.board as BoardBasic).markers!.push(node);
                 }
             }
         }
@@ -1069,7 +1065,6 @@ export class StreetcarGame extends GameBase {
             if (this.taken[player - 1].length > 0) {
                 // Put any inhand pieces in the bar
                 const taken = this.taken[player - 1].sort((a,b) => a - b).map(n => blankLet[n - 1]);
-                // @ts-ignore
                 rep.areas.push({
                     type: "pieces",
                     pieces: [...taken] as [string, ...string[]],
@@ -1085,7 +1080,6 @@ export class StreetcarGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {
@@ -1096,10 +1090,10 @@ export class StreetcarGame extends GameBase {
                     if (move.what !== undefined) {
                         switch (move.what) {
                             case "1":
-                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], player: 6});
+                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: 6});
                                 break;
                             case "2":
-                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], player: 4});
+                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: 4});
                                 break;
                             case "3":
                                 rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: "#000"});

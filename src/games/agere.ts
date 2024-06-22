@@ -3,7 +3,7 @@
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerFlood, MarkerHalo } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, intersects } from "../common";
 import { UndirectedGraph } from "graphology";
@@ -796,7 +796,6 @@ export class AgereGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {
@@ -859,9 +858,9 @@ export class AgereGame extends GameBase {
                         "offset": -22.5,
                         "fill": "#000",
                     }
-                ],
+                ] as (MarkerHalo|MarkerFlood)[],
                 strokeColour: "#666",
-            },
+            } as BoardBasic,
             legend: {
                 A: {
                         name: "piece",
@@ -882,20 +881,17 @@ export class AgereGame extends GameBase {
                 targets.push({row: flood[1], col: flood[0]});
             }
             if (targets.length > 0) {
-                // @ts-ignore
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                rep.board!.markers.push({
+                (rep.board! as BoardBasic).markers!.push({
                     type: "flood",
                     colour: p+1,
                     points: targets,
                     opacity: 0.5,
-                });
+                } as MarkerFlood);
             }
         }
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {

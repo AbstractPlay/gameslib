@@ -723,7 +723,6 @@ export class HensGame extends GameBase {
 
         // Add annotations
         if ( (this.stack[this.stack.length - 1]._results.length > 0) || (this._points.length > 0) ) {
-            // @ts-ignore
             rep.annotations = [];
 
             if (this._points.length > 0) {
@@ -731,8 +730,7 @@ export class HensGame extends GameBase {
                 for (const cell of this._points) {
                     points.push({row: cell[1], col: cell[0]});
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+                rep.annotations.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
             }
 
             for (const move of this.stack[this.stack.length - 1]._results) {

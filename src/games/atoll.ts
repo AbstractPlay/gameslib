@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerFenceData } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -466,7 +466,7 @@ export class AtollGame extends GameBase {
             blocked.push({ row: 0, col: 2 * i });
         }
 
-        const markers: Array<any> = [];
+        const markers: MarkerFenceData[] = [];
         const half = (this.boardSize - 1) / 2;
         // Neutral fences at the intersection of different-coloured edges.
         markers.push({ cell: { col: half, row: 0}, side: "N" });
@@ -514,7 +514,6 @@ export class AtollGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             options: [showLabels ? "swap-labels" : "hide-labels"],
-            // @ts-ignore
             board: {
                 style: "hex-odd-f",
                 width: this.boardSize,
@@ -523,7 +522,7 @@ export class AtollGame extends GameBase {
                 markers: [
                     {
                         type: "fences",
-                        sides: markers,
+                        sides: markers as [MarkerFenceData, ...MarkerFenceData[]],
                     }
                 ],
             },
@@ -542,7 +541,6 @@ export class AtollGame extends GameBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -563,20 +561,18 @@ export class AtollGame extends GameBase {
                         const [x,y] = this.algebraic2coords(cell);
                         targets.push({row: y, col: x})
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "move", targets, arrow: false});
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
 
             }
         }
         if (this.dots.length > 0) {
-            const points = [];
+            const points: {row: number; col: number}[] = [];
             for (const cell of this.dots) {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({ type: "dots", targets: points });
+            rep.annotations.push({ type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]] });
         }
         return rep;
     }

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -15,11 +15,6 @@ export type Size = 0|1|2|3;
 export type CellContents = [playerid, Size];
 
 const allMonuments: Map<string, number> = new Map([["111", 3], ["212", 5], ["323", 8]]);
-
-interface IPointEntry {
-    row: number;
-    col: number;
-}
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -1100,25 +1095,23 @@ export class UrbinoGame extends GameBase {
         };
         const cells = this.findPoints().map(p => UrbinoGame.algebraic2coords(p));
         if (cells.length > 0) {
-            const points: IPointEntry[] = [];
+            const points: RowCol[] = [];
             for (const cell of cells) {
                 points.push({row: cell[1], col: cell[0]});
             }
-            // @ts-ignore
-            rep.board.markers = [{type: "dots", points}];
+            (rep.board as BoardBasic).markers = [{type: "dots", points: points as [RowCol, ...RowCol[]]}];
         }
 
         // Add annotations
         // if (this.stack[this.stack.length - 1]._results.length > 0) {
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             // for (const move of this.stack[this.stack.length - 1]._results) {
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = UrbinoGame.algebraic2coords(move.from);
                     const [toX, toY] = UrbinoGame.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", colour: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = UrbinoGame.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -22,22 +22,6 @@ export interface IManalathState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
-
-interface IKeyEntry {
-    piece: string;
-    name: string;
-    value?: string;
-}
-
-interface IKey {
-    [k: string]: unknown;
-    type: "key";
-    list: IKeyEntry[];
-    height?: number;
-    buffer?: number;
-    position?: "left"|"right";
-    clickable?: boolean;
-}
 
 export class ManalathGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -487,12 +471,10 @@ export class ManalathGame extends GameBase {
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add key so the user can click to select the color to place
-        const key: IKey = {
+        const key: AreaKey = {
             type: "key",
             position: "left",
             height: 0.7,
@@ -503,7 +485,6 @@ export class ManalathGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {

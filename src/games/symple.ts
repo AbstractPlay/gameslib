@@ -605,7 +605,6 @@ export class SympleGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
 
             // highlight last-placed piece

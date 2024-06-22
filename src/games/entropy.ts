@@ -1,7 +1,7 @@
 // import { IGame } from "./IGame";
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IStatus, IStashEntry, IScores, IValidationResult, IRenderOpts } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardEntropy, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
@@ -549,7 +549,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
         pstr = pstr.replace(/\n,{13}(?=\n)/g, "\n_");
 
-        const board = {
+        const board: BoardEntropy = {
             style: "entropy",
             orientation: "vertical",
             boardOne: { occluded: false, label: "" },
@@ -558,24 +558,24 @@ export class EntropyGame extends GameBaseSimultaneous {
         if (perspective !== undefined) {
             if (perspective === 1) {
                 if (this.phase === "order") {
-                    board.boardTwo.occluded = true;
+                    board.boardTwo!.occluded = true;
                 } else {
-                    board.boardOne.occluded = true;
+                    board.boardOne!.occluded = true;
                 }
             } else {
                 if (this.phase === "order") {
-                    board.boardOne.occluded = true;
+                    board.boardOne!.occluded = true;
                 } else {
-                    board.boardTwo.occluded = true;
+                    board.boardTwo!.occluded = true;
                 }
             }
         }
         if (this.phase === "order") {
-            board.boardOne.label = "Player 1: Order";
-            board.boardTwo.label = "Player 2: Order";
+            board.boardOne!.label = "Player 1: Order";
+            board.boardTwo!.label = "Player 2: Order";
         } else {
-            board.boardOne.label = "Player 2: Chaos";
-            board.boardTwo.label = "Player 1: Chaos";
+            board.boardOne!.label = "Player 2: Chaos";
+            board.boardTwo!.label = "Player 1: Chaos";
         }
 
         const legend : { [k: string]: Glyph } = {};
@@ -584,7 +584,6 @@ export class EntropyGame extends GameBaseSimultaneous {
         // Build rep
         const rep: APRenderRep =  {
             renderer: "entropy",
-            // @ts-ignore
             board,
             legend,
             pieces: pstr

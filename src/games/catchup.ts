@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -516,7 +516,7 @@ export class CatchupGame extends GameBase {
             const [x, y] = this.graph.algebraic2coords(cell);
             points.push({ row: y, col: x });
         }
-        const markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.25, points }] : undefined;
+        const markers: MarkerFlood[] | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.25, points: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]}] : undefined;
 
         // Build rep
         const rep: APRenderRep =  {
@@ -524,7 +524,6 @@ export class CatchupGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
-                // @ts-ignore
                 markers,
             },
             legend: {
@@ -540,13 +539,10 @@ export class CatchupGame extends GameBase {
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {

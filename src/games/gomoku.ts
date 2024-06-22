@@ -613,7 +613,6 @@ export class GomokuGame extends InARowBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -640,8 +639,7 @@ export class GomokuGame extends InARowBase {
                     for (const coords of connPath) {
                         targets.push({row: coords[1], col: coords[0]})
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "move", targets, arrow: false});
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
             }
         }

@@ -524,7 +524,6 @@ export class FocusGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             let exitNoted = false;
             for (const move of this.stack[this.stack.length - 1]._results) {

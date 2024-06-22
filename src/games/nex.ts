@@ -626,7 +626,6 @@ export class NexGame extends GameBase {
                 style: "hex-slanted",
                 width: this.boardSize,
                 height: this.boardSize,
-                // @ts-ignore
                 markers,
             },
             options: ["reverse-letters"],
@@ -636,13 +635,10 @@ export class NexGame extends GameBase {
                 C: { name: "piece", colour: 3 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place" || move.type === "swap") {
@@ -657,8 +653,7 @@ export class NexGame extends GameBase {
                     const [x, y] = this.graph.algebraic2coords(cell);
                     targets.push({row: y, col: x})
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "move", targets, arrow: false});
+                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
         return rep;

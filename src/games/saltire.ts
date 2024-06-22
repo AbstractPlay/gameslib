@@ -618,7 +618,6 @@ export class SaltireGame extends GameBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -639,8 +638,7 @@ export class SaltireGame extends GameBase {
                     const [x,y] = this.algebraic2coords(cell);
                     targets.push({row: y, col: x})
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "move", targets, arrow: false});
+                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
         if (this.dots.length > 0) {
@@ -649,8 +647,7 @@ export class SaltireGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({ type: "dots", targets: points });
+            rep.annotations.push({ type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]] });
         }
         return rep;
     }

@@ -406,13 +406,10 @@ export class HexYGame extends GameBase {
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             if (this.gameover) {
                 if (this.winner.length === 1) {
@@ -422,7 +419,7 @@ export class HexYGame extends GameBase {
                         // highlight cells in the group
                         for (const cell of results.group) {
                             const [x, y] = this.graph.algebraic2coords(cell);
-                            rep.annotations.push({type: "dots", targets: [{row: y, col: x}], player: 3});
+                            rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: 3});
                         }
                         // draw a line connecting the perimeter
                         type RowCol = {row: number; col: number;};
@@ -436,8 +433,7 @@ export class HexYGame extends GameBase {
                                 }
                             }
                         }
-                        // @ts-ignore
-                        rep.annotations.push({type: "move", targets, arrow: false});
+                        rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                     }
                 }
             }

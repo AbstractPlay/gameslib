@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -432,14 +432,11 @@ export class SusanGame extends GameBase {
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
-            rep.annotations = [];
+            rep.annotations = [] as AnnotationBasic[];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
@@ -457,8 +454,7 @@ export class SusanGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({ type: "dots", targets: points });
+            rep.annotations!.push({ type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]] });
         }
         if (this.surroundedCells.length > 0) {
             const points = [];
@@ -466,8 +462,7 @@ export class SusanGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({ type: "glyph", glyph: "X", targets: points });
+            rep.annotations!.push({ type: "glyph", glyph: "X", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]] });
         }
         return rep;
     }

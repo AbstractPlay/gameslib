@@ -683,7 +683,6 @@ export class AmazonsGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             let fromX: number|undefined; let fromY: number|undefined;
             let toX: number|undefined; let toY: number|undefined;
@@ -732,9 +731,8 @@ export class AmazonsGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "move":
-                const block = results.find(mr => mr.type === "block");
-                // @ts-ignore
-                node.push(i18next.t("apresults:MOVE.amazons", {player, from: r.from, to: r.to, block: block.where as string}));
+                const block = results.find(mr => mr.type === "block")! as {type: "block"; where: string};
+                node.push(i18next.t("apresults:MOVE.amazons", {player, from: r.from, to: r.to, block: block.where}));
                 resolved = true;
                 break;
             case "block":

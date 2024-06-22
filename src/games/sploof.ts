@@ -860,7 +860,6 @@ export class SploofGame extends GameBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -889,8 +888,7 @@ export class SploofGame extends GameBase {
                         const [x, y] = this.algebraic2position(cell);
                         targets.push({row: y, col: x})
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "move", targets, arrow: false});
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
             }
         }

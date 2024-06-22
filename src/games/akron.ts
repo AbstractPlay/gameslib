@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationBasic, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -13,6 +13,7 @@ type PlayerLines = [string[], string[]];
 interface ILooseObj {
     [key: string]: any;
 }
+type RowCol = {row: number; col: number;};
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -967,13 +968,12 @@ export class AkronGame extends GameBase {
                     {type:"edge", edge: "E", colour: 2},
                     {type:"edge", edge: "W", colour: 2},
                 ]
-            },
+            } as BoardBasic,
             legend,
             pieces: pstr,
         };
 
-        // @ts-ignore
-        rep.annotations = [];
+        rep.annotations = [] as AnnotationBasic[];
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place") {
@@ -990,24 +990,21 @@ export class AkronGame extends GameBase {
                 }
             }
             if (this.connPath.length > 0) {
-                type RowCol = {row: number; col: number;};
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
                     const [x, y] = this.algebraic2position(cell);
                     targets.push({row: y, col: x})
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "move", targets, arrow: false});
+                (rep.annotations as AnnotationBasic[]).push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
         if (this.dots.length > 0) {
-            const points = [];
+            const points: RowCol[] = [];
             for (const cell of this.dots) {
                 const [x, y] = this.algebraic2position(cell);
                 points.push({row: y, col: x});
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: points});
+            rep.annotations.push({type: "dots", targets: points as [RowCol, ...RowCol[]]});
         }
 
         rep.areas = [

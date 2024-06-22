@@ -1,6 +1,6 @@
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -449,7 +449,7 @@ export class StringsGame extends GameBaseSimultaneous {
         }
         pstr = pstr.replace(/\n,{6}(?=\n)/g, "\n_");
 
-        const legend = {
+        const legend: {[k: string]: string | Glyph | [Glyph, ...Glyph[]];} = {
             R: {
                 name: "piece-borderless",
                 colour: 1,
@@ -465,7 +465,6 @@ export class StringsGame extends GameBaseSimultaneous {
         };
         // strings
         for (const n of this.strings.values()) {
-            // @ts-ignore
             legend[`S${n}`] = [
                 {
                     name: "piece-borderless",
@@ -476,11 +475,10 @@ export class StringsGame extends GameBaseSimultaneous {
                     colour: "#000",
                     scale: 0.5,
                 }
-            ];
+            ] as [Glyph, ...Glyph[]];
         }
         // coins
         for (const n of this.board.values()) {
-            // @ts-ignore
             legend[`C${n}`] = [
                 {
                     "name": "piece",
@@ -532,7 +530,6 @@ export class StringsGame extends GameBaseSimultaneous {
 
         if (this.stack[this.stack.length - 1]._results.length > 0) {
         // if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
             // for (const move of this.results) {

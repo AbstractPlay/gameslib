@@ -595,12 +595,10 @@ export class PletoreGame extends GameBase {
             points2 = points.get(2)!;
 
             if (points1.length > 0) {
-                // @ts-ignore
                 markers.push({ type: "dots", colour: 1, opacity: 1, points: points1 });
             }
 
             if (points2.length > 0) {
-                // @ts-ignore
                 markers.push({ type: "dots", colour: 2, opacity: 1, points: points2 });
             }
         }
@@ -616,7 +614,6 @@ export class PletoreGame extends GameBase {
                 style: "vertex",
                 width: this.boardSize,
                 height: this.boardSize,
-                // @ts-ignore
                 markers,
             },
             legend,
@@ -637,13 +634,11 @@ export class PletoreGame extends GameBase {
             points2 = points.get(2)!;
 
             if (points1.length > 0) {
-                // @ts-ignore
-                rep.annotations.push({type: "dots", player: 1, targets: points1 });
+                rep.annotations.push({type: "dots", colour: 1, targets: points1 as [{row: number; col: number}, ...{row: number; col: number}[]] });
             }
 
             if (points2.length > 0) {
-                // @ts-ignore
-                rep.annotations.push({type: "dots", player: 2, targets: points2 });
+                rep.annotations.push({type: "dots", colour: 2, targets: points2 as [{row: number; col: number}, ...{row: number; col: number}[]] });
             }
         }
 

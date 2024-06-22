@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";
@@ -737,8 +737,7 @@ export class ACityGame extends GameBase {
 
     public render(): APRenderRep {
         // Build piece string
-        // @ts-ignore
-        let pieceRep: [string[][], ...string[][][]] | null = [];
+        let pieceRep: string[][][] | null = [];
         const cells = this.graph.listCells(true) as string[][];
         for (const row of cells) {
             const pieces: string[][] = [];
@@ -757,14 +756,14 @@ export class ACityGame extends GameBase {
                     pieces.push([]);
                 }
             }
-            pieceRep!.push(pieces);
+            pieceRep.push(pieces);
         }
-        if (pieceRep!.length === 0) {
+        if (pieceRep.length === 0) {
             pieceRep = null;
         }
 
         // Build rep
-        const markers: any[] = [];
+        const markers: (MarkerShading|MarkerGlyph)[] = [];
         // very lightly shade in tiles
         for (let i = 0; i < this.startpos.length; i++) {
             const tile = this.startpos[i];
@@ -815,7 +814,7 @@ export class ACityGame extends GameBase {
             });
         }
 
-        const board = {
+        const board: BoardBasic = {
             style: "squares",
             width: 8,
             height: 10,
@@ -824,7 +823,6 @@ export class ACityGame extends GameBase {
             markers,
         }
         const rep: APRenderRep =  {
-            // @ts-ignore
             board,
             legend: {
                 RD: {
@@ -888,7 +886,7 @@ export class ACityGame extends GameBase {
                     opacity: 0.15,
                 },
             },
-            pieces: pieceRep,
+            pieces: pieceRep as [string[][], ...string[][][]],
             areas: []
         };
 
@@ -899,15 +897,13 @@ export class ACityGame extends GameBase {
                     type: "pieces",
                     label: `Player ${n + 1}'s stash`,
                     ownerMark: n === 0 ? "#fff" : "#000",
-                    // @ts-ignore
                     pieces: [...this.stashes[n]]
-                });
+                } as AreaPieces);
             }
         }
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {

@@ -508,7 +508,6 @@ export class IqishiqiGame extends GameBase {
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             for (const move of this.stack[this.stack.length - 1]._results) {
@@ -533,8 +532,7 @@ export class IqishiqiGame extends GameBase {
                     const toLoc = this.moveHex(...ballCoords, direction, group.size);
                     points.push({row: toLoc![1], col: toLoc![0]});
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+                rep.annotations.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
             }
         }
 

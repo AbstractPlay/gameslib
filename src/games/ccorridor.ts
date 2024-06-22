@@ -635,7 +635,6 @@ export class CairoCorridorGame extends GameBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {

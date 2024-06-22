@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaHWStash, BoardHomeworlds } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
 import { reviver } from "../common";
@@ -2584,16 +2584,12 @@ export class HomeworldsGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             renderer: "homeworlds",
-            // @ts-ignore
-            board: this.systems.map(s => s.renderSys()),
-            // @ts-ignore
+            board: this.systems.map(s => s.renderSys()) as BoardHomeworlds,
             pieces: this.systems.map(s => s.renderShips()),
-            // @ts-ignore
-            areas: [this.stash.render()],
+            areas: [this.stash.render()] as AreaHWStash[],
             legend: myLegend
         };
         if (annotations.length > 0) {
-            // @ts-ignore
             rep.annotations = annotations;
         }
 

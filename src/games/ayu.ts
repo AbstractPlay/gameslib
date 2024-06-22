@@ -530,7 +530,6 @@ export class AyuGame extends GameBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -545,13 +544,13 @@ export class AyuGame extends GameBase {
             }
         }
         if (this.dots.length > 0) {
-            const points = [];
+            type RowCol = {row: number; col: number};
+            const points: RowCol[] = [];
             for (const cell of this.dots) {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({ type: "dots", targets: points });
+            rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
         }
         return rep;
     }

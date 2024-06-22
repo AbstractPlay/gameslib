@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -1458,8 +1458,7 @@ export class RealmGame extends GameBase {
         pstr = pstr.replace(/\n,{11}(?=\n)/g, "\n_");
 
         // build markers
-        type MarkerPoints = [{row: number; col: number}, ...{row: number; col: number}[]];
-        // @ts-ignore
+        type MarkerPoints = {row: number; col: number}[];
         const markers: MarkerPoints = [];
         const ctrs = [1, 4, 7, 10];
         for (const x of ctrs) {
@@ -1480,7 +1479,7 @@ export class RealmGame extends GameBase {
                 markers: [{
                     "type": "glyph",
                     "glyph": "circle",
-                    "points": markers
+                    "points": markers as [{row: number; col: number}, ...{row: number; col: number}[]]
                 }],
             },
             legend: {
@@ -1615,16 +1614,13 @@ export class RealmGame extends GameBase {
                     row: cy+2
                 },
             ];
-            // @ts-ignore
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            rep.board.markers.push({
+            (rep.board as BoardBasic).markers!.push({
                 type: "shading",
                 colour: this.currplayer,
-                points: corners
+                points: corners as [{row: number; col: number}, {row: number; col: number}, {row: number; col: number}, ...{row: number; col: number}[]]
             });
 
             // Put any inhand pieces in the bar
-            // @ts-ignore
             rep.areas = [{
                 type: "pieces",
                 pieces: [...this.inhand[1].map(p => `${p[1] === "E" ? "En" : p[1]}${p[0]}${p[1].startsWith("E") ? "N" : ""}`)] as [string, ...string[]],
@@ -1635,14 +1631,13 @@ export class RealmGame extends GameBase {
         // Add annotations
         // if (this.stack[this.stack.length - 1]._results.length > 0) {
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             // for (const move of this.stack[this.stack.length - 1]._results) {
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = RealmGame.algebraic2coords(move.from);
                     const [toX, toY] = RealmGame.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", colour: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = RealmGame.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

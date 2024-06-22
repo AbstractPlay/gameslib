@@ -793,7 +793,6 @@ export class FendoGame extends GameBase {
             markers,
         }
         const rep: APRenderRep =  {
-            // @ts-ignore
             board,
             legend: {
                 A: {
@@ -810,7 +809,6 @@ export class FendoGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {
@@ -891,17 +889,15 @@ export class FendoGame extends GameBase {
                     name = players[otherPlayer - 1];
                 }
 
-                const moves = state._results.filter(r => r.type === "move");
+                const moves = state._results.filter(r => r.type === "move") as {type: "move"; from: string; to: string}[];
                 if (moves.length > 0) {
                     const first = moves[0];
                     const last = moves[moves.length - 1];
                     const rest = moves.slice(0, moves.length - 1);
                     if ( moves.length > 2) {
-                        // @ts-ignore
-                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from as string, to: last.to as string, through: rest.map(r => r.to as string).join(", ")}));
+                        node.push(i18next.t("apresults:MOVE.chase", {player: name, from: first.from, to: last.to, through: rest.map(r => r.to).join(", ")}));
                     } else {
-                        // @ts-ignore
-                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from as string, to: last.to as string}));
+                        node.push(i18next.t("apresults:MOVE.nowhat", {player: name, from: first.from, to: last.to}));
                     }
                 }
 

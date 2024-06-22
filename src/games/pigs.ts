@@ -636,7 +636,6 @@ export class PigsGame extends GameBaseSimultaneous {
 
         if (this.stack[this.stack.length - 1]._results.length > 0) {
         // if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
             // for (const move of this.results) {
@@ -649,7 +648,7 @@ export class PigsGame extends GameBaseSimultaneous {
                                 const [tx, ty] = PigsGame.algebraic2coords(result.to);
                                 rep.annotations.push({
                                     type: "move",
-                                    player,
+                                    colour: player,
                                     arrow: true,
                                     targets: [
                                         {col: fx, row: fy},
@@ -662,7 +661,7 @@ export class PigsGame extends GameBaseSimultaneous {
                             const [tx, ty] = PigsGame.algebraic2coords(result.to!);
                             rep.annotations.push({
                                 type: "move",
-                                player,
+                                colour: player,
                                 arrow: true,
                                 style: "dashed",
                                 targets: [
@@ -674,7 +673,7 @@ export class PigsGame extends GameBaseSimultaneous {
                             const [x, y] = PigsGame.algebraic2coords(result.where as string);
                             rep.annotations.push({
                                 type: "exit",
-                                player,
+                                colour: player,
                                 targets: [{col: x, row: y}]
                             });
                         }

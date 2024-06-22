@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -548,14 +548,15 @@ export class AttangleGame extends GameBase {
         }
 
         // Build rep
-        let board = {
+        type RowCol = {row: number; col: number};
+        let board: BoardBasic = {
             style: "hex-of-tri",
             minWidth: 4,
             maxWidth: 7,
             markers: [{type: "dots", points: [{row: 3, col: 3}]}]
         }
         if (this.variants.includes("grand")) {
-            const markers = voids[1].map(v => {
+            const markers: RowCol[] = voids[1].map(v => {
                 const [x, y] = this.graph.algebraic2coords(v);
                 return {row: y, col: x};
             });
@@ -564,13 +565,12 @@ export class AttangleGame extends GameBase {
                 minWidth: 5,
                 maxWidth: 9,
                 markers: [
-                    {type: "dots", points: markers}
+                    {type: "dots", points: markers as [RowCol, ...RowCol[]]}
                 ]
             };
         }
         const rep: APRenderRep =  {
             renderer: "stacking-offset",
-            // @ts-ignore
             board,
             legend: {
                 A: {
@@ -587,7 +587,6 @@ export class AttangleGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {

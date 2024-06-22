@@ -637,11 +637,9 @@ export class QueenslandGame extends GameBase {
         }
         let markers: Array<any> | undefined = []
         if (points1.length > 0) {
-            // @ts-ignore
             markers.push({ type: "flood", colour: 1, opacity: 0.33, points: points1 });
         }
         if (points2.length > 0) {
-            // @ts-ignore
             markers.push({ type: "flood", colour: 2, opacity: 0.33, points: points2 });
         }
         if (markers.length === 0) {
@@ -654,7 +652,6 @@ export class QueenslandGame extends GameBase {
                 style: this.gameover ? "squares" : "squares-checkered",
                 width: 8,
                 height: 8,
-                // @ts-ignore
                 markers,
             },
             legend: {
@@ -672,7 +669,6 @@ export class QueenslandGame extends GameBase {
 
         // Add annotations
         if ( (this.stack[this.stack.length - 1]._results.length > 0) || (this._points.length > 0) ) {
-            // @ts-ignore
             rep.annotations = [];
 
             if (this._points.length > 0) {
@@ -680,8 +676,7 @@ export class QueenslandGame extends GameBase {
                 for (const cell of this._points) {
                     points.push({row: cell[1], col: cell[0]});
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+                rep.annotations.push({type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]]});
             }
 
             for (const move of this.stack[this.stack.length - 1]._results) {

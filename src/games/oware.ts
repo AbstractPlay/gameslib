@@ -449,7 +449,6 @@ export class OwareGame extends GameBase {
         };
 
         // record deltas
-        // @ts-ignore
         rep.annotations = [];
         const deltas: {row: number; col: number; delta: number}[] = [];
         for (let y = 0; y < 2; y++) {
@@ -461,7 +460,6 @@ export class OwareGame extends GameBase {
         }
         deltas.push({row: 2, col: 0, delta: this.deltas[2][1]});
         deltas.push({row: 2, col: 1, delta: this.deltas[2][0]});
-        // @ts-ignore
         rep.annotations.push({type: "deltas", deltas});
 
         // Add annotations
@@ -480,8 +478,7 @@ export class OwareGame extends GameBase {
                         const [x, y] = g.algebraic2coords(where);
                         targets.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "exit", targets});
+                    rep.annotations.push({type: "exit", targets: targets as [{row: number; col: number}, ...{row: number; col: number}[]]});
                 }
             }
         }

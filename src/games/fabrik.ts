@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
@@ -657,10 +657,8 @@ export class FabrikGame extends GameBase {
             pieces: pstr
         };
         if (this.variants.includes("arbeiter")) {
-            // @ts-ignore
-            rep.legend!.C.player = 1;
-            // @ts-ignore
-            rep.legend!.D.player = 2;
+            (rep.legend!.C as Glyph).colour = 1;
+            (rep.legend!.D as Glyph).colour = 2;
         }
         const cells = this.findPoints().map(p => FabrikGame.algebraic2coords(p));
         if (cells.length > 0) {
@@ -668,19 +666,17 @@ export class FabrikGame extends GameBase {
             for (const cell of cells) {
                 points.push({row: cell[1], col: cell[0]});
             }
-            // @ts-ignore
-            rep.board.markers = [{type: "dots", points}];
+            (rep.board as BoardBasic).markers = [{type: "dots", points: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]}];
         }
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = FabrikGame.algebraic2coords(move.from);
                     const [toX, toY] = FabrikGame.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", player: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                    rep.annotations.push({type: "move", colour: 3, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
                     const [x, y] = FabrikGame.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

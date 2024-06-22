@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -648,7 +648,7 @@ export class AsliGame extends GameBase {
                 style: "vertex",
                 width: this.boardsize,
                 height: this.boardsize,
-            },
+            } as BoardBasic,
             legend: {
                 A: {
                     name: "piece",
@@ -658,8 +658,7 @@ export class AsliGame extends GameBase {
                     name: "piece",
                     colour: 2
                 },
-                // @ts-ignore
-                P: prisonPiece
+                P: prisonPiece as [Glyph, ...Glyph[]]
             },
             pieces: pstr,
             areas: [
@@ -690,14 +689,12 @@ export class AsliGame extends GameBase {
                 markers = undefined;
             }
             if (markers !== undefined) {
-                // @ts-ignore
-                rep.board!.markers = markers;
+                (rep.board as BoardBasic).markers = markers;
             }
         }
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {

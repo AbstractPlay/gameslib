@@ -2,7 +2,7 @@
 /* eslint-disable jsdoc/check-indentation */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { SowingNoEndsGraph, reviver, UserFacingError } from "../common";
 import type { IRenderOpts, IScores } from "./_base";
@@ -447,12 +447,10 @@ export class ToguzGame extends GameBase {
             }
         }
         if (tuz.length > 0) {
-            // @ts-ignore
-            rep.board.squarePits = tuz
+            (rep.board as BoardBasic).squarePits = tuz as [RowCol, ...RowCol[]];
         }
 
         // record deltas
-        // @ts-ignore
         rep.annotations = [];
         const deltas: {row: number; col: number; delta: number}[] = [];
         for (let y = 0; y < 2; y++) {
@@ -464,7 +462,6 @@ export class ToguzGame extends GameBase {
         }
         deltas.push({row: 2, col: 0, delta: this.deltas[2][1]});
         deltas.push({row: 2, col: 1, delta: this.deltas[2][0]});
-        // @ts-ignore
         rep.annotations.push({type: "deltas", deltas});
 
         // Add annotations
@@ -482,8 +479,7 @@ export class ToguzGame extends GameBase {
                         const [x, y] = g.algebraic2coords(where);
                         targets.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "exit", targets});
+                    rep.annotations.push({type: "exit", targets: targets as [RowCol, ...RowCol[]]});
                 }
             }
         }

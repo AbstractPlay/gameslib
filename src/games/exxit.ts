@@ -4,7 +4,7 @@
 import { defineHex, Orientation } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import { CompassDirection, hexNeighbours, nextHex, bearing as calcBearing } from "../common/hexes";
@@ -848,16 +848,13 @@ export class ExxitGame extends GameBase {
             },
             pieces: pstr
         };
-        // @ts-ignore
-        if ((rep.board!.blocked as any[]).length === 0) {
-            // @ts-ignore
-            delete rep.board!.blocked;
+        if ((rep.board as BoardBasic).blocked!.length === 0) {
+            delete (rep.board as BoardBasic).blocked;
         }
         // flood tiles
         for (let i = 0; i < flooded.length; i++) {
             if (flooded[i].length > 0) {
-                // @ts-ignore
-                (rep.board!.markers as any[]).push({
+                (rep.board as BoardBasic).markers!.push({
                     type: "flood",
                     points: flooded[i] as [{row: number; col: number},...{row: number; col: number}[]],
                     colour: i + 1,
@@ -868,7 +865,6 @@ export class ExxitGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {

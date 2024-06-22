@@ -1057,14 +1057,12 @@ export class TableroGame extends GameBase {
             rep.areas!.push({
                 type: "pieces",
                 label: `Stack to be moved (next checker is on the right)`,
-                // @ts-ignore
-                pieces: [...this.moving.map(p => p === 1 ? "A": "B")]
+                pieces: [...this.moving.map(p => p === 1 ? "A": "B")] as [string, ...string[]],
             });
         }
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {

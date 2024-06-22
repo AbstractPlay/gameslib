@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaButtonBar, ButtonBarButton } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -11,37 +11,6 @@ const winningRays: Map<number, string[][]> = new Map([
     [4, JSON.parse("[[\"a4\",\"b4\",\"c4\",\"d4\"],[\"a4\",\"b3\",\"c2\",\"d1\"],[\"a4\",\"a3\",\"a2\",\"a1\"],[\"a4\",\"b4\",\"a3\",\"b3\"],[\"b4\",\"b3\",\"b2\",\"b1\"],[\"b4\",\"c4\",\"b3\",\"c3\"],[\"c4\",\"c3\",\"c2\",\"c1\"],[\"c4\",\"d4\",\"c3\",\"d3\"],[\"d4\",\"d3\",\"d2\",\"d1\"],[\"d4\",\"c3\",\"b2\",\"a1\"],[\"a3\",\"b3\",\"c3\",\"d3\"],[\"a3\",\"b3\",\"a2\",\"b2\"],[\"b3\",\"c3\",\"b2\",\"c2\"],[\"c3\",\"d3\",\"c2\",\"d2\"],[\"a2\",\"b2\",\"c2\",\"d2\"],[\"a2\",\"b2\",\"a1\",\"b1\"],[\"b2\",\"c2\",\"b1\",\"c1\"],[\"c2\",\"d2\",\"c1\",\"d1\"],[\"a1\",\"b1\",\"c1\",\"d1\"]]") as string[][]],
     [6, JSON.parse("[[\"a6\",\"b6\",\"c6\",\"d6\"],[\"a6\",\"b5\",\"c4\",\"d3\"],[\"a6\",\"a5\",\"a4\",\"a3\"],[\"a6\",\"b6\",\"a5\",\"b5\"],[\"b6\",\"c6\",\"d6\",\"e6\"],[\"b6\",\"c5\",\"d4\",\"e3\"],[\"b6\",\"b5\",\"b4\",\"b3\"],[\"b6\",\"c6\",\"b5\",\"c5\"],[\"c6\",\"d6\",\"e6\",\"f6\"],[\"c6\",\"d5\",\"e4\",\"f3\"],[\"c6\",\"c5\",\"c4\",\"c3\"],[\"c6\",\"d6\",\"c5\",\"d5\"],[\"d6\",\"d5\",\"d4\",\"d3\"],[\"d6\",\"c5\",\"b4\",\"a3\"],[\"d6\",\"e6\",\"d5\",\"e5\"],[\"e6\",\"e5\",\"e4\",\"e3\"],[\"e6\",\"d5\",\"c4\",\"b3\"],[\"e6\",\"f6\",\"e5\",\"f5\"],[\"f6\",\"f5\",\"f4\",\"f3\"],[\"f6\",\"e5\",\"d4\",\"c3\"],[\"a5\",\"b5\",\"c5\",\"d5\"],[\"a5\",\"b4\",\"c3\",\"d2\"],[\"a5\",\"a4\",\"a3\",\"a2\"],[\"a5\",\"b5\",\"a4\",\"b4\"],[\"b5\",\"c5\",\"d5\",\"e5\"],[\"b5\",\"c4\",\"d3\",\"e2\"],[\"b5\",\"b4\",\"b3\",\"b2\"],[\"b5\",\"c5\",\"b4\",\"c4\"],[\"c5\",\"d5\",\"e5\",\"f5\"],[\"c5\",\"d4\",\"e3\",\"f2\"],[\"c5\",\"c4\",\"c3\",\"c2\"],[\"c5\",\"d5\",\"c4\",\"d4\"],[\"d5\",\"d4\",\"d3\",\"d2\"],[\"d5\",\"c4\",\"b3\",\"a2\"],[\"d5\",\"e5\",\"d4\",\"e4\"],[\"e5\",\"e4\",\"e3\",\"e2\"],[\"e5\",\"d4\",\"c3\",\"b2\"],[\"e5\",\"f5\",\"e4\",\"f4\"],[\"f5\",\"f4\",\"f3\",\"f2\"],[\"f5\",\"e4\",\"d3\",\"c2\"],[\"a4\",\"b4\",\"c4\",\"d4\"],[\"a4\",\"b3\",\"c2\",\"d1\"],[\"a4\",\"a3\",\"a2\",\"a1\"],[\"a4\",\"b4\",\"a3\",\"b3\"],[\"b4\",\"c4\",\"d4\",\"e4\"],[\"b4\",\"c3\",\"d2\",\"e1\"],[\"b4\",\"b3\",\"b2\",\"b1\"],[\"b4\",\"c4\",\"b3\",\"c3\"],[\"c4\",\"d4\",\"e4\",\"f4\"],[\"c4\",\"d3\",\"e2\",\"f1\"],[\"c4\",\"c3\",\"c2\",\"c1\"],[\"c4\",\"d4\",\"c3\",\"d3\"],[\"d4\",\"d3\",\"d2\",\"d1\"],[\"d4\",\"c3\",\"b2\",\"a1\"],[\"d4\",\"e4\",\"d3\",\"e3\"],[\"e4\",\"e3\",\"e2\",\"e1\"],[\"e4\",\"d3\",\"c2\",\"b1\"],[\"e4\",\"f4\",\"e3\",\"f3\"],[\"f4\",\"f3\",\"f2\",\"f1\"],[\"f4\",\"e3\",\"d2\",\"c1\"],[\"a3\",\"b3\",\"c3\",\"d3\"],[\"a3\",\"b3\",\"a2\",\"b2\"],[\"b3\",\"c3\",\"d3\",\"e3\"],[\"b3\",\"c3\",\"b2\",\"c2\"],[\"c3\",\"d3\",\"e3\",\"f3\"],[\"c3\",\"d3\",\"c2\",\"d2\"],[\"d3\",\"e3\",\"d2\",\"e2\"],[\"e3\",\"f3\",\"e2\",\"f2\"],[\"a2\",\"b2\",\"c2\",\"d2\"],[\"a2\",\"b2\",\"a1\",\"b1\"],[\"b2\",\"c2\",\"d2\",\"e2\"],[\"b2\",\"c2\",\"b1\",\"c1\"],[\"c2\",\"d2\",\"e2\",\"f2\"],[\"c2\",\"d2\",\"c1\",\"d1\"],[\"d2\",\"e2\",\"d1\",\"e1\"],[\"e2\",\"f2\",\"e1\",\"f1\"],[\"a1\",\"b1\",\"c1\",\"d1\"],[\"b1\",\"c1\",\"d1\",\"e1\"],[\"c1\",\"d1\",\"e1\",\"f1\"]]") as string[][]]
 ]);
-
-/**
- * Internal interface
- */
- interface INameValuePair {
-    name: string;
-    value: string;
-}
-
-/**
- * Internal interface used for button bars
- */
- interface IButton {
-    label: string;
-    value?: string;
-    attributes?: INameValuePair[];
-    fill?: string;
-}
-
-/**
- * Internal interface used for button bars
- */
-interface IButtonBar {
-    type: "buttonBar";
-    buttons: IButton[];
-    position?: "left"|"right";
-    height?: number;
-    minWidth?: number;
-    buffer?: number;
-    colour?: string;
-}
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -580,7 +549,6 @@ export class AlfredsWykeGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if ( (move.type === "add") || (move.type === "remove") ) {
@@ -591,15 +559,17 @@ export class AlfredsWykeGame extends GameBase {
         }
 
         // Add button bar
-        const bar: IButtonBar = {
+        const bar: AreaButtonBar = {
             type: "buttonBar",
             position: "left",
+            // Keep this one just because of the pain of initializing
+            // @ts-ignore
             buttons: []
         };
         for (const mt of moveTypes) {
-            const b: IButton = {
-                label: mt
-            }
+            const b = {
+                label: mt,
+            } as ButtonBarButton;
             if (this.lastTwo.includes(mt)) {
                 b.attributes = [{name: "text-decoration", value: "line-through"}]
                 if (this.lastTwo[0] === mt) {
@@ -610,7 +580,6 @@ export class AlfredsWykeGame extends GameBase {
             }
             bar.buttons.push(b);
         }
-        // @ts-expect-error
         rep.areas = [bar];
         return rep;
     }

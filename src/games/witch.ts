@@ -697,7 +697,6 @@ export class WitchGame extends GameBase {
                 if (lastmove.startsWith("(")) {
                     lastmove = lastmove.substring(3);
                 }
-                // @ts-ignore
                 rep.annotations = [];
                 if (lastmove.includes("-")) {
                     const [from, to] = lastmove.split("-");

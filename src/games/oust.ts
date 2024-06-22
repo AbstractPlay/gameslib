@@ -565,7 +565,6 @@ export class OustGame extends GameBase {
         }
         const rep = this.geometry === "hex" ? this.renderHexTri() : this.renderSquare();
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -578,8 +577,7 @@ export class OustGame extends GameBase {
                         const [x, y] = this.algebraic2coords(m);
                         targets.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "exit", targets});
+                    rep.annotations.push({type: "exit", targets: targets as [{row: number; col: number}, ...{row: number; col: number}[]]});
                 }
             }
         }
@@ -599,8 +597,7 @@ export class OustGame extends GameBase {
                 for (const cell of moves) {
                     points.push({row: cell[1], col: cell[0]});
                 }
-                // @ts-ignore
-                rep.annotations.push({ type: "dots", targets: points, opacity: 0.2 });
+                rep.annotations.push({ type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]], opacity: 0.2 });
             }
         }
         return rep;

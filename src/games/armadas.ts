@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship } from "./armadas/ship";
 import { IPoint, calcBearing, projectPoint, reviver, smallestDegreeDiff } from "../common";
@@ -1151,7 +1151,7 @@ export class ArmadasGame extends GameBase {
             scale: 0.25,
         };
 
-        const pieces: ILooseObj[] = [];
+        const pieces: Freepiece[] = [];
         for (const ship of this.ships) {
             pieces.push({
                 glyph: `${cs[ship.owner - 1]}${ship.size}`,
@@ -1162,8 +1162,8 @@ export class ArmadasGame extends GameBase {
             });
         }
 
-        const markers: ILooseObj[] = [];
-        const annotations: any[] = [];
+        const markers: (MarkerFreespaceGlyph|MarkerPath)[] = [];
+        const annotations: AnnotationFreespace[] = [];
         if (this.showArcs !== undefined) {
             const ship = this.ships.find(s => s.id === this.showArcs);
             if (ship !== undefined) {
@@ -1184,8 +1184,8 @@ export class ArmadasGame extends GameBase {
                 markers.push({type: "path", strokeOpacity: 0.25, path: `M${ship.tx},${ship.ty}L${maxx},${maxy}`});
             }
         }
-        const d1: any[] = [];
-        const d2: any[] = [];
+        const d1: IPoint[] = [];
+        const d2: IPoint[] = [];
         for (const ship of this.ships) {
             if ( (ship.dmg > 0) && (! ship.sunk) ) {
                 if (ship.dmg === 1) {
@@ -1196,10 +1196,10 @@ export class ArmadasGame extends GameBase {
             }
         }
         if (d1.length > 0) {
-            annotations.push({type: "glyph", glyph: "D1", points: d1});
+            annotations.push({type: "glyph", glyph: "D1", points: d1 as [IPoint, ...IPoint[]]});
         }
         if (d2.length > 0) {
-            annotations.push({type: "glyph", glyph: "D2", points: d2});
+            annotations.push({type: "glyph", glyph: "D2", points: d2 as [IPoint, ...IPoint[]]});
         }
         for (const r of this.results) {
             if (r.type === "damage") {
@@ -1261,26 +1261,22 @@ export class ArmadasGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            // @ts-ignore
             renderer: "freespace",
-            // @ts-ignore
             board: {
                 width: this.boardsize * ArmadasGame.BOARD_UNIT_DIMENSIONS,
                 height: this.boardsize * ArmadasGame.BOARD_UNIT_DIMENSIONS,
                 backFill: {
                     colour: "#eee"
                 },
-            },
+            } as BoardFreespace,
             legend: myLegend,
-            // @ts-ignore
             pieces,
         };
         if (annotations.length > 0) {
             rep.annotations = annotations;
         }
         if (markers.length > 0) {
-            // @ts-ignore
-            rep.board.markers = markers;
+            (rep.board as BoardFreespace).markers = markers;
         }
         if (this.phase === "place") {
             // add white pyramids for size selection

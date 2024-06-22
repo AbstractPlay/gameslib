@@ -573,8 +573,7 @@ export class CourtesanGame extends GameBase {
                 for (const cell of this._points) {
                     points.push({row: cell[1], col: cell[0]});
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+                rep.annotations.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
             }
 
             if (this.results.length > 0) {

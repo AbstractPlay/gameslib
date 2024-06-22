@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -23,6 +23,7 @@ const allDeltas: [number, number][] = [[0, -1], [1, -1], [1, 0], [1, 1], [0, 1],
 const manGroupSize = 3;
 const knightGroupSize = 5;
 const dragonGroupSize = 5;
+type RowCol = { row: number, col: number };
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -1219,8 +1220,7 @@ export class AnacheGame extends GameBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
-        rep.annotations = [];
+        rep.annotations = [] as AnnotationBasic[];
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "move") {
@@ -1237,23 +1237,21 @@ export class AnacheGame extends GameBase {
                         }
                     }
                 } else if (move.type === "capture") {
-                    const targets: { row: number, col: number }[] = [];
+                    const targets: RowCol[] = [];
                     for (const cell of move.where!.split(",")) {
                         const [x, y] = this.algebraic2coords(cell);
                         targets.push({ row: y, col: x });
                     }
-                    // @ts-ignore
-                    rep.annotations.push({ type: "exit", targets });
+                    rep.annotations.push({ type: "exit", targets: targets as [RowCol, ...RowCol[]] });
                 }
             }
         }
         if (this.arrows.size > 0) {
             for (const [cell, dir] of this.arrows) {
                 const [x, y] = this.algebraic2coords(cell);
-                const points = [];
+                const points: RowCol[] = [];
                 points.push({ row: y, col: x });
-                // @ts-ignore
-                rep.annotations.push({ type: "glyph", glyph: `arrow-${dir}`, targets: points });
+                rep.annotations.push({ type: "glyph", glyph: `arrow-${dir}`, targets: points as [RowCol, ...RowCol[]]});
             }
         }
         return rep;

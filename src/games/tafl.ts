@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, Directions } from "../common";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -1338,7 +1338,6 @@ export class TaflGame extends GameBase {
         if (this.throne !== undefined) {
             const [x, y] = this.algebraic2coords(this.throne);
             const thronePoints = [{row: y, col: x}];
-            // @ts-ignore
             markers.push({ type: "flood", colour: 2, opacity: 0.4, points: thronePoints });
         }
         if (this.corners.length > 0) {
@@ -1346,7 +1345,6 @@ export class TaflGame extends GameBase {
             for (const corner of this.corners) {
                 const [x, y] = this.algebraic2coords(corner);
                 cornerPoints.push({row: y, col: x});
-                // @ts-ignore
             }
             markers.push({ type: "flood", colour: 2, opacity: 0.4, points: cornerPoints });
         }
@@ -1392,7 +1390,6 @@ export class TaflGame extends GameBase {
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -1402,27 +1399,25 @@ export class TaflGame extends GameBase {
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
                     if (move.where === undefined) { continue; }
-                    const targets: {row: number, col: number}[] = [];
+                    const targets: RowCol[] = [];
                     for (const cell of move.where.split(",")) {
                         if (cell.length === 0) { continue; }
                         const [x, y] = this.algebraic2coords(cell);
                         targets.push({row: y, col: x});
                     }
                     if (targets.length > 0) {
-                        // @ts-ignore
-                        rep.annotations.push({type: "exit", targets});
+                        rep.annotations.push({type: "exit", targets: targets as [RowCol, ...RowCol[]]});
                     }
                 }
             }
         }
         if (this.dots.length > 0) {
-            const points = [];
+            const points: RowCol[] = [];
             for (const cell of this.dots) {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({row: y, col: x});
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: points});
+            rep.annotations.push({type: "dots", targets: points as [RowCol, ...RowCol[]]});
         }
         return rep;
     }

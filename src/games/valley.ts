@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
@@ -509,21 +509,18 @@ export class ValleyGame extends GameBase {
                 opacity: 0.5,
                 colour: "_context_fill"
             };
-            // @ts-ignore
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            rep.board!.markers.push({
+            (rep.board as BoardBasic).markers!.push({
                 type: "glyph",
                 glyph: "TOWER",
                 points: this.blocked.map(cell => {
                     const [x,y] = this.algebraic2coords(cell);
                     return {row: y, col: x};
-                }),
+                }) as [RowCol, ...RowCol[]],
             });
         }
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {

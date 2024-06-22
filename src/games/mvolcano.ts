@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaStackingExpanded } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import { CartesianProduct } from "js-combinatorics";
@@ -899,8 +899,7 @@ export class MvolcanoGame extends GameBase {
                 height: 6
             },
             legend: myLegend,
-            // @ts-ignore
-            pieces
+            pieces: pieces as [string[][], ...string[][][]]
         };
 
         const areas = [];
@@ -923,14 +922,12 @@ export class MvolcanoGame extends GameBase {
             }
         }
         if (areas.length > 0) {
-            // @ts-ignore
             rep.areas = areas;
         }
 
         // Add annotations
         // if (this.stack[this.stack.length - 1]._results.length > 0) {
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             // for (const move of this.stack[this.stack.length - 1]._results) {
             for (const move of this.results) {
@@ -953,7 +950,7 @@ export class MvolcanoGame extends GameBase {
     }
 
     public renderColumn(col: number, row: number): APRenderRep {
-        const areas = [];
+        const areas: AreaStackingExpanded[] = [];
         const pieces = this.board[row][col];
         const cell: string[] = pieces.map(c => `${c.join("")}N`);
         const cellname = MvolcanoGame.coords2algebraic(col, row);
@@ -1001,7 +998,6 @@ export class MvolcanoGame extends GameBase {
             board: null,
             legend: myLegend,
             pieces: null,
-            // @ts-ignore
             areas
         };
 
@@ -1042,16 +1038,13 @@ export class MvolcanoGame extends GameBase {
                 if (otherPlayer <= players.length) {
                     name = players[otherPlayer - 1];
                 }
-                const moves = state._results.filter(r => r.type === "move");
-                // @ts-ignore
-                node.push(i18next.t("apresults:MOVE.multiple", {player: name, moves: moves.map(m => `${m.from as string}-${m.to as string}`).join(", ")}));
-                const eruptions = state._results.filter(r => r.type === "eject");
-                // @ts-ignore
-                node.push(i18next.t("apresults:ERUPTIONS", {eruptions: eruptions.map(m => m.what as string).join(", ")}));
-                const captures = state._results.filter(r => r.type === "capture");
+                const moves = state._results.filter(r => r.type === "move") as {type: "move", from: string; to: string}[];
+                node.push(i18next.t("apresults:MOVE.multiple", {player: name, moves: moves.map(m => `${m.from}-${m.to}`).join(", ")}));
+                const eruptions = state._results.filter(r => r.type === "eject") as {type: "eject"; from: string; to: string; what: string}[];
+                node.push(i18next.t("apresults:ERUPTIONS", {eruptions: eruptions.map(m => m.what).join(", ")}));
+                const captures = state._results.filter(r => r.type === "capture") as {type: "capture"; what: string}[];
                 if (captures.length > 0) {
-                    // @ts-ignore
-                    node.push(i18next.t("apresults:CAPTURE.noperson.multiple", {capped: captures.map(m => m.what as string).join(", ")}));
+                    node.push(i18next.t("apresults:CAPTURE.noperson.multiple", {capped: captures.map(m => m.what).join(", ")}));
                 }
                 for (const r of state._results) {
                     switch (r.type) {

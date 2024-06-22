@@ -577,7 +577,6 @@ export class QuagmireGame extends GameBase {
                 },
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
         };
 
         // Add annotations

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
@@ -1032,7 +1032,6 @@ export class TwixtGame extends GameBase {
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             for (const move of this.stack[this.stack.length - 1]._results) {
@@ -1042,14 +1041,12 @@ export class TwixtGame extends GameBase {
                 }
             }
             if (this.connPath.length > 0) {
-                type RowCol = {row: number; col: number;};
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
                     const [x,y] = this.peg2coords(cell);
                     targets.push({row: y, col: x})
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "move", targets, arrow: false});
+                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
         if (this.dots.length > 0) {
@@ -1058,8 +1055,7 @@ export class TwixtGame extends GameBase {
                 const [x, y] = this.peg2coords(cell);
                 points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: points});
+            rep.annotations.push({type: "dots", targets: points as [RowCol, ...RowCol[]]});
         }
         return rep;
     }

@@ -2,7 +2,7 @@
 /* eslint-disable jsdoc/check-indentation */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { BaoGraph, reviver, UserFacingError } from "../common";
 import type { IRenderOpts, IScores } from "./_base";
@@ -1084,8 +1084,7 @@ export class BaoGame extends GameBase {
         for (const blocked of this.blocked) {
             if ( (blocked !== undefined) && (blocked !== null) ) {
                 const [col, row] = this.graph.algebraic2coords(blocked);
-                // @ts-ignore
-                (rep.board.markers as any[]).push({
+                (rep.board as BoardBasic).markers!.push({
                     type: "outline",
                     colour: 1,
                     points: [{row, col}],
@@ -1101,12 +1100,10 @@ export class BaoGame extends GameBase {
             }
         }
         if (houses.length > 0) {
-            // @ts-ignore
-            rep.board.squarePits = houses
+            (rep.board as BoardBasic).squarePits = houses as [{row: number; col: number;}, ...{row: number; col: number;}[]]
         }
 
         // record deltas
-        // @ts-ignore
         rep.annotations = [];
         const deltas: {row: number; col: number; delta: number}[] = [];
         for (let y = 0; y < 4; y++) {
@@ -1116,7 +1113,6 @@ export class BaoGame extends GameBase {
                 }
             }
         }
-        // @ts-ignore
         rep.annotations.push({type: "deltas", deltas});
 
         // Add annotations
@@ -1137,8 +1133,7 @@ export class BaoGame extends GameBase {
                         const [x, y] = this.graph.algebraic2coords(where);
                         targets.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "exit", targets});
+                    rep.annotations.push({type: "exit", targets: targets as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
                 }
             }
         }

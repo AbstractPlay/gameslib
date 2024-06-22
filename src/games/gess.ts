@@ -611,7 +611,6 @@ export class GessGame extends GameBase {
                 style: "squares",
                 width: this.boardSize,
                 height: this.boardSize,
-                // @ts-ignore
                 markers,
             },
             legend: {
@@ -622,7 +621,6 @@ export class GessGame extends GameBase {
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -639,8 +637,7 @@ export class GessGame extends GameBase {
                         targets.push({row: y, col: x});
                     }
                     if (targets.length > 0) {
-                        // @ts-ignore
-                        rep.annotations.push({type: "exit", targets});
+                        rep.annotations.push({type: "exit", targets: targets as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
                     }
                 }
             }
@@ -651,8 +648,7 @@ export class GessGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({row: y, col: x});
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: points});
+            rep.annotations.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
         }
         return rep;
     }

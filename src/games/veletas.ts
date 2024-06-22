@@ -841,7 +841,6 @@ export class VeletasGame extends GameBase {
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {

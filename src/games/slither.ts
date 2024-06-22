@@ -685,7 +685,6 @@ export class SlitherGame extends GameBase {
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -706,8 +705,7 @@ export class SlitherGame extends GameBase {
                     const [x,y] = SlitherGame.algebraic2coords(cell, this.boardSize);
                     targets.push({row: y, col: x})
                 }
-                // @ts-ignore
-                rep.annotations.push({type: "move", targets, arrow: false});
+                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
         if (this.results.length === 1) {
@@ -721,8 +719,7 @@ export class SlitherGame extends GameBase {
                         const [x, y] = SlitherGame.algebraic2coords(followup, this.boardSize);
                         points.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "dots", targets: points});
+                    rep.annotations.push({type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]]});
                 }
             }
         }

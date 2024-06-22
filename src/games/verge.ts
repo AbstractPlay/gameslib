@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -457,13 +457,10 @@ export class VergeGame extends GameBase {
                 D: [{ name: "piece", colour: "#FFF"}, { name: "piece", colour: 2, opacity: 0.5 }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
 
             // highlight last-placed piece
@@ -473,13 +470,12 @@ export class VergeGame extends GameBase {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations.push({type: "dots", targets: [{row: y, col: x}], colour: "#fff"});
                 } else if (move.type === "capture") {
-                    const targets: {row: number, col: number}[] = [];
+                    const targets: RowCol[] = [];
                     for (const m of move.where!.split(",")) {
                         const [x, y] = this.graph.algebraic2coords(m);
                         targets.push({row: y, col: x});
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "exit", targets});
+                    rep.annotations.push({type: "exit", targets: targets as [RowCol, ...RowCol[]]});
                 }
             }
 

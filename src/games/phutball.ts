@@ -672,7 +672,6 @@ export class PhutballGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {

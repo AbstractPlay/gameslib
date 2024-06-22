@@ -767,8 +767,7 @@ export class AccastaGame extends GameBase {
                     colour: 2
                 },
             },
-            // @ts-ignore
-            pieces: pstr
+            pieces: pstr as [string[][], ...string[][][]]
         };
         if (this.variants.includes("pari")) {
             delete rep.legend!.H1;
@@ -780,7 +779,6 @@ export class AccastaGame extends GameBase {
         // Add annotations
         // if (this.stack[this.stack.length - 1]._results.length > 0) {
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             // for (const move of this.stack[this.stack.length - 1]._results) {
             for (const move of this.results) {

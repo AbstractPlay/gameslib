@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -517,7 +517,6 @@ export class UnlurGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
@@ -528,14 +527,12 @@ export class UnlurGame extends GameBase {
             if (this.connPaths.length > 0) {
                 for (const connPath of this.connPaths) {
                     if (connPath.length < 2) { continue; }
-                    type RowCol = {row: number; col: number;};
                     const targets: RowCol[] = [];
                     for (const cell of connPath) {
                         const [x,y] = this.algebraic2coords(cell);
                         targets.push({row: y, col: x})
                     }
-                    // @ts-ignore
-                    rep.annotations.push({ type: "move", targets, arrow: false });
+                    rep.annotations.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false });
                 }
 
             }
@@ -546,8 +543,7 @@ export class UnlurGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({ type: "dots", targets: points });
+            rep.annotations!.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
         }
         return rep;
     }

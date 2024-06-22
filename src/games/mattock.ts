@@ -745,7 +745,6 @@ export class MattockGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: (this.boardSize * 2) - 1,
-                // @ts-ignore
                 markers,
             },
             legend: {
@@ -756,13 +755,10 @@ export class MattockGame extends GameBase {
                 X: {name: "x", scale: 0.5},
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
-            key: []
-
         };
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {

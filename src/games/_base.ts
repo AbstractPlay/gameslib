@@ -708,6 +708,8 @@ export abstract class GameBase  {
                 "date-start": startDate.toISOString(),
                 "date-end": endDate.toISOString(),
                 "date-generated": new Date().toISOString(),
+                // This exception is here because the type requires 1+ entries
+                // but here at initialization, we can't.
                 // @ts-ignore
                 players: []
             },

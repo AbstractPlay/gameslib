@@ -5,6 +5,7 @@ import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
 import { APRenderRep } from "@abstractplay/renderer";
+import { MarkerDots, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
 
 type playerid = 1 | 2;
 
@@ -733,7 +734,7 @@ export class Connect6Game extends InARowBase {
                 referencePointsObj.push({ row: y1, col: x1 });
             }
         }
-        let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj, size: 0.15 }] : [];
+        const markers: (MarkerShading|MarkerDots)[] = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj, size: 0.15 }] as MarkerDots[] : [];
         if (this.toroidal) {
             const end = this.boardSize + 2 * this.toroidalPadding;
             markers.push(...[
@@ -753,9 +754,8 @@ export class Connect6Game extends InARowBase {
                     type: "shading", colour: "#000", opacity: 0.2,
                     points: [{row: end - 1 - this.toroidalPadding, col: this.toroidalPadding}, {row: end - 1 - this.toroidalPadding, col: end - 1 - this.toroidalPadding}, {row: end - 1, col: end - 1 - this.toroidalPadding}, {row: end - 1, col: this.toroidalPadding}],
                 },
-            ]);
+            ] as MarkerShading[]);
         }
-        if (markers.length === 0) { markers = undefined; }
         // Build rep
         const rep: APRenderRep =  {
             // We use custom star points for toroidal board support.
@@ -766,7 +766,7 @@ export class Connect6Game extends InARowBase {
                 height: renderBoardSize,
                 rowLabels: this.toroidal ? this.renderRowLabels() : undefined,
                 columnLabels: this.toroidal ? this.renderColLabels() : undefined,
-                markers,
+                markers: markers.length > 0 ? markers : undefined,
             },
             legend: {
                 A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
@@ -775,7 +775,6 @@ export class Connect6Game extends InARowBase {
             pieces: pstr,
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -802,8 +801,7 @@ export class Connect6Game extends InARowBase {
                     for (const coords of connPath) {
                         targets.push({row: coords[1], col: coords[0]})
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "move", targets, arrow: false});
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
             }
         }
@@ -813,7 +811,6 @@ export class Connect6Game extends InARowBase {
             for (const cell of lastNonPass.split(",")) {
                 const coordsAll = this.renderAlgebraic2coords(cell);
                 for (const [x, y] of coordsAll) {
-                    // @ts-ignore
                     rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
                 }
             }

@@ -971,11 +971,9 @@ export class MchessGame extends GameBase {
                 points.push({row: cell[1], col: cell[0]});
             }
             if (rep.hasOwnProperty("annotations")) {
-                // @ts-ignore
-                rep.annotations.push({type: "dots", targets: points});
+                rep.annotations!.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
             } else {
-                // @ts-ignore
-                rep.annotations = [{type: "dots", targets: points}];
+                rep.annotations = [{type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]}];
             }
         }
 

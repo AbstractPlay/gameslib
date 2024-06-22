@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-import { IKey } from "@abstractplay/renderer/build/renderers/_base";
 
 type playerid = 1 | 2 | 3;
 
@@ -746,7 +745,7 @@ export class SpreeGame extends GameBase {
         };
 
         // Add key so the user can click to select the color to place
-        const keyObj: IKey = {
+        const keyObj: AreaKey = {
             type: "key",
             position: "right",
             height: 0.7,
@@ -758,7 +757,6 @@ export class SpreeGame extends GameBase {
             clickable: true
         };
 
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -776,8 +774,7 @@ export class SpreeGame extends GameBase {
                         const [x, y] = this.algebraic2position(cell);
                         targets.push({row: y, col: x})
                     }
-                    // @ts-ignore
-                    rep.annotations.push({type: "move", targets, arrow: false});
+                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
             }
         }
@@ -787,8 +784,7 @@ export class SpreeGame extends GameBase {
                 const [x, y] = this.algebraic2position(cell);
                 points.push({row: y, col: x});
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: points});
+            rep.annotations.push({type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]]});
         }
         rep.areas = [
             {

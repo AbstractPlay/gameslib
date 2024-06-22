@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, MarkerPath } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Board } from "./calculus/board";
 import { Piece, type RelativePos, type Quadrant } from "./calculus/piece";
@@ -20,10 +20,6 @@ const deepclone = require("rfdc/default");
 
 type Vertex = [number,number];
 export type playerid = 1|2;
-
-interface ILooseObj {
-    [key: string]: any;
-}
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -775,7 +771,7 @@ export class CalculusGame extends GameBase {
     }
 
     public render(): APRenderRep {
-        const pieces: ILooseObj[] = [];
+        const pieces: Freepiece[] = [];
         for (const pc of this.pieces) {
             pieces.push({
                 glyph: pc.owner === 1 ? "A" : "B",
@@ -793,7 +789,7 @@ export class CalculusGame extends GameBase {
             });
         }
 
-        const markers: ILooseObj[] = [];
+        const markers: MarkerPath[] = [];
         // Draw the board first
         for (const p of [1,2] as playerid[]) {
             const quads = this.board.ownedQuadrants(p);
@@ -820,7 +816,7 @@ export class CalculusGame extends GameBase {
             });
         }
 
-        const annotations: ILooseObj[] = [];
+        const annotations: AnnotationFreespace[] = [];
         for (const r of this.results) {
             if (r.type === "place") {
                 const [cx, cy] = id2vert(r.where!);
@@ -911,9 +907,7 @@ export class CalculusGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            // @ts-ignore
             renderer: "freespace",
-            // @ts-ignore
             board: {
                 width: this.board.width,
                 height: this.board.height,
@@ -945,16 +939,13 @@ export class CalculusGame extends GameBase {
                     opacity: 0.5,
                 }
             },
-            // @ts-ignore
             pieces,
         };
         if (annotations.length > 0) {
-            // @ts-ignore
             rep.annotations = annotations;
         }
         if (markers.length > 0) {
-            // @ts-ignore
-            rep.board.markers = markers;
+            (rep.board as BoardFreespace).markers = markers;
         }
 
         return rep;

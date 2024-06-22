@@ -609,12 +609,10 @@ export class StigmergyGame extends GameBase {
             points2 = points.get(2)!;
 
             if (points1.length > 0) {
-                // @ts-ignore
                 markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
             }
 
             if (points2.length > 0) {
-                // @ts-ignore
                 markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
             }
         }
@@ -625,12 +623,10 @@ export class StigmergyGame extends GameBase {
             points2 = points.get(2)!;
 
             if (points1.length > 0) {
-                // @ts-ignore
                 markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
             }
 
             if (points2.length > 0) {
-                // @ts-ignore
                 markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
             }
         }
@@ -645,7 +641,6 @@ export class StigmergyGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: this.boardSize * 2 - 1,
-                // @ts-ignore
                 markers,
             },
             legend,

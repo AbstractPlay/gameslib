@@ -873,7 +873,6 @@ export class MurusGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if ( (move.type === "move") || (move.type === "fire") ) {

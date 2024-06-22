@@ -1043,7 +1043,6 @@ export class BlockadeGame extends GameBase {
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
@@ -1076,8 +1075,7 @@ export class BlockadeGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({row: y, col: x});
             }
-            // @ts-ignore
-            rep.annotations.push({type: "dots", targets: points});
+            rep.annotations.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
         }
         return rep;
     }

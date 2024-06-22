@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation, Variant } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerGlyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -9,18 +9,6 @@ export type playerid = 1|2;
 
 interface ILooseObj {
     [key: string]: any;
-}
-
-interface IRowCol {
-    row: number;
-    col: number;
-}
-
-type MarkerType = "glyph";
-interface IGlyphMarker {
-    type: MarkerType;
-    glyph: string;
-    points: IRowCol[];
 }
 
 export interface IMoveState extends IIndividualState {
@@ -552,22 +540,21 @@ export class ZolaGame extends GameBase {
         }
 
         // create the board markers
-        const markers: IGlyphMarker[] = [];
+        const markers: MarkerGlyph[] = [];
         for (const [k, v] of cells.entries()) {
-            const points: IRowCol[] = [];
+            const points: RowCol[] = [];
             for (const pt of v) {
                 points.push({row: pt[1], col: pt[0]});
             }
             markers.push({
                 type: "glyph",
                 glyph: k,
-                points,
+                points: points as [RowCol, ...RowCol[]],
             });
         }
 
         // Build rep
         const rep: APRenderRep =  {
-            // @ts-expect-error
             board: {
                 style: "squares",
                 width: this.boardSize,
@@ -580,7 +567,6 @@ export class ZolaGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {

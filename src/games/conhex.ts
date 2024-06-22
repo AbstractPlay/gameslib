@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerEdge, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
@@ -650,17 +650,17 @@ export class ConhexGame extends GameBase {
                 spaces2.push({row: y, col: x});
             }
         }
-        const markers: Array<any> = [
+        const markers: Array<MarkerEdge|MarkerFlood> = [
             { type:"edge", edge: "N", colour: 1 },
             { type:"edge", edge: "S", colour: 1 },
             { type:"edge", edge: "E", colour: 2 },
             { type:"edge", edge: "W", colour: 2 },
         ];
         if (spaces1.length > 0) {
-            markers.push({ type: "flood", points: spaces1, colour: 1, opacity: 0.4 });
+            markers.push({ type: "flood", points: spaces1 as [{row: number; col: number;}, ...{row: number; col: number;}[]], colour: 1, opacity: 0.4 });
         }
         if (spaces2.length > 0) {
-            markers.push({ type: "flood", points: spaces2, colour: 2, opacity: 0.4 });
+            markers.push({ type: "flood", points: spaces2 as [{row: number; col: number;}, ...{row: number; col: number;}[]], colour: 2, opacity: 0.4 });
         }
 
         // Build rep
@@ -669,14 +669,12 @@ export class ConhexGame extends GameBase {
             board: {
                 style: "conhex-dots",
                 width: this.boardSize,
-                // @ts-ignore
                 markers,
             },
             pieces: pstr,
         };
 
         // Add annotations
-        // @ts-ignore
         rep.annotations = [];
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             for (const move of this.stack[this.stack.length - 1]._results) {

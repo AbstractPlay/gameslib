@@ -256,6 +256,11 @@ export class AsliGame extends GameBase {
         }
 
         if (this.stack.length === 1) {
+            if (! /^\-?\d+$/.test(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
+                return result
+            }
             const max = (this.boardsize**2) + 1;
             const min = max * -1;
             const n = parseInt(m, 10);

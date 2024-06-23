@@ -1080,36 +1080,33 @@ export class StreetcarGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = StreetcarGame.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                    const colour = parseInt(move.what![0], 10) as Colour;
+                    (rep.board as BoardBasic).markers!.push({type: "flood", opacity: 0.67, colour: this.colour2colour(colour), points: [{row: y, col: x}]});
                 } else if (move.type === "take") {
                     const [x, y] = StreetcarGame.algebraic2coords(move.from);
-                    if (move.what !== undefined) {
-                        switch (move.what) {
-                            case "1":
-                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: 6});
-                                break;
-                            case "2":
-                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: 4});
-                                break;
-                            case "3":
-                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: "#000"});
-                                break;
-                            case "4":
-                                rep.annotations.push({type: "exit", targets: [{row: y, col: x}], colour: "#999"});
-                                break;
-                        }
-                    } else {
-                        rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
-                    }
+                    const colour = parseInt(move.what!, 10) as Colour;
+                    (rep.board as BoardBasic).markers!.push({type: "flood", opacity: 0.67, colour: this.colour2colour(colour), points: [{row: y, col: x}]});
                 }
             }
         }
 
         return rep;
+    }
+
+    private colour2colour(c: Colour): number|string {
+        switch (c) {
+            case 1:
+                return 6;
+            case 2:
+                return 4;
+            case 3:
+                return "#000";
+            case 4:
+                return "#fff";
+        }
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

@@ -256,8 +256,10 @@ export class AsliGame extends GameBase {
         }
 
         if (this.stack.length === 1) {
+            const max = (this.boardsize**2) + 1;
+            const min = max * -1;
             const n = parseInt(m, 10);
-            if (isNaN(n) || n > 99 || n < -99) {
+            if (isNaN(n) || n > max || n < min) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
                 return result
@@ -478,9 +480,7 @@ export class AsliGame extends GameBase {
         this.results = [];
         const enemy = this.currplayer === 1 ? 2 : 1;
         if (this.stack.length === 1) {
-            let n = parseInt(m, 10);
-            if (n > 99) n = 99;
-            if (n < -99) n = -99;
+            const n = parseInt(m, 10);
             this.prison[0] = n;
             this.results.push({type: "komi", value: n});
         } else if (m === "pie" || (m === "pass" && this.stack.length === 2)) {

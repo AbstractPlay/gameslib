@@ -454,7 +454,7 @@
         "asli": {
             "BAD_PASS": "You must remove an enemy piece from the prison to pass.",
             "BAD_INCURSION": "You may not make back-to-back minimal incursions.",
-            "BAD_KOMI": "The first move of the game must be a 1 or 2-digit integer representing the number of pieces to place in the starting prison.",
+            "BAD_KOMI": "The first move of the game must be an integer representing the number of pieces to place in the starting prison. A positive number puts pieces belonging to the first player. A negative number, those of the second player. You may not place more pieces in the prison than number of cells on the board plus one.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
             "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Invoke pie rule' to change seats.",

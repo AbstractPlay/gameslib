@@ -1084,11 +1084,11 @@ export class StreetcarGame extends GameBase {
                 if (move.type === "place") {
                     const [x, y] = StreetcarGame.algebraic2coords(move.where!);
                     const colour = parseInt(move.what![0], 10) as Colour;
-                    (rep.board as BoardBasic).markers!.push({type: "flood", pulse: 1500, colour: this.colour2colour(colour), points: [{row: y, col: x}]});
+                    (rep.board as BoardBasic).markers!.push({type: "flood", opacity: 0.67, colour: this.colour2colour(colour), points: [{row: y, col: x}]});
                 } else if (move.type === "take") {
                     const [x, y] = StreetcarGame.algebraic2coords(move.from);
                     const colour = parseInt(move.what!, 10) as Colour;
-                    (rep.board as BoardBasic).markers!.push({type: "flood", pulse: 1500, colour: this.colour2colour(colour), points: [{row: y, col: x}]});
+                    (rep.board as BoardBasic).markers!.push({type: "flood", opacity: 0.67, colour: this.colour2colour(colour), points: [{row: y, col: x}]});
                 }
             }
         }

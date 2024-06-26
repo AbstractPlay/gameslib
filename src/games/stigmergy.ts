@@ -298,7 +298,7 @@ export class StigmergyGame extends GameBase {
                 result.message = i18next.t("apgames:validation.stigmergy.INVALIDKOMI");
                 return result
             }
-            const max = (this.boardSize**2) + 1;
+            const max = (this.getGraph().listCells(false) as string[]).length + 1;
             const min = max * -1;
             const komi = parseInt(m, 10);
             if (isNaN(komi) || komi < min || komi > max) {
@@ -426,7 +426,7 @@ export class StigmergyGame extends GameBase {
         this.results = [];
         if (this.stack.length === 1) {
             this.komi = parseInt(m, 10);
-            const max = (this.boardSize**2) + 1;
+            const max = (this.getGraph().listCells(false) as string[]).length + 1;
             const min = max * -1;
             if (this.komi > max) this.komi = max;
             if (this.komi < min) this.komi = min;

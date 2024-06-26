@@ -476,9 +476,10 @@ export class ConectGame extends GameBase {
                 return [...currPath, start];
             }
             if (currPath.includes(neighbour)) { continue; }
-            return this.traversePaths(neighbour, loopSet, start, [...currPath, neighbour]);
+            const path = this.traversePaths(neighbour, loopSet, start, [...currPath, neighbour]);
+            if (path !== undefined) { return path; }
         }
-        throw new Error("Could not find a cycle.");
+        return undefined;
     }
 
     private loopsCentre(cycle: string[], player?: playerid): boolean {
@@ -709,7 +710,7 @@ export class ConectGame extends GameBase {
             for (let i = 0; i < this.boardSize - 1; i++) {
                 legend[`n${i}`] = {
                     text: (i + 1).toString(),
-                    opacity: 0.4,
+                    opacity: 0.6,
                     scale: 0.6,
                 };
                 markers.push({

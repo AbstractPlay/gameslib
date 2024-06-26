@@ -293,8 +293,15 @@ export class StigmergyGame extends GameBase {
                 return result;
             }
 
+            if (! /^\-?\d+$/.test(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.stigmergy.INVALIDKOMI");
+                return result
+            }
+            const max = (this.boardSize**2) + 1;
+            const min = max * -1;
             const komi = parseInt(m, 10);
-            if (isNaN(komi) || komi < -99 || komi > 99) {
+            if (isNaN(komi) || komi < min || komi > max) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.stigmergy.INVALIDKOMI");
                 return result;
@@ -419,8 +426,10 @@ export class StigmergyGame extends GameBase {
         this.results = [];
         if (this.stack.length === 1) {
             this.komi = parseInt(m, 10);
-            if (this.komi > 99) this.komi = 99;
-            if (this.komi < -99) this.komi = -99;
+            const max = (this.boardSize**2) + 1;
+            const min = max * -1;
+            if (this.komi > max) this.komi = max;
+            if (this.komi < min) this.komi = min;
             this.results.push({type: "komi", value: this.komi});
         } else if (m === "pass") {
             // This happens iff the invoke pie option is used.

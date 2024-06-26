@@ -378,7 +378,7 @@ export class TBTGame extends GameBase {
                     }
                 }
             }
-            if ([...counts.values()].includes(3)) {
+            if ([...counts.values()].includes(3) || [...counts.values()].includes(4)) {
                 this.gameover = true;
                 this.winner = [p];
                 break;

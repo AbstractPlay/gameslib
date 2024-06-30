@@ -6,6 +6,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
+import { Glyph } from "@abstractplay/renderer";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
@@ -13,10 +14,6 @@ export type playerid = 1|2;
 type CellContents = [playerid, number];
 
 const targetRows = new Map<playerid, number>([[1, 0], [2, 7]]);
-
-interface ILooseObj {
-    [key: string]: any;
-}
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -508,7 +505,7 @@ export class BoomGame extends GameBase {
         const stacks: Set<number>[] = [aStacks, bStacks];
 
         // build legend based on stack sizes
-        const myLegend: ILooseObj = {
+        const myLegend: {[k: string]: Glyph|[Glyph, ...Glyph[]]} = {
             X1: {
                 name: "piece",
                 colour: 1,
@@ -533,7 +530,7 @@ export class BoomGame extends GameBase {
                     myLegend[key] = [
                         {
                             name: "piece",
-                            player
+                            colour: player
                         },
                         {
                             text: val.toString(),

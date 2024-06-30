@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections, Directions } from "../common";
 import i18next from "i18next";
@@ -12,8 +12,8 @@ const deepclone = require("rfdc/default");
 export type playerid = 1|2;
 type CellContents = [playerid, number];
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 export interface IMoveState extends IIndividualState {
@@ -555,7 +555,7 @@ export class LielowGame extends GameBase {
         pstr = pstr.replace(new RegExp(`\n,${this.boardSize - 1}(?=\n)`, "g"), "_");
 
         // build legend based on stack sizes
-        const myLegend: ILooseObj = {};
+        const myLegend: ILegendObj = {};
         for (const legendName of legendNames) {
             const [piece, ...size] = legendName;
             const name = (piece === "C" || piece === "D") ? "piece-horse" : "piece";

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -12,8 +12,8 @@ export type playerid = 1|2;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW"
 const allDirections: directions[] = ["NE","E","SE","SW","W","NW"];
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 export interface IMoveState extends IIndividualState {
@@ -584,7 +584,7 @@ export class FurlGame extends GameBase {
         }
 
         // build legend based on stack sizes
-        const legend: ILooseObj = {};
+        const legend: ILegendObj = {};
         for (const name of legendNames) {
             const [piece, ...size] = name;
             const player = piece === "A" ? 1 : 2;

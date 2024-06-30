@@ -8,8 +8,8 @@ import i18next from "i18next";
 
 type playerid = 1 | 2 | 3;
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 interface IMoveState extends IIndividualState {
@@ -711,7 +711,7 @@ export class SpireGame extends GameBase {
             }
         }
 
-        const legend: ILooseObj = {};
+        const legend: ILegendObj = {};
         for (const label of labels) {
             const piece = label[0];
             const layer = parseInt(label.slice(1), 10);

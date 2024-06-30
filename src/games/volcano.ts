@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaStackingExpanded, AreaVolcanoStash } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaStackingExpanded, AreaVolcanoStash, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 interface ILocalStash {
@@ -798,7 +798,7 @@ export class VolcanoGame extends GameBase {
         }
 
         // build legend based on number of players
-        const myLegend: ILooseObj = altDisplay === 'expanding' ?
+        const myLegend: ILegendObj = altDisplay === 'expanding' ?
             {
                 "X": {
                     "name": "pyramid-up-small",
@@ -940,7 +940,7 @@ export class VolcanoGame extends GameBase {
             });
         }
 
-        const myLegend: ILooseObj = {
+        const myLegend: ILegendObj = {
             "XN": {
                 "name": "pyramid-flat-small",
                 "colour": "#000"
@@ -960,7 +960,7 @@ export class VolcanoGame extends GameBase {
                 name = "pyramid-flat-large";
             }
             const player = allColours.findIndex(c => c === piece[0]) + 1;
-            myLegend[key] = {name,player};
+            myLegend[key] = {name, colour: player};
         }
 
         // Build rep

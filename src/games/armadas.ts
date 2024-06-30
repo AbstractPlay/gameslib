@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, Glyph, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship } from "./armadas/ship";
 import { IPoint, calcBearing, projectPoint, reviver, smallestDegreeDiff } from "../common";
@@ -15,8 +15,8 @@ import { Obstacle } from "./armadas/obstacle";
 export type playerid = 1|2|3|4;
 export type Size = 1|2|3;
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 interface IMoveState extends IIndividualState {
@@ -1125,13 +1125,13 @@ export class ArmadasGame extends GameBase {
 
     public render(): APRenderRep {
         // build legend based on number of players
-        const myLegend: ILooseObj = {};
+        const myLegend: ILegendObj = {};
         const cs = ["R", "B", "G", "Y"];
         const nums = [1, 2, 3, 4];
         const sizeNames = ["small", "medium", "large"];
         for (let i = 0; i < cs.length; i++) {
             for (let j = 0; j < sizeNames.length; j++) {
-                const node: ILooseObj = {
+                const node: Glyph = {
                     name: "pyramid-flat-" + sizeNames[j],
                     colour: nums[i]
                 };

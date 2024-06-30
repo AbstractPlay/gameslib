@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -12,8 +12,8 @@ export type playerid = 1|2;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
 const allDirections: directions[] = ["NE","E","SE","SW","W","NW"];
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 export interface IMoveState extends IIndividualState {
@@ -600,7 +600,7 @@ export class StigmergyGame extends GameBase {
             pstr += pieces.join(",");
         }
 
-        const legend: ILooseObj = {};
+        const legend: ILegendObj = {};
         for (const piece of legendNames) {
             const player = piece === "A" ? 1 : 2;
             legend[piece] = [

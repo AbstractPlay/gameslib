@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -10,8 +10,8 @@ import { SquareOrthGraph } from "../common/graphs";
 
 export type playerid = 1|2;
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 export interface IMoveState extends IIndividualState {
@@ -586,7 +586,7 @@ export class PletoreGame extends GameBase {
             pstr += pieces.join(",");
         }
 
-        const legend: ILooseObj = {};
+        const legend: ILegendObj = {};
         for (const piece of legendNames) {
             const player = piece === "A" ? 1 : 2;
             legend[piece] = [

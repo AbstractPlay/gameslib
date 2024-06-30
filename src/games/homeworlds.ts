@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaHWStash, BoardHomeworlds } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
 import { reviver } from "../common";
@@ -60,8 +60,8 @@ interface IActionTracker {
     free: number;
 }
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 interface IMoveState extends IIndividualState {
@@ -2454,7 +2454,7 @@ export class HomeworldsGame extends GameBase {
 
     public render(): APRenderRep {
         // build legend based on number of players
-        const myLegend: ILooseObj = {};
+        const myLegend: ILegendObj = {};
         // Stars first
         const cs = ["R", "B", "G", "Y"];
         const nums = [1, 2, 3, 4];
@@ -2492,7 +2492,7 @@ export class HomeworldsGame extends GameBase {
             const r = rotations.get(d);
             for (let i = 0; i < cs.length; i++) {
                 for (let j = 0; j < sizeNames.length; j++) {
-                    const node: ILooseObj = {
+                    const node: Glyph = {
                         name: "pyramid-flat-" + sizeNames[j],
                         colour: nums[i]
                     };

@@ -716,7 +716,11 @@ export class EntrapmentGame extends GameBase {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.entrapment.MOVE_SECOND");
+                if (this.stillHasWalls(this.currplayer)) {
+                    result.message = i18next.t("apgames:validation.entrapment.SECOND_ACTION");
+                } else {
+                    result.message = i18next.t("apgames:validation.entrapment.SECOND_ACTION_MOVE_WALL");
+                }
                 return result;
             }
         }
@@ -1304,8 +1308,15 @@ export class EntrapmentGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
+        if (this.isSetupPhase()) {
+            const pieceCount1 = [...this.boardCell.values()].filter(p => p === 1).length;
+            const pieceCount2 = [...this.boardCell.values()].filter(p => p === 2).length;
+            return [
+                { name: i18next.t("apgames:status.TO_PLACE"), scores: [3 - pieceCount1, 3 - pieceCount2]},
+            ]
+        }
         return [
-            { name: i18next.t("apgames:status.BARRIERSREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
+            { name: i18next.t("apgames:status.entrapment.BARRIERS_REMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] }
         ]
     }
 

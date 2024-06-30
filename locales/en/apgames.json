@@ -233,6 +233,9 @@
         "CLAIMS_REMAINING": "Claims Remaining",
         "DAMAGE": "Damage taken",
         "DISTANCES": "Distances",
+        "entrapment": {
+            "BARRIERS_REMAINING": "Barriers remaining"
+        },
         "entropy": {
             "CHAOS": "Chaos",
             "ORDER": "Order"
@@ -733,7 +736,7 @@
         "entrapment": {
             "INITIAL_INSTRUCTIONS_SETUP": "Select a space to place a roamer",
             "INITIAL_INSTRUCTIONS": "Select a roamer to move.",
-            "INITIAL_INSTRUCITONS_FIRST": "Select a roamer to move or select an edge to place a barrier.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Select a roamer to move or select an edge to place a barrier.",
             "TOO_MANY_ACTIONS_FIRST": "You may only perform one action on the first move after the setup phase.",
             "TOO_MANY_ACTIONS": "You may only perform two actions per turn.",
             "ENDED": "The game has already ended because one player has run out of roamers.",
@@ -750,7 +753,9 @@
             "FORCED_FREE": "You have to relieve the roamer at {{where}} if you are making a movement action",
             "CHOOSE_SPARE": "There are more than one roamer in forced positions at {{where}}. Select which one to retain.",
             "INVALID_SPARE": "You must choose one of the roamers at {{where}} to retain.",
-            "NO_SPARE": "You do not need to select any roamer to retain."
+            "NO_SPARE": "You do not need to select any roamer to retain.",
+            "SECOND_ACTION": "Select a roamer to move or select an edge to place a barrier.",
+            "SECOND_ACTION_MOVE_WALL": "Select a roamer to move or select a barrier to move to another edge."
         },
         "entropy": {
             "INITIAL_INSTRUCTIONS_chaos": "Select an empty cell on your opponent's board to place the next piece.",
@@ -2474,7 +2479,7 @@
         },
         "entrapment": {
             "size-7x7": {
-                "name": "More strategic board (7x7)"
+                "name": "Board (7x7)"
             }
         },
         "epam": {

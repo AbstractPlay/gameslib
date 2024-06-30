@@ -14,9 +14,10 @@ const spookyMoveNumber = new Map([
     [6, 90],
 ])
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
+
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
@@ -1074,7 +1075,7 @@ export class SpookGame extends GameBase {
             }
         }
 
-        const legend: ILooseObj = {};
+        const legend: ILegendObj = {};
         for (const label of labels) {
             const piece = label[0];
             const layer = parseInt(label.slice(1), 10);

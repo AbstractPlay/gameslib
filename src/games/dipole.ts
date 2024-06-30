@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections, Directions } from "../common";
 import i18next from "i18next";
@@ -14,8 +14,8 @@ type CellContents = [playerid, number];
 
 const dirsForward: Directions[][] = [["NW", "N", "NE"], ["SE", "S", "SW"]];
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 export interface IMoveState extends IIndividualState {
@@ -594,7 +594,7 @@ export class DipoleGame extends GameBase {
         const stacks: Set<number>[] = [aStacks, bStacks];
 
         // build legend based on stack sizes
-        const myLegend: ILooseObj = {
+        const myLegend: ILegendObj = {
             X1: {
                 name: "piece",
                 colour: 1,
@@ -619,7 +619,7 @@ export class DipoleGame extends GameBase {
                     myLegend[key] = [
                         {
                             name: "piece",
-                            player
+                            colour: player
                         },
                         {
                             text: val.toString(),

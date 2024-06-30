@@ -4,7 +4,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
-import { APRenderRep } from "@abstractplay/renderer";
+import { APRenderRep, Glyph } from "@abstractplay/renderer";
 
 type playerid = 1 | 2;
 const openingProtocols = ["centre", "rif", "taraguchi-10", "soosyrv-8", "yamaguchi", "swap-2", "swap-5"] as const;
@@ -23,8 +23,8 @@ const canonicalOpenings: string[] = [
     "h8,i9,i6", "h8,i9,h7", "h8,i9,h6", "h8,i9,g7", "h8,i9,g6", "h8,i9,f6",
 ]
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 
@@ -1394,7 +1394,7 @@ export class RenjuGame extends InARowBase {
             ]);
         }
         if (markers.length === 0) { markers = undefined; }
-        const legend: ILooseObj = {
+        const legend: ILegendObj = {
             A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
             B: [{ name: "piece", colour: this.getPlayerColour(2) as playerid }],
             C: [

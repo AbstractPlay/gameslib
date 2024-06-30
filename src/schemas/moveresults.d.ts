@@ -190,6 +190,7 @@ export type APMoveResult =
       where: string;
       num?: number;
       how?: string;
+      what?: string;
       whose?: number;
     }
   | {

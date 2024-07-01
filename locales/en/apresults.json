@@ -316,8 +316,8 @@
         "nowhat_other": "{{count}} pieces were reclaimed."
     },
     "REMOVE": {
-        "entrapment_self": "{{player}} chose to retain the roamer at {{how}}, removing their own roamer at {{where}}.",
-        "entrapment_opponent": "{{player}} chose to retain the roamer at {{how}}, removing the opponent's roamer at {{where}}.",
+        "entrapment_self": "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}.",
+        "entrapment_opponent": "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
         "fourinarow_n": "{{player}} cleared a line, shifting the pieces on the board upwards.",
         "fourinarow_s": "{{player}} cleared a line, shifting the pieces on the board downwards.",
         "fourinarow_w": "{{player}} cleared a line, shifting the pieces on the board leftwards.",

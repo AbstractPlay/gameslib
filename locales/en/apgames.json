@@ -736,6 +736,7 @@
         "entrapment": {
             "INITIAL_INSTRUCTIONS_SETUP": "Select a space to place a roamer",
             "INITIAL_INSTRUCTIONS": "Select a roamer to move.",
+            "INITIAL_INSTRUCTIONS_FORCED": "The roamer at {{where}} is in a forced position. Your first action must be to relieve it.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a roamer to move or select an edge to place a barrier.",
             "TOO_MANY_ACTIONS_FIRST": "You may only perform one action on the first move after the setup phase.",
             "TOO_MANY_ACTIONS": "You may only perform two actions per turn.",
@@ -750,7 +751,7 @@
             "SELECT_TO_BARRIER": "Select an edge to move the barrier to.",
             "SELECT_TO_PIECE": "Select a space to move the roamer to.",
             "INVALID_TO": "You may not move the roamer from {{from}} to {{to}}.",
-            "FORCED_FREE": "You have to relieve the roamer at {{where}} if you are making a movement action",
+            "FORCED_FREE": "You have to relieve the roamer at {{where}} if you are making a movement action.",
             "CHOOSE_SPARE": "There are more than one roamer in forced positions at {{where}}. Select which one to retain.",
             "INVALID_SPARE": "You must choose one of the roamers at {{where}} to retain.",
             "NO_SPARE": "You do not need to select any roamer to retain.",

@@ -1393,9 +1393,9 @@ export class EntrapmentGame extends GameBase {
             }
             if (jumped) {
                 if (orient === "h") {
-                    markers.push({ type: "line", points: [{ row: y, col: x }, { row: y, col: x + 1 }], colour: "#FFF", width: 5, shorten: 0.15, opacity: 0.8 });
+                    markers.push({ type: "line", points: [{ row: y, col: x }, { row: y, col: x + 1 }], colour: "_context_fill", width: 5, shorten: 0.15, opacity: 0.7 });
                 } else {
-                    markers.push({ type: "line", points: [{ row: y + 1, col: x + 1 }, { row: y, col: x + 1 }], colour: "#FFF", width: 5, shorten: 0.15, opacity: 0.8 });
+                    markers.push({ type: "line", points: [{ row: y + 1, col: x + 1 }, { row: y, col: x + 1 }], colour: "_context_fill", width: 5, shorten: 0.15, opacity: 0.7 });
                 }
             }
         }

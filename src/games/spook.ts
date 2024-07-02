@@ -764,7 +764,7 @@ export class SpookGame extends GameBase {
 
     private getAllNext(cell: string, captured: string[] = [], player: playerid): string[][] {
         // Recursively get all cells that can be reached from `cell`.
-        // This has to be initated in a weird way because of how `getNext` was written.
+        // This has to be initiated in a weird way because of how `getNext` was written.
         // It's called in `getCaptures`.
         // There's probably a more elegant way to do this, but eh, it works.
         const newCaptured = [...captured, cell];

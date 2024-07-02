@@ -73,7 +73,7 @@ export class Board {
     }
 
     /**
-     * Given a point, return the the bearing relatie to the centre point, table facing
+     * Given a point, return the bearing relative to the centre point, table facing
      *
      * @param pt Vertex
      * @returns Vertex

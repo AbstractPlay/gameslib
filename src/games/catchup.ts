@@ -577,7 +577,7 @@ export class CatchupGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.sizes[0].join("-"), this.sizes[1].join("-")] }];
+        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.sizes[0].join(","), this.sizes[1].join(",")] }];
     }
 
     public status(): string {
@@ -589,7 +589,7 @@ export class CatchupGame extends GameBase {
 
         status += "**Sizes**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {
-            const pieces = this.sizes[n - 1].join("-");
+            const pieces = this.sizes[n - 1].join(",");
             status += `Player ${n}: ${pieces}\n\n`;
         }
 

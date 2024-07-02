@@ -1,14 +1,14 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 interface IKeyEntry {
     piece: string;
@@ -857,7 +857,7 @@ export class MchessGame extends GameBase {
         pstr = pstr.replace(/\-,\-,\-,\-/g, "_");
 
         // build legend based on number of players
-        const myLegend: ILooseObj = {};
+        const myLegend: ILegendObj = {};
         for (let n = 1; n <= this.numplayers; n++) {
             myLegend["P" + n.toString() + "1"] = {
                 name: "pyramid-up-small-upscaled",

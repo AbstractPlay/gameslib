@@ -553,6 +553,9 @@
                 "how": {
                     "type": "string"
                 },
+                "what": {
+                    "type": "string"
+                },
                 "whose": {
                     "type": "number"
                 }

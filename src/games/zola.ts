@@ -1,14 +1,14 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation, Variant } from "../schemas/gameinfo";
-import { APRenderRep, MarkerGlyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph, MarkerGlyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 export interface IMoveState extends IIndividualState {
@@ -501,7 +501,7 @@ export class ZolaGame extends GameBase {
         }
 
         // build legend with distance marker tiles
-        const myLegend: ILooseObj = {
+        const myLegend: ILegendObj = {
             "A": {
                 "name": "piece",
                 "colour": 1,

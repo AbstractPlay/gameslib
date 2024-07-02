@@ -3,7 +3,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { Directions } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -13,8 +13,8 @@ const clone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 interface IMoveState extends IIndividualState {
@@ -513,7 +513,7 @@ export class BlamGame extends GameBase {
         pstr = pstr.replace(/\-{8}/g, "_");
 
         // build legend based on number of players
-        const myLegend: ILooseObj = {};
+        const myLegend: ILegendObj = {};
         for (let n = 1; n <= this.numplayers; n++) {
             myLegend["P" + n.toString() + "1"] = {
                 name: "pyramid-up-small-upscaled",

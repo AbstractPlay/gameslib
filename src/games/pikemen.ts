@@ -2,15 +2,15 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
-interface ILooseObj {
-    [key: string]: any;
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
 export type playerid = 1|2;
@@ -566,7 +566,7 @@ export class PikemenGame extends GameBase {
         }
         pstr = pstr.replace(/\n,{7}\n/g, "\n_\n");
 
-        const myLegend: ILooseObj = {};
+        const myLegend: ILegendObj = {};
         const rotations: Map<string, number> = new Map([
             ["N", 0],
             ["NE", 45],
@@ -583,14 +583,14 @@ export class PikemenGame extends GameBase {
             for (const size of [1, 2, 3]) {
                 for (const dir of rotations.entries()) {
                     // eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow
-                    const node: ILooseObj = {
+                    const node: Glyph = {
                         name: "pyramid-flat-" + sizeNames[size - 1],
                         colour: player,
                         rotate: dir[1],
                     };
                     myLegend[playerNames[player - 1] + size.toString() + dir[0]] = node;
                 }
-                const node: ILooseObj = {
+                const node: Glyph = {
                     name: "pyramid-up-" + sizeNames[size - 1],
                     colour: player,
                 };

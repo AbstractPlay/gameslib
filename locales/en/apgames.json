@@ -1844,7 +1844,7 @@
         },
         "ccorridor": {
             "board": {
-                "name": "size 6"
+                "name": "size-6 board"
             }
         },
         "clusterfuss": {
@@ -1947,13 +1947,13 @@
         },
         "havannah": {
             "board": {
-                "name": "Size 8 board.",
+                "name": "Size-8 board.",
                 "description": "Competitive board."
             }
         },
         "hex": {
             "board": {
-                "name": "Size 13 board.",
+                "name": "Size-13 board.",
                 "description": "Competitive board"
             }
         },
@@ -2138,7 +2138,7 @@
         "take": {
             "rules": {
                 "name": "rules",
-                "description": "Play on a size 5 board where plant growth destroys dirt."
+                "description": "Play on a size-5 board where plant growth destroys dirt."
             }
         },
         "trike": {
@@ -2183,7 +2183,7 @@
         },
         "verge": {
             "board": {
-                "name": "Size 5 board (61 cells)"
+                "name": "Size-5 board (61 cells)"
             }
         }
     },
@@ -2394,7 +2394,7 @@
         },
         "ccorridor": {
             "size-8": {
-                "name": "Size 8"
+                "name": "Size-8 board"
             }
         },
         "ceph": {
@@ -2592,15 +2592,15 @@
         },
         "havannah": {
             "size-4": {
-                "name": "Size 4 board.",
+                "name": "Size-4 board.",
                 "description": "Tiny board."
             },
             "size-6": {
-                "name": "Size 6 board.",
+                "name": "Size-6 board.",
                 "description": "Smaller board."
             },
             "size-10": {
-                "name": "Size 10 board.",
+                "name": "Size-10 board.",
                 "description": "Larger board."
             }
         },
@@ -2611,21 +2611,21 @@
         },
         "hex": {
             "size-11": {
-                "name": "Size 11 board.",
+                "name": "Size-11 board.",
                 "description": "Smaller board."
             },
             "size-15": {
-                "name": "Size 15 board.",
+                "name": "Size-15 board.",
                 "description": "Larger board."
             },
             "size-19": {
-                "name": "Size 19 board.",
+                "name": "Size-19 board.",
                 "description": "Much larger board."
             }
         },
         "hexentafl": {
             "size-5": {
-                "name": "Size 5 board.",
+                "name": "Size-5 board.",
                 "description": "Larger board where the king may move like any other piece."
             }
         },
@@ -3109,11 +3109,11 @@
         "take": {
             "high-churn": {
                 "name": "High Churn",
-                "description": "Play on a size 4 board where plant growth does not destroy dirt."
+                "description": "Play on a size-4 board where plant growth does not destroy dirt."
             },
             "quick-churn": {
                 "name": "Small, High Churn",
-                "description": "Play on a size 3 board where plant growth does not destroy dirt."
+                "description": "Play on a size-3 board where plant growth does not destroy dirt."
             }
         },
         "trike": {
@@ -3195,7 +3195,7 @@
         },
         "verge": {
             "size-7": {
-                "name": "Size 7 board (127 cells)"
+                "name": "Size-7 board (127 cells)"
             }
         },
         "wyke": {

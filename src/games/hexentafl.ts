@@ -451,13 +451,21 @@ export class HexentaflGame extends GameBase {
         return this;
     }
 
-    private kingDead(): boolean {
+    private kingDead(move?: string): boolean {
         // Check if the king is absent from the board.
+        if (move !== undefined) {
+            const captures = move.split("x").slice(1);
+            return captures.some(c => c.startsWith("K"));
+        }
         return [...this.board.values()].filter(([p, pc]) => p === 2 && pc === "K").length === 0;
     }
 
-    private kingEscaped(): boolean {
+    private kingEscaped(move?: string): boolean {
         // Check if the king has escaped.
+        if (move !== undefined) {
+            const [fromP, to] = move.split("x")[0].split("-");
+            return fromP.startsWith("K") && this.corners.includes(to);
+        }
         const kingPos = [...this.board.entries()].filter(([, [p, pc]]) => p === 2 && pc === "K")[0][0];
         return this.corners.includes(kingPos);
     }
@@ -602,12 +610,34 @@ export class HexentaflGame extends GameBase {
         ]
     }
 
+    public inCheck(): number[] {
+        if (this.gameover && this.lastmove !== undefined && this.specialMove(this.lastmove)) {
+            return [];
+        }
+        const checks: playerid[] = [];
+        for (const move of this.moves(2)) {
+            if (this.kingEscaped(move)) {
+                checks.push(1);
+                break;
+            }
+        }
+        for (const move of this.moves(1)) {
+            if (this.kingDead(move)) {
+                checks.push(2);
+                break;
+            }
+        }
+        return checks;
+    }
+
     public status(): string {
         let status = super.status();
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
+
+        status += `**In Check:** ${this.inCheck().toString()}\n\n`;
 
         status += "**Pieces On Board:**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {

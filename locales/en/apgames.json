@@ -62,6 +62,7 @@
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
+        "hexentafl": "heXentafl is a hexagonal variant of Hnefatafl where the attackers try to capture the king and the defenders try to guide the king to one of the six corners.",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
@@ -941,6 +942,11 @@
         },
         "hex": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
+        },
+        "hexentafl": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "KING_PREFIX": "Movement of the king should be prefixed with 'K'",
+            "INVALID_TO": "The piece at {{from}} cannot move to {{to}}."
         },
         "hexy": {
             "INITIAL_INSTRUCTIONS": "Select an empty cell. If you select a perimeter cell, the mirror piece will be placed automatically."
@@ -1838,7 +1844,7 @@
         },
         "ccorridor": {
             "board": {
-                "name": "size 6"
+                "name": "size-6 board"
             }
         },
         "clusterfuss": {
@@ -1941,14 +1947,20 @@
         },
         "havannah": {
             "board": {
-                "name": "Size 8 board.",
+                "name": "Size-8 board.",
                 "description": "Competitive board."
             }
         },
         "hex": {
             "board": {
-                "name": "Size 13 board.",
+                "name": "Size-13 board.",
                 "description": "Competitive board"
+            }
+        },
+        "hexentafl": {
+            "board": {
+                "name": "size-4 board",
+                "description": "Smaller board where the king may only move one step at a time."
             }
         },
         "irensei": {
@@ -2126,7 +2138,7 @@
         "take": {
             "rules": {
                 "name": "rules",
-                "description": "Play on a size 5 board where plant growth destroys dirt."
+                "description": "Play on a size-5 board where plant growth destroys dirt."
             }
         },
         "trike": {
@@ -2171,7 +2183,7 @@
         },
         "verge": {
             "board": {
-                "name": "Size 5 board (61 cells)"
+                "name": "Size-5 board (61 cells)"
             }
         }
     },
@@ -2382,7 +2394,7 @@
         },
         "ccorridor": {
             "size-8": {
-                "name": "Size 8"
+                "name": "Size-8 board"
             }
         },
         "ceph": {
@@ -2580,15 +2592,15 @@
         },
         "havannah": {
             "size-4": {
-                "name": "Size 4 board.",
+                "name": "Size-4 board.",
                 "description": "Tiny board."
             },
             "size-6": {
-                "name": "Size 6 board.",
+                "name": "Size-6 board.",
                 "description": "Smaller board."
             },
             "size-10": {
-                "name": "Size 10 board.",
+                "name": "Size-10 board.",
                 "description": "Larger board."
             }
         },
@@ -2599,16 +2611,22 @@
         },
         "hex": {
             "size-11": {
-                "name": "Size 11 board.",
+                "name": "Size-11 board.",
                 "description": "Smaller board."
             },
             "size-15": {
-                "name": "Size 15 board.",
+                "name": "Size-15 board.",
                 "description": "Larger board."
             },
             "size-19": {
-                "name": "Size 19 board.",
+                "name": "Size-19 board.",
                 "description": "Much larger board."
+            }
+        },
+        "hexentafl": {
+            "size-5": {
+                "name": "Size-5 board.",
+                "description": "Larger board where the king may move like any other piece."
             }
         },
         "hexy": {
@@ -3091,11 +3109,11 @@
         "take": {
             "high-churn": {
                 "name": "High Churn",
-                "description": "Play on a size 4 board where plant growth does not destroy dirt."
+                "description": "Play on a size-4 board where plant growth does not destroy dirt."
             },
             "quick-churn": {
                 "name": "Small, High Churn",
-                "description": "Play on a size 3 board where plant growth does not destroy dirt."
+                "description": "Play on a size-3 board where plant growth does not destroy dirt."
             }
         },
         "trike": {
@@ -3177,7 +3195,7 @@
         },
         "verge": {
             "size-7": {
-                "name": "Size 7 board (127 cells)"
+                "name": "Size-7 board (127 cells)"
             }
         },
         "wyke": {

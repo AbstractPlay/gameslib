@@ -419,6 +419,32 @@
                 // Listen for render setting change
                 document.getElementById("renderSettings").addEventListener("click", renderGame, false);
 
+                // Add some keyboard shortcuts to make testing easier.
+                const launchBtn = document.getElementById('launch');
+                const moveBtn = document.getElementById('moveBtn');
+                const moveRandomBtn = document.getElementById('moveRandom');
+                const moveClear = document.getElementById('moveClear');
+                const moveEntry = document.getElementById('moveEntry');
+
+                document.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        moveBtn.click();
+                    } else if (event.key === 'r' || event.key === 'R') {
+                        event.preventDefault();
+                        moveRandomBtn.click();
+                    } else if (event.key === 'p' || event.key === "P") {
+                        event.preventDefault();
+                        moveEntry.value = 'pass';
+                    } else if (event.key === 'c' || event.key === 'C') {
+                        event.preventDefault();
+                        moveClear.click();
+                    } else if (event.key === 'l' || event.key === 'L') {
+                        event.preventDefault();
+                        launchBtn.click();
+                    }
+                });
+
                 // If the page was refreshed, then let's at least remember the move history and game board
                 renderGame();
             });

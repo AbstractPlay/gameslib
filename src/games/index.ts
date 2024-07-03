@@ -323,7 +323,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PletoreGame | typeof AnacheGame | typeof SplineGame |
                               typeof SploofGame | typeof SpireGame | typeof SpreeGame |
                               typeof AsliGame | typeof ConectGame | typeof SlydeGame |
-                              typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame |
+                              typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame
                 >();
 // Manually add each game to the following array
 [

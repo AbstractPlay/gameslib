@@ -243,7 +243,7 @@ export class EntrapmentGame extends GameBase {
                     }
                     // If an action results in multiple forced position for either player,
                     // the moving player must choose one of them to retain, and the other(s) are removed.
-                    const multipleForced = this.getMultipleForced(player, [from, ...captures], new Map([[to, player]]), jumpedWalls);
+                    const multipleForced = this.getMultipleForced([from, ...captures], new Map([[to, player]]), jumpedWalls);
                     const firstMoves: string[] = [];
                     if (multipleForced.length > 0) {
                         for (const cell of multipleForced) {
@@ -269,7 +269,7 @@ export class EntrapmentGame extends GameBase {
                                     if (this.boardEdge.has(wallV)) { continue; }
                                     const captures2 = this.getCapturesWall(player, wallV, toRemove, toAdd, undefined, wallV, forceds2);
                                     const toRemove2 = [...toRemove, ...captures2];
-                                    const multipleForced2 = this.getMultipleForced(player, toRemove2, toAdd, jumpedWalls, undefined, wallV, player);
+                                    const multipleForced2 = this.getMultipleForced(toRemove2, toAdd, jumpedWalls, undefined, wallV, player);
                                     if (multipleForced2.length > 0) {
                                         for (const mf of multipleForced2) {
                                             moves.push(firstMove + splitSymbol + wallV + "/" + mf);
@@ -286,7 +286,7 @@ export class EntrapmentGame extends GameBase {
                                     if (this.boardEdge.has(wallH)) { continue; }
                                     const captures2 = this.getCapturesWall(player, wallH, toRemove, toAdd, undefined, wallH, forceds2);
                                     const toRemove2 = [...toRemove, ...captures2];
-                                    const multipleForced2 = this.getMultipleForced(player, toRemove2, toAdd, jumpedWalls, undefined, wallH, player);
+                                    const multipleForced2 = this.getMultipleForced(toRemove2, toAdd, jumpedWalls, undefined, wallH, player);
                                     if (multipleForced2.length > 0) {
                                         for (const mf of multipleForced2) {
                                             moves.push(firstMove + splitSymbol + wallH + "/" + mf);
@@ -308,7 +308,7 @@ export class EntrapmentGame extends GameBase {
                                         if (this.boardEdge.has(wallV)) { continue; }
                                         const captures2 = this.getCapturesWall(player, wallV, toRemove, toAdd, wall, wallV, forceds2);
                                         const toRemove2 = [...toRemove, ...captures2];
-                                        const multipleForced2 = this.getMultipleForced(player, toRemove2, toAdd, jumpedWalls, wall, wallV, player);
+                                        const multipleForced2 = this.getMultipleForced(toRemove2, toAdd, jumpedWalls, wall, wallV, player);
                                         if (multipleForced2.length > 0) {
                                             for (const mf of multipleForced2) {
                                                 moves.push(firstMove + splitSymbol + wall + "-" + wallV + "/" + mf);
@@ -326,7 +326,7 @@ export class EntrapmentGame extends GameBase {
                                         if (this.boardEdge.has(wallH)) { continue; }
                                         const captures2 = this.getCapturesWall(player, wallH, toRemove, toAdd, wall, wallH, forceds2);
                                         const toRemove2 = [...toRemove, ...captures2];
-                                        const multipleForced2 = this.getMultipleForced(player, toRemove2, toAdd, jumpedWalls, wall, wallH, player);
+                                        const multipleForced2 = this.getMultipleForced(toRemove2, toAdd, jumpedWalls, wall, wallH, player);
                                         if (multipleForced2.length > 0) {
                                             for (const mf of multipleForced2) {
                                                 moves.push(firstMove + splitSymbol + wall + "-" + wallH + "/" + mf);
@@ -348,7 +348,7 @@ export class EntrapmentGame extends GameBase {
                                 const captures2 = this.getCapturesRoamer(player, to2, toRemove, toAdd, jumpedWalls2, forceds2);
                                 const toRemove2 = from2 === to ? [...toRemove, ...captures2] : [...toRemove, from2, ...captures2];
                                 const toAdd2 = from2 === to ? new Map([[to2, player]]) :new Map([...toAdd, [to2, player]]);
-                                const multipleForced2 = this.getMultipleForced(player, toRemove2, toAdd2, jumpedWalls2);
+                                const multipleForced2 = this.getMultipleForced(toRemove2, toAdd2, jumpedWalls2);
                                 // If we have a forced position, we need to check if the forced position is relieved.
                                 if (forced2 !== undefined && forced2 !== from2 && this.checkForced(player, forced2, toRemove2, toAdd2, jumpedWalls2)) { continue; }
                                 if (multipleForced2.length > 0) {
@@ -401,7 +401,7 @@ export class EntrapmentGame extends GameBase {
                                 this.getForced(2),
                             ];
                             const captures = this.getCapturesRoamer(this.currplayer, to, [from], new Map([[to, this.currplayer]]), jumpedWalls, forceds);
-                            const multipleForced = this.getMultipleForced(this.currplayer, [from, ...captures], new Map([[to, this.currplayer]]));
+                            const multipleForced = this.getMultipleForced([from, ...captures], new Map([[to, this.currplayer]]));
                             if (multipleForced.length > 0 && multipleForced.includes(cell)) {
                                 newmove = move + "/" + cell;
                             } else {
@@ -698,7 +698,7 @@ export class EntrapmentGame extends GameBase {
                     }
                 }
                 // Now we check if the result of this action is a multiple-forced position.
-                const multipleForced = this.getMultipleForced(this.currplayer,toRemove, toAdd, jumpedWalls, wallFrom, wallTo, wallPlacer);
+                const multipleForced = this.getMultipleForced(toRemove, toAdd, jumpedWalls, wallFrom, wallTo, wallPlacer);
                 if (multipleForced.length > 0) {
                     // If it is, the user has to choose which roamer to retain.
                     if (choice === undefined) {
@@ -922,6 +922,9 @@ export class EntrapmentGame extends GameBase {
         // This is usually the case in most of the code, but in the actual `move` method,
         // we need to deliberately add it.
         toAdd ??= new Map([[at, player]]);
+        // If this results in multiple forced of the moving player, we can just remove the moving piece.
+        const forceds = this.getAllForced(player, toRemove, toAdd, jumpedWalls);
+        if (forceds.length > 1 && forceds.includes(at)) { return [at]; }
         const captures: string[] = [];
         const [x, y] = this.algebraic2coords(at);
         // The forced cell, if present, should be checked after the other cells.
@@ -1075,7 +1078,6 @@ export class EntrapmentGame extends GameBase {
     }
 
     private getMultipleForced(
-        player: playerid,
         toRemove: string[] = [],
         toAdd: Map<string, playerid> = new Map(),
         jumpedWalls: string[] = [],
@@ -1086,15 +1088,9 @@ export class EntrapmentGame extends GameBase {
         // If a player has more than one forced move, return all of them.
         // It's not possible for this to happen for both players at the same time,
         // so this function does not return whose pieces are returned.
-        // We do take note of who the moving player is to keep track of the resolution order.
-        // We check the player's forced pieces first because in the contrived event that both players have double-forced positions,
-        // (unproven claim) choosing to remove your own pieces can result in a sustained double-forced position for the opponent,
-        // but if you choose to remove one of the opponent's two forced pieces, it will necessarily free up at least one of your forced pieces.
-        // Perhaps this is against the spirit of Entrapment, as normally you're supposed to remove your own pieces, but
-        // this results in unnecessary complications when handling an edge case.
-        const forced1 = this.getAllForced(player % 2 + 1 as playerid, toRemove, toAdd, jumpedWalls, wallFrom, wallTo, wallPlacer);
+        const forced1 = this.getAllForced(1, toRemove, toAdd, jumpedWalls, wallFrom, wallTo, wallPlacer);
         if (forced1.length > 1) { return forced1; }
-        const forced2 = this.getAllForced(player, toRemove, toAdd, jumpedWalls, wallFrom, wallTo, wallPlacer);
+        const forced2 = this.getAllForced(2, toRemove, toAdd, jumpedWalls, wallFrom, wallTo, wallPlacer);
         if (forced2.length > 1) { return forced2; }
         return [];
     }
@@ -1151,7 +1147,7 @@ export class EntrapmentGame extends GameBase {
                             this.boardCell.delete(capture);
                             this.results.push({ type: "capture", where: capture, whose, what: whose === this.currplayer ? "self" : "opponent" });
                         }
-                        const multipleForced = this.getMultipleForced(this.currplayer);
+                        const multipleForced = this.getMultipleForced();
                         if (multipleForced.length > 0 && choice === undefined) {
                             this.dots = [...multipleForced];
                         }
@@ -1174,7 +1170,7 @@ export class EntrapmentGame extends GameBase {
                             this.boardCell.delete(capture);
                             this.results.push({ type: "capture", where: capture, whose, what: whose === this.currplayer ? "self" : "opponent" });
                         }
-                        const multipleForced = this.getMultipleForced(this.currplayer);
+                        const multipleForced = this.getMultipleForced();
                         if (multipleForced.length > 0 && choice === undefined) {
                             this.dots = [...multipleForced];
                         }
@@ -1194,7 +1190,7 @@ export class EntrapmentGame extends GameBase {
                         this.boardCell.delete(capture);
                         this.results.push({ type: "capture", where: capture, whose, what: whose === this.currplayer ? "self" : "opponent" });
                     }
-                    const multipleForced = this.getMultipleForced(this.currplayer);
+                    const multipleForced = this.getMultipleForced();
                     if (multipleForced.length > 0 && choice === undefined) {
                         this.dots = [...multipleForced];
                     }
@@ -1212,7 +1208,7 @@ export class EntrapmentGame extends GameBase {
             }
             // We now handle the choice at the end of the action if it is given.
             if (choice !== undefined && choice !== "") {
-                const multipleForced = this.getMultipleForced(this.currplayer);
+                const multipleForced = this.getMultipleForced();
                 for (const mf of multipleForced) {
                     if (mf === choice) { continue; }
                     const p = this.boardCell.get(mf);
@@ -1401,13 +1397,13 @@ export class EntrapmentGame extends GameBase {
         }
 
         if (this.dots.length > 0) {
+            type RowCol = {row: number; col: number;};
             const points = [];
             for (const cell of this.dots) {
                 const [x, y] = this.algebraic2coords(cell);
-                points.push({row: y, col: x});
+                points.push({ row: y, col: x });
             }
-            // @ts-ignore
-            rep.annotations.push({ type: "dots", targets: points });
+            rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
         }
         return rep;
     }

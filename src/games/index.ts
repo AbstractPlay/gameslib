@@ -135,6 +135,8 @@ import { AsliGame, IAsliState } from "./asli";
 import { ConectGame, IConectState } from "./conect";
 import { SlydeGame, ISlydeState } from "./slyde";
 import { UnlurGame, IUnlurState } from "./unlur";
+import { EntrapmentGame, IEntrapmentState } from "./entrapment";
+import { HexentaflGame, IHexentaflState } from "./hexentafl";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -272,6 +274,8 @@ export {
     ConectGame, IConectState,
     SlydeGame, ISlydeState,
     UnlurGame, IUnlurState,
+    EntrapmentGame, IEntrapmentState,
+    HexentaflGame, IHexentaflState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -319,7 +323,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PletoreGame | typeof AnacheGame | typeof SplineGame |
                               typeof SploofGame | typeof SpireGame | typeof SpreeGame |
                               typeof AsliGame | typeof ConectGame | typeof SlydeGame |
-                              typeof UnlurGame
+                              typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame
                 >();
 // Manually add each game to the following array
 [
@@ -341,7 +345,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PenteGame, Connect6Game, GomokuGame, RenjuGame, FourInARowGame, IrenseiGame, PrudhGame,
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
-    SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame,
+    SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
+    HexentaflGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -621,6 +626,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SlydeGame(...args);
         case "unlur":
             return new UnlurGame(...args);
+        case "entrapment":
+            return new EntrapmentGame(...args);
+        case "hexentafl":
+            return new HexentaflGame(...args);
     }
     return;
 }

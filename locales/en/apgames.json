@@ -42,6 +42,7 @@
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
+        "entrapment": "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way the game is over, and his or her opponent declared the winner.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
         "epam": "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
         "exxit": "Exxit is fundamentally an area control game. Manoeuvre your pieces to create new tiles. Fight to create the largest connected island of tiles of your colour. The game board is built out as you play.",
@@ -61,6 +62,7 @@
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
+        "hexentafl": "heXentafl is a hexagonal variant of Hnefatafl where the attackers try to capture the king and the defenders try to guide the king to one of the six corners.",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
@@ -232,6 +234,9 @@
         "CLAIMS_REMAINING": "Claims Remaining",
         "DAMAGE": "Damage taken",
         "DISTANCES": "Distances",
+        "entrapment": {
+            "BARRIERS_REMAINING": "Barriers remaining"
+        },
         "entropy": {
             "CHAOS": "Chaos",
             "ORDER": "Order"
@@ -729,6 +734,31 @@
             "TOOFAR": "You can only move as far as your stack is high.",
             "NOTDARKSQUARE": "You can only play on the dark squares."
         },
+        "entrapment": {
+            "INITIAL_INSTRUCTIONS_SETUP": "Select a space to place a roamer",
+            "INITIAL_INSTRUCTIONS": "Select a roamer to move.",
+            "INITIAL_INSTRUCTIONS_FORCED": "The roamer at {{where}} is in a forced position. Your first action must be to relieve it.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Select a roamer to move or select an edge to place a barrier.",
+            "TOO_MANY_ACTIONS_FIRST": "You may only perform one action on the first move after the setup phase.",
+            "TOO_MANY_ACTIONS": "You may only perform two actions per turn.",
+            "ENDED": "The game has already ended because one player has run out of roamers.",
+            "MOVE_FIRST": "You must move a roamer first.",
+            "INVALID_BARRIER": "The edge at {{where}} is not a valid edge.",
+            "STILL_HAVE_BARRIERS": "You are indicating a barrier movement with '-', but you still have barriers in your stash.",
+            "BARRIER_EXISTS": "There is already a barrier at {{where}}.",
+            "NONEXISTENT_BARRIER": "There is no barrier at {{where}} to move.",
+            "UNCONTROLLED_BARRIER": "You may only move barriers that you control.",
+            "MISSING_DASH": "To indicate movement, use a '-' followed by where you wish to move to.",
+            "SELECT_TO_BARRIER": "Select an edge to move the barrier to.",
+            "SELECT_TO_PIECE": "Select a space to move the roamer to.",
+            "INVALID_TO": "You may not move the roamer from {{from}} to {{to}}.",
+            "FORCED_FREE": "You have to relieve the roamer at {{where}} if you are making a movement action.",
+            "CHOOSE_SPARE": "There are more than one roamers in forced positions at {{where}}. Select which one to retain.",
+            "INVALID_SPARE": "You must choose one of the roamers at {{where}} to retain.",
+            "NO_SPARE": "You do not need to select any roamer to retain.",
+            "SECOND_ACTION": "Select a roamer to move or select an edge to place a barrier.",
+            "SECOND_ACTION_MOVE_WALL": "Select a roamer to move or select a barrier to move to another edge."
+        },
         "entropy": {
             "INITIAL_INSTRUCTIONS_chaos": "Select an empty cell on your opponent's board to place the next piece.",
             "INITIAL_INSTRUCTIONS_order": "Select a piece on your board to move, or pass.",
@@ -912,6 +942,11 @@
         },
         "hex": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
+        },
+        "hexentafl": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "KING_PREFIX": "Movement of the king should be prefixed with 'K'",
+            "INVALID_TO": "The piece at {{from}} cannot move to {{to}}."
         },
         "hexy": {
             "INITIAL_INSTRUCTIONS": "Select an empty cell. If you select a perimeter cell, the mirror piece will be placed automatically."
@@ -1809,7 +1844,7 @@
         },
         "ccorridor": {
             "board": {
-                "name": "size 6"
+                "name": "size-6 board"
             }
         },
         "clusterfuss": {
@@ -1864,6 +1899,11 @@
         "dameo": {
             "board": "board (8x8)"
         },
+        "entrapment": {
+            "board": {
+                "name": "board (6x7)"
+            }
+        },
         "exxit": {
             "length": {
                 "name": "game length (39 tiles)"
@@ -1907,14 +1947,20 @@
         },
         "havannah": {
             "board": {
-                "name": "Size 8 board.",
+                "name": "Size-8 board.",
                 "description": "Competitive board."
             }
         },
         "hex": {
             "board": {
-                "name": "Size 13 board.",
+                "name": "Size-13 board.",
                 "description": "Competitive board"
+            }
+        },
+        "hexentafl": {
+            "board": {
+                "name": "size-4 board",
+                "description": "Smaller board where the king may only move one step at a time."
             }
         },
         "irensei": {
@@ -2092,7 +2138,7 @@
         "take": {
             "rules": {
                 "name": "rules",
-                "description": "Play on a size 5 board where plant growth destroys dirt."
+                "description": "Play on a size-5 board where plant growth destroys dirt."
             }
         },
         "trike": {
@@ -2137,7 +2183,7 @@
         },
         "verge": {
             "board": {
-                "name": "Size 5 board (61 cells)"
+                "name": "Size-5 board (61 cells)"
             }
         }
     },
@@ -2271,7 +2317,6 @@
                 "name": "Larger board (15x15)"
             }
         },
-
         "bao": {
             "kujifunza": {
                 "description": "The \"beginner\" version with no \"kunamua\" setup phase. The game starts with two stones in each pit.",
@@ -2349,7 +2394,7 @@
         },
         "ccorridor": {
             "size-8": {
-                "name": "Size 8"
+                "name": "Size-8 board"
             }
         },
         "ceph": {
@@ -2443,6 +2488,11 @@
         "dipole": {
             "international": {
                 "name": "Larger board: 10x10"
+            }
+        },
+        "entrapment": {
+            "size-7x7": {
+                "name": "Board (7x7)"
             }
         },
         "epam": {
@@ -2542,15 +2592,15 @@
         },
         "havannah": {
             "size-4": {
-                "name": "Size 4 board.",
+                "name": "Size-4 board.",
                 "description": "Tiny board."
             },
             "size-6": {
-                "name": "Size 6 board.",
+                "name": "Size-6 board.",
                 "description": "Smaller board."
             },
             "size-10": {
-                "name": "Size 10 board.",
+                "name": "Size-10 board.",
                 "description": "Larger board."
             }
         },
@@ -2561,16 +2611,22 @@
         },
         "hex": {
             "size-11": {
-                "name": "Size 11 board.",
+                "name": "Size-11 board.",
                 "description": "Smaller board."
             },
             "size-15": {
-                "name": "Size 15 board.",
+                "name": "Size-15 board.",
                 "description": "Larger board."
             },
             "size-19": {
-                "name": "Size 19 board.",
+                "name": "Size-19 board.",
                 "description": "Much larger board."
+            }
+        },
+        "hexentafl": {
+            "size-5": {
+                "name": "Size-5 board.",
+                "description": "Larger board where the king may move like any other piece."
             }
         },
         "hexy": {
@@ -3053,11 +3109,11 @@
         "take": {
             "high-churn": {
                 "name": "High Churn",
-                "description": "Play on a size 4 board where plant growth does not destroy dirt."
+                "description": "Play on a size-4 board where plant growth does not destroy dirt."
             },
             "quick-churn": {
                 "name": "Small, High Churn",
-                "description": "Play on a size 3 board where plant growth does not destroy dirt."
+                "description": "Play on a size-3 board where plant growth does not destroy dirt."
             }
         },
         "trike": {
@@ -3139,7 +3195,7 @@
         },
         "verge": {
             "size-7": {
-                "name": "Size 7 board (127 cells)"
+                "name": "Size-7 board (127 cells)"
             }
         },
         "wyke": {

@@ -1469,7 +1469,6 @@ export class RealmGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["rotate-pieces"],
             board: {
                 style: "squares",
                 width: 12,

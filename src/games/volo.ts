@@ -347,7 +347,11 @@ export class VoloGame extends GameBase {
                     } else {
                         const pieces = this.colons2cells(move);
                         const tos = this.displayTos(pieces, this.getToDirections(pieces));
-                        newmove = this.normaliseMove(`${move}-${tos.get(cell)![0]}${tos.get(cell)![1]}`);
+                        if (tos.has(cell)) {
+                            newmove = this.normaliseMove(`${move}-${tos.get(cell)![0]}${tos.get(cell)![1]}`);
+                        } else {
+                            newmove = `${move}-${cell}`;
+                        }
                     }
                 } else {
                     const [moves, dir, dist,] = this.splitMove(move);

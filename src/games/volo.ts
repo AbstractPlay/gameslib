@@ -263,10 +263,10 @@ export class VoloGame extends GameBase {
                 if (newRegions.length > 1 && !this.isOneGroup(player, moved)) {
                     const regionIdentifiers = this.getAllRegionIdentifiers(newRegions);
                     for (const regionIdentifier of regionIdentifiers) {
-                        moves.push(`${from.join(",")}-${dirDist[0]}${dirDist[1]}/${regionIdentifier}`);
+                        moves.push(`${this.cells2colons(from)}-${dirDist[0]}${dirDist[1]}/${regionIdentifier}`);
                     }
                 } else {
-                    moves.push(`${from.join(",")}-${dirDist[0]}${dirDist[1]}`);
+                    moves.push(`${this.cells2colons(from)}-${dirDist[0]}${dirDist[1]}`);
                 }
             }
         }
@@ -296,14 +296,38 @@ export class VoloGame extends GameBase {
 
     private normaliseMove(move: string): string {
         // Normalise a move.
-        const [moves, dir, dist, choice] = this.splitMove(move);
-        if (dir === undefined) {
-            return moves.sort((a, b) => this.sort(a, b)).join(",");
+        const [moves, choice] = move.split("/");
+        const [moves2, dirDist] = moves.split("-");
+        const rearranged = moves2.split(":").sort((a, b) => this.sort(a, b)).join(":");
+        if (dirDist === undefined) {
+            return rearranged;
         }
         if (choice === undefined) {
-            return `${moves.sort((a, b) => this.sort(a, b)).join(",")}-${dir}${dist}`;
+            return `${rearranged}-${dirDist}`;
         }
-        return `${moves.sort((a, b) => this.sort(a, b)).join(",")}-${dir}${dist}/${choice}`;
+        return `${rearranged}-${dirDist}/${choice}`;
+    }
+
+    private cells2colons(cells: string[]): string {
+        // Convert cells to colons.
+        if (cells.length === 1) { return cells[0]; }
+        const sorted = cells.sort((a, b) => this.sort(a, b));
+        return sorted[0] + ":" + sorted[sorted.length - 1];
+    }
+
+    private colons2cells(move: string): string[] {
+        // Convert colons to cells.
+        if (!move.includes(":")) { return [move]; }
+        const [start, end] = move.split(":");
+        const dir = this.graph.bearing(start, end);
+        if (dir === undefined) { return []; }
+        const cells = [start];
+        for (const coords of this.graph.ray(...this.algebraic2coords(start), dir)) {
+            const cell = this.coords2algebraic(...coords);
+            cells.push(cell);
+            if (cell === end) { break; }
+        }
+        return cells;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -315,21 +339,15 @@ export class VoloGame extends GameBase {
             } else {
                 if (!move.includes("-")) {
                     if (this.board.has(cell)) {
-                        const pieces = move.split(",");
-                        if (pieces.includes(cell)) {
-                            pieces.splice(pieces.indexOf(cell), 1);
-                            newmove = this.normaliseMove(pieces.join(","));
+                        if (move.includes(":")) {
+                            newmove = cell;
                         } else {
-                            newmove = this.normaliseMove(move + "," + cell);
+                            newmove = this.normaliseMove(move + ":" + cell);
                         }
                     } else {
-                        const pieces = move.split(",");
+                        const pieces = this.colons2cells(move);
                         const tos = this.displayTos(pieces, this.getToDirections(pieces));
-                        if (tos.has(cell)) {
-                            newmove = this.normaliseMove(`${move}-${tos.get(cell)![0]}${tos.get(cell)![1]}`);
-                        } else {
-                            newmove = this.normaliseMove(move + "," + cell);
-                        }
+                        newmove = this.normaliseMove(`${move}-${tos.get(cell)![0]}${tos.get(cell)![1]}`);
                     }
                 } else {
                     const [moves, dir, dist,] = this.splitMove(move);
@@ -344,7 +362,13 @@ export class VoloGame extends GameBase {
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
-                result.move = move;
+                if (newmove.includes("/")) {
+                    result.move = newmove.split("/")[0];
+                } else if (newmove.includes("-")) {
+                    result.move = newmove.split("-")[0];
+                } else {
+                    result.move = "";
+                }
             } else {
                 result.move = newmove;
             }
@@ -386,12 +410,12 @@ export class VoloGame extends GameBase {
         } else {
             const [move, choice] = m.split("/");
             const [move2, dirDist] = move.split("-");
-            const cells = move2.split(",");
+            const [start, end] = move2.split(":");
 
             // Valid cell
             let currentMove;
             try {
-                for (const c of [...cells, choice]) {
+                for (const c of [start, end, choice]) {
                     if (c === undefined) { continue; }
                     const [, y] = this.algebraic2coords(c);
                     // `algebraic2coords` does not check if the cell is on the board fully.
@@ -403,53 +427,69 @@ export class VoloGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
                 return result;
             }
-            // No duplicate cells.
-            const seen: Set<string> = new Set();
-            const duplicates: Set<string> = new Set();
-            for (const c of cells) {
-                if (seen.has(c)) { duplicates.add(c); }
-                seen.add(c);
-            }
-            if (duplicates.size > 0) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.volo.DUPLICATE", { where: [...duplicates].join(", ") });
-                return result;
-            }
-            if (cells.length === 1 && !this.board.has(cells[0])) {
-                if (this.nextTo(this.currplayer, cells[0])) {
+            if (end === undefined && !this.board.has(start)) {
+                if (this.nextTo(this.currplayer, start)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.volo.PLACE_FRIENDLY_NEIGHBOUR", { where: cells[0] });
+                    result.message = i18next.t("apgames:validation.volo.PLACE_FRIENDLY_NEIGHBOUR", { where: start });
                     return result;
                 }
                 const regions = this.getOpponentRegions(this.currplayer % 2 + 1 as playerid);
-                if (!this.canPlace(cells[0], regions)) {
+                if (!this.canPlace(start, regions)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.volo.CONTROLLED_REGION", { where: cells[0] });
+                    result.message = i18next.t("apgames:validation.volo.CONTROLLED_REGION", { where: start });
                     return result;
                 }
             } else {
-                for (const cell of cells) {
-                    if (!this.board.has(cell)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: cell});
-                        return result;
-                    }
-                    if (this.board.get(cell) !== this.currplayer) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: cell });
-                        return result;
-                    }
-                }
-                if (!this.oneLine(cells)) {
+                if (!this.board.has(start)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.volo.NOT_IN_LINE");
+                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: start });
                     return result;
+                }
+                if (this.board.get(start) !== this.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: start });
+                    return result;
+                }
+                let cells: string[] | undefined;
+                if (end !== undefined) {
+                    if (start === end) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.volo.SAME_START_END", { move });
+                        return result;
+                    }
+                    if (!this.board.has(end)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: end });
+                        return result;
+                    }
+                    if (this.board.get(end) !== this.currplayer) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: end });
+                        return result;
+                    }
+                    cells = this.colons2cells(move2)
+                    if (cells.length === 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.volo.BEARING", { range: move2 });
+                        return result;
+                    }
+                } else {
+                    cells = [start];
                 }
                 if (dirDist === undefined || dirDist === "") {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.volo.MOVE_DIRECTION");
+                    if (end === undefined) {
+                        result.message = i18next.t("apgames:validation.volo.END_OR_MOVE_DIRECTION");
+                    } else {
+                        result.message = i18next.t("apgames:validation.volo.MOVE_DIRECTION");
+                    }
+                    return result;
+                }
+                if (!this.oneLine(cells)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.volo.NOT_IN_LINE", { range: move2 });
                     return result;
                 }
                 const tos = this.displayTos(cells, this.getToDirections(cells));
@@ -694,7 +734,7 @@ export class VoloGame extends GameBase {
         // Cells, direction, distance, choice.
         const [move, choice] = m.split("/");
         const [move2, dirDist] = move.split("-");
-        const cells = move2.split(",");
+        const cells = this.colons2cells(move2);
         const dir = dirDist === undefined || dirDist === "" ? undefined : dirDist.match(/[A-Z]+/)![0] as Direction;
         const dist = dirDist === undefined || dirDist === "" ? undefined : parseInt(dirDist.match(/\d+/)![0], 10);
         return [cells, dir, dist, choice === undefined ? undefined : choice];
@@ -730,6 +770,7 @@ export class VoloGame extends GameBase {
                 this.results.push({ type: "pass", why: "forced" });
             }
         } else {
+            const [fromColon,] = m.split("-");
             const [moves, dir, dist, choice] = this.splitMove(m);
             if (!this.board.has(moves[0])) {
                 this.board.set(m, this.currplayer);
@@ -749,7 +790,7 @@ export class VoloGame extends GameBase {
                     for (const to of tos) {
                         this.board.set(to, this.currplayer);
                     }
-                    this.results.push({ type: "move", from: moves.join(","), to: tos.join(","), how: `${dir}${dist}`, count: tos.length });
+                    this.results.push({ type: "move", from: fromColon, to: this.cells2colons(tos), how: `${dir}${dist}`, count: tos.length });
                     if (choice !== undefined) {
                         this.results.push({ type: "select", where: choice });
                     }
@@ -887,8 +928,8 @@ export class VoloGame extends GameBase {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{ row: y, col: x }]});
                 } else if (move.type === "move") {
-                    const froms = move.from.split(",");
-                    const tos = move.to.split(",");
+                    const froms = this.colons2cells(move.from);
+                    const tos = this.colons2cells(move.to);
                     for (let i = 0; i < froms.length; i++) {
                         const [fromX, fromY] = this.algebraic2coords(froms[i]);
                         const [toX, toY] = this.algebraic2coords(tos[i]);
@@ -967,6 +1008,8 @@ export class VoloGame extends GameBase {
                 } else {
                     node.push(i18next.t("apresults:EOG.default"));
                 }
+                resolved = true;
+                break;
         }
         return resolved;
     }

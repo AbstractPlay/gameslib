@@ -1746,7 +1746,7 @@
             "CONTROLLED_REGION": "You may not place a bird at {{where}} because it would be in a region controlled by your opponent.",
             "SAME_START_END": "The start and end points are the same.",
             "BEARING": "The range {{range}} does not result in a valid bearing.",
-            "NOT_IN_LINE": "The birds selected at {{range}} are not in a straight unbroken line.",
+            "SINGLE_LINE": "The {{range}} is not a straight unbroken line of your birds.",
             "END_OR_MOVE_DIRECTION": "Select another bird to create a flock, or select a destination to move the single bird to.",
             "MOVE_DIRECTION": "Select a destination to move the flock to.",
             "INVALID_DIRDIST": "The direction and distance {{dirDist}} is invalid.",

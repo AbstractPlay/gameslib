@@ -469,7 +469,7 @@ export class VoloGame extends GameBase {
                         result.valid = true;
                         result.complete = -1;
                         result.canrender = true;
-                        result.message = i18next.t("apgames:validation.volo.CHOOSE_REGION", { choices: regionIdentifiers.join(", ") });
+                        result.message = i18next.t("apgames:validation.volo.CHOOSE_REGION", { count: regionIdentifiers.length });
                         return result;
                     }
                     if (!regionIdentifiers.includes(choice)) {

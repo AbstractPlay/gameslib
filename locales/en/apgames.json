@@ -1748,7 +1748,7 @@
             "NOT_IN_LINE": "The birds selected are not in a straight line.",
             "MOVE_DIRECTION": "Select more birds to move as a flock, or select a destination to move the flock to.",
             "INVALID_DIRDIST": "The direction and distance {{dirDist}} is invalid.",
-            "CHOOSE_REGION": "You have created new regions containing your opponent's birds. Select one of the regions ({{choices}}) to retain.",
+            "CHOOSE_REGION": "You have created new regions containing your opponent's birds. Select one of the {{count}} regions to retain.",
             "INVALID_REGION": "The region {{choice}} is not valid. Select one of the regions ({{choices}}) to retain.",
             "INVALID_REGION_NORMALISE": "The region that contains {{choice}} is represented by {{represent}}. Try '{{normalised}}'",
             "NO_REGIONS_TO_SELECT": "You have indicated a region selection, but there are no regions to select from.",

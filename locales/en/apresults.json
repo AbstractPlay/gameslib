@@ -137,15 +137,16 @@
     "ELIMINATED": "{{player}} was eliminated.",
     "EOG": {
         "default": "The game has ended.",
-        "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own.",
-        "stalemate": "The game has ended because one player has run out of moves.",
+        "consecutive_passes": "The game has ended because both players passed consecutively.",
         "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
         "repetition_one": "The game has ended because the same position has occurred by the same player.",
+        "stalemate": "The game has ended because one player has run out of moves.",
         "tafl_encirclement": "The game has ended because the defenders are encircled.",
         "tafl_exit_fort": "The game has ended because the defenders created an exit fort.",
         "tafl_king_captured": "The game has ended because the king was captured.",
         "tafl_king_escaped": "The game has ended because the king escaped.",
-        "susan_nonplacement": "The game has ended because no player has placed a piece for 6 plies."
+        "susan_nonplacement": "The game has ended because no player has placed a piece for 6 plies.",
+        "unlur_foul": "The game has ended because one player has achieved the opponent's win condition without achieving their own."
     },
     "ERUPTIONS": "The following pieces erupted: {{eruptions}}.",
     "FIRE": {
@@ -227,7 +228,9 @@
         "phutball_to_last": "to {{to}}.",
         "saltire": "{{player}} swapped the pieces at {{from}} and {{to}}.",
         "susan": "{{player}} slid a piece from {{from}} to {{to}}.",
-        "veletas": "{{player}} moved shooter from {{from}} to {{to}}."
+        "veletas": "{{player}} moved shooter from {{from}} to {{to}}.",
+        "volo_one": "{{player}} moved a flock of 1 bird from {{from}} in the direction {{how}}.",
+        "volo_other": "{{player}} moved a flock of {{count}} birds from {{from}} in the direction {{how}}."
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
     "ORIENT": {
@@ -301,7 +304,8 @@
         },
         "phutball": "{{player}} placed a player at {{where}}.",
         "twixt": "{{player}} placed a peg at {{where}}.",
-        "veletas": "{{player}} placed a {{what}} at {{where}}."
+        "veletas": "{{player}} placed a {{what}} at {{where}}.",
+        "volo": "{{player}} adds a bird at {{where}}."
     },
     "PROMOTE": {
         "basicWhere": "The piece at {{where}} was promoted.",
@@ -336,7 +340,8 @@
         "nonum": "{{player}} removed a piece from {{where}}.",
         "phutball_one": "{{count}} player was removed.",
         "phutball_other": "{{count}} players were removed.",
-        "twixt": "{{player}} removed a link at {{where}}."
+        "twixt": "{{player}} removed a link at {{where}}.",
+        "volo": "{{player}} chose to retain the region at {{how}}, removing {{num}} opponent's birds."
     },
     "REPAIR": {
         "simple": "{{player}} repairs."

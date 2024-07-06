@@ -133,6 +133,7 @@
         "veletas": "Veletas is a drawless territory game for two players. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
+        "volo": "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock'. If a player ends up with one contiguous flock (of any size), he wins.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
@@ -1736,6 +1737,25 @@
             "PARTIAL_ERUPTION": "Keep moving caps until you cause an eruption.",
             "PARTIAL_MOVE": "Select the destination."
         },
+        "volo": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to add a bird, or select a flock of birds to move.",
+            "INITIAL_INSTRUCTIONS_PASS": "Select an intersection to add a bird, or select a flock of birds to move, or pass.",
+            "INITIAL_INSTRUCTIONS_PASS_ONLY": "You have run out of moves. You may only pass.",
+            "INVALID_PASS": "You may only pass if your only placement is in regions of your own or if you have run out of moves.",
+            "PLACE_FRIENDLY_NEIGHBOUR": "You may not place a bird at {{where}} because it would be adjacent to a friendly bird.",
+            "CONTROLLED_REGION": "You may not place a bird at {{where}} because it would be in a region controlled by your opponent.",
+            "SAME_START_END": "The start and end points are the same.",
+            "BEARING": "The range {{range}} does not result in a valid bearing.",
+            "NOT_IN_LINE": "The birds selected at {{range}} are not in a straight unbroken line.",
+            "END_OR_MOVE_DIRECTION": "Select another bird to create a flock, or select a destination to move the single bird to.",
+            "MOVE_DIRECTION": "Select a destination to move the flock to.",
+            "INVALID_DIRDIST": "The direction and distance {{dirDist}} is invalid.",
+            "CHOOSE_REGION": "You have created new regions containing your opponent's birds. Select one of the {{count}} regions to retain.",
+            "INVALID_REGION": "The region {{choice}} is not valid. Select one of the regions ({{choices}}) to retain.",
+            "INVALID_REGION_NORMALISE": "The region that contains {{choice}} is represented by {{represent}}. Try '{{normalised}}'",
+            "NO_REGIONS_TO_SELECT": "You have indicated a region selection, but there are no regions to select from.",
+            "NORMALISE": "The move needs to be normalised. Try '{{normalised}}'."
+        },
         "witch": {
             "2P_PRIVILEGE": "Only the second player may choose the pieces they wish to play.",
             "AFFILIATE": "Choose which piece you wish to play by clicking any sun or moon piece.",
@@ -2184,6 +2204,11 @@
         "verge": {
             "board": {
                 "name": "Size-5 board (61 cells)"
+            }
+        },
+        "volo": {
+            "board": {
+                "name": "size-7 board"
             }
         }
     },
@@ -3196,6 +3221,14 @@
         "verge": {
             "size-7": {
                 "name": "Size-7 board (127 cells)"
+            }
+        },
+        "volo": {
+            "size-6": {
+                "name": "Size-6 board"
+            },
+            "size-8": {
+                "name": "Size-8 board"
             }
         },
         "wyke": {

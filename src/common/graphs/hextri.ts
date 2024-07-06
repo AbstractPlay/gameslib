@@ -190,8 +190,8 @@ export class HexTriGraph implements IGraph {
         return [xNew, yNew];
     }
 
-    public ray(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW"): [number, number][] {
-        const cells: [number, number][] = [];
+    public ray(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", includeFirst = false): [number, number][] {
+        const cells: [number, number][] = includeFirst ? [[x, y]] : [];
         let next = this.move(x, y, dir);
         while (next !== undefined) {
             cells.push(next);

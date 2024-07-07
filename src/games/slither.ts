@@ -53,7 +53,7 @@ export class SlitherGame extends GameBase {
             }
         ],
         categories: ["goal>connect", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "automove", "multistep", "rotate90"]
+        flags: ["pie", "automove", "multistep", "perspective", "rotate90"]
     };
 
     public numplayers = 2;

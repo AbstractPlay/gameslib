@@ -477,6 +477,18 @@ export class VoloGame extends GameBase {
                         result.message = i18next.t("apgames:validation.volo.BEARING", { range: move2 });
                         return result;
                     }
+                    for (const cell of cells) {
+                        if (!this.board.has(cell)) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.volo.SINGLE_LINE", { range: move2 });
+                            return result;
+                        }
+                        if (this.board.get(cell) !== this.currplayer) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.volo.SINGLE_LINE", { range: move2 });
+                            return result;
+                        }
+                    }
                 } else {
                     cells = [start];
                 }
@@ -489,11 +501,6 @@ export class VoloGame extends GameBase {
                     } else {
                         result.message = i18next.t("apgames:validation.volo.MOVE_DIRECTION");
                     }
-                    return result;
-                }
-                if (!this.oneLine(cells)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.volo.NOT_IN_LINE", { range: move2 });
                     return result;
                 }
                 const tos = this.displayTos(cells, this.getToDirections(cells));
@@ -546,25 +553,6 @@ export class VoloGame extends GameBase {
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
-    }
-
-    private oneLine(froms: string[]): boolean {
-        // Check that all cells are in a line.
-        const source = froms[0]
-        const fromCoords = this.algebraic2coords(source);
-        for (const dirs of [["W", "E"], ["NW", "SE"], ["NE", "SW"]] as [Direction, Direction][]) {
-            const seen: string[] = [];
-            dirLoop:
-            for (const dir of dirs) {
-                for (const coords of this.graph.ray(...fromCoords, dir)) {
-                    const cell = this.coords2algebraic(...coords);
-                    if (!froms.includes(cell)) { continue dirLoop; }
-                    seen.push(cell);
-                }
-            }
-            if (seen.length + 1 === froms.length) { return true; }
-        }
-        return false;
     }
 
     private getGroup(player: playerid, cell: string, moved: Map<string, string> = new Map()): Set<string> {

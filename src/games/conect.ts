@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -695,7 +695,7 @@ export class ConectGame extends GameBase {
             // }
         }
 
-        let legend: {[key: string]: any} | undefined;
+        let legend: {[k: string]: Glyph|[Glyph, ...Glyph[]]} | undefined;
         if (displayHex) {
             legend = {
                 A: {
@@ -712,6 +712,7 @@ export class ConectGame extends GameBase {
                     text: (i + 1).toString(),
                     opacity: 0.6,
                     scale: 0.6,
+                    orientation: "vertical"
                 };
                 markers.push({
                     type: "glyph",

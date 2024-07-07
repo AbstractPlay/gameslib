@@ -569,7 +569,8 @@ export class LielowGame extends GameBase {
                 {
                     text: sizeStr,
                     colour: "#000",
-                    scale: 0.75
+                    scale: 0.75,
+                    orientation: "vertical",
                 }
             ];
         }

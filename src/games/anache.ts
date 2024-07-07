@@ -1191,7 +1191,6 @@ export class AnacheGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["rotate-pieces"],
             board: {
                 style: "squares",
                 width: this.boardSize,

@@ -88,8 +88,7 @@ export class HomeworldsGame extends GameBase {
         // i18next.t("apgames:notes.homeworlds")
         notes: "apgames:notes.homeworlds",
         urls: [
-            "https://www.looneylabs.com/rules/homeworlds",
-            "http://www.ginohn.com/wunder201005/games/Homeworlds/HomeworldsRules.html",
+            "https://www.looneylabs.com/content/homeworlds",
             "http://wunderland.com/WTS/Andy/Games/ILoveHomeworlds.html"
         ],
         people: [
@@ -961,7 +960,7 @@ export class HomeworldsGame extends GameBase {
                 }
                 return {
                     valid: false,
-                    message: i18next.t("apgames:validation._general.INVALID_MOVE")
+                    message: i18next.t("apgames:validation._general.INVALID_MOVE", {move})
                 };
             }
 

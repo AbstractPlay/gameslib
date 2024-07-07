@@ -600,7 +600,6 @@ export class PikemenGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["rotate-pieces"],
             board: {
                 style: "squares-checkered",
                 width: 8,

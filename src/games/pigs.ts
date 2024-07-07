@@ -623,7 +623,6 @@ export class PigsGame extends GameBaseSimultaneous {
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["rotate-pieces"],
             board: {
                 style: "squares",
                 width: 8,

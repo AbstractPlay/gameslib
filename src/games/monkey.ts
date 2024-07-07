@@ -499,6 +499,7 @@ export class MonkeyQueenGame extends GameBase {
                         text: aSize.toString(),
                         colour: "#000",
                         scale: 0.75,
+                        orientation: "vertical",
                     }
                 ],
                 B: {
@@ -514,6 +515,7 @@ export class MonkeyQueenGame extends GameBase {
                         text: bSize.toString(),
                         colour: "#000",
                         scale: 0.75,
+                        orientation: "vertical",
                     }
                 ]
             },

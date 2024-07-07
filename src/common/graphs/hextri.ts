@@ -131,6 +131,16 @@ export class HexTriGraph implements IGraph {
         return bidirectional(graph, from, to);
     }
 
+    public bearing(from: string, to: string): "NE"|"E"|"SE"|"SW"|"W"|"NW" | undefined {
+        // Returns the direction from one cell to another
+        const coords = this.algebraic2coords(from);
+        for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
+            const ray = this.ray(...coords, dir).map(cell => this.coords2algebraic(...cell));
+            if (ray.includes(to)) { return dir; }
+        }
+        return undefined;
+    }
+
     public move(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", dist = 1): [number, number] | undefined {
         const midrow = Math.floor(this.height / 2);
         let xNew = x;
@@ -190,8 +200,8 @@ export class HexTriGraph implements IGraph {
         return [xNew, yNew];
     }
 
-    public ray(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW"): [number, number][] {
-        const cells: [number, number][] = [];
+    public ray(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", includeFirst = false): [number, number][] {
+        const cells: [number, number][] = includeFirst ? [[x, y]] : [];
         let next = this.move(x, y, dir);
         while (next !== undefined) {
             cells.push(next);

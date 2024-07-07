@@ -874,7 +874,8 @@ export class MchessGame extends GameBase {
         }
         if (this.countdown !== undefined) {
             myLegend.COUNTER = {
-                text: this.countdown.toString()
+                text: this.countdown.toString(),
+                orientation: "vertical",
             };
         }
 

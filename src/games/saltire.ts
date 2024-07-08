@@ -48,7 +48,7 @@ export class SaltireGame extends GameBase {
             { uid: "basic", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "multistep", "rotate90"],
+        flags: ["pie", "multistep", "perspective", "rotate90"],
     };
 
     public coords2algebraic(x: number, y: number): string {

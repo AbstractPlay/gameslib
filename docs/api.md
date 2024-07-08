@@ -48,7 +48,7 @@ Current flags are the following:
 * `pie`: The front end should give the second player a chance to switch seats after the first move.
 * `player-stashes`: signals that players have their own piece stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number. Mutually exclusive with `limited-pieces`;
 * `random-start`: Tells the game record generator to insert the starting position into the game record. It does this by calling `getStartingPosition() => string`.
-* `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed. This should not be enabled on games with labels as the renderer currently does not rotate such boards correctly in 90-degree increments.
+* `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed.
 * `scores`: signals that players have scores. The front end can use `getPlayerScore(playerid: number) => number` to fetch scores.
 * `shared-pieces`: signals that players don't own any pieces, so the front end can omit any display that links players to colours.
 * `shared-stash`: signals that players share a stash of pieces. Use `getSharedStash() => IPlayerStash` to fetch the current shared stash.

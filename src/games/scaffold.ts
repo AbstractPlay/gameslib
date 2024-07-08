@@ -46,7 +46,7 @@ export class ScaffoldGame extends GameBase {
             { uid: "size-25", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "automove", "multistep", "rotate90"]
+        flags: ["pie", "automove", "multistep", "perspective", "rotate90"]
     };
 
     public numplayers = 2;

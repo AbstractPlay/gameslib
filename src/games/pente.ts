@@ -51,7 +51,7 @@ export class PenteGame extends InARowBase {
             { uid: "overtime-capture", group: "overtime-capture" },
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores", "multistep", "custom-colours", "check", "rotate90"],
+        flags: ["scores", "multistep", "custom-colours", "check", "perspective", "rotate90"],
         displays: [{uid: "hide-threatened"}],
     };
 

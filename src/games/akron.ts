@@ -52,7 +52,7 @@ export class AkronGame extends GameBase {
             { uid: "size-11", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple", "board>3d"],
-        flags: ["pie", "rotate90", "check"],
+        flags: ["pie", "perspective", "rotate90", "check"],
         displays: [{ uid: "orb-3d" }],
     };
 

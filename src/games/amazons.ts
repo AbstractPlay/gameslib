@@ -667,11 +667,13 @@ export class AmazonsGame extends GameBase {
             legend: {
                 R: {
                     name: "chess-queen-solid-millenia",
-                    colour: 1
+                    colour: 1,
+                    orientation: "vertical",
                 },
                 B: {
                     name: "chess-queen-solid-millenia",
-                    colour: 2
+                    colour: 2,
+                    orientation: "vertical",
                 },
                 X: {
                     name: "piece-square",

@@ -6,7 +6,7 @@
         "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
         "akron": "Akron is an extension of standard connection games to three dimensions. On their turn, players may introduce new balls of their colour on the lowest layer of the board, or move a ball that is not pinned (having balls resting on it in two or more directions) to a space that is connected to the same group both before and after movement. When balls move, balls resting on it will drop, changing the connections on the board.",
         "almatafl": "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
-        "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
+        "amazons": "A two-player game played on a 10×10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
@@ -24,7 +24,7 @@
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
-        "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
+        "cannon": "A two-player game played on a 10×10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
         "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
@@ -35,7 +35,7 @@
         "conect": "A connection game played on the curved surface of a cone. The goal is to create a closed loop from the player's edge to the centre, or to connect a path to the centre. The game can be played on a projection, which is isomorphic to the usual Hex rhombus with some cells overlapping or removed.",
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
-        "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
+        "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1×3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
@@ -57,7 +57,7 @@
         "fourinarow": "A simple game of getting four (or more) in a row with the twist: there is gravity.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
-        "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
+        "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3×3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
@@ -66,7 +66,7 @@
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
-        "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
+        "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15×15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15×15 region), but the second player may win by overline.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
@@ -78,7 +78,7 @@
         "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
-        "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
+        "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6×6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
@@ -97,7 +97,7 @@
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
-        "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
+        "realm": "Realm is played on a unique 12×12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
         "rootbound": "In Root Bound, two players’ plants vie for control of the space at the sides of a planter as the room for new growth rapidly dwindles.",
@@ -105,7 +105,7 @@
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
-        "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
+        "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2×2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
         "spline": "Make a full line of your colour in any layer to win.",
         "sploof": "Create a string of four touching balls at any level visible as a straight line from directly above the board. Players start with two balls in their hand, but can take two balls from their stash every time a neutral ball is removed. Players also lose when they have no moves on their turn.",
         "sponnect": "A simple Shibumi connection game where every internal space that can be buried in a fully-filled board is pre-filled with neutral pieces. You may pass on your turn as long as your opponent didn't pass immediately before.",
@@ -140,7 +140,7 @@
     },
     "notes": {
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
-        "anache": "This implementation follows David Ploog's rulesheet. Two notable changes are that barriers are forbidden and instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner.",
+        "anache": "This implementation follows David Ploog's rulesheet. Two notable changes are that barriers are forbidden and instead of a 16×16, we have a 15×15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7×7 space from the other corner.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
@@ -149,7 +149,7 @@
         "exxit": "Because the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. We chose this so that the labels wouldn't change as the map grew. Because the labels aren't particularly helpful while you play, they are not displayed on the board. Also, translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
-        "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
+        "loa": "In the centre of the 9×9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -162,7 +162,7 @@
         "spree": "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
         "stigmergy": "You control a space if more than half of the lines of sight to it end at a piece of your color. Your score is the sum of the number of pieces of your color on the board and the number of empty spaces you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
-        "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
+        "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9×9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
         "taiji": "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
         "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "tbt": "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
@@ -673,23 +673,23 @@
         },
         "connect6": {
             "INITIAL_INSTRUCTIONS": "Select 2 intersections to place your stones.",
-            "INITIAL_INSTRUCTIONS_SWAP3RD2": "Place 2 stones in the centre 5x5 square.",
+            "INITIAL_INSTRUCTIONS_SWAP3RD2": "Place 2 stones in the centre 5×5 square.",
             "INITIAL_INSTRUCTIONS_SWAP3RD4": "Select 2 intersections to place your stones, or pass to swap colours.",
-            "SWAP3RD2_ONE_MORE": "Place 1 more stone in the centre 5x5 square.",
+            "SWAP3RD2_ONE_MORE": "Place 1 more stone in the centre 5×5 square.",
             "EXCESS_FIRST": "You have placed too many stones. You may only place 1 stone in the normal opening as the first player.",
             "EXCESS": "You have placed too many stones. You may only place 2 stones.",
             "ONE_MORE": "Place 1 more stone on the board.",
-            "SWAP3RD2_INVALID": "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening.",
+            "SWAP3RD2_INVALID": "You may only place your stones in the centre 5×5 area for the second move in the swap-3rd opening.",
             "NO_MOVELIST": "Move list not available for this game. Click on the board to place stones.",
             "COLLINEAR_FIRST": "Your first stone must be collinear with a stone placed on the last turn.",
             "COLLINEAR_SECOND": "Your second stone must be collinear with your first stone.",
             "NONCOLLINEAR_SECOND": "Your second stone cannot be collinear with your first stone."
         },
         "connecticut": {
-            "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
+            "INITIAL_INSTRUCTIONS": "Select a vertex to place a piece, or to mark the start of the 1×3 triomino piece.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a vertex to place a piece. You may not place a triomino on the first move.",
             "FIRST_TRIOMINO": "You may not place a triomino on the first move.",
-            "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece.",
+            "PARTIAL": "You may select another vertex to complete a 1×3 triomino, or complete the move to finish your turn with the single piece.",
             "INVALID_TO": "You may not place a triomino at {{from}}-{{to}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
@@ -913,13 +913,13 @@
             "WRONG_BOARD": "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn."
         },
         "gess": {
-            "INITIAL_INSTRUCTIONS": "Select the centre of a 3x3 piece to move.",
+            "INITIAL_INSTRUCTIONS": "Select the centre of a 3×3 piece to move.",
             "TOO_MANY_MOVES": "You have already selected a piece to move.",
-            "FROM_ENEMY": "The selected 3x3 piece centred at {{cell}} contains enemy stones.",
-            "FROM_EMPTY": "The selected 3x3 piece centred at {{cell}} contains no stones.",
-            "FROM_CENTRE_ONLY": "The selected 3x3 piece centred at {{cell}} contains only a centre stone, so it cannot move.",
-            "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3x3 piece to.",
-            "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
+            "FROM_ENEMY": "The selected 3×3 piece centred at {{cell}} contains enemy stones.",
+            "FROM_EMPTY": "The selected 3×3 piece centred at {{cell}} contains no stones.",
+            "FROM_CENTRE_ONLY": "The selected 3×3 piece centred at {{cell}} contains only a centre stone, so it cannot move.",
+            "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3×3 piece to.",
+            "INVALID_MOVE": "The selected 3×3 piece centred at {{from}} cannot move to {{to}}.",
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
             "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
         },
@@ -1229,7 +1229,7 @@
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent.",
             "INVALIDPASS": "You cannot pass while uncontrolled intersections exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than than the number of cells on the board plus one.",
+            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "prudh": {
@@ -1323,12 +1323,12 @@
             "WRONG_REALM_rearrange": "You may only place pieces in the realm being rearranged ({{realm}})."
         },
         "renju": {
-            "INITIAL_INSTRUCTIONS_RIF1": "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_RIF1": "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3×3 square, and the third in the centre 5×5 square. Symmetries are disallowed.",
             "INITIAL_INSTRUCTIONS_RIF2_PASSED": "Select an intersection to place the second stone.",
             "INITIAL_INSTRUCTIONS_RIF2": "Select an intersection to place the second stone, or pass to swap colours.",
             "INITIAL_INSTRUCTIONS_RIF3": "Select two intersections to place the fifth stone.",
             "INITIAL_INSTRUCTIONS_RIF4": "Choose one of the 2 tentative fifths, then place the sixth stone.",
-            "INITIAL_INSTRUCTIONS_SOOSYRV1": "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_SOOSYRV1": "Select a renju opening. The first stone must be placed in the centre of the board, the second in the centre 3×3 square, and the third in the centre 5×5 square. Symmetries are disallowed.",
             "INITIAL_INSTRUCTIONS_SOOSYRV2_PASSED": "Place the fourth stone, and then declare the number of tentative fifths.",
             "INITIAL_INSTRUCTIONS_SOOSYRV2": "Place the fourth stone, and then declare the number of tentative fifths. You may pass to swap colours.",
             "INITIAL_INSTRUCTIONS_SOOSYRV3_PASSED": "Place {{count}} tentative fifths.",
@@ -1336,17 +1336,17 @@
             "INITIAL_INSTRUCTIONS_SOOSYRV4_one": "Choose the one tentative fifths, then place the sixth stone.",
             "INITIAL_INSTRUCTIONS_SOOSYRV4_other": "Choose one of the {{count}} tentative fifths, then place the sixth stone.",
             "INITIAL_INSTRUCTIONS_TARAGUCHI1": "Place the first stone in the centre of the board.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI2_PASSED": "Place the second stone in the centre 3x3 square. Symmetries are disallowed.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI2": "Place the second stone in the centre 3x3 square, or pass to swap colours. Symmetries are disallowed.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI3_PASSED": "Place the third stone in the centre 5x5 square. Symmetries are disallowed.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI3": "Place the third stone in the centre 5x5 square, or pass to swap colours. Symmetries are disallowed.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI4_PASSED": "Place the fourth stone in the centre 7x7 square.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI4": "Place the fourth stone in the centre 7x7 square, or pass to swap colours.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI5_PASSED": "Place the fifth stone in the centre 9x9 square.",
-            "INITIAL_INSTRUCTIONS_TARAGUCHI5": "You may do one of (1) place the fifth stone in the centre 9x9 square, (2) pass to swap colours, or (3) place 10 tentative fifths anywhere on the board.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI2_PASSED": "Place the second stone in the centre 3×3 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI2": "Place the second stone in the centre 3×3 square, or pass to swap colours. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI3_PASSED": "Place the third stone in the centre 5×5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI3": "Place the third stone in the centre 5×5 square, or pass to swap colours. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI4_PASSED": "Place the fourth stone in the centre 7×7 square.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI4": "Place the fourth stone in the centre 7×7 square, or pass to swap colours.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI5_PASSED": "Place the fifth stone in the centre 9×9 square.",
+            "INITIAL_INSTRUCTIONS_TARAGUCHI5": "You may do one of (1) place the fifth stone in the centre 9×9 square, (2) pass to swap colours, or (3) place 10 tentative fifths anywhere on the board.",
             "INITIAL_INSTRUCTIONS_TARAGUCHI6_CHOOSE": "Choose one of the 10 tentative fifths, then place the sixth stone.",
             "INITIAL_INSTRUCTIONS_TARAGUCHI6": "Select an intersection to place a stone, or pass to swap colours.",
-            "INITIAL_INSTRUCTIONS_YAMAGUCHI1": "Select a renju opening, then declare the number of tentative fifths. The first stone must be placed in the centre of the board, the second in the centre 3x3 square, and the third in the centre 5x5 square. Symmetries are disallowed.",
+            "INITIAL_INSTRUCTIONS_YAMAGUCHI1": "Select a renju opening, then declare the number of tentative fifths. The first stone must be placed in the centre of the board, the second in the centre 3×3 square, and the third in the centre 5×5 square. Symmetries are disallowed.",
             "INITIAL_INSTRUCTIONS_YAMAGUCHI2_PASSED": "Select an intersection to place the fourth stone.",
             "INITIAL_INSTRUCTIONS_YAMAGUCHI2": "Select an intersection to place the fourth stone, or pass to swap colours.",
             "INITIAL_INSTRUCTIONS_YAMAGUCHI3_one": "Place 1 tentative fifth.",
@@ -1371,10 +1371,10 @@
             "SOOSYRV42": "Select an intersection to place the sixth stone.",
             "SOOSYRV4_EXCESS": "You have too many items in your move.",
             "TARAGUCHI_RESTRICTION1": "The first stone has to be at the centre of the board.",
-            "TARAGUCHI_RESTRICTION2": "The second stone has to be at the centre 3x3 square. Symmetries are disallowed. Choose one of the 2 highlighted intersections.",
-            "TARAGUCHI_RESTRICTION3": "The third stone has to be at the centre 5x5 square. Symmetries are disallowed. Choose one of the 13 highlighted intersections.",
-            "TARAGUCHI_RESTRICTION4": "The fourth stone has to be at the centre 7x7 square.",
-            "TARAGUCHI_RESTRICTION5": "The fifth stone has to be at the centre 9x9 square.",
+            "TARAGUCHI_RESTRICTION2": "The second stone has to be at the centre 3×3 square. Symmetries are disallowed. Choose one of the 2 highlighted intersections.",
+            "TARAGUCHI_RESTRICTION3": "The third stone has to be at the centre 5×5 square. Symmetries are disallowed. Choose one of the 13 highlighted intersections.",
+            "TARAGUCHI_RESTRICTION4": "The fourth stone has to be at the centre 7×7 square.",
+            "TARAGUCHI_RESTRICTION5": "The fifth stone has to be at the centre 9×9 square.",
             "TARAGUCHI_RESTRICTION5_INSIDE": "Submit the move, or continue placing 9 more tentative fifths.",
             "TARAGUCHI_RESTRICTION5_MORE_other": "Place {{count}} more tentative fifths.",
             "TARAGUCHI_RESTRICTION5_MORE_one": "Place one more tentative fifth.",
@@ -1395,10 +1395,10 @@
             "YAMAGUCHI42": "Select an intersection to place the sixth stone.",
             "YAMAGUCHI4_EXCESS": "You have too many items in your move.",
             "RENJU_OPENING1_INCORRECT": "The first stone has to be at the centre of the board.",
-            "RENJU_OPENING2_INCORRECT": "The second stone has to be at the centre 3x3 square. In this this implementation, symmetries are disallowed. Choose one of the two highlighted intersections.",
-            "RENJU_OPENING3_INCORRECT": "The third stone has to be at the centre 5x5 square. In this this implementation, symmetries are disallowed. Choose one of the 13 highlighted intersections.",
-            "RENJU_OPENING2": "Place the second stone at the centre 3x3 square. Choose one of the two highlighted intersections.",
-            "RENJU_OPENING3": "Place the third stone at the centre 5x5 square. Choose one of the 13 highlighted intersections.",
+            "RENJU_OPENING2_INCORRECT": "The second stone has to be at the centre 3×3 square. In this this implementation, symmetries are disallowed. Choose one of the two highlighted intersections.",
+            "RENJU_OPENING3_INCORRECT": "The third stone has to be at the centre 5×5 square. In this this implementation, symmetries are disallowed. Choose one of the 13 highlighted intersections.",
+            "RENJU_OPENING2": "Place the second stone at the centre 3×3 square. Choose one of the two highlighted intersections.",
+            "RENJU_OPENING3": "Place the third stone at the centre 5×5 square. Choose one of the 13 highlighted intersections.",
             "RENJU_OPENING_EXCESS": "You may only place 3 stones."
         },
         "reversi": {
@@ -1457,9 +1457,9 @@
             "TOO_MANY_MOVES": "You may only place up to two balls on your turn.",
             "CANNOT_PLACE": "{{where}} is not a valid place to put a ball.",
             "VIOLATES_BOTH": "Placement at {{where}} is illegal for both the neutral ball and the ball of your colour.",
-            "VIOLATES_NEUTRAL_L": "You may not place a neutral ball at {{where}} because it creates 3 neutral balls in a 2x2 area.",
+            "VIOLATES_NEUTRAL_L": "You may not place a neutral ball at {{where}} because it creates 3 neutral balls in a 2×2 area.",
             "VIOLATES_NEUTRAL_PLATFORM": "You may not place a neutral ball at {{where}} because platform has two neutral balls.",
-            "VIOLATES_PLAYER_L": "You may not place a ball of your colour at {{where}} because it creates 3 balls of your colour in a 2x2 area.",
+            "VIOLATES_PLAYER_L": "You may not place a ball of your colour at {{where}} because it creates 3 balls of your colour in a 2×2 area.",
             "VIOLATES_PLAYER_PLATFORM": "You may not place a ball of your colour at {{where}} because platform has two balls of your colour.",
             "PLACE_PLAYER": "Complete your turn to have a ball of your colour at {{where}}, or select another space to place a ball of your colour.",
             "PLACE_PLAYER_MANDATORY": "Select another space to place a ball of your colour.",
@@ -1536,7 +1536,7 @@
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent.",
             "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than than the number of cells on the board plus one.",
+            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "streetcar": {
@@ -1805,12 +1805,12 @@
         "anache": {
             "board": {
                 "name": "size-12 board",
-                "description": "12x12 board with 4 rows of 10 pieces per player."
+                "description": "12×12 board with 4 rows of 10 pieces per player."
             }
         },
         "asli": {
             "board": {
-                "name": "13x13 board"
+                "name": "13×13 board"
             }
         },
         "atoll": {
@@ -1820,7 +1820,7 @@
         },
         "ayu": {
             "board": {
-                "name": "board (13x13)"
+                "name": "board (13×13)"
             }
         },
         "blockade": {
@@ -1849,7 +1849,7 @@
         },
         "bounce": {
             "board": {
-                "name": "board (8x8)"
+                "name": "board (8×8)"
             }
         },
         "calculus": {
@@ -1869,7 +1869,7 @@
         },
         "clusterfuss": {
             "board": {
-                "name": "board (8x8)"
+                "name": "board (8×8)"
             }
         },
         "conect": {
@@ -1882,12 +1882,12 @@
         },
         "conhex": {
             "board": {
-                "name": "board: 11x11"
+                "name": "board: 11×11"
             }
         },
         "connect6": {
             "board": {
-                "name": "19x19 board"
+                "name": "19×19 board"
             },
             "opening": {
                 "name": "centre opening",
@@ -1903,25 +1903,25 @@
         },
         "connecticut": {
             "board": {
-                "name": "board (19x19)"
+                "name": "board (19×19)"
             }
         },
         "courtesan": {
             "board": {
-                "name": "board (8x8)"
+                "name": "board (8×8)"
             }
         },
         "crossway": {
             "board": {
-                "name": "board (19x19)"
+                "name": "board (19×19)"
             }
         },
         "dameo": {
-            "board": "board (8x8)"
+            "board": "board (8×8)"
         },
         "entrapment": {
             "board": {
-                "name": "board (6x7)"
+                "name": "board (6×7)"
             }
         },
         "exxit": {
@@ -1934,7 +1934,7 @@
         },
         "fourinarow": {
             "board": {
-                "name": "8x8 board"
+                "name": "8×8 board"
             },
             "clear": {
                 "name": "no clear"
@@ -1946,7 +1946,7 @@
         },
         "gomoku": {
             "board": {
-                "name": "15x15 board"
+                "name": "15×15 board"
             },
             "opening": {
                 "name": "pro opening",
@@ -1958,7 +1958,7 @@
         },
         "clearcut": {
             "board": {
-                "name": "19x19 board"
+                "name": "19×19 board"
             },
             "ruleset": {
                 "name": "Halfcut ruleset",
@@ -1985,7 +1985,7 @@
         },
         "irensei": {
             "board": {
-                "name": "19x19 board"
+                "name": "19×19 board"
             },
             "tiebreaker": {
                 "name": "no tiebreak"
@@ -1993,8 +1993,8 @@
         },
         "loa": {
             "board": {
-                "name": "board (9x9)",
-                "description": "The default game is the 9x9 \"black hole\" variant. This will change eventually."
+                "name": "board (9×9)",
+                "description": "The default game is the 9×9 \"black hole\" variant. This will change eventually."
             }
         },
         "margo": {
@@ -2014,7 +2014,7 @@
         },
         "nex": {
             "board": {
-                "name": "11x11 board"
+                "name": "11×11 board"
             }
         },
         "oust": {
@@ -2024,7 +2024,7 @@
         },
         "pente": {
             "board": {
-                "name": "15x15 board"
+                "name": "15×15 board"
             },
             "opening": {
                 "name": "pro opening",
@@ -2049,7 +2049,7 @@
         },
         "pletore": {
             "board": {
-                "name": "board (base-13 square board, 169 intersections)"
+                "name": "board (13×13)"
             }
         },
         "quagmire": {
@@ -2063,7 +2063,7 @@
         },
         "quax": {
             "board": {
-                "name": "11x11 board"
+                "name": "11×11 board"
             }
         },
         "renju": {
@@ -2077,7 +2077,7 @@
         },
         "saltire": {
             "board": {
-                "name": "13x13 board"
+                "name": "13×13 board"
             },
             "ruleset": {
                 "name": "rules",
@@ -2086,43 +2086,43 @@
         },
         "scaffold": {
             "board": {
-                "name": "board (19x19)"
+                "name": "board (19×19)"
             }
         },
         "slither": {
             "board": {
-                "name": "9x9 board"
+                "name": "9×9 board"
             }
         },
         "slyde": {
             "board": {
-                "name": "12x12 board"
+                "name": "12×12 board"
             }
         },
         "spire" : {
             "board": {
-                "name": "4x4 board"
+                "name": "4×4 board"
             }
         },
         "spline" : {
             "board": {
-                "name": "4x4 board"
+                "name": "4×4 board"
             }
         },
         "sploof" : {
             "board": {
-                "name": "4x4 board",
+                "name": "4×4 board",
                 "description": "Default board that starts with a ring of neutral balls on the edges."
             }
         },
         "sponnect" : {
             "board": {
-                "name": "4x4 board"
+                "name": "4×4 board"
             }
         },
         "spook" : {
             "board": {
-                "name": "4x4 board"
+                "name": "4×4 board"
             },
             "setup": {
                 "name": "manual setup",
@@ -2131,12 +2131,12 @@
         },
         "spree" : {
             "board": {
-                "name": "4x4 board"
+                "name": "4×4 board"
             }
         },
         "stigmergy": {
             "board": {
-                "name": "board (base-8 hexagonal board, 169 cells)"
+                "name": "board (base 8)"
             },
             "rules": {
                 "name": "rules",
@@ -2174,7 +2174,7 @@
         },
         "twixt": {
             "board": {
-                "name": "board (24x24)"
+                "name": "board (24×24)"
             },
             "ruleset": {
                 "name": "ruleset",
@@ -2188,12 +2188,12 @@
         },
         "upperhand": {
             "board": {
-                "name": "5x5 board"
+                "name": "5×5 board"
             }
         },
         "veletas": {
             "board": {
-                "name": "10x10 board",
+                "name": "10×10 board",
                 "description": "Default board with 7 neutral pieces."
             },
             "setup": {
@@ -2274,17 +2274,17 @@
         "anache": {
             "size-10": {
                 "name": "Size-10 board",
-                "description": "10x10 board with 3 rows of 8 pieces per player."
+                "description": "10×10 board with 3 rows of 8 pieces per player."
             },
             "size-15": {
                 "name": "Size-15 board",
-                "description": "15x15 board with 5 rows of 13 pieces per player."
+                "description": "15×15 board with 5 rows of 13 pieces per player."
             }
         },
         "archimedes": {
-            "8x10": {
+            "8×10": {
                 "description": "An elongated board that breaks up the power of a central diagonal",
-                "name": "8x10 board"
+                "name": "8×10 board"
             }
         },
         "armadas": {
@@ -2302,19 +2302,19 @@
         },
         "asli": {
             "board-9": {
-                "name": "9x9 board"
+                "name": "9×9 board"
             },
             "board-11": {
-                "name": "11x11 board"
+                "name": "11×11 board"
             },
             "board-15": {
-                "name": "15x15 board"
+                "name": "15×15 board"
             },
             "board-17": {
-                "name": "17x17 board"
+                "name": "17×17 board"
             },
             "board-19": {
-                "name": "19x19 board"
+                "name": "19×19 board"
             }
         },
         "atoll": {
@@ -2333,13 +2333,13 @@
         },
         "ayu": {
             "size-9": {
-                "name": "Smallest board (9x9)"
+                "name": "Smallest board (9×9)"
             },
             "size-11": {
-                "name": "Smaller board (11x11)"
+                "name": "Smaller board (11×11)"
             },
             "size-15": {
-                "name": "Larger board (15x15)"
+                "name": "Larger board (15×15)"
             }
         },
         "bao": {
@@ -2388,7 +2388,7 @@
         },
         "bounce": {
             "10": {
-                "name": "Larger board: 10x10"
+                "name": "Larger board: 10×10"
             }
         },
         "breakthrough": {
@@ -2399,7 +2399,7 @@
         },
         "byte": {
             "10x10": {
-                "name": "Larger board: 10x10"
+                "name": "Larger board: 10×10"
             }
         },
         "calculus": {
@@ -2430,7 +2430,7 @@
         },
         "clusterfuss": {
             "10": {
-                "name": "Larger board (10x10)"
+                "name": "Larger board (10×10)"
             }
         },
         "conect": {
@@ -2446,12 +2446,12 @@
         },
         "conhex": {
             "size-15": {
-                "name": "Larger board: 15x15"
+                "name": "Larger board: 15×15"
             }
         },
         "connect6": {
             "toroidal-15": {
-                "name": "Toroidal 15x15 board"
+                "name": "Toroidal 15×15 board"
             },
             "collinear6": {
                 "name": "Collinear Connect6",
@@ -2463,7 +2463,7 @@
             },
             "swap-3rd": {
                 "name": "Swap-3rd opening",
-                "description": "The first player places one stone of their colour in the centre, then the second places two stones of their colour in the centre 5x5, and finally the first player places two stones of their colour anywhere on the board. The second player has the option to swap colours."
+                "description": "The first player places one stone of their colour in the centre, then the second places two stones of their colour in the centre 5×5, and finally the first player places two stones of their colour anywhere on the board. The second player has the option to swap colours."
             },
             "pass": {
                 "name": "Pass tiebreak",
@@ -2472,36 +2472,36 @@
         },
         "connecticut": {
             "size-15": {
-                "name": "Board (15x15)"
+                "name": "Board (15×15)"
             }
         },
         "courtesan": {
             "size-6": {
-                "name": "Shorter game (6x6)"
+                "name": "Shorter game (6×6)"
             }
         },
         "crossway": {
             "size-25": {
-                "name": "Board (25x25)"
+                "name": "Board (25×25)"
             }
         },
         "dagnacht": {
             "11x11": {
-                "name": "11x11 board"
+                "name": "11×11 board"
             },
             "13x13": {
-                "name": "13x13 board"
+                "name": "13×13 board"
             },
             "17x17": {
-                "name": "17x17 board"
+                "name": "17×17 board"
             },
             "19x19": {
-                "name": "19x19 board"
+                "name": "19×19 board"
             }
         },
         "dameo": {
             "size-10": {
-                "name": "10x10 board (experimental)"
+                "name": "10×10 board (experimental)"
             }
         },
         "diffusion": {
@@ -2512,12 +2512,12 @@
         },
         "dipole": {
             "international": {
-                "name": "Larger board: 10x10"
+                "name": "Larger board: 10×10"
             }
         },
         "entrapment": {
             "size-7x7": {
-                "name": "Board (7x7)"
+                "name": "Board (7×7)"
             }
         },
         "epam": {
@@ -2548,21 +2548,21 @@
         },
         "flume": {
             "11x11": {
-                "name": "Larger board: 11x11"
+                "name": "Larger board: 11×11"
             },
             "7x7": {
-                "name": "Smaller board: 7x7"
+                "name": "Smaller board: 7×7"
             }
         },
         "four": {
             "simplified": {
                 "name": "Learning game",
-                "description": "You only play with three pieces of each colour, and the grid is constrained to 7x7 instead of 9x9."
+                "description": "You only play with three pieces of each colour, and the grid is constrained to 7×7 instead of 9×9."
             }
         },
         "fourinarow": {
             "standard-10": {
-                "name": "10x10 board"
+                "name": "10×10 board"
             },
             "swap-2": {
                 "name": "Swap-2 opening",
@@ -2591,7 +2591,7 @@
         },
         "gomoku": {
             "standard-19": {
-                "name": "Standard 19x19 board"
+                "name": "Standard 19×19 board"
             },
             "swap-2": {
                 "name": "Swap-2 opening",
@@ -2608,7 +2608,7 @@
         },
         "clearcut": {
             "size-15": {
-                "name": "15x15 board"
+                "name": "15×15 board"
             },
             "clearcut": {
                 "name": "Clearcut ruleset",
@@ -2631,7 +2631,7 @@
         },
         "hens": {
             "size-10": {
-                "name": "10x10 board (experimental)"
+                "name": "10×10 board (experimental)"
             }
         },
         "hex": {
@@ -2667,7 +2667,7 @@
         },
         "irensei": {
             "toroidal-15": {
-                "name": "Toroidal 15x15 board"
+                "name": "Toroidal 15×15 board"
             },
             "swap-2": {
                 "name": "Swap-2 opening",
@@ -2688,7 +2688,7 @@
                 "name": "Scrambled Eggs"
             },
             "classic": {
-                "name": "Classic 8x8 board"
+                "name": "Classic 8×8 board"
             }
         },
         "margo": {
@@ -2756,7 +2756,7 @@
         },
         "nex": {
             "size-9": {
-                "name": "9x9 board"
+                "name": "9×9 board"
             }
         },
         "orb": {
@@ -2778,7 +2778,7 @@
         },
         "pente": {
             "standard-19": {
-                "name": "Standard 19x19 board"
+                "name": "Standard 19×19 board"
             },
             "swap-2": {
                 "name": "Swap-2 opening",
@@ -2821,13 +2821,13 @@
         },
         "pletore": {
             "size-11": {
-                "name": "Smaller board (base-11 square board, 121 intersections)"
+                "name": "Smaller board (11×11)"
             },
             "size-15": {
-                "name": "Larger board (base-15 square board, 225 intersections)"
+                "name": "Larger board (15×15)"
             },
             "size-17": {
-                "name": "Largest board (base-17 square board, 289 insersections)"
+                "name": "Largest board (17×17)"
             }
         },
         "quagmire": {
@@ -2841,7 +2841,7 @@
         },
         "quax": {
             "size-15": {
-                "name": "15x15 board"
+                "name": "15×15 board"
             }
         },
         "realm": {
@@ -2921,18 +2921,18 @@
         },
         "reversi": {
             "standard-6": {
-                "name": "Smaller board (6x6)"
+                "name": "Smaller board (6×6)"
             },
             "standard-10": {
-                "name": "Grand board (10x10)"
+                "name": "Grand board (10×10)"
             },
             "octagon-8": {
-                "name": "Octagonal board (8x8)",
-                "description": "Standard 8x8 board with the corners blocked."
+                "name": "Octagonal board (8×8)",
+                "description": "Standard 8×8 board with the corners blocked."
             },
             "octagon-10": {
-                "name": "Octagonal board (10x10)",
-                "description": "Standard 10x10 board with the corners blocked."
+                "name": "Octagonal board (10×10)",
+                "description": "Standard 10×10 board with the corners blocked."
             },
             "hexagon-5": {
                 "name": "Hexagonal board (base-5)",
@@ -2949,13 +2949,13 @@
         },
         "saltire": {
             "size-9": {
-                "name": "9x9 board"
+                "name": "9×9 board"
             },
             "size-11": {
-                "name": "11x11 board"
+                "name": "11×11 board"
             },
             "size-15": {
-                "name": "15x15 board"
+                "name": "15×15 board"
             },
             "basic": {
                 "name": "Basic rules",
@@ -2964,12 +2964,12 @@
         },
         "scaffold": {
             "size-25": {
-                "name": "Board (25x25)"
+                "name": "Board (25×25)"
             }
         },
         "slither": {
             "13x13": {
-                "name": "13x13 board"
+                "name": "13×13 board"
             },
             "classic": {
                 "name": "Classic movement rules"
@@ -2977,23 +2977,23 @@
         },
         "slyde": {
             "size-8": {
-                "name": "8x8 board"
+                "name": "8×8 board"
             },
             "size-10": {
-                "name": "10x10 board"
+                "name": "10×10 board"
             },
             "size-16": {
-                "name": "16x16 board"
+                "name": "16×16 board"
             }
         },
         "spire": {
             "size-5": {
-                "name": "5x5 board"
+                "name": "5×5 board"
             }
         },
         "spline": {
             "size-5": {
-                "name": "5x5 board"
+                "name": "5×5 board"
             },
             "plus": {
                 "name": "Spline+",
@@ -3002,18 +3002,18 @@
         },
         "sploof": {
             "size-5": {
-                "name": "5x5 board",
-                "description": "A larger 5x5 board that starts with the bottom layer filled with neutral balls."
+                "name": "5×5 board",
+                "description": "A larger 5×5 board that starts with the bottom layer filled with neutral balls."
             }
         },
         "sponnect": {
             "size-5": {
-                "name": "5x5 board"
+                "name": "5×5 board"
             }
         },
         "spook": {
             "size-5": {
-                "name": "5x5 board"
+                "name": "5×5 board"
             },
             "random": {
                 "name": "Random setup",
@@ -3022,18 +3022,18 @@
         },
         "spree": {
             "size-5": {
-                "name": "5x5 board"
+                "name": "5×5 board"
             }
         },
         "stigmergy": {
             "size-7": {
-                "name": "Smaller board (base-7 hexagonal board, 127 cells)"
+                "name": "Smaller board (base 7)"
             },
             "size-9": {
-                "name": "Larger board (base-9 hexagonal board, 217 cells)"
+                "name": "Larger board (base 9)"
             },
             "size-10": {
-                "name": "Largest board (base-10 hexagonal board, 271 cells)"
+                "name": "Largest board (base 10)"
             },
             "tumpletore": {
                 "name": "Tumpletore",
@@ -3087,19 +3087,19 @@
             },
             "tyr-11x11-tyr": {
                 "name": "tyr-11x11-tyr",
-                "description": "Berserk rules with weak armed king and edge escape on a 11x11 board. This is the default simple Tyr setup without special pieces."
+                "description": "Berserk rules with weak armed king and edge escape on a 11×11 board. This is the default simple Tyr setup without special pieces."
             },
             "tyr-15x15-tyr": {
                 "name": "tyr-15x15-tyr",
-                "description": "Berserk rules with weak armed king and edge escape on a 15x15 board. This is the default simple Tyr setup without special pieces."
+                "description": "Berserk rules with weak armed king and edge escape on a 15×15 board. This is the default simple Tyr setup without special pieces."
             },
             "seabattle-9x9-starsquare-w": {
                 "name": "seabattle-9x9-starsquare-w",
-                "description": "Strong unarmed king and edge escape on a 9x9 board."
+                "description": "Strong unarmed king and edge escape on a 9×9 board."
             },
             "seabattle-11x11-tcross-w": {
                 "name": "seabattle-11x11-tcross-w",
-                "description": "Strong unarmed king and edge escape on a 11x11 board."
+                "description": "Strong unarmed king and edge escape on a 11×11 board."
             },
             "magpie-7x7-cross": {
                 "name": "magpie-7x7-cross",
@@ -3108,10 +3108,10 @@
         },
         "taiji": {
             "11x11": {
-                "name": "Larger board: 11x11"
+                "name": "Larger board: 11×11"
             },
             "7x7": {
-                "name": "Smaller board: 7x7"
+                "name": "Smaller board: 7×7"
             },
             "onegroup": {
                 "name": "Scoring: Single largest group"
@@ -3165,7 +3165,7 @@
         },
         "twixt": {
             "size-30": {
-                "name": "Larger board (30x30)"
+                "name": "Larger board (30×30)"
             },
             "pp": {
                 "name": "Paper and pencil",
@@ -3182,10 +3182,10 @@
         },
         "upperhand": {
             "size-7": {
-                "name": "7x7 board"
+                "name": "7×7 board"
             },
             "size-9": {
-                "name": "9x9 board"
+                "name": "9×9 board"
             }
         },
         "urbino": {
@@ -3197,7 +3197,7 @@
         "valley": {
             "labyrinth": {
                 "name": "Labyrinth",
-                "description": "Board size increases to 7x7 and four towers further complicate the field."
+                "description": "Board size increases to 7×7 and four towers further complicate the field."
             },
             "king-swap": {
                 "name": "Retrieve the King",
@@ -3206,11 +3206,11 @@
         },
         "veletas": {
             "size-9": {
-                "name": "9x9 board",
+                "name": "9×9 board",
                 "description": "Medium board with 5 neutral pieces."
             },
             "size-7": {
-                "name": "7x7 board",
+                "name": "7×7 board",
                 "description": "Smaller board with 3 neutral pieces."
             },
             "random": {
@@ -3233,12 +3233,12 @@
         },
         "wyke": {
             "6x6": {
-                "name": "Larger board: 6x6"
+                "name": "Larger board: 6×6"
             }
         },
         "zola": {
             "8x8": {
-                "name": "Larger board: 8x8"
+                "name": "Larger board: 8×8"
             }
         }
     },
@@ -3323,8 +3323,8 @@
         },
         "gess": {
             "hide-piece-highlight": {
-                "description": "Don't highlight the 9x9 pieces.",
-                "name": "Hide 9x9 piece highlight"
+                "description": "Don't highlight the 9×9 pieces.",
+                "name": "Hide 9×9 piece highlight"
             }
         },
         "irensei": {

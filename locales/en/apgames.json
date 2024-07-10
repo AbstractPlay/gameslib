@@ -57,7 +57,7 @@
         "fourinarow": "A simple game of getting four (or more) in a row with the twist: there is gravity.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
-        "gess": "In Gess, the 'pieces' are 3×3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
+        "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
@@ -1229,7 +1229,7 @@
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent.",
             "INVALIDPASS": "You cannot pass while uncontrolled intersections exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than than the number of cells on the board plus one.",
+            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "prudh": {
@@ -1536,7 +1536,7 @@
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent.",
             "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or the button still needs to be taken.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than than the number of cells on the board plus one.",
+            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "streetcar": {
@@ -2049,7 +2049,7 @@
         },
         "pletore": {
             "board": {
-                "name": "board (base-13 square board, 169 intersections)"
+                "name": "board (13x13)"
             }
         },
         "quagmire": {
@@ -2136,7 +2136,7 @@
         },
         "stigmergy": {
             "board": {
-                "name": "board (base-8 hexagonal board, 169 cells)"
+                "name": "board (base 8)"
             },
             "rules": {
                 "name": "rules",
@@ -2821,13 +2821,13 @@
         },
         "pletore": {
             "size-11": {
-                "name": "Smaller board (base-11 square board, 121 intersections)"
+                "name": "Smaller board (11x11)"
             },
             "size-15": {
-                "name": "Larger board (base-15 square board, 225 intersections)"
+                "name": "Larger board (15x15)"
             },
             "size-17": {
-                "name": "Largest board (base-17 square board, 289 insersections)"
+                "name": "Largest board (17x17)"
             }
         },
         "quagmire": {
@@ -3027,13 +3027,13 @@
         },
         "stigmergy": {
             "size-7": {
-                "name": "Smaller board (base-7 hexagonal board, 127 cells)"
+                "name": "Smaller board (base 7)"
             },
             "size-9": {
-                "name": "Larger board (base-9 hexagonal board, 217 cells)"
+                "name": "Larger board (base 9)"
             },
             "size-10": {
-                "name": "Largest board (base-10 hexagonal board, 271 cells)"
+                "name": "Largest board (base 10)"
             },
             "tumpletore": {
                 "name": "Tumpletore",

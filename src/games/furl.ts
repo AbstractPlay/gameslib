@@ -594,7 +594,7 @@ export class FurlGame extends GameBase {
             } else {
                 legend[name] = [
                     { name: "piece", colour: player },
-                    { text: sizeStr, colour: "#000", scale: 0.75, orientation: "vertical" },
+                    { text: sizeStr, colour: "#000", scale: 0.75 },
                 ]
             }
         }

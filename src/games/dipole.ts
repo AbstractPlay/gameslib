@@ -625,7 +625,6 @@ export class DipoleGame extends GameBase {
                             text: val.toString(),
                             colour: "#000",
                             scale: 0.75,
-                            orientation: "vertical",
                         }
                     ];
                 }

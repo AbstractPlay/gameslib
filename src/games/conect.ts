@@ -712,7 +712,6 @@ export class ConectGame extends GameBase {
                     text: (i + 1).toString(),
                     opacity: 0.6,
                     scale: 0.6,
-                    orientation: "vertical"
                 };
                 markers.push({
                     type: "glyph",

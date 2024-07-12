@@ -1400,17 +1400,17 @@ export class RenjuGame extends InARowBase {
             C: [
                 { name: "piece-borderless", colour: "#FFF" },
                 { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
-                { text: "33", orientation: "vertical" },
+                { text: "33" },
             ],
             D: [
                 { name: "piece-borderless", colour: "#FFF" },
                 { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
-                { text: "44", orientation: "vertical" },
+                { text: "44" },
             ],
             E: [
                 { name: "piece-borderless", colour: "#FFF" },
                 { name: "piece-borderless", colour: 1 as playerid, opacity: 0.2 },
-                { text: "6+", orientation: "vertical" },
+                { text: "6+" },
             ],
             F: [
                 { name: "piece", colour: "#FFF" },
@@ -1421,7 +1421,7 @@ export class RenjuGame extends InARowBase {
             for (let i = 1; i <= tentativeCountSelector.size; i++) {
                 legend[`G${i}`] = [
                     { name: "piece", colour: 1 as playerid, opacity: 0.5 },
-                    { text: i.toString(), orientation: "vertical" },
+                    { text: i.toString() },
                 ];
             }
         }

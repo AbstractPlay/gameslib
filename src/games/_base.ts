@@ -777,6 +777,10 @@ export abstract class GameBase  {
         return [];
     }
 
+    public getCustomRotation(): number|undefined {
+        return undefined;
+    }
+
     // compares the most recent state to all previous states and returns
     // the number of times the state has been repeated
     // arguments are optional. if provided, it will override the current state

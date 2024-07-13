@@ -527,7 +527,7 @@ export class VoloGame extends GameBase {
                         const tryRegionIdentifier = this.getRegionIdentifier(choice, regions);
                         if (tryRegionIdentifier !== undefined && regionIdentifiers.includes(tryRegionIdentifier)) {
                             result.valid = false;
-                            result.message = i18next.t("apgames:validation.volo.INVALID_REGION_NORMALISE", { choice, represent: tryRegionIdentifier, normalised: this.normaliseMove(`${cells.join(",")}-${dirDist}/${tryRegionIdentifier}`) });
+                            result.message = i18next.t("apgames:validation.volo.INVALID_REGION_NORMALISE", { choice, represent: tryRegionIdentifier, normalised: this.normaliseMove(`${move}/${tryRegionIdentifier}`) });
                             return result;
                         }
                         result.valid = false;

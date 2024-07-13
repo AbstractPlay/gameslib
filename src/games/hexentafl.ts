@@ -16,7 +16,7 @@ const spreadDirections: Map<Direction, Direction[]> = new Map([
     ["SE", ["E", "SW"]],
     ["SW", ["SE", "W"]],
     ["W", ["SW", "NW"]],
-    ["NW", ["W", "NE"]]
+    ["NW", ["W", "NE"]],
 ]);
 
 interface IMoveState extends IIndividualState {
@@ -39,10 +39,16 @@ export class HexentaflGame extends GameBase {
         dateAdded: "2024-07-01",
         // i18next.t("apgames:descriptions.hexentafl")
         description: "apgames:descriptions.hexentafl",
-        urls: [],
-        people: [],
+        urls: ["https://boardgamegeek.com/boardgame/321175/hexentafl"],
+        people: [
+            {
+                type: "designer",
+                name: "Kevin Kane",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/84717/kevin-kane"],
+            }
+        ],
         variants: [
-            { uid: "size-5", group: "board" }
+            { uid: "size-5", group: "board" },
         ],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["experimental", "check", "limited-pieces"],
@@ -127,7 +133,7 @@ export class HexentaflGame extends GameBase {
     private getBoardSize(): number {
         // Get board size from variants.
         if (this.variants !== undefined && this.variants.length > 0 && this.variants[0] !== undefined && this.variants[0].length > 0) {
-            const sizeVariants = this.variants.filter(v => v.includes("size"))
+            const sizeVariants = this.variants.filter(v => v.includes("size"));
             if (sizeVariants.length > 0) {
                 const size = sizeVariants[0].match(/\d+/);
                 return parseInt(size![0], 10);

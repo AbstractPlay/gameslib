@@ -81,7 +81,7 @@ export class ExxitGame extends GameBase {
             {uid: "19tiles", group: "length"},
         ],
         categories: ["goal>area", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>stack", "board>dynamic", "board>connect>hex", "components>special"],
-        flags: ["pie", "scores", "limited-pieces", "automove", "shared-stash", "multistep"],
+        flags: ["pie", "scores", "limited-pieces", "automove", "shared-stash", "multistep", "custom-rotation"],
     };
 
     public static clone(obj: ExxitGame): ExxitGame {
@@ -911,6 +911,10 @@ export class ExxitGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 0;
     }
 
     public clone(): ExxitGame {

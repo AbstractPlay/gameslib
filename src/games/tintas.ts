@@ -55,7 +55,7 @@ export class TintasGame extends GameBase {
             }
         ],
         categories: ["goal>set", "mechanic>set",  "mechanic>move", "mechanic>share", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>simple>7c"],
-        flags: ["multistep", "check", "pie", "automove", "shared-pieces", "random-start"]
+        flags: ["multistep", "check", "pie", "automove", "shared-pieces", "random-start", "custom-rotation"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -818,6 +818,10 @@ export class TintasGame extends GameBase {
             }
         }
         return colours.join("");
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 0;
     }
 
     public clone(): TintasGame {

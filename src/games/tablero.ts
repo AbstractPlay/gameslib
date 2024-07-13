@@ -48,7 +48,7 @@ export class TableroGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "perspective", "multistep", "scores", "automove", "no-explore"]
+        flags: ["limited-pieces", "perspective", "multistep", "scores", "automove", "no-explore", "custom-rotation"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 3);
@@ -1120,6 +1120,10 @@ export class TableroGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "take", "pass", "eog", "winners"]);
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 180;
     }
 
     public clone(): TableroGame {

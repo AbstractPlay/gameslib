@@ -51,7 +51,7 @@ export class StringsGame extends GameBaseSimultaneous {
             }
         ],
         categories: ["goal>area", "mechanic>displace",  "mechanic>share", "mechanic>simultaneous", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["simultaneous", "scores"]
+        flags: ["simultaneous", "scores", "custom-rotation"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -625,6 +625,10 @@ export class StringsGame extends GameBaseSimultaneous {
             }
         }
         return result;
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 0;
     }
 
     public clone(): StringsGame {

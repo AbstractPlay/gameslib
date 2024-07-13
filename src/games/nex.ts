@@ -45,7 +45,7 @@ export class NexGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>hex", "components>simple>3c"],
-        flags: ["pie", "multistep", "perspective", "rotate90"],
+        flags: ["pie", "multistep"],
         variants: [
             { uid: "size-9", group: "board" },
         ]

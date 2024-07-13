@@ -130,7 +130,7 @@ export class StreetcarGame extends GameBase {
             {uid: "15point", "group": "penalty"},
         ],
         categories: ["goal>score>eog", "mechanic>set",  "mechanic>network", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>special"],
-        flags: ["multistep", "no-moves", "scores", "random-start"]
+        flags: ["multistep", "no-moves", "scores", "random-start", "custom-rotation"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -1151,6 +1151,10 @@ export class StreetcarGame extends GameBase {
 
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["claim", "take", "eog", "winners"]);
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 0;
     }
 
     public sameMove(move1: string, move2: string): boolean {

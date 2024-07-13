@@ -40,7 +40,7 @@ export class GomokuGame extends InARowBase {
             { uid: "pass", group: "tiebreaker" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "custom-colours", "perspective", "rotate90"],
+        flags: ["multistep", "custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {

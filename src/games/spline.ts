@@ -46,7 +46,7 @@ export class SplineGame extends GameBase {
             { uid: "plus" }
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per", "components>shibumi", "board>3d"],
-        flags: ["perspective", "rotate90"],
+        flags: [],
         displays: [{ uid: "orb-3d" }],
     };
 

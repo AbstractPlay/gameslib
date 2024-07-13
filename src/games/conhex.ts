@@ -50,7 +50,7 @@ export class ConhexGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "mechanic>place", "board>other", "components>special"],
-        flags: ["pie", "perspective", "rotate90"],
+        flags: ["pie"],
     };
 
     public numplayers = 2;

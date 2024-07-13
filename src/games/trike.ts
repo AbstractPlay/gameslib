@@ -50,7 +50,7 @@ export class TrikeGame extends GameBase {
             {uid: "standard-15", group: "board"},
         ],
         categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>enclose", "mechanic>share", "board>shape>tri", "board>connect>hex", "components>simple>3c"],
-        flags: ["pie", "automove", "aiai"],
+        flags: ["pie", "automove", "aiai", "custom-rotation"],
         displays: [{uid: "hide-moves"}],
     };
     public numplayers = 2;
@@ -589,6 +589,10 @@ export class TrikeGame extends GameBase {
             to = triAi2Ap(to, width);
             return to;
         }
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 120;
     }
 
 }

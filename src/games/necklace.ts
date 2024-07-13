@@ -50,7 +50,7 @@ export class NecklaceGame extends GameBase {
         ],
         variants: [],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "automove", "perspective", "rotate90"]
+        flags: ["pie", "automove"]
     };
 
     public coords2algebraic(x: number, y: number): string {

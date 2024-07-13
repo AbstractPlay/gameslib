@@ -52,7 +52,7 @@ export class AgereGame extends GameBase {
             {uid: "standard-14", group: "board"},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "board>shape>circle", "board>connect>rect", "board>shape>tri", "board>connect>hex", "components>simple>1per"],
-        flags: ["pie", "check"]
+        flags: ["pie", "check", "custom-rotation"]
     };
 
 
@@ -942,6 +942,14 @@ export class AgereGame extends GameBase {
             return [this.currplayer];
         } else {
             return [];
+        }
+    }
+
+    public getCustomRotation(): number | undefined {
+        if (this.variants.length === 0 || this.variants[0].startsWith("standard")) {
+            return 120;
+        } else {
+            return 0;
         }
     }
 

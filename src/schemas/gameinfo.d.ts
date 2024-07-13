@@ -91,6 +91,7 @@ export interface APGamesInformation {
     | "shared-stash"
     | "simultaneous"
     | "stacking-expanding"
+    | "custom-rotation"
   )[];
   [k: string]: unknown;
 }

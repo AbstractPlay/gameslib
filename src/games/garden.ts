@@ -80,7 +80,7 @@ export class GardenGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
-        flags: ["shared-pieces", "scores", "shared-stash"]
+        flags: ["shared-pieces", "scores", "shared-stash", "custom-rotation"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 4);
@@ -726,6 +726,10 @@ export class GardenGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 0;
     }
 
     public clone(): GardenGame {

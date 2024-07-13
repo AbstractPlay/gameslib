@@ -45,7 +45,7 @@ export class CairoCorridorGame extends GameBase {
             { uid: "size-8", group: "board" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>enclose", "board>shape>rect", "board>connect>pent", "components>simple>1per"],
-        flags: ["scores", "perspective", "rotate90"],
+        flags: ["scores"],
         displays: [{uid: "hide-markers"}],
     };
 

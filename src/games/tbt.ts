@@ -46,7 +46,7 @@ export class TBTGame extends GameBase {
             },
         ],
         categories: ["goal>align", "mechanic>share",  "mechanic>move", "mechanic>stack", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["perspective", "automove", "no-explore"]
+        flags: ["perspective", "automove", "no-explore", "custom-rotation"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 3);
@@ -582,6 +582,10 @@ export class TBTGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 180;
     }
 
     public clone(): TBTGame {

@@ -31,7 +31,7 @@ export class EntrapmentGame extends GameBase {
         uid: "entrapment",
         playercounts: [2],
         version: "20240227",
-        dateAdded: "2024-03-10",
+        dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.entrapment")
         description: "apgames:descriptions.entrapment",
         urls: ["https://boardgamegeek.com/boardgame/12533/entrapment"],
@@ -46,7 +46,7 @@ export class EntrapmentGame extends GameBase {
             { uid: "size-7x7", group: "board" },
         ],
         categories: ["goal>eliminate", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "multistep", "limited-pieces"],
+        flags: ["multistep", "limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {

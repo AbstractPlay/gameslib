@@ -26,7 +26,7 @@ export class VoloGame extends GameBase {
         uid: "volo",
         playercounts: [2],
         version: "20240705",
-        dateAdded: "2024-05-07",
+        dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.volo")
         description: "apgames:descriptions.volo",
         urls: ["https://boardgamegeek.com/boardgame/83283/volo"],
@@ -42,7 +42,7 @@ export class VoloGame extends GameBase {
             { uid: "size-8", group: "board" }
         ],
         categories: ["goal>unify", "mechanic>place", "mechanic>move>group", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "scores", "automove"],
+        flags: ["scores", "automove"],
     };
 
     public coords2algebraic(x: number, y: number): string {

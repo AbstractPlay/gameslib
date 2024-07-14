@@ -36,7 +36,7 @@ export class HexentaflGame extends GameBase {
         uid: "hexentafl",
         playercounts: [2],
         version: "20240701",
-        dateAdded: "2024-07-01",
+        dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.hexentafl")
         description: "apgames:descriptions.hexentafl",
         urls: ["https://boardgamegeek.com/boardgame/321175/hexentafl"],
@@ -51,7 +51,7 @@ export class HexentaflGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental", "check", "limited-pieces"],
+        flags: ["check", "limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {

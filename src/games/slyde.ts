@@ -27,7 +27,7 @@ export class SlydeGame extends GameBase {
         uid: "slyde",
         playercounts: [2],
         version: "20240617",
-        dateAdded: "2024-06-17",
+        dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.slyde")
         description: "apgames:descriptions.slyde",
         urls: ["https://boardgamegeek.com/boardgame/308111/slyde"],
@@ -44,7 +44,7 @@ export class SlydeGame extends GameBase {
             // { uid: "size-16", group: "board" },
         ],
         categories: ["goal>score>eog", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["experimental", "scores"],
+        flags: ["scores"],
     };
 
     public coords2algebraic(x: number, y: number): string {

@@ -43,7 +43,7 @@ export class UnlurGame extends GameBase {
         uid: "unlur",
         playercounts: [2],
         version: "20240619",
-        dateAdded: "2024-06-19",
+        dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.unlur")
         description: "apgames:descriptions.unlur",
         urls: [

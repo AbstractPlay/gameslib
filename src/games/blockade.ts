@@ -366,7 +366,7 @@ export class BlockadeGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.coords2algebraic(col, row);
-            if (piece === undefined || piece === "") {
+            if (piece === undefined || !["N", "E", "S", "W"].includes(piece)) {
                 if (move === "") {
                     newmove = cell + "-";
                 } else {

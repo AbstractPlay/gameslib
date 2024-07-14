@@ -46,7 +46,10 @@ export class UnlurGame extends GameBase {
         dateAdded: "2024-06-19",
         // i18next.t("apgames:descriptions.unlur")
         description: "apgames:descriptions.unlur",
-        urls: ["https://boardgamegeek.com/boardgame/3826/unlur"],
+        urls: [
+            "http://www.di.fc.ul.pt/~jpn/gv/unlur.htm",
+            "https://boardgamegeek.com/boardgame/3826/unlur",
+        ],
         people: [
             {
                 type: "designer",

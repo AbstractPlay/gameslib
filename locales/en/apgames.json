@@ -1669,7 +1669,8 @@
         "unlur": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece, or pass to play as the Y player.",
             "INITIAL_INSTRUCTIONS_PASSED": "Select a cell to place a piece.",
-            "BAD_PASS": "The contract phase is over. You may no longer pass."
+            "BAD_PASS": "The contract phase is over. You may no longer pass.",
+            "CONTRACT_EDGE": "You may not place a piece on the edges of the board in the contract phase."
         },
         "upperhand": {
             "INITIAL_INSTRUCTIONS": "Select a space to place a ball.",

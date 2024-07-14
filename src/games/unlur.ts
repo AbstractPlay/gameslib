@@ -211,9 +211,9 @@ export class UnlurGame extends GameBase {
         if (this.gameover) { return []; }
         const moves: string[] = [];
         for (const cell of this.graph.listCells(false) as string[]) {
-            if (!this.board.has(cell)) {
-                moves.push(cell);
-            }
+            if (this.board.has(cell)) { continue }
+            if (this.linePlayer === undefined && this.graph.distFromEdge(cell) === 0) { continue; }
+            moves.push(cell);
         }
         if (this.linePlayer === undefined) {
             moves.push("pass");
@@ -276,11 +276,16 @@ export class UnlurGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m })
                 return result;
             }
-        }
-        if (this.board.has(m)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
-            return result;
+            if (this.board.has(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+                return result;
+            }
+            if (this.linePlayer === undefined && this.graph.distFromEdge(m) === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.unlur.CONTRACT_EDGE");
+                return result;
+            }
         }
         result.valid = true;
         result.complete = 1;

@@ -60,7 +60,7 @@ export class CalculusGame extends GameBase {
         uid: "calculus",
         playercounts: [2],
         version: "20240518",
-        dateAdded: "2024-05-18",
+        dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.calculus")
         description: "apgames:descriptions.calculus",
         // i18next.t("apgames:notes.calculus")
@@ -74,7 +74,7 @@ export class CalculusGame extends GameBase {
                 name: "Gord! (Gordon Hamilton)"
             }
         ],
-        flags: ["experimental", "no-moves"],
+        flags: ["no-moves"],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>none", "components>simple>1per"],
         variants: [
             {

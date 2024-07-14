@@ -749,10 +749,11 @@ export class MvolcanoGame extends GameBase {
     private renderPiecesHelper(s: CellContents[], altDisplay: string | undefined): string[] {
         if (altDisplay !== 'expanding') {
             const ret: string[] = [];
-            for (let i = 0; i < s.length; i++) {
-                for (let j = 0; j < s[i][1] - i - 1; j++)
+            for (const piece of s) {
+                const maxj = piece[1] - ret.length - 1;
+                for (let j = 0; j < maxj; j++)
                     ret.push("-");
-                ret.push(s[i].join(""));
+                ret.push(piece.join(""));
             }
             return ret;
         } else {

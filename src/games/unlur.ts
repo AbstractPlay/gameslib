@@ -43,10 +43,13 @@ export class UnlurGame extends GameBase {
         uid: "unlur",
         playercounts: [2],
         version: "20240619",
-        dateAdded: "2024-06-19",
+        dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.unlur")
         description: "apgames:descriptions.unlur",
-        urls: ["https://boardgamegeek.com/boardgame/3826/unlur"],
+        urls: [
+            "http://www.di.fc.ul.pt/~jpn/gv/unlur.htm",
+            "https://boardgamegeek.com/boardgame/3826/unlur",
+        ],
         people: [
             {
                 type: "designer",
@@ -59,7 +62,7 @@ export class UnlurGame extends GameBase {
             {uid: "size-10", group: "board"},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>asymmetry", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental", "custom-colours"],
+        flags: ["custom-colours"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -211,9 +214,9 @@ export class UnlurGame extends GameBase {
         if (this.gameover) { return []; }
         const moves: string[] = [];
         for (const cell of this.graph.listCells(false) as string[]) {
-            if (!this.board.has(cell)) {
-                moves.push(cell);
-            }
+            if (this.board.has(cell)) { continue }
+            if (this.linePlayer === undefined && this.graph.distFromEdge(cell) === 0) { continue; }
+            moves.push(cell);
         }
         if (this.linePlayer === undefined) {
             moves.push("pass");
@@ -276,11 +279,16 @@ export class UnlurGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m })
                 return result;
             }
-        }
-        if (this.board.has(m)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
-            return result;
+            if (this.board.has(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+                return result;
+            }
+            if (this.linePlayer === undefined && this.graph.distFromEdge(m) === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.unlur.CONTRACT_EDGE");
+                return result;
+            }
         }
         result.valid = true;
         result.complete = 1;

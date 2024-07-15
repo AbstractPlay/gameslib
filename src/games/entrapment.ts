@@ -381,7 +381,7 @@ export class EntrapmentGame extends GameBase {
         try {
             let newmove = "";
             const cell = this.coords2algebraic(col, row);
-            if (piece === undefined || piece === "") {
+            if (piece === undefined || !["N", "E", "S", "W"].includes(piece)) {
                 if (this.stack.length <= SETUP_PLIES) {
                     newmove = cell;
                 } else if (move === "") {

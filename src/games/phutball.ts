@@ -46,7 +46,7 @@ export class PhutballGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
-        flags: ["multistep", "perspective", "pie"],
+        flags: ["perspective", "pie"],
     };
     public static coords2algebraic(x: number, y: number): string {
         if (x === 0) return "0" + (20 - y).toString();

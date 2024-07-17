@@ -41,7 +41,7 @@ export class MeridiansGame extends GameBase {
             }
         ],
         categories: ["goal>majority", "mechanic>capture", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["pie-even", "multistep"],
+        flags: ["pie-even"],
         variants: [
             {
                 uid: "size-6",

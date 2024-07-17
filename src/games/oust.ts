@@ -42,7 +42,7 @@ export class OustGame extends GameBase {
             { uid: "square-11", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "board>shape>hex", "board>shape>rect", "board>shape>hex", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores", "multistep", "no-moves", "custom-randomization"],
+        flags: ["scores", "no-moves", "custom-randomization"],
         displays: [{uid: "hide-moves"}],
     };
 

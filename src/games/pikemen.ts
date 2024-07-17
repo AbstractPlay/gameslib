@@ -56,7 +56,7 @@ export class PikemenGame extends GameBase {
             }
         ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>pyramids"],
-        flags: ["scores", "multistep", "perspective"]
+        flags: ["scores", "perspective"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

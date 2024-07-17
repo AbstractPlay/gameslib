@@ -43,7 +43,7 @@ export class HensGame extends GameBase {
             { uid: "size-10" }
         ],
         categories: ["goal>breakthrough", "goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "perspective", "limited-pieces"]
+        flags: ["perspective", "limited-pieces"]
     };
 
     public coords2algebraic(x: number, y: number): string {

@@ -68,7 +68,7 @@ export class MvolcanoGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>displace",  "mechanic>move", "mechanic>set", "mechanic>share", "mechanic>stack", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids"],
-        flags: ["shared-pieces", "scores", "stacking-expanding", "no-moves", "multistep", "random-start"],
+        flags: ["shared-pieces", "scores", "stacking-expanding", "no-moves", "random-start"],
         displays: [{uid: "expanding"}]
     };
 

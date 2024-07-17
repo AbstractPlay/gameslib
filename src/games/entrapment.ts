@@ -46,7 +46,7 @@ export class EntrapmentGame extends GameBase {
             { uid: "size-7x7", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["multistep", "limited-pieces"],
+        flags: ["limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {

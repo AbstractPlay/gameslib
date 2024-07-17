@@ -67,7 +67,7 @@ export class TaijiGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores", "multistep"]
+        flags: ["scores"]
     };
 
     public numplayers = 2;

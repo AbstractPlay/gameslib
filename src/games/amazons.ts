@@ -51,7 +51,7 @@ export class AmazonsGame extends GameBase {
             {uid: "scrambled", group: "setup"},
         ],
         categories: ["goal>immobilize", "mechanic>block", "mechanic>move", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["multistep", "scores", "perspective", "pie", "aiai"]
+        flags: ["scores", "perspective", "pie", "aiai"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);

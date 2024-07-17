@@ -57,7 +57,7 @@ export class VeletasGame extends GameBase {
             }
         ],
         categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>block", "mechanic>enclose", "mechanic>share", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["multistep", "scores", "pie", "random-start", "custom-randomization"],
+        flags: ["scores", "pie", "random-start", "custom-randomization"],
     };
 
     public coords2algebraic(x: number, y: number, boardSize?: number): string {

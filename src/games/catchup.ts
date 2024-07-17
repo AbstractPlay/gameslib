@@ -46,7 +46,7 @@ export class CatchupGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["multistep", "scores", "no-moves", "custom-randomization"],
+        flags: ["scores", "no-moves", "custom-randomization"],
         variants: [
             {
                 uid: "size-6",

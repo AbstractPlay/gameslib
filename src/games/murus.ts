@@ -51,7 +51,7 @@ export class MurusGame extends GameBase {
             }
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>capture",  "mechanic>differentiate", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "perspective", "multistep"]
+        flags: ["pie", "perspective"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

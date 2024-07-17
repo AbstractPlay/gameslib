@@ -71,7 +71,7 @@ export class ArmadasGame extends GameBase {
                 name: "Dan Isaac"
             }
         ],
-        flags: ["multistep", "no-moves"],
+        flags: ["no-moves"],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>asymmetry", "mechanic>differentiate", "mechanic>move", "board>none", "components>pyramids"],
         variants: [
             {

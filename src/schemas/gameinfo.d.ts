@@ -77,7 +77,6 @@ export interface APGamesInformation {
     | "custom-randomization"
     | "experimental"
     | "limited-pieces"
-    | "multistep"
     | "no-explore"
     | "no-moves"
     | "perspective"

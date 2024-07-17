@@ -51,7 +51,7 @@ export class UrbinoGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "player-stashes", "automove", "scores"]
+        flags: ["player-stashes", "automove", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

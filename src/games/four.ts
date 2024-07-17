@@ -48,7 +48,7 @@ export class FourGame extends GameBase {
             {uid: "simplified"}
         ],
         categories: ["goal>immobilize", "mechanic>place", "board>shape>rect", "board>connect>rect", "board>dynamic", "components>poly"],
-        flags: ["shared-pieces", "multistep"]
+        flags: ["shared-pieces"]
     };
 
     public static genHashes = (): Map<string,string> => {

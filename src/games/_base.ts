@@ -120,10 +120,9 @@ export interface IRenderOpts {
  * - -1 means the move is definitively incomplete and would be rejected if submitted as is.
  * - 0 is in between. It signals that the move *could* be processed as is, but it indicates that
  * other moves may still be possible.
- * canrender?: A simple boolean that will only ever be `true` for games flagged as `multistep`, and will only
- * ever be present if `valid` is true. It asserts that the move to this point would be accepted
- * by the game engine as partial and would result in an updated `APRenderRep` that may be helpful
- * to the user.
+ * canrender?: A simple boolean that will only ever be present if `valid` is true. It asserts that
+ * the move to this point would be accepted by the game engine as partial and would result in an
+ * updated `APRenderRep` that may be helpful to the user.
  *
  * @export
  * @interface IValidationResult

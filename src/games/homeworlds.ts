@@ -98,7 +98,7 @@ export class HomeworldsGame extends GameBase {
             }
         ],
         categories: ["goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>economy", "mechanic>place", "mechanic>share", "board>none", "components>pyramids"],
-        flags: ["multistep", "shared-pieces", "perspective", "rotate90", "no-moves", "custom-rotation"]
+        flags: ["shared-pieces", "perspective", "rotate90", "no-moves", "custom-rotation"]
     };
 
     public numplayers!: number;

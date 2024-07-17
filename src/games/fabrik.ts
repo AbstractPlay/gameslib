@@ -52,7 +52,7 @@ export class FabrikGame extends GameBase {
             }
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>move", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["multistep", "automove"]
+        flags: ["automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

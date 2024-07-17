@@ -72,7 +72,7 @@ export class TaflGame extends GameBase {
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "mechanic>differentiate",  "mechanic>move", "mechanic>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "custom-colours", "check", "limited-pieces"],
+        flags: ["custom-colours", "check", "limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {

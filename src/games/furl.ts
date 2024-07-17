@@ -46,7 +46,7 @@ export class FurlGame extends GameBase {
             }
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["multistep", "check", "perspective", "aiai", "limited-pieces"],
+        flags: ["check", "perspective", "aiai", "limited-pieces"],
         variants: [
             // { uid: "size-5", group: "board" },
         ],

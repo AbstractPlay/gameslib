@@ -130,7 +130,7 @@ export class StreetcarGame extends GameBase {
             {uid: "15point", "group": "penalty"},
         ],
         categories: ["goal>score>eog", "mechanic>set",  "mechanic>network", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>special"],
-        flags: ["multistep", "no-moves", "scores", "random-start", "custom-rotation"]
+        flags: ["no-moves", "scores", "random-start", "custom-rotation"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

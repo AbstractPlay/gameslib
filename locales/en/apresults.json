@@ -282,7 +282,7 @@
         "spooky": "Spooky has entered the board at {{where}}.",
         "strands_initial": "{{player}} placed a piece on a space labelled 2 at {{where}}.",
         "strands_one": "{{player}} placed a piece at {{where}}.",
-        "strands_other": "{{player}} placed a {{count}} pieces at {{where}}.",
+        "strands_other": "{{player}} placed {{count}} pieces at {{where}}.",
         "streetcar": "A building was placed at {{where}}.",
         "streetcar_11": "A height-1 ORANGE building was placed at {{where}}.",
         "streetcar_12": "A height-2 ORANGE building was placed at {{where}}.",

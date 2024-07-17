@@ -112,6 +112,7 @@
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "stigmergy": "Stigmergy is a territorial line-of-sight game. Cells are controlled and pieces are flipped based on how many pieces of a color can see the space. The winner is the player who occupies more of the board at the end.",
+        "strands": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "susan": "In Susan, the goal is to surround any opponent's piece with other pieces. On your turn, you may place a piece or slide a piece to an adjacent empty space. If both players have a stone surrounded simultaneously, the player that just took their turn loses. The game ends in a tie if both players performed three slides each consecutively.",
@@ -244,6 +245,7 @@
         },
         "fnap": "FNAP token",
         "focus": "Controlled",
+        "GROUPSIZES": "Group sizes",
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
         "PIECESINHANDSTASH": "Pieces in hand / stash",
@@ -1539,6 +1541,19 @@
             "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
+        "strands": {
+            "INITIAL_INSTRUCTIONS": "Select the spaces to place a piece.",
+            "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
+            "DUPLICATE": "You have already placed a piece at {{where}}.",
+            "DIFFERENT_NUMS": "You have to select spaces with the same number.",
+            "NORMALISED": "The move needs to be normalised. Try {{normalised}}.",
+            "PLACE_MORE_one": "Place 1 more piece on spaces numbered {{num}}.",
+            "PLACE_MORE_other": "Place {{count}} more pieces on spaces numbered {{num}}.",
+            "TOO_MANY_one": "You may only place 1 piece.",
+            "TOO_MANY_other": "You may only place {{count}} pieces.",
+            "INITIAL_SINGLE": "You may only place one piece on a cell numbered 2 for the first move.",
+            "INITIAL_TWO": "You must place a piece on a cell numbered 2 for the first move."
+        },
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",
             "ALREADY_CLAIMED": "The edge '{{edge}}' is already claimed.",
@@ -2142,6 +2157,11 @@
             "rules": {
                 "name": "rules",
                 "description": "You control a space by controlling more than half of its lines of sight."
+            }
+        },
+        "strands": {
+            "board": {
+                "name": "size-7 random setup"
             }
         },
         "symple": {
@@ -3041,6 +3061,23 @@
                 "description": "You control a space by controlling more of its lines of sight than your opponent."
             }
         },
+        "strands": {
+            "size-6-random": {
+                "name": "Size 6 random setup"
+            },
+            "size-5-fixed": {
+                "name": "Size 5 fixed setup"
+            },
+            "size-6-fixed": {
+                "name": "Size 6 fixed setup"
+            },
+            "size-6-fixed-lownumbers": {
+                "name": "Size 6 fixed setup with low numbers"
+            },
+            "size-7-fixed": {
+                "name": "Size 7 fixed setup"
+            }
+        },
         "streetcar": {
             "5point": {
                 "name": "Lower penalty (-5)",
@@ -3470,6 +3507,12 @@
             "orb-3d": {
                 "name": "3D orbs",
                 "description": "Use plain 3D orb textures."
+            }
+        },
+        "strands": {
+            "always-show-numbers": {
+                "name": "Always show numbers",
+                "description": "Show numbers above the pieces."
             }
         },
         "twixt": {

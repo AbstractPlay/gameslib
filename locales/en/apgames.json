@@ -1542,17 +1542,18 @@
             "INVALIDPIE": "You cannot accept or reject a pie offer now."
         },
         "strands": {
-            "INITIAL_INSTRUCTIONS": "Select the spaces to place a piece.",
+            "INITIAL_INSTRUCTIONS": "Select the spaces to place your piece pieces.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Select a space numbered 2 for the first move.",
             "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
             "DUPLICATE": "You have already placed a piece at {{where}}.",
             "DIFFERENT_NUMS": "You have to select spaces with the same number.",
-            "NORMALISED": "The move needs to be normalised. Try {{normalised}}.",
-            "PLACE_MORE_one": "Place 1 more piece on spaces numbered {{num}}.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",
+            "PLACE_MORE_one": "Place 1 more piece on a space numbered {{num}}.",
             "PLACE_MORE_other": "Place {{count}} more pieces on spaces numbered {{num}}.",
             "TOO_MANY_one": "You may only place 1 piece.",
             "TOO_MANY_other": "You may only place {{count}} pieces.",
-            "INITIAL_SINGLE": "You may only place one piece on a cell numbered 2 for the first move.",
-            "INITIAL_TWO": "You must place a piece on a cell numbered 2 for the first move."
+            "INITIAL_SINGLE": "You may only place one piece on a space numbered 2 for the first move.",
+            "INITIAL_TWO": "You must place a piece on a space numbered 2 for the first move."
         },
         "streetcar": {
             "ADJ_TO_BLDG": "You may not remove a housing limit next to a building.",
@@ -2161,7 +2162,7 @@
         },
         "strands": {
             "board": {
-                "name": "size-7 random setup"
+                "name": "size-7 board random setup"
             }
         },
         "symple": {
@@ -3063,19 +3064,19 @@
         },
         "strands": {
             "size-6-random": {
-                "name": "Size 6 random setup"
+                "name": "Size-6 board random setup"
             },
             "size-5-fixed": {
-                "name": "Size 5 fixed setup"
+                "name": "Size-5 board fixed setup"
             },
             "size-6-fixed": {
-                "name": "Size 6 fixed setup"
+                "name": "Size-6 board fixed setup"
             },
             "size-6-fixed-lownumbers": {
-                "name": "Size 6 fixed setup with low numbers"
+                "name": "Size-6 board fixed setup with low numbers"
             },
             "size-7-fixed": {
-                "name": "Size 7 fixed setup"
+                "name": "Size-7 board fixed setup"
             }
         },
         "streetcar": {

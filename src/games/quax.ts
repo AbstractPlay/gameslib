@@ -44,7 +44,7 @@ export class QuaxGame extends GameBase {
             { uid: "size-15", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "multistep"],
+        flags: ["pie"],
     };
 
     public coords2algebraic(x: number, y: number): string {

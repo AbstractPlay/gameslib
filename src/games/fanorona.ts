@@ -37,7 +37,7 @@ export class FanoronaGame extends GameBase {
             "https://en.wikipedia.org/wiki/Fanorona",
         ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "mechanic>traditional", "board>shape>rect", "board>connect>other", "components>simple>1per"],
-        flags: ["perspective", "limited-pieces", "multistep", "no-moves", "aiai", "custom-rotation"]
+        flags: ["perspective", "limited-pieces", "no-moves", "aiai", "custom-rotation"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

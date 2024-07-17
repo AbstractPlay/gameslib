@@ -47,7 +47,7 @@ export class Connect6Game extends InARowBase {
             { uid: "pass", group: "tiebreaker" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "custom-colours", "no-moves", "custom-buttons"],
+        flags: ["custom-colours", "no-moves", "custom-buttons"],
     };
 
     public coords2algebraic(x: number, y: number): string {

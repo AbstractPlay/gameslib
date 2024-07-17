@@ -48,7 +48,7 @@ export class TumbleweedGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
-        flags: ["pie-even", "multistep", "scores", "aiai"],
+        flags: ["pie-even", "scores", "aiai"],
         variants: [
             {
                 uid: "size-6",

@@ -51,7 +51,7 @@ export class AccastaGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>move", "mechanic>stack", "mechanic>coopt", "board>shape>hex", "board>connect>hex", "components>simple>1per", "components>special"],
-        flags: ["multistep", "perspective"]
+        flags: ["perspective"]
     };
 
     public numplayers = 2;

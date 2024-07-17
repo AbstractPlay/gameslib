@@ -47,7 +47,7 @@ export class LinesOfActionGame extends GameBase {
             }
         ],
         categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "check", "limited-pieces"]
+        flags: ["check", "limited-pieces"]
     };
 
     public numplayers = 2;

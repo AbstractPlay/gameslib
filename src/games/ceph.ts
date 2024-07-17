@@ -46,7 +46,7 @@ export class CephalopodGame extends GameBase {
             },
         ],
         categories: ["goal>majority", "mechanic>place", "mechanic>capture", "mechanic>merge", "board>shape>rect", "board>connect>rect", "board>connect>snub", "components>dice"],
-        flags: ["scores", "multistep"]
+        flags: ["scores"]
     };
 
     public numplayers = 2;

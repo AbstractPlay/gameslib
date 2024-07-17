@@ -47,7 +47,7 @@ export class StrandsGame extends GameBase {
             { uid: "size-7-fixed", group: "board" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["multistep", "scores", "no-moves", "random-start", "custom-randomization"],
+        flags: ["experimental", "scores", "no-moves", "random-start", "custom-randomization"],
         displays: [{ uid: "always-show-numbers" }],
     };
 
@@ -381,7 +381,11 @@ export class StrandsGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.strands.INITIAL_INSTRUCTIONS");
+            if (this.stack.length === 1) {
+                result.message = i18next.t("apgames:validation.strands.INITIAL_INSTRUCTIONS_FIRST");
+            } else {
+                result.message = i18next.t("apgames:validation.strands.INITIAL_INSTRUCTIONS");
+            }
             return result;
         }
         const moves = m.split(",");
@@ -457,7 +461,7 @@ export class StrandsGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.catchup.NORMALISED", { move: normalised });
+            result.message = i18next.t("apgames:validation.strands.NORMALISE", { normalised });
             return result;
         }
 

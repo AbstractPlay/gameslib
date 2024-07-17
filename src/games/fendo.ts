@@ -52,7 +52,7 @@ export class FendoGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>block", "mechanic>move", "mechanic>enclose", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["limited-pieces", "scores", "automove", "multistep", "perspective"]
+        flags: ["limited-pieces", "scores", "automove", "perspective"]
     };
 
     public numplayers = 2;

@@ -113,7 +113,7 @@ export class RealmGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>block", "mechanic>differentiate", "mechanic>move", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["multistep", "player-stashes", "scores", "limited-pieces", "no-moves"]
+        flags: ["player-stashes", "scores", "limited-pieces", "no-moves"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

@@ -54,7 +54,7 @@ export class ACityGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],
-        flags: ["player-stashes", "scores", "no-moves", "multistep", "custom-colours", "random-start"]
+        flags: ["player-stashes", "scores", "no-moves", "custom-colours", "random-start"]
     };
 
     public static piece2string(pc: Piece): string {

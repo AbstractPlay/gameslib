@@ -46,7 +46,7 @@ export class SympleGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores", "multistep", "no-moves", "custom-randomization"],
+        flags: ["scores", "no-moves", "custom-randomization"],
         variants: [
             {
                 uid: "p-4",

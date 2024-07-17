@@ -41,7 +41,7 @@ export class QueenslandGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "limited-pieces", "scores", "automove"],
+        flags: ["limited-pieces", "scores", "automove"],
         displays: [{uid: "hide-scored"}],
     };
 

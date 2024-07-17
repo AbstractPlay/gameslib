@@ -87,7 +87,7 @@ export class TwixtGame extends GameBase {
             }
         ],
         categories: ["goal>connect", "mechanic>place",  "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["pie", "multistep"],
+        flags: ["pie"],
         displays: [{uid: "hide-diagonals"}],
     };
 

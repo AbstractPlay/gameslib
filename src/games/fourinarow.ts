@@ -51,7 +51,7 @@ export class FourInARowGame extends InARowBase {
             { uid: "clear", group: "clear" },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "custom-colours"],
+        flags: ["custom-colours"],
         displays: [{uid: "hide-moves"}],
     };
 

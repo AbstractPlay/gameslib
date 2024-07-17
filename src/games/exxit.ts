@@ -81,7 +81,7 @@ export class ExxitGame extends GameBase {
             {uid: "19tiles", group: "length"},
         ],
         categories: ["goal>area", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>stack", "board>dynamic", "board>connect>hex", "components>special"],
-        flags: ["pie", "scores", "limited-pieces", "automove", "shared-stash", "multistep", "custom-rotation"],
+        flags: ["pie", "scores", "limited-pieces", "automove", "shared-stash", "custom-rotation"],
     };
 
     public static clone(obj: ExxitGame): ExxitGame {

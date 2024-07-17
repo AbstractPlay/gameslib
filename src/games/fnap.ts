@@ -43,7 +43,7 @@ export class FnapGame extends GameBaseSimultaneous {
             }
         ],
         categories: ["goal>align", "goal>score>eog", "mechanic>place", "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["simultaneous", "scores", "automove", "multistep"]
+        flags: ["simultaneous", "scores", "automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

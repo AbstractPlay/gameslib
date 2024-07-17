@@ -51,7 +51,7 @@ export class LielowGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "mechanic>bearoff", "mechanic>capture", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["multistep", "perspective", "aiai", "limited-pieces"]
+        flags: ["perspective", "aiai", "limited-pieces"]
     };
 
     public coords2algebraic(x: number, y: number): string {

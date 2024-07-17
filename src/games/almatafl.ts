@@ -47,7 +47,7 @@ export class AlmataflGame extends GameBase {
         ],
         variants: [{uid: "advanced"}],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>stack", "mechanic>differentiate", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["custom-colours", "multistep"]
+        flags: ["custom-colours"]
     };
 
     public static blocked = ["a1","a2","a5","a6","b1","b7","e1","e10","f1","f11","g1","g10","j1","j7","k1","k2","k5","k6"];

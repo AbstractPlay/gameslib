@@ -44,7 +44,7 @@ export class BideGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["scores", "no-moves", "multistep"]
+        flags: ["scores", "no-moves"]
     };
     public numplayers = 2;
     public currplayer: playerid = 1;

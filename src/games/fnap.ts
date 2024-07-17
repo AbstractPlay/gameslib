@@ -902,6 +902,7 @@ export class FnapGame extends GameBaseSimultaneous {
             }
             rep.areas.push({
                 type: "pieces",
+                width: 6,
                 pieces: mapped.map(s => `x${s}`) as [string, ...string[]],
                 label: i18next.t("apgames:validation.fnap.LABEL_SELECTED") || "local",
             });
@@ -935,6 +936,7 @@ export class FnapGame extends GameBaseSimultaneous {
             }
             rep.areas.push({
                 type: "pieces",
+                width: 6,
                 pieces: [...strs] as [string, ...string[]],
                 label: i18next.t("apgames:validation.fnap.LABEL_STASH", {playerNum: player}) || "local",
             });

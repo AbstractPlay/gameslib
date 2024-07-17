@@ -66,7 +66,7 @@ export interface APGamesInformation {
    */
   categories: [string, ...string[]];
   /**
-   * A list of flags used by the front end to signal the presence or absence of a particular feature.
+   * A list of flags to signal to the front end the presence or absence of a particular feature.
    */
   flags?: (
     | "aiai"

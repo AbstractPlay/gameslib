@@ -149,7 +149,7 @@
             "minItems": 1
         },
         "flags": {
-            "description": "A list of flags used by the front end to signal the presence or absence of a particular feature.",
+            "description": "A list of flags to signal to the front end the presence or absence of a particular feature.",
             "type": "array",
             "items": {
                 "enum": ["aiai", "automove", "check", "custom-buttons", "custom-colours", "custom-randomization", "experimental", "limited-pieces", "no-explore", "no-moves", "perspective", "pie-even", "pie", "player-stashes", "random-start", "rotate90", "scores", "shared-pieces", "shared-stash", "simultaneous", "stacking-expanding", "custom-rotation"]

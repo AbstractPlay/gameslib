@@ -994,6 +994,7 @@ export class CalculusGame extends GameBase {
                     idx += nidx + 1;
                     nullIdxs.push(idx);
                 }
+                // console.log(`Null indices: ${JSON.stringify(nullIdxs)}`);
                 for (const nullIdx of nullIdxs) {
                     let idxLeft = nullIdx - 1;
                     if (idxLeft < 0) {
@@ -1006,13 +1007,42 @@ export class CalculusGame extends GameBase {
                     const quadLeft = combined[idxLeft];
                     const quadRight = combined[idxRight];
                     let distance = 0;
+                    let inFront = false;
                     if (quadLeft !== null && quadRight !== null) {
                         distance = ptDistance(...quadLeft.pt, ...quadRight.pt);
+                        const midPt = midpoint(...quadLeft.pt, ...quadRight.pt);
+                        const midBearing = calcBearing(...midPt, ...curr);
+                        // NE
+                        if (nullIdx === 0) {
+                            if (midBearing >= 0 && midBearing < 90) {
+                                inFront = true;
+                            }
+                        }
+                        // SE
+                        else if (nullIdx === 1) {
+                            if (midBearing >= 90 && midBearing < 180) {
+                                inFront = true;
+                            }
+                        }
+                        // SW
+                        else if (nullIdx === 2) {
+                            if (midBearing >= 180 && midBearing < 270) {
+                                inFront = true;
+                            }
+                        }
+                        // NW
+                        else if (nullIdx === 3) {
+                            if (midBearing >= 270) {
+                                inFront = true;
+                            }
+                        }
                     }
-                    // if either adjacent quadrant is null, or if the distance is great enough
-                    // we're done
-                    if (quadLeft === null || quadRight === null || distance >= CalculusGame.PIECE_RADIUS*4) {
-                        // console.log(`Combined: ${JSON.stringify(combined)}\nNull indices: ${JSON.stringify(nullIdxs)}\nNull index: ${nullIdx}, Left: ${JSON.stringify(quadLeft)}, Right: ${JSON.stringify(quadRight)}, Distance: ${distance}`);
+                    // console.log(`Null index: ${nullIdx}, Left: ${JSON.stringify(quadLeft)}, Right: ${JSON.stringify(quadRight)}, Distance: ${distance}, inFront: ${inFront}`);
+                    // if any of the following conditions are met, we can see the edge
+                    //   - either adjacent quadrant is null
+                    //   - the distance between left and right are enough
+                    //   - the distance is too small, but the piece is "in front of" the line between the points (see tests for example)
+                    if (quadLeft === null || quadRight === null || distance >= CalculusGame.PIECE_RADIUS*4 || inFront) {
                         g.addEdge(id, "edge");
                         foundEdge = true;
                         break;
@@ -1103,7 +1133,9 @@ export class CalculusGame extends GameBase {
                 toVisit.push(mid);
             }
         }
-        return bidirectional(g, from === undefined ? "edge" : from.join(","), to.join(","));
+        const result = bidirectional(g, from === undefined ? "edge" : from.join(","), to.join(","));
+        // console.log(`Result: ${JSON.stringify(result)}`);
+        return result;
     }
 
     public clone(): CalculusGame {

@@ -45,7 +45,7 @@ export class EntrapmentGame extends GameBase {
         variants: [
             { uid: "size-7x7", group: "board" },
         ],
-        categories: ["goal>eliminate", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
+        categories: ["goal>annihilate", "mechanic>place", "mechanic>move", "mechanic>block", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["multistep", "limited-pieces"],
     };
 

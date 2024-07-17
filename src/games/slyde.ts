@@ -681,7 +681,7 @@ export class SlydeGame extends GameBase {
 
     public getPlayersScores(): IScores[] {
         return [{
-            name: i18next.t("apgames:status.SCORES"),
+            name: i18next.t("apgames:status.GROUPSIZES"),
             scores: [
                 `${this.sizes[0].join(",")}${this.sizes[0][this.sizes[0].length - 1] === 0 ? "" : "×1"}`,
                 `${this.sizes[1].join(",")}${this.sizes[1][this.sizes[1].length - 1] === 0 ? "" : "×1"}`,

@@ -577,7 +577,7 @@ export class CatchupGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.sizes[0].join(","), this.sizes[1].join(",")] }];
+        return [{ name: i18next.t("apgames:status.GROUPSIZES"), scores: [this.sizes[0].join(","), this.sizes[1].join(",")] }];
     }
 
     public status(): string {

@@ -156,7 +156,7 @@ export class StrandsGame extends GameBase {
     private buildSetup(): Map<string, number> {
         // Set up the initial board state.
         // For random setups.
-        if (this.variants.includes("") || this.variants.some((x) => x.endsWith("random"))) {
+        if (this.variants === undefined || this.variants.length === 0 || this.variants.includes("") || this.variants.some((x) => x.endsWith("random"))) {
             return this.getRandomSetup();
         }
         // For fixed setups.

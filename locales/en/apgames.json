@@ -1411,10 +1411,14 @@
             "CORNER_CELL": "In the octagon variant, the corner cells cannot be placed on."
         },
         "rootbound": {
+            "INITIAL_INSTRUCTIONS": "Place one or two pieces on an unclaimed empty space. Your pieces may not form a small triangle nor can you grow a group in a straight line from an existing piece.",
             "FIRST_MOVE_INSTRUCTIONS": "Place a piece anywhere on the board.",
-            "INITIAL_INSTRUCTIONS": "Place one or two pieces.",
+            "SECOND_MOVE_INSTRUCTIONS": "Place one or two pieces on empty spaces. You must make a second group as soon as possible.",
+            "ROOTBOUND_INSTRUCTIONS": "Place one or two pieces on an unclaimed empty space. You MAY form a small triangle during this phase, but you still cannot grow a group in a straight line from an existing piece.",
+            "CLAIMED_CELL": "You may not place a piece into a claimed territory.",
+            "BAD_SECOND_MOVE": "You must start by making a second group as soon as possible.",
             "TOO_MANY_NEIGHBORS": "Your pieces cannot form a small triangle.",
-            "RAPID_GROWTH": "You cannot grow a group in a straight line in a single turn."
+            "RAPID_GROWTH": "You cannot grow a group in a straight line from an existing piece in a single turn."
         },
         "saltire": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece, or select a piece to swap.",
@@ -2092,6 +2096,12 @@
                 "name": "no tiebreak"
             }
         },
+        "rootbound": {
+            "rules": {
+                "name": "rules",
+                "description": "The game ends immediately after both players pass in succession."
+            }
+        },
         "saltire": {
             "board": {
                 "name": "13x13 board"
@@ -2524,6 +2534,10 @@
         "dameo": {
             "size-10": {
                 "name": "10x10 board (experimental)"
+            },
+            "anti": {
+                "name": "Anti-Dameo",
+                "description": "The first player to run out of moves wins."
             }
         },
         "diffusion": {
@@ -2967,6 +2981,12 @@
             "anti": {
                 "name": "Anti-Reversi",
                 "description": "The player who has the fewest pieces at the end of the game wins."
+            }
+        },
+        "rootbound": {
+            "rootbound": {
+                "name": "Root Bound Phase",
+                "description": "The game includes a second phase of play after both players pass where stones can be placed without neighbor count restrictions."
             }
         },
         "saltire": {

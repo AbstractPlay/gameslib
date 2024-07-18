@@ -43,7 +43,8 @@ export class DameoGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-10", group: "board" }
+            { uid: "size-10", group: "board" },
+            { uid: "anti", experimental: true },
         ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "automove", "limited-pieces"]
@@ -549,7 +550,11 @@ export class DameoGame extends GameBase {
         const moves = this.moves();
         if (moves.length === 0) {
             this.gameover = true;
-            this.winner = [otherPlayer];
+            if (this.variants.includes("anti")) {
+                this.winner = [this.currplayer];
+            } else {
+                this.winner = [otherPlayer];
+            }
         }
 
         // draw if all that remains is 1 king vs 1 king

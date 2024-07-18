@@ -781,7 +781,7 @@ export class RootBoundGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
-        status += "**Scores**: " + this.getPlayerScore(1) + "-" + this.getPlayerScore(2) + "\n\n";
+        status += `**Scores**: ${this.getPlayerScore(1)}-${this.getPlayerScore(2)} \n\n`;
 
         return status;
     }

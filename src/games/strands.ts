@@ -723,7 +723,7 @@ export class StrandsGame extends GameBase {
                 M3: [{ text: "3", colour: "#98971A" }],
                 M4: [{ text: "4", colour: "#D3869B" }],
                 M5: [{ text: "5", colour: "#FE8019" }],
-                M6: [{ text: "6", colour: "#928374" }],
+                M6: [{ text: "6", colour: "#BDAE93" }],
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };

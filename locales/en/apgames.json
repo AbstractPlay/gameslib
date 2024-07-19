@@ -59,6 +59,7 @@
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
+        "gonnect": "Gonnect is a connection game where players try to connect any two opposite sides. All rules of Go apply except that players may not pass.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
@@ -925,6 +926,11 @@
             "INVALID_MOVE": "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
             "CAPTURE4MOVE": "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement."
+        },
+        "gonnect": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece.",
+            "SELF_CAPTURE": "You may not place your stones in self-capture.",
+            "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours."
         },
         "clearcut": {
             "BAD_PASS": "You may not pass if legal moves are available.",
@@ -1978,6 +1984,11 @@
                 "name": "no tiebreak"
             }
         },
+        "gonnect": {
+            "board": {
+                "name": "13x13 board"
+            }
+        },
         "clearcut": {
             "board": {
                 "name": "19x19 board"
@@ -2641,6 +2652,14 @@
             "pass": {
                 "name": "Pass tiebreak",
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, second player wins."
+            }
+        },
+        "gonnect": {
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
             }
         },
         "clearcut": {

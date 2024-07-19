@@ -518,9 +518,42 @@ export class OustGame extends GameBase {
         return this.pieceCounts[player - 1];
     }
 
+    private getGroupSizes(player: playerid): number[] {
+        // Get the sizes of all groups of pieces for `player`.
+        const groups: Set<string>[] = [];
+        const pieces = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
+        const seen: Set<string> = new Set();
+        for (const piece of pieces) {
+            if (seen.has(piece)) {
+                continue;
+            }
+            const group: Set<string> = new Set();
+            const todo: string[] = [piece];
+            while (todo.length > 0) {
+                const cell = todo.pop()!;
+                if (seen.has(cell)) {
+                    continue;
+                }
+                group.add(cell);
+                seen.add(cell);
+                const neighbours = this.getNeighbours(cell);
+                for (const n of neighbours) {
+                    if (pieces.includes(n)) {
+                        todo.push(n);
+                    }
+                }
+            }
+            groups.push(group);
+        }
+        return groups.map(g => g.size).sort((a, b) => b - a);
+    }
+
     public getPlayersScores(): IScores[] {
+        const groupSizes1 = this.getGroupSizes(1);
+        const groupSizes2 = this.getGroupSizes(2);
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: i18next.t("apgames:status.GROUPCOUNT"), scores: [groupSizes1.length, groupSizes2.length] },
+            { name: i18next.t("apgames:status.GROUPSIZES"), scores: [groupSizes1.join(","), groupSizes2.join(",")] },
         ]
     }
 
@@ -685,10 +718,16 @@ export class OustGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
-        status += "**Piece Counts**\n\n";
+        const scores = this.getPlayersScores();
+
+        status += "**Group Counts**\n\n";
         for (let n = 1; n <= this.numplayers; n++) {
-            const pieceCount = this.getPlayerScore(n as playerid);
-            status += `Player ${ n }: ${ pieceCount }\n\n`;
+            status += `Player ${ n }: ${ scores[0].scores[n - 1] }\n\n`;
+        }
+
+        status += "**Group Sizes**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${ n }: ${ scores[1].scores[n - 1] }\n\n`;
         }
 
         return status;

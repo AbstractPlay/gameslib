@@ -245,6 +245,7 @@
         },
         "fnap": "FNAP token",
         "focus": "Controlled",
+        "GROUPCOUNT": "Group count",
         "GROUPSIZES": "Group sizes",
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",

@@ -74,7 +74,7 @@ export class CalculusGame extends GameBase {
                 name: "Gord! (Gordon Hamilton)"
             }
         ],
-        flags: ["no-moves"],
+        flags: ["pie", "no-moves"],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>none", "components>simple>1per"],
         variants: [
             {

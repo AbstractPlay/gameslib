@@ -139,6 +139,7 @@ import { EntrapmentGame, IEntrapmentState } from "./entrapment";
 import { HexentaflGame, IHexentaflState } from "./hexentafl";
 import { VoloGame, IVoloState } from "./volo";
 import { StrandsGame, IStrandsState } from "./strands";
+import { GonnectGame, IGonnectState } from "./gonnect";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -280,6 +281,7 @@ export {
     HexentaflGame, IHexentaflState,
     VoloGame, IVoloState,
     StrandsGame, IStrandsState,
+    GonnectGame, IGonnectState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -328,7 +330,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SploofGame | typeof SpireGame | typeof SpreeGame |
                               typeof AsliGame | typeof ConectGame | typeof SlydeGame |
                               typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame |
-                              typeof VoloGame | typeof StrandsGame
+                              typeof VoloGame | typeof StrandsGame | typeof GonnectGame
                 >();
 // Manually add each game to the following array
 [
@@ -351,7 +353,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
-    HexentaflGame, VoloGame, StrandsGame,
+    HexentaflGame, VoloGame, StrandsGame, GonnectGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -639,6 +641,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new VoloGame(...args);
         case "strands":
             return new StrandsGame(...args);
+        case "gonnect":
+            return new GonnectGame(...args);
     }
     return;
 }

@@ -650,6 +650,7 @@ export class DameoGame extends GameBase {
                 style: "squares-checkered",
                 width: this.boardsize,
                 height: this.boardsize,
+                backFill: this.variants.includes("anti") ? { type: "board", colour: "#FFA500", opacity: 0.1 } : undefined,
             },
             legend: {
                 A: {

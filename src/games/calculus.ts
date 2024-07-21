@@ -947,6 +947,10 @@ export class CalculusGame extends GameBase {
         if (markers.length > 0) {
             (rep.board as BoardFreespace).markers = markers;
         }
+        // disable piece clicking if we're moving a piece
+        if (this.ghosts.length > 0) {
+            rep.options = ["no-piece-click"];
+        }
 
         return rep;
     }

@@ -1070,6 +1070,7 @@ export class EntrapmentGame extends GameBase {
         const toAddRoamers = [...toAdd.keys()].filter(cell => toAdd.get(cell) === player);
         for (const from of boardRoamers.concat(toAddRoamers)) {
             if (toRemove.includes(from)) { continue; }
+            if (forced.includes(from)) { continue; }
             if (this.checkForced(player, from, toRemove, toAdd, jumpedWalls, wallFrom, wallTo, wallPlacer)) {
                 forced.push(from);
             }

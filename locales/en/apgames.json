@@ -22,6 +22,7 @@
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
+        "bug": "In Bug, the goal is to fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
@@ -573,6 +574,13 @@
             "ONLY_FORWARD": "Pieces may only move forward.",
             "PARTIAL": "Provide the destination.",
             "TOOFAR": "Pieces can only move one space at a time."
+        },
+        "bug": {
+            "INITIAL_INSTRUCTIONS": "Select a cell to introduce a new bug, or grow an existing bug.",
+            "MERGE": "Placement at {{where}} will result in a merging of {{count}} bugs.",
+            "TOO_BIG": "You may not grow a bug to a size greater than {{size}}, the size of the current largest bug.",
+            "BAD_GROW": "Placement at {{where}} does not result in a valid bonus grow.",
+            "GROW": "You have bugs that must eat and perform bonus grow. Select a space adjacent to a bug that eats to perform a bonus grow."
         },
         "byte": {
             "DIAG_ONLY": "Stacks may only move diagonally.",
@@ -1880,6 +1888,11 @@
                 "name": "board (8x8)"
             }
         },
+        "bug": {
+            "board": {
+                "name": "size-4 board"
+            }
+        },
         "calculus": {
             "board": {
                 "description": "Roughly 12 pieces across"
@@ -2439,6 +2452,14 @@
             "bombardment": {
                 "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it.",
                 "name": "Bombardment"
+            }
+        },
+        "bug": {
+            "size-3": {
+                "name": "Size-3 board"
+            },
+            "size-5": {
+                "name": "Size-5 board"
             }
         },
         "byte": {

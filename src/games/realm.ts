@@ -204,6 +204,7 @@ export class RealmGame extends GameBase {
                 inhand: undefined
             };
             if ( (variants !== undefined) && (variants.length > 0) ) {
+                this.variants = [...variants];
                 let numBases = 12;
                 let numPowers = 3;
                 let numEnforcers = 8;
@@ -223,9 +224,6 @@ export class RealmGame extends GameBase {
                             break;
                         case "lessEnforcer":
                             numEnforcers--;
-                            break;
-                        default:
-                            this.variants.push(v);
                             break;
                     }
                 }

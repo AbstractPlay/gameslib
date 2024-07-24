@@ -63,6 +63,8 @@ export class BugGame extends GameBase {
     private boardSize = 0;
     private dots: string[] = [];
     private pieceHighlight: string[] = [];
+    private coords2cubicMap: Map<string, [number, number]>;
+    private cubic2coordsMap: Map<string, [number, number]>;
 
     constructor(state?: IBugState | string, variants?: string[]) {
         super();
@@ -91,6 +93,8 @@ export class BugGame extends GameBase {
             this.stack = [...state.stack];
         }
         this.load();
+        this.coords2cubicMap = this.getCoords2CubicMap();
+        this.cubic2coordsMap = this.getCubic2coordsMap(this.coords2cubicMap);
     }
 
     public load(idx = -1): BugGame {
@@ -136,6 +140,72 @@ export class BugGame extends GameBase {
     private buildGraph(): BugGame {
         this.graph = this.getGraph();
         return this;
+    }
+
+    private getCoords2CubicMap(): Map<string, [number, number]> {
+        // Get a map of coordinates to cubic coordinates.
+        // This should be run once at initialisation.
+        const centre = this.coords2algebraic(this.boardSize - 1, this.boardSize - 1);
+        const cubicMap: Map<string, [number, number]> = new Map();
+        for (const cell of this.graph.listCells() as string[]) {
+            const path = this.graph.path(centre, cell)!;
+            let [r, q] = [0, 0];
+            let curr = centre;
+            for (const step of path) {
+                const bearing = this.graph.bearing(curr, step)!;
+                switch (bearing) {
+                    case "NE":
+                        q++;
+                        r--;
+                        break;
+                    case "E":
+                        q++;
+                        break;
+                    case "SE":
+                        r++;
+                        break;
+                    case "SW":
+                        q--;
+                        r++;
+                        break;
+                    case "W":
+                        q--;
+                        break;
+                    case "NW":
+                        r--;
+                        break;
+                }
+                curr = step;
+            }
+            cubicMap.set(this.algebraic2coords(cell).join(","), [r, q]);
+        }
+        return cubicMap;
+    }
+
+    private getCubic2coordsMap(coords2cubicMap: Map<string, [number, number]>) {
+        // Get a map of cubic coordinates to coordinates.
+        // Just reverse the keys and values of the coords2cubic map.
+        // This should be run once at initialisation.
+        const coordsMap: Map<string, [number, number]> = new Map();
+        for (const [coords, cubic] of coords2cubicMap) {
+            coordsMap.set(cubic.join(","), coords.split(",").map(x => parseInt(x, 10)) as [number, number]);
+        }
+        return coordsMap;
+    }
+
+    private coords2cubic(x: number, y: number): [number, number] {
+        // Convert coordinates to cubic hex coordinates.
+        return this.coords2cubicMap.get(`${x},${y}`)!;
+    }
+
+    private cubic2coords(r: number, q: number): [number, number] {
+        // Convert cubic coordinates to hex coordinates.
+        return this.cubic2coordsMap.get(`${r},${q}`)!;
+    }
+
+    private algebraic2cubic(cell: string): [number, number] {
+        // Convert algebraic coordinates to cubic coordinates.
+        return this.coords2cubic(...this.algebraic2coords(cell));
     }
 
     public moves(player?: playerid): string[] {
@@ -377,77 +447,6 @@ export class BugGame extends GameBase {
         return enemyGroups;
     }
 
-    private sortCubicDeltas(delta1: [number, number, number], delta2: [number, number, number]): number {
-        // Sort by smallest q, then largest r.
-        if (delta1[1] !== delta2[1]) {
-            return delta1[1] - delta2[1];
-        }
-        return delta2[0] - delta1[0];
-    }
-
-    private normaliseCubicDeltas(deltas: [number, number, number][]): [number, number, number][] {
-        // Make it so that the cubic deltas are all made with respect to the bottom-left cell.
-        // In other words, the result never be such that q is negative when r is not negative.
-        // Sort by smallest q, then largest r.
-        const sorted = [...deltas].sort((a, b) => this.sortCubicDeltas(a, b));
-        // Now check the first element. If the q is negative and the r is positive, the new origin will be the first element.
-        const [r, q, s] = sorted[0];
-        if (r >= 0 && q < 0) {
-            const newDeltas: [number, number, number][] = [[-r, -q, -s]];
-            for (const [x, y, z] of sorted) {
-                if (r === x && y === q) { continue; }
-                newDeltas.push([x - r, y - q, z - s]);
-            }
-            return newDeltas.sort((a, b) => this.sortCubicDeltas(a, b));
-        }
-        return sorted;
-    }
-
-    private getCubicDeltas(group: Set<string>): [number, number, number][] {
-        // Get the config for a group.
-        // Choose an arbitrary reference cell. It will be normalised later.
-        const ref = group.values().next().value as string;
-        const deltas: [number, number, number][] = [];
-        for (const cell of group) {
-            if (cell === ref) { continue; }
-            const path = this.graph.path(ref, cell)!;
-            let [r, q, s] = [0, 0, 0];
-            let curr = ref;
-            for (const step of path) {
-                const bearing = this.graph.bearing(curr, step)!;
-                switch (bearing) {
-                    case "NE":
-                        q++;
-                        r--;
-                        break;
-                    case "E":
-                        q++;
-                        s--;
-                        break;
-                    case "SE":
-                        r++;
-                        s--;
-                        break;
-                    case "SW":
-                        q--;
-                        r++;
-                        break;
-                    case "W":
-                        q--;
-                        s++;
-                        break;
-                    case "NW":
-                        s++;
-                        r--;
-                        break;
-                }
-                curr = step;
-            }
-            deltas.push([r, q, s]);
-        }
-        return this.normaliseCubicDeltas(deltas);
-    }
-
     private getAllConfigs(group: Set<string>): Set<string> {
         // Get all unique representations of a group.
         // If the shape is completely asymmetric, there will be 12 unique configurations.
@@ -456,32 +455,39 @@ export class BugGame extends GameBase {
         } else if (group.size === 2) {
             return new Set(["2"]);
         }
-        const deltas = this.getCubicDeltas(group);
-        const allDeltas: [number, number, number][][] = [deltas];
-        let currDeltas = deltas;
+        let currCubic = [...group].map(cell => this.algebraic2cubic(cell));
+        const allCubics: [number, number][][] = [currCubic];
         for (let i = 0; i < 5; i++) {
-            const newDeltas: [number, number, number][] = [];
-            for (const delta of currDeltas) {
-                newDeltas.push([-delta[1], -delta[2], -delta[0]]);
+            const newDeltas: [number, number][] = [];
+            for (const delta of currCubic) {
+                newDeltas.push([-delta[1], delta[1] + delta[0]]);
             }
-            const newDeltasNorm = this.normaliseCubicDeltas(newDeltas);
-            allDeltas.push(newDeltasNorm);
-            currDeltas = newDeltasNorm;
+            allCubics.push(newDeltas);
+            currCubic = newDeltas;
         }
         // Reflecting across r-axis
-        const reflectedDeltas = deltas.map(d => [d[0], d[2], d[1]] as [number, number, number]);
-        allDeltas.push(this.normaliseCubicDeltas(reflectedDeltas));
-        currDeltas = reflectedDeltas;
+        currCubic = currCubic.map(d => [d[0], -d[0] - d[1]] as [number, number]);
+        allCubics.push(currCubic);
         for (let i = 0; i < 5; i++) {
-            const newDeltas: [number, number, number][] = [];
-            for (const delta of currDeltas) {
-                newDeltas.push([-delta[1], -delta[2], -delta[0]]);
+            const newDeltas: [number, number][] = [];
+            for (const delta of currCubic) {
+                newDeltas.push([-delta[1], delta[1] + delta[0]]);
             }
-            const newDeltasNorm = this.normaliseCubicDeltas(newDeltas);
-            allDeltas.push(newDeltasNorm);
-            currDeltas = newDeltasNorm;
+            allCubics.push(newDeltas);
+            currCubic = newDeltas;
         }
-        return new Set(allDeltas.map(x => x.map(d => `${d[0]},${d[1]}`).join(";")));
+        return new Set(allCubics.map(d => this.cubic2string(d)));
+    }
+
+    private cubic2string(cubic: [number, number][]): string {
+        // Normalise the cubic coordinates of a group to get a unique representation.
+        // We first get the usual coordinates and sort by y, then x to get the reference cell.
+        // Then, we shift all cubic coordinates so that the reference cell is at (0, 0).
+        // We don't need the first cell since it is always (0, 0).
+        // We then sort the rest in an arbitrarily consistent way, and then join everything into a string.
+        const sorted = cubic.map(d => this.cubic2coords(...d)).sort((a, b) => a[1] - b[1] || a[0] - b[0]).map(c => this.coords2cubic(...c));
+        const [x, y] = sorted[0];
+        return sorted.slice(1).map(([a, b]) => [a - x, b - y]).map(d => d.join(",")).sort().join(";");
     }
 
     private getConfig(group: Set<string>): string {
@@ -491,8 +497,7 @@ export class BugGame extends GameBase {
         } else if (group.size === 2) {
             return "2";
         }
-        const deltas = this.getCubicDeltas(group);
-        return deltas.map(d => `${d[0]},${d[1]}`).join(";");
+        return this.cubic2string([...group].map(cell => this.algebraic2cubic(cell)));
     }
 
     private getAdjacentFree(group: Set<string>, board?: Map<string, playerid>, captured: Set<string>[] = []): Set<string> {

@@ -75,8 +75,7 @@ export class StigmergyGame extends GameBase {
             },
             {
                 uid: "nokomi",
-                group: "komi",
-                experimental: true
+                group: "komi"
             }
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],

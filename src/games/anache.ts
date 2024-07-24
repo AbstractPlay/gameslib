@@ -288,6 +288,31 @@ export class AnacheGame extends GameBase {
         return true;
     }
 
+    private getAllGroups(player: playerid, board: Map<string, CellContents>): Set<string>[] {
+        const groups: Set<string>[] = [];
+        const pieces = [...board.entries()].filter(e => e[1] === player).map(e => e[0]);
+        const seen: Set<string> = new Set();
+        for (const piece of pieces) {
+            if (seen.has(piece)) { continue; }
+            const group: Set<string> = new Set();
+            const todo: string[] = [piece]
+            while (todo.length > 0) {
+                const cell = todo.pop()!;
+                if (seen.has(cell)) { continue; }
+                group.add(cell);
+                seen.add(cell);
+                const neighbours = this.getNeighbours(cell);
+                for (const n of neighbours) {
+                    if (pieces.includes(n)) {
+                        todo.push(n);
+                    }
+                }
+            }
+            groups.push(group);
+        }
+        return groups;
+    }
+
     private getGroup(cell: string, board: Map<string, CellContents>): Set<string> {
         // Get the group of cells that are connected to `cell`.
         const seen: Set<string> = new Set();
@@ -324,18 +349,20 @@ export class AnacheGame extends GameBase {
         return false;
     }
 
-    private formsBarrier(piece: string, board: Map<string, CellContents>): boolean {
+    private formsBarrier(player: playerid, board: Map<string, CellContents>): boolean {
         // Check if a barrier is formed.
-        // Provide a single piece in the group.
-        const group = this.getGroup(piece, board);
-        let seenLeft = false;
-        let seenRight = false;
-        for (const cell of group) {
-            const [x, ] = this.algebraic2coords(cell);
-            if (x === 0) { seenLeft = true; }
-            if (x === this.boardSize - 1) { seenRight = true; }
+        const groups = this.getAllGroups(player, board);
+        for (const group of groups) {
+            let seenLeft = false;
+            let seenRight = false;
+            for (const cell of group) {
+                const [x, ] = this.algebraic2coords(cell);
+                if (x === 0) { seenLeft = true; }
+                if (x === this.boardSize - 1) { seenRight = true; }
+            }
+            if (seenLeft && seenRight) { return true; }
         }
-        return seenLeft && seenRight;
+        return false;
     }
 
     private getArrows(group: string[], board: Map<string, CellContents>, player: playerid, hasDragon = false): Map<string, Direction> {
@@ -724,7 +751,7 @@ export class AnacheGame extends GameBase {
                 const tos = this.shiftGroup(froms, dir as Direction);
                 froms.forEach((f) => movedPieces.delete(f));
                 tos.forEach((t) => movedPieces.add(t));
-                if (i === moves.length - 1 && dir !== undefined && dir !== "" && this.formsBarrier(tos[0], newBoard)) {
+                if (i === moves.length - 1 && dir !== undefined && dir !== "" && this.formsBarrier(this.currplayer, newBoard)) {
                     formsBarrier = true;
                 }
             }

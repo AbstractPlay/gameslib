@@ -44,7 +44,7 @@ Current flags are the following:
 * `no-moves`: signals that the game cannot produce a list of possible moves. In all other games, you can use `moves(player?: number) => string[]` to get a list of valid moves.
 * `perspective`: signals that the game can adjust the rendered image for a player's perspective. The front end should set the default rotation for the different players accordingly. By increments of 180, or 90 if `rotate90` is set.
 * `pie-even`: Same as `pie` but the back end will automatically insert a "pass" move after the invocation.
-* `pie`: The front end should give the second player a chance to switch seats after the first move.
+* `pie`: The front end should give the second player a chance to switch seats after the first move. Use `isPieTurn() => boolean` and `shouldOfferPie() => boolean`, if defined, to control if and when a pie offer should be shown.
 * `player-stashes`: signals that players have their own piece stashes. Use `getPlayerStash(playerid: number) => IPlayerStash` to fetch a player's current stash. `IPlayerStash` contains the properties `small`, `medium`, and `large`, each containing a number. Mutually exclusive with `limited-pieces`;
 * `random-start`: Tells the game record generator to insert the starting position into the game record. It does this by calling `getStartingPosition() => string`.
 * `rotate90`: Whether the board can be rotated by 90 degree increments. If not set, only 180 degree increments are assumed.

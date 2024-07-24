@@ -52,15 +52,20 @@ export class PletoreGame extends GameBase {
         variants: [
             {
                 uid: "size-11",
-                group: "board",
+                group: "board"
             },
             {
                 uid: "size-15",
-                group: "board",
+                group: "board"
             },
             {
                 uid: "size-17",
-                group: "board",
+                group: "board"
+            },
+            {
+                uid: "nokomi",
+                group: "komi",
+                experimental: true
             }
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
@@ -130,7 +135,7 @@ export class PletoreGame extends GameBase {
         this.results = [...state._results];
         this.scores = [...state.scores];
         this.buttontaker = state.buttontaker;
-        this.komi = state.komi;
+        this.komi = (this.isKomiRuleActive()) ? state.komi : 0;
         return this;
     }
 
@@ -175,6 +180,18 @@ export class PletoreGame extends GameBase {
         return 13;
     }
 
+    private isKomiRuleActive(): boolean {
+        return this.variants === undefined || this.variants.length === 0 || !this.variants.includes("nokomi");
+    }
+
+    public isPieTurn(): boolean {
+        return this.stack.length === 2;
+    }
+
+    public shouldOfferPie(): boolean {
+        return this.isKomiRuleActive();
+    }
+
     public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
@@ -183,10 +200,12 @@ export class PletoreGame extends GameBase {
         let freeSpaces = false;
         const otherPlayer = this.getOtherPlayer(player);
 
-        if (this.stack.length === 1) {
-            return [];
-        } else if (this.stack.length === 2) {
-            return ["pie"];
+        if (this.isKomiRuleActive()) {
+            if (this.stack.length === 1) {
+                return [];
+            } else if (this.stack.length === 2) {
+                return ["pie"];
+            }
         }
 
         const moves: string[] = [];
@@ -227,7 +246,7 @@ export class PletoreGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            if (this.stack.length < 3) {
+            if (this.isKomiRuleActive() && this.stack.length < 3) {
                 const dummyResult = this.validateMove("") as IClickResult;
                 dummyResult.move = "";
                 return dummyResult;
@@ -284,7 +303,7 @@ export class PletoreGame extends GameBase {
 
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        if (this.stack.length === 1) {
+        if (this.isKomiRuleActive() && this.stack.length === 1) {
             if (m.length === 0) {
                 result.valid = true;
                 result.complete = -1;
@@ -314,7 +333,7 @@ export class PletoreGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.stack.length === 2) {
+            if (this.isKomiRuleActive() && this.stack.length === 2) {
                 result.message = i18next.t("apgames:validation.pletore.KOMI_CHOICE");
             } else if (this.isButtonActive())
                 result.message = i18next.t("apgames:validation.pletore.INITIAL_INSTRUCTIONS_BUTTON");
@@ -421,7 +440,7 @@ export class PletoreGame extends GameBase {
         }
 
         this.results = [];
-        if (this.stack.length === 1) {
+        if (this.isKomiRuleActive() && this.stack.length === 1) {
             this.komi = parseInt(m, 10);
             const max = (this.boardSize**2) + 1;
             const min = max * -1;
@@ -430,7 +449,7 @@ export class PletoreGame extends GameBase {
             this.results.push({type: "komi", value: this.komi});
         } else if (m === "pass") {
             // This happens iff the invoke pie option is used.
-            if (this.stack.length === 2) {
+            if (this.isKomiRuleActive() && this.stack.length === 2) {
                 m = "pie";
                 this.results.push({type: "pie"});
             } else {

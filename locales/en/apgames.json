@@ -2096,6 +2096,10 @@
         "pletore": {
             "board": {
                 "name": "board (13x13)"
+            },
+            "komi": {
+                "name": "komi offer",
+                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards."
             }
         },
         "quagmire": {
@@ -2193,6 +2197,10 @@
             "rules": {
                 "name": "rules",
                 "description": "You control a space by controlling more than half of its lines of sight."
+            },
+            "komi": {
+                "name": "komi offer",
+                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards."
             }
         },
         "strands": {
@@ -2905,6 +2913,10 @@
             },
             "size-17": {
                 "name": "Largest board (17x17)"
+            },
+            "nokomi": {
+                "name": "No komi offer",
+                "description": "The game will be played without a second player bonus. Good for beginners."
             }
         },
         "quagmire": {
@@ -3121,6 +3133,10 @@
             "tumpletore": {
                 "name": "Tumpletore",
                 "description": "You control a space by controlling more of its lines of sight than your opponent."
+            },
+            "nokomi": {
+                "name": "No komi offer",
+                "description": "The game will be played without a second player bonus. Good for beginners."
             }
         },
         "strands": {

@@ -140,6 +140,7 @@ import { HexentaflGame, IHexentaflState } from "./hexentafl";
 import { VoloGame, IVoloState } from "./volo";
 import { StrandsGame, IStrandsState } from "./strands";
 import { GonnectGame, IGonnectState } from "./gonnect";
+import { BugGame, IBugState } from "./bug";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -282,6 +283,7 @@ export {
     VoloGame, IVoloState,
     StrandsGame, IStrandsState,
     GonnectGame, IGonnectState,
+    BugGame, IBugState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -330,7 +332,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SploofGame | typeof SpireGame | typeof SpreeGame |
                               typeof AsliGame | typeof ConectGame | typeof SlydeGame |
                               typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame |
-                              typeof VoloGame | typeof StrandsGame | typeof GonnectGame
+                              typeof VoloGame | typeof StrandsGame | typeof GonnectGame |
+                              typeof BugGame
                 >();
 // Manually add each game to the following array
 [
@@ -353,7 +356,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
-    HexentaflGame, VoloGame, StrandsGame, GonnectGame,
+    HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -643,6 +646,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new StrandsGame(...args);
         case "gonnect":
             return new GonnectGame(...args);
+        case "bug":
+            return new BugGame(...args);
     }
     return;
 }

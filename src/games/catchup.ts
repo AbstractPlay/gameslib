@@ -45,7 +45,7 @@ export class CatchupGame extends GameBase {
                 // urls: ["https://www.nickbentley.games/"],
             }
         ],
-        categories: ["goal>score>eog", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["scores", "no-moves", "custom-randomization"],
         variants: [
             {

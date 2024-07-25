@@ -899,7 +899,7 @@ export class HomeworldsGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
-        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")||"DEFAULT_HANDLER"};
 
         const myseat = this.player2seat(this.currplayer);
         const mysys = this.systems.find(s => s.owner === myseat);
@@ -1962,15 +1962,25 @@ export class HomeworldsGame extends GameBase {
             }
 
             const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
+            // system exists
             if (system === undefined) {
                 result.valid = false;
                 result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
                 return result;
             }
 
+            // different colour
             if (newColour[0] === oldShip[0]) {
                 result.valid = false;
                 result.message = i18next.t("apgames:homeworlds.CMD_TRADE_DOUBLE");
+                return result;
+            }
+
+            // appropriate size available
+            const oldSize = parseInt(oldShip[1], 10);
+            if (! this.stash.has(newColour as Colour, oldSize as Size)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_TRADE_NOSIZE", {size: oldSize, colour: newColour});
                 return result;
             }
 

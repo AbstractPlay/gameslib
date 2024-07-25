@@ -42,6 +42,7 @@
         "hens_chick": "{{player}} captured a chick at {{where}}.",
         "hens_hen": "{{player}} captured a hen at {{where}}.",
         "hexentafl_king": "The king was captured at {{where}}.",
+        "majorities": "{{count}} pieces were removed.",
         "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
         "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
         "mattock": "{{player}} captured a miner at {{where}}.",
@@ -101,6 +102,10 @@
         "fnap_col": "{{player}} claimed column {{where}}.",
         "fnap_fnap": "{{player}} has claimed the FNAP token.",
         "fnap_row": "{{player}} claimed row {{where}}.",
+        "majorities_line": "{{player}} claimed the line {{where}}.",
+        "majorities_H": "{{player}} claimed the horizontal direction.",
+        "majorities_A": "{{player}} claimed the ascending direction.",
+        "majorities_D": "{{player}} claimed the descending direction.",
         "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
     "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",

@@ -27,6 +27,8 @@ export class BugGame extends GameBase {
         dateAdded: "2024-07-21",
         // i18next.t("apgames:descriptions.bug")
         description: "apgames:descriptions.bug",
+        // i18next.t("apgames:notes.bug")
+        notes: "apgames:notes.bug",
         urls: ["https://boardgamegeek.com/boardgame/240835/bug"],
         people: [
             {

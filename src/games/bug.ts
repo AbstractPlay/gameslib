@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -27,6 +27,8 @@ export class BugGame extends GameBase {
         dateAdded: "2024-07-21",
         // i18next.t("apgames:descriptions.bug")
         description: "apgames:descriptions.bug",
+        // i18next.t("apgames:notes.bug")
+        notes: "apgames:notes.bug",
         urls: ["https://boardgamegeek.com/boardgame/240835/bug"],
         people: [
             {
@@ -41,6 +43,7 @@ export class BugGame extends GameBase {
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
         flags: ["experimental", "no-moves", "custom-randomization"],
+        displays: [{uid: "hide-moves"}],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -362,6 +365,20 @@ export class BugGame extends GameBase {
         return result;
     }
 
+    private getFirstMoves(player: playerid): string[] {
+        // Get the first moves for a player.
+        const firstMoves: string[] = [];
+        const largestBug = this.getLargestBug();
+        for (const cell of this.graph.listCells() as string[]) {
+            if (this.board.has(cell)) { continue; }
+            const adjacentGroups = this.getAdjacentGroups(player, cell);
+            if (adjacentGroups.length > 1) { continue; }
+            if (adjacentGroups.length > 0 && adjacentGroups[0].size === largestBug) { continue; }
+            firstMoves.push(cell);
+        }
+        return firstMoves;
+    }
+
     private hasMoves(player: playerid): boolean {
         // Check if the player has any moves.
         const largestBug = this.getLargestBug();
@@ -651,7 +668,17 @@ export class BugGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showMoves = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-moves") {
+                showMoves = false;
+            }
+        }
         // Build piece string
         const pstr: string[][] = [];
         const cells = this.graph.listCells(true);
@@ -711,13 +738,21 @@ export class BugGame extends GameBase {
                 }
             }
         }
-        if (this.dots.length > 0) {
+        if (showMoves) {
             const points = [];
-            for (const cell of this.dots) {
-                const [x, y] = this.algebraic2coords(cell);
-                points.push({ row: y, col: x });
+            if (this.dots.length > 0) {
+                for (const cell of this.dots) {
+                    const [x, y] = this.algebraic2coords(cell);
+                    points.push({ row: y, col: x });
+                }
+            } else {
+                // This means that it's at the start of a move.
+                for (const cell of this.getFirstMoves(this.currplayer)) {
+                    const [x, y] = this.algebraic2coords(cell);
+                    points.push({ row: y, col: x });
+                }
             }
-            rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
+            rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]], opacity: 0.2 });
         }
         return rep;
     }

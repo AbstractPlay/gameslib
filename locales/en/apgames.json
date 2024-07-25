@@ -3407,6 +3407,12 @@
                 "name": "Hide threatened"
             }
         },
+        "bug": {
+            "hide-moves": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
+            }
+        },
         "cannon": {
             "hide-threatened": {
                 "description": "Don't highlight pieces that are threatened by cannon fire.",

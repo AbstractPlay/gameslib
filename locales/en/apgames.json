@@ -205,6 +205,7 @@
         "CMD_PASS_TOOMANY": "You tried to pass more actions than you have remaining.",
         "CMD_STARSHIP_NAME": "The following ship/star designation could not be understood: {{arg}}.",
         "CMD_TRADE_DOUBLE": "You can't trade a ship for one of the same colour.",
+        "CMD_TRADE_NOSIZE": "There is no size {{size}} piece in the colour {{colour}}.",
         "MOVE_MOREACTIONS": "You still have actions to spend.",
         "MOVE_SELFELIMINATE": "You may not eliminate yourself.",
         "MOVE_UNRECOGNIZED": "Unrecognized command: {{cmd}}.",

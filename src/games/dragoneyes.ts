@@ -504,6 +504,8 @@ export class DragonEyesGame extends GameBase {
                     pieces.push(this.board.get(cell)![1] ? "D" : "A");
                 } else if (this.board.get(cell)![0] === 2) {
                     pieces.push(this.board.get(cell)![1] ? "E" : "B");
+                } else if (this.board.get(cell)![0] === 4) {
+                    pieces.push("F");
                 } else {
                     pieces.push("C");
                 }
@@ -538,7 +540,8 @@ export class DragonEyesGame extends GameBase {
                 B: { name: "piece", colour: 2 },
                 C: { name: "piece", colour: 9 },
                 D: { name: "piece-horse", colour: 1 },
-                E: { name: "piece-horse", colour: 2 }
+                E: { name: "piece-horse", colour: 2 },
+                F: { name: "piece", colour: 5 }
             },
             pieces: pstr.map(p => p.join("")).join("\n")
         };

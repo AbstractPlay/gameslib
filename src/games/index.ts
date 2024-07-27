@@ -141,6 +141,7 @@ import { VoloGame, IVoloState } from "./volo";
 import { StrandsGame, IStrandsState } from "./strands";
 import { GonnectGame, IGonnectState } from "./gonnect";
 import { BugGame, IBugState } from "./bug";
+import { DragonEyesGame, IDragonEyesState } from "./dragoneyes";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -284,6 +285,7 @@ export {
     StrandsGame, IStrandsState,
     GonnectGame, IGonnectState,
     BugGame, IBugState,
+    DragonEyesGame, IDragonEyesState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -333,7 +335,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AsliGame | typeof ConectGame | typeof SlydeGame |
                               typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame |
                               typeof VoloGame | typeof StrandsGame | typeof GonnectGame |
-                              typeof BugGame
+                              typeof BugGame | typeof DragonEyesGame
                 >();
 // Manually add each game to the following array
 [
@@ -356,7 +358,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SponnectGame, AkronGame, MargoGame, NecklaceGame, UpperHandGame, OustGame, SusanGame, OwareGame,
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
-    HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame,
+    HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -648,6 +650,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new GonnectGame(...args);
         case "bug":
             return new BugGame(...args);
+        case "dragoneyes":
+            return new DragonEyesGame(...args);
     }
     return;
 }

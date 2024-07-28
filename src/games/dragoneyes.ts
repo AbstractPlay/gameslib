@@ -41,7 +41,7 @@ export class DragonEyesGame extends GameBase {
             name: "Vadrya Pokshtya",
         }],
         categories: ["goal>score>eog", "mechanic>capture", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["automove", "limited-pieces", "custom-buttons"],
+        flags: ["automove", "limited-pieces", "custom-buttons", "experimental"],
         variants: [{uid: "claimdraw", group: "rules"}]
     };
 

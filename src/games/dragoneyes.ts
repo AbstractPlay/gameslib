@@ -291,6 +291,10 @@ export class DragonEyesGame extends GameBase {
             result.move = matches[0];
             result.valid = true;
             result.complete = 1;
+        } else if (matches.length > 1 && !matches[0].includes("-")) {
+            result.move = newMove;
+            result.valid = true;
+            result.complete = 1;
         } else if (matches.length > 1) {
             for (let i = newMove.length; i < matches[0].length; i++) {
                 const match = matches[0].substring(0, i+1);

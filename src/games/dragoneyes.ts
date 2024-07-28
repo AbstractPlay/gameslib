@@ -204,6 +204,7 @@ export class DragonEyesGame extends GameBase {
             for (const dir of HexTriGraph.directions) {
                 for (const [i, j] of this.getGraph().ray(x, y, dir)) {
                     const cell = this.getGraph().coords2algebraic(i, j);
+                    if (this.eyes.includes(cell)) break;
                     if (board.has(cell)) {
                         if (board.get(cell)![0] === (player === 1 ? 2 : 1)) {
                             ret.push(cell);
@@ -303,6 +304,7 @@ export class DragonEyesGame extends GameBase {
             result.move = newMove;
             result.valid = true;
         } else {
+            result.canrender = false;
             result.move = move;
         }
         return result;
@@ -314,6 +316,13 @@ export class DragonEyesGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.canrender = true;
+            return result;
+        }
+
+        if (m === "draw") {
+            result.valid = true;
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
 

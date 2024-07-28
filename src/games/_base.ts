@@ -514,6 +514,9 @@ export abstract class GameBase  {
                             case "komi":
                                 node.push(i18next.t("apresults:KOMI", {player: name, value: r.value}));
                                 break;
+                            case "flip":
+                                node.push(i18next.t("apresults:FLIP", {player: name, where: r.where, revealed: r.revealed}));
+                                break;
                             case "reclaim":
                                 node.push(i18next.t("apresults:RECLAIM.noperson", {what: r.what}));
                                 break;

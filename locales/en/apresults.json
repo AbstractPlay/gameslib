@@ -154,6 +154,7 @@
         "pigs_F": "{{player}} fired their laser at {{direction}}.",
         "pigs_H": "{{player}} swung their mighty snout!"
     },
+    "FLIP": "{{player}} flips {{where}} and reveals {{revealed}}.",
     "FURL": {
         "furl": "{{player}} furls {{count}} pieces from {{from}} to {{to}}."
     },

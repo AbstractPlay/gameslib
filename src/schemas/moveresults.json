@@ -885,6 +885,22 @@
             },
             "required": ["type", "value"],
             "additionalProperties": false
+        },
+        {
+            "description": "Used when flipping pieces over.",
+            "properties": {
+                "type": {
+                    "enum": ["flip"]
+                },
+                "where": {
+                    "type": "string"
+                },
+                "revealed": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "where", "revealed"],
+            "additionalProperties": false
         }
     ]
 }

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const deepclone = require("rfdc/default");
 
 type PlayerId = 1|2|3;
@@ -112,6 +110,7 @@ export class RootBoundGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         this.board = deepclone(state.board) as Map<string, CellContent>;
         this.lastmove = state.lastmove;
         this.lastgroupid = state.lastgroupid;
@@ -271,6 +270,7 @@ export class RootBoundGame extends GameBase {
         if (this.board.has(secondCell)) return false;
 
         if (!this.rootbound) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             const boardClone = deepclone(this.board) as Map<string, CellContent>;
             boardClone.set(firstCell, [player, 10000]);
             const neighbors = this.getGraph().neighbours(secondCell).filter(c => boardClone.has(c) && boardClone.get(c)![0] === player);
@@ -453,6 +453,7 @@ export class RootBoundGame extends GameBase {
 
             if (cells.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1])) {
                 if (!this.rootbound) {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                     const boardClone = deepclone(this.board) as Map<string, CellContent>;
                     boardClone.set(cells[0], [this.currplayer, 10000]);
                     const neighbors = this.getGraph().neighbours(cells[1]).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer);
@@ -682,6 +683,7 @@ export class RootBoundGame extends GameBase {
             lastmove: this.lastmove,
             lastgroupid: this.lastgroupid,
             rootbound: this.rootbound,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             board: deepclone(this.board) as Map<string, CellContent>,
             scores: [...this.scores]
         };
@@ -731,7 +733,7 @@ export class RootBoundGame extends GameBase {
         }
 
         // Build rep
-        const rep: APRenderRep =  {
+        const rep: APRenderRep = {
             board: {
                 style: "hex-of-tri",
                 minWidth: this.boardsize,

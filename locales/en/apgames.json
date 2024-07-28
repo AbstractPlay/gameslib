@@ -43,6 +43,7 @@
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
+        "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
         "entrapment": "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way, the game is over and his or her opponent declared the winner.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
         "epam": "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
@@ -748,6 +749,11 @@
             "TOOFAR_edge": "The stack at {{from}} can't reach the edge from there.",
             "TOOFAR": "You can only move as far as your stack is high.",
             "NOTDARKSQUARE": "You can only play on the dark squares."
+        },
+        "dragoneyes": {
+            "INITIAL_INSTRUCTIONS_CAPTURE": "Click a piece/space with a dot to begin or continue a capture chain.",
+            "INITIAL_INSTRUCTIONS_ONE": "Click a gray piece to flip and reveal the owner.",
+            "INITIAL_INSTRUCTIONS_TWO": "Select one of your pieces to move. Then click a space with a dot to choose where to move."
         },
         "entrapment": {
             "INITIAL_INSTRUCTIONS_SETUP": "Select a space to place a roamer",
@@ -1962,6 +1968,10 @@
         "dameo": {
             "board": "board (8x8)"
         },
+        "dragoneyes": {
+            "rules": "rules",
+            "description": "Draws are triggered automatically."
+        },
         "entrapment": {
             "board": {
                 "name": "board (6x7)"
@@ -2592,6 +2602,12 @@
         "dipole": {
             "international": {
                 "name": "Larger board: 10x10"
+            }
+        },
+        "dragoneyes": {
+            "claimdraw": {
+                "name": "Claim Draws",
+                "description": "You must choose to claim a draw on your turn."
             }
         },
         "entrapment": {

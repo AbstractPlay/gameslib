@@ -291,4 +291,9 @@ export type APMoveResult =
   | {
       type: "komi";
       value: number;
+    }
+  | {
+      type: "flip";
+      where: string;
+      revealed: string;
     };

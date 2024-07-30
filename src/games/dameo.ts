@@ -557,26 +557,28 @@ export class DameoGame extends GameBase {
             }
         }
 
-        // draw if all that remains is 1 king vs 1 king
-        const men = [...this.board.entries()].filter(([,piece]) => piece[1] === 1).map(([,piece]) => piece[0]);
-        const kings = [...this.board.entries()].filter(([,piece]) => piece[1] === 2).map(([,piece]) => piece[0]);
-        if (men.length === 0 && kings.length === 2 && kings.includes(1) && kings.includes(2)) {
-            // check to see if next move captures the king
-            let capped = false;
-            for (const move of moves) {
-                const cells = move.split("-");
-                const [fx, fy] = this.algebraic2coords(cells[0]);
-                const [tx, ty] = this.algebraic2coords(cells[1]);
-                capped = RectGrid.between(fx, fy, tx, ty)
-                    .map(pt => this.coords2algebraic(...pt))
-                    .some(cell => this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer);
-                if (capped) {
-                    break;
+        if (!this.variants.includes("anti")) {
+            // draw if all that remains is 1 king vs 1 king
+            const men = [...this.board.entries()].filter(([,piece]) => piece[1] === 1).map(([,piece]) => piece[0]);
+            const kings = [...this.board.entries()].filter(([,piece]) => piece[1] === 2).map(([,piece]) => piece[0]);
+            if (men.length === 0 && kings.length === 2 && kings.includes(1) && kings.includes(2)) {
+                // check to see if next move captures the king
+                let capped = false;
+                for (const move of moves) {
+                    const cells = move.split("-");
+                    const [fx, fy] = this.algebraic2coords(cells[0]);
+                    const [tx, ty] = this.algebraic2coords(cells[1]);
+                    capped = RectGrid.between(fx, fy, tx, ty)
+                        .map(pt => this.coords2algebraic(...pt))
+                        .some(cell => this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer);
+                    if (capped) {
+                        break;
+                    }
                 }
-            }
-            if (! capped) {
-                this.gameover = true;
-                this.winner = [1,2];
+                if (! capped) {
+                    this.gameover = true;
+                    this.winner = [1,2];
+                }
             }
         }
 

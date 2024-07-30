@@ -103,7 +103,7 @@
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
-        "rootbound": "In Root Bound, two players’ plants vie for control of the space at the sides of a planter as the room for new growth rapidly dwindles.",
+        "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
@@ -1437,11 +1437,11 @@
             "INITIAL_INSTRUCTIONS": "Place one or two pieces on an unclaimed empty space. Your pieces may not form a small triangle nor can you grow a group in a straight line from an existing piece.",
             "FIRST_MOVE_INSTRUCTIONS": "Place a piece anywhere on the board.",
             "SECOND_MOVE_INSTRUCTIONS": "Place one or two pieces on empty spaces. You must make a second group as soon as possible.",
-            "ROOTBOUND_INSTRUCTIONS": "Place one or two pieces on an unclaimed empty space. You MAY form a small triangle during this phase, but you still cannot grow a group in a straight line from an existing piece.",
             "CLAIMED_CELL": "You may not place a piece into a claimed territory.",
             "BAD_SECOND_MOVE": "You must start by making a second group as soon as possible.",
             "TOO_MANY_NEIGHBORS": "Your pieces cannot form a small triangle.",
-            "RAPID_GROWTH": "You cannot grow a group in a straight line from an existing piece in a single turn."
+            "RAPID_GROWTH": "You cannot grow a group in a straight line from an existing piece in a single turn.",
+            "TOO_FEW_GROUPS": "You cannot end a turn with only one group unless it claims territory."
         },
         "saltire": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece, or select a piece to swap.",
@@ -2135,12 +2135,6 @@
             },
             "tiebreaker": {
                 "name": "no tiebreak"
-            }
-        },
-        "rootbound": {
-            "rules": {
-                "name": "rules",
-                "description": "The game ends immediately after both players pass in succession."
             }
         },
         "saltire": {
@@ -3052,12 +3046,6 @@
             "anti": {
                 "name": "Anti-Reversi",
                 "description": "The player who has the fewest pieces at the end of the game wins."
-            }
-        },
-        "rootbound": {
-            "rootbound": {
-                "name": "Root Bound Phase",
-                "description": "The game includes a second phase of play after both players pass where stones can be placed without neighbor count restrictions."
             }
         },
         "saltire": {

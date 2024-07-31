@@ -874,7 +874,7 @@ export class ExxitGame extends GameBase {
                         rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                     }
                 } else if (move.type === "claim") {
-                    const hex = this.board.get(move.where);
+                    const hex = this.board.get(move.where!);
                     if (hex !== undefined) {
                         const [x, y] = [hex.col + dx, hex.row + dy];
                         rep.annotations.push({type: "dots", targets: [{row: y, col: x}]});

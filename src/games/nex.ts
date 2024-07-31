@@ -32,7 +32,9 @@ export class NexGame extends GameBase {
         name: "Nex",
         uid: "nex",
         playercounts: [2],
-        version: "20240317",
+        // version: "20240317",
+        // Fixed the normalisation.
+        version: "20240731",
         dateAdded: "2024-04-02",
         // i18next.t("apgames:descriptions.nex")
         description: "apgames:descriptions.nex",
@@ -228,7 +230,13 @@ export class NexGame extends GameBase {
                 }
             }
             const combined = [...players.sort((a, b) => this.sort(a, b)), ...neutrals.sort((a, b) => this.sort(a, b))];
-            return prefix + combined.sort((a, b) => this.sort(a, b)).join(",");
+            if (this.stack[0]._version === "20240317") {
+                // In the first version, we accidentally double-sorted the list.
+                // This is unintended. The player piece should come first, then the neutral pieces.
+                return prefix + combined.sort((a, b) => this.sort(a, b)).join(",");
+            } else {
+                return prefix + combined.join(",");
+            }
         }
         return move;
     }

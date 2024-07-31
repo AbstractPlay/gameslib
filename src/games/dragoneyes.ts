@@ -35,7 +35,7 @@ export class DragonEyesGame extends GameBase {
         dateAdded: "2024-07-26",
         // i18next.t("apgames:descriptions.dragoneyes")
         description: "apgames:descriptions.dragoneyes",
-        urls: ["https://www.chess.com/blog/Pokshtya/dragon-eyes"],
+        urls: ["https://dragoneyesabstractgame.blogspot.com/2024/07/dragon-eyes.html"],
         people: [{
             type: "designer",
             name: "Vadrya Pokshtya",

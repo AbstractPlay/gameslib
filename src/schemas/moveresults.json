@@ -577,9 +577,12 @@
                 },
                 "what": {
                     "type": "string"
+                },
+                "count": {
+                    "type": "number"
                 }
             },
-            "required": ["type", "where"],
+            "required": ["type"],
             "additionalProperties": false
         },
         {

@@ -48,14 +48,10 @@ export class BloomsGame extends GameBase {
         flags: ["scores", "no-moves", "custom-randomization"],
         categories: ["goal>score>race", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
-            {
-                uid: "size-8",
-                group: "board",
-            },
-            {
-                uid: "size-10",
-                group: "board",
-            },
+            { uid: "size-4", group: "board" },
+            { uid: "size-5", group: "board" },
+            { uid: "size-8", group: "board" },
+            { uid: "size-10", group: "board" },
         ],
         displays: [{uid: "hide-threatened"}],
     };

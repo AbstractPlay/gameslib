@@ -2478,11 +2478,17 @@
             }
         },
         "blooms": {
+            "size-4": {
+                "name": "Smallest board (base 4)"
+            },
+            "size-5": {
+                "name": "Smaller board (base 5)"
+            },
             "size-8": {
                 "name": "Larger board (base 8)"
             },
             "size-10": {
-                "name": "Larger board (base 10)"
+                "name": "Largest board (base 10)"
             }
         },
         "boom": {

@@ -430,12 +430,14 @@ export class EntrapmentGame extends GameBase {
                     newmove = move + splitSymbol + newWall;
                 }
             }
-            const result = this.validateMove(newmove) as IClickResult;
+            let result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
-                if (newmove.includes(splitSymbol)) {
-                    result.move = newmove.split(splitSymbol)[0];
-                } else {
+                const revert = newmove.includes(splitSymbol) ? newmove.split(splitSymbol)[0] : "";
+                result = this.validateMove(revert) as IClickResult;
+                if (!result.valid) {
                     result.move = "";
+                } else {
+                    result.move = revert;
                 }
             } else {
                 result.move = newmove;

@@ -298,6 +298,10 @@
             "INITIAL_INSTRUCTIONS_CENTRE1": "Place your first stone in the centre of the board.",
             "INITIAL_INSTRUCTIONS_PRO1": "Place your first stone in the centre of the board.",
             "INITIAL_INSTRUCTIONS_PRO3": "Select an intersection to place a stone. Your move must be at least three intersections away from the centre of the board.",
+            "INITIAL_INSTRUCTIONS_LONGPRO1": "Place your first stone in the centre of the board.",
+            "INITIAL_INSTRUCTIONS_LONGPRO3": "Select an intersection to place a stone. Your move must be at least four intersections away from the centre of the board.",
+            "INITIAL_INSTRUCTIONS_SWAP1ST1": "Select an intersection to place a stone. The opponent has the option to swap colours on the next turn.",
+            "INITIAL_INSTRUCTIONS_SWAP1ST2": "You may place a stone to continue as player 2, or pass to swap colours to play as player 1.",
             "INITIAL_INSTRUCTIONS_SWAP21": "Place three stones on the board",
             "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single stone to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
             "INITIAL_INSTRUCTIONS_SWAP23": "You may place a stone to continue as player 1, or pass to swap colours to play as player 2.",
@@ -316,6 +320,8 @@
             "EXCESS": "You have placed too many stones. You may only place 1 stone.",
             "PRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the pro opening.",
             "PRO_RESTRICTION_THIRD": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
+            "LONGPRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the long pro opening.",
+            "LONGPRO_RESTRICTION_THIRD": "Your third stone must be at least four intersections away from the centre of the board in the long pro opening.",
             "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
@@ -2697,7 +2703,7 @@
             },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three pieces. The second player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three pieces. The next player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -2724,9 +2730,17 @@
             "standard-19": {
                 "name": "Standard 19x19 board"
             },
+            "long-pro": {
+                "name": "Long pro opening",
+                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least four intersections away from the centre."
+            },
+            "swap-1st": {
+                "name": "Swap-1st opening",
+                "description": "The first player places a stone anywhere on the board. The next player has the option to swap colours."
+            },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -2810,7 +2824,7 @@
             },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -2919,9 +2933,17 @@
             "standard-19": {
                 "name": "Standard 19x19 board"
             },
+            "long-pro": {
+                "name": "Long pro opening",
+                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least four intersections away from the centre."
+            },
+            "swap-1st": {
+                "name": "Swap-1st opening",
+                "description": "The first player places a stone anywhere on the board. The next player has the option to swap colours."
+            },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -3051,7 +3073,7 @@
             },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "Free opening. The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "Free opening. The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",

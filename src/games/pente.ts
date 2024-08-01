@@ -44,6 +44,8 @@ export class PenteGame extends InARowBase {
         ],
         variants: [
             { uid: "standard-19", group: "board" },
+            { uid: "long-pro", group: "opening" },
+            { uid: "swap-1st", group: "opening" },
             { uid: "swap-2", group: "opening" },
             { uid: "swap-5", group: "opening" },
             { uid: "capture-2-3", group: "capture" },
@@ -70,7 +72,7 @@ export class PenteGame extends InARowBase {
     public toroidal = false;
     public overline;
     public winningLineLength = 5;
-    private openingProtocol: "pro" | "swap-2" | "swap-5";
+    private openingProtocol: "pro" | "long-pro" | "swap-1st" | "swap-2" | "swap-5";
     private overtimeCapture: boolean;
     private selfCapture: "ignored" | "allowed" | "forbidden";
     private threshold: number;
@@ -141,8 +143,8 @@ export class PenteGame extends InARowBase {
         return this.variants.includes("capture-2-3") ? 15 : 10;
     }
 
-    private getOpeningProtocol(): "pro" | "swap-2" | "swap-5" {
-        return this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "pro";
+    private getOpeningProtocol(): "pro" | "long-pro" | "swap-1st" | "swap-2" | "swap-5" {
+        return this.variants.includes("long-pro") ? "long-pro" : this.variants.includes("swap-1st") ? "swap-1st" : this.variants.includes("swap-2") ? "swap-2" : this.variants.includes("swap-5") ? "swap-5" : "pro";
     }
 
     private getOverlineType(): "win" | "ignored" | "forbidden" {
@@ -177,14 +179,15 @@ export class PenteGame extends InARowBase {
             return ["No movelist in opening"]
         }
         const moves: string[] = [];
-        if (this.stack.length === 1 && this.openingProtocol === "pro") {
+        if (this.stack.length === 1 && (this.openingProtocol === "pro" || this.openingProtocol === "long-pro")) {
             return [this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2)];
         }
-        if (this.stack.length === 3 && this.openingProtocol === "pro") {
+        if (this.stack.length === 3 && (this.openingProtocol === "pro" || this.openingProtocol === "long-pro")) {
+            const restriction = this.openingProtocol === "pro" ? 2 : 3;
             for (let row = 0; row < this.boardSize; row++) {
                 for (let col = 0; col < this.boardSize; col++) {
                     const cell = this.coords2algebraic(col, row);
-                    if (this.isNearCentre(cell, 2)) { continue; }
+                    if (this.isNearCentre(cell, restriction)) { continue; }
                     if (!this.board.has(cell)) {
                         moves.push(cell);
                     }
@@ -213,11 +216,12 @@ export class PenteGame extends InARowBase {
 
     private canSwap(): boolean {
         // Check if the player is able to invoke the pie rule on this turn.
-        if (this.openingProtocol === "swap-2") {
+        if (this.openingProtocol === "swap-1st") {
+            if (this.stack.length === 2) { return true; }
+        } else if (this.openingProtocol === "swap-2") {
             if (this.stack.length === 2) { return true; }
             if (this.stack.length === 3 && this.stack[2].lastmove?.includes(",")) { return true; }
-        }
-        if (this.openingProtocol === "swap-5") {
+        } else if (this.openingProtocol === "swap-5") {
             if (this.stack.length > 10) { return false; }
             if (this.stack.length === 1) { return false; }
             if (this.stack[this.stack.length - 1].lastmove === "pass") { return false; }
@@ -277,7 +281,19 @@ export class PenteGame extends InARowBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
             let message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS");
-            if (this.openingProtocol === "swap-2") {
+            if (this.openingProtocol === "long-pro") {
+                if (this.stack.length === 1) {
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_LONGPRO1");
+                } else if (this.stack.length === 3) {
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_LONGPRO3");
+                }
+            } else if (this.openingProtocol === "swap-1st") {
+                if (this.stack.length === 1) {
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP1ST1");
+                } else if (this.stack.length === 2) {
+                    message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP1ST2");
+                }
+            } else if (this.openingProtocol === "swap-2") {
                 if (this.stack.length === 1) {
                     message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP21");
                 } else if (this.stack.length === 2) {
@@ -285,11 +301,9 @@ export class PenteGame extends InARowBase {
                 } else if (this.stack.length === 3 && this.canSwap()) {
                     message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP23");
                 }
-            }
-            if (this.openingProtocol === "swap-5" && this.canSwap()) {
+            } else if (this.openingProtocol === "swap-5" && this.canSwap()) {
                 message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_SWAP5");
-            }
-            if (this.openingProtocol === "pro") {
+            } else if (this.openingProtocol === "pro") {
                 if (this.stack.length === 1) {
                     message = i18next.t("apgames:validation._inarow.INITIAL_INSTRUCTIONS_PRO1");
                 } else if (this.stack.length === 3) {
@@ -423,6 +437,18 @@ export class PenteGame extends InARowBase {
             if (this.stack.length === 3 && this.isNearCentre(moves[0], 2)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._inarow.PRO_RESTRICTION_THIRD");
+                return result;
+            }
+        }
+        if (this.openingProtocol === "long-pro") {
+            if (this.stack.length === 1 && !this.isNearCentre(moves[0], 0)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._inarow.LONGPRO_RESTRICTION_FIRST");
+                return result;
+            }
+            if (this.stack.length === 3 && this.isNearCentre(moves[0], 3)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._inarow.LONGPRO_RESTRICTION_THIRD");
                 return result;
             }
         }
@@ -612,7 +638,7 @@ export class PenteGame extends InARowBase {
 
         let result;
         if (m === "No movelist in opening") {
-            result = {valid: false, message: i18next.t("apgames:validation.pente.NO_MOVELIST")};
+            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
         m = m.toLowerCase();

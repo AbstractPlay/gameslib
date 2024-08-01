@@ -6,7 +6,7 @@ import { Directions, HexTriGraph, RectGrid, reviver, UserFacingError } from "../
 import i18next from "i18next";
 
 type playerid = 1 | 2;
-type HexDirection = "NE" | "E"| "SE" | "SW" | "W" | "NW"
+type HexDirection = "NE" | "E"| "SE" | "SW" | "W" | "NW";
 const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 const allHexDirections: HexDirection[] = ["NE", "E", "SE", "SW", "W", "NW"];
 
@@ -49,10 +49,10 @@ export class AtaxxGame extends GameBase {
             { uid: "standard-9", group: "board", experimental: true },
             { uid: "hex-5", group: "board" },
             { uid: "hex-6", group: "board", experimental: true },
-            { uid: "orth-jump-only" },
+            { uid: "straight-jumps-only" },
             { uid: "blocked-near-centre", group: "blocked", experimental: true }, // Just for testing blocked spaces.
         ],
-        categories: ["goal>majority", "mechanic>move",  "mechanic>convert", "board>shape>rect", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>majority", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["experimental", "scores"],
     };
 
@@ -223,8 +223,8 @@ export class AtaxxGame extends GameBase {
     }
 
     private getHoles(): string[] {
-        // For the octagon variants, the corners are blocked.
-        // If variant
+        // Get holes for the variant.
+        // The holes should be generated in such a way that it applies to all board shapes and sizes.
         if (this.variants.includes("blocked-near-centre")) {
             const centre = this.algebraic2coords(this.centreCell!);
             if (this.boardShape === "hex") {
@@ -240,7 +240,7 @@ export class AtaxxGame extends GameBase {
                     this.coords2algebraic(x + 1, y - 1),
                     this.coords2algebraic(x - 1, y + 1),
                     this.coords2algebraic(x + 1, y + 1),
-                ]
+                ];
             }
         }
         return [];
@@ -280,19 +280,14 @@ export class AtaxxGame extends GameBase {
 
     private getBoardSize(): number {
         // Get the board size based on the variants.
-        if (this.variants.some(x => x.includes("4"))) {
-            return 4;
+        const prefixes = ["standard-", "hex-"];
+        for (const prefix of prefixes) {
+            for (const variant of this.variants) {
+                const match = variant.match(new RegExp(`${prefix}(\\d+)`));
+                if (match) return parseInt(match[1], 10);
+            }
         }
-        if (this.variants.some(x => x.includes("5"))) {
-            return 5;
-        }
-        if (this.variants.some(x => x.includes("6"))) {
-            return 6;
-        }
-        if (this.variants.some(x => x.includes("9"))) {
-            return 9;
-        }
-        return 7;
+        return 7; // Default value if no match is found
     }
 
     private getGrid(): RectGrid | undefined {
@@ -368,13 +363,15 @@ export class AtaxxGame extends GameBase {
             } else {
                 if (cell === move) {
                     newmove = "";
+                } else if (this.board.has(cell) && this.board.get(cell) === this.currplayer) {
+                    newmove = cell;
                 } else {
                     newmove = `${move}-${cell}`;
                 }
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
-                result.move = "";
+                result.move = move;
             } else {
                 result.move = newmove;
             }
@@ -384,7 +381,7 @@ export class AtaxxGame extends GameBase {
                 move,
                 valid: false,
                 message: i18next.t("apgames:validation._general.GENERIC", { move, row, col, piece, emessage: (e as Error).message })
-            }
+            };
         }
     }
 
@@ -453,7 +450,7 @@ export class AtaxxGame extends GameBase {
         }
         if (this.holes.includes(to)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.ataxx.HOLE");
+            result.message = i18next.t("apgames:validation.ataxx.HOLE", { where: to });
             return result;
         }
         if (!tos.includes(to)) {
@@ -488,7 +485,7 @@ export class AtaxxGame extends GameBase {
                     tos.push(cell);
                 }
             }
-            if (!this.variants.includes("orth-jump-only")) {
+            if (!this.variants.includes("straight-jumps-only")) {
                 const clockwiseCheck: HexDirection[] = ["E", "SE", "SW", "W", "NW", "NE"];
                 for (const [i, dir] of allHexDirections.entries()) {
                     const next = this.hexTriGraph!.move(...this.algebraic2coords(from), dir);
@@ -510,7 +507,7 @@ export class AtaxxGame extends GameBase {
                     tos.push(cell);
                 }
             }
-            if (!this.variants.includes("orth-jump-only")) {
+            if (!this.variants.includes("straight-jumps-only")) {
                 // Add knight moves
                 const [x, y] = this.algebraic2coords(from);
                 const deltas = [
@@ -638,7 +635,7 @@ export class AtaxxGame extends GameBase {
     public getPlayersScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-        ]
+        ];
     }
 
     public state(): IAtaxxState {
@@ -718,8 +715,8 @@ export class AtaxxGame extends GameBase {
             }
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        let markers: Array<any> | undefined = []
-        if (this.variants.includes("orth-jump-only")) {
+        let markers: Array<any> | undefined = [];
+        if (this.variants.includes("straight-jumps-only")) {
             markers.push({
                     type: "shading", colour: "#FFA500", opacity: 0.1,
                     points: [{ row: 0, col: 0 }, { row: 0, col: this.boardSize }, { row: this.boardSize, col: this.boardSize }, { row: this.boardSize, col: 0 }],
@@ -731,7 +728,7 @@ export class AtaxxGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 holes.push({ row: y, col: x });
             }
-            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes })
+            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -777,9 +774,8 @@ export class AtaxxGame extends GameBase {
         }
         let markers: Array<any> | undefined = [];
         const points: Array<any> | undefined = [];
-        if (this.variants.includes("orth-jump-only")) {
+        if (this.variants.includes("straight-jumps-only")) {
             for (const cell of this.hexTriGraph!.listCells() as string[]) {
-                if (cell === this.centreCell) { continue; }
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
@@ -791,7 +787,7 @@ export class AtaxxGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 holes.push({ row: y, col: x });
             }
-            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes })
+            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -850,7 +846,7 @@ export class AtaxxGame extends GameBase {
                 break;
             case "eog":
                 if (r.reason === "repetition") {
-                    node.push(i18next.t("apresults:EOG.repetition", { count: 1 }));
+                    node.push(i18next.t("apresults:EOG.repetition", { count: 3 }));
                 } else {
                     node.push(i18next.t("apresults:EOG.default"));
                 }

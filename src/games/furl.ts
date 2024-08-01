@@ -186,7 +186,9 @@ export class FurlGame extends GameBase {
             } else {
                 const [, size] = this.board.get(move)!;
                 if (size === 1) {
-                    if (this.getFurls(move).includes(cell)) {
+                    if (move === cell) {
+                        newmove = "";
+                    } else if (this.getFurls(move).includes(cell)) {
                         newmove = `${move}<${cell}`;
                     } else if (this.board.has(cell) && this.board.get(cell)![0] === this.currplayer) {
                         newmove = cell;
@@ -231,6 +233,7 @@ export class FurlGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.furl.INITIAL_INSTRUCTIONS");
             return result;
         }
@@ -428,10 +431,12 @@ export class FurlGame extends GameBase {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
+        this._points = [];
+        if (m.length === 0) { return this; }
 
         const [from, to] = m.split(/[><x]/);
 
-        if (partial || to === undefined) {
+        if (to === undefined) {
             const [, size] = this.board.get(from)!;
             if (size > 1) {
                 this._points = this.getUnfurls(from).map(c => this.graph.algebraic2coords(c));
@@ -439,8 +444,6 @@ export class FurlGame extends GameBase {
                 this._points = this.getFurls(from).map(c => this.graph.algebraic2coords(c));
             }
             return this;
-        } else {
-            this._points = [];
         }
 
         this.results = [];

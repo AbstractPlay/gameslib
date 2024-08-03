@@ -22,6 +22,8 @@
     },
     "BUTTON": "{{player}} took the button.",
     "CAPTURE": {
+        "ataxx_one": "1 piece is converted.",
+        "ataxx_other": "{{count}} pieces are converted.",
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
         "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
         "blockade": "{{player}} captured a blocking piece at {{where}}.",
@@ -92,6 +94,8 @@
     },
     "CLAIM": {
         "default": "{{player}} claimed {{where}}.",
+        "ataxx_one": "{{player}} claimed the remaining 1 free space.",
+        "ataxx_other": "{{player}} claimed the remaining {{count}} free spaces.",
         "conhex": "{{player}} claimed the space at ({{where}}).",
         "exxit": "{{player}} claimed the perimeter space at {{where}}.",
         "fnap_col": "{{player}} claimed column {{where}}.",
@@ -181,6 +185,8 @@
         "anache_knight": "{{player}} moved a group of size {{count}} via a knight move from {{from}} in the direction {{dir}}.",
         "anache_man": "{{player}} moved a group of size {{count}} from {{from}} in the direction {{dir}}.",
         "armadas": "{{player}} moved their ship named {{name}}.",
+        "ataxx_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
+        "ataxx_split": "{{player}} split a piece from {{from}} to {{to}}.",
         "bao": "Initial direction of movement: {{direction}}.",
         "ball": "{{player}} moved a ball from {{from}} to {{to}}.",
         "ball_drop_one": "A ball dropped from {{from}} to {{to}}.",

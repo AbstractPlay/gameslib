@@ -491,7 +491,7 @@ export class IrenseiGame extends InARowBase {
 
         let result;
         if (m === "No movelist in opening") {
-            result = {valid: false, message: i18next.t("apgames:validation.pente.NO_MOVELIST")};
+            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
         m = m.toLowerCase();

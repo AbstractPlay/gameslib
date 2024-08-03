@@ -44,7 +44,7 @@ export class GonnectGame extends GameBase {
             { uid: "size-19", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
     };
 
     public coords2algebraic(x: number, y: number): string {

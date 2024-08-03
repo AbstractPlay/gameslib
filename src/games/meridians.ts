@@ -455,6 +455,9 @@ export class MeridiansGame extends GameBase {
         if (this.pieces(this.currplayer).length === 0) {
             this.gameover = true;
             this.winner = [this.currplayer % 2 + 1 as playerid];
+        } else if (this.pieces(this.currplayer % 2 + 1 as playerid).length === 0) {
+            this.gameover = true;
+            this.winner = [this.currplayer];
         }
         if (this.gameover) {
             this.results.push(

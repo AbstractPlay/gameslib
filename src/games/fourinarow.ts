@@ -631,7 +631,7 @@ export class FourInARowGame extends InARowBase {
 
         let result;
         if (m === "No movelist in opening") {
-            result = {valid: false, message: i18next.t("apgames:validation.pente.NO_MOVELIST")};
+            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
         m = m.toLowerCase();
@@ -859,7 +859,7 @@ export class FourInARowGame extends InARowBase {
             const places: string[] = [];
             if (this.isNewResult()) {
                 const placeResults = this.results.filter(r => r.type === "place");
-                places.push(...placeResults.map(r => (r as Extract<APMoveResult, { type: 'remove' }>).where));
+                places.push(...placeResults.map(r => (r as Extract<APMoveResult, { type: 'place' }>).where!));
             }
             for (const cell of this.placeableCells(places)){
                 const [x, y] = this.algebraic2coords(cell);

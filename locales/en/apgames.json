@@ -11,6 +11,7 @@
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "asli": "Groups must be able to see friendly groups. Cut off your opponent's sight lines and defeat them by leaving them with no moves.",
+        "ataxx": "Control the majority of spaces by spreading, jumping and infecting.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "ayu": "Ayu is short for 'Attach your units', where on every turn, you have to move your stones such that the units approach each other and eventually merge. The player that runs out of moves first wins.",
@@ -145,6 +146,7 @@
     "notes": {
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.",
+        "ataxx": "If one player runs out of moves, the other player claims all remaining free spaces. On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         "bug": "In this implementation, when a player has bugs that must eat, the edible bugs will be highlighted. To eat, click on a cell next to one of these bugs, and all adjacent edible bugs will be removed as the bonus grow is performed.",
@@ -296,6 +298,10 @@
             "INITIAL_INSTRUCTIONS_CENTRE1": "Place your first stone in the centre of the board.",
             "INITIAL_INSTRUCTIONS_PRO1": "Place your first stone in the centre of the board.",
             "INITIAL_INSTRUCTIONS_PRO3": "Select an intersection to place a stone. Your move must be at least three intersections away from the centre of the board.",
+            "INITIAL_INSTRUCTIONS_LONGPRO1": "Place your first stone in the centre of the board.",
+            "INITIAL_INSTRUCTIONS_LONGPRO3": "Select an intersection to place a stone. Your move must be at least four intersections away from the centre of the board.",
+            "INITIAL_INSTRUCTIONS_SWAP1ST1": "Select an intersection to place a stone. The opponent has the option to swap colours on the next turn.",
+            "INITIAL_INSTRUCTIONS_SWAP1ST2": "You may place a stone to continue as player 2, or pass to swap colours to play as player 1.",
             "INITIAL_INSTRUCTIONS_SWAP21": "Place three stones on the board",
             "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single stone to continue as player 2, (2) pass to swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
             "INITIAL_INSTRUCTIONS_SWAP23": "You may place a stone to continue as player 1, or pass to swap colours to play as player 2.",
@@ -314,6 +320,8 @@
             "EXCESS": "You have placed too many stones. You may only place 1 stone.",
             "PRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the pro opening.",
             "PRO_RESTRICTION_THIRD": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
+            "LONGPRO_RESTRICTION_FIRST": "You must place your first stone in the centre of the board in the long pro opening.",
+            "LONGPRO_RESTRICTION_THIRD": "Your third stone must be at least four intersections away from the centre of the board in the long pro opening.",
             "INVALID_PLACEMENT":"Unable to interpret the move notation: {{move}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}."
         },
@@ -475,6 +483,13 @@
             "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
             "MUST_PIE": "At this point of the game, placing pieces is not allowed.",
             "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn."
+        },
+        "ataxx": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to split or jump.",
+            "NO_TOS": "The selected piece at {{from}} has no possible destinations to split or jump to.",
+            "SELECT_TO": "Select a destination to split or jump to.",
+            "HOLE": "The cell at {{where}} is blocked.",
+            "INVALID_TO": "The piece at {{from}} cannot split or jump to {{to}}."
         },
         "atoll": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece."
@@ -1857,6 +1872,11 @@
                 "name": "13x13 board"
             }
         },
+        "ataxx": {
+            "board": {
+                "name": "size-7 standard board"
+            }
+        },
         "atoll": {
             "board": {
                 "name": "size-11 board"
@@ -2388,6 +2408,28 @@
                 "name": "19x19 board"
             }
         },
+        "ataxx": {
+            "standard-5": {
+                "name": "Size-5 standard board"
+            },
+            "standard-9": {
+                "name": "Size-9 standard board"
+            },
+            "hex-5": {
+                "name": "Size-5 hexagon board"
+            },
+            "hex-6": {
+                "name": "Size-6 hexagon board"
+            },
+            "straight-jumps-only": {
+                "name": "Straight jumps only",
+                "description": "Pieces can only jump in a straight line (no knight jumps)."
+            },
+            "blocked-near-centre": {
+                "name": "Blocked near centre",
+                "description": "A few cells near the centre are blocked."
+            }
+        },
         "atoll": {
             "size-15": {
                 "name": "size-15 board"
@@ -2442,11 +2484,17 @@
             }
         },
         "blooms": {
+            "size-4": {
+                "name": "Smallest board (base 4)"
+            },
+            "size-5": {
+                "name": "Smaller board (base 5)"
+            },
             "size-8": {
                 "name": "Larger board (base 8)"
             },
             "size-10": {
-                "name": "Larger board (base 10)"
+                "name": "Largest board (base 10)"
             }
         },
         "boom": {
@@ -2655,7 +2703,7 @@
             },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three pieces. The second player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three pieces. The next player may do one of (1) place a single pieces to continue as player 2, (2) swap colours to play as player 1, or (3) place two more pieces and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -2682,9 +2730,17 @@
             "standard-19": {
                 "name": "Standard 19x19 board"
             },
+            "long-pro": {
+                "name": "Long pro opening",
+                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least four intersections away from the centre."
+            },
+            "swap-1st": {
+                "name": "Swap-1st opening",
+                "description": "The first player places a stone anywhere on the board. The next player has the option to swap colours."
+            },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -2768,7 +2824,7 @@
             },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -2877,9 +2933,17 @@
             "standard-19": {
                 "name": "Standard 19x19 board"
             },
+            "long-pro": {
+                "name": "Long pro opening",
+                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least four intersections away from the centre."
+            },
+            "swap-1st": {
+                "name": "Swap-1st opening",
+                "description": "The first player places a stone anywhere on the board. The next player has the option to swap colours."
+            },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",
@@ -3009,7 +3073,7 @@
             },
             "swap-2": {
                 "name": "Swap-2 opening",
-                "description": "Free opening. The first player places three stones. The second player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
+                "description": "Free opening. The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2."
             },
             "swap-5": {
                 "name": "Swap-5 opening",

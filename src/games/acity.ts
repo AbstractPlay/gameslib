@@ -910,7 +910,7 @@ export class ACityGame extends GameBase {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "claim") {
-                    const [x, y] = this.graph.algebraic2coords(move.where);
+                    const [x, y] = this.graph.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }

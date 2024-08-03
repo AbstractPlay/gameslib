@@ -195,9 +195,10 @@ export type APMoveResult =
     }
   | {
       type: "claim";
-      where: string;
+      where?: string;
       who?: number;
       what?: string;
+      count?: number;
     }
   | {
       type: "nullifyClaim";

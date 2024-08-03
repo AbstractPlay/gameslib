@@ -3429,6 +3429,12 @@
         }
     },
     "displays": {
+        "zola": {
+            "isometric": {
+                "description": "A quasi-3d view of the field where the spaces get higher as you move away from the centre.",
+                "name": "Isometric"
+            }
+        },
         "volcano": {
             "expanding": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",

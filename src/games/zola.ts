@@ -1,14 +1,17 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base";
 import { APGamesInformation, Variant } from "../schemas/gameinfo";
-import { APRenderRep, Glyph, MarkerGlyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph, IsoPiece, MarkerGlyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { allDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
 
-interface ILegendObj {
+type FlatLegend = {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
+}
+type IsoLegend = {
+    [key: string]: IsoPiece;
 }
 
 export interface IMoveState extends IIndividualState {
@@ -45,6 +48,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
+        displays: [{ uid: "isometric" }],
         categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "limited-pieces", "pie", "aiai"],
     };
@@ -476,7 +480,11 @@ export class ZolaGame extends GameBase {
         return colours;
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -497,73 +505,125 @@ export class ZolaGame extends GameBase {
                     pieces.push("-");
                 }
             }
-            pstr += pieces.join("");
+            if (altDisplay === "isometric") {
+                pstr += pieces.join(",");
+            } else {
+                pstr += pieces.join("");
+            }
         }
 
         // build legend with distance marker tiles
-        const myLegend: ILegendObj = {
-            "A": {
-                "name": "piece",
-                "colour": 1,
-            },
-            "B": {
-                "name": "piece",
-                "colour": 2,
-            },
-        };
-
-        const distances = this.getDistances();
-        const colours = this.getColours(distances.length);
-        const cells: Map<string, [number, number][]> = new Map();
-        const ctr = (this.boardSize - 1) / 2;
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const dist = RectGrid.trueDistance(col, row, ctr, ctr);
-                const idx = distances.findIndex(d => d === dist);
-                if (idx < 0) {
-                    throw new Error("Could not find the distance in the list of distances.");
-                }
-                const key = `_dist${idx}`;
-                if (cells.has(key)) {
-                    const val = cells.get(key)!;
-                    val.push([col, row]);
-                    cells.set(key, val);
-                } else {
-                    cells.set(key, [[col, row]]);
-                }
-                const colour = colours[idx];
-                myLegend[key] = {
-                    name: "piece-square",
-                    colour
-                };
-            }
+        let myLegend: FlatLegend|IsoLegend;
+        if (altDisplay === "isometric") {
+            myLegend = {
+                "A": {
+                    "piece": "cylinder",
+                    "height": 20,
+                    "colour": 1,
+                },
+                "B": {
+                    "piece": "cylinder",
+                    "height": 20,
+                    "colour": 2,
+                },
+            } as IsoLegend;
+        } else {
+            myLegend = {
+                "A": {
+                    "name": "piece",
+                    "colour": 1,
+                },
+                "B": {
+                    "name": "piece",
+                    "colour": 2,
+                },
+            } as FlatLegend;
         }
 
-        // create the board markers
-        const markers: MarkerGlyph[] = [];
-        for (const [k, v] of cells.entries()) {
-            const points: RowCol[] = [];
-            for (const pt of v) {
-                points.push({row: pt[1], col: pt[0]});
+        let rep: APRenderRep;
+        if (altDisplay === "isometric") {
+            const heightmap: number[][] = [];
+            const distances = this.getDistances();
+            const ctr = (this.boardSize - 1) / 2;
+            for (let row = 0; row < this.boardSize; row++) {
+                const node: number[] = [];
+                for (let col = 0; col < this.boardSize; col++) {
+                    const dist = RectGrid.trueDistance(col, row, ctr, ctr);
+                    const idx = distances.findIndex(d => d === dist);
+                    if (idx < 0) {
+                        throw new Error("Could not find the distance in the list of distances.");
+                    }
+                    node.push(idx * 25);
+                }
+                heightmap.push(node);
             }
-            markers.push({
-                type: "glyph",
-                glyph: k,
-                points: points as [RowCol, ...RowCol[]],
-            });
-        }
 
-        // Build rep
-        const rep: APRenderRep =  {
-            board: {
-                style: "squares",
-                width: this.boardSize,
-                height: this.boardSize,
-                markers,
-            },
-            legend: myLegend,
-            pieces: pstr
-        };
+            // Build rep
+            rep =  {
+                renderer: "isometric",
+                board: {
+                    style: "squares",
+                    width: this.boardSize,
+                    height: this.boardSize,
+                    heightmap: heightmap as [[number, ...number[]], ...[number, ...number[]][]],
+                },
+                legend: myLegend,
+                pieces: pstr
+            };
+        } else {
+            const distances = this.getDistances();
+            const colours = this.getColours(distances.length);
+            const cells: Map<string, [number, number][]> = new Map();
+            const ctr = (this.boardSize - 1) / 2;
+            for (let row = 0; row < this.boardSize; row++) {
+                for (let col = 0; col < this.boardSize; col++) {
+                    const dist = RectGrid.trueDistance(col, row, ctr, ctr);
+                    const idx = distances.findIndex(d => d === dist);
+                    if (idx < 0) {
+                        throw new Error("Could not find the distance in the list of distances.");
+                    }
+                    const key = `_dist${idx}`;
+                    if (cells.has(key)) {
+                        const val = cells.get(key)!;
+                        val.push([col, row]);
+                        cells.set(key, val);
+                    } else {
+                        cells.set(key, [[col, row]]);
+                    }
+                    const colour = colours[idx];
+                    myLegend[key] = {
+                        name: "piece-square",
+                        colour
+                    };
+                }
+            }
+
+            // create the board markers
+            const markers: MarkerGlyph[] = [];
+            for (const [k, v] of cells.entries()) {
+                const points: RowCol[] = [];
+                for (const pt of v) {
+                    points.push({row: pt[1], col: pt[0]});
+                }
+                markers.push({
+                    type: "glyph",
+                    glyph: k,
+                    points: points as [RowCol, ...RowCol[]],
+                });
+            }
+
+            // Build rep
+            rep =  {
+                board: {
+                    style: "squares",
+                    width: this.boardSize,
+                    height: this.boardSize,
+                    markers,
+                },
+                legend: myLegend,
+                pieces: pstr
+            };
+        }
 
         // Add annotations
         if (this.results.length > 0) {

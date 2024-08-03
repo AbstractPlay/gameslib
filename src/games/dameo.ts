@@ -44,7 +44,7 @@ export class DameoGame extends GameBase {
         ],
         variants: [
             { uid: "size-10", group: "board" },
-            { uid: "anti", experimental: true },
+            { uid: "anti" },
         ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "automove", "limited-pieces"]

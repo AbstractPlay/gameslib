@@ -2009,9 +2009,13 @@
             }
         },
         "zola": {
-            "isometric": {
-                "description": "A quasi-3d view of the field where the spaces get higher as you move away from the centre.",
-                "name": "Isometric"
+            "isometric-20": {
+                "description": "Pronounced elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",
+                "name": "Isometric: Pronounced Elevation"
+            },
+            "isometric-5": {
+                "description": "Subtle elevation: A quasi-3d view of the field where the spaces get higher as you move away from the centre.",
+                "name": "Isometric: Subtle Elevation"
             }
         }
     },

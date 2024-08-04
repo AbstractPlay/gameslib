@@ -48,7 +48,7 @@ export class ZolaGame extends GameBase {
                 group: "board"
             }
         ],
-        displays: [{ uid: "isometric" }],
+        displays: [{ uid: "isometric-20" }, { uid: "isometric-5" }],
         categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "limited-pieces", "pie", "aiai"],
     };
@@ -485,6 +485,15 @@ export class ZolaGame extends GameBase {
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;
         }
+        let isIso = false;
+        let pcHeight = 10;
+        if (altDisplay !== undefined && altDisplay.startsWith("isometric")) {
+            isIso = true;
+            const [,heightStr] = altDisplay.split("-");
+            if (heightStr !== undefined) {
+                pcHeight = parseInt(heightStr, 10);
+            }
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -505,7 +514,7 @@ export class ZolaGame extends GameBase {
                     pieces.push("-");
                 }
             }
-            if (altDisplay === "isometric") {
+            if (isIso) {
                 pstr += pieces.join(",");
             } else {
                 pstr += pieces.join("");
@@ -514,16 +523,16 @@ export class ZolaGame extends GameBase {
 
         // build legend with distance marker tiles
         let myLegend: FlatLegend|IsoLegend;
-        if (altDisplay === "isometric") {
+        if (isIso) {
             myLegend = {
                 "A": {
                     "piece": "cylinder",
-                    "height": 20,
+                    "height": pcHeight,
                     "colour": 1,
                 },
                 "B": {
                     "piece": "cylinder",
-                    "height": 20,
+                    "height": pcHeight,
                     "colour": 2,
                 },
             } as IsoLegend;
@@ -541,7 +550,7 @@ export class ZolaGame extends GameBase {
         }
 
         let rep: APRenderRep;
-        if (altDisplay === "isometric") {
+        if (isIso) {
             const heightmap: number[][] = [];
             const distances = this.getDistances();
             const ctr = (this.boardSize - 1) / 2;
@@ -553,7 +562,7 @@ export class ZolaGame extends GameBase {
                     if (idx < 0) {
                         throw new Error("Could not find the distance in the list of distances.");
                     }
-                    node.push(idx * 25);
+                    node.push(idx * (pcHeight * 1.25));
                 }
                 heightmap.push(node);
             }

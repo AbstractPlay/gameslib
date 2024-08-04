@@ -222,7 +222,7 @@ export class StrandsGame extends GameBase {
                 [0, 11, 1, 0, 0, 0],
                 [0, 12, 6, 0, 0, 0],
                 [0, 0, 22, 2, 0, 0],
-                [0, 0, 0, 13, 17, 0],
+                [0, 0, 0, 10, 20, 0],
             ]);
         } else {
             return this.distributionToMap([

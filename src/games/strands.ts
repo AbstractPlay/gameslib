@@ -27,7 +27,9 @@ export class StrandsGame extends GameBase {
         name: "Strands",
         uid: "strands",
         playercounts: [2],
-        version: "20240714",
+        // version: "20240714",
+        // Updating distribution slightly for size-6 board.
+        version: "20240804",
         dateAdded: "2024-08-02",
         // i18next.t("apgames:descriptions.strands")
         description: "apgames:descriptions.strands",
@@ -222,7 +224,7 @@ export class StrandsGame extends GameBase {
                 [0, 11, 1, 0, 0, 0],
                 [0, 12, 6, 0, 0, 0],
                 [0, 0, 22, 2, 0, 0],
-                [0, 0, 0, 13, 17, 0],
+                [0, 0, 0, 10, 20, 0],
             ]);
         } else {
             return this.distributionToMap([

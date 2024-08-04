@@ -752,7 +752,9 @@ export class BugGame extends GameBase {
                     points.push({ row: y, col: x });
                 }
             }
-            rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]], opacity: 0.2 });
+            if (points.length > 0) {
+                rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]], opacity: 0.2, colour: "_context_fill" });
+            }
         }
         return rep;
     }

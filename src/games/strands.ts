@@ -27,7 +27,9 @@ export class StrandsGame extends GameBase {
         name: "Strands",
         uid: "strands",
         playercounts: [2],
-        version: "20240714",
+        // version: "20240714",
+        // Updating distribution slightly for size-6 board.
+        version: "20240804",
         dateAdded: "2024-08-02",
         // i18next.t("apgames:descriptions.strands")
         description: "apgames:descriptions.strands",

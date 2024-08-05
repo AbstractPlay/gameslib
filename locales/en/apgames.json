@@ -1780,6 +1780,12 @@
                 "name": "Pips"
             }
         },
+        "bide": {
+            "isometric": {
+                "description": "Quasi-3D, isometric view",
+                "name": "Isometric"
+            }
+        },
         "blockade": {
             "differentiated-walls": {
                 "description": "Display walls placed by each player in different colours.",

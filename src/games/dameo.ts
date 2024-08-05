@@ -284,14 +284,14 @@ export class DameoGame extends GameBase {
                     // get ray of cells after piece
                     let rayAfter = ray.slice(idx+1);
                     // find next occupied cell
-                    const idxAfter = rayAfter.findIndex(n => this.board.has(n));
+                    const idxAfter = rayAfter.findIndex(n => this.board.has(n) && n !== first);
                     if (idxAfter !== -1) {
                         rayAfter = rayAfter.slice(0, idxAfter);
                     }
                     for (const far of rayAfter) {
                         // if empty and not already explored, you can move there
                         // and we should explore possible moves from there
-                        if (! this.board.has(far) || far === first) {
+                        if (far === first || ! this.board.has(far)) {
                             const more = this.moreKingCaptures(player, first, far, [...jumped, adj]);
                             ret.push(...more.map(m => [start, ...m]));
                         }

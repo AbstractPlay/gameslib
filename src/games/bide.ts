@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -44,6 +44,7 @@ export class BideGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        displays: [{uid: "isometric"}],
         flags: ["scores", "no-moves"]
     };
     public numplayers = 2;
@@ -392,7 +393,12 @@ export class BideGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+
         // Build piece string
         const pcLabels = ["A","B","C","D","E","F"]
         let pstr = "";
@@ -410,7 +416,12 @@ export class BideGame extends GameBase {
                     pieces.push("-");
                 }
             }
-            let joined = pieces.join("");
+            let joined: string;
+            if (altDisplay === "isometric") {
+                joined = pieces.join(",");
+            } else {
+                joined = pieces.join("");
+            }
             if (/^-+$/.test(joined)) {
                 joined = "_";
             }
@@ -418,53 +429,105 @@ export class BideGame extends GameBase {
         }
 
         // Build rep
-        const rep: APRenderRep =  {
-            board: {
-                style: "hex-of-tri",
-                minWidth: 5,
-                maxWidth: 9,
-            },
-            legend: {
-                A: {
-                    name: "piece",
-                    colour: 1
+        let rep: APRenderRep;
+        if (altDisplay === "isometric") {
+            const grid = new HexTriGraph(5, 9);
+            const heightmap: number[][] = (grid.listCells(true) as string[][]).map(row => row.map(cell => {
+                const dist = grid.distFromEdge(cell);
+                return dist * 20;
+            }));
+
+            rep =  {
+                renderer: "isometric",
+                board: {
+                    style: "hex-of-hex",
+                    minWidth: 5,
+                    maxWidth: 9,
+                    heightmap: heightmap as [[number, ...number[]], ...[number, ...number[]][]],
                 },
-                B: {
-                    name: "piece",
-                    colour: 2
+                legend: {
+                    A: {
+                        piece: "cylinder",
+                        height: 10,
+                        colour: 1
+                    },
+                    B: {
+                        piece: "cylinder",
+                        height: 10,
+                        colour: 2
+                    },
+                    C: {
+                        piece: "cylinder",
+                        height: 10,
+                        colour: 3
+                    },
+                    D: {
+                        piece: "cylinder",
+                        height: 10,
+                        colour: 4
+                    },
+                    E: {
+                        piece: "cylinder",
+                        height: 10,
+                        colour: 5
+                    },
+                    F: {
+                        piece: "cylinder",
+                        height: 10,
+                        colour: 6
+                    },
                 },
-                C: {
-                    name: "piece",
-                    colour: 3
+                pieces: pstr,
+            };
+        } else {
+            rep =  {
+                board: {
+                    style: "hex-of-tri",
+                    minWidth: 5,
+                    maxWidth: 9,
                 },
-                D: {
-                    name: "piece",
-                    colour: 4
+                legend: {
+                    A: {
+                        name: "piece",
+                        colour: 1
+                    },
+                    B: {
+                        name: "piece",
+                        colour: 2
+                    },
+                    C: {
+                        name: "piece",
+                        colour: 3
+                    },
+                    D: {
+                        name: "piece",
+                        colour: 4
+                    },
+                    E: {
+                        name: "piece",
+                        colour: 5
+                    },
+                    F: {
+                        name: "piece",
+                        colour: 6
+                    },
                 },
-                E: {
-                    name: "piece",
-                    colour: 5
-                },
-                F: {
-                    name: "piece",
-                    colour: 6
-                },
-            },
-            pieces: pstr,
-            areas: [
-                {
-                    type: "buttonBar",
-                    position: "left",
-                    buttons: [
-                        {
-                            label: this.released !== undefined ? "Released!" : "Pass",
-                            value: this.released !== undefined ? "_" : "pass",
-                            fill: this.released !== undefined ? "#999" : undefined,
-                        }
-                    ],
-                }
-            ],
-        };
+                pieces: pstr,
+            };
+        }
+        rep.areas = [
+            {
+                type: "buttonBar",
+                position: "left",
+                buttons: [
+                    {
+                        label: this.released !== undefined ? "Released!" : "Pass",
+                        value: this.released !== undefined ? "_" : "pass",
+                        fill: this.released !== undefined ? "#999" : undefined,
+                    }
+                ],
+            }
+        ];
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {

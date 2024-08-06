@@ -926,6 +926,7 @@ export class HomeworldsGame extends GameBase {
         }
 
         let subResult: IValidationResult | undefined;
+        let nemesisCatastrophed = false;
         for (let i = 0; i < moves.length; i++) {
         // for (const move of moves) {
             const move = moves[i];
@@ -993,7 +994,8 @@ export class HomeworldsGame extends GameBase {
                     subResult = cloned.validateSacrifice(...tokens.slice(1));
                     break;
                 case "catastrophe":
-                    subResult = cloned.validateCatastrophe(...tokens.slice(1));
+                    subResult = cloned.validateCatastrophe(...tokens.slice(1), LHO!);
+                    nemesisCatastrophed = (subResult !== undefined && subResult.complete === 1);
                     break;
                 case "pass":
                     subResult = cloned.validatePass(...tokens.slice(1));
@@ -1057,10 +1059,19 @@ export class HomeworldsGame extends GameBase {
         // fully validated move set
         result.valid = true;
         result.canrender = true;
-        if ( (hasActions) && (! eliminated) ) {
+        // If a catastrophe caused the elimination of your nemesis, then it doesn't matter
+        // if you still have free actions remaining. The move is complete.
+        if (nemesisCatastrophed) {
+            result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        }
+        // Otherwise, if you have a free action, you have to use it.
+        else if ( (hasActions) && (! eliminated) ) {
             result.complete = -1;
             result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
-        } else {
+        }
+        // Finally, the move is just valid
+        else {
             result.complete = 0;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         }
@@ -2267,7 +2278,8 @@ export class HomeworldsGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         // catastrophe inSystem colour
-        if (args.length < 2) {
+        // also receives the seat of LHO
+        if (args.length < 3) {
             // valid partial
             result.valid = true;
             result.complete = -1;
@@ -2278,7 +2290,7 @@ export class HomeworldsGame extends GameBase {
             return result;
         } else {
             // eslint-disable-next-line prefer-const
-            let [systemName, colour] = args;
+            let [systemName, colour, LHO] = args;
             colour = colour[0].toUpperCase();
 
             const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
@@ -2303,7 +2315,12 @@ export class HomeworldsGame extends GameBase {
             // valid complete move
             result.valid = true;
             result.canrender = true;
-            result.complete = 0;
+            // if you're elminating your nemesis, move is fully complete
+            if (system.owner === LHO) {
+                result.complete = 1;
+            } else {
+                result.complete = 0;
+            }
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }

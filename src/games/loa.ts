@@ -47,7 +47,7 @@ export class LinesOfActionGame extends GameBase {
             }
         ],
         categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["check", "limited-pieces"]
+        flags: ["check", "limited-pieces", "automove"]
     };
 
     public numplayers = 2;
@@ -202,6 +202,9 @@ export class LinesOfActionGame extends GameBase {
                 }
             }
         }
+        if (moves.length === 0) {
+            moves.push("pass");
+        }
 
         return moves;
     }
@@ -302,6 +305,20 @@ export class LinesOfActionGame extends GameBase {
             return result;
         }
 
+        if (m === "pass") {
+            const allMoves = this.moves();
+            if (allMoves.length === 1 && allMoves.includes("pass")) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.loa.BAD_PASS");
+                return result;
+            }
+        }
+
         const [from, to] = m.split(/[-x]/);
         if (from !== undefined) {
             // cell is valid
@@ -389,32 +406,36 @@ export class LinesOfActionGame extends GameBase {
             }
         }
 
-        // if partial, just set the points and get out
-        if ( (partial) && (! m.includes("-")) && (! m.includes("x")) ) {
-            const [cell,] = m.split(/[-x]/);
-            const pts = this.findPoints(cell);
-            if (pts !== undefined) {
-                this._points = pts.map(c => LinesOfActionGame.algebraic2coords(c, this.boardsize));
+        this.results = [];
+        if (m === "pass") {
+            this.results.push({type: "pass"});
+        } else {
+            // if partial, just set the points and get out
+            if ( (partial) && (! m.includes("-")) && (! m.includes("x")) ) {
+                const [cell,] = m.split(/[-x]/);
+                const pts = this.findPoints(cell);
+                if (pts !== undefined) {
+                    this._points = pts.map(c => LinesOfActionGame.algebraic2coords(c, this.boardsize));
+                } else {
+                    this._points = [];
+                }
+                return this;
+            // otherwise delete the points and process the full move
             } else {
                 this._points = [];
             }
-            return this;
-        // otherwise delete the points and process the full move
-        } else {
-            this._points = [];
-        }
 
-        this.results = [];
-        const [from, to] = m.split(/[-x]/);
-        this.board.delete(from);
-        if ( (this.variants.includes("classic")) || (to !== "e5") ) {
-            this.board.set(to, this.currplayer);
-        }
-        this.results.push({type: "move", from, to});
-        if ( (! this.variants.includes("classic")) && (to === "e5") ) {
-            this.results.push({type: "capture", where: "e5"})
-        } else if (m.includes("x")) {
-            this.results.push({type: "capture", where: to})
+            const [from, to] = m.split(/[-x]/);
+            this.board.delete(from);
+            if ( (this.variants.includes("classic")) || (to !== "e5") ) {
+                this.board.set(to, this.currplayer);
+            }
+            this.results.push({type: "move", from, to});
+            if ( (! this.variants.includes("classic")) && (to === "e5") ) {
+                this.results.push({type: "capture", where: "e5"})
+            } else if (m.includes("x")) {
+                this.results.push({type: "capture", where: to})
+            }
         }
 
         if (partial) { return this; }

@@ -2897,6 +2897,7 @@
             "TOOFAR": "You cannot bear off from here."
         },
         "loa": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
             "NOT_IN_RANGE": "You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "Select your destination."

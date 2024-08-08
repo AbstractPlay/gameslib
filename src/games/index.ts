@@ -143,6 +143,7 @@ import { GonnectGame, IGonnectState } from "./gonnect";
 import { BugGame, IBugState } from "./bug";
 import { DragonEyesGame, IDragonEyesState } from "./dragoneyes";
 import { AtaxxGame, IAtaxxState } from "./ataxx";
+import { MajoritiesGame, IMajoritiesState } from "./majorities";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -288,6 +289,7 @@ export {
     BugGame, IBugState,
     DragonEyesGame, IDragonEyesState,
     AtaxxGame, IAtaxxState,
+    MajoritiesGame, IMajoritiesState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -337,7 +339,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AsliGame | typeof ConectGame | typeof SlydeGame |
                               typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame |
                               typeof VoloGame | typeof StrandsGame | typeof GonnectGame |
-                              typeof BugGame | typeof DragonEyesGame | typeof AtaxxGame
+                              typeof BugGame | typeof DragonEyesGame | typeof AtaxxGame |
+                              typeof MajoritiesGame
                 >();
 // Manually add each game to the following array
 [
@@ -361,6 +364,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
+    MajoritiesGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -656,6 +660,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new DragonEyesGame(...args);
         case "ataxx":
             return new AtaxxGame(...args);
+        case "majorities":
+            return new MajoritiesGame(...args);
     }
     return;
 }

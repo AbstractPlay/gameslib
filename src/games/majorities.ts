@@ -47,13 +47,13 @@ export class MajoritiesGame extends GameBase {
             }
         ],
         variants: [
-            { uid: "size-3", group: "board" },
+            // { uid: "size-3", group: "board" },
             { uid: "size-7", group: "board" },
             { uid: "no-blocked" },
             { uid: "capture" },
         ],
         categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental", "pie"],
+        flags: ["experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {

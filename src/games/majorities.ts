@@ -906,10 +906,10 @@ export class MajoritiesGame extends GameBase {
         const d1 = this.lineWinners[2].filter(w => w === 1).length;
         const d2 = this.lineWinners[2].filter(w => w === 2).length;
         return [{
-            name: i18next.t("apgames:status.SCORES"),
+            name: i18next.t("apgames:status.majorities"),
             scores: [
-                `─: ${h1}, ⟋: ${a1}, ⟍: ${d1}`,
-                `─: ${h2}, ⟋: ${a2}, ⟍: ${d2}`,
+                `${h1}, ${a1}, ${d1}`,
+                `${h2}, ${a2}, ${d2}`,
             ]
         }];
     }
@@ -921,7 +921,7 @@ export class MajoritiesGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
-        status += "**Scores**\n\n";
+        status += "**Scores (─, ⟋, ⟍)**\n\n";
         const scores = this.getPlayersScores()[0];
         for (let n = 1; n <= this.numplayers; n++) {
             status += `Player ${n}: ${scores.scores[n - 1]}\n\n`;

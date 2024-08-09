@@ -2120,6 +2120,7 @@
         "focus": "Controlled",
         "GROUPCOUNT": "Group count",
         "GROUPSIZES": "Group sizes",
+        "majorities": "Scores (─, ⟋, ⟍)",
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
         "PIECESINHANDSTASH": "Pieces in hand / stash",

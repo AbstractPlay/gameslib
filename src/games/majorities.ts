@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, MarkerGlyph, MarkerLine, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -53,7 +53,7 @@ export class MajoritiesGame extends GameBase {
             { uid: "capture" },
         ],
         categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental"],
+        flags: ["experimental", "scores"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -892,11 +892,39 @@ export class MajoritiesGame extends GameBase {
         return rep;
     }
 
+    public getPlayerScore(player: playerid): number {
+        // Count the number of directions claimed by a player.
+        return this.directionWinners.filter(w => w === player).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        // Count the number of lines claimed in each direction by each player.
+        const h1 = this.lineWinners[0].filter(w => w === 1).length;
+        const h2 = this.lineWinners[0].filter(w => w === 2).length;
+        const a1 = this.lineWinners[1].filter(w => w === 1).length;
+        const a2 = this.lineWinners[1].filter(w => w === 2).length;
+        const d1 = this.lineWinners[2].filter(w => w === 1).length;
+        const d2 = this.lineWinners[2].filter(w => w === 2).length;
+        return [{
+            name: i18next.t("apgames:status.SCORES"),
+            scores: [
+                `─: ${h1}, ⟋: ${a1}, ⟍: ${d1}`,
+                `─: ${h2}, ⟋: ${a2}, ⟍: ${d2}`,
+            ]
+        }];
+    }
+
     public status(): string {
         let status = super.status();
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        status += "**Scores**\n\n";
+        const scores = this.getPlayersScores()[0];
+        for (let n = 1; n <= this.numplayers; n++) {
+            status += `Player ${n}: ${scores.scores[n - 1]}\n\n`;
         }
 
         return status;

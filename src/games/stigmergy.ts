@@ -578,7 +578,7 @@ export class StigmergyGame extends GameBase {
         }
         let showThreatened = true;
         let showInfluence = true;
-        let vertexStyle = true;
+        let vertexStyle = false;
         if (altDisplay !== undefined) {
             if (altDisplay === "hide-threatened") {
                 showThreatened = false;
@@ -588,7 +588,7 @@ export class StigmergyGame extends GameBase {
                 showThreatened = false;
                 showInfluence = false;
             } else if (altDisplay === "vertex-style") {
-                vertexStyle = false;
+                vertexStyle = true;
             }
         }
 

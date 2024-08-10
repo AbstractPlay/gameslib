@@ -1251,8 +1251,8 @@ export class AnacheGame extends GameBase {
                 G: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", colour: 1, opacity: 0.5 }],
                 H: [{ name: "piece", colour: "#FFF" }, { name: "piece-horse", colour: 2, opacity: 0.5 }],
                 // Frozen pieces
-                I: [{ name: "piece", colour: "#FFF"}, { name: "piece", colour: 1, opacity: 0.7 }],
-                J: [{ name: "piece", colour: "#FFF"}, { name: "piece", colour: 2, opacity: 0.7 }],
+                I: [{ name: "piece", colour: "#0FF" }, { name: "piece", colour: 1, opacity: 0.7 }],
+                J: [{ name: "piece", colour: "#0FF" }, { name: "piece", colour: 2, opacity: 0.7 }],
                 "arrow-N": [{ name: "pyramid-up-medium-3D", colour: "_context_strokes", "rotate": 0 }],
                 "arrow-NE": [{ name: "pyramid-up-medium-3D", colour: "_context_strokes", "rotate": 45 }],
                 "arrow-E": [{ name: "pyramid-up-medium-3D", colour: "_context_strokes", "rotate": 90 }],

@@ -1996,6 +1996,10 @@
             "hide-threatened": {
                 "description": "Don't highlight possible replacements.",
                 "name": "Hide threatened"
+            },
+            "vertex-style": {
+                "description": "Display the board using vertexes instead of hexes.",
+                "name": "Vertex style"
             }
         },
         "strands": {

@@ -1784,6 +1784,12 @@
                 "name": "3D orbs"
             }
         },
+        "anache": {
+            "hide-frozen": {
+                "description": "Don't highlight frozen pieces.",
+                "name": "Hide frozen"
+            }
+        },
         "archimedes": {
             "hide-threatened": {
                 "description": "Don't highlight pieces that are threatened to be removed next turn.",
@@ -2277,7 +2283,7 @@
             "DRAGON_TOO_MANY": "If you wish to make a group move, you must select only the dragon.",
             "DUPLICATE": "Duplicated piece selection {{where}} in group move.",
             "FIRST_MOVE_NO_DOUBLE": "On the first turn, you may only move one group.",
-            "IMMOBILISED": "The piece at {{where}} is immobilised.",
+            "IMMOBILISED": "The piece at {{where}} is frozen.",
             "INCLUDE_UNMOVED": "You must include at least one piece that has not moved yet.",
             "INITIAL_INSTRUCTIONS": "Select your pieces to move.",
             "INVALID_DIR": "The direction {{dir}} is not a valid direction to move the group to.",

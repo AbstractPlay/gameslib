@@ -47,11 +47,12 @@ export class AnacheGame extends GameBase {
         description: "apgames:descriptions.anache",
         // i18next.t("apgames:notes.anache")
         notes: "apgames:notes.anache",
-        urls: ["https://www.mathematik.hu-berlin.de/~ploog/BSB/Anache.pdf"],
+        urls: ["https://boardgamegeek.com/boardgame/425859/anache"],
         people: [
             {
                 type: "designer",
-                name: "GoldGeneral_0"
+                name: "Ocean Brindisi",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/163211/ocean-brindisi"],
             }
         ],
         variants: [

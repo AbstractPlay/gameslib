@@ -78,7 +78,7 @@ export class StigmergyGame extends GameBase {
                 group: "komi"
             }
         ],
-        displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
+        displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}, {uid: "vertex-style"}],
     };
 
     public numplayers = 2;
@@ -261,6 +261,7 @@ export class StigmergyGame extends GameBase {
             if (this.isKomiRuleActive() && this.stack.length < 3) {
                 const dummyResult = this.validateMove("") as IClickResult;
                 dummyResult.move = "";
+                dummyResult.valid = false;
                 return dummyResult;
             }
 
@@ -577,6 +578,7 @@ export class StigmergyGame extends GameBase {
         }
         let showThreatened = true;
         let showInfluence = true;
+        let vertexStyle = false;
         if (altDisplay !== undefined) {
             if (altDisplay === "hide-threatened") {
                 showThreatened = false;
@@ -585,6 +587,8 @@ export class StigmergyGame extends GameBase {
             } else if (altDisplay === "hide-both") {
                 showThreatened = false;
                 showInfluence = false;
+            } else if (altDisplay === "vertex-style") {
+                vertexStyle = true;
             }
         }
 
@@ -636,15 +640,23 @@ export class StigmergyGame extends GameBase {
             points2 = points.get(2)!;
 
             if (points1.length > 0) {
-                markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+                if (vertexStyle) {
+                    markers.push({ type: "dots", colour: 1, points: points1 });
+                } else {
+                    markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+                }
             }
 
             if (points2.length > 0) {
-                markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+                if (vertexStyle) {
+                    markers.push({ type: "dots", colour: 2, points: points2 });
+                } else {
+                    markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+                }
             }
         }
 
-        if (showThreatened) {
+        if (showThreatened && !vertexStyle) {
             const points = this.threatenedMarkers();
             points1 = points.get(1)!;
             points2 = points.get(2)!;
@@ -665,7 +677,7 @@ export class StigmergyGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "hex-of-hex",
+                style: vertexStyle ? "hex-of-tri" : "hex-of-hex",
                 minWidth: this.boardSize,
                 maxWidth: this.boardSize * 2 - 1,
                 markers,
@@ -679,6 +691,20 @@ export class StigmergyGame extends GameBase {
             if (move.type === "place" || move.type === "capture") {
                 const [x, y] = this.getGraph().algebraic2coords(move.where!);
                 rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+            }
+        }
+
+        if (showThreatened && vertexStyle) {
+            const points = this.threatenedMarkers();
+            points1 = points.get(1)!;
+            points2 = points.get(2)!;
+
+            if (points1.length > 0) {
+                rep.annotations.push({type: "dots", colour: 1, targets: points1 as [{row: number; col: number}, ...{row: number; col: number}[]] });
+            }
+
+            if (points2.length > 0) {
+                rep.annotations.push({type: "dots", colour: 2, targets: points2 as [{row: number; col: number}, ...{row: number; col: number}[]] });
             }
         }
 

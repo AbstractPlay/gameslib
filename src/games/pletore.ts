@@ -248,6 +248,7 @@ export class PletoreGame extends GameBase {
             if (this.isKomiRuleActive() && this.stack.length < 3) {
                 const dummyResult = this.validateMove("") as IClickResult;
                 dummyResult.move = "";
+                dummyResult.valid = false;
                 return dummyResult;
             }
 

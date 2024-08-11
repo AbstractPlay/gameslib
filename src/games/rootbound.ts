@@ -160,7 +160,11 @@ export class RootBoundGame extends GameBase {
         return (this.listCells() as string[]).filter(c => this.getGroupId(c) === groupId);
     }
 
-    private computeClaimedRegions(): ClaimedRegion[] {
+    private computeClaimedRegions(board?: Map<string, CellContent>): ClaimedRegion[] {
+        if (board === undefined) {
+            board = this.board;
+        }
+
         const claimedRegions: ClaimedRegion[] = [];
 
         if (this.stack.length < 3) {
@@ -168,7 +172,7 @@ export class RootBoundGame extends GameBase {
         }
 
         const exploredCells: string[] = [];
-        const emptyCells = (this.listCells() as string[]).filter(c => !this.board.has(c));
+        const emptyCells = (this.listCells() as string[]).filter(c => !board!.has(c));
 
         while (exploredCells.length !== emptyCells.length) {
             const claimedRegion = [null, 0, [], []] as ClaimedRegion;
@@ -188,7 +192,7 @@ export class RootBoundGame extends GameBase {
                     claimedRegion[3].push(cell);
                     const neighbors = this.getGraph().neighbours(cell);
                     for (const neighbor of neighbors) {
-                        if (!this.board.has(neighbor)) {
+                        if (!board.has(neighbor)) {
                             if (!exploredCells.includes(neighbor)) {
                                 nextWave.push(neighbor);
                                 exploredCells.push(neighbor);
@@ -267,13 +271,9 @@ export class RootBoundGame extends GameBase {
     }
 
     // Assumes that the first placement has not been put into the board Map
-    private isValidSecondPlacement(player: PlayerId, firstCell: string, secondCell: string): boolean {
-        if (firstCell === secondCell) return false;
-        if (this.board.has(secondCell)) return false;
+    private isValidSecondPlacement(player: PlayerId, secondCell: string, boardClone: Map<string, CellContent>): boolean {
+        if (boardClone.has(secondCell)) return false;
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const boardClone = deepclone(this.board) as Map<string, CellContent>;
-        boardClone.set(firstCell, [player, 10000]);
         const neighbors = this.getGraph().neighbours(secondCell).filter(c => boardClone.has(c) && boardClone.get(c)![0] === player);
         for (const neighbor of neighbors) {
             const neighborNeighbors = this.getGraph().neighbours(neighbor).filter(c => boardClone.has(c) && boardClone.get(c)![0] === player && neighbors.includes(c));
@@ -328,25 +328,35 @@ export class RootBoundGame extends GameBase {
             prohibitedCells.push(...this.getEmptyNeighborsOfGroup(0));
         }
 
-        const validFirstMoves = (this.listCells() as string[]).filter(c => !prohibitedCells.includes(c) && this.isValidPlacement(player!, c));
+        const validFirstMoves = (this.listCells() as string[]).filter(c => !prohibitedCells.includes(c) && this.isValidPlacement(player!, c)).sort();
         moves.push(...validFirstMoves);
 
         if (this.stack.length > 1) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            const boardClone = deepclone(this.board) as Map<string, CellContent>;
+
             for (const firstMove of validFirstMoves) {
                 const neighbors: string[] = [];
                 if (this.stack.length === 2) neighbors.push(...this.getGraph().neighbours(firstMove).filter(c => !this.board.has(c)));
                 if (this.stack.length === 3) neighbors.push(...this.getGraph().neighbours(firstMove).filter(c => this.getEmptyNeighborsOfGroup(0).includes(c)));
+
+                boardClone.set(firstMove, [player, 10000]);
+
                 const validSecondMoves = (this.listCells() as string[]).filter(c => !prohibitedCells.includes(c) && !neighbors.includes(c)
-                        && this.isValidSecondPlacement(player!, firstMove, c));
+                        && this.isValidSecondPlacement(player!, c, boardClone)).sort();
                 for (const secondMove of validSecondMoves) {
                     if (!this.isRapidGrowthMove(firstMove, secondMove)) {
-                        moves.push(firstMove+","+secondMove);
+                        if (!moves.includes(`${secondMove},${firstMove}`)) {
+                            moves.push(`${firstMove},${secondMove}`);
+                        }
                     }
                 }
+
+                boardClone.delete(firstMove);
             }
         }
 
-        if (moves.length === 0) {
+        if (this.stack.length > 3) {
             moves.push("pass");
         }
 
@@ -360,18 +370,24 @@ export class RootBoundGame extends GameBase {
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
-        if (move.split(",").length === 2) return {move, message: ""} as IClickResult;
+        if ((this.stack.length === 1 && move !== "") || move.split(",").length === 2) return {move, message: ""} as IClickResult;
         try {
             let newMove = "";
+            let retryMove = "";
             const cell = this.getGraph().coords2algebraic(col, row);
             // If you click on an occupied cell, do nothing
             if (this.board.has(cell)) {
                 return {move, message: ""} as IClickResult;
             } else {
                 newMove = (move === "") ? cell : move+","+cell;
+                retryMove = (move === "") ? cell : cell+","+move;
             }
 
-            const result = this.validateMove(newMove) as IClickResult;
+            let result = this.validateMove(newMove) as IClickResult;
+            if (!result.valid) {
+                newMove = retryMove;
+                result = this.validateMove(newMove) as IClickResult;
+            }
             if (!result.valid) {
                 result.move = move;
             } else {
@@ -500,9 +516,13 @@ export class RootBoundGame extends GameBase {
         return this;
     }
 
-    private removeGroup(groupId: number, includeInResult = true): RootBoundGame {
+    private removeGroup(groupId: number, includeInResult = true, board?: Map<string, CellContent>): RootBoundGame {
+        if (board === undefined) {
+            board = this.board;
+        }
+
         const removals: string[] = [];
-        this.board.forEach((value, key) => {
+        board.forEach((value, key) => {
             if (value[1] === groupId) {
                 removals.push(key);
                 if (!includeInResult) {
@@ -511,7 +531,7 @@ export class RootBoundGame extends GameBase {
             }
         });
         removals.forEach(key => {
-            this.board.delete(key);
+            board!.delete(key);
         });
         if (includeInResult) {
             this.results.push({type: "capture", where: Array.from(removals).join(","), what: "group", count: removals.length});
@@ -575,7 +595,25 @@ export class RootBoundGame extends GameBase {
         if (this.removeDeadGroups(claimedRegions)) {
             claimedRegions = this.computeClaimedRegions();
         }
-        this.updateScore(claimedRegions);
+
+        if (this.isNewRules()) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            const board = deepclone(this.board) as Map<string, CellContent>;
+            for (const keyValueArray of this.getGroupsBySize(board)) {
+                claimedRegions = this.computeClaimedRegions(board);
+                const liveGroups = this.getLiveGroups(1, claimedRegions);
+                liveGroups.push(...this.getLiveGroups(2, claimedRegions));
+                for (const group of keyValueArray[1]) {
+                    if (!liveGroups.includes(group)) {
+                        this.removeGroup(group, false, board);
+                    }
+                }
+            }
+            claimedRegions = this.computeClaimedRegions();
+            this.updateScore(claimedRegions, board);
+        } else {
+            this.updateScore(claimedRegions);
+        }
 
         // update currplayer
         this.lastmove = m;
@@ -614,7 +652,11 @@ export class RootBoundGame extends GameBase {
         return false;
     }
 
-    private updateScore(claimedRegions: ClaimedRegion[]): RootBoundGame {
+    private updateScore(claimedRegions: ClaimedRegion[], board?: Map<string, CellContent>): RootBoundGame {
+        if (board === undefined) {
+            board = this.board;
+        }
+
         this.scores[0] = 0;
         this.scores[1] = 0;
 
@@ -624,6 +666,14 @@ export class RootBoundGame extends GameBase {
         }
 
         if (this.isNewRules()) {
+            for (const cell of (this.listCells() as string[]).filter(c => board!.has(c))) {
+                if (board.get(cell)![0] === 1) {
+                    this.scores[0]++;
+                } else {
+                    this.scores[1]++;
+                }
+            }
+
             if (this.firstpasser !== undefined) {
                 if (this.firstpasser === 1) this.scores[0] += 0.5;
                 else this.scores[1] += 0.5;
@@ -632,10 +682,14 @@ export class RootBoundGame extends GameBase {
         return this;
     }
 
-    private getGroupsBySize(): Map<number, number[]> {
+    private getGroupsBySize(board?: Map<string, CellContent>): Map<number, number[]> {
+        if (board === undefined) {
+            board = this.board;
+        }
+
         const groupsBySize = new Map<number, number[]>();
         const sizeByGroupArray: [number, number][] = [];
-        const cells = (this.listCells() as string[]).filter(c => this.board.has(c));
+        const cells = (this.listCells() as string[]).filter(c => board!.has(c));
         for (const cell of cells) {
             const groupId = this.getGroupId(cell);
             if (sizeByGroupArray[groupId] === undefined) {

@@ -609,7 +609,7 @@ export class RootBoundGame extends GameBase {
                     }
                 }
             }
-            claimedRegions = this.computeClaimedRegions();
+            claimedRegions = this.computeClaimedRegions(board);
             this.updateScore(claimedRegions, board);
         } else {
             this.updateScore(claimedRegions);

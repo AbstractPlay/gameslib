@@ -165,6 +165,7 @@
         "pletore": "An intersection is controlled by a player if they 'pinch' it while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. Your score is the sum of the number of stones of your color on the board and the number of empty points you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "razzle": "The implementation here is the so called tournament rules.",
+        "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
         "spree": "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
@@ -2141,6 +2142,7 @@
             "GAME2": "Game 2"
         },
         "SCORES": "Scores",
+        "ESTIMATEDSCORES": "Estimated scores",
         "TOPLACE": "Piece to place"
     },
     "validation": {

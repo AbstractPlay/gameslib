@@ -146,14 +146,20 @@ export class RootBoundGame extends GameBase {
         }
     }
 
-    private getOwner(cell: string): PlayerId|null {
-        if (!this.board.has(cell)) return null;
-        return this.board.get(cell)![0];
+    private getOwner(cell: string, board?: Map<string, CellContent>): PlayerId|null {
+        if (board === undefined) {
+            board = this.board;
+        }
+        if (!board.has(cell)) return null;
+        return board.get(cell)![0];
     }
 
-    private getGroupId(cell: string): number {
-        if (!this.board.has(cell)) return -1;
-        return this.board.get(cell)![1];
+    private getGroupId(cell: string, board?: Map<string, CellContent>): number {
+        if (board === undefined) {
+            board = this.board;
+        }
+        if (!board.has(cell)) return -1;
+        return board.get(cell)![1];
     }
 
     private getCellsInGroup(groupId: number): string[] {
@@ -221,21 +227,40 @@ export class RootBoundGame extends GameBase {
         return claimedRegions;
     }
 
-    private getEmptyNeighborsOfGroup(groupId: number): string[] {
+    private getEmptyNeighborsOfGroup(groupId: number, board?: Map<string, CellContent>): string[] {
+        if (board === undefined) {
+            board = this.board;
+        }
         const emptyNeighbors: string[] = [];
         const groupCells = this.getCellsInGroup(groupId);
         for (const cell of groupCells) {
             const neighbors = this.getGraph().neighbours(cell);
             for (const neighbor of neighbors) {
-                if (!this.board.has(neighbor) && !emptyNeighbors.includes(neighbor))
+                if (!board.has(neighbor) && !emptyNeighbors.includes(neighbor))
                     emptyNeighbors.push(neighbor);
             }
         }
         return emptyNeighbors;
     }
 
-    private canSeeAllyGroup(player: PlayerId, groupId: number): boolean {
-        let cellsToExplore = this.getEmptyNeighborsOfGroup(groupId);
+    private getGroupOwner(groupId: number, board?: Map<string, CellContent>): PlayerId|null {
+        if (board === undefined) {
+            board = this.board;
+        }
+        for (const cell of (this.listCells() as string[])) {
+            if (board.has(cell) && this.getGroupId(cell) === groupId) {
+                return this.getOwner(cell, board);
+            }
+        }
+        return null;
+    }
+
+    private canSeeAllyGroup(groupId: number, liveGroups: number[]|null = null, board?: Map<string, CellContent>): boolean {
+        if (board === undefined) {
+            board = this.board;
+        }
+        const player = this.getGroupOwner(groupId, board);
+        let cellsToExplore = this.getEmptyNeighborsOfGroup(groupId, board);
         let nextWaveToExplore: string[] = [];
         const exploredCells = [...cellsToExplore];
 
@@ -243,11 +268,15 @@ export class RootBoundGame extends GameBase {
             for (const cellToExplore of cellsToExplore) {
                 const neighbors = this.getGraph().neighbours(cellToExplore);
                 for (const neighbor of neighbors) {
-                    if (!this.board.has(neighbor) && !exploredCells.includes(neighbor) && !nextWaveToExplore.includes(neighbor)) {
+                    if (!board.has(neighbor) && !exploredCells.includes(neighbor) && !nextWaveToExplore.includes(neighbor)) {
                         nextWaveToExplore.push(neighbor);
                         exploredCells.push(neighbor);
-                    } else if (this.board.has(neighbor) && this.getOwner(neighbor) === player && this.getGroupId(neighbor) !== groupId) {
-                        return true;
+                    } else if (board.has(neighbor)) {
+                        const tempGroupId = this.getGroupId(neighbor, board);
+                        if (this.getOwner(neighbor, board) === player && tempGroupId !== groupId
+                                && (liveGroups === null || liveGroups.includes(tempGroupId))) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -596,48 +625,55 @@ export class RootBoundGame extends GameBase {
             claimedRegions = this.computeClaimedRegions();
         }
 
-        if (this.isNewRules()) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            const board = deepclone(this.board) as Map<string, CellContent>;
-            for (const keyValueArray of this.getGroupsBySize(board)) {
-                claimedRegions = this.computeClaimedRegions(board);
-                const liveGroups = this.getLiveGroups(1, claimedRegions);
-                liveGroups.push(...this.getLiveGroups(2, claimedRegions));
-                for (const group of keyValueArray[1]) {
-                    if (!liveGroups.includes(group)) {
-                        this.removeGroup(group, false, board);
-                    }
-                }
-            }
-            claimedRegions = this.computeClaimedRegions(board);
-            this.updateScore(claimedRegions, board);
-        } else {
-            this.updateScore(claimedRegions);
-        }
-
         // update currplayer
         this.lastmove = m;
         this.currplayer = ((this.currplayer as number) % this.numplayers) + 1 as PlayerId;
 
-        if (this.checkEOGTrigger()) {
-            if (this.isNewRules()) {
-                for (const keyValueArray of this.getGroupsBySize()) {
-                    claimedRegions = this.computeClaimedRegions();
-                    const liveGroups = this.getLiveGroups(1, claimedRegions);
-                    liveGroups.push(...this.getLiveGroups(2, claimedRegions));
-                    for (const group of keyValueArray[1]) {
-                        if (!liveGroups.includes(group)) {
-                            this.removeGroup(group, false);
-                        }
-                    }
-                }
-                claimedRegions = this.computeClaimedRegions();
-                this.updateScore(claimedRegions);
+        if (this.isNewRules()) {
+            const board = this.resolveBoardAndUpdateScore();
+            if (this.checkEOGTrigger()) {
+                this.board = board;
+                this.resolveEOG();
             }
-            this.resolveEOG();
+        } else {
+            this.updateScore(claimedRegions);
+            if (this.checkEOGTrigger()) {
+                this.resolveEOG();
+            }
         }
+
         this.saveState();
         return this;
+    }
+
+    private resolveBoardAndUpdateScore(): Map<string, CellContent> {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const board = deepclone(this.board) as Map<string, CellContent>;
+
+        const originalRegions = this.computeClaimedRegions(board);
+        let claimedRegions = [...originalRegions];
+
+        for (const keyValueArray of this.getGroupsBySize(board)) {
+            const liveGroups = this.getLiveGroups(1, claimedRegions);
+            liveGroups.push(...this.getLiveGroups(2, claimedRegions));
+            let groupsRemoved = false;
+            for (const group of keyValueArray[1]) {
+                if (!liveGroups.includes(group) && !this.canSeeAllyGroup(group, liveGroups, board)) {
+                    this.removeGroup(group, false, board);
+                    groupsRemoved = true;
+                }
+            }
+            if (groupsRemoved) {
+                claimedRegions = this.computeClaimedRegions(board);
+            }
+        }
+
+        if (claimedRegions.filter(c => c[0] !== null).length < 2) {
+            this.updateScore(originalRegions, this.board);
+        } else {
+            this.updateScore(claimedRegions, board);
+        }
+        return board;
     }
 
     private removeDeadGroups(claimedRegions: ClaimedRegion[]): boolean {
@@ -734,7 +770,7 @@ export class RootBoundGame extends GameBase {
 
         const liveGroups = this.getLiveGroups(player, claimedRegions);
         for (const groupId of groupIds) {
-            if (!liveGroups.includes(groupId) && !this.canSeeAllyGroup(player, groupId)) {
+            if (!liveGroups.includes(groupId) && !this.canSeeAllyGroup(groupId)) {
                 deadGroups.push(groupId);
             }
         }
@@ -885,9 +921,17 @@ export class RootBoundGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.scores[0], this.scores[1]] }
-        ]
+        if (this.gameover) {
+            return [{
+                name: i18next.t("apgames:status.SCORES"),
+                scores: [this.scores[0], this.scores[1]]
+            }];
+        } else {
+            return [{
+                name: i18next.t("apgames:status.ESTIMATEDSCORES"),
+                scores: [this.scores[0], this.scores[1]]
+            }];
+        }
     }
 
     public status(): string {

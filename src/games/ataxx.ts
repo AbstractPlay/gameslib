@@ -46,11 +46,11 @@ export class AtaxxGame extends GameBase {
         ],
         variants: [
             { uid: "standard-5", group: "board" },
+            { uid: "standard-7-cross", group: "board" },
             { uid: "standard-9", group: "board", experimental: true },
             { uid: "hex-5", group: "board" },
             { uid: "hex-6", group: "board", experimental: true },
             { uid: "straight-jumps-only" },
-            { uid: "blocked-near-centre", group: "blocked", experimental: true }, // Just for testing blocked spaces.
         ],
         categories: ["goal>majority", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["experimental", "scores"],
@@ -81,7 +81,6 @@ export class AtaxxGame extends GameBase {
     private rectGrid: RectGrid | undefined;
     private hexTriGraph: HexTriGraph | undefined;
     private boardSize = 0;
-    private centreCell: string | undefined;
     private holes: string[] = [];
     private boardShape: "square" | "hex";
     private dots: string[] = [];
@@ -103,7 +102,7 @@ export class AtaxxGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                scores: this.getNewScores(this.currplayer, board),
+                scores: this.getNewScores(board),
             };
             this.stack = [fresh];
         } else {
@@ -123,7 +122,6 @@ export class AtaxxGame extends GameBase {
             this.hexTriGraph = this.getHexTriGraph();
         }
         this.load();
-        this.centreCell = this.boardShape === "hex" ? this.coords2algebraic(this.boardSize - 1, this.boardSize - 1) : this.coords2algebraic((this.boardSize - 1) / 2, (this.boardSize - 1) / 2);
         this.holes = this.getHoles();
     }
 
@@ -156,6 +154,17 @@ export class AtaxxGame extends GameBase {
                 "-----",
                 "-----",
                 "2---1",
+            ];
+        }
+        if (this.variants.includes("standard-7-cross")) {
+            return [
+                "1--x--2",
+                "---x---",
+                "---x---",
+                "xxx-xxx",
+                "---x---",
+                "---x---",
+                "2--x--1",
             ];
         }
         if (this.variants.includes("standard-9")) {
@@ -222,30 +231,6 @@ export class AtaxxGame extends GameBase {
         ];
     }
 
-    private getHoles(): string[] {
-        // Get holes for the variant.
-        // The holes should be generated in such a way that it applies to all board shapes and sizes.
-        if (this.variants.includes("blocked-near-centre")) {
-            const centre = this.algebraic2coords(this.centreCell!);
-            if (this.boardShape === "hex") {
-                return [
-                    this.coords2algebraic(...this.hexTriGraph!.move(...centre, "NE")!),
-                    this.coords2algebraic(...this.hexTriGraph!.move(...centre, "W")!),
-                    this.coords2algebraic(...this.hexTriGraph!.move(...centre, "SE")!),
-                ];
-            } else {
-                const [x, y] = centre;
-                return [
-                    this.coords2algebraic(x - 1, y - 1),
-                    this.coords2algebraic(x + 1, y - 1),
-                    this.coords2algebraic(x - 1, y + 1),
-                    this.coords2algebraic(x + 1, y + 1),
-                ];
-            }
-        }
-        return [];
-    }
-
     private initBoard(): Map<string, playerid> {
         // Get the initial board setup.
         const setup = this.setupString();
@@ -276,6 +261,20 @@ export class AtaxxGame extends GameBase {
             }
         }
         return board;
+    }
+
+    private getHoles(): string[] {
+        // Get holes from setup string.
+        const setup = this.setupString();
+        const holes: string[] = [];
+        for (let y = 0; y < setup.length; y++) {
+            for (let x = 0; x < setup[y].length; x++) {
+                if (setup[y][x] === "x") {
+                    holes.push(this.coords2algebraic(x, y));
+                }
+            }
+        }
+        return holes;
     }
 
     private getBoardSize(): number {
@@ -310,14 +309,9 @@ export class AtaxxGame extends GameBase {
         // A ray function that works for the different board types.
         const coords = this.algebraic2coords(cell);
         if (this.boardShape === "hex") {
-            const ray = this.hexTriGraph!.ray(...coords, direction as HexDirection).map(x => this.coords2algebraic(...x));
-            if (ray.includes(this.centreCell!)) {
-                ray.splice(ray.indexOf(this.centreCell!));
-            }
-            return ray;
+            return this.hexTriGraph!.ray(...coords, direction as HexDirection).map(x => this.coords2algebraic(...x));
         } else {
-            const ray = this.rectGrid!.ray(...coords, direction).map(x => this.coords2algebraic(...x));
-            return ray.filter(x => !this.holes.includes(x));
+            return this.rectGrid!.ray(...coords, direction).map(x => this.coords2algebraic(...x));
         }
     }
 
@@ -332,6 +326,7 @@ export class AtaxxGame extends GameBase {
                 moves.push(`${from}-${to}`);
             }
         }
+        if (moves.length === 0) { moves.push("pass"); }
         return moves;
     }
 
@@ -342,9 +337,7 @@ export class AtaxxGame extends GameBase {
         const playerFroms = [...board].filter(x => x[1] === player).map(x => x[0]);
         for (const from of playerFroms) {
             const tos = this.getTos(from);
-            if (tos.length > 0) {
-                return true;
-            }
+            if (tos.length > 0) { return true; }
         }
         return false;
     }
@@ -391,72 +384,89 @@ export class AtaxxGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.ataxx.INITIAL_INSTRUCTIONS");
+            if (!this.hasMoves(this.currplayer)) {
+                result.message = i18next.t("apgames:validation.ataxx.INITIAL_INSTRUCTIONS_PASS");
+            } else {
+                result.message = i18next.t("apgames:validation.ataxx.INITIAL_INSTRUCTIONS");
+            }
             return result;
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const [from, ...rest] = m.split("-");
-        const to = rest.join("-");
+        if (m === "pass") {
+            if (this.hasMoves(this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ataxx.ILLEGAL_PASS");
+                return result;
+            }
+        } else {
+            if (!this.hasMoves(this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ataxx.MUST_PASS");
+                return result;
+            }
+            const [from, ...rest] = m.split("-");
+            const to = rest.join("-");
 
-        // Valid cell
-        try {
-            this.algebraic2coords(from);
-        } catch {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: from });
-            return result;
-        }
-        if (!this.board.has(from)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: from });
-            return result;
-        }
-        if (this.board.get(from) !== this.currplayer) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
-            return result;
-        }
-        const tos = this.getTos(from);
-        if (tos.length === 0) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.ataxx.NO_TOS", { from });
-            return result;
-        }
-        if (to === "") {
-            result.valid = true;
-            result.complete = -1;
-            result.canrender = true;
-            result.message = i18next.t("apgames:validation.ataxx.SELECT_TO");
-            return result;
-        }
-        // Valid cell
-        try {
-            this.algebraic2coords(to);
-        } catch {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: to });
-            return result;
-        }
-        if (to === from) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
-            return result;
-        }
-        if (this.board.has(to)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: to });
-            return result;
-        }
-        if (this.holes.includes(to)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.ataxx.HOLE", { where: to });
-            return result;
-        }
-        if (!tos.includes(to)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.ataxx.INVALID_TO", { from, to });
-            return result;
+            // Valid cell
+            try {
+                this.algebraic2coords(from);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: from });
+                return result;
+            }
+            if (!this.board.has(from)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: from });
+                return result;
+            }
+            if (this.board.get(from) !== this.currplayer) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
+                return result;
+            }
+            const tos = this.getTos(from);
+            if (tos.length === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ataxx.NO_TOS", { from });
+                return result;
+            }
+            if (to === "") {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.ataxx.SELECT_TO");
+                return result;
+            }
+            // Valid cell
+            try {
+                this.algebraic2coords(to);
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: to });
+                return result;
+            }
+            if (to === from) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
+                return result;
+            }
+            if (this.board.has(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: to });
+                return result;
+            }
+            if (this.holes.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ataxx.HOLE", { where: to });
+                return result;
+            }
+            if (!tos.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ataxx.INVALID_TO", { from, to });
+                return result;
+            }
         }
         result.valid = true;
         result.complete = 1;
@@ -555,26 +565,30 @@ export class AtaxxGame extends GameBase {
             }
         }
         if (m.length === 0) { return this; }
-        const [from, to] = m.split("-");
-        if (to === undefined || to === "") {
-            this.dots = this.getTos(from);
+        if (m === "pass") {
+            this.results = [{ type: "pass" }];
         } else {
-            let jump = false;
-            if (!this.getNeighbours(from).includes(to)) {
-                this.board.delete(from);
-                jump = true;
-            }
-            this.board.set(to, this.currplayer);
-            this.results = [{ type: "move", from, to, how: jump ? "jump" : "split"}];
-            const captures = this.getCaptures(to, this.currplayer);
-            if (captures.length > 0) {
-                for (const capture of captures) {
-                    this.board.set(capture, this.currplayer);
+            const [from, to] = m.split("-");
+            if (to === undefined || to === "") {
+                this.dots = this.getTos(from);
+            } else {
+                let jump = false;
+                if (!this.getNeighbours(from).includes(to)) {
+                    this.board.delete(from);
+                    jump = true;
                 }
-                this.results.push({ type: "capture", where: captures.join(","), count: captures.length });
+                this.board.set(to, this.currplayer);
+                this.results = [{ type: "move", from, to, how: jump ? "jump" : "split" }];
+                const captures = this.getCaptures(to, this.currplayer);
+                if (captures.length > 0) {
+                    for (const capture of captures) {
+                        this.board.set(capture, this.currplayer);
+                    }
+                    this.results.push({ type: "capture", where: captures.join(","), count: captures.length });
+                }
             }
         }
-        this.scores = this.getNewScores(this.currplayer);
+        this.scores = this.getNewScores();
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
@@ -582,39 +596,22 @@ export class AtaxxGame extends GameBase {
         return this;
     }
 
-    private getNewScores(player: playerid, board?: Map<string, playerid>): [number, number] {
+    private getNewScores(board?: Map<string, playerid>): [number, number] {
         // Update the scores with current piece count.
         board ??= this.board;
         const pieceCount1 = [...board].filter(x => x[1] === 1).length;
         const pieceCount2 = [...board].filter(x => x[1] === 2).length;
-        if (!this.hasMoves(player % 2 + 1 as playerid, board)) {
-            if (player === 1) {
-                return [pieceCount1 + this.emptyCellCount(board), pieceCount2];
-            } else {
-                return [pieceCount1, pieceCount2 + this.emptyCellCount(board)];
-            }
-        }
         return [pieceCount1, pieceCount2];
-    }
-
-    private emptyCellCount(board?: Map<string, playerid>): number {
-        // Count the number of empty cells.
-        board ??= this.board;
-        if (this.boardShape === "hex") {
-            return this.hexTriGraph!.listCells().flat().filter(x => !board!.has(x) && !this.holes.includes(x)).length;
-        }
-        return this.boardSize * this.boardSize - this.holes.length - board.size;
     }
 
     protected checkEOG(): AtaxxGame {
         const stateCount = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
-        if (!this.hasMoves(this.currplayer)) {
-            const emptyCellCount = this.emptyCellCount();
-            if (emptyCellCount > 0) {
-                this.results.push({ type: "claim", count: emptyCellCount });
-            }
-            this.results.push({ type: "eog"});
+        if (this.scores[this.currplayer - 1] === 0) {
+            this.results.push({ type: "eog", reason: "elimination" });
             this.gameover = true;
+        } else if (this.board.size === this.boardSize ** 2) {
+            this.results.push({ type: "eog" });
+            this.gameover = true
         } else if (stateCount >= 2) {
             this.results.push({ type: "eog", reason: "repetition" });
             this.gameover = true;
@@ -840,8 +837,8 @@ export class AtaxxGame extends GameBase {
                 node.push(i18next.t("apresults:CAPTURE.ataxx", { count: r.count }));
                 resolved = true;
                 break;
-            case "claim":
-                node.push(i18next.t("apresults:CLAIM.ataxx", { player, count: r.count }));
+            case "pass":
+                node.push(i18next.t("apresults:PASS.forced", { player }));
                 resolved = true;
                 break;
             case "eog":

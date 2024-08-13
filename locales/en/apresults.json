@@ -95,8 +95,6 @@
         }
     },
     "CLAIM": {
-        "ataxx_one": "{{player}} claimed the remaining 1 free space.",
-        "ataxx_other": "{{player}} claimed the remaining {{count}} free spaces.",
         "buku_singletons_one": "{{player}} claimed the remaining 1 piece on their colour.",
         "buku_singletons_other": "{{player}} claimed the remaining {{count}} pieces on their colour.",
         "buku_repetition_one": "{{player}} claimed all 1 remaining piece.",

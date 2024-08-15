@@ -235,6 +235,11 @@ export class GonnectGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m });
             return result;
         }
+        if (this.board.has(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
+            return result;
+        }
         if (this.isSelfCapture(m, this.currplayer)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.gonnect.SELF_CAPTURE", { where: m });

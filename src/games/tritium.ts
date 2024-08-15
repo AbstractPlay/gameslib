@@ -5,6 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
+export type tileid = 1|2|3
 export type playerid = 1|2;
 
 /**
@@ -19,6 +20,8 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
+    preparedflags: Map<playerid, number>;
+    tiles: Map<tileid, number>;
 };
 
 export interface ITritiumState extends IAPGameState {
@@ -55,11 +58,11 @@ export class TritiumGame extends GameBase {
     /**
      * For me personally, I like using algebraic notation and x,y coordinates, so I routinely convert between the two. The base object offers a default version that requires the board's height. For simplicity, if there's only one board size for a game, I create a game-specific version with the height baked in. This is one of those "flexibility" points. You are free to represent your game board and state in whatever way makes sense to you. You could delete and ignore these functions entirely, if you wanted.
      */
-    public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 7);
+    public coords2algebraic(x: number, y: number): string {
+        return this.graph.coords2algebraic(x, y, 7);
     }
-    public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 7);
+    public algebraic2coords(cell: string): [number, number] {
+        return this.graph.algebraic2coords(cell, 7);
     }
 
     /**
@@ -68,11 +71,15 @@ export class TritiumGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
+    public boardsize = 5;
+    public graph: HexTriGraph = this.getGraph();
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public preparedflags: Map<playerid, number>;
+    public tiles: Map<tileid, number>;
 
     /**
      * This is where you create a new game or load in an existing state handed to you by the front end. This is where you'd track variants, initialize your board, whatever else you need to do.
@@ -80,14 +87,21 @@ export class TritiumGame extends GameBase {
     constructor(state?: ITritiumState | string) {
         super();
         if (state === undefined) {
-            const board = new Map<string, playerid>();
-            const fresh: IMoveState = {
+            let fresh: IMoveState = {
                 _version: TritiumGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board,
+                board: new Map<string, playerid>(),
+                preparedflags: new Map<playerid, number>,
+                tiles: new Map<tiledid, number>
             };
+            for(let i = 1; i <= 2; i++) {
+                fresh.preparedflags[i] = 1;
+            }
+            for(let i = 1; i <= 3; i++) {
+                fresh.tiles[i] = this.boardsize * (this.boardsize - 1);
+            }
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
@@ -119,7 +133,16 @@ export class TritiumGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.preparedflags = new Map(state.preparedflags);
+        this.tiles = new Map(state.tiles);
+
         return this;
+    }
+
+    public getGraph(): HexTriGraph {
+        var graph = new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
+        graph.graph.dropNode("e5");
+        return graph;
     }
 
     /**
@@ -266,33 +289,6 @@ export class TritiumGame extends GameBase {
     }
 
     /**
-     * This is an example of a helper function. You can have as many functions as you need to help make your life easier. In this case, it just checks to see if a player has four in a row anywhere.
-     */
-    private hasFours(player: playerid): boolean {
-        const grid = new RectGrid(4,7);
-        for (let y = 0; y < 7; y++) {
-            for (let x = 0; x < 4; x++) {
-                for (const dir of ["W","SW","S","SE","E"] as const) {
-                    const ray = [[x,y] as [number,number], ...grid.ray(x, y, dir)].map(node => TritiumGame.coords2algebraic(...node));
-                    if (ray.length >= 4) {
-                        let four = true;
-                        for (const cell of ray.slice(0,4)) {
-                            if ( (! this.board.has(cell)) || (this.board.get(cell)! !== player) ) {
-                                four = false;
-                                break;
-                            }
-                        }
-                        if (four) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * This is the code that actually checks whether the game is over or not, and specifies who the winners are if so.
      */
     protected checkEOG(): TritiumGame {
@@ -343,6 +339,8 @@ export class TritiumGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
+            preparedflags: new Map(this.preparedflags),
+            tiles: new Map(this.tiles)
         };
     }
 

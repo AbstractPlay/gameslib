@@ -485,7 +485,7 @@ export class HexentaflGame extends GameBase {
             this.gameover = true;
             this.winner = [2];
             this.results.push({ type: "eog" });
-        } else if (this.stateCount() >= 2) {
+        } else if (this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) >= 2) {
             this.gameover = true;
             this.winner = [1, 2];
             this.results.push({ type: "eog", reason: "repetition" });

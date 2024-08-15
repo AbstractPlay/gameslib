@@ -758,7 +758,7 @@ export class AnacheGame extends GameBase {
                 }
             }
         }
-        const count = this.stateCount(newBoard, this.currplayer % 2 + 1 as playerid);
+        const count = this.stateCount(new Map<string, any>([["board", newBoard], ["currplayer", this.currplayer % 2 + 1]]));
         // Handling of partial group moves.
         if (isDragonMove) {
             if (dragonContinue) {

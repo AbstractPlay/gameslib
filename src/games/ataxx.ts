@@ -607,7 +607,7 @@ export class AtaxxGame extends GameBase {
     }
 
     protected checkEOG(): AtaxxGame {
-        const stateCount = this.stateCount();
+        const stateCount = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
         if (!this.hasMoves(this.currplayer)) {
             const emptyCellCount = this.emptyCellCount();
             if (emptyCellCount > 0) {

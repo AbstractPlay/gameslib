@@ -595,7 +595,7 @@ export class IrenseiGame extends InARowBase {
             this.results.push({ type: "eog" });
         }
         if (!this.gameover) {
-            const count = this.stateCount();
+            const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
             if (count >= 1) {
                 this.gameover = true;
                 this.winner = [this.currplayer];

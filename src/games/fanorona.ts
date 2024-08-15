@@ -600,7 +600,7 @@ export class FanoronaGame extends GameBase {
         }
 
         if (! this.gameover) {
-            const count = this.stateCount();
+            const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
             if (count >= 4) {
                 this.gameover = true;
                 this.winner = [1,2];

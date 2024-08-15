@@ -785,35 +785,27 @@ export abstract class GameBase  {
 
     // compares the most recent state to all previous states and returns
     // the number of times the state has been repeated
-    // arguments are optional. if provided, it will override the current state
-    public stateCount(board: any = undefined, currplayer: number | undefined = undefined): number {
+    // Provide a dictionary of the properties to check in the state, and the
+    // instances of that property to check for occurence in the stack.
+    public stateCount(toCheck: Map<string, any>): number {
         const stack = [...this.stack];
-        const comparator = stack.pop();
-        board ??= comparator?.board;
-        currplayer ??= comparator?.currplayer;
         let count = 0;
-        if (comparator !== undefined) {
-            if ("board" in comparator && "currplayer" in comparator) {
-                const srcStr = JSDstringify({
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    board,
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    currplayer,
-                }, {replacer: sortingReplacer});
-                for (const state of stack) {
-                    const test = {
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        board: state.board,
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                        currplayer: state.currplayer,
-                    }
-                    const otherStr = JSDstringify(test, {replacer: sortingReplacer});
-                    if (srcStr === otherStr) {
-                        count++;
-                    }
-                }
-            } else {
-                throw new Error("State counting only works if `board` and `currplayer` are part of the state.");
+        // If any of the keys of toCheck does not exist in the state, throw an error
+        for (const key of toCheck.keys()) {
+            if (!stack[0].hasOwnProperty(key)) {
+                throw new Error(`The key ${key} does not exist in the state.`);
+            }
+        }
+        const srcStr = JSDstringify(toCheck, { replacer: sortingReplacer });
+        for (const state of stack) {
+            const test = new Map<string, any>();
+            for (const key of toCheck.keys()) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                test.set(key, state[key]);
+            }
+            const otherStr = JSDstringify(test, { replacer: sortingReplacer });
+            if (srcStr === otherStr) {
+                count++;
             }
         }
         return count;

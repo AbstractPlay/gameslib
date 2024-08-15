@@ -633,7 +633,7 @@ export class MargoGame extends GameBase {
             }
             checkPlayer = checkPlayer % 2 + 1 as playerid;
         }
-        return this.stateCount(newBoard, player % 2 + 1 as playerid) >= 1;
+        return this.stateCount(new Map<string, any>([["board", newBoard], ["currplayer", player % 2 + 1]])) >= 1;
     }
 
     private checkKo(place: string, player: playerid, unsubmitted = false): boolean {

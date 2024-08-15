@@ -543,7 +543,7 @@ export class AsliGame extends GameBase {
         if (this.stack.length > 3) {
             let stateCount = 0;
             if (this.stack[this.stack.length - 2].lastmove !== "pass") {
-                stateCount = this.stateCount();
+                stateCount = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
             }
 
             if (stateCount > 0) {

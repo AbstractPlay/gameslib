@@ -1211,13 +1211,13 @@ export class TaflGame extends GameBase {
             this.gameover = true;
             this.winner = [this.playerDefender];
             this.results.push({ type: "eog", reason: "king-escaped" });
-        } else if (this.settings.ruleset.repetition === "defenders-lose" && this.currplayer === this.playerAttacker && this.stateCount() >= 2) {
+        } else if (this.settings.ruleset.repetition === "defenders-lose" && this.currplayer === this.playerAttacker && this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) >= 2) {
             // Perpetual repetitions is a loss for the defender.
             // But we only enforce it if defender player makes their turn.
             this.gameover = true;
             this.winner = [this.playerAttacker];
             this.results.push({ type: "eog", reason: "repetition" });
-        } else if (this.settings.ruleset.repetition === "draw" && this.stateCount() >= 2) {
+        } else if (this.settings.ruleset.repetition === "draw" && this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) >= 2) {
             this.gameover = true;
             this.winner = [1, 2];
             this.results.push({ type: "eog", reason: "repetition" });

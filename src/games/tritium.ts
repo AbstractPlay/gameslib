@@ -59,10 +59,10 @@ export class TritiumGame extends GameBase {
      * For me personally, I like using algebraic notation and x,y coordinates, so I routinely convert between the two. The base object offers a default version that requires the board's height. For simplicity, if there's only one board size for a game, I create a game-specific version with the height baked in. This is one of those "flexibility" points. You are free to represent your game board and state in whatever way makes sense to you. You could delete and ignore these functions entirely, if you wanted.
      */
     public coords2algebraic(x: number, y: number): string {
-        return this.graph.coords2algebraic(x, y, 7);
+        return this.graph.coords2algebraic(x, y, this.boardsize);
     }
     public algebraic2coords(cell: string): [number, number] {
-        return this.graph.algebraic2coords(cell, 7);
+        return this.graph.algebraic2coords(cell, this.boardsize);
     }
 
     /**
@@ -141,7 +141,8 @@ export class TritiumGame extends GameBase {
 
     public getGraph(): HexTriGraph {
         var graph = new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
-        graph.graph.dropNode("e5");
+        var center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1, this.boardsize);
+        graph.graph.dropNode(center);
         return graph;
     }
 
@@ -394,22 +395,6 @@ export class TritiumGame extends GameBase {
             },
             pieces: pstr
         };
-
-        // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
-            rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
-                if (move.type === "move") {
-                    const [fromX, fromY] = TritiumGame.algebraic2coords(move.from);
-                    const [toX, toY] = TritiumGame.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
-                } else if (move.type === "place") {
-                    const [x, y] = TritiumGame.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
-                }
-            }
-        }
 
         return rep;
     }

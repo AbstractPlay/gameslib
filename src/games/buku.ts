@@ -43,7 +43,7 @@ export class BukuGame extends GameBase {
             {uid: "size-10", group: "board"},
         ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["experimental", "shared-pieces", "scores"],
+        flags: ["experimental", "scores"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -869,7 +869,7 @@ export class BukuGame extends GameBase {
     public getPlayersScores(): IScores[] {
         const pieceCounts = this.gameover ? [0, 0] : this.pieceCounts();
         return [
-            { name: i18next.t("apgames:status.buku"), scores: [`${this.getPlayerScore(1)} / ${pieceCounts[0]}`, `${this.getPlayerScore(2)} / ${pieceCounts[1]}`] },
+            { name: i18next.t("apgames:status.buku.SCORES_ONBOARD"), scores: [`${this.getPlayerScore(1)} / ${pieceCounts[0]}`, `${this.getPlayerScore(2)} / ${pieceCounts[1]}`] },
         ]
     }
 

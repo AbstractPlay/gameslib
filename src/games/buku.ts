@@ -183,7 +183,7 @@ export class BukuGame extends GameBase {
                 sows.push(currCell);
                 remaining--;
             }
-            return `${rowCol}(${count}):${sows.join(",")}`;
+            return this.normaliseMove(`${rowCol}(${count}):${sows.join(",")}`);
         }
     }
 

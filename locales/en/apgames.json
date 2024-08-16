@@ -286,24 +286,14 @@
             }
         },
         "ataxx": {
-            "blocked-near-centre": {
-                "description": "A few cells near the centre are blocked.",
-                "name": "Blocked near centre"
-            },
             "hex-5": {
                 "name": "Size-5 hexagon board"
-            },
-            "hex-6": {
-                "name": "Size-6 hexagon board"
             },
             "square-5": {
                 "name": "Size-5 square board"
             },
             "square-7-cross": {
                 "name": "Size-7 square board with cross block"
-            },
-            "square-9": {
-                "name": "Size-9 square board"
             },
             "straight-jumps-only": {
                 "description": "Pieces can only jump in a straight line (no knight jumps).",

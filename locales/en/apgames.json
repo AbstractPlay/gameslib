@@ -2513,7 +2513,8 @@
             "GO_BACK_one": "You still have 1 piece to sow. Click on a piece on the sowing path to revert to that point and try again.",
             "GO_BACK_other": "You still have {{count}} pieces to sow. Click on a piece on the sowing path to revert and try again.",
             "CONTINUE_one": "You have 1 more piece to sow.",
-            "CONTINUE_other": "You have {{count}} more pieces to sow."
+            "CONTINUE_other": "You have {{count}} more pieces to sow.",
+            "NORMALISE": "The move needs to be normalised. Try '{{normalised}}'."
         },
         "byte": {
             "DIAG_ONLY": "Stacks may only move diagonally.",

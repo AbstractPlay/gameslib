@@ -43,7 +43,7 @@ export class BukuGame extends GameBase {
             {uid: "size-10", group: "board"},
         ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["experimental", "scores"],
+        flags: ["experimental", "scores", "custom-randomization"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -203,27 +203,56 @@ export class BukuGame extends GameBase {
         return count;
     }
 
-    private getLine(lastSow: string, cell: string): string | undefined {
-        // Get the line of cells between the last sow and the current cell.
-        const [x1, y1] = this.algebraic2coords(lastSow);
-        const [x2, y2] = this.algebraic2coords(cell);
-        if (x1 === x2) {
-            if (y1 === y2) { return undefined; }
-            const line = [];
-            const direction = y1 < y2 ? 1 : -1;
-            for (let i = y1 + direction; i !== y2 + direction; i += direction) {
-                line.push(this.coords2algebraic(x1, i));
+    private getLine(cells: string[]): string[] {
+        // Expand the cells
+        if (cells.length === 0) { return []; }
+        const line = [cells[0]];
+        for (let i = 1; i < cells.length; i++) {
+            const prev = cells[i - 1];
+            const curr = cells[i];
+            const [x1, y1] = this.algebraic2coords(prev);
+            const [x2, y2] = this.algebraic2coords(curr);
+            if (x1 === x2) {
+                if (y1 === y2) {
+                    line.push(prev);
+                }
+                const direction = y1 < y2 ? 1 : -1;
+                for (let j = y1 + direction; j !== y2 + direction; j += direction) {
+                    line.push(this.coords2algebraic(x1, j));
+                }
+            } else if (y1 === y2) {
+                const direction = x1 < x2 ? 1 : -1;
+                for (let j = x1 + direction; j !== x2 + direction; j += direction) {
+                    line.push(this.coords2algebraic(j, y1));
+                }
+            } else {
+                line.push(curr);
             }
-            return line.join(",");
-        } else if (y1 === y2) {
-            const line = [];
-            const direction = x1 < x2 ? 1 : -1;
-            for (let i = x1 + direction; i !== x2 + direction; i += direction) {
-                line.push(this.coords2algebraic(i, y1));
-            }
-            return line.join(",");
         }
-        return undefined
+        return line;
+    }
+
+    private normaliseMove(move: string): string {
+        // Normalise the move string.
+        // We don't actually do much here except to remove unnecessary cells
+        // when sowing in the same direction.
+        move = move.toLowerCase().replace(/\s+/g, "");
+        const [collectStr, sowStr] = move.split(":");
+        const line = this.getLine(sowStr.split(","));
+        // Remove cell if the next cell is in the same direction.
+        const toRemove: string[] = [];
+        for (let i = 2; i < line.length; i++) {
+            const prev = line[i - 2];
+            const curr = line[i - 1];
+            const next = line[i];
+            const [x1, y1] = this.algebraic2coords(prev);
+            const [x2, y2] = this.algebraic2coords(curr);
+            const [x3, y3] = this.algebraic2coords(next);
+            if (x1 === x2 && x2 === x3 || y1 === y2 && y2 === y3) {
+                toRemove.push(curr);
+            }
+        }
+        return `${collectStr}:${line.filter(cell => !toRemove.includes(cell)).join(",")}`;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -254,22 +283,16 @@ export class BukuGame extends GameBase {
                         newmove = `${collectStr}:`;
                     } else {
                         const sowed = sowStr.split(",");
-                        if (sowed.includes(cell)) {
+                        const line = this.getLine(sowed);
+                        if (line.includes(cell)) {
                             // Slice off the cells after cell including cell.
-                            const idx = sowed.indexOf(cell);
-                            if (idx < sowed.length - 1) {
-                                sowed.splice(idx + 1);
+                            const idx = line.indexOf(cell);
+                            if (idx < line.length - 1) {
+                                line.splice(idx + 1);
                             }
-                            newmove = `${collectStr}:${sowed.join(",")}`;
+                            newmove = this.normaliseMove(`${collectStr}:${line.join(",")}`);
                         } else {
-                            const lastSow = sowed[sowed.length - 1];
-                            const line = this.getLine(lastSow, cell);
-                            if (line === undefined) {
-                                // Allow error handler to catch this.
-                                newmove = `${move},${cell}`;
-                            } else {
-                                newmove = `${move},${line}`;
-                            }
+                            newmove = this.normaliseMove(`${move},${cell}`);
                         }
                     }
                 }
@@ -355,13 +378,14 @@ export class BukuGame extends GameBase {
         }
         // Now parse the sowing.
         const sows = sowStr ? sowStr.split(",") : [];
-        if (sows.length > collectCount) {
+        const line = this.getLine(sows);
+        if (line.length > collectCount) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.buku.TOO_MANY_SOWS", { count: collectCount });
             return result;
         }
         const seen: Set<string> = new Set();
-        for (const sow of sows) {
+        for (const sow of line) {
             // valid cell
             try {
                 const [x, y] = this.algebraic2coords(sow);
@@ -381,9 +405,9 @@ export class BukuGame extends GameBase {
             }
             seen.add(sow);
         }
-        for (let i = 1; i < sows.length; i++) {
-            const prev = sows[i - 1];
-            const curr = sows[i];
+        for (let i = 1; i < line.length; i++) {
+            const prev = line[i - 1];
+            const curr = line[i];
             if (!this.isNeighbour(prev, curr)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.buku.NOT_NEIGHBOURS", { prev, curr });
@@ -396,25 +420,33 @@ export class BukuGame extends GameBase {
             result.message = i18next.t("apgames:validation.buku.INVALID_MOVE", { move: m });
             return result;
         }
-        if (sows.length < collectCount) {
-            if (sows.length === 0) {
+        if (line.length < collectCount) {
+            if (line.length === 0) {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation.buku.START_SOWING", { count: collectCount });
                 return result;
             }
-            if (this.getNeighbours(sows[sows.length - 1]).filter(cell => !sows.includes(cell)).length === 0) {
+            if (this.getNeighbours(line[line.length - 1]).filter(cell => !line.includes(cell)).length === 0) {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.buku.GO_BACK", { count: collectCount - sows.length });
+                result.message = i18next.t("apgames:validation.buku.GO_BACK", { count: collectCount - line.length });
                 return result;
             }
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.buku.CONTINUE", { count: collectCount - sows.length });
+            result.message = i18next.t("apgames:validation.buku.CONTINUE", { count: collectCount - line.length });
+            return result;
+        }
+
+        // Check if the move is normalised.
+        const normalised = this.normaliseMove(m);
+        if (m !== normalised) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.buku.NORMALISE", { normalised });
             return result;
         }
 
@@ -489,6 +521,7 @@ export class BukuGame extends GameBase {
         this.results = [];
         const [collectStr, sowStr] = m.split(":");
         const sows = sowStr ? sowStr.split(",") : [];
+        const line = this.getLine(sows);
         const collect = collectStr.split("(")[0];
         let collectCount: number | undefined;
         if (this.currplayer === 1) {
@@ -525,14 +558,14 @@ export class BukuGame extends GameBase {
             collectCount = c1 + c2;
             this.results.push({ type: "take", from: collect, count: collectCount, what: `${c1},${c2}`, how: "col" });
         }
-        for (const sow of sows) {
+        for (const sow of line) {
             const [x, y] = this.algebraic2coords(sow);
             this.board[y][x] += 1;
         }
-        if (sows.length > 0) {
-            this.results.push({ type: "sow", pits: sows });
+        if (line.length > 0) {
+            this.results.push({ type: "sow", pits: line });
         }
-        const remaining = collectCount - sows.length;
+        const remaining = collectCount - line.length;
         if (remaining === 0) {
             const captures = this.getCaptures(this.currplayer);
             if (captures.length > 0) {
@@ -546,8 +579,8 @@ export class BukuGame extends GameBase {
                 this.scores[this.currplayer - 1] += totalCaptures;
             }
             this.dots = [];
-        } else if (sows.length > 0) {
-            this.dots = this.getDots(sows[sows.length - 1], remaining, sows);
+        } else if (line.length > 0) {
+            this.dots = this.getDots(line[line.length - 1], remaining, line);
         }
         if (partial) { return this; }
 

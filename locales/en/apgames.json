@@ -2381,7 +2381,9 @@
             "MUST_PASS": "The only move available to you is to pass.",
             "ILLEGAL_PASS": "You may only pass if you have no legal moves.",
             "NO_TOS": "The selected piece at {{from}} has no possible destinations to split or jump to.",
-            "SELECT_TO": "Select a destination to split or jump to."
+            "SELECT_TO": "Select a destination to split or jump to.",
+            "SPLIT4JUMP": "You have indicated a split when it's supposed to be a jump. Try {{move}}.",
+            "JUMP4SPLIT": "You have indicated a jump when it's supposed to be a split. Try {{move}}."
         },
         "atoll": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece."

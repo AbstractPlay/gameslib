@@ -319,9 +319,12 @@ export class AtaxxGame extends GameBase {
         const moves: string[] = [];
         const playerFroms = [...this.board].filter(x => x[1] === player).map(x => x[0]);
         for (const from of playerFroms) {
-            const tos = this.getTos(from);
-            for (const to of tos) {
+            const [splits, jumps] = this.getSplitsJumps(from);
+            for (const to of splits) {
                 moves.push(`${from}-${to}`);
+            }
+            for (const to of jumps) {
+                moves.push(`${from}^${to}`);
             }
         }
         if (moves.length === 0) { moves.push("pass"); }
@@ -357,7 +360,12 @@ export class AtaxxGame extends GameBase {
                 } else if (this.board.has(cell) && this.board.get(cell) === this.currplayer) {
                     newmove = cell;
                 } else {
-                    newmove = `${move}-${cell}`;
+                    const [, jumps] = this.getSplitsJumps(move);
+                    if (jumps.includes(cell)) {
+                        newmove = `${move}^${cell}`;
+                    } else {
+                        newmove = `${move}-${cell}`;
+                    }
                 }
             }
             const result = this.validateMove(newmove) as IClickResult;
@@ -403,8 +411,7 @@ export class AtaxxGame extends GameBase {
                 result.message = i18next.t("apgames:validation.ataxx.MUST_PASS");
                 return result;
             }
-            const [from, ...rest] = m.split("-");
-            const to = rest.join("-");
+            const [from, to] = m.includes("^") ? m.split("^") : m.split("-");
 
             // Valid cell
             try {
@@ -424,13 +431,14 @@ export class AtaxxGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
                 return result;
             }
-            const tos = this.getTos(from);
+            const [splits, jumps] = this.getSplitsJumps(from);
+            const tos = [...splits, ...jumps];
             if (tos.length === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.ataxx.NO_TOS", { from });
                 return result;
             }
-            if (to === "") {
+            if (to === undefined || to === "") {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
@@ -465,6 +473,15 @@ export class AtaxxGame extends GameBase {
                 result.message = i18next.t("apgames:validation.ataxx.INVALID_TO", { from, to });
                 return result;
             }
+            if (m.includes("-") && jumps.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ataxx.SPLIT4JUMP", { move: `${from}^${to}` });
+                return result;
+            } else if (m.includes("^") && splits.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.ataxx.JUMP4SPLIT", { move: `${from}-${to}` });
+                return result;
+            }
         }
         result.valid = true;
         result.complete = 1;
@@ -481,16 +498,22 @@ export class AtaxxGame extends GameBase {
         }
     }
 
-    private getTos(from: string): string[] {
+    private getSplitsJumps(from: string): [string[], string[]] {
         // Get all possible tos for a from cell.
-        const tos: string[] = [];
+        // The first array is the normal moves, the second array is the jumps.
+        const splits: string[] = [];
+        const jumps: string[] = [];
         if (this.boardShape === "hex") {
             for (const dir of allHexDirections) {
                 const ray = this.ray(from, dir).slice(0, 2);
-                for (const cell of ray) {
+                for (const [i, cell] of ray.entries()) {
                     if (this.board.has(cell)) { continue; }
                     if (this.holes.includes(cell)) { continue; }
-                    tos.push(cell);
+                    if (i === 0) {
+                        splits.push(cell);
+                    } else {
+                        jumps.push(cell);
+                    }
                 }
             }
             if (!this.variants.includes("straight-jumps-only")) {
@@ -503,16 +526,20 @@ export class AtaxxGame extends GameBase {
                     const cell = this.coords2algebraic(...next2);
                     if (this.board.has(cell)) { continue; }
                     if (this.holes.includes(cell)) { continue; }
-                    tos.push(cell);
+                    jumps.push(cell);
                 }
             }
         } else {
             for (const dir of allDirections) {
                 const ray = this.ray(from, dir).slice(0, 2);
-                for (const cell of ray) {
+                for (const [i, cell] of ray.entries()) {
                     if (this.board.has(cell)) { continue; }
                     if (this.holes.includes(cell)) { continue; }
-                    tos.push(cell);
+                    if (i === 0) {
+                        splits.push(cell);
+                    } else {
+                        jumps.push(cell);
+                    }
                 }
             }
             if (!this.variants.includes("straight-jumps-only")) {
@@ -527,11 +554,17 @@ export class AtaxxGame extends GameBase {
                     const cell = this.coords2algebraic(nx, ny);
                     if (this.board.has(cell)) { continue; }
                     if (this.holes.includes(cell)) { continue; }
-                    tos.push(cell);
+                    jumps.push(cell);
                 }
             }
         }
-        return tos;
+        return [splits, jumps];
+    }
+
+    private getTos(from: string): string[] {
+        // Get all possible tos for a from cell.
+        const [splits, jumps] = this.getSplitsJumps(from);
+        return [...splits, ...jumps];
     }
 
     private getCaptures(cell: string, player: playerid): string[] {
@@ -566,7 +599,7 @@ export class AtaxxGame extends GameBase {
         if (m === "pass") {
             this.results = [{ type: "pass" }];
         } else {
-            const [from, to] = m.split("-");
+            const [from, to] = m.includes("^") ? m.split("^") : m.split("-");
             if (to === undefined || to === "") {
                 this.dots = this.getTos(from);
             } else {

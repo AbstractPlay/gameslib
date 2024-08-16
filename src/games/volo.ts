@@ -181,13 +181,13 @@ export class VoloGame extends GameBase {
             lines.push(this.graph.ray(0, this.boardSize + i, "E", true).map(x => this.coords2algebraic(...x)));
             lines.push(this.graph.ray(0, i + 1, "SE", true).map(x => this.coords2algebraic(...x)));
             lines.push(this.graph.ray(i + 1, 0, "SE", true).map(x => this.coords2algebraic(...x)));
-            lines.push(this.graph.ray(0, this.boardSize + i, "NE", true).map(x => this.coords2algebraic(...x)));
+            lines.push(this.graph.ray(0, this.boardSize - 1 + i, "NE", true).map(x => this.coords2algebraic(...x)));
             lines.push(this.graph.ray(i + 1, 2 * this.boardSize - 2, "NE", true).map(x => this.coords2algebraic(...x)));
         }
         lines.push(this.graph.ray(0, this.boardSize - 1, "E", true).map(x => this.coords2algebraic(...x)));
         lines.push(this.graph.ray(0, 0, "SE", true).map(x => this.coords2algebraic(...x)));
         lines.push(this.graph.ray(0, 2 * this.boardSize - 2, "NE", true).map(x => this.coords2algebraic(...x)));
-        return lines.map(x => x.sort((a, b) => this.sort(a, b)));
+        return lines;
     }
 
     private getAllContiguousCombinations(player: playerid, line: string[]): string[][] {

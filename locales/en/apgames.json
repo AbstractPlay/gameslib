@@ -299,6 +299,9 @@
             "standard-5": {
                 "name": "Size-5 standard board"
             },
+            "standard-7-cross": {
+                "name": "Size-5 standard board with"
+            },
             "standard-9": {
                 "name": "Size-9 standard board"
             },

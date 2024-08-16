@@ -47,9 +47,7 @@ export class AtaxxGame extends GameBase {
         variants: [
             { uid: "standard-5", group: "board" },
             { uid: "standard-7-cross", group: "board" },
-            { uid: "standard-9", group: "board", experimental: true },
             { uid: "hex-5", group: "board" },
-            { uid: "hex-6", group: "board", experimental: true },
             { uid: "straight-jumps-only" },
         ],
         categories: ["goal>majority", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

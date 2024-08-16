@@ -24,6 +24,7 @@
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         "bug": "In Bug, the goal is to fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
+        "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sowed from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible scores, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
@@ -398,6 +399,14 @@
             },
             "size-5": {
                 "name": "Size-5 board"
+            }
+        },
+        "buku": {
+            "size-6": {
+                "name": "Size-6 board"
+            },
+            "size-10": {
+                "name": "Size-10 board"
             }
         },
         "byte": {
@@ -1391,6 +1400,11 @@
                 "name": "size-4 board"
             }
         },
+        "buku": {
+            "board": {
+                "name": "size-8 board"
+            }
+        },
         "calculus": {
             "board": {
                 "description": "Roughly 12 pieces across"
@@ -2113,6 +2127,9 @@
             "NUMPIECES_one": "{{count}} piece",
             "NUMPIECES_other": "{{count}} pieces"
         },
+        "buku": {
+            "SCORES_ONBOARD": "Scores / On board"
+        },
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
@@ -2478,6 +2495,27 @@
             "INITIAL_INSTRUCTIONS": "Select a cell to introduce a new bug, or grow an existing bug.",
             "MERGE": "Placement at {{where}} will result in a merging of {{count}} bugs.",
             "TOO_BIG": "You may not grow a bug to a size greater than {{size}}, the size of the current largest bug."
+        },
+        "buku": {
+            "INITIAL_INSTRUCTIONS_ROW": "Select a row to collect.",
+            "INITIAL_INSTRUCTIONS_COL": "Select a column to collect.",
+            "INVALID_COLLECT": "The collection notation '{{move}}' is invalid. It should start with the row or column followed by the number of pieces collected in brackets.",
+            "INVALID_COLLECT_ROW": "The row '{{row}}' is invalid",
+            "WRONG_COLLECT_COUNT_ROW_FIRST": "The number of pieces collected in the row '{{row}}' is incorrect. It should be {{count}}, which is the number of pieces in the row plus one for the first move.",
+            "WRONG_COLLECT_COUNT_ROW": "The number of pieces collected in the row '{{row}}' is incorrect. It should be {{count}}.",
+            "INVALID_COLLECT_COL": "The column '{{col}}' is invalid",
+            "WRONG_COLLECT_COUNT_COL": "The number of pieces collected in the column '{{col}}' is incorrect. It should be {{count}}.",
+            "TOO_MANY_SOWS_one": "You may only sow 1 piece.",
+            "TOO_MANY_SOWS_other": "You may only sow {{count}} pieces.",
+            "DUPLICATE_SOW": "You have already sown a piece at {{where}}.",
+            "NOT_NEIGHBOURS": "The cells {{curr}} and {{prev}} are not neighbours.",
+            "INVALID_MOVE": "The move {{move}} is invalid.",
+            "START_SOWING_one": "You have collected 1 piece. Selected a cell to start sowing.",
+            "START_SOWING_other": "You have collected {{count}} pieces. Selected a cell to start sowing.",
+            "GO_BACK_one": "You still have 1 piece to sow. Click on a piece on the sowing path to revert to that point and try again.",
+            "GO_BACK_other": "You still have {{count}} pieces to sow. Click on a piece on the sowing path to revert and try again.",
+            "CONTINUE_one": "You have 1 more piece to sow.",
+            "CONTINUE_other": "You have {{count}} more pieces to sow."
         },
         "byte": {
             "DIAG_ONLY": "Stacks may only move diagonally.",

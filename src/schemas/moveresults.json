@@ -105,6 +105,12 @@
                 "type": {
                     "enum": ["take"]
                 },
+                "count": {
+                    "type": "number"
+                },
+                "how": {
+                    "type": "string"
+                },
                 "what": {
                     "type": "string"
                 },
@@ -568,6 +574,9 @@
             "properties": {
                 "type": {
                     "enum": ["claim"]
+                },
+                "how": {
+                    "type": "string"
                 },
                 "where": {
                     "type": "string"

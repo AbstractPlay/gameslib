@@ -296,14 +296,14 @@
             "hex-6": {
                 "name": "Size-6 hexagon board"
             },
-            "standard-5": {
-                "name": "Size-5 standard board"
+            "square-5": {
+                "name": "Size-5 square board"
             },
-            "standard-7-cross": {
-                "name": "Size-5 standard board with"
+            "square-7-cross": {
+                "name": "Size-7 square board with cross block"
             },
-            "standard-9": {
-                "name": "Size-9 standard board"
+            "square-9": {
+                "name": "Size-9 square board"
             },
             "straight-jumps-only": {
                 "description": "Pieces can only jump in a straight line (no knight jumps).",
@@ -1356,7 +1356,7 @@
         },
         "ataxx": {
             "board": {
-                "name": "size-7 standard board"
+                "name": "size-7 square board"
             }
         },
         "atoll": {

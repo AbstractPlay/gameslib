@@ -45,8 +45,8 @@ export class AtaxxGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "standard-5", group: "board" },
-            { uid: "standard-7-cross", group: "board" },
+            { uid: "square-5", group: "board" },
+            { uid: "square-7-cross", group: "board" },
             { uid: "hex-5", group: "board" },
             { uid: "straight-jumps-only" },
         ],
@@ -145,7 +145,7 @@ export class AtaxxGame extends GameBase {
 
     private setupString(): string[] {
         // Get the board setup for a new game.
-        if (this.variants.includes("standard-5")) {
+        if (this.variants.includes("square-5")) {
             return [
                 "1---2",
                 "-----",
@@ -154,7 +154,7 @@ export class AtaxxGame extends GameBase {
                 "2---1",
             ];
         }
-        if (this.variants.includes("standard-7-cross")) {
+        if (this.variants.includes("square-7-cross")) {
             return [
                 "1--x--2",
                 "---x---",
@@ -165,7 +165,7 @@ export class AtaxxGame extends GameBase {
                 "2--x--1",
             ];
         }
-        if (this.variants.includes("standard-9")) {
+        if (this.variants.includes("square-9")) {
             return [
                 "1-------2",
                 "---------",
@@ -217,7 +217,7 @@ export class AtaxxGame extends GameBase {
                 "     1 - - - - 2     ",
             ].map((x) => x.replace(/ /g, ""));
         }
-        // else standard-7
+        // else square-7
         return [
             "1-----2",
             "-------",
@@ -277,7 +277,7 @@ export class AtaxxGame extends GameBase {
 
     private getBoardSize(): number {
         // Get the board size based on the variants.
-        const prefixes = ["standard-", "hex-"];
+        const prefixes = ["square-", "hex-"];
         for (const prefix of prefixes) {
             for (const variant of this.variants) {
                 const match = variant.match(new RegExp(`${prefix}(\\d+)`));

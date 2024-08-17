@@ -204,7 +204,11 @@ export class BukuGame extends GameBase {
     }
 
     private getLine(cells: string[]): string[] {
-        // Expand the cells
+        // Expand the cells.
+        // The normalised move notation omits intermediate cells when sowing in the same direction.
+        // This functions expands the cells to get the full line.
+        // If the cells listed cannot be expanded such that all subsequent cells are neighbours,
+        // we just directly append the invalid cells to the line, so that the validation can handle it later.
         if (cells.length === 0) { return []; }
         const line = [cells[0]];
         for (let i = 1; i < cells.length; i++) {
@@ -218,12 +222,22 @@ export class BukuGame extends GameBase {
                 }
                 const direction = y1 < y2 ? 1 : -1;
                 for (let j = y1 + direction; j !== y2 + direction; j += direction) {
-                    line.push(this.coords2algebraic(x1, j));
+                    const cell = this.coords2algebraic(x1, j);
+                    if (line.includes(cell)) {
+                        line.push(curr);
+                        break;
+                    }
+                    line.push(cell);
                 }
             } else if (y1 === y2) {
                 const direction = x1 < x2 ? 1 : -1;
                 for (let j = x1 + direction; j !== x2 + direction; j += direction) {
-                    line.push(this.coords2algebraic(j, y1));
+                    const cell = this.coords2algebraic(j, y1);
+                    if (line.includes(cell)) {
+                        line.push(curr);
+                        break;
+                    }
+                    line.push(cell);
                 }
             } else {
                 line.push(curr);
@@ -239,8 +253,8 @@ export class BukuGame extends GameBase {
         move = move.toLowerCase().replace(/\s+/g, "");
         const [collectStr, sowStr] = move.split(":");
         const line = this.getLine(sowStr.split(","));
-        // Remove cell if the next cell is in the same direction.
-        const toRemove: string[] = [];
+        // Indices that need to be removed.
+        const toRemove: number[] = [];
         for (let i = 2; i < line.length; i++) {
             const prev = line[i - 2];
             const curr = line[i - 1];
@@ -248,11 +262,16 @@ export class BukuGame extends GameBase {
             const [x1, y1] = this.algebraic2coords(prev);
             const [x2, y2] = this.algebraic2coords(curr);
             const [x3, y3] = this.algebraic2coords(next);
-            if (x1 === x2 && x2 === x3 || y1 === y2 && y2 === y3) {
-                toRemove.push(curr);
+            if (x1 === x2 && x2 === x3 && (y1 < y2 && y2 < y3 || y1 > y2 && y2 > y3) || y1 === y2 && y2 === y3 && (x1 < x2 && x2 < x3 || x1 > x2 && x2 > x3)) {
+                toRemove.push(i - 1);
             }
         }
-        return `${collectStr}:${line.filter(cell => !toRemove.includes(cell)).join(",")}`;
+        const newLine: string[] = [];
+        for (let i = 0; i < line.length; i++) {
+            if (toRemove.includes(i)) { continue; }
+            newLine.push(line[i]);
+        }
+        return `${collectStr}:${newLine.join(",")}`;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

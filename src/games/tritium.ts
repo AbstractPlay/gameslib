@@ -52,7 +52,7 @@ export class TritiumGame extends GameBase {
         name: "Tritium",
         uid: "tritium",
         playercounts: [2],
-        version: "20241015",
+        version: "1.0",
         description: "apgames:descriptions.Tritium",
         urls: [""],
         people: [
@@ -61,9 +61,9 @@ export class TritiumGame extends GameBase {
                 name: "Noé Falzon",
             },
         ],
-        flags: [],
+        flags: ["automove"],
         dateAdded: "2024-10-15",
-        categories: ["board>shape>hex"],
+        categories: ["goal>majority", "mechanic>place", "mechanic>merge","board>shape>hex", "components>simple>3c"],
         variants: [
             {uid: "short-form", group: "form"},
             {uid: "hex-6", group: "board"},
@@ -412,6 +412,16 @@ export class TritiumGame extends GameBase {
         return this;
     }
 
+    public firstFlagWinner(): playerid | undefined {
+        for(const state of this.stack) {
+            if(state.lastmove !== undefined && state.lastmove.startsWith("flag")) {
+                return state.currplayer;
+            }
+        }
+
+        return undefined;
+    }
+
     /**
      * This is the code that actually checks whether the game is over or not, and specifies who the winners are if so.
      */
@@ -423,6 +433,7 @@ export class TritiumGame extends GameBase {
 
             if(scores[0] > scores[1]) {this.winner = [1];}
             else if(scores[1] > scores[0]) {this.winner = [2];}
+            else {this.winner = [this.firstFlagWinner()!];}
         }
 
         if (this.gameover) {
@@ -541,12 +552,12 @@ export class TritiumGame extends GameBase {
                 P1: {
                     name: "piece",
                     scale: 0.3,
-                    colour: "#000"
+                    colour: "#fff"
                 },
                 P2: {
                     name: "piece",
                     scale: 0.3,
-                    colour: "#fff"
+                    colour: "#000"
                 },
                 K1: tiles[1] as [Glyph, ...Glyph[]],
                 K2: tiles[2] as [Glyph, ...Glyph[]],

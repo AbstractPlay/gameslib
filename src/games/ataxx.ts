@@ -640,7 +640,7 @@ export class AtaxxGame extends GameBase {
         if (this.scores[this.currplayer - 1] === 0) {
             this.results.push({ type: "eog", reason: "elimination" });
             this.gameover = true;
-        } else if (this.board.size === this.boardSize ** 2) {
+        } else if (!this.hasMoves(1) && !this.hasMoves(2)) {
             this.results.push({ type: "eog" });
             this.gameover = true
         } else if (stateCount >= 2) {

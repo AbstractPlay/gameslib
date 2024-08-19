@@ -37,7 +37,7 @@ export class TritiumGame extends GameBase {
         uid: "tritium",
         playercounts: [2],
         version: "1.0",
-        description: "apgames:descriptions.Tritium",
+        description: "apgames:descriptions.tritium",
         urls: [""],
         people: [
             {
@@ -46,7 +46,7 @@ export class TritiumGame extends GameBase {
             },
         ],
         flags: ["automove", "experimental"],
-        dateAdded: "2024-10-15",
+        dateAdded: "2024-10-20",
         categories: ["goal>majority", "mechanic>place", "mechanic>merge","board>shape>hex", "components>simple>3c"],
         variants: [
             {uid: "short-form", group: "form"},

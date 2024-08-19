@@ -21,7 +21,6 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, playerid>;
     lastmove?: string;
     preparedflags: Map<playerid, number>;
-    playedflags: Map<playerid, string[]>;
     remainingtiles: Map<tileid, number>;
 };
 
@@ -82,7 +81,6 @@ export class TritiumGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public preparedflags: Map<playerid, number> = new Map();
-    public playedflags: Map<playerid, string[]> = new Map();
     public remainingtiles: Map<tileid, number> = new Map();
 
     /**
@@ -91,22 +89,20 @@ export class TritiumGame extends GameBase {
     constructor(state?: ITritiumState | string) {
         super();
         if (state === undefined) {
-            let fresh: IMoveState = {
+            const fresh: IMoveState = {
                 _version: TritiumGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map<string, playerid>(),
-                preparedflags: new Map<playerid, number>,
-                playedflags: new Map<playerid, string[]>,
-                remainingtiles: new Map<tileid, number>
+                preparedflags: new Map<playerid, number>(),
+                remainingtiles: new Map<tileid, number>()
             };
             for(let i = 1; i <= 2; i++) {
                 fresh.preparedflags.set(i, 1);
-                fresh.playedflags.set(i, []);
             }
             for(let i = 1; i <= 3; i++) {
-                fresh.remainingtiles[i] = this.boardsize * (this.boardsize - 1);
+                fresh.remainingtiles.set(i, this.boardsize * (this.boardsize - 1));
             }
             this.stack = [fresh];
         } else {
@@ -140,18 +136,14 @@ export class TritiumGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.preparedflags = new Map(state.preparedflags);
-        this.playedflags = new Map();
-        for(let i = 1; i <= 2; i++) {
-            this.playedflags[i] = [...state.playedflags[i]];
-        }
         this.remainingtiles = new Map(state.remainingtiles);
 
         return this;
     }
 
     public getGraph(): HexTriGraph {
-        var graph = new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
-        var center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
+        const graph = new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
+        const center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
         graph.graph.dropNode(center);
         return graph;
     }
@@ -285,11 +277,11 @@ export class TritiumGame extends GameBase {
          */
         // update currplayer
         this.lastmove = m;
-        let newplayer = (this.currplayer as number) + 1;
+        let newplayer = (this.currplayer) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
         }
-        this.currplayer = newplayer as playerid;
+        this.currplayer = newplayer;
 
         /**
          * This function also needs to check to see if the game has ended and then save the current game state to the stack.
@@ -303,24 +295,6 @@ export class TritiumGame extends GameBase {
      * This is the code that actually checks whether the game is over or not, and specifies who the winners are if so.
      */
     protected checkEOG(): TritiumGame {
-        const conn1 = this.hasFours(1);
-        const conn2 = this.hasFours(2);
-        // only one person has four in a row
-        if ( (conn1 || conn2) && (conn1 !== conn2) ) {
-            this.gameover = true;
-            if (conn1) {
-                this.winner = [1];
-            } else {
-                this.winner = [2];
-            }
-        }
-
-        if (this.gameover) {
-            this.results.push(
-                {type: "eog"},
-                {type: "winners", players: [...this.winner]}
-            );
-        }
         return this;
     }
 
@@ -343,7 +317,7 @@ export class TritiumGame extends GameBase {
      * If you're new to TypeScript, you will want to familiarize yourself with the difference between reference types and value types. There's a reason you can't just say `board: this.board` in the below. You need to actually create a fresh map that duplicates `this.board`.
      */
     public moveState(): IMoveState {
-        var state = {
+        const state = {
             _version: TritiumGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
@@ -351,12 +325,8 @@ export class TritiumGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             preparedflags: new Map(this.preparedflags),
-            playedflags: new Map(),
             remainingtiles: new Map(this.remainingtiles)
         };
-        for(let i = 1; i <= 2; i++) {
-            state.playedflags[i] = [...this.playedflags[i]];
-        }
         return state;
     }
 
@@ -367,7 +337,7 @@ export class TritiumGame extends GameBase {
         for (const row of cells) {
             const pieces: string[][] = [];
             for (const cell of row) {
-                var piece: string[] = [];
+                const piece: string[] = [];
                 if (this.board.has(cell)) {
                     const tile = this.board.get(cell)!;
                     switch(tile)
@@ -384,12 +354,6 @@ export class TritiumGame extends GameBase {
                     }
                 } else {
                     piece.push("-");
-                }
-                if (this.playedflags[1].includes(cell)) {
-                    piece.push("D");
-                }
-                else if (this.playedflags[2].includes(cell)) {
-                    piece.push("E");
                 }
                 pieces.push(piece);
             }
@@ -430,7 +394,7 @@ export class TritiumGame extends GameBase {
                     colour: "#fff"
                 },
             },
-            pieces: pstr
+            pieces: pstr as [string[][], ...string[][][]]
         };
 
         return rep;

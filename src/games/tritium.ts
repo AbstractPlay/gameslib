@@ -13,6 +13,8 @@ export type tileid = 1|2|3;
 export type playerid = 1|2;
 export type cellcontent = [tileid,playerid?];
 
+const tilecolors: string[] = ["", "orange", "purple", "green"];
+
 /**
  * Every new game must define what the rest of the system is going to store as "state."
  * The base class defines the minimum requirements, but your game must add whatever it specifically needs.
@@ -153,12 +155,58 @@ export class TritiumGame extends GameBase {
         return graph;
     }
 
+    public tileAt(cell: string): tileid | undefined {
+        return this.board.get(cell)?.[0];
+    }
+
+    public flaggedCells(): Set<string> {
+        const flagged = new Set<string>();
+        const queue: string[] = [];
+
+        for (const [cell, content] of this.board) {
+            if (content[1] !== undefined) {
+                flagged.add(cell);
+                queue.push(cell);
+            }
+        }
+
+        while (queue.length > 0) {
+            const cell = queue.pop()!;
+            for(const neighbour of this.graph.neighbours(cell)) {
+                if (!flagged.has(neighbour)) {
+                    if (this.tileAt(cell) === this.tileAt(neighbour)) {
+                        flagged.add(neighbour);
+                        queue.push(neighbour);
+                    }
+                }
+            }
+        }
+
+        return flagged;
+    }
+
     /**
      * This should generate a full list of valid moves from the current game state. If it is not reasonable for your game to generate such a list, you can remove this function and add the `no-moves` flag to the game's metadata. If you *can* efficiently generate a move list, though, I highly recommend it. It's helpful to players, and it makes your life easier later.
      */
     public moves(): string[] {
-        if (this.gameover) { return []; }
-        return ["a","b","c","d"];
+        const moves: string[] = [];
+        if (this.gameover) { return moves; }
+
+        const flagged = this.flaggedCells();
+
+        for (const cell of this.graph.listCells(false) as string[]) {
+            if (this.board.has(cell) && !flagged.has(cell) && this.preparedflags.get(this.currplayer)! > 0) {
+                moves.push("flag-" + cell);
+            } else {
+                for(let i = 1; i <= 3; i++) {
+                    if (this.remainingtiles.get(i as tileid)! > 0) {
+                        moves.push(tilecolors[i] + "-" + cell);
+                    }
+                }
+            }
+        }
+
+        return moves;
     }
 
     /**

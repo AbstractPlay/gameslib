@@ -1,12 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const deepclone = require("rfdc/default");
 
-export type tileid = number;
-export type playerid = number;
+export type tileid = 1|2|3;
+export type playerid = 1|2;
+export type cellcontent = [tileid,playerid?];
 
 /**
  * Every new game must define what the rest of the system is going to store as "state."
@@ -18,7 +23,7 @@ export type playerid = number;
  */
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
-    board: Map<string, playerid>;
+    board: Map<string, cellcontent>;
     lastmove?: string;
     preparedflags: Map<playerid, number>;
     remainingtiles: Map<tileid, number>;
@@ -72,7 +77,7 @@ export class TritiumGame extends GameBase {
      */
     public numplayers = 2;
     public currplayer: playerid = 1;
-    public board!: Map<string, playerid>;
+    public board!: Map<string, cellcontent>;
     public boardsize = 5;
     public graph: HexTriGraph = this.getGraph();
     public gameover = false;
@@ -94,15 +99,15 @@ export class TritiumGame extends GameBase {
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Map<string, playerid>(),
+                board: new Map<string, cellcontent>(),
                 preparedflags: new Map<playerid, number>(),
                 remainingtiles: new Map<tileid, number>()
             };
             for(let i = 1; i <= 2; i++) {
-                fresh.preparedflags.set(i, 1);
+                fresh.preparedflags.set(i as playerid, 1);
             }
             for(let i = 1; i <= 3; i++) {
-                fresh.remainingtiles.set(i, this.boardsize * (this.boardsize - 1));
+                fresh.remainingtiles.set(i as tileid, this.boardsize * (this.boardsize - 1));
             }
             this.stack = [fresh];
         } else {
@@ -133,7 +138,7 @@ export class TritiumGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = new Map(state.board);
+        this.board = deepclone(state.board) as Map<string, cellcontent>;
         this.lastmove = state.lastmove;
         this.preparedflags = new Map(state.preparedflags);
         this.remainingtiles = new Map(state.remainingtiles);
@@ -225,67 +230,6 @@ export class TritiumGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        /**
-         * This validates the move and then does a failsafe check to make sure the move is also found by the move generator. You don't necessarily need both, but it's useful when first testing a game.
-         */
-        m = m.toLowerCase();
-        m = m.replace(/\s+/g, "");
-        // The front end often needs to make moves that it knows are valid, so to save time, it can pass `trusted: true` to skip the validation step.
-        if (! trusted) {
-            const result = this.validateMove(m);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (! this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            }
-        }
-
-        /**
-         * This is where the actual game logic gets handled.
-         * The `results` is a structured way of telling users what actually happened during a turn.
-         * It can be included in a final game report and can also be helpful when rendering the board state.
-         */
-        this.results = [];
-        let placed = false;
-        for (const row of [1,2,3,4,5,6,7]) {
-            const cell = m + row.toString();
-            if (! this.board.has(cell)) {
-                this.board.set(cell, this.currplayer);
-                this.results.push({type: "place", where: cell});
-                if (row < 7) {
-                    this.results.push({type: "move", from: `${m}7`, to: cell});
-                }
-                placed = true;
-                break;
-            }
-        }
-        // push column down
-        if (! placed) {
-            for (let row = 1; row <= 6; row++) {
-                const lower = m + row.toString();
-                const upper = m + (row + 1).toString();
-                this.board.set(lower, this.board.get(upper)!);
-            }
-            this.results.push({type: "move", from: `${m}6`, to: `${m}1`});
-            this.board.set(`${m}7`, this.currplayer);
-            this.results.push({type: "place", where: `${m}7`});
-    }
-
-        /**
-         * This is also where you have to tell the front end whose turn it is now.
-         */
-        // update currplayer
-        this.lastmove = m;
-        let newplayer = (this.currplayer) + 1;
-        if (newplayer > this.numplayers) {
-            newplayer = 1;
-        }
-        this.currplayer = newplayer;
-
-        /**
-         * This function also needs to check to see if the game has ended and then save the current game state to the stack.
-         */
         this.checkEOG();
         this.saveState();
         return this;
@@ -323,7 +267,7 @@ export class TritiumGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board),
+            board: deepclone(this.board) as Map<string, cellcontent>,
             preparedflags: new Map(this.preparedflags),
             remainingtiles: new Map(this.remainingtiles)
         };
@@ -339,9 +283,8 @@ export class TritiumGame extends GameBase {
             for (const cell of row) {
                 const piece: string[] = [];
                 if (this.board.has(cell)) {
-                    const tile = this.board.get(cell)!;
-                    switch(tile)
-                    {
+                    const content = this.board.get(cell)!;
+                    switch(content[0]) {
                         case 1:
                             piece.push("A");
                             break;
@@ -352,8 +295,16 @@ export class TritiumGame extends GameBase {
                             piece.push("C");
                             break;
                     }
-                } else {
-                    piece.push("-");
+                    switch(content[1]) {
+                        case 1:
+                            piece.push("D");
+                            break;
+                        case 2:
+                            piece.push("E");
+                            break;
+                    }
+            //    } else {
+            //        piece.push("-");
                 }
                 pieces.push(piece);
             }

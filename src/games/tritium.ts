@@ -353,47 +353,66 @@ export class TritiumGame extends GameBase {
      */
     public render(): APRenderRep {
         // Build piece string
-        let pstr = "";
-        for (let row = 0; row < 7; row++) {
-            if (pstr.length > 0) {
-                pstr += "\n";
-            }
+        const pstr: string[][] = [];
+        const cells = this.graph.listCells(true);
+        for (const row of cells) {
             const pieces: string[] = [];
-            for (let col = 0; col < 4; col++) {
-                const cell = TritiumGame.coords2algebraic(col, row);
+            for (const cell of row) {
                 if (this.board.has(cell)) {
-                    const contents = this.board.get(cell)!;
-                    if (contents === 1) {
-                        pieces.push("A");
-                    } else {
-                        pieces.push("B");
+                    const tile = this.board.get(cell)!;
+                    switch(tile)
+                    {
+                        case 1:
+                            pieces.push("A");
+                            break;
+                        case 2:
+                            pieces.push("B");
+                            break;
+                        case 3:
+                            pieces.push("C");
+                            break;
                     }
                 } else {
                     pieces.push("-");
                 }
             }
-            pstr += pieces.join("");
+            pstr.push(pieces);
         }
-        pstr = pstr.replace(/-{4}/g, "_");
 
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "squares-checkered",
-                width: 4,
-                height: 7,
+                style: "hex-of-hex",
+                minWidth: this.boardsize,
+                maxWidth: this.boardsize * 2 - 1,
+                blocked: [{row: this.boardsize - 1, col: this.boardsize - 1}],
+                alternatingSymmetry: false
             },
             legend: {
                 A: {
-                    name: "piece",
-                    colour: 1
+                    name: "hex-pointy",
+                    colour: 6
                 },
                 B: {
+                    name: "hex-pointy",
+                    colour: 5
+                },
+                C: {
+                    name: "hex-pointy",
+                    colour: 3
+                },
+                D: {
                     name: "piece",
-                    colour: 2
-                }
+                    scale: 0.3,
+                    colour: "#000"
+                },
+                E: {
+                    name: "piece",
+                    scale: 0.3,
+                    colour: "#fff"
+                },
             },
-            pieces: pstr
+            pieces: pstr.map(p => p.join("")).join("\n")
         };
 
         return rep;

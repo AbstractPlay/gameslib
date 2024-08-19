@@ -377,24 +377,9 @@ export class TritiumGame extends GameBase {
                 const piece: string[] = [];
                 if (this.board.has(cell)) {
                     const content = this.board.get(cell)!;
-                    switch(content[0]) {
-                        case 1:
-                            piece.push("A");
-                            break;
-                        case 2:
-                            piece.push("B");
-                            break;
-                        case 3:
-                            piece.push("C");
-                            break;
-                    }
-                    switch(content[1]) {
-                        case 1:
-                            piece.push("D");
-                            break;
-                        case 2:
-                            piece.push("E");
-                            break;
+                    piece.push(`T${content[0]}`)
+                    if(content[1] !== undefined) {
+                        piece.push(`P${content[1]}`)
                     }
                 }
                 pieces.push(piece);
@@ -420,16 +405,14 @@ export class TritiumGame extends GameBase {
             }]);
 
             if (this.remainingtiles[i] > 0) {
-                sidebar.push({name: "", piece: `T${i}`});
+                sidebar.push({name: "", piece: `K${i}`});
             }
         }
 
-        for(let i = 1; i <= this.preparedflags[1]; i++) {
-            sidebar.push({name: "", piece: "D"});
-        }
-
-        for(let i = 1; i <= this.preparedflags[2]; i++) {
-            sidebar.push({name: "", piece: "E"});
+        for(const p of [1,2]) {
+            for(let i = 1; i <= this.preparedflags[p]; i++) {
+                sidebar.push({name: "", piece: `P${p}`});
+            }
         }
 
         // Build rep
@@ -443,31 +426,31 @@ export class TritiumGame extends GameBase {
                 alternatingSymmetry: false
             },
             legend: {
-                A: {
+                T1: {
                     name: "hex-pointy",
                     colour: tilecolorscodes[1]
                 },
-                B: {
+                T2: {
                     name: "hex-pointy",
                     colour: tilecolorscodes[2]
                 },
-                C: {
+                T3: {
                     name: "hex-pointy",
                     colour: tilecolorscodes[3]
                 },
-                D: {
+                P1: {
                     name: "piece",
                     scale: 0.3,
                     colour: "#000"
                 },
-                E: {
+                P2: {
                     name: "piece",
                     scale: 0.3,
                     colour: "#fff"
                 },
-                T1: tiles[1] as [Glyph, ...Glyph[]],
-                T2: tiles[2] as [Glyph, ...Glyph[]],
-                T3: tiles[3] as [Glyph, ...Glyph[]],
+                K1: tiles[1] as [Glyph, ...Glyph[]],
+                K2: tiles[2] as [Glyph, ...Glyph[]],
+                K3: tiles[3] as [Glyph, ...Glyph[]],
             },
             pieces: pstr as [string[][], ...string[][][]],
             areas: [

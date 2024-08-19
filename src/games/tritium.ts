@@ -27,8 +27,8 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, cellcontent>;
     lastmove?: string;
-    preparedflags: Map<playerid, number>;
-    remainingtiles: Map<tileid, number>;
+    preparedflags: number[];
+    remainingtiles: number[];
 };
 
 export interface ITritiumState extends IAPGameState {
@@ -87,14 +87,16 @@ export class TritiumGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public preparedflags: Map<playerid, number> = new Map();
-    public remainingtiles: Map<tileid, number> = new Map();
+    public preparedflags: number[] = [];
+    public remainingtiles: number[] = [];
 
     /**
      * This is where you create a new game or load in an existing state handed to you by the front end. This is where you'd track variants, initialize your board, whatever else you need to do.
      */
     constructor(state?: ITritiumState | string) {
         super();
+        const tilesOfEachColor = this.boardsize * (this.boardsize - 1);
+
         if (state === undefined) {
             const fresh: IMoveState = {
                 _version: TritiumGame.gameinfo.version,
@@ -102,15 +104,9 @@ export class TritiumGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map<string, cellcontent>(),
-                preparedflags: new Map<playerid, number>(),
-                remainingtiles: new Map<tileid, number>()
+                preparedflags: [0, 1, 1],
+                remainingtiles: [0, tilesOfEachColor, tilesOfEachColor, tilesOfEachColor]
             };
-            for(let i = 1; i <= 2; i++) {
-                fresh.preparedflags.set(i as playerid, 1);
-            }
-            for(let i = 1; i <= 3; i++) {
-                fresh.remainingtiles.set(i as tileid, this.boardsize * (this.boardsize - 1));
-            }
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
@@ -142,8 +138,8 @@ export class TritiumGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = deepclone(state.board) as Map<string, cellcontent>;
         this.lastmove = state.lastmove;
-        this.preparedflags = new Map(state.preparedflags);
-        this.remainingtiles = new Map(state.remainingtiles);
+        this.preparedflags = [...state.preparedflags];
+        this.remainingtiles = [...state.remainingtiles];
 
         return this;
     }
@@ -195,11 +191,11 @@ export class TritiumGame extends GameBase {
         const flagged = this.flaggedCells();
 
         for (const cell of this.graph.listCells(false) as string[]) {
-            if (this.board.has(cell) && !flagged.has(cell) && this.preparedflags.get(this.currplayer)! > 0) {
+            if (this.board.has(cell) && !flagged.has(cell) && this.preparedflags[this.currplayer] > 0) {
                 moves.push("flag-" + cell);
             } else if (!this.board.has(cell)) {
                 for(let i = 1; i <= 3; i++) {
-                    if (this.remainingtiles.get(i as tileid)! > 0) {
+                    if (this.remainingtiles[i] > 0) {
                         moves.push(tilecolors[i] + "-" + cell);
                     }
                 }
@@ -305,8 +301,7 @@ export class TritiumGame extends GameBase {
 
             const prev = this.board.get(cell)!;
             this.board.set(cell, [prev[0], this.currplayer]);
-            const prevflags = this.preparedflags.get(this.currplayer)!;
-            this.preparedflags.set(this.currplayer, prevflags - 1);
+            this.preparedflags[this.currplayer]--;
 
             // TODO: reset prepared flags
 
@@ -315,9 +310,7 @@ export class TritiumGame extends GameBase {
         } else {
             const tile = tilecolors.indexOf(piece) as tileid;
             this.board.set(cell, [tile]);
-
-            const prevtiles = this.remainingtiles.get(tile)!;
-            this.remainingtiles.set(tile, prevtiles - 1);
+            this.remainingtiles[tile]--;
 
             this.results.push({type: "place", where: cell});
         }
@@ -363,8 +356,8 @@ export class TritiumGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: deepclone(this.board) as Map<string, cellcontent>,
-            preparedflags: new Map(this.preparedflags),
-            remainingtiles: new Map(this.remainingtiles)
+            preparedflags: [...this.preparedflags],
+            remainingtiles: [...this.remainingtiles]
         };
         return state;
     }

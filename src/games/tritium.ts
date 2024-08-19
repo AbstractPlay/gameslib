@@ -303,7 +303,10 @@ export class TritiumGame extends GameBase {
             this.board.set(cell, [prev[0], this.currplayer]);
             this.preparedflags[this.currplayer]--;
 
-            // TODO: reset prepared flags
+            if (this.preparedflags[1] === 0 && this.preparedflags[2] === 0) {
+                this.preparedflags[1] = 1;
+                this.preparedflags[2] = 1;
+            }
 
             this.results.push({type: "place", where: cell});
 

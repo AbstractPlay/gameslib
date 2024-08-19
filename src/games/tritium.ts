@@ -5,6 +5,7 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
+import { Glyph } from "@abstractplay/renderer";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -14,6 +15,7 @@ export type playerid = 1|2;
 export type cellcontent = [tileid,playerid?];
 
 const tilecolors: string[] = ["", "orange", "purple", "green"];
+const tilecolorscodes: number[] = [0, 6, 5, 3];
 
 /**
  * Every new game must define what the rest of the system is going to store as "state."
@@ -394,12 +396,40 @@ export class TritiumGame extends GameBase {
                             piece.push("E");
                             break;
                     }
-            //    } else {
-            //        piece.push("-");
                 }
                 pieces.push(piece);
             }
             pstr.push(pieces);
+        }
+
+        // Side bar
+
+        const sidebar = [];
+        const tiles: Glyph[][] = [];
+        tiles.push([]);
+
+        for(let i = 1; i <= 3; i++) {
+            tiles.push([{
+                name: "hex-pointy",
+                colour: tilecolorscodes[i],
+                scale: 0.85,
+            },
+            {
+                text: this.remainingtiles[i].toString(),
+                scale: 0.75
+            }]);
+
+            if (this.remainingtiles[i] > 0) {
+                sidebar.push({name: "", piece: `T${i}`});
+            }
+        }
+
+        for(let i = 1; i <= this.preparedflags[1]; i++) {
+            sidebar.push({name: "", piece: "D"});
+        }
+
+        for(let i = 1; i <= this.preparedflags[2]; i++) {
+            sidebar.push({name: "", piece: "E"});
         }
 
         // Build rep
@@ -415,15 +445,15 @@ export class TritiumGame extends GameBase {
             legend: {
                 A: {
                     name: "hex-pointy",
-                    colour: 6
+                    colour: tilecolorscodes[1]
                 },
                 B: {
                     name: "hex-pointy",
-                    colour: 5
+                    colour: tilecolorscodes[2]
                 },
                 C: {
                     name: "hex-pointy",
-                    colour: 3
+                    colour: tilecolorscodes[3]
                 },
                 D: {
                     name: "piece",
@@ -435,8 +465,18 @@ export class TritiumGame extends GameBase {
                     scale: 0.3,
                     colour: "#fff"
                 },
+                T1: tiles[1] as [Glyph, ...Glyph[]],
+                T2: tiles[2] as [Glyph, ...Glyph[]],
+                T3: tiles[3] as [Glyph, ...Glyph[]],
             },
-            pieces: pstr as [string[][], ...string[][][]]
+            pieces: pstr as [string[][], ...string[][][]],
+            areas: [
+                {
+                    type: "key",
+                    height: 1,
+                    list: sidebar
+                }
+            ],
         };
 
         return rep;

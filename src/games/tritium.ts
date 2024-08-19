@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -157,14 +157,19 @@ export class TritiumGame extends GameBase {
         return this.board.get(cell)?.[0];
     }
 
-    public flaggedCells(): Set<string> {
+    public flaggedCells(start?: string): Set<string> {
         const flagged = new Set<string>();
         const queue: string[] = [];
 
-        for (const [cell, content] of this.board) {
-            if (content[1] !== undefined) {
-                flagged.add(cell);
-                queue.push(cell);
+        if(start !== undefined) {
+            flagged.add(start);
+            queue.push(start);
+        } else {
+            for (const [cell, content] of this.board) {
+                if (content[1] !== undefined) {
+                    flagged.add(cell);
+                    queue.push(cell);
+                }
             }
         }
 
@@ -465,6 +470,35 @@ export class TritiumGame extends GameBase {
         return rep;
     }
 
+    public getPlayersScores(): IScores[] {
+        const flagcounts = new Map<string, [number,number,number]>();
+
+        for (const cell of this.graph.listCells(false) as string[]) {
+            flagcounts.set(cell, [0,0,0]);
+        }
+
+        // @ts-ignore
+        for (const [cell, [,flag]] of this.board) {
+            if (flag !== undefined) {
+                for(const connected of this.flaggedCells(cell)) {
+                    const counts = flagcounts.get(connected)!;
+                    counts[flag]++;
+                    flagcounts.set(connected, counts);
+                }
+            }
+        }
+
+        const scores = [0,0];
+        for(const [,counts] of flagcounts) {
+            if (counts[1] > counts[2]) {scores[0]++;}
+            else if (counts[2] > counts[1]) {scores[1]++;}
+        }
+
+        return [
+            { name: i18next.t("apgames:status.SCORES"), scores }
+        ]
+    }
+
     /**
      * This function is only for the local playground.
      */
@@ -473,6 +507,7 @@ export class TritiumGame extends GameBase {
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+            status += "**Scores**: " + this.getPlayersScores()[0].scores.join(",") + "\n\n";
         }
 
         return status;

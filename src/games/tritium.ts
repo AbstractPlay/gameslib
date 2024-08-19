@@ -5,8 +5,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
-export type tileid = 1|2|3
-export type playerid = 1|2;
+export type tileid = number;
+export type playerid = number;
 
 /**
  * Every new game must define what the rest of the system is going to store as "state."
@@ -22,7 +22,7 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
     preparedflags: Map<playerid, number>;
     playedflags: Map<playerid, string[]>;
-    tiles: Map<tileid, number>;
+    remainingtiles: Map<tileid, number>;
 };
 
 export interface ITritiumState extends IAPGameState {
@@ -53,17 +53,19 @@ export class TritiumGame extends GameBase {
                 name: "Noé Falzon",
             },
         ],
-        flags: []
+        flags: [],
+        dateAdded: "2024-10-15",
+        categories: ["board>shape>hex"]
     };
 
     /**
      * For me personally, I like using algebraic notation and x,y coordinates, so I routinely convert between the two. The base object offers a default version that requires the board's height. For simplicity, if there's only one board size for a game, I create a game-specific version with the height baked in. This is one of those "flexibility" points. You are free to represent your game board and state in whatever way makes sense to you. You could delete and ignore these functions entirely, if you wanted.
      */
     public coords2algebraic(x: number, y: number): string {
-        return this.graph.coords2algebraic(x, y, this.boardsize);
+        return this.graph.coords2algebraic(x, y);
     }
     public algebraic2coords(cell: string): [number, number] {
-        return this.graph.algebraic2coords(cell, this.boardsize);
+        return this.graph.algebraic2coords(cell);
     }
 
     /**
@@ -79,9 +81,9 @@ export class TritiumGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public preparedflags: Map<playerid, number>;
-    public playedflags: Map<playerid, string[]>;
-    public tiles: Map<tileid, number>;
+    public preparedflags: Map<playerid, number> = new Map();
+    public playedflags: Map<playerid, string[]> = new Map();
+    public remainingtiles: Map<tileid, number> = new Map();
 
     /**
      * This is where you create a new game or load in an existing state handed to you by the front end. This is where you'd track variants, initialize your board, whatever else you need to do.
@@ -97,14 +99,14 @@ export class TritiumGame extends GameBase {
                 board: new Map<string, playerid>(),
                 preparedflags: new Map<playerid, number>,
                 playedflags: new Map<playerid, string[]>,
-                tiles: new Map<tiledid, number>
+                remainingtiles: new Map<tileid, number>
             };
             for(let i = 1; i <= 2; i++) {
-                fresh.preparedflags[i] = 1;
-                fresh.playedflags[i] = [];
+                fresh.preparedflags.set(i, 1);
+                fresh.playedflags.set(i, []);
             }
             for(let i = 1; i <= 3; i++) {
-                fresh.tiles[i] = this.boardsize * (this.boardsize - 1);
+                fresh.remainingtiles[i] = this.boardsize * (this.boardsize - 1);
             }
             this.stack = [fresh];
         } else {
@@ -142,14 +144,14 @@ export class TritiumGame extends GameBase {
         for(let i = 1; i <= 2; i++) {
             this.playedflags[i] = [...state.playedflags[i]];
         }
-        this.tiles = new Map(state.tiles);
+        this.remainingtiles = new Map(state.remainingtiles);
 
         return this;
     }
 
     public getGraph(): HexTriGraph {
         var graph = new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
-        var center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1, this.boardsize);
+        var center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
         graph.graph.dropNode(center);
         return graph;
     }
@@ -179,7 +181,7 @@ export class TritiumGame extends GameBase {
      */
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = TritiumGame.coords2algebraic(col, row);
+            const cell = this.graph.coords2algebraic(col, row);
             const newmove = cell[0];
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -350,11 +352,12 @@ export class TritiumGame extends GameBase {
             board: new Map(this.board),
             preparedflags: new Map(this.preparedflags),
             playedflags: new Map(),
-            tiles: new Map(this.tiles)
+            remainingtiles: new Map(this.remainingtiles)
         };
         for(let i = 1; i <= 2; i++) {
             state.playedflags[i] = [...this.playedflags[i]];
         }
+        return state;
     }
 
     public render(): APRenderRep {
@@ -395,7 +398,7 @@ export class TritiumGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            renderer: "deault",
+            renderer: "default",
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardsize,
@@ -444,25 +447,6 @@ export class TritiumGame extends GameBase {
         }
 
         return status;
-    }
-
-    /**
-     * This is for rendering each move in the front end's chat log.
-     * For simple games, you can start by deleting this and going with the defaults.
-     * And then, if you need something special, it might be simpler just to ask for direction in the Discord. But basically you can customize the chat message for your specific game.
-     */
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
-        switch (r.type) {
-            case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
-                resolved = true;
-                break;
-            case "move":
-                resolved = true;
-                break;
-        }
-        return resolved;
     }
 
     /**

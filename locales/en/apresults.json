@@ -29,6 +29,7 @@
         "blockade": "{{player}} captured a blocking piece at {{where}}.",
         "blooms": "{{player}} captured a {{what}} group of size {{count}}.",
         "boom": "{{player}} destroyed a piece at {{where}}.",
+        "buku": "{{count}} pieces were captured at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
         "dameo_king": "{{player}} captured a king at {{where}}.",
         "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
@@ -94,8 +95,10 @@
         }
     },
     "CLAIM": {
-        "ataxx_one": "{{player}} claimed the remaining 1 free space.",
-        "ataxx_other": "{{player}} claimed the remaining {{count}} free spaces.",
+        "buku_singletons_one": "{{player}} claimed the remaining 1 piece on their colour.",
+        "buku_singletons_other": "{{player}} claimed the remaining {{count}} pieces on their colour.",
+        "buku_repetition_one": "{{player}} claimed all 1 remaining piece.",
+        "buku_repetition_other": "{{player}} claimed all {{count}} remaining pieces.",
         "conhex": "{{player}} claimed the space at ({{where}}).",
         "default": "{{player}} claimed {{where}}.",
         "exxit": "{{player}} claimed the perimeter space at {{where}}.",
@@ -145,10 +148,13 @@
     "DRAWAGREED": "Players agreed to a draw.",
     "ELIMINATED": "{{player}} was eliminated.",
     "EOG": {
+        "buku_singletons": "The game has ended because all cells contain only singletons.",
         "consecutive_passes": "The game has ended because both players passed consecutively.",
         "default": "The game has ended.",
         "repetition_one": "The game has ended because the same position has occurred by the same player.",
         "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
+        "repetition_positional_one": "The game has ended because the same position has occurred.",
+        "repetition_positionas_other": "The game has ended because the same position has occurred {{count}} times.",
         "stalemate": "The game has ended because one player has run out of moves.",
         "susan_nonplacement": "The game has ended because no player has placed a piece for 6 plies.",
         "tafl_encirclement": "The game has ended because the defenders are encircled.",
@@ -378,6 +384,7 @@
     "SOW": {
         "general_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
         "general_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
+        "into": "{{player}} sowed into the pits {{pits}}.",
         "prudh": "{{player}} sowed checkers from {{from}} to {{to}}."
     },
     "SWAP": {
@@ -385,6 +392,11 @@
         "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour."
     },
     "TAKE": {
+        "buku_row_one": "{{player}} collected 1 piece from row {{row}}.",
+        "buku_row_other": "{{player}} collected {{count}} pieces from row {{row}}.",
+        "buku_row_bonus": "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",
+        "buku_col_one": "{{player}} collected 1 piece from column {{col}}.",
+        "buku_col_other": "{{player}} collected {{count}} pieces from column {{col}}.",
         "chase": "A {{what}} was fed to the chamber.",
         "sploof": "{{player}} took a neutral ball at {{from}}.",
         "streetcar": "{{player}} took a housing limit from {{from}}.",

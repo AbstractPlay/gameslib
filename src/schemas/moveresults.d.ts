@@ -45,6 +45,8 @@ export type APMoveResult =
     }
   | {
       type: "take";
+      count?: number;
+      how?: string;
       what?: string;
       from: string;
     }
@@ -195,6 +197,7 @@ export type APMoveResult =
     }
   | {
       type: "claim";
+      how?: string;
       where?: string;
       who?: number;
       what?: string;

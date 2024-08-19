@@ -291,13 +291,10 @@ export class DragonEyesGame extends GameBase {
             newMove = `${move}-${cell}`;
         }
 
-        const matches = this.moves().filter(mv => mv.startsWith(newMove));
+        const moves = this.moves();
+        const matches = moves.filter(mv => mv.startsWith(`${newMove}-`));
         if (matches.length === 1) {
             result.move = matches[0];
-            result.valid = true;
-            result.complete = 1;
-        } else if (matches.length > 1 && !matches[0].includes("-")) {
-            result.move = newMove;
             result.valid = true;
             result.complete = 1;
         } else if (matches.length > 1) {
@@ -312,6 +309,10 @@ export class DragonEyesGame extends GameBase {
             newMove = newMove.substring(0, newMove.lastIndexOf("-"));
             result.move = newMove;
             result.valid = true;
+        } else if (moves.includes(newMove)) {
+            result.move = newMove;
+            result.valid = true;
+            result.complete = 1;
         } else {
             result.canrender = false;
             result.move = move;

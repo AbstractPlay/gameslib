@@ -24,6 +24,7 @@
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         "bug": "In Bug, the goal is to fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
+        "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sowed from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible scores, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
@@ -148,7 +149,7 @@
     "notes": {
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.",
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
-        "ataxx": "If one player runs out of moves, the other player claims all remaining free spaces. On three-fold repetition, the game ends and the scores are calculated.",
+        "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         "bug": "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
@@ -283,24 +284,20 @@
             },
             "board-19": {
                 "name": "19x19 board"
+            },
+            "board-27": {
+                "name": "27x27 board"
             }
         },
         "ataxx": {
-            "blocked-near-centre": {
-                "description": "A few cells near the centre are blocked.",
-                "name": "Blocked near centre"
-            },
             "hex-5": {
                 "name": "Size-5 hexagon board"
             },
-            "hex-6": {
-                "name": "Size-6 hexagon board"
+            "square-5": {
+                "name": "Size-5 square board"
             },
-            "standard-5": {
-                "name": "Size-5 standard board"
-            },
-            "standard-9": {
-                "name": "Size-9 standard board"
+            "square-7-cross": {
+                "name": "Size-7 square board with cross block"
             },
             "straight-jumps-only": {
                 "description": "Pieces can only jump in a straight line (no knight jumps).",
@@ -399,6 +396,14 @@
             },
             "size-5": {
                 "name": "Size-5 board"
+            }
+        },
+        "buku": {
+            "size-6": {
+                "name": "Size-6 board"
+            },
+            "size-10": {
+                "name": "Size-10 board"
             }
         },
         "byte": {
@@ -1357,7 +1362,7 @@
         },
         "ataxx": {
             "board": {
-                "name": "size-7 standard board"
+                "name": "size-7 square board"
             }
         },
         "atoll": {
@@ -1402,6 +1407,11 @@
         "bug": {
             "board": {
                 "name": "size-4 board"
+            }
+        },
+        "buku": {
+            "board": {
+                "name": "size-8 board"
             }
         },
         "calculus": {
@@ -2135,6 +2145,9 @@
             "NUMPIECES_one": "{{count}} piece",
             "NUMPIECES_other": "{{count}} pieces"
         },
+        "buku": {
+            "SCORES_ONBOARD": "Scores / On board"
+        },
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
@@ -2388,9 +2401,14 @@
         "ataxx": {
             "HOLE": "The cell at {{where}} is blocked.",
             "INITIAL_INSTRUCTIONS": "Select a piece to split or jump.",
+            "INITIAL_INSTRUCTIONS_PASS": "You have no moves so you must pass.",
             "INVALID_TO": "The piece at {{from}} cannot split or jump to {{to}}.",
+            "MUST_PASS": "The only move available to you is to pass.",
+            "ILLEGAL_PASS": "You may only pass if you have no legal moves.",
             "NO_TOS": "The selected piece at {{from}} has no possible destinations to split or jump to.",
-            "SELECT_TO": "Select a destination to split or jump to."
+            "SELECT_TO": "Select a destination to split or jump to.",
+            "SPLIT4JUMP": "You have indicated a split when it's supposed to be a jump. Try {{move}}.",
+            "JUMP4SPLIT": "You have indicated a jump when it's supposed to be a split. Try {{move}}."
         },
         "atoll": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece."
@@ -2500,6 +2518,28 @@
             "INITIAL_INSTRUCTIONS": "Select a cell to introduce a new bug, or grow an existing bug.",
             "MERGE": "Placement at {{where}} will result in a merging of {{count}} bugs.",
             "TOO_BIG": "You may not grow a bug to a size greater than {{size}}, the size of the current largest bug."
+        },
+        "buku": {
+            "INITIAL_INSTRUCTIONS_ROW": "Select a row to collect.",
+            "INITIAL_INSTRUCTIONS_COL": "Select a column to collect.",
+            "INVALID_COLLECT": "The collection notation '{{move}}' is invalid. It should start with the row or column followed by the number of pieces collected in brackets.",
+            "INVALID_COLLECT_ROW": "The row '{{row}}' is invalid",
+            "WRONG_COLLECT_COUNT_ROW_FIRST": "The number of pieces collected in the row '{{row}}' is incorrect. It should be {{count}}, which is the number of pieces in the row plus one for the first move.",
+            "WRONG_COLLECT_COUNT_ROW": "The number of pieces collected in the row '{{row}}' is incorrect. It should be {{count}}.",
+            "INVALID_COLLECT_COL": "The column '{{col}}' is invalid",
+            "WRONG_COLLECT_COUNT_COL": "The number of pieces collected in the column '{{col}}' is incorrect. It should be {{count}}.",
+            "TOO_MANY_SOWS_one": "You may only sow 1 piece.",
+            "TOO_MANY_SOWS_other": "You may only sow {{count}} pieces.",
+            "DUPLICATE_SOW": "You have already sown a piece at {{where}}.",
+            "NOT_NEIGHBOURS": "The cells {{curr}} and {{prev}} are not neighbours.",
+            "INVALID_MOVE": "The move {{move}} is invalid.",
+            "START_SOWING_one": "You have collected 1 piece. Selected a cell to start sowing.",
+            "START_SOWING_other": "You have collected {{count}} pieces. Selected a cell to start sowing.",
+            "GO_BACK_one": "You still have 1 piece to sow. Click on a piece on the sowing path to revert to that point and try again.",
+            "GO_BACK_other": "You still have {{count}} pieces to sow. Click on a piece on the sowing path to revert and try again.",
+            "CONTINUE_one": "You have 1 more piece to sow.",
+            "CONTINUE_other": "You have {{count}} more pieces to sow.",
+            "NORMALISE": "The move needs to be normalised. Try '{{normalised}}'."
         },
         "byte": {
             "DIAG_ONLY": "Stacks may only move diagonally.",
@@ -3498,7 +3538,7 @@
         "strands": {
             "DIFFERENT_NUMS": "You have to select spaces with the same number.",
             "DUPLICATE": "You have already placed a piece at {{where}}.",
-            "INITIAL_INSTRUCTIONS": "Select the spaces to place your piece pieces.",
+            "INITIAL_INSTRUCTIONS": "Select the spaces to place your pieces.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a space numbered 2 for the first move.",
             "INITIAL_SINGLE": "You may only place one piece on a space numbered 2 for the first move.",
             "INITIAL_TWO": "You must place a piece on a space numbered 2 for the first move.",

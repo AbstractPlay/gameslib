@@ -197,13 +197,17 @@ export class TritiumGame extends GameBase {
         for (const cell of this.graph.listCells(false) as string[]) {
             if (this.board.has(cell) && !flagged.has(cell) && this.preparedflags.get(this.currplayer)! > 0) {
                 moves.push("flag-" + cell);
-            } else {
+            } else if (!this.board.has(cell)) {
                 for(let i = 1; i <= 3; i++) {
                     if (this.remainingtiles.get(i as tileid)! > 0) {
                         moves.push(tilecolors[i] + "-" + cell);
                     }
                 }
             }
+        }
+
+        if (moves.length === 0) {
+            moves.push("pass");
         }
 
         return moves;
@@ -257,7 +261,7 @@ export class TritiumGame extends GameBase {
             return result;
         }
 
-        if (! ["a","b","c","d"].includes(m)) {
+        if (! this.moves().includes(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
             return result;
@@ -277,6 +281,49 @@ export class TritiumGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
+
+        if (! trusted) {
+            const result = this.validateMove(m);
+            if (! result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (! this.moves().includes(m)) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            }
+        }
+
+        this.results = [];
+
+        const parts = m.split("-");
+        const piece = parts[0];
+        const cell = parts[1];
+
+        if (piece === "pass") {
+            this.results.push({type: "pass"});
+
+        } else if (piece === "flag") {
+
+            const prev = this.board.get(cell)!;
+            this.board.set(cell, [prev[0], this.currplayer]);
+            const prevflags = this.preparedflags.get(this.currplayer)!;
+            this.preparedflags.set(this.currplayer, prevflags - 1);
+
+            // TODO: reset prepared flags
+
+            this.results.push({type: "place", where: cell});
+
+        } else {
+            const tile = tilecolors.indexOf(piece) as tileid;
+            this.board.set(cell, [tile]);
+
+            const prevtiles = this.remainingtiles.get(tile)!;
+            this.remainingtiles.set(tile, prevtiles - 1);
+
+            this.results.push({type: "place", where: cell});
+        }
+
+        this.lastmove = m;
+        this.currplayer = this.currplayer === 1 ? 2 : 1;
 
         this.checkEOG();
         this.saveState();

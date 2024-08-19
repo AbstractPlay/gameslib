@@ -337,6 +337,22 @@ export class TritiumGame extends GameBase {
      * This is the code that actually checks whether the game is over or not, and specifies who the winners are if so.
      */
     protected checkEOG(): TritiumGame {
+
+        if (this.lastmove === "pass" && this.stack.at(-1).lastmove === "pass") {
+            this.gameover = true;
+            const scores = this.getPlayersScores()[0].scores;
+
+            if(scores[0] > scores[1]) {this.winner = [1];}
+            else if(scores[1] > scores[0]) {this.winner = [2];}
+        }
+
+        if (this.gameover) {
+            this.results.push(
+                {type: "eog"},
+                {type: "winners", players: [...this.winner]}
+            );
+        }
+
         return this;
     }
 

@@ -233,10 +233,27 @@ export class TritiumGame extends GameBase {
      */
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = this.graph.coords2algebraic(col, row);
-            const newmove = cell[0];
+            let newmove = "";
+            if(move.length === 0) {
+                switch(piece) {
+                    case "1":
+                        if (this.currplayer === 1) {newmove = "flag-";}
+                        break;
+                    case "2":
+                        if (this.currplayer === 2) {newmove = "flag-";}
+                        break;
+                    default:
+                        newmove = `${piece}-`;
+                        break;
+                }
+            }
+            else {
+                const cell = this.graph.coords2algebraic(col, row);
+                newmove = move + cell;
+            }
+
             const result = this.validateMove(newmove) as IClickResult;
-            if (! result.valid) {
+            if (!result.valid) {
                 result.move = "";
             } else {
                 result.move = newmove;
@@ -257,7 +274,21 @@ export class TritiumGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
+
         if (m.length === 0) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.Tritium.INITIAL_INSTRUCTIONS")
+            return result;
+        }
+
+        if (m.startsWith(tilecolors[1] + "-") ||
+            m.startsWith(tilecolors[2] + "-") ||
+            m.startsWith(tilecolors[3] + "-") ||
+            m.startsWith("flag-")) {
+
             result.valid = true;
             result.complete = -1;
             result.message = i18next.t("apgames:validation.Tritium.INITIAL_INSTRUCTIONS")
@@ -338,7 +369,7 @@ export class TritiumGame extends GameBase {
      */
     protected checkEOG(): TritiumGame {
 
-        if (this.lastmove === "pass" && this.stack.at(-1).lastmove === "pass") {
+        if (this.lastmove === "pass" && this.stack.at(-1)!.lastmove === "pass") {
             this.gameover = true;
             const scores = this.getPlayersScores()[0].scores;
 
@@ -422,17 +453,17 @@ export class TritiumGame extends GameBase {
             },
             {
                 text: this.remainingtiles[i].toString(),
-                scale: 0.75
+                scale: 0.7
             }]);
 
             if (this.remainingtiles[i] > 0) {
-                sidebar.push({name: "", piece: `K${i}`});
+                sidebar.push({name: "", piece: `K${i}`, value: tilecolors[i]});
             }
         }
 
         for(const p of [1,2]) {
             for(let i = 1; i <= this.preparedflags[p]; i++) {
-                sidebar.push({name: "", piece: `P${p}`});
+                sidebar.push({name: "", piece: `P${p}`, value: p.toString()});
             }
         }
 
@@ -478,7 +509,8 @@ export class TritiumGame extends GameBase {
                 {
                     type: "key",
                     height: 1,
-                    list: sidebar
+                    list: sidebar,
+                    clickable: true
                 }
             ],
         };

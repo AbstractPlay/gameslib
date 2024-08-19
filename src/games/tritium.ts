@@ -21,6 +21,7 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, playerid>;
     lastmove?: string;
     preparedflags: Map<playerid, number>;
+    playedflags: Map<playerid, string[]>;
     tiles: Map<tileid, number>;
 };
 
@@ -79,6 +80,7 @@ export class TritiumGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public preparedflags: Map<playerid, number>;
+    public playedflags: Map<playerid, string[]>;
     public tiles: Map<tileid, number>;
 
     /**
@@ -94,10 +96,12 @@ export class TritiumGame extends GameBase {
                 currplayer: 1,
                 board: new Map<string, playerid>(),
                 preparedflags: new Map<playerid, number>,
+                playedflags: new Map<playerid, string[]>,
                 tiles: new Map<tiledid, number>
             };
             for(let i = 1; i <= 2; i++) {
                 fresh.preparedflags[i] = 1;
+                fresh.playedflags[i] = [];
             }
             for(let i = 1; i <= 3; i++) {
                 fresh.tiles[i] = this.boardsize * (this.boardsize - 1);
@@ -134,6 +138,10 @@ export class TritiumGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.preparedflags = new Map(state.preparedflags);
+        this.playedflags = new Map();
+        for(let i = 1; i <= 2; i++) {
+            this.playedflags[i] = [...state.playedflags[i]];
+        }
         this.tiles = new Map(state.tiles);
 
         return this;
@@ -333,7 +341,7 @@ export class TritiumGame extends GameBase {
      * If you're new to TypeScript, you will want to familiarize yourself with the difference between reference types and value types. There's a reason you can't just say `board: this.board` in the below. You need to actually create a fresh map that duplicates `this.board`.
      */
     public moveState(): IMoveState {
-        return {
+        var state = {
             _version: TritiumGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
@@ -341,46 +349,53 @@ export class TritiumGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             preparedflags: new Map(this.preparedflags),
+            playedflags: new Map(),
             tiles: new Map(this.tiles)
         };
+        for(let i = 1; i <= 2; i++) {
+            state.playedflags[i] = [...this.playedflags[i]];
+        }
     }
 
-    /**
-     * And this is how you turn a game state into something people can see and interact with.
-     * The system tries to abstract things as much as possible. You don't have to know anything about computer graphics. You just need to be able to get the rendering engine to do what you want.
-     * To learn that, you will want to visit <http://renderer.dev.abstractplay.com> and learn how the renderer works. Basically you need to choose a board, load your pieces, populate the board, and then annotate any recent moves.
-     * You will see a fair bit of `// @ts-ignore`. This is not good practice generally, but I have found them necessary here. The type system is very strict, and sometimes that gets in the way. As long as your render actually works in the playground, you're OK, regardless of what type errors are thrown here.
-     */
     public render(): APRenderRep {
         // Build piece string
-        const pstr: string[][] = [];
+        const pstr: string[][][] = [];
         const cells = this.graph.listCells(true);
         for (const row of cells) {
-            const pieces: string[] = [];
+            const pieces: string[][] = [];
             for (const cell of row) {
+                var piece: string[] = [];
                 if (this.board.has(cell)) {
                     const tile = this.board.get(cell)!;
                     switch(tile)
                     {
                         case 1:
-                            pieces.push("A");
+                            piece.push("A");
                             break;
                         case 2:
-                            pieces.push("B");
+                            piece.push("B");
                             break;
                         case 3:
-                            pieces.push("C");
+                            piece.push("C");
                             break;
                     }
                 } else {
-                    pieces.push("-");
+                    piece.push("-");
                 }
+                if (this.playedflags[1].includes(cell)) {
+                    piece.push("D");
+                }
+                else if (this.playedflags[2].includes(cell)) {
+                    piece.push("E");
+                }
+                pieces.push(piece);
             }
             pstr.push(pieces);
         }
 
         // Build rep
         const rep: APRenderRep =  {
+            renderer: "deault",
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardsize,
@@ -412,7 +427,7 @@ export class TritiumGame extends GameBase {
                     colour: "#fff"
                 },
             },
-            pieces: pstr.map(p => p.join("")).join("\n")
+            pieces: pstr
         };
 
         return rep;

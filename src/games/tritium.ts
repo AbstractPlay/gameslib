@@ -235,21 +235,16 @@ export class TritiumGame extends GameBase {
         try {
             let newmove = "";
             if(move.length === 0) {
-                switch(piece) {
-                    case "1":
-                        if (this.currplayer === 1) {newmove = "flag-";}
-                        break;
-                    case "2":
-                        if (this.currplayer === 2) {newmove = "flag-";}
-                        break;
-                    default:
-                        newmove = `${piece}-`;
-                        break;
+                const str = piece ?? "";
+                if (tilecolors.includes(str) || str === "flag") {
+                    newmove = str;
                 }
             }
             else {
                 const cell = this.graph.coords2algebraic(col, row);
-                newmove = move + cell;
+                if(this.graph.graph.nodes().includes(cell)) {
+                    newmove = `${move}-${cell}`;
+                }
             }
 
             const result = this.validateMove(newmove) as IClickResult;
@@ -280,22 +275,51 @@ export class TritiumGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.Tritium.INITIAL_INSTRUCTIONS")
+            result.message = i18next.t("apgames:validation.tritium.INITIAL_INSTRUCTIONS")
             return result;
         }
 
-        if (m.startsWith(tilecolors[1] + "-") ||
-            m.startsWith(tilecolors[2] + "-") ||
-            m.startsWith(tilecolors[3] + "-") ||
-            m.startsWith("flag-")) {
+        if (m === "flag" && this.preparedflags[this.currplayer] === 0) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.tritium.NO_PREPARED_FLAG");
+            return result;
+        }
 
+        if (tilecolors.includes(m) || m === "flag") {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.Tritium.INITIAL_INSTRUCTIONS")
+            result.message = i18next.t("apgames:validation.tritium.INITIAL_INSTRUCTIONS2")
             return result;
         }
 
-        if (! this.moves().includes(m)) {
+        const parts = m.split("-");
+        const piece = parts[0];
+        const cell = parts[1];
+
+        if(tilecolors.includes(piece)) {
+            if(this.board.has(cell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tritium.NON_EMPTY", {cell});
+                return result;
+            }
+        }
+        else if (piece === "flag") {
+            if(!this.board.has(cell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tritium.EMPTY", {cell});
+                return result;
+            }
+            else {
+                const flagged = this.flaggedCells();
+                if (flagged.has(cell)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.tritium.NON_FREE_REGION", {cell});
+                    return result;
+                }
+            }
+        }
+
+        if (!this.moves().includes(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
             return result;
@@ -449,11 +473,11 @@ export class TritiumGame extends GameBase {
             tiles.push([{
                 name: "hex-pointy",
                 colour: tilecolorscodes[i],
-                scale: 0.85,
+                scale: 1,
             },
             {
                 text: this.remainingtiles[i].toString(),
-                scale: 0.7
+                scale: 0.75
             }]);
 
             if (this.remainingtiles[i] > 0) {
@@ -463,7 +487,7 @@ export class TritiumGame extends GameBase {
 
         for(const p of [1,2]) {
             for(let i = 1; i <= this.preparedflags[p]; i++) {
-                sidebar.push({name: "", piece: `P${p}`, value: p.toString()});
+                sidebar.push({name: "", piece: `P${p}`, value: "flag"});
             }
         }
 

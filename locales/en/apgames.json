@@ -1233,6 +1233,18 @@
                 "name": "Triangle (15 wide)"
             }
         },
+        "tritium": {
+            "short-form": {
+                "description": "Play with only three flags each.",
+                "name": "Short form."
+            },
+            "hex-6": {
+                "name": "Medium board (size 6)"
+            },
+            "hex-7": {
+                "name": "Large board (size 7)"
+            }
+        },
         "tumbleweed": {
             "size-6": {
                 "name": "Smaller board (6 cells)"
@@ -1731,6 +1743,15 @@
             "board": {
                 "description": "Casual board.",
                 "name": "Triangle (11 wide)"
+            }
+        },
+        "tritium": {
+            "form": {
+                "description": "Play continues until all regions are claimed.",
+                "name": "Long form"
+            },
+            "board": {
+                "name": "Small board (size 5)"
             }
         },
         "tumbleweed": {

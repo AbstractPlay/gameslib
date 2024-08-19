@@ -63,7 +63,12 @@ export class TritiumGame extends GameBase {
         ],
         flags: [],
         dateAdded: "2024-10-15",
-        categories: ["board>shape>hex"]
+        categories: ["board>shape>hex"],
+        variants: [
+            {uid: "short-form", group: "form"},
+            {uid: "hex-6", group: "board"},
+            {uid: "hex-7", group: "board"}
+        ]
     };
 
     /**
@@ -87,29 +92,47 @@ export class TritiumGame extends GameBase {
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
+    public shortform = false;
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public preparedflags: number[] = [];
     public remainingtiles: number[] = [];
 
+    public applyVariants(variants?: string[]) {
+        this.variants = (variants !== undefined) ? [...variants] : [];
+        for(const v of this.variants) {
+            if(v.startsWith("hex")) {
+                const [,size] = v.split("-");
+                this.boardsize = parseInt(size, 10);
+                this.graph = this.getGraph();
+            }
+            else if (v === "short-form") {
+                this.shortform = true;
+            }
+        }
+    }
+
     /**
      * This is where you create a new game or load in an existing state handed to you by the front end. This is where you'd track variants, initialize your board, whatever else you need to do.
      */
-    constructor(state?: ITritiumState | string) {
+    constructor(state?: ITritiumState | string, variants?: string[]) {
         super();
-        const tilesOfEachColor = this.boardsize * (this.boardsize - 1);
 
         if (state === undefined) {
+            this.applyVariants(variants);
+            const tilesOfEachColor = this.boardsize * (this.boardsize - 1);
+
             const fresh: IMoveState = {
                 _version: TritiumGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map<string, cellcontent>(),
-                preparedflags: [0, 1, 1],
+                preparedflags: this.shortform ? [0, 3, 3] : [0, 1, 1],
                 remainingtiles: [0, tilesOfEachColor, tilesOfEachColor, tilesOfEachColor]
             };
             this.stack = [fresh];
+
         } else {
             if (typeof state === "string") {
                 state = JSON.parse(state, reviver) as ITritiumState;
@@ -119,7 +142,7 @@ export class TritiumGame extends GameBase {
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.variants = state.variants;
+            this.applyVariants(state.variants);
             this.stack = [...state.stack];
         }
         this.load();
@@ -137,6 +160,7 @@ export class TritiumGame extends GameBase {
         }
 
         const state = this.stack[idx];
+
         this.currplayer = state.currplayer;
         this.board = deepclone(state.board) as Map<string, cellcontent>;
         this.lastmove = state.lastmove;
@@ -365,7 +389,7 @@ export class TritiumGame extends GameBase {
             this.board.set(cell, [prev[0], this.currplayer]);
             this.preparedflags[this.currplayer]--;
 
-            if (this.preparedflags[1] === 0 && this.preparedflags[2] === 0) {
+            if (this.preparedflags[1] === 0 && this.preparedflags[2] === 0 && !this.shortform) {
                 this.preparedflags[1] = 1;
                 this.preparedflags[2] = 1;
             }

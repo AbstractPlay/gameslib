@@ -14,8 +14,8 @@ export type tileid = 1|2|3;
 export type playerid = 1|2;
 export type cellcontent = [tileid,playerid?];
 
-const tilecolors: string[] = ["", "orange", "purple", "green"];
-const tilecolorscodes: number[] = [0, 6, 5, 3];
+const tilecolors: string[] = ["_dummy", "orange", "purple", "green"];
+const tilecolorscodes: string[] = ["_dummy", "#FFC285", "#D2ACD7", "#AADBA9"];
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -500,12 +500,12 @@ export class TritiumGame extends GameBase {
                 P1: {
                     name: "piece",
                     scale: 0.3,
-                    colour: "#fff"
+                    colour: 1
                 },
                 P2: {
                     name: "piece",
                     scale: 0.3,
-                    colour: "#000"
+                    colour: 2
                 },
                 K1: tiles[1] as [Glyph, ...Glyph[]],
                 K2: tiles[2] as [Glyph, ...Glyph[]],

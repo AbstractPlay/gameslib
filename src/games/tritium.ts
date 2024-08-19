@@ -17,14 +17,6 @@ export type cellcontent = [tileid,playerid?];
 const tilecolors: string[] = ["", "orange", "purple", "green"];
 const tilecolorscodes: number[] = [0, 6, 5, 3];
 
-/**
- * Every new game must define what the rest of the system is going to store as "state."
- * The base class defines the minimum requirements, but your game must add whatever it specifically needs.
- * The `ITritiumState` is the top-level state and contains information that doesn't change a lot.
- * It also contains `stack`, which is a list of all the `IMoveState`s representing each individual turn in a game.
- * The first item in that stack represents the initial game state, and a new state is appended to the stack after every turn.
- * Anything your game needs to remember between turns needs to be here.
- */
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, cellcontent>;
@@ -38,16 +30,8 @@ export interface ITritiumState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-/**
- * Each game is its own class that inherits and extends GameBase (or GameBaseSimultaneous).
- * The base object defines the required functions and provides sensible defaults for the rest.
- */
 export class TritiumGame extends GameBase {
 
-    /**
-     * This describes the game's metadata used by the front end and other tools.
-     * It's essential that this be correct. See the `api.md` file for details.
-     */
     public static readonly gameinfo: APGamesInformation = {
         name: "Tritium",
         uid: "tritium",
@@ -71,9 +55,6 @@ export class TritiumGame extends GameBase {
         ]
     };
 
-    /**
-     * For me personally, I like using algebraic notation and x,y coordinates, so I routinely convert between the two. The base object offers a default version that requires the board's height. For simplicity, if there's only one board size for a game, I create a game-specific version with the height baked in. This is one of those "flexibility" points. You are free to represent your game board and state in whatever way makes sense to you. You could delete and ignore these functions entirely, if you wanted.
-     */
     public coords2algebraic(x: number, y: number): string {
         return this.graph.coords2algebraic(x, y);
     }
@@ -81,9 +62,6 @@ export class TritiumGame extends GameBase {
         return this.graph.algebraic2coords(cell);
     }
 
-    /**
-     * Basic TypeScript class boilerplate. You need to define your class's data.
-     */
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, cellcontent>;
@@ -112,9 +90,6 @@ export class TritiumGame extends GameBase {
         }
     }
 
-    /**
-     * This is where you create a new game or load in an existing state handed to you by the front end. This is where you'd track variants, initialize your board, whatever else you need to do.
-     */
     constructor(state?: ITritiumState | string, variants?: string[]) {
         super();
 
@@ -148,9 +123,6 @@ export class TritiumGame extends GameBase {
         this.load();
     }
 
-    /**
-     * This is how the front end loads particular states within a game's timeline. Anything you defined up in `IMoveState` will need to be mentioned here. This is also the place to process any side effects, like deriving the board size or initializing certain helper functions (not shown here).
-     */
     public load(idx = -1): TritiumGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -181,6 +153,8 @@ export class TritiumGame extends GameBase {
         return this.board.get(cell)?.[0];
     }
 
+    // Find all cells in the same region as `start`.
+    // If `start` is not given, start from all existing flags.
     public flaggedCells(start?: string): Set<string> {
         const flagged = new Set<string>();
         const queue: string[] = [];
@@ -212,9 +186,6 @@ export class TritiumGame extends GameBase {
         return flagged;
     }
 
-    /**
-     * This should generate a full list of valid moves from the current game state. If it is not reasonable for your game to generate such a list, you can remove this function and add the `no-moves` flag to the game's metadata. If you *can* efficiently generate a move list, though, I highly recommend it. It's helpful to players, and it makes your life easier later.
-     */
     public moves(): string[] {
         const moves: string[] = [];
         if (this.gameover) { return moves; }
@@ -240,21 +211,11 @@ export class TritiumGame extends GameBase {
         return moves;
     }
 
-    /**
-     * This is a helper function only needed for local testing, and only useful if you have a `moves()` function.
-     */
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    /**
-     * This takes information about the move in progress and the click the user just made and needs to return an updated move string and some description of how valid and complete the move is.
-     * - `valid` must be either true or false. As long as the move is even partially valid, it should return true. False tells the front end that it's wholly and unsalvageably invalid.
-     * - `complete` has three states: -1, 0, and 1. -1 means the move is for absolutely sure NOT complete. More input is needed. 0 means the move *could* be complete and submitted now, but further moves are possible. And 1 means the move is absolutely complete and no further input should be expected.
-     * - `canrender` is for games where the moves consist of multiple steps and need to be rendered as you go. If `canrender` is true, then even if `complete` is -1, it will be send to the renderer for updating.
-     * - `message` is a translatable string explaining what the user should do next.
-     */
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -287,9 +248,6 @@ export class TritiumGame extends GameBase {
         }
     }
 
-    /**
-     * This goes hand in hand with `handleClick()` and can be leveraged in other areas of the code as well. It accepts a move string and then returns a description of the move's condition. See description of `handleClick()` for details.
-     */
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
@@ -356,9 +314,6 @@ export class TritiumGame extends GameBase {
         return result;
     }
 
-    /**
-     * This is where you actually execute a move. You can use `validateMove()` and `moves()` to make triple sure you've received a valid move, and that frees you from excessive error checking and handling in your execution code. More comments below.
-     */
     public move(m: string, {trusted = false} = {}): TritiumGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -422,9 +377,6 @@ export class TritiumGame extends GameBase {
         return undefined;
     }
 
-    /**
-     * This is the code that actually checks whether the game is over or not, and specifies who the winners are if so.
-     */
     protected checkEOG(): TritiumGame {
 
         if (this.lastmove === "pass" && this.stack.at(-1)!.lastmove === "pass") {
@@ -446,9 +398,6 @@ export class TritiumGame extends GameBase {
         return this;
     }
 
-    /**
-     * Anything up in your ITritiumState definition needs to be here.
-     */
     public state(): ITritiumState {
         return {
             game: TritiumGame.gameinfo.uid,
@@ -460,10 +409,6 @@ export class TritiumGame extends GameBase {
         };
     }
 
-    /**
-     * And same here for IMoveState. The base object uses these to save things.
-     * If you're new to TypeScript, you will want to familiarize yourself with the difference between reference types and value types. There's a reason you can't just say `board: this.board` in the below. You need to actually create a fresh map that duplicates `this.board`.
-     */
     public moveState(): IMoveState {
         const state = {
             _version: TritiumGame.gameinfo.version,
@@ -479,7 +424,9 @@ export class TritiumGame extends GameBase {
     }
 
     public render(): APRenderRep {
-        // Build piece string
+
+        // Pieces
+
         const pstr: string[][][] = [];
         const cells = this.graph.listCells(true);
         for (const row of cells) {
@@ -527,6 +474,7 @@ export class TritiumGame extends GameBase {
         }
 
         // Build rep
+
         const rep: APRenderRep =  {
             renderer: "default",
             board: {
@@ -584,7 +532,6 @@ export class TritiumGame extends GameBase {
             flagcounts.set(cell, [0,0,0]);
         }
 
-        // @ts-ignore
         for (const [cell, [,flag]] of this.board) {
             if (flag !== undefined) {
                 for(const connected of this.flaggedCells(cell)) {
@@ -620,9 +567,6 @@ export class TritiumGame extends GameBase {
         return status;
     }
 
-    /**
-     * Just leave this. You very, very rarely need to do anything here.
-     */
     public clone(): TritiumGame {
         return new TritiumGame(this.serialize());
     }

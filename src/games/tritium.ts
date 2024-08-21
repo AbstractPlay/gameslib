@@ -16,6 +16,7 @@ export type cellcontent = [tileid,playerid?];
 
 const tilecolors: string[] = ["_dummy", "orange", "purple", "green"];
 const tilecolorscodes: number[] = [0, 6, 5, 3];
+const tileopacity = 0.45;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -456,6 +457,7 @@ export class TritiumGame extends GameBase {
                 name: "hex-pointy",
                 colour: tilecolorscodes[i],
                 scale: 1,
+                opacity: tileopacity
             },
             {
                 text: this.remainingtiles[i].toString(),
@@ -488,17 +490,17 @@ export class TritiumGame extends GameBase {
                 T1: {
                     name: "hex-pointy",
                     colour: tilecolorscodes[1],
-                    opacity: 0.45
+                    opacity: tileopacity
                 },
                 T2: {
                     name: "hex-pointy",
                     colour: tilecolorscodes[2],
-                    opacity: 0.45
+                    opacity: tileopacity
                 },
                 T3: {
                     name: "hex-pointy",
                     colour: tilecolorscodes[3],
-                    opacity: 0.45
+                    opacity: tileopacity
                 },
                 P1: {
                     name: "piece",

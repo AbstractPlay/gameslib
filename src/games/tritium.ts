@@ -453,16 +453,11 @@ export class TritiumGame extends GameBase {
         tiles.push([]);
 
         for(let i = 1; i <= 3; i++) {
-            tiles.push([{
-                name: "hex-pointy",
-                colour: tilecolorscodes[i],
-                scale: 1,
-                opacity: tileopacity
-            },
-            {
-                text: this.remainingtiles[i].toString(),
-                scale: 0.75
-            }]);
+            tiles.push([
+                {name: "hex-pointy", colour: "#fff"},
+                {name: "hex-pointy", colour: tilecolorscodes[i], opacity: tileopacity},
+                {text: this.remainingtiles[i].toString(), scale: 0.75}
+            ]);
 
             if (this.remainingtiles[i] > 0) {
                 sidebar.push({name: "", piece: `K${i}`, value: tilecolors[i]});
@@ -487,31 +482,20 @@ export class TritiumGame extends GameBase {
                 alternatingSymmetry: false
             },
             legend: {
-                T1: {
-                    name: "hex-pointy",
-                    colour: tilecolorscodes[1],
-                    opacity: tileopacity
-                },
-                T2: {
-                    name: "hex-pointy",
-                    colour: tilecolorscodes[2],
-                    opacity: tileopacity
-                },
-                T3: {
-                    name: "hex-pointy",
-                    colour: tilecolorscodes[3],
-                    opacity: tileopacity
-                },
-                P1: {
-                    name: "piece",
-                    scale: 0.3,
-                    colour: 1
-                },
-                P2: {
-                    name: "piece",
-                    scale: 0.3,
-                    colour: 2
-                },
+                T1: [
+                    {name: "hex-pointy", colour: "#fff"},
+                    {name: "hex-pointy", colour: tilecolorscodes[1], opacity: tileopacity}
+                ],
+                T2: [
+                    {name: "hex-pointy", colour: "#fff"},
+                    {name: "hex-pointy", colour: tilecolorscodes[2], opacity: tileopacity}
+                ],
+                T3: [
+                    {name: "hex-pointy", colour: "#fff"},
+                    {name: "hex-pointy", colour: tilecolorscodes[3], opacity: tileopacity}
+                ],
+                P1: {name: "piece", scale: 0.3, colour: 1},
+                P2: {name: "piece", scale: 0.3, colour: 2},
                 K1: tiles[1] as [Glyph, ...Glyph[]],
                 K2: tiles[2] as [Glyph, ...Glyph[]],
                 K3: tiles[3] as [Glyph, ...Glyph[]],

@@ -222,8 +222,10 @@ export class TritiumGame extends GameBase {
             let newmove = "";
             if(move.length === 0) {
                 const str = piece ?? "";
-                if (tilecolors.includes(str) || str === "flag") {
+                if (tilecolors.includes(str)) {
                     newmove = str;
+                } else if (str === `flag${this.currplayer}`) {
+                    newmove = "flag";
                 }
             }
             else {
@@ -466,7 +468,7 @@ export class TritiumGame extends GameBase {
 
         for(const p of [1,2]) {
             for(let i = 1; i <= this.preparedflags[p]; i++) {
-                sidebar.push({name: "", piece: `P${p}`, value: "flag"});
+                sidebar.push({name: "", piece: `P${p}`, value: `flag${p}`});
             }
         }
 

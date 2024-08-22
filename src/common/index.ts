@@ -53,3 +53,54 @@ export const partitionArray = (a: any[], size: number): any[][] =>
         // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unsafe-return
         (_, i) => a.slice(i * size, i * size + size)
     );
+
+export const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
+
+export const coords2algebraic = (x: number, y: number, height: number): string => {
+    let length = 1;
+    if (x >= columnLabels.length) {
+        length = Math.floor(Math.log(x) / Math.log(columnLabels.length)) + 1;
+    }
+    let label = "";
+    let counter = x;
+    for (let i = length; i > 0; i--) {
+        const base = columnLabels.length ** (i - 1);
+        let idx = Math.floor(counter / base);
+        if (i > 1) {
+            idx--;
+        }
+        const char = columnLabels[idx];
+        if (char === undefined) {
+            throw new Error(`Could not find a character at index ${idx}\n${x},${y}, length: ${length}, base: ${base}`);
+        }
+        label += char;
+        counter = counter % base;
+    }
+    return label + (height - y).toString();
+}
+
+export const algebraic2coords = (cell: string, height: number): [number, number] => {
+    const match = cell.match(/^([a-z]+)(\d+)$/);
+    if (match === null) {
+        throw new Error(`The algebraic notation is invalid: ${cell}`);
+    }
+    const lets = match[1]; const nums = match[2];
+    const reversed = [...lets.split("").reverse()];
+    let x = 0
+    for (let exp = 0; exp < reversed.length; exp++) {
+        const idx = columnLabels.indexOf(reversed[exp]);
+        if (idx < 0) {
+            throw new Error(`The column label is invalid: ${reversed[exp]}`);
+        }
+        if (exp > 0) {
+            x += (idx + 1) * (columnLabels.length ** exp);
+        } else {
+            x += (idx) * (columnLabels.length ** exp);
+        }
+    }
+    const y = parseInt(nums, 10);
+    if ( (y === undefined) || (isNaN(y)) || nums === "" ) {
+        throw new Error(`The row label is invalid: ${nums}`);
+    }
+    return [x, height - y];
+}

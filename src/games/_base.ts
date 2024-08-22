@@ -3,12 +3,10 @@ import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/game
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
-import { replacer, sortingReplacer, UserFacingError } from '../common';
+import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common';
 import { omit } from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 /**
  * The minimum requirements of the individual game states.
@@ -228,52 +226,11 @@ export abstract class GameBase  {
         return JSON.stringify(this.gameinfo);
     }
     public static coords2algebraic(x: number, y: number, height: number): string {
-        let length = 1;
-        if (x >= columnLabels.length) {
-            length = Math.floor(Math.log(x) / Math.log(columnLabels.length)) + 1;
-        }
-        let label = "";
-        let counter = x;
-        for (let i = length; i > 0; i--) {
-            const base = columnLabels.length ** (i - 1);
-            let idx = Math.floor(counter / base);
-            if (i > 1) {
-                idx--;
-            }
-            const char = columnLabels[idx];
-            if (char === undefined) {
-                throw new Error(`Could not find a character at index ${idx}\n${x},${y}, length: ${length}, base: ${base}`);
-            }
-            label += char;
-            counter = counter % base;
-        }
-        return label + (height - y).toString();
+        return coords2algebraic(x, y, height);
     }
 
     public static algebraic2coords(cell: string, height: number): [number, number] {
-        const match = cell.match(/^([a-z]+)(\d+)$/);
-        if (match === null) {
-            throw new Error(`The algebraic notation is invalid: ${cell}`);
-        }
-        const lets = match[1]; const nums = match[2];
-        const reversed = [...lets.split("").reverse()];
-        let x = 0
-        for (let exp = 0; exp < reversed.length; exp++) {
-            const idx = columnLabels.indexOf(reversed[exp]);
-            if (idx < 0) {
-                throw new Error(`The column label is invalid: ${reversed[exp]}`);
-            }
-            if (exp > 0) {
-                x += (idx + 1) * (columnLabels.length ** exp);
-            } else {
-                x += (idx) * (columnLabels.length ** exp);
-            }
-        }
-        const y = parseInt(nums, 10);
-        if ( (y === undefined) || (isNaN(y)) || nums === "" ) {
-            throw new Error(`The row label is invalid: ${nums}`);
-        }
-        return [x, height - y];
+        return algebraic2coords(cell, height);
     }
 
     public abstract stack: Array<IIndividualState>;

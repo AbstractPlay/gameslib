@@ -236,8 +236,8 @@ export abstract class GameBase  {
         let counter = x;
         for (let i = length; i > 0; i--) {
             const base = columnLabels.length ** (i - 1);
-            let idx = Math.floor(counter / base);
-            let char = columnLabels[idx];
+            const idx = Math.floor(counter / base);
+            const char = columnLabels[idx];
             if (char === undefined) {
                 throw new Error(`Could not find a character at index ${idx}\n${x},${y}, length: ${length}, base: ${base}`);
             }

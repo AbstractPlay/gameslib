@@ -327,7 +327,6 @@ export class BlamGame extends GameBase {
             const stash = this.stashes.get(this.currplayer)!;
             const cell = chars[1] + chars[2];
             const coords = BlamGame.algebraic2coords(cell);
-            console.log(`cell: ${cell}, coords: ${coords.join(",")}`);
             const grid = new RectGrid(8, 8);
 
             // place the piece
@@ -340,9 +339,7 @@ export class BlamGame extends GameBase {
             const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
             dirs.forEach((d) => {
                 const adj = RectGrid.move(...coords, d);
-                console.log(`adj: ${adj.join(",")}`)
                 if (grid.inBounds(...adj)) {
-                    console.log("\tin bounds");
                     this.push(adj, d);
                 }
             });

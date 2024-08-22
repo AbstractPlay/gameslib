@@ -226,6 +226,7 @@ export class AsliGame extends GameBase {
                 newmove = "pass";
             } else {
                 const cell = this.coords2algebraic(col, row);
+                console.log(cell);
                 newmove = cell;
             }
             const result = this.validateMove(newmove) as IClickResult;

@@ -236,7 +236,10 @@ export abstract class GameBase  {
         let counter = x;
         for (let i = length; i > 0; i--) {
             const base = columnLabels.length ** (i - 1);
-            const idx = Math.floor(counter / base);
+            let idx = Math.floor(counter / base);
+            if (i > 1) {
+                idx--;
+            }
             const char = columnLabels[idx];
             if (char === undefined) {
                 throw new Error(`Could not find a character at index ${idx}\n${x},${y}, length: ${length}, base: ${base}`);
@@ -260,7 +263,11 @@ export abstract class GameBase  {
             if (idx < 0) {
                 throw new Error(`The column label is invalid: ${reversed[exp]}`);
             }
-            x += (idx) * (columnLabels.length ** exp);
+            if (exp > 0) {
+                x += (idx + 1) * (columnLabels.length ** exp);
+            } else {
+                x += (idx) * (columnLabels.length ** exp);
+            }
         }
         const y = parseInt(nums, 10);
         if ( (y === undefined) || (isNaN(y)) || nums === "" ) {

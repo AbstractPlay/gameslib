@@ -131,6 +131,7 @@
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
+        "tritium": "Tritium is an abstract strategy game for two players, who take turns creating and growing regions, and claiming them. Once the board is full, the player who controls most tiles wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
         "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
@@ -1238,6 +1239,18 @@
                 "name": "Triangle (15 wide)"
             }
         },
+        "tritium": {
+            "short-form": {
+                "description": "Play with only three flags each.",
+                "name": "Short form."
+            },
+            "hex-6": {
+                "name": "Medium board (size 6)"
+            },
+            "hex-7": {
+                "name": "Large board (size 7)"
+            }
+        },
         "tumbleweed": {
             "size-6": {
                 "name": "Smaller board (6 cells)"
@@ -1741,6 +1754,15 @@
             "board": {
                 "description": "Casual board.",
                 "name": "Triangle (11 wide)"
+            }
+        },
+        "tritium": {
+            "form": {
+                "description": "Play continues until all regions are claimed.",
+                "name": "Long form"
+            },
+            "board": {
+                "name": "Small board (size 5)"
             }
         },
         "tumbleweed": {
@@ -3622,6 +3644,14 @@
         },
         "trike": {
             "INITIAL_INSTRUCTIONS": "Select the cell to place the neutral piece on."
+        },
+        "tritium": {
+            "INITIAL_INSTRUCTIONS": "Select a tile or your own flag.",
+            "INITIAL_INSTRUCTIONS2": "Select a destination space.",
+            "NON_EMPTY": "Cell {{cell}} is not empty.",
+            "EMPTY": "Cell {{cell}} is empty, flags must be placed on top of existing regions.",
+            "NON_FREE_REGION": "The region at {{cell}} is not free.",
+            "NO_PREPARED_FLAG": "You do not have a prepared flag."
         },
         "tumbleweed": {
             "INITIAL_INSTRUCTIONS": "Place a piece on the board.",

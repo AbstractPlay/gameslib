@@ -228,19 +228,43 @@ export abstract class GameBase  {
         return JSON.stringify(this.gameinfo);
     }
     public static coords2algebraic(x: number, y: number, height: number): string {
-        return columnLabels[x] + (height - y).toString();
+        let length = 1;
+        if (x >= columnLabels.length) {
+            length = Math.floor(Math.log(x) / Math.log(columnLabels.length)) + 1;
+        }
+        let label = "";
+        let counter = x;
+        for (let i = length; i > 0; i--) {
+            const base = columnLabels.length ** (i - 1);
+            let idx = Math.floor(counter / base);
+            let char = columnLabels[idx];
+            if (char === undefined) {
+                throw new Error(`Could not find a character at index ${idx}\n${x},${y}, length: ${length}, base: ${base}`);
+            }
+            label += char;
+            counter = counter % base;
+        }
+        return label + (height - y).toString();
     }
 
     public static algebraic2coords(cell: string, height: number): [number, number] {
-        const pair: string[] = cell.split("");
-        const num = (pair.slice(1)).join("");
-        const x = columnLabels.indexOf(pair[0]);
-        if ( (x === undefined) || (x < 0) ) {
-            throw new Error(`The column label is invalid: ${pair[0]}`);
+        const match = cell.match(/^([a-z]+)(\d+)$/);
+        if (match === null) {
+            throw new Error(`The algebraic notation is invalid: ${cell}`);
         }
-        const y = Number(num);
-        if ( (y === undefined) || (isNaN(y)) || num === "" ) {
-            throw new Error(`The row label is invalid: ${pair[1]}`);
+        const lets = match[1]; const nums = match[2];
+        const reversed = [...lets.split("").reverse()];
+        let x = 0
+        for (let exp = 0; exp < reversed.length; exp++) {
+            const idx = columnLabels.indexOf(reversed[exp]);
+            if (idx < 0) {
+                throw new Error(`The column label is invalid: ${reversed[exp]}`);
+            }
+            x += (idx) * (columnLabels.length ** exp);
+        }
+        const y = parseInt(nums, 10);
+        if ( (y === undefined) || (isNaN(y)) || nums === "" ) {
+            throw new Error(`The row label is invalid: ${nums}`);
         }
         return [x, height - y];
     }

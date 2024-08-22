@@ -3,12 +3,10 @@ import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/game
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
 import { APGameRecord } from "@abstractplay/recranks/src";
-import { replacer, sortingReplacer, UserFacingError } from '../common';
+import { algebraic2coords, coords2algebraic, replacer, sortingReplacer, UserFacingError } from '../common';
 import { omit } from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
 /**
  * The minimum requirements of the individual game states.
@@ -228,21 +226,11 @@ export abstract class GameBase  {
         return JSON.stringify(this.gameinfo);
     }
     public static coords2algebraic(x: number, y: number, height: number): string {
-        return columnLabels[x] + (height - y).toString();
+        return coords2algebraic(x, y, height);
     }
 
     public static algebraic2coords(cell: string, height: number): [number, number] {
-        const pair: string[] = cell.split("");
-        const num = (pair.slice(1)).join("");
-        const x = columnLabels.indexOf(pair[0]);
-        if ( (x === undefined) || (x < 0) ) {
-            throw new Error(`The column label is invalid: ${pair[0]}`);
-        }
-        const y = Number(num);
-        if ( (y === undefined) || (isNaN(y)) || num === "" ) {
-            throw new Error(`The row label is invalid: ${pair[1]}`);
-        }
-        return [x, height - y];
+        return algebraic2coords(cell, height);
     }
 
     public abstract stack: Array<IIndividualState>;

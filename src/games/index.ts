@@ -145,6 +145,7 @@ import { DragonEyesGame, IDragonEyesState } from "./dragoneyes";
 import { AtaxxGame, IAtaxxState } from "./ataxx";
 import { MajoritiesGame, IMajoritiesState } from "./majorities";
 import { BukuGame, IBukuState } from "./buku";
+import { TritiumGame, ITritiumState } from "./tritium";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -292,6 +293,7 @@ export {
     AtaxxGame, IAtaxxState,
     MajoritiesGame, IMajoritiesState,
     BukuGame, IBukuState,
+    TritiumGame, ITritiumState
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -342,7 +344,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof UnlurGame | typeof EntrapmentGame | typeof HexentaflGame |
                               typeof VoloGame | typeof StrandsGame | typeof GonnectGame |
                               typeof BugGame | typeof DragonEyesGame | typeof AtaxxGame |
-                              typeof MajoritiesGame | typeof BukuGame
+                              typeof MajoritiesGame | typeof BukuGame | typeof TritiumGame
                 >();
 // Manually add each game to the following array
 [
@@ -366,7 +368,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
-    MajoritiesGame, BukuGame,
+    MajoritiesGame, BukuGame, TritiumGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -666,6 +668,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new MajoritiesGame(...args);
         case "buku":
             return new BukuGame(...args);
+        case "tritium":
+            return new TritiumGame(...args);
     }
     return;
 }

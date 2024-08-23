@@ -514,7 +514,7 @@ export class TritiumGame extends GameBase {
         };
 
         rep.annotations = [];
-        for (const move of this.results) {
+        for (const move of this.stack.at(-1)!._results) {
             if (move.type === "place") {
                 const [x, y] = this.graph.algebraic2coords(move.where!);
                 rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});

@@ -242,8 +242,8 @@ export class MchessGame extends GameBase {
                     if ( (this.variants === undefined) || (! this.variants.includes("ofkk")) ) {
                         for (const dir of ["NE", "NW", "SE", "SW"]) {
                             const next = RectGrid.move(...curr, dir as Directions);
-                            const nextCell = MchessGame.coords2algebraic(...next);
                             if (grid.inBounds(...next)) {
+                                const nextCell = MchessGame.coords2algebraic(...next);
                                 const move = this.moveType(k, nextCell, v, player!);
                                 if (move !== undefined) {
                                     moves.push(move);

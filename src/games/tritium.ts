@@ -164,8 +164,8 @@ export class TritiumGame extends GameBase {
             flagged.add(start);
             queue.push(start);
         } else {
-            for (const [cell, content] of this.board) {
-                if (content[1] !== undefined) {
+            for (const [cell, [,flag]] of this.board) {
+                if (flag !== undefined) {
                     flagged.add(cell);
                     queue.push(cell);
                 }

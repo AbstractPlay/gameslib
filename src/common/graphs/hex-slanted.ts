@@ -1,8 +1,8 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
-import { algebraic2coords, coords2algebraic } from "..";
 
+const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
 
 export class HexSlantedGraph implements IGraph {
@@ -19,11 +19,21 @@ export class HexSlantedGraph implements IGraph {
     }
 
     public coords2algebraic(x: number, y: number): string {
-        return coords2algebraic(x, y, this.height);
+        return columnLabels[x] + (y + 1).toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {
-        return algebraic2coords(cell, this.height);
+        const pair: string[] = cell.split("");
+        const num = pair.slice(1).join("");
+        const x = columnLabels.indexOf(pair[0]);
+        if (x === undefined || x < 0) {
+            throw new Error(`The column label is invalid: ${pair[0]}`);
+        }
+        const y = Number(num);
+        if (y === undefined || isNaN(y) || num === "") {
+            throw new Error(`The row label is invalid: ${pair[1]}`);
+        }
+        return [x, y - 1];
     }
 
     private buildGraph(): UndirectedGraph {

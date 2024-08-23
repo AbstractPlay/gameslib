@@ -999,7 +999,7 @@ export class EntrapmentGame extends GameBase {
         let forcedCell: string | undefined;
         for (const i of offsets) {
             const [nx, ny] = orient === "h" ? [x, y + i] : [x + i, y];
-            if (x < 0 || x >= this.width || y < 0 || y >= this.height) { continue; };
+            if (nx < 0 || nx >= this.width || ny < 0 || ny >= this.height) { continue; };
             const cell = this.coords2algebraic(nx, ny);
             if (forced[0] === cell || forced[1] === cell) {
                 forcedCell = cell;

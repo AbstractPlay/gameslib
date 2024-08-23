@@ -149,8 +149,11 @@
     "ELIMINATED": "{{player}} was eliminated.",
     "EOG": {
         "buku_singletons": "The game has ended because all cells contain only singletons.",
+        "camelot_claim_draw_repetition": "The game has ended because {{player}} has claimed a draw by repetition.",
+        "camelot_claim_draw_progression": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
         "consecutive_passes": "The game has ended because both players passed consecutively.",
         "default": "The game has ended.",
+        "material": "The game has ended because both players have insufficient material.",
         "repetition_one": "The game has ended because the same position has occurred by the same player.",
         "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
         "repetition_positional_one": "The game has ended because the same position has occurred.",
@@ -197,6 +200,14 @@
             "partial_one": "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
             "partial_other": "{{player}} moved {{count}} checkers from {{from}} to {{to}}."
         },
+        "camelot_castle_knight": "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
+        "camelot_castle": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
+        "camelot_plain_knight": "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
+        "camelot_plain": "{{player}} made a plain move with a man from {{from}} to {{to}}.",
+        "camelot_canter_knight": "{{player}} made a canter with a knight from {{from}} to {{to}}.",
+        "camelot_canter": "{{player}} made a canter with a man from {{from}} to {{to}}.",
+        "camelot_jump_knight": "{{player}} jumped with a knight from {{from}} to {{to}}, capturing {{captured}}.",
+        "camelot_jump": "{{player}} jumped with a man from {{from}} to {{to}}, capturing {{captured}}.",
         "chase": "{{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "collision": "{{player}} tried to move from {{from}} to {{to}} but couldn't because of a collision.",
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
@@ -409,6 +420,11 @@
     "TIMEOUT": "{{player}} lost on time.",
     "UNFURL": {
         "furl": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}."
+    },
+    "USE": {
+        "camelot_castle_move_one": "{{player}} used has 1 more castle move.",
+        "camelot_castle_move_other": "{{player}} used has {{count}} more castle moves.",
+        "camelot_castle_move_none": "{{player}} has no more castle moves."
     },
     "WINNERSNONE": "There were no winners.",
     "WINNERS_one": "The following player won: {{winners}}.",

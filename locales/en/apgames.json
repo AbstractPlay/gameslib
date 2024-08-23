@@ -27,6 +27,7 @@
         "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sowed from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible scores, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
+        "camelot": "A classic game where you try to move two pieces into your opponent's castle or eliminate all of your opponent's pieces.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
         "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
         "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
@@ -419,6 +420,16 @@
             "width-15": {
                 "description": "Roughly 15 pieces across",
                 "name": "Larger board"
+            }
+        },
+        "camelot": {
+            "cam": {
+                "description": "Smaller variant",
+                "name": "Cam"
+            },
+            "chivalry": {
+                "description": "Older larger variant",
+                "name": "Chivalry"
             }
         },
         "catchup": {
@@ -2563,6 +2574,22 @@
             "NO_PATH": "No path wide enough to accommodate a piece appears to exist between {{from}} and {{to}}.",
             "NOT_CONTAINED": "Pieces may not hang over the edge of the board.",
             "VALID_PARTIAL": "Select a destination. If the selected position would lead to a collision, the system will attempt to snap the piece to a logical valid position."
+        },
+        "camelot": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "INITIAL_INSTRUCTIONS_JUMP": "You have mandatory jump moves. Select a piece to jump.",
+            "INITIAL_INSTRUCTIONS_OWN_CASTLE": "You have a piece in your own castle. You must move it out of the castle.",
+            "CANNOT_CLAIM_DRAW": "You may only claim a draw if the same position is repeated for at least the third time by the same player on each move or there has been no captures or movement into the opponent's castle square for the last 50 moves.",
+            "IN_OWN_CASTLE": "You must move the piece at {{where}} out of your own castle.",
+            "MUST_JUMP": "You must select one of your pieces to jump ({{where}}).",
+            "CASTLE_LIMIT": "You may only make a castle move twice in a game.",
+            "MUST_JUMP_SELECTED": "Your selected piece at {{where}} must make capture.",
+            "JUMP_NOTATION": "The move from {{from}} to {{to}} is a jump move. Use the notation 'x' to indicate a jump.",
+            "PLAIN_NOTATION": "The move from {{from}} to {{to}} is a plain move. Use the notation '-' to indicate a plain move.",
+            "CANTER_NOTATION": "The move from {{from}} to {{to}} is a canter move. Use the notation '^' to indicate a canter.",
+            "INVALID_TO": "The piece at {{from}} cannot move to {{to}}.",
+            "NEED_TO_JUMP": "You have to continue making a capture.",
+            "CAN_CANTER": "You may continue making a canter move, or end the turn here."
         },
         "cannon": {
             "BAD_RETREAT": "Pieces can only retreat if they are adjacent to at least one enemy piece.",

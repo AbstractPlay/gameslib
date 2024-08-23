@@ -39,14 +39,14 @@ export class TritiumGame extends GameBase {
         playercounts: [2],
         version: "1.0",
         description: "apgames:descriptions.tritium",
-        urls: [""],
+        urls: ["https://docs.google.com/document/d/1k0-pHtMFXYcWwuAhARt7b7jHLgfsAOCjoqlRMyvlBH0/edit?usp=sharing"],
         people: [
             {
                 type: "designer",
                 name: "Noé Falzon",
             },
         ],
-        flags: ["automove", "experimental"],
+        flags: ["automove", "scores", "experimental"],
         dateAdded: "2024-10-20",
         categories: ["goal>majority", "mechanic>place", "mechanic>merge","board>shape>hex", "components>simple>3c"],
         variants: [
@@ -164,8 +164,8 @@ export class TritiumGame extends GameBase {
             flagged.add(start);
             queue.push(start);
         } else {
-            for (const [cell, content] of this.board) {
-                if (content[1] !== undefined) {
+            for (const [cell, [,flag]] of this.board) {
+                if (flag !== undefined) {
                     flagged.add(cell);
                     queue.push(cell);
                 }
@@ -222,8 +222,10 @@ export class TritiumGame extends GameBase {
             let newmove = "";
             if(move.length === 0) {
                 const str = piece ?? "";
-                if (tilecolors.includes(str) || str === "flag") {
+                if (tilecolors.includes(str)) {
                     newmove = str;
+                } else if (str === `flag${this.currplayer}`) {
+                    newmove = "flag";
                 }
             }
             else {
@@ -466,7 +468,7 @@ export class TritiumGame extends GameBase {
 
         for(const p of [1,2]) {
             for(let i = 1; i <= this.preparedflags[p]; i++) {
-                sidebar.push({name: "", piece: `P${p}`, value: "flag"});
+                sidebar.push({name: "", piece: `P${p}`, value: `flag${p}`});
             }
         }
 
@@ -545,9 +547,7 @@ export class TritiumGame extends GameBase {
             else if (counts[2] > counts[1]) {scores[1]++;}
         }
 
-        return [
-            { name: i18next.t("apgames:status.SCORES"), scores }
-        ]
+        return [{ name: i18next.t("apgames:status.SCORES"), scores }];
     }
 
     /**

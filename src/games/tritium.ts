@@ -39,7 +39,7 @@ export class TritiumGame extends GameBase {
         playercounts: [2],
         version: "1.0",
         description: "apgames:descriptions.tritium",
-        urls: [""],
+        urls: ["https://docs.google.com/document/d/1k0-pHtMFXYcWwuAhARt7b7jHLgfsAOCjoqlRMyvlBH0/edit?usp=sharing"],
         people: [
             {
                 type: "designer",

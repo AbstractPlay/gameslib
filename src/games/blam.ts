@@ -362,11 +362,13 @@ export class BlamGame extends GameBase {
         let scoreDelta = 0;
         // If there's a piece here, move it, pushing anything it its way
         if (this.board.has(BlamGame.coords2algebraic(...start))) {
+            const grid = new RectGrid(8, 8);
             // Do the recursion, and then when it returns, move the piece
             const adj = RectGrid.move(...start, dir);
-            this.push(adj, dir);
+            if (grid.inBounds(...adj)) {
+                this.push(adj, dir);
+            }
 
-            const grid = new RectGrid(8, 8);
             const cellStart = BlamGame.coords2algebraic(...start);
             const piece = this.board.get(cellStart);
             if (piece === undefined) {

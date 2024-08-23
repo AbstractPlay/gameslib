@@ -1,8 +1,7 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
-
-const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
+import { algebraic2coords, coords2algebraic } from "..";
 
 export class SquareFanoronaGraph implements IGraph {
     public readonly width: number;
@@ -16,21 +15,11 @@ export class SquareFanoronaGraph implements IGraph {
     }
 
     public coords2algebraic(x: number, y: number): string {
-        return columnLabels[x] + (this.height - y).toString();
+        return coords2algebraic(x, y, this.height);
     }
 
     public algebraic2coords(cell: string): [number, number] {
-        const pair: string[] = cell.split("");
-        const num = (pair.slice(1)).join("");
-        const x = columnLabels.indexOf(pair[0]);
-        if ( (x === undefined) || (x < 0) ) {
-            throw new Error(`The column label is invalid: ${pair[0]}`);
-        }
-        const y = Number(num);
-        if ( (y === undefined) || (isNaN(y)) || num === "" ) {
-            throw new Error(`The row label is invalid: ${pair[1]}`);
-        }
-        return [x, this.height - y];
+        return algebraic2coords(cell, this.height);
     }
 
     private buildGraph(): UndirectedGraph {

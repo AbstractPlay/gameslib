@@ -55,6 +55,9 @@
                 "type": {
                     "enum": ["move"]
                 },
+                "by": {
+                    "type": "string"
+                },
                 "from": {
                     "type": "string"
                 },
@@ -912,6 +915,25 @@
                 }
             },
             "required": ["type", "where", "revealed"],
+            "additionalProperties": false
+        },
+        {
+            "description": "A generic use action.",
+            "properties": {
+                "type": {
+                    "enum": ["use"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "count": {
+                    "type": "number"
+                },
+                "remaining": {
+                    "type": "number"
+                }
+            },
+            "required": ["type", "what"],
             "additionalProperties": false
         }
     ]

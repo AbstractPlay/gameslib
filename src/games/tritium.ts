@@ -46,7 +46,7 @@ export class TritiumGame extends GameBase {
                 name: "Noé Falzon",
             },
         ],
-        flags: ["automove", "experimental"],
+        flags: ["automove", "scores", "experimental"],
         dateAdded: "2024-10-20",
         categories: ["goal>majority", "mechanic>place", "mechanic>merge","board>shape>hex", "components>simple>3c"],
         variants: [
@@ -547,9 +547,7 @@ export class TritiumGame extends GameBase {
             else if (counts[2] > counts[1]) {scores[1]++;}
         }
 
-        return [
-            { name: i18next.t("apgames:status.SCORES"), scores }
-        ]
+        return [{ name: i18next.t("apgames:status.SCORES"), scores }];
     }
 
     /**

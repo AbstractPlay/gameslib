@@ -145,6 +145,7 @@ export class CamelotGame extends GameBase {
     }
 
     private applyVariants(setupString: string[][]): void {
+        // Assign a bunch of the variant-specific fields based on the setupString.
         [this.width, this.height] = this.getBoardSize(setupString);
         this.blockedCells = this.getBlockedCells(setupString);
         this.castleCells = this.getCastleCells(setupString);
@@ -160,6 +161,18 @@ export class CamelotGame extends GameBase {
 
     private getSetupString(): string[][] {
         // Get setup string.
+        // Key:
+        // * M: player 1 man
+        // * K: player 1 knight
+        // * m: player 2 man
+        // * k: player 2 knight
+        // * x: blocked cell
+        // * 1: player 1 castle
+        // * 2: player 2 castle
+        // * r: river cell
+        // * b: bridge cell
+        // * v: tree placeable cell for player 1
+        // * ^: tree placeable cell for player 2
         if (this.variants.includes("chivalry")) {
             return [
                 "xxxxxx22xxxxxx",
@@ -432,11 +445,13 @@ export class CamelotGame extends GameBase {
         if (this.gameover) { return []; }
         const moves: string[] = [];
         if (this.isTreePlacingPhase()) {
+            // Select three cells to place trees.
             const placeable = this.stack.length === 1 ? this.treePlaceableCells[0] : this.treePlaceableCells[1];
             for (let i = 0; i < placeable.length; i++) {
                 for (let j = i + 1; j < placeable.length; j++) {
                     for (let k = j + 1; k < placeable.length; k++) {
-                        moves.push(this.normaliseMove(`${placeable[i]},${placeable[j]},${placeable[k]}`));
+                        // If we can figure out the correct order, we wouldn't need to sort, but oh well.
+                        moves.push([placeable[i], placeable[j], placeable[k]].sort((a, b) => this.sort(a, b)).join(","));
                     }
                 }
             }
@@ -498,6 +513,7 @@ export class CamelotGame extends GameBase {
     }
 
     private isTreePlacingPhase(): boolean {
+        // Check if the game is in the tree placing phase.
         return this.variants.includes("river") && this.stack.length < 3
     }
 
@@ -616,6 +632,7 @@ export class CamelotGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
                 return result;
             }
+            // Check if all trees are placed on cells that the player can place on.
             const treePlaceableCells = this.stack.length === 1 ? this.treePlaceableCells[0] : this.treePlaceableCells[1];
             for (const place of split) {
                 if (!treePlaceableCells.includes(place)) {
@@ -631,6 +648,7 @@ export class CamelotGame extends GameBase {
                 result.message = i18next.t("apgames:validation.camelot.NORMALISED", { normalised });
                 return result;
             }
+            // Place more trees.
             if (split.length < 3) {
                 result.valid = true;
                 result.complete = -1;
@@ -1183,7 +1201,7 @@ export class CamelotGame extends GameBase {
                 B: [{ name: "piece", colour: 2 }],
                 C: [{ name: "piece-horse", colour: 1 }],
                 D: [{ name: "piece-horse", colour: 2 }],
-                T: [{ name: "piece-triangle", colour: 3 }],
+                T: [{ name: "piece-triangle", colour: 3, orientation: "vertical" }],
             },
             pieces: pstr,
         };

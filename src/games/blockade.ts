@@ -352,13 +352,15 @@ export class BlockadeGame extends GameBase {
         }
     }
 
-    private firstWall(wall: string): string {
+    private firstWall(wall: string): string | undefined {
         // Given a wall in contracted form, return the first wall in the pair.
         const [x, y, orient] = this.splitWall(wall);
-        if (orient === "h") {
+        if (orient === "h" && x > 1) {
             return this.createWall(x - 1, y, "h");
-        } else {
+        } else if (orient === "v" && y < this.height - 1) {
             return this.createWall(x, y + 1, "v");
+        } else {
+            return undefined;
         }
     }
 
@@ -479,7 +481,9 @@ export class BlockadeGame extends GameBase {
     private boardHas(halfWall: string, newWall?: string): boolean {
         // Check if board has a half wall.
         // This is useful because `this.board` is a one-sided map.
-        return this.board.has(halfWall) || this.board.has(this.firstWall(halfWall)) ||
+        const firstWall = this.firstWall(halfWall);
+        if (firstWall === undefined) { return false; }
+        return this.board.has(halfWall) || this.board.has(firstWall) ||
             newWall !== undefined && (halfWall === newWall || halfWall === this.secondWall(newWall));
     }
 

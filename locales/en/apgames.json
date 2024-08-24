@@ -2597,6 +2597,7 @@
             "INITIAL_INSTRUCTIONS_TREE": "Select three highlighted cells to place trees on.",
             "TREE_LIMIT": "You may only place 3 trees.",
             "NOT_TREE_PLACEABLE": "You may not place a tree at {{where}}.",
+            "DUPLICATE_TREE": "You have already placed a tree at {{where}}.",
             "TREE_CONTINUE_one": "Select 1 more highlighted cell to place a tree on.",
             "TREE_CONTINUE_other": "Select {{count}} more highlighted cells to place trees on.",
             "NORMALISED": "The move needs to be normalised. Try {{normalised}}.",

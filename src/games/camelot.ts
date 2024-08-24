@@ -641,6 +641,20 @@ export class CamelotGame extends GameBase {
                     return result;
                 }
             }
+            // No duplicate cells.
+            const seen: Set<string> = new Set();
+            const duplicates: Set<string> = new Set();
+            for (const move of split) {
+                if (seen.has(move)) {
+                    duplicates.add(move);
+                }
+                seen.add(move);
+            }
+            if (duplicates.size > 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.camelot.DUPLICATE_TREE", {where: [...duplicates].join(", ")});
+                return result;
+            }
             // Normalised move
             const normalised = this.normaliseMove(m);
             if (m !== normalised) {

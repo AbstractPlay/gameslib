@@ -10,7 +10,7 @@
         "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
-        "asli": "Groups must be able to see friendly groups. Cut off your opponent's sight lines and defeat them by leaving them with no moves.",
+        "asli": "Groups must have a free path (straight or not) to other friendly groups. Cut off your opponent's groups from their allies and defeat them by leaving them with no moves.",
         "ataxx": "Control the majority of spaces by spreading, jumping and infecting.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",

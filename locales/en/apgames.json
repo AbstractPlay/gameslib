@@ -423,13 +423,25 @@
             }
         },
         "camelot": {
+            "camette": {
+                "description": "Mini variant with 23 squares.",
+                "name": "Camette"
+            },
             "cam": {
-                "description": "Smaller variant",
+                "description": "Smaller variant with 67 squares.",
                 "name": "Cam"
             },
             "chivalry": {
-                "description": "Older larger variant",
+                "description": "Larger variant with 176 squares.",
                 "name": "Chivalry"
+            },
+            "river": {
+                "description": "Camelot with a river dividing the board.",
+                "name": "River Camelot"
+            },
+            "anti": {
+                "description": "The player wins if they run out of moves or if the opponent moves a single piece into the player's castle.",
+                "name": "Anti-Camelot"
             }
         },
         "catchup": {
@@ -2579,6 +2591,12 @@
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "INITIAL_INSTRUCTIONS_JUMP": "You have mandatory jump moves. Select a piece to jump.",
             "INITIAL_INSTRUCTIONS_OWN_CASTLE": "You have a piece in your own castle. You must move it out of the castle.",
+            "INITIAL_INSTRUCTIONS_TREE": "Select three highlighted cells to place trees on.",
+            "TREE_LIMIT": "You may only place 3 trees.",
+            "NOT_TREE_PLACEABLE": "You may not place a tree at {{where}}.",
+            "TREE_CONTINUE_one": "Select 1 more highlighted cell to place a tree on.",
+            "TREE_CONTINUE_other": "Select {{count}} more highlighted cells to place trees on.",
+            "NORMALISED": "The move needs to be normalised. Try {{normalised}}.",
             "CANNOT_CLAIM_DRAW": "You may only claim a draw if the same position is repeated for at least the third time by the same player on each move or there has been no captures or movement into the opponent's castle square for the last 50 moves.",
             "IN_OWN_CASTLE": "You must move the piece at {{where}} out of your own castle.",
             "MUST_JUMP": "You must select one of your pieces to jump ({{where}}).",

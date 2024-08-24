@@ -16,6 +16,7 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     castleMoveCounts: [number, number];
+    trees: string[];
     lastmove?: string;
     countdown: number;
 }
@@ -45,8 +46,11 @@ export class CamelotGame extends GameBase {
             }
         ],
         variants: [
+            { uid: "camette", group: "board" },
             { uid: "cam", group: "board" },
             { uid: "chivalry", group: "board" },
+            { uid: "river", group: "board" },
+            { uid: "anti" },
         ],
         categories: ["goal>breakthrough", "goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "perspective", "limited-pieces", "custom-buttons"],
@@ -64,6 +68,7 @@ export class CamelotGame extends GameBase {
     public currplayer!: playerid;
     public board!: Map<string, CellContents>;
     public castleMoveCounts: [number, number] = [0, 0];
+    public trees: string[] = [];
     public countdown = 0;
     public gameover = false;
     public winner: playerid[] = [];
@@ -75,6 +80,9 @@ export class CamelotGame extends GameBase {
     private dots: string[] = [];
     private blockedCells: string[] = [];
     private castleCells: [string[], string[]] = [[], []];
+    private riverCells: string[] = [];
+    private bridgeCells: string[] = [];
+    private treePlaceableCells: [string[], string[]] = [[], []];
     private grid: RectGrid;
 
     constructor(state?: ICamelotState | string, variants?: string[]) {
@@ -83,8 +91,9 @@ export class CamelotGame extends GameBase {
             if (variants !== undefined) {
                 this.variants = [...variants];
             }
-            [this.width, this.height] = this.getBoardSize();
-            const board = this.getInitialBoard();
+            const setupString = this.getSetupString();
+            this.applyVariants(setupString)
+            const board = this.getInitialBoard(setupString);
             const fresh: IMoveState = {
                 _version: CamelotGame.gameinfo.version,
                 _results: [],
@@ -92,6 +101,7 @@ export class CamelotGame extends GameBase {
                 currplayer: 1,
                 board,
                 castleMoveCounts: [0, 0],
+                trees: [],
                 countdown: 0,
             };
             this.stack = [fresh];
@@ -106,11 +116,9 @@ export class CamelotGame extends GameBase {
             this.winner = [...state.winner];
             this.variants = state.variants;
             this.stack = [...state.stack];
-            [this.width, this.height] = this.getBoardSize();
+            this.applyVariants(this.getSetupString());
         }
         this.load();
-        this.blockedCells = this.getBlockedCells();
-        this.castleCells = this.getCastleCells();
         this.grid = new RectGrid(this.width, this.height);
     }
 
@@ -130,83 +138,202 @@ export class CamelotGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = [...state.board].reduce((m, [k, v]) => m.set(k, [v[0], v[1]]), new Map<string, CellContents>());
         this.castleMoveCounts = [state.castleMoveCounts[0], state.castleMoveCounts[1]];
+        this.trees = [...state.trees];
         this.countdown = state.countdown;
         this.lastmove = state.lastmove;
         return this;
     }
 
-    private getBoardSize(): [number, number] {
+    private applyVariants(setupString: string[][]): void {
+        [this.width, this.height] = this.getBoardSize(setupString);
+        this.blockedCells = this.getBlockedCells(setupString);
+        this.castleCells = this.getCastleCells(setupString);
+        this.riverCells = this.getRiverCells(setupString);
+        this.bridgeCells = this.getBridgeCells(setupString);
+        this.treePlaceableCells = this.getTreePlaceableCells(setupString);
+    }
+
+    private getBoardSize(setupString: string[][]): [number, number] {
         // Get width and height of board.
+        return [setupString[0].length, setupString.length];
+    }
+
+    private getSetupString(): string[][] {
+        // Get setup string.
         if (this.variants.includes("chivalry")) {
-            return [14, 16];
+            return [
+                "xxxxxx22xxxxxx",
+                "xxx--------xxx",
+                "xx----------xx",
+                "x------------x",
+                "--------------",
+                "--kkmmmmmmkk--",
+                "--kkmmmmmmkk--",
+                "--------------",
+                "--------------",
+                "--KKMMMMMMKK--",
+                "--KKMMMMMMKK--",
+                "--------------",
+                "x------------x",
+                "xx----------xx",
+                "xxx--------xxx",
+                "xxxxxx11xxxxxx",
+            ].map(x => x.split(""));
         } else if (this.variants.includes("cam")) {
-            return [7, 13];
+            return [
+                "xxx2xxx",
+                "xx---xx",
+                "x-----x",
+                "--k-k--",
+                "-mmmmm-",
+                "-------",
+                "-------",
+                "-------",
+                "-MMMMM-",
+                "--K-K--",
+                "x-----x",
+                "xx---xx",
+                "xxx1xxx",
+            ].map(x => x.split(""));
+        } else if (this.variants.includes("camette")) {
+            return [
+                "xx2xx",
+                "x-k-x",
+                "-mmm-",
+                "-----",
+                "-MMM-",
+                "x-K-x",
+                "xx1xx",
+            ].map(x => x.split(""));
+        } else if (this.variants.includes("river")) {
+            return [
+                "xxxxx22xxxxx",
+                "xx^^----^^xx",
+                "x^^^^^^^^^^x",
+                "^^kmmmmmmk^^",
+                "^^^kmmmmk^^r",
+                "^^^^^^^--rrr",
+                "^^^^^^^rbrrr",
+                "^^---rrrbrvv",
+                "^^rbrrr---vv",
+                "rrrbrvvvvvvv",
+                "rrr--vvvvvvv",
+                "rvvKMMMMKvvv",
+                "vvKMMMMMMKvv",
+                "xvvvvvvvvvvx",
+                "xxvv----vvxx",
+                "xxxxx11xxxxx",
+            ].map(x => x.split(""));
         } else {
-            return [12, 16];
+            return [
+                "xxxxx22xxxxx",
+                "xx--------xx",
+                "x----------x",
+                "------------",
+                "------------",
+                "--kmmmmmmk--",
+                "---kmmmmk---",
+                "------------",
+                "------------",
+                "---KMMMMK---",
+                "--KMMMMMMK--",
+                "------------",
+                "------------",
+                "x----------x",
+                "xx--------xx",
+                "xxxxx11xxxxx",
+            ].map(x => x.split(""));
         }
     }
 
-    private getBlockedCells(): string[] {
+    private getBlockedCells(setupString: string[][]): string[] {
         // Get blocked cells around the board.
-        if (this.variants.includes("chivalry")) {
-            return [
-                "a1", "b1", "c1", "d1", "e1", "f1", "i1", "j1", "k1", "l1", "m1", "n1",
-                "a2", "b2", "c2", "l2", "m2", "n2", "a3", "b3", "m3", "n3", "a4", "n4",
-                "a16", "b16", "c16", "d16", "e16", "f16", "i16", "j16", "k16", "l16", "m16", "n16",
-                "a15", "b15", "c15", "l15", "m15", "n15", "a14", "b14", "m14", "n14", "a13", "n13",
-            ];
-        } else if (this.variants.includes("cam")) {
-            return [
-                "a1", "b1", "c1", "e1", "f1", "g1",
-                "a2", "b2", "f2", "g2", "a3", "g3",
-                "a13", "b13", "c13", "e13", "f13", "g13",
-                "a12", "b12", "f12", "g12", "a11", "g11",
-            ];
-        } else {
-            return [
-                "a1", "b1", "c1", "d1", "e1", "h1", "i1", "j1", "k1", "l1",
-                "a2", "b2", "k2", "l2", "a3", "l3",
-                "a16", "b16", "c16", "d16", "e16", "h16", "i16", "j16", "k16", "l16",
-                "a15", "b15", "k15", "l15", "a14", "l14",
-            ];
+        const blockedCells: string[] = [];
+        for (const [j, row] of setupString.entries()) {
+            for (const [i, char] of row.entries()) {
+                if (char === "x") {
+                    blockedCells.push(this.coords2algebraic(i, j));
+                }
+            }
         }
+        return blockedCells
     }
 
-    private getCastleCells(): [string[], string[]] {
+    private getCastleCells(setupString: string[][]): [string[], string[]] {
         // Get castle cells for each player.
-        if (this.variants.includes("chivalry")) {
-            return [["g1", "h1"], ["g16", "h16"]];
-        } else if (this.variants.includes("cam")) {
-            return [["d1"], ["d13"]];
-        } else {
-            return [["f1", "g1"], ["f16", "g16"]];
+        const castleCells1: string[] = []
+        const castleCells2: string[] = []
+        for (const [j, row] of setupString.entries()) {
+            for (const [i, char] of row.entries()) {
+                if (char === "1") {
+                    castleCells1.push(this.coords2algebraic(i, j));
+                } else if (char === "2") {
+                    castleCells2.push(this.coords2algebraic(i, j));
+                }
+            }
         }
+        return [castleCells1, castleCells2];
     }
 
-    private getInitialBoard(): Map<string, CellContents> {
+    private getInitialBoard(setupString: string[][]): Map<string, CellContents> {
         // Get initial board state.
-        if (this.variants.includes("chivalry")) {
-            return new Map([
-                ["c6", [1, 2]], ["d6", [1, 2]], ["e6", [1, 1]], ["f6", [1, 1]], ["g6", [1, 1]], ["h6", [1, 1]], ["i6", [1, 1]], ["j6", [1, 1]], ["k6", [1, 2]], ["l6", [1, 2]],
-                ["c7", [1, 2]], ["d7", [1, 2]], ["e7", [1, 1]], ["f7", [1, 1]], ["g7", [1, 1]], ["h7", [1, 1]], ["i7", [1, 1]], ["j7", [1, 1]], ["k7", [1, 2]], ["l7", [1, 2]],
-                ["c9", [2, 2]], ["d9", [2, 2]], ["e9", [2, 1]], ["f9", [2, 1]], ["g9", [2, 1]], ["h9", [2, 1]], ["i9", [2, 1]], ["j9", [2, 1]], ["k9", [2, 2]], ["l9", [2, 2]],
-                ["c10", [2, 2]], ["d10", [2, 2]], ["e10", [2, 1]], ["f10", [2, 1]], ["g10", [2, 1]], ["h10", [2, 1]], ["i10", [2, 1]], ["j10", [2, 1]], ["k10", [2, 2]], ["l10", [2, 2]],
-            ]);
-        } else if (this.variants.includes("cam")) {
-            return new Map([
-                ["c4", [1, 2]], ["e4", [1, 2]],
-                ["b5", [1, 1]], ["c5", [1, 1]], ["d5", [1, 1]], ["e5", [1, 1]], ["f5", [1, 1]],
-                ["b8", [2, 1]], ["c8", [2, 1]], ["d8", [2, 1]], ["e8", [2, 1]], ["f8", [2, 1]],
-                ["c9", [2, 2]], ["e9", [2, 2]],
-            ]);
-        } else {
-            return new Map([
-                ["c6", [1, 2]], ["d6", [1, 1]], ["e6", [1, 1]], ["f6", [1, 1]], ["g6", [1, 1]], ["h6", [1, 1]], ["i6", [1, 1]], ["j6", [1, 2]],
-                ["d7", [1, 2]], ["e7", [1, 1]], ["f7", [1, 1]], ["g7", [1, 1]], ["h7", [1, 1]], ["i7", [1, 2]],
-                ["d10", [2, 2]], ["e10", [2, 1]], ["f10", [2, 1]], ["g10", [2, 1]], ["h10", [2, 1]], ["i10", [2, 2]],
-                ["c11", [2, 2]], ["d11", [2, 1]], ["e11", [2, 1]], ["f11", [2, 1]], ["g11", [2, 1]], ["h11", [2, 1]], ["i11", [2, 1]], ["j11", [2, 2]],
-            ]);
+        const board: Map<string, CellContents> = new Map();
+        for (const [j, row] of setupString.entries()) {
+            for (const [i, char] of row.entries()) {
+                if (char === "M") {
+                    board.set(this.coords2algebraic(i, j), [1, 1]);
+                } else if (char === "K") {
+                    board.set(this.coords2algebraic(i, j), [1, 2]);
+                } else if (char === "m") {
+                    board.set(this.coords2algebraic(i, j), [2, 1]);
+                } else if (char === "k") {
+                    board.set(this.coords2algebraic(i, j), [2, 2]);
+                }
+            }
         }
+        return board;
+    }
+
+    private getRiverCells(setupString: string[][]): string[] {
+        // Get river cells.
+        const riverCells: string[] = [];
+        for (const [j, row] of setupString.entries()) {
+            for (const [i, char] of row.entries()) {
+                if (char === "r") {
+                    riverCells.push(this.coords2algebraic(i, j));
+                }
+            }
+        }
+        return riverCells;
+    }
+
+    private getBridgeCells(setupString: string[][]): string[] {
+        // Get bridge cells.
+        const bridgeCells: string[] = [];
+        for (const [j, row] of setupString.entries()) {
+            for (const [i, char] of row.entries()) {
+                if (char === "b") {
+                    bridgeCells.push(this.coords2algebraic(i, j));
+                }
+            }
+        }
+        return bridgeCells;
+    }
+
+    private getTreePlaceableCells(setupString: string[][]): [string[], string[]] {
+        // Get cells where trees can be placed for each player.
+        const treePlaceableCells1: string[] = [];
+        const treePlaceableCells2: string[] = [];
+        for (const [j, row] of setupString.entries()) {
+            for (const [i, char] of row.entries()) {
+                if (char === "v") {
+                    treePlaceableCells1.push(this.coords2algebraic(i, j));
+                } else if (char === "^") {
+                    treePlaceableCells2.push(this.coords2algebraic(i, j));
+                }
+            }
+        }
+        return [treePlaceableCells1, treePlaceableCells2];
     }
 
     private getAllMoves(from: string): string[] {
@@ -304,31 +431,42 @@ export class CamelotGame extends GameBase {
         player ??= this.currplayer;
         if (this.gameover) { return []; }
         const moves: string[] = [];
-        const pieces = [...this.board].filter(([, v]) => v[0] === player).map(([k, ]) => k);
-        // If a player has pieces in their own castle, they must move them.
-        const piecesInOwnCastle = this.inOwnCastlePieces(player, pieces);
-        if (piecesInOwnCastle.length > 0) {
-            for (const from of piecesInOwnCastle) {
-                moves.push(...this.getAllMoves(from));
+        if (this.isTreePlacingPhase()) {
+            const placeable = this.stack.length === 1 ? this.treePlaceableCells[0] : this.treePlaceableCells[1];
+            for (let i = 0; i < placeable.length; i++) {
+                for (let j = i + 1; j < placeable.length; j++) {
+                    for (let k = j + 1; k < placeable.length; k++) {
+                        moves.push(this.normaliseMove(`${placeable[i]},${placeable[j]},${placeable[k]}`));
+                    }
+                }
             }
         } else {
-            // If a player has pieces that can jump, they must jump.
-            const piecesToJump = this.jumpPieces(player, pieces);
-            if (piecesToJump.length > 0) {
-                for (const from of piecesToJump) {
-                    const jumps = this.getAllJumps(from, [], [from], player);
-                    moves.push(...jumps.map(x => from + "x" + x.join("x")));
-                }
-            } else {
-                // Otherwise, the player can make any move.
-                for (const from of piecesToJump.length > 0 ? piecesToJump : pieces) {
+            const pieces = [...this.board].filter(([, v]) => v[0] === player).map(([k, ]) => k);
+            // If a player has pieces in their own castle, they must move them.
+            const piecesInOwnCastle = this.inOwnCastlePieces(player, pieces);
+            if (piecesInOwnCastle.length > 0) {
+                for (const from of piecesInOwnCastle) {
                     moves.push(...this.getAllMoves(from));
                 }
+            } else {
+                // If a player has pieces that can jump, they must jump.
+                const piecesToJump = this.jumpPieces(player, pieces);
+                if (piecesToJump.length > 0) {
+                    for (const from of piecesToJump) {
+                        const jumps = this.getAllJumps(from, [], [from], player);
+                        moves.push(...jumps.map(x => from + "x" + x.join("x")));
+                    }
+                } else {
+                    // Otherwise, the player can make any move.
+                    for (const from of piecesToJump.length > 0 ? piecesToJump : pieces) {
+                        moves.push(...this.getAllMoves(from));
+                    }
+                }
             }
-        }
-        // Check if the player can claim a draw.
-        if (this.countdown >= 50 || this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) > 3) {
-            moves.push("claim-draw");
+            // Check if the player can claim a draw.
+            if (this.countdown >= 50 || this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) > 3) {
+                moves.push("claim-draw");
+            }
         }
         return moves;
     }
@@ -359,6 +497,21 @@ export class CamelotGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
+    private isTreePlacingPhase(): boolean {
+        return this.variants.includes("river") && this.stack.length < 3
+    }
+
+    private sort(a: string, b: string): number {
+        // Sort two cells. This is necessary because "a10" should come after "a9".
+        const [ax, ay] = this.algebraic2coords(a);
+        const [bx, by] = this.algebraic2coords(b);
+        if (ax < bx) { return -1; }
+        if (ax > bx) { return 1; }
+        if (ay < by) { return 1; }
+        if (ay > by) { return -1; }
+        return 0;
+    }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = this.coords2algebraic(col, row);
@@ -368,6 +521,13 @@ export class CamelotGame extends GameBase {
             } else {
                 if (move === cell) {
                     newmove = "";
+                } else if (this.isTreePlacingPhase()) {
+                    const moves = move.split(",");
+                    if (moves.includes(cell)) {
+                        newmove = moves.filter(m => m !== cell).sort((a, b) => this.sort(a, b)).join(",");
+                    } else {
+                        newmove = [...moves, cell].sort((a, b) => this.sort(a, b)).join(",");
+                    }
                 } else {
                     const split = move.split(/-|\^|x/);
                     const last = split[split.length - 1];
@@ -405,6 +565,13 @@ export class CamelotGame extends GameBase {
         }
     }
 
+    private normaliseMove(move: string): string {
+        // Sort the move list so that there is a unique representation.
+        move = move.toLowerCase();
+        move = move.replace(/\s+/g, "");
+        return move.split(",").sort((a, b) => this.sort(a, b)).join(",");
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = { valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER") };
         if (m.length === 0) {
@@ -412,17 +579,66 @@ export class CamelotGame extends GameBase {
             result.complete = -1;
             result.canrender = true;
             const pieces = [...this.board].filter(([, v]) => v[0] === this.currplayer).map(([k, ]) => k);
-            const inOwnCastle = this.inOwnCastlePieces(this.currplayer, pieces);
-            if (inOwnCastle.length > 0) {
-                result.message = i18next.t("apgames:validation.camelot.INITIAL_INSTRUCTIONS_OWN_CASTLE", { where: inOwnCastle[0] });
-            } else if (this.jumpPieces(this.currplayer, pieces).length > 0) {
-                result.message = i18next.t("apgames:validation.camelot.INITIAL_INSTRUCTIONS_JUMP");
+            if (this.isTreePlacingPhase()) {
+                result.message = i18next.t("apgames:validation.camelot.INITIAL_INSTRUCTIONS_TREE");
             } else {
-                result.message = i18next.t("apgames:validation.camelot.INITIAL_INSTRUCTIONS");
+                const inOwnCastle = this.inOwnCastlePieces(this.currplayer, pieces);
+                if (inOwnCastle.length > 0) {
+                    result.message = i18next.t("apgames:validation.camelot.INITIAL_INSTRUCTIONS_OWN_CASTLE", { where: inOwnCastle[0] });
+                } else if (this.jumpPieces(this.currplayer, pieces).length > 0) {
+                    result.message = i18next.t("apgames:validation.camelot.INITIAL_INSTRUCTIONS_JUMP");
+                } else {
+                    result.message = i18next.t("apgames:validation.camelot.INITIAL_INSTRUCTIONS");
+                }
             }
             return result;
         }
-        if (m === "claim-draw") {
+        if (this.isTreePlacingPhase()) {
+            const split = m.split(",");
+            if (split.length > 3) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.camelot.TREE_LIMIT");
+                return result;
+            }
+            // Valid cell
+            let currentMove;
+            try {
+                for (const p of split) {
+                    currentMove = p;
+                    const [x, y] = this.algebraic2coords(p);
+                    // `algebraic2coords` does not check if the cell is on the board.
+                    if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+                        throw new Error("Invalid cell");
+                    }
+                }
+            } catch {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
+                return result;
+            }
+            const treePlaceableCells = this.stack.length === 1 ? this.treePlaceableCells[0] : this.treePlaceableCells[1];
+            for (const place of split) {
+                if (!treePlaceableCells.includes(place)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.camelot.NOT_TREE_PLACEABLE", { where: place });
+                    return result;
+                }
+            }
+            // Normalised move
+            const normalised = this.normaliseMove(m);
+            if (m !== normalised) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.camelot.NORMALISED", { normalised });
+                return result;
+            }
+            if (split.length < 3) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.camelot.TREE_CONTINUE", { count: 3 - split.length });
+                return result;
+            }
+        } else if  (m === "claim-draw") {
             // Check for claim draw.
             if (this.countdown < 50 && this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) <= 3) {
                 result.valid = false;
@@ -596,6 +812,8 @@ export class CamelotGame extends GameBase {
             if (this.board.has(to)) { continue; }
             if (this.castleCells[player - 1].includes(to)) { continue; }
             if (this.blockedCells.includes(to)) { continue; }
+            if (this.riverCells.includes(to)) { continue; }
+            if (this.trees.includes(to)) { continue; }
             tos.push(to);
         }
         return tos;
@@ -613,6 +831,8 @@ export class CamelotGame extends GameBase {
             if (!this.board.has(ray[0])) { continue; }
             if (this.board.has(ray[1])) { continue; }
             if (this.blockedCells.includes(ray[1])) { continue; }
+            if (this.riverCells.includes(ray[1])) { continue; }
+            if (this.trees.includes(ray[1])) { continue; }
             if (this.board.get(ray[0])![0] !== player) { continue; }
             if (this.castleCells[player - 1].includes(ray[1])) { continue; }
             tos.push(ray[1]);
@@ -633,6 +853,8 @@ export class CamelotGame extends GameBase {
             if (!this.board.has(ray[0])) { continue; }
             if (this.board.has(ray[1]) && !removed.includes(ray[1])) { continue; }
             if (this.blockedCells.includes(ray[1])) { continue; }
+            if (this.riverCells.includes(ray[1])) { continue; }
+            if (this.trees.includes(ray[1])) { continue; }
             if (this.board.get(ray[0])![0] === player) { continue; }
             toCaptures.set(ray[1], ray[0]);
         }
@@ -659,7 +881,13 @@ export class CamelotGame extends GameBase {
         if (m.length === 0) { return this; }
         this.dots = [];
         this.results = [];
-        if (m === "claim-draw") {
+        if (this.isTreePlacingPhase()) {
+            const split = m.split(",");
+            for (const cell of split) {
+                this.trees.push(cell);
+            }
+            this.results.push({ type: "place", where: m, what: "tree"});
+        } else if (m === "claim-draw") {
             // Player has claimed a draw. We record the reason.
             if (this.countdown < 50) {
                 this.results.push({ type: "claim", what: "draw", how: "repetition" });
@@ -738,9 +966,9 @@ export class CamelotGame extends GameBase {
                     this.dots = this.getCanters(last, split, this.currplayer);
                 } else if (piece === 2) {
                     // A knight must jump if it can
-                    const [jumps, ] = this.getJumps(last, [], this.currplayer);
-                    if (jumps.length > 0) {
-                        this.dots = jumps;
+                    const jumpsMap = this.getJumps(last, [], this.currplayer);
+                    if (jumpsMap.size > 0) {
+                        this.dots = [...jumpsMap.keys()];
                     } else {
                         // If it cannot jump, then it may continue to canter.
                         this.dots = this.getCanters(last, split, this.currplayer);
@@ -758,13 +986,11 @@ export class CamelotGame extends GameBase {
     }
 
     private materialEnd(): boolean {
-        // Check that both players have only one piece left and none of them is threatening to capture the other.
+        // Check that both players have only one piece left.
         const pieces1 = [...this.board].filter(([, v]) => v[0] === 1).map(([k, ]) => k);
         if (pieces1.length > 1) { return false; }
         const pieces2 = [...this.board].filter(([, v]) => v[0] === 2).map(([k, ]) => k);
         if (pieces2.length > 1) { return false; }
-        if (this.getJumps(pieces1[0], [], 1).size > 0) { return false; }
-        if (this.getJumps(pieces2[0], [], 2).size > 0) { return false; }
         return true;
     }
 
@@ -780,21 +1006,36 @@ export class CamelotGame extends GameBase {
             } else {
                 this.results.push({ type: "eog", reason: "claim-draw-progression" });
             }
-        } else if (this.castleCells[this.currplayer - 1].every(c => this.board.has(c) && this.board.get(c)![0] === otherPlayer)) {
-            // Player has both pieces in the opponent's castle.
-            this.gameover = true;
-            this.winner = [otherPlayer];
-            this.results.push({ type: "eog", reason: "breakthrough" });
-        } else if (!this.hasMoves(this.currplayer)) {
-            // Player has run out of moves.
-            this.gameover = true;
-            this.winner = [otherPlayer];
-            this.results.push({ type: "eog", reason: "stalemate" });
-        } else if (!this.variants.includes("cam") && this.materialEnd()) {
-            // Each player has one piece remaining so they cannot capture both castle cells.
-            this.gameover = true;
-            this.winner = [1, 2];
-            this.results.push({ type: "eog", reason: "material" });
+        } else if (this.variants.includes("anti")) {
+            // For anti variant, the goals are reversed.
+            if (this.castleCells[this.currplayer - 1].some(c => this.board.has(c) && this.board.get(c)![0] === otherPlayer)) {
+                // Player has moved one piece into the opponent's castle.
+                this.gameover = true;
+                this.winner = [this.currplayer];
+                this.results.push({ type: "eog", reason: "breakthrough" });
+            } else if (!this.hasMoves(this.currplayer)) {
+                // Player has run out of moves.
+                this.gameover = true;
+                this.winner = [this.currplayer];
+                this.results.push({ type: "eog", reason: "stalemate" });
+            }
+        } else {
+            if (this.castleCells[this.currplayer - 1].every(c => this.board.has(c) && this.board.get(c)![0] === otherPlayer)) {
+                // Player has both pieces in the opponent's castle.
+                this.gameover = true;
+                this.winner = [otherPlayer];
+                this.results.push({ type: "eog", reason: "breakthrough" });
+            } else if (!this.hasMoves(this.currplayer)) {
+                // Player has run out of moves.
+                this.gameover = true;
+                this.winner = [otherPlayer];
+                this.results.push({ type: "eog", reason: "stalemate" });
+            } else if (this.castleCells[0].length === 2 && this.materialEnd()) {
+                // Each player has one piece remaining so they cannot capture both castle cells.
+                this.gameover = true;
+                this.winner = [1, 2];
+                this.results.push({ type: "eog", reason: "material" });
+            }
         }
         if (this.gameover) {
             this.results.push({ type: "winners", players: [...this.winner] });
@@ -822,8 +1063,21 @@ export class CamelotGame extends GameBase {
             lastmove: this.lastmove,
             board: [...this.board].reduce((m, [k, v]) => m.set(k, [v[0], v[1]]), new Map<string, CellContents>()),
             castleMoveCounts: [this.castleMoveCounts[0], this.castleMoveCounts[1]],
+            trees: [...this.trees],
             countdown: this.countdown,
         };
+    }
+
+    private getTreeHighlightIndex(): number | undefined {
+        // The typical `isNewResult` didn't seem to work for some reason so this is a specific implementation.
+        if (this.stack.length === 1) { return 0; }
+        const place = this.results.find(x => x.type === "place") as Extract<APMoveResult, { type: 'place' }> | undefined;
+        if (place === undefined) { return undefined; }
+        if (this.stack.length === 2) {
+            return this.lastmove!.split(",").length < 3 ? 0 : 1;
+        }
+        if (this.lastmove!.split(",").length < 3) { return 1; }
+        return undefined;
     }
 
     public render(): APRenderRep {
@@ -850,6 +1104,8 @@ export class CamelotGame extends GameBase {
                             pstr += "D";
                         }
                     }
+                } else if (this.trees.includes(cell)) {
+                    pstr += "T";
                 } else {
                     pstr += "-";
                 }
@@ -877,6 +1133,41 @@ export class CamelotGame extends GameBase {
             castle2.push({ row: y, col: x });
         }
         markers.push({ type: "flood", points: castle2 as [RowCol, ...RowCol[]], colour: 2, opacity: 0.2 });
+        // Mark rivers
+        if (this.riverCells.length > 0) {
+            const river: RowCol[] = [];
+            for (const cell of this.riverCells) {
+                const [x, y] = this.algebraic2coords(cell);
+                river.push({ row: y, col: x });
+            }
+            markers.push({ type: "flood", points: river as [RowCol, ...RowCol[]], colour: "#44bbff", opacity: 0.8 });
+        }
+        // Mark bridges
+        if (this.bridgeCells.length > 0) {
+            const bridge: RowCol[] = [];
+            for (const cell of this.bridgeCells) {
+                const [x, y] = this.algebraic2coords(cell);
+                bridge.push({ row: y, col: x });
+            }
+            markers.push({ type: "flood", points: bridge as [RowCol, ...RowCol[]], colour: "#765341", opacity: 0.8 });
+        }
+        // Mark tree placeable
+        if (this.stack.length < 4 && this.variants.includes("river")) {
+            let highlightCells: string[] = [];
+            const treeHighlightIndex = this.getTreeHighlightIndex();
+            if (treeHighlightIndex !== undefined) {
+                highlightCells = this.treePlaceableCells[treeHighlightIndex];
+            }
+            if (highlightCells.length > 0) {
+                const highlight: RowCol[] = [];
+                for (const cell of highlightCells) {
+                    if (this.trees.includes(cell)) { continue; }
+                    const [x, y] = this.algebraic2coords(cell);
+                    highlight.push({ row: y, col: x });
+                }
+                markers.push({ type: "flood", points: highlight as [RowCol, ...RowCol[]], colour: "#FF0", opacity: 0.2 });
+            }
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -892,6 +1183,7 @@ export class CamelotGame extends GameBase {
                 B: [{ name: "piece", colour: 2 }],
                 C: [{ name: "piece-horse", colour: 1 }],
                 D: [{ name: "piece-horse", colour: 2 }],
+                T: [{ name: "piece-triangle", colour: 3 }],
             },
             pieces: pstr,
         };
@@ -899,7 +1191,12 @@ export class CamelotGame extends GameBase {
         rep.annotations = [];
         if (this.results.length > 0) {
             for (const move of this.results) {
-                if (move.type === "capture") {
+                if (move.type === "place") {
+                    for (const where of move.where!.split(",")) {
+                        const [x, y] = this.algebraic2coords(where);
+                        rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
+                    }
+                } else if (move.type === "capture") {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({ type: "exit", targets: [{ row: y, col: x }] });
                 } else if (move.type === "move") {
@@ -925,16 +1222,16 @@ export class CamelotGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        if (this.variants.includes("cam")) {
-            // The cam variant only has one castle cell so we don't need to show the castle move counts.
+        if (this.castleCells[0].length >= 2 && !this.variants.includes("anti")) {
+            // For variants with more than one castle cell per player, we show the castle move counts.
             return [
                 { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
-            ];
+                { name: i18next.t("apgames:status.camelot.CASTLE_MOVE_COUNTS"), scores: this.castleMoveCounts }
+            ]
         }
         return [
             { name: i18next.t("apgames:status.PIECESREMAINING"), scores: [this.getPlayerPieces(1), this.getPlayerPieces(2)] },
-            { name: i18next.t("apgames:status.camelot.CASTLE_MOVE_COUNTS"), scores: this.castleMoveCounts }
-        ]
+        ];
     }
 
     public status(): string {
@@ -974,6 +1271,10 @@ export class CamelotGame extends GameBase {
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
+            case "place":
+                node.push(i18next.t("apresults:PLACE.camelot_place", { player, where: r.where!.split(",").join(", ") }));
+                resolved = true;
+                break;
             case "capture":
                 resolved = true;
                 break;

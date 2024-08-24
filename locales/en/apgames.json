@@ -2171,6 +2171,9 @@
         "buku": {
             "SCORES_ONBOARD": "Scores / On board"
         },
+        "camelot": {
+            "CASTLE_MOVE_COUNTS": "Castle move count"
+        },
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."

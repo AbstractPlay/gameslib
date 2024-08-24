@@ -480,7 +480,7 @@ export class CamelotGame extends GameBase {
             }
             // Check if the player can claim a draw.
             if (this.countdown >= 50 || this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) > 3) {
-                moves.push("claim-draw");
+                moves.push("draw");
             }
         }
         return moves;
@@ -489,8 +489,8 @@ export class CamelotGame extends GameBase {
     public getButtons(): ICustomButton[] {
         if (this.countdown >= 50 || this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) > 3) {
             return [{
-                label: "Claim draw",
-                move: "claim-draw"
+                label: "draw",
+                move: "draw"
             }];
         }
         return [];
@@ -656,7 +656,7 @@ export class CamelotGame extends GameBase {
                 result.message = i18next.t("apgames:validation.camelot.TREE_CONTINUE", { count: 3 - split.length });
                 return result;
             }
-        } else if  (m === "claim-draw") {
+        } else if  (m === "draw") {
             // Check for claim draw.
             if (this.countdown < 50 && this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) <= 3) {
                 result.valid = false;
@@ -905,7 +905,7 @@ export class CamelotGame extends GameBase {
                 this.trees.push(cell);
             }
             this.results.push({ type: "place", where: m, what: "tree"});
-        } else if (m === "claim-draw") {
+        } else if (m === "draw") {
             // Player has claimed a draw. We record the reason.
             if (this.countdown < 50) {
                 this.results.push({ type: "claim", what: "draw", how: "repetition" });
@@ -1014,7 +1014,7 @@ export class CamelotGame extends GameBase {
 
     protected checkEOG(): CamelotGame {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
-        if (this.lastmove === "claim-draw") {
+        if (this.lastmove === "draw") {
             // Player claimed a draw.
             this.gameover = true;
             this.winner = [1, 2];

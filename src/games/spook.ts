@@ -795,13 +795,13 @@ export class SpookGame extends GameBase {
         // Return the highest cell that was dropped if there was a drop.
         // Assumes that there is only one ball above the `from` cell.
         const [x, y, layer] = this.algebraic2coords2(from);
-        const direction = x > layer && y > layer && this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))
+        const direction = this.board.has(this.coords2algebraic2(x - 1, y - 1, layer + 1))
             ? [-1, -1]
-            : x > layer && y < 2 * this.boardSize - layer - 1 && this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))
+            : this.board.has(this.coords2algebraic2(x - 1, y + 1, layer + 1))
             ? [-1, 1]
-            : x < 2 * this.boardSize - layer - 1 && y > layer && this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))
+            : this.board.has(this.coords2algebraic2(x + 1, y - 1, layer + 1))
             ? [1, -1]
-            : x < 2 * this.boardSize - layer - 1 && y < 2 * this.boardSize - layer - 1 && this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))
+            : this.board.has(this.coords2algebraic2(x + 1, y + 1, layer + 1))
             ? [1, 1]
             : undefined;
         if (direction === undefined) { return []; }

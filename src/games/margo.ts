@@ -88,7 +88,11 @@ export class MargoGame extends GameBase {
 
     private coords2algebraic2(x: number, y: number, layer: number): string {
         // The same as coords2algebraic, but with concatenated layer index.
-        return `${layer + 1}${this.coords2algebraic(x, y)}`;
+        try {
+            return `${layer + 1}${this.coords2algebraic(x, y)}`;
+        } catch {
+            return "";
+        }
     }
 
     private algebraic2coords2(cell: string): [number, number, number] {
@@ -425,7 +429,7 @@ export class MargoGame extends GameBase {
         }
         // Check same layer.
         if (topOnly) {
-            if (col > layer + 1 && row > layer + 1 && row < 2 * this.boardSize - layer - 2) {
+            if (col > layer + 1) {
                 const topLeft = this.coords2algebraic2(col - 1, row + 1, layer + 1);
                 const bottomLeft = this.coords2algebraic2(col - 1, row - 1, layer + 1);
                 if (!board.has(topLeft) || !board.has(bottomLeft)) {
@@ -433,7 +437,7 @@ export class MargoGame extends GameBase {
                     if (board.has(left) && board.get(left) === player) { neighbours.push(left); }
                 }
             }
-            if (col < 2 * this.boardSize - layer - 2 && row > layer + 1 && row < 2 * this.boardSize - layer - 2) {
+            if (col < 2 * this.boardSize - layer - 2) {
                 const topRight = this.coords2algebraic2(col + 1, row + 1, layer + 1);
                 const bottomRight = this.coords2algebraic2(col + 1, row - 1, layer + 1);
                 if (!board.has(topRight) || !board.has(bottomRight)) {
@@ -441,7 +445,7 @@ export class MargoGame extends GameBase {
                     if (board.has(right) && board.get(right) === player) { neighbours.push(right); }
                 }
             }
-            if (row > layer + 1 && col > layer + 1 && col < 2 * this.boardSize - layer - 2) {
+            if (row > layer + 1) {
                 const leftTop = this.coords2algebraic2(col - 1, row - 1, layer + 1);
                 const rightTop = this.coords2algebraic2(col + 1, row - 1, layer + 1);
                 if (!board.has(leftTop) || !board.has(rightTop)) {
@@ -449,7 +453,7 @@ export class MargoGame extends GameBase {
                     if (board.has(top) && board.get(top) === player) { neighbours.push(top); }
                 }
             }
-            if (row < 2 * this.boardSize - layer - 2 && col > layer + 1 && col < 2 * this.boardSize - layer - 2) {
+            if (row < 2 * this.boardSize - layer - 2) {
                 const leftBottom = this.coords2algebraic2(col - 1, row + 1, layer + 1);
                 const rightBottom = this.coords2algebraic2(col + 1, row + 1, layer + 1);
                 if (!board.has(leftBottom) || !board.has(rightBottom)) {

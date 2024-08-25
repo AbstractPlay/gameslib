@@ -7,6 +7,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
+import _ from "lodash";
 
 export type playerid = 1|2|3;  // 3 is used for neutral player.
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -33,7 +34,9 @@ export class TumbleweedGame extends GameBase {
         name: "Tumbleweed",
         uid: "tumbleweed",
         playercounts: [2],
-        version: "20231229",
+        // version: "20231229",
+        // Adding a "x" when a move is a capture and "+" when there is a reinforcement.
+        version: "20240825",
         dateAdded: "2024-01-03",
         // i18next.t("apgames:descriptions.tumbleweed")
         description: "apgames:descriptions.tumbleweed",
@@ -48,16 +51,12 @@ export class TumbleweedGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
-        flags: ["pie-even", "scores", "aiai"],
+        flags: ["pie-even", "scores", "aiai", "custom-randomization"],
         variants: [
-            {
-                uid: "size-6",
-                group: "board",
-            },
-            {
-                uid: "size-10",
-                group: "board",
-            }
+            { uid: "size-6", group: "board" },
+            { uid: "size-10", group: "board" },
+            { uid: "capture-delay", experimental: true },
+            { uid: "free-setup", experimental: true },
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };
@@ -84,7 +83,9 @@ export class TumbleweedGame extends GameBase {
             // they're common to both fresh and loaded games.
             const boardSize = this.getBoardSize();
             const board: Map<string, [playerid, number]> = new Map();
-            board.set(this.getCentre(boardSize), [3 as playerid, 2]);
+            if (!this.variants.includes("free-setup")) {
+                board.set(this.getCentre(boardSize), [3 as playerid, 2]);
+            }
             const fresh: IMoveState = {
                 _version: TumbleweedGame.gameinfo.version,
                 _results: [],
@@ -183,27 +184,48 @@ export class TumbleweedGame extends GameBase {
             player = this.currplayer;
         }
         const moves: string[] = [];
-        if (this.board.size < 3) {
-            // On first move, first player places two stones.
-            const centre = this.getCentre();
-            for (const cell of this.listCells() as string[]) {
-                for (const cell2 of this.listCells() as string[]) {
-                    if (cell === cell2 || cell === centre || cell2 === centre) {
-                        continue;
+        if (this.stack.length === 1) {
+            if (this.variants.includes("free-setup")) {
+                return ["No movelist in opening"];
+            } else {
+                // On first move, first player places two stones.
+                const centre = this.getCentre();
+                for (const cell of this.listCells() as string[]) {
+                    for (const cell2 of this.listCells() as string[]) {
+                        if (cell === cell2 || cell === centre || cell2 === centre) {
+                            continue;
+                        }
+                        moves.push(`${cell},${cell2}`);
                     }
-                    moves.push(`${cell},${cell2}`);
                 }
+                return moves;
             }
-            return moves;
-        } else if (this.board.size === 3 && player === 2) {
+        } else if (this.stack.length === 2 && player === 2) {
             return ["pass"];
         }
+        const lm = this.lastmove!
+        const suffixLastMove: string | undefined = lm[lm.length - 1] === "+" || lm[lm.length - 1] === "x" ? lm[lm.length - 1] : undefined;
+        const withoutSuffixLastMave = suffixLastMove !== undefined ? lm.slice(0, lm.length - 1) : lm;
         for (const cell of this.listCells() as string[]) {
             const losCount = this.getLosCount(cell, player);
             if (losCount === 0 || this.board.has(cell) && this.board.get(cell)![1] >= losCount) {
                 continue;
             }
-            moves.push(cell);
+            if (this.variants.includes("capture-delay") && withoutSuffixLastMave === cell) { continue;}
+            if (this.stack[0]._version !== "20231229") {
+                // Games started after 20231229 have "x" and "+" in the notation.
+                if (this.board.has(cell)) {
+                    if (this.board.get(cell)![0] === player) {
+                        moves.push(cell + "+");
+                    } else {
+                        moves.push(cell + "x");
+                    }
+                } else {
+                    moves.push(cell);
+                }
+            } else {
+                moves.push(cell);
+            }
         }
         // forbidding pass on ply 3 because it's almost never wanted
         // https://discord.com/channels/526483743180062720/1204190463234412594
@@ -214,6 +236,9 @@ export class TumbleweedGame extends GameBase {
     }
 
     public randomMove(): string {
+        if (this.stack.length === 1 && this.variants.includes("free-setup")) {
+            return _.sampleSize(this.listCells() as string[], 3).join(",")
+        }
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
     }
@@ -221,18 +246,25 @@ export class TumbleweedGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
-            const split = move.split(",");
             const cell = this.getGraph().coords2algebraic(col, row);
-            if (this.board.size < 3) {
-                if (split.length === 1 && split[0] !== "") {
-                    newmove = `${move},${cell}`;
-                } else if (split.length === 2) {
-                    newmove = move;
+            if (move === "") {
+                if (this.stack[0]._version !== "20231229" && this.stack.length > 1 && this.board.has(cell)) {
+                    if (this.board.get(cell)![0] === this.currplayer) {
+                        newmove = cell + "+";
+                    } else {
+                        newmove = cell + "x";
+                    }
                 } else {
                     newmove = cell;
                 }
             } else {
-                newmove = cell;
+                const split = move.split(",");
+                const last = split[split.length - 1];
+                if (last === cell) {
+                    newmove = split.slice(0, split.length - 1).join(",");
+                } else {
+                    newmove = `${move},${cell}`;
+                }
             }
 
             const result = this.validateMove(newmove) as IClickResult;
@@ -271,42 +303,55 @@ export class TumbleweedGame extends GameBase {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (m.length === 0) {
-            if (this.stack.length === 1) {
-                result.valid = true;
-                result.complete = -1;
-                result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
-                return result;
-            } else if (this.stack.length === 2) {
-                result.valid = true;
-                result.complete = -1;
-                result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_PASS");
-                return result;
-            }
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS");
+            if (this.stack.length === 1) {
+                if (this.variants.includes("free-setup")) {
+                    result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP_FREESETUP");
+                } else {
+                    result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
+                }
+            } else if (this.stack.length === 2) {
+                result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_PASS");
+            } else {
+                result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS");
+            }
+            result.canrender = true;
+            return result;
+        }
+        if (m === "No movelist in opening") {
+            result.valid = false;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.tumbleweed.NO_MOVELIST");
             return result;
         }
         if (m === "pass") {
+            if (this.stack.length === 3) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tumbleweed.PASS_3RD");
+                return result;
+            }
+            if (this.stack.length === 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tumbleweed.PASS_1ST");
+                return result;
+            }
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
-        if (this.board.size === 3 && this.currplayer === 2) {
+        if (this.stack.length === 2 && this.currplayer === 2) {
             if (m !== "pass") {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.tumbleweed.SECOND_PLAYER_PASS");
+                result.message = i18next.t("apgames:validation.tumbleweed.PASS_2ND");
                 return result;
             }
         }
 
-        const moves = m.split(",");
-        if (moves.length > 2) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.tumbleweed.TOOMANYMOVES", {cell: moves[2]});
-            return result;
-        }
+        const suffix: string | undefined = this.stack[0]._version !== "20231229" && this.stack.length > 1 && (m[m.length - 1] === "+" || m[m.length - 1] === "x") ? m[m.length - 1] : undefined;
+        const withoutSuffix = suffix !== undefined ? m.slice(0, m.length - 1) : m;
+        const moves = withoutSuffix.split(",");
         // valid cell
         let currentMove;
         try {
@@ -320,41 +365,102 @@ export class TumbleweedGame extends GameBase {
             return result;
         }
         // Special case where first player places two stones.
-        if (this.board.size < 3) {
-            const centre = this.getCentre();
-            if (moves[0] === centre) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.tumbleweed.NO_CENTRE", {cell: moves[0]});
-                    return result;
+        if (this.stack.length === 1) {
+            // No duplicate cells.
+            const seen: Set<string> = new Set();
+            const duplicates: Set<string> = new Set();
+            for (const move of moves) {
+                if (seen.has(move)) {
+                    duplicates.add(move);
+                }
+                seen.add(move);
             }
-            if (moves.length === 2) {
-                if (moves[0] === moves[1]) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.tumbleweed.SAME_CELL", {cell: moves[0]});
-                    return result;
-                }
-                if (moves[1] === centre) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.tumbleweed.NO_CENTRE", {cell: moves[1]});
-                    return result;
-                }
-                result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            if (duplicates.size > 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tumbleweed.DUPLICATE", {where: [...duplicates].join(", ")});
                 return result;
             }
-            result.valid = true;
-            result.complete = -1;
-            result.canrender = true;
-            result.message = i18next.t("apgames:validation.tumbleweed.ONE_MORE");
-            return result;
-        }
-
-        const losCount = this.getLosCount(m, this.currplayer);
-        if (losCount === 0 || this.board.has(m) && this.board.get(m)![1] >= losCount) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.tumbleweed.INSUFFICIENT_LOS", {cell: m});
-            return result;
+            for (const cell of moves) {
+                if (this.board.has(cell)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+                    return result;
+                }
+            }
+            if (this.variants.includes("free-setup")) {
+                if (moves.length === 1) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.tumbleweed.FREESETUP1");
+                    return result;
+                }
+                if (moves.length === 2) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.tumbleweed.FREESETUP2");
+                    return result;
+                }
+                if (moves.length > 3) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.tumbleweed.TOO_MANY_OPENING_FREESETUP");
+                    return result;
+                }
+            } else {
+                if (moves.length === 1) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.tumbleweed.ONE_MORE");
+                    return result;
+                }
+                if (moves.length > 2) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.tumbleweed.TOO_MANY_OPENING_FREESETUP");
+                    return result;
+                }
+            }
+        } else {
+            if (moves.length > 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tumbleweed.TOO_MANY");
+                return result;
+            }
+            if (this.variants.includes("capture-delay")) {
+                const lm = this.lastmove!
+                const suffixLastMove: string | undefined = lm[lm.length - 1] === "+" || lm[lm.length - 1] === "x" ? lm[lm.length - 1] : undefined;
+                const withoutSuffixLastMave = suffixLastMove !== undefined ? lm.slice(0, lm.length - 1) : lm;
+                if (withoutSuffix === withoutSuffixLastMave) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.tumbleweed.NO_REPLACE", {where: withoutSuffix});
+                    return result;
+                }
+            }
+            const losCount = this.getLosCount(withoutSuffix, this.currplayer);
+            if (losCount === 0 || this.board.has(withoutSuffix) && this.board.get(withoutSuffix)![1] >= losCount) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.tumbleweed.INSUFFICIENT_LOS", {cell: withoutSuffix});
+                return result;
+            }
+            if (this.board.has(withoutSuffix)) {
+                if (this.stack[0]._version !== "20231229") {
+                    // Games started after 20231229 have "x" and "+" in the notation.
+                    if (this.board.get(withoutSuffix)![0] === this.currplayer) {
+                        if (suffix !== "+") {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.tumbleweed.REINFORCE_NOTATION", {move: withoutSuffix + "+"});
+                            return result;
+                        }
+                    } else {
+                        if (suffix !== "x") {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.tumbleweed.CAPTURE_NOTATION", {move: withoutSuffix + "x"});
+                            return result;
+                        }
+                    }
+                }
+            }
         }
 
         // we're good
@@ -370,43 +476,59 @@ export class TumbleweedGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-
+        let result;
+        if (m === "No movelist in opening") {
+            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
+            throw new UserFacingError("VALIDATION_GENERAL", result.message);
+        }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (! trusted) {
-            const result = this.validateMove(m);
+            result = this.validateMove(m);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && !this.moves().includes(m)) {
+            if (!partial && !this.moves().includes(m) && !(this.stack.length === 1 && this.variants.includes("free-setup"))) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
-
-        if (this.board.size < 3) {
+        if (m === "") { return this; }
+        if (this.stack.length === 1) {
             const moves = m.split(",");
-            if (moves.length !== 2) {
-                // Partial.
-                this.board.set(moves[0], [this.currplayer, 1]);
+            if (this.variants.includes("free-setup")) {
+                this.board.set(moves[0], [3, 2]);
+                this.results.push({type: "place", who: 3, where: moves[0], count: 2});
+                if (moves.length > 1) {
+                    this.board.set(moves[1], [1, 1]);
+                    this.results.push({type: "place", who: 1, where: moves[1], count: 1});
+                }
+                if (moves.length > 2){
+                    this.board.set(moves[2], [2, 1]);
+                    this.results.push({type: "place", who: 2, where: moves[2], count: 1});
+                }
+            } else {
+                this.board.set(moves[0], [1, 1]);
                 this.results.push({type: "place", who: 1, where: moves[0], count: 1});
-                this.updateScores();
-                return this;
+                if (moves.length > 1) {
+                    this.board.set(moves[1], [2, 1]);
+                    this.results.push({type: "place", who: 2, where: moves[1], count: 1});
+                }
             }
-            this.board.set(moves[0], [this.currplayer, 1]);
-            this.board.set(moves[1], [(this.currplayer % 2) + 1 as playerid, 1]);
-            this.results.push({type: "place", who: 1, where: moves[0], count: 1}, {type: "place", who: 2, where: moves[1], count: 1});
         } else {
             this.results = [];
             if (m === "pass") {
                 this.results.push({type: "pass"});
             } else {
-                const losCount = this.getLosCount(m, this.currplayer);
-                this.results.push({type: "place", where: m, count: losCount});
-                if (this.board.has(m)) {
-                    const [player, size] = this.board.get(m)!;
-                    this.results.push({type: "capture", where: m, count: size, whose: player});
+                const suffix: string | undefined = this.stack.length > 1 && (m[m.length - 1] === "+" || m[m.length - 1] === "x") ? m[m.length - 1] : undefined;
+                const withoutSuffix = suffix !== undefined ? m.slice(0, m.length - 1) : m;
+                const losCount = this.getLosCount(withoutSuffix, this.currplayer);
+                this.results.push({type: "place", where: withoutSuffix, count: losCount});
+                if (this.board.has(withoutSuffix)) {
+                    const captureType = suffix === "+" ? "reinforce" : suffix === "x" ? "capture" : undefined;
+                    const [player, size] = this.board.get(withoutSuffix)!;
+                    this.results.push({type: "capture", where: withoutSuffix, count: size, whose: player, how: captureType});
                 }
-                this.board.set(m, [this.currplayer, losCount]);
+                this.board.set(withoutSuffix, [this.currplayer, losCount]);
             }
         }
         // update currplayer
@@ -491,8 +613,14 @@ export class TumbleweedGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
+        const score1 = this.getPlayerScore(1 as playerid);
+        const pieces1 = this.pieceCount(1 as playerid);
+        const influence1 = score1 - pieces1;
+        const score2 = this.getPlayerScore(2 as playerid);
+        const pieces2 = this.pieceCount(2 as playerid);
+        const influence2 = score2 - pieces2;
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            { name: i18next.t("apgames:status.tumbleweed"), scores: [`${score1} (${pieces1} + ${influence1})`, `${score2} (${pieces2} + ${influence2})`] },
         ]
     }
 

@@ -29,6 +29,7 @@ export type APMoveResult =
     }
   | {
       type: "move";
+      by?: string;
       from: string;
       to: string;
       what?: string;
@@ -300,4 +301,10 @@ export type APMoveResult =
       type: "flip";
       where: string;
       revealed: string;
+    }
+  | {
+      type: "use";
+      what: string;
+      count?: number;
+      remaining?: number;
     };

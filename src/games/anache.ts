@@ -971,19 +971,23 @@ export class AnacheGame extends GameBase {
                 let xL = x;
                 let yL = y;
                 for (let i = 1; true; i++) {
-                    if (xL < 0 || xL >= this.boardSize || yL < 0 || yL >= this.boardSize) { break; }
-                    if (board.get(this.coords2algebraic(xL - dx, yL - dy)) !== player) { break; }
-                    xL -= dx;
-                    yL -= dy;
+                    const x2 = xL - dx;
+                    const y2 = yL - dy;
+                    if (x2 < 0 || x2 >= this.boardSize || y2 < 0 || y2 >= this.boardSize) { break; }
+                    if (board.get(this.coords2algebraic(x2, x2)) !== player) { break; }
+                    xL = x2;
+                    yL = y2;
                 }
                 // And also the end point.
                 let xH = x;
                 let yH = y;
                 for (let i = 1; true; i++) {
-                    if (xH < 0 || xH >= this.boardSize || yH < 0 || yH >= this.boardSize) { break; }
-                    if (board.get(this.coords2algebraic(xH + dx, yH + dy)) !== player) { break; }
-                    xH += dx;
-                    yH += dy;
+                    const x2 = xH + dx;
+                    const y2 = yH + dy;
+                    if (x2 < 0 || x2 >= this.boardSize || y2 < 0 || y2 >= this.boardSize) { break; }
+                    if (board.get(this.coords2algebraic(x2, y2)) !== player) { break; }
+                    xH = x2;
+                    yH = y2;
                 }
                 const tentativeCaptures: string[] = [];
                 for (let i = 1; true; i++) {

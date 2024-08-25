@@ -3730,7 +3730,8 @@
             "TOO_MANY_OPENING_FREESTYLE": "You may only place three pieces in the setup phase.",
             "NO_REPLACE": "In this variant, you may not place at a cell where your opponent just placed.",
             "REINFORCE_NOTATION": "Reinforcement moves must be suffixed with '+'. Try '{{move}}'",
-            "CAPTURE_NOTATION": "Capture moves must be suffixed with 'x'. Try '{{move}}'"
+            "CAPTURE_NOTATION": "Capture moves must be suffixed with 'x'. Try '{{move}}'",
+            "NO_MOVELIST": "Move list not available during placement phase for the freestyle variant. Click on the board to place the pieces."
         },
         "twixt": {
             "CORNER": "You may not place a peg at the corner of the board.",

@@ -229,7 +229,7 @@ export class TumbleweedGame extends GameBase {
         }
         // forbidding pass on ply 3 because it's almost never wanted
         // https://discord.com/channels/526483743180062720/1204190463234412594
-        if (this.stack.length !== 1 && this.stack.length !== 3) {
+        if (this.stack.length !== 3) {
             moves.push("pass");
         }
         return moves;
@@ -316,6 +316,12 @@ export class TumbleweedGame extends GameBase {
             }
             result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS");
             result.canrender = true;
+            return result;
+        }
+        if (m === "No movelist in opening") {
+            result.valid = false;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.tumbleweed.NO_MOVELIST");
             return result;
         }
         if (m === "pass") {
@@ -469,11 +475,15 @@ export class TumbleweedGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
-
+        let result;
+        if (m === "No movelist in opening") {
+            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
+            throw new UserFacingError("VALIDATION_GENERAL", result.message);
+        }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         if (! trusted) {
-            const result = this.validateMove(m);
+            result = this.validateMove(m);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }

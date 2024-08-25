@@ -1285,9 +1285,9 @@
                 "description": "You may not place at where your opponent just placed.",
                 "name": "Capture delay"
             },
-            "freestyle": {
+            "free-setup": {
                 "description": "On the first turn, place a 2-stack neutral piece, and a 1-stack piece of each player's colour.",
-                "name": "Freestyle"
+                "name": "Free setup"
             }
         },
         "twixt": {
@@ -3715,19 +3715,19 @@
             "INITIAL_INSTRUCTIONS": "Place a piece on the board.",
             "INITIAL_INSTRUCTIONS_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
             "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of your colour, then place a piece of your opponent's colour.",
-            "INITIAL_INSTRUCTIONS_SETUP_FREESTYLE": "Setup phase: place a neutral stack-2 piece, then place a piece of your colour, and then place a piece of your opponent's colour.",
+            "INITIAL_INSTRUCTIONS_SETUP_FREESETUP": "Setup phase: place a neutral stack-2 piece, then place a piece of your colour, and then place a piece of your opponent's colour.",
             "PASS_1ST": "You may not pass on the first ply.",
             "PASS_2ND":  "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
             "PASS_3RD": "You may not pass on the third ply.",
             "INSUFFICIENT_LOS": "There is insufficient line of sight to place a piece on {{cell}}.",
             "DUPLICATE": "You have already placed a piece at {{where}}.",
-            "FREESTYLE1": "Select a cell to place a piece of your colour.",
-            "FREESTYLE2": "Select a cell to place a piece of your opponent's colour.",
+            "FREESETUP1": "Select a cell to place a piece of your colour.",
+            "FREESETUP2": "Select a cell to place a piece of your opponent's colour.",
             "ONE_MORE": "Place a piece of your opponent's colour.",
             "SAME_CELL": "In the setup phase, place two pieces on different cells.",
             "TOO_MANY": "You may only place one piece per turn after the setup phase.",
             "TOO_MANY_OPENING": "You may only place two pieces in the setup phase.",
-            "TOO_MANY_OPENING_FREESTYLE": "You may only place three pieces in the setup phase.",
+            "TOO_MANY_OPENING_FREESETUP": "You may only place three pieces in the setup phase.",
             "NO_REPLACE": "In this variant, you may not place at a cell where your opponent just placed.",
             "REINFORCE_NOTATION": "Reinforcement moves must be suffixed with '+'. Try '{{move}}'",
             "CAPTURE_NOTATION": "Capture moves must be suffixed with 'x'. Try '{{move}}'",

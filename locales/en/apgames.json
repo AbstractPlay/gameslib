@@ -2211,7 +2211,7 @@
             "GAME2": "Game 2"
         },
         "SCORES": "Scores",
-        "tumbleweed": "Score: Pieces + Influence",
+        "tumbleweed": "Score (pieces + influence)",
        "ESTIMATEDSCORES": "Estimated scores",
         "TOPLACE": "Piece to place"
     },

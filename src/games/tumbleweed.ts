@@ -609,7 +609,7 @@ export class TumbleweedGame extends GameBase {
         const pieces2 = this.pieceCount(2 as playerid);
         const influence2 = score2 - pieces2;
         return [
-            { name: i18next.t("apgames:status.tumbleweed.SCORES"), scores: [`${score1}: ${pieces1} + ${influence1}`, `${score2}: ${pieces2} + ${influence2}`] },
+            { name: i18next.t("apgames:status.tumbleweed"), scores: [`${score1} (${pieces1} + ${influence1})`, `${score2} (${pieces2} + ${influence2})`] },
         ]
     }
 

@@ -56,7 +56,7 @@ export class TumbleweedGame extends GameBase {
             { uid: "size-6", group: "board" },
             { uid: "size-10", group: "board" },
             { uid: "capture-delay", experimental: true },
-            { uid: "free-setup", experimental: true },
+            { uid: "free-neutral", experimental: true },
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };
@@ -83,7 +83,7 @@ export class TumbleweedGame extends GameBase {
             // they're common to both fresh and loaded games.
             const boardSize = this.getBoardSize();
             const board: Map<string, [playerid, number]> = new Map();
-            if (!this.variants.includes("free-setup")) {
+            if (!this.variants.includes("free-neutral")) {
                 board.set(this.getCentre(boardSize), [3 as playerid, 2]);
             }
             const fresh: IMoveState = {
@@ -185,7 +185,7 @@ export class TumbleweedGame extends GameBase {
         }
         const moves: string[] = [];
         if (this.stack.length === 1) {
-            if (this.variants.includes("free-setup")) {
+            if (this.variants.includes("free-neutral")) {
                 return ["No movelist in opening"];
             } else {
                 // On first move, first player places two stones.
@@ -236,7 +236,7 @@ export class TumbleweedGame extends GameBase {
     }
 
     public randomMove(): string {
-        if (this.stack.length === 1 && this.variants.includes("free-setup")) {
+        if (this.stack.length === 1 && this.variants.includes("free-neutral")) {
             return _.sampleSize(this.listCells() as string[], 3).join(",")
         }
         const moves = this.moves();
@@ -306,8 +306,8 @@ export class TumbleweedGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             if (this.stack.length === 1) {
-                if (this.variants.includes("free-setup")) {
-                    result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP_FREESETUP");
+                if (this.variants.includes("free-neutral")) {
+                    result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP_FREENEUTRAL");
                 } else {
                     result.message = i18next.t("apgames:validation.tumbleweed.INITIAL_INSTRUCTIONS_SETUP");
                 }
@@ -387,24 +387,24 @@ export class TumbleweedGame extends GameBase {
                     return result;
                 }
             }
-            if (this.variants.includes("free-setup")) {
+            if (this.variants.includes("free-neutral")) {
                 if (moves.length === 1) {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.tumbleweed.FREESETUP1");
+                    result.message = i18next.t("apgames:validation.tumbleweed.FREENEUTRAL1");
                     return result;
                 }
                 if (moves.length === 2) {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.tumbleweed.FREESETUP2");
+                    result.message = i18next.t("apgames:validation.tumbleweed.FREENEUTRAL2");
                     return result;
                 }
                 if (moves.length > 3) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.tumbleweed.TOO_MANY_OPENING_FREESETUP");
+                    result.message = i18next.t("apgames:validation.tumbleweed.TOO_MANY_OPENING_FREENEUTRAL");
                     return result;
                 }
             } else {
@@ -417,7 +417,7 @@ export class TumbleweedGame extends GameBase {
                 }
                 if (moves.length > 2) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.tumbleweed.TOO_MANY_OPENING_FREESETUP");
+                    result.message = i18next.t("apgames:validation.tumbleweed.TOO_MANY_OPENING_FREENEUTRAL");
                     return result;
                 }
             }
@@ -488,14 +488,14 @@ export class TumbleweedGame extends GameBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && !this.moves().includes(m) && !(this.stack.length === 1 && this.variants.includes("free-setup"))) {
+            if (!partial && !this.moves().includes(m) && !(this.stack.length === 1 && this.variants.includes("free-neutral"))) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
         if (m === "") { return this; }
         if (this.stack.length === 1) {
             const moves = m.split(",");
-            if (this.variants.includes("free-setup")) {
+            if (this.variants.includes("free-neutral")) {
                 this.board.set(moves[0], [3, 2]);
                 this.results.push({type: "place", who: 3, where: moves[0], count: 2});
                 if (moves.length > 1) {

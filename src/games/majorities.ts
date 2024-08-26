@@ -53,7 +53,7 @@ export class MajoritiesGame extends GameBase {
             { uid: "capture" },
         ],
         categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental", "scores"],
+        flags: ["scores"],
     };
 
     public coords2algebraic(x: number, y: number): string {

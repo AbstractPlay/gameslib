@@ -352,14 +352,14 @@ export class TritiumGame extends GameBase {
                 this.preparedflags[2] = 1;
             }
 
-            this.results.push({type: "place", where: cell});
+            this.results.push({type: "place", what: "flag", where: cell});
 
         } else {
             const tile = tilecolors.indexOf(piece) as tileid;
             this.board.set(cell, [tile]);
             this.remainingtiles[tile]--;
 
-            this.results.push({type: "place", where: cell});
+            this.results.push({type: "place", what: piece, where: cell});
         }
 
         this.lastmove = m;
@@ -548,6 +548,17 @@ export class TritiumGame extends GameBase {
         }
 
         return [{ name: i18next.t("apgames:status.SCORES"), scores }];
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                node.push(i18next.t(`apresults:PLACE.tritium-${r.what}`, {player, where: r.where}));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     /**

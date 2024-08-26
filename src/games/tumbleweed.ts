@@ -55,8 +55,8 @@ export class TumbleweedGame extends GameBase {
         variants: [
             { uid: "size-6", group: "board" },
             { uid: "size-10", group: "board" },
-            { uid: "capture-delay", experimental: true },
-            { uid: "free-neutral", experimental: true },
+            { uid: "capture-delay" },
+            { uid: "free-neutral" },
         ],
         displays: [{uid: "hide-threatened"}, {uid: "hide-influence"}, {uid: "hide-both"}],
     };

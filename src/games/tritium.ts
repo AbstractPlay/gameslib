@@ -46,7 +46,7 @@ export class TritiumGame extends GameBase {
                 name: "Noé Falzon",
             },
         ],
-        flags: ["automove", "scores", "experimental"],
+        flags: ["automove", "scores"],
         dateAdded: "2024-10-20",
         categories: ["goal>majority", "mechanic>place", "mechanic>merge","board>shape>hex", "components>simple>3c"],
         variants: [

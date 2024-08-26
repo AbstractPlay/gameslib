@@ -51,7 +51,7 @@ export class AtaxxGame extends GameBase {
             { uid: "straight-jumps-only" },
         ],
         categories: ["goal>majority", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "scores"],
+        flags: ["scores"],
     };
 
     public coords2algebraic(x: number, y: number): string {

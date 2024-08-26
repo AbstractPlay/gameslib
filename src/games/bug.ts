@@ -42,7 +42,7 @@ export class BugGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental", "no-moves", "custom-randomization"],
+        flags: ["no-moves", "custom-randomization"],
         displays: [{uid: "hide-moves"}],
     };
 

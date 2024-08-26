@@ -53,7 +53,7 @@ export class CamelotGame extends GameBase {
             { uid: "anti" },
         ],
         categories: ["goal>breakthrough", "goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "limited-pieces", "custom-buttons"],
+        flags: ["perspective", "limited-pieces", "custom-buttons"],
     };
 
     public coords2algebraic(x: number, y: number): string {

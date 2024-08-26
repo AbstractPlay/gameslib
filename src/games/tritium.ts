@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import { Glyph } from "@abstractplay/renderer";
@@ -352,14 +352,14 @@ export class TritiumGame extends GameBase {
                 this.preparedflags[2] = 1;
             }
 
-            this.results.push({type: "place", where: cell});
+            this.results.push({type: "place", what: "flag", where: cell});
 
         } else {
             const tile = tilecolors.indexOf(piece) as tileid;
             this.board.set(cell, [tile]);
             this.remainingtiles[tile]--;
 
-            this.results.push({type: "place", where: cell});
+            this.results.push({type: "place", what: piece, where: cell});
         }
 
         this.lastmove = m;
@@ -472,6 +472,13 @@ export class TritiumGame extends GameBase {
             }
         }
 
+        // Central hexagon
+
+        const center: [RowCol, ...RowCol[]] = [{ row: this.boardsize - 1, col: this.boardsize - 1}];
+        const markers: Array<any> | undefined = [
+            { type: "flood", colour: "#888", opacity: 0.25, points: center}
+        ];
+
         // Build rep
 
         const rep: APRenderRep =  {
@@ -480,8 +487,9 @@ export class TritiumGame extends GameBase {
                 style: "hex-of-hex",
                 minWidth: this.boardsize,
                 maxWidth: this.boardsize * 2 - 1,
-                blocked: [{row: this.boardsize - 1, col: this.boardsize - 1}],
-                alternatingSymmetry: false
+                blocked: center,
+                alternatingSymmetry: false,
+                markers
             },
             legend: {
                 T1: [
@@ -548,6 +556,17 @@ export class TritiumGame extends GameBase {
         }
 
         return [{ name: i18next.t("apgames:status.SCORES"), scores }];
+    }
+
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "place":
+                node.push(i18next.t(`apresults:PLACE.tritium-${r.what}`, {player, where: r.where}));
+                resolved = true;
+                break;
+        }
+        return resolved;
     }
 
     /**

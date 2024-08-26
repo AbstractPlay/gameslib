@@ -66,7 +66,6 @@ export class StigmergyGame extends GameBase {
                 group: "board"
             },
             {
-                // Note to future: "x" is reserved for captures, so board size cannot exceed 12.
                 uid: "size-10",
                 group: "board"
             },
@@ -223,7 +222,7 @@ export class StigmergyGame extends GameBase {
         for (const cell of this.listCells() as string[]) {
             const cellController = this.cellController(cell);
             if (this.board.has(cell) && this.board.get(cell) === otherPlayer && cellController === player) {
-                moves.push(`x${cell}`);
+                moves.push(cell);
             } else if (!this.board.has(cell) && cellController !== otherPlayer) {
                 moves.push(cell);
             }
@@ -271,8 +270,7 @@ export class StigmergyGame extends GameBase {
             if (!result.valid) {
                 result.move = move;
             } else {
-                if (this.board.has(newmove)) result.move = `x${newmove}`;
-                else result.move = newmove;
+                result.move = newmove;
             }
             return result;
         } catch (e) {
@@ -303,7 +301,6 @@ export class StigmergyGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (m.startsWith('x')) m = m.substring(1);
 
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
@@ -320,7 +317,7 @@ export class StigmergyGame extends GameBase {
                 result.message = i18next.t("apgames:validation.stigmergy.INVALIDKOMI");
                 return result
             }
-            const max = (this.getGraph().listCells() as string[]).length + 1;
+            const max = (this.getGraph().listCells(false) as string[]).length + 1;
             const min = max * -1;
             const komi = parseInt(m, 10);
             if (isNaN(komi) || komi < min || komi > max) {
@@ -435,23 +432,20 @@ export class StigmergyGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        let originalMove = m;
-        if (m.startsWith('x')) m = m.substring(1);
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            const moves = this.moves();
-            if (!partial && this.stack.length > 2 && !(moves.includes(originalMove) || moves.includes(`x${originalMove}`)) && (!this.isButtonActive() || m !== "button")) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: originalMove}));
+            if (!partial && this.stack.length > 2 && !this.moves().includes(m) && (!this.isButtonActive() || m !== "button")) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
         }
 
         this.results = [];
         if (this.isKomiRuleActive() && this.stack.length === 1) {
             this.komi = parseInt(m, 10);
-            const max = (this.getGraph().listCells() as string[]).length + 1;
+            const max = (this.getGraph().listCells(false) as string[]).length + 1;
             const min = max * -1;
             if (this.komi > max) this.komi = max;
             if (this.komi < min) this.komi = min;
@@ -459,7 +453,7 @@ export class StigmergyGame extends GameBase {
         } else if (m === "pass") {
             // This happens iff the invoke pie option is used.
             if (this.isKomiRuleActive() && this.stack.length === 2) {
-                originalMove = "pie";
+                m = "pie";
                 this.results.push({type: "pie"});
             } else {
                 this.results.push({type: "pass"});
@@ -471,7 +465,6 @@ export class StigmergyGame extends GameBase {
             this.results.push({type: "pie"});
         } else {
             if (this.board.has(m)) {
-                if (!originalMove.startsWith('x')) originalMove = `x${originalMove}`;
                 this.results.push({type: "capture", where: m});
             } else {
                 this.results.push({type: "place", where: m});
@@ -480,7 +473,7 @@ export class StigmergyGame extends GameBase {
         }
 
         // update currplayer
-        this.lastmove = originalMove;
+        this.lastmove = m;
         this.currplayer = this.getOtherPlayer(this.currplayer);
 
         this.updateScores();

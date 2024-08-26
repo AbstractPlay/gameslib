@@ -301,7 +301,6 @@ export class PletoreGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        let originalMove = m;
         if (m.endsWith('x')) m = m.substring(0, m.length-1);
 
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};

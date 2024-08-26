@@ -443,7 +443,7 @@ export class StigmergyGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             const moves = this.moves();
-            if (!partial && this.stack.length > 2 && !(moves.includes(m) || moves.inclues(`${m}x`)) && (!this.isButtonActive() || m !== "button")) {
+            if (!partial && this.stack.length > 2 && !(moves.includes(m) || moves.includes(`${m}x`)) && (!this.isButtonActive() || m !== "button")) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: originalMove}));
             }
         }

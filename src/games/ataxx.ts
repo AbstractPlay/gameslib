@@ -28,7 +28,7 @@ export class AtaxxGame extends GameBase {
         uid: "ataxx",
         playercounts: [2],
         version: "20240728",
-        dateAdded: "2024-07-28",
+        dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.ataxx")
         description: "apgames:descriptions.ataxx",
         // i18next.t("apgames:notes.ataxx")

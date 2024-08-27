@@ -975,7 +975,8 @@ export class TumbleweedGame extends GameBase {
                 }
                 // regular placements
                 else {
-                    const cells: string[] = move.split(",");
+                    const withoutSuffix = move[move.length - 1] === "+" || move[move.length - 1] === "x" ? move.slice(0, move.length - 1) : move;
+                    const cells: string[] = withoutSuffix.split(",");
                     for (const cell of cells) {
                         lst.push(hexhexAp2Ai(cell, width))
                     }
@@ -1002,6 +1003,15 @@ export class TumbleweedGame extends GameBase {
         } else {
             const cells = move.split("|");
             const translated = cells.map(cell => hexhexAi2Ap(cell, width));
+            if (translated.length === 1) {
+                if (this.board.has(translated[0])) {
+                    if (this.board.get(translated[0])![0] === this.currplayer) {
+                        return translated[0] + "+";
+                    } else {
+                        return translated[0] + "x";
+                    }
+                }
+            }
             return translated.join(",");
         }
     }

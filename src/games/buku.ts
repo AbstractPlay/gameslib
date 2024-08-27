@@ -27,7 +27,7 @@ export class BukuGame extends GameBase {
         uid: "buku",
         playercounts: [2],
         version: "20240811",
-        dateAdded: "2024-08-11",
+        dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.buku")
         description: "apgames:descriptions.buku",
         urls: ["https://mancala.fandom.com/wiki/Buku"],

@@ -32,7 +32,7 @@ export class CamelotGame extends GameBase {
         uid: "camelot",
         playercounts: [2],
         version: "20240817",
-        dateAdded: "2024-08-17",
+        dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.camelot")
         description: "apgames:descriptions.camelot",
         urls: [

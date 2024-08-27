@@ -24,7 +24,7 @@ export class BugGame extends GameBase {
         uid: "bug",
         playercounts: [2],
         version: "20240721",
-        dateAdded: "2024-07-21",
+        dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.bug")
         description: "apgames:descriptions.bug",
         // i18next.t("apgames:notes.bug")

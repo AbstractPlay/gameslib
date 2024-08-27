@@ -995,7 +995,10 @@ export class HomeworldsGame extends GameBase {
                     break;
                 case "catastrophe":
                     subResult = cloned.validateCatastrophe(...tokens.slice(1), LHO!);
-                    nemesisCatastrophed = (subResult !== undefined && subResult.complete === 1);
+                    if (!nemesisCatastrophed) {
+                        nemesisCatastrophed = (subResult !== undefined && subResult.complete === 1);
+                    }
+                    subResult.complete = 0;
                     break;
                 case "pass":
                     subResult = cloned.validatePass(...tokens.slice(1));
@@ -1013,6 +1016,22 @@ export class HomeworldsGame extends GameBase {
         // If we've gotten this far, each individual command was valid and complete
         cloned.load();
         cloned.move(m, {partial: true});
+
+        // now check to see if nemesis was eliminated
+        let nemesisEliminated = false;
+        if (nemesisCatastrophed) {
+            // check for destruction of all stars
+            const nemSys = cloned.systems.find(s => s.owner === LHO);
+            if (nemSys === undefined) {
+                nemesisEliminated = true;
+            }
+            // check for losing all owned ships
+            else {
+                if ( (nemSys.stars.length === 0) || (nemSys.countShips(LHO!) === 0) ) {
+                    nemesisEliminated = true;
+                }
+            }
+        }
 
         // You have to account for all your actions
         let hasActions = false;
@@ -1061,7 +1080,7 @@ export class HomeworldsGame extends GameBase {
         result.canrender = true;
         // If a catastrophe caused the elimination of your nemesis, then it doesn't matter
         // if you still have free actions remaining. The move is complete.
-        if (nemesisCatastrophed) {
+        if (nemesisEliminated) {
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         }
@@ -1180,9 +1199,9 @@ export class HomeworldsGame extends GameBase {
             this.delSystem(sys)
         }
 
-        // You have to account for all your actions, unless you've been eliminated
+        // You have to account for all your actions, unless you or your nemesis have been eliminated
         if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
-            if (! this.eliminated.includes(this.player2seat())) {
+            if (! this.eliminated.includes(this.player2seat()) && ! this.eliminated.includes(LHO!)) {
                 throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:homeworlds.MOVE_MOREACTIONS"));
             }
         }
@@ -2284,7 +2303,7 @@ export class HomeworldsGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            if (args.length === 0) {
+            if (args.length === 1) {
                 result.message = i18next.t("apgames:validation.homeworlds.catastrophe.PARTIAL_NOARGS");
             }
             return result;

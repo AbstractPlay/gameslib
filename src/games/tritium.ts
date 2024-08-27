@@ -47,7 +47,7 @@ export class TritiumGame extends GameBase {
             },
         ],
         flags: ["automove", "scores"],
-        dateAdded: "2024-10-20",
+        dateAdded: "2024-08-26",
         categories: ["goal>majority", "mechanic>place", "mechanic>merge","board>shape>hex", "components>simple>3c"],
         variants: [
             {uid: "short-form", group: "form"},

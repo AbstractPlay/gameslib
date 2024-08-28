@@ -17,6 +17,7 @@ export type cellcontent = [tileid,playerid?];
 const tilecolors: string[] = ["_dummy", "orange", "purple", "green"];
 const tilecolorscodes: number[] = [0, 6, 5, 3];
 const tileopacity = 0.45;
+const selectedcolor = 4;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -471,7 +472,7 @@ export class TritiumGame extends GameBase {
         for(let i = 1; i <= 3; i++) {
             const selected = this.selected === tilecolors[i];
             key.push([
-                {name: "piece-borderless", colour: "#ff0", scale: 1.2, opacity: selected ? 1 : 0},
+                {name: "piece-borderless", colour: selectedcolor, scale: 1.2, opacity: selected ? 1 : 0},
                 {name: "hex-pointy", colour: "#fff"},
                 {name: "hex-pointy", colour: tilecolorscodes[i], opacity: tileopacity},
                 {text: this.remainingtiles[i].toString(), scale: 0.75}
@@ -484,12 +485,18 @@ export class TritiumGame extends GameBase {
 
         for(const p of [1,2]) {
             const selected = this.selected === "flag" && this.currplayer === p;
-            key.push([
-                {name: "piece-borderless", colour: "#ff0", scale: 1.2, opacity: selected ? 1 : 0},
-                {name: "piece", scale: 0.3, colour: p}
-            ]);
+            const glyph = [];
+            glyph.push(
+                {name: "piece-borderless", colour: selectedcolor, scale: 1.2, opacity: selected ? 1 : 0}
+            );
 
             for(let i = 1; i <= this.preparedflags[p]; i++) {
+                const nudge = (i-1) * 200;
+                glyph.push({name: "piece", scale: 0.3, colour: p, nudge: {dx: nudge, dy: nudge}});
+            }
+            key.push(glyph);
+
+            if (this.preparedflags[p] > 0) {
                 sidebar.push({name: "", piece: `KF${p}`, value: `flag${p}`});
             }
         }

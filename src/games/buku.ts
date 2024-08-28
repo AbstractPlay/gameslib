@@ -27,7 +27,7 @@ export class BukuGame extends GameBase {
         uid: "buku",
         playercounts: [2],
         version: "20240811",
-        dateAdded: "2024-08-11",
+        dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.buku")
         description: "apgames:descriptions.buku",
         urls: ["https://mancala.fandom.com/wiki/Buku"],
@@ -43,7 +43,7 @@ export class BukuGame extends GameBase {
             {uid: "size-10", group: "board"},
         ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["experimental", "scores", "no-moves", "custom-randomization"],
+        flags: ["scores", "no-moves", "custom-randomization"],
     };
 
     public coords2algebraic(x: number, y: number): string {

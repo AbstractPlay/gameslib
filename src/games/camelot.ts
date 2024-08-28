@@ -32,7 +32,7 @@ export class CamelotGame extends GameBase {
         uid: "camelot",
         playercounts: [2],
         version: "20240817",
-        dateAdded: "2024-08-17",
+        dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.camelot")
         description: "apgames:descriptions.camelot",
         urls: [
@@ -53,7 +53,7 @@ export class CamelotGame extends GameBase {
             { uid: "anti" },
         ],
         categories: ["goal>breakthrough", "goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "limited-pieces", "custom-buttons"],
+        flags: ["perspective", "limited-pieces", "custom-buttons"],
     };
 
     public coords2algebraic(x: number, y: number): string {

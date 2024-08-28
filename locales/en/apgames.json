@@ -23,8 +23,8 @@
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
-        "bug": "In Bug, the goal is to fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
-        "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sowed from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible scores, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
+        "bug": "Fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
+        "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sown from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible points, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
         "camelot": "A classic game where you try to move two pieces into your opponent's castle or eliminate all of your opponent's pieces.",
@@ -75,7 +75,7 @@
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
-        "majorities": "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction winds that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
+        "majorities": "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction wins that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         "margo": "Margo is a stacking Go variant. Players may not pass. The game ends when one player is not able to move, and the player with the most balls on the board wins.",
         "mattock": "In Mattock, you play miners digging corridors through the rock. You can't dig too closely together though, or the mine will collapse. To win, trap your opponent so they run out of space to mine.",
@@ -132,7 +132,7 @@
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
-        "tritium": "Tritium is an abstract strategy game for two players, who take turns creating and growing regions, and claiming them. Once the board is full, the player who controls most tiles wins.",
+        "tritium": "Two players take turns creating and growing regions and claiming them. Once the board is full, the player who controls most tiles wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
         "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
         "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
@@ -1280,6 +1280,14 @@
             },
             "size-10": {
                 "name": "Larger board (10 cells)"
+            },
+            "capture-delay": {
+                "description": "You may not place at where your opponent just placed.",
+                "name": "Capture delay"
+            },
+            "free-neutral": {
+                "description": "On the first turn, place a 2-stack neutral piece, and a 1-stack piece of each player's colour.",
+                "name": "Free neutral"
             }
         },
         "twixt": {
@@ -2203,7 +2211,8 @@
             "GAME2": "Game 2"
         },
         "SCORES": "Scores",
-        "ESTIMATEDSCORES": "Estimated scores",
+        "tumbleweed": "Score (pieces + influence)",
+       "ESTIMATEDSCORES": "Estimated scores",
         "TOPLACE": "Piece to place"
     },
     "validation": {
@@ -2601,7 +2610,7 @@
             "TREE_CONTINUE_one": "Select 1 more highlighted cell to place a tree on.",
             "TREE_CONTINUE_other": "Select {{count}} more highlighted cells to place trees on.",
             "NORMALISED": "The move needs to be normalised. Try {{normalised}}.",
-            "CANNOT_CLAIM_DRAW": "You may only claim a draw if the same position is repeated for at least the third time by the same player on each move or there has been no captures or movement into the opponent's castle square for the last 50 moves.",
+            "CANNOT_CLAIM_DRAW": "You may only claim a draw if the same position is repeated for at least the third time by the same player on each move or there have been no captures or movement into the opponent's castle square for the last 50 moves.",
             "IN_OWN_CASTLE": "You must move the piece at {{where}} out of your own castle.",
             "MUST_JUMP": "You must select one of your pieces to jump ({{where}}).",
             "CASTLE_LIMIT": "You may only make a castle move twice in a game.",
@@ -2611,7 +2620,7 @@
             "CANTER_NOTATION": "The move from {{from}} to {{to}} is a canter move. Use the notation '^' to indicate a canter.",
             "INVALID_TO": "The piece at {{from}} cannot move to {{to}}.",
             "NEED_TO_JUMP": "You have to continue making a capture.",
-            "CAN_CANTER": "You may continue making a canter move, or end the turn here."
+            "CAN_CANTER": "You may continue making a canter move or end the turn here."
         },
         "cannon": {
             "BAD_RETREAT": "Pieces can only retreat if they are adjacent to at least one enemy piece.",
@@ -3049,13 +3058,13 @@
             "PARTIAL": "Select your destination."
         },
         "majorities": {
-            "INITIAL_INSTRUCTIONS": "Select 2 cells to place your pieces.",
+            "INITIAL_INSTRUCTIONS": "Select two cells to place your pieces.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a cell to place the first piece.",
             "TOO_MANY_MOVES": "You may only place two pieces.",
             "TOO_MANY_MOVES_FIRST": "You may only place one piece on the first move.",
             "DUPLICATE": "You have already placed a piece at {{where}}.",
             "HOLE": "The cell at {{where}} is blocked.",
-            "ANOTHER": "Select 1 more cell to place your piece.",
+            "ANOTHER": "Select one more cell to place your piece.",
             "NORMALISE":"The move needs to be normalised. Try '{{normalised}}'."
         },
         "manalath": {
@@ -3705,13 +3714,24 @@
         "tumbleweed": {
             "INITIAL_INSTRUCTIONS": "Place a piece on the board.",
             "INITIAL_INSTRUCTIONS_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
-            "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",
+            "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of your colour, then place a piece of your opponent's colour.",
+            "INITIAL_INSTRUCTIONS_SETUP_FREENEUTRAL": "Setup phase: place a neutral stack-2 piece, then place a piece of your colour, and then place a piece of your opponent's colour.",
+            "PASS_1ST": "You may not pass on the first ply.",
+            "PASS_2ND":  "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
+            "PASS_3RD": "You may not pass on the third ply.",
             "INSUFFICIENT_LOS": "There is insufficient line of sight to place a piece on {{cell}}.",
-            "NO_CENTRE": "You may not place a piece at the centre of the board in the setup phase.",
-            "ONE_MORE": "Place a piece of the other colour.",
+            "DUPLICATE": "You have already placed a piece at {{where}}.",
+            "FREENEUTRAL1": "Select a cell to place a piece of your colour.",
+            "FREENEUTRAL2": "Select a cell to place a piece of your opponent's colour.",
+            "ONE_MORE": "Place a piece of your opponent's colour.",
             "SAME_CELL": "In the setup phase, place two pieces on different cells.",
-            "SECOND_PLAYER_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
-            "TOO_MANY_MOVES": "You may only make one move per turn, or two at in the setup phase as first player."
+            "TOO_MANY": "You may only place one piece per turn after the setup phase.",
+            "TOO_MANY_OPENING": "You may only place two pieces in the setup phase.",
+            "TOO_MANY_OPENING_FREENEUTRAL": "You may only place three pieces in the setup phase.",
+            "NO_REPLACE": "In this variant, you may not place at a cell where your opponent just placed.",
+            "REINFORCE_NOTATION": "Reinforcement moves must be suffixed with '+'. Try '{{move}}'",
+            "CAPTURE_NOTATION": "Capture moves must be suffixed with 'x'. Try '{{move}}'",
+            "NO_MOVELIST": "Move list not available during placement phase for the freestyle variant. Click on the board to place the pieces."
         },
         "twixt": {
             "CORNER": "You may not place a peg at the corner of the board.",

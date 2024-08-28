@@ -35,7 +35,7 @@ export class MajoritiesGame extends GameBase {
         uid: "majorities",
         playercounts: [2],
         version: "20240720",
-        dateAdded: "2024-08-07",
+        dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.majorities")
         description: "apgames:descriptions.majorities",
         urls: ["https://boardgamegeek.com/boardgame/84153/majorities"],
@@ -53,7 +53,7 @@ export class MajoritiesGame extends GameBase {
             { uid: "capture" },
         ],
         categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["experimental", "scores"],
+        flags: ["scores"],
     };
 
     public coords2algebraic(x: number, y: number): string {

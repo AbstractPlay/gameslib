@@ -85,7 +85,11 @@ export class SpreeGame extends GameBase {
 
     private coords2algebraic2(x: number, y: number, layer: number): string {
         // The same as coords2algebraic, but with concatenated layer index.
-        return `${layer + 1}${this.coords2algebraic(x, y)}`;
+        try {
+            return `${layer + 1}${this.coords2algebraic(x, y)}`;
+        } catch {
+            return "";
+        }
     }
 
     private algebraic2coords2(cell: string): [number, number, number] {

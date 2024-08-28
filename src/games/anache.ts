@@ -974,7 +974,7 @@ export class AnacheGame extends GameBase {
                     const x2 = xL - dx;
                     const y2 = yL - dy;
                     if (x2 < 0 || x2 >= this.boardSize || y2 < 0 || y2 >= this.boardSize) { break; }
-                    if (board.get(this.coords2algebraic(x2, x2)) !== player) { break; }
+                    if (board.get(this.coords2algebraic(x2, y2)) !== player) { break; }
                     xL = x2;
                     yL = y2;
                 }

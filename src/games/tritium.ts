@@ -24,6 +24,7 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
     preparedflags: number[];
     remainingtiles: number[];
+    selected?: string;
 };
 
 export interface ITritiumState extends IAPGameState {
@@ -76,6 +77,7 @@ export class TritiumGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public preparedflags: number[] = [];
     public remainingtiles: number[] = [];
+    public selected?: string;
 
     public applyVariants(variants?: string[]) {
         this.variants = (variants !== undefined) ? [...variants] : [];
@@ -139,6 +141,7 @@ export class TritiumGame extends GameBase {
         this.lastmove = state.lastmove;
         this.preparedflags = [...state.preparedflags];
         this.remainingtiles = [...state.remainingtiles];
+        this.selected = state.selected;
 
         return this;
     }
@@ -260,6 +263,7 @@ export class TritiumGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.tritium.INITIAL_INSTRUCTIONS")
             return result;
         }
@@ -273,6 +277,7 @@ export class TritiumGame extends GameBase {
         if (tilecolors.includes(m) || m === "flag") {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.tritium.INITIAL_INSTRUCTIONS2")
             return result;
         }
@@ -317,22 +322,30 @@ export class TritiumGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false} = {}): TritiumGame {
+    public move(m: string, {partial = false, trusted = false} = {}): TritiumGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        if (! trusted) {
+        if (!trusted) {
             const result = this.validateMove(m);
-            if (! result.valid) {
+            if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m)) {
+            if (!partial && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
 
         this.results = [];
+
+        if (m.length === 0) { return this; }
+        if (partial) {
+            this.selected = m;
+            this.results.push({ type: "select", what: this.selected });
+            return this;
+        }
+        this.selected = undefined;
 
         const parts = m.split("-");
         const piece = parts[0];
@@ -421,7 +434,8 @@ export class TritiumGame extends GameBase {
             lastmove: this.lastmove,
             board: deepclone(this.board) as Map<string, cellcontent>,
             preparedflags: [...this.preparedflags],
-            remainingtiles: [...this.remainingtiles]
+            remainingtiles: [...this.remainingtiles],
+            selected: this.selected
         };
         return state;
     }
@@ -451,24 +465,32 @@ export class TritiumGame extends GameBase {
         // Side bar
 
         const sidebar = [];
-        const tiles: Glyph[][] = [];
-        tiles.push([]);
+        const key: Glyph[][] = [];
+        key.push([]);
 
         for(let i = 1; i <= 3; i++) {
-            tiles.push([
+            const selected = this.selected === tilecolors[i];
+            key.push([
+                {name: "piece-borderless", colour: "#ff0", scale: 1.2, opacity: selected ? 1 : 0},
                 {name: "hex-pointy", colour: "#fff"},
                 {name: "hex-pointy", colour: tilecolorscodes[i], opacity: tileopacity},
                 {text: this.remainingtiles[i].toString(), scale: 0.75}
             ]);
 
             if (this.remainingtiles[i] > 0) {
-                sidebar.push({name: "", piece: `K${i}`, value: tilecolors[i]});
+                sidebar.push({name: "", piece: `KT${i}`, value: tilecolors[i]});
             }
         }
 
         for(const p of [1,2]) {
+            const selected = this.selected === "flag" && this.currplayer === p;
+            key.push([
+                {name: "piece-borderless", colour: "#ff0", scale: 1.2, opacity: selected ? 1 : 0},
+                {name: "piece", scale: 0.3, colour: p}
+            ]);
+
             for(let i = 1; i <= this.preparedflags[p]; i++) {
-                sidebar.push({name: "", piece: `P${p}`, value: `flag${p}`});
+                sidebar.push({name: "", piece: `KF${p}`, value: `flag${p}`});
             }
         }
 
@@ -506,9 +528,11 @@ export class TritiumGame extends GameBase {
                 ],
                 P1: {name: "piece", scale: 0.3, colour: 1},
                 P2: {name: "piece", scale: 0.3, colour: 2},
-                K1: tiles[1] as [Glyph, ...Glyph[]],
-                K2: tiles[2] as [Glyph, ...Glyph[]],
-                K3: tiles[3] as [Glyph, ...Glyph[]],
+                KT1: key[1] as [Glyph, ...Glyph[]],
+                KT2: key[2] as [Glyph, ...Glyph[]],
+                KT3: key[3] as [Glyph, ...Glyph[]],
+                KF1: key[4] as [Glyph, ...Glyph[]],
+                KF2: key[5] as [Glyph, ...Glyph[]]
             },
             pieces: pstr as [string[][], ...string[][][]],
             areas: [

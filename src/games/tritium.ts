@@ -25,7 +25,6 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
     preparedflags: number[];
     remainingtiles: number[];
-    selected?: string;
 };
 
 export interface ITritiumState extends IAPGameState {
@@ -142,7 +141,6 @@ export class TritiumGame extends GameBase {
         this.lastmove = state.lastmove;
         this.preparedflags = [...state.preparedflags];
         this.remainingtiles = [...state.remainingtiles];
-        this.selected = state.selected;
 
         return this;
     }
@@ -343,7 +341,6 @@ export class TritiumGame extends GameBase {
         if (m.length === 0) { return this; }
         if (partial) {
             this.selected = m;
-            this.results.push({ type: "select", what: this.selected });
             return this;
         }
         this.selected = undefined;
@@ -435,8 +432,7 @@ export class TritiumGame extends GameBase {
             lastmove: this.lastmove,
             board: deepclone(this.board) as Map<string, cellcontent>,
             preparedflags: [...this.preparedflags],
-            remainingtiles: [...this.remainingtiles],
-            selected: this.selected
+            remainingtiles: [...this.remainingtiles]
         };
         return state;
     }

@@ -147,6 +147,7 @@ import { MajoritiesGame, IMajoritiesState } from "./majorities";
 import { BukuGame, IBukuState } from "./buku";
 import { TritiumGame, ITritiumState } from "./tritium";
 import { CamelotGame, ICamelotState } from "./camelot";
+import { LifelineGame, ILifelineState } from "./lifeline";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -296,6 +297,7 @@ export {
     BukuGame, IBukuState,
     TritiumGame, ITritiumState,
     CamelotGame, ICamelotState,
+    LifelineGame, ILifelineState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -347,7 +349,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VoloGame | typeof StrandsGame | typeof GonnectGame |
                               typeof BugGame | typeof DragonEyesGame | typeof AtaxxGame |
                               typeof MajoritiesGame | typeof BukuGame | typeof TritiumGame |
-                              typeof CamelotGame
+                              typeof CamelotGame | typeof LifelineGame
                 >();
 // Manually add each game to the following array
 [
@@ -371,7 +373,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
-    MajoritiesGame, BukuGame, TritiumGame, CamelotGame,
+    MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -675,6 +677,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TritiumGame(...args);
         case "camelot":
             return new CamelotGame(...args);
+        case "lifeline":
+            return new LifelineGame(...args);
     }
     return;
 }

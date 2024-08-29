@@ -1201,6 +1201,24 @@ export class CamelotGame extends GameBase {
             }
         }
 
+        if (this.variants.includes("anti")) {
+            // Add flood markers on all empty non-special cells.
+            const tint: RowCol[] = [];
+            for (let row = 0; row < this.height; row++) {
+                for (let col = 0; col < this.width; col++) {
+                    const cell = this.coords2algebraic(col, row);
+                    if (this.castleCells[0].includes(cell)) { continue; }
+                    if (this.castleCells[1].includes(cell)) { continue; }
+                    if (this.blockedCells.includes(cell)) { continue; }
+                    if (this.riverCells.includes(cell)) { continue; }
+                    if (this.bridgeCells.includes(cell)) { continue; }
+                    const [x, y] = this.algebraic2coords(cell);
+                    tint.push({ row: y, col: x });
+                }
+            }
+            markers.push({ type: "flood", colour: "#FFA500", opacity: 0.1, points: tint as [RowCol, ...RowCol[]] });
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {

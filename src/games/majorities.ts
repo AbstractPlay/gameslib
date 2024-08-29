@@ -801,6 +801,16 @@ export class MajoritiesGame extends GameBase {
             markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes as [RowCol, ...RowCol[]] });
         }
 
+        if (this.variants.includes("capture")) {
+            const tint: RowCol[] = [];
+            for (const cell of this.graph.listCells() as string[]) {
+                if (this.holes.includes(cell)) { continue; }
+                const [x, y] = this.algebraic2coords(cell);
+                tint.push({ row: y + 1, col: x + 1 });
+            }
+            markers.push({ type: "flood", colour: "#FFA500", opacity: 0.1, points: tint as [RowCol, ...RowCol[]] });
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             options: ["hide-labels"],

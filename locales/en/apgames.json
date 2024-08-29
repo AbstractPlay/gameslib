@@ -741,6 +741,17 @@
                 "name": "Toroidal 15x15 board"
             }
         },
+        "lifeline": {
+            "size-5": {
+                "name": "Learning board (size 5)"
+            },
+            "size-10": {
+                "name": "Large board (size 10)"
+            },
+            "size-12": {
+                "name": "Very large board (size 12)"
+            }
+        },
         "loa": {
             "classic": {
                 "name": "Classic 8x8 board"
@@ -1592,6 +1603,11 @@
             },
             "tiebreaker": {
                 "name": "no tiebreak"
+            }
+        },
+        "lifeline": {
+            "board": {
+                "name": "Standard board (size 7)"
             }
         },
         "loa": {

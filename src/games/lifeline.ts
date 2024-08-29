@@ -43,12 +43,8 @@ export class LifelineGame extends GameBase {
         flags: ["experimental"],
         categories: ["goal>annihilating", "mechanic>place","board>shape>hex"],
         variants: [
-            {uid: "size-6", group: "board"},
-            {uid: "size-7", group: "board"},
-            {uid: "size-8", group: "board"},
-            {uid: "size-9", group: "board"},
+            {uid: "size-5", group: "board"},
             {uid: "size-10", group: "board"},
-            {uid: "size-11", group: "board"},
             {uid: "size-12", group: "board"},
         ]
     };
@@ -63,7 +59,7 @@ export class LifelineGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public boardsize = 5;
+    public boardsize = 7;
     public graph: HexTriGraph = this.getGraph();
     public gameover = false;
     public winner: playerid[] = [];

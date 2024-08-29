@@ -178,7 +178,7 @@ export class LifelineGame extends GameBase {
 
         if (this.board.has(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
             return result;
         }
 

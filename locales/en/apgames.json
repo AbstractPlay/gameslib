@@ -3068,6 +3068,9 @@
             "PARTIAL": "Select a destination.",
             "TOOFAR": "You cannot bear off from here."
         },
+        "lifeline": {
+            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece."
+        },
         "loa": {
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",

@@ -41,7 +41,16 @@ export class LifelineGame extends GameBase {
             }
         ],
         flags: ["experimental"],
-        categories: ["goal>annihilating", "mechanic>place","board>shape>hex"]
+        categories: ["goal>annihilating", "mechanic>place","board>shape>hex"],
+        variants: [
+            {uid: "size-6", group: "board"},
+            {uid: "size-7", group: "board"},
+            {uid: "size-8", group: "board"},
+            {uid: "size-9", group: "board"},
+            {uid: "size-10", group: "board"},
+            {uid: "size-11", group: "board"},
+            {uid: "size-12", group: "board"},
+        ]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -62,9 +71,24 @@ export class LifelineGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
-    constructor(state?: ILifelineState | string) {
+    public applyVariants(variants?: string[]) {
+        this.variants = (variants !== undefined) ? [...variants] : [];
+        for(const v of this.variants) {
+            if(v.startsWith("size")) {
+                const [,size] = v.split("-");
+                this.boardsize = parseInt(size, 10);
+                this.graph = this.getGraph();
+                break;
+            }
+        }
+    }
+
+    constructor(state?: ILifelineState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+
+            this.applyVariants(variants);
+
             const fresh: IMoveState = {
                 _version: LifelineGame.gameinfo.version,
                 _results: [],
@@ -82,7 +106,7 @@ export class LifelineGame extends GameBase {
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.variants = state.variants;
+            this.applyVariants(state.variants);
             this.stack = [...state.stack];
         }
         this.load();

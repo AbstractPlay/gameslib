@@ -149,10 +149,13 @@ export class LifelineGame extends GameBase {
         return this;
     }
 
+    public isFirstTurn(): boolean {
+        return this.stack.length <= 2;
+    }
+
     public getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
     }
-
 
     public updateRegions() {
 
@@ -232,11 +235,15 @@ export class LifelineGame extends GameBase {
     public moves(): string[] {
         if (this.gameover) { return []; }
 
-        const moves = [];
-        for (const cell of this.graph.listCells(false) as string[]) {
-            if (!this.board.has(cell)) {
-                moves.push(cell);
-            }
+        const empties = (this.graph.listCells(false) as string[]).filter(c => !this.board.has(c));
+
+        let moves = [...empties];
+
+        if (this.isFirstTurn()) {
+            moves = moves
+                .flatMap(c => empties.map(e => [c,e]))
+                .filter(m => m[0] !== m[1])
+                .map(m => m.join(","));
         }
 
         return moves;
@@ -249,9 +256,18 @@ export class LifelineGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const newmove = this.coords2algebraic(col, row);
+            const newcell = this.coords2algebraic(col, row);
+            let cells = (move === "") ? [] : move.split(",");
+
+            if (this.isFirstTurn() && cells.length < 2) {
+                cells.push(newcell);
+            } else {
+                cells = [newcell];
+            }
+
+            const newmove = cells.join(",");
             const result = this.validateMove(newmove) as IClickResult;
-            if (! result.valid) {
+            if (!result.valid) {
                 result.move = "";
             } else {
                 result.move = newmove;
@@ -276,49 +292,77 @@ export class LifelineGame extends GameBase {
             return result;
         }
 
-        if (this.board.has(m)) {
+        const cells = m.split(",");
+
+        for (const cell of cells) {
+
+            if (!this.graph.graph.hasNode(cell)) {
+
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                return result
+            }
+
+            if (this.board.has(cell)) {
+
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NON_EMPTY", {cell});
+                return result;
+            }
+
+            // TODO: incursions forbidden
+        }
+
+        if (this.isFirstTurn() && cells.length === 1) {
+
+            result.valid = true;
+            result.complete = -1;
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.lifeline.SECOND_PIECE")
+            return result;
+
+        } else if (cells.length > (this.isFirstTurn() ? 2 : 1)) {
+
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: m});
+            result.message = i18next.t("apgames:validation.lifeline.TOO_MANY_PIECES");
             return result;
         }
 
         // Looks good
+
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
 
-    /**
-     * This is where you actually execute a move. You can use `validateMove()` and `moves()` to make triple sure you've received a valid move, and that frees you from excessive error checking and handling in your execution code. More comments below.
-     */
-    public move(m: string, {trusted = false} = {}): LifelineGame {
+    public move(m: string, {partial = false, trusted = false} = {}): LifelineGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        /**
-         * This validates the move and then does a failsafe check to make sure the move is also found by the move generator. You don't necessarily need both, but it's useful when first testing a game.
-         */
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        // The front end often needs to make moves that it knows are valid, so to save time, it can pass `trusted: true` to skip the validation step.
-        if (! trusted) {
+        if (!trusted) {
             const result = this.validateMove(m);
-            if (! result.valid) {
+            if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m)) {
+            if (!partial && !this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
-
-        const cell = m;
-
         this.results = [];
-        this.board.set(cell, this.currplayer);
-        this.results.push({type: "place", where: cell});
+
+        const cells = m.split(",");
+
+        for(const cell of cells) {
+            this.board.set(cell, this.currplayer);
+            this.results.push({type: "place", where: cell});
+        }
+
+        if (partial) { return this; }
 
         this.updateRegions();
 

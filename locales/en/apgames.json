@@ -3069,7 +3069,9 @@
             "TOOFAR": "You cannot bear off from here."
         },
         "lifeline": {
-            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece."
+            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
+            "SECOND_PIECE": "Place a second piece for your first turn.",
+            "TOO_MANY_PIECES": "Too many pieces."
         },
         "loa": {
             "BAD_PASS": "You may not pass if legal moves are available.",

@@ -540,6 +540,21 @@ export class LifelineGame extends GameBase {
             }
         }
 
+        // Last move
+
+        rep.annotations = [];
+        for (const move of this.stack.at(-1)!._results) {
+            if (move.type === "place") {
+                const [x, y] = this.graph.algebraic2coords(move.where!);
+                rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+            } else if (move.type === "capture") {
+                for (const cell of move.where!.split(",")) {
+                    const [x, y] = this.graph.algebraic2coords(cell);
+                    rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
+                }
+            }
+        }
+
         return rep;
     }
 

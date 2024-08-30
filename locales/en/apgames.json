@@ -762,7 +762,7 @@
             },
             "capture": {
                 "name": "Capture",
-                "description": "Capture variant proposed by Luis Bolaños Mures. After each placement, all pieces in claimed lines are removed."
+                "description": "Capture variant proposed by Luis Bolaños Mures. After each placement, all pieces in claimed lines are removed. In the original proposal, Luis suggests this variant be used with the no-blocked-cells variant."
             }
         },
         "margo": {

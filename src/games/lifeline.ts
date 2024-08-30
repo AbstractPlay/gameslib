@@ -332,7 +332,7 @@ export class LifelineGame extends GameBase {
             if (this.board.has(cell)) {
 
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED", {cell});
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
                 return result;
             }
 
@@ -362,7 +362,7 @@ export class LifelineGame extends GameBase {
 
         } else if (cells.length === 2 && cells[0] === cells[1]) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.OCCUPIED", {cell: cells[0]});
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cells[0]});
             return result;
         }
 

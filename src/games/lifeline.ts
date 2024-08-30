@@ -422,6 +422,30 @@ export class LifelineGame extends GameBase {
     }
 
     protected checkEOG(): LifelineGame {
+
+        if (this.isFirstTurn()) { return this; }
+
+        const regionCounts = [0,0,0];
+        for(const region of this.regions) {
+            if (region.owner !== undefined) {
+                regionCounts[region.owner]++;
+            }
+        }
+
+        // currPlayer already changed in move(), so it's the next player
+        // Check first if the next player can play or not
+        if (regionCounts[this.currplayer] === 0) {
+            this.gameover = true;
+            this.winner = [this.otherPlayer()];
+        }
+
+        // If not, check if the previous player just committed suicide
+        // No need to have one more turn if we know already that it's gameover one turn after
+        else if (regionCounts[this.otherPlayer()] === 0) {
+            this.gameover = true;
+            this.winner = [this.currplayer];
+        }
+
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},
@@ -513,7 +537,8 @@ export class LifelineGame extends GameBase {
                 node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
                 resolved = true;
                 break;
-            case "move":
+            case "capture":
+                node.push(i18next.t("apresults:CAPTURE.lifeline", {where: r.where}));
                 resolved = true;
                 break;
         }

@@ -241,6 +241,20 @@ export class LifelineGame extends GameBase {
         return region.owner === undefined && region.neighbourCounts[player] > 0;
     }
 
+    public removeDead(player: playerid): string[] {
+        const dead = [];
+        for(const region of this.regions) {
+            if (region.owner === player && !region.alive) {
+                for(const cell of region.cells) {
+                    this.board.delete(cell);
+                    dead.push(cell);
+                }
+            }
+        }
+
+        return dead;
+    }
+
     public moves(): string[] {
         if (this.gameover) { return []; }
 
@@ -345,6 +359,11 @@ export class LifelineGame extends GameBase {
             result.valid = false;
             result.message = i18next.t("apgames:validation.lifeline.TOO_MANY_PIECES");
             return result;
+
+        } else if (cells.length === 2 && cells[0] === cells[1]) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.OCCUPIED", {cell: cells[0]});
+            return result;
         }
 
         // Looks good
@@ -384,6 +403,15 @@ export class LifelineGame extends GameBase {
         if (partial) { return this; }
 
         this.updateRegions();
+        const enemyDead = this.removeDead(this.otherPlayer());
+        if (enemyDead.length > 0 ) { this.updateRegions(); }
+        const friendlyDead = this.removeDead(this.currplayer);
+        if (friendlyDead.length > 0) { this.updateRegions(); }
+
+        const allDead = [...enemyDead, ...friendlyDead];
+        if (allDead.length > 0) {
+            this.results.push({type: "capture", where: allDead.join(",")});
+        }
 
         this.lastmove = m;
         this.currplayer = this.otherPlayer();

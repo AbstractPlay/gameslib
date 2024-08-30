@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -513,6 +513,32 @@ export class LifelineGame extends GameBase {
             },
             pieces: pstr as [string[][], ...string[][][]]
         };
+
+        // Controlled regions
+
+        if (!this.isFirstTurn()) {
+            const markers: MarkerDots[] = [];
+            for(const region of this.regions) {
+
+                if (region.owner !== undefined) { continue; }
+                let controller: playerid | undefined;
+
+                if (region.neighbourCounts[1] > 0 && region.neighbourCounts[2] === 0) { controller = 1; }
+                else if (region.neighbourCounts[2] > 0 && region.neighbourCounts[1] === 0) { controller = 2; }
+
+                if (controller !== undefined) {
+                    const points = region.cells
+                        .map(c => this.algebraic2coords(c))
+                        .map(p => ({col: p[0], row: p[1]}));
+
+                    markers.push({type: "dots", points: points as [RowCol, ...RowCol[]], colour: controller });
+                }
+            }
+
+            if (markers.length > 0) {
+                (rep.board as BoardBasic).markers = markers;
+            }
+        }
 
         return rep;
     }

@@ -43,6 +43,7 @@
         "hens_chick": "{{player}} captured a chick at {{where}}.",
         "hens_hen": "{{player}} captured a hen at {{where}}.",
         "hexentafl_king": "The king was captured at {{where}}.",
+        "lifeline": "Dead pieces were removed at {{where}}.",
         "majorities": "{{count}} pieces were removed.",
         "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
         "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",

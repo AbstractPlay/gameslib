@@ -643,7 +643,7 @@ export class BukuGame extends GameBase {
             const pieceCounts = this.pieceCounts();
             this.gameover = true;
             this.scores[0] += pieceCounts[0];
-            this.scores[0] += pieceCounts[1];
+            this.scores[1] += pieceCounts[1];
             this.results.push({ type: "eog", reason: "singletons" });
             this.results.push({ type: "claim", count: pieceCounts[0], who: 1, how: "singletons" });
             this.results.push({ type: "claim", count: pieceCounts[1], who: 2, how: "singletons" });

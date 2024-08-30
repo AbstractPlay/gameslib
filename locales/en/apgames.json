@@ -3071,7 +3071,8 @@
         "lifeline": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
             "SECOND_PIECE": "Place a second piece for your first turn.",
-            "TOO_MANY_PIECES": "Too many pieces."
+            "TOO_MANY_PIECES": "Too many pieces.",
+            "INCURSION": "The cell at {{cell}} has no path to a friendly group."
         },
         "loa": {
             "BAD_PASS": "You may not pass if legal moves are available.",

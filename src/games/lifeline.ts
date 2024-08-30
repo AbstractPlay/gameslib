@@ -11,11 +11,11 @@ export type Region = {
     cells: string[],
     owner?: playerid,
     neighbours: Set<Region>,
-    neighbourCounts: number[],  // Computed only for empty regions
-    alive: boolean              // Valid only for player regions
+    neighbourCounts: number[],   // Computed only for empty regions
+    alive: boolean,              // Valid only for player regions
 };
 
-const newRegion = (cells: string[], owner?: playerid) => {
+const newRegion = (cells: string[], owner?: playerid): Region => {
     return {
         cells,
         owner,
@@ -153,6 +153,10 @@ export class LifelineGame extends GameBase {
         return this.stack.length <= 2;
     }
 
+    public otherPlayer(): playerid {
+        return this.currplayer === 1 ? 2 : 1;
+    }
+
     public getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
     }
@@ -188,7 +192,7 @@ export class LifelineGame extends GameBase {
         }
 
         // Find neighbouring regions
-        // Precompute the counts of adjacent player regions for empty ones
+        // For empty ones: precompute the counts of adjacent player regions
 
         for (const region of regions) {
             for (const cell of region.cells) {
@@ -232,6 +236,11 @@ export class LifelineGame extends GameBase {
         this.regions = regions;
     }
 
+    public hasPathToGroup(cell: string, player: playerid) {
+        const region = this.cellToRegion.get(cell)!;
+        return region.owner === undefined && region.neighbourCounts[player] > 0;
+    }
+
     public moves(): string[] {
         if (this.gameover) { return []; }
 
@@ -244,6 +253,9 @@ export class LifelineGame extends GameBase {
                 .flatMap(c => empties.map(e => [c,e]))
                 .filter(m => m[0] !== m[1])
                 .map(m => m.join(","));
+        }
+        else {
+            moves = moves.filter(c => this.hasPathToGroup(c, this.currplayer));
         }
 
         return moves;
@@ -306,11 +318,18 @@ export class LifelineGame extends GameBase {
             if (this.board.has(cell)) {
 
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.NON_EMPTY", {cell});
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {cell});
                 return result;
             }
 
-            // TODO: incursions forbidden
+            // After the first turn, forbid incursions (placing a stone in a region only adjacent
+            // to the enemy), since that would cause that single stone to be removed, which is illegal.
+
+            if (!this.isFirstTurn() && !this.hasPathToGroup(cell, this.currplayer)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.lifeline.INCURSION", {cell});
+                return result;
+            }
         }
 
         if (this.isFirstTurn() && cells.length === 1) {
@@ -367,7 +386,7 @@ export class LifelineGame extends GameBase {
         this.updateRegions();
 
         this.lastmove = m;
-        this.currplayer = this.currplayer === 1 ? 2 : 1;
+        this.currplayer = this.otherPlayer();
 
         this.checkEOG();
         this.saveState();

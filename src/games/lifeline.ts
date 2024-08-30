@@ -4,8 +4,27 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
+import { connectedComponents } from "graphology-components";
 
 export type playerid = 1|2;
+export type Region = {
+    cells: string[],
+    owner?: playerid,
+    neighbours: Set<Region>,
+    neighbourCounts: number[],  // Computed only for empty regions
+    alive: boolean              // Valid only for player regions
+};
+
+const newRegion = (cells: string[], owner?: playerid) => {
+    return {
+        cells,
+        owner,
+        neighbours: new Set<Region>(),
+        neighbourCounts: [0,0,0],
+        alive: false
+    };
+}
+
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -67,6 +86,9 @@ export class LifelineGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
+    public regions!: Region[];
+    public cellToRegion!: Map<string, Region>;
+
     public applyVariants(variants?: string[]) {
         this.variants = (variants !== undefined) ? [...variants] : [];
         for(const v of this.variants) {
@@ -122,11 +144,89 @@ export class LifelineGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
 
+        this.updateRegions();
+
         return this;
     }
 
     public getGraph(): HexTriGraph {
         return new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
+    }
+
+
+    public updateRegions() {
+
+        // Find all regions on the board
+
+        const emptyGraph = this.getGraph();
+        const p1Graph = this.getGraph();
+        const p2Graph = this.getGraph();
+
+        for (const cell of this.graph.graph.nodes()) {
+            const owner = this.board.get(cell);
+            if (owner !== undefined) { emptyGraph.graph.dropNode(cell); }
+            if (owner !== 1) { p1Graph.graph.dropNode(cell); }
+            if (owner !== 2) { p2Graph.graph.dropNode(cell); }
+        }
+
+        const regions = [
+            ...connectedComponents(emptyGraph.graph).map(r => newRegion(r, undefined)),
+            ...connectedComponents(p1Graph.graph).map(r => newRegion(r, 1)),
+            ...connectedComponents(p2Graph.graph).map(r => newRegion(r, 2))
+        ];
+
+        // Map cells to regions
+
+        const cellToRegion = new Map<string, Region>();
+        for (const region of regions) {
+            for (const cell of region.cells) {
+                cellToRegion.set(cell, region);
+            }
+        }
+
+        // Find neighbouring regions
+        // Precompute the counts of adjacent player regions for empty ones
+
+        for (const region of regions) {
+            for (const cell of region.cells) {
+                for (const neighbour of this.graph.neighbours(cell)) {
+                    const neighbourRegion = cellToRegion.get(neighbour)!;
+
+                    if (neighbourRegion !== region) {
+                        region.neighbours.add(neighbourRegion);
+                        neighbourRegion.neighbours.add(region);
+                    }
+                }
+            }
+
+            if (region.owner === undefined) {
+                for (const neighbour of region.neighbours) {
+                    if (neighbour.owner !== undefined) {
+                        region.neighbourCounts[neighbour.owner]++;
+                    }
+                }
+            }
+        }
+
+        // Mark alive groups: a group of player stones is alive iff:
+        // It has a neighbouring empty region which itself has at least 2
+        // neighbour groups belonging to that player (the one we're checking,
+        // and at least another).
+
+        for (const region of regions) {
+            if (region.owner === undefined) { continue; }
+
+            region.alive = false;
+            for(const neighbour of region.neighbours) {
+                if (neighbour.owner === undefined && neighbour.neighbourCounts[region.owner] >= 2) {
+                    region.alive = true;
+                    break;
+                }
+            }
+        }
+
+        this.cellToRegion = cellToRegion;
+        this.regions = regions;
     }
 
     public moves(): string[] {
@@ -219,6 +319,8 @@ export class LifelineGame extends GameBase {
         this.results = [];
         this.board.set(cell, this.currplayer);
         this.results.push({type: "place", where: cell});
+
+        this.updateRegions();
 
         this.lastmove = m;
         this.currplayer = this.currplayer === 1 ? 2 : 1;

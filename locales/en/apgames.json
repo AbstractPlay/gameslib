@@ -3071,6 +3071,7 @@
         "lifeline": {
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
             "SECOND_PIECE": "Place a second piece for your first turn.",
+            "ADJACENT": "Your second piece cannot be adjacent to your first (immediate loss).",
             "TOO_MANY_PIECES": "Too many pieces.",
             "INCURSION": "The cell at {{cell}} has no path to a friendly group."
         },

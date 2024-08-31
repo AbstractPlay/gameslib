@@ -191,10 +191,15 @@ export class LifelineGame extends GameBase {
             }
         }
 
+        // For empty regions (potential lifelines):
         // Find neighbouring regions
-        // For empty ones: precompute the counts of adjacent player regions
+        // Compute the counts of adjacent player regions
+        // Mark alive groups around it
 
         for (const region of regions) {
+
+            if (region.owner !== undefined) { continue; }
+
             for (const cell of region.cells) {
                 for (const neighbour of this.graph.neighbours(cell)) {
                     const neighbourRegion = cellToRegion.get(neighbour)!;
@@ -206,28 +211,16 @@ export class LifelineGame extends GameBase {
                 }
             }
 
-            if (region.owner === undefined) {
-                for (const neighbour of region.neighbours) {
-                    if (neighbour.owner !== undefined) {
-                        region.neighbourCounts[neighbour.owner]++;
-                    }
-                }
+            for (const neighbour of region.neighbours) {
+                region.neighbourCounts[neighbour.owner!]++;
             }
-        }
 
-        // Mark alive groups: a group of player stones is alive iff:
-        // It has a neighbouring empty region which itself has at least 2
-        // neighbour groups belonging to that player (the one we're checking,
-        // and at least another).
+            // If there are at least two neighbour regions of a certain color,
+            // they are alive.
 
-        for (const region of regions) {
-            if (region.owner === undefined) { continue; }
-
-            region.alive = false;
-            for(const neighbour of region.neighbours) {
-                if (neighbour.owner === undefined && neighbour.neighbourCounts[region.owner] >= 2) {
-                    region.alive = true;
-                    break;
+            for (const neighbour of region.neighbours) {
+                if (region.neighbourCounts[neighbour.owner!] >= 2) {
+                    neighbour.alive = true;
                 }
             }
         }
@@ -265,7 +258,7 @@ export class LifelineGame extends GameBase {
         if (this.isFirstTurn()) {
             moves = moves
                 .flatMap(c => empties.map(e => [c,e]))
-                .filter(m => m[0] !== m[1])
+                .filter(m => m[0] < m[1] && !this.graph.neighbours(m[0]).includes(m[1]))
                 .map(m => m.join(","));
         }
         else {
@@ -287,6 +280,7 @@ export class LifelineGame extends GameBase {
 
             if (this.isFirstTurn() && cells.length < 2) {
                 cells.push(newcell);
+                cells.sort();
             } else {
                 cells = [newcell];
             }
@@ -363,6 +357,10 @@ export class LifelineGame extends GameBase {
         } else if (cells.length === 2 && cells[0] === cells[1]) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cells[0]});
+            return result;
+        } else if (cells.length === 2 && this.graph.neighbours(cells[0]).includes(cells[1])) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.lifeline.ADJACENT");
             return result;
         }
 

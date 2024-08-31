@@ -212,9 +212,7 @@ export class LifelineGame extends GameBase {
             }
 
             for (const neighbour of region.neighbours) {
-                if (neighbour.owner !== undefined) {
-                    region.neighbourCounts[neighbour.owner]++;
-                }
+                region.neighbourCounts[neighbour.owner!]++;
             }
 
             // If there are at least two neighbour regions of a certain color,

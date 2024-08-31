@@ -191,10 +191,15 @@ export class LifelineGame extends GameBase {
             }
         }
 
+        // For empty regions (potential lifelines):
         // Find neighbouring regions
-        // For empty ones: precompute the counts of adjacent player regions
+        // Compute the counts of adjacent player regions
+        // Mark alive groups around it
 
         for (const region of regions) {
+
+            if (region.owner !== undefined) { continue; }
+
             for (const cell of region.cells) {
                 for (const neighbour of this.graph.neighbours(cell)) {
                     const neighbourRegion = cellToRegion.get(neighbour)!;
@@ -206,28 +211,18 @@ export class LifelineGame extends GameBase {
                 }
             }
 
-            if (region.owner === undefined) {
-                for (const neighbour of region.neighbours) {
-                    if (neighbour.owner !== undefined) {
-                        region.neighbourCounts[neighbour.owner]++;
-                    }
+            for (const neighbour of region.neighbours) {
+                if (neighbour.owner !== undefined) {
+                    region.neighbourCounts[neighbour.owner]++;
                 }
             }
-        }
 
-        // Mark alive groups: a group of player stones is alive iff:
-        // It has a neighbouring empty region which itself has at least 2
-        // neighbour groups belonging to that player (the one we're checking,
-        // and at least another).
+            // If there are at least two neighbour regions of a certain color,
+            // they are alive.
 
-        for (const region of regions) {
-            if (region.owner === undefined) { continue; }
-
-            region.alive = false;
-            for(const neighbour of region.neighbours) {
-                if (neighbour.owner === undefined && neighbour.neighbourCounts[region.owner] >= 2) {
-                    region.alive = true;
-                    break;
+            for (const neighbour of region.neighbours) {
+                if (region.neighbourCounts[neighbour.owner!] >= 2) {
+                    neighbour.alive = true;
                 }
             }
         }

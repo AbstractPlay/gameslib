@@ -265,7 +265,7 @@ export class LifelineGame extends GameBase {
         if (this.isFirstTurn()) {
             moves = moves
                 .flatMap(c => empties.map(e => [c,e]))
-                .filter(m => m[0] !== m[1])
+                .filter(m => m[0] < m[1] && !this.graph.neighbours(m[0]).includes(m[1]))
                 .map(m => m.join(","));
         }
         else {
@@ -287,6 +287,7 @@ export class LifelineGame extends GameBase {
 
             if (this.isFirstTurn() && cells.length < 2) {
                 cells.push(newcell);
+                cells.sort();
             } else {
                 cells = [newcell];
             }
@@ -363,6 +364,10 @@ export class LifelineGame extends GameBase {
         } else if (cells.length === 2 && cells[0] === cells[1]) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cells[0]});
+            return result;
+        } else if (cells.length === 2 && this.graph.neighbours(cells[0]).includes(cells[1])) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.lifeline.ADJACENT");
             return result;
         }
 

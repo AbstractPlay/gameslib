@@ -1611,7 +1611,7 @@
         },
         "lifeline": {
             "board": {
-                "name": "Standard board (size 7)"
+                "name": "board (size 7)"
             },
             "pie": {
                 "name": "No pie rule"

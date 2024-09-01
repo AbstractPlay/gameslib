@@ -750,6 +750,10 @@
             },
             "size-12": {
                 "name": "Very large board (size 12)"
+            },
+            "strong-pie": {
+                "name": "Strong pie",
+                "description": "The second player has the option, on their first turn only, to swap sides instead of making a regular move."
             }
         },
         "loa": {
@@ -1608,6 +1612,9 @@
         "lifeline": {
             "board": {
                 "name": "Standard board (size 7)"
+            },
+            "pie": {
+                "name": "No pie rule"
             }
         },
         "loa": {

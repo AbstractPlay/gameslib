@@ -59,12 +59,13 @@ export class LifelineGame extends GameBase {
                 urls: ["https://boardgamegeek.com/boardgamedesigner/47001/luis-bolanos-mures"],
             }
         ],
-        flags: ["experimental"],
+        flags: ["experimental", "pie"],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>capture","board>shape>hex", "components>simple>1per"],
         variants: [
             {uid: "size-5", group: "board"},
             {uid: "size-10", group: "board"},
             {uid: "size-12", group: "board"},
+            {uid: "strong-pie", group: "pie"},
         ]
     };
 
@@ -99,6 +100,14 @@ export class LifelineGame extends GameBase {
                 break;
             }
         }
+    }
+
+    public shouldOfferPie(): boolean {
+        return this.variants.includes("strong-pie");
+    }
+
+    public isPieTurn(): boolean {
+        return this.stack.length === 2;
     }
 
     constructor(state?: ILifelineState | string, variants?: string[]) {

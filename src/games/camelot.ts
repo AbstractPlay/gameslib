@@ -1018,7 +1018,7 @@ export class CamelotGame extends GameBase {
     }
 
     private materialEnd(): boolean {
-        // Check that both players have only one piece left.
+        // Check that both players have at most only one piece left.
         const pieces1 = [...this.board].filter(([, v]) => v[0] === 1).map(([k, ]) => k);
         if (pieces1.length > 1) { return false; }
         const pieces2 = [...this.board].filter(([, v]) => v[0] === 2).map(([k, ]) => k);
@@ -1057,16 +1057,16 @@ export class CamelotGame extends GameBase {
                 this.gameover = true;
                 this.winner = [otherPlayer];
                 this.results.push({ type: "eog", reason: "breakthrough" });
-            } else if (!this.hasMoves(this.currplayer)) {
-                // Player has run out of moves.
-                this.gameover = true;
-                this.winner = [otherPlayer];
-                this.results.push({ type: "eog", reason: "stalemate" });
             } else if (this.castleCells[0].length === 2 && this.materialEnd()) {
                 // Each player has one piece remaining so they cannot capture both castle cells.
                 this.gameover = true;
                 this.winner = [1, 2];
                 this.results.push({ type: "eog", reason: "material" });
+            } else if (!this.hasMoves(this.currplayer)) {
+                // Player has run out of moves.
+                this.gameover = true;
+                this.winner = [otherPlayer];
+                this.results.push({ type: "eog", reason: "stalemate" });
             }
         }
         if (this.gameover) {

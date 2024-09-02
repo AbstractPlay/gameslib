@@ -148,6 +148,7 @@ import { BukuGame, IBukuState } from "./buku";
 import { TritiumGame, ITritiumState } from "./tritium";
 import { CamelotGame, ICamelotState } from "./camelot";
 import { LifelineGame, ILifelineState } from "./lifeline";
+import { ShiftyGame, IShiftyState } from "./shifty";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -298,6 +299,7 @@ export {
     TritiumGame, ITritiumState,
     CamelotGame, ICamelotState,
     LifelineGame, ILifelineState,
+    ShiftyGame, IShiftyState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -349,7 +351,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof VoloGame | typeof StrandsGame | typeof GonnectGame |
                               typeof BugGame | typeof DragonEyesGame | typeof AtaxxGame |
                               typeof MajoritiesGame | typeof BukuGame | typeof TritiumGame |
-                              typeof CamelotGame | typeof LifelineGame
+                              typeof CamelotGame | typeof LifelineGame | typeof ShiftyGame
                 >();
 // Manually add each game to the following array
 [
@@ -373,7 +375,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
-    MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame
+    MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -679,6 +681,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CamelotGame(...args);
         case "lifeline":
             return new LifelineGame(...args);
+        case "shifty":
+            return new ShiftyGame(...args);
     }
     return;
 }

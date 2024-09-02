@@ -186,6 +186,7 @@ export class ShiftyGame extends GameBase {
     private hasMoves(player: playerid): boolean {
         // Check if a player has any moves.
         player ??= this.currplayer;
+        if (this.stack.length < 3) { return true; }
         for (let row = 0; row < this.boardSize; row++) {
             for (let col = 0; col < this.boardSize; col++) {
                 const cell = this.coords2algebraic(col, row);

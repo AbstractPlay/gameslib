@@ -111,6 +111,7 @@
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
+        "shifty": "A connection game where you either place a piece orthogonally adjacent to one of your pieces, or move one of your pieces like a chess queen. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
         "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
@@ -1069,6 +1070,11 @@
                 "name": "Board (25x25)"
             }
         },
+        "shifty": {
+            "size-13": {
+                "name": "13x13 board"
+            }
+        },
         "slither": {
             "13x13": {
                 "name": "13x13 board"
@@ -1722,6 +1728,11 @@
         "scaffold": {
             "board": {
                 "name": "board (19x19)"
+            }
+        },
+        "shifty": {
+            "board": {
+                "name": "9x9 board"
             }
         },
         "slither": {
@@ -3511,6 +3522,16 @@
             "INCOMPLETE": "You need to place stones to connect the groups.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
+        },
+        "shifty": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece next to one of your own pieces, or select a piece to move.",
+            "INITIAL_INSTRUCTIONS_OPENING": "Select an intersection to place your first piece.",
+            "INITIAL_INSTRUCTIONS_PASS":"You have no moves so you must pass.",
+            "INVALID_PASS": "You may not pass if you have any legal moves available.",
+            "CANNOT_PLACE": "You may not place at {{where}}. Placement must be orthogonally adjacent to one of your own pieces.",
+            "CROSSCUT": "You may not place at {{where}} because it creates a crosscut.",
+            "NO_TOS": "The selected piece at {{from}} has no possible destinations move to.",
+            "INVALID_DESTINATION": "The piece at {{from}} cannot move to {{to}}."
         },
         "slither": {
             "CANNOT_MOVE": "Advanced Slither: Movement only possible if a piece is part of a contiguous orthogonal group consisting of pieces of both colors.",

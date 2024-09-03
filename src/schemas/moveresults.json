@@ -33,6 +33,9 @@
                 "type": {
                     "enum": ["place"]
                 },
+                "how": {
+                    "type": "string"
+                },
                 "where": {
                     "type": "string"
                 },

@@ -95,24 +95,24 @@ export class HexSlantedGraph implements IGraph {
         let yNew = y;
         switch (direction) {
             case "NE":
-                yNew += dist;
+                yNew -= dist;
                 xNew += dist;
                 break;
             case "E":
                 xNew += dist;
                 break;
             case "SE":
-                yNew -= dist;
-                xNew += dist;
+                yNew += dist;
                 break;
             case "SW":
-                yNew -= dist;
+                yNew += dist;
+                xNew -= dist;
                 break;
             case "W":
                 xNew -= dist;
                 break;
             case "NW":
-                yNew += dist;
+                yNew -= dist;
                 break;
         }
         if (xNew < 0 || xNew >= this.width || yNew < 0 || yNew >= this.height) {

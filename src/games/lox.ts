@@ -33,8 +33,8 @@ export class LoxGame extends GameBase {
         playercounts: [2],
         version: "20240831",
         dateAdded: "2024-08-31",
-        // i18next.t("apgames:descriptions.lex")
-        description: "apgames:descriptions.lex",
+        // i18next.t("apgames:descriptions.lox")
+        description: "apgames:descriptions.lox",
         urls: ["https://www.mindsports.nl/index.php/the-pit/1212-lox"],
         people: [
             {

@@ -287,6 +287,7 @@ export class PodsGame extends GameBase {
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        if (this.gameover) return { move, valid: false, message: i18next.t("apgames:MOVES_GAMEOVER") };
         try {
             const cell = this.getGraph().coords2algebraic(col, row);
             const newMove = (move === "") ? cell : move+"-"+cell;
@@ -298,7 +299,7 @@ export class PodsGame extends GameBase {
                 move,
                 valid: false,
                 message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
-            }
+            };
         }
     }
 
@@ -531,11 +532,31 @@ export class PodsGame extends GameBase {
             pstr.push(pieces);
         }
 
+        let markers: Array<any> = [];
+        if (this.gameover) {
+            let colour1 = 1;
+            let colour2 = 2;
+            if (this.winner.length === 1 && this.winner[0] === 2) {
+                colour1 = 2;
+            } else if (this.winner.length === 1 && this.winner[0] === 1) {
+                colour2 = 1;
+            }
+            markers = [
+                { type: "edge", edge: "N", colour: colour1 },
+                { type: "edge", edge: "NW", colour: colour1 },
+                { type: "edge", edge: "NE", colour: colour1 },
+                { type: "edge", edge: "S", colour: colour2 },
+                { type: "edge", edge: "SW", colour: colour2 },
+                { type: "edge", edge: "SE", colour: colour2 }
+           ];
+        }
+
         const rep: APRenderRep = {
             board: {
                 style: "hex-of-hex",
                 minWidth: this.boardsize,
-                maxWidth: (this.boardsize * 2) - 1
+                maxWidth: (this.boardsize * 2) - 1,
+                markers: markers.length === 0 ? undefined : markers
             },
             legend: {
                 A: [{ name: "piece", colour: 1 }],

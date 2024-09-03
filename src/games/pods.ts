@@ -41,7 +41,7 @@ export class PodsGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>move", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["scores", "automove"],
+        flags: ["scores", "automove", "experimental"],
         displays: [{uid: "hide-influence"}]
     };
 

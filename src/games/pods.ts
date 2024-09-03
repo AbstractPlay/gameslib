@@ -303,7 +303,7 @@ export class PodsGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
-        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const result: IValidationResult = {valid: false, complete: -1, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (m.length === 0) {
             result.valid = true;

@@ -101,6 +101,7 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pletore": "Pletore is a territorial line-of-sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
+        "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
@@ -2050,6 +2051,12 @@
                 "name": "Hide threatened"
             }
         },
+        "pods": {
+            "hide-influence": {
+                "description": "Don't highlight parts of the board that cannot be accessed by the other player.",
+                "name": "Hide influence"
+            }
+        },
         "queensland": {
             "hide-scored": {
                 "description": "Don't highlight scored cells.",
@@ -3356,6 +3363,12 @@
             "INVALIDPIE": "You cannot accept or reject a pie offer now.",
             "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent."
+        },
+        "pods": {
+            "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space where you have more neighboring pieces, or select a piece to move around other pieces without passing through spaces controlled by the opponent.",
+            "FIRST_MOVE_INSTRUCTIONS": "Place a piece onto any empty space on the board.",
+            "INVALID_PLACEMENT": "You may only place a new piece onto an empty space where you have more neighboring pieces than your opponent.",
+            "INVALID_MOVEMENT": "You may only move your own pieces and you may only move them around other pieces without passing through enemy controlled spaces."
         },
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",

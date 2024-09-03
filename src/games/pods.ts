@@ -307,13 +307,12 @@ export class PodsGame extends GameBase {
         const result: IValidationResult = {valid: false, complete: -1, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         if (this.gameover) {
-            result.message = "";
+            result.message = i18next.t("apgames:MOVES_GAMEOVER");
             return result;
         }
 
         if (m.length === 0) {
             result.valid = true;
-            result.complete = -1;
             if (this.stack.length > 2) {
                 result.message = i18next.t("apgames:validation.pods.INITIAL_INSTRUCTIONS");
             } else {

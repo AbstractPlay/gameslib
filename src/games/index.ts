@@ -150,6 +150,8 @@ import { CamelotGame, ICamelotState } from "./camelot";
 import { LifelineGame, ILifelineState } from "./lifeline";
 import { ShiftyGame, IShiftyState } from "./shifty";
 import { PodsGame, IPodsState } from "./pods";
+import { LoxGame, ILoxState } from "./lox";
+import { QueryGame, IQueryState } from "./query";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -302,6 +304,8 @@ export {
     LifelineGame, ILifelineState,
     ShiftyGame, IShiftyState,
     PodsGame, IPodsState,
+    LoxGame, ILoxState,
+    QueryGame, IQueryState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -354,7 +358,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BugGame | typeof DragonEyesGame | typeof AtaxxGame |
                               typeof MajoritiesGame | typeof BukuGame | typeof TritiumGame |
                               typeof CamelotGame | typeof LifelineGame | typeof ShiftyGame |
-                              typeof PodsGame
+                              typeof PodsGame | typeof LoxGame | typeof QueryGame
                 >();
 // Manually add each game to the following array
 [
@@ -378,7 +382,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SpookGame, AyuGame, CalculusGame, StigmergyGame, PletoreGame, AnacheGame, SplineGame,
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
-    MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame,
+    MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
+    QueryGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -688,6 +693,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ShiftyGame(...args);
         case "pods":
             return new PodsGame(...args);
+        case "lox":
+            return new LoxGame(...args);
+        case "query":
+            return new QueryGame(...args);
     }
     return;
 }

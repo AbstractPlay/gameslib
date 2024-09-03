@@ -62,10 +62,10 @@ export class LifelineGame extends GameBase {
         flags: ["pie"],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>capture","board>shape>hex", "components>simple>1per"],
         variants: [
-            {uid: "size-5", group: "board"},
+            {uid: "size-6", group: "board"},
+            {uid: "size-7", group: "board"},
             {uid: "size-10", group: "board"},
             {uid: "size-12", group: "board"},
-            {uid: "strong-pie", group: "pie"},
         ]
     };
 
@@ -103,7 +103,7 @@ export class LifelineGame extends GameBase {
     }
 
     public shouldOfferPie(): boolean {
-        return this.variants.includes("strong-pie");
+        return true;
     }
 
     public isPieTurn(): boolean {

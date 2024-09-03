@@ -76,6 +76,7 @@
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
+        "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides wins at the start of their turn wins.",
         "majorities": "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction wins that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         "margo": "Margo is a stacking Go variant. Players may not pass. The game ends when one player is not able to move, and the player with the most balls on the board wins.",
@@ -105,6 +106,7 @@
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
+        "query": "A connection game on an Alquerque board. Place a piece on a c8 intersection, or two pieces on c4 intersections.",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
@@ -744,18 +746,17 @@
             }
         },
         "lifeline": {
-            "size-5": {
-                "name": "Learning board (size 5)"
+            "size-6": {
+                "name": "Size 6 board"
+            },
+            "size-7": {
+                "name": "Size 7 board"
             },
             "size-10": {
-                "name": "Large board (size 10)"
+                "name": "Size 10 board"
             },
             "size-12": {
-                "name": "Very large board (size 12)"
-            },
-            "strong-pie": {
-                "name": "Strong pie",
-                "description": "The second player has the option, on their first turn only, to swap sides instead of making a regular move."
+                "name": "Size 12 board"
             }
         },
         "loa": {
@@ -765,6 +766,14 @@
             "scrambled": {
                 "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",
                 "name": "Scrambled Eggs"
+            }
+        },
+        "lox": {
+            "size-13": {
+                "name": "Size-13 board."
+            },
+            "size-15": {
+                "name": "Size-15 board."
             }
         },
         "majorities": {
@@ -946,6 +955,11 @@
         "quax": {
             "size-15": {
                 "name": "15x15 board"
+            }
+        },
+        "query": {
+            "size-9": {
+                "name": "9x9 board"
             }
         },
         "realm": {
@@ -1618,16 +1632,18 @@
         },
         "lifeline": {
             "board": {
-                "name": "board (size 7)"
-            },
-            "pie": {
-                "name": "No pie rule"
+                "name": "Size 8 board"
             }
         },
         "loa": {
             "board": {
                 "description": "The default game is the 9x9 \"black hole\" variant. This will change eventually.",
                 "name": "board (9x9)"
+            }
+        },
+        "lox": {
+            "board": {
+                "name": "size-11 board"
             }
         },
         "majorities": {
@@ -1706,6 +1722,11 @@
         "quax": {
             "board": {
                 "name": "11x11 board"
+            }
+        },
+        "query": {
+            "board": {
+                "name": "13x13 board"
             }
         },
         "renju": {
@@ -1972,6 +1993,12 @@
             "hide-restrictions": {
                 "description": "Don't show intersections where the first player cannot place their stones.",
                 "name": "Hide restriction indicators"
+            }
+        },
+        "lox": {
+            "hide-controled": {
+                "description": "Don't highlight controlled cells for each player.",
+                "name": "Hide controlled indicators"
             }
         },
         "margo": {
@@ -3106,6 +3133,12 @@
             "NOT_IN_RANGE": "You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "Select your destination."
         },
+        "lox": {
+            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
+            "PLACE4CAPTURE": "To make a capture, the cell must be suffixed with 'x'. Try '{{cell}}x'.",
+            "INSUFFICIENT_LOS": "{{count}} directions with line of sight is required to capture the cell on {{cell}}.",
+            "CAPTURE4PLACE": "You suffixed the cell with 'x' to indicate capture, but this is not a capture move. Try '{{cell}}'."
+        },
         "majorities": {
             "INITIAL_INSTRUCTIONS": "Select two cells to place your pieces.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a cell to place the first piece.",
@@ -3374,6 +3407,15 @@
             "NOW_PLACE": "Movement is valid. Select an empty cell to place a piece on.",
             "PARTIAL_MOVE": "Select the destination.",
             "STRAIGHT_LINES": "Pieces may only be moved in straight lines."
+        },
+        "query": {
+            "INITIAL_INSTRUCTIONS": "Place 1 piece on a c8 intersection, or two pieces on c4 intersections.",
+            "CONTINUE": "You have placed on a c4 intersection. Select one more c4 intersection to place your second piece.",
+            "PARTIAL": "Select a destination.",
+            "SAMECELL": "You have already placed at {{where}}.",
+            "NOTC4": "The intersection at {{where}} is not a c4 intersection.",
+            "TOOMANY1": "You may only place one piece on c8 intersections.",
+            "TOOMANY2": "You may only place two pieces on c8 intersections."
         },
         "razzle": {
             "BAD_DIRECTION": "You can only move the ball orthogonally or diagonally. The move from {{from}} to {{to}} is invalid.",

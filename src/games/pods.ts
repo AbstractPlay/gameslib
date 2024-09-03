@@ -370,7 +370,7 @@ export class PodsGame extends GameBase {
         }
 
         this._points = [];
-        if (partial && !m.includes("-")) {
+        if (partial && !m.includes("-") && this.board.has(m)) {
             this._points = this.findPoints(m);
             return this;
         }

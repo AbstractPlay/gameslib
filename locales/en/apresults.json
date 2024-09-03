@@ -299,6 +299,8 @@
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
         "phutball": "{{player}} placed a player at {{where}}.",
         "quax_diag": "{{player}} placed a diagonal connection at {{where}}.",
+        "query_c4": "{{player}} two pieces at vertices {{where}}.",
+        "query_c8": "{{player}} one piece at vertex {{where}}.",
         "renju_tentative": "{{player}} placed a tentative fifth at {{where}}.",
         "renju_tentative_choose": "{{player}} chose the fifth stone at {{where}}.",
         "spire_neutral": "{{player}} placed a neutral ball at {{where}}.",

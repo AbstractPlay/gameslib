@@ -3368,7 +3368,8 @@
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space where you have more neighboring pieces, or select a piece to move around other pieces without passing through spaces controlled by the opponent.",
             "FIRST_MOVE_INSTRUCTIONS": "Place a piece onto any empty space on the board.",
             "INVALID_PLACEMENT": "You may only place a new piece onto an empty space where you have more neighboring pieces than your opponent.",
-            "INVALID_MOVEMENT": "You may only move your own pieces and you may only move them around other pieces without passing through enemy controlled spaces."
+            "INVALID_MOVEMENT": "You may only move around other pieces without passing through enemy controlled spaces. Legal landing spaces are highlighted when clicking to move.",
+            "INVALID_MOVER": "You may only move your own nonisolated pieces."
         },
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",

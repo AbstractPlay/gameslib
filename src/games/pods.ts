@@ -286,11 +286,13 @@ export class PodsGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
+    // We only need to handle re-setting moves from positions that are not complete moves, like movement.
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         if (this.gameover) return { move, valid: false, message: i18next.t("apgames:MOVES_GAMEOVER") };
         try {
             const cell = this.getGraph().coords2algebraic(col, row);
-            const newMove = (move === "") ? cell : move+"-"+cell;
+            if (move === cell) return { move: "", valid: true, message: i18next.t("apgames:validation.pods.INITIAL_INSTRUCTIONS") };
+            const newMove = (move === "" || (this.board.has(cell) && this.board.get(cell) === this.currplayer)) ? cell : move+"-"+cell;
             const result = this.validateMove(newMove) as IClickResult;
             result.move = (result.valid) ? newMove : move;
             return result;
@@ -346,14 +348,16 @@ export class PodsGame extends GameBase {
             result.canrender = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        } else if (cells.length === 2) {
+            result.message = i18next.t("apgames:validation.pods.INVALID_MOVEMENT");
         } else if (moves.filter(move => move.startsWith(m)).length > 0) {
             result.valid = true;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.pods.INITIAL_INSTRUCTIONS");
         } else if (!this.board.has(cells[0])) {
             result.message = i18next.t("apgames:validation.pods.INVALID_PLACEMENT");
-        } else if (this.board.get(cells[0]) !== this.currplayer) {
-            result.message = i18next.t("apgames:validation.pods.INVALID_MOVEMENT");
+        } else {
+            result.message = i18next.t("apgames:validation.pods.INVALID_MOVER");
         }
 
         return result;

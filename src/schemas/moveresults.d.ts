@@ -22,6 +22,7 @@ export type APMoveResult =
     }
   | {
       type: "place";
+      how?: string;
       where?: string;
       what?: string;
       who?: number;

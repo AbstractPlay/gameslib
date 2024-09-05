@@ -76,6 +76,7 @@
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
+        "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides wins at the start of their turn wins.",
         "majorities": "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction wins that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         "margo": "Margo is a stacking Go variant. Players may not pass. The game ends when one player is not able to move, and the player with the most balls on the board wins.",
@@ -100,10 +101,12 @@
         "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pletore": "Pletore is a territorial line-of-sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
+        "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
+        "query": "A connection game on an Alquerque board. Place a piece on an eight-way intersection, or two pieces on four-way intersections.",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
@@ -111,6 +114,7 @@
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
+        "shifty": "A connection game where you either place a piece orthogonally adjacent to one of your pieces, or move one of your pieces like a chess queen. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
         "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
@@ -764,6 +768,14 @@
                 "name": "Scrambled Eggs"
             }
         },
+        "lox": {
+            "size-13": {
+                "name": "Size-13 board."
+            },
+            "size-15": {
+                "name": "Size-15 board."
+            }
+        },
         "majorities": {
             "size-3": {
                 "name": "Size-3 board"
@@ -945,6 +957,11 @@
                 "name": "15x15 board"
             }
         },
+        "query": {
+            "size-9": {
+                "name": "9x9 board"
+            }
+        },
         "realm": {
             "capturedBases": {
                 "description": "The number of captured bases becomes a second tie breaker.",
@@ -1066,6 +1083,11 @@
         "scaffold": {
             "size-25": {
                 "name": "Board (25x25)"
+            }
+        },
+        "shifty": {
+            "size-13": {
+                "name": "13x13 board"
             }
         },
         "slither": {
@@ -1619,6 +1641,11 @@
                 "name": "board (9x9)"
             }
         },
+        "lox": {
+            "board": {
+                "name": "size-11 board"
+            }
+        },
         "majorities": {
             "board": {
                 "name": "size-5 board"
@@ -1697,6 +1724,11 @@
                 "name": "11x11 board"
             }
         },
+        "query": {
+            "board": {
+                "name": "13x13 board"
+            }
+        },
         "renju": {
             "opening": {
                 "description": "The first player has to place their first stone in the centre of the board. There are no other opening placement restrictions.",
@@ -1718,6 +1750,11 @@
         "scaffold": {
             "board": {
                 "name": "board (19x19)"
+            }
+        },
+        "shifty": {
+            "board": {
+                "name": "9x9 board"
             }
         },
         "slither": {
@@ -1958,6 +1995,12 @@
                 "name": "Hide restriction indicators"
             }
         },
+        "lox": {
+            "hide-controled": {
+                "description": "Don't highlight controlled cells for each player.",
+                "name": "Hide controlled indicators"
+            }
+        },
         "margo": {
             "orb-3d": {
                 "description": "Use plain 3D orb textures.",
@@ -2006,6 +2049,12 @@
             "hide-threatened": {
                 "description": "Don't highlight possible replacements.",
                 "name": "Hide threatened"
+            }
+        },
+        "pods": {
+            "hide-influence": {
+                "description": "Don't highlight parts of the board that cannot be accessed by the other player.",
+                "name": "Hide influence"
             }
         },
         "queensland": {
@@ -3084,6 +3133,12 @@
             "NOT_IN_RANGE": "You cannot reach {{to}} from {{from}}.",
             "PARTIAL": "Select your destination."
         },
+        "lox": {
+            "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
+            "PLACE4CAPTURE": "To make a capture, the cell must be suffixed with 'x'. Try '{{cell}}x'.",
+            "INSUFFICIENT_LOS": "{{count}} directions with line of sight is required to capture the cell on {{cell}}.",
+            "CAPTURE4PLACE": "You suffixed the cell with 'x' to indicate capture, but this is not a capture move. Try '{{cell}}'."
+        },
         "majorities": {
             "INITIAL_INSTRUCTIONS": "Select two cells to place your pieces.",
             "INITIAL_INSTRUCTIONS_FIRST": "Select a cell to place the first piece.",
@@ -3309,6 +3364,13 @@
             "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent."
         },
+        "pods": {
+            "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space where you have more neighboring pieces, or select a piece to move around other pieces without passing through spaces controlled by the opponent.",
+            "FIRST_MOVE_INSTRUCTIONS": "Place a piece onto any empty space on the board.",
+            "INVALID_PLACEMENT": "You may only place a new piece onto an empty space where you have more neighboring pieces than your opponent.",
+            "INVALID_MOVEMENT": "You may only move around other pieces without passing through enemy controlled spaces. Legal landing spaces are highlighted when clicking to move.",
+            "INVALID_MOVER": "You may only move your own nonisolated pieces."
+        },
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",
             "PARTIAL": "Select a destination.",
@@ -3346,6 +3408,15 @@
             "NOW_PLACE": "Movement is valid. Select an empty cell to place a piece on.",
             "PARTIAL_MOVE": "Select the destination.",
             "STRAIGHT_LINES": "Pieces may only be moved in straight lines."
+        },
+        "query": {
+            "INITIAL_INSTRUCTIONS": "Place 1 piece on an eight-way intersection, or two pieces on four-way intersections.",
+            "CONTINUE": "You have placed on a four-way intersection. Select one more four-way intersection to place your second piece.",
+            "PARTIAL": "Select a destination.",
+            "SAMECELL": "You have already placed at {{where}}.",
+            "NOTC4": "The intersection at {{where}} is not a four-way intersection.",
+            "TOOMANY1": "You may only place one piece on eight-way intersections.",
+            "TOOMANY2": "You may only place two pieces on four-way intersections."
         },
         "razzle": {
             "BAD_DIRECTION": "You can only move the ball orthogonally or diagonally. The move from {{from}} to {{to}} is invalid.",
@@ -3507,6 +3578,16 @@
             "INCOMPLETE": "You need to place stones to connect the groups.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid."
+        },
+        "shifty": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece next to one of your own pieces, or select a piece to move.",
+            "INITIAL_INSTRUCTIONS_OPENING": "Select an intersection to place your first piece.",
+            "INITIAL_INSTRUCTIONS_PASS":"You have no moves so you must pass.",
+            "INVALID_PASS": "You may not pass if you have any legal moves available.",
+            "CANNOT_PLACE": "You may not place at {{where}}. Placement must be orthogonally adjacent to one of your own pieces.",
+            "CROSSCUT": "You may not place at {{where}} because it creates a crosscut.",
+            "NO_TOS": "The selected piece at {{from}} has no possible destinations move to.",
+            "INVALID_DESTINATION": "The piece at {{from}} cannot move to {{to}}."
         },
         "slither": {
             "CANNOT_MOVE": "Advanced Slither: Movement only possible if a piece is part of a contiguous orthogonal group consisting of pieces of both colors.",

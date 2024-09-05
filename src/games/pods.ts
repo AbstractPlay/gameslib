@@ -571,8 +571,8 @@ export class PodsGame extends GameBase {
                 markers: markers.length === 0 ? undefined : markers
             },
             legend: {
-                A: [{ name: "piece", colour: 1 }, { name: "orca", colour: "#ffffff", scale: 0.8 }],
-                B: [{ name: "piece", colour: 2 }, { name: "humpback", colour: "#888888", scale: 0.8 }],
+                A: [{ name: "piece", colour: 1 }, { name: "orca", colour: "#ffffff", scale: 0.8, opacity: 0.6 }],
+                B: [{ name: "piece", colour: 2 }, { name: "humpback", colour: "#aaaaaa", scale: 0.8, opacity: 0.6 }],
                 C: [{ name: "ring-01", colour: 1}],
                 D: [{ name: "ring-01", colour: 2}]
             },

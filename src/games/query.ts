@@ -28,7 +28,7 @@ export class QueryGame extends GameBase {
         uid: "query",
         playercounts: [2],
         version: "20240831",
-        dateAdded: "2024-08-31",
+        dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.query")
         description: "apgames:descriptions.query",
         urls: ["https://mindsports.nl/index.php/the-pit/548-query"],
@@ -43,7 +43,7 @@ export class QueryGame extends GameBase {
             { uid: "size-9", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
     };
 
     public coords2algebraic(x: number, y: number): string {

@@ -28,7 +28,7 @@ export class ShiftyGame extends GameBase {
         uid: "shifty",
         playercounts: [2],
         version: "20240831",
-        dateAdded: "2024-08-31",
+        dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.shifty")
         description: "apgames:descriptions.shifty",
         urls: ["https://boardgamegeek.com/boardgame/124313/shifty"],
@@ -43,7 +43,7 @@ export class ShiftyGame extends GameBase {
             { uid: "size-13", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>move", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
     };
 
     public coords2algebraic(x: number, y: number): string {

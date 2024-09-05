@@ -106,7 +106,7 @@
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
-        "query": "A connection game on an Alquerque board. Place a piece on a c8 intersection, or two pieces on c4 intersections.",
+        "query": "A connection game on an Alquerque board. Place a piece on an eight-way intersection, or two pieces on four-way intersections.",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
@@ -3410,13 +3410,13 @@
             "STRAIGHT_LINES": "Pieces may only be moved in straight lines."
         },
         "query": {
-            "INITIAL_INSTRUCTIONS": "Place 1 piece on a c8 intersection, or two pieces on c4 intersections.",
-            "CONTINUE": "You have placed on a c4 intersection. Select one more c4 intersection to place your second piece.",
+            "INITIAL_INSTRUCTIONS": "Place 1 piece on an eight-way intersection, or two pieces on four-way intersections.",
+            "CONTINUE": "You have placed on a four-way intersection. Select one more four-way intersection to place your second piece.",
             "PARTIAL": "Select a destination.",
             "SAMECELL": "You have already placed at {{where}}.",
-            "NOTC4": "The intersection at {{where}} is not a c4 intersection.",
-            "TOOMANY1": "You may only place one piece on c8 intersections.",
-            "TOOMANY2": "You may only place two pieces on c8 intersections."
+            "NOTC4": "The intersection at {{where}} is not a four-way intersection.",
+            "TOOMANY1": "You may only place one piece on eight-way intersections.",
+            "TOOMANY2": "You may only place two pieces on four-way intersections."
         },
         "razzle": {
             "BAD_DIRECTION": "You can only move the ball orthogonally or diagonally. The move from {{from}} to {{to}} is invalid.",

@@ -32,7 +32,7 @@ export class LoxGame extends GameBase {
         uid: "lox",
         playercounts: [2],
         version: "20240831",
-        dateAdded: "2024-08-31",
+        dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.lox")
         description: "apgames:descriptions.lox",
         urls: ["https://www.mindsports.nl/index.php/the-pit/1212-lox"],
@@ -54,7 +54,7 @@ export class LoxGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "check"],
+        flags: ["pie", "check"],
         variants: [
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
@@ -218,7 +218,7 @@ export class LoxGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.lex.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.lox.INITIAL_INSTRUCTIONS");
             return result;
         }
 

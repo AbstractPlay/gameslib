@@ -29,7 +29,7 @@ export class PodsGame extends GameBase {
         uid: "pods",
         playercounts: [2],
         version: "20240802",
-        dateAdded: "2024-08-02",
+        dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.pods")
         description: "apgames:descriptions.pods",
         urls: ["https://cjffield.com/rules/pods.pdf"],
@@ -41,7 +41,7 @@ export class PodsGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>move", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["scores", "automove", "experimental"],
+        flags: ["scores", "automove"],
         displays: [{uid: "hide-influence"}]
     };
 

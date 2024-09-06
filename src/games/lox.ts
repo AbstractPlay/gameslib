@@ -537,6 +537,13 @@ export class LoxGame extends GameBase {
     }
 
     public inCheck(): number[] {
+        // @ts-ignore
+        if (this.graph.graph._nodes === undefined) {
+            // WEIRD ISSUE where the `nodes` is undefined when it reaches this point according to the debugger...
+            // What is going on!?
+            // Gonna try this code out in prod to see if this helps.
+            this.graph = this.getGraph();
+        }
         if (this.isConnected(this.currplayer % 2 + 1 as playerid) !== undefined) {
             return [this.currplayer];
         } else {

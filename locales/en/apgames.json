@@ -1996,7 +1996,7 @@
             }
         },
         "lox": {
-            "hide-controled": {
+            "hide-controlled": {
                 "description": "Don't highlight controlled cells for each player.",
                 "name": "Hide controlled indicators"
             }, 

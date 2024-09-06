@@ -1999,6 +1999,10 @@
             "hide-controled": {
                 "description": "Don't highlight controlled cells for each player.",
                 "name": "Hide controlled indicators"
+            }, 
+            "hide-focus-threatened": {
+                "description": "Don't put additional highlight on pieces that are threatened to be captured.",
+                "name": "Hide focus on threatened"
             }
         },
         "margo": {

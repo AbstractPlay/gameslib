@@ -59,7 +59,7 @@ export class LoxGame extends GameBase {
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
         ],
-        displays: [{ uid: "hide-controlled" }],
+        displays: [{ uid: "hide-controlled" }, { uid: "hide-focus-threatened" }],
     };
 
     public numplayers = 2;
@@ -417,8 +417,13 @@ export class LoxGame extends GameBase {
             altDisplay = opts.altDisplay;
         }
         let showControl = true;
-        if (altDisplay !== undefined && altDisplay === "hide-controlled") {
-            showControl = false;
+        let showFocusThreatened = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "hide-controlled") {
+                showControl = false;
+            } else if (altDisplay === "hide-focus-threatened") {
+                showFocusThreatened = false;
+            }
         }
         // Build piece string
         const pstr: string[][] = [];
@@ -428,13 +433,13 @@ export class LoxGame extends GameBase {
                 if (this.board.has(cell)) {
                     const owner = this.board.get(cell)!;
                     if (owner === 1) {
-                        if (this.controlledBy(cell) === 2) {
+                        if (showFocusThreatened && this.controlledBy(cell) === 2) {
                             pieces.push("C");
                         } else {
                             pieces.push("A")
                         }
                     } else {
-                        if (this.controlledBy(cell) === 1) {
+                        if (showFocusThreatened && this.controlledBy(cell) === 1) {
                             pieces.push("D");
                         } else {
                             pieces.push("B");
@@ -460,6 +465,7 @@ export class LoxGame extends GameBase {
                 for (const c of row) {
                     const controlledBy = this.controlledBy(c);
                     if (controlledBy === undefined) { continue; }
+                    if (controlledBy === this.board.get(c)) { continue; }
                     const [x, y] = this.graph.algebraic2coords(c);
                     if (controlledBy === 1) {
                         points1.push({ col: x, row: y })

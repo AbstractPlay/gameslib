@@ -119,7 +119,7 @@ export class RootBoundGame extends GameBase {
         this.lastgroupid = state.lastgroupid;
         this.results = [...state._results];
         this.firstpasser = state.firstpasser as PlayerId;
-        this.deadcells = state.deadcells === undefined ? [[],[]] : state.deadcells;
+        this.deadcells = state.deadcells === undefined ? [[],[]] : [...state.deadcells];
         this.scores = [...state.scores];
         return this;
     }
@@ -653,6 +653,7 @@ export class RootBoundGame extends GameBase {
         const originalRegions = this.computeClaimedRegions(board);
         let claimedRegions = [...originalRegions];
 
+        this.deadcells = [[], []];
         for (const keyValueArray of this.getGroupsBySize(board)) {
             const liveGroups = this.getLiveGroups(1, claimedRegions);
             liveGroups.push(...this.getLiveGroups(2, claimedRegions));

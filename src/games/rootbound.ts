@@ -119,7 +119,7 @@ export class RootBoundGame extends GameBase {
         this.lastgroupid = state.lastgroupid;
         this.results = [...state._results];
         this.firstpasser = state.firstpasser as PlayerId;
-        this.deadcells = state.deadcells === undefined ? [[],[]] : state.deadcells;
+        this.deadcells = state.deadcells === undefined ? [[],[]] : [...state.deadcells];
         this.scores = [...state.scores];
         return this;
     }

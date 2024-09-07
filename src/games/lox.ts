@@ -428,7 +428,6 @@ export class LoxGame extends GameBase {
                 dotFocusThreatened = true;
             }
         }
-        dotFocusThreatened = true;
         // Build piece string
         const pstr: string[][] = [];
         for (const row of this.graph.listCells(true) as string[][]) {

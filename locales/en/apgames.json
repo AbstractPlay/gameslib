@@ -76,7 +76,7 @@
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
-        "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides wins at the start of their turn wins.",
+        "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides at the start of their turn wins.",
         "majorities": "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction wins that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         "margo": "Margo is a stacking Go variant. Players may not pass. The game ends when one player is not able to move, and the player with the most balls on the board wins.",
@@ -1996,14 +1996,18 @@
             }
         },
         "lox": {
-            "hide-controlled": {
-                "description": "Don't highlight controlled cells for each player.",
-                "name": "Hide controlled indicators"
-            }, 
             "hide-focus-threatened": {
                 "description": "Don't put additional highlight on pieces that are threatened to be captured.",
                 "name": "Hide focus on threatened"
-            }
+            },
+            "dot-focus-threatened": {
+                "description": "Use dots as an additional highlight on pieces that are threatened to be captured, as per Luis' insistence.",
+                "name": "Dots on threatened"
+            },
+            "hide-controlled": {
+                "description": "Don't highlight controlled cells or threatened pieces for each player.",
+                "name": "Hide all controlled indicators"
+            } 
         },
         "margo": {
             "orb-3d": {

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerEdge, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerDots, MarkerEdge, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -59,7 +59,7 @@ export class LoxGame extends GameBase {
             { uid: "size-13", group: "board" },
             { uid: "size-15", group: "board" },
         ],
-        displays: [{ uid: "hide-controlled" }, { uid: "hide-focus-threatened" }],
+        displays: [{ uid: "hide-focus-threatened" }, { uid: "dot-focus-threatened" }, { uid: "hide-controlled" }],
     };
 
     public numplayers = 2;
@@ -418,13 +418,17 @@ export class LoxGame extends GameBase {
         }
         let showControl = true;
         let showFocusThreatened = true;
+        let dotFocusThreatened = false;
         if (altDisplay !== undefined) {
             if (altDisplay === "hide-controlled") {
                 showControl = false;
             } else if (altDisplay === "hide-focus-threatened") {
                 showFocusThreatened = false;
+            } else if (altDisplay === "dot-focus-threatened") {
+                dotFocusThreatened = true;
             }
         }
+        dotFocusThreatened = true;
         // Build piece string
         const pstr: string[][] = [];
         for (const row of this.graph.listCells(true) as string[][]) {
@@ -433,13 +437,13 @@ export class LoxGame extends GameBase {
                 if (this.board.has(cell)) {
                     const owner = this.board.get(cell)!;
                     if (owner === 1) {
-                        if (showFocusThreatened && this.controlledBy(cell) === 2) {
+                        if (showFocusThreatened && !dotFocusThreatened && this.controlledBy(cell) === 2) {
                             pieces.push("C");
                         } else {
                             pieces.push("A")
                         }
                     } else {
-                        if (showFocusThreatened && this.controlledBy(cell) === 1) {
+                        if (showFocusThreatened && !dotFocusThreatened && this.controlledBy(cell) === 1) {
                             pieces.push("D");
                         } else {
                             pieces.push("B");
@@ -451,13 +455,15 @@ export class LoxGame extends GameBase {
             }
             pstr.push(pieces);
         }
-        const markers: Array<MarkerFlood | MarkerEdge> = [
+        const markers: Array<MarkerFlood | MarkerEdge | MarkerDots> = [
             { type: "edge", edge: "N", colour: 1 },
             { type: "edge", edge: "S", colour: 1 },
             { type: "edge", edge: "W", colour: 2 },
             { type: "edge", edge: "E", colour: 2 },
         ];
 
+        const dots1: RowCol[] = [];
+        const dots2: RowCol[] = [];
         if (showControl) {
             const points1: RowCol[] = [];
             const points2: RowCol[] = [];
@@ -469,8 +475,14 @@ export class LoxGame extends GameBase {
                     const [x, y] = this.graph.algebraic2coords(c);
                     if (controlledBy === 1) {
                         points1.push({ col: x, row: y })
+                        if (dotFocusThreatened && this.board.has(c)) {
+                            dots1.push({ col: x, row: y })
+                        }
                     } else if (controlledBy === 2) {
                         points2.push({ col: x, row: y })
+                        if (dotFocusThreatened && this.board.has(c)) {
+                            dots2.push({ col: x, row: y })
+                        }
                     }
                 }
             }
@@ -507,8 +519,8 @@ export class LoxGame extends GameBase {
         };
 
         // Add annotations
+        rep.annotations = [];
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const [x, y] = this.graph.algebraic2coords(move.where!);
@@ -526,6 +538,12 @@ export class LoxGame extends GameBase {
                 }
                 rep.annotations.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false });
             }
+        }
+        if (dots1.length > 0) {
+            rep.annotations.push({ type: "dots", targets: dots1 as [RowCol, ...RowCol[]], colour: 1 });
+        }
+        if (dots2.length > 0) {
+            rep.annotations.push({ type: "dots", targets: dots2 as [RowCol, ...RowCol[]], colour: 2 });
         }
         return rep;
     }

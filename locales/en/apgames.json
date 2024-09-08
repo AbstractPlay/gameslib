@@ -2001,7 +2001,7 @@
                 "name": "Hide focus on threatened"
             },
             "dot-focus-threatened": {
-                "description": "Use dots as an additional highlight on pieces that are threatened to be captured, as per Luis' insistence.",
+                "description": "Use dots as an additional highlight on pieces that are threatened to be captured.",
                 "name": "Dots on threatened"
             },
             "hide-controlled": {

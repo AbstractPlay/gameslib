@@ -40,6 +40,7 @@
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
+        "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
@@ -519,6 +520,14 @@
         "connecticut": {
             "size-15": {
                 "name": "Board (15x15)"
+            }
+        },
+        "control": {
+            "size-5": {
+                "name": "Small board (Size 5)"
+            },
+            "size-9": {
+                "name": "Large board (Size 9)"
             }
         },
         "courtesan": {
@@ -1545,6 +1554,11 @@
                 "name": "board (19x19)"
             }
         },
+        "control": {
+            "board": {
+                "name": "board (Size 7)"
+            }
+        },
         "courtesan": {
             "board": {
                 "name": "board (8x8)"
@@ -1977,6 +1991,16 @@
                 "name": "Hide triominoes"
             }
         },
+        "control": {
+            "hide-control": {
+                "name": "Hide control",
+                "description": "Don't show indicators for controlled spaces."
+            },
+            "vertex-style": {
+                "name": "Vertex style",
+                "description": "Display the board using vertexes instead of hexes."
+            }
+        },
         "fourinarow": {
             "hide-moves": {
                 "description": "Don't show possible moves.",
@@ -2262,6 +2286,9 @@
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
+        },
+        "control": {
+            "CONTROLLED_SPACES": "Controlled empty spaces"
         },
         "CLAIMS_REMAINING": "Claims Remaining",
         "DAMAGE": "Damage taken",
@@ -2804,6 +2831,12 @@
             "INVALID_TO": "You may not place a triomino at {{from}}-{{to}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",
             "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece."
+        },
+        "control": {
+            "FIRST_TURN_INSTRUCTIONS": "Place a piece on a space on the perimeter of the board.",
+            "INITIAL_INSTRUCTIONS": "Place a piece on a space the opponent does not control, or remove an opponent's piece on a space you control.",
+            "INSUFFICIENT_CONTROL": "You do not control {{cell}}.",
+            "OPPONENT_CONTROL": "Your opponent controls {{cell}}."
         },
         "courtesan": {
             "DISTANCE_ONE": "Pieces may only move one space at a time.",

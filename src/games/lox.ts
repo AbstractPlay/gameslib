@@ -173,6 +173,7 @@ export class LoxGame extends GameBase {
         const moves: string[] = [];
         for (const cell of this.graph.listCells() as string[]) {
             if (!this.board.has(cell)) {
+                if (this.controlledBy(cell) === player % 2 + 1) { continue; }
                 moves.push(cell);
             } else if (this.board.get(cell) !== player && this.controlledBy(cell) === player) {
                 moves.push(`${cell}x`);
@@ -246,6 +247,12 @@ export class LoxGame extends GameBase {
                 } else {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.lox.INSUFFICIENT_LOS", { cell, count: Math.min(this.graph.neighbours(cell).length / 2) + 1 });
+                    return result;
+                }
+            } else {
+                if (this.controlledBy(cell) === this.currplayer % 2 + 1) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.lox.OPPONENT_CONTROLLED", { where: cell });
                     return result;
                 }
             }

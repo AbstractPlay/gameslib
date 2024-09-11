@@ -3178,7 +3178,8 @@
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
             "PLACE4CAPTURE": "To make a capture, the cell must be suffixed with 'x'. Try '{{cell}}x'.",
             "INSUFFICIENT_LOS": "{{count}} directions with line of sight is required to capture the cell on {{cell}}.",
-            "CAPTURE4PLACE": "You suffixed the cell with 'x' to indicate capture, but this is not a capture move. Try '{{cell}}'."
+            "CAPTURE4PLACE": "You suffixed the cell with 'x' to indicate capture, but this is not a capture move. Try '{{cell}}'.",
+            "OPPONENT_CONTROLLED": "The cell at {{where}} is controlled by your opponent."
         },
         "majorities": {
             "INITIAL_INSTRUCTIONS": "Select two cells to place your pieces.",

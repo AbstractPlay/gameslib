@@ -47,6 +47,7 @@
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
+        "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
         "entrapment": "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way, the game is over and his or her opponent declared the winner.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
@@ -572,6 +573,17 @@
         "dipole": {
             "international": {
                 "name": "Larger board: 10x10"
+            }
+        },
+        "boxes": {
+            "size-4x4": {
+                "name": "4x4 board"
+            },
+            "size-5x7": {
+                "name": "5x7 board"
+            },
+            "size-7x7": {
+                "name": "7x7 board"
             }
         },
         "dragoneyes": {
@@ -1571,6 +1583,11 @@
         },
         "dameo": {
             "board": "board (8x8)"
+        },
+        "boxes": {
+            "board": {
+                "name": "5x5 board"
+            }
         },
         "dragoneyes": {
             "description": "Draws are triggered automatically.",
@@ -2879,6 +2896,14 @@
             "STACK_SIZE": "You may only capture stacks of equal or smaller size.",
             "TOOFAR": "You can only move as far as your stack is high.",
             "TOOFAR_edge": "The stack at {{from}} can't reach the edge from there."
+        },
+        "boxes": {
+            "INITIAL_INSTRUCTIONS": "Select an edge to draw a line.",
+            "INVALID_WALL": "The wall {{wall}} is not valid.",
+            "DUPLICATE": "You have drawn a wall at {{where}}.",
+            "OCCUPIED": "There is already a wall at {{where}}.",
+            "CONTINUE": "You have completed a box. Select another edge to draw a line.",
+            "INVALID_CONTINUE": "You cannot draw more lines."
         },
         "dragoneyes": {
             "INITIAL_INSTRUCTIONS_CAPTURE": "Click a piece/space with a dot to begin or continue a capture chain.",

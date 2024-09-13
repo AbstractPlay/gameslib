@@ -216,6 +216,9 @@
                 "description": "A smaller Cobweb board where the centre becomes more important.",
                 "name": "Cobweb (3 rings)"
             },
+            "limping": {
+                "name": "Limping 5-6 (75 spaces)"
+            },
             "moon": {
                 "description": "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface.",
                 "name": "Moon (63 spaces)"

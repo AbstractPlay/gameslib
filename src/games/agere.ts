@@ -10,7 +10,7 @@ import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
-import { HexMoonGraph } from "../common/graphs";
+import { HexMoonGraph, HexSlantedGraph, HexTriGraph } from "../common/graphs";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
@@ -52,6 +52,9 @@ export class AgereGame extends GameBase {
             {uid: "standard-11", group: "board"},
             {uid: "standard-14", group: "board"},
             {uid: "moon", group: "board", experimental: true},
+            {uid: "limping", group: "board", experimental: true},
+            {uid: "slanted-8", group: "board", experimental: true},
+            {uid: "slanted-10", group: "board", experimental: true},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "board>shape>circle", "board>connect>rect", "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie", "check", "custom-rotation"]
@@ -88,7 +91,7 @@ export class AgereGame extends GameBase {
         [2, [[["a3", "b3"], ["e3", "f3"]],[["c3", "d3"], ["g3", "h3"]]]],
     ]);
 
-    public static buildGraph(style: "hex8"|"hex11"|"hex14"|"cobweb"|"cobwebSmall"|"moon"): UndirectedGraph {
+    public static buildGraph(style: "hex8"|"hex11"|"hex14"|"cobweb"|"cobwebSmall"|"moon"|"limping"|"slanted-8"|"slanted-10"): UndirectedGraph {
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
         if (style.startsWith("hex")) {
             let width = 8;
@@ -221,6 +224,15 @@ export class AgereGame extends GameBase {
             return graph;
         } else if (style === "moon") {
             return (new HexMoonGraph()).graph;
+        } else if (style === "limping") {
+            return (new HexTriGraph(5, 10, true)).graph;
+        } else if (style.startsWith("slanted")) {
+            const [,num] = style.split("-");
+            const int = parseInt(num, 10);
+            if (isNaN(int)) {
+                throw new Error(`Unable to parse slanted board size.`);
+            }
+            return (new HexSlantedGraph(int, int)).graph;
         }
         throw new Error("Unrecognized graph style.");
     }
@@ -298,6 +310,12 @@ export class AgereGame extends GameBase {
             return GameBase.coords2algebraic(x, y, 3);
         } else if (this.variants.includes("moon")) {
             return (new HexMoonGraph()).coords2algebraic(x, y);
+        } else if (this.variants.includes("limping")) {
+            return (new HexTriGraph(5, 10, true)).coords2algebraic(x, y);
+        } else if (this.variants.includes("slanted-8")) {
+            return (new HexSlantedGraph(8, 8)).coords2algebraic(x, y);
+        } else if (this.variants.includes("slanted-10")) {
+            return (new HexSlantedGraph(10, 10)).coords2algebraic(x, y);
         } else {
             let width = 8;
             if (this.variants.includes("standard-11")) {
@@ -323,6 +341,12 @@ export class AgereGame extends GameBase {
             return GameBase.algebraic2coords(cell, 3);
         } else if (this.variants.includes("moon")) {
             return (new HexMoonGraph()).algebraic2coords(cell);
+        } else if (this.variants.includes("limping")) {
+            return (new HexTriGraph(5, 10, true)).algebraic2coords(cell);
+        } else if (this.variants.includes("slanted-8")) {
+            return (new HexSlantedGraph(8, 8)).algebraic2coords(cell);
+        } else if (this.variants.includes("slanted-10")) {
+            return (new HexSlantedGraph(10, 10)).algebraic2coords(cell);
         } else {
             let width = 8;
             if (this.variants.includes("standard-11")) {
@@ -351,6 +375,12 @@ export class AgereGame extends GameBase {
             return AgereGame.buildGraph("cobwebSmall");
         } else if (this.variants.includes("moon")) {
             return AgereGame.buildGraph("moon");
+        } else if (this.variants.includes("limping")) {
+            return AgereGame.buildGraph("limping");
+        } else if (this.variants.includes("slanted-8")) {
+            return AgereGame.buildGraph("slanted-8");
+        } else if (this.variants.includes("slanted-10")) {
+            return AgereGame.buildGraph("slanted-10");
         } else if (this.variants.includes("standard-11")) {
             return AgereGame.buildGraph("hex11");
         } else if (this.variants.includes("standard-14")) {
@@ -721,6 +751,93 @@ export class AgereGame extends GameBase {
         return false;
     }
 
+    public checkEOGLimping(player?: playerid): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const allEdges = (new HexTriGraph(5, 10, true)).getEdges();
+        const edges: string[][] = [
+            [...allEdges.get("N")!, ...allEdges.get("NE")!],
+            [...allEdges.get("SE")!, ...allEdges.get("S")!],
+            [...allEdges.get("SW")!, ...allEdges.get("NW")!],
+        ];
+        // start with the full board graph
+        const graph = this.getGraph();
+        // drop any nodes not occupied by currplayer
+        for (const node of [...graph.nodes()]) {
+            if (! this.board.has(node)) {
+                graph.dropNode(node);
+            } else {
+                const stack = this.board.get(node)!;
+                if (stack[stack.length - 1] !== player) {
+                    graph.dropNode(node);
+                }
+            }
+        }
+
+        for (const g of connectedComponents(graph)) {
+            let connected = true;
+            for (const edge of edges) {
+                if (! intersects(g, edge)) {
+                    connected = false;
+                    break;
+                }
+            }
+            if (connected) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public checkEOGSlanted(player?: playerid): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        let size = 8;
+        if (this.variants.includes("slanted-10")) {
+            size = 10;
+        }
+        const obj = new HexSlantedGraph(size, size);
+        const allEdges = obj.getEdges();
+        const edges: string[][] = [];
+        if (player === 1) {
+            edges.push([...allEdges.get("N")!]);
+            edges.push([...allEdges.get("S")!]);
+        } else {
+            edges.push([...allEdges.get("E")!]);
+            edges.push([...allEdges.get("W")!]);
+        }
+
+        // start with the full board graph
+        const graph = this.getGraph();
+        // drop any nodes not occupied by currplayer
+        for (const node of [...graph.nodes()]) {
+            if (! this.board.has(node)) {
+                graph.dropNode(node);
+            } else {
+                const stack = this.board.get(node)!;
+                if (stack[stack.length - 1] !== player) {
+                    graph.dropNode(node);
+                }
+            }
+        }
+
+        for (const g of connectedComponents(graph)) {
+            let connected = true;
+            for (const edge of edges) {
+                if (! intersects(g, edge)) {
+                    connected = false;
+                    break;
+                }
+            }
+            if (connected) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected checkEOG(): AgereGame {
         // We are now at the START of `this.currplayer`'s turn
         if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
@@ -730,6 +847,16 @@ export class AgereGame extends GameBase {
             }
         } else if (this.variants.includes("moon")) {
             if (this.checkEOGMoon()) {
+                this.gameover = true;
+                this.winner = [this.currplayer];
+            }
+        } else if (this.variants.includes("limping")) {
+            if (this.checkEOGLimping()) {
+                this.gameover = true;
+                this.winner = [this.currplayer];
+            }
+        } else if (this.variants.includes("slanted-8") || this.variants.includes("slanted-10")) {
+            if (this.checkEOGSlanted()) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
             }
@@ -862,7 +989,7 @@ export class AgereGame extends GameBase {
         const pieces: string[][] = [];
         const flooded: [[number,number][], [number,number][]] = [[],[]];
         const obj = new HexMoonGraph();
-        for (const row of (new HexMoonGraph()).listCells(true) as string[][]) {
+        for (const row of obj.listCells(true) as string[][]) {
             const node: string[] = [];
             for (const cell of row) {
                 const [nx, ny] = obj.algebraic2coords(cell)
@@ -947,7 +1074,184 @@ export class AgereGame extends GameBase {
                 } else if (move.type === "move") {
                     const [fx, fy] = obj.algebraic2coords(move.from);
                     const [tx, ty] = obj.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", strokeWidth: 0.25, targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                    rep.annotations.push({type: "move", strokeWidth: 0.025, targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                }
+            }
+        }
+
+        return rep;
+    }
+
+    protected renderLimping(): APRenderRep {
+        const graph = this.getGraph();
+
+        // Build piece string
+        const pieces: string[][] = [];
+        const obj = new HexTriGraph(5, 10, true);
+        for (const row of obj.listCells(true) as string[][]) {
+            const node: string[] = [];
+            for (const cell of row) {
+                if ( (! graph.hasNode(cell)) || (! this.board.has(cell)) ) {
+                    node.push("-");
+                } else if (this.board.has(cell)) {
+                    const contents = this.board.get(cell)!;
+                    node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "B"));
+                }
+            }
+            pieces.push(node);
+        }
+        const pstr: string = pieces.map(r => r.join(",")).join("\n");
+
+        // Build rep
+        const rep: APRenderRep =  {
+            renderer: "stacking-offset",
+            board: {
+                style: "hex-of-hex",
+                minWidth: 5,
+                maxWidth: 10,
+                alternatingSymmetry: true,
+                markers: [
+                    {
+                        "type": "edge",
+                        "edge": "N",
+                        "colour": "#cc6677"
+                    },
+                    {
+                        "type": "edge",
+                        "edge": "NE",
+                        "colour": "#cc6677"
+                    },
+                    {
+                        "type": "edge",
+                        "edge": "SE",
+                        "colour": "#332288"
+                    },
+                    {
+                        "type": "edge",
+                        "edge": "S",
+                        "colour": "#332288"
+                    },
+                    {
+                        "type": "edge",
+                        "edge": "SW",
+                        "colour": "#117733"
+                    },
+                    {
+                        "type": "edge",
+                        "edge": "NW",
+                        "colour": "#117733"
+                    }
+                ]
+            },
+            legend: {
+                A: {
+                        name: "piece",
+                        colour: 1,
+                },
+                B: {
+                        name: "piece",
+                        colour: 2,
+                },
+            },
+            pieces: pstr
+        };
+
+        // Add annotations
+        if (this.results.length > 0) {
+            rep.annotations = [];
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    const [x, y] = obj.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                } else if (move.type === "move") {
+                    const [fx, fy] = obj.algebraic2coords(move.from);
+                    const [tx, ty] = obj.algebraic2coords(move.to);
+                    rep.annotations.push({type: "move", strokeWidth: 0.025, targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                }
+            }
+        }
+
+        return rep;
+    }
+
+    protected renderSlanted(): APRenderRep {
+        const graph = this.getGraph();
+        let size = 8;
+        if (this.variants.includes("slanted-10")) {
+            size = 10;
+        }
+        const obj = new HexSlantedGraph(size, size);
+        // Build piece string
+        const pieces: string[][] = [];
+        for (const row of obj.listCells(true) as string[][]) {
+            const node: string[] = [];
+            for (const cell of row) {
+                if ( (! graph.hasNode(cell)) || (! this.board.has(cell)) ) {
+                    node.push("-");
+                } else if (this.board.has(cell)) {
+                    const contents = this.board.get(cell)!;
+                    node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "B"));
+                }
+            }
+            pieces.push(node);
+        }
+        const pstr: string = pieces.map(r => r.join(",")).join("\n");
+
+        // Build rep
+        const rep: APRenderRep =  {
+            options: ["reverse-letters"],
+            renderer: "stacking-offset",
+            board: {
+                style: "hex-slanted",
+                width: size,
+                height: size,
+                markers: [
+                    {
+                        type: "edge",
+                        edge: "N",
+                        colour: 1,
+                    },
+                    {
+                        type: "edge",
+                        edge: "S",
+                        colour: 1,
+                    },
+                    {
+                        type: "edge",
+                        edge: "E",
+                        colour: 2
+                    },
+                    {
+                        type: "edge",
+                        edge: "W",
+                        colour: 2,
+                    }
+                ]
+            },
+            legend: {
+                A: {
+                        name: "piece",
+                        colour: 1,
+                },
+                B: {
+                        name: "piece",
+                        colour: 2,
+                },
+            },
+            pieces: pstr
+        };
+
+        // Add annotations
+        if (this.results.length > 0) {
+            rep.annotations = [];
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    const [x, y] = obj.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                } else if (move.type === "move") {
+                    const [fx, fy] = obj.algebraic2coords(move.from);
+                    const [tx, ty] = obj.algebraic2coords(move.to);
+                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
                 }
             }
         }
@@ -1056,6 +1360,10 @@ export class AgereGame extends GameBase {
             return this.renderCobweb();
         } else if (this.variants.includes("moon")) {
             return this.renderMoon();
+        } else if (this.variants.includes("limping")) {
+            return this.renderLimping();
+        } else if (this.variants.includes("slanted-8") || this.variants.includes("slanted-10")) {
+            return this.renderSlanted();
         }
         return this.renderHexTri();
     }
@@ -1082,6 +1390,10 @@ export class AgereGame extends GameBase {
             connected = this.checkEOGCobweb(otherPlayer);
         } else if (this.variants.includes("moon")) {
             connected = this.checkEOGMoon(otherPlayer);
+        } else if (this.variants.includes("limping")) {
+            connected = this.checkEOGLimping(otherPlayer);
+        } else if (this.variants.includes("slanted-8") || this.variants.includes("slanted-10")) {
+            connected = this.checkEOGSlanted(otherPlayer);
         } else {
             connected = this.checkEOGHexTri(otherPlayer);
         }

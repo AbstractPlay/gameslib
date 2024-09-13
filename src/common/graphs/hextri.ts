@@ -3,22 +3,37 @@ import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
+type Edge = "N"|"NE"|"SE"|"S"|"SW"|"NW";
 
 export class HexTriGraph implements IGraph {
     public readonly minwidth: number;
     public readonly maxwidth: number;
     public readonly height: number;
+    public readonly midrow: number; // zero-based index of widest row
+    public readonly alternating: boolean;
     public readonly perimeter: number;
     public graph: UndirectedGraph
 
-    constructor(minwidth: number, maxwidth: number) {
+    constructor(minwidth: number, maxwidth: number, alternating = false) {
         if (minwidth >= maxwidth) {
             throw new Error("The minimum width must be strictly less than the maximum width.");
         }
+        this.alternating = alternating;
         this.minwidth = minwidth;
-        this.perimeter = (minwidth * 6) - 6;
         this.maxwidth = maxwidth;
-        this.height = ((maxwidth - minwidth) * 2) + 1;
+        if (!alternating) {
+            this.height = ((maxwidth - minwidth) * 2) + 1;
+            this.midrow = Math.floor(this.height / 2);
+            // this.perimeter = (minwidth * 6) - 6;
+            this.perimeter = (minwidth * 2) + ((this.height - 2) * 2);
+        } else {
+            const numTop = maxwidth - minwidth + 1
+            const numBottom = maxwidth - numTop;
+            this.height = numTop + numBottom;
+            this.midrow = maxwidth - minwidth;
+            const widthBottom = maxwidth - numBottom;
+            this.perimeter = minwidth + widthBottom + ((this.height - 2) * 2);
+        }
         this.graph = this.buildGraph();
     }
 
@@ -40,9 +55,8 @@ export class HexTriGraph implements IGraph {
             throw new Error(`The row label is invalid: ${pair[0]}`);
         }
 
-        const midrow = Math.floor(this.height / 2);
         const delta = this.maxwidth - this.minwidth;
-        const rowWidth = this.minwidth + (midrow - Math.abs(delta - y));
+        const rowWidth = this.minwidth + (this.midrow - Math.abs(delta - y));
         if ( (x < 0) || (x > rowWidth) ) {
             throw new Error(`The column label is invalid: ${num}`);
         }
@@ -53,19 +67,20 @@ export class HexTriGraph implements IGraph {
     private buildGraph(): UndirectedGraph {
         // Build the graph
         const graph = new UndirectedGraph();
+
         // Nodes
-        const midrow = Math.floor(this.height / 2);
         const delta = this.maxwidth - this.minwidth;
         for (let row = 0; row < this.height; row++) {
-            const rowWidth = this.minwidth + (midrow - Math.abs(delta - row));
+            const rowWidth = this.minwidth + (this.midrow - Math.abs(delta - row));
             for (let col = 0; col < rowWidth; col++) {
                 graph.addNode(this.coords2algebraic(col, row));
             }
         }
+
         // Edges
         for (let row = 0; row < this.height; row++) {
-            const rowWidth = this.minwidth + (midrow - Math.abs(delta - row));
-            const prevWidth = this.minwidth + (midrow - Math.abs(delta - (row - 1)));
+            const rowWidth = this.minwidth + (this.midrow - Math.abs(delta - row));
+            const prevWidth = this.minwidth + (this.midrow - Math.abs(delta - (row - 1)));
             for (let col = 0; col < rowWidth; col++) {
                 const curr = this.coords2algebraic(col, row);
 
@@ -81,11 +96,11 @@ export class HexTriGraph implements IGraph {
                         graph.addEdge(curr, this.coords2algebraic(col, row - 1));
                     }
                     // up to and including the midline, connect to the above-previous cell if there is one
-                    if ( (row <= midrow) && (col > 0) ) {
+                    if ( (row <= this.midrow) && (col > 0) ) {
                         graph.addEdge(curr, this.coords2algebraic(col - 1, row - 1));
                     }
                     // after the midline, connect to the above-next cell instead
-                    if (row > midrow) {
+                    if (row > this.midrow) {
                         graph.addEdge(curr, this.coords2algebraic(col + 1, row - 1));
                     }
                 }
@@ -99,11 +114,10 @@ export class HexTriGraph implements IGraph {
             return this.graph.nodes();
         } else {
             const result: string[][] = [];
-            const midrow = Math.floor(this.height / 2);
             const delta = this.maxwidth - this.minwidth;
             for (let row = 0; row < this.height; row++) {
                 const node: string[] = [];
-                const rowWidth = this.minwidth + (midrow - Math.abs(delta - row));
+                const rowWidth = this.minwidth + (this.midrow - Math.abs(delta - row));
                 for (let col = 0; col < rowWidth; col++) {
                     node.push(this.coords2algebraic(col, row));
                 }
@@ -142,13 +156,12 @@ export class HexTriGraph implements IGraph {
     }
 
     public move(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", dist = 1): [number, number] | undefined {
-        const midrow = Math.floor(this.height / 2);
         let xNew = x;
         let yNew = y;
         for (let i = 0; i < dist; i++) {
             switch (dir) {
                 case "NE":
-                    if (yNew <= midrow) {
+                    if (yNew <= this.midrow) {
                         yNew--;
                     } else {
                         yNew--;
@@ -159,7 +172,7 @@ export class HexTriGraph implements IGraph {
                     xNew++;
                     break;
                 case "SE":
-                    if (yNew >= midrow) {
+                    if (yNew >= this.midrow) {
                         yNew++;
                     } else {
                         yNew++;
@@ -167,7 +180,7 @@ export class HexTriGraph implements IGraph {
                     }
                     break;
                 case "SW":
-                    if (yNew < midrow) {
+                    if (yNew < this.midrow) {
                         yNew++;
                     } else {
                         yNew++;
@@ -178,7 +191,7 @@ export class HexTriGraph implements IGraph {
                     xNew--;
                     break;
                 case "NW":
-                    if (yNew <= midrow) {
+                    if (yNew <= this.midrow) {
                         yNew--;
                         xNew--;
                     } else {
@@ -192,7 +205,7 @@ export class HexTriGraph implements IGraph {
                 return undefined;
             }
             const delta = this.maxwidth - this.minwidth;
-            const rowWidth = this.minwidth + (midrow - Math.abs(delta - yNew));
+            const rowWidth = this.minwidth + (this.midrow - Math.abs(delta - yNew));
             if ( (xNew < 0) || (xNew >= rowWidth) ) {
                 return undefined;
             }
@@ -218,6 +231,35 @@ export class HexTriGraph implements IGraph {
             if (min === 0) { break; }
         }
         return min;
+    }
+
+    public getEdges(): Map<Edge, string[]> {
+        const edges = new Map<Edge, string[]>();
+        for (const dir of ["N","NE","SE","S","SW","NW"] as const) {
+            edges.set(dir, []);
+        }
+        const ordered = this.listCells(true) as string[][];
+        for (let y = 0; y < ordered.length; y++) {
+            if (y === 0) {
+                edges.set("N", [...ordered[y]]);
+            }
+            if (y === ordered.length - 1) {
+                edges.set("S", [...ordered[y]])
+            }
+            if (y <= this.midrow) {
+                const currNW = edges.get("NW")!;
+                edges.set("NW", [...currNW, ordered[y][0]]);
+                const currNE = edges.get("NE")!;
+                edges.set("NE", [...currNE, ordered[y][ordered[y].length - 1]]);
+            }
+            if (y >= this.midrow) {
+                const currSW = edges.get("SW")!;
+                edges.set("SW", [...currSW, ordered[y][0]]);
+                const currSE = edges.get("SE")!;
+                edges.set("SE", [...currSE, ordered[y][ordered[y].length - 1]]);
+            }
+        }
+        return edges;
     }
 
     public rot180(cell: string): string {

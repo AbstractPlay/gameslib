@@ -4,6 +4,7 @@ import { IGraph } from "./IGraph";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
+type Edge = "N"|"E"|"S"|"W";
 
 export class HexSlantedGraph implements IGraph {
     // Ensure that `options: ["reverse-letters"]` is set in the renderer.
@@ -129,5 +130,26 @@ export class HexSlantedGraph implements IGraph {
             next = this.move(...next, dir);
         }
         return cells;
+    }
+
+    public getEdges(): Map<Edge, string[]> {
+        const edges = new Map<Edge, string[]>();
+        for (const dir of ["N","E","S","W"] as const) {
+            edges.set(dir, []);
+        }
+        const ordered = this.listCells(true) as string[][];
+        for (let y = 0; y < ordered.length; y++) {
+            if (y === 0) {
+                edges.set("N", [...ordered[y]]);
+            }
+            if (y === ordered.length - 1) {
+                edges.set("S", [...ordered[y]])
+            }
+            const currW = edges.get("W")!;
+            edges.set("W", [...currW, ordered[y][0]]);
+            const currE = edges.get("E")!;
+            edges.set("E", [...currE, ordered[y][ordered[y].length - 1]]);
+        }
+        return edges;
     }
 }

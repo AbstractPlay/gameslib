@@ -299,6 +299,7 @@ export class BoxesGame extends GameBase {
             return result;
         }
         const placed = [];
+        const remainingCount = this.moves().length;
         for (const [i, wall] of walls.entries()) {
             if (this.boardEdge.has(wall)) {
                 result.valid = false;
@@ -307,7 +308,7 @@ export class BoxesGame extends GameBase {
             }
             placed.push(wall);
             if (i === walls.length - 1) {
-                if (this.getEnclosed(wall, placed).length > 0) {
+                if (remainingCount > walls.length && this.getEnclosed(wall, placed).length > 0) {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;

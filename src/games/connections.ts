@@ -553,7 +553,7 @@ export class ConnectionsGame extends GameBase {
             legend: {
                 A: [{ name: "piece-square", colour: 1, scale: 0.25 }],
                 B: [{ name: "piece-square", colour: 2, scale: 0.25 }],
-                C: [{ name: "piece-square-borderless", colour: "#444", opacity: 0.05, scale: 1.5, rotate: 45 }],
+                C: [{ name: "piece-square-borderless", colour: "_context_fill", opacity: 0.1, scale: 1.5, rotate: 45 }],
             },
             pieces: pstr,
         };

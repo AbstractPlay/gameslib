@@ -10,6 +10,7 @@ import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
+import { HexMoonGraph } from "../common/graphs";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
@@ -50,6 +51,7 @@ export class AgereGame extends GameBase {
             {uid: "cobweb-small", group: "board"},
             {uid: "standard-11", group: "board"},
             {uid: "standard-14", group: "board"},
+            {uid: "moon", group: "board", experimental: true},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "board>shape>circle", "board>connect>rect", "board>shape>tri", "board>connect>hex", "components>simple>1per"],
         flags: ["pie", "check", "custom-rotation"]
@@ -86,7 +88,7 @@ export class AgereGame extends GameBase {
         [2, [[["a3", "b3"], ["e3", "f3"]],[["c3", "d3"], ["g3", "h3"]]]],
     ]);
 
-    public static buildGraph(style: "hex8"|"hex11"|"hex14"|"cobweb"|"cobwebSmall"): UndirectedGraph {
+    public static buildGraph(style: "hex8"|"hex11"|"hex14"|"cobweb"|"cobwebSmall"|"moon"): UndirectedGraph {
         const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
         if (style.startsWith("hex")) {
             let width = 8;
@@ -217,6 +219,8 @@ export class AgereGame extends GameBase {
                 graph.addEdge("ctr", cell);
             }
             return graph;
+        } else if (style === "moon") {
+            return (new HexMoonGraph()).graph;
         }
         throw new Error("Unrecognized graph style.");
     }
@@ -292,6 +296,8 @@ export class AgereGame extends GameBase {
                 return "ctr";
             }
             return GameBase.coords2algebraic(x, y, 3);
+        } else if (this.variants.includes("moon")) {
+            return (new HexMoonGraph()).coords2algebraic(x, y);
         } else {
             let width = 8;
             if (this.variants.includes("standard-11")) {
@@ -315,6 +321,8 @@ export class AgereGame extends GameBase {
                 return [0,3];
             }
             return GameBase.algebraic2coords(cell, 3);
+        } else if (this.variants.includes("moon")) {
+            return (new HexMoonGraph()).algebraic2coords(cell);
         } else {
             let width = 8;
             if (this.variants.includes("standard-11")) {
@@ -341,6 +349,8 @@ export class AgereGame extends GameBase {
             return AgereGame.buildGraph("cobweb");
         } else if (this.variants.includes("cobweb-small")) {
             return AgereGame.buildGraph("cobwebSmall");
+        } else if (this.variants.includes("moon")) {
+            return AgereGame.buildGraph("moon");
         } else if (this.variants.includes("standard-11")) {
             return AgereGame.buildGraph("hex11");
         } else if (this.variants.includes("standard-14")) {
@@ -672,10 +682,54 @@ export class AgereGame extends GameBase {
         return false;
     }
 
+    public checkEOGMoon(player?: playerid): boolean {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const allEdges = (new HexMoonGraph()).getEdges();
+        const edges: string[][] = [
+            [...allEdges.get("N")!, ...allEdges.get("NE")!],
+            [...allEdges.get("SE")!, ...allEdges.get("S")!],
+            [...allEdges.get("SW")!, ...allEdges.get("NW")!],
+        ];
+        // start with the full board graph
+        const graph = this.getGraph();
+        // drop any nodes not occupied by currplayer
+        for (const node of [...graph.nodes()]) {
+            if (! this.board.has(node)) {
+                graph.dropNode(node);
+            } else {
+                const stack = this.board.get(node)!;
+                if (stack[stack.length - 1] !== player) {
+                    graph.dropNode(node);
+                }
+            }
+        }
+
+        for (const g of connectedComponents(graph)) {
+            let connected = true;
+            for (const edge of edges) {
+                if (! intersects(g, edge)) {
+                    connected = false;
+                    break;
+                }
+            }
+            if (connected) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected checkEOG(): AgereGame {
         // We are now at the START of `this.currplayer`'s turn
         if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
             if (this.checkEOGCobweb()) {
+                this.gameover = true;
+                this.winner = [this.currplayer];
+            }
+        } else if (this.variants.includes("moon")) {
+            if (this.checkEOGMoon()) {
                 this.gameover = true;
                 this.winner = [this.currplayer];
             }
@@ -685,17 +739,6 @@ export class AgereGame extends GameBase {
                 this.winner = [this.currplayer];
             }
         }
-
-        // // look for checkmate
-        // // this means the *previous* player is connected,
-        // // and there's nothing the current player can do about it
-        // if (! this.gameover) {
-        //     let otherPlayer: playerid = 1;
-        //     if (this.currplayer === 1) {
-        //         otherPlayer = 2;
-        //     }
-
-        // }
 
         if (this.gameover) {
             this.results.push(
@@ -779,6 +822,63 @@ export class AgereGame extends GameBase {
                         points: markerPts,
                     }
                 ],
+            },
+            legend: {
+                A: {
+                        name: "piece",
+                        colour: 1,
+                },
+                B: {
+                        name: "piece",
+                        colour: 2,
+                },
+            },
+            pieces: pstr
+        };
+
+
+        // Add annotations
+        if (this.results.length > 0) {
+            rep.annotations = [];
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    const [x, y] = this.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                } else if (move.type === "move") {
+                    const [fx, fy] = this.algebraic2coords(move.from);
+                    const [tx, ty] = this.algebraic2coords(move.to);
+                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                }
+            }
+        }
+
+        return rep;
+    }
+
+    protected renderMoon(): APRenderRep {
+        const graph = this.getGraph();
+
+        // Build piece string
+        const pieces: string[][] = [];
+        for (const row of (new HexMoonGraph()).listCells(true) as string[][]) {
+            const node: string[] = [];
+            for (const cell of row) {
+                if ( (! graph.hasNode(cell)) || (! this.board.has(cell)) ) {
+                    node.push("-");
+                } else if (this.board.has(cell)) {
+                    const contents = this.board.get(cell)!;
+                    node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "B"));
+                }
+            }
+            pieces.push(node);
+        }
+        const pstr: string = pieces.map(r => r.join(",")).join("\n");
+
+        // Build rep
+        const rep: APRenderRep =  {
+            renderer: "stacking-offset",
+            board: {
+                style: "circular-moon",
             },
             legend: {
                 A: {
@@ -911,6 +1011,8 @@ export class AgereGame extends GameBase {
     public render(): APRenderRep {
         if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
             return this.renderCobweb();
+        } else if (this.variants.includes("moon")) {
+            return this.renderMoon();
         }
         return this.renderHexTri();
     }
@@ -935,6 +1037,8 @@ export class AgereGame extends GameBase {
         let connected = false;
         if ( (this.variants.includes("cobweb")) || (this.variants.includes("cobweb-small")) ) {
             connected = this.checkEOGCobweb(otherPlayer);
+        } else if (this.variants.includes("moon")) {
+            connected = this.checkEOGMoon(otherPlayer);
         } else {
             connected = this.checkEOGHexTri(otherPlayer);
         }

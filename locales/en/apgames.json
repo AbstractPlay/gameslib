@@ -22,6 +22,7 @@
         "blooms": "Each player owns 2 colours of stones. Players take turns placing one or two stones each turn (if you place two, they must be different colours), then capture all fenced enemy blooms. The first player to capture a certain number of stones wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
+        "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         "bug": "Fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
         "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sown from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible points, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
@@ -48,7 +49,6 @@
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
-        "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
         "entrapment": "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way, the game is over and his or her opponent declared the winner.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
@@ -393,6 +393,17 @@
                 "name": "Larger board: 10x10"
             }
         },
+        "boxes": {
+            "size-4x4": {
+                "name": "4x4 board"
+            },
+            "size-5x7": {
+                "name": "5x7 board"
+            },
+            "size-7x7": {
+                "name": "7x7 board"
+            }
+        },
         "breakthrough": {
             "bombardment": {
                 "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it.",
@@ -582,17 +593,6 @@
         "dipole": {
             "international": {
                 "name": "Larger board: 10x10"
-            }
-        },
-        "boxes": {
-            "size-4x4": {
-                "name": "4x4 board"
-            },
-            "size-5x7": {
-                "name": "5x7 board"
-            },
-            "size-7x7": {
-                "name": "7x7 board"
             }
         },
         "dragoneyes": {
@@ -1502,6 +1502,11 @@
                 "name": "board (8x8)"
             }
         },
+        "boxes": {
+            "board": {
+                "name": "5x5 board"
+            }
+        },
         "bug": {
             "board": {
                 "name": "size-4 board"
@@ -1597,11 +1602,6 @@
         },
         "dameo": {
             "board": "board (8x8)"
-        },
-        "boxes": {
-            "board": {
-                "name": "5x5 board"
-            }
         },
         "dragoneyes": {
             "description": "Draws are triggered automatically.",
@@ -2673,6 +2673,14 @@
             "MUST_MOVE": "You may not remove checkers unless you have no other legal move.",
             "PARTIAL": "Select an empty space to move, or click the checker again to remove it."
         },
+        "boxes": {
+            "INITIAL_INSTRUCTIONS": "Select an edge to draw a line.",
+            "INVALID_WALL": "The wall {{wall}} is not valid.",
+            "DUPLICATE": "You have drawn a wall at {{where}}.",
+            "OCCUPIED": "There is already a wall at {{where}}.",
+            "CONTINUE": "You have completed a box. Select another edge to draw a line.",
+            "INVALID_CONTINUE": "You cannot draw more lines."
+        },
         "breakthrough": {
             "BADVARIANT": "Bombardment moves are only allowed when that variant is active.",
             "DIAGONAL_CAPTURES": "Captures may only be made in a forward-diagonal direction.",
@@ -2917,14 +2925,6 @@
             "STACK_SIZE": "You may only capture stacks of equal or smaller size.",
             "TOOFAR": "You can only move as far as your stack is high.",
             "TOOFAR_edge": "The stack at {{from}} can't reach the edge from there."
-        },
-        "boxes": {
-            "INITIAL_INSTRUCTIONS": "Select an edge to draw a line.",
-            "INVALID_WALL": "The wall {{wall}} is not valid.",
-            "DUPLICATE": "You have drawn a wall at {{where}}.",
-            "OCCUPIED": "There is already a wall at {{where}}.",
-            "CONTINUE": "You have completed a box. Select another edge to draw a line.",
-            "INVALID_CONTINUE": "You cannot draw more lines."
         },
         "dragoneyes": {
             "INITIAL_INSTRUCTIONS_CAPTURE": "Click a piece/space with a dot to begin or continue a capture chain.",

@@ -1450,6 +1450,11 @@
         }
     },
     "variantGroups": {
+        "agere": {
+            "board": {
+                "name": "triangle board (8 wide)"
+            }
+        },
         "akron": {
             "board": {
                 "name": "size-9 board"

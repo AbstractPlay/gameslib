@@ -40,7 +40,6 @@ export class ConnectionsGame extends GameBase {
         ],
         variants: [
             { uid: "size-5", group: "board" },
-            { uid: "size-13", group: "board" },
         ],
         categories: ["goal>align", "goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["experimental", "pie"],

@@ -223,6 +223,12 @@
                 "description": "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface.",
                 "name": "Moon (63 spaces)"
             },
+            "slanted-8": {
+                "name": "Slanted hex (8x8)"
+            },
+            "slanted-10": {
+                "name": "Slanted hex (10x10)"
+            },
             "standard-11": {
                 "description": "A larger version of the standard board.",
                 "name": "Triangle (11 wide)"

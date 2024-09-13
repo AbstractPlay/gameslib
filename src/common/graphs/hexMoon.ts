@@ -154,7 +154,10 @@ export class HexMoonGraph implements IGraph {
             const delta = this.maxwidth - this.minwidth;
             for (let row = 0; row < this.height; row++) {
                 const node: string[] = [];
-                const rowWidth = this.minwidth + (midrow - Math.abs(delta - row));
+                let rowWidth = this.minwidth + (midrow - Math.abs(delta - row));
+                if (row === midrow) {
+                    rowWidth += 2;
+                }
                 for (let col = 0; col < rowWidth; col++) {
                     node.push(this.coords2algebraic(col, row));
                 }

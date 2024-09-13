@@ -3,7 +3,7 @@
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, MarkerFlood, MarkerHalo } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerFlood, MarkerHalo, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, intersects } from "../common";
 import { UndirectedGraph } from "graphology";
@@ -860,14 +860,18 @@ export class AgereGame extends GameBase {
 
         // Build piece string
         const pieces: string[][] = [];
+        const flooded: [[number,number][], [number,number][]] = [[],[]];
+        const obj = new HexMoonGraph();
         for (const row of (new HexMoonGraph()).listCells(true) as string[][]) {
             const node: string[] = [];
             for (const cell of row) {
+                const [nx, ny] = obj.algebraic2coords(cell)
                 if ( (! graph.hasNode(cell)) || (! this.board.has(cell)) ) {
                     node.push("-");
                 } else if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "B"));
+                    flooded[contents[contents.length - 1] - 1].push([nx, ny]);
                 }
             }
             pieces.push(node);
@@ -879,19 +883,25 @@ export class AgereGame extends GameBase {
             renderer: "stacking-offset",
             board: {
                 style: "circular-moon",
+                strokeWeight: 0.5,
+                stackOffset: 0.03,
                 markers: [
                     {
                         type: "halo",
-                        width: 5,
+                        offset: -60,
+                        width: 3,
                         segments: [
                             {
-                                "colour": 3
+                                colour: "_context_fill",
+                                opacity: 0.9,
                             },
                             {
-                                "colour": 4
+                                colour: "_context_fill",
+                                opacity: 0.5,
                             },
                             {
-                                "colour": 5
+                                colour: "_context_fill",
+                                opacity: 0.1,
                             }
                         ]
                     },
@@ -901,27 +911,43 @@ export class AgereGame extends GameBase {
                 A: {
                         name: "piece",
                         colour: 1,
+                        scale: 0.25,
                 },
                 B: {
                         name: "piece",
                         colour: 2,
+                        scale: 0.25,
                 },
             },
             pieces: pstr
         };
 
+        for (let p = 0; p < flooded.length; p++) {
+            const targets: {row:number; col: number}[] = [];
+            for (const flood of flooded[p]) {
+                targets.push({row: flood[1], col: flood[0]});
+            }
+            if (targets.length > 0) {
+                (rep.board! as BoardBasic).markers!.push({
+                    type: "flood",
+                    colour: p+1,
+                    points: targets,
+                    opacity: 0.5,
+                } as MarkerFlood);
+            }
+        }
 
         // Add annotations
         if (this.results.length > 0) {
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const [x, y] = this.algebraic2coords(move.where!);
+                    const [x, y] = obj.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 } else if (move.type === "move") {
-                    const [fx, fy] = this.algebraic2coords(move.from);
-                    const [tx, ty] = this.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                    const [fx, fy] = obj.algebraic2coords(move.from);
+                    const [tx, ty] = obj.algebraic2coords(move.to);
+                    rep.annotations.push({type: "move", strokeWidth: 0.25, targets: [{row: fy, col: fx},{row: ty, col: tx}]});
                 }
             }
         }

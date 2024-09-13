@@ -40,6 +40,7 @@
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
+        "connections": "Draw lines between dots of your colour to connect the sides of the board, or surround your opponent's dots to win.",
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
@@ -521,6 +522,14 @@
         "connecticut": {
             "size-15": {
                 "name": "Board (15x15)"
+            }
+        },
+        "connections": {
+            "size-5": {
+                "name": "Size-5 board"
+            },
+            "size-9": {
+                "name": "Size-9 board"
             }
         },
         "control": {
@@ -1564,6 +1573,11 @@
         "connecticut": {
             "board": {
                 "name": "board (19x19)"
+            }
+        },
+        "connections": {
+            "board": {
+                "name": "size-9 board"
             }
         },
         "control": {
@@ -2848,6 +2862,13 @@
             "INVALID_TO": "You may not place a triomino at {{from}}-{{to}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",
             "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece."
+        },
+        "connections": {
+            "INITIAL_INSTRUCTIONS": "Select a space between your dots to draw a line.",
+            "INVALID_LINE": "The line {{move}} is not valid.",
+            "OCCUPIED": "The space at {{where}} is already occupied.",
+            "WRONG_ORIENT_H": "The line at {{cell}} should be horizontal (suffixed with 'h').",
+            "WRONG_ORIENT_V": "The line at {{cell}} should be vertical (suffixed with 'v')."
         },
         "control": {
             "FIRST_TURN_INSTRUCTIONS": "Place a piece on a space on the perimeter of the board.",

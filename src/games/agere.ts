@@ -1166,7 +1166,7 @@ export class AgereGame extends GameBase {
                 } else if (move.type === "move") {
                     const [fx, fy] = obj.algebraic2coords(move.from);
                     const [tx, ty] = obj.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", strokeWidth: 0.025, targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                    rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
                 }
             }
         }

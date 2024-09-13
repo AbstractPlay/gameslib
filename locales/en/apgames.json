@@ -216,6 +216,10 @@
                 "description": "A smaller Cobweb board where the centre becomes more important.",
                 "name": "Cobweb (3 rings)"
             },
+            "moon": {
+                "description": "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface.",
+                "name": "Moon (63 spaces)"
+            },
             "standard-11": {
                 "description": "A larger version of the standard board.",
                 "name": "Triangle (11 wide)"
@@ -2062,7 +2066,7 @@
             "hide-controlled": {
                 "description": "Don't highlight controlled cells or threatened pieces for each player.",
                 "name": "Hide all controlled indicators"
-            } 
+            }
         },
         "margo": {
             "orb-3d": {

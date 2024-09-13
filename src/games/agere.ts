@@ -879,6 +879,23 @@ export class AgereGame extends GameBase {
             renderer: "stacking-offset",
             board: {
                 style: "circular-moon",
+                markers: [
+                    {
+                        type: "halo",
+                        width: 5,
+                        segments: [
+                            {
+                                "colour": 3
+                            },
+                            {
+                                "colour": 4
+                            },
+                            {
+                                "colour": 5
+                            }
+                        ]
+                    },
+                ],
             },
             legend: {
                 A: {

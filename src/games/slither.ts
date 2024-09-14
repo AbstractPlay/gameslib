@@ -284,7 +284,6 @@ export class SlitherGame extends GameBase {
                 if (this.isValid(this.currplayer, moves)) {
                     result.valid = true;
                     result.complete = 1;
-                    result.canrender = true;
                     result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                     return result;
                 } else {
@@ -352,6 +351,7 @@ export class SlitherGame extends GameBase {
                 return result;
             }
             result.valid = true;
+            result.complete = -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.slither.NEED_PLACEMENT");
             return result;

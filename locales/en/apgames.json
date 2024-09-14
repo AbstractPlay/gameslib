@@ -208,12 +208,8 @@
             }
         },
         "agere": {
-            "cobweb": {
-                "description": "A variant played on a round board where you try to connect two opposite sides.",
-                "name": "Cobweb (4 rings)"
-            },
             "cobweb-small": {
-                "description": "A smaller Cobweb board where the centre becomes more important.",
+                "description": "A variant played on a round board where you try to connect two opposite sides.",
                 "name": "Cobweb (3 rings)"
             },
             "limping": {

@@ -43,7 +43,7 @@ export class BoxesGame extends GameBase {
             { uid: "size-7x7", group: "board" },
         ],
         categories: ["goal>majority", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "scores", "custom-randomization", "no-moves"],
+        flags: ["scores", "custom-randomization", "no-moves"],
     };
 
     public coords2algebraic(x: number, y: number): string {

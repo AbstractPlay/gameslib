@@ -42,7 +42,7 @@ export class ConnectionsGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>align", "goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
     };
 
     public coords2algebraic(x: number, y: number): string {

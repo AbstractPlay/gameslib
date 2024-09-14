@@ -40,7 +40,7 @@ export class ControlGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
-        flags: ["scores", "automove", "experimental"],
+        flags: ["scores", "automove"],
         variants: [
             {
                 uid: "size-5",

@@ -55,13 +55,14 @@ export class HexTriGraph implements IGraph {
             throw new Error(`The row label is invalid: ${pair[0]}`);
         }
 
-        const delta = this.maxwidth - this.minwidth;
-        const rowWidth = this.minwidth + (this.midrow - Math.abs(delta - y));
+        const realY = this.height - y - 1;
+        const delta = Math.abs(realY - this.midrow);
+        const rowWidth = this.maxwidth - delta;
         if ( (x < 0) || (x > rowWidth) ) {
             throw new Error(`The column label is invalid: ${num}`);
         }
 
-        return [x - 1, this.height - y - 1];
+        return [x - 1, realY];
     }
 
     private buildGraph(): UndirectedGraph {

@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
@@ -68,6 +66,8 @@ export class SlitherGame extends GameBase {
     public boardSize = 0;
     private grid: RectGrid;
     private lines: [PlayerLines,PlayerLines];
+    private selected: string | undefined;
+    private dots: string[] = [];
 
     constructor(state?: ISlitherState | string, variants?: string[]) {
         super();
@@ -203,8 +203,12 @@ export class SlitherGame extends GameBase {
             let newmove = "";
             if (move.length === 0) {
                 newmove = cell;
+            } else if (move === cell) {
+                newmove = "";
             } else if (moves.length === 1) {
                 newmove = move + `-${cell}`;
+            } else if (moves[1] === cell) {
+                newmove = "";
             } else {
                 newmove = move + `/${cell}`
             }
@@ -230,6 +234,7 @@ export class SlitherGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.slither.INITIAL_INSTRUCTIONS")
             return result;
         }
@@ -279,6 +284,7 @@ export class SlitherGame extends GameBase {
                 if (this.isValid(this.currplayer, moves)) {
                     result.valid = true;
                     result.complete = 1;
+                    result.canrender = true;
                     result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                     return result;
                 } else {
@@ -308,6 +314,7 @@ export class SlitherGame extends GameBase {
                 }
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation._general.NEED_DESTINATION", moves[0]);
                 return result;
             } else {
@@ -345,7 +352,6 @@ export class SlitherGame extends GameBase {
                 return result;
             }
             result.valid = true;
-            result.complete = -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.slither.NEED_PLACEMENT");
             return result;
@@ -497,6 +503,19 @@ export class SlitherGame extends GameBase {
         return false;
     }
 
+    private getTos(from: string): string[] {
+        // Get all possible destinations for a piece.
+        const [x, y] = SlitherGame.algebraic2coords(from, this.boardSize);
+        const tos: string[] = [];
+        for (const n of this.grid.adjacencies(x, y)) {
+            const to = SlitherGame.coords2algebraic(...n, this.boardSize);
+            if (this.board.has(to)) { continue; }
+            if (!this.isValid(this.currplayer, [to], [from])) { continue; }
+            tos.push(to);
+        }
+        return tos;
+    }
+
     public move(m: string, {partial = false, trusted = false} = {}): SlitherGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -515,7 +534,8 @@ export class SlitherGame extends GameBase {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
-
+        if (m === "") { return this; }
+        this.dots = [];
         if (m === "pass") {
             this.results = [{ type: "pass" }];
         } else {
@@ -524,6 +544,9 @@ export class SlitherGame extends GameBase {
                 if (!this.board.has(moves[0])) {
                     this.board.set(moves[0], this.currplayer);
                     this.results = [{type: "place", where: moves[0]}];
+                } else {
+                    this.selected = moves[0];
+                    this.dots = this.getTos(moves[0]);
                 }
             } else {
                 // Note that for simplicity, we do currently not normalise the moves
@@ -644,9 +667,17 @@ export class SlitherGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents === 1) {
-                        pieces.push("A");
+                        if (this.selected === cell) {
+                            pieces.push("C");
+                        } else {
+                            pieces.push("A");
+                        }
                     } else {
-                        pieces.push("B");
+                        if (this.selected === cell) {
+                            pieces.push("D");
+                        } else {
+                            pieces.push("B");
+                        }
                     }
                 } else {
                     pieces.push("-");
@@ -672,14 +703,11 @@ export class SlitherGame extends GameBase {
                 markers,
             },
             legend: {
-                A: {
-                    name: "piece",
-                    colour: 1
-                },
-                B: {
-                    name: "piece",
-                    colour: 2
-                }
+                A: { name: "piece", colour: 1 },
+                B: { name: "piece", colour: 2 },
+                // Selected pieces
+                C: [{ name: "piece", colour: "#FFF" }, { name: "piece", colour: 1, opacity: 0.5 }],
+                D: [{ name: "piece", colour: "#FFF" }, { name: "piece", colour: 2, opacity: 0.5 }],
             },
             pieces: pstr
         };
@@ -699,7 +727,6 @@ export class SlitherGame extends GameBase {
                 }
             }
             if (this.connPath.length > 0) {
-                type RowCol = {row: number; col: number;};
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
                     const [x,y] = SlitherGame.algebraic2coords(cell, this.boardSize);
@@ -722,6 +749,14 @@ export class SlitherGame extends GameBase {
                     rep.annotations.push({type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]]});
                 }
             }
+        }
+        if (this.dots.length > 0) {
+            const points: RowCol[] = [];
+            for (const cell of this.dots) {
+                const [x, y] = SlitherGame.algebraic2coords(cell, this.boardSize);
+                points.push({ row: y, col: x });
+            }
+            rep.annotations.push({ type: "dots", targets: points as [RowCol, ...RowCol[]] });
         }
 
         return rep;

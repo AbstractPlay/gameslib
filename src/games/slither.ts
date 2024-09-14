@@ -510,7 +510,7 @@ export class SlitherGame extends GameBase {
         for (const n of this.grid.adjacencies(x, y)) {
             const to = SlitherGame.coords2algebraic(...n, this.boardSize);
             if (this.board.has(to)) { continue; }
-            if (!this.isValid(this.currplayer, [to], [from])) { continue; }
+            if (!this.hasValidFollowup(this.currplayer, from, to)) { continue; }
             tos.push(to);
         }
         return tos;

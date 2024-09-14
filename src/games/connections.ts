@@ -28,7 +28,7 @@ export class ConnectionsGame extends GameBase {
         uid: "connections",
         playercounts: [2],
         version: "20240912",
-        dateAdded: "2024-09-12",
+        dateAdded: "2024-09-14",
         // i18next.t("apgames:descriptions.connections")
         description: "apgames:descriptions.connections",
         urls: ["https://boardgamegeek.com/boardgame/3370/connections"],

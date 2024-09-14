@@ -27,7 +27,7 @@ export class BoxesGame extends GameBase {
         uid: "boxes",
         playercounts: [2],
         version: "20240908",
-        dateAdded: "2024-09-08",
+        dateAdded: "2024-09-14",
         // i18next.t("apgames:descriptions.boxes")
         description: "apgames:descriptions.boxes",
         urls: ["https://en.wikipedia.org/wiki/Dots_and_Boxes"],

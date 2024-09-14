@@ -47,7 +47,7 @@ export class AgereGame extends GameBase {
             }
         ],
         variants: [
-            {uid: "cobweb", group: "board"},
+            {uid: "cobweb", group: "board", experimental: true},
             {uid: "cobweb-small", group: "board"},
             {uid: "standard-11", group: "board"},
             {uid: "standard-14", group: "board"},
@@ -1114,12 +1114,12 @@ export class AgereGame extends GameBase {
                     {
                         "type": "edge",
                         "edge": "N",
-                        "colour": "#cc6677"
+                        "colour": "#ddcc77"
                     },
                     {
                         "type": "edge",
                         "edge": "NE",
-                        "colour": "#cc6677"
+                        "colour": "#ddcc77"
                     },
                     {
                         "type": "edge",

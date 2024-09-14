@@ -22,6 +22,7 @@
         "blooms": "Each player owns 2 colours of stones. Players take turns placing one or two stones each turn (if you place two, they must be different colours), then capture all fenced enemy blooms. The first player to capture a certain number of stones wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
+        "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         "breakthrough": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
         "bug": "Fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
         "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sown from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible points, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
@@ -40,6 +41,7 @@
         "conhex": "In ConHex, the winner is the first player to connect their assigned sides of a square board. The board is a pattern of non-regular hexagons with a few non-hexagonal polygons. Players alternate turns placing pieces of their own color on a vertex, and a player can claim a space after placing pieces on at least half the vertices of that space.",
         "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
+        "connections": "Draw lines between dots of your colour to connect the sides of the board, or surround your opponent's dots to win.",
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
@@ -213,6 +215,19 @@
             "cobweb-small": {
                 "description": "A smaller Cobweb board where the centre becomes more important.",
                 "name": "Cobweb (3 rings)"
+            },
+            "limping": {
+                "name": "Limping 5-6 (75 spaces)"
+            },
+            "moon": {
+                "description": "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface.",
+                "name": "Moon (63 spaces)"
+            },
+            "slanted-8": {
+                "name": "Slanted hex (8x8)"
+            },
+            "slanted-10": {
+                "name": "Slanted hex (10x10)"
             },
             "standard-11": {
                 "description": "A larger version of the standard board.",
@@ -391,6 +406,17 @@
                 "name": "Larger board: 10x10"
             }
         },
+        "boxes": {
+            "size-4x4": {
+                "name": "4x4 board"
+            },
+            "size-5x7": {
+                "name": "5x7 board"
+            },
+            "size-7x7": {
+                "name": "7x7 board"
+            }
+        },
         "breakthrough": {
             "bombardment": {
                 "description": "Instead of regular capture moves, you can detonate a piece, which destroys it and any pieces immediately surrounding it.",
@@ -520,6 +546,14 @@
         "connecticut": {
             "size-15": {
                 "name": "Board (15x15)"
+            }
+        },
+        "connections": {
+            "size-5": {
+                "name": "Size-5 board"
+            },
+            "size-9": {
+                "name": "Size-9 board"
             }
         },
         "control": {
@@ -1416,6 +1450,11 @@
         }
     },
     "variantGroups": {
+        "agere": {
+            "board": {
+                "name": "triangle board (8 wide)"
+            }
+        },
         "akron": {
             "board": {
                 "name": "size-9 board"
@@ -1479,6 +1518,11 @@
         "bounce": {
             "board": {
                 "name": "board (8x8)"
+            }
+        },
+        "boxes": {
+            "board": {
+                "name": "5x5 board"
             }
         },
         "bug": {
@@ -1552,6 +1596,11 @@
         "connecticut": {
             "board": {
                 "name": "board (19x19)"
+            }
+        },
+        "connections": {
+            "board": {
+                "name": "size-9 board"
             }
         },
         "control": {
@@ -2031,7 +2080,7 @@
             "hide-controlled": {
                 "description": "Don't highlight controlled cells or threatened pieces for each player.",
                 "name": "Hide all controlled indicators"
-            } 
+            }
         },
         "margo": {
             "orb-3d": {
@@ -2642,6 +2691,14 @@
             "MUST_MOVE": "You may not remove checkers unless you have no other legal move.",
             "PARTIAL": "Select an empty space to move, or click the checker again to remove it."
         },
+        "boxes": {
+            "INITIAL_INSTRUCTIONS": "Select an edge to draw a line.",
+            "INVALID_WALL": "The wall {{wall}} is not valid.",
+            "DUPLICATE": "You have drawn a wall at {{where}}.",
+            "OCCUPIED": "There is already a wall at {{where}}.",
+            "CONTINUE": "You have completed a box. Select another edge to draw a line.",
+            "INVALID_CONTINUE": "You cannot draw more lines."
+        },
         "breakthrough": {
             "BADVARIANT": "Bombardment moves are only allowed when that variant is active.",
             "DIAGONAL_CAPTURES": "Captures may only be made in a forward-diagonal direction.",
@@ -2831,6 +2888,13 @@
             "INVALID_TO": "You may not place a triomino at {{from}}-{{to}}.",
             "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",
             "PARTIAL": "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece."
+        },
+        "connections": {
+            "INITIAL_INSTRUCTIONS": "Select a space between your dots to draw a line.",
+            "INVALID_LINE": "The line {{move}} is not valid.",
+            "OCCUPIED": "The space at {{where}} is already occupied.",
+            "WRONG_ORIENT_H": "The line at {{cell}} should be horizontal (suffixed with 'h').",
+            "WRONG_ORIENT_V": "The line at {{cell}} should be vertical (suffixed with 'v')."
         },
         "control": {
             "FIRST_TURN_INSTRUCTIONS": "Place a piece on a space on the perimeter of the board.",

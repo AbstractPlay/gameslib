@@ -3,14 +3,18 @@ import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
 import { algebraic2coords, coords2algebraic } from "..";
 
+export type SnubStart = "S"|"T";
+
 export class SnubSquareGraph implements IGraph {
     public readonly width: number;
     public readonly height: number;
+    public readonly start: SnubStart;
     public graph: UndirectedGraph
 
-    constructor(width: number, height: number) {
+    constructor(width: number, height: number, start: SnubStart = "S") {
         this.width = width;
         this.height = height;
+        this.start = start;
         this.graph = this.buildGraph();
     }
 
@@ -43,12 +47,22 @@ export class SnubSquareGraph implements IGraph {
                 if (row > 0) {
                     // always connect to cell directly above
                     graph.addEdge(curr, this.coords2algebraic(col, row - 1));
-                    // even row, odd columns connect as well to previous-above cell
-                    if ( ( (row % 2) === 0) && ( (col % 2) !== 0) ) {
-                        graph.addEdge(curr, this.coords2algebraic(col - 1, row - 1));
-                    // odd row, odd columns connect to previous-next cell
-                    } else if ( ((row % 2) !== 0) && ((col % 2) !== 0) && (col < (this.width - 1)) ) {
-                        graph.addEdge(curr, this.coords2algebraic(col + 1, row - 1));
+                    if (this.start === "S") {
+                        // even row, odd columns connect as well to previous-above cell
+                        if ( ( (row % 2) === 0) && ( (col % 2) !== 0) ) {
+                            graph.addEdge(curr, this.coords2algebraic(col - 1, row - 1));
+                        // odd row, odd columns connect to previous-next cell
+                        } else if ( ((row % 2) !== 0) && ((col % 2) !== 0) && (col < (this.width - 1)) ) {
+                            graph.addEdge(curr, this.coords2algebraic(col + 1, row - 1));
+                        }
+                    } else {
+                        // even row, even columns > 0 connect as well to previous-above cell
+                        if ( ( (row % 2) === 0) && ( (col % 2) === 0) && col > 0) {
+                            graph.addEdge(curr, this.coords2algebraic(col - 1, row - 1));
+                        // odd row, even columns connect to previous-next cell
+                        } else if ( ((row % 2) !== 0) && ((col % 2) === 0) && (col < (this.width - 1)) ) {
+                            graph.addEdge(curr, this.coords2algebraic(col + 1, row - 1));
+                        }
                     }
                 }
             }

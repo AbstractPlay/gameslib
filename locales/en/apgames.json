@@ -113,6 +113,7 @@
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
+        "resolve": "A square grid connection game. If a crosscut is formed, swap the placed piece until it is no longer part of a crosscut. If the board is full and there is no winner, choose one of your stones in a crosscut and resolve.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
@@ -1076,6 +1077,11 @@
                 "name": "Yamaguchi opening"
             }
         },
+        "resolve": {
+            "size-13": {
+                "name": "13x13 board"
+            }
+        },
         "reversi": {
             "anti": {
                 "description": "The player who has the fewest pieces at the end of the game wins.",
@@ -1795,6 +1801,11 @@
             },
             "tiebreaker": {
                 "name": "no tiebreak"
+            }
+        },
+        "resolve": {
+            "board": {
+                "name": "9x9 board"
             }
         },
         "saltire": {
@@ -3650,6 +3661,14 @@
             "YAMAGUCHI4_CHOOSE_other": "You have to choose one of the {{count}} tentative fifths.",
             "YAMAGUCHI4_EXCESS": "You have too many items in your move.",
             "YAMAGUCHI42": "Select an intersection to place the sixth stone."
+        },
+        "resolve": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece.",
+            "INITIAL_INSTRUCTIONS_SWAP": "Select a piece in a crosscut to swap.",
+            "CHOOSE_OWN": "You must choose one of your own pieces in a crosscut to swap.",
+            "CANNOT_SWAP": "The piece at {{where}} is not in a crosscut.",
+            "SWAP": "Select a piece in the crosscut to swap.",
+            "INVALID_SWAP": "The piece at {{from}} cannot swap to {{to}}."
         },
         "reversi": {
             "CENTRE_CELL": "In the hexagon variant, the centre cell cannot be placed on.",

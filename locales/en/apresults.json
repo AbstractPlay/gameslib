@@ -392,6 +392,7 @@
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {
         "fnap": "{{player}} selected the tile {{tile}}.",
+        "resolve": "{{player}} selects the piece in a crosscut at {{where}}.",
         "slyde_fixed_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from mobile to fixed.",
         "slyde_fixed_self": "{{player}} changed the state of their own piece at {{where}} from mobile to fixed.",
         "slyde_mobile_opponent": "{{player}} changed the state of their opponent's piece at {{where}} from fixed to mobile.",
@@ -411,7 +412,8 @@
     },
     "SWAP": {
         "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
-        "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour."
+        "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
+        "resolve": "The piece is swapped to {{where}}."
     },
     "TAKE": {
         "buku_row_one": "{{player}} collected 1 piece from row {{row}}.",

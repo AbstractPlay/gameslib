@@ -206,7 +206,11 @@ export class SlitherGame extends GameBase {
             } else if (move === cell) {
                 newmove = "";
             } else if (moves.length === 1) {
-                newmove = move + `-${cell}`;
+                if (this.board.has(moves[0]) && this.board.get(moves[0]) === this.currplayer) {
+                    newmove = move;
+                } else {
+                    newmove = move + `-${cell}`;
+                }
             } else if (moves[1] === cell) {
                 newmove = "";
             } else {

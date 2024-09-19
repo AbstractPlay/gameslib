@@ -40,10 +40,9 @@ export class ResolveGame extends GameBase {
             }
         ],
         variants: [
-            { uid: "size-4", group: "board" },
             { uid: "size-13", group: "board" },
         ],
-        categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
+        categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie"],
     };
 

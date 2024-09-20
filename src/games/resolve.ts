@@ -405,6 +405,9 @@ export class ResolveGame extends GameBase {
                     }
                 } else {
                     this.results.push({ type: "select", where: move });
+                    if (moves.length > 1) {
+                        this.board.set(move, this.currplayer % 2 + 1 as playerid);
+                    }
                 }
             } else {
                 this.results.push({ type: "swap", where: move, with: moves[i-1] });

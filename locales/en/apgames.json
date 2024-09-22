@@ -247,6 +247,10 @@
             "advanced": {
                 "description": "Makes it harder for the defenders by allowing invaders to stack on top of a king on an exit space. Defender wins if they *start* their turn with the king on an escape spot.",
                 "name": "Advanced"
+            },
+            "plus": {
+                "description": "Restricts stacking by not allowing pieces to move onto taller stacks directly.",
+                "name": "Plus"
             }
         },
         "amazons": {
@@ -2506,6 +2510,7 @@
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "KING_ONLY": "Only the king can land on the throne or on exits.",
             "PARTIAL": "Select the destination.",
+            "PLUS_TOO_HIGH": "Under the Plus rules, you may not move directly to a taller stack.",
             "TOO_HIGH": "Pieces may not be stacked more than three high."
         },
         "amazons": {

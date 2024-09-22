@@ -155,6 +155,7 @@ import { QueryGame, IQueryState } from "./query";
 import { ControlGame, IControlState } from "./control";
 import { BoxesGame, IBoxesState } from "./boxes";
 import { ConnectionsGame, IConnectionsState } from "./connections";
+import { ResolveGame, IResolveState } from "./resolve";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -312,6 +313,7 @@ export {
     ControlGame, IControlState,
     BoxesGame, IBoxesState,
     ConnectionsGame, IConnectionsState,
+    ResolveGame, IResolveState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -365,7 +367,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof MajoritiesGame | typeof BukuGame | typeof TritiumGame |
                               typeof CamelotGame | typeof LifelineGame | typeof ShiftyGame |
                               typeof PodsGame | typeof LoxGame | typeof QueryGame |
-                              typeof ControlGame | typeof BoxesGame | typeof ConnectionsGame
+                              typeof ControlGame | typeof BoxesGame | typeof ConnectionsGame |
+                              typeof ResolveGame
                 >();
 // Manually add each game to the following array
 [
@@ -390,7 +393,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
-    QueryGame, ControlGame, BoxesGame, ConnectionsGame,
+    QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -710,6 +713,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BoxesGame(...args);
         case "connections":
             return new ConnectionsGame(...args);
+        case "resolve":
+            return new ResolveGame(...args);
     }
     return;
 }

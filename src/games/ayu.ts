@@ -62,6 +62,7 @@ export class AyuGame extends GameBase {
     public variants: string[] = [];
     private boardSize = 0;
     private dots: string[] = [];
+    private selected: string | undefined;
 
     constructor(state?: IAyuState | string, variants?: string[]) {
         super();
@@ -181,10 +182,12 @@ export class AyuGame extends GameBase {
         try {
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
-            if (this.board.has(cell) || move.length === 0) {
-                newmove = cell + "-";
+            if (move === cell) {
+                newmove = "";
+            } else if (this.board.has(cell) || move.length === 0) {
+                newmove = cell;
             } else {
-                newmove = move + cell;
+                newmove = move + "-" + cell;
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
@@ -426,12 +429,13 @@ export class AyuGame extends GameBase {
             }
         }
         this.dots = [];
+        this.selected = undefined;
         if (m.length === 0) { return this; }
-        if (m.endsWith("-")) {
-            const from = m.slice(0, -1);
+        const [from, to] = m.split("-");
+        if (to === undefined || to === "") {
             this.dots = this.getTos(from);
+            this.selected = from;
         } else {
-            const [from, to] = m.split("-");
             this.results = [{ type: "move", from, to }];
             this.board.delete(from);
             this.board.set(to, this.currplayer);
@@ -504,9 +508,17 @@ export class AyuGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell);
                     if (contents === 1) {
-                        pstr += "A";
-                    } else if (contents === 2) {
-                        pstr += "B";
+                        if (this.selected === cell) {
+                            pstr += "C";
+                        } else {
+                            pstr += "A";
+                        }
+                    } else {
+                        if (this.selected === cell) {
+                            pstr += "D";
+                        } else {
+                            pstr += "B";
+                        }
                     }
                 } else {
                     pstr += "-";
@@ -526,6 +538,9 @@ export class AyuGame extends GameBase {
             legend: {
                 A: [{ name: "piece", colour: 1 }],
                 B: [{ name: "piece", colour: 2 }],
+                // Selected pieces
+                C: [{ name: "piece", colour: "#FFF" }, { name: "piece", colour: 1, opacity: 0.5 }],
+                D: [{ name: "piece", colour: "#FFF" }, { name: "piece", colour: 2, opacity: 0.5 }],
             },
             pieces: pstr,
         };

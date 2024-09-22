@@ -247,6 +247,10 @@
             "advanced": {
                 "description": "Makes it harder for the defenders by allowing invaders to stack on top of a king on an exit space. Defender wins if they *start* their turn with the king on an escape spot.",
                 "name": "Advanced"
+            },
+            "plus": {
+                "description": "Restricts stacking by not allowing pieces to move onto taller stacks directly.",
+                "name": "Plus"
             }
         },
         "amazons": {
@@ -306,6 +310,10 @@
             },
             "board-27": {
                 "name": "27x27 board"
+            },
+            "woven": {
+                "name": "Woven rules",
+                "description": "Incursions are not legal."
             }
         },
         "ataxx": {
@@ -1476,6 +1484,9 @@
         "asli": {
             "board": {
                 "name": "13x13 board"
+            },
+            "rules": {
+                "description": "Incursions are legal."
             }
         },
         "ataxx": {
@@ -2499,6 +2510,7 @@
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "KING_ONLY": "Only the king can land on the throne or on exits.",
             "PARTIAL": "Select the destination.",
+            "PLUS_TOO_HIGH": "Under the Plus rules, you may not move directly to a taller stack.",
             "TOO_HIGH": "Pieces may not be stacked more than three high."
         },
         "amazons": {
@@ -2588,10 +2600,12 @@
             "BAD_PASS": "You must remove an enemy piece from the prison to pass.",
             "BAD_PIE": "You may not accept pie at this point in the game.",
             "INITIAL_INSTRUCTIONS_komi": "Enter the number of first-player pieces you wish to place in the starting prison. The second player will then decide which seat to take.",
-            "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Invoke pie rule' to change seats.",
+            "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",
             "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
             "MUST_PIE": "At this point of the game, placing pieces is not allowed.",
-            "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn."
+            "NEGATIVE_KOMI": "Komi values are usually positive. Negative komi values are legal and valid, but they are typically only used when you are the stronger player and wish to handicap yourself.",
+            "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn.",
+            "WOVEN_INCURSION": "In the 'Woven' variant, incursions are not legal."
         },
         "ataxx": {
             "HOLE": "The cell at {{where}} is blocked.",

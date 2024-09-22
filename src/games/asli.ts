@@ -51,6 +51,7 @@ export class AsliGame extends GameBase {
             {uid: "board-17", group: "board"},
             {uid: "board-19", group: "board"},
             {uid: "board-27", group: "board"},
+            {uid: "woven", group: "rules"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization", "scores"]
@@ -274,7 +275,11 @@ export class AsliGame extends GameBase {
             // Looks good
             result.valid = true;
             result.complete = 0;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            if (n < 0) {
+                result.message = i18next.t("apgames:validation.asli.NEGATIVE_KOMI");
+            } else {
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            }
             return result;
         } else if (m === "pie" || (m === "pass" && this.stack.length === 2)) {
             if (this.stack.length !== 2) {
@@ -326,6 +331,13 @@ export class AsliGame extends GameBase {
             const terr = this.getTerritories().find(t => t.cells.includes(m))!;
             if (terr.owner === (this.currplayer === 1 ? 2 : 1)) {
                 incursion = true;
+            }
+
+            // if woven rules, incursions are not allowed
+            if (this.variants.includes("woven") && incursion && this.stack.length > 4) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.asli.WOVEN_INCURSION");
+                return result
             }
 
             // no dead friendlies (after removing dead enemies)

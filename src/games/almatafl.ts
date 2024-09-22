@@ -45,7 +45,7 @@ export class AlmataflGame extends GameBase {
                 urls: ["https://boardgamegeek.com/boardgamedesigner/153526/paschalis-antoniou"]
             }
         ],
-        variants: [{uid: "advanced"}],
+        variants: [{uid: "advanced"}, {uid: "plus"}],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>stack", "mechanic>differentiate", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["custom-colours"]
     };
@@ -191,6 +191,10 @@ export class AlmataflGame extends GameBase {
                                 continue;
                             }
                         }
+                        // if Plus, can't move onto taller stack
+                        if (this.variants.includes("plus") && this.board.has(dest) && this.board.get(dest)!.length > dist) {
+                            continue;
+                        }
 
                         moves.push(`${cell}-${dest}`);
                     }
@@ -261,8 +265,12 @@ export class AlmataflGame extends GameBase {
                     if (AlmataflGame.blocked.includes(dest)) {
                         continue;
                     }
-                    // as long as the destination has fewer than three pieces already, we can reach it
                     const destStack = this.board.get(dest);
+                    // if Plus, the stack can't be taller than the source stack
+                    if (this.variants.includes("plus") && destStack !== undefined && destStack.length > dist) {
+                        continue;
+                    }
+                    // as long as the destination has fewer than three pieces already, we can reach it
                     if ( (destStack === undefined) || (destStack.length < 3) ) {
                         if (! graph.hasNode(dest)) {
                             graph.addNode(dest);
@@ -401,15 +409,17 @@ export class AlmataflGame extends GameBase {
             }
         }
 
-        // check distances and los
+        // check distances, los, and stacking restrictions
         const cells = m.split("-");
         for (let i = 0; i < cells.length - 1; i++) {
             const from = cells[i];
             const fStack = this.board.get(from) || [];
             const to = cells[i+1];
+            const tStack = this.board.get(to) || [];
             const [fx, fy] = this.graph.algebraic2coords(from);
             let hasLos = false;
             let inRange = false;
+            let validStack = true;
             let dist = fStack.length + 1;
             if (i === 0) {
                 dist--;
@@ -420,6 +430,9 @@ export class AlmataflGame extends GameBase {
                     hasLos = true;
                     if ( (ray.length >= dist) && (ray[dist - 1] === to) ) {
                         inRange = true;
+                    }
+                    if (this.variants.includes("plus") && tStack.length > dist) {
+                        validStack = false;
                     }
                     break;
                 }
@@ -432,6 +445,11 @@ export class AlmataflGame extends GameBase {
             if (! inRange) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.almatafl.BAD_DISTANCE");
+                return result;
+            }
+            if (! validStack) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.almatafl.PLUS_TOO_HIGH");
                 return result;
             }
         }

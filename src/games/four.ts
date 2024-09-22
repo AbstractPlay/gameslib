@@ -335,11 +335,15 @@ export class FourGame extends GameBase {
                     const realWidth = maxX - minX + 1;
                     const realHeight = maxY - minY + 1;
                     let marginX = 2;
-                    if (realWidth === this.maxWidth) {
+                    if (this.maxWidth - realWidth === 1) {
+                        marginX = 1;
+                    } else if (realWidth === this.maxWidth) {
                         marginX = 0;
                     }
                     let marginY = 2;
-                    if (realHeight === this.maxHeight) {
+                    if (this.maxHeight - realHeight === 1) {
+                        marginY = 1;
+                    } else if (realHeight === this.maxHeight) {
                         marginY = 0;
                     }
                     const realX = minX - marginX + col;
@@ -601,11 +605,15 @@ export class FourGame extends GameBase {
         const width = maxX - minX + 1;
         const height = maxY - minY + 1;
         let marginX = 2;
-        if (width === this.maxWidth) {
+        if (this.maxWidth - width === 1) {
+            marginX = 1;
+        } else if (width === this.maxWidth) {
             marginX = 0;
         }
         let marginY = 2;
-        if (height === this.maxHeight) {
+        if (this.maxHeight - height === 1) {
+            marginY = 1;
+        } else if (height === this.maxHeight) {
             marginY = 0;
         }
         const rowLabels: string[] = [];

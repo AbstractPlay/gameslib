@@ -31,7 +31,10 @@ export class ShiftyGame extends GameBase {
         dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.shifty")
         description: "apgames:descriptions.shifty",
-        urls: ["https://boardgamegeek.com/boardgame/124313/shifty"],
+        urls: [
+            "https://web.archive.org/web/20151224161649/http://nickbentleygames.wordpress.com/2012/05/01/new-game-shifty/",
+            "https://boardgamegeek.com/boardgame/124313/shifty"
+        ],
         people: [
             {
                 type: "designer",
@@ -205,6 +208,13 @@ export class ShiftyGame extends GameBase {
         return false;
     }
 
+    private nextToFriendly(where: string, player: playerid, from: string): boolean {
+        // Check if movement to `where` is next to a friendly piece.
+        const [x, y] = this.algebraic2coords(where);
+        const adjacents = this.grid.adjacencies(x, y, false).map(n => this.coords2algebraic(...n));
+        return adjacents.some(cell => this.board.has(cell) && this.board.get(cell) === player && cell !== from);
+    }
+
     private canPlace(where: string, player: playerid, from?: string): boolean {
         // Check if placement by `player` at `where` will result in a crosscut.
         // If `from` is provided, it is the cell from which the piece is being moved.
@@ -375,6 +385,16 @@ export class ShiftyGame extends GameBase {
                     return result;
                 }
                 if (!tos.includes(last)) {
+                    if (!this.canPlace(last, this.currplayer, first)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.shifty.CROSSCUT_MOVE", { where: last });
+                        return result;
+                    }
+                    if (this.nextToFriendly(last, this.currplayer, first)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.shifty.NEXT_TO_FRIENDLY", { where: last });
+                        return result;
+                    }
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.shifty.INVALID_DESTINATION", { from: first, to: last });
                     return result;
@@ -401,6 +421,7 @@ export class ShiftyGame extends GameBase {
                 const cell = this.coords2algebraic(...coords2);
                 if (this.board.has(cell)) { break; }
                 if (!this.canPlace(cell, this.currplayer, from)) { continue; }
+                if (this.nextToFriendly(cell, this.currplayer, from)) { continue; }
                 tos.push(cell);
             }
         }

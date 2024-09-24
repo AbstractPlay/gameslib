@@ -3721,7 +3721,7 @@
             "INVALID_PASS": "You may not pass if you have any legal moves available.",
             "CANNOT_PLACE": "You may not place at {{where}}. Placement must be orthogonally adjacent to one of your own pieces.",
             "CROSSCUT": "You may not place at {{where}} because it creates a crosscut.",
-            "CROSSCUT_MOVE": "You may move to {{where}} because it creates a crosscut.",
+            "CROSSCUT_MOVE": "You may not move to {{where}} because it creates a crosscut.",
             "NEXT_TO_FRIENDLY": "You may not move to {{where}} because it is next to one of your own pieces. You should just place a piece there directly.",
             "NO_TOS": "The selected piece at {{from}} has no possible destinations move to.",
             "INVALID_DESTINATION": "The piece at {{from}} cannot move to {{to}}."

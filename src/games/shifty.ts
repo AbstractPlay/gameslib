@@ -70,6 +70,7 @@ export class ShiftyGame extends GameBase {
     private dots: string[] = [];
     private grid: RectGrid;
     private lines: [PlayerLines, PlayerLines];
+    private selected: string | undefined;
 
     constructor(state?: IShiftyState | string, variants?: string[]) {
         super();
@@ -206,13 +207,6 @@ export class ShiftyGame extends GameBase {
             }
         }
         return false;
-    }
-
-    private nextToFriendly(where: string, player: playerid, from: string): boolean {
-        // Check if movement to `where` is next to a friendly piece.
-        const [x, y] = this.algebraic2coords(where);
-        const adjacents = this.grid.adjacencies(x, y, false).map(n => this.coords2algebraic(...n));
-        return adjacents.some(cell => this.board.has(cell) && this.board.get(cell) === player && cell !== from);
     }
 
     private canPlace(where: string, player: playerid, from?: string): boolean {
@@ -361,13 +355,10 @@ export class ShiftyGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                     return result;
                 }
-                const tos = this.getTos(first);
-                if (tos.length === 0) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.shifty.NO_TOS", { from: first });
-                    return result;
-                }
                 if (last === undefined || last === "") {
+                    // The selected piece might not have any possible destinations at this point.
+                    // We allow this because there is now sufficient feedback in the UI
+                    // to prompt the player to deselect the piece and make a different move.
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
@@ -384,13 +375,14 @@ export class ShiftyGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: first });
                     return result;
                 }
+                const tos = this.getTos(first);
                 if (!tos.includes(last)) {
                     if (!this.canPlace(last, this.currplayer, first)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.shifty.CROSSCUT_MOVE", { where: last });
                         return result;
                     }
-                    if (this.nextToFriendly(last, this.currplayer, first)) {
+                    if (this.canGrow(last, this.currplayer)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.shifty.NEXT_TO_FRIENDLY", { where: last });
                         return result;
@@ -421,7 +413,7 @@ export class ShiftyGame extends GameBase {
                 const cell = this.coords2algebraic(...coords2);
                 if (this.board.has(cell)) { break; }
                 if (!this.canPlace(cell, this.currplayer, from)) { continue; }
-                if (this.nextToFriendly(cell, this.currplayer, from)) { continue; }
+                if (this.canGrow(cell, this.currplayer)) { continue; }
                 tos.push(cell);
             }
         }
@@ -458,6 +450,7 @@ export class ShiftyGame extends GameBase {
             } else {
                 if (last === undefined || last === "") {
                     this.dots = this.getTos(first);
+                    this.selected = first;
                 } else {
                     this.results.push({ type: "move", from: first, to: last });
                     this.board.delete(first);
@@ -557,9 +550,17 @@ export class ShiftyGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell);
                     if (contents === 1) {
-                        pstr += "A";
-                    } else if (contents === 2) {
-                        pstr += "B";
+                        if (this.selected === cell) {
+                            pstr += "C";
+                        } else {
+                            pstr += "A";
+                        }
+                    } else {
+                        if (this.selected === cell) {
+                            pstr += "D";
+                        } else {
+                            pstr += "B";
+                        }
                     }
                 } else {
                     pstr += "-";
@@ -585,6 +586,9 @@ export class ShiftyGame extends GameBase {
             legend: {
                 A: [{ name: "piece", colour: 1 }],
                 B: [{ name: "piece", colour: 2 }],
+                // Selected pieces
+                C: [{ name: "piece", colour: "#FFF" }, { name: "piece", colour: 1, opacity: 0.5 }],
+                D: [{ name: "piece", colour: "#FFF" }, { name: "piece", colour: 2, opacity: 0.5 }],
             },
             pieces: pstr,
         };

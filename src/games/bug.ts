@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -42,7 +42,7 @@ export class BugGame extends GameBase {
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],
-        flags: ["no-moves", "custom-randomization"],
+        flags: ["no-moves", "custom-randomization", "scores"],
         displays: [{uid: "hide-moves"}],
     };
 
@@ -759,11 +759,27 @@ export class BugGame extends GameBase {
         return rep;
     }
 
+    public getPlayerScore(player: number): number {
+        return this.getFirstMoves(player as playerid).length;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+        ]
+    }
+
     public status(): string {
         let status = super.status();
 
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
+        }
+
+        status += "**Placeable Counts**\n\n";
+        for (let n = 1; n <= this.numplayers; n++) {
+            const pieces = this.getPlayerScore(n);
+            status += `Player ${n}: ${pieces}\n\n`;
         }
 
         return status;

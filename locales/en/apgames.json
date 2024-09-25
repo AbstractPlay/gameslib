@@ -2344,6 +2344,9 @@
             "NUMPIECES_one": "{{count}} piece",
             "NUMPIECES_other": "{{count}} pieces"
         },
+        "bug": {
+            "PLACEABLE_COUNT": "Placeable count"
+        },
         "buku": {
             "SCORES_ONBOARD": "Scores / On board"
         },

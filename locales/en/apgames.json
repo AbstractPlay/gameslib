@@ -3729,13 +3729,14 @@
             "INVALID_DESTINATION": "The piece at {{from}} cannot move to {{to}} because it has no line of sight."
         },
         "slither": {
-            "CANNOT_MOVE": "Advanced Slither: Movement only possible if a piece is part of a contiguous orthogonal group consisting of pieces of both colors.",
-            "DIAGONAL": "A piece may not be diagonally adjacent unless orthogonally connected by like-coloured piece.",
+            "CANNOT_MOVE": "Advanced Slither: the piece at {{where}} cannot move because it is not part of a contiguous orthogonal group consisting of pieces of both colors.",
+            "DIAGONAL": "You may not place at {{where}} because it is diagonally adjacent to a piece of your colour without being orthogonally connected.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "INVALID_PASS": "You may only pass if you have no other moves available.",
             "NEED_PLACEMENT": "You must place a piece.",
-            "NO_VALID_FOLLOWUP": "Movement here will not result in a valid follow-up move.",
-            "NOT_ADJACENT": "Pieces can only move to unoccupied orthogonally or diagonally adjacent spaces.",
+            "NEED_PLACEMENT_DIAGONAL": "You must place a piece at one of the dotted intersections.",
+            "NO_VALID_FOLLOWUP": "Movement to {{to}} will not result in a valid follow-up move.",
+            "NOT_ADJACENT": "{{to}} is not orthogonally or diagonally adjacent to the piece at {{from}}.",
             "PLACEMENT_MADE": "You have already made a move at {{where}}."
         },
         "slyde": {

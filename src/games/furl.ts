@@ -183,12 +183,12 @@ export class FurlGame extends GameBase {
             const cell = this.graph.coords2algebraic(col, row);
             if (move === "") {
                 newmove = cell;
+            } else if (move === cell) {
+                newmove = "";
             } else {
                 const [, size] = this.board.get(move)!;
                 if (size === 1) {
-                    if (move === cell) {
-                        newmove = "";
-                    } else if (this.getFurls(move).includes(cell)) {
+                    if (this.getFurls(move).includes(cell)) {
                         newmove = `${move}<${cell}`;
                     } else if (this.board.has(cell) && this.board.get(cell)![0] === this.currplayer) {
                         newmove = cell;

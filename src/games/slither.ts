@@ -296,25 +296,14 @@ export class SlitherGame extends GameBase {
                     return result;
                 }
             } else if (this.board.get(moves[0]) === this.currplayer) {
-                const [x,y] = SlitherGame.algebraic2coords(moves[0], this.boardSize);
                 if (!this.canMove(moves[0])) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.slither.CANNOT_MOVE");
                     return result;
                 }
-                let hasMoves = false;
-                for (const n of this.grid.adjacencies(x, y)) {
-                    const neighbour = SlitherGame.coords2algebraic(...n, this.boardSize);
-                    if (!this.board.has(neighbour)) {
-                        hasMoves = true;
-                        break;
-                    }
-                }
-                if (!hasMoves) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.NO_MOVES", {where: moves[0]});
-                    return result;
-                }
+                // The selected piece might not have any possible destinations at this point.
+                // We allow this because there is now sufficient feedback in the UI
+                // to prompt the player to deselect the piece and make a different move.
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
@@ -369,9 +358,6 @@ export class SlitherGame extends GameBase {
             result.message = i18next.t("apgames:validation.slither.DIAGONAL");
             return result;
         }
-        // A partial case not handled is if a player clicks on a piece where all
-        // destinations result in an unfixable diagonal, but in practice, this should not
-        // be a real problem.
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");

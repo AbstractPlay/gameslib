@@ -1,17 +1,18 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
 
-export type playerid = 1|2;
-export type Piece = "pawn"|"king";
+export type playerid = 0|1|2;
+export type Piece = "pawn"|"king"|"tower";
 export type CellContents = [playerid, Piece];
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
+    moon?: [number,number];
     lastmove?: string;
 };
 
@@ -42,18 +43,23 @@ export class ValleyGame extends GameBase {
         ],
         variants: [
             {
-                uid: "labyrinth"
+                uid: "labyrinth",
+                group: "rules"
+            },
+            {
+                uid: "moon",
+                group: "rules"
             },
             {
                 uid: "king-swap"
             }
         ],
         categories: ["goal>royal-escape", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective"]
+        flags: ["perspective", "limited-pieces"]
     };
 
     public get boardsize(): number {
-        if (this.variants.includes("labyrinth")) {
+        if (this.variants.includes("labyrinth") || this.variants.includes("moon")) {
             return 7;
         }
         return 5;
@@ -61,11 +67,13 @@ export class ValleyGame extends GameBase {
     public get blocked(): string[] {
         if (this.variants.includes("labyrinth")) {
             return ["b3","b5","f3","f5"];
+        } else if (this.variants.includes("moon")) {
+            return [...this.board.entries()].filter(([,pc]) => pc[0] === 0 && pc[1] === "tower").map(([cell,]) => cell);
         }
         return [];
     }
     public get centre(): string {
-        if (this.variants.includes("labyrinth")) {
+        if (this.variants.includes("labyrinth") || this.variants.includes("moon")) {
             return "d4";
         }
         return "c3";
@@ -79,6 +87,7 @@ export class ValleyGame extends GameBase {
 
     public numplayers = 2;
     public currplayer: playerid = 1;
+    public moon?: [number,number];
     public board!: Map<string, CellContents>;
     public gameover = false;
     public winner: playerid[] = [];
@@ -89,20 +98,28 @@ export class ValleyGame extends GameBase {
     constructor(state?: IValleyState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            let moon: [number,number]|undefined;
             let board = new Map<string, CellContents>([
                 ["a1", [1,"pawn"]], ["b1", [1,"pawn"]], ["c1", [1,"king"]], ["d1", [1,"pawn"]], ["e1", [1,"pawn"]],
                 ["a5", [2,"pawn"]], ["b5", [2,"pawn"]], ["c5", [2,"king"]], ["d5", [2,"pawn"]], ["e5", [2,"pawn"]],
             ]);
             if (variants !== undefined) {
                 this.variants = [...variants];
-                if (this.variants.includes("labyrinth")) {
+                if (this.variants.includes("labyrinth") || this.variants.includes("moon")) {
                     board = new Map<string, CellContents>([
                         ["a1", [1,"pawn"]], ["b1", [1,"pawn"]], ["c1", [1,"pawn"]], ["d1", [1,"king"]], ["e1", [1,"pawn"]], ["f1", [1,"pawn"]], ["g1", [1,"pawn"]],
                         ["a7", [2,"pawn"]], ["b7", [2,"pawn"]], ["c7", [2,"pawn"]], ["d7", [2,"king"]], ["e7", [2,"pawn"]], ["f7", [2,"pawn"]], ["g7", [2,"pawn"]],
                     ]);
+                    if (this.variants.includes("moon")) {
+                        board.set("b2", [0, "tower"]);
+                        board.set("f2", [0, "tower"]);
+                        board.set("b6", [0, "tower"]);
+                        board.set("f6", [0, "tower"]);
+                        moon = [3,3];
+                    }
                 }
                 if (this.variants.includes("king-swap")) {
-                    if (this.variants.includes("labyrinth")) {
+                    if (this.variants.includes("labyrinth") || this.variants.includes("moon")) {
                         board.set("d1", [2,"king"]);
                         board.set("d7", [1,"king"]);
                     } else {
@@ -117,6 +134,7 @@ export class ValleyGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
+                moon,
             };
             this.stack = [fresh];
         } else {
@@ -146,6 +164,7 @@ export class ValleyGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.moon = state.moon === undefined ? undefined : [...state.moon];
         return this;
     }
 
@@ -176,6 +195,24 @@ export class ValleyGame extends GameBase {
                     const to = ray[ray.length - 1];
                     if (to !== this.centre || piece === "king") {
                         moves.push(`${from}-${to}`);
+                    }
+                }
+            }
+        }
+
+        // check for tower moves
+        if (this.variants.includes("moon")) {
+            if (this.moon !== undefined && this.moon[player - 1] > 0) {
+                const towers = [...this.board.entries()].filter(([,[owner,]]) => owner === 0).map(([cell,]) => cell);
+                for (const tower of towers) {
+                    const [tx, ty] = this.algebraic2coords(tower);
+                    const neighbours = grid.adjacencies(tx, ty, false).map(([x,y]) => this.coords2algebraic(x, y)).filter(cell => !this.board.has(cell));
+                    for (const nbr of neighbours) {
+                        // no take backsies
+                        if (this.lastmove === `${nbr}-${tower}`) {
+                            continue;
+                        }
+                        moves.push(`${tower}-${nbr}`);
                     }
                 }
             }
@@ -253,9 +290,22 @@ export class ValleyGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: from});
             return result;
         }
-        // is yours
         const [owner, piece] = this.board.get(from)!;
-        if (owner !== this.currplayer) {
+        // is tower?
+        if (owner === 0 && piece === "tower") {
+            if (! this.variants.includes("moon")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.valley.BAD_VARIANT");
+                return result;
+            }
+            if (this.moon === undefined || this.moon[this.currplayer - 1] < 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.valley.NO_TOKENS");
+                return result;
+            }
+        }
+        // is yours
+        else if (owner !== this.currplayer) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
             return result;
@@ -283,7 +333,7 @@ export class ValleyGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
                 return result;
             }
-            // goes as far as it can
+            // validate movement
             const grid = new RectGrid(this.boardsize, this.boardsize);
             const dir = RectGrid.bearing(fx, fy, tx, ty);
             if (dir === undefined) {
@@ -291,16 +341,41 @@ export class ValleyGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.SAME_FROM_TO", {where: to});
                 return result;
             }
-            let ray = grid.ray(fx, fy, dir).map(pt => this.coords2algebraic(...pt));
-            const idx = ray.findIndex(cell => this.board.has(cell) || this.blocked.includes(cell));
-            if (idx !== -1) {
-                ray = ray.slice(0, idx);
+            // if not a tower, goes as far as it can
+            if (piece !== "tower") {
+                let ray = grid.ray(fx, fy, dir).map(pt => this.coords2algebraic(...pt));
+                const idx = ray.findIndex(cell => this.board.has(cell) || this.blocked.includes(cell));
+                if (idx !== -1) {
+                    ray = ray.slice(0, idx);
+                }
+                if (ray.length === 0 || ray[ray.length - 1] !== to) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.valley.NO_STOPPING");
+                    return result;
+                }
             }
-            if (ray.length === 0 || ray[ray.length - 1] !== to) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.valley.NO_STOPPING");
-                return result;
+            // tower validation
+            else {
+                // is orthogonal
+                if (dir.length !== 1) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.valley.TOWER_ORTH");
+                    return result;
+                }
+                // only one space
+                if (RectGrid.distance(fx, fy, tx, ty) !== 1) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.valley.TOWER_SINGLE_STEP");
+                    return result;
+                }
+                // no take backsies
+                if (this.lastmove === `${to}-${from}`) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.valley.TOWER_NO_TAKEBACKS");
+                    return result;
+                }
             }
+
             // only king on centre space
             if (to === this.centre && piece !== "king") {
                 result.valid = false;
@@ -346,7 +421,10 @@ export class ValleyGame extends GameBase {
         const piece = [...this.board.get(from)!] as CellContents;
         this.board.delete(from);
         this.board.set(to, piece);
-        this.results.push({type: "move", from, to});
+        this.results.push({type: "move", from, to, what: piece[1] === "tower" ? "tower" : undefined});
+        if (piece[1] === "tower") {
+            this.moon![this.currplayer - 1]--;
+        }
 
         // update currplayer
         this.lastmove = m;
@@ -424,6 +502,7 @@ export class ValleyGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
+            moon: this.moon !== undefined ? [...this.moon] : undefined,
         };
     }
 
@@ -439,7 +518,9 @@ export class ValleyGame extends GameBase {
                 const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const [owner, piece] = this.board.get(cell)!;
-                    if (owner === 1) {
+                    if (owner === 0) {
+                        pieces.push("-");
+                    } else if (owner === 1) {
                         if (piece === "pawn") {
                             pieces.push("A");
                         } else {
@@ -503,7 +584,7 @@ export class ValleyGame extends GameBase {
             },
             pieces: pstr
         };
-        if (this.variants.includes("labyrinth")) {
+        if (this.variants.includes("labyrinth") || this.variants.includes("moon")) {
             rep.legend!.TOWER = {
                 name: "chess-rook-outline-montreal",
                 opacity: 0.5,
@@ -541,7 +622,27 @@ export class ValleyGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
+        if (this.variants.includes("moon")) {
+            status += "**Moon tokens**: " + this.moon!.join(", ") + "\n\n";
+        }
+
         return status;
+    }
+
+    public getPlayersScores(): IScores[] {
+        if (this.moon !== undefined) {
+            return [
+                { name: i18next.t("apgames:status.valley"), scores: this.moon }
+            ]
+        }
+        return [];
+    }
+
+    public getPlayerPieces(player: number): number {
+        if (this.moon !== undefined) {
+            return this.moon[player - 1];
+        }
+        return 0;
     }
 
     public clone(): ValleyGame {

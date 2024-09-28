@@ -1419,6 +1419,10 @@
             "labyrinth": {
                 "description": "Board size increases to 7x7 and four towers further complicate the field.",
                 "name": "Labyrinth"
+            },
+            "moon": {
+                "description": "Also 7x7 board with four towers, but the towers start in slightly different places, and players are able to move the towers.",
+                "name": "Moon Labyrinth"
             }
         },
         "veletas": {
@@ -2387,7 +2391,8 @@
         "SCORES": "Scores",
         "tumbleweed": "Score (pieces + influence)",
        "ESTIMATEDSCORES": "Estimated scores",
-        "TOPLACE": "Piece to place"
+        "TOPLACE": "Piece to place",
+        "valley": "Moon Tokens"
     },
     "validation": {
         "_general": {
@@ -4029,11 +4034,16 @@
             "PARTIAL_PLACE_SIZE": "Select the size of a piece to place."
         },
         "valley": {
+            "BAD_VARIANT": "You can only move towers in the Moon Labyrinth variant.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "KING_ONLY": "Only the king may end its turn on the centre space.",
             "NO_STOPPING": "Pieces must move in their chosen direction until stopped by the edge of the board or another piece.",
+            "NO_TOKENS": "You may only move towers when you have moon tokens.",
             "PARTIAL": "Select the destination.",
-            "PAWN_FIRST": "The first move of the game cannot be made with the king."
+            "PAWN_FIRST": "The first move of the game cannot be made with the king.",
+            "TOWER_NO_TAKEBACKS": "You may not just immediately undo an opponent's tower move.",
+            "TOWER_ORTH": "Towers may only move orthogonally.",
+            "TOWER_SINGLE_STEP": "Towers may only move one space."
         },
         "veletas": {
             "ALREADY_SHOT": "You have already shot at {{where}}.",

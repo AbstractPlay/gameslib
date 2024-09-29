@@ -53,6 +53,7 @@ export class OwareGame extends GameBase {
     public deltas: number[][] = [[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0],];
     public scores: [number,number] = [0,0];
     public gameover = false;
+    public isclone = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
@@ -361,6 +362,33 @@ export class OwareGame extends GameBase {
             }
         }
 
+        // check for cycle
+        if (!this.isclone && !this.gameover && this.moves().length === 1) {
+            const limit = 250;
+            let isCycle = true;
+            const cloned = this.clone();
+            cloned.isclone = true;
+            for (let i = 0; i < limit; i++) {
+                cloned.move(cloned.moves()[0], {trusted: true});
+                if (cloned.moves().length !== 1) {
+                    isCycle = false;
+                    break;
+                }
+            }
+            if (isCycle) {
+                this.gameover = true;
+                const p1score = this.scores[0] + this.board[1].reduce((prev, curr) => prev + curr, 0);
+                const p2score = this.scores[1] + this.board[0].reduce((prev, curr) => prev + curr, 0);
+                if (p1score > p2score) {
+                    this.winner = [1];
+                } else if (p2score > p1score) {
+                    this.winner = [2];
+                } else { // draw
+                    this.winner = [1,2];
+                }
+            }
+        }
+
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},
@@ -530,7 +558,7 @@ export class OwareGame extends GameBase {
     }
 
     public clone(): OwareGame {
-        return new OwareGame(this.serialize());
+        return Object.assign(new OwareGame(), deepclone(this) as OwareGame)
     }
 
     protected cloneBoard(): number[][] {

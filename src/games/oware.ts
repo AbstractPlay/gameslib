@@ -364,7 +364,7 @@ export class OwareGame extends GameBase {
 
         // check for cycle
         if (!this.isclone && !this.gameover && this.moves().length === 1) {
-            const limit = 250;
+            const limit = 200;
             let isCycle = true;
             const cloned = this.clone();
             cloned.isclone = true;

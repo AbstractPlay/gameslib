@@ -344,7 +344,7 @@ export class EntrapmentGame extends GameBase {
                         const forced2 = forceds2[player - 1];
                         for (const from2 of froms2) {
                             for (const [to2, jumped2] of this.getTos(player, from2, toRemove, toAdd, jumpedWalls)) {
-                                const jumpedWalls2 = [jumped, jumped2].filter(j => j !== undefined);
+                                const jumpedWalls2 = [jumped, jumped2].filter(j => j !== undefined) as string[];
                                 const captures2 = this.getCapturesRoamer(player, to2, toRemove, toAdd, jumpedWalls2, forceds2);
                                 const toRemove2 = from2 === to ? [...toRemove, ...captures2] : [...toRemove, from2, ...captures2];
                                 const toAdd2 = from2 === to ? new Map([[to2, player]]) :new Map([...toAdd, [to2, player]]);

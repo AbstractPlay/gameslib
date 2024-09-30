@@ -437,7 +437,7 @@ export class CamelotGame extends GameBase {
         // Get all pieces that are in their own castle.
         player ??= this.currplayer;
         pieces ??= [...this.board].filter(([, v]) => v[0] === player).map(([k, ]) => k);
-        return pieces.filter(p => this.castleCells[player - 1].includes(p));
+        return pieces.filter(p => this.castleCells[player! - 1].includes(p));
     }
 
     public moves(player?: playerid): string[] {

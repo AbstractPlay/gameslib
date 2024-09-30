@@ -352,7 +352,7 @@ export class SusanGame extends GameBase {
                     this.winner = [this.currplayer % 2 + 1 as playerid];
                 }
             } else {
-                this.winner = [surroundedPlayers.values().next().value % 2 + 1 as playerid];
+                this.winner = [surroundedPlayers.values().next()!.value! % 2 + 1 as playerid];
             }
             this.results.push({ type: "eog" });
         }

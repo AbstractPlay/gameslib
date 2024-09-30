@@ -535,7 +535,7 @@ export class BugGame extends GameBase {
         board ??= this.board;
         const growable: string[] = [];
         for (const cell of this.getAdjacentFree(bug, board, captured)) {
-            if (this.graph.neighbours(cell).every(n => board!.get(n) !== player || bug.has(n))) {
+            if (this.graph.neighbours(cell).every(n => board.get(n) !== player || bug.has(n))) {
                 growable.push(cell);
             }
         }

@@ -183,7 +183,11 @@ export class OnyxGraph implements IGraph {
                 const node: string[] = [];
                 let realWidth = this.width;
                 if (row % 2 !== 0) {
-                    realWidth = Math.floor(this.width / 2);
+                    if ((row + 1) % 4 === 0) {
+                        realWidth = Math.floor(this.width / 2);
+                    } else {
+                        realWidth = Math.floor(this.width / 2) - 1;
+                    }
                 }
                 for (let col = 0; col < realWidth; col++) {
                     let cell: string;

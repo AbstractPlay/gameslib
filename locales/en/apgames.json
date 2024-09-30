@@ -95,6 +95,7 @@
         "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
+        "onyx": "A connection game on a modified snub-square board with a capture rule.",
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
@@ -906,6 +907,18 @@
         "nex": {
             "size-9": {
                 "name": "9x9 board"
+            }
+        },
+        "onyx": {
+            "size-16": {
+                "name": "Size-16 board"
+            },
+            "size-20": {
+                "name": "Size-20 board"
+            },
+            "head-start": {
+                "name": "Head start",
+                "description": "Both players start with two pieces on each opponent's edge."
             }
         },
         "orb": {
@@ -1751,6 +1764,14 @@
                 "name": "11x11 board"
             }
         },
+        "onyx": {
+            "board": {
+                "name": "size-12 board"
+            },
+            "setup": {
+                "name": "open setup"
+            }
+        },
         "oust": {
             "board": {
                 "name": "size-7 hex"
@@ -2126,6 +2147,12 @@
             "expanding": {
                 "description": "Two dimensional board, with stacks expanding when hovered over.",
                 "name": "Expanding"
+            }
+        },
+        "onyx": {
+            "hide-threatened": {
+                "description": "Don't show threatened pieces.",
+                "name": "Hide threatened"
             }
         },
         "oust": {
@@ -3422,6 +3449,13 @@
             "INVALID_MOVES": "This sequence of moves {{moves}} is invalid.",
             "OPTIONAL_CONTINUE": "You have landed on your opponent's piece. If you wish to continue your move, select another destination to jump to, otherwise submit the move.",
             "SELECT_TO": "Select a destination to walk to or jump to."
+        },
+        "onyx": {
+            "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece",
+            "BLOCKED_CENTRE": "You may not place at centre {{where}} because there are pieces in its corners.",
+            "NO_CAPTURE": "You have indicated capture, but there is no captures in this move. Try '{{move}}'.",
+            "SINGLE_CAPTURE": "This move captures one pair, it has to be suffixed with 'x'. Try '{{move}}'.",
+            "DOUBLE_CAPTURE": "This move captures two pairs, it has to be suffixed with 'xx'. Try '{{move}}'."
         },
         "orb": {
             "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",

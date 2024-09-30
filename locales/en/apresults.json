@@ -65,6 +65,7 @@
             "simple": "A {{what}} was captured at {{where}}."
         },
         "nowhat": "{{player}} captured a piece at {{where}}.",
+        "onyx": "A pair of pieces was captured at {{where1}} and {{where2}}.",
         "orb_1": "{{player}} captured an orb at {{where}}.",
         "orb_2": "{{player}} captured a spheroid at {{where}}.",
         "pente": "{{player}} captured {{count}} pieces.",

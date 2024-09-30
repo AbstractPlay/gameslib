@@ -449,7 +449,7 @@ export class TwixtGame extends GameBase {
         if (!regex.test(move)) { return false; }
         if (move.split("'").length > 2) { return false; }
         if (move[0] === "-" && this.isPeg(move.slice(1))) { return false; }
-        if ((move.includes("/" || move.includes("\\")) && !move.includes("'"))) { return false; }
+        if ((move.includes("/") || move.includes("\\")) && !move.includes("'")) { return false; }
         const stripped = move.replace(/['-/\\]/g, "");
         const [x, y] = this.peg2coords(stripped);
         if (this.isPeg(move)) {

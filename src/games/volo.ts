@@ -649,9 +649,13 @@ export class VoloGame extends GameBase {
         const allOpponent = new Set<string>([...this.board.keys()].filter(x => this.board.get(x) !== player));
         const seen = new Set<string>();
         const regions:  Set<string>[] = [];
-        for (const [from, to] of moved) {
-            allEmpty.delete(to);
+        const allFroms = [...moved.keys()];
+        const allTos = [...moved.values()];
+        for (const from of allFroms.filter(x => !allTos.includes(x))) {
             allEmpty.add(from);
+        }
+        for (const to of allTos.filter(x => !allFroms.includes(x))) {
+            allEmpty.delete(to);
         }
         for (const cell of allOpponent) {
             if (seen.has(cell)) { continue; }

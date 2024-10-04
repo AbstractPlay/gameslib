@@ -231,9 +231,9 @@ export class AltaGame extends GameBase {
                     const [p, orient] = this.board.get(cell)!;
                     if (p === player) {
                         if (orient === "/") {
-                            moves.push("\\" + cell);
+                            moves.push("\\" + cell + "+");
                         } else {
-                            moves.push("/" + cell);
+                            moves.push("/" + cell + "+");
                         }
                     }
                 } else {
@@ -276,7 +276,7 @@ export class AltaGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    private vertices2place(vertex1: string, vertex2: string): string | undefined {
+    private vertices2place(vertex1: string, vertex2: string, addToggleSuffix = false): string | undefined {
         // Convert two vertices into a place move.
         const [x1, y1] = this.algebraic2coords(vertex1);
         const [x2, y2] = this.algebraic2coords(vertex2);
@@ -288,7 +288,11 @@ export class AltaGame extends GameBase {
         const xL = Math.min(x1, x2);
         const yU = Math.max(y1, y2);
         const isRising = y2 > y1 !== x2 > x1;
-        return (isRising ? "/" : "\\") + this.coords2algebraic(xL, yU).slice(1);
+        const cell = this.coords2algebraic(xL, yU).slice(1);
+        if (addToggleSuffix && this.board.has(cell)) {
+            return (isRising ? "/" : "\\") + cell + "+";
+        }
+        return (isRising ? "/" : "\\") + cell;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -306,7 +310,7 @@ export class AltaGame extends GameBase {
                     if (move === "" || move === "/" || move === "\\") {
                         const tos = this.getDots(cell);
                         if (tos.length === 1) {
-                            newmove = this.vertices2place(cell, tos[0])!;
+                            newmove = this.vertices2place(cell, tos[0], true)!;
                         } else {
                             newmove = cell;
                         }
@@ -314,7 +318,7 @@ export class AltaGame extends GameBase {
                         if (move === cell) {
                             newmove = "";
                         } else {
-                            const place = this.vertices2place(move, cell);
+                            const place = this.vertices2place(move, cell, true);
                             if (place === undefined) {
                                 newmove = cell;
                             } else {
@@ -323,14 +327,18 @@ export class AltaGame extends GameBase {
                         }
                     }
                 } else if (move === "/" || move === "\\") {
-                    newmove = move + cell;
+                    if (this.board.has(cell)) {
+                        newmove = move + cell + "+";
+                    } else {
+                        newmove = move + cell;
+                    }
                 } else if (this.board.has(cell)) {
                     const [p, orient] = this.board.get(cell)!;
                     if (p === this.currplayer) {
                         if (orient === "/") {
-                            newmove = "\\" + cell;
+                            newmove = "\\" + cell + "+";
                         } else {
-                            newmove = "/" + cell;
+                            newmove = "/" + cell + "+";
                         }
                     } else {
                         newmove = cell;
@@ -401,7 +409,7 @@ export class AltaGame extends GameBase {
             return result;
         } else {
             const orient = m[0];
-            const cell = m.slice(1);
+            const cell = m.endsWith("+") ? m.slice(1, -1) : m.slice(1);
             if (!this.getAllSpaces().includes(cell)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.alta.INVALID_SPACE", { space: cell });
@@ -425,6 +433,15 @@ export class AltaGame extends GameBase {
                     result.message = i18next.t("apgames:validation.alta.ALREADY_OCCUPIED", { orient, where: cell });
                     return result;
                 }
+                if (!m.endsWith("+")) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.alta.NO_ORIENT_SUFFIX", { move: m + "+" });
+                    return result;
+                }
+            } else if (m.endsWith("+")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.alta.ORIENT_SUFFIX", { move: m.slice(0, -1) });
+                return result;
             }
         }
         result.valid = true;
@@ -581,7 +598,7 @@ export class AltaGame extends GameBase {
             this.dots = this.getDots(m);
         } else {
             const orient = m[0];
-            const cell = m.slice(1);
+            const cell = m.endsWith("+") ? m.slice(1, -1) : m.slice(1);
             if (this.board.has(cell)) {
                 this.results.push({ type: "orient", where: cell, facing: orient });
             } else {

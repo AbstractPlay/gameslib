@@ -2576,7 +2576,9 @@
             "INVALID_TO": "The vertex {{from}} cannot connect to {{to}}",
             "INVALID_SPACE": "The space {{space}} does not exist on the board.",
             "OPPONENT_SPACE": "You may not place a switch at {{where}} because it is your opponent's area.",
-            "ALREADY_OCCUPIED": "You already have a switch in the '{{orient}}' orientation at {{where}}"
+            "ALREADY_OCCUPIED": "You already have a switch in the '{{orient}}' orientation at {{where}}",
+            "NO_ORIENT_SUFFIX": "When toggling a switch, you must suffix the move with a '+'. Try '{{move}}'.",
+            "ORIENT_SUFFIX": "You suffixed the move with a '+' but it was not a toggle move. Try '{{move}}'."
         },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",

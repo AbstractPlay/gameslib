@@ -502,8 +502,8 @@ export class AltaGame extends GameBase {
         const tos: string[] = [];
         const [x, y] = this.algebraic2coords(vertex);
         const opponentSpaces = this.getPlayerSpaces(this.currplayer % 2 + 1 as playerid);
-        if (x - 1 >= 0) {
-            if (y - 2 >= 0) {
+        if (x - 1 >= -1) {
+            if (y - 2 >= -1) {
                 const to = this.coords2algebraic(x - 1, y - 2);
                 const place = this.vertices2place(vertex, to)!;
                 const cell = place.slice(1);
@@ -535,7 +535,7 @@ export class AltaGame extends GameBase {
             }
         }
         if (x + 1 < this.boardSize) {
-            if (y - 2 >= 0) {
+            if (y - 2 >= -1) {
                 const to = this.coords2algebraic(x + 1, y - 2);
                 const place = this.vertices2place(vertex, to)!;
                 const cell = place.slice(1);

@@ -45,7 +45,7 @@ export class AltaGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "size-13", group: "board" },
+            { uid: "size-13", group: "board", experimental: true },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["experimental", "pie"],

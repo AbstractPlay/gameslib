@@ -6,6 +6,7 @@
         "agere": "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
         "akron": "Akron is an extension of standard connection games to three dimensions. On their turn, players may introduce new balls of their colour on the lowest layer of the board, or move a ball that is not pinned (having balls resting on it in two or more directions) to a space that is connected to the same group both before and after movement. When balls move, balls resting on it will drop, changing the connections on the board.",
         "almatafl": "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
+        "alta": "Alta is a connection game played with switches on a diamond-shaped board. Connect your two sides with a path of switches of either player. On your turn, place a new switch or toggle one of your switches to change the orientation.",
         "amazons": "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
@@ -158,6 +159,7 @@
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
     "notes": {
+        "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.",
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
@@ -252,6 +254,11 @@
             "plus": {
                 "description": "Restricts stacking by not allowing pieces to move onto taller stacks directly.",
                 "name": "Plus"
+            }
+        },
+        "alta": {
+            "Size-13": {
+                "name": "size-13 board"
             }
         },
         "amazons": {
@@ -1487,6 +1494,11 @@
                 "name": "size-9 board"
             }
         },
+        "alta": {
+            "board": {
+                "name": "size-9 board"
+            }
+        },
         "amazons": {
             "setup": {
                 "description": "Queens of each colour are on opposite halves of the board."
@@ -2009,6 +2021,12 @@
             "orb-3d": {
                 "description": "Use plain 3D orb textures.",
                 "name": "3D orbs"
+            }
+        },
+        "alta": {
+            "hide-panel": {
+                "description": "Don't show panel to select orientation.",
+                "name": "Hide panel"
             }
         },
         "anache": {
@@ -2547,6 +2565,18 @@
             "PARTIAL": "Select the destination.",
             "PLUS_TOO_HIGH": "Under the Plus rules, you may not move directly to a taller stack.",
             "TOO_HIGH": "Pieces may not be stacked more than three high."
+        },
+        "alta": {
+            "INITIAL_INSTRUCTIONS": "Select a space to place a switch.",
+            "SELECT_SPACE": "Select a space to place a '{{orient}}' switch.",
+            "INVALID_VERTEX": "The vertex {{vertex}} does not exist on the board.",
+            "NO_DOTS": "The vertex {{vertex}} does not allow any placement of your switch.",
+            "SELECT_TO": "Select a vertex to lay a switch.",
+            "USE_PLACE": "To place a switch from vertices {{from}} to {{to}}, enter '{{place}}.",
+            "INVALID_TO": "The vertex {{from}} cannot connect to {{to}}",
+            "INVALID_SPACE": "The space {{space}} does not exist on the board.",
+            "OPPONENT_SPACE": "You may not place a switch at {{where}} because it is your opponent's area.",
+            "ALREADY_OCCUPIED": "You already have a switch in the '{{orient}}' orientation at {{where}}"
         },
         "amazons": {
             "INITIAL_INSTRUCTIONS": "Select one of your amazons to move.",

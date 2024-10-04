@@ -157,6 +157,7 @@ import { BoxesGame, IBoxesState } from "./boxes";
 import { ConnectionsGame, IConnectionsState } from "./connections";
 import { ResolveGame, IResolveState } from "./resolve";
 import { OnyxGame, IOnyxState } from "./onyx";
+import { AltaGame, IAltaState } from "./alta";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -316,6 +317,7 @@ export {
     ConnectionsGame, IConnectionsState,
     ResolveGame, IResolveState,
     OnyxGame, IOnyxState,
+    AltaGame, IAltaState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -370,7 +372,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CamelotGame | typeof LifelineGame | typeof ShiftyGame |
                               typeof PodsGame | typeof LoxGame | typeof QueryGame |
                               typeof ControlGame | typeof BoxesGame | typeof ConnectionsGame |
-                              typeof ResolveGame | typeof OnyxGame
+                              typeof ResolveGame | typeof OnyxGame | typeof AltaGame
                 >();
 // Manually add each game to the following array
 [
@@ -395,7 +397,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     SploofGame, SpireGame, SpreeGame, AsliGame, ConectGame, SlydeGame, UnlurGame, EntrapmentGame,
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
-    QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame,
+    QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -719,6 +721,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ResolveGame(...args);
         case "onyx":
             return new OnyxGame(...args);
+        case "alta":
+            return new AltaGame(...args);
     }
     return;
 }

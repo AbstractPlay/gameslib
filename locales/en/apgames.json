@@ -1281,6 +1281,12 @@
                 "name": "Higher penalty (-12)"
             }
         },
+        "tablero": {
+            "5:10": {
+                "name": "Compressed range (5–10)",
+                "description": "By adding 4 to the value of each centre space, the ratio of highest space to lowest is compressed from 6:1 to 2:1. This incentivizes more active competition for lower spaces."
+            }
+        },
         "tafl": {
             "berserk-11x11-tdiamondberserk": {
                 "description": "Berserk variant of the Fetlar rules with knights and commanders. Multi-step captures are permitted, and the king may escape to the corner immediately after a capture.",
@@ -1942,6 +1948,11 @@
             "penalty": {
                 "description": "A lower penalty creates a more aggressive game, and a higher penalty, a more conservative one.",
                 "name": "penalty (-8)"
+            }
+        },
+        "tablero": {
+            "scoring": {
+                "description": "One point per pip"
             }
         },
         "tafl": {
@@ -2670,7 +2681,7 @@
             "INITIAL_INSTRUCTIONS_pie": "Either click the 'Play second' button to stay where you are and continue playing second, or click 'Swap player seats' to change seats.",
             "INITIAL_INSTRUCTIONS_play": "Place a piece on a valid empty space or pass to take an enemy piece out of the prison instead (if one is available).",
             "MUST_PIE": "At this point of the game, placing pieces is not allowed.",
-            "NEGATIVE_KOMI": "Komi values are usually positive. Negative komi values are legal and valid, but they are typically only used when you are the stronger player and wish to handicap yourself.",
+            "NEGATIVE_KOMI": "Are you sure? Negative komi offers should only be needed in specific handicapping situations.",
             "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn.",
             "WOVEN_INCURSION": "In the 'Woven' variant, incursions are not legal."
         },

@@ -47,7 +47,7 @@ export class TableroGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        variants: [{uid: "5:10", group: "scoring"}],
+        variants: [{uid: "5-10", group: "scoring"}],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "perspective", "scores", "automove", "no-explore", "custom-rotation"]
     };

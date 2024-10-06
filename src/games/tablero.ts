@@ -90,7 +90,7 @@ export class TableroGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    private emulated: boolean;
+    private emulated = false;
     // This field is not persisted. It is used for partials only to show the stack that is moving.
     public moving?: playerid[];
 

@@ -812,7 +812,7 @@ export class TableroGame extends GameBase {
                 const stack = this.board.get(cell)!;
                 if (stack[stack.length - 1] === player) {
                     let pts = col + 1;
-                    if (this.variants.includes("5:10")) {
+                    if (this.variants.includes("5-10")) {
                         pts += 4;
                     }
                     score += pts;

@@ -31,7 +31,7 @@ export class AltaGame extends GameBase {
         uid: "alta",
         playercounts: [2],
         version: "20240929",
-        dateAdded: "2024-09-29",
+        dateAdded: "2024-10-06",
         // i18next.t("apgames:descriptions.alta")
         description: "apgames:descriptions.alta",
         // i18next.t("apgames:notes.alta")
@@ -48,7 +48,7 @@ export class AltaGame extends GameBase {
             { uid: "size-13", group: "board", experimental: true },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
         displays: [{ uid: "hide-panel" }],
     };
 

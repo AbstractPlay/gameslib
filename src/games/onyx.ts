@@ -29,7 +29,7 @@ export class OnyxGame extends GameBase {
         uid: "onyx",
         playercounts: [2],
         version: "20240929",
-        dateAdded: "2024-09-29",
+        dateAdded: "2024-10-06",
         // i18next.t("apgames:descriptions.onyx")
         description: "apgames:descriptions.onyx",
         urls: ["https://boardgamegeek.com/boardgame/11375/onyx"],
@@ -46,7 +46,7 @@ export class OnyxGame extends GameBase {
             { uid: "head-start", group: "setup" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "components>simple"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
         displays: [{ uid: "hide-threatened" }],
     };
 

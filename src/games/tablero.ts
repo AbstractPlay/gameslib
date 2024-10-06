@@ -90,6 +90,7 @@ export class TableroGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    private emulated: boolean;
     // This field is not persisted. It is used for partials only to show the stack that is moving.
     public moving?: playerid[];
 
@@ -644,7 +645,7 @@ export class TableroGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): TableroGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): TableroGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -666,6 +667,7 @@ export class TableroGame extends GameBase {
             }
         }
 
+        this.emulated = emulation;
         this.results = [];
         const moves = (m.split(","));
         for (const move of moves) {
@@ -1011,22 +1013,6 @@ export class TableroGame extends GameBase {
             pieces: pstr,
             areas: [
                 {
-                    type: "key",
-                    list: [
-                        {
-                            piece: "D1",
-                            name: ""
-                        },
-                        {
-                            piece: "D2",
-                            name: ""
-                        }
-                    ],
-                    position: "right",
-                    clickable: false,
-                    height: 1
-                },
-                {
                     type: "buttonBar",
                     position: "left",
                     height: 0.5,
@@ -1044,6 +1030,25 @@ export class TableroGame extends GameBase {
                 }
             ]
         };
+
+        if (! this.emulated) {
+            rep.areas!.push({
+                type: "key",
+                list: [
+                    {
+                        piece: "D1",
+                        name: ""
+                    },
+                    {
+                        piece: "D2",
+                        name: ""
+                    }
+                ],
+                position: "right",
+                clickable: false,
+                height: 1
+            })
+        }
 
         // add previous dice rolls
         if (this.stack.length > 1) {

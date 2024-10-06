@@ -1005,13 +1005,31 @@ export class TableroGame extends GameBase {
                 },
                 D1: {
                     name: `d6-${this.roll[0]}`,
+                    opacity: this.emulated ? 0 : 1,
                 },
                 D2: {
                     name: `d6-${this.roll[1]}`,
+                    opacity: this.emulated ? 0 : 1,
                 }
             },
             pieces: pstr,
             areas: [
+                {
+                    type: "key",
+                    list: [
+                        {
+                            piece: "D1",
+                            name: ""
+                        },
+                        {
+                            piece: "D2",
+                            name: ""
+                        }
+                    ],
+                    position: "right",
+                    clickable: false,
+                    height: 1
+                },
                 {
                     type: "buttonBar",
                     position: "left",
@@ -1030,25 +1048,6 @@ export class TableroGame extends GameBase {
                 }
             ]
         };
-
-        if (! this.emulated) {
-            rep.areas!.push({
-                type: "key",
-                list: [
-                    {
-                        piece: "D1",
-                        name: ""
-                    },
-                    {
-                        piece: "D2",
-                        name: ""
-                    }
-                ],
-                position: "right",
-                clickable: false,
-                height: 1
-            })
-        }
 
         // add previous dice rolls
         if (this.stack.length > 1) {

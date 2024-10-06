@@ -68,6 +68,7 @@ export class TBTGame extends GameBase {
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
+    private emulated = false;
     public results: Array<APMoveResult> = [];
 
     constructor(state?: ITBTState | string) {
@@ -301,7 +302,7 @@ export class TBTGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false} = {}): TBTGame {
+    public move(m: string, {trusted = false, emulation = false} = {}): TBTGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -319,6 +320,7 @@ export class TBTGame extends GameBase {
             }
         }
 
+        this.emulated = emulation;
         this.results = [];
         if (m !== "pass") {
             const [from, to] = m.split("-");
@@ -493,6 +495,7 @@ export class TBTGame extends GameBase {
                 },
                 D1: {
                     name: `d6-${this.roll}`,
+                    opacity: this.emulated ? 0 : 1,
                 },
             },
             pieces: pstr,

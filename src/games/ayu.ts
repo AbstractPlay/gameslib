@@ -451,13 +451,13 @@ export class AyuGame extends GameBase {
 
     protected checkEOG(): AyuGame {
         const otherPlayer = this.currplayer % 2 + 1 as playerid;
-        if (this.allOneGroup(otherPlayer)) {
-            this.gameover = true;
-            this.winner = [otherPlayer];
-            this.results.push({ type: "eog" });
-        } else if (!this.hasMoves(this.currplayer)) {
+        if (!this.hasMoves(this.currplayer)) {
             this.gameover = true;
             this.winner = [this.currplayer];
+            this.results.push({ type: "eog" });
+        } else if (this.allOneGroup(otherPlayer)) {
+            this.gameover = true;
+            this.winner = [otherPlayer];
             this.results.push({ type: "eog" });
         }
         if (!this.gameover) {

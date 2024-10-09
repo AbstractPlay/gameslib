@@ -23,7 +23,10 @@ export class AyuGame extends GameBase {
         name: "Ayu",
         uid: "ayu",
         playercounts: [2],
-        version: "20240517",
+        // version: "20240517",
+        // Changed win condition so that the losing player must still make a final move
+        // even if no matter what they do they will lose the game.
+        version: "20241010",
         dateAdded: "2024-05-26",
         // i18next.t("apgames:descriptions.ayu")
         description: "apgames:descriptions.ayu",
@@ -387,11 +390,10 @@ export class AyuGame extends GameBase {
         return seen.size === cells.size;
     }
 
-    private allOneGroup(player: playerid): boolean {
-        // Check if all the cells are in one group.
-        return this.oneGroup(new Set([...this.board.entries()].filter(([, contents]) => contents === player).map(([cell]) => cell)));
-    }
-
+    // private allOneGroup(player: playerid): boolean {
+    //     // Check if all the cells are in one group.
+    //     return this.oneGroup(new Set([...this.board.entries()].filter(([, contents]) => contents === player).map(([cell]) => cell)));
+    // }
 
     private getTos(from: string): string[] {
         // Get the cells that a piece at `from` can move to.
@@ -450,15 +452,15 @@ export class AyuGame extends GameBase {
     }
 
     protected checkEOG(): AyuGame {
-        const otherPlayer = this.currplayer % 2 + 1 as playerid;
+        // const otherPlayer = this.currplayer % 2 + 1 as playerid;
         if (!this.hasMoves(this.currplayer)) {
             this.gameover = true;
             this.winner = [this.currplayer];
             this.results.push({ type: "eog" });
-        } else if (this.allOneGroup(otherPlayer)) {
-            this.gameover = true;
-            this.winner = [otherPlayer];
-            this.results.push({ type: "eog" });
+        // } else if (this.allOneGroup(otherPlayer)) {
+        //     this.gameover = true;
+        //     this.winner = [otherPlayer];
+        //     this.results.push({ type: "eog" });
         }
         if (!this.gameover) {
             const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));

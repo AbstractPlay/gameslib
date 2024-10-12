@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections, Directions } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 type CellContents = [playerid, number];
@@ -119,7 +115,7 @@ export class LielowGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = deepclone(state.board) as Map<string, CellContents>;
+        this.board = [...state.board].reduce((m, [k, v]) => m.set(k, [v[0], v[1]]), new Map<string, CellContents>());
         this.kingPos = [...state.kingPos];
         this.lastmove = state.lastmove;
         this.results = [...state._results];
@@ -517,7 +513,7 @@ export class LielowGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board),
+            board: [...this.board].reduce((m, [k, v]) => m.set(k, [v[0], v[1]]), new Map<string, CellContents>()),
             kingPos: [...this.kingPos]
         };
     }

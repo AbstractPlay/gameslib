@@ -801,6 +801,11 @@
                 "name": "Toroidal 15x15 board"
             }
         },
+        "lielow": {
+            "size-9": {
+                "name": "Size-9 board"
+            }
+        },
         "lifeline": {
             "size-6": {
                 "name": "Size 6 board"
@@ -1739,6 +1744,11 @@
             },
             "tiebreaker": {
                 "name": "no tiebreak"
+            }
+        },
+        "lielow": {
+            "board": {
+                "name": "size-8 board"
             }
         },
         "lifeline": {

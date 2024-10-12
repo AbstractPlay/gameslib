@@ -31,7 +31,9 @@ export class CamelotGame extends GameBase {
         name: "Camelot",
         uid: "camelot",
         playercounts: [2],
-        version: "20240817",
+        // version: "20240817",
+        // Initial implementation of forced jumps did not allow knight's charges.
+        version: "20241012",
         dateAdded: "2024-08-26",
         // i18next.t("apgames:descriptions.camelot")
         description: "apgames:descriptions.camelot",
@@ -349,12 +351,17 @@ export class CamelotGame extends GameBase {
         return [treePlaceableCells1, treePlaceableCells2];
     }
 
-    private getAllMoves(from: string): string[] {
+    private getAllMoves(from: string, mustJump = false): string[] {
         // Get all possible sequences of moves from a given cell.
-        // We assume that by the time this function is called, the from does not have a forced jump.
-        // This is because there is a separate check that runs to find all pieces with forced jumps.
+        // If mustJump is true, only return sequences that include a jump.
+        // This value is usually decided before this function needs to be called.
+        const moves: string[] = [];
         const [player, piece] = this.board.get(from)!;
-        const plainMoves = this.getPlain(from, this.currplayer).map(x => from + "-" + x);
+        if (mustJump) {
+            moves.push(...this.getAllJumps(from, [], [from], player).map(x => from + "x" + x.join("x")));
+        } else {
+            moves.push(...this.getPlain(from, player).map(x => from + "-" + x));
+        }
         const [canters, chargeIndices] = this.getAllCanters(from, [], [from], player, piece === 2);
         const canterMoves: string[] = [];
         for (let i = 0; i < canters.length; i++) {
@@ -366,7 +373,12 @@ export class CamelotGame extends GameBase {
                 canterMoves.push(from + "^" + canterPart.join("^") + "x" + chargePart.join("x"));
             }
         }
-        return [...plainMoves, ...canterMoves];
+        if (mustJump) {
+            moves.push(...canterMoves.filter(m => m.includes("x")));
+        } else {
+            moves.push(...canterMoves);
+        }
+        return moves;
     }
 
     public getAllJumps(from: string, jumpSequence: string[], removed: string[], player: playerid): string[][] {
@@ -458,24 +470,16 @@ export class CamelotGame extends GameBase {
         } else {
             const pieces = [...this.board].filter(([, v]) => v[0] === player).map(([k, ]) => k);
             // If a player has pieces in their own castle, they must move them.
+            const mustJump = this.jumpPieces(player, pieces).length > 0;
             const piecesInOwnCastle = this.inOwnCastlePieces(player, pieces);
             if (piecesInOwnCastle.length > 0) {
                 for (const from of piecesInOwnCastle) {
-                    moves.push(...this.getAllMoves(from));
+                    moves.push(...this.getAllMoves(from, mustJump));
                 }
             } else {
                 // If a player has pieces that can jump, they must jump.
-                const piecesToJump = this.jumpPieces(player, pieces);
-                if (piecesToJump.length > 0) {
-                    for (const from of piecesToJump) {
-                        const jumps = this.getAllJumps(from, [], [from], player);
-                        moves.push(...jumps.map(x => from + "x" + x.join("x")));
-                    }
-                } else {
-                    // Otherwise, the player can make any move.
-                    for (const from of piecesToJump.length > 0 ? piecesToJump : pieces) {
-                        moves.push(...this.getAllMoves(from));
-                    }
+                for (const from of pieces) {
+                    moves.push(...this.getAllMoves(from, mustJump));
                 }
             }
             // Check if the player can claim a draw.
@@ -725,15 +729,18 @@ export class CamelotGame extends GameBase {
                 result.message = i18next.t("apgames:validation.camelot.IN_CASTLE", { where: inOwnCastle.join(", ") });
                 return result;
             }
-            // If a player has pieces that can jump, they must jump.
-            const mustJump = this.jumpPieces(this.currplayer, pieces);
-            if (mustJump.length > 0 && !mustJump.includes(from)) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.camelot.MUST_JUMP", { where: mustJump.join(", ") });
-                return result;
-            }
+            const mustJump = this.jumpPieces(this.currplayer, pieces).length > 0;
+            const allMoves = this.getAllMoves(from, mustJump);
             // Check if the piece selected has any moves.
-            if (this.getAllMoves(from).length === 0) {
+            if (allMoves.length === 0) {
+                if (mustJump) {
+                    // Special message if a piece has moves but cannot jump.
+                    if (this.getAllMoves(from, false).length > 0) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.camelot.MUST_JUMP");
+                        return result;
+                    }
+                }
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.NO_MOVES", { where: from });
                 return result;
@@ -810,10 +817,29 @@ export class CamelotGame extends GameBase {
                     return result;
                 }
             }
+            // If there is a forced jump, the sequence must eventually include a jump.
+            if (mustJump) {
+                let availableMoves = allMoves.map(x => x.split(/-|\^|x/));
+                for (let i = 0; i < split.length; i++) {
+                    availableMoves = availableMoves.filter(x => x[i] === split[i]);
+                }
+                if (availableMoves.length === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.camelot.MUST_EVENTUALLY_JUMP");
+                    return result;
+                }
+            }
             // If a piece does not have a jump move and it has canters, it may canter.
             if (!hasJumped && !hasPlained) {
                 const canters = this.getCanters(split[split.length - 1], split, this.currplayer);
                 if (canters.length > 0) {
+                    if (mustJump) {
+                        result.valid = true;
+                        result.complete = -1;
+                        result.canrender = true;
+                        result.message = i18next.t("apgames:validation.camelot.MUST_CONTINUE_CANTER");
+                        return result;
+                    }
                     result.valid = true;
                     result.complete = 0;
                     result.canrender = true;
@@ -928,11 +954,20 @@ export class CamelotGame extends GameBase {
             }
         } else {
             const split = m.split(/-|\^|x/);
+            const from = split[0];
+            if (partial) {
+                // Draw dots to indicate possible moves.
+                const mustJump = this.jumpPieces(this.currplayer).length > 0;
+                const moves = this.getAllMoves(from, mustJump).map(x => x.split(/-|\^|x/));
+                let availableMoves = moves;
+                for (let i = 0; i < split.length; i++) {
+                    availableMoves = availableMoves.filter(x => x[i] === split[i]);
+                }
+                availableMoves = availableMoves.filter(x => x.length > split.length);
+                this.dots.push(...availableMoves.map(x => x[split.length]));
+            }
             // We determine move type based on the separator.
             const moveTypes: ("-" | "x" | "^")[] = m.match(/-|\^|x/g) as ("-" | "x" | "^")[];
-            const from = split[0];
-            let hasJumped = false;
-            let hasPlained = false;
             const [, piece] = this.board.get(from)!;
             const pieceStr = piece === 1 ? "man" : "knight";
             if (split.length > 1) {
@@ -951,7 +986,6 @@ export class CamelotGame extends GameBase {
                         } else {
                             this.results.push({ type: "move", from: prev, to: move, how: "plain", what: pieceStr });
                         }
-                        hasPlained = true;
                     } else if (moveTypes[i - 1] === "^") {
                         // For canters.
                         this.board.delete(prev);
@@ -965,7 +999,6 @@ export class CamelotGame extends GameBase {
                         this.board.set(move, [this.currplayer, piece]);
                         this.results.push({ type: "move", from: prev, to: move, how: "jump", what: pieceStr, by: jumpsMap.get(move) });
                         this.results.push({ type: "capture", where: jumpsMap.get(move) });
-                        hasJumped = true;
                     }
                 }
             }
@@ -976,39 +1009,8 @@ export class CamelotGame extends GameBase {
             } else {
                 this.countdown++;
             }
-            if (partial) {
-                // Draw dots to indicate possible moves.
-                if (split.length === 1) {
-                    // Check for jumps before anything else.
-                    const jumpsMap = this.getJumps(last, [], this.currplayer);
-                    if (jumpsMap.size > 0) {
-                        this.dots = [...jumpsMap.keys()];
-                    } else {
-                        const plain = this.getPlain(last, this.currplayer);
-                        const canters = this.getCanters(last, [], this.currplayer);
-                        this.dots = [...plain, ...canters];
-                    }
-                } else if (hasPlained) {
-                    // If the move was a plain move, there are no followups.
-                } else if (hasJumped) {
-                    // If a piece has jumped, it can only continue to jump.
-                    this.dots = [...this.getJumps(last, [], this.currplayer).keys()];
-                } else if (piece === 1) {
-                    // If the piece is a man and it has not jumped, then it can only canter.
-                    this.dots = this.getCanters(last, split, this.currplayer);
-                } else if (piece === 2) {
-                    // A knight must jump if it can
-                    const jumpsMap = this.getJumps(last, [], this.currplayer);
-                    if (jumpsMap.size > 0) {
-                        this.dots = [...jumpsMap.keys()];
-                    } else {
-                        // If it cannot jump, then it may continue to canter.
-                        this.dots = this.getCanters(last, split, this.currplayer);
-                    }
-                }
-                return this;
-            }
         }
+        if (partial) { return this; }
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
 

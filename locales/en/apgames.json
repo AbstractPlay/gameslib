@@ -2886,6 +2886,7 @@
             "MUST_EVENTUALLY_JUMP": "The sequence of moves must eventually lead to a knight's charge.",
             "MUST_CONTINUE_CANTER": "You must continue to canter to eventually perform a knight's charge.",
             "CASTLE_LIMIT": "You may only make a castle move twice in a game.",
+            "IN_CASTLE": "You have a piece in your own castle at {{where}}. You must move it out of the castle.",
             "MUST_JUMP_SELECTED": "Your selected piece at {{where}} must make capture.",
             "JUMP_NOTATION": "The move from {{from}} to {{to}} is a jump move. Use the notation 'x' to indicate a jump.",
             "PLAIN_NOTATION": "The move from {{from}} to {{to}} is a plain move. Use the notation '-' to indicate a plain move.",

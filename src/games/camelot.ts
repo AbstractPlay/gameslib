@@ -470,11 +470,17 @@ export class CamelotGame extends GameBase {
         } else {
             const pieces = [...this.board].filter(([, v]) => v[0] === player).map(([k, ]) => k);
             // If a player has pieces in their own castle, they must move them.
-            const mustJump = this.jumpPieces(player, pieces).length > 0;
+            const jumpPieces = this.jumpPieces(player, pieces);
+            const mustJump = jumpPieces.length > 0;
             const piecesInOwnCastle = this.inOwnCastlePieces(player, pieces);
             if (piecesInOwnCastle.length > 0) {
                 for (const from of piecesInOwnCastle) {
-                    moves.push(...this.getAllMoves(from, mustJump));
+                    if(jumpPieces.includes(from)) {
+                        // Mandatory jump from castle.
+                        moves.push(...this.getAllMoves(from, true));
+                    } else {
+                        moves.push(...this.getAllMoves(from, false));
+                    }
                 }
             } else {
                 // If a player has pieces that can jump, they must jump.
@@ -722,15 +728,19 @@ export class CamelotGame extends GameBase {
             // For jump check, we remove the cell that is being moved from.
             const allRemoved = [from];
             const pieces = [...this.board].filter(([, v]) => v[0] === this.currplayer).map(([k, ]) => k);
-            // If a player has pieces in their own castle, they must it now.
+            // If a player has pieces in their own castle, they must move it now.
             const inOwnCastle = this.inOwnCastlePieces(this.currplayer, pieces);
             if (inOwnCastle.length > 0 && !inOwnCastle.includes(from)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.camelot.IN_CASTLE", { where: inOwnCastle.join(", ") });
                 return result;
             }
-            const mustJump = this.jumpPieces(this.currplayer, pieces).length > 0;
-            const allMoves = this.getAllMoves(from, mustJump);
+            const jumpPieces = this.jumpPieces(this.currplayer, pieces);
+            const mustJump = jumpPieces.length > 0;
+            // Get all moves.
+            // If the piece is not in the castle, then we just get all moves depending on whether there is a forced jump.
+            // Otherwise, we only force the piece to jump if that piece in the castle has a mandatory jump.
+            const allMoves = inOwnCastle.length === 0 ? this.getAllMoves(from, mustJump) : jumpPieces.includes(from) ? this.getAllMoves(from, true) : this.getAllMoves(from, false);
             // Check if the piece selected has any moves.
             if (allMoves.length === 0) {
                 if (mustJump) {

@@ -561,6 +561,9 @@ export class CamelotGame extends GameBase {
                         // Remove the last action.
                         const lastSplitIndex = move.split('').reduceRight((acc, char, index) => acc === -1 && /[-^x]/.test(char) ? index : acc, -1);
                         newmove = move.slice(0, lastSplitIndex);
+                    } else if (split.length === 1 && this.board.has(cell) && this.board.get(cell)![0] === this.currplayer) {
+                        // If the player hasn't moved a piece, they may select another of their own.
+                        newmove = cell;
                     } else {
                         const others = split.slice(0, -1);
                         const canters = this.getCanters(last, others, this.currplayer);

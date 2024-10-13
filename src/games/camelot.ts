@@ -781,6 +781,12 @@ export class CamelotGame extends GameBase {
                         // Check if a move is a plain move.
                         const plain = this.getPlain(prev, this.currplayer);
                         if (plain.includes(move)) {
+                            if (i > 1) {
+                                // A plain move must be the first move in a sequence.
+                                result.valid = false;
+                                result.message = i18next.t("apgames:validation.camelot.INVALID_TO", { from: prev, to: move });
+                                return result;
+                            }
                             if (moveTypes[i - 1] !== "-") {
                                 // Check that the move is correctly represented by the notation.
                                 result.valid = false;

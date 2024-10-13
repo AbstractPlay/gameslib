@@ -510,8 +510,10 @@ export class CamelotGame extends GameBase {
         // Check if a player has any moves.
         player ??= this.currplayer;
         if (this.gameover) { return false; }
-        const pieces = [...this.board].filter(([, v]) => v[0] === player);
-        for (const [from, ] of pieces) {
+        const pieces = [...this.board].filter(([, v]) => v[0] === player).map(([k, ]) => k);
+        const mustJump = this.jumpPieces(player, pieces).length > 0;
+        if (mustJump) { return true; }
+        for (const from of pieces) {
             if (this.getAllMoves(from).length > 0) { return true; }
         }
         return false;

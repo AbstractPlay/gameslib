@@ -30,7 +30,9 @@ export class VeletasGame extends GameBase {
         name: "Veletas",
         uid: "veletas",
         playercounts: [2],
-        version: "20240114",
+        // version: "20240114",
+        // Fixed stationary shooter arrow source.
+        version: "20241016",
         dateAdded: "2024-01-22",
         // i18next.t("apgames:descriptions.veletas")
         description: "apgames:descriptions.veletas",
@@ -874,12 +876,16 @@ export class VeletasGame extends GameBase {
         for (const dir of allDirections) {
             const ray = this.grid.ray(...this.algebraic2coords(cell), dir);
             for (const [i, c] of ray.map(pt => this.coords2algebraic(...pt)).entries()) {
-                if (this.board.has(c) && this.board.get(c) === 0) {
-                    if (i < closestDistance) {
-                        closest = c;
-                        closestDistance = i;
+                if (this.board.has(c)) {
+                    const content = this.board.get(c);
+                    if (content === 1 || content === 2) { break; }
+                    if (content === 0) {
+                        if (i < closestDistance) {
+                            closest = c;
+                            closestDistance = i;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }

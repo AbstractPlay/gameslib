@@ -5,6 +5,8 @@ import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
+import { allSimplePaths } from 'graphology-simple-path';
+import { bfsFromNode } from 'graphology-traversal/bfs';
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -14,6 +16,7 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, cellcontent>;
     lastmove?: string;
+    winningLoop: string[];
 }
 
 export interface IHulaState extends IAPGameState {
@@ -60,6 +63,8 @@ export class HulaGame extends GameBase {
     public innerRing: Set<string> = new Set();
     public outerRing: Set<string> = new Set();
 
+    public winningLoop: string[] = [];
+
     public coords2algebraic(x: number, y: number): string {
         return this.graph.coords2algebraic(x, y);
     }
@@ -68,10 +73,15 @@ export class HulaGame extends GameBase {
         return this.graph.algebraic2coords(cell);
     }
 
-    public getGraph(): HexTriGraph {
+    public getCenter() {
+        return this.graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
+    }
+
+    public getGraph(dropCenter = true): HexTriGraph {
         const graph = new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
-        const center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
-        graph.graph.dropNode(center);
+        if (dropCenter) {
+            graph.graph.dropNode(this.getCenter());
+        }
         return graph;
     }
 
@@ -121,7 +131,8 @@ export class HulaGame extends GameBase {
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new Map<string, cellcontent>()
+                board: new Map<string, cellcontent>(),
+                winningLoop: []
             };
             this.stack = [fresh];
 
@@ -153,6 +164,7 @@ export class HulaGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.winningLoop = [...state.winningLoop];
 
         return this;
     }
@@ -293,9 +305,11 @@ export class HulaGame extends GameBase {
         return this;
     }
 
-    public surroundsCenter(player: playerid) {
+    public surroundsCenter(player: playerid): Set<string> | undefined {
         const visited = new Set<string>();
         const queue: string[] = [...this.innerRing.values()];
+
+        const blockers = new Set<string>();
 
         while (queue.length > 0) {
             const cell = queue.pop()!;
@@ -304,21 +318,36 @@ export class HulaGame extends GameBase {
             visited.add(cell);
 
             const value = this.board.get(cell);
-            if (value === player || value === "neutral") { continue; }
+            if (value === player || value === "neutral") {
+                blockers.add(cell);
+                continue;
+            }
 
-            if (this.outerRing.has(cell)) { return false; }
+            if (this.outerRing.has(cell)) { return undefined; }
             queue.push(...this.graph.neighbours(cell));
         }
 
-        return true;
+        return blockers;
+    }
+
+    public setToPath(set: Set<string>, start: string): string[] {
+        const graph = this.getGraph();
+        for (const cell of graph.graph.nodes()) {
+            if (!set.has(cell)) { graph.graph.dropNode(cell); }
+        }
+
+        const cycles = allSimplePaths(graph.graph, start, start);
+        return cycles.filter(c => c.length > 6)[0];
     }
 
     protected checkEOG(): HulaGame {
 
         for(const player of [this.currplayer, this.otherPlayer()]) {
-            if (this.surroundsCenter(player)) {
+            const loop = this.surroundsCenter(player);
+            if (loop !== undefined) {
                 this.winner.push(player);
                 this.gameover = true;
+                this.winningLoop = this.setToPath(loop, this.lastmove!);
                 break;
             }
         }
@@ -351,7 +380,8 @@ export class HulaGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board)
+            board: new Map(this.board),
+            winningLoop: [...this.winningLoop]
         };
         return state;
     }
@@ -402,6 +432,14 @@ export class HulaGame extends GameBase {
                 const [x, y] = this.graph.algebraic2coords(move.where!);
                 rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
             }
+        }
+        if (this.winningLoop.length > 0) {
+            const targets: RowCol[] = [];
+            for (const cell of this.winningLoop) {
+                const [x, y] = this.graph.algebraic2coords(cell);
+                targets.push({row: y, col: x})
+            }
+            rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
         }
 
         return rep;

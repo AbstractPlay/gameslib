@@ -75,6 +75,7 @@
         "hexentafl": "heXentafl is a hexagonal variant of Hnefatafl where the attackers try to capture the king and the defenders try to guide the king to one of the six corners.",
         "hexy": "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         "homeworlds": "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
+        "hula": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
@@ -782,6 +783,14 @@
             },
             "09": {
                 "name": "9-17 board (217 total cells)"
+            }
+        },
+        "hula": {
+            "size-5": {
+                "name": "Size 5 board"
+            },
+            "size-7": {
+                "name": "Size 7 board"
             }
         },
         "irensei": {
@@ -2142,6 +2151,11 @@
             "hide-piece-highlight": {
                 "description": "Don't highlight the 9x9 pieces.",
                 "name": "Hide 9x9 piece highlight"
+            }
+        },
+        "hula": {
+            "board": {
+                "name": "Size 6"
             }
         },
         "irensei": {

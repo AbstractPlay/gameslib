@@ -158,6 +158,7 @@ import { ConnectionsGame, IConnectionsState } from "./connections";
 import { ResolveGame, IResolveState } from "./resolve";
 import { OnyxGame, IOnyxState } from "./onyx";
 import { AltaGame, IAltaState } from "./alta";
+import { HulaGame, IHulaState } from "./hula";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -318,6 +319,7 @@ export {
     ResolveGame, IResolveState,
     OnyxGame, IOnyxState,
     AltaGame, IAltaState,
+    HulaGame, IHulaState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -372,7 +374,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CamelotGame | typeof LifelineGame | typeof ShiftyGame |
                               typeof PodsGame | typeof LoxGame | typeof QueryGame |
                               typeof ControlGame | typeof BoxesGame | typeof ConnectionsGame |
-                              typeof ResolveGame | typeof OnyxGame | typeof AltaGame
+                              typeof ResolveGame | typeof OnyxGame | typeof AltaGame |
+                              typeof HulaGame
                 >();
 // Manually add each game to the following array
 [
@@ -398,6 +401,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
+    HulaGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -723,6 +727,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new OnyxGame(...args);
         case "alta":
             return new AltaGame(...args);
+        case "hula":
+            return new HulaGame(...args);
     }
     return;
 }

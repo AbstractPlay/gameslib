@@ -24,17 +24,17 @@ export interface IHulaState extends IAPGameState {
 export class HulaGame extends GameBase {
 
     public static readonly gameinfo: APGamesInformation = {
-    name: "Hula",
-    uid: "hula",
+        name: "Hula",
+        uid: "hula",
         playercounts: [2],
         version: "1.0",
-    description: "apgames:descriptions.hula",
+        description: "apgames:descriptions.hula",
         urls: ["https://boardgamegeek.com/boardgame/430598/hula"],
         people: [
             {
                 type: "designer",
                 name: "Hoembla",
-                url: "https://boardgamegeek.com/boardgamedesigner/148212/hoembla"
+                urls: ["https://boardgamegeek.com/boardgamedesigner/148212/hoembla"]
             },
         ],
         flags: ["pie", "experimental"],

@@ -6,7 +6,6 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import { allSimplePaths } from 'graphology-simple-path';
-import { bfsFromNode } from 'graphology-traversal/bfs';
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -73,14 +72,11 @@ export class HulaGame extends GameBase {
         return this.graph.algebraic2coords(cell);
     }
 
-    public getCenter() {
-        return this.graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
-    }
-
     public getGraph(dropCenter = true): HexTriGraph {
         const graph = new HexTriGraph(this.boardsize, this.boardsize * 2 - 1);
         if (dropCenter) {
-            graph.graph.dropNode(this.getCenter());
+            const center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
+            graph.graph.dropNode(center);
         }
         return graph;
     }

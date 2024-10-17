@@ -34,11 +34,12 @@ export class HulaGame extends GameBase {
             {
                 type: "designer",
 				name: "Hoembla",
+                url: "https://boardgamegeek.com/boardgamedesigner/148212/hoembla"
             },
         ],
-        flags: [],
+        flags: ["pie", "experimental"],
 		dateAdded: "2024-10-17",
-		categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>1per"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>3c"],
         variants: [
 			{uid: "size-5", group: "board"},
 			{uid: "size-7", group: "board"}
@@ -249,11 +250,9 @@ export class HulaGame extends GameBase {
 
             if (reachedInner && reachedOuter) { return true; }
 
-            for(const neighbour of this.graph.neighbours(cell)) {
-                if (this.board.get(neighbour) === this.currplayer) {
-                    queue.push(neighbour);
-                }
-            }
+            queue.push(...this.graph.neighbours(cell)
+                .filter(c => this.board.get(c) === this.currplayer)
+            );
         }
 
         return false;
@@ -286,14 +285,44 @@ export class HulaGame extends GameBase {
         this.results.push({type: "place", where: cell});
 
         this.lastmove = m;
-        this.currplayer = this.otherPlayer();
 
         this.checkEOG();
+        this.currplayer = this.otherPlayer();
+
         this.saveState();
         return this;
     }
 
+    public surroundsCenter(player: playerid) {
+        const visited = new Set<string>();
+        const queue: string[] = [...this.innerRing.values()];
+
+        while (queue.length > 0) {
+            const cell = queue.pop()!;
+
+            if (visited.has(cell)) { continue; }
+            visited.add(cell);
+
+            const value = this.board.get(cell);
+            if (value === player || value === "neutral") { continue; }
+
+            if (this.outerRing.has(cell)) { return false; }
+            queue.push(...this.graph.neighbours(cell));
+        }
+
+        return true;
+    }
+
     protected checkEOG(): HulaGame {
+
+        for(const player of [this.currplayer, this.otherPlayer()]) {
+            if (this.surroundsCenter(player)) {
+                this.winner.push(player);
+                this.gameover = true;
+                break;
+            }
+        }
+
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},

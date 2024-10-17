@@ -12,7 +12,7 @@ export type cellcontent = playerid|"neutral";
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
-	board: Map<string, cellcontent>;
+    board: Map<string, cellcontent>;
     lastmove?: string;
 }
 
@@ -24,25 +24,25 @@ export interface IHulaState extends IAPGameState {
 export class HulaGame extends GameBase {
 
     public static readonly gameinfo: APGamesInformation = {
-		name: "Hula",
-		uid: "hula",
+    name: "Hula",
+    uid: "hula",
         playercounts: [2],
         version: "1.0",
-		description: "apgames:descriptions.hula",
+    description: "apgames:descriptions.hula",
         urls: ["https://boardgamegeek.com/boardgame/430598/hula"],
         people: [
             {
                 type: "designer",
-				name: "Hoembla",
+                name: "Hoembla",
                 url: "https://boardgamegeek.com/boardgamedesigner/148212/hoembla"
             },
         ],
         flags: ["pie", "experimental"],
-		dateAdded: "2024-10-17",
+        dateAdded: "2024-10-17",
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>3c"],
         variants: [
-			{uid: "size-5", group: "board"},
-			{uid: "size-7", group: "board"}
+            {uid: "size-5", group: "board"},
+            {uid: "size-7", group: "board"}
         ]
     };
 

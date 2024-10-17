@@ -391,7 +391,7 @@ export class HulaGame extends GameBase {
             legend: {
                 A: {name: "piece", colour: 1},
                 B: {name: "piece", colour: 2},
-                C: {name: "piece", colour: 5}
+                C: {name: "piece", colour: 9}
             },
             pieces: pstr as [string[][], ...string[][][]]
         };

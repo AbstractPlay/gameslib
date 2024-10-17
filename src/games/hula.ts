@@ -6,6 +6,7 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import { allSimplePaths } from 'graphology-simple-path';
+import { bfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -302,28 +303,28 @@ export class HulaGame extends GameBase {
     }
 
     public surroundsCenter(player: playerid): Set<string> | undefined {
-        const visited = new Set<string>();
-        const queue: string[] = [...this.innerRing.values()];
-
         const blockers = new Set<string>();
 
-        while (queue.length > 0) {
-            const cell = queue.pop()!;
+        const graph = this.getGraph(false);
+        const center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
 
-            if (visited.has(cell)) { continue; }
-            visited.add(cell);
+        let reachedOuter = false;
+
+        bfsFromNode(graph.graph, center, (cell) => {
+
+            if (this.outerRing.has(cell)) { reachedOuter = true; }
+            if (reachedOuter) { return true; }
 
             const value = this.board.get(cell);
             if (value === player || value === "neutral") {
                 blockers.add(cell);
-                continue;
+                return true;
             }
 
-            if (this.outerRing.has(cell)) { return undefined; }
-            queue.push(...this.graph.neighbours(cell));
-        }
+            return false;
+        });
 
-        return blockers;
+        return reachedOuter ? undefined : blockers;
     }
 
     public setToPath(set: Set<string>, start: string): string[] {

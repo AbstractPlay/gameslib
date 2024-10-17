@@ -21,7 +21,6 @@ export interface IHulaState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-
 export class HulaGame extends GameBase {
 
     public static readonly gameinfo: APGamesInformation = {
@@ -57,9 +56,13 @@ export class HulaGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
 
+    public innerRing: Set<string> = new Set();
+    public outerRing: Set<string> = new Set();
+
     public coords2algebraic(x: number, y: number): string {
         return this.graph.coords2algebraic(x, y);
     }
+
     public algebraic2coords(cell: string): [number, number] {
         return this.graph.algebraic2coords(cell);
     }
@@ -69,6 +72,25 @@ export class HulaGame extends GameBase {
         const center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
         graph.graph.dropNode(center);
         return graph;
+    }
+
+    public setRegions() {
+
+        this.innerRing = new Set();
+        this.outerRing = new Set();
+
+        for(const cell of this.graph.listCells() as string[]) {
+            const numNeighbours = this.graph.neighbours(cell).length;
+            switch(numNeighbours) {
+                case 5:
+                    this.innerRing.add(cell);
+                    break;
+                case 4:
+                case 3:
+                    this.outerRing.add(cell);
+                    break;
+            }
+        }
     }
 
     public otherPlayer(): playerid {
@@ -84,6 +106,7 @@ export class HulaGame extends GameBase {
                 this.graph = this.getGraph();
             }
         }
+        this.setRegions();
     }
 
     constructor(state?: IHulaState | string, variants?: string[]) {
@@ -205,6 +228,37 @@ export class HulaGame extends GameBase {
         return result;
     }
 
+    public connectsInnerOuter(start: string) {
+
+        const visited = new Set<string>();
+        const queue: string[] = [];
+
+        let reachedOuter = false;
+        let reachedInner = false;
+
+        queue.push(start);
+
+        while (queue.length > 0) {
+            const cell = queue.pop()!;
+
+            if (visited.has(cell)) { continue; }
+            visited.add(cell);
+
+            if (this.outerRing.has(cell)) { reachedOuter = true; }
+            if (this.innerRing.has(cell)) { reachedInner = true; }
+
+            if (reachedInner && reachedOuter) { return true; }
+
+            for(const neighbour of this.graph.neighbours(cell)) {
+                if (this.board.get(neighbour) === this.currplayer) {
+                    queue.push(neighbour);
+                }
+            }
+        }
+
+        return false;
+    }
+
     public move(m: string, {trusted = false} = {}): HulaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -225,7 +279,10 @@ export class HulaGame extends GameBase {
         this.results = [];
 
         const cell = m;
-        this.board.set(cell, this.currplayer);
+
+        const piece = this.connectsInnerOuter(cell) ? "neutral" : this.currplayer;
+
+        this.board.set(cell, piece);
         this.results.push({type: "place", where: cell});
 
         this.lastmove = m;

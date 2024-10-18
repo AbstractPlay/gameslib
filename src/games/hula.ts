@@ -318,8 +318,11 @@ export class HulaGame extends GameBase {
             if (!blockers.has(cell)) { graph.graph.dropNode(cell); }
         }
 
-        const cycles = allSimplePaths(graph.graph, lastmove, lastmove);
-        return cycles.filter(c => c.length > 6)[0];
+        let cycles = allSimplePaths(graph.graph, lastmove, lastmove);
+        cycles = cycles.filter(c => c.length > 6);
+        cycles.sort((a,b) => a.length - b.length);
+
+        return cycles[0];
     }
 
     protected checkEOG(): HulaGame {

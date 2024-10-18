@@ -300,16 +300,14 @@ export class HulaGame extends GameBase {
         let reachedOuter = false;
 
         bfsFromNode(graph.graph, center, (cell) => {
-
-            if (this.outerRing.has(cell)) { reachedOuter = true; }
-            if (reachedOuter) { return true; }
-
             const value = this.board.get(cell);
             if (value === player || value === "neutral") {
                 blockers.add(cell);
                 return true;
             }
-
+            else if (this.outerRing.has(cell)) {
+                reachedOuter = true;
+            }
             return false;
         });
 

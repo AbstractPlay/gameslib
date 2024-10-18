@@ -6,7 +6,7 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import { allSimplePaths } from 'graphology-simple-path';
-import { bfsFromNode } from 'graphology-traversal';
+import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -238,33 +238,22 @@ export class HulaGame extends GameBase {
         return result;
     }
 
-    public connectsInnerOuter(start: string) {
-
-        const visited = new Set<string>();
-        const queue: string[] = [];
+    public connectsInnerOuter(start: string): boolean {
 
         let reachedOuter = false;
         let reachedInner = false;
 
-        queue.push(start);
+        dfsFromNode(this.graph.graph, start, (cell) => {
 
-        while (queue.length > 0) {
-            const cell = queue.pop()!;
-
-            if (visited.has(cell)) { continue; }
-            visited.add(cell);
-
+            if (cell !== start && this.board.get(cell) !== this.currplayer) { return true; }
             if (this.outerRing.has(cell)) { reachedOuter = true; }
             if (this.innerRing.has(cell)) { reachedInner = true; }
-
             if (reachedInner && reachedOuter) { return true; }
 
-            queue.push(...this.graph.neighbours(cell)
-                .filter(c => this.board.get(c) === this.currplayer)
-            );
-        }
+            return false;
+        });
 
-        return false;
+        return reachedOuter && reachedInner;
     }
 
     public move(m: string, {trusted = false} = {}): HulaGame {
@@ -302,10 +291,10 @@ export class HulaGame extends GameBase {
         return this;
     }
 
-    public surroundsCenter(player: playerid): Set<string> | undefined {
+    public getWinningLoop(player: playerid, lastmove: string): string[] {
         const blockers = new Set<string>();
 
-        const graph = this.getGraph(false);
+        let graph = this.getGraph(false);
         const center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
 
         let reachedOuter = false;
@@ -324,27 +313,25 @@ export class HulaGame extends GameBase {
             return false;
         });
 
-        return reachedOuter ? undefined : blockers;
-    }
+        if (reachedOuter) { return []; }
 
-    public setToPath(set: Set<string>, start: string): string[] {
-        const graph = this.getGraph();
-        for (const cell of graph.graph.nodes()) {
-            if (!set.has(cell)) { graph.graph.dropNode(cell); }
+        graph = this.getGraph();
+        for (const cell of this.graph.graph.nodes()) {
+            if (!blockers.has(cell)) { graph.graph.dropNode(cell); }
         }
 
-        const cycles = allSimplePaths(graph.graph, start, start);
+        const cycles = allSimplePaths(graph.graph, lastmove, lastmove);
         return cycles.filter(c => c.length > 6)[0];
     }
 
     protected checkEOG(): HulaGame {
 
         for(const player of [this.currplayer, this.otherPlayer()]) {
-            const loop = this.surroundsCenter(player);
-            if (loop !== undefined) {
+            const loop = this.getWinningLoop(player, this.lastmove!);
+            if (loop.length > 0) {
                 this.winner.push(player);
                 this.gameover = true;
-                this.winningLoop = this.setToPath(loop, this.lastmove!);
+                this.winningLoop = loop;
                 break;
             }
         }

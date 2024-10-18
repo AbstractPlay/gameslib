@@ -76,6 +76,7 @@
     "graphology-components": "^1.5.4",
     "graphology-shortest-path": "^2.0.2",
     "graphology-simple-path": "^0.2.0",
+    "graphology-traversal": "^0.3.1",
     "honeycomb-grid": "4.1.1",
     "i18next": "^21.10.0",
     "js-combinatorics": "^2.1.1",

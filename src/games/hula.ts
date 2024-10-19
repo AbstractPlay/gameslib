@@ -31,6 +31,7 @@ export class HulaGame extends GameBase {
         uid: "hula",
         playercounts: [2],
         version: "1.0",
+        // i18next.t("apgames:descriptions.hula")
         description: "apgames:descriptions.hula",
         urls: ["https://boardgamegeek.com/boardgame/430598/hula"],
         people: [
@@ -40,8 +41,8 @@ export class HulaGame extends GameBase {
                 urls: ["https://boardgamegeek.com/boardgamedesigner/148212/hoembla"]
             },
         ],
-        flags: ["pie", "experimental"],
-        dateAdded: "2024-10-17",
+        flags: ["pie"],
+        dateAdded: "2024-10-19",
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>3c"],
         variants: [
             {uid: "size-5", group: "board"},

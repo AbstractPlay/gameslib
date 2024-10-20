@@ -756,15 +756,15 @@
         },
         "hex": {
             "size-11": {
-                "description": "Smaller board.",
                 "name": "Size-11 board."
             },
+            "size-14": {
+                "name": "Size-14 board."
+            },
             "size-15": {
-                "description": "Larger board.",
                 "name": "Size-15 board."
             },
             "size-19": {
-                "description": "Much larger board.",
                 "name": "Size-19 board."
             }
         },
@@ -1737,7 +1737,6 @@
         },
         "hex": {
             "board": {
-                "description": "Competitive board",
                 "name": "Size-13 board."
             }
         },

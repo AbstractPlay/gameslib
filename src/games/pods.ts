@@ -350,7 +350,7 @@ export class PodsGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         } else if (cells.length === 2) {
             result.message = i18next.t("apgames:validation.pods.INVALID_MOVEMENT");
-        } else if (moves.filter(move => move.startsWith(m)).length > 0) {
+        } else if (moves.filter(move => move.startsWith(`${m}-`)).length > 0) {
             result.valid = true;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.pods.INITIAL_INSTRUCTIONS");
@@ -411,7 +411,7 @@ export class PodsGame extends GameBase {
 
     private findPoints(cell: string): [number, number][] {
         const points: [number, number][] = [];
-        const moves = this.moves().filter(m => m.startsWith(cell));
+        const moves = this.moves().filter(m => m.startsWith(`${cell}-`));
         for (const move of moves) {
             const cells = move.split("-");
             points.push(this.getGraph().algebraic2coords(cells[1]));

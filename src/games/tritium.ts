@@ -40,11 +40,12 @@ export class TritiumGame extends GameBase {
         playercounts: [2],
         version: "1.0",
         description: "apgames:descriptions.tritium",
-        urls: ["https://docs.google.com/document/d/1k0-pHtMFXYcWwuAhARt7b7jHLgfsAOCjoqlRMyvlBH0/edit?usp=sharing"],
+        urls: ["https://boardgamegeek.com/boardgame/430859/tritium"],
         people: [
             {
                 type: "designer",
                 name: "Noé Falzon",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/164706/noe-falzon"]
             },
         ],
         flags: ["automove", "scores"],

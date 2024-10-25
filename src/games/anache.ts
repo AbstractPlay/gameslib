@@ -1089,15 +1089,31 @@ export class AnacheGame extends GameBase {
         return this;
     }
 
+    // This check is sufficient to prove that a player has no legal moves,
+    // but it's inverse is not sufficient to prove that we're not in stalemate.
+    // Fortuntely, this should hit the majority of stalemates.  When it misses
+    // because there are only moves that fail the barrier or superko tests
+    // then the player will just have to resign on their own.
     private hasMoves(player: playerid): boolean {
-        // Check if a player has any moves left.
-        // Note that we do not check for when a player has no more moves because of superko.
-        // This does not seem trivial to check and it might not happen in practice.
-        // If it does happen, the player may just resign because they have no available moves.
         const allPieces = [...this.board.entries()].filter(([, p]) => p === player).map(([c]) => c);
-        if (allPieces.length === 0) { return false; }
         for (const piece of allPieces) {
-            if (!this.isImmobilised(piece, this.board, player)) { return true; }
+            // Dragons should always have an available move
+            if (this.isDragonMove(piece)) return true;
+
+            // If the piece is immobilised then it cannot move
+            if (this.isImmobilised(piece, this.board, player)) continue;
+
+            const [x, y] = this.algebraic2coords(piece);
+            for (const dir of this.getAllowedDirections(this.currplayer, this.hasKnight([piece], this.currplayer))) {
+                const [dx, dy] = directionDelta.get(dir)!;
+                const nx = x + dx;
+                const ny = y + dy;
+                if (nx < 0 || nx >= this.boardSize || ny < 0 || ny >= this.boardSize) continue;
+                const ahead = this.coords2algebraic(nx, ny);
+
+                // If there is a free space for this piece to be moved to, we can stop here
+                if (!this.board.has(ahead)) return true;
+            }
         }
         return false;
     }

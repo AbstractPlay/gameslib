@@ -239,14 +239,13 @@ export class KonaneGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
-        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        const result: IValidationResult = {valid: false, complete: -1, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
         if (m.length === 0) {
             result.valid = true;
-            result.complete = -1;
             if (this.stack.length === 1) {
                 result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
             } else if (this.stack.length === 2) {
@@ -282,7 +281,7 @@ export class KonaneGame extends GameBase {
         return result;
     }
 
-    public move(m: string, { partial = false, trusted = false } = {}): KonaneGame {
+    public move(m: string, { trusted = false } = {}): KonaneGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -305,7 +304,7 @@ export class KonaneGame extends GameBase {
         this._points = [];
         this._highlight = undefined;
 
-        if (!partial || complete) {
+        if (complete) {
             if (!m.includes("-")) {
                 this.board.delete(m);
                 this.results.push({type: "take", from: m});

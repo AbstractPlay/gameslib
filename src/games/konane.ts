@@ -259,7 +259,11 @@ export class KonaneGame extends GameBase {
 
         const moves = this.moves();
         if (!moves.includes(m)) {
-            if (m.length > 0 && moves.filter(move => move.startsWith(m)).length > 0) {
+            if (this.stack.length === 1) {
+                result.message = i18next.t("apgames:validation.konane.FIRST_MOVE");
+            } else if (this.stack.length === 2) {
+                result.message = i18next.t("apgames:validation.konane.SECOND_MOVE");
+            } else if (m.length > 0 && moves.filter(move => move.startsWith(m)).length > 0) {
                 result.valid = true;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");

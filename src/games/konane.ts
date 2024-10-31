@@ -40,7 +40,7 @@ export class KonaneGame extends GameBase {
             }
         ],
         categories: ["goal>immobilize", "mechanic>capture", "board>shape>rect"],
-        flags: ["automove"],
+        flags: ["experimental", "automove"],
         variants: [
             {
                 uid: "size-8",
@@ -297,12 +297,7 @@ export class KonaneGame extends GameBase {
         let complete = false;
         if (!trusted) {
             const result = this.validateMove(m);
-            if (!result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message);
-            }
-            if (!partial && !moves.includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
-            }
+            if (!result.valid) throw new UserFacingError("VALIDATION_GENERAL", result.message);
             if (result.complete === 1) complete = true;
         }
 

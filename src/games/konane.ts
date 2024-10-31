@@ -439,11 +439,11 @@ export class KonaneGame extends GameBase {
         rep.annotations = [];
         for (const move of this.stack[this.stack.length - 1]._results) {
             if (move.type === "move") {
-                const [fromX, fromY] = this.getGraph().algebraic2coords(move.from!);
-                const [toX, toY] = this.getGraph().algebraic2coords(move.to!);
+                const [fromX, fromY] = this.getGraph().algebraic2coords(move.from);
+                const [toX, toY] = this.getGraph().algebraic2coords(move.to);
                 rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
             } else if (move.type === "take") {
-                const [x, y] = this.getGraph().algebraic2coords(move.from!);
+                const [x, y] = this.getGraph().algebraic2coords(move.from);
                 rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
             }
         }

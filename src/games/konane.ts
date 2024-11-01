@@ -27,7 +27,7 @@ export class KonaneGame extends GameBase {
         uid: "konane",
         playercounts: [2],
         version: "20241029",
-        dateAdded: "2024-10-29",
+        dateAdded: "2024-11-01",
         // i18next.t("apgames:descriptions.konane")
         description: "apgames:descriptions.konane",
         // i18next.t("apgames:notes.konane")
@@ -40,7 +40,7 @@ export class KonaneGame extends GameBase {
             }
         ],
         categories: ["goal>immobilize", "mechanic>capture", "board>shape>rect"],
-        flags: ["experimental", "automove"],
+        flags: ["automove"],
         variants: [
             {
                 uid: "size-8",

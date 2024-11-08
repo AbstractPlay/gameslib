@@ -769,12 +769,13 @@ export class CamelotGame extends GameBase {
                     const prev = split[i - 1];
                     // Check if a move is a jump.
                     const jumpsMap = this.getJumps(prev, allRemoved, this.currplayer);
-                    if (jumpsMap.size > 0 && (i === 1 || (piece === 2 || piece === 1 && hasJumped))) {
-                        if (!jumpsMap.has(move)) {
-                            result.valid = false;
-                            result.message = i18next.t("apgames:validation.camelot.MUST_JUMP_SELECTED", { where: prev });
-                            return result;
-                        } else if (moveTypes[i - 1] !== "x") {
+                    if (hasJumped && !jumpsMap.has(move)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.camelot.MUST_JUMP_SELECTED", { where: prev });
+                        return result;
+                    }
+                    if (jumpsMap.has(move)) {
+                        if (moveTypes[i - 1] !== "x") {
                             // Check that the move is correctly represented by the notation.
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.camelot.JUMP_NOTATION", { from: prev, to: move });

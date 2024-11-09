@@ -3685,7 +3685,8 @@
             "PARTIAL_PIECE_MOVE": "Provide the destination for your piece.",
             "REPEAT_RECEIVER": "You can't move the ball to the same piece twice in a row.",
             "REPEATED_POSITION": "This move would repeat an earlier position and is therefore invalid.",
-            "START_BALL_MOVE": "Provide a destination for the ball."
+            "START_BALL_MOVE": "Provide a destination for the ball.",
+            "NO_AVAILABLE_RECEIVERS": "You can not move the ball as there are no eligible receivers."
         },
         "realm": {
             "ALIGNED_BASE": "You may not place a base that shares a row or column with another friendly base unless (a) you have no other options or (b) you are playing with the 'Relaxed Placement' variant.",

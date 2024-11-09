@@ -477,11 +477,18 @@ export class RazzleGame extends GameBase {
                         );
                         return result;
                     } else {
-                        result.valid = true;
-                        result.complete = 1;
-                        result.message = i18next.t(
-                            "apgames:validation._general.VALID_MOVE"
-                        );
+                        if (cells.length === 1) {
+                            result.valid = false;
+                            result.message = i18next.t(
+                                "apgames:validation.razzle.NO_AVAILABLE_RECEIVERS"
+                            );
+                        } else {
+                            result.valid = true;
+                            result.complete = 1;
+                            result.message = i18next.t(
+                                "apgames:validation._general.VALID_MOVE"
+                            );
+                        }
                         return result;
                     }
                 }

@@ -29,7 +29,10 @@ export class VoloGame extends GameBase {
         dateAdded: "2024-07-14",
         // i18next.t("apgames:descriptions.volo")
         description: "apgames:descriptions.volo",
-        urls: ["https://boardgamegeek.com/boardgame/83283/volo"],
+        urls: [
+            "https://spielstein.com/games/volo/rules",
+            "https://boardgamegeek.com/boardgame/83283/volo",
+        ],
         people: [
             {
                 type: "designer",

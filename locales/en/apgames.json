@@ -322,6 +322,10 @@
             "board-27": {
                 "name": "27x27 board"
             },
+            "setkomi": {
+                "name": "Fixed komi: 7",
+                "description": "Komi is preset to 7."
+            },
             "woven": {
                 "name": "Woven rules",
                 "description": "Incursions are not legal."
@@ -1540,6 +1544,10 @@
         "asli": {
             "board": {
                 "name": "13x13 board"
+            },
+            "komi": {
+                "name": "fluid komi",
+                "description": "Players determine the komi value on the first turn."
             },
             "rules": {
                 "description": "Incursions are legal."

@@ -52,6 +52,7 @@ export class AsliGame extends GameBase {
             {uid: "board-19", group: "board"},
             {uid: "board-27", group: "board"},
             {uid: "woven", group: "rules"},
+            {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization", "scores"]
@@ -90,7 +91,7 @@ export class AsliGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                prison: [0,0],
+                prison: this.variants.includes("setkomi") ? [7,0] : [0,0],
                 maxGroups: [0,0],
                 incursion: false,
             };
@@ -177,8 +178,8 @@ export class AsliGame extends GameBase {
 
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
-        if (this.stack.length === 2) return [{ label: "acceptpie", move: "pie" }];
-        if (this.stack.length > 2) {
+        if (this.stack.length === 2 && !this.variants.includes("setkomi")) return [{ label: "acceptpie", move: "pie" }];
+        if (this.stack.length > 2 || this.variants.includes("setkomi")) {
             const otherPlayer = this.currplayer === 1 ? 2 : 1;
             let canpass = false;
             if (this.prison[otherPlayer - 1] > 0) {
@@ -192,9 +193,9 @@ export class AsliGame extends GameBase {
     }
 
     public randomMove(): string {
-        if (this.stack.length === 1) {
+        if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
             return randomInt(10).toString();
-        } else if (this.stack.length === 2) {
+        } else if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
             return "pie";
         } else {
             const otherPlayer = this.currplayer === 1 ? 2 : 1;
@@ -253,11 +254,11 @@ export class AsliGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.asli.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "komi" : this.stack.length === 2 ? "pie" : "play"});
+            result.message = i18next.t("apgames:validation.asli.INITIAL_INSTRUCTIONS", {context: (this.stack.length === 1 && !this.variants.includes("setkomi")) ? "komi" : (this.stack.length === 2 && !this.variants.includes("setkomi")) ? "pie" : "play"});
             return result;
         }
 
-        if (this.stack.length === 1) {
+        if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
             if (! /^\-?\d+$/.test(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
@@ -281,7 +282,7 @@ export class AsliGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             }
             return result;
-        } else if (m === "pie" || (m === "pass" && this.stack.length === 2)) {
+        } else if (!this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
             if (this.stack.length !== 2) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.BAD_PIE");
@@ -308,7 +309,7 @@ export class AsliGame extends GameBase {
             return result;
         } else {
             // no moves allowed at this point of the game
-            if (this.stack.length === 2) {
+            if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.MUST_PIE");
                 return result;
@@ -497,15 +498,15 @@ export class AsliGame extends GameBase {
 
         this.results = [];
         const enemy = this.currplayer === 1 ? 2 : 1;
-        if (this.stack.length === 1) {
+        if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
             const n = parseInt(m, 10);
             this.prison[0] = n;
             this.results.push({type: "komi", value: n});
-        } else if (m === "pie" || (m === "pass" && this.stack.length === 2)) {
+        } else if (!this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
             m = "pie";
             this.results.push({type: "pie"});
         } else if (m === "pass") {
-            if (this.stack.length > 2) {
+            if (this.stack.length > 2 || this.variants.includes("setkomi")) {
                 this.prison[enemy - 1] -= 1;
                 this.results.push({type: "pass"});
                 this.incursion = false;

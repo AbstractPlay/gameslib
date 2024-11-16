@@ -323,7 +323,7 @@
                 "name": "27x27 board"
             },
             "setkomi": {
-                "name": "Fixed komi: 7",
+                "name": "7 komi",
                 "description": "Komi is preset to 7."
             },
             "woven": {
@@ -1547,7 +1547,7 @@
             },
             "komi": {
                 "name": "fluid komi",
-                "description": "Players determine the komi value on the first turn."
+                "description": "At the start of the game, the first player sets komi and the second player chooses sides."
             },
             "rules": {
                 "description": "Incursions are legal."

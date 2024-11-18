@@ -327,7 +327,7 @@
                 "description": "Komi is preset to 7."
             },
             "woven": {
-                "name": "Woven rules",
+                "name": "Woven",
                 "description": "Incursions are not legal."
             }
         },

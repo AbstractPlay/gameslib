@@ -7,6 +7,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+const deepclone = require("rfdc/default");
 
 export type pieceType = 1|2|3;
 
@@ -120,7 +122,8 @@ export class QuagmireGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = new Map(state.board);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        this.board = deepclone(state.board) as Map<string, pieceType>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.boardsize = this.getBoardSize();
@@ -512,7 +515,8 @@ export class QuagmireGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            board: deepclone(this.board) as Map<string, pieceType>
         };
     }
 

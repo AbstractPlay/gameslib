@@ -297,11 +297,9 @@ export class KonaneGame extends GameBase {
         const moves = this.moves();
 
         let complete = false;
-        if (!trusted) {
-            const result = this.validateMove(m);
-            if (!result.valid) throw new UserFacingError("VALIDATION_GENERAL", result.message);
-            if (result.complete === 1) complete = true;
-        }
+        const result = this.validateMove(m);
+        if (result.complete === 1) complete = true;
+        if (!trusted && !result.valid) throw new UserFacingError("VALIDATION_GENERAL", result.message);
 
         this.results = [];
         this._points = [];

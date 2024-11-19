@@ -474,6 +474,11 @@ export class KonaneGame extends GameBase {
         return status;
     }
 
+    protected specialMove(move: string): boolean {
+        if (this.stack.length > 2 && move.toLowerCase().replace(/\s+/g, "").split("-").length === 1) return true;
+        return super.specialMove(move);
+    }
+
     public clone(): KonaneGame {
         return new KonaneGame(this.serialize());
     }

@@ -7,6 +7,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+const deepclone = require("rfdc/default");
 
 export type PlayerId = 1|2;
 
@@ -114,7 +116,8 @@ export class KonaneGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = new Map(state.board);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        this.board = deepclone(state.board) as Map<string, PlayerId>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;
@@ -383,7 +386,8 @@ export class KonaneGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board)
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            board: deepclone(this.board) as Map<string, PlayerId>
         };
     }
 

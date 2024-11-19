@@ -330,10 +330,6 @@ export class KonaneGame extends GameBase {
                     [x, y] = this.getGraph().move(x, y, bearing)!;
                 }
             }
-            this.lastmove = m;
-            this.currplayer = this.getOtherPlayer(this.currplayer);
-            this.checkEOG();
-            this.saveState();
         } else {
             this._highlight = m;
             for (const move of moves.filter(mv => mv.startsWith(m))) {
@@ -343,6 +339,12 @@ export class KonaneGame extends GameBase {
             }
         }
 
+        // update currplayer
+        this.lastmove = m;
+        this.currplayer = this.getOtherPlayer(this.currplayer);
+
+        this.checkEOG();
+        this.saveState();
         return this;
     }
 

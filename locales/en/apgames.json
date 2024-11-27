@@ -19,6 +19,7 @@
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
+        "blastradius": "An abstract war game where pieces irradiate the spaces around them. Eliminate all opposing pieces.",
         "blockade": "Blockade (also known as Cul-de-sac) is a 'beat the barrier' game where you get one of your pawns to a starting space of your opponent. Players place 2-wide walls to block each other.",
         "blooms": "Each player owns 2 colours of stones. Players take turns placing one or two stones each turn (if you place two, they must be different colours), then capture all fenced enemy blooms. The first player to capture a certain number of stones wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
@@ -379,6 +380,14 @@
             "malawi": {
                 "description": "The house starts with 8 stones instead of 6.",
                 "name": "Malawi"
+            }
+        },
+        "blastradius": {
+            "board-5": {
+                "name": "Hexagonal board (base-5)"
+            },
+            "board-7": {
+                "name": "Hexagonal board (base-7)"
             }
         },
         "blockade": {
@@ -1566,6 +1575,11 @@
         "ayu": {
             "board": {
                 "name": "board (13x13)"
+            }
+        },
+        "blastradius": {
+            "board": {
+                "name": "size-6 hex"
             }
         },
         "blockade": {
@@ -2783,6 +2797,10 @@
             "NOPIECE": "You do not have a piece of size {{size}} to place.",
             "PARTIAL": "Provide the destination.",
             "SIZEFIRST": "First provide the size of the piece to place. You can click on your stash."
+        },
+        "blastradius": {
+            "INITIAL_INSTRUCTIONS": "Click a cell to add a piece to the board.",
+            "INVALID": "You may not place pieces within radiation exclusion zones, and you must always create the smallest stack legally possible."
         },
         "blockade": {
             "BLOCKS_GOAL": "Cannot place wall at {{wall}} because it blocks the goal(s) for one of the pieces on the board.",

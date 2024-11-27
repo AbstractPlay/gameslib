@@ -160,6 +160,7 @@ import { OnyxGame, IOnyxState } from "./onyx";
 import { AltaGame, IAltaState } from "./alta";
 import { HulaGame, IHulaState } from "./hula";
 import { KonaneGame, IKonaneState } from "./konane";
+import { BlastRadiusGame, IBlastRadiusState } from "./blastradius";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -322,6 +323,7 @@ export {
     AltaGame, IAltaState,
     HulaGame, IHulaState,
     KonaneGame, IKonaneState,
+    BlastRadiusGame, IBlastRadiusState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -377,7 +379,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PodsGame | typeof LoxGame | typeof QueryGame |
                               typeof ControlGame | typeof BoxesGame | typeof ConnectionsGame |
                               typeof ResolveGame | typeof OnyxGame | typeof AltaGame |
-                              typeof HulaGame | typeof KonaneGame
+                              typeof HulaGame | typeof KonaneGame | typeof BlastRadiusGame
                 >();
 // Manually add each game to the following array
 [
@@ -403,7 +405,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
-    HulaGame, KonaneGame
+    HulaGame, KonaneGame, BlastRadiusGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -733,6 +735,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new HulaGame(...args);
         case "konane":
             return new KonaneGame(...args);
+        case "blastradius":
+            return new BlastRadiusGame(...args);
     }
     return;
 }

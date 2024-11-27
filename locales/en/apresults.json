@@ -26,6 +26,8 @@
         "ataxx_other": "{{count}} pieces are converted.",
         "bao_one": "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
         "bao_other": "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
+        "blastradius_one": "{{player}} removed one enemy piece from {{where}}.",
+        "blastradius_other": "{{player}} removed a stack of {{count}} enemy pieces from {{where}}.",
         "blockade": "{{player}} captured a blocking piece at {{where}}.",
         "blooms": "{{player}} captured a {{what}} group of size {{count}}.",
         "boom": "{{player}} destroyed a piece at {{where}}.",
@@ -274,6 +276,7 @@
         "armadas_2": "{{player}} placed a medium ship and named it {{name}}.",
         "armadas_3": "{{player}} placed a large ship and named it {{name}}.",
         "ball": "{{player}} placed a ball at {{where}}.",
+        "blastradius": "{{player}} added a piece to {{where}}, creating a stack of height {{height}}.",
         "blockade_h": "{{player}} placed a horizontal fence at {{where}}.",
         "blockade_v": "{{player}} placed a vertical fence at {{where}}.",
         "blooms": "{{player}} placed a {{what}} piece at {{where}}.",
@@ -417,6 +420,8 @@
         "resolve": "The piece is swapped to {{where}}."
     },
     "TAKE": {
+        "blastradius_one": "{{player}} removed one of their own pieces from {{where}}.",
+        "blastradius_other": "{{player}} removed a stack of {{count}} of their own pieces from {{where}}.",
         "buku_row_one": "{{player}} collected 1 piece from row {{row}}.",
         "buku_row_other": "{{player}} collected {{count}} pieces from row {{row}}.",
         "buku_row_bonus": "{{player}} collected {{count}} pieces from row {{row}}, plus one additional piece.",

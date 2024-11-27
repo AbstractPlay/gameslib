@@ -29,7 +29,7 @@ export class BlastRadiusGame extends GameBase {
         uid: "blastradius",
         playercounts: [2],
         version: "20241126",
-        dateAdded: "2024-11-26",
+        dateAdded: "2024-11-27",
         // i18next.t("apgames:descriptions.blastradius")
         description: "apgames:descriptions.blastradius",
         urls: ["https://www.marksteeregames.com/Blast_Radius_rules.pdf"],

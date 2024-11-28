@@ -188,7 +188,15 @@ export class FramesGame extends GameBaseSimultaneous {
                 }
             }
         }
-        if (partial) { return this; }
+        if (partial) {
+            const [left,right] = m.split(/\s*,\s*/);
+            if (!/^\s*$/.test(left)) {
+                this.board.set(left, 1);
+            } else {
+                this.board.set(right, 2);
+            }
+            return this;
+        }
 
         this.results = [];
         // if moves are the same, place a neutral piece

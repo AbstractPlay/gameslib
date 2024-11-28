@@ -25,7 +25,7 @@ export class FramesGame extends GameBaseSimultaneous {
         uid: "frames",
         playercounts: [2],
         version: "20241127",
-        dateAdded: "2023-11-28",
+        dateAdded: "2024-11-28",
         // i18next.t("apgames:descriptions.frames")
         description: "apgames:descriptions.frames",
         urls: [

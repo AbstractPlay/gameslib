@@ -500,5 +500,19 @@
                 "name": "Plateau de taille 13."
             }
         }
+    },
+    "displays": {
+        "trike": {
+            "hide-moves": {
+                "description": "Ne pas afficher les coups possibles.",
+                "name": "Masquer les coups"
+            }
+        },
+        "twixt": {
+            "hide-diagonals": {
+                "name": "Masquer les diagonales",
+                "description": "Ne pas afficher les lignes diagonales."
+            }
+        }
     }
 }

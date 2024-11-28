@@ -65,6 +65,7 @@
         "focus": "A Sid Sackon classic. One may move stacks of pieces as many spaces as pieces in the stack. Once stacks become higher than 5 pieces, the bottom-most pieces are captured. The last person able to move a stack wins.",
         "four": "A game in which four shapes in four colours are placed in a virtual grid according to four constraints. Be the last player able to place.",
         "fourinarow": "A simple game of getting four (or more) in a row with the twist: there is gravity.",
+        "frames": "A simple \"get into the head of your opponent\" game where both players simultaneously select an empty cell on a Go board. The placements define a rectangle. The player with the most stones within that rectangle gets a point. Play to a certain number of points.",
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
@@ -3259,6 +3260,9 @@
             "SWAP21_other": "Place {{count}} more pieces on the board.",
             "SWAP22_EXCESS": "You have placed too many pieces. You may only place 2 piece.",
             "SWAP22_PARTIAL": "Complete the move to continue as player 2, or place another piece on the board to allow the opponent to decide to play as player 1 or player 2."
+        },
+        "frames": {
+            "INITIAL_INSTRUCTIONS": "Click an empty cell to add a piece to the board."
         },
         "furl": {
             "CAPTURE4UNFURL": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",

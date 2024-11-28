@@ -299,6 +299,7 @@
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
         "mattock": "{{player}} placed a miner at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
+        "neutral": "A neutral piece was placed at {{where}}.",
         "nex": "{{player}} placed a piece of their colour at {{where}}.",
         "nex_neutral": "{{player}} placed a neutral piece at {{where}}.",
         "nowhat": "{{player}} placed a piece at {{where}}.",

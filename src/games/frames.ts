@@ -75,7 +75,7 @@ export class FramesGame extends GameBaseSimultaneous {
                 _results: [],
                 _timestamp: new Date(),
                 lastmove: [],
-                board: new Map(),
+                board: new Map([["j10", 0]]),
                 scores: [0,0],
             };
             this.stack = [fresh];

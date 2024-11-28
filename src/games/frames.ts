@@ -38,7 +38,7 @@ export class FramesGame extends GameBaseSimultaneous {
             }
         ],
         categories: ["goal>score>race", "mechanic>place",  "mechanic>enclose", "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["experimental", "simultaneous", "scores"]
+        flags: ["simultaneous", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

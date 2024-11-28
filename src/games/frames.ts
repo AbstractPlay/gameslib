@@ -24,7 +24,7 @@ export class FramesGame extends GameBaseSimultaneous {
         name: "Frames",
         uid: "frames",
         playercounts: [2],
-        version: "2024-11-27",
+        version: "20241127",
         dateAdded: "2023-11-28",
         // i18next.t("apgames:descriptions.frames")
         description: "apgames:descriptions.frames",
@@ -169,7 +169,7 @@ export class FramesGame extends GameBaseSimultaneous {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/\s*,\s*/);
-        if (moves.length !== 2) {
+        if (moves.length !== 2 || /^\s*$/.test(moves[1])) {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
@@ -188,6 +188,7 @@ export class FramesGame extends GameBaseSimultaneous {
                 }
             }
         }
+        if (partial) { return this; }
 
         this.results = [];
         // if moves are the same, place a neutral piece
@@ -225,8 +226,6 @@ export class FramesGame extends GameBaseSimultaneous {
                 this.results.push({type: "deltaScore", delta: 1, who: counts[0] > counts[1] ? 1 : 2});
             }
         }
-
-        if (partial) { return this; }
 
         this.lastmove = [...moves].join(',');
         this.checkEOG();

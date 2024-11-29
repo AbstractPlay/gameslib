@@ -1,6 +1,6 @@
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, Glyph, MarkerLine } from "@abstractplay/renderer/src/schemas/schema";
+import { AnnotationBasic, APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -336,7 +336,7 @@ export class FramesGame extends GameBaseSimultaneous {
 
         if (this.stack[this.stack.length - 1]._results.length > 0) {
         // if (this.results.length > 0) {
-            rep.annotations = [];
+            rep.annotations = [] as AnnotationBasic[];
             const placements: string[] = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
             // for (const move of this.results) {
@@ -355,75 +355,42 @@ export class FramesGame extends GameBaseSimultaneous {
             }
             // draw rectangle if necessary
             if (placements.length === 2) {
-                const markers: MarkerLine[] = [];
                 const [x1, y1] = FramesGame.algebraic2coords(placements[0]);
                 const [x2, y2] = FramesGame.algebraic2coords(placements[1]);
                 const [minx, maxx, miny, maxy] = [Math.min(x1, x2), Math.max(x1, x2), Math.min(y1, y2), Math.max(y1, y2)];
-                const width = 5;
-                const style = "dashed";
-                const dasharray: [number, ...number[]] = [10];
+                const strokeWidth = 0.1;
+                const dashed: [number, ...number[]] = [10];
                 let colour: string|number = "#000";
                 const scored = this.stack[this.stack.length - 1]._results.find(x => x.type === "deltaScore") as {type: "deltaScore";delta?: number;who?: number;}|undefined;
                 if (scored !== undefined) {
                     colour = scored.who!;
                 }
-                // top line
+                const targets: RowCol[] = [];
+                // top line (only line if same y)
                 if (x1 !== x2) {
-                    markers.push({
-                        type: "line",
-                        points: [
-                            {col: minx, row: miny},
-                            {col: maxx, row: miny}
-                        ],
-                        width,
-                        style,
-                        dasharray,
-                        colour,
-                    });
+                    targets.push({col: minx, row: miny},{col: maxx, row: miny});
                 }
-                // bottom line
+
+                // right line (only line if same x)
                 if (y1 !== y2) {
-                    markers.push({
-                        type: "line",
-                        points: [
-                            {col: minx, row: maxy},
-                            {col: maxx, row: maxy}
-                        ],
-                        width,
-                        style,
-                        dasharray,
-                        colour,
-                    });
+                    if (targets.length > 0) {
+                        targets.push({col: maxx, row: maxy});
+                    } else {
+                        targets.push({col: maxx, row: miny},{col: maxx, row: maxy});
+                    }
                 }
-                // left line
-                if (y1 !== y2) {
-                    markers.push({
-                        type: "line",
-                        points: [
-                            {col: minx, row: miny},
-                            {col: minx, row: maxy}
-                        ],
-                        width,
-                        style,
-                        dasharray,
-                        colour,
-                    });
+
+                // bottom & left lines (only exist if x & y are both different)
+                if (y1 !== y2 && x1 !== x2) {
+                    targets.push({col: minx, row: maxy},{col: minx, row: miny});
                 }
-                // right line
-                if (x1 !== x2) {
-                    markers.push({
-                        type: "line",
-                        points: [
-                            {col: maxx, row: miny},
-                            {col: maxx, row: maxy}
-                        ],
-                        width,
-                        style,
-                        dasharray,
-                        colour,
-                    });
-                }
-                (rep.board! as BoardBasic).markers = markers;
+                rep.annotations.push({
+                    type: "line",
+                    targets: targets as [RowCol, ...RowCol[]],
+                    strokeWidth,
+                    dashed,
+                    colour,
+                });
             }
         }
 

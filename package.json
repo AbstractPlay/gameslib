@@ -17,7 +17,7 @@
     "deploy": "shx cp ./playground/index.html ./dist && npx serverless client deploy --no-confirm --no-delete-contents && aws cloudfront create-invalidation --profile AbstractPlayProd --distribution-id E19KPZXKKYK444 --paths /*",
     "extract": "i18next 'src/**/*.ts'",
     "json2ts": "npx json2ts -i src/schemas/gameinfo.json -o src/schemas/gameinfo.d.ts && npx json2ts -i src/schemas/moveresults.json -o src/schemas/moveresults.d.ts && npx json2ts -i src/games/tafl/ruleset.json -o src/games/tafl/ruleset.d.ts",
-    "npm-login": "npm login --scope=@abstractplay --auth-type=legacy --registry=https://npm.pkg.github.com"
+    "npm-login": "npm login --scope=@abstractplay --auth-type=web --registry=https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-12060573867.0",
+    "@abstractplay/renderer": "^1.0.0-ci-12088844599.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

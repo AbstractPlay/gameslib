@@ -377,7 +377,6 @@ export class LoggerGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        console.log(`Validating "${m}"`)
 
         const mode = this.getMode(m);
         const grid = new SquareOrthGraph(5, 5);

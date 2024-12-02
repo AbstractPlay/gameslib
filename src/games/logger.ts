@@ -712,7 +712,10 @@ export class LoggerGame extends GameBase {
                         const [tx,ty] = graph.algebraic2coords(cell);
                         const bearing = RectGrid.bearing(lx, ly, tx, ty)!;
                         const ray = grid.ray(tx, ty, bearing).map(coord => graph.coords2algebraic(...coord));
-                        const stop = ray.findIndex(c => !this.board.has(c) || (this.board.get(c) !== "L") && (this.board.get(c) !== "X") );
+                        let stop = ray.findIndex(c => !this.board.has(c) || (this.board.get(c) !== "L") && (this.board.get(c) !== "X") );
+                        if (stop === -1) {
+                            stop = ray.length;
+                        }
                         const dominos = ray.slice(0, stop);
                         let pts = 0;
                         for (const chop of [cell, ...dominos]) {

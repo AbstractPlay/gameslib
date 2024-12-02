@@ -339,7 +339,7 @@ export class LoggerGame extends GameBase {
                 if (act === undefined || act === "") {
                     if (row === -1) {
                         newmove = `${mv};${spawn};*`;
-                    } else if (this.board.has(cell)) {
+                    } else if (this.board.has(cell) && this.board.get(cell) !== `P${this.currplayer}`) {
                         newmove = `${mv};${spawn};x${cell}`;
                     } else {
                         newmove = `${mv};${spawn};+${cell}`;
@@ -377,6 +377,7 @@ export class LoggerGame extends GameBase {
 
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
+        console.log(`Validating "${m}"`)
 
         const mode = this.getMode(m);
         const grid = new SquareOrthGraph(5, 5);

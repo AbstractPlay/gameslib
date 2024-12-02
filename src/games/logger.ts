@@ -49,7 +49,7 @@ export class LoggerGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>block", "mechanic>share", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>pyramids"],
-        flags: ["experimental", "scores", "no-moves", "custom-randomization", "perspective"]
+        flags: ["experimental", "scores", "no-moves", "custom-randomization", "perspective", "custom-colours"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -1049,6 +1049,10 @@ export class LoggerGame extends GameBase {
             return true;
         }
         return false;
+    }
+
+    public getPlayerColour(p: playerid): number | string {
+        return p > 2 ? p+1 : p;
     }
 
     public clone(): LoggerGame {

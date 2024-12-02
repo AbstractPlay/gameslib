@@ -3,6 +3,7 @@
     "ADD": {
         "add_one": "{{player}} added 1 piece to {{where}}.",
         "add_other": "{{player}} added {{count}} pieces to {{where}}.",
+        "logger": "The tree at {{where}} grew one stage.",
         "nonum": "{{player}} added a piece to {{where}}.",
         "twixt": "{{player}} added a link at {{where}}."
     },
@@ -109,6 +110,7 @@
         "fnap_col": "{{player}} claimed column {{where}}.",
         "fnap_fnap": "{{player}} has claimed the FNAP token.",
         "fnap_row": "{{player}} claimed row {{where}}.",
+        "logger": "{{player}} claimed a protestor from the tree felled at {{where}}.",
         "majorities_line": "{{player}} claimed the line {{where}}.",
         "majorities_H": "{{player}} claimed the horizontal direction.",
         "majorities_A": "{{player}} claimed the ascending direction.",
@@ -143,6 +145,7 @@
             "minimal_one": "{{count}} friendly piece was destroyed.",
             "minimal_other": "{{count}} friendly pieces were destroyed."
         },
+        "logger": "{{player}} felled a tree at {{where}}.",
         "mattock": "{{player}} mined at {{where}}.",
         "string": "String {{where}} broke under the strain."
     },
@@ -297,6 +300,9 @@
         "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
+        "logger_logger": "{{player}} placed their logger at {{where}}.",
+        "logger_plant": "{{player}} planted a sapling at {{where}}.",
+        "logger_spawn": "A new sapling sprouted at {{where}}.",
         "mattock": "{{player}} placed a miner at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
         "neutral": "A neutral piece was placed at {{where}}.",

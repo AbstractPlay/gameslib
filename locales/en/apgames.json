@@ -2449,7 +2449,7 @@
             "TERRITORY": "Territory"
         },
         "asli": {
-            "TERRITORY": "Estimated score"
+            "TERRITORY": "Territory & Prisoners"
         },
         "bao": {
             "BALANCE": "Material balance"

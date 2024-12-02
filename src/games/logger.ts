@@ -955,7 +955,7 @@ export class LoggerGame extends GameBase {
             rep.annotations = [];
             for (const cell of this.highlights) {
                 const [toX, toY] = LoggerGame.algebraic2coords(cell);
-                rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer});
+                rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer > 2 ? this.currplayer + 1 : this.currplayer});
             }
         }
         // only proactively show placement options for currplayer
@@ -966,7 +966,7 @@ export class LoggerGame extends GameBase {
             const corners = ["a1", "a5", "e1", "e5"].filter(c => !this.board.has(c));
             for (const cell of corners) {
                 const [toX, toY] = LoggerGame.algebraic2coords(cell);
-                rep.annotations!.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer});
+                rep.annotations!.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer > 2 ? this.currplayer + 1 : this.currplayer});
             }
         }
         // only proactively show movement options for currplayer
@@ -979,7 +979,7 @@ export class LoggerGame extends GameBase {
                 const moves = this.getMoves(pc);
                 for (const cell of moves) {
                     const [toX, toY] = LoggerGame.algebraic2coords(cell);
-                    rep.annotations!.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer});
+                    rep.annotations!.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer > 2 ? this.currplayer + 1 : this.currplayer});
                 }
             }
         }

@@ -748,10 +748,10 @@ export class LoggerGame extends GameBase {
             }
         }
 
+        this.lastmove = m;
         if (partial) { return this; }
 
         // update currplayer
-        this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
@@ -970,7 +970,7 @@ export class LoggerGame extends GameBase {
             }
         }
         // only proactively show movement options for currplayer
-        else if (perspective !== undefined && perspective === this.currplayer && this.getMode("") === "move") {
+        else if (perspective !== undefined && perspective === this.currplayer && this.getMode(this.lastmove || "") === "move") {
             if (! ("annotations" in rep)) {
                 rep.annotations = [];
             }

@@ -40,7 +40,10 @@ export class LoggerGame extends GameBase {
         dateAdded: "2024-09-08",
         // i18next.t("apgames:descriptions.logger")
         description: "apgames:descriptions.logger",
-        urls: ["https://boardgamegeek.com/boardgame/36985/logger"],
+        urls: [
+            "https://looneypyramids.wiki/wiki/Logger",
+            "https://boardgamegeek.com/boardgame/36985/logger",
+        ],
         people: [
             {
                 type: "designer",

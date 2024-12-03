@@ -70,6 +70,7 @@ export class LoggerGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
     public highlights: string[] = [];
+    public interimMove = "";
 
     constructor(state: number | ILoggerState | string) {
         super();
@@ -361,8 +362,10 @@ export class LoggerGame extends GameBase {
 
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
+                this.interimMove = move;
                 result.move = move;
             } else {
+                this.interimMove = newmove;
                 result.move = newmove;
             }
             return result;
@@ -748,10 +751,10 @@ export class LoggerGame extends GameBase {
             }
         }
 
-        this.lastmove = m;
         if (partial) { return this; }
 
         // update currplayer
+        this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
@@ -970,7 +973,7 @@ export class LoggerGame extends GameBase {
             }
         }
         // only proactively show movement options for currplayer
-        else if (perspective !== undefined && perspective === this.currplayer && this.getMode(this.lastmove || "") === "move") {
+        else if (perspective !== undefined && perspective === this.currplayer && this.getMode(this.interimMove) === "move") {
             if (! ("annotations" in rep)) {
                 rep.annotations = [];
             }

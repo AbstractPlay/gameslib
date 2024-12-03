@@ -44,7 +44,7 @@ export class LoggerGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "Eric Dresner",
+                name: "Erik Dresner",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/10753/erik-dresner"]
             }
         ],

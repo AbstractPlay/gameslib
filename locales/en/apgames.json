@@ -138,6 +138,7 @@
         "strands": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
+        "subdivision": "You are a real estate developer competing with others to develop a new subdivision. Where you build is somewhat restricted, and what gets built next to you affects your value. Bring down your competitors' values while maximizing your own.",
         "susan": "In Susan, the goal is to surround any opponent's piece with other pieces. On your turn, you may place a piece or slide a piece to an adjacent empty space. If both players have a stone surrounded simultaneously, the player that just took their turn loses. The game ends in a tie if both players performed three slides each consecutively.",
         "symple": "A territory game where you get a point for every stone placed, and a penalty for each individual group of connected pieces. Find the right balance to maximize your score.",
         "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
@@ -1303,6 +1304,19 @@
                 "name": "Higher penalty (-15)"
             }
         },
+        "subdivision": {
+            "manualParks": {
+                "name": "Manual park placement",
+                "description": "Ignored for three-player games"
+            },
+            "randomParks": {
+                "name": "Random park placement"
+            },
+            "parkControl": {
+                "name": "Park control",
+                "description": "Controlling all the open spaces around a park grants bonus points"
+            }
+        },
         "symple": {
             "p-4": {
                 "name": "Lower penalty (-4)"
@@ -1996,6 +2010,15 @@
         "strands": {
             "board": {
                 "name": "size-7 board random setup"
+            }
+        },
+        "subdivision": {
+            "parks": {
+                "name": "park placement",
+                "description": "Corners and, in two-player games, two centre cells"
+            },
+            "scoring": {
+                "description": "Parks offer no bonuses"
             }
         },
         "symple": {
@@ -4047,6 +4070,19 @@
         "strings": {
             "INITIAL_INSTRUCTIONS": "Select a string to pull.",
             "NOSTRING": "There is no string numbered {{string}}."
+        },
+        "subdivision": {
+            "BAD_ONE": "Smalls must be placed near a small or large of a different colour.",
+            "BAD_PARK": "You may not place any more parks. If you're trying to place a piece, first click the piece in your stash.",
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "BAD_THREE": "Larges may not be placed near another large of your colour.",
+            "INITIAL_INSTRUCTIONS_parks": "Click an empty cell to place a park.",
+            "INITIAL_INSTRUCTIONS_place": "Click a piece in your stash to place on the board.",
+            "INVALID_SIZE": "The piece you selected is invalid. It must be a 1, 2, or 3.",
+            "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "MALFORMED": "Your move could not be interpreted. If this persists, please let an administrator know.",
+            "NO_PIECE": "You don't have a size {{size}} piece to place.",
+            "PARTIAL_PLACEMENT": "Click an empty space on the board to place your {{size}} piece."
         },
         "susan": {
             "EMPTY_FROM": "You have indicated a sliding move, but there is no piece at {{where}}.",

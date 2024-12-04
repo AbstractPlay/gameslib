@@ -235,6 +235,7 @@ export class SubdivisionGame extends GameBase {
         if (player === undefined) {
             player = this.currplayer;
         }
+        if (this.gameover) { return []; }
 
         const moves: string[] = [];
         const g = this.graphFull;

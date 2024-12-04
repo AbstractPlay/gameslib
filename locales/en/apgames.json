@@ -1307,7 +1307,7 @@
         "subdivision": {
             "manualParks": {
                 "name": "Manual park placement",
-                "description": "Ignored for three-player games"
+                "description": "Players take turns placing parks at the beginning of the game (ignored for three-player games)"
             },
             "randomParks": {
                 "name": "Random park placement"

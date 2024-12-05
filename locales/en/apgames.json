@@ -3722,7 +3722,7 @@
         },
         "pylon": {
             "BAD_PASS": "You may not pass if legal moves are available.",
-            "BAD_STACK": "You may not stack the pieces from {{from}} on top of {{to}}. The bottom piece of the top stack must be the same size or smaller than the top piece of the bottom stack.",
+            "BAD_STACK": "You may not stack the pieces from {{from}} on top of {{to}}. The bottom piece of the top stack must not be larger than the top piece of the bottom stack.",
             "INITIAL_INSTRUCTIONS_place": "Click a piece in your stash to place on the board.",
             "INITIAL_INSTRUCTIONS_stack": "Click a pyramid or stack to move it.",
             "INVALID_SIZE": "The piece you selected is invalid. It must be a 1, 2, or 3.",

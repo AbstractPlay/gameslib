@@ -365,10 +365,8 @@ export class LoggerGame extends GameBase {
 
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
-                this.interimMove = move;
                 result.move = move;
             } else {
-                this.interimMove = newmove;
                 result.move = newmove;
             }
             return result;
@@ -636,6 +634,7 @@ export class LoggerGame extends GameBase {
 
         this.results = [];
         this.highlights = [];
+        this.interimMove = m;
         const mode = this.getMode(m);
         const [mv, spawn, act] = m.split(/\s*;\s*/);
         const currPlayerPc = [...this.board.entries()].find(([,pc]) => pc === `P${this.currplayer}`)!;
@@ -965,7 +964,7 @@ export class LoggerGame extends GameBase {
             }
         }
         // only proactively show placement options for currplayer
-        else if (perspective !== undefined && perspective === this.currplayer && [...this.board.values()].find(pc => pc === `P${this.currplayer}`) === undefined) {
+        else if (perspective !== undefined && [...this.board.values()].find(pc => pc === `P${this.currplayer}`) === undefined) {
             if (! ("annotations" in rep)) {
                 rep.annotations = [];
             }
@@ -976,7 +975,7 @@ export class LoggerGame extends GameBase {
             }
         }
         // only proactively show movement options for currplayer
-        else if (perspective !== undefined && perspective === this.currplayer && this.getMode(this.interimMove) === "move") {
+        else if (perspective !== undefined && this.getMode(this.interimMove) === "move") {
             if (! ("annotations" in rep)) {
                 rep.annotations = [];
             }

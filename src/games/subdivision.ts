@@ -781,7 +781,11 @@ export class SubdivisionGame extends GameBase {
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         if (r.type === "place") {
             // park, 1, 2, 3
-            node.push(i18next.t("apresults:PLACE.subdivision", {context: r.what, player, where: r.where}));
+            if (r.what === "park") {
+                node.push(i18next.t("apresults:PLACE.subdivision", {context: r.what, player, where: r.where}));
+            } else {
+                node.push(i18next.t("apresults:PLACE.PYRAMID", {context: r.what, player, where: r.where}));
+            }
             return true;
         }
         return false;

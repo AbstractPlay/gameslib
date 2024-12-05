@@ -113,6 +113,7 @@
         "pletore": "Pletore is a territorial line-of-sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
+        "pylon": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
@@ -1048,6 +1049,12 @@
                 "name": "Largest board (17x17)"
             }
         },
+        "pylon": {
+            "quickStart": {
+                "name": "Quick start",
+                "descriptions": "A learning mode that randomly places the pyramids for you, so players start directly at the stacking half of the game."
+            }
+        },
         "quagmire": {
             "large": {
                 "name": "Larger board (61 cells)"
@@ -1895,6 +1902,11 @@
             "komi": {
                 "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
                 "name": "komi offer"
+            }
+        },
+        "pylon": {
+            "setup": {
+                "description": "The board starts empty, and the first half of the game is the players placing their pyramids."
             }
         },
         "quagmire": {
@@ -3707,6 +3719,17 @@
             "TOOSMALL_slide": "Slides must start with a stack of at least one piece.",
             "WRONGDIR_run": "Runs must move orthogonally.",
             "WRONGDIR_slide": "Slides must move diagonally."
+        },
+        "pylon": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "BAD_STACK": "You may not stack the pieces from {{from}} on top of {{to}}. The bottom piece of the top stack must be the same size or smaller than the top piece of the bottom stack.",
+            "INITIAL_INSTRUCTIONS_place": "Click a piece in your stash to place on the board.",
+            "INITIAL_INSTRUCTIONS_stack": "Click a pyramid or stack to move it.",
+            "INVALID_SIZE": "The piece you selected is invalid. It must be a 1, 2, or 3.",
+            "MUST_STACK": "Stacks may not be moved onto empty spaces, only other stacks.",
+            "NO_PIECE": "You don't have a size {{size}} piece to place.",
+            "PARTIAL_MOVEMENT": "Click an orthogonally adjacent, occupied space to move on top of.",
+            "PARTIAL_PLACEMENT": "Click an empty space on the board to place your {{size}} piece."
         },
         "quagmire": {
             "LEGAL_MOVES": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",

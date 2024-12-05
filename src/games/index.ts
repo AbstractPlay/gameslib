@@ -164,6 +164,7 @@ import { BlastRadiusGame, IBlastRadiusState } from "./blastradius";
 import { FramesGame, IFramesState } from "./frames";
 import { LoggerGame, ILoggerState } from "./logger";
 import { SubdivisionGame, ISubdivisionState } from "./subdivision";
+import { PylonGame, IPylonState } from "./pylon";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -330,6 +331,7 @@ export {
     FramesGame, IFramesState,
     LoggerGame, ILoggerState,
     SubdivisionGame, ISubdivisionState,
+    PylonGame, IPylonState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -386,7 +388,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ControlGame | typeof BoxesGame | typeof ConnectionsGame |
                               typeof ResolveGame | typeof OnyxGame | typeof AltaGame |
                               typeof HulaGame | typeof KonaneGame | typeof BlastRadiusGame |
-                              typeof FramesGame | typeof LoggerGame | typeof SubdivisionGame
+                              typeof FramesGame | typeof LoggerGame | typeof SubdivisionGame |
+                              typeof PylonGame
                 >();
 // Manually add each game to the following array
 [
@@ -412,7 +415,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
-    HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame
+    HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -750,6 +753,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new LoggerGame(args[0]);
         case "subdivision":
             return new SubdivisionGame(args[0], ...args.slice(1));
+        case "pylon":
+            return new PylonGame(...args);
     }
     return;
 }

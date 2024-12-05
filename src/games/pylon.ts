@@ -177,6 +177,10 @@ export class PylonGame extends GameBase {
     }
 
     public moves(player?: playerid): string[] {
+        if (this.gameover) {
+            return [];
+        }
+
         if (player === undefined) {
             player = this.currplayer;
         }

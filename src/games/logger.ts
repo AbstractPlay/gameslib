@@ -973,7 +973,7 @@ export class LoggerGame extends GameBase {
             }
         }
         // only proactively show movement options for participants
-        else if (perspective !== undefined && (this.lastmove === undefined || this.lastmove === this.stack[this.stack.length - 1].lastmove)) {
+        else if (perspective !== undefined && (this.results.length === 0)) {
             if (! ("annotations" in rep)) {
                 rep.annotations = [];
             }
@@ -1060,5 +1060,10 @@ export class LoggerGame extends GameBase {
 
     public clone(): LoggerGame {
         return Object.assign(new LoggerGame(this.numplayers), clone(this) as LoggerGame);
+    }
+
+    protected saveState(): void {
+        super.saveState();
+        this.results = [];
     }
 }

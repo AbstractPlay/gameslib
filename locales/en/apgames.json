@@ -1052,7 +1052,7 @@
         "pylon": {
             "quickStart": {
                 "name": "Quick start",
-                "descriptions": "A learning mode that randomly places the pyramids for you, so players start directly at the stacking half of the game."
+                "description": "A learning mode that randomly places the pyramids for you, so players start directly at the stacking half of the game."
             }
         },
         "quagmire": {

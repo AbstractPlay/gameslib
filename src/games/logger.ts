@@ -255,7 +255,7 @@ export class LoggerGame extends GameBase {
         }
     }
 
-    private getMode(move: string): "place"|"move"|"spawn"|"act" {
+    public getMode(move: string): "place"|"move"|"spawn"|"act" {
         if (move === undefined) {
             move = "";
         }
@@ -675,6 +675,10 @@ export class LoggerGame extends GameBase {
 
                 // if all spawning is done, grow all the non-spawned trees
                 if (this.highlights.length === 0) {
+                    if (spawn === undefined || spawn.length === 0) {
+                        this.interimMove += ";";
+                    }
+                    this.interimMove += ";";
                     const spawned = decisions.map(([,p]) => p);
                     const graph = new SquareOrthGraph(5,5);
                     const [pcx, pcy] = graph.algebraic2coords(to);
@@ -963,7 +967,7 @@ export class LoggerGame extends GameBase {
                 rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer > 2 ? this.currplayer + 1 : this.currplayer});
             }
         }
-        // only proactively show placement options for currplayer
+        // only proactively show placement options for participants
         else if (perspective !== undefined && [...this.board.values()].find(pc => pc === `P${this.currplayer}`) === undefined) {
             if (! ("annotations" in rep)) {
                 rep.annotations = [];
@@ -974,8 +978,8 @@ export class LoggerGame extends GameBase {
                 rep.annotations!.push({type: "enter", targets: [{row: toY, col: toX}], colour: this.currplayer > 2 ? this.currplayer + 1 : this.currplayer});
             }
         }
-        // only proactively show movement options for currplayer
-        else if (perspective !== undefined && this.getMode(this.interimMove) === "move") {
+        // only proactively show movement options for participants
+        else if (perspective !== undefined && this.interimMove.length < 5) {
             if (! ("annotations" in rep)) {
                 rep.annotations = [];
             }

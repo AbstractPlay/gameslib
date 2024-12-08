@@ -97,6 +97,7 @@
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
+        "moonsquad": "Your mining company has found rich ore on this small moon, but you need buyers. Connect your mine to all 3 surface settlements, and hire squads to defend your mine and attack your rival.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
@@ -933,6 +934,16 @@
             "three": {
                 "description": "The winner is the first to score two points.",
                 "name": "Best of Three"
+            }
+        },
+        "moonsquad": {
+            "hex5": {
+                "name": "Hexhex 5 (61 spaces)",
+                "description": "In this version, the pie offer is a single piece."
+            },
+            "limping": {
+                "name": "Limping 5-6 (75 spaces)",
+                "description": "Two colours will have an extra cube."
             }
         },
         "murus": {
@@ -1845,6 +1856,12 @@
         "meridians": {
             "board": {
                 "name": "board (base 7)"
+            }
+        },
+        "moonsquad": {
+            "board": {
+                "name": "moon board",
+                "description": "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface."
             }
         },
         "nex": {
@@ -3561,6 +3578,25 @@
             "MOVE_CLOSER": "When singletons make noncapturing moves, they must move closer to the enemy queen (straight-line distance).",
             "PARTIAL": "Select a destination.",
             "QUEEN_DEPLETED": "Your queen can no longer make noncapturing moves."
+        },
+        "moonsquad": {
+            "BAD_CAPTURE": "You may only capture opposing pieces and squads.",
+            "BAD_MOVE_double": "You already have a squad at {{to}}.",
+            "BAD_MOVE_group": "You can't move from {{from}} to {{to}}. The squad must stay within the same connected group.",
+            "BAD_MOVE_stationary": "You can't move from a space to the same space.",
+            "BAD_PLACEMENT": "You can't place a piece at {{where}}. It must contain an ore cube.",
+            "INITIAL_INSTRUCTIONS_hexoffer": "On the first move of the game, place a single piece and then the opponent will choose sides. Click an empty space to place the piece.",
+            "INITIAL_INSTRUCTIONS_offer": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the first red piece.",
+            "INITIAL_INSTRUCTIONS_pie": "On the second move of the game, either click the Switch Seats button to play as red, or make a normal move as blue. If your opponent already switched seats, then your only choice is to make a normal move.",
+            "INITIAL_INSTRUCTIONS_normal": "Click an ore cube to place one of your pieces. Click one of your squads to start a capture. Or click a cube in your supply to move your squads.",
+            "INVALID_ORE": "The code {{ore}} is not a valid ore type.",
+            "MISSING_ORE": "Could not find any {{ore}} ore in your supply.",
+            "MISSING_SQUAD": "Could not find a squad at {{where}}.",
+            "PARTIAL_CAPTURE": "Select the opposing piece to capture.",
+            "PARTIAL_MOVE_first": "Select a squad to move. You must move at least one squad.",
+            "PARTIAL_MOVE_second": "Select a destination. The squad must stay in the same connected group.",
+            "PARTIAL_PLACE1": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the second red piece.",
+            "PARTIAL_PLACE2": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the blue piece."
         },
         "murus": {
             "BAD_CAP": "Adjacent pieces may only be captured by towers, and only walls and catapults can be captured in this way.",

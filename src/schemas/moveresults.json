@@ -395,7 +395,7 @@
             "additionalProperties": false
         },
         {
-            "description": "Converting a pieces into something else (but not a `promotion`)",
+            "description": "Converting a piece into something else (but not a `promotion`)",
             "properties": {
                 "type": {
                     "enum": ["convert"]

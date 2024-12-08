@@ -165,6 +165,7 @@ import { FramesGame, IFramesState } from "./frames";
 import { LoggerGame, ILoggerState } from "./logger";
 import { SubdivisionGame, ISubdivisionState } from "./subdivision";
 import { PylonGame, IPylonState } from "./pylon";
+import { MoonSquadGame, IMoonSquadState } from "./moonsquad";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -332,6 +333,7 @@ export {
     LoggerGame, ILoggerState,
     SubdivisionGame, ISubdivisionState,
     PylonGame, IPylonState,
+    MoonSquadGame, IMoonSquadState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -389,7 +391,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ResolveGame | typeof OnyxGame | typeof AltaGame |
                               typeof HulaGame | typeof KonaneGame | typeof BlastRadiusGame |
                               typeof FramesGame | typeof LoggerGame | typeof SubdivisionGame |
-                              typeof PylonGame
+                              typeof PylonGame | typeof MoonSquadGame
                 >();
 // Manually add each game to the following array
 [
@@ -416,6 +418,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
     HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
+    MoonSquadGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -755,6 +758,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SubdivisionGame(args[0], ...args.slice(1));
         case "pylon":
             return new PylonGame(...args);
+        case "moonsquad":
+            return new MoonSquadGame(...args);
     }
     return;
 }

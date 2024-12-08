@@ -120,7 +120,8 @@
     "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
-        "courtesan": "King and courtesan swapped positions at {{where}}."
+        "courtesan": "King and courtesan swapped positions at {{where}}.",
+        "moonsquad": "{{player}} recruited a squad."
     },
     "DAMAGE": {
         "armadas": "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
@@ -305,6 +306,7 @@
         "logger_spawn": "A new sapling sprouted at {{where}}.",
         "mattock": "{{player}} placed a miner at {{where}}.",
         "mine": "{{player}} placed one of their own pieces at {{where}}.",
+        "moonsquad": "{{player}} placed a squad at {{where}}.",
         "neutral": "A neutral piece was placed at {{where}}.",
         "nex": "{{player}} placed a piece of their colour at {{where}}.",
         "nex_neutral": "{{player}} placed a neutral piece at {{where}}.",
@@ -404,6 +406,9 @@
         "single": "The die was rolled: {{values}}.",
         "tablero": "The dice were rolled: {{values}}."
     },
+    "SACRIFICE": {
+        "moonsquad": "{{player}} sacrificed an ore ({{ore}}) to move their squads."
+    },
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {
         "fnap": "{{player}} selected the tile {{tile}}.",
@@ -439,6 +444,7 @@
         "buku_col_one": "{{player}} collected 1 piece from column {{col}}.",
         "buku_col_other": "{{player}} collected {{count}} pieces from column {{col}}.",
         "chase": "A {{what}} was fed to the chamber.",
+        "moonsquad": "{{player}} took an ore ({{ore}}).",
         "sploof": "{{player}} took a neutral ball at {{from}}.",
         "streetcar": "{{player}} took a housing limit from {{from}}.",
         "streetcar_1": "{{player}} took an ORANGE housing limit from {{from}}.",

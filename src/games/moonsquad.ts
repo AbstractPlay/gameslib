@@ -456,6 +456,12 @@ export class MoonSquadGame extends GameBase {
                 result.message = i18next.t("apgames:validation.moonsquad.BAD_CAPTURE");
                 return result;
             }
+            // is adjacent
+            if (!g.neighbours(from).includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.moonsquad.BAD_CAPTURE");
+                return result;
+            }
 
             // we're good
             result.valid = true;
@@ -467,12 +473,29 @@ export class MoonSquadGame extends GameBase {
         else {
             // if capture start
             if (this.mySquads().includes(m)) {
+                // are valid captures even possible from there?
+                let cancap = false;
+                for (const n of g.neighbours(m)) {
+                    if (this.board.has(n) && this.board.get(n)! === (this.currplayer === 1 ? 2 : 1)) {
+                        cancap = true;
+                        break;
+                    }
+                }
+
                 // valid partial capture
-                result.valid = true;
-                result.complete = -1;
-                result.canrender = true;
-                result.message = i18next.t("apgames:validation.moonsquad.PARTIAL_CAPTURE");
-                return result;
+                if (cancap) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.moonsquad.PARTIAL_CAPTURE");
+                    return result;
+                }
+                // otherwise no captures are available
+                else {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.moonsquad.NO_CAPTURES");
+                    return result;
+                }
             }
             // otherwise regular placement
             // cell valid

@@ -46,6 +46,7 @@ interface IMoveState extends IIndividualState {
 export interface IMoonSquadState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
+    startpos: CellContents[];
 };
 
 export class MoonSquadGame extends GameBase {
@@ -83,7 +84,7 @@ export class MoonSquadGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public startpos!: string;
+    public startpos: CellContents[] = [];
     private highlights: string[] = [];
     private dots: string[] = [];
 
@@ -216,8 +217,11 @@ export class MoonSquadGame extends GameBase {
                         throw new Error(`Unable to parse a squad movement click.`);
                     }
                     const mvs = match[1].split(";");
+                    if (mvs[0] === "") {
+                        mvs.shift();
+                    }
                     // if the last move is not complete, extend it
-                    if (mvs[mvs.length - 1].includes("-")) {
+                    if (mvs.length > 0 && mvs[mvs.length - 1].includes("-")) {
                         mvs[mvs.length - 1] += `-${cell}`;
                     }
                     // otherwise start a new one

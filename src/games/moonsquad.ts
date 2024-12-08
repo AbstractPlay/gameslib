@@ -46,7 +46,6 @@ interface IMoveState extends IIndividualState {
 export interface IMoonSquadState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
-    startpos: CellContents[];
 };
 
 export class MoonSquadGame extends GameBase {
@@ -84,7 +83,6 @@ export class MoonSquadGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
-    public startpos: CellContents[] = [];
     private highlights: string[] = [];
     private dots: string[] = [];
 

@@ -436,7 +436,7 @@ export class MoonSquadGame extends GameBase {
                 }
                 // if we make it here, then it's valid and possibly complete
                 result.valid = true;
-                result.complete = mvs.length === mySquads.length ? 1 : 0;
+                result.complete = this.highlights.length > 0 ? 0 : 1;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;

@@ -214,7 +214,7 @@ export class MoonSquadGame extends GameBase {
                     if (match === null) {
                         throw new Error(`Unable to parse a squad movement click.`);
                     }
-                    const mvs = match[1].split(";");
+                    const mvs = match[1].split(",");
                     if (mvs[0] === "") {
                         mvs.shift();
                     }
@@ -226,7 +226,7 @@ export class MoonSquadGame extends GameBase {
                     else {
                         mvs.push(cell);
                     }
-                    newmove = move.substring(0, 2) + "(" + mvs.join(";") + ")";
+                    newmove = move.substring(0, 2) + "(" + mvs.join(",") + ")";
                 }
                 // otherwise it must be a capture
                 else {
@@ -381,7 +381,7 @@ export class MoonSquadGame extends GameBase {
                     result.message = i18next.t("apgames:validation.moonsquad.PARTIAL_MOVE", {context: "first"});
                     return result;
                 }
-                const mvs = mvStr.split(";");
+                const mvs = mvStr.split(",");
                 const mySquads = this.mySquads();
                 for (const mv of mvs) {
                     const [from, to] = mv.split("-");
@@ -555,11 +555,14 @@ export class MoonSquadGame extends GameBase {
                 if (oreNum === undefined) {
                     throw new Error(`Could not find a code for the ore colour ${oreName}.`);
                 }
-                const oreIdx = this.ore[this.currplayer - 1].findIndex(x => x === oreNum);
-                if (oreIdx > -1) {
-                    this.ore[this.currplayer - 1].splice(oreIdx, 1);
+                // don't sacrifice the ore until the move is complete
+                if (!partial) {
+                    const oreIdx = this.ore[this.currplayer - 1].findIndex(x => x === oreNum);
+                    if (oreIdx > -1) {
+                        this.ore[this.currplayer - 1].splice(oreIdx, 1);
+                    }
+                    this.results.push({type: "sacrifice", what: oreName});
                 }
-                this.results.push({type: "sacrifice", what: oreName});
                 let mvStr = "";
                 if (idx > -1) {
                     mvStr = m.substring(idx+1);
@@ -571,9 +574,11 @@ export class MoonSquadGame extends GameBase {
                     this.highlights.push(...this.mySquads());
                 }
                 const mvs = mvStr.split(",");
+                const exclude = new Set<string>();
                 for (const mv of mvs) {
                     const [from, to] = mv.split("-");
                     if (from === undefined || from === "") { continue; }
+                    exclude.add(from);
                     // if a to is provided
                     if (to !== undefined && to.length > 0) {
                         // move the squad
@@ -590,7 +595,7 @@ export class MoonSquadGame extends GameBase {
                         this.highlights = [from];
                         const islands = this.getIslands();
                         const group = islands.find(x => x.includes(from))!;
-                        this.dots = group.filter(g => g !== from && !this.squads.has(g));
+                        this.dots = group.filter(g => g !== from && !this.squads.has(g) && !exclude.has(g));
                     }
                 }
             }

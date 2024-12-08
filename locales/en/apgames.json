@@ -3593,6 +3593,7 @@
             "MISSING_ORE": "Could not find any {{ore}} ore in your supply.",
             "MISSING_SQUAD": "Could not find a squad at {{where}}.",
             "NO_CAPTURES": "That squad has no valid captures available.",
+            "NO_MOVES": "That squad has no valid places to move.",
             "PARTIAL_CAPTURE": "Select the opposing piece to capture.",
             "PARTIAL_MOVE_first": "Select a squad to move. You must move at least one squad.",
             "PARTIAL_MOVE_second": "Select a destination. The squad must stay in the same connected group.",

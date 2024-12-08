@@ -416,11 +416,22 @@ export class MoonSquadGame extends GameBase {
                     }
                     // otherwise, valid partial
                     else {
-                        result.valid = true;
-                        result.complete = -1;
-                        result.canrender = true;
-                        result.message = i18next.t("apgames:validation.moonsquad.PARTIAL_MOVE", {context: "second"});
-                        return result;
+                        // make sure there's somewhere for this squad to move
+                        const islands = this.getIslands();
+                        const group = islands.find(x => x.includes(from))!.filter(x => !this.squads.has(x));
+                        if (group.length === 0) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.moonsquad.NO_MOVES");
+                            return result;
+                        }
+                        // otherwise valid partial
+                        else {
+                            result.valid = true;
+                            result.complete = -1;
+                            result.canrender = true;
+                            result.message = i18next.t("apgames:validation.moonsquad.PARTIAL_MOVE", {context: "second"});
+                            return result;
+                        }
                     }
                 }
                 // if we make it here, then it's valid and possibly complete
@@ -476,7 +487,7 @@ export class MoonSquadGame extends GameBase {
                 // are valid captures even possible from there?
                 let cancap = false;
                 for (const n of g.neighbours(m)) {
-                    if (this.board.has(n) && this.board.get(n)! === (this.currplayer === 1 ? 2 : 1)) {
+                    if (this.board.has(n) && this.board.get(n) === (this.currplayer === 1 ? 2 : 1)) {
                         cancap = true;
                         break;
                     }
@@ -594,7 +605,13 @@ export class MoonSquadGame extends GameBase {
                     }
                 }
                 if (partial) {
-                    this.highlights.push(...this.mySquads());
+                    const islands = this.getIslands();
+                    for (const squad of this.mySquads()) {
+                        const dests = islands.find(grp => grp.includes(squad))!.filter(x => !this.squads.has(x));
+                        if (dests.length > 0) {
+                            this.highlights.push(squad);
+                        }
+                    }
                 }
                 const mvs = mvStr.split(",");
                 const exclude = new Set<string>();

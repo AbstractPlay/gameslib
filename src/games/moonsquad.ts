@@ -382,6 +382,7 @@ export class MoonSquadGame extends GameBase {
                 const mySquads = this.mySquads();
                 for (const mv of mvs) {
                     const [from, to] = mv.split("-");
+                    if (from === undefined || from === "") { continue; }
                     // from is a squad
                     if (!mySquads.includes(from)) {
                         result.valid = false;
@@ -389,7 +390,7 @@ export class MoonSquadGame extends GameBase {
                         return result;
                     }
                     // if a to is present
-                    if (to === undefined || to.length === 0) {
+                    if (to !== undefined && to !== "") {
                         if (from === to) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.moonsquad.BAD_MOVE", {context: "stationary", from, to});
@@ -545,7 +546,7 @@ export class MoonSquadGame extends GameBase {
             // squad movement
             if (m.startsWith("-")) {
                 const idx = m.indexOf("(");
-                const oreName = m.substring(1, idx > -1 ? idx : m.length);
+                const oreName = m.substring(1, idx > -1 ? idx : m.length).toUpperCase();
                 const oreNum = colourName2Num.get(oreName);
                 if (oreNum === undefined) {
                     throw new Error(`Could not find a code for the ore colour ${oreName}.`);
@@ -568,6 +569,7 @@ export class MoonSquadGame extends GameBase {
                 const mvs = mvStr.split(",");
                 for (const mv of mvs) {
                     const [from, to] = mv.split("-");
+                    if (from === undefined || from === "") { continue; }
                     // if a to is provided
                     if (to !== undefined && to.length > 0) {
                         // move the squad

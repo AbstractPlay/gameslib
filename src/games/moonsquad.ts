@@ -219,7 +219,7 @@ export class MoonSquadGame extends GameBase {
                         mvs.shift();
                     }
                     // if the last move is not complete, extend it
-                    if (mvs.length > 0 && mvs[mvs.length - 1].includes("-")) {
+                    if (mvs.length > 0 && !mvs[mvs.length - 1].includes("-")) {
                         mvs[mvs.length - 1] += `-${cell}`;
                     }
                     // otherwise start a new one

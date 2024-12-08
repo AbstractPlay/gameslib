@@ -375,6 +375,7 @@ export class MoonSquadGame extends GameBase {
                 if (mvStr.length === 0) {
                     result.valid = true;
                     result.complete = -1;
+                    result.canrender = true;
                     result.message = i18next.t("apgames:validation.moonsquad.PARTIAL_MOVE", {context: "first"});
                     return result;
                 }
@@ -431,6 +432,7 @@ export class MoonSquadGame extends GameBase {
             else {
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.moonsquad.PARTIAL_MOVE", {context: "first"});
                 return result;
             }

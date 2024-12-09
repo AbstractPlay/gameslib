@@ -781,47 +781,47 @@ export class MoonSquadGame extends GameBase {
     }
 
     protected renderHexTri(pieces: string, legend: ILegendObj, floods?: MarkerFlood[]): APRenderRep {
-        const markers: (MarkerFlood|MarkerEdge)[] = [
+        const markers: (MarkerFlood|MarkerEdge|MarkerHalo)[] = [
             {
-                "type": "edge",
-                "edge": "N",
-                "colour": "#ddcc77"
+                type: "halo",
+                offset: -30,
+                width: 3,
+                segments: [
+                    {
+                        colour: "_context_fill",
+                        opacity: 0.9,
+                    },
+                    {
+                        colour: "_context_fill",
+                        opacity: 0.5,
+                    },
+                    {
+                        colour: "_context_fill",
+                        opacity: 0.1,
+                    }
+                ]
             },
-            {
-                "type": "edge",
-                "edge": "NE",
-                "colour": "#ddcc77"
-            },
-            {
-                "type": "edge",
-                "edge": "SE",
-                "colour": "#332288"
-            },
-            {
-                "type": "edge",
-                "edge": "S",
-                "colour": "#332288"
-            },
-            {
-                "type": "edge",
-                "edge": "SW",
-                "colour": "#117733"
-            },
-            {
-                "type": "edge",
-                "edge": "NW",
-                "colour": "#117733"
-            }
         ];
         if (floods !== undefined) {
             markers.push(...floods);
         }
         // Build rep
         const rep: APRenderRep =  {
+            options: ["hide-labels"],
             board: {
                 style: "hex-of-hex",
                 minWidth: 5,
                 maxWidth: 9,
+                strokeColour: "_context_background",
+                backFill: {
+                    type: "board",
+                    colour: {
+                        func: "flatten",
+                        fg: "_context_fill",
+                        bg: "_context_background",
+                        opacity: 0.25
+                    }
+                },
                 markers,
             },
             legend,
@@ -857,9 +857,20 @@ export class MoonSquadGame extends GameBase {
         }
         // Build rep
         const rep: APRenderRep =  {
+            options: ["hide-labels"],
             board: {
                 style: "circular-moon",
                 strokeWeight: 0.5,
+                strokeColour: "_context_background",
+                backFill: {
+                    type: "board",
+                    colour: {
+                        func: "flatten",
+                        fg: "_context_fill",
+                        bg: "_context_background",
+                        opacity: 0.25
+                    }
+                },
                 markers,
             },
             legend,
@@ -870,48 +881,52 @@ export class MoonSquadGame extends GameBase {
     }
 
     protected renderLimping(pieces: string, legend: ILegendObj, floods?: MarkerFlood[]): APRenderRep {
-        const markers: (MarkerFlood|MarkerEdge)[] = [
+        const markers: (MarkerFlood|MarkerEdge|MarkerHalo)[] = [
             {
-                "type": "edge",
-                "edge": "N",
-                "colour": "#ddcc77"
+                type: "halo",
+                offset: -27,
+                nudge: {
+                    dx: 0,
+                    dy: 7,
+                },
+                width: 3,
+                segments: [
+                    {
+                        colour: "_context_fill",
+                        opacity: 0.9,
+                    },
+                    {
+                        colour: "_context_fill",
+                        opacity: 0.5,
+                    },
+                    {
+                        colour: "_context_fill",
+                        opacity: 0.1,
+                    }
+                ]
             },
-            {
-                "type": "edge",
-                "edge": "NE",
-                "colour": "#ddcc77"
-            },
-            {
-                "type": "edge",
-                "edge": "SE",
-                "colour": "#332288"
-            },
-            {
-                "type": "edge",
-                "edge": "S",
-                "colour": "#332288"
-            },
-            {
-                "type": "edge",
-                "edge": "SW",
-                "colour": "#117733"
-            },
-            {
-                "type": "edge",
-                "edge": "NW",
-                "colour": "#117733"
-            }
         ];
         if (floods !== undefined) {
             markers.push(...floods);
         }
         // Build rep
         const rep: APRenderRep =  {
+            options: ["hide-labels"],
             board: {
                 style: "hex-of-hex",
                 minWidth: 5,
                 maxWidth: 10,
                 alternatingSymmetry: true,
+                strokeColour: "_context_background",
+                backFill: {
+                    type: "board",
+                    colour: {
+                        func: "flatten",
+                        fg: "_context_fill",
+                        bg: "_context_background",
+                        opacity: 0.25
+                    }
+                },
                 markers,
             },
             legend,
@@ -1013,7 +1028,8 @@ export class MoonSquadGame extends GameBase {
             legend[name] = {
                 name: "cube",
                 colour: colourName2Num.get(name)!,
-                scale: 0.75,
+                // NOTE: If we add more than board variants, this won't work right
+                scale: this.variants.length > 0 ? 0.5 : 0.75,
             };
         }
 

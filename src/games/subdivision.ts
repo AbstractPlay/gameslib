@@ -67,7 +67,7 @@ export class SubdivisionGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>pyramids"],
-        flags: ["experimental", "scores", "custom-colours", "custom-buttons", "random-start"]
+        flags: ["experimental", "scores", "custom-colours", "custom-buttons", "random-start", "automove"]
     };
 
     public numplayers!: number;

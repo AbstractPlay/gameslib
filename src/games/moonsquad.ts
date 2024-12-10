@@ -276,6 +276,25 @@ export class MoonSquadGame extends GameBase {
         return mine;
     }
 
+    private myMovableSquads(player?: playerid): number {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        let count = 0;
+
+        const squads = this.mySquads(player);
+        const islands = this.getIslands(player);
+        for (const isle of islands) {
+            const numsquads = isle.filter(x => squads.includes(x)).length;
+            const numempty = isle.length - numsquads;
+            if (numsquads > 0) {
+                count += Math.min(numsquads, numempty);
+            }
+        }
+
+        return count;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
@@ -291,7 +310,7 @@ export class MoonSquadGame extends GameBase {
         if (m === "") {
             result.valid = true;
             result.complete = -1;
-            if (this.variants.includes("hex5")) {
+            if (this.variants.includes("hex5") || this.variants.includes("limping")) {
                 result.message = i18next.t("apgames:validation.moonsquad.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "hexoffer" : this.stack.length === 2 ? "pie" : "normal"});
             } else {
                 result.message = i18next.t("apgames:validation.moonsquad.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "offer" : this.stack.length === 2 ? "pie" : "normal"});
@@ -303,8 +322,8 @@ export class MoonSquadGame extends GameBase {
 
         // pie offer handling
         if (this.stack.length === 1) {
-            // hex5 is a single piece offer
-            if (this.variants.includes("hex5")) {
+            // both hexes are single piece offer
+            if (this.variants.includes("hex5") || this.variants.includes("limping")) {
                 // cell is valid
                 if (!(g.listCells(false) as string[]).includes(m)) {
                     result.valid = false;
@@ -383,6 +402,7 @@ export class MoonSquadGame extends GameBase {
                 }
                 const mvs = mvStr.split(",");
                 const mySquads = this.mySquads();
+                const numMovable = this.myMovableSquads();
                 for (const mv of mvs) {
                     const [from, to] = mv.split("-");
                     if (from === undefined || from === "") { continue; }
@@ -436,7 +456,7 @@ export class MoonSquadGame extends GameBase {
                 }
                 // if we make it here, then it's valid and possibly complete
                 result.valid = true;
-                result.complete = this.highlights.length > 0 ? 0 : 1;
+                result.complete = mvs.length === numMovable ? 1 : 0;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;

@@ -41,7 +41,7 @@ export class KonaneGame extends GameBase {
                 name: "Traditional Game"
             }
         ],
-        categories: ["goal>immobilize", "mechanic>capture", "board>shape>rect"],
+        categories: ["goal>immobilize", "mechanic>capture", "mechanic>traditional", "board>shape>rect"],
         flags: ["automove"],
         variants: [
             {

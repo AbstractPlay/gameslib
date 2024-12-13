@@ -37,7 +37,7 @@ export class LoggerGame extends GameBase {
         uid: "logger",
         playercounts: [2,3,4],
         version: "20240908",
-        dateAdded: "2024-09-08",
+        dateAdded: "2024-12-13",
         // i18next.t("apgames:descriptions.logger")
         description: "apgames:descriptions.logger",
         urls: [
@@ -52,7 +52,7 @@ export class LoggerGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>block", "mechanic>share", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>pyramids"],
-        flags: ["experimental", "scores", "no-moves", "custom-randomization", "perspective", "custom-colours"]
+        flags: ["scores", "no-moves", "custom-randomization", "perspective", "custom-colours"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

@@ -46,7 +46,7 @@ export class PylonGame extends GameBase {
         uid: "pylon",
         playercounts: [2],
         version: "20241204",
-        dateAdded: "2024-09-08",
+        dateAdded: "2024-12-13",
         // i18next.t("apgames:descriptions.pylon")
         description: "apgames:descriptions.pylon",
         urls: [
@@ -67,7 +67,7 @@ export class PylonGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>stack", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>pyramids"],
-        flags: ["experimental", "scores", "random-start", "automove"]
+        flags: ["scores", "random-start", "automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

@@ -80,6 +80,7 @@
         "hula": "Two players aim to form a loop around the center of a regular hexagonal board, using their own stones and, possibly, some number of neutral stones.",
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
+        "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman. Played on a square board, each player captures by jumping over their opponent's pieces. Last to move wins.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies.",
@@ -180,6 +181,7 @@
         "exxit": "Because the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. We chose this so that the labels wouldn't change as the map grew. Because the labels aren't particularly helpful while you play, they are not displayed on the board. Also, translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
+        "jacynth": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "konane": "Several competing opening protocols exist, but the most common ruleset is described in the BGG reference and is what is implemented here.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
@@ -828,6 +830,20 @@
             },
             "toroidal-15": {
                 "name": "Toroidal 15x15 board"
+            }
+        },
+        "jacynth": {
+            "extended": {
+                "name": "Extended deck",
+                "description": "Deck includes the Excuse, the pawns, and the courts (influence tokens may not be placed on any of these cards)."
+            },
+            "towers": {
+                "name": "Towers",
+                "description": "The board starts with four cards just inside of each corner."
+            },
+            "oldcity": {
+                "name": "The Old City",
+                "description": "The board starts with six cards in a circular pattern."
             }
         },
         "konane": {
@@ -1815,6 +1831,15 @@
             },
             "tiebreaker": {
                 "name": "no tiebreak"
+            }
+        },
+        "jacynth": {
+            "deck": {
+                "description": "The basic 36-card deck (aces through crowns)"
+            },
+            "setup": {
+                "name": "setup: The Razeway",
+                "description": "The board starts with six cards in a diagonal line."
             }
         },
         "lielow": {
@@ -3433,6 +3458,16 @@
         "irensei": {
             "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
             "SELF_CAPTURE": "You may not place your stones in self-capture unless it is a winning move."
+        },
+        "jacynth": {
+            "ALREADY_CLAIMED": "The card at {{cell}} has already been claimed.",
+            "ALREADY_OWNED": "The card at {{cell}} is part of a district owned by an opponent.",
+            "BAD_INFLUENCE": "You may not exert influence on the card at {{cell}}. The Excuse, pawns, and courts may not be directly influenced.",
+            "INITIAL_INSTRUCTIONS": "Click a card in your hand to place on the board.",
+            "LABEL_STASH": "Player {{playerNum}}'s hand",
+            "NO_CARD": "The card \"{{card}}\" does not appear to be in your hand.",
+            "NO_INFLUENCE": "You don't have any influence left.",
+            "PARTIAL_PLACEMENT": "Click an empty space on the board to place your card."
         },
         "konane": {
             "FIRST_MOVE": "Remove one of your pieces from the center 2x2 or from a corner.",

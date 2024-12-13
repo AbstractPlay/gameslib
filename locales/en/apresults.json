@@ -110,6 +110,7 @@
         "fnap_col": "{{player}} claimed column {{where}}.",
         "fnap_fnap": "{{player}} has claimed the FNAP token.",
         "fnap_row": "{{player}} claimed row {{where}}.",
+        "jacynth": "{{player}} exerted influence at {{where}}.",
         "logger": "{{player}} claimed a protestor from the tree felled at {{where}}.",
         "majorities_line": "{{player}} claimed the line {{where}}.",
         "majorities_H": "{{player}} claimed the horizontal direction.",

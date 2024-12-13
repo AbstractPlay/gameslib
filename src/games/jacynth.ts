@@ -405,8 +405,6 @@ export class JacynthGame extends GameBase {
         }
         // otherwise
         else {
-            const cloned = this.clone();
-            cloned.board.set(to, card);
             const g = new SquareOrthGraph(6,6);
             // valid cell
             if (!(g.listCells(false) as string[]).includes(to)) {
@@ -415,7 +413,7 @@ export class JacynthGame extends GameBase {
                 return result;
             }
             // unoccupied
-            if (cloned.board.has(to)) {
+            if (this.board.has(to)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {cell: to});
                 return result;
@@ -425,12 +423,14 @@ export class JacynthGame extends GameBase {
             if (influence === undefined || influence.length === 0) {
                 result.valid = true;
                 result.canrender = true;
-                result.complete = cloned.influence[this.currplayer - 1] > 0 ? 0 : 1;
+                result.complete = this.influence[this.currplayer - 1] > 0 ? 0 : 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             }
             // otherwise
             else {
+                const cloned = this.clone();
+                cloned.board.set(to, card);
                 // influence available
                 if (cloned.influence[this.currplayer - 1] === 0) {
                     result.valid = false;

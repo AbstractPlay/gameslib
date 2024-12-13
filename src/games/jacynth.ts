@@ -405,6 +405,8 @@ export class JacynthGame extends GameBase {
         }
         // otherwise
         else {
+            const cloned = this.clone();
+            cloned.board.set(to, card);
             const g = new SquareOrthGraph(6,6);
             // valid cell
             if (!(g.listCells(false) as string[]).includes(to)) {
@@ -413,7 +415,7 @@ export class JacynthGame extends GameBase {
                 return result;
             }
             // unoccupied
-            if (this.board.has(to)) {
+            if (cloned.board.has(to)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {cell: to});
                 return result;
@@ -422,14 +424,15 @@ export class JacynthGame extends GameBase {
             // if influence is missing, may or not be complete
             if (influence === undefined || influence.length === 0) {
                 result.valid = true;
-                result.complete = this.influence[this.currplayer - 1] > 0 ? 0 : 1;
+                result.canrender = true;
+                result.complete = cloned.influence[this.currplayer - 1] > 0 ? 0 : 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             }
             // otherwise
             else {
                 // influence available
-                if (this.influence[this.currplayer - 1] === 0) {
+                if (cloned.influence[this.currplayer - 1] === 0) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.jacynth.NO_INFLUENCE");
                     return result;
@@ -441,31 +444,31 @@ export class JacynthGame extends GameBase {
                     return result;
                 }
                 // card present
-                if (! this.board.has(influence)) {
+                if (! cloned.board.has(influence)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.UNOCCUPIED", {cell: influence});
                     return result;
                 }
                 // not claimed
-                if (this.claimed.has(influence)) {
+                if (cloned.claimed.has(influence)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.jacynth.ALREADY_CLAIMED", {cell: influence});
                     return result;
                 }
-                // not owned
-                if (!this.canInfluence({cell: influence})) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.jacynth.ALREADY_OWNED", {cell: influence});
-                    return result;
-                }
                 // not an extended card
-                const targetCard = Card.deserialize(this.board.get(influence)!);
+                const targetCard = Card.deserialize(cloned.board.get(influence)!);
                 if (targetCard === undefined) {
-                    throw new Error(`Could not find the card with the ID ${this.board.get(influence)}`);
+                    throw new Error(`Could not find the card with the ID ${cloned.board.get(influence)}`);
                 }
                 if (["0", "P", "T"].includes(targetCard.rank.uid)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.jacynth.BAD_INFLUENCE", {cell: influence});
+                    return result;
+                }
+                // not owned
+                if (!cloned.canInfluence({cell: influence})) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.jacynth.ALREADY_OWNED", {cell: influence});
                     return result;
                 }
 

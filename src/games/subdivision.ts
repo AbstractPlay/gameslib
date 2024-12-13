@@ -38,7 +38,7 @@ export class SubdivisionGame extends GameBase {
         uid: "subdivision",
         playercounts: [2,3,4],
         version: "20241203",
-        dateAdded: "2024-09-08",
+        dateAdded: "2024-12-13",
         // i18next.t("apgames:descriptions.subdivision")
         description: "apgames:descriptions.subdivision",
         urls: [

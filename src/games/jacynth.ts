@@ -727,7 +727,10 @@ export class JacynthGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
         }
-        return [{ name: i18next.t("apgames:status.SCORES"), scores}];
+        return [
+            { name: i18next.t("apgames:status.SCORES"), scores},
+            { name: i18next.t("apgames:status.jacynth"), scores: this.influence},
+        ];
     }
 
     public getStartingPosition(): string {

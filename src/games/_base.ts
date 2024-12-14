@@ -244,7 +244,7 @@ export abstract class GameBase  {
 
     public abstract move(move: string, opts?: IMoveOptions): GameBase;
     public abstract render(opts: IRenderOpts): APRenderRep;
-    public abstract state(): IAPGameState;
+    public abstract state(opts?: {strip?: boolean, player?: number}): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract clone(): GameBase;
     protected abstract moveState(): any;

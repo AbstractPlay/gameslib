@@ -703,10 +703,7 @@ export class JacynthGame extends GameBase {
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
-                if (move.type === "place") {
-                    const [x, y] = JacynthGame.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
-                } else if (move.type === "claim") {
+                if (move.type === "place" || move.type === "claim") {
                     const [x, y] = JacynthGame.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", occlude: false, targets: [{row: y, col: x}]});
                 }

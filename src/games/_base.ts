@@ -739,8 +739,8 @@ export abstract class GameBase  {
         return rec;
     }
 
-    public serialize(): string {
-        return JSON.stringify(this.state(), replacer);
+    public serialize(opts?: {strip?: boolean, player?: number}): string {
+        return JSON.stringify(this.state(opts), replacer);
     }
 
     public state2aiai(): string[] {

@@ -75,7 +75,7 @@ export class JacynthGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>network", "mechanic>hidden", "board>shape>rect", "board>connect>rect", "components>decktet"],
-        flags: ["experimental", "scores", "random-start", "no-moves", "custom-randomization"]
+        flags: ["experimental", "scores", "random-start", "no-moves", "custom-randomization", "no-explore"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 6);
@@ -189,6 +189,7 @@ export class JacynthGame extends GameBase {
             if (state.game !== JacynthGame.gameinfo.uid) {
                 throw new Error(`The Jacynth engine cannot process a game of '${state.game}'.`);
             }
+            this.numplayers = state.numplayers;
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;
@@ -561,8 +562,8 @@ export class JacynthGame extends GameBase {
         return this;
     }
 
-    public state(): IJacynthState {
-        return {
+    public state(opts?: {strip?: boolean, player?: number}): IJacynthState {
+        const state: IJacynthState = {
             game: JacynthGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
@@ -570,6 +571,16 @@ export class JacynthGame extends GameBase {
             winner: [...this.winner],
             stack: [...this.stack]
         };
+        if (opts !== undefined && opts.strip) {
+            state.stack = state.stack.map(mstate => {
+                for (let p = 1; p <= this.numplayers; p++) {
+                    if (p === opts.player) { continue; }
+                    mstate.hands[p-1] = [];
+                }
+                return mstate;
+            });
+        }
+        return state;
     }
 
     public moveState(): IMoveState {

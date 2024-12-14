@@ -3465,6 +3465,7 @@
             "ALREADY_OWNED": "The card at {{cell}} is part of a district owned by an opponent.",
             "BAD_INFLUENCE": "You may not exert influence on the card at {{cell}}. The Excuse, pawns, and courts may not be directly influenced.",
             "INITIAL_INSTRUCTIONS": "Click a card in your hand to place on the board.",
+            "LABEL_REMAINING": "Cards in deck",
             "LABEL_STASH": "Player {{playerNum}}'s hand",
             "NO_CARD": "The card \"{{card}}\" does not appear to be in your hand.",
             "NO_INFLUENCE": "You don't have any influence left.",

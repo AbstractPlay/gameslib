@@ -4,7 +4,7 @@ import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerOutline, RowCol } fr
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
-import { Card, Deck, cardSortDesc, cardsBasic, cardsExtended, suits } from "../common/decktet";
+import { Card, Deck, cardSortAsc, cardSortDesc, cardsBasic, cardsExtended, suits } from "../common/decktet";
 import { connectedComponents } from "graphology-components";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const deepclone = require("rfdc/default");
@@ -661,23 +661,18 @@ export class JacynthGame extends GameBase {
             }
         }
 
-        // build legend from visible cards
-        // if emulated, remove the last drawn card
-        const hands = this.hands.map(h => [...h]);
-        // if (this.emulated) {
-        //     hands[this.currplayer - 1].pop();
-        // }
-        const visibleCards = [...this.board.values(), ...hands.flat()].map(uid => Card.deserialize(uid));
-        if (visibleCards.includes(undefined)) {
-            throw new Error(`Could not deserialize one of the cards. This should never happen!`);
+        // build legend of ALL cards
+        const allcards = [...cardsBasic];
+        if (this.variants.includes("extended")) {
+            allcards.push(...cardsExtended);
         }
         const legend: ILegendObj = {};
-        for (const card of visibleCards) {
-            legend["c" + card!.uid] = JacynthGame.card2glyph(card!);
+        for (const card of allcards) {
+            legend["c" + card.uid] = JacynthGame.card2glyph(card);
         }
 
         // build pieces areas
-        let areas: AreaPieces[]|undefined = [];
+        const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             const hand = this.hands[p-1];
             if (hand.length > 0) {
@@ -689,9 +684,20 @@ export class JacynthGame extends GameBase {
                 });
             }
         }
-        if (areas.length === 0) {
-            areas = undefined;
+        // create an area for all invisible cards
+        // we still need to know what cards are visible so we can
+        // draw the invisible ones
+        const hands = this.hands.map(h => [...h]);
+        const visibleCards = [...this.board.values(), ...hands.flat()].map(uid => Card.deserialize(uid));
+        if (visibleCards.includes(undefined)) {
+            throw new Error(`Could not deserialize one of the cards. This should never happen!`);
         }
+        areas.push({
+            type: "pieces",
+            label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
+            spacing: 0.25,
+            pieces: allcards.sort(cardSortAsc).filter(c => visibleCards.find(cd => cd!.uid === c.uid) === undefined).map(c => "c" + c.uid) as [string, ...string[]],
+        });
 
         // Build rep
         const rep: APRenderRep =  {

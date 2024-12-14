@@ -131,7 +131,7 @@ export class JacynthGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private deck!: Deck;
-    private emulated = false;
+    // private emulated = false;
 
     constructor(state: number | IJacynthState | string, variants?: string[]) {
         super();
@@ -482,7 +482,7 @@ export class JacynthGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): JacynthGame {
+    public move(m: string, {trusted = false, partial = false} = {}): JacynthGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -497,7 +497,7 @@ export class JacynthGame extends GameBase {
         }
 
         this.results = [];
-        this.emulated = emulation;
+        // this.emulated = emulation;
         const [mv, influence] = m.split(",");
         let [card, to] = mv.split("-");
         card = card.toUpperCase();
@@ -664,9 +664,9 @@ export class JacynthGame extends GameBase {
         // build legend from visible cards
         // if emulated, remove the last drawn card
         const hands = this.hands.map(h => [...h]);
-        if (this.emulated) {
-            hands[this.currplayer - 1].pop();
-        }
+        // if (this.emulated) {
+        //     hands[this.currplayer - 1].pop();
+        // }
         const visibleCards = [...this.board.values(), ...hands.flat()].map(uid => Card.deserialize(uid));
         if (visibleCards.includes(undefined)) {
             throw new Error(`Could not deserialize one of the cards. This should never happen!`);

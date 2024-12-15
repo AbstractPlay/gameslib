@@ -47,7 +47,7 @@ export class JacynthGame extends GameBase {
         uid: "jacynth",
         playercounts: [2,3],
         version: "20241212",
-        dateAdded: "2023-06-18",
+        dateAdded: "2024-12-15",
         // i18next.t("apgames:descriptions.jacynth")
         description: "apgames:descriptions.jacynth",
         // i18next.t("apgames:notes.jacynth")
@@ -75,7 +75,7 @@ export class JacynthGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>network", "mechanic>hidden", "board>shape>rect", "board>connect>rect", "components>decktet"],
-        flags: ["experimental", "scores", "random-start", "no-moves", "custom-randomization", "no-explore"],
+        flags: ["scores", "random-start", "no-moves", "custom-randomization", "no-explore"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 6);
@@ -685,8 +685,6 @@ export class JacynthGame extends GameBase {
             }
         }
         // create an area for all invisible cards
-        // we still need to know what cards are visible so we can
-        // draw the invisible ones
         const hands = this.hands.map(h => [...h]);
         const visibleCards = [...this.board.values(), ...hands.flat()].map(uid => Card.deserialize(uid));
         if (visibleCards.includes(undefined)) {

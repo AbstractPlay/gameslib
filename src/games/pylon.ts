@@ -132,6 +132,7 @@ export class PylonGame extends GameBase {
             }
             this.numplayers = state.numplayers;
             this.gameover = state.gameover;
+            this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
         }

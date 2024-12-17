@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Directions, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const clone = require("rfdc/default");
 
-type playerid = 1|2|3|4;
+type playerid = 1|2|3|4|5|6|7|8;
 type Facing = "N"|"E"|"S"|"W"|"U";
 type CellContents = [playerid, Facing];
 
 // these are in resolution order: noops, damage, rotations, moves
-const cmds = ["x", "r", "f", "h", "<", ">", "^", "v", "\\", "/"];
+const cmds = ["f", "h", "<", ">", "^", "v", "\\", "/"];
 const hitDirs = new Map<Facing, Directions[]>([
     ["N", ["NW", "N", "NE"]],
     ["E", ["NE", "E", "SE"]],
@@ -31,12 +31,13 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, CellContents>;
     lastmove: string[];
     damage: number[];
-    ghosts: [string,CellContents][];
+    orders: string[][];
 };
 
-export interface IPigsState extends IAPGameState {
+export interface IPigs2State extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
+    withdrawn: playerid[];
 };
 
 interface IPigPos {
@@ -45,43 +46,21 @@ interface IPigPos {
     facing: Facing;
 }
 
-interface IGlyphMarker {
-    /**
-     * A way of incorporating a glyph from the legend into the board itself. Currently only works in the `default` and `stacking-offset` renderer.
-     */
-    type: "glyph";
-    /**
-     * The name of the glyph in the `legend`.
-     */
-    glyph: string;
-    /**
-     * Like with `annotations`, the renderer knows nothing about a game's notation. You must provide instead the column and row numbers, which are zero-based: 0,0 is the top row, top column.
-     *
-     * @minItems 1
-     */
-    points: [
-      {
-        row: number;
-        col: number;
-      },
-      ...{
-        row: number;
-        col: number;
-      }[]
-    ];
-  }
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
+}
 
-export class PigsGame extends GameBaseSimultaneous {
+export class Pigs2Game extends GameBaseSimultaneous {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Robo Battle Pigs (Base)",
-        uid: "pigs",
-        playercounts: [2,3,4],
-        version: "20230618",
+        name: "Robo Battle Pigs (Continuous)",
+        uid: "pigs2",
+        playercounts: [2,3,4,5,6,7,8],
+        version: "20241216",
         dateAdded: "2023-06-27",
-        // i18next.t("apgames:descriptions.pigs")
-        description: "apgames:descriptions.pigs",
-        // i18next.t("apgames:notes.pigs")
-        notes: "apgames:notes.pigs",
+        // i18next.t("apgames:descriptions.pigs2")
+        description: "apgames:descriptions.pigs2",
+        // i18next.t("apgames:notes.pigs2")
+        notes: "apgames:notes.pigs2",
         urls: [
             "http://cox-tv.com/games/mygames/robobattlepigs.html",
             "https://boardgamegeek.com/boardgame/3704/robo-battle-pigs",
@@ -94,7 +73,7 @@ export class PigsGame extends GameBaseSimultaneous {
             }
         ],
         categories: ["goal>annihilate", "mechanic>program",  "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["simultaneous", "scores", "no-moves"]
+        flags: ["experimental", "simultaneous", "scores", "custom-buttons"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -106,59 +85,82 @@ export class PigsGame extends GameBaseSimultaneous {
 
     public numplayers = 2;
     public board!: Map<string, CellContents>;
-    public ghosts: [string,CellContents][] = [];
     public damage!: number[];
+    public orders: string[][] = [];
     public gameover = false;
     public winner: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
     public variants: string[] = [];
+    public withdrawn: playerid[] = [];
 
-    constructor(state?: IPigsState | string | number) {
+    constructor(state?: IPigs2State | string | number) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
-            const damage: number[] = [0,0];
-            const board = new Map<string, CellContents>([
-                ["e1", [1, "N"]],
-                ["d8", [2, "S"]],
-            ]);
-            if (this.numplayers > 2) {
-                board.set("h5", [3, "W"]);
-                damage.push(0)
-            }
-            if (this.numplayers > 3) {
-                board.set("a4", [4, "E"]);
+            // init damage and orders
+            const damage: number[] = [];
+            const orders: string[][] = [];
+            for (let i = 0; i < this.numplayers; i++) {
                 damage.push(0);
+                orders.push([]);
+            }
+            const board = new Map<string, CellContents>();
+            let starts: [string, CellContents][];
+            // 2-4 players, start on the outside facing in
+            if (this.numplayers <= 4) {
+                starts = [
+                    ["e1", [1, "N"]],
+                    ["d8", [2, "S"]],
+                    ["h5", [3, "W"]],
+                    ["a4", [4, "E"]],
+                ];
+            }
+            // otherwise, distribute on the inside facing out
+            else {
+                starts = [
+                    ["e3", [1, "S"]],
+                    ["d6", [2, "N"]],
+                    ["f5", [3, "E"]],
+                    ["c4", [4, "W"]],
+                    ["d3", [5, "S"]],
+                    ["e6", [6, "N"]],
+                    ["f4", [7, "E"]],
+                    ["c5", [8, "W"]],
+                ];
+            }
+            for (let i = 0; i < this.numplayers; i++) {
+                board.set(starts[i][0], starts[i][1]);
             }
             const fresh: IMoveState = {
-                _version: PigsGame.gameinfo.version,
+                _version: Pigs2Game.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 lastmove: [],
-                ghosts: [],
+                orders,
                 damage,
                 board,
             };
             this.stack = [fresh];
         } else if (state !== undefined) {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IPigsState;
+                state = JSON.parse(state, reviver) as IPigs2State;
             }
-            if (state.game !== PigsGame.gameinfo.uid) {
-                throw new Error(`The Robo Battle Pigs game code cannot process a game of '${state.game}'.`);
+            if (state.game !== Pigs2Game.gameinfo.uid) {
+                throw new Error(`The Robo Battle Pigs2 game code cannot process a game of '${state.game}'.`);
             }
             this.numplayers = state.numplayers;
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.withdrawn = [...state.withdrawn];
         } else {
             throw new Error("Unknown state passed.");
         }
         this.load();
     }
 
-    public load(idx = -1): PigsGame {
+    public load(idx = -1): Pigs2Game {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -167,15 +169,65 @@ export class PigsGame extends GameBaseSimultaneous {
         }
 
         const state = this.stack[idx];
-        this.board = new Map(state.board);
-        this.ghosts = clone(state.ghosts) as [string,CellContents][];
+        this.board = clone(state.board) as Map<string, CellContents>;
+        this.orders = state.orders.map(o => [...o]);
         this.damage = [...state.damage];
         this.lastmove = state.lastmove.join(',');
         return this;
     }
 
     public handleClickSimultaneous(): IClickResult {
-        return {move: "", message: i18next.t("apgames:validation.pigs.INITIAL_INSTRUCTIONS")} as IClickResult;
+        return {move: "", message: i18next.t("apgames:validation.pigs2.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "first": "rest"})} as IClickResult;
+    }
+
+    public moves(): string[] {
+        if (this.gameover) { return []; }
+        // on first turn, return nothing (512 permutations)
+        if (this.stack.length > 1) {
+            return cmds;
+        }
+        return [];
+    }
+
+    public getButtons(): ICustomButton[] {
+        // const cmds = ["f", "h", "<", ">", "^", "v", "\\", "/"];
+        if (this.stack.length > 1) {
+            return [
+                {
+                    label: "Move backward",
+                    move: "v"
+                },
+                {
+                    label: "Move forward",
+                    move: "^"
+                },
+                {
+                    label: "Move forward left",
+                    move: "\\"
+                },
+                {
+                    label: "Move forward right",
+                    move: "/"
+                },
+                {
+                    label: "Rotate clockwise",
+                    move: ">"
+                },
+                {
+                    label: "Rotate counterclockwise",
+                    move: "<"
+                },
+                {
+                    label: "Fire laser",
+                    move: "f"
+                },
+                {
+                    label: "Swing snout",
+                    move: "h"
+                },
+            ];
+        }
+        return [];
     }
 
     public validateMove(m: string, player: playerid): IValidationResult {
@@ -185,7 +237,7 @@ export class PigsGame extends GameBaseSimultaneous {
         if (m === "\u0091") {
             if (! this.isEliminated(player)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pigs.INVALID_CMD", {cmd: m});
+                result.message = i18next.t("apgames:validation.pigs2.INVALID_CMD", {cmd: m});
                 return result;
             } else {
                 result.valid = true;
@@ -200,59 +252,33 @@ export class PigsGame extends GameBaseSimultaneous {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.pigs.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.pigs2.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "first": "rest"});
             return result;
         }
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
-        if (m !== "r") {
-            // as soon as they type an invalid character, tell them
-            for (const char of m) {
-                if (! cmds.includes(char)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.pigs.INVALID_CMD", {cmd: char});
-                    return result;
-                }
-            }
-            // repair is a single character
-            if ( (m.length > 1) && (m.includes("r")) ) {
+        // as soon as they type an invalid character, tell them
+        for (const char of m) {
+            if (! cmds.includes(char)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pigs.REPAIR_SINGLE");
+                result.message = i18next.t("apgames:validation.pigs2.INVALID_CMD", {cmd: char});
                 return result;
             }
-            // no longer than 5 characters
-            if (m.length > 5) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.pigs.TOOLONG");
-                return result;
-            }
-            // if less than 5, keep repeating the initial instructions
-            if (m.length < 5) {
-                result.valid = true;
-                result.complete = -1;
-                result.message = i18next.t("apgames:validation.pigs.INITIAL_INSTRUCTIONS");
-                return result;
-            }
-            // Once it's the correct length, make sure it contains enough Xs
-            const dmg = Math.min(this.damage[player - 1], 5);
-            if (m.split("").filter(c => c === "x").length < dmg) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.pigs.X_TOOFEW");
-                return result;
-            }
-            if (m.split("").filter(c => c === "x").length > dmg) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.pigs.X_TOOMANY");
-                return result;
-            }
-        } else {
-            if (this.damage[player - 1] === 0) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.pigs.UNDAMAGED");
-                return result;
-            }
+        }
+        // correct number of commands
+        if (m.length > (this.stack.length === 1 ? 3 : 1)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.pigs2.TOOLONG", {context: this.stack.length === 1 ? "first" : "rest"});
+            return result;
+        }
+        // if less than needed, keep repeating the initial instructions
+        if (m.length < (this.stack.length === 1 ? 3 : 1)) {
+            result.valid = true;
+            result.complete = -1;
+            result.message = i18next.t("apgames:validation.pigs2.INITIAL_INSTRUCTIONS");
+            return result;
         }
 
         // valid final move
@@ -263,13 +289,22 @@ export class PigsGame extends GameBaseSimultaneous {
     }
 
     public isEliminated(id: number): boolean {
-        if ( (id > 0) && (id <= this.damage.length) && (this.damage[id - 1] >= 5) ) {
+        if (
+            (id > 0) &&
+            (
+                this.withdrawn.includes(id as playerid) ||
+                (
+                    (id <= this.damage.length) &&
+                    (this.damage[id - 1] >= 5)
+                )
+            )
+        ) {
             return true;
         }
         return false;
     }
 
-    public move(m: string, {partial = false, trusted = false} = {}): PigsGame {
+    public move(m: string, {trusted = false} = {}): Pigs2Game {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -278,7 +313,7 @@ export class PigsGame extends GameBaseSimultaneous {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
-            if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
+            if ( (moves[i] === undefined) || (moves[i] === "") ) {
                 continue;
             }
             moves[i] = moves[i].toLowerCase();
@@ -292,167 +327,173 @@ export class PigsGame extends GameBaseSimultaneous {
         }
 
         // get ready
-        this.ghosts = [];
-        const parsed = moves.map(s => s.split(""));
         const grid = new RectGrid(8, 8);
         const pigs = [...this.board.entries()].map(e => { return {player: e[1][0], cell: e[0], facing: e[1][1]} as IPigPos}).sort((a, b) => a.player - b.player);
-        const resultGroups: APMoveResult[][] = [];
         const dmgApplied: number[] = []
+        const resultGroups: APMoveResult[][] = [];
         for (let i = 0; i < this.numplayers; i++) {
             resultGroups.push([]);
             dmgApplied.push(0);
         }
 
-        // for each of the five moves
-        for (let mnum = 0; mnum < 5; mnum++) {
-            const next: [string,string,boolean|undefined][] = [];
-            // resolve all movement first
-            for (let player = 1; player <= this.numplayers; player++) {
-                // ignore eliminated players
-                if (this.isEliminated(player)) {
-                    next.push(["","",undefined]);
-                    continue;
-                }
-                let cmd = "r";
-                if (mnum < parsed[player - 1].length) {
-                    cmd = parsed[player - 1][mnum];
-                }
-                const pig = pigs.find(p => p.player === player);
-                if (pig === undefined) { throw new Error(`Could not find a pig for player ${player}!`); }
-                if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
-                next.push([pig.cell, pig.cell, false]);
+        // first store the received orders
+        for (let p = 0; p < this.numplayers; p++) {
+            // ignore eliminated players
+            if (this.isEliminated(p+1)) { continue; }
+            if (this.stack.length === 1) {
+                this.orders[p] = moves[p].split("").reverse();
+            } else {
+                this.orders[p].unshift(moves[p]);
+            }
+        }
 
-                // rotations
-                if ( (cmd === "<") || (cmd === ">") ) {
-                    let newdir: Facing;
-                    if (cmd === "<") {
-                        newdir = ccw.get(pig.facing)!;
-                    } else {
-                        newdir = cw.get(pig.facing)!;
-                    }
-                    resultGroups[player - 1].push({type: "orient", where: pig.cell, facing: newdir});
-                    this.ghosts.push([pig.cell, [pig.player, pig.facing]]);
-                    pig.facing = newdir;
+        // now fetch the next orders to execute
+        const parsed: string[] = [];
+        for (let p = 0; p < this.numplayers; p++) {
+            // empty moves for eliminated players
+            if (this.isEliminated(p+1)) {
+                parsed.push("");
+            }
+            // otherwise pop the next order from the stack
+            else {
+                parsed.push(this.orders[p].pop()!);
+            }
+        }
+
+        // for each move
+        const next: [string,string,boolean|undefined][] = [];
+        // resolve all movement first
+        for (let player = 1; player <= this.numplayers; player++) {
+            // ignore eliminated players
+            if (this.isEliminated(player)) {
+                next.push(["","",undefined]);
+                continue;
+            }
+            const cmd = parsed[player - 1];
+            const pig = pigs.find(p => p.player === player);
+            if (pig === undefined) { throw new Error(`Could not find a pig for player ${player}!`); }
+            if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
+            next.push([pig.cell, pig.cell, false]);
+
+            // rotations
+            if ( (cmd === "<") || (cmd === ">") ) {
+                let newdir: Facing;
+                if (cmd === "<") {
+                    newdir = ccw.get(pig.facing)!;
+                } else {
+                    newdir = cw.get(pig.facing)!;
                 }
-                // moves
-                else if (["^","v","/","\\"].includes(cmd)) {
-                    next[player - 1][2] = true;
-                    const [fx, fy] = PigsGame.algebraic2coords(pig.cell);
-                    let dir: Directions = pig.facing;
-                    if (cmd === "v") {
-                        // @ts-ignore (can ignore because facing is never "U" at this point)
-                        dir = opp.get(pig.facing)!;
-                    } else if (cmd === "\\") {
-                        dir = moveLeft.get(pig.facing)!;
-                    } else if (cmd === "/") {
-                        dir = moveRight.get(pig.facing)!;
-                    }
-                    const ray = grid.ray(fx, fy, dir).map(node => PigsGame.coords2algebraic(...node));
-                    if (ray.length > 0) {
-                        next[player - 1][1] = ray[0];
-                    }
+                resultGroups[player - 1].push({type: "orient", where: pig.cell, facing: newdir, what: cmd === "<" ? "ccw" : "cw"});
+                pig.facing = newdir;
+            }
+            // moves
+            else if (["^","v","/","\\"].includes(cmd)) {
+                next[player - 1][2] = true;
+                const [fx, fy] = Pigs2Game.algebraic2coords(pig.cell);
+                let dir: Directions = pig.facing;
+                if (cmd === "v") {
+                    // @ts-ignore (can ignore because facing is never "U" at this point)
+                    dir = opp.get(pig.facing)!;
+                } else if (cmd === "\\") {
+                    dir = moveLeft.get(pig.facing)!;
+                } else if (cmd === "/") {
+                    dir = moveRight.get(pig.facing)!;
+                }
+                const ray = grid.ray(fx, fy, dir).map(node => Pigs2Game.coords2algebraic(...node));
+                if (ray.length > 0) {
+                    next[player - 1][1] = ray[0];
                 }
             }
-            // resolve collisions
-            for (let i = 0; i < this.numplayers; i++) {
-                if (this.isEliminated(i + 1)) { continue; }
-                const pig = pigs.find(p => p.player === i + 1);
-                if (pig === undefined) { throw new Error(`Could not find a pig for player ${i + 1}!`); }
-                if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
-                const [from, to, tried] = next[i];
-                // if they didn't move, skip
-                if (from === to) {
-                    if (tried) {
-                        resultGroups[i].push({type: "move", from, to: from});
-                    }
-                    continue;
-                }
-                const others = clone(next) as [string,string][];
-                others.splice(i, 1);
-                // see if `to` is already occupied
-                if (others.map(o => o[1]).includes(to)) {
+        }
+        // TODO: I think we need to do something about running over eliminated pigs
+        // resolve collisions
+        for (let i = 0; i < this.numplayers; i++) {
+            if (this.isEliminated(i + 1)) { continue; }
+            const pig = pigs.find(p => p.player === i + 1);
+            if (pig === undefined) { throw new Error(`Could not find a pig for player ${i + 1}!`); }
+            if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
+            const [from, to, tried] = next[i];
+            // if they didn't move, skip
+            if (from === to) {
+                if (tried) {
                     resultGroups[i].push({type: "move", from, to: from});
-                    continue;
                 }
-                // see if cell swapping happened
-                const reversed = others.map(o => [o[1], o[0]].join(","));
-                if (reversed.includes(`${from},${to}`)) {
-                    resultGroups[i].push({type: "move", from, to: from});
-                    continue;
-                }
-                // otherwise we're good
-                this.ghosts.push([from, [i + 1 as playerid, pig.facing]]);
-                resultGroups[i].push({type: "move", from, to});
-                pig.cell = to;
+                continue;
             }
+            const others = clone(next) as [string,string][];
+            others.splice(i, 1);
+            // see if `to` is already occupied
+            if (others.map(o => o[1]).includes(to)) {
+                resultGroups[i].push({type: "move", from, to: from});
+                continue;
+            }
+            // see if cell swapping happened
+            const reversed = others.map(o => [o[1], o[0]].join(","));
+            if (reversed.includes(`${from},${to}`)) {
+                resultGroups[i].push({type: "move", from, to: from});
+                continue;
+            }
+            // otherwise we're good
+            resultGroups[i].push({type: "move", from, to});
+            pig.cell = to;
+        }
 
-            // then resolve damage
-            for (let player = 1; player <= this.numplayers; player++) {
-                // ignore eliminated players
-                if (this.isEliminated(player)) { continue; }
-                let cmd = "r";
-                if (mnum < parsed[player - 1].length) {
-                    cmd = parsed[player - 1][mnum];
-                }
-                const pig = pigs.find(p => p.player === player);
-                if (pig === undefined) { throw new Error(`Could not find a pig for player ${player}!`); }
-                if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
-                next.push([pig.cell, pig.cell, false]);
+        // then resolve damage
+        for (let player = 1; player <= this.numplayers; player++) {
+            // ignore eliminated players
+            if (this.isEliminated(player)) { continue; }
+            const cmd = parsed[player - 1];
+            const pig = pigs.find(p => p.player === player);
+            if (pig === undefined) { throw new Error(`Could not find a pig for player ${player}!`); }
+            if (pig.facing === "U") { throw new Error(`Disabled pigs cannot act!`); }
+            next.push([pig.cell, pig.cell, false]);
 
-                // noops first
-                if ( (cmd === "x") || (cmd === "r") ) {
-                    resultGroups[player - 1].push({type: "pass"});
-                }
-                // damage
-                else if (cmd === "f") {
-                    const ray = grid.ray(...PigsGame.algebraic2coords(pig.cell), pig.facing).map(node => PigsGame.coords2algebraic(...node));
-                    let hit = ray[ray.length - 1];
-                    let victim: IPigPos|undefined;
-                    for (const target of ray) {
-                        victim = pigs.find(p => p.cell === target);
-                        if (victim !== undefined) {
-                            hit = target;
-                            break;
-                        }
+            // damage
+            if (cmd === "f") {
+                const ray = grid.ray(...Pigs2Game.algebraic2coords(pig.cell), pig.facing).map(node => Pigs2Game.coords2algebraic(...node));
+                let hit = ray[ray.length - 1];
+                let victim: IPigPos|undefined;
+                for (const target of ray) {
+                    victim = pigs.find(p => p.cell === target);
+                    if (victim !== undefined) {
+                        hit = target;
+                        break;
                     }
-                    resultGroups[player - 1].push({type: "fire", from: pig.cell, which: "F", to: hit});
+                }
+                resultGroups[player - 1].push({type: "fire", from: pig.cell, which: "F", to: hit});
+                if (victim !== undefined) {
+                    let dmg = 1;
+                    if (victim.facing === "U") {
+                        dmg = 0;
+                    }
+                    resultGroups[player - 1].push({type: "damage", who: victim.player.toString(), where: victim.cell, amount: dmg});
+                    dmgApplied[victim.player - 1] += dmg;
+                }
+            } else if (cmd === "h") {
+                resultGroups[player - 1].push({type: "fire", which: "H"});
+                const targets: string[] = [];
+                for (const dir of hitDirs.get(pig.facing)!) {
+                    const [x, y] = Pigs2Game.algebraic2coords(pig.cell);
+                    const poss = RectGrid.move(x, y, dir);
+                    if (grid.inBounds(...poss)) {
+                        targets.push(Pigs2Game.coords2algebraic(...poss));
+                    }
+                }
+                for (const t of targets) {
+                    const victim = pigs.find(p => p.cell === t);
                     if (victim !== undefined) {
                         let dmg = 1;
-                        if (victim.facing === "U") {
-                            dmg = 0;
-                        }
+                        if (victim.facing === "U") { dmg = 0; }
                         resultGroups[player - 1].push({type: "damage", who: victim.player.toString(), where: victim.cell, amount: dmg});
                         dmgApplied[victim.player - 1] += dmg;
                     }
-                } else if (cmd === "h") {
-                    resultGroups[player - 1].push({type: "fire", which: "H"});
-                    const targets: string[] = [];
-                    for (const dir of hitDirs.get(pig.facing)!) {
-                        const [x, y] = PigsGame.algebraic2coords(pig.cell);
-                        const poss = RectGrid.move(x, y, dir);
-                        if (grid.inBounds(...poss)) {
-                            targets.push(PigsGame.coords2algebraic(...poss));
-                        }
-                    }
-                    for (const t of targets) {
-                        const victim = pigs.find(p => p.cell === t);
-                        if (victim !== undefined) {
-                            let dmg = 1;
-                            if (victim.facing === "U") { dmg = 0; }
-                            resultGroups[player - 1].push({type: "damage", who: victim.player.toString(), where: victim.cell, amount: dmg});
-                            dmgApplied[victim.player - 1] += dmg;
-                        }
-                    }
                 }
-            } // foreach player
-        } // foreach move step
+            }
+        } // foreach player
+
         // apply damage and finalize repairs
         for (let i = 0; i < this.numplayers; i++) {
             this.damage[i] += dmgApplied[i];
-            if (parsed[i][0] === "r") {
-                this.damage[i]--;
-                resultGroups[i].push({type: "repair"});
-            }
             if (this.damage[i] >= 5) {
                 resultGroups[i].push({type: "eliminated", who: (i + 1).toString()});
                 const pig = pigs.find(p => p.player === i + 1);
@@ -473,15 +514,13 @@ export class PigsGame extends GameBaseSimultaneous {
             this.results.push({type: "_group", who: i + 1, results: resultGroups[i] as [APMoveResult,...APMoveResult[]]});
         }
 
-        if (partial) { return this; }
-
-        this.lastmove = [...moves].join(',').toUpperCase().replace(/V/g, "v");
+        this.lastmove = [...parsed].join(',').toUpperCase().replace(/V/g, "v");
         this.checkEOG();
         this.saveState();
         return this;
     }
 
-    protected checkEOG(): PigsGame {
+    protected checkEOG(): Pigs2Game {
         let numAlive = 0;
         for (let i = 1; i <= this.numplayers; i++) {
             if (! this.isEliminated(i)) {
@@ -521,32 +560,63 @@ export class PigsGame extends GameBaseSimultaneous {
         ]
     }
 
-    public state(): IPigsState {
-        return {
-            game: PigsGame.gameinfo.uid,
+    public state(opts?: {strip?: boolean, player?: number}): IPigs2State {
+        const state = {
+            game: Pigs2Game.gameinfo.uid,
             numplayers: this.numplayers,
             variants: [...this.variants],
             gameover: this.gameover,
+            withdrawn: [...this.withdrawn],
             winner: [...this.winner],
             stack: [...this.stack]
         };
+        if (opts !== undefined && opts.strip) {
+            state.stack = state.stack.map(mstate => {
+                for (let p = 1; p <= this.numplayers; p++) {
+                    if (p === opts.player) { continue; }
+                    mstate.orders[p-1] = [];
+                }
+                return mstate;
+            });
+        }
+        return state;
     }
 
     public moveState(): IMoveState {
         return {
-            _version: PigsGame.gameinfo.version,
+            _version: Pigs2Game.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             lastmove: (this.lastmove === undefined ? [] : this.lastmove.split(',')),
             board: new Map(this.board),
             damage: [...this.damage],
-            ghosts: clone(this.ghosts) as [string,CellContents][]
+            orders: this.orders.map(o => [...o]),
         };
     }
 
     public render(): APRenderRep {
-        const player2label = new Map<playerid,string>([[1,"A"],[2,"B"],[3,"C"],[4,"D"]]);
+        const player2label = new Map<playerid,string>([[1,"A"],[2,"B"],[3,"C"],[4,"D"],[5, "E"],[6, "F"],[7, "G"],[8, "H"]]);
         const facing2rot = new Map<Facing,number>([["N", 0],["E", 90],["S", 180],["W", 270]]);
+        const cmd2glyph = new Map<string, string>([
+            ["f", "F"],
+            ["h", "H"],
+            ["<", "CCW"],
+            [">", "CW"],
+            ["^", "MF"],
+            ["v", "MB"],
+            ["\\", "FL"],
+            ["/", "FR"],
+        ]);
+        const glyph2unicode = new Map<string, string>([
+            ["F", "\u26ef"],
+            ["H", "\u2927"],
+            ["CCW", "\u21b6"],
+            ["CW", "\u21b7"],
+            ["MF", "\u2191"],
+            ["MB", "\u2193"],
+            ["FL", "\u2196"],
+            ["FR", "\u2197"],
+        ]);
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 8; row++) {
@@ -555,7 +625,7 @@ export class PigsGame extends GameBaseSimultaneous {
             }
             const cells: string[] = [];
             for (let col = 0; col < 8; col++) {
-                const cell = PigsGame.coords2algebraic(col, row);
+                const cell = Pigs2Game.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     cells.push(`${player2label.get(contents[0])}${contents[1]}`);
@@ -567,18 +637,16 @@ export class PigsGame extends GameBaseSimultaneous {
         }
         pstr = pstr.replace(/\n,{7}(?=\n)/g, "\n_");
 
-        const legend = {};
+        const legend: ILegendObj = {};
         // real pieces
         for (const [player, facing] of this.board.values()) {
             const label = `${player2label.get(player)}${facing}`;
             if (facing === "U") {
-                // @ts-ignore
                 legend[label] = {
                     name: "pyramid-up-large-upscaled",
                     colour: player
                 };
             } else {
-                // @ts-ignore
                 legend[label] = {
                     name: "pyramid-flat-large",
                     colour: player,
@@ -586,39 +654,36 @@ export class PigsGame extends GameBaseSimultaneous {
                 };
             }
         }
-        // ghosts
-        for (const [player, facing] of this.ghosts.map(g => g[1])) {
-            const label = `g${player2label.get(player)}${facing}`;
-            if (facing === "U") {
-                // @ts-ignore
-                legend[label] = {
-                    name: "pyramid-up-large-upscaled",
-                    colour: player,
-                    opacity: 0.25,
-                    scale: 0.75,
-                };
-            } else {
-                // @ts-ignore
-                legend[label] = {
-                    name: "pyramid-flat-large",
-                    rotate: facing2rot.get(facing),
-                    colour: player,
-                    opacity: 0.25,
-                    scale: 0.75,
-                };
-            }
+        // order glyphs
+        for (const [g, u] of glyph2unicode.entries()) {
+            legend[g] = {
+                text: u,
+                colour: "_context_labels"
+            };
         }
+        // rotation annotation glyphs
+        legend.nCW = {
+            text: "\u21b7",
+            colour: "_context_annotations",
+            scale: 0.5,
+        };
+        legend.nCCW = {
+            text: "\u21b6",
+            colour: "_context_annotations",
+            scale: 0.5,
+        };
 
-        // It's anti-semantic, but markers are the best way of displaying ghosts
-        const markers: IGlyphMarker[] = [];
-        for (const [cell, [player, facing]] of this.ghosts) {
-            const label = `g${player2label.get(player)}${facing}`;
-            const [x, y] = PigsGame.algebraic2coords(cell);
-            markers.push({
-                type: "glyph",
-                glyph: label,
-                points: [{col: x, row: y}],
-            });
+        // build pieces areas
+        const areas: AreaPieces[] = [];
+        for (let p = 1; p <= this.numplayers; p++) {
+            const order = this.orders[p-1];
+            if (order.length > 0) {
+                areas.push({
+                    type: "pieces",
+                    pieces: order.map(c => cmd2glyph.get(c)!) as [string, ...string[]],
+                    label: i18next.t("apgames:validation.pigs2.LABEL_ORDERS", {playerNum: p}) || "local",
+                });
+            }
         }
 
         // Build rep
@@ -627,10 +692,10 @@ export class PigsGame extends GameBaseSimultaneous {
                 style: "squares",
                 width: 8,
                 height: 8,
-                markers,
             },
             legend,
-            pieces: pstr
+            pieces: pstr,
+            areas,
         };
 
         if (this.stack[this.stack.length - 1]._results.length > 0) {
@@ -639,15 +704,13 @@ export class PigsGame extends GameBaseSimultaneous {
             for (const move of this.stack[this.stack.length - 1]._results) {
             // for (const move of this.results) {
                 if (move.type === "_group") {
-                    const player = move.who;
                     for (const result of move.results) {
                         if (result.type === "move") {
                             if (result.from !== result.to) {
-                                const [fx, fy] = PigsGame.algebraic2coords(result.from);
-                                const [tx, ty] = PigsGame.algebraic2coords(result.to);
+                                const [fx, fy] = Pigs2Game.algebraic2coords(result.from);
+                                const [tx, ty] = Pigs2Game.algebraic2coords(result.to);
                                 rep.annotations.push({
                                     type: "move",
-                                    colour: player,
                                     arrow: true,
                                     targets: [
                                         {col: fx, row: fy},
@@ -656,11 +719,10 @@ export class PigsGame extends GameBaseSimultaneous {
                                 });
                             }
                         } else if ( (result.type === "fire") && (result.which === "F") ) {
-                            const [fx, fy] = PigsGame.algebraic2coords(result.from!);
-                            const [tx, ty] = PigsGame.algebraic2coords(result.to!);
+                            const [fx, fy] = Pigs2Game.algebraic2coords(result.from!);
+                            const [tx, ty] = Pigs2Game.algebraic2coords(result.to!);
                             rep.annotations.push({
                                 type: "move",
-                                colour: player,
                                 arrow: true,
                                 style: "dashed",
                                 targets: [
@@ -669,10 +731,17 @@ export class PigsGame extends GameBaseSimultaneous {
                                 ]
                             });
                         } else if (result.type === "damage") {
-                            const [x, y] = PigsGame.algebraic2coords(result.where as string);
+                            const [x, y] = Pigs2Game.algebraic2coords(result.where as string);
                             rep.annotations.push({
                                 type: "exit",
-                                colour: player,
+                                targets: [{col: x, row: y}]
+                            });
+                        } else if (result.type === "orient") {
+                            const dir = result.what!;
+                            const [x, y] = Pigs2Game.algebraic2coords(result.where as string);
+                            rep.annotations.push({
+                                type: "glyph",
+                                glyph: dir === "cw" ? "nCW" : "nCCW",
                                 targets: [{col: x, row: y}]
                             });
                         }
@@ -691,6 +760,12 @@ export class PigsGame extends GameBaseSimultaneous {
         for (let i = 0; i < this.numplayers; i++) {
             status += `Player ${i + 1}: ${this.damage[i]}\n\n`;
         }
+
+        status += "**Orders**\n\n";
+        for (let i = 0; i < this.numplayers; i++) {
+            status += `Player ${i + 1}: ${this.orders[i].join(" ")}\n\n`;
+        }
+
         return status;
     }
 
@@ -726,11 +801,8 @@ export class PigsGame extends GameBaseSimultaneous {
                                         node.push(i18next.t("apresults:DAMAGE.pigs", {player, where: r2.where as string, opponent}));
                                         break;
                                     }
-                                case "repair":
-                                    node.push(i18next.t("apresults:REPAIR.simple", {player}));
-                                    break;
                                 case "eliminated":
-                                    const oppPlayer = players[parseInt(r2.who, 10) - 1];
+                                    const oppPlayer = players[parseInt(r2.who!, 10) - 1];
                                     node.push(i18next.t("apresults:ELIMINATED", {player: oppPlayer}));
                                     break;
                             }
@@ -770,7 +842,35 @@ export class PigsGame extends GameBaseSimultaneous {
         return result;
     }
 
-    public clone(): PigsGame {
-        return new PigsGame(this.serialize());
+    // In this version, timeouts and resignations result in being eliminated
+    // without necessarily ending the game.
+    public resign(player: number): GameBaseSimultaneous {
+        // add to withdrawn
+        this.withdrawn.push(player as playerid);
+        // make robot upright
+        const pigEntry = [...this.board.entries()].find(([,v]) => v[0] === player);
+        if (pigEntry !== undefined) {
+            this.board.set(pigEntry[0], [player as playerid, "U"]);
+        }
+        // add result message to last state in stack
+        this.stack[this.stack.length - 1]._results.push({type: "resigned", player});
+        return this;
+    }
+
+    public timeout(player: number): GameBaseSimultaneous {
+        // add to withdrawn
+        this.withdrawn.push(player as playerid);
+        // make robot upright
+        const pigEntry = [...this.board.entries()].find(([,v]) => v[0] === player);
+        if (pigEntry !== undefined) {
+            this.board.set(pigEntry[0], [player as playerid, "U"]);
+        }
+        // add result message to last state in stack
+        this.stack[this.stack.length - 1]._results.push({type: "timeout", player});
+        return this;
+    }
+
+    public clone(): Pigs2Game {
+        return new Pigs2Game(this.serialize());
     }
 }

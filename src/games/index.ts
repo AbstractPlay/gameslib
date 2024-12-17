@@ -167,6 +167,7 @@ import { SubdivisionGame, ISubdivisionState } from "./subdivision";
 import { PylonGame, IPylonState } from "./pylon";
 import { MoonSquadGame, IMoonSquadState } from "./moonsquad";
 import { JacynthGame, IJacynthState } from "./jacynth";
+import { Pigs2Game, IPigs2State } from "./pigs2";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -336,6 +337,7 @@ export {
     PylonGame, IPylonState,
     MoonSquadGame, IMoonSquadState,
     JacynthGame, IJacynthState,
+    Pigs2Game, IPigs2State,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -393,7 +395,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof ResolveGame | typeof OnyxGame | typeof AltaGame |
                               typeof HulaGame | typeof KonaneGame | typeof BlastRadiusGame |
                               typeof FramesGame | typeof LoggerGame | typeof SubdivisionGame |
-                              typeof PylonGame | typeof MoonSquadGame | typeof JacynthGame
+                              typeof PylonGame | typeof MoonSquadGame | typeof JacynthGame |
+                              typeof Pigs2Game
                 >();
 // Manually add each game to the following array
 [
@@ -420,7 +423,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
     HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
-    MoonSquadGame, JacynthGame,
+    MoonSquadGame, JacynthGame, Pigs2Game,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -764,6 +767,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new MoonSquadGame(...args);
         case "jacynth":
             return new JacynthGame(args[0], ...args.slice(1));
+        case "pigs2":
+            return new Pigs2Game(...args);
     }
     return;
 }

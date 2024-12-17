@@ -110,7 +110,8 @@
         "oware": "A traditional West African sowing game where you try to capture the most pieces.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
-        "pigs": "Robo Battle Pigs is a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players.",
+        "pigs": "This is the base-rules version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players, and each player programs five moves each turn.",
+        "pigs2": "This is the continuous feedback version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–8 players, and each player only programs one move per turn.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pletore": "Pletore is a territorial line-of-sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
@@ -188,6 +189,7 @@
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
+        "pigs2": "This is the same as the old Super Duper Games. The game starts by you programming three moves, but only one move is resolved and added each turn.\n\nMovement is resolved before damage is applied. Unlike most other AP games, if players resign or timeout, the game does not immediately end. Instead, they're eliminated and their robot becomes inactive, but the other players can play on.",
         "pletore": "An intersection is controlled by a player if they 'pinch' it while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. Your score is the sum of the number of stones of your color on the board and the number of empty points you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "razzle": "The implementation here is the so called tournament rules.",
@@ -3753,6 +3755,14 @@
             "UNDAMAGED": "You can't repair until you've taken damage.",
             "X_TOOFEW": "You must enter an 'X' for every point of damage taken.",
             "X_TOOMANY": "You entered too many 'X' commands. You only need to enter one for every point of damage taken."
+        },
+        "pigs2": {
+            "INITIAL_INSTRUCTIONS_first": "Enter three of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout).",
+            "INITIAL_INSTRUCTIONS_rest": "Enter one of any of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout).",
+            "INVALID_CMD": "The character '{{cmd}}' is not a recognized command.",
+            "LABEL_ORDERS": "Player {{playerNum}}'s orders (right-most order will execute next)",
+            "TOOLONG_first": "You may only enter three commands to start.",
+            "TOOLONG_rest": "You may only enter a single command on normal turns."
         },
         "pikemen": {
             "BAD_FACING": "The following move segment had an unrecognizeable facing: {{segment}}.",

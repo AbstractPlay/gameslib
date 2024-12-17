@@ -1,1 +1,391 @@
-{}
+{
+    "CAPTURE": {
+        "monkey_queen": "Потрапила в полон королева.",
+        "orb_1": "{{player}} захопив кулю в {{where}}.",
+        "orb_2": "{{player}} захопив сфероїд на {{where}}.",
+        "fightopia_1": "{{player}} захопив пішака в {{where}}.",
+        "noperson": {
+            "multiple": "Було відзнято такі частини: {{capped}}.",
+            "nowhere": "{{what}} було захоплено.",
+            "nowhat": "Фрагмент було знято в {{where}}.",
+            "simple": "{{what}} було знято в {{where}}.",
+            "group_nowhere": "Групу розміром {{count}} було захоплено."
+        },
+        "meridians": "Неактивну групу розміром {{count}} видалено.",
+        "fightopia_2": "{{player}} захопили танк при {{where}}.",
+        "monkey_single": "Одиночний був спійманий.",
+        "minimal": "Шматок був захоплений.",
+        "blockade": "{{player}} захопив блокуючий шматок на {{where}}.",
+        "blooms": "{{player}} захопив {{what}} групу розміром {{count}}.",
+        "complete": "{{player}} захоплений а {{what}} в {{where}}.",
+        "furl": "{{player}} захопив стек розміром {{size}} у {{where}}.",
+        "gess_one": "{{count}} камінь видаляється з дошки.",
+        "gess_few": "{{count}} камені знімаються з дошки.",
+        "gess_many": "{{count}} камені знімаються з дошки.",
+        "hens_hen": "{{player}} зловив курку при {{where}}.",
+        "multiple_one": "Шматок {{count}} був захоплений.",
+        "multiple_few": "Було захоплено {{count}} штук.",
+        "multiple_many": "Було захоплено {{count}} штук.",
+        "murus_double": "{{player}} захопив дві штуки при {{where}}.",
+        "nowhat": "{{player}} захопив шматок при {{where}}.",
+        "pente_self": "{{player}} захоплений {{count}} власних частин.",
+        "spook_drop_self": "{{player}} має 1 власний м'яч, захоплений Spooky нижче на {{where}}.",
+        "tafl": "{{player}} захопив фігуру в {{where}}.",
+        "tumbleweed": "{{player}} захопив стек розміром {{count}} у {{where}}.",
+        "tumbleweed_self": "{{player}} посилює стек розміром {{count}} у {{where}}.",
+        "witch": {
+            "nowhere_S_one": "{{player}} захопив {{count}} сонячний камінь.",
+            "nowhere_S_few": "{{player}} захопив {{count}} сонячних каменів.",
+            "nowhere_S_many": "{{player}} захопив {{count}} сонячних каменів.",
+            "nowhere_E_one": "{{player}} захопив {{count}} Earthstone.",
+            "nowhere_E_few": "{{player}} захопив {{count}} Earthstones.",
+            "nowhere_E_many": "{{player}} захопив {{count}} Earthstones.",
+            "nowhere_C_one": "{{player}} захопив {{count}} Корону.",
+            "nowhere_C_few": "{{player}} отримав {{count}} корон.",
+            "nowhere_C_many": "{{player}} отримав {{count}} корон.",
+            "single_E": "{{player}} взяв Earthstone на {{where}}.",
+            "single_C": "{{player}} взяв корону в {{where}}.",
+            "nowhere_M_one": "{{player}} захопив {{count}} Місячний камінь.",
+            "nowhere_M_few": "{{player}} захопив {{count}} місячних каменів.",
+            "nowhere_M_many": "{{player}} захопив {{count}} місячних каменів.",
+            "single_S": "{{player}} взяв сонячний камінь у {{where}}.",
+            "single_M": "{{player}} взяв місячний камінь у {{where}}."
+        },
+        "dameo_king": "{{player}} полонив короля в {{where}}.",
+        "mancala_one": "{{player}} захоплено {{count}} камінь з {{pit}}.",
+        "mancala_few": "{{player}} захопив {{count}} каміння з {{pit}}.",
+        "mancala_many": "{{player}} захопив {{count}} каміння з {{pit}}.",
+        "bao_one": "{{player}} захопив загалом {{count}} каменів із таких ям (по порядку): {{pits}}",
+        "bao_few": "{{player}} захопив загалом {{count}} каменів із таких ям (по порядом): {{pits}}",
+        "bao_many": "{{player}} захопив загалом {{count}} каменів із таких ям (по порядом): {{pits}}",
+        "hens_chick": "{{player}} зловив пташеня в {{where}}.",
+        "boom": "{{player}} знищив частину в {{where}}.",
+        "dameo_soldier": "{{player}} полонили солдата при {{where}}.",
+        "mattock": "{{player}} захоплено шахтарем на ст {{where}}.",
+        "pente": "{{player}} захоплено {{count}} шт.",
+        "reversi_one": "{{count}} Шматок перевертається.",
+        "reversi_few": "{{count}} частин перевернуто.",
+        "reversi_many": "{{count}} частин перевернуто.",
+        "spook_drop_opponent": "{{player}} має 1 м'яч суперника, захоплений Spooky нижче на {{where}}.",
+        "spook_lateral_self_one": "{{player}} має 1 власний м’яч, захоплений Spooky на тому ж рівні в {{where}}.",
+        "spook_lateral_self_few": "{{player}} має {{count}} власних м’ячів, захоплених Spooky на тому самому рівні в {{where}}.",
+        "spook_lateral_self_many": "{{player}} має {{count}} власних м’ячів, захоплених Spooky на тому самому рівні в {{where}}.",
+        "spook_lateral_opponent_one": "{{player}} має 1 м’яч суперника, захоплений Spooky на тому самому рівні в {{where}}.",
+        "spook_lateral_opponent_few": "{{player}} має {{count}} м’ячів суперника, захоплених Spooky на тому самому рівні в {{where}}.",
+        "spook_lateral_opponent_many": "{{player}} має {{count}} м’ячів суперника, захоплених Spooky на тому самому рівні в {{where}}."
+    },
+    "BEAROFF": {
+        "complete_one": "{{player}} відрізати один шматок від {{from}}.",
+        "complete_few": "{{player}} свердлити {{count}} штук від {{from}}.",
+        "complete_many": "{{player}} свердлити {{count}} штук від {{from}}.",
+        "nowhat": "{{player}} виношувати з {{from}}."
+    },
+    "BLOCK": {
+        "veletas": "{{player}} поставив фігуру в {{where}}.",
+        "bao": "Яма {{pit}} знаходиться в кутакатії (завалена).",
+        "between": "{{player}} звів огорожу між {{cell1}} і {{cell2}}."
+    },
+    "AFFILIATE": {
+        "witch_S": "{{player}} вибрав Сонячне каміння.",
+        "witch_M": "{{player}} вибрав місячні камені."
+    },
+    "ABANDONED": "Гра була припинена.",
+    "ADD": {
+        "twixt": "{{player}} додав посилання на {{where}}.",
+        "add_one": "{{player}} додано 1 шт {{where}}.",
+        "add_few": "{{player}} додано {{count}} штук до {{where}}.",
+        "add_many": "{{player}} додано {{count}} штук до {{where}}.",
+        "nonum": "{{player}} додав фрагмент до {{where}}."
+    },
+    "CLAIM": {
+        "conhex": "{{player}} претендував на місце в ({{where}}).",
+        "exxit": "{{player}} претендував на периметральний простір при {{where}}.",
+        "fnap_col": "{{player}} заявлена колонка {{where}}.",
+        "fnap_row": "{{player}} заявлений ряд {{where}}.",
+        "fnap_fnap": "{{player}} заявив про токен FNAP.",
+        "default": "{{player}} стверджував {{where}}.",
+        "veletas": "Стрілець у {{where}} потрапив у пастку та заволодів {{who}}."
+    },
+    "CONVERT": {
+        "courtesan": "Король і куртизанка помінялися посадами {{where}}.",
+        "complete": "{{player}} перетворив {{what}} на {{into}} у {{where}}."
+    },
+    "DAMAGE": {
+        "pigs": "{{player}} вдарив {{opponent}} в {{where}}.",
+        "armadas": "{{player}}'s корабля {{myName}} обстріляли ворожий корабель під назвою {{theirName}}."
+    },
+    "DECLARE": {
+        "renju": "{{player}} оголосив {{count}} орієнтовні квінти.",
+        "mchess": "{{player}} \"подзвонив годинник\". Якщо протягом наступних семи ходів не буде зроблено жодного захоплення, гра завершується та зараховується очко."
+    },
+    "DELTA_SCORE_LOSS_one": "{{player}} втрачено {{delta}} бал.",
+    "DELTA_SCORE_LOSS_few": "{{player}} втрачено {{delta}} балів.",
+    "DELTA_SCORE_LOSS_many": "{{player}} втрачено {{delta}} балів.",
+    "DESTROY": {
+        "bao": "Нюмба в {{pit}} була знищена.",
+        "friendly": {
+            "minimal_one": "{{count}} дружній шматок було знищено.",
+            "minimal_few": "{{count}} дружні частини були знищені.",
+            "minimal_many": "{{count}} дружні частини були знищені."
+        },
+        "mattock": "{{player}} видобувається на {{where}}.",
+        "enemy": {
+            "minimal_one": "{{count}} частина ворога була знищена.",
+            "minimal_few": "{{count}} частини противника були знищені.",
+            "minimal_many": "{{count}} частини противника були знищені."
+        },
+        "string": "Під напругою обірвалася струна {{where}}.",
+        "armadas": "{{player}} потопив ворожий корабель ім {{name}}."
+    },
+    "DETONATE": {
+        "nowhat": "{{player}} підірвав шматок на {{where}}."
+    },
+    "EOG": {
+        "tafl_encirclement": "Гра закінчена, тому що захисники оточені.",
+        "tafl_exit_fort": "Гра закінчилася, оскільки захисники створили вихідний форт.",
+        "tafl_king_captured": "Гра закінчилася, тому що короля було схоплено.",
+        "tafl_king_escaped": "Гра закінчилася, тому що король втік.",
+        "default": "Гра закінчилася.",
+        "stalemate": "Гра закінчилася, тому що в одного гравця закінчилися ходи.",
+        "repetition_one": "Гра закінчилася, тому що той самий гравець зайняв {{count}} ту саму позицію.",
+        "repetition_few": "Гра закінчилася, тому що одна й та сама позиція повторювалася {{count}} разів тим самим гравцем.",
+        "repetition_many": "Гра закінчилася, тому що одна й та сама позиція повторювалася {{count}} разів тим самим гравцем.",
+        "susan_nonplacement": "Гра закінчилася, тому що жоден гравець не поставив фігуру на 6 шарів."
+    },
+    "ERUPTIONS": "Вибухнули наступні шматки: {{eruptions}}.",
+    "FIRE": {
+        "murus": "{{player}} вистрілив з катапульти {{from}} до {{to}}.",
+        "pigs_F": "{{player}} стріляли своїм лазером {{direction}}.",
+        "pigs_H": "{{player}} розмахнули своєю могутньою мордою!"
+    },
+    "FURL": {
+        "furl": "{{player}} хутра {{count}} штук від {{from}} до {{to}}."
+    },
+    "homeworlds": {
+        "BUILD": "{{player}} будувати a {{what}} в {{where}} система.",
+        "CAPTURE": "{{player}} захоплений а {{what}} в {{where}} система.",
+        "DISCOVER": "{{player}} відкрив новий {{what}} систему і назвав її {{name}}.",
+        "MOVE": "{{player}} полетіли свої {{what}} від {{from}} до {{to}}.",
+        "PASS": "{{player}} пройшов дію.",
+        "SACRIFICE": "{{player}} пожертвував {{what}} в системі {{where}}.",
+        "CONVERT": "{{player}} змінив a {{what}} в a {{into}} в {{where}} система.",
+        "CATASTROPHE": "Перенаселення {{colour}} призвело до катастрофи в {{where}}.",
+        "ESTABLISH": "А {{ship}} корабель колонії, що належить {{player}} приземлився в a {{stars}} система."
+    },
+    "MOVE": {
+        "anache_dragon_jump": "{{player}} стрибає з них дракон {{from}} до {{to}}.",
+        "anache_man": "{{player}} перемістив групу розміром {{count}} із {{from}} у напрямку {{dir}}.",
+        "armadas": "{{player}} переїхав їх корабель ім {{name}}.",
+        "ball": "{{player}} перемістив м'яч від {{from}} до {{to}}.",
+        "chase": "{{player}} перейшов із {{from}} до {{to}} (через {{through}}).",
+        "collision": "{{player}} намагався перейти від {{from}} до {{to}}, але не зміг через зіткнення.",
+        "complete": "{{player}} перемістив {{what}} з {{from}} на {{to}}.",
+        "fightopia_1": "{{player}} перемістив пішака з {{from}} на {{to}}.",
+        "iqishiqi": "{{player}} перемістив нейтральний камінь {{from}} на {{to}}.",
+        "tafl": "{{player}} перемістив фігуру з {{from}} на {{to}}.",
+        "nowhat": "{{player}} переміщено з {{from}} до {{to}}.",
+        "onager_walk": "{{player}} пройшов фігуру від {{from}} до {{to}}.",
+        "onager_jump": "{{player}} перестрибнув фігуру з {{from}} на {{to}}.",
+        "orb_3": "{{player}} перемістив глобус з {{from}} на {{to}}.",
+        "push": "{{what}} було передано з {{from}} до {{to}}.",
+        "phutball_last": "{{player}} Перемістив м'яч від {{from}} до {{to}}.",
+        "phutball_to": "до {{to}},",
+        "phutball_to_last": "до {{to}}.",
+        "saltire": "{{player}} поміняв фігури на {{from}} і {{to}}.",
+        "veletas": "{{player}} перемістив шутер із {{from}} до {{to}}.",
+        "blockade": "{{player}} перемістив фігуру з {{from}} на {{to}}.",
+        "anache_knight": "{{player}} переміщено групу розміру {{count}} через лицарський хід від {{from}} в напрямку {{dir}}.",
+        "orb_1": "{{player}} перемістив кулю з {{from}} на {{to}}.",
+        "bao": "Початковий напрямок руху: {{direction}}.",
+        "monkey_queen": "{{player}} перемістили свого ферзя з {{from}} на {{to}}.",
+        "susan": "{{player}} посунув фігуру від {{from}} до {{to}}.",
+        "byte": {
+            "full": "{{player}} перемістив повний стек із {{from}} до {{to}}.",
+            "partial_one": "{{player}} перемістив {{count}} шашку з {{from}} на {{to}}.",
+            "partial_few": "{{player}} перемістив {{count}} шашок з {{from}} на {{to}}.",
+            "partial_many": "{{player}} перемістив {{count}} шашок з {{from}} на {{to}}."
+        },
+        "orb_2": "{{player}} перемістив сфероїд із {{from}} на {{to}}.",
+        "fightopia_3": "{{player}} перемістив свого гіганта з {{from}} на {{to}}.",
+        "amazons": "{{player}} переїхав з {{from}} до {{to}} а потім заблокував камеру {{block}}.",
+        "fightopia_2": "{{player}} перемістив танк із {{from}} на {{to}}.",
+        "gess_one": "{{player}} перемістив фігуру 3x3, що містить {{count}} камінь, з {{from}} на {{to}}.",
+        "gess_few": "{{player}} перемістив фігуру 3x3, що містить {{count}} каменів, з {{from}} на {{to}}.",
+        "gess_many": "{{player}} перемістив фігуру 3x3, що містить {{count}} каменів, з {{from}} на {{to}}.",
+        "anache_dragon": "{{player}} переміщено групу розміру {{count}} через переміщення дракона з {{from}} в напрямку {{dir}}.",
+        "ball_drop_one": "М’яч упав із {{from}} до {{to}}.",
+        "ball_drop_few": "{{count}} м’ячів випало з {{from}} до {{to}}.",
+        "ball_drop_many": "{{count}} м’ячів випало з {{from}} до {{to}}.",
+        "multiple": "{{player}} зробив наступні рухи: {{moves}}.",
+        "mattock": "{{player}} перемістив майнер із {{from}} до {{to}}.",
+        "fightopia_pivot": "{{player}} повернув танк з {{from}} на {{to}}.",
+        "spook": "{{player}} перемістив Spooky з {{from}} до {{to}}.",
+        "tafl_jump": "{{player}} перестрибнув фігуру з {{from}} на {{to}}.",
+        "monkey_single": "{{player}} перемістив синглтон із {{from}} до {{to}}.",
+        "orb_2S": "{{player}} перемістив розділений сфероїд з {{from}} на {{to}}.",
+        "phutball": "{{player}} перемістив м'яч від {{from}} до {{to}},"
+    },
+    "PASS": {
+        "entropy": "{{player}} вирішив не рухати фігури цього ходу.",
+        "pigs": "{{player}} простоює.",
+        "tiebreaker": "{{player}} пройшов, вигравши тай-брейк.",
+        "tablero": "{{player}} зіткнувся!",
+        "forced": "{{player}} був змушений пройти.",
+        "simple": "{{player}} пройшли."
+    },
+    "PLACE": {
+        "armadas_1": "{{player}} поставив невеликий корабель і назвав його {{name}}.",
+        "armadas_2": "{{player}} поставив середній корабель і назвав його {{name}}.",
+        "ball": "{{player}} поставив м'яч на {{where}}.",
+        "blooms": "{{player}} розміщено a {{what}} шматок при {{where}}.",
+        "chase": "Камера виплюнула а {{what}} в {{where}}.",
+        "conhex": "{{player}} розмістив шматок у вершині {{where}}.",
+        "iqishiqi": "{{player}} поставив спільний камінь на {{where}}.",
+        "mattock": "{{player}} розміщений шахтар на {{where}}.",
+        "mine": "{{player}} розмістили одну зі своїх частин на {{where}}.",
+        "nex_neutral": "{{player}} поставив нейтральну фігуру на {{where}}.",
+        "nowhat": "{{player}} розмістив шматок на {{where}}.",
+        "onager": "{{player}} розмістили озеро на {{where}}.",
+        "renju_tentative": "{{player}} зайняв умовне п'яте місце {{where}}.",
+        "renju_tentative_choose": "{{player}} вибрав п'ятий камінь на {{where}}.",
+        "spooky": "Spooky увійшов до дошки о {{where}}.",
+        "streetcar_21": "ЖОВТА будівля висотою 1 розміщена на {{where}}.",
+        "streetcar_41": "Висота-1 БІЛА будівля була розміщена на {{where}}.",
+        "upperhand_chain": "Куля з {{whose}} була поставлена в {{where}}.",
+        "urbino": {
+            "house": "{{player}} розмістили будинок за адресою {{where}}.",
+            "tower": "{{player}} поставив вежу на {{where}}.",
+            "palace": "{{player}} розмістили палац на {{where}}.",
+            "worker": "{{player}} розміщений архітектором на {{where}}."
+        },
+        "phutball": "{{player}} розмістив гравця на {{where}}.",
+        "twixt": "{{player}} поставив кілок на {{where}}.",
+        "veletas": "{{player}} розмістив {{what}} в {{where}}.",
+        "connecticut": "{{player}} поставив тріоміно на {{where}}.",
+        "streetcar": "Будівля була розміщена на {{where}}.",
+        "blockade_v": "{{player}} поставили вертикальну огорожу на {{where}}.",
+        "armadas_3": "{{player}} поставив великий корабель і назвав його {{name}}.",
+        "quax_diag": "{{player}} розміщено діагональне з'єднання на {{where}}.",
+        "complete": "{{player}} поставив {{what}} у {{where}}.",
+        "blockade_h": "{{player}} поставив горизонтальну огорожу на {{where}}.",
+        "cannon": "{{player}} розмістили своє місто на {{where}}.",
+        "ccorridor": "{{player}} поклав плитку на {{where}}.",
+        "epam": "{{player}} поклав камінь на {{where}}.",
+        "streetcar_22": "Висота-2 ЖОВТА будівля була розміщена на {{where}}.",
+        "streetcar_42": "Висота-2 БІЛА будівля була розміщена на {{where}}.",
+        "theirs": "{{player}} поставив ворожу фігуру на {{where}}.",
+        "nex": "{{player}} помістили частину свого кольору на {{where}}.",
+        "streetcar_13": "Висота-3 ОРАНЖЕВА будівля була розміщена на {{where}}.",
+        "orb": "{{player}}Генератор куль створив кулю в {{where}}.",
+        "streetcar_32": "Будівлю BLACK висотою 2 розміщено на {{where}}.",
+        "streetcar_33": "Висота-3 ЧОРНА будівля була розміщена на {{where}}.",
+        "tumbleweed": "{{player}} розмістили стопку розм {{count}} в {{where}}.",
+        "streetcar_11": "Помаранчеву будівлю висотою 1 було розміщено на {{where}}.",
+        "streetcar_12": "Висота-2 ОРАНЖЕВА будівля була розміщена на {{where}}.",
+        "streetcar_23": "Висота-3 ЖОВТА будівля була розміщена на {{where}}.",
+        "streetcar_31": "Висота-1 ЧОРНА будівля була розміщена на {{where}}.",
+        "streetcar_43": "Висота-3 БІЛА будівля була розміщена на {{where}}."
+    },
+    "PROMOTE": {
+        "basicWhere": "Твір при {{where}} був підвищений.",
+        "orb_13": "{{player}} перетворив кулю на глобус на {{where}}.",
+        "lielow": "{{player}} має нового короля, коронованого на {{where}}.",
+        "mchess": "У результаті було створено {{into}}.",
+        "orb_12": "{{player}} перетворив кулю на сфероїд на {{where}}.",
+        "orb_23": "{{player}} підвищив сфероїд до глобуса в {{where}}."
+    },
+    "REMOVE": {
+        "fourinarow_n": "{{player}} очищав лінію, зрушуючи фігури на дошці вгору.",
+        "fourinarow_w": "{{player}} очистив лінію, зсуваючи фігури на дошці вліво.",
+        "remove_one": "{{player}} знято 1 шт {{where}}.",
+        "remove_few": "{{player}} видалено {{count}} штук від {{where}}.",
+        "remove_many": "{{player}} видалено {{count}} штук від {{where}}.",
+        "nonum": "{{player}} зняв шматок з {{where}}.",
+        "fourinarow_e": "{{player}} очистив лінію, зсуваючи фігури на дошці вправо.",
+        "fourinarow_nw": "{{player}} очистив дві лінії, зсуваючи фігури на дошці вгору та вліво.",
+        "fourinarow_s": "{{player}} очищав лінію, зрушуючи фігури на дошці вниз.",
+        "fourinarow_se": "{{player}} очистив дві лінії, зсуваючи фігури на дошці вниз і праворуч.",
+        "fourinarow_sw": "{{player}} очистив дві лінії, зсуваючи фігури на дошці вниз і ліворуч.",
+        "spook_drop_one": "{{player}} видалив м’яч у {{where}}, випустивши 1 м’яч із {{how}}.",
+        "spook_drop_few": "{{player}} вилучив м’яч у {{where}}, випустивши {{count}} м’яча з {{how}}.",
+        "spook_drop_many": "{{player}} вилучив м’яч у {{where}}, випустивши {{count}} м’яча з {{how}}.",
+        "fourinarow_ne": "{{player}} очистив дві лінії, зсуваючи фігури на дошці вгору та вправо.",
+        "spook": "{{player}} видалив м'яч суперника на {{where}}.",
+        "phutball_one": "{{count}} гравець був видалений.",
+        "phutball_few": "{{count}} гравців було видалено.",
+        "phutball_many": "{{count}} гравців було видалено.",
+        "twixt": "{{player}} видалив посилання на {{where}}."
+    },
+    "REPAIR": {
+        "simple": "{{player}} ремонти."
+    },
+    "RESET": {
+        "queensland": "Почалася друга гра."
+    },
+    "ROLL": {
+        "single": "Гральний кубик кинули: {{values}}.",
+        "tablero": "Гральні кубики кинули: {{values}}."
+    },
+    "SELECT": {
+        "fnap": "{{player}} вибрав плитку {{tile}}."
+    },
+    "SET": {
+        "fnap_circles": "Кругова плитка на {{where}} є ізольований.",
+        "fnap_triplets_one": "{{player}} забив {{count}} трійня.",
+        "fnap_triplets_few": "{{player}} забив {{count}} трійні.",
+        "fnap_triplets_many": "{{player}} забив {{count}} трійні."
+    },
+    "SOW": {
+        "prudh": "{{player}} сіяні шашки с {{from}} до {{to}}.",
+        "general_one": "{{player}} висіяла насіння з такої ями: {{pits}}.",
+        "general_few": "{{player}} висіяв насіння з таких ям: {{pits}}.",
+        "general_many": "{{player}} висіяв насіння з таких ям: {{pits}}."
+    },
+    "TAKE": {
+        "chase": "У камеру подано {{what}}.",
+        "streetcar": "{{player}} взяв житловий ліміт з {{from}}.",
+        "tablero": "{{player}} took одна з їхніх шашок зі стопки на {{from}}.",
+        "streetcar_4": "{{player}} взяв БІЛИЙ житловий ліміт с {{from}}.",
+        "streetcar_3": "{{player}} взяв ЧОРНИЙ ліміт житла с {{from}}.",
+        "streetcar_1": "{{player}} взяв ОРАНЖЕВИЙ ліміт житла з {{from}}.",
+        "streetcar_2": "{{player}} взяв ЖОВТИЙ ліміт житла з {{from}}."
+    },
+    "TIMEOUT": "{{player}} втрачені в часі.",
+    "BUTTON": "{{player}} взяв кнопку.",
+    "ELIMINATED": "{{player}} було ліквідовано.",
+    "KOMI": "{{player}} встановлює комі до {{value}}.",
+    "NULLIFY_CLAIM": "Вежі не можна отримати в останній хід гри. Позов до {{where}} було анульовано.",
+    "IMMOBILIZE": {
+        "realm": "{{player}} знерухомив правоохоронця на {{where}}."
+    },
+    "DRAWAGREED": "Гравці погодилися на нічию.",
+    "CLAIM_TOGUZ": "Яма {{pit}} стала тузом.",
+    "DELTA_SCORE_GAIN_one": "{{player}} отримано {{delta}} бал.",
+    "DELTA_SCORE_GAIN_few": "{{player}} отримано {{delta}} балів.",
+    "DELTA_SCORE_GAIN_many": "{{player}} отримано {{delta}} балів.",
+    "INFINITE": "{{player}} запустив нескінченний цикл!",
+    "PIE": "{{player}} застосував правило пирога.",
+    "ORIENT": {
+        "nowhat": "{{player}} повернув фігуру в {{where}} обличчям до {{facing}}."
+    },
+    "PULL": "{{player}} натягнута струна {{where}}.",
+    "SWAP": {
+        "nex": "{{player}} поміняли частину свого кольору в {{where}} на нейтральну.",
+        "nex_neutral": "{{player}} поміняли нейтральну фігуру в {{where}} на фігуру свого кольору."
+    },
+    "WINNERSNONE": "Переможців не було.",
+    "SCORE_REPORT": "{{player}}'s рахунок зараз {{score}}.",
+    "RECLAIM": {
+        "noperson": "{{what}} було відновлено.",
+        "nowhat_one": "{{count}} Шматок було повернуто.",
+        "nowhat_few": "{{count}} штук було відновлено.",
+        "nowhat_many": "{{count}} штук було відновлено."
+    },
+    "RESIGN": "{{player}} подав у відставку.",
+    "UNFURL": {
+        "furl": "{{player}} розгортає {{count}} фігур від {{from}} до {{to}}."
+    },
+    "WINNERS_one": "Переміг наступний гравець: {{winners}}.",
+    "WINNERS_few": "Виграли наступні гравці: {{winners}}.",
+    "WINNERS_many": "Виграли наступні гравці: {{winners}}."
+}

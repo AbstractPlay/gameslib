@@ -491,9 +491,12 @@ export class Pigs2Game extends GameBaseSimultaneous {
             }
         } // foreach player
 
-        // apply damage and finalize repairs
+        // apply damage
         for (let i = 0; i < this.numplayers; i++) {
             this.damage[i] += dmgApplied[i];
+            if (dmgApplied[i] > 0) {
+                this.orders[i] = [this.orders[i][0], ...this.orders[i]];
+            }
             if (this.damage[i] >= 5) {
                 resultGroups[i].push({type: "eliminated", who: (i + 1).toString()});
                 const pig = pigs.find(p => p.player === i + 1);
@@ -854,6 +857,10 @@ export class Pigs2Game extends GameBaseSimultaneous {
         }
         // add result message to last state in stack
         this.stack[this.stack.length - 1]._results.push({type: "resigned", player});
+        this.checkEOG();
+        if (this.gameover) {
+            this.saveState();
+        }
         return this;
     }
 
@@ -867,6 +874,10 @@ export class Pigs2Game extends GameBaseSimultaneous {
         }
         // add result message to last state in stack
         this.stack[this.stack.length - 1]._results.push({type: "timeout", player});
+        this.checkEOG();
+        if (this.gameover) {
+            this.saveState();
+        }
         return this;
     }
 

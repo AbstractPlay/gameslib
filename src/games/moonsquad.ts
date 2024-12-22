@@ -1160,9 +1160,7 @@ export class MoonSquadGame extends GameBase {
         if (this.currplayer === 1) {
             otherPlayer = 2;
         }
-        console.log(otherPlayer);
         const connected = this.checkConnected(otherPlayer);
-        console.log(connected);
         if (connected) {
             return [this.currplayer];
         } else {

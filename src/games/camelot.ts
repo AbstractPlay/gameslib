@@ -419,9 +419,6 @@ export class CamelotGame extends GameBase {
             }
         }
         const canters = this.getCanters(from, excluded, player);
-        if (canters.length === 0) {
-            return [tos, idx];
-        }
         for (const cell of canters) {
             const [tos2, idx2] = this.getAllCanters(cell, [...canterSequence, cell], [...excluded, cell], player, charge);
             tos.push(...tos2);

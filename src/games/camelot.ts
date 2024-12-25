@@ -405,11 +405,10 @@ export class CamelotGame extends GameBase {
             if (charge) {
                 const jumps = this.getAllJumps(from, [], [excluded[0]], player);
                 if (jumps.length > 0) {
-                    const charges: string[][] = [];
                     for (const jump of jumps) {
-                        charges.push([...canterSequence, ...jump]);
+                        tos.push([...canterSequence, ...jump]);
+                        idx.push(canterSequence.length);
                     }
-                    return [charges, Array(charges.length).fill(canterSequence.length) as number[]];
                 } else {
                     tos.push(canterSequence);
                     idx.push(0);
@@ -421,8 +420,7 @@ export class CamelotGame extends GameBase {
         }
         const canters = this.getCanters(from, excluded, player);
         if (canters.length === 0) {
-            if (canterSequence.length === 0) { return [[], []]; }
-            return [tos, [0]];
+            return [tos, idx];
         }
         for (const cell of canters) {
             const [tos2, idx2] = this.getAllCanters(cell, [...canterSequence, cell], [...excluded, cell], player, charge);

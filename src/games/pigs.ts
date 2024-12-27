@@ -73,7 +73,7 @@ interface IGlyphMarker {
 
 export class PigsGame extends GameBaseSimultaneous {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Robo Battle Pigs (Base)",
+        name: "Robo Battle Pigs",
         uid: "pigs",
         playercounts: [2,3,4],
         version: "20230618",

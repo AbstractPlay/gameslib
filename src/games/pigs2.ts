@@ -194,35 +194,35 @@ export class Pigs2Game extends GameBaseSimultaneous {
         if (this.stack.length > 1) {
             return [
                 {
-                    label: "Move backward",
+                    label: "pigs.back",
                     move: "v"
                 },
                 {
-                    label: "Move forward",
+                    label: "pigs.forward",
                     move: "^"
                 },
                 {
-                    label: "Move forward left",
+                    label: "pigs.left",
                     move: "\\"
                 },
                 {
-                    label: "Move forward right",
+                    label: "pigs.right",
                     move: "/"
                 },
                 {
-                    label: "Rotate clockwise",
+                    label: "pigs.cw",
                     move: ">"
                 },
                 {
-                    label: "Rotate counterclockwise",
+                    label: "pigs.ccw",
                     move: "<"
                 },
                 {
-                    label: "Fire laser",
+                    label: "pigs.fire",
                     move: "f"
                 },
                 {
-                    label: "Swing snout",
+                    label: "pigs.hit",
                     move: "h"
                 },
             ];
@@ -245,8 +245,6 @@ export class Pigs2Game extends GameBaseSimultaneous {
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             }
-        } else if (this.isEliminated(player)) {
-            throw new Error("Eliminated players should never have moves being validated.");
         }
 
         if (m.length === 0) {
@@ -601,24 +599,24 @@ export class Pigs2Game extends GameBaseSimultaneous {
         const player2label = new Map<playerid,string>([[1,"A"],[2,"B"],[3,"C"],[4,"D"],[5, "E"],[6, "F"],[7, "G"],[8, "H"]]);
         const facing2rot = new Map<Facing,number>([["N", 0],["E", 90],["S", 180],["W", 270]]);
         const cmd2glyph = new Map<string, string>([
-            ["f", "F"],
-            ["h", "H"],
-            ["<", "CCW"],
-            [">", "CW"],
-            ["^", "MF"],
-            ["v", "MB"],
-            ["\\", "FL"],
-            ["/", "FR"],
+            ["f", "mF"],
+            ["h", "mH"],
+            ["<", "mCCW"],
+            [">", "mCW"],
+            ["^", "mMF"],
+            ["v", "mMB"],
+            ["\\", "mFL"],
+            ["/", "mFR"],
         ]);
         const glyph2unicode = new Map<string, string>([
-            ["F", "\u26ef"],
-            ["H", "\u2927"],
-            ["CCW", "\u21b6"],
-            ["CW", "\u21b7"],
-            ["MF", "\u2191"],
-            ["MB", "\u2193"],
-            ["FL", "\u2196"],
-            ["FR", "\u2197"],
+            ["mF", "\u26ef"],
+            ["mH", "\u2927"],
+            ["mCCW", "\u21b6"],
+            ["mCW", "\u21b7"],
+            ["mMF", "\u2191"],
+            ["mMB", "\u2193"],
+            ["mFL", "\u2196"],
+            ["mFR", "\u2197"],
         ]);
         // Build piece string
         let pstr = "";
@@ -680,11 +678,11 @@ export class Pigs2Game extends GameBaseSimultaneous {
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             const order = this.orders[p-1];
-            if (order.length > 0) {
+            if (Array.isArray(order) && order.length > 0) {
                 areas.push({
                     type: "pieces",
                     pieces: order.map(c => cmd2glyph.get(c)!) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.pigs2.LABEL_ORDERS", {playerNum: p}) || "local",
+                    label: i18next.t("apgames:validation.pigs2.LABEL_ORDERS", {playerNum: p}) || `Player ${p}'s orders`,
                 });
             }
         }
@@ -698,7 +696,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
             },
             legend,
             pieces: pstr,
-            areas,
+            areas: areas.length > 0 ? areas : undefined,
         };
 
         if (this.stack[this.stack.length - 1]._results.length > 0) {

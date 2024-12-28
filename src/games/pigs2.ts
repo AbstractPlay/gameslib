@@ -683,9 +683,13 @@ export class Pigs2Game extends GameBaseSimultaneous {
         for (let p = 1; p <= this.numplayers; p++) {
             const order = this.orders[p-1];
             if (Array.isArray(order) && order.length > 0) {
+                const pieces = order.map(c => cmd2glyph.get(c));
+                if (pieces.length === 0 || pieces.includes(undefined)) {
+                    continue;
+                }
                 areas.push({
                     type: "pieces",
-                    pieces: order.map(c => cmd2glyph.get(c)!) as [string, ...string[]],
+                    pieces: pieces as [string, ...string[]],
                     label: i18next.t("apgames:validation.pigs2.LABEL_ORDERS", {playerNum: p}) || `Player ${p}'s orders`,
                 });
             }

@@ -302,7 +302,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
         return false;
     }
 
-    public move(m: string, {trusted = false} = {}): Pigs2Game {
+    public move(m: string, {trusted = false, partial = false} = {}): Pigs2Game {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -311,7 +311,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
             throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
-            if ( (moves[i] === undefined) || (moves[i] === "") ) {
+            if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
                 continue;
             }
             moves[i] = moves[i].toLowerCase();
@@ -336,6 +336,8 @@ export class Pigs2Game extends GameBaseSimultaneous {
 
         // first store the received orders
         for (let p = 0; p < this.numplayers; p++) {
+            // if partial, ignore blank moves
+            if (partial && (moves[p] === "" || moves[p] === undefined)) { continue; }
             // ignore eliminated players
             if (this.isEliminated(p+1)) { continue; }
             if (this.stack.length === 1) {
@@ -515,6 +517,8 @@ export class Pigs2Game extends GameBaseSimultaneous {
             this.results.push({type: "_group", who: i + 1, results: resultGroups[i] as [APMoveResult,...APMoveResult[]]});
         }
 
+        if (partial) { return this; }
+
         this.lastmove = [...parsed].join(',').toUpperCase().replace(/V/g, "v");
         this.checkEOG();
         this.saveState();
@@ -678,7 +682,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             const order = this.orders[p-1];
-            if (order !== null && order !== undefined && Array.isArray(order) && order.length > 0) {
+            if (Array.isArray(order) && order.length > 0) {
                 areas.push({
                     type: "pieces",
                     pieces: order.map(c => cmd2glyph.get(c)!) as [string, ...string[]],

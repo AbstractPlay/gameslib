@@ -336,8 +336,8 @@ export class Pigs2Game extends GameBaseSimultaneous {
 
         // first store the received orders
         for (let p = 0; p < this.numplayers; p++) {
-            // if partial, ignore blank moves
-            if (partial && (moves[p] === "" || moves[p] === undefined)) { continue; }
+            // ignore blank moves
+            if (moves[p] === "" || moves[p] === undefined) { continue; }
             // ignore eliminated players
             if (this.isEliminated(p+1)) { continue; }
             if (this.stack.length === 1) {

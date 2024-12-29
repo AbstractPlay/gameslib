@@ -419,6 +419,19 @@ export class JacynthGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {cell: to});
                 return result;
             }
+            // adjacent to existing card
+            let hasadj = false;
+            for (const n of g.neighbours(to)) {
+                if (this.board.has(n)) {
+                    hasadj = true;
+                    break;
+                }
+            }
+            if (!hasadj) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.jacynth.NOT_ADJ");
+                return result;
+            }
 
             // if influence is missing, may or not be complete
             if (influence === undefined || influence.length === 0) {

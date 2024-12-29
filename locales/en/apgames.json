@@ -3471,6 +3471,7 @@
             "LABEL_STASH": "Player {{playerNum}}'s hand",
             "NO_CARD": "The card \"{{card}}\" does not appear to be in your hand.",
             "NO_INFLUENCE": "You don't have any influence left.",
+            "NOT_ADJ": "New cards must be placed adjacent to at least one existing card.",
             "PARTIAL_PLACEMENT": "Click an empty space on the board to place your card."
         },
         "konane": {

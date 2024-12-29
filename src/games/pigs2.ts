@@ -846,6 +846,23 @@ export class Pigs2Game extends GameBaseSimultaneous {
                                     const oppPlayer = players[parseInt(r2.who!, 10) - 1];
                                     node.push(i18next.t("apresults:ELIMINATED", {player: oppPlayer}));
                                     break;
+                                case "resigned":
+                                    let rname = `Player ${r2.player}`;
+                                    if (r2.player <= players.length) {
+                                        rname = players[r2.player - 1]
+                                    }
+                                    node.push(i18next.t("apresults:RESIGN", {player: rname}));
+                                    break;
+                                case "timeout":
+                                    let tname = `Player ${r2.player}`;
+                                    if (r2.player <= players.length) {
+                                        tname = players[r2.player - 1]
+                                    }
+                                    node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
+                                    break;
+                                case "gameabandoned":
+                                    node.push(i18next.t("apresults:ABANDONED"));
+                                    break;
                             }
                         }
                     } else {

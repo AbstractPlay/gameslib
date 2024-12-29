@@ -247,6 +247,20 @@ export class Pigs2Game extends GameBaseSimultaneous {
             }
         }
 
+        // always pass `resign` and `timeout`
+        if (["resign", "timeout"].includes(m)) {
+            if (this.isEliminated(player)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pigs2.INVALID_CMD", {cmd: m});
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
+
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
@@ -336,8 +350,8 @@ export class Pigs2Game extends GameBaseSimultaneous {
 
         // first store the received orders
         for (let p = 0; p < this.numplayers; p++) {
-            // ignore blank moves
-            if (moves[p] === "" || moves[p] === undefined) { continue; }
+            // ignore blank and special moves
+            if (["", "resign", "timeout", undefined].includes(moves[p])) { continue; }
             // ignore eliminated players
             if (this.isEliminated(p+1)) { continue; }
             if (this.stack.length === 1) {
@@ -354,6 +368,10 @@ export class Pigs2Game extends GameBaseSimultaneous {
             if (this.isEliminated(p+1)) {
                 parsed.push("");
             }
+            // push special move if one was just given
+            else if (["resign", "timeout"].includes(moves[p])) {
+                parsed.push(moves[p]);
+            }
             // otherwise pop the next order from the stack
             else {
                 parsed.push(this.orders[p].pop()!);
@@ -362,7 +380,21 @@ export class Pigs2Game extends GameBaseSimultaneous {
 
         // for each move
         const next: [string,string,boolean|undefined][] = [];
-        // resolve all movement first
+        // resolve special moves first
+        for (let player = 1; player <= this.numplayers; player++) {
+            if (["resign", "timeout"].includes(parsed[player - 1])) {
+                // add player to withdrawn list
+                this.withdrawn.push(player as playerid);
+                // mark pig as disabled
+                const pig = pigs.find(p => p.player === player);
+                if (pig !== undefined) {
+                    pig.facing = "U";
+                }
+                // add result
+                resultGroups[player - 1].push({type: parsed[player - 1] === "resign" ? "resigned" : "timeout", player});
+            }
+        }
+        // then movement
         for (let player = 1; player <= this.numplayers; player++) {
             // ignore eliminated players
             if (this.isEliminated(player)) {
@@ -854,36 +886,12 @@ export class Pigs2Game extends GameBaseSimultaneous {
     // In this version, timeouts and resignations result in being eliminated
     // without necessarily ending the game.
     public resign(player: number): GameBaseSimultaneous {
-        // add to withdrawn
-        this.withdrawn.push(player as playerid);
-        // make robot upright
-        const pigEntry = [...this.board.entries()].find(([,v]) => v[0] === player);
-        if (pigEntry !== undefined) {
-            this.board.set(pigEntry[0], [player as playerid, "U"]);
-        }
-        // add result message to last state in stack
-        this.stack[this.stack.length - 1]._results.push({type: "resigned", player});
-        this.checkEOG();
-        if (this.gameover) {
-            this.saveState();
-        }
+        // make function a no-op and then handle the move normally
         return this;
     }
 
     public timeout(player: number): GameBaseSimultaneous {
-        // add to withdrawn
-        this.withdrawn.push(player as playerid);
-        // make robot upright
-        const pigEntry = [...this.board.entries()].find(([,v]) => v[0] === player);
-        if (pigEntry !== undefined) {
-            this.board.set(pigEntry[0], [player as playerid, "U"]);
-        }
-        // add result message to last state in stack
-        this.stack[this.stack.length - 1]._results.push({type: "timeout", player});
-        this.checkEOG();
-        if (this.gameover) {
-            this.saveState();
-        }
+        // make function a no-op and then handle the move normally
         return this;
     }
 

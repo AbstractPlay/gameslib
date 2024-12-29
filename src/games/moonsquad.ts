@@ -54,7 +54,7 @@ export class MoonSquadGame extends GameBase {
         uid: "moonsquad",
         playercounts: [2],
         version: "20241206",
-        dateAdded: "2023-07-31",
+        dateAdded: "2024-12-29",
         // i18next.t("apgames:descriptions.moonsquad")
         description: "apgames:descriptions.moonsquad",
         urls: ["https://moon.drew-edwards.com/"],
@@ -69,8 +69,8 @@ export class MoonSquadGame extends GameBase {
             {uid: "limping", group: "board"},
             {uid: "hex5", group: "board"},
         ],
-        categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>circle", "board>connect>hex", "components>simple>7c"],
-        flags: ["experimental", "pie", "check", "custom-rotation", "random-start", "no-moves", "custom-randomization"]
+        categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>circle", "board>shape>hex", "board>connect>hex", "components>simple>7c"],
+        flags: ["pie", "check", "custom-rotation", "random-start", "no-moves", "custom-randomization"]
     };
 
     public numplayers = 2;

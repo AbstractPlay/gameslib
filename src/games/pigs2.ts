@@ -56,7 +56,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
         uid: "pigs2",
         playercounts: [2,3,4,5,6,7,8],
         version: "20241216",
-        dateAdded: "2023-06-27",
+        dateAdded: "2024-12-29",
         // i18next.t("apgames:descriptions.pigs2")
         description: "apgames:descriptions.pigs2",
         // i18next.t("apgames:notes.pigs2")
@@ -73,7 +73,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
             }
         ],
         categories: ["goal>annihilate", "mechanic>program",  "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "simultaneous", "scores", "custom-buttons"]
+        flags: ["simultaneous", "scores", "custom-buttons"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -437,7 +437,6 @@ export class Pigs2Game extends GameBaseSimultaneous {
                 }
             }
         }
-        // TODO: I think we need to do something about running over eliminated pigs
         // resolve collisions
         for (let i = 0; i < this.numplayers; i++) {
             if (this.isEliminated(i + 1)) { continue; }

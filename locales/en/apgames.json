@@ -3761,7 +3761,7 @@
             "INITIAL_INSTRUCTIONS_first": "Enter three of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout).",
             "INITIAL_INSTRUCTIONS_rest": "Enter one of any of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout).",
             "INVALID_CMD": "The character '{{cmd}}' is not a recognized command.",
-            "LABEL_ORDERS": "Player {{playerNum}}'s orders (right-most order will execute next)",
+            "LABEL_ORDERS": "Player {{playerNum}}'s orders (right-most order next)",
             "TOOLONG_first": "You may only enter three commands to start.",
             "TOOLONG_rest": "You may only enter a single command on normal turns."
         },

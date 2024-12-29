@@ -721,7 +721,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
                 areas.push({
                     type: "pieces",
                     pieces: pieces as [string, ...string[]],
-                    label: i18next.t("apgames:validation.pigs2.LABEL_ORDERS", {playerNum: p}) || `Player ${p}'s orders`,
+                    label: i18next.t("apgames:validation.pigs2.LABEL_ORDERS", {playerNum: p}) || `Player ${p}'s orders (right-most order next)`,
                 });
             }
         }

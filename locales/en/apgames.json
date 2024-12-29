@@ -3758,8 +3758,8 @@
             "X_TOOMANY": "You entered too many 'X' commands. You only need to enter one for every point of damage taken."
         },
         "pigs2": {
-            "INITIAL_INSTRUCTIONS_first": "Enter three of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout).",
-            "INITIAL_INSTRUCTIONS_rest": "Enter one of any of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout).",
+            "INITIAL_INSTRUCTIONS_first": "Enter three of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout). Orders will execute in the order you provide, from left to right.",
+            "INITIAL_INSTRUCTIONS_rest": "Enter one of any of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout). This will get appended to the left-hand side of your current list of orders. The right-most order will execute next.",
             "INVALID_CMD": "The character '{{cmd}}' is not a recognized command.",
             "LABEL_ORDERS": "Player {{playerNum}}'s orders (right-most order next)",
             "TOOLONG_first": "You may only enter three commands to start.",

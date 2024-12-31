@@ -697,18 +697,21 @@ export class JacynthGame extends GameBase {
                 });
             }
         }
-        // create an area for all invisible cards
+        // create an area for all invisible cards (if there are any cards left)
         const hands = this.hands.map(h => [...h]);
         const visibleCards = [...this.board.values(), ...hands.flat()].map(uid => Card.deserialize(uid));
         if (visibleCards.includes(undefined)) {
             throw new Error(`Could not deserialize one of the cards. This should never happen!`);
         }
-        areas.push({
-            type: "pieces",
-            label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
-            spacing: 0.25,
-            pieces: allcards.sort(cardSortAsc).filter(c => visibleCards.find(cd => cd!.uid === c.uid) === undefined).map(c => "c" + c.uid) as [string, ...string[]],
-        });
+        const remaining = allcards.sort(cardSortAsc).filter(c => visibleCards.find(cd => cd!.uid === c.uid) === undefined).map(c => "c" + c.uid) as [string, ...string[]]
+        if (remaining.length > 0) {
+            areas.push({
+                type: "pieces",
+                label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
+                spacing: 0.25,
+                pieces: remaining,
+            });
+        }
 
         // Build rep
         const rep: APRenderRep =  {

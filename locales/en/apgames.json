@@ -4190,6 +4190,7 @@
             "INVALID_SIZE": "The piece you selected is invalid. It must be a 1, 2, or 3.",
             "LABEL_STASH": "Player {{playerNum}}'s stash",
             "MALFORMED": "Your move could not be interpreted. If this persists, please let an administrator know.",
+            "NEED_PARKS": "You may not place a piece until all parks are placed. Click an empty cell to place a park.",
             "NO_PIECE": "You don't have a size {{size}} piece to place.",
             "PARTIAL_PLACEMENT": "Click an empty space on the board to place your {{size}} piece."
         },

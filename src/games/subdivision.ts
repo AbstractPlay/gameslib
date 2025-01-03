@@ -379,6 +379,13 @@ export class SubdivisionGame extends GameBase {
             const size = parseInt(m[0], 10);
             const cell = m.substring(1);
 
+            // all parks are present
+            if (this.needsParks()) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.subdivision.NEED_PARKS")
+                return result;
+            }
+
             // valid size
             if (![1,2,3].includes(size)) {
                 result.valid = false;

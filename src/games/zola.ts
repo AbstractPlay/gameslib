@@ -49,7 +49,7 @@ export class ZolaGame extends GameBase {
             }
         ],
         displays: [{ uid: "isometric-20" }, { uid: "isometric-5" }],
-        categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>annihilate", "mechanic>capture",  "mechanic>move", "board>3d", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "limited-pieces", "pie", "aiai"],
     };
 

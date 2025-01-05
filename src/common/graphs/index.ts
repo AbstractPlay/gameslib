@@ -11,8 +11,12 @@ import { HexConeGraph } from "./hex-cone";
 import { BaoGraph } from "./bao";
 import { SowingNoEndsGraph } from "./sowing-no-ends";
 import { IGraph } from "./IGraph";
+import { IGraph3D } from "./IGraph3D";
+import { Square3DGraph } from "./square-3d";
+import { SquareOrth3DGraph } from "./square-orth-3d";
+import { SquareDiag3DGraph } from "./square-diag-3d";
 
-export { IGraph, SquareGraph, SquareOrthGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, OnyxGraph, HexTriGraph, HexMoonGraph, HexSlantedGraph, HexConeGraph, BaoGraph, SowingNoEndsGraph };
+export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareOrth3DGraph, SquareOrthGraph, SquareDiag3DGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, OnyxGraph, HexTriGraph, HexMoonGraph, HexSlantedGraph, HexConeGraph, BaoGraph, SowingNoEndsGraph };
 
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";

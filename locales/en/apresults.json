@@ -82,6 +82,7 @@
         "spook_lateral_self_one": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
         "tafl": "{{player}} captured a piece at {{where}}.",
+        "terrace": "{{player}} captured a size {{what}} piece at {{where}}.",
         "tumbleweed": "{{player}} captured a stack of size {{count}} at {{where}}.",
         "tumbleweed_self": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
         "witch": {
@@ -343,6 +344,7 @@
         "streetcar_42": "A height-2 WHITE building was placed at {{where}}.",
         "streetcar_43": "A height-3 WHITE building was placed at {{where}}.",
         "subdivision_park": "{{player}} placed a park at {{where}}.",
+        "terrace": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
         "tritium-orange": "{{player}} played an orange tile at {{where}}.",
         "tritium-purple": "{{player}} played a purple tile at {{where}}.",

@@ -151,6 +151,7 @@
         "take": "Grow root-like formations of stones from seeds. Plants die when they run out of room to grow. The winner is the last player with a plant alive on the board.",
         "tbt": "A simple dice game where you attempt to form stacks of equal height on your home row.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
+        "terrace": "A royal capture/escape game played on a three-dimensional board with pieces of various sizes.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tritium": "Two players take turns creating and growing regions and claiming them. Once the board is full, the player who controls most tiles wins.",
@@ -1450,6 +1451,19 @@
                 "name": "Small, High Churn"
             }
         },
+        "terrace": {
+            "board-8": {
+                "name": "8x8 board"
+            },
+            "long": {
+                "name": "Long game",
+                "description": "Each player starts with more pieces."
+            },
+            "assassination": {
+                "name": "Assassination",
+                "description": "This variant expands the capturing options, leading to a more aggressive game."
+            }
+        },
         "trike": {
             "standard-7": {
                 "description": "Learning board.",
@@ -2100,6 +2114,19 @@
                 "name": "rules"
             }
         },
+        "terrace": {
+            "board": {
+                "name": "6x6 board"
+            },
+            "setup": {
+                "description": "Players start with fewer pieces.",
+                "name": "short game setup"
+            },
+            "capture": {
+                "description": "The only capture possibility is diagonally down.",
+                "name": "capture rules"
+            }
+        },
         "trike": {
             "board": {
                 "description": "Casual board.",
@@ -2431,6 +2458,12 @@
             "always-show-numbers": {
                 "description": "Show numbers above the pieces.",
                 "name": "Always show numbers"
+            }
+        },
+        "terrace": {
+            "flat": {
+                "description": "A flat view that uses shading to indicate height.",
+                "name": "Flat view"
             }
         },
         "trike": {
@@ -4254,6 +4287,15 @@
             "NOT_ORTH": "The cells {{from}} and {{to}} are not orthogonal to each other.",
             "PARTIAL": "Select a destination.",
             "TOO_SHORT": "The stack at {{where}} is too short (it needs at least {{roll}} pieces)."
+        },
+        "terrace": {
+            "BAD_CAPTURE_ranked": "All captures must be adjacent. When capturing straight up, you must be larger (except that your king may assassinate a largest size piece). When capturing same level, you must be at least the same size. When capturing diagonally down, you must be smaller.",
+            "BAD_CAPTURE_standard": "You may only capture a piece your size or smaller, diagonally down.",
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
+            "MOVE_DOWN": "You may only move straight down and only one level at a time.",
+            "MOVE_SAME_LEVEL": "You may not jump over enemy pieces when moving on the same level.",
+            "MOVE_UP": "You may only move one level at a time to an adjacent cell.",
+            "NO_MOVES": "The piece at {{cell}} does not have any valid moves."
         },
         "tintas": {
             "CAPTURED_LABEL": "Player {{playerNum}}'s captured pieces",

@@ -901,11 +901,13 @@ export class Pigs2Game extends GameBaseSimultaneous {
 
     // In this version, timeouts and resignations result in being eliminated
     // without necessarily ending the game.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public resign(player: number): GameBaseSimultaneous {
         // make function a no-op and then handle the move normally
         return this;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public timeout(player: number): GameBaseSimultaneous {
         // make function a no-op and then handle the move normally
         return this;

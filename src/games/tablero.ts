@@ -12,7 +12,7 @@ export type playerid = 1|2;
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid[]>;
-    roll: [number,number];
+    roll: [number,number]|[number];
     pieces: [number,number];
     lastmove?: string;
     bumped?: playerid;
@@ -47,7 +47,7 @@ export class TableroGame extends GameBase {
                 urls: ["https://crabfragmentlabs.com/"],
             },
         ],
-        variants: [{uid: "5-10", group: "scoring"}],
+        variants: [{uid: "5-10", group: "scoring"}, {uid: "abba"}],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "perspective", "scores", "automove", "no-explore", "custom-rotation"]
     };
@@ -83,7 +83,7 @@ export class TableroGame extends GameBase {
     public currplayer: playerid = 1;
     public board!: Map<string, playerid[]>;
     public gameover = false;
-    public roll!: [number,number];
+    public roll!: [number,number]|[number];
     public bumped?: playerid;
     public pieces!: [number,number];
     public winner: playerid[] = [];
@@ -101,7 +101,10 @@ export class TableroGame extends GameBase {
                 this.variants = [...variants];
             }
             const d1 = randomInt(6);
-            const d2= randomInt(6);
+            let d2: number|undefined;
+            if (!this.variants.includes("abba")) {
+                d2 = randomInt(6);
+            }
             const board = new Map<string, playerid[]>();
             const fresh: IMoveState = {
                 _version: TableroGame.gameinfo.version,
@@ -110,9 +113,9 @@ export class TableroGame extends GameBase {
                 currplayer: 1,
                 board,
                 pieces: [12,12],
-                roll: [d1, d2],
+                roll: d2 === undefined ? [d1] : [d1, d2],
             };
-            this.results = [{type: "roll", values: [d1,d2]}];
+            this.results = [{type: "roll", values: d2 === undefined ? [d1] : [d1,d2]}];
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
@@ -157,37 +160,42 @@ export class TableroGame extends GameBase {
             first.push(...this.getFirstMoves(num).filter(m => m !== "bump"));
         }
 
-        // then for each initial move, get possible second moves
         let moves: string[] = [];
-        for (const moveFirst of first) {
-            const d6First = TableroGame.move2d6(moveFirst);
-            let d6Second: number;
-            if (this.roll[0] === this.roll[1]) {
-                d6Second = d6First;
-            } else {
-                d6Second = this.roll.find(n => n !== d6First)!;
-            }
-            // copy game, make the move, then get possible follow-ups
-            const cloned = TableroGame.clone(this);
-            // set trusted to avoid infinite recursion
-            cloned.move(moveFirst, {partial: true, trusted: true});
-            const second = cloned.getFirstMoves(d6Second);
-            for (const sec of second) {
-                moves.push(`${moveFirst},${sec}`);
-            }
-        }
-
-        // if doubles, add taking options and remove any bump options
-        if (this.roll[0] === this.roll[1]) {
-            for (const [cell, stack] of this.board.entries()) {
-                if (stack[stack.length - 1] === this.currplayer) {
-                    moves.push(`-${cell}`);
+        // then, for each initial move, get possible second moves
+        // unless this is the first move of an abba game
+        if (this.roll.length > 1) {
+            for (const moveFirst of first) {
+                const d6First = TableroGame.move2d6(moveFirst);
+                let d6Second: number;
+                if (this.roll[0] === this.roll[1]) {
+                    d6Second = d6First;
+                } else {
+                    d6Second = this.roll.find(n => n !== d6First)!;
+                }
+                // copy game, make the move, then get possible follow-ups
+                const cloned = TableroGame.clone(this);
+                // set trusted to avoid infinite recursion
+                cloned.move(moveFirst, {partial: true, trusted: true});
+                const second = cloned.getFirstMoves(d6Second);
+                for (const sec of second) {
+                    moves.push(`${moveFirst},${sec}`);
                 }
             }
-            // if there are any removal options, you can't bump
-            if (moves.filter(m => m.startsWith("-")).length > 0) {
-                moves = moves.filter(m => ! m.includes("bump"))
+
+            // if doubles, add taking options and remove any bump options
+            if (this.roll[0] === this.roll[1]) {
+                for (const [cell, stack] of this.board.entries()) {
+                    if (stack[stack.length - 1] === this.currplayer) {
+                        moves.push(`-${cell}`);
+                    }
+                }
+                // if there are any removal options, you can't bump
+                if (moves.filter(m => m.startsWith("-")).length > 0) {
+                    moves = moves.filter(m => ! m.includes("bump"))
+                }
             }
+        } else {
+            moves = [...first];
         }
 
         // if *none* of the dice can be used, then `moves` will be empty
@@ -624,7 +632,7 @@ export class TableroGame extends GameBase {
 
         // If we've gotten here, all submoves are valid.
         // But how many submoves did we get? Is the move really complete?
-        if ( (moves.length === 2) || (m === "bump") || (m.startsWith("-")) ) {
+        if ( moves.length === this.roll.length || m === "bump" || m.startsWith("-") ) {
             // final check against move list
             if (! origMoves.includes(m)) {
                 result.valid = false;
@@ -1008,7 +1016,7 @@ export class TableroGame extends GameBase {
                     opacity: this.emulated ? 0 : 1,
                 },
                 D2: {
-                    name: `d6-${this.roll[1]}`,
+                    name: `d6-${this.roll.length > 1 ? this.roll[1] : 1}`,
                     opacity: this.emulated ? 0 : 1,
                 }
             },
@@ -1016,13 +1024,18 @@ export class TableroGame extends GameBase {
             areas: [
                 {
                     type: "key",
-                    list: [
+                    list: this.roll.length > 1 ? [
                         {
                             piece: "D1",
                             name: ""
                         },
                         {
                             piece: "D2",
+                            name: ""
+                        }
+                    ] : [
+                        {
+                            piece: "D1",
                             name: ""
                         }
                     ],
@@ -1059,7 +1072,7 @@ export class TableroGame extends GameBase {
             }
             rep.areas!.push({
                 type: "pieces",
-                pieces: ["PD1","PD2"],
+                pieces: prevRoll.length > 1 ? ["PD1","PD2"] : ["PD1"],
                 label: i18next.t("apgames:validation.tablero.LABEL_PREVIOUS") || "local",
             });
         }

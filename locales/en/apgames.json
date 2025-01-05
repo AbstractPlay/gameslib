@@ -1372,6 +1372,10 @@
             "5-10": {
                 "name": "Compressed range (5–10)",
                 "description": "By adding 4 to the value of each centre space, the ratio of highest space to lowest is compressed from 6:1 to 2:1. This incentivizes more active competition for lower spaces."
+            },
+            "abba": {
+                "name": "Balanced start",
+                "description": "On the first move of the game, the player only rolls one die."
             }
         },
         "tafl": {

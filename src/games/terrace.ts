@@ -694,19 +694,19 @@ export class TerraceGame extends GameBase {
                 },
                 "A2": {
                     piece: "cylinder",
-                    height: pcHeight * 2,
+                    height: pcHeight * 1.26,
                     scale: this.boardSize === 8 ? 0.5 : 0.66,
                     colour: 1,
                 },
                 "A3": {
                     piece: "cylinder",
-                    height: pcHeight * 3,
+                    height: pcHeight * 1.59,
                     scale: this.boardSize === 8 ? 0.75 : 0.95,
                     colour: 1,
                 },
                 "A4": {
                     piece: "cylinder",
-                    height: pcHeight * 4,
+                    height: pcHeight * 1.92,
                     scale: 0.95,
                     colour: 1,
                 },
@@ -724,19 +724,19 @@ export class TerraceGame extends GameBase {
                 },
                 "B2": {
                     piece: "cylinder",
-                    height: pcHeight * 2,
+                    height: pcHeight * 1.29,
                     scale: this.boardSize === 8 ? 0.5 : 0.66,
                     colour: 2,
                 },
                 "B3": {
                     piece: "cylinder",
-                    height: pcHeight * 3,
+                    height: pcHeight * 1.59,
                     scale: this.boardSize === 8 ? 0.75 : 0.95,
                     colour: 2,
                 },
                 "B4": {
                     piece: "cylinder",
-                    height: pcHeight * 4,
+                    height: pcHeight * 1.92,
                     scale: 0.95,
                     colour: 2,
                 },
@@ -815,6 +815,19 @@ export class TerraceGame extends GameBase {
                     width: this.boardSize,
                     height: this.boardSize,
                     heightmap: realhm as [[number, ...number[]], ...[number, ...number[]][]],
+                    // highlight target cells
+                    markers: [
+                        {
+                            type: "flood",
+                            colour: 1,
+                            points: [{row: 0, col: this.boardSize - 1}],
+                        },
+                        {
+                            type: "flood",
+                            colour: 2,
+                            points: [{row: this.boardSize - 1, col: 0}],
+                        }
+                    ],
                 },
                 legend: myLegend,
                 pieces: pstr as [string[][], ...string[][][]],
@@ -852,6 +865,17 @@ export class TerraceGame extends GameBase {
                     }
                 });
             }
+            // highlight target cells
+            markers.push({
+                type: "flood",
+                colour: 1,
+                points: [{row: 0, col: this.boardSize - 1}],
+            });
+            markers.push({
+                type: "flood",
+                colour: 2,
+                points: [{row: this.boardSize - 1, col: 0}],
+            })
 
             // Build rep
             rep =  {

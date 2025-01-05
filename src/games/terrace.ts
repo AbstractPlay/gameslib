@@ -493,6 +493,7 @@ export class TerraceGame extends GameBase {
         if (to === undefined || to.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
             return result;
         }

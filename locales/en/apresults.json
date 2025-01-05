@@ -82,7 +82,8 @@
         "spook_lateral_self_one": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
         "tafl": "{{player}} captured a piece at {{where}}.",
-        "terrace": "{{player}} captured a size {{what}} piece at {{where}}.",
+        "terrace_other": "{{player}} captured a size {{what}} piece at {{where}}.",
+        "terrace_self": "{{player}} cannibalized their own size {{what}} piece at {{where}}.",
         "tumbleweed": "{{player}} captured a stack of size {{count}} at {{where}}.",
         "tumbleweed_self": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
         "witch": {

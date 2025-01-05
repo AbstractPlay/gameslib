@@ -42,6 +42,8 @@ export class TerraceGame extends GameBase {
         dateAdded: "2023-06-18",
         // i18next.t("apgames:descriptions.terrace")
         description: "apgames:descriptions.terrace",
+        // i18next.t("apgames:notes.terrace")
+        notes: "apgames:notes.terrace",
         urls: [
             "https://boardgamegeek.com/boardgame/2872/terrace",
             "https://boardgamegeek.com/boardgame/15676/terrace-6x6",
@@ -355,8 +357,8 @@ export class TerraceGame extends GameBase {
             else {
                 // up straight, I must be larger
                 const capUp = gOrth.neighbours(piece.location).filter(cell => this.board.has(cell) && gOrth.elevation(cell) === thisElev + 1 && this.board.get(cell)!.size < piece.size);
-                // same level, I must be at least same size
-                const capSame = g.neighbours(piece.location).filter(cell => this.board.has(cell) && gOrth.elevation(cell) === thisElev && this.board.get(cell)!.size <= piece.size);
+                // same level, I must be at least same size and orthogonally adjacent
+                const capSame = gOrth.neighbours(piece.location).filter(cell => this.board.has(cell) && gOrth.elevation(cell) === thisElev && this.board.get(cell)!.size <= piece.size);
                 // down diagonal, I must be at least 1 size smaller
                 const capDown = gDiag.neighbours(piece.location).filter(cell => this.board.has(cell) && gDiag.elevation(cell) === thisElev - 1 && this.board.get(cell)!.size > piece.size);
                 // up straight, my king attacking a largest piece
@@ -574,7 +576,7 @@ export class TerraceGame extends GameBase {
         this.board.set(to, pcFrom);
         this.results.push({type: "move", from: fCell, to, what: pcFrom.size.toString()});
         if (m.includes("x") || m.includes("*")) {
-            this.results.push({type: "capture", where: to, what: pcTo!.size.toString(), whose: pcTo!.owner});
+            this.results.push({type: "capture", where: to, what: `${m.includes("x") ? "x" : "*"}${pcTo!.size}`, whose: pcTo!.owner});
         }
 
         // update currplayer
@@ -935,7 +937,7 @@ export class TerraceGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "capture":
-                node.push(i18next.t("apresults:CAPTURE.terrace", {player, where: r.where, what: r.what}));
+                node.push(i18next.t("apresults:CAPTURE.terrace", {context: r.what?.startsWith("*") ? "self" : "other", player, where: r.where, what: r.what?.substring(1)}));
                 resolved = true;
                 break;
             case "move":

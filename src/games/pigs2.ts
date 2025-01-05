@@ -694,7 +694,8 @@ export class Pigs2Game extends GameBaseSimultaneous {
         for (const [g, u] of glyph2unicode.entries()) {
             legend[g] = {
                 text: u,
-                colour: "_context_labels"
+                colour: "_context_labels",
+                rotate: null,
             };
         }
         // rotation annotation glyphs
@@ -702,11 +703,13 @@ export class Pigs2Game extends GameBaseSimultaneous {
             text: "\u21b7",
             colour: "_context_annotations",
             scale: 0.5,
+            orientation: "vertical",
         };
         legend.nCCW = {
             text: "\u21b6",
             colour: "_context_annotations",
             scale: 0.5,
+            orientation: "vertical",
         };
 
         // build pieces areas

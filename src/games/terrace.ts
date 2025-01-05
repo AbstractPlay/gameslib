@@ -555,7 +555,6 @@ export class TerraceGame extends GameBase {
             }
         }
 
-        this.dots = [];
         const [from, to] = m.split(/[-x*]/);
         const fCell = from.substring(1);
 
@@ -884,14 +883,14 @@ export class TerraceGame extends GameBase {
             const g = this.getGraph();
             if (!("annotations" in rep) || rep.annotations === undefined) {
                 rep.annotations = [];
-                rep.annotations.push({
-                    type: "dots",
-                    targets: this.dots.map(cell => {
-                        const [x, y] = g.algebraic2coords(cell);
-                        return {row: y, col: x};
-                    }) as [RowCol, ...RowCol[]],
-                });
             }
+            rep.annotations.push({
+                type: "dots",
+                targets: this.dots.map(cell => {
+                    const [x, y] = g.algebraic2coords(cell);
+                    return {row: y, col: x};
+                }) as [RowCol, ...RowCol[]],
+            });
         }
 
         return rep;

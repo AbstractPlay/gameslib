@@ -482,15 +482,15 @@ export class TerraceGame extends GameBase {
             return result;
         }
 
-        // if no possible moves for that piece, then reject
-        if (allmoves.filter(mv => mv.startsWith(m)).length === 0) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.terrace.NO_MOVES", {cell: fCell});
-            return result;
-        }
-
         // if to is empty, then possible partial
         if (to === undefined || to.length === 0) {
+            // if no possible moves for that piece, then reject
+            if (allmoves.filter(mv => mv.startsWith(m)).length === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.terrace.NO_MOVES", {cell: fCell});
+                return result;
+            }
+
             result.valid = true;
             result.complete = -1;
             result.canrender = true;

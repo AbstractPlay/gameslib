@@ -154,12 +154,12 @@ export class TerraceGame extends GameBase {
                     board.set("d6", {owner: 2, size: 2, royal: false});
                     board.set("e6", {owner: 2, size: 1, royal: false});
                     board.set("f6", {owner: 2, size: 1, royal: true});
-                    board.set("a5", {owner: 2, size: 3, royal: false});
-                    board.set("b5", {owner: 2, size: 3, royal: false});
+                    board.set("a5", {owner: 2, size: 1, royal: false});
+                    board.set("b5", {owner: 2, size: 1, royal: false});
                     board.set("c5", {owner: 2, size: 2, royal: false});
                     board.set("d5", {owner: 2, size: 2, royal: false});
-                    board.set("e5", {owner: 2, size: 1, royal: false});
-                    board.set("f5", {owner: 2, size: 1, royal: false});
+                    board.set("e5", {owner: 2, size: 3, royal: false});
+                    board.set("f5", {owner: 2, size: 3, royal: false});
 
                     board.set("a1", {owner: 1, size: 1, royal: true});
                     board.set("b1", {owner: 1, size: 1, royal: false});

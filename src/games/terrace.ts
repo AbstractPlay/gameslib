@@ -39,7 +39,7 @@ export class TerraceGame extends GameBase {
         uid: "terrace",
         playercounts: [2],
         version: "20250104",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-07",
         // i18next.t("apgames:descriptions.terrace")
         description: "apgames:descriptions.terrace",
         // i18next.t("apgames:notes.terrace")
@@ -64,7 +64,7 @@ export class TerraceGame extends GameBase {
         ],
         displays: [{ uid: "flat" }],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>move", "mechanic>capture", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental"],
+        flags: ["perspective"],
         variants: [
             {
                 uid: "board-8",

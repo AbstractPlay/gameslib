@@ -21,7 +21,6 @@ export class CubeoBoard {
         if (connCheck) {
             // must always be connected
             if (!this.isConnected) {
-                console.trace();
                 throw new Error(`Adding a die at ${die.x},${die.y} disconnects the board.`);
             }
         }

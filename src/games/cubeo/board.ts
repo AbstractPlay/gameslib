@@ -21,6 +21,7 @@ export class CubeoBoard {
         if (connCheck) {
             // must always be connected
             if (!this.isConnected) {
+                console.trace();
                 throw new Error(`Adding a die at ${die.x},${die.y} disconnects the board.`);
             }
         }
@@ -380,7 +381,7 @@ export class CubeoBoard {
 
     public static deserialize(board: CubeoBoard): CubeoBoard {
         const cloned = new CubeoBoard();
-        board._dice.forEach(d => cloned.add(CubeoDie.deserialize(d)));
+        board._dice.forEach(d => cloned.add(CubeoDie.deserialize(d), false));
         return cloned;
     }
 

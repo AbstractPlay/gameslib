@@ -47,6 +47,7 @@
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
+        "cubeo": "A boardless, perfect-information dice game where you attempt to promote your dice faster than your opponent or manoeuvre your opponent into a position where they cannot move.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
@@ -612,6 +613,12 @@
         "crossway": {
             "size-25": {
                 "name": "Board (25x25)"
+            }
+        },
+        "cubeo": {
+            "strict": {
+                "name": "Stricter movement constraints",
+                "description": "A valid move must materially change the formation, meaning the final formation can't just be a rotation/reflection of the starting formation."
             }
         },
         "dagnacht": {
@@ -1778,6 +1785,12 @@
         "crossway": {
             "board": {
                 "name": "board (19x19)"
+            }
+        },
+        "cubeo": {
+            "moves": {
+                "name": "movement rules",
+                "description": "A valid move is any one where the moving piece ends in a different position than where it started."
             }
         },
         "dameo": {
@@ -3190,6 +3203,14 @@
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "NO_CROSSINGS": "Lines may not cross."
+        },
+        "cubeo": {
+            "BAD_MERGE": "You may only merge when you have at least three dice in the formation, and you may not remove a pinned die.",
+            "BAD_MOVE_standard": "When moving, the die must move its full distance (though it may backtrack at any point), end in a space that keeps the formation connected, and may not end where it started.",
+            "BAD_MOVE_strict": "When moving, the die must move its full distance (though it may backtrack at any point), end in a space that keeps the formation connected, and it must change the formation (meaning you can't move such that you simply create a rotation or reflection of the starting formation).",
+            "BAD_PLACE": "You may only place new dice such that they share an edge with at least one of your own dice and do not share *any* edges with opposing dice.",
+            "INITIAL_INSTRUCTIONS": "Click an empty cell to place a new die or one of your own dice to start a move or merge.",
+            "PINNED": "Pinned dice can't act."
         },
         "dagnacht": {
             "INITIAL_INSTRUCTIONS": "Place a piece on a dark square or move a piece one square orthogonally.",

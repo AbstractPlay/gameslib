@@ -27,7 +27,6 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "eslint-plugin-jsdoc",
         "eslint-plugin-prefer-arrow",
         "@typescript-eslint"
     ],
@@ -130,9 +129,6 @@ module.exports = {
             "undefined"
         ],
         "id-match": "error",
-        "jsdoc/check-alignment": "error",
-        "jsdoc/check-indentation": "error",
-        "jsdoc/newline-after-description": "error",
         "max-classes-per-file": [
             "error",
             1

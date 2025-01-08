@@ -365,6 +365,7 @@
     },
     "PROMOTE": {
         "basicWhere": "The piece at {{where}} was promoted.",
+        "cubeo": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",
         "lielow": "{{player}} has a new king crowned at {{where}}.",
         "mchess": "A {{into}} was created as a result.",
         "orb_12": "{{player}} promoted an orb to a spheroid at {{where}}.",

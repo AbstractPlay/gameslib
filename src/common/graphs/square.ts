@@ -3,6 +3,10 @@ import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
 import { algebraic2coords, coords2algebraic } from "..";
 
+export type EdgeData = {
+    type: "orth"|"diag";
+};
+
 export class SquareGraph implements IGraph {
     public readonly width: number;
     public readonly height: number;
@@ -37,19 +41,19 @@ export class SquareGraph implements IGraph {
                 const fromCell = this.coords2algebraic(col, row);
                 // Connect to the right
                 if (col < this.width - 1) {
-                    graph.addEdge(fromCell, this.coords2algebraic(col + 1, row));
+                    graph.addEdge(fromCell, this.coords2algebraic(col + 1, row), {type: "orth"} as EdgeData);
                 }
                 // Connect up
                 if (row > 0) {
-                    graph.addEdge(fromCell, this.coords2algebraic(col, row - 1));
+                    graph.addEdge(fromCell, this.coords2algebraic(col, row - 1), {type: "orth"} as EdgeData);
                 }
                 // Up right
                 if ( (row > 0) && (col < this.width - 1) ) {
-                    graph.addEdge(fromCell, this.coords2algebraic(col + 1, row - 1));
+                    graph.addEdge(fromCell, this.coords2algebraic(col + 1, row - 1), {type: "diag"} as EdgeData);
                 }
                 // Up left
                 if ( (row > 0) && (col > 0) ) {
-                    graph.addEdge(fromCell, this.coords2algebraic(col - 1, row - 1));
+                    graph.addEdge(fromCell, this.coords2algebraic(col - 1, row - 1), {type: "diag"} as EdgeData);
                 }
             }
         }

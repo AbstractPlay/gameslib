@@ -184,6 +184,8 @@ export class CubeoGame extends GameBase {
                 genPathsRecursive(gMove.graph, paths, [start], die.pips);
                 // for each path, move the piece and make sure the board has changed
                 const validTargets = new Set<string>(paths.map(p => p[p.length - 1]));
+                // remove the starting cell from this list
+                validTargets.delete(`${die.x},${die.y}`);
                 for (const target of validTargets) {
                     const [newx, newy] = this.board.rel2abs(...gMove.algebraic2coords(target));
                     const next = new CubeoDie({x: newx, y: newy, owner: die.owner, pips: die.pips});

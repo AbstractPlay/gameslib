@@ -124,7 +124,7 @@ export class CubeoGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = state.board.clone();
+        this.board = CubeoBoard.deserialize(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         return this;

@@ -47,7 +47,7 @@ export class CubeoGame extends GameBase {
         uid: "cubeo",
         playercounts: [2],
         version: "20250105",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-09",
         // i18next.t("apgames:descriptions.cubeo")
         description: "apgames:descriptions.cubeo",
         urls: ["https://boardgamegeek.com/boardgame/191916/cubeo"],
@@ -62,7 +62,7 @@ export class CubeoGame extends GameBase {
             {uid: "strict", group: "moves"}
         ],
         categories: ["goal>immobilize", "goal>score>race", "mechanic>place", "mechanic>move", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>dice"],
-        flags: ["experimental", "automove"]
+        flags: ["automove"]
     };
 
     public numplayers = 2;

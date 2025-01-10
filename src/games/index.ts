@@ -170,6 +170,7 @@ import { JacynthGame, IJacynthState } from "./jacynth";
 import { Pigs2Game, IPigs2State } from "./pigs2";
 import { TerraceGame, ITerraceState } from "./terrace";
 import { CubeoGame, ICubeoState } from "./cubeo";
+import { TraxGame, ITraxState } from "./trax";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -342,6 +343,7 @@ export {
     Pigs2Game, IPigs2State,
     TerraceGame, ITerraceState,
     CubeoGame, ICubeoState,
+    TraxGame, ITraxState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -400,7 +402,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof HulaGame | typeof KonaneGame | typeof BlastRadiusGame |
                               typeof FramesGame | typeof LoggerGame | typeof SubdivisionGame |
                               typeof PylonGame | typeof MoonSquadGame | typeof JacynthGame |
-                              typeof Pigs2Game | typeof TerraceGame | typeof CubeoGame
+                              typeof Pigs2Game | typeof TerraceGame | typeof CubeoGame |
+                              typeof TraxGame
                 >();
 // Manually add each game to the following array
 [
@@ -427,7 +430,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
     HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
-    MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame,
+    MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, TraxGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -777,6 +780,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TerraceGame(...args);
         case "cubeo":
             return new CubeoGame(...args);
+        case "trax":
+            return new TraxGame(...args);
     }
     return;
 }

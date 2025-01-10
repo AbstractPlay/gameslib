@@ -225,12 +225,12 @@ export abstract class GameBase  {
     public static info(): string {
         return JSON.stringify(this.gameinfo);
     }
-    public static coords2algebraic(x: number, y: number, height: number): string {
-        return coords2algebraic(x, y, height);
+    public static coords2algebraic(x: number, y: number, height: number, reverseNumbers = false): string {
+        return coords2algebraic(x, y, height, reverseNumbers);
     }
 
-    public static algebraic2coords(cell: string, height: number): [number, number] {
-        return algebraic2coords(cell, height);
+    public static algebraic2coords(cell: string, height: number, reverseNumbers = false): [number, number] {
+        return algebraic2coords(cell, height, reverseNumbers);
     }
 
     public abstract stack: Array<IIndividualState>;

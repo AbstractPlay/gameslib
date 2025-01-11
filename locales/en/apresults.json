@@ -347,6 +347,7 @@
         "subdivision_park": "{{player}} placed a park at {{where}}.",
         "terrace": "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
         "theirs": "{{player}} placed an enemy piece at {{where}}.",
+        "trax": "{{player}} placed a {{piece}} at {{algebraic}} ({{where}}).",
         "tritium-orange": "{{player}} played an orange tile at {{where}}.",
         "tritium-purple": "{{player}} played a purple tile at {{where}}.",
         "tritium-green": "{{player}} played a green tile at {{where}}.",

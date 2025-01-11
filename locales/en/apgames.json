@@ -154,6 +154,7 @@
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "terrace": "A royal capture/escape game played on a three-dimensional board with pieces of various sizes.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
+        "trax": "A game of loops and lines. Place tiles adjacent to those already in play such that the colours of the tracks match. The objective is to get a loop or line of your colour while attempting to stop your opponent in their colour. What gives Trax its strategic depth is the forced play rule which allows (or even requires) multiple tiles to be played in a turn.",
         "trike": "Trike is a game on a triangular board. Players take turn moving a neutral pawn around the board (passing is not allowed). When a player moves the pawn, they place a checker of their own color, onto the destination point. When the pawn is trapped, the game is over. At the end of the game, each player gets a point for each checker of their own color adjacent to, or underneath, the pawn. The person with the highest score wins.",
         "tritium": "Two players take turns creating and growing regions and claiming them. Once the board is full, the player who controls most tiles wins.",
         "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
@@ -1476,6 +1477,16 @@
                 "description": "This variant expands the capturing options, leading to a more aggressive game."
             }
         },
+        "trax": {
+            "loop": {
+                "name": "Loop Trax",
+                "description": "The game must be won by a closed loop. Lines do not count in Loop Trax."
+            },
+            "size-8": {
+                "name": "Size-8 board.",
+                "description": "The board is limited to 8x8. If all the tiles that can be played without a win being achieved have been played, the player who plays the last tile loses."
+            }
+        },
         "trike": {
             "standard-7": {
                 "description": "Learning board.",
@@ -2482,6 +2493,12 @@
             "flat": {
                 "description": "A flat view that uses shading to indicate height.",
                 "name": "Flat view"
+            }
+        },
+        "trax": {
+            "show-origin": {
+                "description": "Mark the position of the first piece.",
+                "name": "Show origin"
             }
         },
         "trike": {
@@ -4334,6 +4351,18 @@
         "toguz": {
             "INITIAL_INSTRUCTIONS": "Select the pit you wish to sow. It must be on your side of the board and cannot be a tuz (square-shaped pit).",
             "NO_TUZ": "You may not sow the seeds in your tuz."
+        },
+        "trax": {
+            "INITIAL_INSTRUCTIONS": "Select a tile, then select a space to place it.",
+            "INITIAL_INSTRUCTIONS_FIRST": "Select the first tile.",
+            "INVALID_NOTATION": "The move notation '{{move}}' is invalid.",
+            "FIRST_PIECE_POSITION": "The first move must be either '@0+' or '@0/'.",
+            "SELECT_CELL": "Select a cell to place the tile.",
+            "NO_NEIGHBOURS": "The selected cell at {{where}} has no neighbours.",
+            "CANNOT_PLACE_PIECE": "The {{piece}} cannot be placed at {{where}}.",
+            "INVALID_FOLLOWUP": "Placement of a {{piece}} at {{where}} results in an invalid followup.",
+            "NO_EXPAND_X": "You may not expand the board beyond a width of {{size}}.",
+            "NO_EXPAND_Y": "You may not expand the board beyond a height of {{size}}."
         },
         "trike": {
             "INITIAL_INSTRUCTIONS": "Select the cell to place the neutral piece on."

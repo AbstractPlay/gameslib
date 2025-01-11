@@ -56,7 +56,7 @@ export const partitionArray = (a: any[], size: number): any[][] =>
 
 export const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
-export const coords2algebraic = (x: number, y: number, height: number): string => {
+export const coords2algebraic = (x: number, y: number, height: number, reverseNumbers = false): string => {
     let length = 1;
     if (x >= columnLabels.length) {
         length = Math.floor(Math.log(x) / Math.log(columnLabels.length)) + 1;
@@ -76,10 +76,11 @@ export const coords2algebraic = (x: number, y: number, height: number): string =
         label += char;
         counter = counter % base;
     }
+    if (reverseNumbers) { return label + (y + 1).toString(); }
     return label + (height - y).toString();
 }
 
-export const algebraic2coords = (cell: string, height: number): [number, number] => {
+export const algebraic2coords = (cell: string, height: number, reverseNumbers = false): [number, number] => {
     const match = cell.match(/^([a-z]+)(\d+)$/);
     if (match === null) {
         throw new Error(`The algebraic notation is invalid: ${cell}`);
@@ -102,5 +103,6 @@ export const algebraic2coords = (cell: string, height: number): [number, number]
     if ( (y === undefined) || (isNaN(y)) || nums === "" ) {
         throw new Error(`The row label is invalid: ${nums}`);
     }
+    if (reverseNumbers) { return [x, y - 1]; }
     return [x, height - y];
 }

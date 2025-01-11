@@ -164,7 +164,10 @@ export class CubeoGame extends GameBase {
                 }
                 if (isSelfAdj && !isEnemyAdj) {
                     const [absx, absy] = this.board.rel2abs(...g.algebraic2coords(cell));
-                    moves.push(`+${absx},${absy}`);
+                    // finally, make sure this final cell can be slid to
+                    if (this.board.canSlide(absx, absy)) {
+                        moves.push(`+${absx},${absy}`);
+                    }
                 }
             }
         }
@@ -220,11 +223,21 @@ export class CubeoGame extends GameBase {
                                 break;
                             }
                         }
-                        if (!isPinned) {
-                            if (!this.board.isPinned(d1.x, d1.y)) {
+                        // at least one die must have access to the outside
+                        let canSlide = false;
+                        for (const d of [d1, d2]) {
+                            if (!this.board.canSlide(d.x, d.y)) {
+                                canSlide = true;
+                                break;
+                            }
+                        }
+                        if (!isPinned && !canSlide) {
+                            // still no guarantee
+                            // it's possible one die is pinned and the other is blocked
+                            if (!this.board.isPinned(d1.x, d1.y) && this.board.canSlide(d1.x, d1.y)) {
                                 moves.push(`${[d1.pips, d1.x, d1.y].join(",")}+>${[d2.x, d2.y].join(",")}`);
                             }
-                            if (!this.board.isPinned(d2.x, d2.y)) {
+                            if (!this.board.isPinned(d2.x, d2.y) && this.board.canSlide(d2.x, d2.y)) {
                                 moves.push(`${[d2.pips, d2.x, d2.y].join(",")}+>${[d1.x, d1.y].join(",")}`);
                             }
                         }

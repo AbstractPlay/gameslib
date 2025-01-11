@@ -232,38 +232,42 @@ export class CubeoBoard {
     }
 
     // given a die, return a graph representing valid places it can go
-    public moveGraphFor(x: number, y: number): SquareGraph|undefined {
-        // make sure there's a die there
+    // don't do die checking; sometimes you need it for an empty space
+    public moveGraphFor(x: number, y: number): SquareGraph {
         const die = this.getDieAt(x, y);
-        if (die === undefined) {
-            return undefined;
-        }
-        if (this.isPinned(x, y)) {
-            return undefined;
-        }
         // start with the basic graph
         const g = this.graph;
         const gOrth = this.graphOrth;
-        // remove any spaces that are orthogonally adjacent *only* to the moving die
-        const empties = g.graph.nodes().filter(node => !g.graph.hasNodeAttribute(node, "contents"))
-        for (const node of empties) {
-            const ndice: CubeoDie[] = [];
-            for (const n of gOrth.neighbours(node)) {
-                if (g.graph.hasNode(n) && g.graph.hasNodeAttribute(n, "contents")) {
-                    ndice.push(CubeoDie.deserialize(g.graph.getNodeAttribute(n, "contents") as CubeoDie));
+        // If we started from a die, remove any spaces that are orthogonally adjacent *only*
+        // to the moving die
+        if (die !== undefined) {
+            const empties = g.graph.nodes().filter(node => !g.graph.hasNodeAttribute(node, "contents"))
+            for (const node of empties) {
+                const ndice: CubeoDie[] = [];
+                for (const n of gOrth.neighbours(node)) {
+                    if (g.graph.hasNode(n) && g.graph.hasNodeAttribute(n, "contents")) {
+                        ndice.push(CubeoDie.deserialize(g.graph.getNodeAttribute(n, "contents") as CubeoDie));
+                    }
+                }
+                if (ndice.length === 1 && ndice[0].uid === die.uid) {
+                    g.graph.dropNode(node);
                 }
             }
-            if (ndice.length === 1 && ndice[0].uid === die.uid) {
-                g.graph.dropNode(node);
-            }
         }
-        // now drop all nodes occupied by dice that are not this die
+        // now drop all nodes occupied by dice except the moving die (if we started with a die)
         for (const node of g.graph.nodes()) {
             if (g.graph.hasNodeAttribute(node, "contents")) {
                 const other = CubeoDie.deserialize(g.graph.getNodeAttribute(node, "contents") as CubeoDie);
-                if (other.uid !== die.uid) {
+                if (die === undefined || other.uid !== die.uid) {
                     g.graph.dropNode(node);
                 }
+            }
+        }
+        // now drop all nodes that don't have a path to the target node
+        const target = g.coords2algebraic(...this.abs2rel(x, y)!);
+        for (const node of g.graph.nodes()) {
+            if (g.path(node, target) === null) {
+                g.graph.dropNode(node);
             }
         }
         return g;
@@ -294,6 +298,16 @@ export class CubeoBoard {
             }
             return false;
         }
+    }
+
+    // A die can slide in or out of a spot if its associated move graph
+    // can reach the outside. Since the board is always surrounded by
+    // a layer of empty cells, it's enough to ensure the move graph
+    // includes a `0` in it (top row or left column).
+    public canSlide(x: number, y: number): boolean {
+        const g = this.moveGraphFor(x, y);
+        const coords = g.graph.nodes().map(n => g.algebraic2coords(n)).flat();
+        return coords.includes(0);
     }
 
     public get arrayRep(): string[][] {

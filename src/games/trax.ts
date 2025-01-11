@@ -48,11 +48,11 @@ export class TraxGame extends GameBase {
         uid: "trax",
         playercounts: [2],
         version: "20241006",
-        dateAdded: "2024-10-06",
+        dateAdded: "2025-01-11",
         // i18next.t("apgames:descriptions.trax")
         description: "apgames:descriptions.trax",
         urls: [
-            "https://www.traxgame.com",
+            "http://www.traxgame.com",
             "https://boardgamegeek.com/boardgame/748/trax",
         ],
         people: [
@@ -67,7 +67,7 @@ export class TraxGame extends GameBase {
             { uid: "loop", group: "variant" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental"],
+        flags: [],
         displays: [{ uid: "show-origin" }],
     };
 

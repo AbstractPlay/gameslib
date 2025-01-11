@@ -904,7 +904,7 @@ export class TraxGame extends GameBase {
         if (opts !== undefined) {
             altDisplay = opts.altDisplay;
         }
-        let showOrigin = true;
+        let showOrigin = false;
         if (altDisplay !== undefined) {
             if (altDisplay === "show-origin") {
                 showOrigin = true;

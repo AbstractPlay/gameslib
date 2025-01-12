@@ -32,18 +32,22 @@ export class StorisendeBoard {
                 }
             }
         }
-        this._graph = new StorisendeGraph(this.width, this.height, Orientation.POINTY, 1);
         this.indexHexes();
     }
 
     private indexHexes() {
-        this._offset2hex.clear();
-        this._algebraic2hex.clear();
-        // now link to algebraic coordinates, which aren't known until the board is fully populated
-        this.hexes.forEach(hex => {
-            this._offset2hex.set(`${hex.col},${hex.row}`, hex);
-            this._algebraic2hex.set(this.hex2algebraic(hex), hex)
-        });
+        const originHex = this.getHexAtAxial(0, 0);
+        // this gets called on an empty object when deserializing/cloning
+        // so just skip it all if empty
+        if (originHex !== undefined) {
+            const [, oRow] = this.hex2coords(originHex);
+            this._graph = new StorisendeGraph(this.width, this.height, Orientation.POINTY, oRow % 2 === 0 ? 1 : -1);
+            this._algebraic2hex.clear();
+            // now link to algebraic coordinates, which aren't known until the board is fully populated
+            this.hexes.forEach(hex => {
+                this._algebraic2hex.set(this.hex2algebraic(hex), hex)
+            });
+        }
     }
 
     // private because it should only be used by the constructor the one time
@@ -59,6 +63,7 @@ export class StorisendeBoard {
             throw new Error(`A hex at ${args.q},${args.r} already exists.`);
         } else if (found === undefined) {
             this._axial2hex.set(`${args.q},${args.r}`, newhex);
+            this._offset2hex.set(`${newhex.col},${newhex.row}`, newhex);
             if (this._minX === undefined) {
                 this._minX = newhex.col;
             } else {
@@ -215,7 +220,6 @@ export class StorisendeBoard {
     public clone(): StorisendeBoard {
         const cloned = new StorisendeBoard();
         this.hexes.forEach(h => cloned.add(h));
-        cloned._graph = new StorisendeGraph(cloned.width, cloned.height, Orientation.POINTY, 1);
         cloned.indexHexes();
         return cloned;
     }
@@ -226,8 +230,7 @@ export class StorisendeBoard {
 
     public static deserialize(hexes: StorisendeHex[]): StorisendeBoard {
         const cloned = new StorisendeBoard();
-        hexes.forEach(h => cloned.add(StorisendeHex.deserialize(h)));
-        cloned._graph = new StorisendeGraph(cloned.width, cloned.height, Orientation.POINTY, 1);
+        hexes.forEach(h => cloned.add(h));
         cloned.indexHexes();
         return cloned;
     }

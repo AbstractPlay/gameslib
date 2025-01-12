@@ -166,8 +166,6 @@ export class StorisendeGame extends GameBase {
     }
 
     public moves(player?: playerid): string[] {
-        // eslint-disable-next-line no-console
-        console.log("GENERATING MOVE LIST");
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;

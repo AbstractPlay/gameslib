@@ -25,7 +25,7 @@ export class YavalathGame extends GameBase {
         uid: "yavalath",
         playercounts: [2],
         version: "20250112",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-12",
         // i18next.t("apgames:descriptions.yavalath")
         description: "apgames:descriptions.yavalath",
         urls: ["https://boardgamegeek.com/boardgame/33767/yavalath"],
@@ -37,7 +37,7 @@ export class YavalathGame extends GameBase {
             },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "automove"]
+        flags: ["pie", "automove"]
     };
 
     public numplayers = 2;

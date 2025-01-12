@@ -166,6 +166,8 @@ export class StorisendeGame extends GameBase {
     }
 
     public moves(player?: playerid): string[] {
+        // eslint-disable-next-line no-console
+        console.log("GENERATING MOVE LIST");
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
@@ -541,7 +543,12 @@ export class StorisendeGame extends GameBase {
                     }
                     this.board.updateHexStack(fhex, fhex.stack.slice(0, height * -1));
                     // new Array(height).map... doesn't work
-                    this.board.updateHexStack(thex, Array.from({length: height}, () => this.currplayer));
+                    const newstack = Array.from({length: height}, () => this.currplayer);
+                    if (thex.stack.includes(this.currplayer)) {
+                        this.board.updateHexStack(thex, [...thex.stack, ...newstack]);
+                    } else {
+                        this.board.updateHexStack(thex, newstack);
+                    }
                     this.results.push({type: "move", from, to, count: height});
                     if (thex.stack.length > 0 && !thex.stack.includes(this.currplayer)) {
                         this.results.push({type: "capture", where: to, count: thex.stack.length});
@@ -550,7 +557,11 @@ export class StorisendeGame extends GameBase {
                 // moving entire stack
                 else {
                     this.board.updateHexStack(fhex, []);
-                    this.board.updateHexStack(thex, [...fhex.stack]);
+                    if (thex.stack.includes(this.currplayer)) {
+                        this.board.updateHexStack(thex, [...thex.stack, ...fhex.stack]);
+                    } else {
+                        this.board.updateHexStack(thex, [...fhex.stack]);
+                    }
                     this.results.push({type: "move", from, to, count: fhex.stack.length});
                     if (thex.stack.length > 0 && !thex.stack.includes(this.currplayer)) {
                         this.results.push({type: "capture", where: to, count: thex.stack.length});
@@ -573,7 +584,7 @@ export class StorisendeGame extends GameBase {
                             this.results.push({type: "convert", what: from, into: "territory"});
                         }
                     }
-                    if (fhex.stack.length === 2) {
+                    if (fhex.stack.length === 2 && fhex.tile === "virgin") {
                         this.board.updateHexStack(fhex, [this.currplayer]);
                         this.results.push({type: "place", where: from});
                     }

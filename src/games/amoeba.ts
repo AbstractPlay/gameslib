@@ -158,6 +158,9 @@ export class AmoebaGame extends GameBase {
                             newmove = cell;
                         } else {
                             const ray = g.ray(fx, fy, bearing).map(c => g.coords2algebraic(...c));
+                            if (ray.length - 1 < fstack.length) {
+                                newmove = cell;
+                            }
                             newmove = `${left}>${ray[fstack.length - 1]}`;
                         }
                     }

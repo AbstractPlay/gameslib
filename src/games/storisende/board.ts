@@ -15,6 +15,7 @@ export class StorisendeBoard {
     private _maxX: number|undefined;
     private _minY: number|undefined;
     private _maxY: number|undefined;
+    private _graph: StorisendeGraph;
 
     // _axial2hex is the "authoritative" source
     private _axial2hex: Map<string, StorisendeHex> = new Map();
@@ -31,6 +32,7 @@ export class StorisendeBoard {
                 }
             }
         }
+        this._graph = new StorisendeGraph(this.width, this.height, Orientation.POINTY, 1);
         this.indexHexes();
     }
 
@@ -173,7 +175,7 @@ export class StorisendeBoard {
     }
 
     public get graph(): StorisendeGraph {
-        return new StorisendeGraph(this.width, this.height, Orientation.POINTY, 1);
+        return this._graph;
     }
 
     public hex2algebraic(hex: StorisendeHex): string {
@@ -186,7 +188,7 @@ export class StorisendeBoard {
 
     // list of connected "territory" tiles
     public get territories(): string[][] {
-        const g = this.graph.graph;
+        const g = this.graph.graph.copy();
         // drop everything that's not a territory
         for (const node of g.nodes()) {
             const hex = this.getHexAtAlgebraic(node);
@@ -199,7 +201,7 @@ export class StorisendeBoard {
 
     // list of connected "territory" AND "virgin" tiles
     public get nations(): string[][] {
-        const g = this.graph.graph;
+        const g = this.graph.graph.copy();
         // drop everything that's not a territory or virgin
         for (const node of g.nodes()) {
             const hex = this.getHexAtAlgebraic(node);
@@ -213,6 +215,7 @@ export class StorisendeBoard {
     public clone(): StorisendeBoard {
         const cloned = new StorisendeBoard();
         this.hexes.forEach(h => cloned.add(h));
+        cloned._graph = new StorisendeGraph(cloned.width, cloned.height, Orientation.POINTY, 1);
         cloned.indexHexes();
         return cloned;
     }
@@ -224,6 +227,7 @@ export class StorisendeBoard {
     public static deserialize(hexes: StorisendeHex[]): StorisendeBoard {
         const cloned = new StorisendeBoard();
         hexes.forEach(h => cloned.add(StorisendeHex.deserialize(h)));
+        cloned._graph = new StorisendeGraph(cloned.width, cloned.height, Orientation.POINTY, 1);
         cloned.indexHexes();
         return cloned;
     }

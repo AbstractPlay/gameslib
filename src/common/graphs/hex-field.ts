@@ -71,8 +71,8 @@ export class HexFieldGraph implements IGraph {
                     const neighbour: Hex|undefined = hexGrid.neighborOf(currHex, dir, { allowOutside: false });
                     if (neighbour !== undefined) {
                         const nextCell = this.coords2algebraic(neighbour.col, neighbour.row);
-                        if (!graph.hasEdge(currCell, nextCell)) {
-                            graph.addEdge(currCell, nextCell, {direction: dir});
+                        if (!graph.hasDirectedEdge(currCell, nextCell)) {
+                            graph.addDirectedEdge(currCell, nextCell, {direction: dir});
                         }
                     }
                 }

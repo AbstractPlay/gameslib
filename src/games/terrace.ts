@@ -359,11 +359,11 @@ export class TerraceGame extends GameBase {
                 const capUp = gOrth.neighbours(piece.location).filter(cell => this.board.has(cell) && gOrth.elevation(cell) === thisElev + 1 && this.board.get(cell)!.size < piece.size);
                 // same level, I must be at least same size and orthogonally adjacent
                 const capSame = gOrth.neighbours(piece.location).filter(cell => this.board.has(cell) && gOrth.elevation(cell) === thisElev && this.board.get(cell)!.size <= piece.size);
-                // down diagonal, I must be at least 1 size smaller
-                const capDown = gDiag.neighbours(piece.location).filter(cell => this.board.has(cell) && gDiag.elevation(cell) === thisElev - 1 && this.board.get(cell)!.size > piece.size);
-                // up straight, my king attacking a largest piece
+                // down diagonal, I may be at most 1 size smaller
+                const capDown = gDiag.neighbours(piece.location).filter(cell => this.board.has(cell) && gDiag.elevation(cell) === thisElev - 1 && piece.size >= this.board.get(cell)!.size - 1);
+                // up straight, smallest piece attacking a largest piece
                 const largest: size = this.variants.includes("board-8") ? 4 : 3;
-                const assassinations = gOrth.neighbours(piece.location).filter(cell => this.board.has(cell) && gOrth.elevation(cell) === thisElev + 1 && this.board.get(cell)!.size === largest && piece.royal);
+                const assassinations = gOrth.neighbours(piece.location).filter(cell => this.board.has(cell) && gOrth.elevation(cell) === thisElev + 1 && this.board.get(cell)!.size === largest && piece.size === 1);
 
                 for (const cell of [...capUp, ...capSame, ...capDown, ...assassinations]) {
                     // different notation for canibalizing

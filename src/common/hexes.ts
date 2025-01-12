@@ -4,6 +4,7 @@
  */
 
 import { Orientation, Hex } from "honeycomb-grid";
+import { shuffle } from "./shuffle";
 
 export type CompassDirection = "N"|"NE"|"E"|"SE"|"S"|"SW"|"W"|"NW";
 
@@ -365,4 +366,66 @@ export const vertNeighbours = (vert: IVertex): [IVertex,IVertex,IVertex] => {
                 throw new Error(`Invalid vertex: ${JSON.stringify(vert)}`);
         }
     }
+}
+
+export const generateField = (numModules: number): IHexCoord[] => {
+    const around = (q: number, r: number): [number,number][] => {
+        return [
+            [q+1, r-1],
+            [q+1, r],
+            [q, r+1],
+            [q-1, r+1],
+            [q-1, r],
+            [q, r-1],
+        ];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    const selectCtr = (ctrs: Set<string>, filled: Set<string>): [number,number] => {
+        const chooseFrom = shuffle([...ctrs.values()].map(c => c.split(",").map(n => parseInt(n, 10)))) as [number,number][];
+        // for each known ctr, select one at random until one works
+        for (const [q, r] of chooseFrom) {
+            // make list of valid pts from ctr
+            const nexts: [number,number][] = shuffle([
+                [q+3, r-2], [q+3, r-1],
+                [q+2, r+1], [q+1, r+2],
+                [q-1, r+3], [q-2, r+3],
+                [q-3, r+2], [q-3, r+1],
+                [q-2, r-1], [q-1, r-2],
+                [q+1, r-3], [q+2, r-3],
+            ]) as [number,number][];
+            // pick a random next until one works
+            for (const [nq, nr] of nexts) {
+                if (filled.has(`${nq},${nr}`)) { continue; }
+                const neighbours = around(nq, nr);
+                let overlaps = false;
+                for (const [nnq, nnr] of neighbours) {
+                    if (filled.has(`${nnq},${nnr}`)) {
+                        overlaps = true;
+                        break;
+                    }
+                }
+                if (overlaps) { continue; }
+                return [nq, nr];
+            }
+        }
+        // should always find *something*
+        throw new Error("Could not find a next centre point.");
+    }
+
+    const ctrs = new Set<string>();
+    const filled = new Set<string>();
+    ctrs.add("0,0");
+    for (const [nq, nr] of around(0, 0)) {
+        filled.add(`${nq},${nr}`);
+    }
+    for (let i = 0; i < numModules - 1; i++) {
+        const [newq, newr] = selectCtr(ctrs, filled);
+        ctrs.add(`${newq},${newr}`);
+        for (const [nq, nr] of around(newq, newr)) {
+            filled.add(`${nq},${nr}`);
+        }
+    }
+
+    return [...ctrs.values()].map(c => c.split(",").map(n => parseInt(n, 10)) as [number,number]).map(([q,r]) => { return {q, r} as IHexCoord; });
 }

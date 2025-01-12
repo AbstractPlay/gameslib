@@ -140,6 +140,7 @@
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "stigmergy": "Stigmergy is a territorial line-of-sight game. Cells are controlled and pieces are flipped based on how many pieces of a color can see the space. The winner is the player who occupies more of the board at the end.",
+        "storisende": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
         "strands": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
@@ -1323,6 +1324,25 @@
                 "name": "Tumpletore"
             }
         },
+        "storisende": {
+            "board-hex4": {
+                "name": "Hexhex 4 (37 spaces; learning)"
+            },
+            "board-hex6": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "board-hex7": {
+                "name": "Hexhex 7 (127 spaces)"
+            },
+            "board-modular-13": {
+                "name": "Modular, 13 modules (91 spaces)",
+                "description": "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points."
+            },
+            "board-modular-18": {
+                "name": "Modular, 18 modules (126 spaces)",
+                "description": "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points."
+            }
+        },
         "strands": {
             "size-5-fixed": {
                 "name": "Size-5 board fixed setup"
@@ -2104,6 +2124,11 @@
             "rules": {
                 "description": "You control a space by controlling more than half of its lines of sight.",
                 "name": "rules"
+            }
+        },
+        "storisende": {
+            "board": {
+                "name": "hexhex 5 (61 spaces)"
             }
         },
         "strands": {
@@ -4221,6 +4246,23 @@
             "INVALIDPIE": "You cannot accept or reject a pie offer now.",
             "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent."
+        },
+        "storisende": {
+            "BAD_DISTANCE": "Stacks must move a distance exactly equal to their height.",
+            "BAD_PLACEMENT": "Pieces may only be placed on valid hexes not already occupied by your opponent.",
+            "INITIAL_INSTRUCTIONS_first": "Click cell to place a piece. Click the same cell multiple times to create a stack. You must place 2–5 total pieces, then your opponent will choose sides.",
+            "INITIAL_INSTRUCTIONS_second": "You may either switch seats or choose to play second by placing the same number of pieces. If your opponent already switched seats, then you may only place pieces. Click a cell to place a piece. Click the same cell multiple times to create a stack.",
+            "INITIAL_INSTRUCTIONS_rest": "Click a stack to move. The number of pieces that move depend on the distance you travel.",
+            "INVALID_SUBSTACK": "The substack notation is incorrect. You're trying to move more pieces than are available. If trying to move the entire stack, don't specify the stack height.",
+            "PARTIAL_PLACE_FIRST_one": "You may place one more piece.",
+            "PARTIAL_PLACE_FIRST_other": "You may place {{count}} more pieces.",
+            "PARTIAL_PLACE_FIRST_MORE": "You must place at least one more piece",
+            "PARTIAL_PLACE_SECOND_one": "You must place one more piece.",
+            "PARTIAL_PLACE_SECOND_other": "You must place {{count}} more pieces.",
+            "STRAIGHT_ONLY": "Pieces may only move in straight lines.",
+            "TOO_MANY": "You placed too many pieces. Please reset the move and try again.",
+            "WALL_CLIMB": "Pieces may not move from the ground onto a wall tile.",
+            "WALL_JUMP": "Pieces may only jump over a wall tile if that tile contains at least one of your own pieces."
         },
         "strands": {
             "DIFFERENT_NUMS": "You have to select spaces with the same number.",

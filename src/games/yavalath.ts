@@ -108,7 +108,7 @@ export class YavalathGame extends GameBase {
         try {
             const g = new HexTriGraph(5, 9);
             const cell = g.coords2algebraic(col, row);
-            const newmove = cell[0];
+            const newmove = cell;
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = "";

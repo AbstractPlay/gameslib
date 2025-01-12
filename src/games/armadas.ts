@@ -230,7 +230,7 @@ export class ArmadasGame extends GameBase {
 
             // Now recursively "Objectify" the ships
             this.obstacles = this.obstacles.map((s) => Obstacle.deserialize(s));
-            this.stack.map((s) => {
+            this.stack.forEach((s) => {
                 s.ships = s.ships.map(ship => Ship.deserialize(ship));
                 s.ghosts = s.ghosts.map(ship => Ship.deserialize(ship));
             });

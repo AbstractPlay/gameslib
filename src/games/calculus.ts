@@ -155,7 +155,7 @@ export class CalculusGame extends GameBase {
             this.stack = [...state.stack];
 
             // Now recursively "Objectify" the pieces
-            this.stack.map((s) => {
+            this.stack.forEach((s) => {
                 s.pieces = s.pieces.map(pc => Piece.deserialize(pc));
             });
         }

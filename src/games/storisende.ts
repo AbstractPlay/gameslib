@@ -90,6 +90,11 @@ export class StorisendeGame extends GameBase {
             this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+
+            // Now recursively "Objectify" the board and dice
+            this.stack.forEach((s) => {
+                s.board = StorisendeBoard.deserialize(s.board);
+            });
         } else {
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 this.variants = [...variants];

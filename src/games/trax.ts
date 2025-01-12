@@ -165,7 +165,7 @@ export class TraxGame extends GameBase {
             this.winner = [...state.winner];
             this.variants = state.variants;
             this.stack = [...state.stack];
-            this.stack.map((s) => {
+            this.stack.forEach((s) => {
                 s.board = UnboundedSquareBoard.from(s.board);
             });
 

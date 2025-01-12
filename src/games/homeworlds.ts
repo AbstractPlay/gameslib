@@ -139,7 +139,7 @@ export class HomeworldsGame extends GameBase {
             this.stack = [...state.stack];
 
             // Now recursively "Objectify" the subclasses
-            this.stack.map((s) => {
+            this.stack.forEach((s) => {
                 s.stash = Object.assign(new Stash(this.numplayers + 1), s.stash);
                 s.systems = s.systems.map(sys => System.deserialize(sys));
             });

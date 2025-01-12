@@ -463,6 +463,7 @@
     },
     "TIMEOUT": "{{player}} lost on time.",
     "UNFURL": {
+        "amoeba": "{{player}} sowed {{count}} pieces from {{from}} to {{to}}.",
         "furl": "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}."
     },
     "USE": {

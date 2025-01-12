@@ -104,12 +104,6 @@ export class CubeoGame extends GameBase {
             this.winner = [...state.winner];
             this.variants = state.variants;
             this.stack = [...state.stack];
-
-            // Now recursively "Objectify" the board and dice
-            this.stack.map((s) => {
-                s.board = CubeoBoard.deserialize(s.board);
-            });
-
         }
         this.load();
     }

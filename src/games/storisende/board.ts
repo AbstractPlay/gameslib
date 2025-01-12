@@ -11,14 +11,17 @@ type BoardArgs = {
 type AddArgs = HexArgs & {overwrite?: boolean};
 
 export class StorisendeBoard {
-    private _hexes: StorisendeHex[];
-    private _offset2hex: Map<string, StorisendeHex> = new Map();
+    private _minX: number|undefined;
+    private _maxX: number|undefined;
+    private _minY: number|undefined;
+    private _maxY: number|undefined;
+
+    // _axial2hex is the "authoritative" source
     private _axial2hex: Map<string, StorisendeHex> = new Map();
+    private _offset2hex: Map<string, StorisendeHex> = new Map();
     private _algebraic2hex: Map<string, StorisendeHex> = new Map();
 
     constructor(args?: BoardArgs) {
-        this._hexes = [];
-
         // populate from given centre points if requested
         if (args?.centres !== undefined) {
             for (const {q, r} of args.centres) {
@@ -32,12 +35,10 @@ export class StorisendeBoard {
     }
 
     private indexHexes() {
-        this._axial2hex.clear();
         this._offset2hex.clear();
         this._algebraic2hex.clear();
         // now link to algebraic coordinates, which aren't known until the board is fully populated
-        this._hexes.forEach(hex => {
-            this._axial2hex.set(`${hex.q},${hex.r}`, hex);
+        this.hexes.forEach(hex => {
             this._offset2hex.set(`${hex.col},${hex.row}`, hex);
             this._algebraic2hex.set(this.hex2algebraic(hex), hex)
         });
@@ -55,7 +56,27 @@ export class StorisendeBoard {
         if (found && !overwrite) {
             throw new Error(`A hex at ${args.q},${args.r} already exists.`);
         } else if (found === undefined) {
-            this._hexes.push(newhex);
+            this._axial2hex.set(`${args.q},${args.r}`, newhex);
+            if (this._minX === undefined) {
+                this._minX = newhex.col;
+            } else {
+                this._minX = Math.min(this._minX, newhex.col);
+            }
+            if (this._maxX === undefined) {
+                this._maxX = newhex.col;
+            } else {
+                this._maxX = Math.max(this._maxX, newhex.col);
+            }
+            if (this._minY === undefined) {
+                this._minY = newhex.row;
+            } else {
+                this._minY = Math.min(this._minY, newhex.row);
+            }
+            if (this._maxY === undefined) {
+                this._maxY = newhex.row;
+            } else {
+                this._maxY = Math.max(this._maxY, newhex.row);
+            }
         }
         return newhex;
     }
@@ -94,8 +115,7 @@ export class StorisendeBoard {
     }
 
     public updateHexStack(hex: StorisendeHex, newstack: playerid[]): StorisendeHex {
-        // const found = this._axial2hex.get(`${hex.q},${hex.r}`);
-        const found = this._hexes.find(h => h.q === hex.q && h.r === hex.r);
+        const found = this._axial2hex.get(`${hex.q},${hex.r}`);
         if (found !== undefined) {
             found.stack = [...newstack];
             this._axial2hex.set(`${found.q},${found.r}`, found);
@@ -107,8 +127,7 @@ export class StorisendeBoard {
     }
 
     public updateHexTile(hex: StorisendeHex, newtile: Tile): StorisendeHex {
-        // const found = this._axial2hex.get(`${hex.q},${hex.r}`);
-        const found = this._hexes.find(h => h.q === hex.q && h.r === hex.r);
+        const found = this._axial2hex.get(`${hex.q},${hex.r}`);
         if (found !== undefined) {
             found.tile = newtile;
             this._axial2hex.set(`${found.q},${found.r}`, found);
@@ -120,30 +139,36 @@ export class StorisendeBoard {
     }
 
     public get hexes(): StorisendeHex[] {
-        return this._hexes.map(h => h.dupe());
+        return [...this._axial2hex.values()].map(h => h.dupe());
     }
 
-    public get minX(): number {
-        return Math.min(...this._hexes.map(h => h.col));
+    public get minX(): number|undefined {
+        return this._minX;
     }
 
-    public get maxX(): number {
-        return Math.max(...this._hexes.map(h => h.col));
+    public get maxX(): number|undefined {
+        return this._maxX;
     }
 
-    public get minY(): number {
-        return Math.min(...this._hexes.map(h => h.row));
+    public get minY(): number|undefined {
+        return this._minY;
     }
 
-    public get maxY(): number {
-        return Math.max(...this._hexes.map(h => h.row));
+    public get maxY(): number|undefined {
+        return this._maxY;
     }
 
     public get height(): number {
+        if (this.maxY === undefined || this.minY === undefined) {
+            return 0;
+        }
         return this.maxY - this.minY + 1;
     }
 
     public get width(): number {
+        if (this.maxX === undefined || this.minX === undefined) {
+            return 0;
+        }
         return this.maxX - this.minX + 1;
     }
 
@@ -156,7 +181,7 @@ export class StorisendeBoard {
     }
 
     public hex2coords(hex: StorisendeHex): [number,number] {
-        return [Math.abs(this.minX - hex.col), Math.abs(this.minY - hex.row)];
+        return [Math.abs(this.minX! - hex.col), Math.abs(this.minY! - hex.row)];
     }
 
     // list of connected "territory" tiles
@@ -187,14 +212,18 @@ export class StorisendeBoard {
 
     public clone(): StorisendeBoard {
         const cloned = new StorisendeBoard();
-        this._hexes.forEach(h => cloned.add(h));
+        this.hexes.forEach(h => cloned.add(h));
         cloned.indexHexes();
         return cloned;
     }
 
-    public static deserialize(board: StorisendeBoard): StorisendeBoard {
+    public serialize(): StorisendeHex[] {
+        return this.hexes;
+    }
+
+    public static deserialize(hexes: StorisendeHex[]): StorisendeBoard {
         const cloned = new StorisendeBoard();
-        board._hexes.forEach(h => cloned.add(StorisendeHex.deserialize(h)));
+        hexes.forEach(h => cloned.add(StorisendeHex.deserialize(h)));
         cloned.indexHexes();
         return cloned;
     }

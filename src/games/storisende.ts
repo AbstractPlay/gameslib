@@ -18,7 +18,7 @@ export type Tile = undefined|"virgin"|"territory"|"wall";
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;
-    board: StorisendeBoard;
+    board: StorisendeHex[];
     lastmove?: string;
 }
 
@@ -139,7 +139,7 @@ export class StorisendeGame extends GameBase {
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
-                board: new StorisendeBoard({centres: ctrs}),
+                board: new StorisendeBoard({centres: ctrs}).serialize(),
             };
             this.stack = [fresh];
         }
@@ -551,7 +551,7 @@ export class StorisendeGame extends GameBase {
                 else {
                     this.board.updateHexStack(fhex, []);
                     this.board.updateHexStack(thex, [...fhex.stack]);
-                    this.results.push({type: "move", from, to});
+                    this.results.push({type: "move", from, to, count: fhex.stack.length});
                     if (thex.stack.length > 0 && !thex.stack.includes(this.currplayer)) {
                         this.results.push({type: "capture", where: to, count: thex.stack.length});
                     }
@@ -778,7 +778,7 @@ export class StorisendeGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: this.board.clone(),
+            board: this.board.serialize(),
         };
     }
 

@@ -15,7 +15,7 @@ export class StorisendeBoard {
     private _maxX: number|undefined;
     private _minY: number|undefined;
     private _maxY: number|undefined;
-    private _graph: StorisendeGraph;
+    private _graph!: StorisendeGraph;
 
     // _axial2hex is the "authoritative" source
     private _axial2hex: Map<string, StorisendeHex> = new Map();

@@ -3,7 +3,8 @@ import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
-type Edge = "N"|"NE"|"SE"|"S"|"SW"|"NW";
+export type Edge = "N"|"NE"|"SE"|"S"|"SW"|"NW";
+export type HexDir = "NE"|"E"|"SE"|"SW"|"W"|"NW";
 
 export class HexTriGraph implements IGraph {
     public readonly minwidth: number;
@@ -37,7 +38,7 @@ export class HexTriGraph implements IGraph {
         this.graph = this.buildGraph();
     }
 
-    public static directions: ("NE"|"E"|"SE"|"SW"|"W"|"NW")[] = ["NE","E","SE","SW","W","NW"];
+    public static directions: HexDir[] = ["NE","E","SE","SW","W","NW"];
 
     public coords2algebraic(x: number, y: number): string {
         return columnLabels[this.height - y - 1] + (x + 1).toString();
@@ -146,7 +147,7 @@ export class HexTriGraph implements IGraph {
         return bidirectional(graph, from, to);
     }
 
-    public bearing(from: string, to: string): "NE"|"E"|"SE"|"SW"|"W"|"NW" | undefined {
+    public bearing(from: string, to: string): HexDir|undefined {
         // Returns the direction from one cell to another
         const coords = this.algebraic2coords(from);
         for (const dir of ["NE", "E", "SE", "SW", "W", "NW"] as const) {
@@ -156,7 +157,7 @@ export class HexTriGraph implements IGraph {
         return undefined;
     }
 
-    public move(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", dist = 1): [number, number] | undefined {
+    public move(x: number, y: number, dir: HexDir, dist = 1): [number, number] | undefined {
         let xNew = x;
         let yNew = y;
         for (let i = 0; i < dist; i++) {
@@ -214,7 +215,7 @@ export class HexTriGraph implements IGraph {
         return [xNew, yNew];
     }
 
-    public ray(x: number, y: number, dir: "NE"|"E"|"SE"|"SW"|"W"|"NW", includeFirst = false): [number, number][] {
+    public ray(x: number, y: number, dir: HexDir, includeFirst = false): [number, number][] {
         const cells: [number, number][] = includeFirst ? [[x, y]] : [];
         let next = this.move(x, y, dir);
         while (next !== undefined) {

@@ -171,6 +171,7 @@
         "volo": "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock.' If a player ends up with one contiguous flock (of any size), he wins.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
+        "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
     "notes": {
@@ -4586,6 +4587,9 @@
             "TOO_FEW_PIECES": "There are too few pieces at {{where}} to remove {{num}} of them.",
             "TOO_MANY_CELLS": "You have selected more cells than the move type allows.",
             "TOO_MANY_PIECES": "There are too many pieces at {{where}} to add {{num}} more."
+        },
+        "yavalath": {
+            "INITIAL_INSTRUCTIONS": "Click an empty cell to place a piece."
         },
         "zola": {
             "DISTANCE_CAPTURES": "Capture moves must not increase your distance from the centre.",

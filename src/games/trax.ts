@@ -766,16 +766,21 @@ export class TraxGame extends GameBase {
     }
 
     protected checkEOG(): TraxGame {
-        const winner = [];
+        let winner: playerid | undefined;
         const connPaths = [];
         const allPositions = this.board.getAllPositions();
         const allPositionsNotation = allPositions.map(([x, y]) => this.board.abs2notation(x, y));
-        if (!this.variants.includes("loop")) {
-            if (this.board.width >= 8) {
-                const xRange = this.board.xRange;
-                const edgeW  = allPositions.filter(([x,]) => x === xRange[0]).map(([x, y]) => this.board.abs2notation(x, y));
-                const edgeE = allPositions.filter(([x,]) => x === xRange[1]).map(([x, y]) => this.board.abs2notation(x, y));
-                for (const player of [1, 2] as playerid[]) {
+        // The player that made the move has the win precedence.
+        for (const player of [this.currplayer % 2 + 1, this.currplayer] as playerid[]) {
+            if (winner !== undefined) { continue; }
+            // Check for line win.
+            if (!this.variants.includes("loop")) {
+                if (this.board.width >= 8) {
+                    const xRange = this.board.xRange;
+                    const edgeW  = allPositions.filter(([x,]) => x === xRange[0]).map(([x, y]) => this.board.abs2notation(x, y));
+                    const edgeE = allPositions.filter(([x,]) => x === xRange[1]).map(([x, y]) => this.board.abs2notation(x, y));
+                    // Don't check if other player has already won.
+                    if (winner === player % 2 + 1) { continue; }
                     const graph = this.buildGraph(player, allPositionsNotation);
                     for (const source of edgeW) {
                         const tileW = this.board.get(...this.board.notation2abs(source))!;
@@ -789,7 +794,7 @@ export class TraxGame extends GameBase {
                                 const path = bidirectional(graph, source, target);
                                 if (path !== null) {
                                     this.gameover = true;
-                                    winner.push(player);
+                                    winner = player;
                                     connPaths.push(path);
                                     break;
                                 }
@@ -800,12 +805,10 @@ export class TraxGame extends GameBase {
                         }
                     }
                 }
-            }
-            if (this.board.height >= 8) {
-                const yRange = this.board.yRange;
-                const edgeN = allPositions.filter(([, y]) => y === yRange[0]).map(([x, y]) => this.board.abs2notation(x, y));
-                const edgeS = allPositions.filter(([, y]) => y === yRange[1]).map(([x, y]) => this.board.abs2notation(x, y));
-                for (const player of [1, 2] as playerid[]) {
+                if (this.board.height >= 8) {
+                    const yRange = this.board.yRange;
+                    const edgeN = allPositions.filter(([, y]) => y === yRange[0]).map(([x, y]) => this.board.abs2notation(x, y));
+                    const edgeS = allPositions.filter(([, y]) => y === yRange[1]).map(([x, y]) => this.board.abs2notation(x, y));
                     const graph = this.buildGraph(player, allPositionsNotation);
                     for (const source of edgeN) {
                         const tileN = this.board.get(...this.board.notation2abs(source))!;
@@ -819,7 +822,7 @@ export class TraxGame extends GameBase {
                                 const path = bidirectional(graph, source, target);
                                 if (path !== null) {
                                     this.gameover = true;
-                                    winner.push(player);
+                                    winner = player;
                                     connPaths.push(path);
                                     break;
                                 }
@@ -831,12 +834,10 @@ export class TraxGame extends GameBase {
                     }
                 }
             }
-        }
-        for (const player of [1, 2] as playerid[]) {
             const loops = this.getLoops(player, allPositionsNotation);
             if (loops.length > 0) {
                 this.gameover = true;
-                winner.push(player);
+                winner = player;
                 connPaths.push(...loops);
             }
         }
@@ -844,13 +845,14 @@ export class TraxGame extends GameBase {
             this.connPaths = connPaths;
             this.results.push({ type: "eog" });
         }
+        // Check for stalemate, in which the player makes the last move loses.
         if (!this.gameover && this.maxSize !== undefined && !this.hasMoves()) {
             this.gameover = true;
-            winner.push(this.currplayer);
+            winner = this.currplayer;
             this.results.push({ type: "eog", reason: "stalemate" });
         }
         if (this.gameover) {
-            this.winner = Array.from(new Set(winner)).sort() as playerid[];
+            this.winner = [winner!];
             this.results.push({ type: "winners", players: [...this.winner] });
         }
         return this;

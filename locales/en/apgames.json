@@ -4589,6 +4589,7 @@
             "TOO_MANY_PIECES": "There are too many pieces at {{where}} to add {{num}} more."
         },
         "yavalath": {
+            "BAD_PASS": "You may only pass if you have been eliminated.",
             "INITIAL_INSTRUCTIONS": "Click an empty cell to place a piece."
         },
         "zola": {

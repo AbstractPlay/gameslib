@@ -6,12 +6,13 @@ import { HexTriGraph, reviver, UserFacingError } from "../common";
 import type { HexDir } from "../common/graphs/hextri";
 import i18next from "i18next";
 
-export type playerid = 1|2;
+export type playerid = 1|2|3;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
+    eliminated?: playerid;
 };
 
 export interface IYavalathState extends IAPGameState {
@@ -23,7 +24,7 @@ export class YavalathGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Yavalath",
         uid: "yavalath",
-        playercounts: [2],
+        playercounts: [2,3],
         version: "20250112",
         dateAdded: "2025-01-12",
         // i18next.t("apgames:descriptions.yavalath")
@@ -48,10 +49,12 @@ export class YavalathGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public eliminated?: playerid;
 
-    constructor(state?: IYavalathState | string) {
+    constructor(state: IYavalathState | string | number) {
         super();
-        if (state === undefined) {
+        if (typeof state === "number") {
+            this.numplayers = state;
             const board = new Map<string, playerid>();
             const fresh: IMoveState = {
                 _version: YavalathGame.gameinfo.version,
@@ -68,6 +71,7 @@ export class YavalathGame extends GameBase {
             if (state.game !== YavalathGame.gameinfo.uid) {
                 throw new Error(`The Yavalath engine cannot process a game of '${state.game}'.`);
             }
+            this.numplayers = state.numplayers;
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;
@@ -88,11 +92,16 @@ export class YavalathGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
+        this.eliminated = state.eliminated;
         return this;
     }
 
     public moves(): string[] {
         if (this.gameover) { return []; }
+
+        if (this.eliminated !== undefined && this.eliminated === this.currplayer) {
+            return ["pass"];
+        }
 
         const g = new HexTriGraph(5, 9);
         const moves = g.graph.nodes().filter(n => !this.board.has(n));
@@ -139,6 +148,20 @@ export class YavalathGame extends GameBase {
             return result;
         }
 
+        // pass only valid if you're eliminated
+        if (m === "pass") {
+            if (this.eliminated !== undefined && this.eliminated === this.currplayer) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.yavalath.BAD_PASS", {where: m});
+                return result;
+            }
+        }
+
         // cell must exist
         if (!g.graph.nodes().includes(m)) {
             result.valid = false;
@@ -177,14 +200,25 @@ export class YavalathGame extends GameBase {
         }
 
         this.results = [];
-        this.board.set(m, this.currplayer);
-        this.results.push({type: "place", where: m});
+
+        if (m === "pass") {
+            this.results.push({type: "pass"});
+        } else {
+            this.board.set(m, this.currplayer);
+            this.results.push({type: "place", where: m});
+        }
 
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
+        }
+        while (this.eliminated !== undefined && this.eliminated === newplayer) {
+            newplayer = (newplayer as number) + 1;
+            if (newplayer > this.numplayers) {
+                newplayer = 1;
+            }
         }
         this.currplayer = newplayer as playerid;
 
@@ -227,25 +261,52 @@ export class YavalathGame extends GameBase {
     }
 
     protected checkEOG(): YavalathGame {
-        const prevPlayer = this.currplayer === 1 ? 2 : 1;
-        const hasFour = this.checkLines(4, prevPlayer);
-        const hasThree = this.checkLines(3, prevPlayer);
-        const g = new HexTriGraph(5, 9);
+        let prevPlayer: playerid;
+        if (this.numplayers === 2) {
+            prevPlayer = this.currplayer === 1 ? 2 : 1;
+        } else if (this.eliminated === undefined) {
+            prevPlayer = this.currplayer === 1 ? 3 : this.currplayer === 3 ? 2 : 1;
+        } else {
+            const remaining = ([1,2,3] as playerid[]).filter(p => p !== this.eliminated);
+            prevPlayer = this.currplayer === remaining[0] ? remaining[1] : remaining[0];
+        }
 
-        // if previous player has four, they win
+        // regardless of number of players, four in a row is a win
+        const hasFour = this.checkLines(4, prevPlayer);
         if (hasFour) {
             this.gameover = true;
             this.winner = [prevPlayer];
         }
-        // if previous player has three, they lose
-        else if (hasThree) {
-            this.gameover = true;
-            this.winner = [this.currplayer];
+
+        if (!this.gameover) {
+            // if they have a three, then results vary
+            const hasThree = this.checkLines(3, prevPlayer);
+            if (hasThree) {
+                if (this.numplayers === 2) {
+                    this.gameover = true;
+                    this.winner = [this.currplayer];
+                } else if (this.eliminated === undefined) {
+                    this.eliminated = prevPlayer;
+                } else {
+                    this.gameover = true;
+                    this.winner = ([1,2,3] as playerid[]).filter(p => p !== this.eliminated && p !== prevPlayer);
+                }
+            }
         }
-        // if board full, draw
-        else if (g.graph.nodes().filter(n => !this.board.has(n)).length === 0) {
-            this.gameover = true;
-            this.winner = [1, 2];
+
+        // regardless of number of players, a full board is a draw
+        if (!this.gameover) {
+            const g = new HexTriGraph(5, 9);
+            if (g.graph.nodes().filter(n => !this.board.has(n)).length === 0) {
+                this.gameover = true;
+                if (this.numplayers === 2) {
+                    this.winner = [1, 2];
+                } else if (this.eliminated === undefined) {
+                    this.winner = [1, 2, 3];
+                } else {
+                    this.winner = ([1,2,3] as playerid[]).filter(p => p !== this.eliminated);
+                }
+            }
         }
 
         if (this.gameover) {
@@ -276,6 +337,7 @@ export class YavalathGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
+            eliminated: this.eliminated,
         };
     }
 
@@ -292,7 +354,8 @@ export class YavalathGame extends GameBase {
                 if (!this.board.has(cell)) {
                     pieces.push("-");
                 } else {
-                    pieces.push(this.board.get(cell)! === 1 ? "A" : "B");
+                    const contents = this.board.get(cell)!;
+                    pieces.push(contents === 1 ? "A" : contents === 2 ? "B" : "C");
                 }
             }
             pstr += pieces.join("");
@@ -313,6 +376,10 @@ export class YavalathGame extends GameBase {
                 B: {
                     name: "piece",
                     colour: 2
+                },
+                C: {
+                    name: "piece",
+                    colour: 3
                 }
             },
             pieces: pstr

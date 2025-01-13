@@ -795,7 +795,7 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
         case "amoeba":
             return new AmoebaGame(...args);
         case "yavalath":
-            return new YavalathGame(...args);
+            return new YavalathGame(args[0]);
     }
     return;
 }

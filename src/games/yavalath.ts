@@ -281,6 +281,7 @@ export class YavalathGame extends GameBase {
                     this.winner = [this.currplayer];
                 } else if (this.eliminated === undefined) {
                     this.eliminated = prevPlayer;
+                    this.results.push({type: "eliminated", who: prevPlayer.toString()});
                 } else {
                     this.gameover = true;
                     this.winner = ([1,2,3] as playerid[]).filter(p => p !== this.eliminated && p !== prevPlayer);
@@ -408,6 +409,10 @@ export class YavalathGame extends GameBase {
         switch (r.type) {
             case "place":
                 node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
+                resolved = true;
+                break;
+            case "eliminated":
+                node.push(i18next.t("apresults:ELIMINATED", {player}));
                 resolved = true;
                 break;
         }

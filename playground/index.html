@@ -430,6 +430,7 @@
                     if (event.key === 'Enter') {
                         event.preventDefault();
                         moveBtn.click();
+                    } else if (event.target.matches('input')) {
                     } else if (event.key === 'r' || event.key === 'R') {
                         event.preventDefault();
                         moveRandomBtn.click();

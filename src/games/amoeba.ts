@@ -39,7 +39,7 @@ export class AmoebaGame extends GameBase {
                 urls: ["https://boardgamegeek.com/boardgamedesigner/68359/masahiro-nakajima"],
             },
         ],
-        categories: ["goal>royal>capture", "goal>immobilize", "mechanic>move", "mechanic>coop", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>royal-capture", "goal>immobilize", "mechanic>move", "mechanic>coopt", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["experimental", "pie", "automove"]
     };
 

@@ -376,7 +376,9 @@ export abstract class InARowBase extends GameBase {
             while (countTotal < this.boardSize) {
                 const [x1, y1, wrapped] = this.wrap(x + count * sign * dx, y + count * sign * dy);
                 if (!this.toroidal && wrapped) { break; }
-                if (!this.board.has(this.coords2algebraic(x1, y1))) {
+                const cell = this.coords2algebraic(x1, y1);
+                if (this.board.get(cell) === player % 2 + 1) { break; }
+                if (!this.board.has(cell)) {
                     if (this.isFive(x1, y1, dx, dy, player)) { foursCount++; }
                     break;
                 }

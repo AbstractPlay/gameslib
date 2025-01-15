@@ -18,7 +18,7 @@ export class CubeoDie {
     }
 
     public get coords(): [number, number] {
-        return [this._x, this.y];
+        return [this._x, this._y];
     }
 
     public get x(): number {

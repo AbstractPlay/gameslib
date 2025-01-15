@@ -235,12 +235,14 @@ export class CubeoBoard {
     // don't do die checking; sometimes you need it for an empty space
     public moveGraphFor(x: number, y: number): SquareGraph {
         const die = this.getDieAt(x, y);
+        let startCell: string|undefined;
         // start with the basic graph
         const g = this.graph;
         const gOrth = this.graphOrth;
         // If we started from a die, remove any spaces that are orthogonally adjacent *only*
         // to the moving die
         if (die !== undefined) {
+            startCell = g.coords2algebraic(...this.abs2rel(x, y)!);
             const empties = g.graph.nodes().filter(node => !g.graph.hasNodeAttribute(node, "contents"))
             for (const node of empties) {
                 const ndice: CubeoDie[] = [];
@@ -254,6 +256,41 @@ export class CubeoBoard {
                 }
             }
         }
+        // To deal with "jumping the gap" scenarios, we have to delete edges where the destination
+        // node is neither adjacent to one of the same dice it was before nor adjacent to one of
+        // the source node's orthogonal neighbours.
+        for (const edge of g.graph.edges()) {
+            const [left, right] = g.graph.extremities(edge);
+            // ignore edges that include dice that are not the moving die
+            if ( (g.graph.hasNodeAttribute(left, "contents") && left !== startCell) || (g.graph.hasNodeAttribute(right, "contents") && right !== startCell) ) {
+                continue;
+            }
+            const nLeft = new Set<string>(gOrth.graph.neighbors(left).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")));
+            const nRight = new Set<string>(gOrth.graph.neighbors(right).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")));
+            let shared = new Set<string>([...nLeft].filter(n => nRight.has(n)));
+            // if both nodes are adjacent to a shared die, then this is a valid edge
+            if (shared.size > 0) {
+                continue;
+            }
+            // generate a list of dice orthogonally adjacent to each of the original neighbours
+            const nnLeft = new Set<string>();
+            nLeft.forEach(n => gOrth.graph.neighbors(n).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")).forEach(nn => nnLeft.add(nn)));
+            const nnRight = new Set<string>();
+            nRight.forEach(n => gOrth.graph.neighbors(n).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")).forEach(nn => nnRight.add(nn)));
+            shared = new Set<string>([...nnLeft, ...nLeft].filter(n => nnRight.has(n) || nRight.has(n)));
+            // if the two nodes share a neighbour, it's a valid edge
+            if (shared.size > 0) {
+                continue;
+            }
+            // otherwise, drop this edge
+            // console.log(`Dropping the edge between ${left} and ${right} when developing the move graph for ${x},${y}`);
+            // console.log(`nLeft: ${JSON.stringify([...nLeft])}`);
+            // console.log(`nnLeft: ${JSON.stringify([...nnLeft])}`);
+            // console.log(`nRight: ${JSON.stringify([...nRight])}`);
+            // console.log(`nnRight: ${JSON.stringify([...nnRight])}`);
+            g.graph.dropEdge(edge);
+        }
+
         // now drop all nodes occupied by dice except the moving die (if we started with a die)
         for (const node of g.graph.nodes()) {
             if (g.graph.hasNodeAttribute(node, "contents")) {

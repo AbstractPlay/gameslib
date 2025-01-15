@@ -322,9 +322,15 @@ export class CubeoGame extends GameBase {
 
         // validate placements
         if (m.startsWith("+")) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.cubeo.BAD_PLACE");
-            return result;
+            if (this.diceInHand(this.currplayer) === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.cubeo.MAX_DICE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.cubeo.BAD_PLACE");
+                return result;
+            }
         }
         // then moves and merges
         else {

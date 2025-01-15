@@ -3259,6 +3259,7 @@
             "BAD_MOVE_strict": "When moving, the die must move its full distance (though it may backtrack at any point), end in a space that keeps the formation connected, and it must change the formation (meaning you can't move such that you simply create a rotation or reflection of the starting formation).",
             "BAD_PLACE": "You may only place new dice such that they share an edge with at least one of your own dice and do not share *any* edges with opposing dice. The die must also be able to be slid into the formation from the outside.",
             "INITIAL_INSTRUCTIONS": "Click an empty cell to place a new die or one of your own dice to start a move or merge.",
+            "MAX_DICE": "You may only have six dice on the board.",
             "PINNED": "Pinned dice can't act."
         },
         "dagnacht": {

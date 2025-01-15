@@ -220,12 +220,12 @@ export class CubeoGame extends GameBase {
                         // at least one die must have access to the outside
                         let canSlide = false;
                         for (const d of [d1, d2]) {
-                            if (!this.board.canSlide(d.x, d.y)) {
+                            if (this.board.canSlide(d.x, d.y)) {
                                 canSlide = true;
                                 break;
                             }
                         }
-                        if (!isPinned && !canSlide) {
+                        if (!isPinned && canSlide) {
                             // still no guarantee
                             // it's possible one die is pinned and the other is blocked
                             if (!this.board.isPinned(d1.x, d1.y) && this.board.canSlide(d1.x, d1.y)) {

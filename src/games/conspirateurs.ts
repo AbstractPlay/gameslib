@@ -33,7 +33,7 @@ export class ConspirateursGame extends GameBase {
         notes: "apgames:notes.conspirateurs",
         urls: ["https://en.wikipedia.org/wiki/Conspirateurs"],
         variants: [{uid: "quick", group: "setup"}, {uid: "strict", group: "movement"}],
-        categories: ["goal>evacuate", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>evacuate", "mechanic>traditional", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "no-moves", "custom-randomization", "scores"]
     };
 
@@ -490,6 +490,10 @@ export class ConspirateursGame extends GameBase {
             const gBase = this.buildBaseJumpGraph();
             const gMove = this.buildPieceJumpGraph(gBase, cells[0]);
             this.dots.push(...gMove.outNeighbors(cells[cells.length - 1]));
+
+            // go ahead and move the piece so the display updates
+            this.board.delete(cells[0]);
+            this.board.set(cells[cells.length - 1], this.currplayer);
             return this;
         }
 

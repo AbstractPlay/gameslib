@@ -1819,7 +1819,7 @@
         },
         "conspirateurs": {
             "movement": {
-                "description": "Pieces may pass through sanctuary spaces as they move."
+                "description": "Pieces may pass through sanctuary spaces as they jump."
             },
             "setup": {
                 "description": "Players first drop all their pieces."

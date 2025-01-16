@@ -352,6 +352,8 @@ export class TraxGame extends GameBase {
             }
             return result;
         }
+        m = m.toLowerCase();
+        m = m.replace(/\s+/g, "");
         if (!/^((\@|[a-z]+)\d+)?[\+\/\\]$/.test(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.trax.INVALID_NOTATION", { move: m });

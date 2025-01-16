@@ -45,6 +45,7 @@
         "connect6": "Players take turns placing two stones of their colour to try to get a six (or more) in a row. In the default opening, the first player places one stone in the middle of the board. The game ends in a draw if no player gets a six-in-a-row or on two consecutive passes.",
         "connecticut": "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         "connections": "Draw lines between dots of your colour to connect the sides of the board, or surround your opponent's dots to win.",
+        "conspirateurs": "A traditional French game where you try to get all your pieces to safety before your opponent can do the same.",
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
@@ -184,6 +185,7 @@
         "bug": "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
+        "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         "exxit": "Because the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. We chose this so that the labels wouldn't change as the map grew. Because the labels aren't particularly helpful while you play, they are not displayed on the board. Also, translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
@@ -599,6 +601,16 @@
             },
             "size-9": {
                 "name": "Size-9 board"
+            }
+        },
+        "conspirateurs": {
+            "quick": {
+                "name": "Quick start",
+                "description": "Randomly places the initial pieces."
+            },
+            "strict": {
+                "name": "Strict movement",
+                "description": "A piece must end its movement the moment it enters a sanctuary space."
             }
         },
         "control": {
@@ -1805,6 +1817,14 @@
                 "name": "size-9 board"
             }
         },
+        "conspirateurs": {
+            "movement": {
+                "description": "Pieces may pass through sanctuary spaces as they move."
+            },
+            "setup": {
+                "description": "Players first drop all their pieces."
+            }
+        },
         "control": {
             "board": {
                 "name": "board (Size 7)"
@@ -2645,6 +2665,10 @@
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
         },
+        "conspirateurs": {
+            "IN_DANGER": "Spies in danger",
+            "TO_PLACE": "Pieces to place"
+        },
         "control": {
             "CONTROLLED_SPACES": "Controlled empty spaces"
         },
@@ -3235,6 +3259,14 @@
             "OCCUPIED": "The space at {{where}} is already occupied.",
             "WRONG_ORIENT_H": "The line at {{cell}} should be horizontal (suffixed with 'h').",
             "WRONG_ORIENT_V": "The line at {{cell}} should be vertical (suffixed with 'v')."
+        },
+        "conspirateurs": {
+            "BAD_MOVE": "You may not move from {{from}} to {{to}}.",
+            "BAD_PASS": "You may not pass as long as you have valid moves available.",
+            "BAD_PLACE": "In the setup phase, pieces must be placed on unoccupied spaces in the drop zone (the marked area in the centre of the board).",
+            "INITIAL_INSTRUCTIONS_drop": "Select an empty space in the drop zone to place one of your pieces.",
+            "INITIAL_INSTRUCTIONS_move": "Select one of your pieces not already in a sanctuary to start to move.",
+            "SAFE": "You may not move pieces that have reached sanctuaries."
         },
         "control": {
             "FIRST_TURN_INSTRUCTIONS": "Place a piece on a space on the perimeter of the board.",

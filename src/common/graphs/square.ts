@@ -26,6 +26,8 @@ export class SquareGraph implements IGraph {
         return algebraic2coords(cell, this.height);
     }
 
+    public static allDirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+
     private buildGraph(): UndirectedGraph {
         // Build the graph
         const graph = new UndirectedGraph();

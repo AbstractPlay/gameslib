@@ -34,7 +34,7 @@ export class ConspirateursGame extends GameBase {
         urls: ["https://en.wikipedia.org/wiki/Conspirateurs"],
         variants: [{uid: "quick", group: "setup"}, {uid: "strict", group: "movement"}],
         categories: ["goal>evacuate", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "no-moves", "custom-randomization"]
+        flags: ["experimental", "no-moves", "custom-randomization", "scores"]
     };
 
     public numplayers = 2;
@@ -272,6 +272,7 @@ export class ConspirateursGame extends GameBase {
             const cells = this.dropZone.filter(c => !this.board.has(c));
             return (shuffle(cells) as string[])[0];
         } else {
+            const g = this.graph;
             const gBase = this.buildBaseJumpGraph();
             const sanct = [...this.sanctuaries].filter(c => !this.board.has(c) && gBase.hasNode(c));
             const mine = shuffle([...this.board.entries()].filter(([,p]) => p === this.currplayer).map(([c,]) => c)) as string[];
@@ -292,6 +293,9 @@ export class ConspirateursGame extends GameBase {
                         return path.join("-");
                     }
                 }
+                // if this piece can't jump, can it move
+                const nextEmpties = shuffle(g.neighbours(from).filter(c => !this.board.has(c))) as string[];
+                return [from, nextEmpties[0]].join("-");
             }
         }
         if (this.numplayers === 4) {

@@ -26,7 +26,7 @@ export class ConspirateursGame extends GameBase {
         uid: "conspirateurs",
         playercounts: [2, 3, 4],
         version: "20250114",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-16",
         // i18next.t("apgames:descriptions.conspirateurs")
         description: "apgames:descriptions.conspirateurs",
         // i18next.t("apgames:notes.conspirateurs")
@@ -34,7 +34,7 @@ export class ConspirateursGame extends GameBase {
         urls: ["https://en.wikipedia.org/wiki/Conspirateurs"],
         variants: [{uid: "quick", group: "setup"}, {uid: "strict", group: "movement"}],
         categories: ["goal>evacuate", "mechanic>traditional", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "no-moves", "custom-randomization", "scores"]
+        flags: ["no-moves", "custom-randomization", "scores"]
     };
 
     public numplayers = 2;

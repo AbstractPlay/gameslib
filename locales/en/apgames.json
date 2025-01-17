@@ -33,6 +33,7 @@
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
         "camelot": "A classic game where you try to move two pieces into your opponent's castle or eliminate all of your opponent's pieces.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
+        "catapult": "Hurl your stones across the board to annihilate your opponent.",
         "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
         "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
@@ -521,6 +522,19 @@
             "anti": {
                 "description": "The player wins if they run out of moves or if the opponent moves a single piece into the player's castle.",
                 "name": "Anti-Camelot"
+            }
+        },
+        "catapult": {
+            "dagger": {
+                "description": "The second player starts with the dagger. The player with the dagger may make two consecutive moves and pass the dagger to their opponent.",
+                "name": "Dagger"
+            },
+            "royal": {
+                "description": "One piece is designated as royal. The goal is to kill the opposing royal.",
+                "name": "Royal Catapult"
+            },
+            "size-9": {
+                "name": "Larger board (9x9)"
             }
         },
         "catchup": {
@@ -1754,6 +1768,14 @@
                 "description": "Roughly 12 pieces across"
             }
         },
+        "catapult": {
+            "board": {
+                "name": "8x8 board"
+            },
+            "goal": {
+                "description": "Annihilate your opponent."
+            }
+        },
         "catchup": {
             "board": {
                 "name": "board (base 5)"
@@ -2661,6 +2683,9 @@
         "camelot": {
             "CASTLE_MOVE_COUNTS": "Castle move count"
         },
+        "catapult": {
+            "DAGGER": "Dagger"
+        },
         "chase": {
             "BALANCE": "Imbalance",
             "IMBALANCE": "Current player is imbalanced by {{delta}} speed."
@@ -3162,6 +3187,12 @@
             "RETREAT_EMPTY": "You must retreat to an empty cell.",
             "TOOFAR": "You can only move one space at a time, unless retreating.",
             "UNCONTROLLED": "You can't control enemy pieces. If you're trying to capture it by cannon, click it again."
+        },
+        "catapult": {
+            "BAD_CAPTURE": "A capturing move must land on or pass over at least one enemy piece, may not pass over friendly pieces, and may not go further than its range.",
+            "BAD_MOVE": "A non-capturing move must be in the direction of the enemy corner, must not land on or pass over any other pieces, and may not go further than its range.",
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "NO_DAGGER": "You may not make multiple moves unless you have the dagger."
         },
         "catchup": {
             "DUPLICATE": "You have already placed a piece at {{where}}.",

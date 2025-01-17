@@ -55,7 +55,7 @@ export class CatapultGame extends GameBase {
             {uid: "dagger"},
         ],
         categories: ["goal>annihilate", "goal>royal-capture", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "automove", "no-moves", "custom-randomization", "scores"],
+        flags: ["experimental", "perspective", "no-moves", "custom-randomization", "scores"],
     };
 
     public coords2algebraic(x: number, y: number): string {

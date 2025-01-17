@@ -618,10 +618,13 @@ export class CatapultGame extends GameBase {
     }
 
     public statuses(): IStatus[] {
-        if (this.dagger !== undefined)
-            return [{ key: i18next.t("apgames:status.catapult.DAGGER"), value: [{ name: "piece", colour: this.dagger }] }];
-        else
+        if (this.dagger !== undefined) {
+            const key = i18next.t("apgames:status.catapult.DAGGER");
+            const value = { glyph: "piece", colour: this.dagger };
+            return [{ key, value: [value] }];
+        } else {
             return [];
+        }
     }
 
     public status(): string {

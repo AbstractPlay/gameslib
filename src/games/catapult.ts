@@ -255,7 +255,7 @@ export class CatapultGame extends GameBase {
 
         try {
             const cloned = this.clone();
-            if (move.includes(";")) {
+            if (move.includes(";") || move.length > 4) {
                 const [m1,] = move.split(";");
                 cloned.executeMove(m1);
             }

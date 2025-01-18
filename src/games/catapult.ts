@@ -373,7 +373,7 @@ export class CatapultGame extends GameBase {
                 cloned.executeMove(mv);
 
                 result.valid = true;
-                result.complete = (!mv.includes(";") && hasDagger) ? 0 : 1;
+                result.complete = (!m.includes(";") && hasDagger) ? 0 : 1;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;

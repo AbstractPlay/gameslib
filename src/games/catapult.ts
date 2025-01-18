@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -55,7 +55,7 @@ export class CatapultGame extends GameBase {
             {uid: "dagger"},
         ],
         categories: ["goal>annihilate", "goal>royal-capture", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "no-moves", "custom-randomization", "scores"],
+        flags: ["experimental", "perspective", "no-moves", "custom-randomization", "scores", "custom-buttons"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -227,6 +227,12 @@ export class CatapultGame extends GameBase {
         // the random mover will never use the dagger
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
+    }
+
+    // In this game only one button is active at a time.
+    public getButtons(): ICustomButton[] {
+        if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
+        return [];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {

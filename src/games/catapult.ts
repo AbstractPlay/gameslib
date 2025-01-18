@@ -440,6 +440,8 @@ export class CatapultGame extends GameBase {
                 const matches = allmoves.filter(mv => mv.startsWith(next));
                 const dots = matches.map(mv => mv.substring(next.length + 1));
                 this._points = dots.map(c => this.algebraic2coords(c));
+            } else {
+                this.executeMove(next);
             }
             return this;
         } else {

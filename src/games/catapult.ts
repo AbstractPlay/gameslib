@@ -413,7 +413,9 @@ export class CatapultGame extends GameBase {
         result.valid = true;
         result.complete = (!m.includes(";") && hasDagger) ? 0 : 1;
         result.canrender = true;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        result.message = (!m.includes(";") && hasDagger) ?
+                            i18next.t("apgames:validation.catapult.PARTIAL_DAGGER") :
+                            i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
 

@@ -340,6 +340,20 @@ export class CatapultGame extends GameBase {
             }
         }
 
+        // check for pass
+        if (m === "pass") {
+            if (!this.moves().includes("pass")) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.catapult.BAD_PASS");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+        }
+
         const cloned = this.clone();
         for (const mv of m.split(";")) {
             if (mv === undefined || mv === "") {

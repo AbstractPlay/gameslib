@@ -3191,6 +3191,7 @@
         "catapult": {
             "BAD_CAPTURE": "A capturing move must land on or pass over at least one enemy piece, may not pass over friendly pieces, and may not go further than its range.",
             "BAD_MOVE": "A non-capturing move must be in the direction of the enemy corner, must not land on or pass over any other pieces, and may not go further than its range.",
+            "BAD_PASS": "You may not pass as long as you have valid moves available.",
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "NO_DAGGER": "You may not make multiple moves unless you have the dagger."
         },

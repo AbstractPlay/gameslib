@@ -233,7 +233,12 @@ export class CatapultGame extends GameBase {
         const isCapture = (obj: CatapultGame, from: string, to: string): boolean => {
             const [fx, fy] = obj.algebraic2coords(from);
             const [tx, ty] = obj.algebraic2coords(to);
-            const between = RectGrid.between(fx, fy, tx, ty).map(c => obj.coords2algebraic(...c));
+            let between: string[];
+            try {
+                between = RectGrid.between(fx, fy, tx, ty).map(c => obj.coords2algebraic(...c));
+            } catch {
+                return false;
+            }
             for (const cell of [...between, to]) {
                 if (obj.board.has(cell) && obj.board.get(cell)![0] !== obj.currplayer) {
                     return true;
@@ -269,21 +274,20 @@ export class CatapultGame extends GameBase {
                         newmove = cell;
                     }
                 } else {
+                    let prefix: string|undefined;
+                    let working = move;
                     if (move.includes(";")) {
-                        const [m1, m2] = move.split(";");
-                        const [left,] = m2.split(/[-x]/);
+                        [prefix, working] = move.split(";");
+                    }
+                    const [left,] = working.split(/[-x]/);
+                    if (left !== undefined && left !== "") {
                         if (isCapture(cloned, left, cell)) {
-                            newmove = `${m1};${left}x${cell}`;
+                            newmove = `${prefix !== undefined ? prefix + ";" : ""}${left}x${cell}`;
                         } else {
-                            newmove = `${m1};${left}-${cell}`;
+                            newmove = `${prefix !== undefined ? prefix + ";" : ""}${left}-${cell}`;
                         }
                     } else {
-                        const [left,] = move.split(/[-x]/);
-                        if (isCapture(cloned, left, cell)) {
-                            newmove = `${left}x${cell}`;
-                        } else {
-                            newmove = `${left}-${cell}`;
-                        }
+                        newmove = `${prefix !== undefined ? prefix + ";" : ""}${cell}`;
                     }
                 }
             }

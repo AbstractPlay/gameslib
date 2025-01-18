@@ -230,6 +230,18 @@ export class CatapultGame extends GameBase {
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        const isCapture = (obj: CatapultGame, from: string, to: string): boolean => {
+            const [fx, fy] = obj.algebraic2coords(from);
+            const [tx, ty] = obj.algebraic2coords(to);
+            const between = RectGrid.between(fx, fy, tx, ty).map(c => obj.coords2algebraic(...c));
+            for (const cell of [...between, to]) {
+                if (obj.board.has(cell) && obj.board.get(cell)![0] !== obj.currplayer) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         try {
             const cloned = this.clone();
             if (move.includes(";")) {
@@ -260,14 +272,14 @@ export class CatapultGame extends GameBase {
                     if (move.includes(";")) {
                         const [m1, m2] = move.split(";");
                         const [left,] = m2.split(/[-x]/);
-                        if (contents !== undefined && contents[0] !== cloned.currplayer) {
+                        if (isCapture(cloned, left, cell)) {
                             newmove = `${m1};${left}x${cell}`;
                         } else {
                             newmove = `${m1};${left}-${cell}`;
                         }
                     } else {
                         const [left,] = move.split(/[-x]/);
-                        if (contents !== undefined && contents[0] !== cloned.currplayer) {
+                        if (isCapture(cloned, left, cell)) {
                             newmove = `${left}x${cell}`;
                         } else {
                             newmove = `${left}-${cell}`;

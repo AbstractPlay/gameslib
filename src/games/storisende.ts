@@ -33,7 +33,7 @@ export class StorisendeGame extends GameBase {
         uid: "storisende",
         playercounts: [2],
         version: "20250109",
-        dateAdded: "2024-01-08",
+        dateAdded: "2025-01-18",
         // i18next.t("apgames:descriptions.storisende")
         description: "apgames:descriptions.storisende",
         // notes: "apgames:notes.storisende",
@@ -57,7 +57,7 @@ export class StorisendeGame extends GameBase {
             {uid: "board-modular-18", group: "board"},
         ],
         categories: ["goal>area", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>stack", "mechanic>capture", "board>dynamic", "board>connect>hex", "components>special"],
-        flags: ["experimental", "pie", "scores", "automove", "custom-rotation", "random-start", "custom-randomization"],
+        flags: ["pie", "scores", "automove", "custom-rotation", "random-start", "custom-randomization"],
     };
 
     public static clone(obj: StorisendeGame): StorisendeGame {

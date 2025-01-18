@@ -274,7 +274,7 @@ export class CatapultGame extends GameBase {
                 newmove = cell;
             } else {
                 if (contents !== undefined && contents[0] === cloned.currplayer) {
-                    if (hasDagger) {
+                    if (hasDagger && move.length > 4) {
                         newmove = move + ";" + cell;
                     } else {
                         newmove = cell;

@@ -369,17 +369,16 @@ export class CatapultGame extends GameBase {
                     }
                 }
 
-                // valid full move
                 cloned.executeMove(mv);
-
-                result.valid = true;
-                result.complete = (!m.includes(";") && hasDagger) ? 0 : 1;
-                result.canrender = true;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-                return result;
             }
         }
-        throw new Error(`Could not validate the move ${m}`);
+
+        // we're good
+        result.valid = true;
+        result.complete = (!m.includes(";") && hasDagger) ? 0 : 1;
+        result.canrender = true;
+        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        return result;
     }
 
     private executeMove(m: string): void {

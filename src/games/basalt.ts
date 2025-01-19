@@ -352,6 +352,8 @@ export class BasaltGame extends GameBase {
         if (this.variants.includes("pie") && this.stack.length === 1) {
             const cells = shuffle(this.getAllCells()) as string[];
             return `1${cells[0]},2${cells[1]}`;
+        } else if (this.variants.includes("pie") && this.stack.length === 2) {
+            return "pass";
         } else {
             const moves = this.moves();
             return moves[Math.floor(Math.random() * moves.length)];

@@ -311,7 +311,7 @@ export class BasaltGame extends GameBase {
                             if (this.board.has(to)) {
                                 const tStack = this.board.get(to)!;
                                 if (tStack.length > dist) {
-                                    break;
+                                    continue;
                                 }
                             }
                             // if moving entire stack, notation is simpler

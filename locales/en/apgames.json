@@ -3027,7 +3027,7 @@
             "BAD_PASS": "You may not pass as long as you have valid moves available.",
             "INITIAL_INSTRUCTIONS_play": "Select a stack you control to move.",
             "INITIAL_INSTRUCTIONS_offer": "Click a piece to the left of the board and then a cell on the board to build your initial pie offer. You may place two to four pieces, at least one of each colour, no more than two of any one colour, in any configuration of singles and stacks you wish.",
-            "INITIAL_INSTRUCTIONS_response": "You must now choose which colour to play. You must either click the \"Swap player seats\" button to play as first player, or make a regular move to continue as second player. If your opponent already swapped seats, your only choice is to make a regular move.",
+            "INITIAL_INSTRUCTIONS_response": "You must now choose which colour to play. You must either click the \"Swap player seats\" button to play as first player, or pass to continue as second player.",
             "PARTIAL": "Select a destination",
             "PIE_BAD_CELL": "The cell {{cell}} does not appear to be valid.",
             "PIE_BOTH_PCS": "You must place at least one piece of each colour.",

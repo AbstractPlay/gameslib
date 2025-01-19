@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaKey } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle, intersects } from "../common";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
+import { bidirectional } from "graphology-shortest-path";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
@@ -19,6 +20,7 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid[]>;
     lastmove?: string;
+    connPath: string[];
 }
 
 export interface IBasaltState extends IAPGameState {
@@ -53,7 +55,7 @@ export class BasaltGame extends GameBase {
             {uid: "pie"},
         ],
         categories: ["goal>connect", "mechanic>stack",  "mechanic>move", "mechanic>coopt", "board>shape>tri", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "automove", "custom-rotation", "custom-randomization"],
+        flags: ["experimental", "pie-even", "automove", "custom-rotation", "custom-randomization", "custom-buttons"],
     };
     public numplayers = 2;
     public currplayer!: playerid;
@@ -66,6 +68,7 @@ export class BasaltGame extends GameBase {
     public startpos!: string;
     private boardSize = 9;
     private dots: string[] = [];
+    public connPath: string[] = [];
 
     constructor(state?: IBasaltState | string, variants?: string[]) {
         super();
@@ -96,6 +99,7 @@ export class BasaltGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
+                connPath: [],
             };
             this.stack = [fresh];
         }
@@ -127,6 +131,16 @@ export class BasaltGame extends GameBase {
 
     public shouldOfferPie(): boolean {
         return this.variants.includes("pie");
+    }
+
+    // In this game only one button is active at a time.
+    public getButtons(): ICustomButton[] {
+        if (this.moves().includes("pass")) {
+            return [{ label: "pass", move: "pass" }];
+        } else if (this.variants.includes("pie") && this.stack.length === 2) {
+            return [{ label: "pass", move: "pass" }];
+        }
+        return [];
     }
 
     public coords2algebraic(x: number, y: number): string {
@@ -275,7 +289,7 @@ export class BasaltGame extends GameBase {
         }
 
         // can't generate initial pie offer
-        if (this.variants.includes("pie") && this.stack.length === 1) {
+        if (this.variants.includes("pie") && this.stack.length <= 2) {
             return [];
         }
 
@@ -432,7 +446,7 @@ export class BasaltGame extends GameBase {
         }
 
         if (m === "pass") {
-            if (!allMoves.includes("pass")) {
+            if (!allMoves.includes("pass") && !(this.variants.includes("pass") && this.stack.length === 2)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.basalt.BAD_PASS");
                 return result;
@@ -646,6 +660,51 @@ export class BasaltGame extends GameBase {
         return status;
     }
 
+    private buildPath(g: UndirectedGraph): void {
+        const [left, right, bottom] = this.edges;
+        const lr: string[][] = [];
+        for (const l of left) {
+            for (const r of right) {
+                if (g.hasNode(l) && g.hasNode(r)) {
+                    const path = bidirectional(g, l, r);
+                    if (path !== null) {
+                        lr.push(path);
+                    }
+                }
+            }
+        }
+        const rb: string[][] = [];
+        for (const r of right) {
+            for (const b of bottom) {
+                if (g.hasNode(r) && g.hasNode(b)) {
+                    const path = bidirectional(g, r, b);
+                    if (path !== null) {
+                        rb.push(path);
+                    }
+                }
+            }
+        }
+        const lb: string[][] = [];
+        for (const l of left) {
+            for (const b of bottom) {
+                if (g.hasNode(l) && g.hasNode(b)) {
+                    const path = bidirectional(g, l, b);
+                    if (path !== null) {
+                        lb.push(path);
+                    }
+                }
+            }
+        }
+        for (const lrPath of lr) {
+            const rbMatch = rb.find(p => p[0] === lrPath[lrPath.length - 1]);
+            if (rbMatch !== undefined) {
+                this.connPath = [...lrPath.slice(0, -1), ...rbMatch];
+                return;
+            }
+        }
+        throw new Error("Could not build a path");
+    }
+
     public isConnected(player?: playerid): boolean {
         if (player === undefined) {
             player = this.currplayer;
@@ -671,6 +730,7 @@ export class BasaltGame extends GameBase {
                 }
             }
             if (connected) {
+                this.buildPath(g)
                 return true;
             }
         }
@@ -713,6 +773,7 @@ export class BasaltGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: deepclone(this.board) as Map<string, playerid[]>,
+            connPath: [...this.connPath],
         };
     }
 
@@ -800,6 +861,17 @@ export class BasaltGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 rep.annotations!.push({type: "dots", targets: [{row: y, col: x}]});
             }
+        }
+        if (this.connPath.length > 0) {
+            if (!("annotations" in rep)) {
+                rep.annotations = [];
+            }
+            const targets: RowCol[] = [];
+            for (const cell of this.connPath) {
+                const [x,y] = this.algebraic2coords(cell);
+                targets.push({ row: y, col: x })
+            }
+            rep.annotations!.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false, colour: 3 });
         }
 
         return rep;

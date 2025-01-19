@@ -553,7 +553,7 @@ export class BasaltGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && ! allMoves.includes(m) && !(this.variants.includes("pie") && this.stack.length === 1)) {
+            if (!partial && ! allMoves.includes(m) && !(this.variants.includes("pie") && this.stack.length <= 2)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }

@@ -18,6 +18,7 @@
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "ayu": "Ayu is short for 'Attach your units', where on every turn, you have to move your stones such that the units approach each other and eventually merge. The player that runs out of moves first wins.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
+        "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "blastradius": "An abstract war game where pieces irradiate the spaces around them. Eliminate all opposing pieces.",
@@ -3014,6 +3015,21 @@
             "NO_BACK_ROW_namua": "In the kunamua phase, you may not start from your back row.",
             "PLAY_HOUSE": "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
             "TWO_PLUS": "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones."
+        },
+        "basalt": {
+            "BAD_MOVE": "Stacks may not move further than their height, and they may not pass over stacks controlled by your opponent.",
+            "BAD_PASS": "You may not pass as long as you have valid moves available.",
+            "INITIAL_INSTRUCTIONS_play": "Select a stack you control to move.",
+            "INITIAL_INSTRUCTIONS_offer": "Click a piece to the left of the board and then a cell on the board to build your initial pie offer. You may place two to four pieces, at least one of each colour, no more than two of any one colour, in any configuration of singles and stacks you wish.",
+            "INITIAL_INSTRUCTIONS_response": "You must now choose which colour to play. You must either click the \"Swap player seats\" button to play as first player, or make a regular move to continue as second player. If your opponent already swapped seats, your only choice is to make a regular move.",
+            "PARTIAL": "Select a destination",
+            "PIE_BAD_CELL": "The cell {{cell}} does not appear to be valid.",
+            "PIE_BOTH_PCS": "You must place at least one piece of each colour.",
+            "PIE_PARTIAL": "You may place up to four pieces, or click the \"Complete move\" button to stop here.",
+            "PIE_PARTIAL_PLACE": "Click a cell to place the P{{pc}} piece.",
+            "PIE_PC_FIRST": "You must first select a piece from the side of the board before selecting a cell.",
+            "PIE_TWO_EACH": "You may not place more than two pieces of any one colour.",
+            "PIE_TWO_FOUR": "You may not place more than four pieces when offering pie."
         },
         "bide": {
             "EMPTY_HAND": "You have no more pieces to place.",

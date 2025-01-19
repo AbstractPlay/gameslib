@@ -176,6 +176,7 @@ import { AmoebaGame, IAmoebaState } from "./amoeba";
 import { YavalathGame, IYavalathState } from "./yavalath";
 import { ConspirateursGame, IConspirateursState } from "./conspirateurs";
 import { CatapultGame, ICatapultState } from "./catapult";
+import { BasaltGame, IBasaltState } from "./basalt";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -354,6 +355,7 @@ export {
     YavalathGame, IYavalathState,
     ConspirateursGame, IConspirateursState,
     CatapultGame, ICatapultState,
+    BasaltGame, IBasaltState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -414,7 +416,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof PylonGame | typeof MoonSquadGame | typeof JacynthGame |
                               typeof Pigs2Game | typeof TerraceGame | typeof CubeoGame |
                               typeof StorisendeGame | typeof TraxGame | typeof AmoebaGame |
-                              typeof YavalathGame | typeof ConspirateursGame | typeof CatapultGame
+                              typeof YavalathGame | typeof ConspirateursGame | typeof CatapultGame |
+                              typeof BasaltGame
                 >();
 // Manually add each game to the following array
 [
@@ -442,7 +445,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
     HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
-    AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame,
+    AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -804,6 +807,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ConspirateursGame(args[0], ...args.slice(1));
         case "catapult":
             return new CatapultGame(...args);
+        case "basalt":
+            return new BasaltGame(...args);
     }
     return;
 }

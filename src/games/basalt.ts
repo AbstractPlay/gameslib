@@ -138,7 +138,7 @@ export class BasaltGame extends GameBase {
         if (this.moves().includes("pass")) {
             return [{ label: "pass", move: "pass" }];
         } else if (this.variants.includes("pie") && this.stack.length === 2) {
-            return [{ label: "pass", move: "pass" }];
+            return [{ label: "Remain second player", move: "pass" }];
         }
         return [];
     }
@@ -446,7 +446,7 @@ export class BasaltGame extends GameBase {
         }
 
         if (m === "pass") {
-            if (!allMoves.includes("pass") && !(this.variants.includes("pass") && this.stack.length === 2)) {
+            if (!allMoves.includes("pass") && !(this.variants.includes("pie") && this.stack.length === 2)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.basalt.BAD_PASS");
                 return result;

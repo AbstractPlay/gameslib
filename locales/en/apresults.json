@@ -452,6 +452,8 @@
         "buku_col_one": "{{player}} collected 1 piece from column {{col}}.",
         "buku_col_other": "{{player}} collected {{count}} pieces from column {{col}}.",
         "chase": "A {{what}} was fed to the chamber.",
+        "general_one": "{{player}} took a piece from {{from}}.",
+        "general_other": "{{player}} took {{count}} pieces from {{from}}.",
         "moonsquad": "{{player}} took an ore ({{ore}}).",
         "sploof": "{{player}} took a neutral ball at {{from}}.",
         "streetcar": "{{player}} took a housing limit from {{from}}.",

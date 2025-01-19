@@ -39,6 +39,7 @@
         "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
+        "churn": "A bloody territory-control game on a small board.",
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
@@ -558,6 +559,15 @@
             "snub": {
                 "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
                 "name": "Board: Snub Square"
+            }
+        },
+        "churn": {
+            "limping-23": {
+                "name": "Limping 2-3 (12 spaces)",
+                "description": "A learning board. Draws are possible."
+            },
+            "limping-34": {
+                "name": "Limping 3-4 (27 spaces)"
             }
         },
         "clearcut": {
@@ -1791,6 +1801,11 @@
         "ccorridor": {
             "board": {
                 "name": "size-6 board"
+            }
+        },
+        "churn": {
+            "board": {
+                "name": "hexhex 3 (19 spaces)"
             }
         },
         "clearcut": {
@@ -3258,6 +3273,10 @@
             "PARTIAL_EXCHANGE": "Select another adjacent piece to make the exchange. Or click again to remove more speed.",
             "PARTIAL_MOVE": "Select a destination, or select the same piece again to begin an exchange.",
             "UNEQUAL_EXCHANGE": "Exchanges must result in the same combined speed. The original combined speed was {{original}}. Your requested move would change that to {{proposed}}."
+        },
+        "churn": {
+            "BAD_PLACE": "If an isolated placement is available, you must make it. If that is not possible, you must form the smallest group possible.",
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece."
         },
         "clearcut": {
             "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than at least one opposing group in the crosscut.",

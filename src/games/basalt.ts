@@ -34,7 +34,7 @@ export class BasaltGame extends GameBase {
         uid: "basalt",
         playercounts: [2],
         version: "20250118",
-        dateAdded: "2023-12-26",
+        dateAdded: "2025-01-19",
         // version: "20231225",
         // i18next.t("apgames:descriptions.basalt")
         description: "apgames:descriptions.basalt",
@@ -55,7 +55,7 @@ export class BasaltGame extends GameBase {
             {uid: "pie"},
         ],
         categories: ["goal>connect", "mechanic>stack",  "mechanic>move", "mechanic>coopt", "board>shape>tri", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie-even", "automove", "custom-rotation", "custom-randomization", "custom-buttons"],
+        flags: ["pie-even", "automove", "custom-rotation", "custom-randomization", "custom-buttons"],
     };
     public numplayers = 2;
     public currplayer!: playerid;

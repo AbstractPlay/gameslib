@@ -33,7 +33,7 @@ export class CatapultGame extends GameBase {
         uid: "catapult",
         playercounts: [2],
         version: "20250117",
-        dateAdded: "2023-07-02",
+        dateAdded: "2025-01-19",
         // i18next.t("apgames:descriptions.catapult")
         description: "apgames:descriptions.catapult",
         urls: ["https://boardgamegeek.com/boardgame/411625/catapult"],
@@ -55,7 +55,7 @@ export class CatapultGame extends GameBase {
             {uid: "dagger"},
         ],
         categories: ["goal>annihilate", "goal>royal-capture", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "no-moves", "custom-randomization", "scores", "custom-buttons"],
+        flags: ["perspective", "no-moves", "custom-randomization", "scores", "custom-buttons"],
     };
 
     public coords2algebraic(x: number, y: number): string {

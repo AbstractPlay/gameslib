@@ -402,6 +402,12 @@
                 "name": "Malawi"
             }
         },
+        "basalt": {
+            "pie": {
+                "name": "Custom pie offer",
+                "description": "First player places 2–4 pieces and then second player chooses what side to play."
+            }
+        },
         "blastradius": {
             "board-5": {
                 "name": "Hexagonal board (base-5)"

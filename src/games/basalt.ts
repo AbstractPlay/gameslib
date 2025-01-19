@@ -138,7 +138,7 @@ export class BasaltGame extends GameBase {
         if (this.moves().includes("pass")) {
             return [{ label: "pass", move: "pass" }];
         } else if (this.variants.includes("pie") && this.stack.length === 2) {
-            return [{ label: "Remain second player", move: "pass" }];
+            return [{ label: "acceptpie", move: "pass" }];
         }
         return [];
     }

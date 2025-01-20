@@ -28,7 +28,7 @@ export class ChurnGame extends GameBase {
         uid: "churn",
         playercounts: [2],
         version: "20250119",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-20",
         // i18next.t("apgames:descriptions.churn")
         description: "apgames:descriptions.churn",
         urls: ["https://www.marksteeregames.com/Churn_rules.pdf"],
@@ -47,7 +47,7 @@ export class ChurnGame extends GameBase {
             {uid: "hex5", group: "board"},
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "scores", "automove"]
+        flags: ["pie", "scores", "automove"]
     };
 
     public numplayers = 2;

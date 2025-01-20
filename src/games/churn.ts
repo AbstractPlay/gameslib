@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -40,8 +40,11 @@ export class ChurnGame extends GameBase {
             }
         ],
         variants: [
-            {uid: "limping-23", group: "board"},
             {uid: "limping-34", group: "board"},
+            {uid: "limping-335", group: "board"},
+            {uid: "hex4", group: "board"},
+            {uid: "limping-446", group: "board"},
+            {uid: "hex5", group: "board"},
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["experimental", "pie", "scores", "automove"]
@@ -102,10 +105,16 @@ export class ChurnGame extends GameBase {
     }
 
     public get graph(): IGraph {
-        if (this.variants.includes("limping-23")) {
-            return new HexTriGraph(2, 4, true);
-        } else if (this.variants.includes("limping-34")) {
+        if (this.variants.includes("limping-34")) {
             return new HexTriGraph(3, 6, true);
+        } else if (this.variants.includes("limping-335")) {
+            return new HexTriGraph(5, 7);
+        } else if (this.variants.includes("hex4")) {
+            return new HexTriGraph(4, 7)
+        } else if (this.variants.includes("limping-446")) {
+            return new HexTriGraph(6,9);
+        } else if (this.variants.includes("hex5")) {
+            return new HexTriGraph(5, 9);
         } else {
             return new HexTriGraph(3, 5);
         }
@@ -330,13 +339,53 @@ export class ChurnGame extends GameBase {
         }
 
         // Build rep
-        const rep: APRenderRep =  {
-            board: {
+        let board: BoardBasic;
+        if (this.variants.includes("limping-34")) {
+            board = {
                 style: "hex-of-hex",
-                minWidth: this.variants.includes("limping-23") ? 2 : this.variants.includes("limping-34") ? 3 : 3,
-                maxWidth: this.variants.includes("limping-23") ? 4 : this.variants.includes("limping-34") ? 6 : 5,
-                alternatingSymmetry: this.variants.length === 0 ? false : true,
-            },
+                minWidth: 3,
+                maxWidth: 6,
+                alternatingSymmetry: true,
+            }
+        } else if (this.variants.includes("limping-335")) {
+            board = {
+                style: "hex-of-hex",
+                minWidth: 5,
+                maxWidth: 7,
+                alternatingSymmetry: false,
+            }
+        } else if (this.variants.includes("hex4")) {
+            board = {
+                style: "hex-of-hex",
+                minWidth: 4,
+                maxWidth: 7,
+                alternatingSymmetry: false,
+            }
+        } else if (this.variants.includes("limping-446")) {
+            board = {
+                style: "hex-of-hex",
+                minWidth: 6,
+                maxWidth: 9,
+                alternatingSymmetry: false,
+            }
+        } else if (this.variants.includes("hex5")) {
+            board = {
+                style: "hex-of-hex",
+                minWidth: 5,
+                maxWidth: 9,
+                alternatingSymmetry: false,
+            }
+        } else {
+            board = {
+                style: "hex-of-hex",
+                minWidth: 3,
+                maxWidth: 5,
+                alternatingSymmetry: false,
+            }
+        }
+
+        const rep: APRenderRep =  {
+            board,
             legend: {
                 A: {
                     name: "piece",

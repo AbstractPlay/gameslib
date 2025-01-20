@@ -562,12 +562,20 @@
             }
         },
         "churn": {
-            "limping-23": {
-                "name": "Limping 2-3 (12 spaces)",
-                "description": "A learning board. Draws are possible."
-            },
             "limping-34": {
-                "name": "Limping 3-4 (27 spaces)"
+                "name": "Alternating 3-4 (27 spaces)"
+            },
+            "limping-335": {
+                "name": "Alternating 3-3-5 (29 spaces)"
+            },
+            "hex4": {
+                "name": "Hexhex 4 (37 spaces)"
+            },
+            "limping-446": {
+                "name": "Alternating 4-4-6 (51 spaces)"
+            },
+            "hex5": {
+                "name": "Hexhex 5 (61 spaces)"
             }
         },
         "clearcut": {

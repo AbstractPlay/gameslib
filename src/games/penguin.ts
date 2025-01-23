@@ -346,6 +346,7 @@ export class PenguinGame extends GameBase {
             throw new Error("Unable to parse move");
         }
         m = parsed.normalized;
+        console.log(`parsed: ${JSON.stringify(parsed)}`)
 
         if (m.length === 0) {
             result.valid = true;
@@ -361,7 +362,7 @@ export class PenguinGame extends GameBase {
             // if no turns were provided, and the piece is not standing
             // then not yet complete
             let complete: 0 | 1 | -1 | undefined = 1;
-            if ((parsed.turnDir === undefined || parsed.turnNum === undefined) && this.ball !== parsed.cell) {
+            if ((parsed.turnDir === undefined || parsed.turnNum === undefined) && (parsed.cell === undefined || this.ball !== parsed.cell)) {
                 const cloned = this.clone();
                 const exe = cloned.executeMove(m);
                 if (cloned.board.has(exe.endCell!)) {

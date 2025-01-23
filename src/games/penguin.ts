@@ -199,7 +199,10 @@ export class PenguinGame extends GameBase {
                     ray = ray.slice(0, dist);
                     let isValid = true;
                     for (const next of ray) {
-                        if (this.board.has(next) && this.ball !== next) {
+                        if (this.ball === next || (this.ball === undefined && (next === "d4" || next === "d5" || next === "e4" || next === "e5"))) {
+                            break;
+                        }
+                        else if (this.board.has(next) && this.ball !== next) {
                             isValid = false;
                             break;
                         }

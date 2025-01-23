@@ -373,6 +373,7 @@ export class PenguinGame extends GameBase {
             }
             result.valid = true;
             result.complete = complete;
+            result.canrender = true;
             result.message = complete === 1 ?
                                 i18next.t("apgames:validation._general.VALID_MOVE") :
                                 i18next.t("apgames:validation.penguin.PARTIAL_ORIENTATION");

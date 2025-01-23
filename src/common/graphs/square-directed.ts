@@ -2,8 +2,7 @@ import { DirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
 import { algebraic2coords, coords2algebraic } from "..";
-
-type Direction = "N"|"NE"|"E"|"SE"|"S"|"SW"|"W"|"NW";
+import { Directions as Direction } from "..";
 
 export type EdgeData = {
     type: "orth"|"diag";

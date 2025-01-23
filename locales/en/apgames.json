@@ -114,6 +114,7 @@
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
         "oware": "A traditional West African sowing game where you try to capture the most pieces.",
+        "penguin": "It is a truth universally acknowledged that everybody loves seeing penguins sliding around on the ice. And soccer is the world's game, right? So take some cute families of penguins, give them an icy soccer field and a ball, and watch the slippery goodness that ensues.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pigs": "This is the base-rules version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players, and each player programs five moves each turn.",
@@ -3954,6 +3955,12 @@
         "oware": {
             "INITIAL_INSTRUCTIONS": "Select one of your pits containing stones to sow them.",
             "NO_PIECES": "When your opponent starts with no pieces, your move must give them pieces."
+        },
+        "penguin": {
+            "INITIAL_INSTRUCTIONS": "Select one of your penguins on the board or in your hand.",
+            "PARTIAL_DIRECTION_kick": "Select a neigbouring cell to kick the ball in that direction.",
+            "PARTIAL_DIRECTION_penguin": "Select a neigbouring cell to travel in that direction or, if you're laying down, click the cell again to stand up.",
+            "PARTIAL_ORIENTATION": "Select a neighbouring cell to reorient your penguin, or click \"Complete move\" to stay in the direction you're already facing."
         },
         "pente": {
             "OVERLINE_FORBIDDEN": "In this variant, you may not make a placement that creates an overline.",

@@ -118,6 +118,7 @@
         "majorities_H": "{{player}} claimed the horizontal direction.",
         "majorities_A": "{{player}} claimed the ascending direction.",
         "majorities_D": "{{player}} claimed the descending direction.",
+        "penguin": "The penguin at {{where}} claimed the ball!",
         "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
     "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
@@ -159,6 +160,10 @@
         "nowhat": "{{player}} detonated a piece at {{where}}."
     },
     "DRAWAGREED": "Players agreed to a draw.",
+    "EJECT": {
+        "penguin_ball": "{{player}} kicked the ball from {{from}} to {{to}}.",
+        "penguin_penguin": "A penguin was pushed from {{from}} to {{to}}."
+    },
     "ELIMINATED": "{{player}} was eliminated.",
     "EOG": {
         "buku_singletons": "The game has ended because all cells contain only singletons.",

@@ -938,6 +938,22 @@
             },
             "required": ["type", "what"],
             "additionalProperties": false
+        },
+        {
+            "description": "Tackling another piece",
+            "properties": {
+                "type": {
+                    "enum": ["tackle"]
+                },
+                "what": {
+                    "type": "string"
+                },
+                "where": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "where"],
+            "additionalProperties": false
         }
     ]
 }

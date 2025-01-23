@@ -308,4 +308,9 @@ export type APMoveResult =
       what: string;
       count?: number;
       remaining?: number;
+    }
+  | {
+      type: "tackle";
+      what?: string;
+      where: string;
     };

@@ -346,7 +346,6 @@ export class PenguinGame extends GameBase {
             throw new Error("Unable to parse move");
         }
         m = parsed.normalized;
-        console.log(`parsed: ${JSON.stringify(parsed)}`)
 
         if (m.length === 0) {
             result.valid = true;

@@ -3960,7 +3960,7 @@
             "INITIAL_INSTRUCTIONS": "Select one of your penguins on the board or in your hand.",
             "PARTIAL_DIRECTION_kick": "Select a neigbouring cell to kick the ball in that direction.",
             "PARTIAL_DIRECTION_penguin": "Select a neigbouring cell to travel in that direction or, if you're laying down, click the cell again to stand up.",
-            "PARTIAL_ORIENTATION": "Select a neighbouring cell to reorient your penguin, or click \"Complete move\" to stay in the direction you're already facing."
+            "PARTIAL_ORIENTATION": "Select a neighbouring cell to reorient your penguin, or click your penguin to stay in the direction you're already facing."
         },
         "pente": {
             "OVERLINE_FORBIDDEN": "In this variant, you may not make a placement that creates an overline.",

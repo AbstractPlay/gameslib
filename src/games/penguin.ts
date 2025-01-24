@@ -74,7 +74,7 @@ export class PenguinGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>place", "mechanic>displace", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective"],
+        flags: ["perspective"],
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -169,7 +169,7 @@ export class PenguinGame extends GameBase {
                     }
                     if (isValid) {
                         const move = `${size}${dir}`;
-                        moves.push(move);
+                        moves.push(move + ".");
                         if (!isTackle) {
                             for (let i = 1; i <= dist; i++) {
                                 const l = Array.from({length: i}, () => "L").join("");
@@ -209,7 +209,7 @@ export class PenguinGame extends GameBase {
                     }
                     if (isValid) {
                         const move = `${cell}${dir}`;
-                        moves.push(move);
+                        moves.push(move + ".");
                         for (let i = 1; i <= dist; i++) {
                             const l = Array.from({length: i}, () => "L").join("");
                             const r = Array.from({length: i}, () => "R").join("");
@@ -285,6 +285,16 @@ export class PenguinGame extends GameBase {
                         // otherwise sliding
                         else {
                             newmove = move + bearing;
+                            const cloned = this.clone();
+                            const results = cloned.executeMove(newmove);
+                            if (results.endCell === undefined) {
+                                newmove = move;
+                            } else {
+                                const [,,facing] = cloned.board.get(results.endCell)!;
+                                if (facing === "U") {
+                                    newmove += ".";
+                                }
+                            }
                         }
                     }
                     // if no turns, then we're selecting a direction
@@ -296,13 +306,13 @@ export class PenguinGame extends GameBase {
                         } else {
                             const [,,facing] = cloned.board.get(results.endCell)!;
                             if (facing === "U") {
-                                newmove = move;
+                                newmove = move + ".";
                             } else {
                                 const [fx, fy] = g.algebraic2coords(results.endCell);
                                 const bearing = RectGrid.bearing(fx, fy, col, row);
                                 // error condition
-                                if (bearing === undefined) {
-                                    newmove = move
+                                if (bearing === undefined || bearing === facing) {
+                                    newmove = move + ".";
                                 }
                                 // other cell
                                 else {
@@ -360,26 +370,11 @@ export class PenguinGame extends GameBase {
         const allMoves = this.moves();
         // full move found
         if (allMoves.includes(m)) {
-            // we know we're good, but possibly incomplete
-            // if no turns were provided, and the piece is not standing
-            // then not yet complete
-            let complete: 0 | 1 | -1 | undefined = 1;
-            if ((parsed.turnDir === undefined || parsed.turnNum === undefined) && (parsed.cell === undefined || this.ball !== parsed.cell)) {
-                const cloned = this.clone();
-                const exe = cloned.executeMove(m);
-                if (cloned.board.has(exe.endCell!)) {
-                    const [,,facing] = cloned.board.get(exe.endCell!)!;
-                    if (facing !== "U") {
-                        complete = 0;
-                    }
-                }
-            }
+            // good and compete because of the added period to show no turns
             result.valid = true;
-            result.complete = complete;
+            result.complete = 1;
             result.canrender = true;
-            result.message = complete === 1 ?
-                                i18next.t("apgames:validation._general.VALID_MOVE") :
-                                i18next.t("apgames:validation.penguin.PARTIAL_ORIENTATION");
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         }
         // at least partial match found
@@ -390,6 +385,15 @@ export class PenguinGame extends GameBase {
                 result.complete = -1;
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation.penguin.PARTIAL_DIRECTION", {context: this.ball !== undefined && parsed.cell !== undefined && this.ball === parsed.cell ? "kick" : "penguin"});
+                return result;
+            }
+
+            // no turns provided
+            if (parsed.turnDir === undefined || parsed.turnNum === undefined) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.penguin.PARTIAL_ORIENTATION");
                 return result;
             }
 
@@ -418,25 +422,29 @@ export class PenguinGame extends GameBase {
             result.cell = working.substring(0, 2).toLowerCase();
             working = working.substring(2);
         }
-        if (/[LR]$/.test(working)) {
+        if (/[LR\.]$/.test(working)) {
             if (working.endsWith("L")) {
                 const idx = working.indexOf("L");
                 const str = working.substring(idx);
                 result.turnDir = "L";
                 result.turnNum = str.length;
                 working = working.substring(0, idx);
-            } else {
+            } else if (working.endsWith("R")) {
                 const idx = working.indexOf("R");
                 const str = working.substring(idx);
                 result.turnDir = "R";
                 result.turnNum = str.length;
+                working = working.substring(0, idx);
+            } else {
+                const idx = working.indexOf(".");
+                result.turnNum = 0;
                 working = working.substring(0, idx);
             }
         }
         if (working.length > 0) {
             result.dir = working as Facing;
         }
-        result.normalized = `${result.size || result.cell}${result.dir || ""}${result.turnDir !== undefined ? Array.from({length: result.turnNum!}, () => result.turnDir).join("") : ""}`
+        result.normalized = `${result.size || result.cell}${result.dir || ""}${result.turnDir !== undefined ? Array.from({length: result.turnNum!}, () => result.turnDir).join("") : result.turnNum === 0 ? "." : ""}`
 
         return result;
     }
@@ -471,6 +479,10 @@ export class PenguinGame extends GameBase {
                     return {valid: true};
                 } else {
                     this.highlights = [results.cell!];
+                    const ray = g.ray(results.cell!, contents[2]);
+                    if (ray.length > 0) {
+                        this.highlights.push(ray[0]);
+                    }
                     return {valid: true};
                 }
             }

@@ -57,7 +57,7 @@ export class PenguinGame extends GameBase {
         uid: "penguin",
         playercounts: [2],
         version: "20250120",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-24",
         // i18next.t("apgames:descriptions.penguin")
         description: "apgames:descriptions.penguin",
         urls: [

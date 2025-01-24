@@ -73,7 +73,7 @@ export class PenguinGame extends GameBase {
                 ],
             },
         ],
-        categories: ["goal>breakthrough", "mechanic>place", "mechanic>displace", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>breakthrough", "mechanic>place", "mechanic>displace", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>pyramids"],
         flags: ["perspective"],
     };
 
@@ -684,7 +684,7 @@ export class PenguinGame extends GameBase {
         // final turns
         if (canTurn) {
             // if no turns are given, highlight
-            if (results.turnDir === undefined || results.turnNum === undefined) {
+            if ((results.turnDir === undefined && results.turnNum !== 0) || results.turnNum === undefined) {
                 const [,sz,facing] = this.board.get(endCell)!;
                 if (facing === "U") {
                     return {valid: false};

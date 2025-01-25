@@ -25,7 +25,7 @@ export class SquaredanceGame extends GameBase {
         uid: "squaredance",
         playercounts: [2],
         version: "20250125",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-25",
         // i18next.t("apgames:descriptions.squaredance")
         description: "apgames:descriptions.squaredance",
         urls: ["https://www.di.fc.ul.pt/~jpn/gv/squaredance.htm"],
@@ -36,7 +36,7 @@ export class SquaredanceGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>move>group", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "pie", "perspective", "automove"]
+        flags: ["pie", "perspective", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);

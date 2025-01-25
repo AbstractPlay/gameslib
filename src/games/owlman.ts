@@ -38,7 +38,7 @@ export class OwlmanGame extends GameBase {
                 name: "Andrew Perkis",
             },
         ],
-        categories: ["goal>annihilate", "goal>royal-escape", "mechanic>asymmetric", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>annihilate", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove"]
     };
     public static coords2algebraic(x: number, y: number): string {

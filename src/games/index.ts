@@ -180,6 +180,7 @@ import { BasaltGame, IBasaltState } from "./basalt";
 import { ChurnGame, IChurnState } from "./churn";
 import { PenguinGame, IPenguinState } from "./penguin";
 import { OwlmanGame, IOwlmanState } from "./owlman";
+import { SquaredanceGame, ISquaredanceState } from "./squaredance";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -362,6 +363,7 @@ export {
     ChurnGame, IChurnState,
     PenguinGame, IPenguinState,
     OwlmanGame, IOwlmanState,
+    SquaredanceGame, ISquaredanceState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -424,7 +426,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof StorisendeGame | typeof TraxGame | typeof AmoebaGame |
                               typeof YavalathGame | typeof ConspirateursGame | typeof CatapultGame |
                               typeof BasaltGame | typeof ChurnGame | typeof PenguinGame |
-                              typeof OwlmanGame
+                              typeof OwlmanGame | typeof SquaredanceGame
                 >();
 // Manually add each game to the following array
 [
@@ -453,7 +455,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
-    OwlmanGame,
+    OwlmanGame, SquaredanceGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -823,6 +825,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new PenguinGame(...args);
         case "owlman":
             return new OwlmanGame(...args);
+        case "squaredance":
+            return new SquaredanceGame(...args);
     }
     return;
 }

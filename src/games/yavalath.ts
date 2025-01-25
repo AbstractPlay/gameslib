@@ -226,7 +226,7 @@ export class YavalathGame extends GameBase {
             const localLines: string[] = [];
             for (const cell of cells) {
                 const [cx, cy] = g.algebraic2coords(cell);
-                const ray = g.ray(cx, cy, dir)
+                const ray = g.ray(cx, cy, dir, true)
                              .map(c => g.coords2algebraic(...c))
                              .map(n => this.board.has(n) ? this.board.get(n)! : "-")
                              .join("");

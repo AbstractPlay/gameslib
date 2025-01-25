@@ -158,7 +158,8 @@ export class GardenGame extends GameBase {
         const grid = new RectGrid(4,4);
 
         // If first four turns, find empty spaces with no adjacent pieces
-        if (this.stack.length < 5) {   // initial pos + four turns
+        // added check to board size because of circular dependency in checkEOG code
+        if (this.stack.length < 5 && this.board.size < 4) {   // initial pos + four turns
             for (let y = 0; y < 4; y++) {
                 for (let x = 0; x < 4; x++) {
                     const cell = GardenGame.coords2algebraic(x, y);

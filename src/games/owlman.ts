@@ -25,7 +25,7 @@ export class OwlmanGame extends GameBase {
         uid: "owlman",
         playercounts: [2],
         version: "20250125",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-01-25",
         // i18next.t("apgames:descriptions.owlman")
         description: "apgames:descriptions.owlman",
         urls: [
@@ -39,7 +39,7 @@ export class OwlmanGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "goal>royal-escape", "mechanic>asymmetric", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "automove"]
+        flags: ["automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

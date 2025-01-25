@@ -50,5 +50,18 @@ describe("Owlman", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
     });
+    it ("Super swoop", () => {
+        const g = new OwlmanGame();
+        g.board.clear();
+        g.board.set("b1", "D");
+        g.board.set("b3", "H");
+        g.board.set("b5", "H");
+        g.board.set("h1", "O");
+        g.move("b5-c6");
+        const allMoves = g.moves();
+        const allcaps = allMoves.reduce((prev, curr) => prev && curr.includes("x"), true);
+        expect(allcaps).to.be.true;
+        expect(allMoves).to.have.members(["h1xb3", "h1xc6"]);
+    });
 });
 

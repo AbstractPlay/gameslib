@@ -114,6 +114,7 @@
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
         "oware": "A traditional West African sowing game where you try to capture the most pieces.",
+        "owlman": "An asymmetrical game where a professor and his assistants are trying to track down the mythical Owlman and his lair, while the Owlman tries to scare them all out of the forest.",
         "penguin": "It is a truth universally acknowledged that everybody loves seeing penguins sliding around on the ice. And soccer is the world's game, right? So take some cute families of penguins, give them an icy soccer field and a ball, and watch the slippery goodness that ensues.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
@@ -3955,6 +3956,10 @@
         "oware": {
             "INITIAL_INSTRUCTIONS": "Select one of your pits containing stones to sow them.",
             "NO_PIECES": "When your opponent starts with no pieces, your move must give them pieces."
+        },
+        "owlman": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "PARTIAL": "Select a destination."
         },
         "penguin": {
             "INITIAL_INSTRUCTIONS": "Select one of your penguins on the board or in your hand.",

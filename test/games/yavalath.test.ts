@@ -5,7 +5,7 @@ import "mocha";
 import { expect } from "chai";
 import { YavalathGame } from '../../src/games';
 
-describe("EOG scenarios", () => {
+describe("Yavalath", () => {
     it ("Three loses", () => {
         let g = new YavalathGame(2);
         g.board.set("e1", 1);

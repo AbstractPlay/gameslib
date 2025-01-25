@@ -5,8 +5,8 @@ import "mocha";
 import { expect } from "chai";
 import { GardenGame } from '../../src/games';
 
-describe("EOG", () => {
-    it ("Timing", () => {
+describe("Wizard's Garden", () => {
+    it ("Symmetric opening", () => {
         const g = new GardenGame();
         g.move("d3w");
         g.move("a2w");

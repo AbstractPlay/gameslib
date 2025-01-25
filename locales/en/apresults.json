@@ -73,6 +73,8 @@
         "orb_2": "{{player}} captured a spheroid at {{where}}.",
         "pente": "{{player}} captured {{count}} pieces.",
         "pente_self": "{{player}} captured {{count}} of their own pieces.",
+        "owlman_approach": "{{player}} scared the helper at {{where}} out of the forest.",
+        "owlman_replacement": "{{player}} devoured the piece at {{where}}.",
         "reversi_one": "A piece is flipped.",
         "reversi_other": "{{count}} pieces are flipped.",
         "spook_drop_opponent": "{{player}} has 1 of their opponent's ball captured by Spooky below at {{where}}.",

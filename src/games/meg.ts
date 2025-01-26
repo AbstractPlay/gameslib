@@ -31,7 +31,7 @@ export class MegGame extends GameBase {
         uid: "meg",
         playercounts: [2],
         version: "20250126",
-        dateAdded: "2024-01-20",
+        dateAdded: "2025-01-26",
         // i18next.t("apgames:descriptions.meg")
         description: "apgames:descriptions.meg",
         urls: ["https://drive.google.com/file/d/1F3Xk9tj_3FIhAHhoR00_2JHtTjkeHkHO/view"],
@@ -42,7 +42,7 @@ export class MegGame extends GameBase {
             }
         ],
         categories: ["goal>align", "mechanic>move",  "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
-        flags: ["experimental"]
+        flags: []
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);

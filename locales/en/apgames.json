@@ -98,6 +98,7 @@
         "margo": "Margo is a stacking Go variant. Players may not pass. The game ends when one player is not able to move, and the player with the most balls on the board wins.",
         "mattock": "In Mattock, you play miners digging corridors through the rock. You can't dig too closely together though, or the mine will collapse. To win, trap your opponent so they run out of space to mine.",
         "mchess": "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
+        "meg": "In this push-your-luck game, players place receivers until someone \"takes the ball.\" The defense then starts placing blockers while the offense can place more receivers or take a shot. Offense wins by successfully shooting the ball between two pieces before the clock runs out.",
         "meridians": "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
         "mimic": "A game where enemy pieces mimic your moves while you race to be the first player to reach the back row.",
         "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
@@ -2746,6 +2747,10 @@
         "GROUPSIZES": "Group sizes",
         "jacynth": "Influence tokens",
         "majorities": "Scores (─, ⟋, ⟍)",
+        "meg": {
+            "OFFENSE": "Offensive player",
+            "COUNTDOWN": "Plies remaining"
+        },
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
         "PIECESINHANDSTASH": "Pieces in hand / stash",
@@ -3801,6 +3806,13 @@
             "PARTIAL": "Select a destination.",
             "VALID_MOVE_counter": "Looks like a valid move.",
             "VALID_MOVE_nocounter": "Looks like a valid move. You may add an asterisk (*) to the end of the move to \"call the clock\" if you believe the game is deadlocked."
+        },
+        "meg": {
+            "INITIAL_INSTRUCTIONS_defense": "Place a blocker in any empty space.",
+            "INITIAL_INSTRUCTIONS_offense": "Place a receiver in any empty space or select the ball to make a shot.",
+            "INITIAL_INSTRUCTIONS_setup": "Place a receiver in any empty space or select an existing piece to \"take the ball\" and play as offense.",
+            "PARTIAL": "Continue selecting receivers or click \"Complete move\" to stop the shot here.",
+            "SHOT_START": "Select a receiver."
         },
         "meridians": {
             "INITIAL_INSTRUCTIONS": "Place a piece on the board.",

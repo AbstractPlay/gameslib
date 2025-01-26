@@ -455,7 +455,7 @@ export class MegGame extends GameBase {
         // otherwise test clock
         else if (this.countdown !== undefined && this.countdown === 0) {
             this.gameover = true;
-            this.winner = [this.currplayer === 1 ? 2 : 1];
+            this.winner = [this.offense! === 1 ? 2 : 1];
             reason = "countdown";
         }
 

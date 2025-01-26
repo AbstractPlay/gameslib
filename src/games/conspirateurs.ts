@@ -89,6 +89,7 @@ export class ConspirateursGame extends GameBase {
             if (state.game !== ConspirateursGame.gameinfo.uid) {
                 throw new Error(`The Conspirateurs engine cannot process a game of '${state.game}'.`);
             }
+            this.numplayers = state.numplayers;
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;

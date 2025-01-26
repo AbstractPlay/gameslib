@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { shuffle, SquareGraph, SquareOrthGraph } from "../common";
+import { RectGrid, shuffle, SquareGraph, SquareOrthGraph } from "../common";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -281,7 +281,7 @@ export class PylonGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        const g = new SquareGraph(6, 5);
+        const g = new SquareOrthGraph(6, 5);
 
         if (m.length === 0) {
             result.valid = true;
@@ -352,6 +352,27 @@ export class PylonGame extends GameBase {
             if (!this.board.has(to)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pylon.MUST_STACK")
+                return result;
+            }
+            // different from and to
+            if (from === to) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pylon.MUST_MOVE")
+                return result;
+            }
+            const [fx, fy] = PylonGame.algebraic2coords(from);
+            const [tx, ty] = PylonGame.algebraic2coords(to);
+            // orthogonal only
+            const bearing = RectGrid.bearing(fx, fy, tx, ty);
+            if (bearing === undefined || bearing.length > 1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pylon.ORTH_ONLY")
+                return result;
+            }
+            // adjacent only
+            if (!g.neighbours(from).includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pylon.ADJ_ONLY")
                 return result;
             }
 

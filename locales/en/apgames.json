@@ -4043,13 +4043,16 @@
             "WRONGDIR_slide": "Slides must move diagonally."
         },
         "pylon": {
+            "ADJ_ONLY": "Pieces may only move to orthogonally adjacent spaces.",
             "BAD_PASS": "You may not pass if legal moves are available.",
             "BAD_STACK": "You may not stack the pieces from {{from}} on top of {{to}}. The bottom piece of the top stack must not be larger than the top piece of the bottom stack.",
             "INITIAL_INSTRUCTIONS_place": "Click a piece in your stash to place on the board.",
             "INITIAL_INSTRUCTIONS_stack": "Click a pyramid or stack to move it.",
             "INVALID_SIZE": "The piece you selected is invalid. It must be a 1, 2, or 3.",
+            "MUST_MOVE": "You must move a piece.",
             "MUST_STACK": "Stacks may not be moved onto empty spaces, only other stacks.",
             "NO_PIECE": "You don't have a size {{size}} piece to place.",
+            "ORTH_ONLY": "Pieces may only move orthogonally.",
             "PARTIAL_MOVEMENT": "Click an orthogonally adjacent, occupied space to move on top of.",
             "PARTIAL_PLACEMENT": "Click an empty space on the board to place your {{size}} piece."
         },

@@ -8,11 +8,11 @@ import {
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1 | 2;
-const winningDirs: [Directions, Directions, number][] = [["N", "S", 5], ["E", "W", 5], ["NE", "SW", 4], ["NW", "SE", 4]];
+const winningDirs: [Direction, Direction, number][] = [["N", "S", 5], ["E", "W", 5], ["NE", "SW", 4], ["NW", "SE", 4]];
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -407,7 +407,7 @@ export class DagEnNachtGame extends GameBase {
             let cnt = 0;
             let cntLight = 0;
             for (let i = 0; i < 2; i++) {
-                const ray = grid.ray(...this.algebraic2coords(cell), winDir[i] as Directions);
+                const ray = grid.ray(...this.algebraic2coords(cell), winDir[i] as Direction);
                 for (const c of ray) {
                     if (this.board.get(this.coords2algebraic(...c)) === prevPlayer) {
                         cnt++;

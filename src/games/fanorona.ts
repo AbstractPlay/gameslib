@@ -3,7 +3,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
-import { Directions, RectGrid } from "../common";
+import { Direction, RectGrid } from "../common";
 import { SquareFanoronaGraph } from "../common/graphs";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -220,7 +220,7 @@ export class FanoronaGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
         const moves = m.split(",");
-        const dirs: Directions[] = [];
+        const dirs: Direction[] = [];
         for (let i = 0; i < moves.length; i++) {
             const move = moves[i];
 

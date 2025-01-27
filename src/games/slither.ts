@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
@@ -387,11 +387,11 @@ export class SlitherGame extends GameBase {
                 }
             }
         }
-        const nonos: [Directions,Directions][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
+        const nonos: [Direction,Direction][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
         for (const cell of toCheck) {
             for (const [left,right] of nonos) {
                 const [x,y] = SlitherGame.algebraic2coords(cell, this.boardSize);
-                const dirDiag = (left + right) as Directions;
+                const dirDiag = (left + right) as Direction;
                 const rayDiag = this.grid.ray(x, y, dirDiag).map(n => SlitherGame.coords2algebraic(...n, this.boardSize));
                 if (rayDiag.length === 0) {
                     continue

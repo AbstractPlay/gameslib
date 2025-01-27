@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Directions, allDirections, oppositeDirections } from "../common";
+import { RectGrid, reviver, UserFacingError, Direction, allDirections, oppositeDirections } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -193,12 +193,12 @@ export class EpamGame extends GameBase {
      *
      * @private
      * @param {string} start
-     * @param {Directions} dir
+     * @param {Direction} dir
      * @param {boolean} [wantmoves=false]
      * @returns {(string[] | undefined)}
      * @memberof EpamGame
      */
-    public phalanx(start: string, dir: Directions, wantmoves = true): string[] | undefined {
+    public phalanx(start: string, dir: Direction, wantmoves = true): string[] | undefined {
         const phalanx: string[] = [start];
         const player = this.board.get(start)!;
         const grid = new RectGrid(14, 12);

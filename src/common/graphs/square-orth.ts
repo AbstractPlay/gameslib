@@ -1,7 +1,7 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
 import {connectedComponents} from 'graphology-components';
-import { Directions } from "..";
+import { Direction } from "..";
 import { IGraph } from "./IGraph";
 import { algebraic2coords, coords2algebraic } from "..";
 
@@ -76,7 +76,7 @@ export class SquareOrthGraph implements IGraph {
         return bidirectional(this.graph, from, to);
     }
 
-    public bearing(from: string, to: string): Directions | undefined {
+    public bearing(from: string, to: string): Direction | undefined {
         const [xFrom, yFrom] = this.algebraic2coords(from);
         const [xTo, yTo] = this.algebraic2coords(to);
         let dstr = "";
@@ -93,7 +93,7 @@ export class SquareOrthGraph implements IGraph {
         if (dstr === "") {
             return undefined;
         }
-        return dstr as Directions;
+        return dstr as Direction;
     }
 
     public isConnected(): boolean {

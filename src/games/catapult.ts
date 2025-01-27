@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, 
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { allDirections, Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -25,7 +25,7 @@ export interface ICatapultState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-const forwardDirs: [Directions[],Directions[]] = [["N", "E", "NE"], ["W","S","SW"]];
+const forwardDirs: [Direction[],Direction[]] = [["N", "E", "NE"], ["W","S","SW"]];
 
 export class CatapultGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {

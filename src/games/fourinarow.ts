@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, reviver, UserFacingError } from "../common";
+import { Direction, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
 import { APRenderRep } from "@abstractplay/renderer";
@@ -568,9 +568,9 @@ export class FourInARowGame extends InARowBase {
         return result;
     }
 
-    public lineClear(): Directions | undefined {
+    public lineClear(): Direction | undefined {
         // Get direction to clear. If no clear, return undefined.
-        const clears: Directions[] = [];
+        const clears: Direction[] = [];
         let add = true;
         for (let i = 0; i < this.boardSize; i++) {
             if (!this.board.has(this.coords2algebraic(i, this.boardSize - 1))) {
@@ -605,10 +605,10 @@ export class FourInARowGame extends InARowBase {
             }
             if (add) { clears.push("E"); }
         }
-        return clears.length > 0 ? clears.join("") as Directions : undefined;
+        return clears.length > 0 ? clears.join("") as Direction : undefined;
     }
 
-    private shiftBoard(direction: Directions): Map<string, playerid>{
+    private shiftBoard(direction: Direction): Map<string, playerid>{
         // Get a new board with all pieces shifted in the given direction.
         const newBoard: Map<string, playerid> = new Map();
         for (const [cell, player] of this.board) {

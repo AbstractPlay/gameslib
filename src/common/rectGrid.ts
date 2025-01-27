@@ -1,4 +1,4 @@
-import { Directions } from ".";
+import { Direction } from ".";
 
 export class RectGrid {
     public readonly width: number;
@@ -14,11 +14,11 @@ export class RectGrid {
      *
      * @param {number} x Starting column
      * @param {number} y Starting row
-     * @param {Directions} dir Direction to move in
+     * @param {Direction} dir Direction to move in
      * @param {number} dist Distance to travel
      * @returns {[number, number]} Represents the new point
      */
-    public static move(x: number, y: number, dir: Directions, dist = 1): [number, number] {
+    public static move(x: number, y: number, dir: Direction, dist = 1): [number, number] {
         switch (dir) {
             case "N":
                 return [x, y - dist];
@@ -47,10 +47,10 @@ export class RectGrid {
      * @param {number} y1
      * @param {number} x2
      * @param {number} y2
-     * @returns {(Directions|undefined)}
+     * @returns {(Direction|undefined)}
      * @memberof RectGrid
      */
-     public static bearing(x1: number, y1: number, x2: number, y2: number): Directions|undefined {
+     public static bearing(x1: number, y1: number, x2: number, y2: number): Direction|undefined {
         if ( (x1 === x2) && (y1 === y2) ) {
             return undefined;
         }
@@ -66,7 +66,7 @@ export class RectGrid {
         } else if (x2 > x1) {
             dir += "E";
         }
-        return dir as Directions;
+        return dir as Direction;
     }
 
     /**
@@ -172,7 +172,7 @@ export class RectGrid {
      */
     public adjacencies(x: number, y: number, diag = true): Array<[number, number]> {
         const adj: Array<[number, number]> = [];
-        const dirs: Directions[] = ["N", "E", "S", "W"];
+        const dirs: Direction[] = ["N", "E", "S", "W"];
         if (diag) {
             dirs.push("NE");
             dirs.push("SE");
@@ -215,11 +215,11 @@ export class RectGrid {
      *
      * @param {number} x
      * @param {number} y
-     * @param {Directions} dir
+     * @param {Direction} dir
      * @returns {Array<[number, number]>} Does not include the starting cell.
      * @memberof RectGrid
      */
-    public ray(x: number, y: number, dir: Directions): Array<[number, number]> {
+    public ray(x: number, y: number, dir: Direction): Array<[number, number]> {
         const ray: Array<[number, number]> = [];
         let [xNext, yNext] = RectGrid.move(x, y, dir);
         while (this.inBounds(xNext, yNext)) {

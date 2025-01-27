@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -217,7 +217,7 @@ export class FendoGame extends GameBase {
      */
     public naivePath(from: string, to: string): string[] | null {
         const grid = new RectGrid(7, 7);
-        const dirs: Directions[] = [];
+        const dirs: Direction[] = [];
         const [xFrom, yFrom] = this.graph.algebraic2coords(from);
         const [xTo, yTo] = this.graph.algebraic2coords(to);
         if (xTo > xFrom) {
@@ -420,7 +420,7 @@ export class FendoGame extends GameBase {
         if ( (m.length === 3) && (/[NESW]$/.test(m)) ) {
             const cell = m.substring(0, 2);
             // eslint-disable-next-line @typescript-eslint/no-shadow
-            const dir = m[2] as Directions;
+            const dir = m[2] as Direction;
             // eslint-disable-next-line @typescript-eslint/no-shadow
             const allcells = this.graph.listCells(false) as string[];
 
@@ -474,10 +474,10 @@ export class FendoGame extends GameBase {
 
         const [from, target] = m.split("-");
         let to = target;
-        let dir: Directions | undefined;
+        let dir: Direction | undefined;
         if (/[NESW]$/.test(m)) {
             to = target.slice(0, target.length - 1);
-            dir = target.slice(target.length - 1) as Directions;
+            dir = target.slice(target.length - 1) as Direction;
         }
         const allcells = this.graph.listCells(false) as string[];
 
@@ -640,10 +640,10 @@ export class FendoGame extends GameBase {
         } else if (m.includes("-")) {
             const [from, target] = m.split("-");
             let to = target;
-            let dir: Directions | undefined;
+            let dir: Direction | undefined;
             if (/[NESW]$/.test(target)) {
                 to = target.slice(0, target.length - 1);
-                dir = target[target.length - 1] as Directions;
+                dir = target[target.length - 1] as Direction;
             }
             let path = this.naivePath(from, to);
             if (path === null) {
@@ -663,7 +663,7 @@ export class FendoGame extends GameBase {
         // Check for stationary fence placement
         } else if ( (m.length === 3) && (/[NESW]$/.test(m)) ) {
             const cell = m.substring(0, m.length - 1);
-            const dir = m[m.length - 1] as Directions;
+            const dir = m[m.length - 1] as Direction;
             if (dir !== undefined) {
                 const neighbour = this.graph.coords2algebraic(...RectGrid.move(...this.graph.algebraic2coords(cell), dir));
                 this.fences.push([cell, neighbour]);

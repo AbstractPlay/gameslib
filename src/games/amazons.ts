@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
-import { Directions } from "../common";
+import { Direction } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { APMoveResult } from "../schemas/moveresults";
@@ -198,7 +198,7 @@ export class AmazonsGame extends GameBase {
         if (this.gameover) {return [];}
 
         const grid = new RectGrid(10, 10);
-        const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+        const dirs: Direction[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
         // Find the player's pieces
         const from: string[] = [];
         this.board.forEach((v, k) => {

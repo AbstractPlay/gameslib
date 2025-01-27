@@ -10,7 +10,7 @@ import {
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Directions } from "../common";
+import { RectGrid, reviver, UserFacingError, Direction } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 
@@ -175,7 +175,7 @@ export class RazzleGame extends GameBase {
         )![0];
 
         // First ball moves
-        const work: Directions[][] = [];
+        const work: Direction[][] = [];
         const balls = [];
         work.push(["N", "NE", "E", "SE", "S", "SW", "W", "NW"]);
         const kickList = [ball];
@@ -424,7 +424,7 @@ export class RazzleGame extends GameBase {
                     "SW",
                     "W",
                     "NW",
-                ] as Directions[]) {
+                ] as Direction[]) {
                     const next = grid
                         .ray(...coords[cells.length - 1], dir)
                         .map((pt) => RazzleGame.coords2algebraic(...pt))
@@ -526,7 +526,7 @@ export class RazzleGame extends GameBase {
                         "SW",
                         "W",
                         "NW",
-                    ] as Directions[]) {
+                    ] as Direction[]) {
                         const next = grid
                             .ray(...ballCoords, dir)
                             .map((pt) => RazzleGame.coords2algebraic(...pt))

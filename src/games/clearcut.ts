@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
@@ -171,7 +171,7 @@ export class HalfcutGame extends GameBase {
         const crosscuts: ICrossCut[] = [];
         const [x,y] = this.algebraic2coords(cell);
         const grid = new RectGrid(this.boardSize, this.boardSize);
-        const nonos: [Directions,Directions][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
+        const nonos: [Direction,Direction][] = [["N","E"],["S","E"],["S","W"],["N","W"]];
         for (const [left,right] of nonos) {
             let matchLeft = false;
             const rayLeft = grid.ray(x, y, left).map(n => this.coords2algebraic(...n));
@@ -187,7 +187,7 @@ export class HalfcutGame extends GameBase {
                     matchRight = true;
                 }
             }
-            const dirDiag = (left + right) as Directions;
+            const dirDiag = (left + right) as Direction;
             let matchDiag = false;
             const rayDiag = grid.ray(x, y, dirDiag).map(n => this.coords2algebraic(...n));
             if (rayDiag.length > 0) {

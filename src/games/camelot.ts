@@ -2,13 +2,13 @@ import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, 
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 type playerid = 1 | 2;
 // 1 = Men, 2 = Knight
 type pieceid = 1 | 2;
-const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+const allDirections: Direction[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
 export type CellContents = [playerid, pieceid]
 

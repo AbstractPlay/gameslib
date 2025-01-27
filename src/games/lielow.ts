@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, allDirections, Directions } from "../common";
+import { RectGrid, reviver, UserFacingError, allDirections, Direction } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -353,14 +353,14 @@ export class LielowGame extends GameBase {
         // Else, return undefined.
         const [x, y] = this.algebraic2coords(cell);
         const [, size] = this.board.get(cell)!;
-        let shortestDirection: Directions | undefined;
+        let shortestDirection: Direction | undefined;
         let shortestDist: number | undefined;
         for (const direction of ["N", "E", "S", "W"]) {
-            const ray = this.grid.ray(x, y, direction as Directions).map(pt => this.coords2algebraic(...pt));
+            const ray = this.grid.ray(x, y, direction as Direction).map(pt => this.coords2algebraic(...pt));
             if (size > ray.length) {
                 const dist = size - ray.length;
                 if (shortestDist === undefined || dist > shortestDist) {
-                    shortestDirection = direction as Directions;
+                    shortestDirection = direction as Direction;
                     shortestDist = dist;
                 }
             }

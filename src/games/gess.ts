@@ -2,14 +2,14 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IV
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
-import { Directions } from "../common";
+import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 type playerid = 1|2;
 
-type GridContents = Directions | "C";
+type GridContents = Direction | "C";
 // Name of the nine cells surrounding a cell, in order.
 const nineCellMap: GridContents[] = ["NW", "N", "NE", "W", "C", "E", "SW", "S", "SE"];
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -344,7 +344,7 @@ export class GessGame extends GameBase {
         return moves;
     }
 
-    private maxRange(from: string, direction: Directions, hasCentre?: boolean): number {
+    private maxRange(from: string, direction: Direction, hasCentre?: boolean): number {
         // No validation for whether movement is possible from `from`. Assume that it is.
         // Get the maximum range in `direction` from `from`.
         // If `hasCentre` is true, then the centre cell is not considered.

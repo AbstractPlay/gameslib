@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerEdge, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { allDirections, Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
@@ -213,7 +213,7 @@ export class ShiftyGame extends GameBase {
         // Check if placement by `player` at `where` will result in a crosscut.
         // If `from` is provided, it is the cell from which the piece is being moved.
         const [x,y] = this.algebraic2coords(where);
-        const nonos: [Directions, Directions][] = [["N", "E"], ["S", "E"], ["S", "W"], ["N", "W"]];
+        const nonos: [Direction, Direction][] = [["N", "E"], ["S", "E"], ["S", "W"], ["N", "W"]];
         for (const [left, right] of nonos) {
             let matchLeft = false;
             const rayLeft = this.grid.ray(x, y, left).map(n => this.coords2algebraic(...n));
@@ -231,7 +231,7 @@ export class ShiftyGame extends GameBase {
                     matchRight = true;
                 }
             }
-            const dirDiag = (left + right) as Directions;
+            const dirDiag = (left + right) as Direction;
             let matchDiag = false;
             const rayDiag = this.grid.ray(x, y, dirDiag).map(n => this.coords2algebraic(...n));
             if (rayDiag.length > 0) {

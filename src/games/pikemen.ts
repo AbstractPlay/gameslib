@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -371,7 +371,7 @@ export class PikemenGame extends GameBase {
             }
             // piece can see the target cell
             const grid = new RectGrid(8, 8);
-            const ray = grid.ray(...PikemenGame.algebraic2coords(fromCell), facing as Directions).map(pt => PikemenGame.coords2algebraic(...pt));
+            const ray = grid.ray(...PikemenGame.algebraic2coords(fromCell), facing as Direction).map(pt => PikemenGame.coords2algebraic(...pt));
             if (! ray.includes(toCell)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.NOLOS", {from: fromCell, to: toCell});

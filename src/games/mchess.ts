@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
-import { Directions } from "../common";
+import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -241,7 +241,7 @@ export class MchessGame extends GameBase {
                     // Default, move diagonally one space
                     if ( (this.variants === undefined) || (! this.variants.includes("ofkk")) ) {
                         for (const dir of ["NE", "NW", "SE", "SW"]) {
-                            const next = RectGrid.move(...curr, dir as Directions);
+                            const next = RectGrid.move(...curr, dir as Direction);
                             if (grid.inBounds(...next)) {
                                 const nextCell = MchessGame.coords2algebraic(...next);
                                 const move = this.moveType(k, nextCell, v, player!);
@@ -266,7 +266,7 @@ export class MchessGame extends GameBase {
                     // Default, move in straight lines like a Chess rook, 1 or 2 spaces only
                     if ( (this.variants === undefined) || (! this.variants.includes("ofkk")) ) {
                         for (const dir of ["N", "E", "S", "W"]) {
-                            const ray = grid.ray(...curr, dir as Directions).slice(0, 2);
+                            const ray = grid.ray(...curr, dir as Direction).slice(0, 2);
                             for (const next of ray) {
                                 const nextCell = MchessGame.coords2algebraic(...next);
                                 const move = this.moveType(k, nextCell, v, player!);
@@ -294,7 +294,7 @@ export class MchessGame extends GameBase {
                     }
                 } else if (v === 3) {
                     for (const dir of ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]) {
-                        const ray = grid.ray(...curr, dir as Directions);
+                        const ray = grid.ray(...curr, dir as Direction);
                         for (const next of ray) {
                             const nextCell = MchessGame.coords2algebraic(...next);
                             const move = this.moveType(k, nextCell, v, player!);

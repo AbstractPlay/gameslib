@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { RectGrid, Directions } from "../common";
+import { RectGrid, Direction } from "../common";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -12,7 +12,7 @@ type playerid = 1 | 2;
 // taflmen, king, commander, knight
 type pieceid = "T" | "K" | "C" | "N";
 const allPieces: pieceid[] = ["T", "K", "C", "N"];
-const orthDirections: Directions[] = ["N", "E", "S", "W"];
+const orthDirections: Direction[] = ["N", "E", "S", "W"];
 
 type CellContents = [playerid, pieceid];
 
@@ -461,7 +461,7 @@ export class TaflGame extends GameBase {
         return x === 0 || x === this.settings.boardSize - 1 || y === 0 || y === this.settings.boardSize - 1;
     }
 
-    private getEdgeDir(cell: string): Directions {
+    private getEdgeDir(cell: string): Direction {
         // Get the direction of the edge that `cell` is on.
         // Direction points inwards from the edge.
         // This is used in the algorithm for shieldWall captures and escape forts.
@@ -628,7 +628,7 @@ export class TaflGame extends GameBase {
         if (!this.isOnEdge(to)) { return []; }
         const [plF, ] = this.board.get(initialFrom)!;
         const edgeDir = this.getEdgeDir(to);
-        const dirsToCheck: Directions[] = edgeDir === "N" || edgeDir === "S" ? ["E", "W"] : ["N", "S"];
+        const dirsToCheck: Direction[] = edgeDir === "N" || edgeDir === "S" ? ["E", "W"] : ["N", "S"];
         const captures: string[] = [];
         const cornerAnvilTo = this.settings.ruleset.corner!.anvilTo!;
         loop:

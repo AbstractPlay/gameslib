@@ -3,7 +3,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
-import { Directions } from "../common";
+import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -11,7 +11,7 @@ import i18next from "i18next";
 type playerid = 1|2;
 type pieceid = "s" | "t";
 type CellContents = [playerid, pieceid];
-const alldirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+const alldirs: Direction[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 const homes: Map<playerid, string[]> = new Map([
     [1, ["b1", "c1", "d1", "e1", "f1", "g1", "h1", "i1"]],
     [2, ["b10", "c10", "d10", "e10", "f10", "g10", "h10", "i10"]],
@@ -29,11 +29,11 @@ export interface ICannonState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-const dirsForward: Map<playerid, Directions[]> = new Map([
+const dirsForward: Map<playerid, Direction[]> = new Map([
     [1, ["N", "NW", "NE"]],
     [2, ["S", "SE", "SW"]]
 ]);
-const dirsBackward: Map<playerid, Directions[]> = new Map([
+const dirsBackward: Map<playerid, Direction[]> = new Map([
     [1, ["S", "SE", "SW"]],
     [2, ["N", "NW", "NE"]]
 ]);
@@ -200,7 +200,7 @@ export class CannonGame extends GameBase {
                     });
 
                     // captures
-                    const capdirs = [...dirs, "E" as Directions, "W" as Directions];
+                    const capdirs = [...dirs, "E" as Direction, "W" as Direction];
                     capdirs.forEach((d) => {
                         const [x, y] = RectGrid.move(...currCell, d);
                         if (grid.inBounds(x, y)) {

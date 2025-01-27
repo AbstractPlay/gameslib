@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IS
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
-import { Directions } from "../common";
+import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -336,7 +336,7 @@ export class BlamGame extends GameBase {
             this.results = [{type: "place", where: cell, what: pip.toString()}]
 
             // Look in each direction for adjacent pieces and recursively push down the line
-            const dirs: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+            const dirs: Direction[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
             dirs.forEach((d) => {
                 const adj = RectGrid.move(...coords, d);
                 if (grid.inBounds(...adj)) {
@@ -358,7 +358,7 @@ export class BlamGame extends GameBase {
         return this;
     }
 
-    private push(start: [number, number], dir: Directions): void {
+    private push(start: [number, number], dir: Direction): void {
         let scoreDelta = 0;
         // If there's a piece here, move it, pushing anything it its way
         if (this.board.has(BlamGame.coords2algebraic(...start))) {

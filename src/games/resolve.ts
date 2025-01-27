@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
@@ -322,11 +322,11 @@ export class ResolveGame extends GameBase {
         return result;
     }
 
-    private getCrossCuts(cell: string, player: playerid, swapped: string[] = []): Directions[] {
+    private getCrossCuts(cell: string, player: playerid, swapped: string[] = []): Direction[] {
         // Return the directions of crosscuts.
         const [x, y] = this.algebraic2coords(cell);
-        const toCheck: [Directions, Directions][] = [["N", "E"], ["S", "E"], ["S", "W"], ["N", "W"]];
-        const crosscuts: Directions[] = [];
+        const toCheck: [Direction, Direction][] = [["N", "E"], ["S", "E"], ["S", "W"], ["N", "W"]];
+        const crosscuts: Direction[] = [];
         for (const [left, right] of toCheck) {
             let matchLeft = false;
             const rayLeft = this.grid.ray(x, y, left).map(n => this.coords2algebraic(...n));
@@ -342,7 +342,7 @@ export class ResolveGame extends GameBase {
                     matchRight = true;
                 }
             }
-            const dirDiag = (left + right) as Directions;
+            const dirDiag = (left + right) as Direction;
             let matchDiag = false;
             const rayDiag = this.grid.ray(x, y, dirDiag).map(n => this.coords2algebraic(...n));
             if (rayDiag.length > 0) {
@@ -364,7 +364,7 @@ export class ResolveGame extends GameBase {
         const crosscuts = this.getCrossCuts(where, player, swapped);
         for (const crosscut of crosscuts) {
             for (const dir of crosscut as string) {
-                const piece = this.coords2algebraic(...RectGrid.move(...coords, dir as Directions));
+                const piece = this.coords2algebraic(...RectGrid.move(...coords, dir as Direction));
                 if (pieces.includes(piece)) { continue; }
                 if (swapped.includes(piece)) { continue; }
                 pieces.push(piece);

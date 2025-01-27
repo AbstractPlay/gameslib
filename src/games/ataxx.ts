@@ -2,12 +2,12 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, HexTriGraph, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, HexTriGraph, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 type playerid = 1 | 2;
 type HexDirection = "NE" | "E"| "SE" | "SW" | "W" | "NW";
-const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+const allDirections: Direction[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 const allHexDirections: HexDirection[] = ["NE", "E", "SE", "SW", "W", "NW"];
 
 interface IMoveState extends IIndividualState {
@@ -303,7 +303,7 @@ export class AtaxxGame extends GameBase {
         return undefined;
     }
 
-    private ray(cell: string, direction: Directions): string[] {
+    private ray(cell: string, direction: Direction): string[] {
         // A ray function that works for the different board types.
         const coords = this.algebraic2coords(cell);
         if (this.boardShape === "hex") {

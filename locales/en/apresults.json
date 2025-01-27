@@ -129,6 +129,7 @@
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
         "courtesan": "King and courtesan swapped positions at {{where}}.",
         "moonsquad": "{{player}} recruited a squad.",
+        "simple": "{{player}} converted a piece at {{where}}.",
         "storisende_territory": "The tile at {{where}} became a territory.",
         "storisende_wall": "The tile at {{where}} became a wall."
     },

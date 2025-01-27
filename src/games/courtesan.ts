@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { allDirections, Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { allDirections, Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -20,7 +20,7 @@ export interface ICourtesanState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-const forwardDirs: [Directions[],Directions[]] = [["N", "E", "NE"], ["W","S","SW"]];
+const forwardDirs: [Direction[],Direction[]] = [["N", "E", "NE"], ["W","S","SW"]];
 
 export class CourtesanGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {

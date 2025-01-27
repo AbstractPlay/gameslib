@@ -3,7 +3,7 @@ import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, ISt
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardEntropy, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { RectGrid } from "../common";
-import { Directions } from "../common";
+import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -150,7 +150,7 @@ export class EntropyGame extends GameBaseSimultaneous {
             const grid = new RectGrid(7, 7);
             for (const cell of myBoard.keys()) {
                 const coords = EntropyGame.algebraic2coords(cell);
-                for (const dir of ["N" as Directions, "E" as Directions, "S" as Directions, "W" as Directions]) {
+                for (const dir of ["N" as Direction, "E" as Direction, "S" as Direction, "W" as Direction]) {
                     let ray = grid.ray(...coords, dir);
                     while ( (ray.length > 0) && (! myBoard.has(EntropyGame.coords2algebraic(...ray[0]))) ) {
                         moves.push(`${cell}-${EntropyGame.coords2algebraic(...ray[0])}`);
@@ -464,7 +464,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         return score;
     }
 
-    private getLine(board: Map<string, CellContents>, start: [number, number], dir: Directions): string[] {
+    private getLine(board: Map<string, CellContents>, start: [number, number], dir: Direction): string[] {
         const grid = new RectGrid(7, 7);
         const ray = [start, ...grid.ray(...start, dir)];
         // Convert coords to algebraic

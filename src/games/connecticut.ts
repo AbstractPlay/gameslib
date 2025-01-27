@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IV
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
@@ -313,7 +313,7 @@ export class ConnecticutGame extends GameBase {
         const coords = this.algebraic2coords(cell);
         const tos: string[] = [];
         outer:
-        for (const dir of ["N", "E", "S", "W"] as Directions[]) {
+        for (const dir of ["N", "E", "S", "W"] as Direction[]) {
             const ray = this.grid.ray(...coords, dir);
             if (ray.length < 2) { continue; }
             for (const c of ray.slice(0, 2).map(x => this.coords2algebraic(...x))) {

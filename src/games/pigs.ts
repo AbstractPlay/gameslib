@@ -4,7 +4,7 @@ import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, ISc
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { Directions, RectGrid, reviver, UserFacingError } from "../common";
+import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const clone = require("rfdc/default");
@@ -15,7 +15,7 @@ type CellContents = [playerid, Facing];
 
 // these are in resolution order: noops, damage, rotations, moves
 const cmds = ["x", "r", "f", "h", "<", ">", "^", "v", "\\", "/"];
-const hitDirs = new Map<Facing, Directions[]>([
+const hitDirs = new Map<Facing, Direction[]>([
     ["N", ["NW", "N", "NE"]],
     ["E", ["NE", "E", "SE"]],
     ["S", ["SW", "S", "SE"]],
@@ -24,8 +24,8 @@ const hitDirs = new Map<Facing, Directions[]>([
 const cw = new Map<Facing,Facing>([["N", "E"], ["E", "S"], ["S", "W"], ["W", "N"]]);
 const ccw = new Map<Facing,Facing>([["N", "W"], ["W", "S"], ["S", "E"], ["E", "N"]]);
 const opp = new Map<Facing,Facing>([["N", "S"], ["E", "W"], ["S", "N"], ["W", "E"]]);
-const moveLeft = new Map<Facing,Directions>([["N", "NW"], ["E", "NE"], ["S", "SE"], ["W", "SW"]]);
-const moveRight = new Map<Facing,Directions>([["N", "NE"], ["E", "SE"], ["S", "SW"], ["W", "NW"]]);
+const moveLeft = new Map<Facing,Direction>([["N", "NW"], ["E", "NE"], ["S", "SE"], ["W", "SW"]]);
+const moveRight = new Map<Facing,Direction>([["N", "NE"], ["E", "SE"], ["S", "SW"], ["W", "NW"]]);
 
 export interface IMoveState extends IIndividualState {
     board: Map<string, CellContents>;
@@ -338,7 +338,7 @@ export class PigsGame extends GameBaseSimultaneous {
                 else if (["^","v","/","\\"].includes(cmd)) {
                     next[player - 1][2] = true;
                     const [fx, fy] = PigsGame.algebraic2coords(pig.cell);
-                    let dir: Directions = pig.facing;
+                    let dir: Direction = pig.facing;
                     if (cmd === "v") {
                         // @ts-ignore (can ignore because facing is never "U" at this point)
                         dir = opp.get(pig.facing)!;

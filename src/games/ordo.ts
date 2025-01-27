@@ -4,17 +4,17 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Directions } from "../common";
+import { RectGrid, reviver, UserFacingError, Direction } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 
-const dirsForward: Directions[][] = [["W", "NW", "N", "NE", "E"], ["E", "SE", "S", "SW", "W"]];
-const dirsBackward: Directions[][] = [["SW", "S", "SE"], ["NE", "N", "NW"]];
-const dirsOrthForward: Directions[] = ["N", "S"];
-const dirsOrthBackward: Directions[] = ["S", "N"];
+const dirsForward: Direction[][] = [["W", "NW", "N", "NE", "E"], ["E", "SE", "S", "SW", "W"]];
+const dirsBackward: Direction[][] = [["SW", "S", "SE"], ["NE", "N", "NW"]];
+const dirsOrthForward: Direction[] = ["N", "S"];
+const dirsOrthBackward: Direction[] = ["S", "N"];
 // Brought over from Perl code
 // Doing the cells in this order lets us only look for ordos North and East
 const cellsByDist = ["a1","a2","b1","b2","a3","b3","c1","c2","c3","a4","b4","c4","d1","d2","d3","d4","a5","b5","c5","d5","e1","e2","e3","e4","e5","a6","b6","c6","d6","e6","f1","f2","f3","f4","f5","f6","a7","b7","c7","d7","e7","f7","g1","g2","g3","g4","g5","g6","g7","a8","b8","c8","d8","e8","f8","g8","h1","h2","h3","h4","h5","h6","h7","h8","i1","i2","i3","i4","i5","i6","i7","i8","j1","j2","j3","j4","j5","j6","j7","j8"];
@@ -176,7 +176,7 @@ export class OrdoGame extends GameBase {
                 const next = OrdoGame.coords2algebraic(xNext, yNext);
                 if (! playerPieces.includes(next)) { break; }
                 const ordo: [number, number][] = [[xStart, yStart], ...ray.slice(0, len + 1)];
-                const dirs: Directions[] = [dirsOrthForward[player - 1]];
+                const dirs: Direction[] = [dirsOrthForward[player - 1]];
                 if (! connected) {
                     dirs.push(dirsOrthBackward[player - 1]);
                 }
@@ -215,7 +215,7 @@ export class OrdoGame extends GameBase {
                 const next = OrdoGame.coords2algebraic(xNext, yNext);
                 if (! playerPieces.includes(next)) { break; }
                 const ordo: [number, number][] = [[xStart, yStart], ...ray.slice(0, len + 1)];
-                const dirs: Directions[] = ["E", "W"];
+                const dirs: Direction[] = ["E", "W"];
                 for (const dir of dirs) {
                     const rays = ordo.map(p => grid.ray(...p, dir));
                     for (let dist = 0; dist < rays[0].length; dist++) {
@@ -573,7 +573,7 @@ export class OrdoGame extends GameBase {
                     return result;
                 }
                 // direction is correct
-                const dirs: Directions[] = ["E", "W"]; // E/W movement always allowed
+                const dirs: Direction[] = ["E", "W"]; // E/W movement always allowed
                 dirs.push(dirsOrthForward[this.currplayer - 1]); // as is forward motion
                 if (! this.isConnected(this.currplayer)) {
                     dirs.push(dirsOrthBackward[this.currplayer - 1]); // only if disconnected
@@ -672,7 +672,7 @@ export class OrdoGame extends GameBase {
                     return result;
                 }
                 // direction is correct
-                const dirs: Directions[] = [...dirsForward[this.currplayer - 1]];
+                const dirs: Direction[] = [...dirsForward[this.currplayer - 1]];
                 if (! this.isConnected(this.currplayer)) {
                     dirs.push(...dirsBackward[this.currplayer - 1]);
                 }

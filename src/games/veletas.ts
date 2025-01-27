@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
-import { Directions } from "../common";
+import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -11,7 +11,7 @@ import _ from "lodash";
 type CellContents = 0|1|2|3|4;  // 0 is the shooter. 3 and 4 are shooters captured by player 1 and 2, respectively.
 type playerid = 1|2;
 
-const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+const allDirections: Direction[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 
 interface IMoveState extends IIndividualState {
     currplayer: playerid;

@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, SquareDirectedGraph, UserFacingError, Directions as Direction, allDirections, normDeg, smallestDegreeDiff } from "../common";
+import { RectGrid, reviver, SquareDirectedGraph, UserFacingError, Direction as Direction, allDirections, normDeg, smallestDegreeDiff } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;

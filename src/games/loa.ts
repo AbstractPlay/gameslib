@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Directions } from "../common";
+import { RectGrid, reviver, UserFacingError, Direction } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -156,7 +156,7 @@ export class LinesOfActionGame extends GameBase {
         const moves: string[] = [];
 
         const grid = new RectGrid(this.boardsize, this.boardsize);
-        const dirPairs: [Directions, Directions][] = [["N", "S"], ["E", "W"], ["NE", "SW"], ["NW", "SE"]];
+        const dirPairs: [Direction, Direction][] = [["N", "S"], ["E", "W"], ["NE", "SW"], ["NW", "SE"]];
         const pieces = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
         for (const cell of pieces) {
             const [x, y] = LinesOfActionGame.algebraic2coords(cell, this.boardsize);

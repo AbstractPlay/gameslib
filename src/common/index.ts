@@ -11,12 +11,14 @@ import fnv from "fnv-plus";
 
 export { RectGrid, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, hexhexAi2Ap, hexhexAp2Ai, triAi2Ap, triAp2Ai, circle2poly, midpoint, distFromCircle };
 
-export type DirectionsCardinal = "N" | "E" | "S" | "W";
-export type DirectionsDiagonal = "NE" | "SE" | "SW" | "NW";
-export type Directions = DirectionsCardinal | DirectionsDiagonal;
+export type DirectionCardinal = "N" | "E" | "S" | "W";
+export type DirectionDiagonal = "NE" | "SE" | "SW" | "NW";
+export type Direction = DirectionCardinal | DirectionDiagonal;
 
-export const allDirections: Directions[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-export const oppositeDirections: Map<Directions, Directions> = new Map([
+export const allDirections: Direction[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+export const diagDirections: DirectionDiagonal[] = ["NE", "SE", "SW", "NW"];
+export const orthDirections: DirectionCardinal[] = ["N", "E", "S", "W"]
+export const oppositeDirections: Map<Direction, Direction> = new Map([
     ["N", "S"], ["NE", "SW"], ["E", "W"], ["SE", "NW"],
     ["S", "N"], ["SW", "NE"], ["W", "E"], ["NW", "SE"]
 ]);

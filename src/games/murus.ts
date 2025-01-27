@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Directions, allDirections } from "../common";
+import { RectGrid, reviver, UserFacingError, Direction, allDirections } from "../common";
 import { Permutation } from "js-combinatorics";
 import i18next from "i18next";
 
@@ -186,7 +186,7 @@ export class MurusGame extends GameBase {
                 }
                 // catapults
                 else if (height === 3) {
-                    let validDirs: Directions[] = ["W", "NW", "N", "NE", "E"];
+                    let validDirs: Direction[] = ["W", "NW", "N", "NE", "E"];
                     if (this.currplayer === 2) {
                         validDirs = ["W", "SW", "S", "SE", "E"];
                     }
@@ -386,7 +386,7 @@ export class MurusGame extends GameBase {
                 const fromContents = this.board.get(from);
                 const toContents = this.board.get(to);
                 const dist = RectGrid.distance(xFrom, yFrom, xTo, yTo);
-                let validDirs: Directions[] = ["W", "NW", "N", "NE", "E"];
+                let validDirs: Direction[] = ["W", "NW", "N", "NE", "E"];
                 if (this.currplayer === 2) {
                     validDirs = ["W", "SW", "S", "SE", "E"];
                 }

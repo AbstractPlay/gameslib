@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, allDirections, Directions } from "../common";
+import { RectGrid, reviver, UserFacingError, allDirections, Direction } from "../common";
 import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
@@ -12,7 +12,7 @@ const deepclone = require("rfdc/default");
 export type playerid = 1|2;
 type CellContents = [playerid, number];
 
-const dirsForward: Directions[][] = [["NW", "N", "NE"], ["SE", "S", "SW"]];
+const dirsForward: Direction[][] = [["NW", "N", "NE"], ["SE", "S", "SW"]];
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -137,7 +137,7 @@ export class DipoleGame extends GameBase {
             const from = piece[0];
             const [xFrom, yFrom] = DipoleGame.algebraic2coords(from, this.boardsize);
             const stack = piece[1][1];
-            const dirs: Directions[] = dirsForward[player - 1];
+            const dirs: Direction[] = dirsForward[player - 1];
             for (let sub = 1; sub <= stack; sub++) {
                 // noncapturing moves first
                 for (const dir of dirs) {

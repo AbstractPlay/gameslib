@@ -2,12 +2,12 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, UserFacingError, Directions } from "../common";
+import { RectGrid, reviver, UserFacingError, Direction } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
 
-const dirsForward: Directions[][] = [["NW", "N", "NE"], ["SE", "S", "SW"]];
+const dirsForward: Direction[][] = [["NW", "N", "NE"], ["SE", "S", "SW"]];
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;

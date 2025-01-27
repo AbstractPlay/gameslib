@@ -180,6 +180,7 @@
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
         "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
+        "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
         "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
     },
     "notes": {
@@ -4739,6 +4740,10 @@
         "yavalath": {
             "BAD_PASS": "You may only pass if you have been eliminated.",
             "INITIAL_INSTRUCTIONS": "Click an empty cell to place a piece."
+        },
+        "yonmoque": {
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece or an existing piece to start a move.",
+            "PARTIAL": "Select a destination."
         },
         "zola": {
             "DISTANCE_CAPTURES": "Capture moves must not increase your distance from the centre.",

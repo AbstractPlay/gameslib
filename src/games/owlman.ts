@@ -303,10 +303,10 @@ export class OwlmanGame extends GameBase {
             const [tx, ty] = this.graph.algebraic2coords(to);
             const bearing = RectGrid.bearing(fx, fy, tx, ty)!;
             const ray = grid.ray(tx, ty, bearing).map(c => this.graph.coords2algebraic(...c));
-            if (ray.length > 0) {
-                if (this.board.has(ray[0]) && this.board.get(ray[0]) === "H") {
-                    capped = ray[0];
-                }
+            // find first occupied cell in that direction
+            const idx = ray.findIndex(c => this.board.has(c));
+            if (idx >= 0 && this.board.get(ray[idx]) === "H") {
+                capped = ray[idx];
             }
         }
 

@@ -461,6 +461,10 @@ export class YavalathGame extends GameBase {
         return resolved;
     }
 
+    public shouldOfferPie(): boolean {
+        return this.numplayers === 2;
+    }
+
     public clone(): YavalathGame {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         return Object.assign(new YavalathGame(this.numplayers), deepclone(this) as YavalathGame);

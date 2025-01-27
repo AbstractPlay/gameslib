@@ -47,7 +47,7 @@ export class YonmoqueGame extends GameBase {
                 name: "Mitsuo Yamamoto",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>align", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {

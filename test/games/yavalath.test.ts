@@ -53,5 +53,16 @@ describe("Yavalath", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
+    it ("3P must block", () => {
+        const g = new YavalathGame(3);
+        g.board.set("e1", 2);
+        g.board.set("e2", 2);
+        g.board.set("e4", 2);
+        const bad = g.validateMove("a1");
+        expect(bad.valid).to.be.false;
+        const good = g.validateMove("e3");
+        expect(good.valid).to.be.true;
+        expect(good.complete).to.equal(1);
+    });
 });
 

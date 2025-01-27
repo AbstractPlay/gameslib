@@ -5,6 +5,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import type { HexDir } from "../common/graphs/hextri";
 import i18next from "i18next";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3;
 
@@ -38,7 +40,7 @@ export class YavalathGame extends GameBase {
             },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["pie", "automove"]
+        flags: ["pie", "no-moves", "custom-randomization"]
     };
 
     public numplayers = 2;
@@ -103,8 +105,30 @@ export class YavalathGame extends GameBase {
             return ["pass"];
         }
 
+        // const blocksWin = (move: string, nextp: playerid): boolean => {
+        //     const clone1 = this.clone();
+        //     clone1.move(move, {trusted: true});
+        //     const empties = g.graph.nodes().filter(n => !clone1.board.has(n));
+        //     for (const m of empties) {
+        //         const clone2 = clone1.clone();
+        //         clone2.move(m, {trusted: true});
+        //         if (clone2.gameover && clone2.winner.length === 1 && clone2.winner[0] === nextp) {
+        //             return false;
+        //         }
+        //     }
+        //     return true;
+        // }
+
         const g = new HexTriGraph(5, 9);
         const moves = g.graph.nodes().filter(n => !this.board.has(n));
+
+        // // in 3-player moves, you must stop a next-player win if possible
+        // if (this.numplayers === 3 && this.eliminated === undefined && filterMoves) {
+        //     let nextp = this.currplayer + 1 as playerid;
+        //     if (nextp > 3) { nextp = 1; }
+        //     moves = moves.filter(m => blocksWin(m, nextp));
+        // }
+
         return moves.sort((a,b) => a.localeCompare(b));
     }
 
@@ -175,6 +199,24 @@ export class YavalathGame extends GameBase {
             return result;
         }
 
+        // in 3-player game, must block next-player wins
+        if (this.numplayers === 3 && this.eliminated === undefined) {
+            let nextp = this.currplayer + 1 as playerid;
+            if (nextp > this.numplayers) { nextp = 1; }
+            const clone1 = this.clone();
+            clone1.move(m, {trusted: true});
+            const empties = g.graph.nodes().filter(c => !clone1.board.has(c));
+            for (const next of empties) {
+                const clone2 = clone1.clone();
+                clone2.move(next, {trusted: true});
+                if (clone2.gameover && clone2.winner.length === 1 && clone2.winner[0] === nextp) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.yavalath.MUST_BLOCK");
+                    return result;
+                }
+            }
+        }
+
         // Looks good
         result.valid = true;
         result.complete = 1;
@@ -194,9 +236,9 @@ export class YavalathGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            }
+            // if (! this.moves(false).includes(m)) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // }
         }
 
         this.results = [];
@@ -419,7 +461,12 @@ export class YavalathGame extends GameBase {
         return resolved;
     }
 
+    public shouldOfferPie(): boolean {
+        return this.numplayers === 2;
+    }
+
     public clone(): YavalathGame {
-        return new YavalathGame(this.serialize());
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        return Object.assign(new YavalathGame(this.numplayers), deepclone(this) as YavalathGame);
     }
 }

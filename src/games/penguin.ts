@@ -282,7 +282,7 @@ export class PenguinGame extends GameBase {
                         if (bearing === undefined) {
                             newmove = move + "U";
                         }
-                        // otherwise sliding
+                        // otherwise sliding or kicking
                         else {
                             newmove = move + bearing;
                             const cloned = this.clone();
@@ -290,9 +290,12 @@ export class PenguinGame extends GameBase {
                             if (results.endCell === undefined) {
                                 newmove = move;
                             } else {
-                                const [,,facing] = cloned.board.get(results.endCell)!;
-                                if (facing === "U") {
-                                    newmove += ".";
+                                // if sliding and forced to stand, autocomplete the turning
+                                if (cloned.board.get(results.endCell) !== undefined) {
+                                    const [,,facing] = cloned.board.get(results.endCell)!;
+                                    if (facing === "U") {
+                                        newmove += ".";
+                                    }
                                 }
                             }
                         }

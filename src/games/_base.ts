@@ -180,6 +180,10 @@ export abstract class GameBase  {
         const ctor = this.constructor as typeof GameBase;
         return i18next.t(ctor.gameinfo.description!);
     }
+    public get metaGame(): string {
+        const ctor = this.constructor as typeof GameBase;
+        return i18next.t(ctor.gameinfo.uid);
+    }
     public notes(): string|undefined {
         const ctor = this.constructor as typeof GameBase;
         if (ctor.gameinfo.notes !== undefined) {

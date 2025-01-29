@@ -4,12 +4,13 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError, x2uid } from "../common";
+import { replacer, reviver, UserFacingError, x2uid } from "../common";
 import { generateField } from "../common/hexes";
 import i18next from "i18next";
 import { StorisendeHex } from "./storisende/hex";
 import { StorisendeBoard } from "./storisende/board";
 import { shuffle } from "../common";
+import pako from "pako";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
@@ -81,7 +82,16 @@ export class StorisendeGame extends GameBase {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IStorisendeState;
+                // is the state a raw JSON obj
+                if (state.startsWith("{")) {
+                    state = JSON.parse(state, reviver) as IStorisendeState;
+                }
+                // or is it a b64 encoded gzip
+                else {
+                    const decoded = Buffer.from(state, "base64");
+                    const decompressed = pako.ungzip(decoded, {to: "string"});
+                    state = JSON.parse(decompressed, reviver) as IStorisendeState;
+                }
             }
             if (state.game !== StorisendeGame.gameinfo.uid) {
                 throw new Error(`The Storisende game code cannot process a game of '${state.game}'.`);
@@ -144,6 +154,13 @@ export class StorisendeGame extends GameBase {
             this.stack = [fresh];
         }
         this.load();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public serialize(opts?: {strip?: boolean, player?: number}): string {
+        const json = JSON.stringify(this.state(), replacer);
+        const compressed = pako.gzip(json);
+        return Buffer.from(compressed).toString("base64");
     }
 
     public load(idx = -1): StorisendeGame {

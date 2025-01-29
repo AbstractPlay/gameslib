@@ -92,8 +92,8 @@ export class StorisendeGame extends GameBase {
                 }
                 // or is it a b64 encoded gzip
                 else {
-                    const decoded = Buffer.from(state, "base64") as Uint8Array<ArrayBufferLike>;
-                    const decompressed = pako.ungzip(decoded as Data, {to: "string"});
+                    const decoded = Buffer.from(state, "base64") as Data;
+                    const decompressed = pako.ungzip(decoded, {to: "string"});
                     state = JSON.parse(decompressed, reviver) as IStorisendeState;
                 }
             }

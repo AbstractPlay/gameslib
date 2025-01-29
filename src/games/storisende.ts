@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
@@ -10,7 +12,9 @@ import i18next from "i18next";
 import { StorisendeHex } from "./storisende/hex";
 import { StorisendeBoard } from "./storisende/board";
 import { shuffle } from "../common";
-import pako from "pako";
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
+import pako, { Data } from "pako";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
@@ -88,8 +92,8 @@ export class StorisendeGame extends GameBase {
                 }
                 // or is it a b64 encoded gzip
                 else {
-                    const decoded = Buffer.from(state, "base64");
-                    const decompressed = pako.ungzip(decoded, {to: "string"});
+                    const decoded = Buffer.from(state, "base64") as Uint8Array<ArrayBufferLike>;
+                    const decompressed = pako.ungzip(decoded as Data, {to: "string"});
                     state = JSON.parse(decompressed, reviver) as IStorisendeState;
                 }
             }
@@ -160,7 +164,7 @@ export class StorisendeGame extends GameBase {
     public serialize(opts?: {strip?: boolean, player?: number}): string {
         const json = JSON.stringify(this.state(), replacer);
         const compressed = pako.gzip(json);
-        return Buffer.from(compressed).toString("base64");
+        return Buffer.from(compressed).toString("base64") as string;
     }
 
     public load(idx = -1): StorisendeGame {

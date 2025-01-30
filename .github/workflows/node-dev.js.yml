@@ -53,7 +53,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: Upload
-          uses: actions/download-artifact@v3
+          uses: actions/download-artifact@v4
           with:
             name: package
         - uses: actions/setup-node@v3

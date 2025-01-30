@@ -289,7 +289,7 @@ export class PenguinGame extends GameBase {
                             const results = cloned.executeMove(newmove);
                             if (results.endCell === undefined) {
                                 newmove = move;
-                            } else {
+                            } else if (this.ball === undefined || this.ball !== parsed.cell) {
                                 // if sliding and forced to stand, autocomplete the turning
                                 if (cloned.board.get(results.endCell) !== undefined) {
                                     const [,,facing] = cloned.board.get(results.endCell)!;

@@ -38,6 +38,7 @@
         "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
         "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
+        "chameleon": "A chess-like strategy game, played on a 5x5 grid, where each piece's movement capability changes based on the color of the tile where it starts.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
         "churn": "A bloody territory-control game on a small board.",
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
@@ -3271,6 +3272,10 @@
             "PARTIAL_ONECAP": "Select at least one more adjacent piece to capture.",
             "PARTIAL_PRECAP": "Select a piece to capture.",
             "TOOHIGH": "The pieces you capture cannot total more than six."
+        },
+        "chameleon": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "PARTIAL": "Select a destination."
         },
         "chase": {
             "BALANCE_LOWEST": "When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",

@@ -40,6 +40,11 @@ export class ValleyGame extends GameBase {
                 type: "designer",
                 name: "Mitsuo Yamamoto",
             },
+            {
+                type: "publisher",
+                name: "Logy Games",
+                urls: ["http://www.logygames.com/"],
+            },
         ],
         variants: [
             {

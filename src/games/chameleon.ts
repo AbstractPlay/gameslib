@@ -175,6 +175,16 @@ export class ChameleonGame extends GameBase {
             }
         }
 
+        // if there's a piece on your home row, you must capture it if you can
+        const onHome = [...this.board.entries()].filter(([,p]) => p.startsWith(this.currplayer === 1 ? "B" : "A")).map(([c,]) => ChameleonGame.algebraic2coords(c)).filter(([,y]) => y === (this.currplayer === 1 ? 4 : 0)).map(c => ChameleonGame.coords2algebraic(...c));
+        if (onHome.length > 0) {
+            for (const mv of moves) {
+                if (!mv.endsWith(`x${onHome[0]}`)) {
+                    moves.delete(mv);
+                }
+            }
+        }
+
         return [...moves].sort((a,b) => a.localeCompare(b));
     }
 

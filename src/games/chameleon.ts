@@ -34,7 +34,7 @@ export class ChameleonGame extends GameBase {
         uid: "chameleon",
         playercounts: [2],
         version: "20250130",
-        dateAdded: "2025-01-27",
+        dateAdded: "2025-01-31",
         // i18next.t("apgames:descriptions.chameleon")
         description: "apgames:descriptions.chameleon",
         urls: [
@@ -52,7 +52,7 @@ export class ChameleonGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "goal>breakthrough", "mechanic>asymmetry", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "automove"],
+        flags: ["perspective", "automove"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);

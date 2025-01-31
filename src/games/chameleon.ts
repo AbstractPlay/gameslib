@@ -52,7 +52,7 @@ export class ChameleonGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "goal>breakthrough", "mechanic>asymmetry", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective"],
+        flags: ["experimental", "perspective", "automove"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);

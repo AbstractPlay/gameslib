@@ -83,6 +83,17 @@ describe("Meg", () => {
         g.move("f5-g6");
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([2]);
+
+        g = new MegGame();
+        g.move("a1");
+        g.move("e5");
+        g.move("*a1");
+        g.move("a2");
+        g.move("a5");
+        g.move("b1")
+        g.move("a1-e5");
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.have.members([1]);
     });
 });
 

@@ -158,14 +158,21 @@ export class MegGame extends GameBase {
             if (!g.hasNode(cell)) {
                 g.addNode(cell);
             }
+            const [x1, y1] = MegGame.algebraic2coords(cell);
             // look in all directions
             for (const dir of allDirections) {
                 const ray = gFull.ray(cell, dir);
                 // get index of first occupied cell
                 const idx = ray.findIndex(c => this.board.has(c));
-                // if there isn't one, or if it's immediately adjacent, skip
-                if (idx < 1) { continue; }
+                // if there isn't one, skip
+                if (idx < 0) { continue; }
                 const next = ray[idx];
+                const [x2, y2] = MegGame.algebraic2coords(next);
+                // if it's orthogonally adjacent, skip
+                // (diagonal adjacency is valid)
+                if (x1 === x2 || y1 === y2) {
+                    continue;
+                }
                 if (!g.hasNode(next)) {
                     g.addNode(next);
                 }

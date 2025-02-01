@@ -53,7 +53,9 @@ export class MoonSquadGame extends GameBase {
         name: "Moon Squad",
         uid: "moonsquad",
         playercounts: [2],
-        version: "20241206",
+        // version: "20241206",
+        // Make the ore uppercase when moving squads.
+        version: "20250201",
         dateAdded: "2024-12-29",
         // i18next.t("apgames:descriptions.moonsquad")
         description: "apgames:descriptions.moonsquad",
@@ -181,7 +183,11 @@ export class MoonSquadGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
-
+        if (reMvmt.test(move)) {
+            // Make the ore uppercase when moving squads.
+            const ore = move[1].toUpperCase();
+            move = `-${ore}${move.substring(2)}`;
+        }
         try {
             let newmove = "";
             // click the stash means initiating squad movement
@@ -745,6 +751,11 @@ export class MoonSquadGame extends GameBase {
         if (partial) { return this; }
 
         this.lastmove = parenthetical.length > 0 ? m + "(" + parenthetical + ")" : m;
+        if (reMvmt.test(this.lastmove)) {
+            // Make the ore uppercase when moving squads.
+            const ore = this.lastmove[1].toUpperCase();
+            this.lastmove = `-${ore}${this.lastmove.substring(2)}`;
+        }
         if (this.currplayer === 1) {
             this.currplayer = 2;
         } else {

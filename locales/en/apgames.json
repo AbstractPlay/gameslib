@@ -78,6 +78,7 @@
         "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         "gonnect": "Gonnect is a connection game where players try to connect any two opposite sides. All rules of Go apply except that players may not pass.",
+        "gyve": "A drawless unification game where you try to form the fewest number of groups possible.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
@@ -828,6 +829,20 @@
             },
             "size-19": {
                 "name": "19x19 board"
+            }
+        },
+        "gyve": {
+            "size-6": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "size-7": {
+                "name": "Hexhex 7 (127 spaces)"
+            },
+            "size-10": {
+                "name": "Hexhex 10 (271 spaces)"
+            },
+            "size-12": {
+                "name": "Hexhex 12 (397 spaces)"
             }
         },
         "havannah": {
@@ -1952,6 +1967,11 @@
         "gonnect": {
             "board": {
                 "name": "13x13 board"
+            }
+        },
+        "gyve": {
+            "board": {
+                "name": "hexhex 8 board (169 spaces)"
             }
         },
         "havannah": {
@@ -3622,6 +3642,13 @@
             "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece.",
             "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
             "SELF_CAPTURE": "You may not place your stones in self-capture."
+        },
+        "gyve": {
+            "BAD_FIRST": "You may not place a second stone on the first turn of the game.",
+            "BAD_N": "Each stone you place must connect to the same number of friendly groups ({{n1}} <> {{n2}}).",
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a stone.",
+            "PARTIAL": "Select an empty cell to place a second stone. It must be adjacent to the same number of groups as the first stone."
         },
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."

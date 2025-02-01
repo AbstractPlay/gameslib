@@ -37,6 +37,15 @@ export const intersects = (left: any[], right: any[]): boolean => {
     return false;
 }
 
+export const setsIntersect = (left: Set<any>, right: Set<any>): boolean => {
+    for (const l of left) {
+        if (right.has(l)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 export const randomInt = (max: number, min = 1): number => {
     min = Math.ceil(min);
     max = Math.floor(max);

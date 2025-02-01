@@ -53,7 +53,9 @@ export class MoonSquadGame extends GameBase {
         name: "Moon Squad",
         uid: "moonsquad",
         playercounts: [2],
-        version: "20241206",
+        // version: "20241206",
+        // Make the ore uppercase when moving squads.
+        version: "20250201",
         dateAdded: "2024-12-29",
         // i18next.t("apgames:descriptions.moonsquad")
         description: "apgames:descriptions.moonsquad",
@@ -181,7 +183,11 @@ export class MoonSquadGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
-
+        if (reMvmt.test(move)) {
+            // Make the ore uppercase when moving squads.
+            const ore = move[1].toUpperCase();
+            move = `-${ore}${move.substring(2)}`;
+        }
         try {
             let newmove = "";
             // click the stash means initiating squad movement
@@ -189,7 +195,20 @@ export class MoonSquadGame extends GameBase {
                 if (piece === undefined) {
                     throw new Error(`Piece argument not received.`);
                 }
-                newmove = `-${piece}()`;
+                // If valid according to regex and we click on a piece.
+                if (reMvmt.test(move)) {
+                    const ore = move[1];
+                    if (ore === piece) {
+                        // if we click on the same piece, clear the move.
+                        newmove = "";
+                    } else {
+                        // Otherwise, we just replace the piece.
+                        newmove = `-${piece}${move.substring(2)}`;
+                    }
+
+                } else {
+                    newmove = `-${piece}()`;
+                }
             }
             // otherwise clicking the board for any of the three actions
             else {
@@ -208,6 +227,10 @@ export class MoonSquadGame extends GameBase {
                 else if (move.length === 0) {
                     newmove = cell;
                 }
+                // If player clicks on a selected squad, undo the selection
+                else if (move === cell) {
+                    newmove = "";
+                }
                 // but if move starts with a -, then moving squads
                 else if (move.startsWith("-")) {
                     const match = move.match(reMvmt);
@@ -218,13 +241,33 @@ export class MoonSquadGame extends GameBase {
                     if (mvs[0] === "") {
                         mvs.shift();
                     }
-                    // if the last move is not complete, extend it
-                    if (mvs.length > 0 && !mvs[mvs.length - 1].includes("-")) {
-                        mvs[mvs.length - 1] += `-${cell}`;
+                    // If the clicked cell is from any from or to, remove it
+                    let removed = false;
+                    const allFroms = mvs.map(x => x.split("-")[0]);
+                    if (allFroms.includes(cell)) {
+                        mvs.splice(allFroms.indexOf(cell), 1);
+                        removed = true;
                     }
-                    // otherwise start a new one
-                    else {
-                        mvs.push(cell);
+                    const allTos = mvs.map(x => x.split("-")[1]);
+                    if (allTos.includes(cell)) {
+                        mvs.splice(allTos.indexOf(cell), 1);
+                        removed = true;
+                    }
+                    if (!removed) {
+                        // if the last move is not complete, extend it
+                        if (mvs.length > 0 && !mvs[mvs.length - 1].includes("-")) {
+                            mvs[mvs.length - 1] += `-${cell}`;
+                        }
+                        // otherwise start a new one
+                        else {
+                            mvs.push(cell);
+                        }
+                    } else {
+                        // if last move is not complete, remove it
+                        // this makes the behaviour less confusing
+                        if (mvs.length > 0 && !mvs[mvs.length - 1].includes("-")) {
+                            mvs.pop();
+                        }
                     }
                     newmove = move.substring(0, 2) + "(" + mvs.join(",") + ")";
                 }
@@ -310,6 +353,7 @@ export class MoonSquadGame extends GameBase {
         if (m === "") {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             if (this.variants.includes("hex5") || this.variants.includes("limping")) {
                 result.message = i18next.t("apgames:validation.moonsquad.INITIAL_INSTRUCTIONS", {context: this.stack.length === 1 ? "hexoffer" : this.stack.length === 2 ? "pie" : "normal"});
             } else {
@@ -567,6 +611,7 @@ export class MoonSquadGame extends GameBase {
         this.results = [];
         this.highlights = [];
         this.dots = [];
+        if (m === "") { return this; }
         let parenthetical = "";
 
         // first-move handling
@@ -706,6 +751,11 @@ export class MoonSquadGame extends GameBase {
         if (partial) { return this; }
 
         this.lastmove = parenthetical.length > 0 ? m + "(" + parenthetical + ")" : m;
+        if (reMvmt.test(this.lastmove)) {
+            // Make the ore uppercase when moving squads.
+            const ore = this.lastmove[1].toUpperCase();
+            this.lastmove = `-${ore}${this.lastmove.substring(2)}`;
+        }
         if (this.currplayer === 1) {
             this.currplayer = 2;
         } else {

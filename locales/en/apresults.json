@@ -330,6 +330,8 @@
         "nowhat": "{{player}} placed a piece at {{where}}.",
         "onager": "{{player}} placed a lake at {{where}}.",
         "orb": "{{player}}'s orb generator created an orb at {{where}}.",
+        "pahtum_block": "{{player}} blocked off {{where}}.",
+        "pahtum_piece": "{{player}} placed a piece at {{where}}.",
         "phutball": "{{player}} placed a player at {{where}}.",
         "PYRAMID_1": "{{player}} placed a small piece at {{where}}.",
         "PYRAMID_2": "{{player}} placed a medium piece at {{where}}.",

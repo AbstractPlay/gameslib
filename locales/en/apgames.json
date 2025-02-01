@@ -119,6 +119,7 @@
         "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
         "oware": "A traditional West African sowing game where you try to capture the most pieces.",
         "owlman": "An asymmetrical game where a professor and his assistants are trying to track down the mythical Owlman and his lair, while the Owlman tries to scare them all out of the forest.",
+        "pahtum": "Accumulate points by establishing lines of your own pieces of various lengths, but five cells each game are blocked. A capturing option is also available.",
         "penguin": "It is a truth universally acknowledged that everybody loves seeing penguins sliding around on the ice. And soccer is the world's game, right? So take some cute families of penguins, give them an icy soccer field and a ball, and watch the slippery goodness that ensues.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
@@ -1096,6 +1097,16 @@
             },
             "square-11": {
                 "name": "size-11 square"
+            }
+        },
+        "pahtum": {
+            "quick": {
+                "name": "Quick setup",
+                "description": "Blocked cells are determined randomly."
+            },
+            "capture": {
+                "name": "Custodial captures",
+                "description": "Sandwiching an enemy stone between two of yours converts it to your colour."
             }
         },
         "pente": {
@@ -4014,6 +4025,13 @@
         "owlman": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "PARTIAL": "Select a destination."
+        },
+        "pahtum": {
+            "INITIAL_INSTRUCTIONS_offer": "Place all five blocks. Your opponent will then choose which colour to play.",
+            "INITIAL_INSTRUCTIONS_response": "Click \"Swap player seats\" to play as first player or pass to remain as second player.",
+            "INITIAL_INSTRUCTIONS_rest": "Select an empty cell to place a stone.",
+            "PARTIAL_setup": "Continue selecting empty cells to block until you have selected five.",
+            "PARTIAL_rest": "Select one of the highlighted cells to capture it."
         },
         "penguin": {
             "INITIAL_INSTRUCTIONS": "Select one of your penguins on the board or in your hand.",

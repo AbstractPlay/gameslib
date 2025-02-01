@@ -186,6 +186,7 @@ import { YonmoqueGame, IYonmoqueState } from "./yonmoque";
 import { ChameleonGame, IChameleonState } from "./chameleon";
 import { KachitGame, IKachitState } from "./kachit";
 import { GyveGame, IGyveState } from "./gyve";
+import { PahTumGame, IPahTumState } from "./pahtum";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -374,6 +375,7 @@ export {
     ChameleonGame, IChameleonState,
     KachitGame, IKachitState,
     GyveGame, IGyveState,
+    PahTumGame, IPahTumState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -438,7 +440,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BasaltGame | typeof ChurnGame | typeof PenguinGame |
                               typeof OwlmanGame | typeof SquaredanceGame | typeof MegGame |
                               typeof YonmoqueGame | typeof ChameleonGame | typeof KachitGame |
-                              typeof GyveGame
+                              typeof GyveGame | typeof PahTumGame
                 >();
 // Manually add each game to the following array
 [
@@ -468,6 +470,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
+    PahTumGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -849,6 +852,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new KachitGame(...args);
         case "gyve":
             return new GyveGame(...args);
+        case "pahtum":
+            return new PahTumGame(...args);
     }
     return;
 }

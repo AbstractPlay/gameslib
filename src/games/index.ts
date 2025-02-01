@@ -184,6 +184,7 @@ import { SquaredanceGame, ISquaredanceState } from "./squaredance";
 import { MegGame, IMegState } from "./meg";
 import { YonmoqueGame, IYonmoqueState } from "./yonmoque";
 import { ChameleonGame, IChameleonState } from "./chameleon";
+import { KachitGame, IKachitState } from "./kachit";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -370,6 +371,7 @@ export {
     MegGame, IMegState,
     YonmoqueGame, IYonmoqueState,
     ChameleonGame, IChameleonState,
+    KachitGame, IKachitState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -433,7 +435,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof YavalathGame | typeof ConspirateursGame | typeof CatapultGame |
                               typeof BasaltGame | typeof ChurnGame | typeof PenguinGame |
                               typeof OwlmanGame | typeof SquaredanceGame | typeof MegGame |
-                              typeof YonmoqueGame | typeof ChameleonGame
+                              typeof YonmoqueGame | typeof ChameleonGame | typeof KachitGame
                 >();
 // Manually add each game to the following array
 [
@@ -462,7 +464,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
-    OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame,
+    OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -840,6 +842,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new YonmoqueGame(...args);
         case "chameleon":
             return new ChameleonGame(...args);
+        case "kachit":
+            return new KachitGame(...args);
     }
     return;
 }

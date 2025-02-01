@@ -88,6 +88,7 @@
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
+        "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman. Played on a square board, each player captures by jumping over their opponent's pieces. Last to move wins.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies.",
@@ -3710,6 +3711,12 @@
             "NO_INFLUENCE": "You don't have any influence left.",
             "NOT_ADJ": "New cards must be placed adjacent to at least one existing card.",
             "PARTIAL_PLACEMENT": "Click an empty space on the board to place your card."
+        },
+        "kachit": {
+            "INITIAL_INSTRUCTIONS_inhand": "Select a piece to move or an empty space on your side of the board to place a knight.",
+            "INITIAL_INSTRUCTIONS_placed": "Select a piece to move.",
+            "PARTIAL_destination": "Select a destination.",
+            "PARTIAL_orientation": "Select a neighbouring cell to orient the piece."
         },
         "konane": {
             "FIRST_MOVE": "Remove one of your pieces from the center 2x2 or from a corner.",

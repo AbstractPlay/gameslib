@@ -30,7 +30,7 @@ export class PahTumGame extends GameBase {
         uid: "pahtum",
         playercounts: [2],
         version: "20250201",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-02-01",
         // i18next.t("apgames:descriptions.pahtum")
         description: "apgames:descriptions.pahtum",
         urls: ["https://boardgamegeek.com/boardgame/28128/pah-tum"],
@@ -45,7 +45,7 @@ export class PahTumGame extends GameBase {
             {uid: "quick"},
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "mechanic>convert", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "scores", "pie-even", "custom-buttons", "random-start"]
+        flags: ["scores", "pie-even", "custom-buttons", "random-start"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 7);

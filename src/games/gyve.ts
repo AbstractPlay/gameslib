@@ -383,19 +383,19 @@ export class GyveGame extends GameBase {
         this.results = [];
         this.dots = [];
 
-        // calculate legal follow-ups
-        if (partial && m !== "pass" && !m.includes(",") && this.stack.length > 1) {
-            const n1 = this.calcN(m);
-            const cloned = this.clone();
-            cloned.board.set(m, this.currplayer);
-            const g = this.graph;
-            g.graph.nodes().filter(node => !cloned.board.has(node)).forEach(node => {
-                const n2 = cloned.calcN(node);
-                if (n1 === n2) {
-                    this.dots.push(node);
-                }
-            })
-        }
+        // // calculate legal follow-ups
+        // if (partial && m !== "pass" && !m.includes(",") && this.stack.length > 1) {
+        //     const n1 = this.calcN(m);
+        //     const cloned = this.clone();
+        //     cloned.board.set(m, this.currplayer);
+        //     const g = this.graph;
+        //     g.graph.nodes().filter(node => !cloned.board.has(node)).forEach(node => {
+        //         const n2 = cloned.calcN(node);
+        //         if (n1 === n2) {
+        //             this.dots.push(node);
+        //         }
+        //     })
+        // }
 
         if (m === "pass") {
             this.results.push({type: "pass"});

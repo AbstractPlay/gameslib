@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -53,6 +53,7 @@ export class GyveGame extends GameBase {
             {uid: "size-12", group: "board"},
         ],
         categories: ["goal>unify", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        displays: [{uid: "vertex-style"}],
         flags: ["pie", "scores", "no-moves", "custom-randomization", "custom-buttons"]
     };
 
@@ -471,7 +472,17 @@ export class GyveGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let vertexStyle = false;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "vertex-style") {
+                vertexStyle = true;
+            }
+        }
         const g = this.graph;
         // Build piece string
         let pstr = "";
@@ -526,7 +537,7 @@ export class GyveGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "hex-of-hex",
+                style: vertexStyle ? "hex-of-tri" : "hex-of-hex",
                 minWidth: this.boardsize,
                 maxWidth: (this.boardsize * 2) - 1,
                 // markers: markers.length > 0 ? markers : undefined,

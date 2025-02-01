@@ -2516,6 +2516,12 @@
                 "name": "Hide moves"
             }
         },
+        "pahtum": {
+            "vertex-style": {
+                "name": "Vertex style",
+                "description": "Display the board using vertices instead of hexes."
+            }
+        },
         "pente": {
             "hide-threatened": {
                 "description": "Don't highlight pieces that are threatened to be captured.",

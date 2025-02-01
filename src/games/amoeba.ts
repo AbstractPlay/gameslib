@@ -28,7 +28,7 @@ export class AmoebaGame extends GameBase {
         uid: "amoeba",
         playercounts: [2],
         version: "20250112",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-02-01",
         // i18next.t("apgames:descriptions.amoeba")
         description: "apgames:descriptions.amoeba",
         urls: ["https://boardgamegeek.com/boardgame/143387/amoeba"],
@@ -40,7 +40,7 @@ export class AmoebaGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "goal>immobilize", "mechanic>move", "mechanic>coopt", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "automove"]
+        flags: ["pie", "automove"]
     };
 
     public numplayers = 2;

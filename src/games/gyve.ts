@@ -35,7 +35,7 @@ export class GyveGame extends GameBase {
         uid: "gyve",
         playercounts: [2],
         version: "20250201",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-02-01",
         // i18next.t("apgames:descriptions.gyve")
         description: "apgames:descriptions.gyve",
         urls: ["https://boardgamegeek.com/boardgame/379461/gyve"],
@@ -53,7 +53,7 @@ export class GyveGame extends GameBase {
             {uid: "size-12", group: "board"},
         ],
         categories: ["goal>unify", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "scores", "no-moves", "custom-randomization", "custom-buttons"]
+        flags: ["pie", "scores", "no-moves", "custom-randomization", "custom-buttons"]
     };
 
     public numplayers = 2;

@@ -52,7 +52,7 @@ export class ChameleonGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "goal>breakthrough", "mechanic>asymmetry", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["perspective", "automove"],
+        flags: ["perspective", "automove", "custom-rotation"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);
@@ -529,6 +529,10 @@ export class ChameleonGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 180;
     }
 
     public clone(): ChameleonGame {

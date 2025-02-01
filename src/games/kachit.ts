@@ -52,7 +52,7 @@ export class KachitGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>custom"],
-        flags: ["experimental", "perspective", "limited-pieces"],
+        flags: ["experimental", "perspective", "limited-pieces", "custom-randomization"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 4);
@@ -796,6 +796,10 @@ export class KachitGame extends GameBase {
             ]
         }
         return [];
+    }
+
+    public getCustomRotation(): number | undefined {
+        return 180;
     }
 
     public clone(): KachitGame {

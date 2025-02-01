@@ -1104,7 +1104,7 @@
                 "name": "Quick setup",
                 "description": "Blocked cells are determined randomly."
             },
-            "capture": {
+            "captures": {
                 "name": "Custodial captures",
                 "description": "Sandwiching an enemy stone between two of yours converts it to your colour."
             }
@@ -2460,6 +2460,12 @@
                 "name": "Hide 9x9 piece highlight"
             }
         },
+        "gyve": {
+            "vertex-style": {
+                "name": "Vertex style",
+                "description": "Display the board using vertices instead of hexes."
+            }
+        },
         "irensei": {
             "hide-restrictions": {
                 "description": "Don't show intersections where the first player cannot place their stones.",
@@ -2514,12 +2520,6 @@
             "hide-moves": {
                 "description": "Don't show possible moves.",
                 "name": "Hide moves"
-            }
-        },
-        "pahtum": {
-            "vertex-style": {
-                "name": "Vertex style",
-                "description": "Display the board using vertices instead of hexes."
             }
         },
         "pente": {

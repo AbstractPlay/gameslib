@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, MarkerGlyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -52,7 +52,7 @@ export class KachitGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>custom"],
-        flags: ["experimental", "perspective"],
+        flags: ["experimental", "perspective", "limited-pieces"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 4);
@@ -787,6 +787,15 @@ export class KachitGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getPlayersScores(): IScores[] {
+        if (this.inhand[0] > 0 || this.inhand[1] > 0) {
+            return [
+                { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+            ]
+        }
+        return [];
     }
 
     public clone(): KachitGame {

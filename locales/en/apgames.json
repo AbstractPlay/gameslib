@@ -3648,6 +3648,7 @@
             "BAD_N": "Each stone you place must connect to the same number of friendly groups ({{n1}} <> {{n2}}).",
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select an empty cell to place a stone.",
+            "NO_DUPES": "You must place stones on different cells.",
             "PARTIAL": "Select an empty cell to place a second stone. It must be adjacent to the same number of groups as the first stone."
         },
         "havannah": {

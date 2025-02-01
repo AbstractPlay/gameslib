@@ -1,11 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, reviver, setsIntersect, shuffle, UserFacingError } from "../common";
+import { HexTriGraph, replacer, reviver, setsIntersect, shuffle, UserFacingError } from "../common";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
+import pako, { Data } from "pako";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -76,7 +83,16 @@ export class GyveGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IGyveState;
+                // is the state a raw JSON obj
+                if (state.startsWith("{")) {
+                    state = JSON.parse(state, reviver) as IGyveState;
+                }
+                // or is it a b64 encoded gzip
+                else {
+                    const decoded = Buffer.from(state, "base64") as Data;
+                    const decompressed = pako.ungzip(decoded, {to: "string"});
+                    state = JSON.parse(decompressed, reviver) as IGyveState;
+                }
             }
             if (state.game !== GyveGame.gameinfo.uid) {
                 throw new Error(`The Gyve engine cannot process a game of '${state.game}'.`);
@@ -103,6 +119,12 @@ export class GyveGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         return this;
+    }
+
+    public serialize(): string {
+        const json = JSON.stringify(this.state(), replacer);
+        const compressed = pako.gzip(json);
+        return Buffer.from(compressed).toString("base64") as string;
     }
 
     public get boardsize(): number {
@@ -281,6 +303,13 @@ export class GyveGame extends GameBase {
                     return result;
                 }
             }
+            // no duplicates
+            const set = new Set<string>(cells);
+            if (set.size !== cells.length) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.gyve.NO_DUPES");
+                return result;
+            }
             // handle single-cell moves
             if (cells.length === 1) {
                 // on first turn, this is a complete move
@@ -352,6 +381,21 @@ export class GyveGame extends GameBase {
         }
 
         this.results = [];
+        this.dots = [];
+
+        // calculate legal follow-ups
+        if (partial && m !== "pass" && !m.includes(",") && this.stack.length > 1) {
+            const n1 = this.calcN(m);
+            const cloned = this.clone();
+            cloned.board.set(m, this.currplayer);
+            const g = this.graph;
+            g.graph.nodes().filter(node => !cloned.board.has(node)).forEach(node => {
+                const n2 = cloned.calcN(node);
+                if (n1 === n2) {
+                    this.dots.push(node);
+                }
+            })
+        }
 
         if (m === "pass") {
             this.results.push({type: "pass"});
@@ -451,12 +495,41 @@ export class GyveGame extends GameBase {
             pstr += pieces.join("");
         }
 
+        // const p1: RowCol[] = [];
+        // const p2: RowCol[] = [];
+        // for (const node of g.graph.nodes()) {
+        //     if (this.board.has(node)) {
+        //         const [col, row] = g.algebraic2coords(node);
+        //         if (this.board.get(node)! === 1) {
+        //             p1.push({row, col});
+        //         } else {
+        //             p2.push({row, col});
+        //         }
+        //     }
+        // }
+        // const markers: MarkerFlood[] = [];
+        // if (p1.length > 0) {
+        //     markers.push({
+        //             type: "flood",
+        //             points: p1 as [RowCol, ...RowCol[]],
+        //             colour: 1,
+        //     });
+        // }
+        // if (p2.length > 0) {
+        //     markers.push({
+        //             type: "flood",
+        //             points: p2 as [RowCol, ...RowCol[]],
+        //             colour: 2,
+        //     });
+        // }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "hex-of-tri",
+                style: "hex-of-hex",
                 minWidth: this.boardsize,
                 maxWidth: (this.boardsize * 2) - 1,
+                // markers: markers.length > 0 ? markers : undefined,
             },
             legend: {
                 A: {
@@ -527,7 +600,6 @@ export class GyveGame extends GameBase {
     }
 
     public clone(): GyveGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         return Object.assign(new GyveGame(), deepclone(this) as GyveGame);
     }
 }

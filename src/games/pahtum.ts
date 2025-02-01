@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -123,6 +123,13 @@ export class PahTumGame extends GameBase {
 
     public isPieTurn(): boolean {
         return this.stack.length === 2;
+    }
+
+    public getButtons(): ICustomButton[] {
+        if (!this.variants.includes("quick") && this.stack.length === 2) {
+            return [{ label: "pass", move: "pass" }];
+        }
+        return [];
     }
 
     private get graph(): SquareDirectedGraph {

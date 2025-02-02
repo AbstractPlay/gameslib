@@ -377,7 +377,11 @@ export class KachitGame extends GameBase {
                 if (m.length === 2) {
                     this.highlights = [...this.graph.neighbours(m)];
                 } else if (m.length === 5) {
+                    // move the piece for clarity
+                    const from = m.substring(0, 2);
                     const to = m.substring(3, 5);
+                    const fContents = this.board.get(from)!;
+                    this.board.set(to, fContents);
                     this.highlights = [...this.graph.neighbours(to)];
                 }
             }
@@ -689,7 +693,7 @@ export class KachitGame extends GameBase {
                 K: {
                     name: "katanas",
                     colour: "_context_fill",
-                    opacity: 0.1,
+                    opacity: 0.25,
                     scale: 0.75,
                     orientation: "vertical",
                 },
@@ -790,12 +794,9 @@ export class KachitGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        if (this.inhand[0] > 0 || this.inhand[1] > 0) {
-            return [
-                { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
-            ]
-        }
-        return [];
+        return [
+            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+        ]
     }
 
     public getCustomRotation(): number | undefined {

@@ -1065,6 +1065,17 @@
                 "name": "Static Start"
             }
         },
+        "nakatta": {
+            "size-19": {
+                "name": "Board (19x19)"
+            },
+            "size-25": {
+                "name": "Board (25x25)"
+            },
+            "size-29": {
+                "name": "Board (29x29)"
+            }
+        },
         "nex": {
             "size-9": {
                 "name": "9x9 board"
@@ -2074,6 +2085,11 @@
         "hula": {
             "board": {
                 "name": "size 6 board"
+            }
+        },
+        "nakatta": {
+            "board": {
+                "name": "22x22 board"
             }
         },
         "onyx": {
@@ -3958,6 +3974,11 @@
         },
         "mvolcano": {
             "INITIAL_INSTRUCTIONS": "Select a cap to move."
+        },
+        "nakatta": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "BAD_PLACE": "You may not create hard corners or naked attachments (see the rules for details).",
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
         "necklace": {
             "BAD_PASS": "You may not pass if legal moves are available.",

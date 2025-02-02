@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, ICustomButton } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, BoardBasic, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -54,7 +54,7 @@ export class ACityGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],
-        flags: ["player-stashes", "scores", "no-moves", "custom-colours", "random-start"]
+        flags: ["player-stashes", "scores", "no-moves", "custom-colours", "random-start", "custom-buttons", "custom-randomization"]
     };
 
     public static piece2string(pc: Piece): string {
@@ -214,9 +214,28 @@ export class ACityGame extends GameBase {
         return moves;
     }
 
+    public getButtons(): ICustomButton[] {
+        if (this.randomMove() === "pass") {
+            return [{ label: "pass", move: "pass" }];
+        }
+        return [];
+    }
+
+    // used to determine whether to show the "pass" button
+    // never makes a claim
     public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
+        const stash = new Set<string>(this.stashes[this.currplayer - 1]);
+        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c));
+        for (const piece of shuffle([...stash]) as string[]) {
+            for (const cell of shuffle(empties) as string[]) {
+                const move = `${piece}-${cell}`
+                const result = this.validateMove(move);
+                if ( (result.valid) && (result.complete !== undefined) && (result.complete >= 0) ) {
+                    return move;
+                }
+            }
+        }
+        return "pass";
     }
 
     public cell2guild(cell: string): [Color, boolean] {

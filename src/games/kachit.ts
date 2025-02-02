@@ -381,6 +381,7 @@ export class KachitGame extends GameBase {
                     this.board.set(m, "PH");
                     this.highlights = [...this.graph.neighbours(m)];
                 } else if (m.length === 5) {
+                    // move the piece for clarity
                     const from = m.substring(0, 2);
                     const to = m.substring(3, 5);
                     const fContents = this.board.get(from)!;

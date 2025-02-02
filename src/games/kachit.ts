@@ -386,6 +386,7 @@ export class KachitGame extends GameBase {
                     const to = m.substring(3, 5);
                     const fContents = this.board.get(from)!;
                     this.board.set(to, fContents);
+                    this.board.delete(from);
                     this.highlights = [...this.graph.neighbours(to)];
                 }
             }

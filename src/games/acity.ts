@@ -225,7 +225,7 @@ export class ACityGame extends GameBase {
     // never makes a claim
     public randomMove(): string {
         const stash = shuffle([...new Set<string>(this.stashes[this.currplayer - 1])]) as string[];
-        const empties = shuffle(this.graph.graph.nodes().filter(c => ! this.board.has(c))) as string[];
+        const empties = shuffle((new SquareOrthGraph(8, 10)).graph.nodes().filter(c => ! this.board.has(c))) as string[];
         for (const piece of stash) {
             for (const cell of empties) {
                 const move = `${piece}-${cell}`

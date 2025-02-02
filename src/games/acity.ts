@@ -224,10 +224,10 @@ export class ACityGame extends GameBase {
     // used to determine whether to show the "pass" button
     // never makes a claim
     public randomMove(): string {
-        const stash = new Set<string>(this.stashes[this.currplayer - 1]);
-        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c));
-        for (const piece of shuffle([...stash]) as string[]) {
-            for (const cell of shuffle(empties) as string[]) {
+        const stash = shuffle([...new Set<string>(this.stashes[this.currplayer - 1])]) as string[];
+        const empties = shuffle(this.graph.graph.nodes().filter(c => ! this.board.has(c))) as string[];
+        for (const piece of stash) {
+            for (const cell of empties) {
                 const move = `${piece}-${cell}`
                 const result = this.validateMove(move);
                 if ( (result.valid) && (result.complete !== undefined) && (result.complete >= 0) ) {

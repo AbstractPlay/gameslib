@@ -10,11 +10,12 @@ const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
 export type Orientation = "+"|"x"|undefined;
-export type Piece = {
+export type RealPiece = {
     owner: playerid;
     orientation: Orientation;
     royal: boolean;
 };
+export type Piece = "PH"|RealPiece;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -52,7 +53,7 @@ export class KachitGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>custom"],
-        flags: ["experimental", "perspective", "limited-pieces", "custom-randomization"],
+        flags: ["experimental", "perspective", "limited-pieces"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 4);
@@ -155,12 +156,13 @@ export class KachitGame extends GameBase {
         }
 
         // you can move any pieces currently on the board
-        const mine = [...this.board.entries()].filter(([,pc]) => pc.owner === this.currplayer);
+        const mine = [...this.board.entries()].filter(([,pc]) => pc !== "PH" && pc.owner === this.currplayer) as [string, RealPiece][];
         for (const [cell, pc] of mine) {
             // kings can always move to adjacent cells
             if (pc.royal) {
                 for (const n of this.graph.neighbours(cell)) {
-                    if (!this.board.has(n) || this.board.get(n)!.owner !== this.currplayer) {
+                    const contents = this.board.get(n);
+                    if (contents === undefined || (contents !== "PH" && contents.owner !== this.currplayer)) {
                         const [nx, ny] = KachitGame.algebraic2coords(n);
                         if (pc.orientation === undefined && nx+ny !== 3) {
                             if (!this.board.has(n)) {
@@ -197,7 +199,7 @@ export class KachitGame extends GameBase {
                             moves.add(`${cell}-${next}x`);
                         }
                         // if enemy piece, capture and stop looking
-                        else if (this.board.get(next)!.owner !== this.currplayer) {
+                        else if (this.board.get(next)! !== "PH" && (this.board.get(next)! as RealPiece).owner !== this.currplayer) {
                             moves.add(`${cell}x${next}+`);
                             moves.add(`${cell}x${next}x`);
                             break;
@@ -249,8 +251,9 @@ export class KachitGame extends GameBase {
                 else {
                     // choosing a destination
                     if (move.length === 2) {
+                        const contents = this.board.get(cell);
                         // clicking a friendly resets
-                        if (this.board.has(cell) && this.board.get(cell)!.owner === this.currplayer) {
+                        if (contents !== undefined && contents !== "PH" && contents.owner === this.currplayer) {
                             newmove = cell;
                         }
                         // otherwise occupied is a capture
@@ -375,9 +378,13 @@ export class KachitGame extends GameBase {
             // otherwise, populate highlights
             else {
                 if (m.length === 2) {
+                    this.board.set(m, "PH");
                     this.highlights = [...this.graph.neighbours(m)];
                 } else if (m.length === 5) {
+                    const from = m.substring(0, 2);
                     const to = m.substring(3, 5);
+                    const fContents = this.board.get(from)!;
+                    this.board.set(to, fContents);
                     this.highlights = [...this.graph.neighbours(to)];
                 }
             }
@@ -407,7 +414,7 @@ export class KachitGame extends GameBase {
             const right = m.substring(idx+1);
             const to = right.substring(0, 2);
             const orientation = right[2] as Orientation;
-            const fContents = this.board.get(from)!;
+            const fContents = this.board.get(from)! as RealPiece;
             const tContents = this.board.get(to);
             this.board.delete(from);
             this.board.set(to, {...fContents, orientation});
@@ -435,7 +442,7 @@ export class KachitGame extends GameBase {
         let reason: string|undefined;
 
         // if current player has no no king, previous player wins
-        const myKing = [...this.board.values()].find(pc => pc.owner === this.currplayer && pc.royal);
+        const myKing = [...this.board.values()].find(pc => pc !== "PH" && pc.owner === this.currplayer && pc.royal);
         if (myKing === undefined) {
             this.gameover = true;
             this.winner = [prev];
@@ -444,7 +451,7 @@ export class KachitGame extends GameBase {
 
         // if previous player has a king in opposing castle, they win
         if (!this.gameover) {
-            const prevKing = [...this.board.entries()].find(([,pc]) => pc.owner === prev && pc.royal)?.[0];
+            const prevKing = [...this.board.entries()].find(([,pc]) => pc !== "PH" && pc.owner === prev && pc.royal)?.[0];
             if (prevKing !== undefined && prevKing === (prev === 1 ? "a4" : "d1")) {
                 this.gameover = true;
                 this.winner = [prev];
@@ -495,8 +502,13 @@ export class KachitGame extends GameBase {
             for (let col = 0; col < 4; col++) {
                 const cell = KachitGame.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
-                    const {owner, orientation, royal} = this.board.get(cell)!;
-                    pieces.push(`${owner === 1 ? "A" : "B"}${royal ? "K" : ""}${orientation === undefined ? "" : orientation === "+" ? "O" : "D"}`);
+                    const contents = this.board.get(cell)!;
+                    if (contents === "PH") {
+                        pieces.push("PH")
+                    } else {
+                        const {owner, orientation, royal} = contents;
+                        pieces.push(`${owner === 1 ? "A" : "B"}${royal ? "K" : ""}${orientation === undefined ? "" : orientation === "+" ? "O" : "D"}`);
+                    }
                 } else {
                     pieces.push("-");
                 }
@@ -689,7 +701,7 @@ export class KachitGame extends GameBase {
                 K: {
                     name: "katanas",
                     colour: "_context_fill",
-                    opacity: 0.1,
+                    opacity: 0.25,
                     scale: 0.75,
                     orientation: "vertical",
                 },
@@ -706,7 +718,11 @@ export class KachitGame extends GameBase {
                     opacity: 0.25,
                     scale: 0.95,
                     orientation: "vertical",
-                }
+                },
+                PH: {
+                    name: "piece",
+                    colour: "_context_background"
+                },
             },
             pieces: pstr
         };
@@ -790,12 +806,9 @@ export class KachitGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        if (this.inhand[0] > 0 || this.inhand[1] > 0) {
-            return [
-                { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
-            ]
-        }
-        return [];
+        return [
+            { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+        ]
     }
 
     public getCustomRotation(): number | undefined {

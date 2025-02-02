@@ -1067,13 +1067,13 @@
         },
         "nakatta": {
             "size-19": {
-                "name": "Board (19x19)"
+                "name": "19x19 board"
             },
             "size-25": {
-                "name": "Board (25x25)"
+                "name": "25x25 board"
             },
             "size-29": {
-                "name": "Board (29x29)"
+                "name": "29x29 board"
             }
         },
         "nex": {

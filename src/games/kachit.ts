@@ -35,7 +35,7 @@ export class KachitGame extends GameBase {
         uid: "kachit",
         playercounts: [2],
         version: "20250131",
-        dateAdded: "2025-01-27",
+        dateAdded: "2025-02-02",
         // i18next.t("apgames:descriptions.kachit")
         description: "apgames:descriptions.kachit",
         urls: [

@@ -29,7 +29,7 @@ export class NakattaGame extends GameBase {
         uid: "nakatta",
         playercounts: [2],
         version: "20250202",
-        dateAdded: "2023-06-25",
+        dateAdded: "2025-02-02",
         // i18next.t("apgames:descriptions.nakatta")
         description: "apgames:descriptions.nakatta",
         urls: ["https://www.marksteeregames.com/Nakatta_rules.pdf"],

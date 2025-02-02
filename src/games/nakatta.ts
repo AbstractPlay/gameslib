@@ -51,7 +51,7 @@ export class NakattaGame extends GameBase {
             { uid: "size-29", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "pie", "automove"]
+        flags: ["pie", "automove"]
     };
 
     public coords2algebraic(x: number, y: number): string {

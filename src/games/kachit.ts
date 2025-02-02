@@ -53,7 +53,7 @@ export class KachitGame extends GameBase {
             },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>custom"],
-        flags: ["experimental", "perspective", "limited-pieces"],
+        flags: ["perspective", "limited-pieces"],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 4);

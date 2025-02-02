@@ -52,7 +52,7 @@ export class KachitGame extends GameBase {
                 urls: ["http://www.logygames.com/"],
             },
         ],
-        categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>custom"],
+        categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["perspective", "limited-pieces"],
     };
     public static coords2algebraic(x: number, y: number): string {

@@ -377,7 +377,7 @@ export class HulaGame extends GameBase {
         return [];
     }
 
-    public getWinningLoop(player: playerid, lastmove: string): string[] {
+    public getWinningLoop(player: playerid, lastmove: string): [string[], number] {
         /*
         Do a BFS to find all possible paths emanating from the placed stone, for each check if it's a winning loop.
         Since it is a BFS the shortest one will be found first.
@@ -398,25 +398,60 @@ export class HulaGame extends GameBase {
         });
 
         // First check if there's a winning loop at all (i.e. path from center to edge is blocked by player + neutral stones)
-        if (!this.enclosesCenter(currentGroup)) { return []; };
+        if (!this.enclosesCenter(currentGroup)) { return [[], 0]; };
 
         const cycles = this.allShortestCycles(currentGroup, lastmove);
 
-        return cycles[0];
-    }
-
-    protected checkEOG(): HulaGame {
-
-        for(const player of [this.currplayer, this.otherPlayer()]) {
-            const loop = this.getWinningLoop(player, this.lastmove!);
-            if (loop.length > 0) {
-                this.winner.push(player);
-                this.gameover = true;
-                this.winningLoop = loop;
-                break;
+        let fewestNeutrals = Infinity;
+        let bestCycle: string[] = [];
+        for(const cycle of cycles){
+            let neutrals = 0;
+            for(const cell of cycle){
+                if(this.board.get(cell) === "neutral"){
+                    neutrals++;
+                }
+            }
+            if(neutrals < fewestNeutrals){
+                fewestNeutrals = neutrals;
+                bestCycle = cycle;
             }
         }
 
+        return [bestCycle, fewestNeutrals];
+    }
+
+    protected checkEOG(): HulaGame {
+        /* If both players get a loop simultaneously, the shortest loop wins.
+        If they are equally long, the loop with fewer neutrals wins.
+        If this is equal too, p2 wins. */
+        if(this.board.get(this.lastmove!) === "neutral"){
+            const [p1loop, p1neutrals] = this.getWinningLoop(1, this.lastmove!);
+            const [p2loop, p2neutrals] = this.getWinningLoop(2, this.lastmove!);
+            if (p1loop.length && !p2loop.length) {
+                this.winner.push(1);
+            } else if (p2loop.length && !p1loop.length) {
+                this.winner.push(2);
+            } else if (p1loop.length && p2loop.length) {
+                if (p1loop.length === p2loop.length) {
+                    if (p1neutrals === p2neutrals) {
+                        this.winner.push(2);
+                    } else {
+                        this.winner.push((p1neutrals < p2neutrals) ? 1 : 2);
+                    }
+                } else {
+                    this.winner.push((p1loop.length < p2loop.length) ? 1 : 2);
+                }
+            }
+            this.winningLoop = (this.winner[0] === 1) ? p1loop : p2loop;
+        } else {
+            const currloop = this.getWinningLoop(this.currplayer, this.lastmove!)[0];
+            if (currloop.length > 0) {
+                this.winner.push(this.currplayer);
+                this.winningLoop = currloop;
+            }
+        }
+
+        this.gameover = this.winner.length > 0;
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},

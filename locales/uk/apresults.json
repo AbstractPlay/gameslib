@@ -72,7 +72,26 @@
         "spook_lateral_self_many": "{{player}} має {{count}} власних м’ячів, захоплених Spooky на тому самому рівні в {{where}}.",
         "spook_lateral_opponent_one": "{{player}} має 1 м’яч суперника, захоплений Spooky на тому самому рівні в {{where}}.",
         "spook_lateral_opponent_few": "{{player}} має {{count}} м’ячів суперника, захоплених Spooky на тому самому рівні в {{where}}.",
-        "spook_lateral_opponent_many": "{{player}} має {{count}} м’ячів суперника, захоплених Spooky на тому самому рівні в {{where}}."
+        "spook_lateral_opponent_many": "{{player}} має {{count}} м’ячів суперника, захоплених Spooky на тому самому рівні в {{where}}.",
+        "ataxx_one": "{{count}} частина перетворюється.",
+        "ataxx_few": "{{count}} штук перетворюються.",
+        "ataxx_many": "{{count}} штук перетворюються.",
+        "buku": "{{count}} штук було захоплено при {{where}}.",
+        "entrapment_self": "{{player}} захопили власного бродягу на {{where}}.",
+        "majorities": "{{count}} частини були видалені.",
+        "onyx": "Пара частин була захоплена в {{where1}} і {{where2}}.",
+        "terrace_self": "{{player}} канібалізувати свій власний шматок {{what}} у {{where}}.",
+        "lifeline": "Мертві частини були видалені на {{where}}.",
+        "owlman_replacement": "{{player}} з'їла шматок при {{where}}.",
+        "terrace_one": "{{player}} захопив шматок розмір {{what}} {{where}}.",
+        "terrace_few": "{{player}} захопів шматки розміри {{what}} {{where}}.",
+        "terrace_many": "{{player}} захопів шматків розмірів {{what}} {{where}}.",
+        "blastradius_one": "{{player}} вилучено одну ворожу фігуру з {{where}}.",
+        "blastradius_few": "{{player}} зняв стопку з {{count}} фігур ворога {{where}}.",
+        "blastradius_many": "{{player}} зняв стопку з {{count}} фігур ворога {{where}}.",
+        "entrapment_opponent": "{{player}} захопив роумер суперника на {{where}}.",
+        "hexentafl_king": "Король потрапив у полон при {{where}}.",
+        "owlman_approach": "{{player}} налякав помічника в {{where}} з лісу."
     },
     "BEAROFF": {
         "complete_one": "{{player}} відрізати один шматок від {{from}}.",
@@ -95,7 +114,8 @@
         "add_one": "{{player}} додано 1 шт {{where}}.",
         "add_few": "{{player}} додано {{count}} штук до {{where}}.",
         "add_many": "{{player}} додано {{count}} штук до {{where}}.",
-        "nonum": "{{player}} додав фрагмент до {{where}}."
+        "nonum": "{{player}} додав фрагмент до {{where}}.",
+        "logger": "Дерево в {{where}} росло один етап."
     },
     "CLAIM": {
         "conhex": "{{player}} претендував на місце в ({{where}}).",
@@ -104,11 +124,29 @@
         "fnap_row": "{{player}} заявлений ряд {{where}}.",
         "fnap_fnap": "{{player}} заявив про токен FNAP.",
         "default": "{{player}} стверджував {{where}}.",
-        "veletas": "Стрілець у {{where}} потрапив у пастку та заволодів {{who}}."
+        "veletas": "Стрілець у {{where}} потрапив у пастку та заволодів {{who}}.",
+        "buku_repetition_one": "{{player}} забрав усі 1 фішки, що залишилися.",
+        "buku_repetition_few": "{{player}} забрав усі {{count}} фішок, що залишилися.",
+        "buku_repetition_many": "{{player}} забрав усі {{count}} фішок, що залишилися.",
+        "jacynth": "{{player}} впливав на {{where}}.",
+        "logger": "{{player}} стверджував мітингувальник із зрубаного дерева {{where}}.",
+        "majorities_line": "{{player}} заявив про лінію {{where}}.",
+        "majorities_H": "{{player}} заявив про горизонтальний напрямок.",
+        "majorities_A": "{{player}} заявив про напрямок зростання.",
+        "majorities_D": "{{player}} вибрав напрямок спадання.",
+        "meg": "{{player}} взяв м’яч і поставив його в {{where}}.",
+        "penguin": "Пінгвін у {{where}} забрав м’яч!",
+        "buku_singletons_one": "{{player}} забрав решту 1 фігуру свого кольору.",
+        "buku_singletons_few": "{{player}} забрав решти {{count}} фішки за своїх кольори.",
+        "buku_singletons_many": "{{player}} забрав решти {{count}} фішки за своїми кольорів."
     },
     "CONVERT": {
         "courtesan": "Король і куртизанка помінялися посадами {{where}}.",
-        "complete": "{{player}} перетворив {{what}} на {{into}} у {{where}}."
+        "complete": "{{player}} перетворив {{what}} на {{into}} у {{where}}.",
+        "moonsquad": "{{player}} набрав команду.",
+        "simple": "{{player}} конвертував фігуру в {{where}}.",
+        "storisende_territory": "Плитка {{where}} стала територією.",
+        "storisende_wall": "Плитка на {{where}} стала стіною."
     },
     "DAMAGE": {
         "pigs": "{{player}} вдарив {{opponent}} в {{where}}.",
@@ -135,7 +173,8 @@
             "minimal_many": "{{count}} частини противника були знищені."
         },
         "string": "Під напругою обірвалася струна {{where}}.",
-        "armadas": "{{player}} потопив ворожий корабель ім {{name}}."
+        "armadas": "{{player}} потопив ворожий корабель ім {{name}}.",
+        "logger": "{{player}} повалив дерево в {{where}}."
     },
     "DETONATE": {
         "nowhat": "{{player}} підірвав шматок на {{where}}."
@@ -150,7 +189,19 @@
         "repetition_one": "Гра закінчилася, тому що той самий гравець зайняв {{count}} ту саму позицію.",
         "repetition_few": "Гра закінчилася, тому що одна й та сама позиція повторювалася {{count}} разів тим самим гравцем.",
         "repetition_many": "Гра закінчилася, тому що одна й та сама позиція повторювалася {{count}} разів тим самим гравцем.",
-        "susan_nonplacement": "Гра закінчилася, тому що жоден гравець не поставив фігуру на 6 шарів."
+        "susan_nonplacement": "Гра закінчилася, тому що жоден гравець не поставив фігуру на 6 шарів.",
+        "camelot_claim_draw_repetition": "Гра закінчилася, оскільки {{player}} заявив про нічию шляхом повторення.",
+        "consecutive_passes": "Гра закінчилася, тому що обидва гравці пасували поспіль.",
+        "material": "Гра закінчилася, оскільки в обох гравців недостатньо матеріалу.",
+        "repetition_positional_one": "Гра закінчилася, тому що виникла та сама позиція.",
+        "repetition_positional_few": "Гра закінчилася, тому що виникла ті сами позицію.",
+        "repetition_positional_many": "Гра закінчилася, тому що виникла ті сами позиції.",
+        "unlur_foul": "Гра закінчилася, оскільки один гравець виконав умову виграшу суперника, не досягнувши власної.",
+        "camelot_claim_draw_progression": "Гра закінчилася, оскільки {{player}} заявив про нічию за правилом 50 ходів.",
+        "buku_singletons": "Гра закінчилася, тому що всі клітинки містять лише синглетони.",
+        "repetition_positionas_one": "Гра закінчилася, оскільки така сама позиція повторювалася {{count}} разів.",
+        "repetition_positionas_few": "Гра закінчилася, оскільки така сами позицію повторювалася {{count}} разів.",
+        "repetition_positionas_many": "Гра закінчилася, оскільки така сами позиції повторювалася {{count}} разів."
     },
     "ERUPTIONS": "Вибухнули наступні шматки: {{eruptions}}.",
     "FIRE": {
@@ -223,7 +274,11 @@
         "tafl_jump": "{{player}} перестрибнув фігуру з {{from}} на {{to}}.",
         "monkey_single": "{{player}} перемістив синглтон із {{from}} до {{to}}.",
         "orb_2S": "{{player}} перемістив розділений сфероїд з {{from}} на {{to}}.",
-        "phutball": "{{player}} перемістив м'яч від {{from}} до {{to}},"
+        "phutball": "{{player}} перемістив м'яч від {{from}} до {{to}},",
+        "ataxx_split": "{{player}} розділив частину від {{from}} до {{to}}.",
+        "camelot_castle": "{{player}} зробив хід замку з людиною з {{from}} на {{to}}.",
+        "camelot_castle_knight": "{{player}} зробив замковий хід лицарем із {{from}} до {{to}}.",
+        "ataxx_jump": "{{player}} скочив шматок з {{from}} до {{to}}."
     },
     "PASS": {
         "entropy": "{{player}} вирішив не рухати фігури цього ходу.",
@@ -387,5 +442,10 @@
     },
     "WINNERS_one": "Переміг наступний гравець: {{winners}}.",
     "WINNERS_few": "Виграли наступні гравці: {{winners}}.",
-    "WINNERS_many": "Виграли наступні гравці: {{winners}}."
+    "WINNERS_many": "Виграли наступні гравці: {{winners}}.",
+    "EJECT": {
+        "penguin_penguin": "Пінгвіна штовхнули з {{from}} до {{to}}.",
+        "penguin_ball": "{{player}} вибив м'яч від {{from}} до {{to}}."
+    },
+    "FLIP": "{{player}} перевертає {{where}} і відкриває {{revealed}}."
 }

@@ -108,7 +108,12 @@
                     }
                     //console.log(JSON.stringify(data));
                     // console.log(game.serialize());
-                    var canvas = APRender.render(data, options);
+                    var canvas;
+                    try {
+                        canvas = APRender.render(data, options);
+                    } catch {
+                        console.log(data, options);
+                    }
 
                     // move history
                     var movelst = game.moveHistory();

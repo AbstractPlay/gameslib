@@ -33,6 +33,7 @@
     "@types/chai": "^4.3.4",
     "@types/earcut": "^2.1.4",
     "@types/mocha": "^10.0.1",
+    "@types/pako": "^2.0.3",
     "@types/rfdc": "^1.2.0",
     "@types/svgdom": "^0.1.2",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -60,7 +61,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-12997205833.0",
+    "@abstractplay/renderer": "^1.0.0-ci-13081678951.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",
@@ -69,6 +70,7 @@
     "@turf/helpers": "^6.5.0",
     "@turf/points-within-polygon": "^6.5.0",
     "@types/fnv-plus": "^1.3.2",
+    "buffer": "^6.0.3",
     "earcut": "^2.2.4",
     "fnv-plus": "^1.3.1",
     "graphology": "^0.25.1",
@@ -83,6 +85,7 @@
     "lodash": "^4.17.21",
     "minmax-wt-alpha-beta-pruning": "^1.0.5",
     "nanoid": "^5.0.4",
+    "pako": "^2.1.0",
     "rfdc": "^1.3.0"
   }
 }

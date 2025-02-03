@@ -219,6 +219,7 @@ export class TerraceGame extends GameBase {
         }
 
         const state = this.stack[idx];
+        this.results = [...state._results];
         this.currplayer = state.currplayer;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         this.board = deepclone(state.board) as Map<string, TerracePiece>;

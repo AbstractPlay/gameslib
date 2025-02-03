@@ -46,6 +46,11 @@ export class YonmoqueGame extends GameBase {
                 type: "designer",
                 name: "Mitsuo Yamamoto",
             },
+            {
+                type: "publisher",
+                name: "Logy Games",
+                urls: ["http://www.logygames.com/"],
+            },
         ],
         categories: ["goal>align", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "custom-colours"]

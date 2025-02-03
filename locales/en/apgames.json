@@ -12,11 +12,11 @@
         "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
-        "asli": "Groups must have a free path (straight or not) to other friendly groups. Cut off your opponent's groups from their allies and defeat them by leaving them with no moves.",
+        "asli": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Captured groups are sent to an off-board prison where they give additional moves to their captor. Win by leaving your opponent with no moves.",
         "ataxx": "Control the majority of spaces by spreading, jumping and infecting.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
-        "ayu": "Ayu is short for 'Attach your units', where on every turn, you have to move your stones such that the units approach each other and eventually merge. The player that runs out of moves first wins.",
+        "ayu": "Unification game where snaky groups of pieces crawl toward their friends and eventually coalesce. If you cannot make a move on your turn, you win. This occurs when you have only one group or there is no free path between any of your groups.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -38,6 +38,7 @@
         "catchup": "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
         "ccorridor": "In Cairo Corridor players alternate turns placing their pentagonal pieces, on a board with a Cairo pentagonal tiling. Eventually there will be only one 'path' of empty spaces which connects the 4 sides. Players score points based on how many tiles are adjacent to that path. In the event of a tie, the player that placed the last tile before the game ends loses.",
         "ceph": "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
+        "chameleon": "A chess-like strategy game, played on a 5x5 grid, where each piece's movement capability changes based on the color of the tile where it starts.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
         "churn": "A bloody territory-control game on a small board.",
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
@@ -77,6 +78,7 @@
         "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         "gonnect": "Gonnect is a connection game where players try to connect any two opposite sides. All rules of Go apply except that players may not pass.",
+        "gyve": "Drawless unification game where you try to form fewer groups than your opponent. On each turn, you place two stones in sequence so that each one is adjacent to the same number of friendly groups at the moment of placement.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
         "hex": "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
@@ -87,9 +89,10 @@
         "iqishiqi": "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         "irensei": "Irensei is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
+        "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman. Played on a square board, each player captures by jumping over their opponent's pieces. Last to move wins.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
-        "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies.",
+        "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Win by leaving your opponent with no moves.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "logger": "A Looney pyramids game where the players vie to grow and harvest more trees than their opponents.",
         "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides at the start of their turn wins.",
@@ -107,6 +110,7 @@
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "moonsquad": "Your mining company has found rich ore on this small moon, but you need buyers. Connect your mine to all 3 surface settlements, and hire squads to defend your mine and attack your rival.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
+        "nakatta": "A square connection game where two specific piece configurations are forbidden.",
         "necklace": "An orthogonal-only square connection game where you try to connect your sides of the board. Crosscut formations are illegal, and every free space must always have a path to an edge.",
         "nex": "Nex (or Neutral Hex) is a variant of the Hex connection game where there are neutral pieces. On your turn, you may either (1) place a piece of your colour and a neutral colour on an empty space, or (2) swap two neutral pieces to your colour and one of your piece to the neutral colour.",
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
@@ -116,13 +120,14 @@
         "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
         "oware": "A traditional West African sowing game where you try to capture the most pieces.",
         "owlman": "An asymmetrical game where a professor and his assistants are trying to track down the mythical Owlman and his lair, while the Owlman tries to scare them all out of the forest.",
+        "pahtum": "Accumulate points by establishing lines of your own pieces of various lengths, but five cells each game are blocked. A capturing option is also available.",
         "penguin": "It is a truth universally acknowledged that everybody loves seeing penguins sliding around on the ice. And soccer is the world's game, right? So take some cute families of penguins, give them an icy soccer field and a ball, and watch the slippery goodness that ensues.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         "pigs": "This is the base-rules version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players, and each player programs five moves each turn.",
         "pigs2": "This is the continuous feedback version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–8 players, and each player only programs one move per turn.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
-        "pletore": "Pletore is a territorial line-of-sight game. Intersections are controlled and pieces are flipped based on the number and direction of pieces that can see it. The winner is the player who occupies more of the board at the end.",
+        "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "pylon": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
@@ -136,7 +141,7 @@
         "resolve": "A square grid connection game. If a crosscut is formed, swap the placed piece until it is no longer part of a crosscut. If the board is full and there is no winner, choose one of your stones in a crosscut and resolve.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
-        "saltire": "Saltire is a connection game where on your turn, you may place a stone of your color on an empty point or swap two orthogonally or diagonally adjacent stones. A crosscut is a 2×2 area containing two diagonally adjacent black stones and two diagonally adjacent white stones. A supercut is a crosscut along with eight additional stones orthogonally adjacent to like-colored stones in the crosscut. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
+        "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "shifty": "A connection game where you either place a piece orthogonally adjacent to one of your pieces, or move one of your pieces like a chess queen. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
@@ -148,7 +153,7 @@
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
-        "stigmergy": "Stigmergy is a territorial line-of-sight game. Cells are controlled and pieces are flipped based on how many pieces of a color can see the space. The winner is the player who occupies more of the board at the end.",
+        "stigmergy": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "storisende": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
         "strands": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
@@ -173,7 +178,7 @@
         "upperhand": "A shedding game where you try to be the first to place all your pieces. If a platform is created and at least three of the pieces are of a player's colour, an additional piece of that colour is automatically placed on top of it, causing chain reactions. The pie rule applies.",
         "urbino": "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         "valley": "Get your king to the center space, but your pieces must always move as far as they can. Teamwork is essential.",
-        "veletas": "Veletas is a drawless territory game for two players. Both players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
+        "veletas": "Drawless territory game where players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "volo": "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock.' If a player ends up with one contiguous flock (of any size), he wins.",
@@ -828,6 +833,20 @@
                 "name": "19x19 board"
             }
         },
+        "gyve": {
+            "size-6": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "size-7": {
+                "name": "Hexhex 7 (127 spaces)"
+            },
+            "size-10": {
+                "name": "Hexhex 10 (271 spaces)"
+            },
+            "size-12": {
+                "name": "Hexhex 12 (397 spaces)"
+            }
+        },
         "havannah": {
             "size-4": {
                 "description": "Tiny board.",
@@ -1047,6 +1066,17 @@
                 "name": "Static Start"
             }
         },
+        "nakatta": {
+            "size-19": {
+                "name": "19x19 board"
+            },
+            "size-25": {
+                "name": "25x25 board"
+            },
+            "size-29": {
+                "name": "29x29 board"
+            }
+        },
         "nex": {
             "size-9": {
                 "name": "9x9 board"
@@ -1079,6 +1109,16 @@
             },
             "square-11": {
                 "name": "size-11 square"
+            }
+        },
+        "pahtum": {
+            "quick": {
+                "name": "Quick setup",
+                "description": "Blocked cells are determined randomly."
+            },
+            "captures": {
+                "name": "Custodial captures",
+                "description": "Sandwiching an enemy stone between two of yours converts it to your colour."
             }
         },
         "pente": {
@@ -1952,6 +1992,11 @@
                 "name": "13x13 board"
             }
         },
+        "gyve": {
+            "board": {
+                "name": "hexhex 8 board (169 spaces)"
+            }
+        },
         "havannah": {
             "board": {
                 "description": "Competitive board.",
@@ -2041,6 +2086,11 @@
         "hula": {
             "board": {
                 "name": "size 6 board"
+            }
+        },
+        "nakatta": {
+            "board": {
+                "name": "22x22 board"
             }
         },
         "onyx": {
@@ -2425,6 +2475,12 @@
             "hide-piece-highlight": {
                 "description": "Don't highlight the 9x9 pieces.",
                 "name": "Hide 9x9 piece highlight"
+            }
+        },
+        "gyve": {
+            "vertex-style": {
+                "name": "Vertex style",
+                "description": "Display the board using vertices instead of hexes."
             }
         },
         "irensei": {
@@ -3272,6 +3328,10 @@
             "PARTIAL_PRECAP": "Select a piece to capture.",
             "TOOHIGH": "The pieces you capture cannot total more than six."
         },
+        "chameleon": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "PARTIAL": "Select a destination."
+        },
         "chase": {
             "BALANCE_LOWEST": "When balancing you must select one of the pieces with the lowest speed. The piece at {{where}} is not one of those.",
             "CHAMBER_BUMP": "You may not bump pieces into the chamber.",
@@ -3617,6 +3677,14 @@
             "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
             "SELF_CAPTURE": "You may not place your stones in self-capture."
         },
+        "gyve": {
+            "BAD_FIRST": "You may not place a second stone on the first turn of the game.",
+            "BAD_N": "Each stone you place must connect to the same number of friendly groups ({{n1}} <> {{n2}}).",
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a stone.",
+            "NO_DUPES": "You must place stones on different cells.",
+            "PARTIAL": "Select an empty cell to place a second stone. It must be adjacent to the same number of groups as the first stone."
+        },
         "havannah": {
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
         },
@@ -3705,6 +3773,12 @@
             "NO_INFLUENCE": "You don't have any influence left.",
             "NOT_ADJ": "New cards must be placed adjacent to at least one existing card.",
             "PARTIAL_PLACEMENT": "Click an empty space on the board to place your card."
+        },
+        "kachit": {
+            "INITIAL_INSTRUCTIONS_inhand": "Select a piece to move or an empty space on your side of the board to place a knight.",
+            "INITIAL_INSTRUCTIONS_placed": "Select a piece to move.",
+            "PARTIAL_destination": "Select a destination.",
+            "PARTIAL_orientation": "Select a neighbouring cell to orient the piece."
         },
         "konane": {
             "FIRST_MOVE": "Remove one of your pieces from the center 2x2 or from a corner.",
@@ -3902,6 +3976,11 @@
         "mvolcano": {
             "INITIAL_INSTRUCTIONS": "Select a cap to move."
         },
+        "nakatta": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "BAD_PLACE": "You may not create hard corners or naked attachments (see the rules for details).",
+            "INITIAL_INSTRUCTIONS": "Select a point to place a piece."
+        },
         "necklace": {
             "BAD_PASS": "You may not pass if legal moves are available.",
             "BLOCKS_PATH": "Placement at {{where}} blocks the only path of some free spaces to the edge.",
@@ -3974,6 +4053,13 @@
         "owlman": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "PARTIAL": "Select a destination."
+        },
+        "pahtum": {
+            "INITIAL_INSTRUCTIONS_offer": "Place all five blocks. Your opponent will then choose which colour to play.",
+            "INITIAL_INSTRUCTIONS_response": "Click \"Swap player seats\" to play as first player or pass to remain as second player.",
+            "INITIAL_INSTRUCTIONS_rest": "Select an empty cell to place a stone.",
+            "PARTIAL_setup": "Continue selecting empty cells to block until you have selected five.",
+            "PARTIAL_rest": "Select one of the highlighted cells to capture it."
         },
         "penguin": {
             "INITIAL_INSTRUCTIONS": "Select one of your penguins on the board or in your hand.",
@@ -4739,7 +4825,8 @@
         },
         "yavalath": {
             "BAD_PASS": "You may only pass if you have been eliminated.",
-            "INITIAL_INSTRUCTIONS": "Click an empty cell to place a piece."
+            "INITIAL_INSTRUCTIONS": "Click an empty cell to place a piece.",
+            "MUST_BLOCK": "In a three-player game, you must block a next-opponent win if possible."
         },
         "yonmoque": {
             "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece or an existing piece to start a move.",

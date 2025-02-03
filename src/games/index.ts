@@ -188,6 +188,7 @@ import { KachitGame, IKachitState } from "./kachit";
 import { GyveGame, IGyveState } from "./gyve";
 import { PahTumGame, IPahTumState } from "./pahtum";
 import { NakattaGame, INakattaState } from "./nakatta";
+import { OmnyGame, IOmnyState } from "./omny";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -378,6 +379,7 @@ export {
     GyveGame, IGyveState,
     PahTumGame, IPahTumState,
     NakattaGame, INakattaState,
+    OmnyGame, IOmnyState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -442,7 +444,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BasaltGame | typeof ChurnGame | typeof PenguinGame |
                               typeof OwlmanGame | typeof SquaredanceGame | typeof MegGame |
                               typeof YonmoqueGame | typeof ChameleonGame | typeof KachitGame |
-                              typeof GyveGame | typeof PahTumGame | typeof NakattaGame
+                              typeof GyveGame | typeof PahTumGame | typeof NakattaGame |
+                              typeof OmnyGame
                 >();
 // Manually add each game to the following array
 [
@@ -472,7 +475,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
-    PahTumGame, NakattaGame,
+    PahTumGame, NakattaGame, OmnyGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -858,6 +861,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new PahTumGame(...args);
         case "nakatta":
             return new NakattaGame(...args);
+        case "omny":
+            return new OmnyGame(...args);
     }
     return;
 }

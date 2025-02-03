@@ -182,7 +182,7 @@ export abstract class GameBase  {
     }
     public get metaGame(): string {
         const ctor = this.constructor as typeof GameBase;
-        return i18next.t(ctor.gameinfo.uid);
+        return ctor.gameinfo.uid;
     }
     public notes(): string|undefined {
         const ctor = this.constructor as typeof GameBase;

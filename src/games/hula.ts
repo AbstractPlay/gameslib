@@ -4,10 +4,10 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { HexTriGraph, reviver, UserFacingError } from "../common";
-import { allSimplePaths } from 'graphology-simple-path';
+import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common";
 import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
+
 
 export type playerid = 1|2;
 export type cellcontent = playerid|"neutral";
@@ -292,18 +292,14 @@ export class HulaGame extends GameBase {
         return this;
     }
 
-    public getWinningLoop(player: playerid, lastmove: string): string[] {
-        const blockers = new Set<string>();
 
-        let graph = this.getGraph(false);
+    private enclosesCenter(group: Set<string>): boolean {
+        const graph = this.getGraph(false); // The board, including center cell
+
         const center = graph.coords2algebraic(this.boardsize - 1, this.boardsize - 1);
-
         let reachedOuter = false;
-
         bfsFromNode(graph.graph, center, (cell) => {
-            const value = this.board.get(cell);
-            if (value === player || value === "neutral") {
-                blockers.add(cell);
+            if (group.has(cell)) {
                 return true;
             }
             else if (this.outerRing.has(cell)) {
@@ -312,16 +308,99 @@ export class HulaGame extends GameBase {
             return false;
         });
 
-        if (reachedOuter) { return []; }
+        return !reachedOuter;
+    }
 
-        graph = this.getGraph();
+    private allShortestCycles(group: Set<string>, source: string): string[][] {
+        /* Adapted from Graphology's allSimplePaths. Finds the shortest winning cycle,
+        and any other cycles (if existing) of the same length, then returns them in
+        an array. The reason for returning all of them is because we might need the one
+        with the least amount of neutrals, which is not necessarily the first-found one.
+        */
+        const groupGraph = this.getGraph();
         for (const cell of this.graph.graph.nodes()) {
-            if (!blockers.has(cell)) { graph.graph.dropNode(cell); }
+            if (!group.has(cell)) { groupGraph.graph.dropNode(cell); }
         }
+        const graph = groupGraph.graph;
 
-        let cycles = allSimplePaths(graph.graph, lastmove, lastmove);
-        cycles = cycles.filter(c => c.length > 6);
-        cycles.sort((a,b) => a.length - b.length);
+        let found = false;
+        /* Iterative deepening dfs */
+        for(let maxDepth = 6; maxDepth <= group.size; maxDepth++){
+            const stack = [graph.outboundNeighbors(source)];
+            const visited = StackSet.of(source, true);
+
+            const paths: string[][] = [];
+            let p: string[];
+            let children;
+            let child;
+
+            while (stack.length !== 0) {
+                children = stack[stack.length - 1];
+                child = children.pop();
+
+                if (!child) {
+                    stack.pop();
+                    visited.pop();
+                } else {
+                    if (visited.has(child)) continue;
+
+                    /* Check whether the last three nodes of the path form a triangle,
+                    if so we can skip the rest of this branch, because the shortest loop
+                    will never contain an acute angle. */
+                    p = visited.path(child);
+                    const tri = p.slice(-3);
+                    if(graph.hasEdge(tri[0], tri[1]) && graph.hasEdge(tri[1], tri[2]) &&
+                        graph.hasEdge(tri[2], tri[0])){
+                        continue;
+                    }
+
+                    if (child === source) {
+                        if(this.enclosesCenter(new Set(p))){
+                            paths.push(p);
+                            found = true;
+                        }
+                    }
+
+                    visited.push(child);
+
+                    if (!visited.has(source) && stack.length < maxDepth) {
+                        stack.push(graph.outboundNeighbors(child));
+                    } else {
+                        visited.pop();
+                    }
+                }
+            }
+            if(found){
+                return paths;
+            }
+        }
+        return [];
+    }
+
+    public getWinningLoop(player: playerid, lastmove: string): string[] {
+        /*
+        Do a BFS to find all possible paths emanating from the placed stone, for each check if it's a winning loop.
+        Since it is a BFS the shortest one will be found first.
+        Could be sped up by not taking sharp-angled steps in the BFS.
+        */
+        const graph = this.getGraph(false); // The board, including center cell
+
+        // Find the current group of player + neutral stones
+        const currentGroup = new Set<string>();
+        bfsFromNode(graph.graph, lastmove, (cell) => {
+            const value = this.board.get(cell);
+            if (value === player || value === "neutral") {
+                currentGroup.add(cell);
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        // First check if there's a winning loop at all (i.e. path from center to edge is blocked by player + neutral stones)
+        if (!this.enclosesCenter(currentGroup)) { return []; };
+
+        const cycles = this.allShortestCycles(currentGroup, lastmove);
 
         return cycles[0];
     }

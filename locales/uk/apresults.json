@@ -278,7 +278,22 @@
         "ataxx_split": "{{player}} розділив частину від {{from}} до {{to}}.",
         "camelot_castle": "{{player}} зробив хід замку з людиною з {{from}} на {{to}}.",
         "camelot_castle_knight": "{{player}} зробив замковий хід лицарем із {{from}} до {{to}}.",
-        "ataxx_jump": "{{player}} скочив шматок з {{from}} до {{to}}."
+        "ataxx_jump": "{{player}} скочив шматок з {{from}} до {{to}}.",
+        "camelot_plain": "{{player}} зробив простий хід людиною з {{from}} на {{to}}.",
+        "camelot_jump_knight": "{{player}} зробив стрибок із лицарем із {{from}} на {{to}}, захопивши {{captured}}.",
+        "camelot_plain_knight": "{{player}} зробив простий хід конем з {{from}} на {{to}}.",
+        "camelot_canter_knight": "{{player}} зробив галоп з лицарем від {{from}} до {{to}}.",
+        "camelot_canter": "{{player}} зробив галоп із людиною від {{from}} до {{to}}.",
+        "camelot_jump": "{{player}} зробив стрибок із людиною з {{from}} на {{to}}, захопивши {{captured}}.",
+        "entrapment_barrier": "{{player}} перемістив бар'єр із {{from}} на {{to}}.",
+        "entrapment_roamer_jump": "{{player}} перемістив роумера з {{from}} на {{to}}, перестрибнувши {{jumped}}.",
+        "meg": "{{player}} передав м’яч від {{from}} до {{to}}.",
+        "slyde": "{{player}} посунув фігуру від {{from}} до {{to}}.",
+        "volo_one": "{{player}} перемістив зграю з 1 птаха з {{from}} у напрямку {{how}}.",
+        "volo_few": "{{player}} перемістив зграю з {{count}} птахів із {{from}} у напрямку {{how}}.",
+        "volo_many": "{{player}} перемістив зграю з {{count}} птахів із {{from}} у напрямку {{how}}.",
+        "hexentafl_king": "{{player}} перемістив короля з {{from}} на {{to}}.",
+        "entrapment_roamer": "{{player}} перемістив роумер із {{from}} до {{to}}."
     },
     "PASS": {
         "entropy": "{{player}} вирішив не рухати фігури цього ходу.",
@@ -286,7 +301,8 @@
         "tiebreaker": "{{player}} пройшов, вигравши тай-брейк.",
         "tablero": "{{player}} зіткнувся!",
         "forced": "{{player}} був змушений пройти.",
-        "simple": "{{player}} пройшли."
+        "simple": "{{player}} пройшли.",
+        "asli": "{{player}} взяли фігуру суперника з в’язниці та пройшли свій хід."
     },
     "PLACE": {
         "armadas_1": "{{player}} поставив невеликий корабель і назвав його {{name}}.",
@@ -339,7 +355,45 @@
         "streetcar_12": "Висота-2 ОРАНЖЕВА будівля була розміщена на {{where}}.",
         "streetcar_23": "Висота-3 ЖОВТА будівля була розміщена на {{where}}.",
         "streetcar_31": "Висота-1 ЧОРНА будівля була розміщена на {{where}}.",
-        "streetcar_43": "Висота-3 БІЛА будівля була розміщена на {{where}}."
+        "streetcar_43": "Висота-3 БІЛА будівля була розміщена на {{where}}.",
+        "query_c4": "{{player}} дві фігури на вершинах {{where}}.",
+        "moonsquad": "{{player}} розмістив загін у {{where}}.",
+        "tritium-orange": "{{player}} зіграв помаранчеву плитку в {{where}}.",
+        "tritium-flag": "{{player}} поставив прапор у {{where}}.",
+        "camelot_tree": "{{player}} поставив дерева в {{where}}.",
+        "logger_logger": "{{player}} розмістив свій журнал у {{where}}.",
+        "meg_cup": "{{player}} поставив приймач у {{where}}.",
+        "spire_neutral": "{{player}} поставив нейтральний м'яч у {{where}}.",
+        "query_c8": "{{player}} одна фігура у вершині {{where}}.",
+        "logger_plant": "{{player}} посадив саджанець у {{where}}.",
+        "blastradius": "{{player}} додав фігуру до {{where}}, утворивши стопку висотою {{height}}.",
+        "bug_bonus_grow": "Після захоплення помилка зросла в {{where}} до розміру {{size}}.",
+        "bug_grow": "{{player}} збільшив помилку в {{where}} до розміру {{size}}.",
+        "bug_new": "{{player}} допустив нову помилку в {{where}}.",
+        "boxes": "{{player}} додає рядок у {{where}}.",
+        "boxes_claim1": "{{player}} додає рядок у {{where}}, претендуючи на {{box}}.",
+        "boxes_claim2": "{{player}} додає рядок у {{where}}, претендуючи на {{box1}} і {{box2}}.",
+        "entrapment_barrier": "{{player}} поставив бар'єр у {{where}}.",
+        "entrapment_roamer": "{{player}} розмістив роумер у {{where}}.",
+        "logger_spawn": "Новий саджанець проріс на {{where}}.",
+        "meg_cap": "{{player}} поставив блокувальник у {{where}}.",
+        "neutral": "Нейтральна частина була розміщена на {{where}}.",
+        "pahtum_block": "{{player}} заблокував {{where}}.",
+        "pahtum_piece": "{{player}} поставив фігуру в {{where}}.",
+        "PYRAMID_1": "{{player}} поклав маленьку фігуру в {{where}}.",
+        "PYRAMID_2": "{{player}} розмістив середню фігуру в {{where}}.",
+        "PYRAMID_3": "{{player}} поклав велику фігуру в {{where}}.",
+        "spire_player": "{{player}} поклав м’яч свого кольору в {{where}}.",
+        "strands_initial": "{{player}} розмістив фігуру на місці з позначкою 2 у {{where}}.",
+        "subdivision_park": "{{player}} розмістив парк у {{where}}.",
+        "terrace": "{{player}} перемістив фігуру розміром {{size}} з {{from}} на {{to}}.",
+        "trax": "{{player}} поставив {{piece}} на {{algebraic}} ({{where}}).",
+        "tritium-purple": "{{player}} зіграв фіолетову плитку в {{where}}.",
+        "tritium-green": "{{player}} зіграв зелену плитку в {{where}}.",
+        "volo": "{{player}} додає пташку в {{where}}.",
+        "strands_one": "{{player}} поставив фігуру в {{where}}.",
+        "strands_few": "{{player}} розмістив {{count}} фігур у {{where}}.",
+        "strands_many": "{{player}} розмістив {{count}} фігур у {{where}}."
     },
     "PROMOTE": {
         "basicWhere": "Твір при {{where}} був підвищений.",
@@ -347,7 +401,8 @@
         "lielow": "{{player}} має нового короля, коронованого на {{where}}.",
         "mchess": "У результаті було створено {{into}}.",
         "orb_12": "{{player}} перетворив кулю на сфероїд на {{where}}.",
-        "orb_23": "{{player}} підвищив сфероїд до глобуса в {{where}}."
+        "orb_23": "{{player}} підвищив сфероїд до глобуса в {{where}}.",
+        "cubeo": "{{player}} підвищив кубик у {{where}} з {{from}} на {{to}}."
     },
     "REMOVE": {
         "fourinarow_n": "{{player}} очищав лінію, зрушуючи фігури на дошці вгору.",
@@ -369,7 +424,10 @@
         "phutball_one": "{{count}} гравець був видалений.",
         "phutball_few": "{{count}} гравців було видалено.",
         "phutball_many": "{{count}} гравців було видалено.",
-        "twixt": "{{player}} видалив посилання на {{where}}."
+        "twixt": "{{player}} видалив посилання на {{where}}.",
+        "entrapment_opponent": "{{player}} вирішив залишити роумер суперника на {{how}}, видаливши роумер на {{where}}.",
+        "entrapment_self": "{{player}} вирішив зберегти свій власний роумер у {{how}}, видаливши роумер у {{where}}.",
+        "volo": "{{player}} вирішив зберегти регіон на {{how}}, видаливши {{num}} птахів суперника."
     },
     "REPAIR": {
         "simple": "{{player}} ремонти."
@@ -382,7 +440,13 @@
         "tablero": "Гральні кубики кинули: {{values}}."
     },
     "SELECT": {
-        "fnap": "{{player}} вибрав плитку {{tile}}."
+        "fnap": "{{player}} вибрав плитку {{tile}}.",
+        "slyde_fixed_self": "{{player}} змінив стан своєї фігури в {{where}} з мобільного на фіксований.",
+        "resolve": "{{player}} вибирає фігуру в перерізі в {{where}}.",
+        "slyde_fixed_opponent": "{{player}} змінив стан фігури свого суперника в {{where}} з мобільного на фіксований.",
+        "slyde_mobile_opponent": "{{player}} змінив стан фігури свого суперника в {{where}} із фіксованого на мобільний.",
+        "slyde_mobile_self": "{{player}} змінив стан своєї фігури в {{where}} із фіксованого на мобільний.",
+        "spree": "{{player}} передав м'яч кольору {{who}} супернику."
     },
     "SET": {
         "fnap_circles": "Кругова плитка на {{where}} є ізольований.",
@@ -394,7 +458,8 @@
         "prudh": "{{player}} сіяні шашки с {{from}} до {{to}}.",
         "general_one": "{{player}} висіяла насіння з такої ями: {{pits}}.",
         "general_few": "{{player}} висіяв насіння з таких ям: {{pits}}.",
-        "general_many": "{{player}} висіяв насіння з таких ям: {{pits}}."
+        "general_many": "{{player}} висіяв насіння з таких ям: {{pits}}.",
+        "into": "{{player}} посіяв у ями {{pits}}."
     },
     "TAKE": {
         "chase": "У камеру подано {{what}}.",
@@ -403,7 +468,22 @@
         "streetcar_4": "{{player}} взяв БІЛИЙ житловий ліміт с {{from}}.",
         "streetcar_3": "{{player}} взяв ЧОРНИЙ ліміт житла с {{from}}.",
         "streetcar_1": "{{player}} взяв ОРАНЖЕВИЙ ліміт житла з {{from}}.",
-        "streetcar_2": "{{player}} взяв ЖОВТИЙ ліміт житла з {{from}}."
+        "streetcar_2": "{{player}} взяв ЖОВТИЙ ліміт житла з {{from}}.",
+        "blastradius_one": "{{player}} видалив одну зі своїх частин із {{where}}.",
+        "blastradius_few": "{{player}} видалив стопку з {{count}} власних фігур із {{where}}.",
+        "blastradius_many": "{{player}} видалив стопку з {{count}} власних фігур із {{where}}.",
+        "general_one": "{{player}} взяв фігуру від {{from}}.",
+        "general_few": "{{player}} взяв {{count}} фігур у {{from}}.",
+        "general_many": "{{player}} взяв {{count}} фігур у {{from}}.",
+        "sploof": "{{player}} взяв нейтральний м’яч у {{from}}.",
+        "buku_row_one": "{{player}} зібрав 1 фігуру з ряду {{row}}.",
+        "buku_row_few": "{{player}} зібрав {{count}} фішок із рядка {{row}}.",
+        "buku_row_many": "{{player}} зібрав {{count}} фігур із рядка {{row}}.",
+        "buku_col_one": "{{player}} зібрав 1 фігуру зі стовпця {{col}}.",
+        "buku_col_few": "{{player}} зібрав {{count}} фішок зі стовпця {{col}}.",
+        "buku_col_many": "{{player}} зібрав {{count}} фішок зі стовпця {{col}}.",
+        "moonsquad": "{{player}} взяв руду ({{ore}}).",
+        "buku_row_bonus": "{{player}} зібрав {{count}} фігур із рядка {{row}}, а також одну додаткову фігуру."
     },
     "TIMEOUT": "{{player}} втрачені в часі.",
     "BUTTON": "{{player}} взяв кнопку.",
@@ -419,14 +499,18 @@
     "DELTA_SCORE_GAIN_few": "{{player}} отримано {{delta}} балів.",
     "DELTA_SCORE_GAIN_many": "{{player}} отримано {{delta}} балів.",
     "INFINITE": "{{player}} запустив нескінченний цикл!",
-    "PIE": "{{player}} застосував правило пирога.",
+    "PIE": {
+        "default": "{{player}} застосував правило пирога.",
+        "unlur": "{{player}} став гравцем Y."
+    },
     "ORIENT": {
         "nowhat": "{{player}} повернув фігуру в {{where}} обличчям до {{facing}}."
     },
     "PULL": "{{player}} натягнута струна {{where}}.",
     "SWAP": {
         "nex": "{{player}} поміняли частину свого кольору в {{where}} на нейтральну.",
-        "nex_neutral": "{{player}} поміняли нейтральну фігуру в {{where}} на фігуру свого кольору."
+        "nex_neutral": "{{player}} поміняли нейтральну фігуру в {{where}} на фігуру свого кольору.",
+        "resolve": "Фрагмент міняється на {{where}}."
     },
     "WINNERSNONE": "Переможців не було.",
     "SCORE_REPORT": "{{player}}'s рахунок зараз {{score}}.",
@@ -438,7 +522,8 @@
     },
     "RESIGN": "{{player}} подав у відставку.",
     "UNFURL": {
-        "furl": "{{player}} розгортає {{count}} фігур від {{from}} до {{to}}."
+        "furl": "{{player}} розгортає {{count}} фігур від {{from}} до {{to}}.",
+        "amoeba": "{{player}} посіяв {{count}} фігур від {{from}} до {{to}}."
     },
     "WINNERS_one": "Переміг наступний гравець: {{winners}}.",
     "WINNERS_few": "Виграли наступні гравці: {{winners}}.",
@@ -447,5 +532,14 @@
         "penguin_penguin": "Пінгвіна штовхнули з {{from}} до {{to}}.",
         "penguin_ball": "{{player}} вибив м'яч від {{from}} до {{to}}."
     },
-    "FLIP": "{{player}} перевертає {{where}} і відкриває {{revealed}}."
+    "FLIP": "{{player}} перевертає {{where}} і відкриває {{revealed}}.",
+    "SACRIFICE": {
+        "moonsquad": "{{player}} пожертвував руду ({{ore}}), щоб перемістити свої загони."
+    },
+    "USE": {
+        "camelot_castle_move_none": "У {{player}} більше немає ходів замку.",
+        "camelot_castle_move_one": "Використаний {{player}} має ще 1 хід замку.",
+        "camelot_castle_move_few": "Використаний {{player}} має більше ходів замку на {{count}}.",
+        "camelot_castle_move_many": "Використаний {{player}} має ще {{count}} ходів замку."
+    }
 }

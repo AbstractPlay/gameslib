@@ -1085,8 +1085,7 @@
         },
         "omny": {
             "size-4": {
-                "name": "Hexhex 4 (37 spaces)",
-                "description": "Random distribution on size-4 boards will not always be ideal"
+                "name": "Hexhex 4 (37 spaces)"
             },
             "size-5": {
                 "name": "Hexhex 5 (61 spaces)"

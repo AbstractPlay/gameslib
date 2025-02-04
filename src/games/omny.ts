@@ -426,7 +426,7 @@ export class OmnyGame extends GameBase {
             let complete: 1|0|-1 = -1;
             // P1 restrictions
             if (this.stack.length === 1) {
-                if (cells.length > 2 && cells.length - 1 < graph.nodes().length) {
+                if (cells.length > 1 && cells.length - 1 < graph.nodes().length) {
                     complete = 0
                 } else if (cells.length - 1 === graph.nodes().length) {
                     complete = 1;

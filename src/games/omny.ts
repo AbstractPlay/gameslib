@@ -66,7 +66,7 @@ export class OmnyGame extends GameBase {
         uid: "omny",
         playercounts: [2],
         version: "20250203",
-        dateAdded: "2023-07-31",
+        dateAdded: "2025-02-04",
         // i18next.t("apgames:descriptions.omny")
         description: "apgames:descriptions.omny",
         urls: ["https://boardgamegeek.com/boardgame/342418/omny"],

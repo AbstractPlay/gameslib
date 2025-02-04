@@ -1083,6 +1083,36 @@
                 "name": "9x9 board"
             }
         },
+        "omny": {
+            "size-6": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "size-7": {
+                "name": "Hexhex 7 (127 spaces)"
+            },
+            "size-9": {
+                "name": "Hexhex 9 (217 spaces)"
+            },
+            "size-10": {
+                "name": "Hexhex 10 (271 spaces)"
+            },
+            "constellation": {
+                "name": "Constellation",
+                "description": "Stars in the corners and the centre"
+            },
+            "gyre": {
+                "name": "Gyre",
+                "description": "Stars around the perimeter in in the centre"
+            },
+            "free": {
+                "name": "Free placement",
+                "description": "Intended for players who communicate expectations before the game. Each player will be able to place as many stars as they wish."
+            },
+            "captures": {
+                "name": "Enable Adere-style captures",
+                "description": "Pieces can move between stacks of the same height."
+            }
+        },
         "onyx": {
             "size-16": {
                 "name": "Size-16 board"
@@ -2092,6 +2122,15 @@
         "nakatta": {
             "board": {
                 "name": "22x22 board"
+            }
+        },
+        "omny": {
+            "board": {
+                "name": "hexhex 8 board (169 spaces)"
+            },
+            "stars": {
+                "name": "star distribution: Sunder",
+                "description": "Every cell is a star point"
             }
         },
         "onyx": {

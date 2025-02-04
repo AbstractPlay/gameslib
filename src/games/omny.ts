@@ -4,7 +4,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IV
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerDots, MarkerGlyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { reviver, shuffle, UserFacingError } from "../common";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
@@ -24,7 +24,37 @@ interface IMoveState extends IIndividualState {
 export interface IOmnyState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
+    startStars?: string[];
 };
+
+// ensures random stars have a certain minimum distance from each other
+const starsValid = (g: HexTriGraph, stars: string[]): boolean => {
+    for (const star of stars) {
+        const [sx, sy] = g.algebraic2coords(star);
+        // immediate neighbours
+        const n1 = new Set<string>(g.neighbours(star));
+        // neighbours of neighbours
+        const n2 = new Set<string>();
+        [...n1].forEach(cell => g.neighbours(cell).forEach(n => n2.add(n)));
+        // combined
+        const alln = new Set<string>([...n1, ...n2]);
+        // delete starting cell
+        alln.delete(star);
+        // delete each cell at straight-line distance 2 away
+        for (const dir of HexTriGraph.directions) {
+            const ray = g.ray(sx, sy, dir).map(c => g.coords2algebraic(...c));
+            if (ray.length >= 2) {
+                alln.delete(ray[1]);
+            }
+        }
+        // if any of the stars appear in this set, it's invalid
+        if (stars.filter(s => alln.has(s)).length > 0) {
+            return false;
+        }
+    }
+    // if we get to this point, it's valid
+    return true;
+}
 
 export class OmnyGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -50,7 +80,12 @@ export class OmnyGame extends GameBase {
             {uid: "size-10", group: "board"},
             {uid: "constellation", group: "stars"},
             {uid: "gyre", group: "stars"},
+            {uid: "yex", group: "stars"},
             {uid: "free", group: "stars"},
+            {uid: "random-3", group: "stars"},
+            {uid: "random-5", group: "stars"},
+            {uid: "random-7", group: "stars"},
+            {uid: "random-9", group: "stars"},
             {uid: "captures"},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
@@ -66,6 +101,7 @@ export class OmnyGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public variants: string[] = [];
     private tmpstars = new Set<string>();
+    public startStars?: string[];
 
     constructor(state?: IOmnyState | string, variants?: string[]) {
         super();
@@ -80,10 +116,28 @@ export class OmnyGame extends GameBase {
             this.variants = [...state.variants];
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            if (state.startStars !== undefined) {
+                this.startStars = [...state.startStars];
+            }
         } else {
             if ( (variants !== undefined) && (variants.length > 0) ) {
                 this.variants = [...variants];
             }
+
+            const found = this.variants.find(v => v.startsWith("random"));
+            if (found !== undefined) {
+                const [,numStr] = found.split("-");
+                const num = parseInt(numStr, 10);
+                const g = this.graph;
+                let shuffled = shuffle(g.graph.nodes()) as string[];
+                let stars = shuffled.slice(0, num);
+                while (!starsValid(g, stars)) {
+                    shuffled = shuffle(g.graph.nodes()) as string[];
+                    stars = shuffled.slice(0, num);
+                }
+                this.startStars = [...stars];
+            }
+
             const board = new Map<string,playerid[]>();
             const fresh: IMoveState = {
                 _version: OmnyGame.gameinfo.version,
@@ -165,6 +219,16 @@ export class OmnyGame extends GameBase {
         else if (this.variants.includes("gyre")) {
             [...g.getEdges().values()].forEach(edge => edge.forEach(cell => set.add(cell)));
             set.add(g.coords2algebraic(size - 1, size - 1));
+        }
+        // alternating corners
+        else if (this.variants.includes("yex")) {
+            set.add(g.coords2algebraic(0, 0));
+            set.add(g.coords2algebraic((size * 2) - 2, size - 1));
+            set.add(g.coords2algebraic(0, (size * 2) - 2));
+        }
+        // random start
+        else if (this.startStars !== undefined) {
+            this.startStars.forEach(cell => set.add(cell));
         }
         // default Sunder (all cells)
         else {
@@ -585,6 +649,7 @@ export class OmnyGame extends GameBase {
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
+            startStars: this.startStars !== undefined ? [...this.startStars] : undefined,
         };
     }
 

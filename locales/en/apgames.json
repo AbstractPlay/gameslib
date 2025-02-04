@@ -1104,6 +1104,22 @@
                 "name": "Gyre",
                 "description": "Stars around the perimeter in in the centre"
             },
+            "yex": {
+                "name": "Yex",
+                "description": "Stars in alternating corners"
+            },
+            "random-3": {
+                "name": "Random placement: 3 stars"
+            },
+            "random-5": {
+                "name": "Random placement: 5 stars"
+            },
+            "random-7": {
+                "name": "Random placement: 7 stars"
+            },
+            "random-9": {
+                "name": "Random placement: 9 stars"
+            },
             "free": {
                 "name": "Free placement",
                 "description": "Intended for players who communicate expectations before the game. Each player will be able to place as many stars as they wish."

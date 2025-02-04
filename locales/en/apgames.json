@@ -1084,6 +1084,13 @@
             }
         },
         "omny": {
+            "size-4": {
+                "name": "Hexhex 4 (37 spaces)",
+                "description": "Random distribution on size-4 boards will not always be ideal"
+            },
+            "size-5": {
+                "name": "Hexhex 5 (61 spaces)"
+            },
             "size-6": {
                 "name": "Hexhex 6 (91 spaces)"
             },
@@ -1102,7 +1109,7 @@
             },
             "gyre": {
                 "name": "Gyre",
-                "description": "Stars around the perimeter in in the centre"
+                "description": "Stars around the perimeter and in the centre (proposed by Mark Steere)"
             },
             "yex": {
                 "name": "Yex",
@@ -1126,7 +1133,7 @@
             },
             "captures": {
                 "name": "Enable Adere-style captures",
-                "description": "Pieces can move between stacks of the same height."
+                "description": "Pieces can move onto an opposing stack of the same height. Increases game length. Consider using smaller boards."
             }
         },
         "onyx": {
@@ -4070,7 +4077,8 @@
             "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece of your colour.",
             "NO_DUPES": "Your move may not include duplicate cells.",
             "PARTIAL_MOVE": "Select the destination.",
-            "PARTIAL_SETUP": "Select a cell to place a star point (you must place at least one), or select a star point you placed to remove it. Click \"Complete move\" when you're done.",
+            "PARTIAL_SETUP_p1": "Select a cell to place a star point (you must place at least one), or select a star point you placed to remove it. Click \"Complete move\" when you're done.",
+            "PARTIAL_SETUP_p2": "Select a cell to place a star point, or select a star point you placed to remove it. You don't have to place any stars, but you typically want to. Click \"Complete move\" when you're done.",
             "SAME_HEIGHT":"Pieces may only move between stacks of the same height."
         },
         "onager": {

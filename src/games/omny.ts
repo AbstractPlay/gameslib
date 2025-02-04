@@ -33,18 +33,22 @@ const starsValid = (g: HexTriGraph, stars: string[]): boolean => {
         const [sx, sy] = g.algebraic2coords(star);
         // immediate neighbours
         const n1 = new Set<string>(g.neighbours(star));
-        // neighbours of neighbours
+        // neighbours of neighbours (doesn't apply to size-4 boards)
         const n2 = new Set<string>();
-        [...n1].forEach(cell => g.neighbours(cell).forEach(n => n2.add(n)));
+        if (g.minwidth > 4) {
+            [...n1].forEach(cell => g.neighbours(cell).forEach(n => n2.add(n)));
+        }
         // combined
         const alln = new Set<string>([...n1, ...n2]);
         // delete starting cell
         alln.delete(star);
-        // delete each cell at straight-line distance 2 away
-        for (const dir of HexTriGraph.directions) {
-            const ray = g.ray(sx, sy, dir).map(c => g.coords2algebraic(...c));
-            if (ray.length >= 2) {
-                alln.delete(ray[1]);
+        // delete each cell at straight-line distance 2 away (doesn't apply to size-4 boards)
+        if (g.minwidth > 4) {
+            for (const dir of HexTriGraph.directions) {
+                const ray = g.ray(sx, sy, dir).map(c => g.coords2algebraic(...c));
+                if (ray.length >= 2) {
+                    alln.delete(ray[1]);
+                }
             }
         }
         // if any of the stars appear in this set, it's invalid
@@ -74,6 +78,8 @@ export class OmnyGame extends GameBase {
             }
         ],
         variants: [
+            {uid: "size-4", group: "board"},
+            {uid: "size-5", group: "board"},
             {uid: "size-6", group: "board"},
             {uid: "size-7", group: "board"},
             {uid: "size-9", group: "board"},
@@ -81,15 +87,15 @@ export class OmnyGame extends GameBase {
             {uid: "constellation", group: "stars"},
             {uid: "gyre", group: "stars"},
             {uid: "yex", group: "stars"},
-            {uid: "free", group: "stars"},
             {uid: "random-3", group: "stars"},
             {uid: "random-5", group: "stars"},
             {uid: "random-7", group: "stars"},
             {uid: "random-9", group: "stars"},
+            {uid: "free", group: "stars"},
             {uid: "captures"},
         ],
-        categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "automove"]
+        categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        flags: ["experimental", "pie", "automove", "random-start"]
     };
 
     public numplayers = 2;
@@ -129,11 +135,21 @@ export class OmnyGame extends GameBase {
                 const [,numStr] = found.split("-");
                 const num = parseInt(numStr, 10);
                 const g = this.graph;
-                let shuffled = shuffle(g.graph.nodes()) as string[];
-                let stars = shuffled.slice(0, num);
-                while (!starsValid(g, stars)) {
-                    shuffled = shuffle(g.graph.nodes()) as string[];
-                    stars = shuffled.slice(0, num);
+                const shuffled = shuffle(g.graph.nodes()) as string[];
+                const stars = [shuffled.pop()!];
+                while (stars.length < num) {
+                    // if we need the rest of the queue to end the loop,
+                    // don't do any testing; just take them
+                    if (shuffled.length === num - stars.length) {
+                        stars.push(...shuffled);
+                    }
+                    // otherwise test the next one
+                    else {
+                        const next = shuffled.pop()!;
+                        if (starsValid(g, [...stars, next])) {
+                            stars.push(next);
+                        }
+                    }
                 }
                 this.startStars = [...stars];
             }
@@ -242,6 +258,10 @@ export class OmnyGame extends GameBase {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
+        }
+
+        if (this.variants.includes("free") && this.stack.length <= 2) {
+            return [];
         }
 
         const moves: string[] = [];
@@ -403,11 +423,30 @@ export class OmnyGame extends GameBase {
                 return result;
             }
 
+            let complete: 1|0|-1 = -1;
+            // P1 restrictions
+            if (this.stack.length === 1) {
+                if (cells.length > 2 && cells.length - 1 < graph.nodes().length) {
+                    complete = 0
+                } else if (cells.length - 1 === graph.nodes().length) {
+                    complete = 1;
+                }
+            }
+            // P2 restrictions
+            else {
+                if (cells.length > 0) {
+                    complete = 0;
+                    if (this.stars.size + cells.length - 1 === graph.nodes().length) {
+                        complete = 1;
+                    }
+                }
+            }
+
             // we're good, but never complete
             result.valid = true;
-            result.complete = cells.length >= 2 ? 0 : -1;
+            result.complete = complete;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.omny.PARTIAL_SETUP");
+            result.message = i18next.t("apgames:validation.omny.PARTIAL_SETUP", {context: this.stack.length === 1 ? "p1" : "p2"});
             return result;
 
         }
@@ -689,7 +728,7 @@ export class OmnyGame extends GameBase {
                 } else if (this.board.has(cell)) {
                     const contents = this.board.get(cell)! as number[];
                     // if on a star point, change the glyph name
-                    if (stars.has(cell)) {
+                    if (stars.has(cell) || this.tmpstars.has(cell)) {
                         contents[contents.length - 1] = contents[contents.length - 1] === 1 ? 3 : 4;
                     }
                     node.push(contents.join("").replace(/1/g, "A").replace(/2/g, "B").replace(/3/g, "Y").replace(/4/g, "Z"));
@@ -818,6 +857,13 @@ export class OmnyGame extends GameBase {
     //     }
     //     return resolved;
     // }
+
+    public getStartingPosition(): string {
+        if (this.startStars !== undefined && this.startStars.length > 0) {
+            return this.startStars.join(",");
+        }
+        return "";
+    }
 
     public clone(): OmnyGame {
         return Object.assign(new OmnyGame(), deepclone(this) as OmnyGame);

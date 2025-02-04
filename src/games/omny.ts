@@ -35,7 +35,7 @@ const starsValid = (g: HexTriGraph, stars: string[]): boolean => {
         const n1 = new Set<string>(g.neighbours(star));
         // neighbours of neighbours (doesn't apply to size-4 boards)
         const n2 = new Set<string>();
-        if (g.minwidth > 4) {
+        if (g.minwidth > 4 || stars.length < 4) {
             [...n1].forEach(cell => g.neighbours(cell).forEach(n => n2.add(n)));
         }
         // combined
@@ -43,7 +43,7 @@ const starsValid = (g: HexTriGraph, stars: string[]): boolean => {
         // delete starting cell
         alln.delete(star);
         // delete each cell at straight-line distance 2 away (doesn't apply to size-4 boards)
-        if (g.minwidth > 4) {
+        if (g.minwidth > 4 || stars.length < 4) {
             for (const dir of HexTriGraph.directions) {
                 const ray = g.ray(sx, sy, dir).map(c => g.coords2algebraic(...c));
                 if (ray.length >= 2) {

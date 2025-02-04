@@ -95,7 +95,7 @@ export class OmnyGame extends GameBase {
             {uid: "captures"},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>stack", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "automove", "random-start"]
+        flags: ["pie", "automove", "random-start"]
     };
 
     public numplayers = 2;

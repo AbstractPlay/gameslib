@@ -203,16 +203,25 @@ export class YavalathGame extends GameBase {
         if (this.numplayers === 3 && this.eliminated === undefined) {
             let nextp = this.currplayer + 1 as playerid;
             if (nextp > this.numplayers) { nextp = 1; }
-            const clone1 = this.clone();
-            clone1.move(m, {trusted: true});
-            const empties = g.graph.nodes().filter(c => !clone1.board.has(c));
-            for (const next of empties) {
-                const clone2 = clone1.clone();
-                clone2.move(next, {trusted: true});
-                if (clone2.gameover && clone2.winner.length === 1 && clone2.winner[0] === nextp) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.yavalath.MUST_BLOCK");
-                    return result;
+
+            // first check to see if the proposed move actually blocks a win
+            const cloned = this.clone();
+            cloned.board.set(m, nextp);
+            const doesBlock = cloned.checkLines(4, nextp);
+
+            // if it doesnt, check to see if there are any wins that need blocking
+            if (!doesBlock) {
+                const clone1 = this.clone();
+                clone1.move(m, {trusted: true});
+                const empties = g.graph.nodes().filter(c => !clone1.board.has(c));
+                for (const next of empties) {
+                    const clone2 = clone1.clone();
+                    clone2.move(next, {trusted: true});
+                    if (clone2.gameover && clone2.winner.length === 1 && clone2.winner[0] === nextp) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.yavalath.MUST_BLOCK");
+                        return result;
+                    }
                 }
             }
         }

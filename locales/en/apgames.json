@@ -3296,6 +3296,7 @@
             "NORMALISE": "The move needs to be normalised. Try '{{normalised}}'."
         },
         "byte": {
+            "ADJ_ONLY": "Stacks may only move to adjacent cells.",
             "DIAG_ONLY": "Stacks may only move diagonally.",
             "INITIAL_INSTRUCTIONS": "Select a stack to move. If merging stacks, select the bottom checker you wish to move.",
             "INVALID_INDEX": "There is no checker at position {{index}} in the stack at {{where}}.",

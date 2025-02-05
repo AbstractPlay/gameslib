@@ -377,6 +377,12 @@ export class ByteGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
                 return result;
             }
+            // must be adjacent
+            if (!graph.neighbours(from).includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.byte.ADJ_ONLY");
+                return result;
+            }
             // can only move diagonally
             const [tox, toy] = graph.algebraic2coords(to);
             if (tox % 2 === toy % 2) {

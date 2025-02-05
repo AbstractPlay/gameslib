@@ -268,11 +268,16 @@ export class StorisendeGame extends GameBase {
                 // otherwise you're selecting a destination
                 // autocomplete happens here
                 else {
-                    const matches = this.moves().filter(m => m.startsWith(move) && m.endsWith(cell));
-                    if (matches.length === 1) {
-                        newmove = matches[0];
+                    // if you click the same cell, deselect
+                    if (move === cell) {
+                        newmove = "";
                     } else {
-                        newmove = move + "-" + cell;
+                        const matches = this.moves().filter(m => m.startsWith(move) && m.endsWith(cell));
+                        if (matches.length === 1) {
+                            newmove = matches[0];
+                        } else {
+                            newmove = move + "-" + cell;
+                        }
                     }
                 }
             }

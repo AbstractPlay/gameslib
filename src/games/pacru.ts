@@ -81,6 +81,8 @@ export class PacruGame extends GameBase {
         dateAdded: "2023-06-18",
         // i18next.t("apgames:descriptions.pacru")
         description: "apgames:descriptions.pacru",
+        // i18next.t("apgames:notes.pacru")
+        notes: "apgames:notes.pacru",
         urls: ["https://boardgamegeek.com/boardgame/6803/pacru"],
         people: [
             {

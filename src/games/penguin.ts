@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { RectGrid, reviver, SquareDirectedGraph, UserFacingError, Direction as Direction, allDirections, normDeg, smallestDegreeDiff } from "../common";
+import { RectGrid, reviver, SquareDirectedGraph, UserFacingError, Direction as Direction, allDirections, normDeg, smallestDegreeDiff, deg2dir, dir2deg } from "../common";
 import i18next from "i18next";
 
 export type playerid = 1|2;
@@ -16,28 +16,6 @@ type ExecutionResults = {
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
-
-const deg2dir = new Map<number, Direction>([
-    [0, "N"],
-    [45, "NE"],
-    [90, "E"],
-    [135, "SE"],
-    [180, "S"],
-    [225, "SW"],
-    [270, "W"],
-    [315, "NW"],
-]);
-
-const dir2deg = new Map<Direction, number>([
-    ["N", 0],
-    ["NE", 45],
-    ["E", 90],
-    ["SE", 135],
-    ["S", 180],
-    ["SW", 225],
-    ["W", 270],
-    ["NW", 315],
-]);
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;

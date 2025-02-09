@@ -1,6 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import { IPoint } from ".";
+import { IPoint, Direction } from ".";
+
+export const deg2dir = new Map<number, Direction>([
+    [0, "N"],
+    [45, "NE"],
+    [90, "E"],
+    [135, "SE"],
+    [180, "S"],
+    [225, "SW"],
+    [270, "W"],
+    [315, "NW"],
+]);
+
+export const dir2deg = new Map<Direction, number>([
+    ["N", 0],
+    ["NE", 45],
+    ["E", 90],
+    ["SE", 135],
+    ["S", 180],
+    ["SW", 225],
+    ["W", 270],
+    ["NW", 315],
+]);
 
 /**
  * Ensures a degree measurement lies [0, 360)
@@ -20,7 +42,7 @@ export const deg2rad = (deg: number): number => {
 }
 
 /**
- * Converts degrees to radians
+ * Converts radians to degrees
  */
 export const rad2deg = (rad: number): number => {
     return rad * (180 / Math.PI);

@@ -121,6 +121,7 @@
         "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
         "oware": "A traditional West African sowing game where you try to capture the most pieces.",
         "owlman": "An asymmetrical game where a professor and his assistants are trying to track down the mythical Owlman and his lair, while the Owlman tries to scare them all out of the forest.",
+        "pacru": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
         "pahtum": "Accumulate points by establishing lines of your own pieces of various lengths, but five cells each game are blocked. A capturing option is also available.",
         "penguin": "It is a truth universally acknowledged that everybody loves seeing penguins sliding around on the ice. And soccer is the world's game, right? So take some cute families of penguins, give them an icy soccer field and a ball, and watch the slippery goodness that ensues.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
@@ -2870,6 +2871,7 @@
             "OFFENSE": "Offensive player",
             "COUNTDOWN": "Plies remaining"
         },
+        "pacru": "Tiles left to win",
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
         "PIECESINHANDSTASH": "Pieces in hand / stash",
@@ -4128,6 +4130,24 @@
         "owlman": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "PARTIAL": "Select a destination."
+        },
+        "pacru": {
+            "BAD_CONNECTION": "You requested a connection change even though one was not made.",
+            "ENEMY_TILE": "You can't land on opposing tiles except by pincer.",
+            "INITIAL_INSTRUCTIONS": "Select a chevron to move.",
+            "NEED_DESTINATION": "Select the destination (valid targets are highlighted) or select the same piece again to begin reorientation.",
+            "ONLY_NEUTRAL": "During a borderland change, you may only convert unoccupied neutral cells.",
+            "ONLY_OPPOSING": "During a borderland transformation, you may only convert unoccupied opposing cells.",
+            "OVER_ORIENT": "You may not reorient more than 90 degrees in a single turn.",
+            "RELINQUISH_EMPTY": "The tile at {{where}} has a chevron. Occupied tiles cannot be relinquished.",
+            "RELINQUISH_OWN": "The tile at {{where}} does not belong to you and cannot be relinquished.",
+            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face.",
+            "SELECT_CELL_blChange": "Borderland change: Select a neutral cell to convert to your colour.",
+            "SELECT_CELL_blTransform": "Borderland transformation: Select an opposing cell to convert to your colour.",
+            "SELECT_CELL_both": "You changed borderlands *and* made a connection. Select one of the highlighted cells to convert it to your colour, or select your starting cell to trigger the connection change. You can't do both.",
+            "SELECT_CELL_meeting": "A meeting has occurred! Select one of the highlighted cells to convert to your colour.",
+            "SELECT_CELL_orientation_one": "Reorientation: Select one more highlighted cell to relinquish.",
+            "SELECT_CELL_orientation_other": "Reorientation: Select {{count}} more highlighted cells to relinquish."
         },
         "pahtum": {
             "INITIAL_INSTRUCTIONS_offer": "Place all five blocks. Your opponent will then choose which colour to play.",

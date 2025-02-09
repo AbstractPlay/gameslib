@@ -5,8 +5,8 @@ import "mocha";
 import { expect } from "chai";
 import { AccastaGame } from '../../src/games';
 
-describe("EOG", () => {
-    it ("Timing", () => {
+describe("Accasta", () => {
+    it ("EOG Timing", () => {
         const g = new AccastaGame();
         g.board.clear();
         g.board.set("e3", [["S", 1]]);

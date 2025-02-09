@@ -429,7 +429,8 @@
         "tablero": "The dice were rolled: {{values}}."
     },
     "SACRIFICE": {
-        "moonsquad": "{{player}} sacrificed an ore ({{ore}}) to move their squads."
+        "moonsquad": "{{player}} sacrificed an ore ({{ore}}) to move their squads.",
+        "nowhat": "{{player}} sacrificed a piece at {{where}}."
     },
     "SCORE_REPORT": "{{player}}'s score is now {{score}}.",
     "SELECT": {

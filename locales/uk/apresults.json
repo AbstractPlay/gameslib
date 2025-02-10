@@ -534,7 +534,8 @@
     },
     "FLIP": "{{player}} перевертає {{where}} і відкриває {{revealed}}.",
     "SACRIFICE": {
-        "moonsquad": "{{player}} пожертвував руду ({{ore}}), щоб перемістити свої загони."
+        "moonsquad": "{{player}} пожертвував руду ({{ore}}), щоб перемістити свої загони.",
+        "nowhat": "{{player}} пожертвував шматком при {{where}}."
     },
     "USE": {
         "camelot_castle_move_none": "У {{player}} більше немає ходів замку.",

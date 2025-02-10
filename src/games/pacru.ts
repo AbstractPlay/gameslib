@@ -1095,6 +1095,9 @@ export class PacruGame extends GameBase {
                             }
                         }
                     }
+                    if (sideEffects.has("connChange")) {
+                        this.highlights.push(from);
+                    }
                 }
                 // if no cells but also no side effects
                 // or if a cell was provided, look for meetings

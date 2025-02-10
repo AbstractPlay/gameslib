@@ -667,7 +667,8 @@
         },
         "control": {
             "size-5": {
-                "name": "Small board (Size 5)"
+                "name": "Small board (Size 5)",
+                "description": "Ideal for learning the rules"
             },
             "size-9": {
                 "name": "Large board (Size 9)"
@@ -1979,7 +1980,8 @@
         },
         "control": {
             "board": {
-                "name": "board (Size 7)"
+                "name": "board (Size 7)",
+                "description": "Ideal for experienced players"
             }
         },
         "courtesan": {

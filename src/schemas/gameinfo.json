@@ -118,6 +118,10 @@
                 "$ref": "#/definitions/person"
             }
         },
+        "defaults": {
+            "description": "A succinct, plain text description of the ruleset of the base, \"no variants provided\" game. Often most useful when there are many variant choices.",
+            "type": "string"
+        },
         "variants": {
             "description": "A list of supported variants",
             "type": "array",

@@ -48,6 +48,10 @@ export interface APGamesInformation {
    */
   people?: Person[];
   /**
+   * A succinct, plain text description of the ruleset of the base, "no variants provided" game. Often most useful when there are many variant choices.
+   */
+  defaults?: string;
+  /**
    * A list of supported variants
    */
   variants?: Variant[];

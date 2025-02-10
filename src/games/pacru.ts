@@ -110,7 +110,6 @@ export class PacruGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public graph: PacruGraph = new PacruGraph();
     private highlights: string[] = [];
     private buffers: Direction[] = [];
 
@@ -181,7 +180,6 @@ export class PacruGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
-        this.graph = new PacruGraph();
         return this;
     }
 
@@ -197,8 +195,9 @@ export class PacruGame extends GameBase {
         const baseMove = moves[0];
         const {from, to} = this.parseMove(baseMove);
         const effects = this.getSideEffects(from!, to!, baseMove.includes("x"));
-        const ctr = this.graph.cell2ctr(to!);
-        const blCells = this.graph.ctr2cells(ctr);
+        const g = new PacruGraph();
+        const ctr = g.cell2ctr(to!);
+        const blCells = g.ctr2cells(ctr);
         const cells: string[] = [];
         if (effects.has("connChange")) {
             cells.push("*");
@@ -230,7 +229,7 @@ export class PacruGame extends GameBase {
         cloned.executeMove(interim);
         if (cloned.isMeeting(to!)) {
             const poss: string[] = [];
-            for (const cell of this.graph.graph.nodes()) {
+            for (const cell of g.graph.nodes()) {
                 const contents = cloned.board.get(cell);
                 if (contents === undefined || (contents.tile !== this.currplayer && contents.chevron === undefined)) {
                     poss.push(cell);
@@ -250,13 +249,14 @@ export class PacruGame extends GameBase {
 
         const moves: string[] = [];
         const enemy2attackers = new Map<string, string[]>();
+        const g = new PacruGraph();
 
         const mine = [...this.board.entries()].filter(([,{chevron}]) => chevron !== undefined && chevron.owner === player);
         // basic moves first
         for (const [cell, {chevron}] of mine) {
             const pom = this.calcMvPower(cell);
-            for (const dir of this.graph.facing2dirs(chevron!.facing)) {
-                const ray = this.graph.ray(cell, dir).slice(0, pom);
+            for (const dir of g.facing2dirs(chevron!.facing)) {
+                const ray = g.ray(cell, dir).slice(0, pom);
                 let blocked = false; // whether we've encountered another chevron in this direction
                 for (const next of ray) {
                     const contents = this.board.get(next);
@@ -309,9 +309,10 @@ export class PacruGame extends GameBase {
             throw new Error(`No chevron at ${cell}`);
         }
         const player = contents.chevron.owner;
-        const ctr = this.graph.cell2ctr(cell);
+        const g = new PacruGraph();
+        const ctr = g.cell2ctr(cell);
         let power = 0;
-        for (const node of this.graph.ctr2cells(ctr)) {
+        for (const node of g.ctr2cells(ctr)) {
             const cont = this.board.get(node);
             if (cont !== undefined) {
                 if (cont.tile === player) {
@@ -326,6 +327,7 @@ export class PacruGame extends GameBase {
     // and invalidated after claiming cells after a bl or connection change.
     // See `isMeeting` function.
     public getSideEffects(from: string, to: string, isCapture = false): Set<SideEffect> {
+        const g = new PacruGraph();
         const set = new Set<SideEffect>();
         const fContents = this.board.get(from);
         if (fContents === undefined || fContents.chevron === undefined) {
@@ -333,16 +335,16 @@ export class PacruGame extends GameBase {
         }
         const player = fContents.chevron.owner;
         const tContents = this.board.get(to);
-        const [fx, fy] = this.graph.algebraic2coords(from);
-        const [tx, ty] = this.graph.algebraic2coords(to);
+        const [fx, fy] = g.algebraic2coords(from);
+        const [tx, ty] = g.algebraic2coords(to);
 
         // did we change borderlands
-        const fCtr = this.graph.cell2ctr(from);
-        const tCtr = this.graph.cell2ctr(to);
+        const fCtr = g.cell2ctr(from);
+        const tCtr = g.cell2ctr(to);
         if (fCtr !== tCtr) {
             const neutrals: string[] = [];
             const opposing: string[] = [];
-            for (const cell of (this.graph.ctr2cells(tCtr))) {
+            for (const cell of (g.ctr2cells(tCtr))) {
                 // if this is a capture, then `to` is neither neutral nor opposing
                 if (isCapture && cell === to) { continue; }
                 const contents = this.board.get(cell);
@@ -382,7 +384,7 @@ export class PacruGame extends GameBase {
         // are we connecting
         if (fContents.tile === player && tContents !== undefined && tContents.tile === player) {
             // only applies if no intervening chevrons
-            const between = RectGrid.between(fx, fy, tx, ty).map(c => this.graph.coords2algebraic(...c));
+            const between = RectGrid.between(fx, fy, tx, ty).map(c => g.coords2algebraic(...c));
             let blocked = false;
             for (const cell of between) {
                 const contents = this.board.get(cell);
@@ -412,7 +414,8 @@ export class PacruGame extends GameBase {
         if (tContents.tile === undefined) {
             return false;
         }
-        const next = this.graph.move(to, tContents.chevron.facing, 1);
+        const g = new PacruGraph();
+        const next = g.move(to, tContents.chevron.facing, 1);
         // if facing edge of board, false
         if (next === undefined) {
             return false;
@@ -491,7 +494,7 @@ export class PacruGame extends GameBase {
                         if (contents === undefined || contents.chevron === undefined) {
                             throw new Error(`No chevron found at ${src}`);
                         }
-                        const [sx, sy] = this.graph.algebraic2coords(src);
+                        const [sx, sy] = PacruGame.algebraic2coords(src);
                         let newdir = "";
                         if (yClick < sy) {
                             newdir = "N";
@@ -589,6 +592,7 @@ export class PacruGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        const g = new PacruGraph();
 
         if (m.length === 0) {
             result.valid = true;
@@ -614,7 +618,7 @@ export class PacruGame extends GameBase {
         // never have to check for available moves because elimination happens before this
         if (orientation !== undefined) {
             // valid cell
-            if (!this.graph.graph.hasNode(from)) {
+            if (!g.graph.hasNode(from)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
                 return result;
@@ -642,7 +646,7 @@ export class PacruGame extends GameBase {
             if (cells !== undefined) {
                 for (const cell of cells) {
                     // valid cell
-                    if (!this.graph.graph.hasNode(cell)) {
+                    if (!g.graph.hasNode(cell)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                         return result;
@@ -691,7 +695,7 @@ export class PacruGame extends GameBase {
 
             // validate from
             // valid cell
-            if (!this.graph.graph.hasNode(from)) {
+            if (!g.graph.hasNode(from)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
                 return result;
@@ -725,7 +729,7 @@ export class PacruGame extends GameBase {
             } else {
                 // validate to
                 // valid cell
-                if (!this.graph.graph.hasNode(to)) {
+                if (!g.graph.hasNode(to)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
                     return result;
@@ -831,7 +835,7 @@ export class PacruGame extends GameBase {
                                 return result;
                             }
                         } else {
-                            if (!this.graph.graph.hasNode(cell)) {
+                            if (!g.graph.hasNode(cell)) {
                                 result.valid = false;
                                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                                 return result;
@@ -941,8 +945,8 @@ export class PacruGame extends GameBase {
         if (from !== undefined && to !== undefined) {
             const fContents = this.board.get(from)!;
             const tContents = this.board.get(to);
-            const [fx, fy] = this.graph.algebraic2coords(from);
-            const [tx, ty] = this.graph.algebraic2coords(to);
+            const [fx, fy] = PacruGame.algebraic2coords(from);
+            const [tx, ty] = PacruGame.algebraic2coords(to);
             const bearing = RectGrid.bearing(fx, fy, tx, ty)!;
             // delete from
             if (fContents.tile === undefined) {
@@ -995,9 +999,9 @@ export class PacruGame extends GameBase {
                     if (from === undefined || to === undefined) {
                         throw new Error(`Invalid state. Connection change triggered but from or to is undefined.`);
                     }
-                    const [fx, fy] = this.graph.algebraic2coords(from);
-                    const [tx, ty] = this.graph.algebraic2coords(to);
-                    const between = RectGrid.between(fx, fy, tx, ty).map(c => this.graph.coords2algebraic(...c));
+                    const [fx, fy] = PacruGame.algebraic2coords(from);
+                    const [tx, ty] = PacruGame.algebraic2coords(to);
+                    const between = RectGrid.between(fx, fy, tx, ty).map(c => PacruGame.coords2algebraic(...c));
                     cells.push(...between);
                 }
                 for (const cell of cells) {
@@ -1044,6 +1048,7 @@ export class PacruGame extends GameBase {
             // }
         }
 
+        const g = new PacruGraph();
         this.results = [];
         this.highlights = [];
         this.buffers = [];
@@ -1057,10 +1062,10 @@ export class PacruGame extends GameBase {
             // orienting first
             if (isOrienting) {
                 // add neighbouring cells
-                for (const cell of this.graph.neighbours(from)) {
+                for (const cell of g.neighbours(from)) {
                     this.highlights.push(cell);
                 }
-                const [fx, fy] = this.graph.algebraic2coords(from);
+                const [fx, fy] = g.algebraic2coords(from);
                 if (fx === 0) {
                     this.buffers.push("W");
                 } else if (fx === 8) {
@@ -1083,8 +1088,8 @@ export class PacruGame extends GameBase {
                 // no cells provided but side effects, then highlight
                 if (cells === undefined && sideEffects.size > 0) {
                     this.executeMove(m);
-                    const ctr = this.graph.cell2ctr(to);
-                    const blcells = this.graph.ctr2cells(ctr);
+                    const ctr = g.cell2ctr(to);
+                    const blcells = g.ctr2cells(ctr);
                     for (const cell of blcells) {
                         if (sideEffects.has("blChange") && !this.board.has(cell)) {
                             this.highlights.push(cell);
@@ -1104,7 +1109,7 @@ export class PacruGame extends GameBase {
                 if ((cells === undefined && sideEffects.size === 0) || (cells !== undefined && cells.length > 0)) {
                     this.executeMove(m);
                     if (this.isMeeting(to)) {
-                        for (const cell of this.graph.graph.nodes()) {
+                        for (const cell of g.graph.nodes()) {
                             const contents = this.board.get(cell);
                             if (contents === undefined || (contents.tile !== this.currplayer && contents.chevron === undefined)) {
                                 this.highlights.push(cell);
@@ -1115,7 +1120,7 @@ export class PacruGame extends GameBase {
             }
             // highlight relinquishments
             else if (orientation !== undefined) {
-                for (const cell of this.graph.graph.nodes()) {
+                for (const cell of g.graph.nodes()) {
                     const contents = this.board.get(cell);
                     if (contents !== undefined && contents.tile === this.currplayer && contents.chevron === undefined) {
                         this.highlights.push(cell);
@@ -1409,7 +1414,6 @@ export class PacruGame extends GameBase {
     public clone(): PacruGame {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const cloned = Object.assign(new PacruGame(this.numplayers), deepclone(this) as PacruGame);
-        cloned.graph = new PacruGraph();
         return cloned;
     }
 }

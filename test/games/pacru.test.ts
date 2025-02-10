@@ -4,14 +4,16 @@
 import "mocha";
 import { expect } from "chai";
 import { PacruGame } from '../../src/games';
+import { PacruGraph } from "../../src/games/pacru/graph";
 
 describe("Pacru", () => {
     it ("Side effects detected", () => {
+        const graph = new PacruGraph();
         let g = new PacruGame(2);
         let effects = g.getSideEffects("g9", "f8");
         expect(effects.size).equal(1);
         expect(effects.has("blChange")).to.be.true;
-        for (const cell of g.graph.ctr2cells("e8")) {
+        for (const cell of graph.ctr2cells("e8")) {
             if (cell === "f8") {
                 g.board.set("f8", {tile: 1});
             } else {
@@ -21,7 +23,7 @@ describe("Pacru", () => {
         effects = g.getSideEffects("g9", "f8");
         expect(effects.size).equal(1);
         expect(effects.has("blTransform")).to.be.true;
-        for (const cell of g.graph.ctr2cells("e8")) {
+        for (const cell of graph.ctr2cells("e8")) {
             g.board.delete(cell);
         }
         g.board.set("e7", {tile: 1});
@@ -63,7 +65,7 @@ describe("Pacru", () => {
         g.board.set("e9", {tile: 1});
         g.board.set("e8", {tile: 1});
         g.board.set("e7", {tile: 1});
-        for (const cell of g.graph.ctr2cells("e5")) {
+        for (const cell of graph.ctr2cells("e5")) {
             if (cell === "d6") {
                 g.board.set("d6", {tile: 2, chevron: {owner: 2, facing: "S"}});
             } else {
@@ -96,6 +98,7 @@ describe("Pacru", () => {
 
     it ("Meetings detected", () => {
         // not enough enemy tiles
+        const graph = new PacruGraph();
         let g = new PacruGame(2);
         g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
         g.board.set("g8", {tile: 1});
@@ -108,7 +111,7 @@ describe("Pacru", () => {
         g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
         g.board.set("g8", {tile: 1});
         g.board.set("g7", {tile: 1, chevron: {owner: 1, facing: "N"}});
-        for (const cell of g.graph.ctr2cells("e5")) {
+        for (const cell of graph.ctr2cells("e5")) {
             g.board.set(cell, {tile: 2});
         }
         g.executeMove("g9-g8");
@@ -118,7 +121,7 @@ describe("Pacru", () => {
         g = new PacruGame(2);
         g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
         g.board.set("g7", {tile: 1, chevron: {owner: 1, facing: "N"}});
-        for (const cell of g.graph.ctr2cells("e5")) {
+        for (const cell of graph.ctr2cells("e5")) {
             g.board.set(cell, {tile: 2});
         }
         g.executeMove("g9-g8");

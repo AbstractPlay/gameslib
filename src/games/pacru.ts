@@ -1156,7 +1156,7 @@ export class PacruGame extends GameBase {
                     const ctr = g.cell2ctr(to);
                     const blcells = g.ctr2cells(ctr);
                     for (const cell of blcells) {
-                        if (sideEffects.has("blChange") && (!this.board.has(cell) || !toHasTile)) {
+                        if (sideEffects.has("blChange") && (!this.board.has(cell) || (cell === to && !toHasTile))) {
                             this.highlights.push(cell);
                         } else if (sideEffects.has("blTransform")) {
                             const contents = this.board.get(cell)!;

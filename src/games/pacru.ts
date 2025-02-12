@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { deg2dir, dir2deg, Direction, normDeg, oppositeDirections, RectGrid, replacer, reviver, shuffle, smallestDegreeDiff, UserFacingError } from "../common";
+import { deg2dir, dir2deg, Direction, normDeg, oppositeDirections, RectGrid, replacer, reviver, rotateFacing, shuffle, smallestDegreeDiff, UserFacingError } from "../common";
 import i18next from "i18next";
 import { PacruGraph } from "./pacru/graph";
 import { Glyph } from "@abstractplay/renderer/build";
@@ -1126,8 +1126,13 @@ export class PacruGame extends GameBase {
             // orienting first
             if (isOrienting) {
                 // add neighbouring cells
-                for (const cell of g.neighbours(from)) {
-                    this.highlights.push(cell);
+                const {chevron} = this.board.get(from)!;
+                const dirs = [-90, -45, 45, 90].map(d => rotateFacing(chevron!.facing, d));
+                for (const dir of dirs) {
+                    const ray = g.ray(from, dir);
+                    if (ray.length > 0) {
+                        this.highlights.push(ray[0]);
+                    }
                 }
                 const [fx, fy] = g.algebraic2coords(from);
                 if (fx === 0) {

@@ -24,6 +24,13 @@ export const dir2deg = new Map<Direction, number>([
     ["NW", 315],
 ]);
 
+// Delta is only parsed as a multiple of 45 degrees
+export const rotateFacing = (facing: Direction, delta: number): Direction => {
+    delta = Math.floor(delta / 45) * 45;
+    const newdeg = normDeg(dir2deg.get(facing)! + delta);
+    return deg2dir.get(newdeg)!;
+}
+
 /**
  * Ensures a degree measurement lies [0, 360)
  */

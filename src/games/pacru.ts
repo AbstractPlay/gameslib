@@ -914,7 +914,6 @@ export class PacruGame extends GameBase {
                     if (isMeeting) {
                         target++;
                     }
-                    console.log(`Target: ${target}`);
                     // see if enough cells have been provided
                     if (cells.length > target) {
                         result.valid = false;

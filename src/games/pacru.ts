@@ -253,7 +253,7 @@ export class PacruGame extends GameBase {
 
         const mine = [...this.board.entries()].filter(([,{chevron}]) => chevron !== undefined && chevron.owner === player);
         // basic moves first
-        for (const [cell, {chevron}] of mine) {
+        for (const [cell, {tile, chevron}] of mine) {
             const pom = this.calcMvPower(cell);
             for (const dir of g.facing2dirs(chevron!.facing)) {
                 const ray = g.ray(cell, dir).slice(0, pom);
@@ -262,7 +262,7 @@ export class PacruGame extends GameBase {
                     const contents = this.board.get(next);
                     // once blocked is true, only connection jumps should be considered
                     if (blocked) {
-                        if (contents !== undefined && contents.tile === player && contents.chevron === undefined) {
+                        if (tile === player && contents !== undefined && contents.tile === player && contents.chevron === undefined) {
                             moves.push(`${cell}-${next}`);
                         }
                     }
@@ -283,7 +283,7 @@ export class PacruGame extends GameBase {
                             }
                         }
                         // otherwise, move if possible
-                        else if (contents === undefined || contents.tile === undefined || contents.tile === player) {
+                        else if ((contents === undefined || contents.tile === undefined || contents.tile === player)) {
                             moves.push(`${cell}-${next}`);
                         }
                     }
@@ -892,20 +892,28 @@ export class PacruGame extends GameBase {
                             }
                         }
                     }
-                    // none of the cells may have a chevron, except `to`
                     for (const cell of cells) {
                         if (cell === "*") { continue; }
                         const contents = this.board.get(cell);
+                        // none of the cells may have a chevron, except `to`
                         if (contents !== undefined && contents.chevron !== undefined) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.pacru.ONLY_UNOCCUPIED");
                             return result;
                         }
+                        // none of the cells may have your own tile
+                        if (contents !== undefined && contents.tile !== undefined && contents.tile === this.currplayer) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.pacru.ONLY_OPPOSING");
+                            return result;
+                        }
                     }
 
-                    // see if there's a meeting
+                    // see if there's a meeting (but don't pass cells!)
+                    // if you pass the cells, and the cells change the meeting threshold,
+                    // then isMeeting will be incorrectly false
                     const cloned = this.clone();
-                    cloned.executeMove(m);
+                    cloned.executeMove(`${from}${isCapture ? "x" : "-"}${to}`);
                     const isMeeting = cloned.isMeeting(to);
                     let target = 0;
                     if (sideEffects.size > 0) {

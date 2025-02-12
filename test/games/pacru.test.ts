@@ -143,6 +143,18 @@ describe("Pacru", () => {
         }
         g.executeMove("g9-g8");
         expect(g.isMeeting("g8")).to.be.false;
+
+        // validation edge case where your meeting drops the threshold
+        g = new PacruGame(2);
+        g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
+        g.board.set("g8", {tile: 1});
+        g.board.set("g7", {tile: 1, chevron: {owner: 1, facing: "N"}});
+        for (const cell of graph.ctr2cells("e5")) {
+            g.board.set(cell, {tile: 2});
+        }
+        const results = g.validateMove("g9-g8(e5)");
+        expect(results.valid).to.be.true;
+        expect(results.complete).equal(1);
     });
 
     it("Cell validation edge cases", () => {
@@ -156,6 +168,7 @@ describe("Pacru", () => {
         g.board.set("e3", {chevron: {owner: 1, facing: "N"}});
         g.board.set("e4", {chevron: {owner: 2, facing: "N"}});
         g.board.set("e5", {tile: 1, chevron: {owner: 1, facing: "S"}});
+        g.board.set("i8", {tile: 1});
         let result = g.validateMove("e3xe4(e6, i9)");
         expect(result.valid).to.be.true;
         expect(result.complete).equal(1);
@@ -170,6 +183,9 @@ describe("Pacru", () => {
         expect(result.valid).to.be.false;
         // try to claim too many cells
         result = g.validateMove("e3xe4(e6, i9, i8)");
+        expect(result.valid).to.be.false;
+        // try to claim your own tile
+        result = g.validateMove("e3xe4(e6, i8)");
         expect(result.valid).to.be.false;
     });
 

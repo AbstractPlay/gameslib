@@ -775,7 +775,7 @@ export class PacruGame extends GameBase {
                         // can't land on enemy tiles
                         if (tContents.tile !== undefined && tContents.tile !== this.currplayer) {
                             result.valid = false;
-                            result.message = i18next.t("apgames:validation._general.SELFCAPTURE");
+                            result.message = i18next.t("apgames:validation.pacru.ENEMY_TILE");
                             return result;
                         }
                         // must use correct operator
@@ -874,8 +874,8 @@ export class PacruGame extends GameBase {
                             return result;
                         }
                         // blChange: at least one is neutral
-                        if (sideEffects.has("blChange")) {
-                            const neutral = cells.filter(c => c !== "*" && (this.board.get(c) === undefined || (c === to && !isCapture)));
+                        if (sideEffects.has("blChange") && !cells.includes("*")) {
+                            const neutral = cells.filter(c =>this.board.get(c) === undefined || (c === to && !isCapture));
                             if (neutral.length === 0) {
                                 result.valid = false;
                                 result.message = i18next.t("apgames:validation.pacru.ONLY_NEUTRAL");
@@ -883,8 +883,8 @@ export class PacruGame extends GameBase {
                             }
                         }
                         // blTransform: at least one is opposing
-                        else {
-                            const opposing = cells.filter(c => c !== "*" && this.board.has(c) && this.board.get(c)!.tile !== undefined && this.board.get(c)!.tile !== this.currplayer && this.board.get(c)!.chevron === undefined);
+                        else if (!cells.includes("*")) {
+                            const opposing = cells.filter(c => this.board.has(c) && this.board.get(c)!.tile !== undefined && this.board.get(c)!.tile !== this.currplayer && this.board.get(c)!.chevron === undefined);
                             if (opposing.length === 0) {
                                 result.valid = false;
                                 result.message = i18next.t("apgames:validation.pacru.ONLY_OPPOSING");

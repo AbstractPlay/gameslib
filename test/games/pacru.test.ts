@@ -76,6 +76,23 @@ describe("Pacru", () => {
         effects = g.getSideEffects("d9", "d6", true);
         expect(effects.size).equal(1);
         expect(effects.has("blTransform")).to.be.true;
+
+        // blChange triggers even when you move into last neutral cell
+        g = new PacruGame(2);
+        for (const cell of graph.ctr2cells("e8")) {
+            if (cell === "f8") {
+                continue
+            } else {
+                g.board.set(cell, {tile: 2});
+            }
+        }
+        expect(g.baseMoves().includes("g9-f8")).to.be.true;
+        effects = g.getSideEffects("g9", "f8");
+        expect(effects.size).equal(1);
+        expect(effects.has("blChange")).to.be.true;
+        const results = g.validateMove("g9-f8(f8)");
+        expect(results.valid).to.be.true;
+        expect(results.complete).equal(1);
     });
 
     it ("Pincers detected and executed correctly", () => {
@@ -126,6 +143,34 @@ describe("Pacru", () => {
         }
         g.executeMove("g9-g8");
         expect(g.isMeeting("g8")).to.be.false;
+    });
+
+    it("Cell validation edge cases", () => {
+        // combination capture + blChange + meeting
+        const graph = new PacruGraph();
+        const g = new PacruGame(2);
+        for (const cell of graph.ctr2cells("b5")) {
+            g.board.set(cell, {tile: 2});
+        }
+        g.board.set("d3", {chevron: {owner: 1, facing: "N"}});
+        g.board.set("e3", {chevron: {owner: 1, facing: "N"}});
+        g.board.set("e4", {chevron: {owner: 2, facing: "N"}});
+        g.board.set("e5", {tile: 1, chevron: {owner: 1, facing: "S"}});
+        let result = g.validateMove("e3xe4(e6, i9)");
+        expect(result.valid).to.be.true;
+        expect(result.complete).equal(1);
+        // move the first claim to outside the bl
+        result = g.validateMove("e3xe4(e7, i9)");
+        expect(result.valid).to.be.false;
+        // try to claim the cell you just captured
+        result = g.validateMove("e3xe4(e4, i9)");
+        expect(result.valid).to.be.false;
+        // try to claim an occupied cell
+        result = g.validateMove("e3xe4(e6, g9)");
+        expect(result.valid).to.be.false;
+        // try to claim too many cells
+        result = g.validateMove("e3xe4(e6, i9, i8)");
+        expect(result.valid).to.be.false;
     });
 });
 

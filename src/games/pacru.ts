@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -358,11 +358,10 @@ export class PacruGame extends GameBase {
             // if neutrals are avaialable, then blChange is the only option
             if (neutrals.length > 0) {
                 // but only return the effect if at least one is unoccupied
+                // (remember that you can place a tile into the cell you just moved into)
                 for (const n of neutrals) {
-                    // ignore to
-                    if (n === to) { continue; }
                     const cont = this.board.get(n);
-                    if (cont === undefined || cont.chevron === undefined) {
+                    if (n === to || cont === undefined || cont.chevron === undefined) {
                         set.add("blChange");
                         break;
                     }
@@ -603,6 +602,12 @@ export class PacruGame extends GameBase {
 
         // check for reorientation trigger
         if (m.length === 3 && m.endsWith("*")) {
+            if (this.numTiles() < 2) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH");
+                return result;
+            }
+
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
@@ -639,6 +644,12 @@ export class PacruGame extends GameBase {
             if (orientation.length > 2 || orientation.length === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pacru.OVER_ORIENT");
+                return result;
+            }
+            // you can afford it
+            if (this.numTiles() < 2 * orientation.length) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH");
                 return result;
             }
 
@@ -712,12 +723,13 @@ export class PacruGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                 return result;
             }
-            // has legal moves
-            if (baseMoves.filter(mv => mv.startsWith(from)).length === 0) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.NO_MOVES", {where: from});
-                return result;
-            }
+            // CAN'T DO THE FOLLOWING BECAUSE YOU STILL NEED TO BE ABLE TO REORIENT
+            // // has legal moves
+            // if (baseMoves.filter(mv => mv.startsWith(from)).length === 0) {
+            //     result.valid = false;
+            //     result.message = i18next.t("apgames:validation._general.NO_MOVES", {where: from});
+            //     return result;
+            // }
 
             // if no to, return partial
             if (to === undefined) {
@@ -784,9 +796,16 @@ export class PacruGame extends GameBase {
                 }
                 // check that move is in the base move list
                 if (!baseMoves.includes(`${from}${isCapture ? "x" : "-"}${to}`)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: `${from}${isCapture ? "x" : "-"}${to}`});
-                    return result;
+                    // give better error message for captures
+                    if (isCapture) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.pacru.BAD_CAPTURE", {move: `${from}${isCapture ? "x" : "-"}${to}`});
+                        return result;
+                    } else {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: `${from}${isCapture ? "x" : "-"}${to}`});
+                        return result;
+                    }
                 }
 
                 // if no cells, return either partial or complete, depending on side effects
@@ -826,45 +845,83 @@ export class PacruGame extends GameBase {
                 // otherwise validate the side effected cells
                 else {
                     const sideEffects = this.getSideEffects(from, to, isCapture);
+                    // I originally looped through all the cells, but this becomes a problem when
+                    // there are multiple effects because the order of the cells is not certain.
+                    // Instead, go with the "at least one" approach.
+
+                    // `*` is only valid in connection changes
+                    if (cells.includes("*") && !sideEffects.has("connChange")) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.pacru.BAD_CONNECTION");
+                        return result;
+                    }
+                    // make sure all cells are well-formed
                     for (const cell of cells) {
-                        // valid cell
-                        if (cell === "*") {
-                            if (!sideEffects.has("connChange")) {
+                        if (cell !== "*" && !g.graph.hasNode(cell)) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                            return result;
+                        }
+                    }
+                    const ctr = g.cell2ctr(to);
+                    const blCells = g.ctr2cells(ctr);
+                    if (sideEffects.has("blChange") || sideEffects.has("blTransform")) {
+                        // need to validate that selected cells are within the bls where necessary
+                        const within = cells.filter(c => blCells.includes(c) || c === "*");
+                        if (within.length === 0) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.pacru.WITHIN_BL");
+                            return result;
+                        }
+                        // blChange: at least one is neutral
+                        if (sideEffects.has("blChange")) {
+                            const neutral = cells.filter(c => c !== "*" && (this.board.get(c) === undefined || (c === to && !isCapture)));
+                            if (neutral.length === 0) {
                                 result.valid = false;
-                                result.message = i18next.t("apgames:validation.pacru.BAD_CONNECTION");
+                                result.message = i18next.t("apgames:validation.pacru.ONLY_NEUTRAL");
                                 return result;
                             }
-                        } else {
-                            if (!g.graph.hasNode(cell)) {
+                        }
+                        // blTransform: at least one is opposing
+                        else {
+                            const opposing = cells.filter(c => c !== "*" && this.board.has(c) && this.board.get(c)!.tile !== undefined && this.board.get(c)!.tile !== this.currplayer && this.board.get(c)!.chevron === undefined);
+                            if (opposing.length === 0) {
                                 result.valid = false;
-                                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
+                                result.message = i18next.t("apgames:validation.pacru.ONLY_OPPOSING");
                                 return result;
-                            }
-                            const cContents = this.board.get(cell);
-                            if (sideEffects.has("blChange")) {
-                                if (cContents !== undefined) {
-                                    result.valid = false;
-                                    result.message = i18next.t("apgames:validation.pacru.ONLY_NEUTRAL");
-                                    return result;
-                                }
-                            }
-                            else if (sideEffects.has("blTransform")) {
-                                if (cContents === undefined || cContents.chevron !== undefined || cContents.tile === this.currplayer) {
-                                    result.valid = false;
-                                    result.message = i18next.t("apgames:validation.pacru.ONLY_OPPOSING");
-                                    return result;
-                                }
                             }
                         }
                     }
+                    // none of the cells may have a chevron, except `to`
+                    for (const cell of cells) {
+                        if (cell === "*") { continue; }
+                        const contents = this.board.get(cell);
+                        if (contents !== undefined && contents.chevron !== undefined) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.pacru.ONLY_UNOCCUPIED");
+                            return result;
+                        }
+                    }
+
                     // see if there's a meeting
                     const cloned = this.clone();
                     cloned.executeMove(m);
                     const isMeeting = cloned.isMeeting(to);
-                    const target = isMeeting ? 2 : 1;
+                    let target = 0;
+                    if (sideEffects.size > 0) {
+                        target++;
+                    }
+                    if (isMeeting) {
+                        target++;
+                    }
+                    console.log(`Target: ${target}`);
                     // see if enough cells have been provided
-                    // it will only be untrue if a meeting has occurred
-                    if (cells.length < target) {
+                    if (cells.length > target) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.pacru.TOO_MANY_CELLS");
+                        return result;
+                    }
+                    else if (cells.length < target) {
                         result.valid = true;
                         result.complete = -1;
                         result.canrender = true;
@@ -992,7 +1049,8 @@ export class PacruGame extends GameBase {
                 }
             }
             // otherwise just set the tile as belonging to you
-            // clobbers any chevrons because they shouldn't be there in the first place
+            // this code used to clobber chevrons, but it can't because you may
+            // also claim the neutral cell you just moved into on a blChange
             else {
                 // check for connection change
                 if (cells.includes("*")) {
@@ -1007,11 +1065,11 @@ export class PacruGame extends GameBase {
                 for (const cell of cells) {
                     if (cell === "*") { continue; }
                     const contents = this.board.get(cell);
-                    this.board.set(cell, {tile: this.currplayer})
-                    if (contents === undefined) {
+                    this.board.set(cell, {tile: this.currplayer, chevron: contents?.chevron})
+                    if (contents === undefined || (cell === to && contents.tile === undefined)) {
                         this.results.push({type: "claim", where: cell});
                     } else {
-                        this.results.push({type: "convert", what: contents.tile!.toString(), into: this.currplayer.toString(), where: cell});
+                        this.results.push({type: "convert", what: contents.tile?.toString() || "neutral", into: this.currplayer.toString(), where: cell});
                     }
                 }
             }
@@ -1029,6 +1087,13 @@ export class PacruGame extends GameBase {
             }
         }
         return count;
+    }
+
+    public numTiles(p?: playerid): number {
+        if (p === undefined) {
+            p = this.currplayer;
+        }
+        return [...this.board.values()].filter(({tile}) => tile === p).length;
     }
 
     public move(m: string, {trusted = false, partial = false} = {}): PacruGame {
@@ -1088,10 +1153,11 @@ export class PacruGame extends GameBase {
                 // no cells provided but side effects, then highlight
                 if (cells === undefined && sideEffects.size > 0) {
                     this.executeMove(m);
+                    const toHasTile = this.board.get(to)!.tile !== undefined;
                     const ctr = g.cell2ctr(to);
                     const blcells = g.ctr2cells(ctr);
                     for (const cell of blcells) {
-                        if (sideEffects.has("blChange") && !this.board.has(cell)) {
+                        if (sideEffects.has("blChange") && (!this.board.has(cell) || !toHasTile)) {
                             this.highlights.push(cell);
                         } else if (sideEffects.has("blTransform")) {
                             const contents = this.board.get(cell)!;
@@ -1108,18 +1174,21 @@ export class PacruGame extends GameBase {
                 // or if a cell was provided, look for meetings
                 if ((cells === undefined && sideEffects.size === 0) || (cells !== undefined && cells.length > 0)) {
                     this.executeMove(m);
-                    if (this.isMeeting(to)) {
-                        for (const cell of g.graph.nodes()) {
-                            const contents = this.board.get(cell);
-                            if (contents === undefined || (contents.tile !== this.currplayer && contents.chevron === undefined)) {
-                                this.highlights.push(cell);
-                            }
-                        }
-                    }
+                    // VISUALLY OVERWHELMING
+                    // SKIPPING MEETING HIGHLIGHTS FOR NOW
+                    // if (this.isMeeting(to)) {
+                    //     for (const cell of g.graph.nodes()) {
+                    //         const contents = this.board.get(cell);
+                    //         if (contents === undefined || (contents.tile !== this.currplayer && contents.chevron === undefined)) {
+                    //             this.highlights.push(cell);
+                    //         }
+                    //     }
+                    // }
                 }
             }
             // highlight relinquishments
             else if (orientation !== undefined) {
+                this.executeMove(m);
                 for (const cell of g.graph.nodes()) {
                     const contents = this.board.get(cell);
                     if (contents !== undefined && contents.tile === this.currplayer && contents.chevron === undefined) {
@@ -1190,13 +1259,7 @@ export class PacruGame extends GameBase {
     }
 
     public getPlayerScore(player: number): number {
-        let count = 0;
-        for (const {tile} of this.board.values()) {
-            if (tile === player) {
-                count++;
-            }
-        }
-        return this.targetScore - count;
+        return this.numTiles(player as playerid);
     }
 
     public getPlayersScores(): IScores[] {
@@ -1204,7 +1267,11 @@ export class PacruGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
         }
-        return [{ name: i18next.t("apgames:status.pacru"), scores }];
+        return [{ name: i18next.t("apgames:status.pacru.TILES"), scores }];
+    }
+
+    public statuses(): IStatus[] {
+        return [{ key: i18next.t("apgames:status.pacru.TARGET"), value: [this.targetScore.toString()] }];
     }
 
     protected checkEOG(): PacruGame {
@@ -1335,6 +1402,7 @@ export class PacruGame extends GameBase {
                 height: 9,
                 tileWidth: 3,
                 tileHeight: 3,
+                tileLineMult: 5,
                 buffer: this.buffers.length === 0 ? undefined : {
                     separated: true,
                     width: 0.2,

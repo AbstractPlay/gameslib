@@ -2874,7 +2874,10 @@
             "OFFENSE": "Offensive player",
             "COUNTDOWN": "Plies remaining"
         },
-        "pacru": "Tiles left to win",
+        "pacru": {
+            "TARGET": "Tiles to win",
+            "TILES": "Tiles on board"
+        },
         "PHASE": "Phase",
         "PIECESINHAND": "Pieces in hand",
         "PIECESINHANDSTASH": "Pieces in hand / stash",
@@ -4135,12 +4138,15 @@
             "PARTIAL": "Select a destination."
         },
         "pacru": {
+            "BAD_CAPTURE": "The move {{move}} does not appear to be valid. Remember that captures require that at least two chevrons are attacking the same piece.",
             "BAD_CONNECTION": "You requested a connection change even though one was not made.",
             "ENEMY_TILE": "You can't land on opposing tiles except by pincer.",
             "INITIAL_INSTRUCTIONS": "Select a chevron to move.",
             "NEED_DESTINATION": "Select the destination (valid targets are highlighted) or select the same piece again to begin reorientation.",
+            "NOT_ENOUGH": "You do not have enough tiles on the board to reorient.",
             "ONLY_NEUTRAL": "During a borderland change, you may only convert unoccupied neutral cells.",
             "ONLY_OPPOSING": "During a borderland transformation, you may only convert unoccupied opposing cells.",
+            "ONLY_UNOCCUPIED": "You may never claim/convert a space with a chevron, except when claiming the neutral tile you're moving onto in a borderland change.",
             "OVER_ORIENT": "You may not reorient more than 90 degrees in a single turn.",
             "RELINQUISH_EMPTY": "The tile at {{where}} has a chevron. Occupied tiles cannot be relinquished.",
             "RELINQUISH_OWN": "The tile at {{where}} does not belong to you and cannot be relinquished.",
@@ -4148,9 +4154,11 @@
             "SELECT_CELL_blChange": "Borderland change: Select a neutral cell to convert to your colour.",
             "SELECT_CELL_blTransform": "Borderland transformation: Select an opposing cell to convert to your colour.",
             "SELECT_CELL_both": "You changed borderlands *and* made a connection. Select one of the highlighted cells to convert it to your colour, or select your starting cell to trigger the connection change. You can't do both.",
-            "SELECT_CELL_meeting": "A meeting has occurred! Select one of the highlighted cells to convert to your colour.",
+            "SELECT_CELL_meeting": "A meeting has occurred! Select any cell to convert to your colour.",
             "SELECT_CELL_orientation_one": "Reorientation: Select one more highlighted cell to relinquish.",
-            "SELECT_CELL_orientation_other": "Reorientation: Select {{count}} more highlighted cells to relinquish."
+            "SELECT_CELL_orientation_other": "Reorientation: Select {{count}} more highlighted cells to relinquish.",
+            "TOO_MANY_CELLS": "You have selected more cells than allowed by the triggered side effects.",
+            "WITHIN_BL": "Claimed/converted cells as a result of a borderland change must be within the destination borderland."
         },
         "pahtum": {
             "INITIAL_INSTRUCTIONS_offer": "Place all five blocks. Your opponent will then choose which colour to play.",

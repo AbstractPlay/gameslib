@@ -1277,7 +1277,7 @@ export class PacruGame extends GameBase {
         let reason = "";
         // check scores first
         for (let p = 1; p <= this.numplayers; p++) {
-            if (this.getPlayerScore(p) <= 0) {
+            if (this.getPlayerScore(p) >= this.targetScore) {
                 this.gameover = true;
                 this.winner = [p as playerid];
                 reason = "score";

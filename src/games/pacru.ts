@@ -463,7 +463,12 @@ export class PacruGame extends GameBase {
 
             // empty move means selecting a chevron to move
             if (move === "" && cell !== undefined) {
-                newmove = cell;
+                const contents = this.board.get(cell);
+                if (contents !== undefined && contents.chevron !== undefined && contents.chevron.owner === this.currplayer) {
+                    newmove = cell;
+                } else {
+                    newmove = "";
+                }
             }
             // otherwise
             else {

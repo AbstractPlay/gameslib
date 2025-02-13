@@ -531,17 +531,25 @@ export class PacruGame extends GameBase {
                     // select a destination
                     else if (move.length === 2) {
                         let operator = "-";
+                        let isOwn = false;
                         if (this.board.has(cell)) {
                             const contents = this.board.get(cell)!;
                             if (contents.chevron !== undefined) {
+                                if (contents.chevron.owner === this.currplayer) {
+                                    isOwn = true;
+                                }
                                 operator = "x";
                             }
                         }
-                        newmove = move + operator + cell;
-                        // if only a connection change, then auto-add the asterisk
-                        const sideEffects = this.getSideEffects(move, cell, operator === "x");
-                        if (sideEffects.has("connChange") && sideEffects.size === 1) {
-                            newmove += "(*)";
+                        if (isOwn) {
+                            newmove = cell;
+                        } else {
+                            newmove = move + operator + cell;
+                            // if only a connection change, then auto-add the asterisk
+                            const sideEffects = this.getSideEffects(move, cell, operator === "x");
+                            if (sideEffects.has("connChange") && sideEffects.size === 1) {
+                                newmove += "(*)";
+                            }
                         }
                     }
                     // otherwise we're selecting side effected cells
@@ -567,6 +575,16 @@ export class PacruGame extends GameBase {
                             }
                         }
                     }
+                }
+            }
+
+            // auto-trigger reorientation if the selected piece has no base moves
+            if (newmove.length === 2) {
+                console.log(`newmove: ${newmove}`)
+                const matches = this.baseMoves().filter(mv => mv.startsWith(newmove));
+                if (matches.length === 0) {
+                    console.log("no matches")
+                    newmove += "*";
                 }
             }
 

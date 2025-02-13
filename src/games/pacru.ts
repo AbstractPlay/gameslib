@@ -454,6 +454,7 @@ export class PacruGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
+            const g = new PacruGraph();
             let cell: string|undefined;
             if (row >= 0 && col >= 0) {
                 cell = PacruGame.coords2algebraic(col, row);
@@ -549,6 +550,20 @@ export class PacruGame extends GameBase {
                             const sideEffects = this.getSideEffects(move, cell, operator === "x");
                             if (sideEffects.has("connChange") && sideEffects.size === 1) {
                                 newmove += "(*)";
+                            }
+                            // and if only blChange, check to see if only one neutral remains
+                            else if (sideEffects.has("blChange") && sideEffects.size === 1) {
+                                const neutrals: string[] = [];
+                                const ctr = g.cell2ctr(cell);
+                                for (const c of g.ctr2cells(ctr)) {
+                                    const contents = this.board.get(c);
+                                    if (contents === undefined) {
+                                        neutrals.push(c);
+                                    }
+                                }
+                                if (neutrals.length === 1) {
+                                    newmove += `(${neutrals[0]})`;
+                                }
                             }
                         }
                     }

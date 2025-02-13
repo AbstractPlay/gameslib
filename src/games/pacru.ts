@@ -580,10 +580,8 @@ export class PacruGame extends GameBase {
 
             // auto-trigger reorientation if the selected piece has no base moves
             if (newmove.length === 2) {
-                console.log(`newmove: ${newmove}`)
                 const matches = this.baseMoves().filter(mv => mv.startsWith(newmove));
                 if (matches.length === 0) {
-                    console.log("no matches")
                     newmove += "*";
                 }
             }

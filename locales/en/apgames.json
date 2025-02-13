@@ -250,6 +250,9 @@
             }
         },
         "agere": {
+            "#board": {
+                "name": "Triangle board (8 wide)"
+            },
             "cobweb-small": {
                 "description": "A variant played on a round board where you try to connect two opposite sides.",
                 "name": "Cobweb (3 rings)"
@@ -277,11 +280,14 @@
             }
         },
         "akron": {
+            "#board": {
+                "name": "size-9 board"
+            },
             "size-7": {
-                "name": "size-7 board (small)"
+                "name": "size-7 board (smaller)"
             },
             "size-11": {
-                "name": "size-11 board (large)"
+                "name": "size-11 board (larger)"
             }
         },
         "almatafl": {
@@ -295,11 +301,17 @@
             }
         },
         "alta": {
+            "#board": {
+                "name": "Size-9 board"
+            },
             "size-13": {
                 "name": "Size-13 board"
             }
         },
         "amazons": {
+            "#setup": {
+                "description": "Queens of each colour are on opposite halves of the board."
+            },
             "cross": {
                 "description": "Queens of the same colour are situated across from each other.",
                 "name": "Cross"
@@ -310,6 +322,10 @@
             }
         },
         "anache": {
+            "#board": {
+                "name": "Size-12 board",
+                "description": "12x12 board with 4 rows of 10 pieces per player."
+            },
             "size-10": {
                 "description": "10x10 board with 3 rows of 8 pieces per player.",
                 "name": "Size-10 board"
@@ -326,6 +342,9 @@
             }
         },
         "armadas": {
+            "#obstacles": {
+                "name": "One obstacle"
+            },
             "freeform": {
                 "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",
                 "name": "Freeform"
@@ -339,6 +358,16 @@
             }
         },
         "asli": {
+            "#board": {
+                "name": "13x13 board"
+            },
+            "#komi": {
+                "name": "fluid komi",
+                "description": "At the start of the game, the first player sets komi and the second player chooses sides."
+            },
+            "#rules": {
+                "description": "Incursions are legal."
+            },
             "board-9": {
                 "name": "9x9 board"
             },
@@ -367,6 +396,9 @@
             }
         },
         "ataxx": {
+            "#board": {
+                "name": "Size-7 square board"
+            },
             "hex-5": {
                 "name": "Size-5 hexagon board"
             },
@@ -382,6 +414,9 @@
             }
         },
         "atoll": {
+            "#board": {
+                "name": "size-11 board"
+            },
             "size-15": {
                 "name": "size-15 board"
             },
@@ -396,6 +431,9 @@
             }
         },
         "ayu": {
+            "#board": {
+                "name": "Default board (13x13)"
+            },
             "size-9": {
                 "name": "Smallest board (9x9)"
             },
@@ -423,6 +461,9 @@
             }
         },
         "blastradius": {
+            "#board": {
+                "name": "Hexagonal board (base-6)"
+            },
             "board-5": {
                 "name": "Hexagonal board (base-5)"
             },
@@ -431,6 +472,17 @@
             }
         },
         "blockade": {
+            "#goal": {
+                "name": "13x13 board"
+            },
+            "#step-count": {
+                "description": "Pieces move two spaces orthogonally or one space diagonally, unless they are adjacent to a goal space, in which case they may move one space orthogonally to the goal. Any opponent piece on the goal will be captured on the winning move.",
+                "name": "Double-step"
+            },
+            "#wall-placement": {
+                "description": "You must place a wall after moving your piece if you have any in your stash.",
+                "name": "Mandatory wall"
+            },
             "back-rank": {
                 "description": "You win by moving one of your pieces to the opponent's back rank. Every piece must be able to reach at least one goal square.",
                 "name": "Opponent's back-rank goal"
@@ -449,6 +501,9 @@
             }
         },
         "blooms": {
+            "#board": {
+                "name": "Default board (base-6)"
+            },
             "size-4": {
                 "name": "Smallest board (base 4)"
             },
@@ -463,6 +518,9 @@
             }
         },
         "boom": {
+            "#setup": {
+                "name": "4 pieces each"
+            },
             "pieces-6": {
                 "name": "6 pieces each"
             },
@@ -471,11 +529,17 @@
             }
         },
         "bounce": {
+            "#board": {
+                "name": "8x8 board"
+            },
             "10": {
-                "name": "Larger board: 10x10"
+                "name": "10x10 board"
             }
         },
         "boxes": {
+            "#board": {
+                "name": "5x5 board"
+            },
             "size-4x4": {
                 "name": "4x4 board"
             },
@@ -493,6 +557,9 @@
             }
         },
         "bug": {
+            "#board": {
+                "name": "Size-4 board"
+            },
             "size-3": {
                 "name": "Size-3 board"
             },
@@ -501,6 +568,9 @@
             }
         },
         "buku": {
+            "#board": {
+                "name": "Size-8 board"
+            },
             "size-6": {
                 "name": "Size-6 board"
             },
@@ -514,6 +584,9 @@
             }
         },
         "calculus": {
+            "#board": {
+                "description": "Roughly 12 pieces across"
+            },
             "width-10": {
                 "description": "Roughly 10 pieces across",
                 "name": "Smaller board"
@@ -546,6 +619,12 @@
             }
         },
         "catapult": {
+            "#board": {
+                "name": "Default board (8x8)"
+            },
+            "#goal": {
+                "description": "Annihilate your opponent."
+            },
             "dagger": {
                 "description": "The second player starts with the dagger. The player with the dagger may make two consecutive moves and pass the dagger to their opponent.",
                 "name": "Dagger"
@@ -559,11 +638,17 @@
             }
         },
         "catchup": {
+            "#board": {
+                "name": "Default board (base 5)"
+            },
             "size-6": {
                 "name": "Larger board (base 6)"
             }
         },
         "ccorridor": {
+            "#board": {
+                "name": "Size-6 board"
+            },
             "size-8": {
                 "name": "Size-8 board"
             }
@@ -575,6 +660,9 @@
             }
         },
         "churn": {
+            "#board": {
+                "name": "Hexhex 3 (19 spaces)"
+            },
             "limping-34": {
                 "name": "Alternating 3-4 (27 spaces)"
             },
@@ -592,6 +680,13 @@
             }
         },
         "clearcut": {
+            "#board": {
+                "name": "19x19 board"
+            },
+            "#ruleset": {
+                "description": "Captures can only be made if the crosscut group is larger than at least one opposing group in a crosscut.",
+                "name": "Halfcut ruleset"
+            },
             "clearcut": {
                 "description": "Captures can only be made if the crosscut group is larger than  both opposing groups in a crosscut. Full rulesheet: <https://www.marksteeregames.com/Clearcut_rules.pdf>",
                 "name": "Clearcut ruleset"
@@ -601,11 +696,20 @@
             }
         },
         "clusterfuss": {
+            "#board": {
+                "name": "Default board (8x8)"
+            },
             "10": {
                 "name": "Larger board (10x10)"
             }
         },
         "conect": {
+            "#board": {
+                "name": "Size-11 board"
+            },
+            "#cone": {
+                "name": "Wide cone"
+            },
             "narrow": {
                 "name": "Narrow cone"
             },
@@ -617,11 +721,28 @@
             }
         },
         "conhex": {
+            "#board": {
+                "name": "Default board: 11x11"
+            },
             "size-15": {
                 "name": "Larger board: 15x15"
             }
         },
         "connect6": {
+            "#board": {
+                "name": "Default 19x19 board"
+            },
+            "#opening": {
+                "description": "The first stone has to be at the centre.",
+                "name": "Centre opening"
+            },
+            "#ruleset": {
+                "description": "Free placement of both stones.",
+                "name": "Default ruleset"
+            },
+            "#tiebreaker": {
+                "name": "No tiebreak"
+            },
             "collinear6": {
                 "description": "The first stone placed has to be collinear with a stone placed in the last turn, and the second stone has to be collinear with the first stone.",
                 "name": "Collinear Connect6"
@@ -643,11 +764,17 @@
             }
         },
         "connecticut": {
+            "#board": {
+                "name": "Default 19x19 board"
+            },
             "size-15": {
-                "name": "Board (15x15)"
+                "name": "15x15 board"
             }
         },
         "connections": {
+            "#board": {
+                "name": "Size-9 board"
+            },
             "size-5": {
                 "name": "Size-5 board"
             },
@@ -656,6 +783,12 @@
             }
         },
         "conspirateurs": {
+            "#movement": {
+                "description": "Pieces may pass through sanctuary spaces as they jump."
+            },
+            "#setup": {
+                "description": "Players first drop all their pieces."
+            },
             "quick": {
                 "name": "Quick start",
                 "description": "Randomly places the initial pieces."
@@ -666,6 +799,10 @@
             }
         },
         "control": {
+            "#board": {
+                "name": "Size 7 board",
+                "description": "Ideal for experienced players"
+            },
             "size-5": {
                 "name": "Small board (Size 5)",
                 "description": "Ideal for learning the rules"
@@ -675,22 +812,35 @@
             }
         },
         "courtesan": {
+            "#board": {
+                "name": "Default 8x8 board"
+            },
             "size-6": {
-                "name": "Shorter game (6x6)"
+                "name": "Shorter game (6x6 board)"
             }
         },
         "crossway": {
+            "#board": {
+                "name": "Default board (19x19)"
+            },
             "size-25": {
                 "name": "Board (25x25)"
             }
         },
         "cubeo": {
+            "#moves": {
+                "name": "Default movement rules",
+                "description": "A valid move is any one where the moving piece ends in a different position than where it started."
+            },
             "strict": {
                 "name": "Stricter movement constraints",
                 "description": "A valid move must materially change the formation, meaning the final formation can't just be a rotation/reflection of the starting formation."
             }
         },
         "dagnacht": {
+            "#board": {
+                "name": "Default 15x15 board"
+            },
             "11x11": {
                 "name": "11x11 board"
             },
@@ -705,6 +855,9 @@
             }
         },
         "dameo": {
+            "#board": {
+                "name": "Default 8x8 board"
+            },
             "anti": {
                 "description": "The first player to run out of moves wins.",
                 "name": "Anti-Dameo"
@@ -725,12 +878,18 @@
             }
         },
         "dragoneyes": {
+            "#rules": {
+                "description": "Draws are triggered automatically.",
+            },
             "claimdraw": {
                 "description": "You must choose to claim a draw on your turn.",
                 "name": "Claim Draws"
             }
         },
         "entrapment": {
+            "#board": {
+                "name": "Default board (6x7)"
+            },
             "size-7x7": {
                 "name": "Board (7x7)"
             }
@@ -742,6 +901,12 @@
             }
         },
         "exxit": {
+            "#length": {
+                "name": "Default game length (39 tiles)"
+            },
+            "#setup": {
+                "description": "Starts with a \"cross\" of two tiles of each colour."
+            },
             "19tiles": {
                 "description": "Ideal for learning the rules",
                 "name": "Blitz game (19 tiles)"
@@ -776,6 +941,16 @@
             }
         },
         "fourinarow": {
+            "#board": {
+                "name": "Default 8x8 board"
+            },
+            "#clear": {
+                "name": "No clear"
+            },
+            "#placement": {
+                "description": "Pieces must always be placed such that they're supported by at least one piece from below.",
+                "name": "Gravity downwards"
+            },
             "clear": {
                 "description": "If a row at the edge is entirely filled with pieces, it is cleared, and all pieces shift in that direction. A four-in-a-row takes priority over a shift. When used with the 4-directional variants, the board will shift in any directions where there are full rows. Note that this can result in board configurations that are not normally feasible, but it is a predictable behaviour.",
                 "name": "Clear"
@@ -805,6 +980,16 @@
             }
         },
         "gomoku": {
+            "#board": {
+                "name": "Default 15x15 board"
+            },
+            "#opening": {
+                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre.",
+                "name": "Pro opening"
+            },
+            "#tiebreaker": {
+                "name": "No tiebreak"
+            },
             "long-pro": {
                 "description": "The first player has to place their first stone in the centre of the board, and their second stone at least four intersections away from the centre.",
                 "name": "Long pro opening"
@@ -830,6 +1015,9 @@
             }
         },
         "gonnect": {
+            "#board": {
+                "name": "Default 13x13 board"
+            },
             "size-9": {
                 "name": "9x9 board"
             },
@@ -838,6 +1026,9 @@
             }
         },
         "gyve": {
+            "#board": {
+                "name": "Hexhex 8 board (169 spaces)"
+            },
             "size-6": {
                 "name": "Hexhex 6 (91 spaces)"
             },
@@ -852,17 +1043,17 @@
             }
         },
         "havannah": {
+            "#board": {
+                "name": "Size-8 board"
+            },
             "size-4": {
-                "description": "Tiny board.",
-                "name": "Size-4 board."
+                "name": "Size-4 board"
             },
             "size-6": {
-                "description": "Smaller board.",
-                "name": "Size-6 board."
+                "name": "Size-6 board"
             },
             "size-10": {
-                "description": "Larger board.",
-                "name": "Size-10 board."
+                "name": "Size-10 board"
             }
         },
         "hens": {
@@ -871,23 +1062,30 @@
             }
         },
         "hex": {
+            "#board": {
+                "name": "Size-13 board"
+            },
             "size-11": {
-                "name": "Size-11 board."
+                "name": "Size-11 board"
             },
             "size-14": {
-                "name": "Size-14 board."
+                "name": "Size-14 board"
             },
             "size-15": {
-                "name": "Size-15 board."
+                "name": "Size-15 board"
             },
             "size-19": {
-                "name": "Size-19 board."
+                "name": "Size-19 board"
             }
         },
         "hexentafl": {
+            "#board": {
+                "name": "Size-4 board",
+                "description": "Smaller board where the king may only move one step at a time.",
+            },
             "size-5": {
                 "description": "Larger board where the king may move like any other piece.",
-                "name": "Size-5 board."
+                "name": "Size-5 board"
             }
         },
         "hexy": {
@@ -902,6 +1100,9 @@
             }
         },
         "hula": {
+            "#board": {
+                "name": "Size 6 board"
+            },
             "size-5": {
                 "name": "Size 5 board"
             },
@@ -910,6 +1111,12 @@
             }
         },
         "irensei": {
+            "#board": {
+                "name": "19x19 board"
+            },
+            "#tiebreaker": {
+                "name": "No tiebreak"
+            },
             "pass": {
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins.",
                 "name": "Pass tiebreak"
@@ -927,6 +1134,13 @@
             }
         },
         "jacynth": {
+            "#deck": {
+                "description": "The basic 36-card deck (aces through crowns)"
+            },
+            "#setup": {
+                "name": "The Razeway",
+                "description": "The board starts with six cards in a diagonal line."
+            },
             "extended": {
                 "name": "Extended deck",
                 "description": "Deck includes the Excuse, the pawns, and the courts (influence tokens may not be placed on any of these cards)."
@@ -946,11 +1160,17 @@
             }
         },
         "lielow": {
+            "#board": {
+                "name": "Size-8 board"
+            },
             "size-9": {
                 "name": "Size-9 board"
             }
         },
         "lifeline": {
+            "#board": {
+                "name": "Size 8 board"
+            },
             "size-6": {
                 "name": "Size 6 board"
             },
@@ -965,6 +1185,10 @@
             }
         },
         "loa": {
+            "#board": {
+                "description": "9x9 \"black hole\" variant. Moving a piece onto the central hole removes the piece from the game.",
+                "name": "Larger board (9x9)"
+            },
             "classic": {
                 "name": "Classic 8x8 board"
             },
@@ -974,6 +1198,9 @@
             }
         },
         "lox": {
+            "#board": {
+                "name": "Size 11 board"
+            },
             "size-13": {
                 "name": "Size-13 board."
             },
@@ -982,6 +1209,9 @@
             }
         },
         "majorities": {
+            "#board": {
+                "name": "Size-5 board"
+            },
             "size-3": {
                 "name": "Size-3 board"
             },
@@ -998,17 +1228,23 @@
             }
         },
         "margo": {
+            "#board": {
+                "name": "Size-7 board"
+            },
             "size-4": {
-                "name": "size-4 board (Spargo)"
+                "name": "Size-4 board (Spargo)"
             },
             "size-6": {
-                "name": "size-6 board (small)"
+                "name": "Size-6 board (small)"
             },
             "size-9": {
-                "name": "size-9 board (large)"
+                "name": "Size-9 board (large)"
             }
         },
         "mattock": {
+            "#board": {
+                "name": "Default base-7 board"
+            },
             "freestyle": {
                 "description": "Players take turn placing their miners on the board. When all miners are placed, player 2 starts.",
                 "name": "Freestyle placement"
@@ -1029,6 +1265,9 @@
             }
         },
         "meridians": {
+            "#board": {
+                "name": "Default board (base 7)"
+            },
             "size-6": {
                 "name": "Smaller board (base 6)"
             },
@@ -1047,6 +1286,10 @@
             }
         },
         "moonsquad": {
+            "#board": {
+                "name": "Moon board",
+                "description": "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface."
+            },
             "hex5": {
                 "name": "Hexhex 5 (61 spaces)",
                 "description": "In this version, the pie offer is a single piece."
@@ -1071,6 +1314,9 @@
             }
         },
         "nakatta": {
+            "#board": {
+                "name": "22x22 board"
+            },
             "size-19": {
                 "name": "19x19 board"
             },
@@ -1082,11 +1328,21 @@
             }
         },
         "nex": {
+            "#board": {
+                "name": "11x11 board"
+            },
             "size-9": {
                 "name": "9x9 board"
             }
         },
         "omny": {
+            "#board": {
+                "name": "Hexhex 8 board (169 spaces)"
+            },
+            "#stars": {
+                "name": "Sunder",
+                "description": "Every cell is a star point"
+            },
             "size-4": {
                 "name": "Hexhex 4 (37 spaces)"
             },
@@ -1139,6 +1395,12 @@
             }
         },
         "onyx": {
+            "#board": {
+                "name": "Size-12 board"
+            },
+            "#setup": {
+                "name": "Open setup"
+            },
             "size-16": {
                 "name": "Size-16 board"
             },
@@ -1157,6 +1419,9 @@
             }
         },
         "oust": {
+            "#board": {
+                "name": "size-7 hex"
+            },
             "hex-6": {
                 "name": "size-6 hex"
             },
@@ -1178,6 +1443,29 @@
             }
         },
         "pente": {
+            "#board": {
+                "name": "Default 15x15 board"
+            },
+            "#capture": {
+                "description": "You may only capture exactly 2 stones in each line.",
+                "name": "Default capture rules"
+            },
+            "#opening": {
+                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre.",
+                "name": "Pro opening"
+            },
+            "#overline": {
+                "description": "You can win by forming a line of five or more stones",
+                "name": "Overline allowed"
+            },
+            "#overtime-capture": {
+                "description": "The game ends immediately when a player makes a winning alignment.",
+                "name": "No overtime capture"
+            },
+            "#self-capture": {
+                "description": "Players may place a stone in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture without consequences.",
+                "name": "Self-capture ignored"
+            },
             "capture-2-3": {
                 "description": "You may capture 2 or 3 stones in a line.",
                 "name": "Capture 2-3 (Keryo Pente)"
@@ -1229,6 +1517,13 @@
             }
         },
         "pletore": {
+            "#board": {
+                "name": "Default board (13x13)"
+            },
+            "#komi": {
+                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
+                "name": "Komi offer"
+            },
             "nokomi": {
                 "description": "The game will be played without a second player bonus. Good for beginners.",
                 "name": "No komi offer"
@@ -1244,12 +1539,21 @@
             }
         },
         "pylon": {
+            "#setup": {
+                "description": "The board starts empty, and the first half of the game is the players placing their pyramids."
+            },
             "quickStart": {
                 "name": "Quick start",
                 "description": "A learning mode that randomly places the pyramids for you, so players start directly at the stacking half of the game."
             }
         },
         "quagmire": {
+            "#board": {
+                "name": "Default board (37 cells)"
+            },
+            "#setup": {
+                "description": "The starting position will be an empty board."
+            },
             "large": {
                 "name": "Larger board (61 cells)"
             },
@@ -1259,11 +1563,17 @@
             }
         },
         "quax": {
+            "#board": {
+                "name": "11x11 board"
+            },
             "size-15": {
                 "name": "15x15 board"
             }
         },
         "query": {
+            "#board": {
+                "name": "13x13 board"
+            },
             "size-9": {
                 "name": "9x9 board"
             }
@@ -1314,6 +1624,13 @@
             }
         },
         "renju": {
+            "#opening": {
+                "description": "The first player has to place their first stone in the centre of the board. There are no other opening placement restrictions.",
+                "name": "Centre opening"
+            },
+            "#tiebreaker": {
+                "name": "No tiebreak"
+            },
             "pass": {
                 "description": "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, second player wins.",
                 "name": "Pass tiebreak"
@@ -1344,6 +1661,9 @@
             }
         },
         "resolve": {
+            "#board": {
+                "name": "9x9 board"
+            },
             "size-13": {
                 "name": "13x13 board"
             }
@@ -1377,6 +1697,13 @@
             }
         },
         "saltire": {
+            "#board": {
+                "name": "13x13 board"
+            },
+            "#ruleset": {
+                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
+                "name": "Default rules"
+            },
             "basic": {
                 "description": "A swap must decrease the number of crosscuts. Draws are possible.",
                 "name": "Basic rules"
@@ -1392,16 +1719,28 @@
             }
         },
         "scaffold": {
+            "#board": {
+                "name": "Default 19x19 board"
+            },
             "size-25": {
-                "name": "Board (25x25)"
+                "name": "Larger 25x25 board"
             }
         },
         "shifty": {
+            "#board": {
+                "name": "9x9 board"
+            },
             "size-13": {
                 "name": "13x13 board"
             }
         },
         "slither": {
+            "#board": {
+                "name": "9x9 board"
+            },
+            "#movement": {
+                "name": "Default movement rules"
+            },
             "13x13": {
                 "name": "13x13 board"
             },
@@ -1410,6 +1749,9 @@
             }
         },
         "slyde": {
+            "#board": {
+                "name": "12x12 board"
+            },
             "size-8": {
                 "name": "8x8 board"
             },
@@ -1421,11 +1763,17 @@
             }
         },
         "spire": {
+            "#board": {
+                "name": "4x4 board"
+            },
             "size-5": {
                 "name": "5x5 board"
             }
         },
         "spline": {
+            "#board": {
+                "name": "4x4 board"
+            },
             "plus": {
                 "description": "On your turn, you may place a ball or move an unpinned ball. In the case of several lines being created as a result of balls dropping, the largest line prevails.",
                 "name": "Spline+"
@@ -1435,17 +1783,31 @@
             }
         },
         "sploof": {
+            "#board": {
+                "description": "Default board that starts with a ring of neutral balls on the edges.",
+                "name": "4x4 board"
+            },
             "size-5": {
                 "description": "A larger 5x5 board that starts with the bottom layer filled with neutral balls.",
                 "name": "5x5 board"
             }
         },
         "sponnect": {
+            "#board": {
+                "name": "4x4 board"
+            },
             "size-5": {
                 "name": "5x5 board"
             }
         },
         "spook": {
+            "#board": {
+                "name": "4x4 board"
+            },
+            "#setup": {
+                "description": "Players take turn placing balls until the pyramid is filled at the start of the game.",
+                "name": "Manual setup"
+            },
             "random": {
                 "description": "The pyramid is randomly filled so the game begins in the getaway phase.",
                 "name": "Random setup"
@@ -1455,11 +1817,24 @@
             }
         },
         "spree": {
+            "#board": {
+                "name": "4x4 board"
+            },
             "size-5": {
                 "name": "5x5 board"
             }
         },
         "stigmergy": {
+            "#board": {
+                "name": "Default board (base 8)"
+            },
+            "#komi": {
+                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
+                "name": "Komi offer"
+            },
+            "#rules": {
+                "description": "You control a space by controlling more than half of its lines of sight."
+            },
             "nokomi": {
                 "description": "The game will be played without a second player bonus. Good for beginners.",
                 "name": "No komi offer"
@@ -1479,6 +1854,9 @@
             }
         },
         "storisende": {
+            "#board": {
+                "name": "Hexhex 5 (61 spaces)"
+            },
             "board-hex4": {
                 "name": "Hexhex 4 (37 spaces; learning)"
             },
@@ -1498,6 +1876,9 @@
             }
         },
         "strands": {
+            "#board": {
+                "name": "Size-7 board random setup"
+            },
             "size-5-fixed": {
                 "name": "Size-5 board fixed setup"
             },
@@ -1515,6 +1896,9 @@
             }
         },
         "streetcar": {
+            "#penalty": {
+                "name": "Default penalty (-10)"
+            },
             "5point": {
                 "description": "The lower penalty makes it easier to steal enemy territory with a new line, leading to a more aggressive game.",
                 "name": "Lower penalty (-5)"
@@ -1525,6 +1909,13 @@
             }
         },
         "subdivision": {
+            "#parks": {
+                "name": "Default park placement",
+                "description": "Corners and, in two-player games, two centre cells"
+            },
+            "#scoring": {
+                "description": "Parks offer no bonuses"
+            },
             "manualParks": {
                 "name": "Manual park placement",
                 "description": "Players take turns placing parks at the beginning of the game (ignored for three-player games)"
@@ -1538,6 +1929,10 @@
             }
         },
         "symple": {
+            "#penalty": {
+                "description": "A lower penalty creates a more aggressive game, and a higher penalty, a more conservative one.",
+                "name": "Default penalty (-8)"
+            },
             "p-4": {
                 "name": "Lower penalty (-4)"
             },
@@ -1552,6 +1947,9 @@
             }
         },
         "tablero": {
+            "#scoring": {
+                "description": "One point per pip"
+            },
             "5-10": {
                 "name": "Compressed range (5–10)",
                 "description": "By adding 4 to the value of each centre space, the ratio of highest space to lowest is compressed from 6:1 to 2:1. This incentivizes more active competition for lower spaces."
@@ -1562,6 +1960,10 @@
             }
         },
         "tafl": {
+            "#variant": {
+                "description": "Linnaean Sámi Tablut with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",
+                "name": "linnaean-9x9-tcross-w"
+            },
             "berserk-11x11-tdiamondberserk": {
                 "description": "Berserk variant of the Fetlar rules with knights and commanders. Multi-step captures are permitted, and the king may escape to the corner immediately after a capture.",
                 "name": "berserk-11x11-tdiamondberserk"
@@ -1604,6 +2006,15 @@
             }
         },
         "taiji": {
+            "#board": {
+                "name": "Default board: 9x9"
+            },
+            "#groups": {
+                "name": "Scoring: Largest two groups"
+            },
+            "#scoring": {
+                "name": "Simple sum"
+            },
             "7x7": {
                 "name": "Smaller board: 7x7"
             },
@@ -1629,6 +2040,9 @@
             }
         },
         "take": {
+            "#rules": {
+                "description": "Play on a size-5 board where plant growth destroys dirt."
+            },
             "high-churn": {
                 "description": "Play on a size-4 board where plant growth does not destroy dirt.",
                 "name": "High Churn"
@@ -1639,6 +2053,17 @@
             }
         },
         "terrace": {
+            "#board": {
+                "name": "6x6 board"
+            },
+            "#setup": {
+                "description": "Players start with fewer pieces.",
+                "name": "Short game"
+            },
+            "#capture": {
+                "description": "The only capture possibility is diagonally down.",
+                "name": "Default capture rules"
+            },
             "board-8": {
                 "name": "8x8 board"
             },
@@ -1662,6 +2087,10 @@
             }
         },
         "trike": {
+            "#board": {
+                "name": "Triangle (11 wide)",
+                "description": "Casual board."
+            },
             "standard-7": {
                 "description": "Learning board.",
                 "name": "Triangle (7 wide)"
@@ -1676,6 +2105,13 @@
             }
         },
         "tritium": {
+            "#board": {
+                "name": "Small board (size 5)"
+            },
+            "#form": {
+                "description": "Play continues until all regions are claimed.",
+                "name": "Long form"
+            },
             "short-form": {
                 "description": "Play with only three flags each.",
                 "name": "Short form."
@@ -1688,6 +2124,9 @@
             }
         },
         "tumbleweed": {
+            "#board": {
+                "name": "Competitive board (8 cells)"
+            },
             "size-6": {
                 "name": "Smaller board (6 cells)"
             },
@@ -1704,6 +2143,12 @@
             }
         },
         "twixt": {
+            "#board": {
+                "name": "Default board (24x24)"
+            },
+            "#ruleset": {
+                "description": "Links cannot cross. You may rearrange your links before you place your peg."
+            },
             "pp": {
                 "description": "Players' own links are allowed to cross each other. There are no link rearrangements.",
                 "name": "Paper and pencil"
@@ -1713,6 +2158,9 @@
             }
         },
         "unlur": {
+            "#board": {
+                "name": "Size-8 board"
+            },
             "size-6": {
                 "name": "Size-6 board"
             },
@@ -1721,6 +2169,9 @@
             }
         },
         "upperhand": {
+            "#board": {
+                "name": "5x5 board"
+            },
             "size-7": {
                 "name": "7x7 board"
             },
@@ -1749,6 +2200,14 @@
             }
         },
         "veletas": {
+            "#board": {
+                "name": "10x10 board",
+                "description": "Default board with 7 neutral pieces."
+            },
+            "#setup": {
+                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins.",
+                "name": "Freestyle setup"
+            },
             "random": {
                 "description": "The starting board has shooters in randomised position. The first player makes a normal move and the second player decides if they want to invoke the pie rule.",
                 "name": "Randomised setup"
@@ -1763,11 +2222,17 @@
             }
         },
         "verge": {
+            "#board": {
+                "name": "Size-5 board (61 cells)"
+            },
             "size-7": {
                 "name": "Size-7 board (127 cells)"
             }
         },
         "volo": {
+            "#board": {
+                "name": "Size-7 board"
+            },
             "size-6": {
                 "name": "Size-6 board"
             },
@@ -1781,658 +2246,11 @@
             }
         },
         "zola": {
+            "#board": {
+                "name": "Default board: 6x6"
+            },
             "8x8": {
                 "name": "Larger board: 8x8"
-            }
-        }
-    },
-    "variantGroups": {
-        "agere": {
-            "board": {
-                "name": "triangle board (8 wide)"
-            }
-        },
-        "akron": {
-            "board": {
-                "name": "size-9 board"
-            }
-        },
-        "alta": {
-            "board": {
-                "name": "size-9 board"
-            }
-        },
-        "amazons": {
-            "setup": {
-                "description": "Queens of each colour are on opposite halves of the board."
-            }
-        },
-        "anache": {
-            "board": {
-                "description": "12x12 board with 4 rows of 10 pieces per player.",
-                "name": "size-12 board"
-            }
-        },
-        "asli": {
-            "board": {
-                "name": "13x13 board"
-            },
-            "komi": {
-                "name": "fluid komi",
-                "description": "At the start of the game, the first player sets komi and the second player chooses sides."
-            },
-            "rules": {
-                "description": "Incursions are legal."
-            }
-        },
-        "ataxx": {
-            "board": {
-                "name": "size-7 square board"
-            }
-        },
-        "atoll": {
-            "board": {
-                "name": "size-11 board"
-            }
-        },
-        "ayu": {
-            "board": {
-                "name": "board (13x13)"
-            }
-        },
-        "blastradius": {
-            "board": {
-                "name": "size-6 hex"
-            }
-        },
-        "blockade": {
-            "goal": {
-                "description": "You win by moving one of your pieces to a starting space of one of your opponent's pieces. Every piece must be able to reach EVERY goal square.",
-                "name": "opponent's starting space goal"
-            },
-            "step-count": {
-                "description": "Pieces move two spaces orthogonally or one space diagonally, unless they are adjacent to a goal space, in which case they may move one space orthogonally to the goal. Any opponent piece on the goal will be captured on the winning move.",
-                "name": "double-step"
-            },
-            "wall-placement": {
-                "description": "You must place a wall after moving your piece if you have any in your stash.",
-                "name": "mandatory wall"
-            }
-        },
-        "blooms": {
-            "board": {
-                "name": "board (base 6)"
-            }
-        },
-        "boom": {
-            "setup": {
-                "name": "setup (4 pieces each)"
-            }
-        },
-        "bounce": {
-            "board": {
-                "name": "board (8x8)"
-            }
-        },
-        "boxes": {
-            "board": {
-                "name": "5x5 board"
-            }
-        },
-        "bug": {
-            "board": {
-                "name": "size-4 board"
-            }
-        },
-        "buku": {
-            "board": {
-                "name": "size-8 board"
-            }
-        },
-        "calculus": {
-            "board": {
-                "description": "Roughly 12 pieces across"
-            }
-        },
-        "catapult": {
-            "board": {
-                "name": "8x8 board"
-            },
-            "goal": {
-                "description": "Annihilate your opponent."
-            }
-        },
-        "catchup": {
-            "board": {
-                "name": "board (base 5)"
-            }
-        },
-        "ccorridor": {
-            "board": {
-                "name": "size-6 board"
-            }
-        },
-        "churn": {
-            "board": {
-                "name": "hexhex 3 (19 spaces)"
-            }
-        },
-        "clearcut": {
-            "board": {
-                "name": "19x19 board"
-            },
-            "ruleset": {
-                "description": "Captures can only be made if the crosscut group is larger than at least one opposing group in a crosscut.",
-                "name": "Halfcut ruleset"
-            }
-        },
-        "clusterfuss": {
-            "board": {
-                "name": "board (8x8)"
-            }
-        },
-        "conect": {
-            "board": {
-                "name": "size-11 board"
-            },
-            "cone": {
-                "name": "wide cone"
-            }
-        },
-        "conhex": {
-            "board": {
-                "name": "board: 11x11"
-            }
-        },
-        "connect6": {
-            "board": {
-                "name": "19x19 board"
-            },
-            "opening": {
-                "description": "The first stone has to be at the centre.",
-                "name": "centre opening"
-            },
-            "ruleset": {
-                "description": "Free placement of both stones.",
-                "name": "ruleset"
-            },
-            "tiebreaker": {
-                "name": "no tiebreak"
-            }
-        },
-        "connecticut": {
-            "board": {
-                "name": "board (19x19)"
-            }
-        },
-        "connections": {
-            "board": {
-                "name": "size-9 board"
-            }
-        },
-        "conspirateurs": {
-            "movement": {
-                "description": "Pieces may pass through sanctuary spaces as they jump."
-            },
-            "setup": {
-                "description": "Players first drop all their pieces."
-            }
-        },
-        "control": {
-            "board": {
-                "name": "board (Size 7)",
-                "description": "Ideal for experienced players"
-            }
-        },
-        "courtesan": {
-            "board": {
-                "name": "board (8x8)"
-            }
-        },
-        "crossway": {
-            "board": {
-                "name": "board (19x19)"
-            }
-        },
-        "cubeo": {
-            "moves": {
-                "name": "movement rules",
-                "description": "A valid move is any one where the moving piece ends in a different position than where it started."
-            }
-        },
-        "dameo": {
-            "board": "board (8x8)"
-        },
-        "dragoneyes": {
-            "description": "Draws are triggered automatically.",
-            "rules": "rules"
-        },
-        "entrapment": {
-            "board": {
-                "name": "board (6x7)"
-            }
-        },
-        "exxit": {
-            "length": {
-                "name": "game length (39 tiles)"
-            },
-            "setup": {
-                "description": "Starts with a \"cross\" of two tiles of each colour."
-            }
-        },
-        "fourinarow": {
-            "board": {
-                "name": "8x8 board"
-            },
-            "clear": {
-                "name": "no clear"
-            },
-            "placement": {
-                "description": "Pieces must always be placed such that they're supported by at least one piece from below.",
-                "name": "gravity downwards."
-            }
-        },
-        "gomoku": {
-            "board": {
-                "name": "15x15 board"
-            },
-            "opening": {
-                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre.",
-                "name": "pro opening"
-            },
-            "tiebreaker": {
-                "name": "no tiebreak"
-            }
-        },
-        "gonnect": {
-            "board": {
-                "name": "13x13 board"
-            }
-        },
-        "gyve": {
-            "board": {
-                "name": "hexhex 8 board (169 spaces)"
-            }
-        },
-        "havannah": {
-            "board": {
-                "description": "Competitive board.",
-                "name": "Size-8 board."
-            }
-        },
-        "hex": {
-            "board": {
-                "name": "Size-13 board."
-            }
-        },
-        "hexentafl": {
-            "board": {
-                "description": "Smaller board where the king may only move one step at a time.",
-                "name": "size-4 board"
-            }
-        },
-        "irensei": {
-            "board": {
-                "name": "19x19 board"
-            },
-            "tiebreaker": {
-                "name": "no tiebreak"
-            }
-        },
-        "jacynth": {
-            "deck": {
-                "description": "The basic 36-card deck (aces through crowns)"
-            },
-            "setup": {
-                "name": "setup: The Razeway",
-                "description": "The board starts with six cards in a diagonal line."
-            }
-        },
-        "lielow": {
-            "board": {
-                "name": "size-8 board"
-            }
-        },
-        "lifeline": {
-            "board": {
-                "name": "Size 8 board"
-            }
-        },
-        "loa": {
-            "board": {
-                "description": "The default game is the 9x9 \"black hole\" variant. This will change eventually.",
-                "name": "board (9x9)"
-            }
-        },
-        "lox": {
-            "board": {
-                "name": "size-11 board"
-            }
-        },
-        "majorities": {
-            "board": {
-                "name": "size-5 board"
-            }
-        },
-        "margo": {
-            "board": {
-                "name": "size-7 board"
-            }
-        },
-        "mattock": {
-            "board": {
-                "name": "board (base-7)"
-            }
-        },
-        "meridians": {
-            "board": {
-                "name": "board (base 7)"
-            }
-        },
-        "moonsquad": {
-            "board": {
-                "name": "moon board",
-                "description": "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface."
-            }
-        },
-        "nex": {
-            "board": {
-                "name": "11x11 board"
-            }
-        },
-        "hula": {
-            "board": {
-                "name": "size 6 board"
-            }
-        },
-        "nakatta": {
-            "board": {
-                "name": "22x22 board"
-            }
-        },
-        "omny": {
-            "board": {
-                "name": "hexhex 8 board (169 spaces)"
-            },
-            "stars": {
-                "name": "star distribution: Sunder",
-                "description": "Every cell is a star point"
-            }
-        },
-        "onyx": {
-            "board": {
-                "name": "size-12 board"
-            },
-            "setup": {
-                "name": "open setup"
-            }
-        },
-        "oust": {
-            "board": {
-                "name": "size-7 hex"
-            }
-        },
-        "pente": {
-            "board": {
-                "name": "15x15 board"
-            },
-            "capture": {
-                "description": "You may only capture exactly 2 stones in each line.",
-                "name": "capture rules"
-            },
-            "opening": {
-                "description": "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre.",
-                "name": "pro opening"
-            },
-            "overline": {
-                "description": "You can win by forming a line of five or more stones",
-                "name": "overline allowed"
-            },
-            "overtime-capture": {
-                "description": "The game ends immediately when a player makes a winning alignment.",
-                "name": "no overtime capture"
-            },
-            "self-capture": {
-                "description": "Players may place a stone in a formation where it is surrounded by opponent's pieces such that it would ordinarily result in a capture without consequences.",
-                "name": "self-capture ignored"
-            }
-        },
-        "pletore": {
-            "board": {
-                "name": "board (13x13)"
-            },
-            "komi": {
-                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
-                "name": "komi offer"
-            }
-        },
-        "pylon": {
-            "setup": {
-                "description": "The board starts empty, and the first half of the game is the players placing their pyramids."
-            }
-        },
-        "quagmire": {
-            "board": {
-                "name": "board (37 cells)"
-            },
-            "setup": {
-                "description": "The starting position will be an empty board.",
-                "name": "setup"
-            }
-        },
-        "quax": {
-            "board": {
-                "name": "11x11 board"
-            }
-        },
-        "query": {
-            "board": {
-                "name": "13x13 board"
-            }
-        },
-        "renju": {
-            "opening": {
-                "description": "The first player has to place their first stone in the centre of the board. There are no other opening placement restrictions.",
-                "name": "centre opening"
-            },
-            "tiebreaker": {
-                "name": "no tiebreak"
-            }
-        },
-        "resolve": {
-            "board": {
-                "name": "9x9 board"
-            }
-        },
-        "saltire": {
-            "board": {
-                "name": "13x13 board"
-            },
-            "ruleset": {
-                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
-                "name": "rules"
-            }
-        },
-        "scaffold": {
-            "board": {
-                "name": "board (19x19)"
-            }
-        },
-        "shifty": {
-            "board": {
-                "name": "9x9 board"
-            }
-        },
-        "slither": {
-            "board": {
-                "name": "9x9 board"
-            }
-        },
-        "slyde": {
-            "board": {
-                "name": "12x12 board"
-            }
-        },
-        "spire": {
-            "board": {
-                "name": "4x4 board"
-            }
-        },
-        "spline": {
-            "board": {
-                "name": "4x4 board"
-            }
-        },
-        "sploof": {
-            "board": {
-                "description": "Default board that starts with a ring of neutral balls on the edges.",
-                "name": "4x4 board"
-            }
-        },
-        "sponnect": {
-            "board": {
-                "name": "4x4 board"
-            }
-        },
-        "spook": {
-            "board": {
-                "name": "4x4 board"
-            },
-            "setup": {
-                "description": "Players take turn placing balls until the pyramid is filled at the start of the game.",
-                "name": "manual setup"
-            }
-        },
-        "spree": {
-            "board": {
-                "name": "4x4 board"
-            }
-        },
-        "stigmergy": {
-            "board": {
-                "name": "board (base 8)"
-            },
-            "komi": {
-                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
-                "name": "komi offer"
-            },
-            "rules": {
-                "description": "You control a space by controlling more than half of its lines of sight.",
-                "name": "rules"
-            }
-        },
-        "storisende": {
-            "board": {
-                "name": "hexhex 5 (61 spaces)"
-            }
-        },
-        "strands": {
-            "board": {
-                "name": "size-7 board random setup"
-            }
-        },
-        "subdivision": {
-            "parks": {
-                "name": "park placement",
-                "description": "Corners and, in two-player games, two centre cells"
-            },
-            "scoring": {
-                "description": "Parks offer no bonuses"
-            }
-        },
-        "symple": {
-            "penalty": {
-                "description": "A lower penalty creates a more aggressive game, and a higher penalty, a more conservative one.",
-                "name": "penalty (-8)"
-            }
-        },
-        "tablero": {
-            "scoring": {
-                "description": "One point per pip"
-            }
-        },
-        "tafl": {
-            "variant": {
-                "description": "Linnaean Sámi Tablut with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",
-                "name": "linnaean-9x9-tcross-w"
-            }
-        },
-        "take": {
-            "rules": {
-                "description": "Play on a size-5 board where plant growth destroys dirt.",
-                "name": "rules"
-            }
-        },
-        "terrace": {
-            "board": {
-                "name": "6x6 board"
-            },
-            "setup": {
-                "description": "Players start with fewer pieces.",
-                "name": "short game setup"
-            },
-            "capture": {
-                "description": "The only capture possibility is diagonally down.",
-                "name": "capture rules"
-            }
-        },
-        "trike": {
-            "board": {
-                "description": "Casual board.",
-                "name": "Triangle (11 wide)"
-            }
-        },
-        "tritium": {
-            "form": {
-                "description": "Play continues until all regions are claimed.",
-                "name": "Long form"
-            },
-            "board": {
-                "name": "Small board (size 5)"
-            }
-        },
-        "tumbleweed": {
-            "board": {
-                "name": "Competitive board (8 cells)"
-            }
-        },
-        "twixt": {
-            "board": {
-                "name": "board (24x24)"
-            },
-            "ruleset": {
-                "description": "Links cannot cross. You may rearrange your links before you place your peg.",
-                "name": "ruleset"
-            }
-        },
-        "unlur": {
-            "board": {
-                "name": "size-8 board"
-            }
-        },
-        "upperhand": {
-            "board": {
-                "name": "5x5 board"
-            }
-        },
-        "veletas": {
-            "board": {
-                "description": "Default board with 7 neutral pieces.",
-                "name": "10x10 board"
-            },
-            "setup": {
-                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins.",
-                "name": "freestyle setup"
-            }
-        },
-        "verge": {
-            "board": {
-                "name": "Size-5 board (61 cells)"
-            }
-        },
-        "volo": {
-            "board": {
-                "name": "size-7 board"
             }
         }
     },

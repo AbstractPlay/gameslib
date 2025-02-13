@@ -43,8 +43,10 @@ export class LinesOfActionGame extends GameBase {
             },
             {
                 uid: "classic",
-                group: "board"
-            }
+                group: "board",
+                default: true,
+            },
+            { uid: "#board" }
         ],
         categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["check", "limited-pieces", "automove"]

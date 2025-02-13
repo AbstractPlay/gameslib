@@ -193,31 +193,36 @@ export abstract class GameBase  {
     }
     public allvariants(): Variant[] | undefined {
         const ctor = this.constructor as typeof GameBase;
-        return ctor.gameinfo.variants?.map(v => {return {
+        const variants: Variant[]|undefined = ctor.gameinfo.variants?.map(v => {return {
             "uid": v.uid,
             "name": i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.name`),
             "description": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${v.uid}.description`) : undefined,
             "group": v.group,
             "experimental": v.experimental,
+            "default": v.default,
         }});
+        // add a `#` entry for each group, if not already present
+        if (variants !== undefined) {
+            const groups = new Set<string>();
+            variants.forEach(v => {
+                if (v.group !== undefined) {
+                    groups.add(v.group);
+                }
+            });
+            [...groups].forEach(g => {
+                if (variants.find(v => v.uid === `#${g}`) === undefined) {
+                    variants.unshift({
+                        "uid": `#${g}`,
+                        "name": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.name`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.name`) : undefined,
+                        "description": i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.description`) : undefined,
+                        "group": g,
+                    });
+                }
+            });
+        }
+        return variants;
     }
-    public describeVariantGroupDefaults(grp: string): {name?: string; description?: string} {
-        const ctor = this.constructor as typeof GameBase;
-        const nameStr = `variantGroups.${ctor.gameinfo.uid}.${grp}.name`;
-        let name: string|undefined = i18next.t(`apgames:${nameStr}`);
-        if (name === nameStr) {
-            name = undefined;
-        }
-        const descStr = `variantGroups.${ctor.gameinfo.uid}.${grp}.description`;
-        let description: string|undefined = i18next.t(`apgames:${descStr}`);
-        if (description === descStr) {
-            description = undefined;
-        }
-        return {
-            name,
-            description,
-        }
-    }
+
     public alternativeDisplays(): AlternativeDisplay[] | undefined {
         const ctor = this.constructor as typeof GameBase;
         return ctor.gameinfo.displays?.map(v => {return {

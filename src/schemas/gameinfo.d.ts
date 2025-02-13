@@ -48,10 +48,6 @@ export interface APGamesInformation {
    */
   people?: Person[];
   /**
-   * A succinct, plain text description of the ruleset of the base, "no variants provided" game. Often most useful when there are many variant choices.
-   */
-  defaults?: string;
-  /**
    * A list of supported variants
    */
   variants?: Variant[];
@@ -116,7 +112,7 @@ export interface Variant {
    */
   name?: string;
   /**
-   * A short, unique string representing this variant
+   * A short, unique string representing this variant. For variants that are part of groups, a variant with the uid `#[group]` is presumed. Sensible defaults are assumed if not present, but you can override those defaults by inserting a variant with that uid in your game code.
    */
   uid: string;
   /**
@@ -127,6 +123,10 @@ export interface Variant {
    * If present, variants of the same `group` are considered mutually exclusive
    */
   group?: string;
+  /**
+   * If present and `true`, this variant will appear as the preselected default when issuing new challenges, requesting tournaments, etc. See the `uid` field description for how to describe the "no variant" state.
+   */
+  default?: boolean;
   /**
    * If present and `true`, the variant will not appear in the production environment.
    */

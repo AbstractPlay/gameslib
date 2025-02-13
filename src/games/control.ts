@@ -44,8 +44,10 @@ export class ControlGame extends GameBase {
         variants: [
             {
                 uid: "size-5",
-                group: "board"
+                group: "board",
+                default: true,
             },
+            { uid: "#board" },
             {
                 uid: "size-9",
                 group: "board"

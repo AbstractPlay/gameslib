@@ -351,10 +351,10 @@
             },
             "noislands": {
                 "description": "No starting islands",
-                "name": "No Obstacles"
+                "name": "No obstacles"
             },
             "twoislands": {
-                "name": "Two Islands"
+                "name": "Two islands"
             }
         },
         "asli": {

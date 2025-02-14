@@ -4,12 +4,33 @@
 import "mocha";
 import { expect } from "chai";
 import { PacruGame } from '../../src/games';
+import type {CellContents} from "../../src/games/pacru";
 import { PacruGraph } from "../../src/games/pacru/graph";
+
+const old2PStart = (): PacruGame => {
+    const g = new PacruGame(2);
+    // adjust starting position to pre-change
+    const oldp: [string, CellContents][] = [
+        ["a9", {chevron: {owner: 1, facing: "SE"}}],
+        ["c9", {chevron: {owner: 2, facing: "S"}}],
+        ["g9", {chevron: {owner: 1, facing: "S"}}],
+        ["a5", {chevron: {owner: 2, facing: "E"}}],
+        ["i5", {chevron: {owner: 1, facing: "W"}}],
+        ["c1", {chevron: {owner: 2, facing: "N"}}],
+        ["g1", {chevron: {owner: 1, facing: "N"}}],
+        ["i1", {chevron: {owner: 2, facing: "NW"}}],
+    ];
+    g.board.clear();
+    for (const [cell, contents] of oldp) {
+        g.board.set(cell, contents);
+    }
+    return g;
+}
 
 describe("Pacru", () => {
     it ("Side effects detected", () => {
         const graph = new PacruGraph();
-        let g = new PacruGame(2);
+        let g = old2PStart();
         let effects = g.getSideEffects("g9", "f8");
         expect(effects.size).equal(1);
         expect(effects.has("blChange")).to.be.true;
@@ -42,7 +63,7 @@ describe("Pacru", () => {
         expect(contents!.tile).equal(1);
 
         // check that blChange is triggered after pincer, too
-        g = new PacruGame(2);
+        g = old2PStart();
         g.board.set("d9", {chevron: {owner: 1, facing: "S"}});
         g.board.set("i9", {tile: 1});
         g.board.set("i8", {tile: 1});
@@ -57,7 +78,7 @@ describe("Pacru", () => {
         expect(effects.has("blChange")).to.be.true;
 
         // check that blTransform is caught correctly after pincer
-        g = new PacruGame(2);
+        g = old2PStart();
         g.board.set("d9", {chevron: {owner: 1, facing: "S"}});
         g.board.set("i9", {tile: 1});
         g.board.set("i8", {tile: 1});
@@ -78,7 +99,7 @@ describe("Pacru", () => {
         expect(effects.has("blTransform")).to.be.true;
 
         // blChange triggers even when you move into last neutral cell
-        g = new PacruGame(2);
+        g = old2PStart();
         for (const cell of graph.ctr2cells("e8")) {
             if (cell === "f8") {
                 continue
@@ -96,7 +117,7 @@ describe("Pacru", () => {
     });
 
     it ("Pincers detected and executed correctly", () => {
-        const g = new PacruGame(2);
+        const g = old2PStart();
         g.board.set("e9", {chevron: {owner: 1, facing: "S"}});
         g.board.set("i9", {tile: 1});
         g.board.set("i8", {tile: 1});
@@ -116,7 +137,7 @@ describe("Pacru", () => {
     it ("Meetings detected", () => {
         // not enough enemy tiles
         const graph = new PacruGraph();
-        let g = new PacruGame(2);
+        let g = old2PStart();
         g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
         g.board.set("g8", {tile: 1});
         g.board.set("g7", {tile: 1, chevron: {owner: 1, facing: "N"}});
@@ -124,7 +145,7 @@ describe("Pacru", () => {
         expect(g.isMeeting("g8")).to.be.false;
 
         // enough enemy tiles
-        g = new PacruGame(2);
+        g = old2PStart();
         g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
         g.board.set("g8", {tile: 1});
         g.board.set("g7", {tile: 1, chevron: {owner: 1, facing: "N"}});
@@ -135,7 +156,7 @@ describe("Pacru", () => {
         expect(g.isMeeting("g8")).to.be.true;
 
         // `to` doesn't have a tile
-        g = new PacruGame(2);
+        g = old2PStart();
         g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
         g.board.set("g7", {tile: 1, chevron: {owner: 1, facing: "N"}});
         for (const cell of graph.ctr2cells("e5")) {
@@ -145,7 +166,7 @@ describe("Pacru", () => {
         expect(g.isMeeting("g8")).to.be.false;
 
         // validation edge case where your meeting drops the threshold
-        g = new PacruGame(2);
+        g = old2PStart();
         g.board.set("g9", {tile: 1, chevron: {owner: 1, facing: "S"}});
         g.board.set("g8", {tile: 1});
         g.board.set("g7", {tile: 1, chevron: {owner: 1, facing: "N"}});
@@ -160,7 +181,7 @@ describe("Pacru", () => {
     it("Cell validation edge cases", () => {
         // combination capture + blChange + meeting
         const graph = new PacruGraph();
-        const g = new PacruGame(2);
+        const g = old2PStart();
         for (const cell of graph.ctr2cells("b5")) {
             g.board.set(cell, {tile: 2});
         }

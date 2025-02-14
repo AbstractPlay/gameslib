@@ -37,14 +37,14 @@ export interface IPacruState extends IAPGameState {
 };
 
 const start2p: [string, CellContents][] = [
-    ["a9", {chevron: {owner: 1, facing: "SE"}}],
-    ["c9", {chevron: {owner: 2, facing: "S"}}],
-    ["g9", {chevron: {owner: 1, facing: "S"}}],
-    ["a5", {chevron: {owner: 2, facing: "E"}}],
-    ["i5", {chevron: {owner: 1, facing: "W"}}],
-    ["c1", {chevron: {owner: 2, facing: "N"}}],
-    ["g1", {chevron: {owner: 1, facing: "N"}}],
-    ["i1", {chevron: {owner: 2, facing: "NW"}}],
+    ["a3", {chevron: {owner: 1, facing: "E"}}],
+    ["e1", {chevron: {owner: 1, facing: "N"}}],
+    ["i3", {chevron: {owner: 1, facing: "W"}}],
+    ["i9", {chevron: {owner: 1, facing: "SW"}}],
+    ["a7", {chevron: {owner: 2, facing: "E"}}],
+    ["e9", {chevron: {owner: 2, facing: "S"}}],
+    ["i7", {chevron: {owner: 2, facing: "W"}}],
+    ["a1", {chevron: {owner: 2, facing: "NE"}}],
 ];
 const start3p: [string, CellContents][] = [
     ["c9", {chevron: {owner: 2, facing: "S"}}],

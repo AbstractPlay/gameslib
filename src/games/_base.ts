@@ -218,6 +218,13 @@ export abstract class GameBase  {
                         "group": g,
                     });
                 }
+                // but if it is present, make sure it's populated correctly
+                else {
+                    const idx = variants.findIndex(v => v.uid === `#${g}`);
+                    variants[idx].name = i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.name`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.name`) : undefined;
+                    variants[idx].description = i18next.exists(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.description`) ? i18next.t(`apgames:variants.${ctor.gameinfo.uid}.${`#${g}`}.description`) : undefined;
+                    variants[idx].group = g;
+                }
             });
         }
         return variants;
@@ -400,21 +407,44 @@ export abstract class GameBase  {
         return hist;
     }
 
-    public getVariants(): string[] | undefined {
-        if ( (this.variants === undefined) || (this.variants.length === 0) ) {
-            return undefined;
-        }
+    public getVariants(): string[] {
+        // if ( (this.variants === undefined) || (this.variants.length === 0) ) {
+        //     return undefined;
+        // }
         const vars: string[] = [];
         const possibleVariants = this.allvariants();
         if (possibleVariants !== undefined) {
+            const grpNames = possibleVariants.map(v => v.group).filter(g => g !== undefined) as string[];
+            const groups = new Set<string>(grpNames);
             for (const v of this.variants) {
-                for (const rec of possibleVariants) {
-                    if (v === rec.uid) {
-                        vars.push(rec.name ?? v);
-                        break;
+                const rec = possibleVariants.find(x => x.uid === v)!;
+                if (rec !== undefined) {
+                    // remove from the list of groups, if defined
+                    if (rec.group !== undefined) {
+                        groups.delete(rec.group);
+                    }
+                    if (rec.name !== undefined) {
+                        vars.push(rec.name);
+                    } else {
+                        if (rec.uid.startsWith("#")) {
+                            vars.push(`Default ${rec.group}`);
+                        } else {
+                            vars.push(v);
+                        }
                     }
                 }
             }
+            // Any groups that are not represented, insert the default
+            groups.forEach(g => {
+                const found = possibleVariants.find(v => v.uid === `#${g}`);
+                if (found !== undefined) {
+                    if (found.name !== undefined) {
+                        vars.push(found.name);
+                    } else {
+                        vars.push(`Default ${g}`);
+                    }
+                }
+            });
         }
         return vars;
     }

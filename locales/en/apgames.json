@@ -879,7 +879,7 @@
         },
         "dragoneyes": {
             "#rules": {
-                "description": "Draws are triggered automatically.",
+                "description": "Draws are triggered automatically."
             },
             "claimdraw": {
                 "description": "You must choose to claim a draw on your turn.",
@@ -1081,7 +1081,7 @@
         "hexentafl": {
             "#board": {
                 "name": "Size-4 board",
-                "description": "Smaller board where the king may only move one step at a time.",
+                "description": "Smaller board where the king may only move one step at a time."
             },
             "size-5": {
                 "description": "Larger board where the king may move like any other piece.",

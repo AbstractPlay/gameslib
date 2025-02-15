@@ -1466,7 +1466,6 @@ export class PacruGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
-            console.log(JSON.stringify(this.results));
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {

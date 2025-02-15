@@ -589,7 +589,7 @@ export class PacruGame extends GameBase {
                                 } else {
                                     cells.add(cell);
                                 }
-                                newmove = move.substring(0, idx) + "(" + [...cells].join(",") + ")";
+                                newmove = move.substring(0, idx) + (cells.size > 0 ? "(" + [...cells].join(",") + ")" : "");
                             } else {
                                 newmove = move + "(" + cell + ")";
                             }
@@ -1466,8 +1466,9 @@ export class PacruGame extends GameBase {
 
         // Add annotations
         if (this.results.length > 0) {
+            console.log(JSON.stringify(this.results));
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
+            for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = PacruGame.algebraic2coords(move.from);
                     const [toX, toY] = PacruGame.algebraic2coords(move.to);

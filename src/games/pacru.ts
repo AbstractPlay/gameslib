@@ -945,11 +945,13 @@ export class PacruGame extends GameBase {
                         }
                     }
 
-                    // see if there's a meeting (but don't pass cells!)
-                    // if you pass the cells, and the cells change the meeting threshold,
-                    // then isMeeting will be incorrectly false
+                    // see if there's a meeting
+                    // usually you don't pass the cells to avoid changing the meeting threshold
+                    // but if the first cell is the same as `to`, then you have to pass it
+                    // or the meeting similarly won't trigger
                     const cloned = this.clone();
-                    cloned.executeMove(`${from}${isCapture ? "x" : "-"}${to}`);
+                    const cellIsTo = cells[0] === to;
+                    cloned.executeMove(`${from}${isCapture ? "x" : "-"}${to}${cellIsTo ? `(${to})` : ""}`);
                     const isMeeting = cloned.isMeeting(to);
                     let target = 0;
                     if (sideEffects.size > 0) {
@@ -1463,7 +1465,7 @@ export class PacruGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {

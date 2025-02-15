@@ -367,7 +367,7 @@ export class AzacruGame extends GameBase {
                     const src = move.substring(move.length - 3, move.length - 1);
                     // if we clicked the cell again, assume no direction change
                     if (cell !== undefined && cell === src) {
-                        newmove = move + ".";
+                        newmove = move.substring(0, move.length - 1) + ".";
                     }
                     // otherwise, derive facing
                     else {

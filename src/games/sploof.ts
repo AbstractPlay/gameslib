@@ -668,7 +668,11 @@ export class SploofGame extends GameBase {
         // Check diagonals from bottom-left to top-right
         for (let i = 0; i < 2 * this.boardSize; i++) {
             if (i % 2 !== 0) { continue; }
-            const lines = this.checkLines(i, 0, -1, 1).concat(this.checkLines(2 * this.boardSize - 1, i + 1, -1, 1));
+            const lines1 = this.checkLines(i, 0, -1, 1);
+            const lines2 = (i + 1 < 2 * this.boardSize)
+                ? this.checkLines(2 * this.boardSize - 1, i + 1, -1, 1)
+                : [];
+            const lines = lines1.concat(lines2);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);
@@ -678,7 +682,11 @@ export class SploofGame extends GameBase {
         // Check diagonals from top-left to bottom-right
         for (let i = 0; i < 2 * this.boardSize; i++) {
             if (i % 2 !== 0) { continue; }
-            const lines = this.checkLines(i, 0, 1, 1).concat(this.checkLines(0, i + 1, 1, 1));
+            const lines1 = this.checkLines(i, 0, 1, 1);
+            const lines2 = (i > 0)
+                ? this.checkLines(0, i, 1, 1)
+                : [];
+            const lines = lines1.concat(lines2);
             for (const line of lines) {
                 const player = this.board.get(line[0]);
                 winningLines.get(player!)!.push(line);

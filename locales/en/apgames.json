@@ -17,6 +17,7 @@
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "ayu": "Unification game where snaky groups of pieces crawl toward their friends and eventually coalesce. If you cannot make a move on your turn, you win. This occurs when you have only one group or there is no free path between any of your groups.",
+        "azacru": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -2981,6 +2982,15 @@
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "INVALID_TO": "The piece at {{from}} cannot move to {{to}}.",
             "NO_MOVES": "The piece at {{where}} cannot move."
+        },
+        "azacru": {
+            "BAD_ORIENTATION": "The only valid orientation notations are \">\", \"<\", and \".\".",
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "ENEMY_TILE": "You can't land on opposing tiles.",
+            "INITIAL_INSTRUCTIONS": "Select a chevron to move.",
+            "NEED_DESTINATION": "Select the destination (valid targets are highlighted).",
+            "NO_CAPTURES": "You may not move onto a cell with another chevron.",
+            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face."
         },
         "bao": {
             "BAD_TAX": "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",

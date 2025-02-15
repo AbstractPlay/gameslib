@@ -582,7 +582,7 @@ export class AzacruGame extends GameBase {
             }
             // select a cell to convert
             else {
-                if (sideEffects.has("blChange") && orientation !== undefined) {
+                if (sideEffects.has("blChange") && orientation === undefined) {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;

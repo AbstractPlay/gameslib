@@ -61,7 +61,7 @@ export class CifraGame extends GameBase {
             {uid: "sum", group: "mode"},
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "automove", "custom-buttons", "custom-colours", "scores", "custom-randomization"]
+        flags: ["experimental", "automove", "custom-buttons", "custom-colours", "scores", "custom-randomization", "custom-rotation"]
     };
 
     public numplayers = 2;
@@ -944,6 +944,10 @@ export class CifraGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public getCustomRotation(): number {
+        return 180;
     }
 
     public clone(): CifraGame {

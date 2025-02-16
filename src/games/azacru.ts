@@ -429,7 +429,7 @@ export class AzacruGame extends GameBase {
                             newmove = move + "-" + cell;
                             // if blChange triggered, auto-add the orientation asterisk
                             const sideEffects = this.getSideEffects(move, cell);
-                            if (sideEffects.has("blChange")) {
+                            if (sideEffects.has("blChange") && this.triggered === undefined) {
                                 newmove += "*";
                             }
                         }

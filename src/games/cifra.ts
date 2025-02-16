@@ -61,7 +61,7 @@ export class CifraGame extends GameBase {
             {uid: "sum", group: "mode"},
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "automove", "custom-buttons", "custom-colours", "scores"]
+        flags: ["experimental", "automove", "custom-buttons", "custom-colours", "scores", "custom-randomization"]
     };
 
     public numplayers = 2;
@@ -176,7 +176,7 @@ export class CifraGame extends GameBase {
                 }
                 if (ray.length > 0) {
                     // if last cell is friendly occupied or locked, lop it off
-                    if (allMine.includes(ray[ray.length - 1]) || ray[ray.length - 1].endsWith(myHome)) {
+                    if (allMine.includes(ray[ray.length - 1]) || (this.board.has(ray[ray.length - 1]) && ray[ray.length - 1].endsWith(myHome)) ) {
                         ray = ray.slice(0, -1);
                     }
                     // each surviving cell is a valid move target
@@ -200,7 +200,7 @@ export class CifraGame extends GameBase {
                 { label: "cifra.lt", move: "light,top" },
                 { label: "cifra.lb", move: "light,bottom" },
                 { label: "cifra.dt", move: "dark,top" },
-                { label: "cifra.db", move: "dark.bottom" },
+                { label: "cifra.db", move: "dark,bottom" },
             ];
         }
         return [];

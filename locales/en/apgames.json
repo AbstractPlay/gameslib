@@ -693,7 +693,7 @@
                 "description": "Move more of your pieces to the opponent's home row than your opponent does to yours"
             },
             "king": {
-                "name": "Retrieve",
+                "name": "King",
                 "description": "Capture the opposing king or get yours to the opposing home row"
             },
             "sum": {

@@ -681,7 +681,7 @@ export class CifraGame extends GameBase {
         };
         if (opts !== undefined && opts.strip) {
             // only strip if we're still in the setup window
-            if (state.stack.length === 3 && opts.player !== 1) {
+            if (state.stack.length === 3 && opts.player !== 2) {
                 state.stack[2]._results = [];
                 state.stack[2].lastmove = "?";
                 state.stack[2].board.clear();

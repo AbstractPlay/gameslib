@@ -815,7 +815,6 @@ export class CifraGame extends GameBase {
                     text: i.toString(),
                     colour: "#000",
                     scale: 0.75,
-                    rotate: null,
                 }
             ];
             legend[`B${i}`] = [
@@ -827,7 +826,6 @@ export class CifraGame extends GameBase {
                     text: i.toString(),
                     colour: "#000",
                     scale: 0.75,
-                    rotate: null,
                 }
             ];
         }
@@ -843,9 +841,23 @@ export class CifraGame extends GameBase {
                 const onboard = [...this.board.values()].filter(pc => (pc as ContentsSum).p === this.currplayer) as ContentsSum[];
                 onboard.forEach(({v}) => allPcs.delete(v));
                 if (allPcs.size > 0) {
+                    [...allPcs].forEach(n => {
+                        legend[`p${n}`] = [
+                            {
+                                name: "piece",
+                                colour: this.getPlayerColour(this.currplayer),
+                            },
+                            {
+                                text: n.toString(),
+                                colour: "#000",
+                                scale: 0.75,
+                                rotate: null
+                            }
+                        ];
+                    });
                     areas = [{
                         type: "pieces",
-                        pieces: [...allPcs].map(n => `${this.currplayer === 1 ? "A" : "B"}${n}`) as [string, ...string[]],
+                        pieces: [...allPcs].map(n => `p${n}`) as [string, ...string[]],
                         label: `Player ${this.currplayer}'s stash`
                     }];
                 }

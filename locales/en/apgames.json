@@ -42,6 +42,7 @@
         "chameleon": "A chess-like strategy game, played on a 5x5 grid, where each piece's movement capability changes based on the color of the tile where it starts.",
         "chase": "Chase is a unique move and capture game played on a cylindrical hex board with dice. Pieces move the exact number of spaces showing on the die face (its \"speed\"). Landing on enemy pieces captures them; landing on friendly pieces bumps them, which can cause chain reactions. The chamber in the centre of the board is a way of gaining more pieces. You must maintain a total of 25 speed throughout the game. Once you are no longer able to do that, you lose.",
         "churn": "A bloody territory-control game on a small board.",
+        "cifra": "A breakthrough-style game where the board configuration changes from game to game.",
         "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
         "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
@@ -678,6 +679,26 @@
             },
             "hex5": {
                 "name": "Hexhex 5 (61 spaces)"
+            }
+        },
+        "cifra": {
+            "#board": {
+                "name": "5x5 board"
+            },
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "#mode": {
+                "name": "Dash",
+                "description": "Move more of your pieces to the opponent's home row than your opponent does to yours"
+            },
+            "king": {
+                "name": "Retrieve",
+                "description": "Capture the opposing king or get yours to the opposing home row"
+            },
+            "sum": {
+                "name": "Sum",
+                "description": "Get the highest total value of pieces to the opponent's home row than your opponent can to yours"
             }
         },
         "clearcut": {
@@ -3253,6 +3274,19 @@
         "churn": {
             "BAD_PLACE": "If an isolated placement is available, you must make it. If that is not possible, you must form the smallest group possible.",
             "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece."
+        },
+        "cifra": {
+            "INITIAL_INSTRUCTIONS_choose": "Use the buttons to select your play colour and board side. Your opponent will then make the first move. \"Light\" refers to cells that are the background colour. \"Bottom\" refers to row 1.",
+            "INITIAL_INSTRUCTIONS_play": "Select a piece to move.",
+            "INITIAL_INSTRUCTIONS_setup": "Select a piece from your stash to place on the board. In \"King\" mode, the 5 (or 9) will become the actual king.",
+            "INVALID_MOVE": "The move {{move}} does not appear to be valid. Remember that you may not move or capture pieces that have made it to the far row.",
+            "NO_DUPES_cell": "You may only place one piece per cell.",
+            "NO_DUPES_pc": "You may only place one of each piece type on the board.",
+            "ONLY_HOME": "You may only place pieces on your home row.",
+            "PARTIAL": "Select a destination.",
+            "PARTIAL_PLACE": "Select the cell on your home row to place your {{piece}} piece.",
+            "PARTIAL_SETUP_one": "Place your last piece.",
+            "PARTIAL_SETUP_other": "You have {{count}} more pieces to place."
         },
         "clearcut": {
             "BAD_CROSSING": "Lines may only cross if the group created by the piece placed is larger than at least one opposing group in the crosscut.",

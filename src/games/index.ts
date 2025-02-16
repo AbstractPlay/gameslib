@@ -191,6 +191,7 @@ import { NakattaGame, INakattaState } from "./nakatta";
 import { OmnyGame, IOmnyState } from "./omny";
 import { PacruGame, IPacruState } from "./pacru";
 import { AzacruGame, IAzacruState } from "./azacru";
+import { CifraGame, ICifraState } from "./cifra";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -384,6 +385,7 @@ export {
     OmnyGame, IOmnyState,
     PacruGame, IPacruState,
     AzacruGame, IAzacruState,
+    CifraGame, ICifraState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -449,7 +451,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof OwlmanGame | typeof SquaredanceGame | typeof MegGame |
                               typeof YonmoqueGame | typeof ChameleonGame | typeof KachitGame |
                               typeof GyveGame | typeof PahTumGame | typeof NakattaGame |
-                              typeof OmnyGame | typeof PacruGame | typeof AzacruGame
+                              typeof OmnyGame | typeof PacruGame | typeof AzacruGame |
+                              typeof CifraGame
                 >();
 // Manually add each game to the following array
 [
@@ -479,7 +482,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
-    PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame,
+    PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -871,6 +874,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new PacruGame(args[0], ...args.slice(1));
         case "azacru":
             return new AzacruGame(args[0], ...args.slice(1));
+        case "cifra":
+            return new CifraGame(...args);
     }
     return;
 }

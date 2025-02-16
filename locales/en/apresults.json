@@ -8,6 +8,10 @@
         "twixt": "{{player}} added a link at {{where}}."
     },
     "AFFILIATE": {
+        "cifra_lt": "{{player}} chose to play the light pieces from the top row.",
+        "cifra_lb": "{{player}} chose to play the light pieces from the bottom row.",
+        "cifra_dt": "{{player}} chose to play the dark pieces from the top row.",
+        "cifra_db": "{{player}} chose to play the dark pieces from the top row.",
         "witch_M": "{{player}} chose the Moonstones.",
         "witch_S": "{{player}} chose the Sunstones."
     },

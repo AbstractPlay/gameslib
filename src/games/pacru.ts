@@ -638,7 +638,7 @@ export class PacruGame extends GameBase {
 
         // check for reorientation trigger
         if (m.length === 3 && m.endsWith("*")) {
-            if (this.numTiles() < 2) {
+            if (this.numTiles(this.currplayer, true) < 2) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH");
                 return result;
@@ -683,7 +683,7 @@ export class PacruGame extends GameBase {
                 return result;
             }
             // you can afford it
-            if (this.numTiles() < 2 * orientation.length) {
+            if (this.numTiles(this.currplayer, true) < 2 * orientation.length) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH");
                 return result;
@@ -1134,11 +1134,15 @@ export class PacruGame extends GameBase {
         return count;
     }
 
-    public numTiles(p?: playerid): number {
+    public numTiles(p?: playerid, trimOccupied = false): number {
         if (p === undefined) {
             p = this.currplayer;
         }
-        return [...this.board.values()].filter(({tile}) => tile === p).length;
+        if (!trimOccupied) {
+            return [...this.board.values()].filter(({tile}) => tile === p).length;
+        } else {
+            return [...this.board.values()].filter(({tile, chevron}) => tile === p && chevron === undefined).length;
+        }
     }
 
     public move(m: string, {trusted = false, partial = false} = {}): PacruGame {

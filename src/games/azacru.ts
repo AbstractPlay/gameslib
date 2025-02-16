@@ -196,7 +196,7 @@ export class AzacruGame extends GameBase {
             const [from, to] = mv.split("-");
             const effects = this.getSideEffects(from, to);
             if (effects.has("blChange")) {
-                moves.push(mv + ".");
+                moves.push(mv + "^");
                 moves.push(mv + "<");
                 moves.push(mv + ">");
             } else {
@@ -292,10 +292,11 @@ export class AzacruGame extends GameBase {
         const [tx, ty] = g.algebraic2coords(to);
         let converting = false;
 
-        // did we change borderlands
+        // did we change borderlands?
+        // (don't bother if endgame triggered)
         const fCtr = g.cell2ctr(from);
         const tCtr = g.cell2ctr(to);
-        if (fCtr !== tCtr) {
+        if (fCtr !== tCtr && this.triggered === undefined) {
             set.add("blChange");
         }
 
@@ -367,7 +368,7 @@ export class AzacruGame extends GameBase {
                     const src = move.substring(move.length - 3, move.length - 1);
                     // if we clicked the cell again, assume no direction change
                     if (cell !== undefined && cell === src) {
-                        newmove = move.substring(0, move.length - 1) + ".";
+                        newmove = move.substring(0, move.length - 1) + "^";
                     }
                     // otherwise, derive facing
                     else {
@@ -395,7 +396,7 @@ export class AzacruGame extends GameBase {
                         }
                         const delta = smallestDegreeDiff(dir2deg.get(newdir as Direction)!, dir2deg.get(contents.chevron.facing)!);
                         if (delta === 0) {
-                            newmove = move.substring(0, move.length - 1) + ".";
+                            newmove = move.substring(0, move.length - 1) + "^";
                         } else if (delta < 0) {
                             newmove = move.substring(0, move.length - 1) + "<";
                         } else {
@@ -429,7 +430,7 @@ export class AzacruGame extends GameBase {
                             newmove = move + "-" + cell;
                             // if blChange triggered, auto-add the orientation asterisk
                             const sideEffects = this.getSideEffects(move, cell);
-                            if (sideEffects.has("blChange") && this.triggered === undefined) {
+                            if (sideEffects.has("blChange")) {
                                 newmove += "*";
                             }
                         }
@@ -566,7 +567,7 @@ export class AzacruGame extends GameBase {
                 }
             }
 
-            if (orientation !== undefined && orientation !== "<" && orientation !== ">" && orientation !== ".") {
+            if (orientation !== undefined && orientation !== "<" && orientation !== ">" && orientation !== "^") {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.azacru.BAD_ORIENTATION");
                 return result;
@@ -611,8 +612,8 @@ export class AzacruGame extends GameBase {
             if (opIdx >= 0) {
                 to = m.substring(opIdx+1, opIdx+3);
             }
-            if (m.endsWith(".")) {
-                orientation = ".";
+            if (m.endsWith("^")) {
+                orientation = "^";
             } else if (m.endsWith("<")) {
                 orientation = "<";
             } else if (m.endsWith(">")) {

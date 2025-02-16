@@ -492,9 +492,11 @@ export class CifraGame extends GameBase {
                 // in this case, just place the pieces
                 const parts = m.split(",");
                 for (const part of parts) {
-                    const v = parseInt(part[0], 10);
-                    const cell = part.substring(1);
-                    this.board.set(cell, {p: this.currplayer, v} as ContentsSum);
+                    if (part.length === 3) {
+                        const v = parseInt(part[0], 10);
+                        const cell = part.substring(1);
+                        this.board.set(cell, {p: this.currplayer, v} as ContentsSum);
+                    }
                 }
             } else {
                 this.highlights = allMoves.filter(mv => mv.startsWith(m)).map(mv => mv.substring(mv.length - 2));
@@ -527,8 +529,8 @@ export class CifraGame extends GameBase {
                 this.board.set(cell, {p: this.currplayer, v} as ContentsSum);
                 this.results.push({type: "place", what: part[0], where: cell});
             }
-            // strip the move notation to just the values
-            m = parts.map(pt => pt[0]).join(",");
+            // add spaces to the notation
+            m = parts.map(pt => pt[0]).join(", ");
         }
         // everything else
         else {

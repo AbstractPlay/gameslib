@@ -530,7 +530,7 @@ export class CifraGame extends GameBase {
                 this.results.push({type: "place", what: part[0], where: cell});
             }
             // add spaces to the notation
-            m = parts.map(pt => pt[0]).join(", ");
+            m = parts.join(", ");
         }
         // everything else
         else {

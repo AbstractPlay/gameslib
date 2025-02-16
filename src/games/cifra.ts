@@ -813,6 +813,7 @@ export class CifraGame extends GameBase {
                     text: i.toString(),
                     colour: "#000",
                     scale: 0.75,
+                    rotate: null,
                 }
             ];
             legend[`B${i}`] = [

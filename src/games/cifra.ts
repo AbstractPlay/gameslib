@@ -392,7 +392,7 @@ export class CifraGame extends GameBase {
         // setup scenarios first
         if (this.stack.length === 1) {
             const [shade, pos] = m.split(",")
-            if ( (shade === "light" || shade === "dark") && (pos === "top" || pos === "bottom") ) {
+            if ( (shade === "light" || shade === "dark") && (pos === "top" || pos === "bottom" || pos === "left" || pos === "right") ) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -866,7 +866,11 @@ export class CifraGame extends GameBase {
                 },
                 {
                     text: i.toString(),
-                    colour: "#000",
+                    colour: {
+                        func: "bestContrast",
+                        bg: this.getPlayerColour(1),
+                        fg: ["_context_strokes", "#000"],
+                    },
                     scale: 0.75,
                 }
             ];
@@ -877,7 +881,11 @@ export class CifraGame extends GameBase {
                 },
                 {
                     text: i.toString(),
-                    colour: "#000",
+                    colour: {
+                        func: "bestContrast",
+                        bg: this.getPlayerColour(1),
+                        fg: ["_context_strokes", "#000"],
+                    },
                     scale: 0.75,
                 }
             ];

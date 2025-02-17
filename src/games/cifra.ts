@@ -800,7 +800,9 @@ export class CifraGame extends GameBase {
                     throw new Error(`Unrecognized firstPos: ${this.firstPos}`);
             }
         }
-        let colours: {side: "N" | "E" | "S" | "W";colour: PositiveInteger | Colourstrings | Colourfuncs;}[];
+        const c1 = this.getPlayerColour(1);
+        const c2 = this.getPlayerColour(2);
+    let colours: {side: "N" | "E" | "S" | "W";colour: PositiveInteger | Colourstrings | Colourfuncs;}[];
         if (show === undefined) {
             colours = [
                 {
@@ -821,8 +823,6 @@ export class CifraGame extends GameBase {
                 },
             ];
         } else {
-            const c1 = this.getPlayerColour(1);
-            const c2 = this.getPlayerColour(2);
             colours = [
                 {
                     side: show[0],
@@ -843,34 +843,30 @@ export class CifraGame extends GameBase {
         const legend: {[k: string]: Glyph|[Glyph, ...Glyph[]]} = {
             A: {
                 name: "piece",
-                colour: this.getPlayerColour(1),
+                colour: c1,
             },
             B: {
                 name: "piece",
-                colour: this.getPlayerColour(2),
+                colour: c2,
             },
             AK: {
                 name: "piece-chariot",
-                colour: this.getPlayerColour(1),
+                colour: c1,
             },
             BK: {
                 name: "piece-chariot",
-                colour: this.getPlayerColour(2),
+                colour: c2,
             },
         };
         for (let i = 1; i <= this.boardSize; i++) {
             legend[`A${i}`] = [
                 {
                     name: "piece",
-                    colour: this.getPlayerColour(1),
+                    colour: c1,
                 },
                 {
                     text: i.toString(),
-                    colour: {
-                        func: "bestContrast",
-                        bg: this.getPlayerColour(1),
-                        fg: ["_context_strokes", "#000"],
-                    },
+                    colour: c1 === "_context_background" ? "_context_strokes" : "#000",
                     scale: 0.75,
                 }
             ];
@@ -881,11 +877,7 @@ export class CifraGame extends GameBase {
                 },
                 {
                     text: i.toString(),
-                    colour: {
-                        func: "bestContrast",
-                        bg: this.getPlayerColour(1),
-                        fg: ["_context_strokes", "#000"],
-                    },
+                    colour: c2 === "_context_background" ? "_context_strokes" : "#000",
                     scale: 0.75,
                 }
             ];

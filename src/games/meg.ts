@@ -170,7 +170,7 @@ export class MegGame extends GameBase {
                 const [x2, y2] = MegGame.algebraic2coords(next);
                 // if it's orthogonally adjacent, skip
                 // (diagonal adjacency is valid)
-                if (x1 === x2 || y1 === y2) {
+                if ((x1 === x2 && Math.abs(y1 - y2) === 1) || (y1 === y2 && Math.abs(x1 - x2) === 1) ){
                     continue;
                 }
                 if (!g.hasNode(next)) {

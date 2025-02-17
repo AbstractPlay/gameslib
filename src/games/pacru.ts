@@ -640,7 +640,7 @@ export class PacruGame extends GameBase {
         if (m.length === 3 && m.endsWith("*")) {
             if (this.numTiles(this.currplayer, true) < 2) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH");
+                result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH", {context: "any"});
                 return result;
             }
 
@@ -685,7 +685,7 @@ export class PacruGame extends GameBase {
             // you can afford it
             if (this.numTiles(this.currplayer, true) < 2 * orientation.length) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH");
+                result.message = i18next.t("apgames:validation.pacru.NOT_ENOUGH", {context: orientation.length === 1 ? "45" : "90"});
                 return result;
             }
 

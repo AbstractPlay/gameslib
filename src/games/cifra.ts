@@ -476,6 +476,10 @@ export class CifraGame extends GameBase {
                 result.canrender = true;
                 result.message = i18next.t("apgames:validation.cifra.PARTIAL");
                 return result;
+            } else if (m.length === 2) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.NO_MOVES", {where: m});
+                return result;
             } else {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.cifra.INVALID_MOVE", {move: m});
@@ -873,7 +877,7 @@ export class CifraGame extends GameBase {
             legend[`B${i}`] = [
                 {
                     name: "piece",
-                    colour: this.getPlayerColour(2),
+                    colour: c2,
                 },
                 {
                     text: i.toString(),

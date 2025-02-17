@@ -61,7 +61,7 @@ export class CifraGame extends GameBase {
             {uid: "sum", group: "mode"},
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "automove", "custom-buttons", "custom-colours", "scores", "custom-randomization", "custom-rotation"]
+        flags: ["experimental", "automove", "custom-buttons", "custom-colours", "scores", "custom-randomization"]
     };
 
     public numplayers = 2;
@@ -83,7 +83,7 @@ export class CifraGame extends GameBase {
             }
 
             // randomize cells
-            const half = ((this.boardSize * this.boardSize) - 1) / 2;
+            const half = this.variants.includes("size-9") ? 38 : 12;
             const p1 = Array.from({length: half}, () => "L").join("");
             const p2 = Array.from({length: half}, () => "D").join("");
             this.startpos = shuffle([...p1, ...p2]) as Shade[];
@@ -150,7 +150,7 @@ export class CifraGame extends GameBase {
 
         // side choosing
         if (this.stack.length === 1) {
-            return ["light,top", "light,bottom", "dark,top", "dark,bottom"];
+            return ["light,top", "light,bottom", "dark,top", "dark,bottom","light,left", "light,right", "dark,left", "dark,right"];
         }
 
         // don't generate opening moves for variants
@@ -159,14 +159,16 @@ export class CifraGame extends GameBase {
         }
 
         const g = new CifraGraph(this.startpos, this.getPlayerShade(this.currplayer)!);
-        const myHome = this.getHomeRow(this.currplayer)!;
-        const theirHome = myHome === "1" ? this.boardSize.toString() : "1";
+        const myHome = this.getHomeCells(this.currplayer)!;
+        const theirHome = this.getHomeCells(this.currplayer === 1 ? 2 : 1)!;
         const allMine = [...this.board.entries()].filter(([, p]) => (p as ContentsDash) === this.currplayer || (p as ContentsSum).p === this.currplayer).map(([c,]) => c);
-        const unlocked = allMine.filter(c => !c.endsWith(theirHome));
+        const allTheirs = [...this.board.keys()].filter(c => !allMine.includes(c));
+        const myUnlocked = allMine.filter(c => !theirHome.includes(c));
+        const theirLocked = allTheirs.filter(c => myHome.includes(c));
 
         const moves: string[] = [];
 
-        for (const cell of unlocked) {
+        for (const cell of myUnlocked) {
             for (const dir of allDirections) {
                 let ray = g.weightedRay(cell, dir);
                 // trim to first occupied
@@ -176,7 +178,7 @@ export class CifraGame extends GameBase {
                 }
                 if (ray.length > 0) {
                     // if last cell is friendly occupied or locked, lop it off
-                    if (allMine.includes(ray[ray.length - 1]) || (this.board.has(ray[ray.length - 1]) && ray[ray.length - 1].endsWith(myHome)) ) {
+                    if (allMine.includes(ray[ray.length - 1]) || theirLocked.includes(ray[ray.length - 1]) ) {
                         ray = ray.slice(0, -1);
                     }
                     // each surviving cell is a valid move target
@@ -201,6 +203,10 @@ export class CifraGame extends GameBase {
                 { label: "cifra.lb", move: "light,bottom" },
                 { label: "cifra.dt", move: "dark,top" },
                 { label: "cifra.db", move: "dark,bottom" },
+                { label: "cifra.ll", move: "light,left" },
+                { label: "cifra.lr", move: "light,right" },
+                { label: "cifra.dl", move: "dark,left" },
+                { label: "cifra.dr", move: "dark,right" },
             ];
         }
         return [];
@@ -208,7 +214,7 @@ export class CifraGame extends GameBase {
 
     public randomMove(): string {
         if (this.stack.length === 1) {
-            const shuffled = shuffle(["light,top", "light,bottom", "dark,top", "dark,bottom"]) as string[];
+            const shuffled = shuffle(["light,top", "light,bottom", "dark,top", "dark,bottom","light,left", "light,right", "dark,left", "dark,right"]) as string[];
             return shuffled[0];
         } else if ( (this.variants.includes("sum") || this.variants.includes("king")) && this.stack.length <= 3) {
             const pcs: number[] = [];
@@ -216,11 +222,10 @@ export class CifraGame extends GameBase {
                 pcs.push(i);
             }
             const mv: string[] = [];
-            const shuffled = shuffle(pcs) as number[];
-            const row = this.getHomeCol(this.currplayer)!;
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                mv.push(`${shuffled[col]}${cell}`);
+            const pcsShuf = shuffle(pcs) as number[];
+            const cellsShuf = this.getHomeCells(this.currplayer)!;
+            for (let i = 0; i < this.boardSize; i++) {
+                mv.push(`${pcsShuf[i]}${cellsShuf[i]}`);
             }
             return mv.join(",");
         } else {
@@ -229,24 +234,41 @@ export class CifraGame extends GameBase {
         }
     }
 
-    public getHomeRow(p: playerid): string|undefined {
-        if (this.stack.length === 1) {
+    public getHomeCells(p: playerid): string[]|undefined {
+        if (this.getHomeRowCol(p) === undefined) {
             return undefined;
         }
-        const [, position] = this.stack[1].lastmove!.split(",");
-        const num1 = position === "top" ? this.boardSize : 1;
-        const num2 = num1 === 1 ? this.boardSize : 1;
-        return p === 1 ? num1.toString() : num2.toString();
+        const {row, col} = this.getHomeRowCol(p)!;
+        if (row === undefined && col === undefined) {
+            throw new Error("Should never happen.");
+        }
+        const cells: string[] = [];
+        for (let i = 0; i < this.boardSize; i++) {
+            cells.push((row === undefined ? this.coords2algebraic(col!, i) : this.coords2algebraic(i, row)));
+        }
+        return cells;
     }
 
-    public getHomeCol(p: playerid): number|undefined {
-        if (this.stack.length === 1) {
+    public getHomeRowCol(p: playerid): {col?: number; row?: number}|undefined {
+        if (this.stack.length < 2) {
             return undefined;
         }
         const [, position] = this.stack[1].lastmove!.split(",");
-        const num1 = position === "top" ? 0 : this.boardSize - 1;
+        const num1 = (position === "top" || position === "left") ? 0 : this.boardSize - 1;
         const num2 = num1 === 0 ? this.boardSize - 1 : 0;
-        return p === 1 ? num1 : num2;
+        if (position === "top" || position === "bottom") {
+            return p === 1 ? {col: undefined, row: num1} : {col: undefined, row: num2};
+        } else {
+            return p === 1 ? {col: num1, row: undefined} : {col: num2, row: undefined};
+        }
+    }
+
+    public get firstPos(): string|undefined {
+        if (this.stack.length < 2) {
+            return undefined;
+        }
+        const [, position] = this.stack[1].lastmove!.split(",");
+        return position;
     }
 
     public getPlayerColour(p: playerid): number|string {
@@ -383,7 +405,7 @@ export class CifraGame extends GameBase {
             }
         }
         else if ((this.variants.includes("king") || this.variants.includes("sum")) && this.stack.length <= 3) {
-            const homeRow = this.getHomeRow(this.currplayer)!;
+            const homeCells = this.getHomeCells(this.currplayer)!;
             const lst = m.split(",");
             const setPcs = new Set<string>();
             for (let i = 1; i <= this.boardSize; i++) {
@@ -409,7 +431,7 @@ export class CifraGame extends GameBase {
                     }
                     setCells.add(cell);
                     // only on home row
-                    if (!cell.endsWith(homeRow)) {
+                    if (!homeCells.includes(cell)) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.cifra.ONLY_HOME");
                         return result;
@@ -565,17 +587,17 @@ export class CifraGame extends GameBase {
         if (this.variants.includes("king")) {
             return 0;
         } else if (this.variants.includes("sum")) {
-            const scoreRow = this.getHomeRow(player === 1 ? 2 : 1);
-            if (scoreRow !== undefined) {
-                const locked = [...this.board.entries()].filter(([c,pc]) => c.endsWith(scoreRow) && (pc as ContentsSum).p === player).map(([,pc]) => (pc as ContentsSum).v);
+            const scoreCells = this.getHomeCells(player === 1 ? 2 : 1);
+            if (scoreCells !== undefined) {
+                const locked = [...this.board.entries()].filter(([c,pc]) => scoreCells.includes(c) && (pc as ContentsSum).p === player).map(([,pc]) => (pc as ContentsSum).v);
                 return locked.reduce((acc, curr) => acc + curr, 0);
             } else {
                 return 0;
             }
         } else {
-            const scoreRow = this.getHomeRow(player === 1 ? 2 : 1);
-            if (scoreRow !== undefined) {
-                const locked = [...this.board.entries()].filter(([c,pc]) => c.endsWith(scoreRow) && pc === player);
+            const scoreCells = this.getHomeCells(player === 1 ? 2 : 1);
+            if (scoreCells !== undefined) {
+                const locked = [...this.board.entries()].filter(([c,pc]) => scoreCells.includes(c) && pc === player);
                 return locked.length;
             } else {
                 return 0;
@@ -601,9 +623,9 @@ export class CifraGame extends GameBase {
         if (p === undefined) {
             p = this.currplayer;
         }
-        const lockedRow = this.getHomeRow(p === 1 ? 2 : 1);
+        const lockedCells = this.getHomeCells(p === 1 ? 2 : 1);
         const owned = [...this.board.entries()].filter(([,pc]) => pc === p || (pc as ContentsSum).p === p);
-        const locked = owned.filter(([c,]) => lockedRow !== undefined && c.endsWith(lockedRow));
+        const locked = owned.filter(([c,]) => lockedCells !== undefined && lockedCells.includes(c));
         return owned.length - locked.length;
     }
 
@@ -629,8 +651,8 @@ export class CifraGame extends GameBase {
                 // if current player has no king or if prev player broke through, prev wins
                 const kCurr = this.findKing(this.currplayer);
                 const kPrev = this.findKing(prev);
-                const home = this.getHomeRow(this.currplayer);
-                if (kCurr === null || (kPrev !== null && home !== undefined && kPrev.endsWith(home))) {
+                const homeCells = this.getHomeCells(this.currplayer);
+                if (kCurr === null || (kPrev !== null && homeCells !== undefined && homeCells.includes(kPrev))) {
                     this.gameover = true;
                     this.winner = [prev];
                 }
@@ -734,7 +756,8 @@ export class CifraGame extends GameBase {
         }
 
         const markers: MarkerFlood[] = [];
-        // add neutral cell
+        // add neutral cells
+        const g = new CifraGraph(this.startpos, "L");
         markers.push({
             type: "flood",
             colour: {
@@ -743,48 +766,78 @@ export class CifraGame extends GameBase {
                 bg: "_context_background",
                 opacity: 0.5
             },
-            points: [{row: Math.floor(this.boardSize / 2), col: Math.floor(this.boardSize / 2)}],
+            points: [...g.graph.nodeEntries()].filter(({attributes}) => !("shade" in attributes) || attributes.shade === undefined).map(({node}) => {
+                const [col, row] = this.algebraic2coords(node);
+                return {row, col};
+            }) as [RowCol, ...RowCol[]],
         });
         // add blue cells
-        const points: RowCol[] = [];
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                let idx = (row * this.boardSize) + col;
-                // skip the centre cell
-                if (idx === this.startpos.length / 2) {
-                    continue;
-                }
-                // if beyond that point, subtract 1
-                else if (idx > this.startpos.length / 2) {
-                    idx--;
-                }
-                if (this.startpos[idx] === "D") {
-                    points.push({row, col});
-                }
-            }
-        }
         markers.push({
             type: "flood",
             colour: 2,
-            points: points as [RowCol, ...RowCol[]],
+            points: [...g.graph.nodeEntries()].filter(({attributes}) => "shade" in attributes && attributes.shade === "D").map(({node}) => {
+                const [col, row] = this.algebraic2coords(node);
+                return {row, col};
+            }) as [RowCol, ...RowCol[]],
         });
 
-        const home1 = this.getHomeRow(1);
-        const c1 = this.getPlayerColour(1);
-        const c2 = this.getPlayerColour(2);
-        const buffer: IBuffer = {
-            width: 0.15,
-            show: ["N", "S"],
-            colours: [
+        let show: ("N"|"E"|"S"|"W")[]|undefined;
+        if (this.firstPos !== undefined) {
+            switch (this.firstPos) {
+                case "top":
+                    show = ["N", "S"];
+                    break;
+                case "bottom":
+                    show = ["S", "N"];
+                    break;
+                case "left":
+                    show = ["W", "E"];
+                    break;
+                case "right":
+                    show = ["E", "W"];
+                    break;
+                default:
+                    throw new Error(`Unrecognized firstPos: ${this.firstPos}`);
+            }
+        }
+        let colours: {side: "N" | "E" | "S" | "W";colour: PositiveInteger | Colourstrings | Colourfuncs;}[];
+        if (show === undefined) {
+            colours = [
                 {
                     side: "N",
-                    colour: home1 === undefined ? "#808080" : home1 === "1" ? c2 : c1,
+                    colour: "#808080",
+                },
+                {
+                    side: "E",
+                    colour: "#808080",
                 },
                 {
                     side: "S",
-                    colour: home1 === undefined ? "#808080" : home1 === "1" ? c1 : c2,
+                    colour: "#808080",
                 },
-            ],
+                {
+                    side: "W",
+                    colour: "#808080",
+                },
+            ];
+        } else {
+            const c1 = this.getPlayerColour(1);
+            const c2 = this.getPlayerColour(2);
+            colours = [
+                {
+                    side: show[0],
+                    colour: c1,
+                },
+                {
+                    side: show[1],
+                    colour: c2,
+                },
+            ];
+        }
+        const buffer: IBuffer = {
+            width: 0.15,
+            show,
+            colours,
         };
 
         const legend: {[k: string]: Glyph|[Glyph, ...Glyph[]]} = {
@@ -937,17 +990,13 @@ export class CifraGame extends GameBase {
             case "affiliate":
                 const [shade, pos] = this.stack[1].lastmove!.split(",");
                 const context = shade === "light" ?
-                    (pos === "top" ? "lt" : "lb") :
-                    (pos === "top" ? "dt" : "db");
+                    (pos === "top" ? "lt" : pos === "bottom" ? "lb" : pos === "left" ? "ll" : "lr") :
+                    (pos === "top" ? "dt" : pos === "bottom" ? "db" : pos === "left" ? "dl" : "dr");
                 node.push(i18next.t("apresults:AFFILIATE.cifra", {player, context}));
                 resolved = true;
                 break;
         }
         return resolved;
-    }
-
-    public getCustomRotation(): number {
-        return 180;
     }
 
     public clone(): CifraGame {

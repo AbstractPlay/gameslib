@@ -7,24 +7,26 @@ export type NodeData = {shade?: Shade};
 
 export class CifraGraph extends SquareDirectedGraph {
     constructor(order: Shade[], perspective: Shade) {
-        const size = order.length === 80 ? 9 : 5;
+        const size = order.length === 76 ? 9 : 5;
         super(size, size);
 
         // assign ownership
+        const neutrals = size === 5 ? ["c3"] : ["e9", "a5", "e5", "i5", "e1"];
+        const copy = [...order];
         for (let row = 0; row < size; row++) {
             for (let col = 0; col < size; col++) {
-                let idx = (row * size) + col;
-                // skip the centre cell
-                if (idx === order.length / 2) {
-                    continue;
-                }
-                // if beyond that point, subtract 1
-                else if (idx > order.length / 2) {
-                    idx--;
-                }
                 const cell = this.coords2algebraic(col, row);
-                this.graph.setNodeAttribute(cell, "shade", order[idx]);
+                if (!neutrals.includes(cell)) {
+                    const shade = copy.shift();
+                    if (shade === undefined) {
+                        throw new Error("Not enough cells were passed to the constructor.");
+                    }
+                    this.graph.setNodeAttribute(cell, "shade", shade);
+                }
             }
+        }
+        if (copy.length > 0) {
+            throw new Error("Too many cells were passed to the constructor.");
         }
         // assign weights
         for (const {edge, sourceAttributes, targetAttributes} of [...this.graph.edgeEntries()]) {

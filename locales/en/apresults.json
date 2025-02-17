@@ -12,6 +12,10 @@
         "cifra_lb": "{{player}} chose to play the light pieces from the bottom row.",
         "cifra_dt": "{{player}} chose to play the dark pieces from the top row.",
         "cifra_db": "{{player}} chose to play the dark pieces from the top row.",
+        "cifra_ll": "{{player}} chose to play the light pieces from the left column.",
+        "cifra_lr": "{{player}} chose to play the light pieces from the right column.",
+        "cifra_dl": "{{player}} chose to play the dark pieces from the left column.",
+        "cifra_dr": "{{player}} chose to play the dark pieces from the right column.",
         "witch_M": "{{player}} chose the Moonstones.",
         "witch_S": "{{player}} chose the Sunstones."
     },

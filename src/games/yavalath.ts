@@ -265,6 +265,12 @@ export class YavalathGame extends GameBase {
         if (newplayer > this.numplayers) {
             newplayer = 1;
         }
+        if (this.eliminated === newplayer) {
+            newplayer = (newplayer as number) + 1;
+            if (newplayer > this.numplayers) {
+                newplayer = 1;
+            }
+        }
         this.currplayer = newplayer as playerid;
 
         this.checkEOG();

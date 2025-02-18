@@ -60,7 +60,7 @@ export class CubeoBoard {
     }
 
     public get isConnected(): boolean {
-        const g = this.graph.graph.copy();
+        const g = this.graph().graph.copy();
         // drop all diagonal edges
         for (const edge of g.edges()) {
             if (g.hasEdgeAttribute(edge, "type") && g.getEdgeAttribute(edge, "type") === "diag") {
@@ -127,7 +127,7 @@ export class CubeoBoard {
     // returns a graph representing the dice and orthogonally adjacent empty spaces
     // removes diagonal edges you can't actually slide a die through
     // and removes diagonal edges describing "moves through space" and not along the formation
-    public get graph(): SquareGraph {
+    public graph(ignore?: string): SquareGraph {
         const g = new SquareGraph(this.width + 2, this.height + 2);
         const gOrth = new SquareOrthGraph(this.width + 2, this.height + 2);
         for (const node of g.graph.nodes()) {
@@ -212,12 +212,12 @@ export class CubeoBoard {
 
                 }
             }
-            // if both are occupied, drop the edge
+            // if both are occupied, drop the edge (unless one of those is marked `ignore`)
             // if both are empty, drop the edge
             // if one of the nodes doesn't exist, then we're at the edge of the board and
             // can keep the edge
             if (g.graph.hasNode(left) && g.graph.hasNodeAttribute(left, "contents") &&
-                g.graph.hasNode(right) && g.graph.hasNodeAttribute(right, "contents")) {
+                g.graph.hasNode(right) && g.graph.hasNodeAttribute(right, "contents") && ignore !== left && ignore !== right) {
                 todrop.push(eid);
             } else if (
                 g.graph.hasNode(left) && !g.graph.hasNodeAttribute(left, "contents") &&
@@ -237,7 +237,8 @@ export class CubeoBoard {
         const die = this.getDieAt(x, y);
         let startCell: string|undefined;
         // start with the basic graph
-        const g = this.graph;
+        let g = this.graph();
+        g = this.graph(g.coords2algebraic(...this.abs2rel(x, y)!));
         const gOrth = this.graphOrth;
         // If we started from a die, remove any spaces that are orthogonally adjacent *only*
         // to the moving die
@@ -256,6 +257,7 @@ export class CubeoBoard {
                 }
             }
         }
+
         // To deal with "jumping the gap" scenarios, we have to delete edges where the destination
         // node is neither adjacent to one of the same dice it was before nor adjacent to one of
         // the source node's orthogonal neighbours.
@@ -311,7 +313,7 @@ export class CubeoBoard {
     }
 
     public get graphOrth(): SquareGraph {
-        const g = this.graph;
+        const g = this.graph();
         // drop all diagonal edges
         for (const edge of g.graph.edges()) {
             if (g.graph.getEdgeAttribute(edge, "type") === "diag") {
@@ -348,7 +350,7 @@ export class CubeoBoard {
     }
 
     public get arrayRep(): string[][] {
-        const g = this.graph;
+        const g = this.graph();
         const rep: string[][] = [];
         for (const row of g.listCells(true) as string[][]) {
             const lst: string[] = [];

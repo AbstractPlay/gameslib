@@ -135,7 +135,7 @@ export class CubeoGame extends GameBase {
         if (this.gameover) { return []; }
 
         const moves: string[] = [];
-        const g = this.board.graph;
+        const g = this.board.graph();
         const gOrth = new SquareOrthGraph(g.width, g.height);
 
         // adding to the board
@@ -513,7 +513,7 @@ export class CubeoGame extends GameBase {
 
     public render(): APRenderRep {
         const {minX, minY, maxX, maxY} = this.board.dimensions;
-        const g = this.board.graph;
+        const g = this.board.graph();
         const [width, height] = [g.width, g.height];
 
         const rowLabels: string[] = [];

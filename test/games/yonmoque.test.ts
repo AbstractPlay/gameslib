@@ -60,5 +60,21 @@ describe("Yonmoque", () => {
         expect(g.gameover).to.be.true;
         expect(g.winner).to.have.members([1]);
     });
+    it ("Flipping a fourth wins", () => {
+        const g = new YonmoqueGame();
+        g.board.set("b4", 1);
+        g.board.set("c4", 2);
+        g.board.set("a3", 1);
+        g.board.set("a2", 1);
+        g.board.set("b2", 2);
+        g.board.set("c2", 1);
+        g.board.set("d2", 1);
+        g.board.set("a1", 1);
+        g.move("b4-c3");
+        const contents = g.board.get("b2");
+        expect(contents).eq(1);
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.have.members([1]);
+    });
 });
 

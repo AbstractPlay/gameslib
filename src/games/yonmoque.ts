@@ -261,6 +261,7 @@ export class YonmoqueGame extends GameBase {
         }
 
         let didMove: string|undefined;
+        let didFlip: string[]|undefined;
         // placements (no side-effects)
         if (!m.includes("-")) {
             this.board.set(m, this.currplayer);
@@ -290,6 +291,11 @@ export class YonmoqueGame extends GameBase {
                             // everything in this ray is an enemy piece
                             // flip them
                             for (const cell of ray) {
+                                if (didFlip === undefined) {
+                                    didFlip = [cell];
+                                } else {
+                                    didFlip.push(cell);
+                                }
                                 this.board.set(cell, this.currplayer);
                                 this.results.push({type: "convert", where: cell, what: this.currplayer === 1 ? "2" : "1", into: this.currplayer.toString()});
                             }
@@ -307,7 +313,7 @@ export class YonmoqueGame extends GameBase {
         }
         this.currplayer = newplayer as playerid;
 
-        this.checkEOG(didMove);
+        this.checkEOG(didMove, didFlip);
         this.saveState();
         return this;
     }
@@ -347,7 +353,7 @@ export class YonmoqueGame extends GameBase {
         return false;
     }
 
-    protected checkEOG(didMove?: string): YonmoqueGame {
+    protected checkEOG(didMove?: string, didFlip?: string[]): YonmoqueGame {
         const prev: playerid = this.currplayer === 1 ? 2 : 1;
         let reason: string|undefined;
 
@@ -363,6 +369,16 @@ export class YonmoqueGame extends GameBase {
                 this.gameover = true;
                 this.winner = [prev];
                 reason = "four";
+            }
+            if (!this.gameover && didFlip !== undefined) {
+                for (const flipped of didFlip) {
+                    if (this.checkLines(4, prev, flipped)) {
+                        this.gameover = true;
+                        this.winner = [prev];
+                        reason = "four";
+                        break;
+                    }
+                }
             }
         }
 

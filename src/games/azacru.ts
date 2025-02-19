@@ -79,7 +79,7 @@ export class AzacruGame extends GameBase {
         uid: "azacru",
         playercounts: [2,3,4],
         version: "20250215",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-02-19",
         // i18next.t("apgames:descriptions.azacru")
         description: "apgames:descriptions.azacru",
         // i18next.t("apgames:notes.azacru")
@@ -93,7 +93,7 @@ export class AzacruGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "scores", "automove"]
+        flags: ["scores", "automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

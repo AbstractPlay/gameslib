@@ -78,7 +78,7 @@ export class PacruGame extends GameBase {
         uid: "pacru",
         playercounts: [2,3,4],
         version: "20250205",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-02-19",
         // i18next.t("apgames:descriptions.pacru")
         description: "apgames:descriptions.pacru",
         // i18next.t("apgames:notes.pacru")
@@ -92,7 +92,7 @@ export class PacruGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "no-moves", "custom-randomization", "scores"]
+        flags: ["no-moves", "custom-randomization", "scores"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

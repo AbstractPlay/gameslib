@@ -698,7 +698,7 @@ export class GygesGame extends GameBase {
                             }
                         }
                         // triggering displacement
-                        else if (cells[cells.length - 1] === cell) {
+                        else if (cells.length > 1 && cells[cells.length - 1] === cell) {
                             newmove = move + "()";
                         }
                         // error state

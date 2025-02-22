@@ -200,7 +200,7 @@ export class GygesGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>place", "mechanic>move", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "shared-pieces", "custom-randomization", "no-moves", "perspective"]
+        flags: ["experimental", "custom-randomization", "no-moves", "perspective"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -1021,6 +1021,32 @@ export class GygesGame extends GameBase {
                     {row: 7, col: 3},
                     {row: 7, col: 4},
                     {row: 7, col: 5}
+                ],
+                markers: [
+                    {
+                        type: "flood",
+                        points: [
+                            {row: 0, col: 3}
+                        ],
+                        colour: 2,
+                    },
+                    {
+                        type: "flood",
+                        points: [
+                            {row: 7, col: 2}
+                        ],
+                        colour: 1,
+                    },
+                    {
+                        type: "edge",
+                        edge: "N",
+                        colour: 2,
+                    },
+                    {
+                        type: "edge",
+                        edge: "S",
+                        colour: 1,
+                    },
                 ],
             },
             legend: {

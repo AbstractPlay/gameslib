@@ -191,6 +191,8 @@ export class GygesGame extends GameBase {
         dateAdded: "2023-06-18",
         // i18next.t("apgames:descriptions.gyges")
         description: "apgames:descriptions.gyges",
+        // i18next.t("apgames:notes.gyges")
+        description: "apgames:notes.gyges",
         urls: ["https://boardgamegeek.com/boardgame/10527/gyges"],
         people: [
             {

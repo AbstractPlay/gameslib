@@ -410,14 +410,12 @@ export class GygesGame extends GameBase {
             for (const [from,] of avail) {
                 const [gMove, ] = buildMoveGraph({gBase: g, start: from, seen: new Set<string>(), board: deepclone(this.board) as Map<string,Size>});
                 for (const to of gMove.nodes()) {
-                    if (this.board.has(to)) {
-                        const paths = allSimpleEdgeGroupPaths(gMove, from, to);
-                        for (const path of paths) {
-                            const expanded = expandGroups(path);
-                            for (const edgePath of expanded) {
-                                if (!pathReusesEdge(gMove, edgePath)) {
-                                    return row;
-                                }
+                    const paths = allSimpleEdgeGroupPaths(gMove, from, to);
+                    for (const path of paths) {
+                        const expanded = expandGroups(path);
+                        for (const edgePath of expanded) {
+                            if (!pathReusesEdge(gMove, edgePath)) {
+                                return row;
                             }
                         }
                     }
@@ -708,8 +706,12 @@ export class GygesGame extends GameBase {
                         newmove = move.substring(0, idx) + `(${cell})`;
                     } else {
                         const cells = move.split("-");
+                        // trigger displacement
+                        if (cells.length > 1 && cells[cells.length - 1] === cell) {
+                            newmove = move + "()";
+                        }
                         // extending the move
-                        if (!cells.includes(cell)) {
+                        else {
                             newmove = [...cells, cell].join("-");
                             // if there are no continuations and the cell is occupied
                             // auto trigger displacement
@@ -719,14 +721,6 @@ export class GygesGame extends GameBase {
                                     newmove += "()";
                                 }
                             }
-                        }
-                        // triggering displacement
-                        else if (cells.length > 1 && cells[cells.length - 1] === cell) {
-                            newmove = move + "()";
-                        }
-                        // error state
-                        else {
-                            newmove = move;
                         }
                     }
                 }

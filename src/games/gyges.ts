@@ -192,7 +192,7 @@ export class GygesGame extends GameBase {
         // i18next.t("apgames:descriptions.gyges")
         description: "apgames:descriptions.gyges",
         // i18next.t("apgames:notes.gyges")
-        description: "apgames:notes.gyges",
+        notes: "apgames:notes.gyges",
         urls: ["https://boardgamegeek.com/boardgame/10527/gyges"],
         people: [
             {

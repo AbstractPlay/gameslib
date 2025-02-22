@@ -592,12 +592,14 @@ export class GygesGame extends GameBase {
             const cells = [];
             for (let x = 0; x < 6; x++) {
                 const cell = GygesGame.coords2algebraic(x, this.currplayer === 1 ? 6 : 1);
-                if (!this.board.has(cell)) {
-                    cells.push(cell);
-                }
+                cells.push(cell);
             }
             const shuffled = shuffle(cells) as string[];
-            return `${inhand[0]}${shuffled[0]}`;
+            const mvs: string[] = [];
+            for (let i = 0; i < inhand.length; i++) {
+                mvs.push(`${inhand[i]}${shuffled[i]}`);
+            }
+            return mvs.join(",");
         } else {
             const playable = this.getPlayableRow();
             const pcs = shuffle([...this.board.keys()].filter(c => c.endsWith(playable))) as string[];
@@ -662,18 +664,37 @@ export class GygesGame extends GameBase {
                     newmove = cell;
                 }
             } else {
-                // placing a piece
-                if (move.length === 1) {
-                    // selecting a different piece to place
-                    if (cell === undefined) {
-                        if (piece === undefined) {
-                            throw new Error("Piece was not defined.");
+                // in setup phase
+                if (move.length === 1 || move.length === 3 || move.includes(",")) {
+                    const cells = move.split(",");
+                    const last = cells[cells.length - 1];
+                    // placing the piece
+                    if (last.length === 1) {
+                        // selecting a different piece to place
+                        if (cell === undefined) {
+                            if (piece === undefined) {
+                                throw new Error("Piece was not defined.");
+                            }
+                            newmove = [...cells.slice(0, -1), piece[1]].join(",");
                         }
-                        newmove = piece[1];
+                        // placing it on the board
+                        else {
+                            newmove = move + cell;
+                        }
                     }
-                    // selecting a cell
+                    // last placement is complete
                     else {
-                        newmove = move + cell;
+                        // selecting a new piece
+                        if (cell === undefined) {
+                            if (piece === undefined) {
+                                throw new Error("Piece was not defined.");
+                            }
+                            newmove = [...cells, piece[1]].join(",");
+                        }
+                        // just moving the last piece
+                        else {
+                            newmove = [...cells.slice(0, -1), `${last[0]}${cell}`].join(",");
+                        }
                     }
                 }
                 // extending a move
@@ -743,16 +764,29 @@ export class GygesGame extends GameBase {
 
         // setup phase
         if (this.board.size < 12) {
-            const size = m[0];
-            const cell = m.substring(1);
-            const inhand = this.inHand().map(n => n.toString());
-            if (!inhand.includes(size)) {
+            const placements = m.split(",");
+            const sizes = placements.map(p => parseInt(p[0], 10) as Size);
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            const cells = placements.map(p => p.substring(1));
+
+            // only two of each size
+            for (const size of [1,2,3] as Size[]) {
+                if (sizes.filter(s => s === size).length > 2) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.gyges.NOT_INHAND", {size});
+                    return result;
+                }
+            }
+            // no duplicate cells
+            const set = new Set<string>(cells);
+            if (set.size !== cells.length) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.gyges.NOT_INHAND", {size});
+                result.message = i18next.t("apgames:validation.gyges.NO_DUPES");
                 return result;
             }
 
-            if (m.length > 1) {
+            for (const cell of cells) {
+                if (cell.length === 0) { continue; }
                 if (!g.graph.nodes().includes(cell)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
@@ -763,17 +797,28 @@ export class GygesGame extends GameBase {
                     result.message = i18next.t("apgames:validation.gyges.HOMEROW");
                     return result;
                 }
+            }
 
+            const last = placements[placements.length - 1];
+            if (placements.length === 6 && last.length === 3) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else {
-                result.valid = true;
-                result.complete = -1;
-                result.canrender = false;
-                result.message = i18next.t("apgames:validation.gyges.PARTIAL", {context: "setup"});
-                return result;
+                if (last.length === 1) {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.gyges.PARTIAL", {context: "setup"});
+                    return result;
+                } else {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.gyges.PARTIAL", {context: "setup2"});
+                    return result;
+                }
             }
         }
 
@@ -869,10 +914,22 @@ export class GygesGame extends GameBase {
         this.dots = [];
 
         if (partial) {
-            if (m.includes("(")) {
+            // setup in progress
+            if (m.includes(",") || m.length === 1 || m.length === 3) {
+                const placements = m.split(",").filter(c => c.length === 3);
+                for (const p of placements) {
+                    const size = parseInt(p[0], 10) as Size;
+                    const cell = p.substring(1);
+                    this.board.set(cell, size);
+                }
+            }
+            // show displacements
+            else if (m.includes("(")) {
                 const start = m.substring(0, 2);
                 this.dots = [...this.getDisplacements(), start];
-            } else {
+            }
+            // show movement highlights
+            else {
                 // add movement arrows for clarity
                 const cells = m.split("-");
                 const detailedPath = this.getDetailedPath(m);
@@ -883,11 +940,14 @@ export class GygesGame extends GameBase {
         }
 
         // setup
-        if (m.length === 3) {
-            const size = parseInt(m[0], 10) as Size;
-            const cell = m.substring(1);
-            this.board.set(cell, size);
-            this.results.push({type: "place", what: size.toString(), where: cell});
+        if (m.includes(",") || m.length < 5) {
+            const placements = m.split(",");
+            for (const p of placements) {
+                const size = parseInt(p[0], 10) as Size;
+                const cell = p.substring(1);
+                this.board.set(cell, size);
+                this.results.push({type: "place", what: size.toString(), where: cell});
+            }
         }
         // regular play
         else {

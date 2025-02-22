@@ -1037,16 +1037,6 @@ export class GygesGame extends GameBase {
                         ],
                         colour: 1,
                     },
-                    {
-                        type: "edge",
-                        edge: "N",
-                        colour: 2,
-                    },
-                    {
-                        type: "edge",
-                        edge: "S",
-                        colour: 1,
-                    },
                 ],
             },
             legend: {

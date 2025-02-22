@@ -617,7 +617,7 @@ export class GygesGame extends GameBase {
                     // displacement
                     if (this.board.has(node) && node !== start) {
                         const path = bidirectional(gMove, start, node);
-                        if (path !== null) {
+                        if (path !== null && path.length > 1) {
                             if (this.isValidPath(path.join("-"))) {
                                 const empties = shuffle(this.getDisplacements()) as string[];
                                 return path.join("-") + `(${empties[0]})`;
@@ -627,7 +627,7 @@ export class GygesGame extends GameBase {
                     // movement
                     else {
                         const path = bidirectional(gMove, start, node);
-                        if (path !== null) {
+                        if (path !== null && path.length > 1) {
                             if (this.isValidPath(path.join("-"))) {
                                 return path.join("-");
                             }

@@ -840,6 +840,12 @@ export class GygesGame extends GameBase {
         const cells = stub.split("-");
         const start = cells[0];
         const end = cells[cells.length - 1];
+        // must be occupied
+        if (!this.board.has(start)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: start});
+            return result;
+        }
         // moving piece must be closest to player
         const firstRow = this.getPlayableRow();
         if (!start.endsWith(firstRow)) {

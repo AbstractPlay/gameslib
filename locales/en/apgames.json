@@ -80,6 +80,7 @@
         "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         "gonnect": "Gonnect is a connection game where players try to connect any two opposite sides. All rules of Go apply except that players may not pass.",
+        "gyges": "A breakthrough game where nobody owns any pieces, and pieces rebound off of each other.",
         "gyve": "Drawless unification game where you try to form fewer groups than your opponent. On each turn, you place two stones in sequence so that each one is adjacent to the same number of friendly groups at the moment of placement.",
         "havannah": "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         "hens": "Hens and Chicks is a draughts-style game with two types of pieces and a unique capturing mechanic. The winner is the first to land a piece in their opponent's home row or to eliminate all the opposing hens.",
@@ -3609,6 +3610,18 @@
             "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece.",
             "KO": "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
             "SELF_CAPTURE": "You may not place your stones in self-capture."
+        },
+        "gyges": {
+            "BAD_DISPLACE": "You may not displace a piece to {{cell}}. The target cell must be unoccupied and may not be beyond the opponent's playable row.",
+            "HOMEROW": "You may only place pieces on the row closest to you.",
+            "INITIAL_INSTRUCTIONS_setup": "Select a piece from your stash to place on the board.",
+            "INITIAL_INSTRUCTIONS_play": "Select a piece to move.",
+            "INVALID_PATH": "There is no valid path for the move {{move}}. Remember that you may only cross a cell edge one time per move, regardless of direction.",
+            "NO_MOVES": "The piece at {{cell}} has no valid moves. Remember that you may only play pieces from the row closest to you.",
+            "NOT_INHAND": "You don't have a size {{size}} piece to place.",
+            "PARTIAL_displace": "Select one of the highlighted empty cells to displace the current piece.",
+            "PARTIAL_move": "Select the next destination, or click this same cell again to displace the piece.",
+            "PARTIAL_setup": "Select an empty cell on your home row to place the piece."
         },
         "gyve": {
             "BAD_FIRST": "You may not place a second stone on the first turn of the game.",

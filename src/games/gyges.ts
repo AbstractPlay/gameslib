@@ -830,6 +830,13 @@ export class GygesGame extends GameBase {
                 return result;
             }
         } else {
+            if (cells.length === 1) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
+                return result;
+            }
             // we're good
             result.valid = true;
             result.complete = 1;

@@ -984,14 +984,16 @@ export class GygesGame extends GameBase {
         // pstr = pstr.replace(/-{4}/g, "_");
 
         const areas: AreaPieces[] = [];
-        for (let p = 1; p <= this.numplayers; p++) {
-            const inhand = this.inHand(p as playerid);
-            if (inhand.length > 0) {
-                areas.push({
-                    type: "pieces",
-                    pieces: inhand.map(n => `p${n}`) as [string, ...string[]],
-                    label: `Player ${p}'s stash`
-                });
+        if (this.board.size < 12) {
+            for (let p = 1; p <= this.numplayers; p++) {
+                const inhand = this.inHand(p as playerid);
+                if (inhand.length > 0) {
+                    areas.push({
+                        type: "pieces",
+                        pieces: inhand.map(n => `p${n}`) as [string, ...string[]],
+                        label: `Player ${p}'s stash`
+                    });
+                }
             }
         }
 

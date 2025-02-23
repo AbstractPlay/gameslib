@@ -878,11 +878,18 @@ export class GygesGame extends GameBase {
             }
         } else {
             if (cells.length === 1) {
-                result.valid = true;
-                result.complete = -1;
-                result.canrender = true;
-                result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
-                return result;
+                const continuations = this.getContinuations(cells[0]);
+                if (continuations.length === 0) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.gyges.NO_MOVES", {cell: start});
+                    return result;
+                } else {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
+                    return result;
+                }
             }
             // we're good
             result.valid = true;

@@ -252,6 +252,32 @@
                     renderGame();
                 }, false);
 
+                // listen for inject button
+                document.getElementById("inject").addEventListener("click", () => {
+                    const field = document.getElementById("stateInject");
+                    const state = field.value;
+                    if (state.length > 0) {
+                        const parsed = JSON.parse(state);
+                        if ("game" in parsed) {
+                            const meta = parsed.game;
+                            const game = APGames.GameFactory(meta, state);
+                            if (game !== undefined) {
+                                field.value = "";
+                                window.sessionStorage.setItem("state", game.serialize());
+                                window.sessionStorage.setItem("gamename", meta);
+                                window.sessionStorage.removeItem("interim");
+                                var result = game.validateMove("");
+                                var resultStr = '<p style="color: #0f0">' + result.message + '</p>';
+                                var statusbox = document.getElementById("clickstatus");
+                                statusbox.innerHTML = resultStr;
+                                renderGame();
+                            } else {
+                                alert("Failed to hydrate injected state.")
+                            }
+                        }
+                    }
+                }, false);
+
                 // Listen for move button
                 document.getElementById("moveBtn").addEventListener("click", () => {
                     var movebox = document.getElementById("moveEntry");
@@ -478,6 +504,15 @@
                             <button id="launch" name="launch" type="button">Launch Game</button>
                             <div id="gameInfo" style="width: 50%; margin-left: 2em"></div>
                             <div id="varInfo" style="width: 50%; margin-left: 2em"></div>
+                        </form>
+                    </section>
+                    <section>
+                        <h2>Inject State</h2>
+                        <form>
+                            <div>
+                                <input type="text" id="stateInject" />
+                            </div>
+                            <button id="inject" name="inject" type="button">Inject State</button>
                         </form>
                     </section>
                 </div>

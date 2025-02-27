@@ -16,13 +16,13 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, CellContents>;
     lastmove?: string;
+    firstChoice?: string;
 };
 
 export interface ICifraState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
     startpos: Array<Shade>;
-    firstChoice?: string;
 };
 
 interface IBuffer {
@@ -112,7 +112,6 @@ export class CifraGame extends GameBase {
             this.winner = [...state.winner];
             this.variants = state.variants;
             this.stack = [...state.stack];
-            this.firstChoice = state.firstChoice;
         }
         this.load();
     }
@@ -130,6 +129,7 @@ export class CifraGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
+        this.firstChoice = state.firstChoice;
         return this;
     }
 
@@ -710,7 +710,6 @@ export class CifraGame extends GameBase {
             winner: [...this.winner],
             stack: [...this.stack],
             startpos: [...this.startpos],
-            firstChoice: this.firstChoice,
         };
         if (opts !== undefined && opts.strip) {
             // only strip if we're still in the setup window
@@ -731,6 +730,7 @@ export class CifraGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
+            firstChoice: this.firstChoice,
         };
     }
 

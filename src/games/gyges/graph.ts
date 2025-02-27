@@ -29,14 +29,14 @@ export class GygesGraph extends SquareDirectedGraph {
             this.graph.addNode("d8");
             for (let col = 0; col < 6; col++) {
                 const node = this.coords2algebraic(col, 1);
-                this.graph.addDirectedEdge(node, "d8", {direction: "any"} as GygesEdgeData);
+                this.graph.addDirectedEdgeWithKey(`${node}>d8`, node, "d8", {direction: "any"} as GygesEdgeData);
             }
         }
         if (p === undefined || p !== 1) {
             this.graph.addNode("c1");
             for (let col = 0; col < 6; col++) {
                 const node = this.coords2algebraic(col, 6);
-                this.graph.addDirectedEdge(node, "c1", {direction: "any"} as GygesEdgeData);
+                this.graph.addDirectedEdgeWithKey(`${node}>c1`, node, "c1", {direction: "any"} as GygesEdgeData);
             }
         }
 

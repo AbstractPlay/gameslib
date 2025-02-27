@@ -161,7 +161,10 @@ const buildMoveGraph = (opts: Opts): [MultiDirectedGraph, GygesGraph] => {
         if (!gWorking.hasNode(dest)) {
             gWorking.addNode(dest);
         }
-        gWorking.addDirectedEdge(start, dest, {path: [...uidPath], origPath: [...path]})
+        const key = path.join("|");
+        if (!gWorking.hasEdge(key)) {
+            gWorking.addDirectedEdgeWithKey(key, start, dest, {path: [...uidPath], origPath: [...path]})
+        }
         // if destination is occupied, recurse
         if (board.has(dest)) {
             buildMoveGraph({gBase, start: dest, seen: localSeen, board: deepclone(board) as Map<string, Size>, gWorking});
@@ -517,6 +520,8 @@ export class GygesGame extends GameBase {
             const valid = expanded.filter(path => !pathReusesEdge(gMove, path));
             const outEdges = [...gMove.outEdgeEntries()].filter(({source}) => source === end);
             for (const edge of outEdges) {
+                // if this edge's target has already been found valid, skip
+                if (continuations.has(edge.target)) { continue; }
                 if (valid.length > 0) {
                     for (const sofar of valid) {
                         if (!pathReusesEdge(gMove, [...sofar, edge.edge])) {

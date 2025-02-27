@@ -51,26 +51,26 @@ export class SquareDirectedGraph implements IGraph {
                 // Connect to the right
                 if (col < this.width - 1) {
                     const toCell = this.coords2algebraic(col + 1, row)
-                    graph.addEdge(fromCell, toCell, {type: "orth", direction: "E"} as EdgeData);
-                    graph.addEdge(toCell, fromCell, {type: "orth", direction: "W"} as EdgeData);
+                    graph.addEdgeWithKey(`${fromCell}>${toCell}`, fromCell, toCell, {type: "orth", direction: "E"} as EdgeData);
+                    graph.addEdgeWithKey(`${toCell}>${fromCell}`, toCell, fromCell, {type: "orth", direction: "W"} as EdgeData);
                 }
                 // Connect up
                 if (row > 0) {
                     const toCell = this.coords2algebraic(col, row - 1);
-                    graph.addEdge(fromCell, toCell, {type: "orth", direction: "N"} as EdgeData);
-                    graph.addEdge(toCell, fromCell, {type: "orth", direction: "S"} as EdgeData);
+                    graph.addEdgeWithKey(`${fromCell}>${toCell}`, fromCell, toCell, {type: "orth", direction: "N"} as EdgeData);
+                    graph.addEdgeWithKey(`${toCell}>${fromCell}`, toCell, fromCell, {type: "orth", direction: "S"} as EdgeData);
                 }
                 // Up right
                 if ( (row > 0) && (col < this.width - 1) ) {
                     const toCell = this.coords2algebraic(col + 1, row - 1);
-                    graph.addEdge(fromCell, toCell, {type: "diag", direction: "NE"} as EdgeData);
-                    graph.addEdge(toCell, fromCell, {type: "diag", direction: "SW"} as EdgeData);
+                    graph.addEdgeWithKey(`${fromCell}>${toCell}`, fromCell, toCell, {type: "diag", direction: "NE"} as EdgeData);
+                    graph.addEdgeWithKey(`${toCell}>${fromCell}`, toCell, fromCell, {type: "diag", direction: "SW"} as EdgeData);
                 }
                 // Up left
                 if ( (row > 0) && (col > 0) ) {
                     const toCell = this.coords2algebraic(col - 1, row - 1);
-                    graph.addEdge(fromCell, toCell, {type: "diag", direction: "NW"} as EdgeData);
-                    graph.addEdge(toCell, fromCell, {type: "diag", direction: "SE"} as EdgeData);
+                    graph.addEdgeWithKey(`${fromCell}>${toCell}`, fromCell, toCell, {type: "diag", direction: "NW"} as EdgeData);
+                    graph.addEdgeWithKey(`${toCell}>${fromCell}`, toCell, fromCell, {type: "diag", direction: "SE"} as EdgeData);
                 }
             }
         }

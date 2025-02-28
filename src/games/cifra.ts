@@ -540,7 +540,7 @@ export class CifraGame extends GameBase {
             // if in default Dash mode, populate the board
             if (!this.variants.includes("king") && !this.variants.includes("sum")) {
                 for (let p = 1; p <= this.numplayers; p++) {
-                    const home = this.getHomeCells(p)!;
+                    const home = this.getHomeCells(p as playerid)!;
                     for (const cell of home) {
                         this.board.set(cell, p as playerid);
                     }

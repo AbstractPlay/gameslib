@@ -191,7 +191,7 @@ export class GygesGame extends GameBase {
         uid: "gyges",
         playercounts: [2],
         version: "20250217",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-02-28",
         // i18next.t("apgames:descriptions.gyges")
         description: "apgames:descriptions.gyges",
         // i18next.t("apgames:notes.gyges")
@@ -205,7 +205,7 @@ export class GygesGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>place", "mechanic>move", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "custom-randomization", "no-moves", "perspective"]
+        flags: ["custom-randomization", "no-moves", "perspective"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

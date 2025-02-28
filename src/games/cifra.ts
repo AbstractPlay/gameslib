@@ -539,14 +539,11 @@ export class CifraGame extends GameBase {
             this.results.push({type: "affiliate", which: m});
             // if in default Dash mode, populate the board
             if (!this.variants.includes("king") && !this.variants.includes("sum")) {
-                const [, pos] = m.split(",");
-                const row1 = pos === "top" ? 0 : this.boardSize - 1;
-                const row2 = row1 === 0 ? this.boardSize - 1 : 0;
-                for (let col = 0; col < this.boardSize; col++) {
-                    const cell1 = this.coords2algebraic(col, row1);
-                    this.board.set(cell1, 1);
-                    const cell2 = this.coords2algebraic(col, row2);
-                    this.board.set(cell2, 2);
+                for (let p = 1; p <= this.numplayers; p++) {
+                    const home = this.getHomeCells(p)!;
+                    for (const cell of home) {
+                        this.board.set(cell, p as playerid);
+                    }
                 }
             }
         }
@@ -637,6 +634,16 @@ export class CifraGame extends GameBase {
         return owned.length - locked.length;
     }
 
+    public getNumLocked(p?: playerid): number {
+        if (p === undefined) {
+            p = this.currplayer;
+        }
+        const lockedCells = this.getHomeCells(p === 1 ? 2 : 1);
+        const owned = [...this.board.entries()].filter(([,pc]) => pc === p || (pc as ContentsSum).p === p);
+        const locked = owned.filter(([c,]) => lockedCells !== undefined && lockedCells.includes(c));
+        return locked.length
+    }
+
     public findKing(p: playerid): string|null {
         if (!this.variants.includes("king")) {
             throw new Error("You should never use this function outside of King games.");
@@ -665,7 +672,40 @@ export class CifraGame extends GameBase {
                     this.winner = [prev];
                 }
             }
-            // Dash or Sum mode
+            // Sum mode
+            else if (this.variants.includes("sum")) {
+                // game ends as soon as one player has no living pieces
+                // (living === !locked)
+                if (this.getNumAlive(1) === 0 || this.getNumAlive(2) === 0) {
+                    this.gameover = true;
+                    const s1 = this.getPlayerScore(1);
+                    const s2 = this.getPlayerScore(2);
+                    const l1 = this.getNumLocked(1);
+                    const l2 = this.getNumLocked(2);
+                    const t1 = this.getNumAlive(1);
+                    const t2 = this.getNumAlive(2);
+                    if (s1 > s2) {
+                        this.winner = [1];
+                    } else if (s2 > s1) {
+                        this.winner = [2];
+                    } else {
+                        if (l1 > l2) {
+                            this.winner = [1];
+                        } else if (l2 > l1) {
+                            this.winner = [2];
+                        } else {
+                            if (t1 > t2) {
+                                this.winner = [1];
+                            } else if (t2 > t1) {
+                                this.winner = [2];
+                            } else {
+                                this.winner = [1,2];
+                            }
+                        }
+                    }
+                }
+            }
+            // Dash mode
             else {
                 // game ends as soon as one player has no living pieces
                 // (living === !locked)

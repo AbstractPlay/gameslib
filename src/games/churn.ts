@@ -80,12 +80,15 @@ export class ChurnGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IChurnState;
-            } else {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                const decoded = Buffer.from(state, "base64") as Data;
-                const decompressed = pako.ungzip(decoded, {to: "string"});
-                state = JSON.parse(decompressed, reviver) as IChurnState;
+                // is the state a raw JSON obj
+                if (state.startsWith("{")) {
+                    state = JSON.parse(state, reviver) as IChurnState;
+                } else {
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                    const decoded = Buffer.from(state, "base64") as Data;
+                    const decompressed = pako.ungzip(decoded, {to: "string"});
+                    state = JSON.parse(decompressed, reviver) as IChurnState;
+                }
             }
             if (state.game !== ChurnGame.gameinfo.uid) {
                 throw new Error(`The Churn engine cannot process a game of '${state.game}'.`);

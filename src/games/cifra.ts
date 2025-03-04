@@ -41,7 +41,7 @@ export class CifraGame extends GameBase {
         uid: "cifra",
         playercounts: [2],
         version: "20250215",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-03-04",
         // i18next.t("apgames:descriptions.cifra")
         description: "apgames:descriptions.cifra",
         urls: ["https://boardgamegeek.com/boardgame/360439/cifra-code25"],
@@ -62,7 +62,7 @@ export class CifraGame extends GameBase {
             {uid: "sum", group: "mode"},
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>capture", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "automove", "custom-buttons", "custom-colours", "scores", "custom-randomization"]
+        flags: ["automove", "custom-buttons", "custom-colours", "scores", "custom-randomization"]
     };
 
     public numplayers = 2;

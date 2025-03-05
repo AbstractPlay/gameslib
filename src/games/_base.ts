@@ -778,8 +778,13 @@ export abstract class GameBase  {
         return rec;
     }
 
-    public serialize(opts?: {strip?: boolean, player?: number}): string {
+    // This method is just to help generate the move list when serialize is overwritten and expensive
+    public cheapSerialize(opts?: {strip?: boolean, player?: number}): string {
         return JSON.stringify(this.state(opts), replacer);
+    }
+
+    public serialize(opts?: {strip?: boolean, player?: number}): string {
+        return this.cheapSerialize(opts);
     }
 
     public state2aiai(): string[] {

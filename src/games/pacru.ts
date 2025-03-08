@@ -91,7 +91,7 @@ export class PacruGame extends GameBase {
                 urls: ["http://www.pacru.com/"],
             },
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>special"],
+        categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>special", "other>2+players"],
         flags: ["no-moves", "custom-randomization", "scores"]
     };
 

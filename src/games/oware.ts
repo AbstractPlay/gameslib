@@ -36,7 +36,7 @@ export class OwareGame extends GameBase {
         // i18next.t("apgames:notes.oware")
         notes: "apgames:notes.oware",
         urls: ["https://en.wikipedia.org/wiki/Oware"],
-        categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "mechanic>traditional", "board>mancala", "components>simple>1c"],
+        categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "other>traditional", "board>mancala", "components>simple>1c"],
         flags: ["perspective", "scores", "automove"],
         displays: [{uid: "pips"}]
     };

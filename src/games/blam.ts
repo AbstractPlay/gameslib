@@ -47,7 +47,7 @@ export class BlamGame extends GameBase {
                 name: "Jon Eargle"
             }
         ],
-        categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>pyramids"],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
         flags: ["player-stashes", "scores", "automove"]
     };
 

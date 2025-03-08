@@ -39,7 +39,7 @@ export class YavalathGame extends GameBase {
                 urls: ["http://cambolbro.com/"]
             },
         ],
-        categories: ["goal>align", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        categories: ["goal>align", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per", "other>2+players"],
         flags: ["pie", "no-moves", "custom-randomization"]
     };
 

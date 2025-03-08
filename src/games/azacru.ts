@@ -92,7 +92,7 @@ export class AzacruGame extends GameBase {
                 urls: ["http://www.pacru.com/"],
             },
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>special"],
+        categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>special", "other>2+players"],
         flags: ["scores", "automove"]
     };
 

@@ -72,7 +72,7 @@ export class ArmadasGame extends GameBase {
             }
         ],
         flags: ["no-moves"],
-        categories: ["goal>annihilate", "mechanic>capture", "mechanic>asymmetry", "mechanic>differentiate", "mechanic>move", "board>none", "components>pyramids"],
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>asymmetry", "mechanic>differentiate", "mechanic>move", "board>none", "components>pyramids", "other>2+players"],
         variants: [
             {
                 uid: "freeform",

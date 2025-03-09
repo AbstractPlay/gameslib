@@ -71,7 +71,7 @@ export class TaflGame extends GameBase {
             { uid: "seabattle-11x11-tcross-w", group: "variant" },
             { uid: "magpie-7x7-cross", group: "variant" },
         ],
-        categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "mechanic>differentiate",  "mechanic>move", "mechanic>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>asymmetry", "mechanic>capture", "mechanic>differentiate",  "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["custom-colours", "check", "limited-pieces"],
     };
 

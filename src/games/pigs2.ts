@@ -72,7 +72,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
                 urls: ["http://cox-tv.com/games/index.php"]
             }
         ],
-        categories: ["goal>annihilate", "mechanic>program",  "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>annihilate", "mechanic>program",  "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1per", "other>2+players"],
         flags: ["simultaneous", "scores", "custom-buttons"]
     };
 

@@ -65,7 +65,7 @@ export class IqishiqiGame extends GameBase {
             }
         ],
         variants: [],
-        categories: ["goal>immobilize", "goal>breakthrough", "mechanic>place", "mechanic>displace", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>2c"],
+        categories: ["goal>immobilize", "goal>breakthrough", "mechanic>place", "mechanic>displace", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>2c", "other>2+players"],
         flags: []
     };
 

@@ -33,7 +33,7 @@ export class ConspirateursGame extends GameBase {
         notes: "apgames:notes.conspirateurs",
         urls: ["https://en.wikipedia.org/wiki/Conspirateurs"],
         variants: [{uid: "quick", group: "setup"}, {uid: "strict", group: "movement"}],
-        categories: ["goal>evacuate", "mechanic>traditional", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>evacuate", "other>traditional", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per", "other>2+players"],
         flags: ["no-moves", "custom-randomization", "scores"]
     };
 

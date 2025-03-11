@@ -49,7 +49,9 @@ export class RenjuGame extends InARowBase {
         name: "Renju",
         uid: "renju",
         playercounts: [2],
-        version: "20240328",
+        // version: "20240328",
+        // Symmetry is checked through the centroid instead of the centre.
+        version: "20250311",
         dateAdded: "2024-04-20",
         // i18next.t("apgames:descriptions.renju")
         description: "apgames:descriptions.renju",

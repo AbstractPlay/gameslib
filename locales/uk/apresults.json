@@ -550,5 +550,8 @@
         "camelot_castle_move_one": "Використаний {{player}} має ще 1 хід замку.",
         "camelot_castle_move_few": "Використаний {{player}} має більше ходів замку на {{count}}.",
         "camelot_castle_move_many": "Використаний {{player}} має ще {{count}} ходів замку."
+    },
+    "CONNECT": {
+        "pontedd": "{{player}} поставив міст між {{left}} і {{right}}."
     }
 }

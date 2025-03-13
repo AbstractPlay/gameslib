@@ -551,6 +551,9 @@ describe("Homeworlds", () => {
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
         expect(() => g.move("build y1 north, catastrophe")).to.throw(HWError.CMD_PARAMETERS);
+        const result = g.validateMove("build y1 north, catastrophe");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eql(-1);
 
         // unknown system
         g = new HomeworldsGame(2);

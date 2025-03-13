@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -835,8 +835,12 @@ export class PonteDDGame extends GameBase {
     public getPlayersScores(): IScores[] {
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.inhand(1), this.inhand(2)] }
+            { name: i18next.t("apgames:status.pontedd.TILES"), scores: [this.inhand(1), this.inhand(2)] }
         ]
+    }
+
+    public statuses(): IStatus[] {
+        return [{ key: i18next.t("apgames:status.pontedd.BRIDGES"), value: [(15 - this.bridges.length).toString()] }];
     }
 
     public clone(): PonteDDGame {

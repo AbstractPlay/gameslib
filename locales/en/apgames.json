@@ -2740,6 +2740,10 @@
         "PIECESINHANDSTASH": "Pieces in hand / stash",
         "PIECESONBOARD": "Pieces on board",
         "PIECESREMAINING": "Pieces remaining",
+        "pontedd": {
+            "TILES": "Tiles in hand",
+            "BRIDGES": "Bridges available"
+        },
         "queensland": {
             "GAME1": "Game 1",
             "GAME2": "Game 2"

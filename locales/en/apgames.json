@@ -4472,7 +4472,7 @@
             "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
             "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or the button still needs to be taken.",
             "INVALIDPIE": "You cannot accept or reject a pie offer now.",
-            "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
+            "KOMI_CHOICE": "You can either accept the komi points and let the opponent place the first stone, or place the first stone and give the komi points to the opponent. To accept the points, click the \"Play second\" button. To place the first stone, click the \"Swap player seats\" button.",
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent."
         },
         "storisende": {

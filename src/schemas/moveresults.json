@@ -954,6 +954,22 @@
             },
             "required": ["type", "where"],
             "additionalProperties": false
+        },
+        {
+            "description": "Connect two pieces",
+            "properties": {
+                "type": {
+                    "enum": ["connect"]
+                },
+                "p1": {
+                    "type": "string"
+                },
+                "p2": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "p1", "p2"],
+            "additionalProperties": false
         }
     ]
 }

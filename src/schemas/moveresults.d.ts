@@ -313,4 +313,9 @@ export type APMoveResult =
       type: "tackle";
       what?: string;
       where: string;
+    }
+  | {
+      type: "connect";
+      p1: string;
+      p2: string;
     };

@@ -133,6 +133,9 @@
         "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
     "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
+    "CONNECT": {
+        "pontedd": "{{player}} placed a bridge between {{left}} and {{right}}."
+    },
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
         "courtesan": "King and courtesan swapped positions at {{where}}.",

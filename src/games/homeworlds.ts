@@ -998,7 +998,9 @@ export class HomeworldsGame extends GameBase {
                     if (!nemesisCatastrophed) {
                         nemesisCatastrophed = (subResult !== undefined && subResult.complete === 1);
                     }
-                    subResult.complete = 0;
+                    if (subResult.complete === 1) {
+                        subResult.complete = 0;
+                    }
                     break;
                 case "pass":
                     subResult = cloned.validatePass(...tokens.slice(1));

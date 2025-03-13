@@ -49,7 +49,9 @@ export class RenjuGame extends InARowBase {
         name: "Renju",
         uid: "renju",
         playercounts: [2],
-        version: "20240328",
+        // version: "20240328",
+        // Symmetry is checked through the centroid instead of the centre.
+        version: "20250311",
         dateAdded: "2024-04-20",
         // i18next.t("apgames:descriptions.renju")
         description: "apgames:descriptions.renju",
@@ -431,32 +433,191 @@ export class RenjuGame extends InARowBase {
         return m;
     }
 
+    /**
+     * Checks if any pair of tentative fifth stones would create a symmetric pattern.
+     * This is important for opening protocols that require asymmetric placements.
+     *
+     * @param moves Array of string algebraic coordinates of the tentative fifth stones
+     * @returns true if any pair of tentative fifths would create a symmetric pattern, false otherwise
+     */
     private isSymmetric(moves: string[]): boolean {
-        // This is specifically for placement of tentative fifths in some openings.
-        // Because we normalise the first three stones, the board is only symmetric
-        // if all four stones on the board are either on the same vertical or positive diagonal.
-        // If either is true, then we just check for reflection across the respective axes.
-        if ([...this.board.keys()].every(k => this.algebraic2coords(k)[0] === (this.boardSize - 1) / 2)) {
-            for (let i = 0; i < moves.length; i++) {
-                for (let j = i + 1; j < moves.length; j++) {
-                    const [xi, yi] = this.algebraic2coords(moves[i]);
-                    const [xj, yj] = this.algebraic2coords(moves[j]);
-                    if (yi === yj && (xi + xj) / 2 === (this.boardSize - 1) / 2) {
-                        return true;
-                    }
-                }
-            }
+        const existingStones = [...this.board.keys()].map(cell => this.algebraic2coords(cell));
+        const centroid: [number, number] = [
+            existingStones.reduce((sum, [x, ]) => sum + x, 0) / existingStones.length,
+            existingStones.reduce((sum, [, y]) => sum + y, 0) / existingStones.length
+        ];
+
+        const hasReflectiveHorizontal = this.hasReflectiveSymmetry(centroid, "horizontal");
+        const hasReflectiveVertical = this.hasReflectiveSymmetry(centroid, "vertical");
+        const hasReflectiveDiagonal1 = this.hasReflectiveSymmetry(centroid, "diagonal1");
+        const hasReflectiveDiagonal2 = this.hasReflectiveSymmetry(centroid, "diagonal2");
+        const hasRotational180 = this.hasRotationalSymmetry(centroid);
+
+        // Existing stones are not symmetric.
+        if (!hasReflectiveHorizontal && !hasReflectiveVertical && !hasReflectiveDiagonal1 &&
+            !hasReflectiveDiagonal2 && !hasRotational180) {
+            return false;
         }
-        if ([...this.board.keys()].every(k => this.algebraic2coords(k).reduce((a, b) => a + b) === this.boardSize - 1)) {
-            for (let i = 0; i < moves.length; i++) {
-                for (let j = i + 1; j < moves.length; j++) {
-                    const [xi, yi] = this.algebraic2coords(moves[i]);
-                    const [xj, yj] = this.algebraic2coords(moves[j]);
-                    if (xi + yj === this.boardSize - 1 && xj + yi === this.boardSize - 1) { return true; }
+
+        // Check if any pair of tentative fifths would create a symmetric pattern
+        for (let i = 0; i < moves.length; i++) {
+            const [xi, yi] = this.algebraic2coords(moves[i]);
+            for (let j = i + 1; j < moves.length; j++) {
+                const [xj, yj] = this.algebraic2coords(moves[j]);
+                // Reflectional symmetry across horizontal axis
+                if (hasReflectiveHorizontal &&
+                    Math.abs(yi - centroid[1]) === Math.abs(yj - centroid[1]) && xi === xj) {
+                    return true;
+                }
+                // Reflectional symmetry across vertical axis
+                if (hasReflectiveVertical &&
+                    Math.abs(xi - centroid[0]) === Math.abs(xj - centroid[0]) && yi === yj) {
+                    return true;
+                }
+                // Reflectional symmetry across top-left to bottom-right diagonal
+                if (hasReflectiveDiagonal1 &&
+                    xi - centroid[0] === yj - centroid[1] && yi - centroid[1] === xj - centroid[0]) {
+                    return true;
+                }
+                // Reflectional symmetry across top-right to bottom-left diagonal
+                if (hasReflectiveDiagonal2 &&
+                    xi - centroid[0] === centroid[1] - yj && yi - centroid[1] === centroid[0] - xj) {
+                    return true;
+                }
+                // 180° rotational symmetry
+                if (hasRotational180 &&
+                    xi - centroid[0] === -(xj - centroid[0]) && yi - centroid[1] === -(yj - centroid[1])) {
+                    return true;
                 }
             }
         }
         return false;
+    }
+
+    /**
+     * Checks if a set of points has reflective symmetry across a specified axis through the centroid.
+     *
+     * @param centroid The [x, y] point representing the center of symmetry
+     * @param axis The axis of reflection: "horizontal", "vertical", "diagonal1" (↘), or "diagonal2" (↙)
+     * @returns true if the points have reflective symmetry across the specified axis, false otherwise
+     */
+    private hasReflectiveSymmetry(centroid: [number, number], axis: "horizontal" | "vertical" | "diagonal1" | "diagonal2"): boolean {
+        const player1Points: [number, number][] = [];
+        const player2Points: [number, number][] = [];
+        for (const cell of [...this.board.entries()]) {
+            const coords = this.algebraic2coords(cell[0]);
+            if (cell[1] === 1) {
+                player1Points.push(coords);
+            } else {
+                player2Points.push(coords);
+            }
+        }
+
+        for (const point of player1Points) {
+            const reflection = this.reflectPoint(point, centroid, axis);
+            if (!this.containsPoint(player1Points, reflection)) {
+                return false;
+            }
+        }
+        for (const point of player2Points) {
+            const reflection = this.reflectPoint(point, centroid, axis);
+            if (!this.containsPoint(player2Points, reflection)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if a set of points has 180-degree rotational symmetry around the centroid.
+     *
+     * @param centroid The [x, y] point representing the center of symmetry
+     * @returns true if the points have 180-degree rotational symmetry, false otherwise
+     */
+    private hasRotationalSymmetry(centroid: [number, number]): boolean {
+        const player1Points: [number, number][] = [];
+        const player2Points: [number, number][] = [];
+        for (const cell of [...this.board.entries()]) {
+            const coords = this.algebraic2coords(cell[0]);
+            if (cell[1] === 1) {
+                player1Points.push(coords);
+            } else {
+                player2Points.push(coords);
+            }
+        }
+
+        for (const point of player1Points) {
+            const rotated = this.rotatePoint(point, centroid);
+            if (!this.containsPoint(player1Points, rotated)) {
+                return false;
+            }
+        }
+        for (const point of player2Points) {
+            const rotated = this.rotatePoint(point, centroid);
+            if (!this.containsPoint(player2Points, rotated)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Calculates the reflection of a point across a specified axis through the centroid.
+     *
+     * @param point The [x, y] coordinates of the point to reflect
+     * @param centroid The [x, y] point representing the center of symmetry
+     * @param axis The axis of reflection: "horizontal", "vertical", "diagonal1" (↘), or "diagonal2" (↙)
+     * @returns The [x, y] coordinates of the reflected point
+     */
+    private reflectPoint(point: [number, number], centroid: [number, number], axis: "horizontal" | "vertical" | "diagonal1" | "diagonal2"): [number, number] {
+        const [x, y] = point;
+        const [cx, cy] = centroid;
+
+        switch (axis) {
+            case "horizontal":
+                return [x, 2 * cy - y];
+            case "vertical":
+                return [2 * cx - x, y];
+            case "diagonal1": // top-left to bottom-right diagonal
+                return [cy - y + cx, cx - x + cy];
+            case "diagonal2": // top-right to bottom-left diagonal
+                return [2 * cx - (cy - y + cx), 2 * cy - (cx - x + cy)];
+            default:
+                return point;
+        }
+    }
+
+    /**
+     * Calculates the 180-degree rotation of a point around the centroid.
+     *
+     * Calculates the 180-degree rotation of a point around the centroid.
+     *
+     * @param point The [x, y] coordinates of the point to rotate
+     * @param centroid The [x, y] point representing the center of symmetry
+     * @returns The [x, y] coordinates of the rotated point
+     */
+    private rotatePoint(point: [number, number], centroid: [number, number]): [number, number] {
+        const [x, y] = point;
+        const [cx, cy] = centroid;
+
+        // Rotate 180 degrees around centroid
+        return [2 * cx - x, 2 * cy - y];
+    }
+
+    /**
+     * Checks if an array of points contains a specific point, using a small epsilon for floating-point comparison.
+     *
+     * @param points Array of [x, y] coordinates to search within
+     * @param target The [x, y] coordinates to look for
+     * @param epsilon Small value for floating-point comparison tolerance
+     * @returns true if the target point is in the points array, false otherwise
+     */
+    private containsPoint(points: [number, number][], target: [number, number], epsilon = 1e-9): boolean {
+        return points.some(([x, y]) =>
+            Math.abs(x - target[0]) < epsilon &&
+            Math.abs(y - target[1]) < epsilon
+        );
     }
 
     private requireTentativeCount(): boolean {

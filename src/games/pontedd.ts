@@ -604,19 +604,19 @@ export class PonteDDGame extends GameBase {
             if (numIslands === 1) {
                 score += 1;
             } else if (numIslands === 2) {
-                score =+ 3;
+                score += 3;
             } else if (numIslands === 3) {
-                score =+ 6;
+                score += 6;
             } else if (numIslands === 4) {
-                score =+ 10;
+                score += 10;
             } else if (numIslands === 5) {
-                score =+ 15;
+                score += 15;
             } else if (numIslands === 6) {
-                score =+ 21;
+                score += 21;
             } else if (numIslands === 7) {
-                score =+ 28;
+                score += 28;
             } else if (numIslands > 7) {
-                score =+ 36;
+                score += 36;
             }
         }
         return score;
@@ -702,6 +702,7 @@ export class PonteDDGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map([...this.board.entries()]),
             bridges: this.bridges.map(b => [...b] as [string,string]),
+            triggered: this.triggered,
         };
     }
 

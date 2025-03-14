@@ -133,6 +133,9 @@
         "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
     "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
+    "CONNECT": {
+        "pontedd": "{{player}} placed a bridge between {{left}} and {{right}}."
+    },
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
         "courtesan": "King and courtesan swapped positions at {{where}}.",
@@ -388,6 +391,7 @@
         "veletas": "{{player}} placed a {{what}} at {{where}}.",
         "volo": "{{player}} adds a bird at {{where}}."
     },
+    "PLAYSECOND": "{{player}} chose to play second.",
     "PROMOTE": {
         "basicWhere": "The piece at {{where}} was promoted.",
         "cubeo": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",

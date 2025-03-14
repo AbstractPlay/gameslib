@@ -63,6 +63,11 @@ export type APMoveResult =
       why?: string;
     }
   | {
+      type: "take-button";
+      who?: number;
+      why?: string;
+    }
+  | {
       type: "deltaScore";
       delta?: number;
       who?: number;
@@ -295,6 +300,9 @@ export type APMoveResult =
       type: "pie";
     }
   | {
+      type: "play-second";
+    }
+  | {
       type: "komi";
       value: number;
     }
@@ -313,4 +321,9 @@ export type APMoveResult =
       type: "tackle";
       what?: string;
       where: string;
+    }
+  | {
+      type: "connect";
+      p1: string;
+      p2: string;
     };

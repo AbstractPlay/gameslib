@@ -134,6 +134,7 @@
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
+        "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "pylon": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
@@ -1562,6 +1563,22 @@
                 "name": "Largest board (17x17)"
             }
         },
+        "pontedd": {
+            "#board": {
+                "name": "10x10 board"
+            },
+            "size-12": {
+                "name": "12x12 board",
+                "description": "Larger board but same number of tiles and bridges."
+            },
+            "#pieces": {
+                "name": "40 tiles each and 15 bridges"
+            },
+            "unlimited": {
+                "name": "Unlimited tiles and bridges",
+                "description": "Draws become possible."
+            }
+        },
         "pylon": {
             "#setup": {
                 "description": "The board starts empty, and the first half of the game is the players placing their pyramids."
@@ -1853,14 +1870,14 @@
                 "name": "Default board (base 8)"
             },
             "#komi": {
-                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
+                "description": "One player will enter a number to choose the second mover bonus for the game. The other player will be given the option to move first or second.",
                 "name": "Komi offer"
             },
             "#rules": {
                 "description": "You control a space by controlling more than half of its lines of sight."
             },
             "nokomi": {
-                "description": "The game will be played without a second player bonus. Good for beginners.",
+                "description": "The game will be played without a second mover bonus. Good for beginners.",
                 "name": "No komi offer"
             },
             "size-7": {
@@ -2473,6 +2490,11 @@
                 "name": "Hide influence"
             }
         },
+        "pontedd": {
+            "vertex-board": {
+                "name": "Play on intersections instead of squares"
+            }
+        },
         "queensland": {
             "hide-scored": {
                 "description": "Don't highlight scored cells.",
@@ -2725,6 +2747,10 @@
         "PIECESINHANDSTASH": "Pieces in hand / stash",
         "PIECESONBOARD": "Pieces on board",
         "PIECESREMAINING": "Pieces remaining",
+        "pontedd": {
+            "TILES": "Tiles in hand",
+            "BRIDGES": "Bridges available"
+        },
         "queensland": {
             "GAME1": "Game 1",
             "GAME2": "Game 2"
@@ -4115,6 +4141,26 @@
             "INVALID_MOVEMENT": "You may only move around other pieces without passing through enemy controlled spaces. Legal landing spaces are highlighted when clicking to move.",
             "INVALID_MOVER": "You may only move your own nonisolated pieces."
         },
+        "pontedd": {
+            "BAD_BRIDGE_BLOCKED": "There may be no tiles under the bridge.",
+            "BAD_BRIDGE_COLOUR": "Bridges must connect two tiles of the same colour.",
+            "BAD_BRIDGE_CROSED": "Bridges may not cross.",
+            "BAD_BRIDGE_DISTANCE": "Bridges must connect two tiles that are separated by a single space.",
+            "BAD_BRIDGE_DOUBLE": "Tiles cannot support more than one bridge.",
+            "BAD_BRIDGE_NONE": "There are no valid bridges possible from {{cell}}.",
+            "BAD_BRIDGE_OWNER": "You may not build bridges on opposing tiles.",
+            "BAD_PASS": "You may only pass if you are unable to place two tiles.",
+            "BLOCKED": "The cell {{cell}} is blocked by a bridge.",
+            "INITIAL_INSTRUCTIONS_play": "Click an empty cell to place a tile of your colour, or click an existing tile to place a bridge.",
+            "INITIAL_INSTRUCTIONS_setup": "Place two tiles of your colour by clicking on empty cells.",
+            "NO_BRIDGES": "No more bridges may be placed.",
+            "NO_TILES": "You don't have any more tiles to place.",
+            "PARTIAL_BRIDGE": "Select the tile to connect the bridge to.",
+            "PARTIAL_PLACE": "Place a second tile.",
+            "TOO_BIG": "Islands cannot be larger than four tiles.",
+            "TOO_CLOSE": "Islands may not diagonally touch other islands or sandbars of that colour.",
+            "TOO_MANY": "You may not place more than two tiles."
+        },
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",
             "PARTIAL": "Select a destination.",
@@ -4465,14 +4511,14 @@
         },
         "stigmergy": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",
-            "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or take the button (worth .5 points).",
-            "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
+            "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or \"Take button\" (worth .5 points).",
+            "INITIAL_SETUP": "Enter a number to set the bonus to the second mover's score. Your opponent will choose to move first or second.",
             "INSUFFICIENT_LOS": "You cannot replace a piece on {{cell}}. You do not control the space.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
-            "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or the button still needs to be taken.",
-            "INVALIDPIE": "You cannot accept or reject a pie offer now.",
-            "KOMI_CHOICE": "You can either accept the komi points and let the opponent place the first stone, or place the first stone and give the komi points to the opponent. To accept the points, click the \"Play second\" button. To place the first stone, click the \"Swap player seats\" button.",
+            "INVALIDKOMI": "You must choose a number of points for the second mover to start with. You may not offer a komi greater than the number of cells on the board plus one.",
+            "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or if the button is still available for taking.",
+            "INVALIDPLAYSECOND": "You cannot choose to play second from this board state.",
+            "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points or you may choose \"Play second\" and take the bonus points for yourself.",
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent."
         },
         "storisende": {

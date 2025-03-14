@@ -160,6 +160,22 @@
             "additionalProperties": false
         },
         {
+            "description": "Describes a player taking the button.",
+            "properties": {
+                "type": {
+                    "enum": ["take-button"]
+                },
+                "who": {
+                    "type": "number"
+                },
+                "why": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
             "description": "Describes a change in a player's score (by default, the current player)",
             "properties": {
                 "type": {
@@ -892,6 +908,16 @@
             "additionalProperties": false
         },
         {
+            "description": "Used when invoking custom pie rule.",
+            "properties": {
+                "type": {
+                    "enum": ["play-second"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
             "description": "Used when setting komi pie offer.",
             "properties": {
                 "type": {
@@ -953,6 +979,22 @@
                 }
             },
             "required": ["type", "where"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Connect two pieces",
+            "properties": {
+                "type": {
+                    "enum": ["connect"]
+                },
+                "p1": {
+                    "type": "string"
+                },
+                "p2": {
+                    "type": "string"
+                }
+            },
+            "required": ["type", "p1", "p2"],
             "additionalProperties": false
         }
     ]

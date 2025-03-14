@@ -193,6 +193,7 @@ import { PacruGame, IPacruState } from "./pacru";
 import { AzacruGame, IAzacruState } from "./azacru";
 import { CifraGame, ICifraState } from "./cifra";
 import { GygesGame, IGygesState } from "./gyges";
+import { PonteDDGame, IPonteDDState } from "./pontedd";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -388,6 +389,7 @@ export {
     AzacruGame, IAzacruState,
     CifraGame, ICifraState,
     GygesGame, IGygesState,
+    PonteDDGame, IPonteDDState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -454,7 +456,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof YonmoqueGame | typeof ChameleonGame | typeof KachitGame |
                               typeof GyveGame | typeof PahTumGame | typeof NakattaGame |
                               typeof OmnyGame | typeof PacruGame | typeof AzacruGame |
-                              typeof CifraGame | typeof GygesGame
+                              typeof CifraGame | typeof GygesGame | typeof PonteDDGame
                 >();
 // Manually add each game to the following array
 [
@@ -484,7 +486,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
-    PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
+    PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -880,6 +882,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new CifraGame(...args);
         case "gyges":
             return new GygesGame(...args);
+        case "pontedd":
+            return new PonteDDGame(...args);
     }
     return;
 }

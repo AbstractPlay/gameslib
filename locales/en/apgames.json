@@ -1863,14 +1863,14 @@
                 "name": "Default board (base 8)"
             },
             "#komi": {
-                "description": "The first player will enter a number into the move input box on their first turn to define the second player bonus for the game. The second player will be given the option to switch seats afterwards.",
+                "description": "One player will enter a number to choose the second mover bonus for the game. The other player will be given the option to move first or second.",
                 "name": "Komi offer"
             },
             "#rules": {
                 "description": "You control a space by controlling more than half of its lines of sight."
             },
             "nokomi": {
-                "description": "The game will be played without a second player bonus. Good for beginners.",
+                "description": "The game will be played without a second mover bonus. Good for beginners.",
                 "name": "No komi offer"
             },
             "size-7": {
@@ -4504,14 +4504,14 @@
         },
         "stigmergy": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",
-            "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or take the button (worth .5 points).",
-            "INITIAL_SETUP": "Enter a number to set the bonus to the second player's score. Your opponent will have a chance to swap seats.",
+            "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or \"Take button\" (worth .5 points).",
+            "INITIAL_SETUP": "Enter a number to set the bonus to the second mover's score. Your opponent will choose to move first or second.",
             "INSUFFICIENT_LOS": "You cannot replace a piece on {{cell}}. You do not control the space.",
             "INVALIDBUTTON": "The button is already taken or is not in use this game.",
-            "INVALIDKOMI": "The first move of the game must be an integer representing the number of points the second player starts with. You may not offer a komi greater than the number of cells on the board plus one.",
-            "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or the button still needs to be taken.",
-            "INVALIDPIE": "You cannot accept or reject a pie offer now.",
-            "KOMI_CHOICE": "You can either accept the komi points and let the opponent place the first stone, or place the first stone and give the komi points to the opponent. To accept the points, click the \"Play second\" button. To place the first stone, click the \"Swap player seats\" button.",
+            "INVALIDKOMI": "You must choose a number of points for the second mover to start with. You may not offer a komi greater than the number of cells on the board plus one.",
+            "INVALIDPASS": "You cannot pass while uncontrolled spaces exist or if the button is still available for taking.",
+            "INVALIDPLAYSECOND": "You cannot choose to play second from this board state.",
+            "KOMI_CHOICE": "You may either make the first move on the board and let your opponent keep the bonus points or you may choose \"Play second\" and take the bonus points for yourself.",
             "OPPONENT_CONTROL": "You cannot place onto the empty space {{cell}}. It is controlled by the opponent."
         },
         "storisende": {

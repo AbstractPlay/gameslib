@@ -460,6 +460,8 @@ export class StigmergyGame extends GameBase {
             if (this.komi > max) this.komi = max;
             if (this.komi < min) this.komi = min;
             this.results.push({type: "komi", value: this.komi});
+            // Invert it for backwards compatibility reasons
+            this.komi *= -1;
         } else if (m === "pass") {
             this.results.push({type: "pass"});
         } else if (m === "take-button") {
@@ -545,8 +547,8 @@ export class StigmergyGame extends GameBase {
     public getPlayerScore(player: playerid): number {
         return this.scores[player - 1]
             + ((this.buttontaker === player) ? .5 : 0)
-            + ((player === 1 && this.komi !== undefined && this.komi > 0) ? this.komi : 0)
-            + ((player === 2 && this.komi !== undefined && this.komi < 0) ? -this.komi : 0);
+            + ((player === 2 && this.komi !== undefined && this.komi > 0) ? this.komi : 0)
+            + ((player === 1 && this.komi !== undefined && this.komi < 0) ? -this.komi : 0);
     }
 
     public getPlayersScores(): IScores[] {

@@ -45,6 +45,7 @@ export class PonteDDGame extends GameBase {
         ],
         variants: [
             {uid: "size-12", group: "board"},
+            {uid: "unlimited", group: "pieces"},
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["experimental", "pie", "scores", "no-moves", "custom-randomization", "custom-buttons"],
@@ -118,6 +119,18 @@ export class PonteDDGame extends GameBase {
         }
         return 10;
     }
+    public get maxTiles(): number {
+        if (this.variants.includes("unlimited")) {
+            return Infinity;
+        }
+        return 40;
+    }
+    public get maxBridges(): number {
+        if (this.variants.includes("unlimited")) {
+            return Infinity;
+        }
+        return 15;
+    }
     public coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, this.boardsize);
     }
@@ -131,7 +144,7 @@ export class PonteDDGame extends GameBase {
     // }
 
     private randomBridge(): string|null {
-        if (this.bridges.length < 15) {
+        if (this.bridges.length < this.maxBridges) {
             const mine = [...this.board.entries()].filter(([,v]) => v === this.currplayer).map(([k,]) => k);
             const shuffled = shuffle(mine) as string[];
             for (let i = 0; i < shuffled.length; i++) {
@@ -279,7 +292,7 @@ export class PonteDDGame extends GameBase {
             p = this.currplayer;
         }
         const onboard = [...this.board.values()].filter(v => v === p).length
-        return 40 - onboard;
+        return this.maxTiles - onboard;
     }
 
     public validateMove(m: string): IValidationResult {
@@ -380,7 +393,7 @@ export class PonteDDGame extends GameBase {
         }
         // bridges
         else if (m.includes("-") || (m.length <= 3 && this.board.has(m))) {
-            if (this.bridges.length === 15) {
+            if (this.bridges.length === this.maxBridges) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pontedd.NO_BRIDGES");
                 return result;
@@ -834,14 +847,18 @@ export class PonteDDGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: i18next.t("apgames:status.pontedd.TILES"), scores: [this.inhand(1), this.inhand(2)] }
-        ]
+        const scores: IScores[] = [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
+        if (!this.variants.includes("unlimited")) {
+            scores.push({ name: i18next.t("apgames:status.pontedd.TILES"), scores: [this.inhand(1), this.inhand(2)] });
+        }
+        return scores;
     }
 
     public statuses(): IStatus[] {
-        return [{ key: i18next.t("apgames:status.pontedd.BRIDGES"), value: [(15 - this.bridges.length).toString()] }];
+        if (this.variants.includes("unlimited")) {
+            return [];
+        }
+        return [{ key: i18next.t("apgames:status.pontedd.BRIDGES"), value: [(this.maxBridges - this.bridges.length).toString()] }];
     }
 
     public clone(): PonteDDGame {

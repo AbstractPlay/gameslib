@@ -1570,6 +1570,12 @@
             "size-12": {
                 "name": "12x12 board",
                 "description": "Larger board but same number of tiles and bridges."
+            },
+            "#pieces": {
+                "name": "40 tiles each and 15 bridges"
+            },
+            "unlimited": {
+                "name": "Unlimited tiles and bridges"
             }
         },
         "pylon": {

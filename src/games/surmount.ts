@@ -214,6 +214,8 @@ export class SurmountGame extends GameBase {
         }
         const thisGroup = this.getGroups(player).find(grp => grp.includes(cell));
         if (thisGroup === undefined) {
+            // eslint-disable-next-line no-console
+            console.trace();
             throw new Error(`getAdjacentOthers: Could not find a group at ${cell}.`);
         }
         if (thisGroup.length === 1) {

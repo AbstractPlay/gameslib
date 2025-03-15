@@ -393,6 +393,7 @@
         "veletas": "{{player}} placed a {{what}} at {{where}}.",
         "volo": "{{player}} adds a bird at {{where}}."
     },
+    "PLAYSECOND": "{{player}} chose to play second.",
     "PROMOTE": {
         "basicWhere": "The piece at {{where}} was promoted.",
         "cubeo": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",

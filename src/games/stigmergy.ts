@@ -35,7 +35,7 @@ export class StigmergyGame extends GameBase {
         name: "Stigmergy",
         uid: "stigmergy",
         playercounts: [2],
-        version: "20240524",
+        version: "20250314",
         dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.stigmergy")
         description: "apgames:descriptions.stigmergy",
@@ -55,7 +55,7 @@ export class StigmergyGame extends GameBase {
             }
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
-        flags: ["pie-even", "scores", "automove", "custom-buttons"],
+        flags: ["scores", "automove", "custom-buttons"],
         variants: [
             {
                 uid: "size-7",
@@ -194,6 +194,10 @@ export class StigmergyGame extends GameBase {
         return this.variants === undefined || this.variants.length === 0 || !this.variants.includes("nokomi");
     }
 
+    public isKomiTurn(): boolean {
+        return this.stack.length === 1;
+    }
+
     public isPieTurn(): boolean {
         return this.stack.length === 2;
     }
@@ -210,15 +214,15 @@ export class StigmergyGame extends GameBase {
         let freeSpaces = false;
         const otherPlayer = this.getOtherPlayer(player);
 
+        const moves: string[] = [];
         if (this.isKomiRuleActive()) {
-            if (this.stack.length === 1) {
-                return [];
-            } else if (this.stack.length === 2) {
-                return ["pie"];
+            if (this.isKomiTurn()) {
+                return moves;
+            } else if (this.isPieTurn()) {
+                moves.push("play-second");
             }
         }
 
-        const moves: string[] = [];
         for (const cell of this.listCells() as string[]) {
             const cellController = this.cellController(cell);
             if (this.board.has(cell) && this.board.get(cell) === otherPlayer && cellController === player) {
@@ -231,7 +235,7 @@ export class StigmergyGame extends GameBase {
                 freeSpaces = true;
             }
         }
-        if (this.isButtonActive()) moves.push("button");
+        if (this.isButtonActive()) moves.push("take-button");
         if (!freeSpaces && !this.isButtonActive()) moves.push("pass");
         return moves;
     }
@@ -239,16 +243,18 @@ export class StigmergyGame extends GameBase {
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
         if (this.moves().includes("pass")) return [{ label: "pass", move: "pass" }];
-        if (this.isButtonActive()) return [{ label: "takebutton", move: "button" }];
-        if (this.isKomiRuleActive() && this.stack.length === 2) return [{ label: "acceptpie", move: "pie" }];
+        if (this.moves().includes("take-button")) return [{ label: "takebutton", move: "take-button" }];
+        if (this.moves().includes("play-second")) return [{ label: "playsecond", move: "play-second" }];
         return [];
     }
 
     private isButtonActive(): boolean {
         return this.buttontaker === undefined
+            && this.isKomiRuleActive()
             && this.komi !== undefined
-            && this.komi % 2 === 1
-            && this.stack.length !== 2;
+            && (this.komi % 2 === 1 || this.komi % 2 === -1)
+            && !this.isKomiTurn()
+            && !this.isPieTurn();
     }
 
     public randomMove(): string {
@@ -258,7 +264,7 @@ export class StigmergyGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            if (this.isKomiRuleActive() && this.stack.length < 3) {
+            if (this.isKomiRuleActive() && this.isKomiTurn()) {
                 const dummyResult = this.validateMove("") as IClickResult;
                 dummyResult.move = "";
                 dummyResult.valid = false;
@@ -306,7 +312,7 @@ export class StigmergyGame extends GameBase {
 
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        if (this.isKomiRuleActive() && this.stack.length === 1) {
+        if (this.isKomiRuleActive() && this.isKomiTurn()) {
             if (m.length === 0) {
                 result.valid = true;
                 result.complete = -1;
@@ -336,7 +342,7 @@ export class StigmergyGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            if (this.isKomiRuleActive() && this.stack.length === 2) {
+            if (this.isKomiRuleActive() && this.isPieTurn()) {
                 result.message = i18next.t("apgames:validation.stigmergy.KOMI_CHOICE");
             } else if (this.isButtonActive())
                 result.message = i18next.t("apgames:validation.stigmergy.INITIAL_INSTRUCTIONS_BUTTON");
@@ -345,20 +351,20 @@ export class StigmergyGame extends GameBase {
             return result;
         }
 
-        if (m === "pass") {
-            if ((this.isKomiRuleActive() && this.stack.length === 2) || this.moves().includes("pass")) {
+        if (m === "play-second") {
+            if (this.isKomiRuleActive() && this.isPieTurn()) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.stigmergy.INVALIDPASS");
+                result.message = i18next.t("apgames:validation.stigmergy.INVALIDPLAYSECOND");
                 return result;
             }
         }
 
-        if (m === "button") {
+        if (m === "take-button") {
             if (this.isButtonActive()) {
                 result.valid = true;
                 result.complete = 1;
@@ -371,23 +377,21 @@ export class StigmergyGame extends GameBase {
             }
         }
 
-        if (m === "pie") {
-            if (this.isKomiRuleActive() && this.stack.length === 2) {
+        if (m === "pass") {
+            if (this.moves().includes("pass")) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.stigmergy.INVALIDPIE");
+                result.message = i18next.t("apgames:validation.stigmergy.INVALIDPASS");
                 return result;
             }
         }
 
         // valid cell
-        try {
-            this.getGraph().algebraic2coords(m);
-        } catch {
+        if (!(this.getGraph().listCells() as string[]).includes(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
             return result;
@@ -443,32 +447,29 @@ export class StigmergyGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
             const moves = this.moves();
-            if (!partial && this.stack.length > 2 && !(moves.includes(m) || moves.includes(`${m}x`)) && (!this.isButtonActive() || m !== "button")) {
+            if (!partial && !(this.isKomiRuleActive() && this.isKomiTurn()) && !(moves.includes(m) || moves.includes(`${m}x`))) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: originalMove}));
             }
         }
 
         this.results = [];
-        if (this.isKomiRuleActive() && this.stack.length === 1) {
+        if (this.isKomiRuleActive() && this.isKomiTurn()) {
             this.komi = parseInt(m, 10);
             const max = (this.getGraph().listCells() as string[]).length + 1;
             const min = max * -1;
             if (this.komi > max) this.komi = max;
             if (this.komi < min) this.komi = min;
             this.results.push({type: "komi", value: this.komi});
+            // Invert it for backwards compatibility reasons
+            this.komi *= -1;
         } else if (m === "pass") {
-            // This happens iff the invoke pie option is used.
-            if (this.isKomiRuleActive() && this.stack.length === 2) {
-                originalMove = "pie";
-                this.results.push({type: "pie"});
-            } else {
-                this.results.push({type: "pass"});
-            }
-        } else if (m === "button") {
+            this.results.push({type: "pass"});
+        } else if (m === "take-button") {
             this.buttontaker = this.currplayer;
             this.results.push({type: "button"});
-        } else if (m === "pie") {
-            this.results.push({type: "pie"});
+        } else if (m === "play-second") {
+            this.komi! *= -1;
+            this.results.push({type: "play-second"});
         } else {
             if (this.board.has(m)) {
                 if (!originalMove.endsWith('x')) originalMove = `${originalMove}x`;
@@ -544,7 +545,10 @@ export class StigmergyGame extends GameBase {
     }
 
     public getPlayerScore(player: playerid): number {
-        return this.scores[player - 1] + ((this.buttontaker === player) ? .5 : 0) + ((player === 2 && this.komi !== undefined) ? this.komi : 0);
+        return this.scores[player - 1]
+            + ((this.buttontaker === player) ? .5 : 0)
+            + ((player === 2 && this.komi !== undefined && this.komi > 0) ? this.komi : 0)
+            + ((player === 1 && this.komi !== undefined && this.komi < 0) ? -this.komi : 0);
     }
 
     public getPlayersScores(): IScores[] {

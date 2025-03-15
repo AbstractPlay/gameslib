@@ -51,6 +51,8 @@
         "furl": "{{player}} captured a stack of size {{size}} at {{where}}.",
         "gess_one": "{{count}} stone is removed from the board.",
         "gess_other": "{{count}} stones are removed from the board.",
+        "group_one": "{{player}} captured a stone at {{cells}}.",
+        "group_other": "{{player}} captured {{count}} stones at the following cells: {{cells}}.",
         "hens_chick": "{{player}} captured a chick at {{where}}.",
         "hens_hen": "{{player}} captured a hen at {{where}}.",
         "hexentafl_king": "The king was captured at {{where}}.",

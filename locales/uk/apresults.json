@@ -553,5 +553,6 @@
     },
     "CONNECT": {
         "pontedd": "{{player}} поставив міст між {{left}} і {{right}}."
-    }
+    },
+    "PLAYSECOND": "{{player}} вирішив грати другим."
 }

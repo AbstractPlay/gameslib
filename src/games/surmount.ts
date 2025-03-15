@@ -116,15 +116,11 @@ export class SurmountGame extends GameBase {
 
     protected get boardSize(): number {
         // Get board size from variants.
-        if (this.variants !== undefined && this.variants.length > 0 && this.variants[0] !== undefined && this.variants[0].length > 0) {
-            const sizeVariants = this.variants.filter(v => v.includes("hex") || v.includes("square"))
-            if (sizeVariants.length > 0) {
-                const size = sizeVariants[0].match(/\d+/);
-                return parseInt(size![0], 10);
-            }
-            if (isNaN(this.boardSize)) {
-                throw new Error(`Could not determine the board size from variant "${this.variants[0]}"`);
-            }
+        const found = this.variants.find(v => v.startsWith("hex-"));
+        if (found !== undefined) {
+            const [,nstr] = found.split("-");
+            const n = parseInt(nstr, 10);
+            return n;
         }
         return 5;
     }

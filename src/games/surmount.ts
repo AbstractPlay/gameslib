@@ -134,24 +134,26 @@ export class SurmountGame extends GameBase {
         if (p === undefined) {
             p = this.currplayer;
         }
+        const captures: string[] = [];
         const grpsP = this.getGroups(p);
         const grpsOther = this.getGroups(p === 1 ? 2 : 1);
-        const captures: string[] = [];
-        const g = this.graph;
-        for (const group of grpsP) {
-            const neighbours = new Set<string>();
-            for (const cell of group) {
-                for (const n of g.neighbours(cell)) {
-                    // by definition, any such cells are occupied by the opponent
-                    if (!group.includes(n) && this.board.has(n)) {
-                        neighbours.add(n);
+        if (grpsOther.length > 0) {
+            const g = this.graph;
+            for (const group of grpsP) {
+                const neighbours = new Set<string>();
+                for (const cell of group) {
+                    for (const n of g.neighbours(cell)) {
+                        // by definition, any such cells are occupied by the opponent
+                        if (!group.includes(n) && this.board.has(n)) {
+                            neighbours.add(n);
+                        }
                     }
                 }
-            }
-            for (const n of neighbours) {
-                const grpOther = grpsOther.find(grp => grp.includes(n))!;
-                if (group.length >= grpOther.length) {
-                    captures.push(n);
+                for (const n of neighbours) {
+                    const grpOther = grpsOther.find(grp => grp.includes(n))!;
+                    if (group.length >= grpOther.length) {
+                        captures.push(n);
+                    }
                 }
             }
         }
@@ -171,7 +173,10 @@ export class SurmountGame extends GameBase {
         if (player === undefined) {
             throw new Error(`There is no stone at ${cell}`);
         }
-        const thisGroup = this.getGroups(player).find(grp => grp.includes(cell))!;
+        const thisGroup = this.getGroups(player).find(grp => grp.includes(cell));
+        if (thisGroup === undefined) {
+            throw new Error(`canContinueFrom: Could not find a group at ${cell}.`);
+        }
         if (thisGroup.length === 1) {
             return false;
         }
@@ -207,7 +212,10 @@ export class SurmountGame extends GameBase {
         if (player === undefined) {
             throw new Error(`There is no stone at ${cell}`);
         }
-        const thisGroup = this.getGroups(player).find(grp => grp.includes(cell))!;
+        const thisGroup = this.getGroups(player).find(grp => grp.includes(cell));
+        if (thisGroup === undefined) {
+            throw new Error(`getAdjacentOthers: Could not find a group at ${cell}.`);
+        }
         if (thisGroup.length === 1) {
             return [];
         }

@@ -521,7 +521,7 @@ export class SurmountGame extends GameBase {
         // BOTH caps and conts available
         if (canCap && continuations.length > 0) {
             result.valid = true;
-            result.complete = -1;
+            result.complete = cells.length === 1 ? 0 : -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.surmount.PARTIAL_BOTH");
             return result;
@@ -529,7 +529,7 @@ export class SurmountGame extends GameBase {
         // just caps
         else if (canCap && continuations.length === 0) {
             result.valid = true;
-            result.complete = -1;
+            result.complete = cells.length === 1 ? 0 : -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.surmount.PARTIAL_CAP");
             return result;
@@ -537,7 +537,7 @@ export class SurmountGame extends GameBase {
         // just continuations
         else if (!canCap && continuations.length > 0) {
             result.valid = true;
-            result.complete = -1;
+            result.complete = cells.length === 1 ? 0 : -1;
             result.canrender = true;
             result.message = i18next.t("apgames:validation.surmount.PARTIAL_CONTINUE");
             return result;

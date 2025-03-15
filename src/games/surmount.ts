@@ -719,8 +719,8 @@ export class SurmountGame extends GameBase {
         };
 
         // Add annotations
-        rep.annotations = [];
         if (this.results.length > 0) {
+            rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
@@ -738,12 +738,15 @@ export class SurmountGame extends GameBase {
 
         // add dots
         if (this.dots.length > 0) {
+            if (!("annotations" in rep)) {
+                rep.annotations = [];
+            }
             const coords: RowCol[] = [];
             for (const dot of this.dots) {
                 const [x, y] = this.algebraic2coords(dot);
                 coords.push({row: y, col: x});
             }
-            rep.annotations.push({type: "dots", targets: coords as [RowCol, ...RowCol[]]});
+            rep.annotations!.push({type: "dots", targets: coords as [RowCol, ...RowCol[]]});
         }
 
         return rep;

@@ -214,8 +214,6 @@ export class SurmountGame extends GameBase {
         }
         const thisGroup = this.getGroups(player).find(grp => grp.includes(cell));
         if (thisGroup === undefined) {
-            // eslint-disable-next-line no-console
-            console.trace();
             throw new Error(`getAdjacentOthers: Could not find a group at ${cell}.`);
         }
         if (thisGroup.length === 1) {
@@ -606,34 +604,36 @@ export class SurmountGame extends GameBase {
                     capCell = m.substring(idx+2, m.length - 1);
                 }
                 const cells = stub.split(",");
-                let whitelist: string[][] = [];
-                for (const cell of cells) {
-                    this.board.set(cell, this.currplayer);
-                    this.results.push({type: "place", where: cell});
+                if (m.length > 0) {
+                    let whitelist: string[][] = [];
+                    for (const cell of cells) {
+                        this.board.set(cell, this.currplayer);
+                        this.results.push({type: "place", where: cell});
 
-                    // if first cell, populate whitelist
-                    if (cell === cells[0]) {
-                        whitelist = this.getAdjacentOthers(cell);
+                        // if first cell, populate whitelist
+                        if (cell === cells[0]) {
+                            whitelist = this.getAdjacentOthers(cell);
+                        }
                     }
-                }
-                if (capCell !== undefined) {
-                    const group = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(capCell!))!;
-                    // capture all stones in the group
-                    for (const stone of group) {
-                        this.board.delete(stone);
+                    if (capCell !== undefined) {
+                        const group = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(capCell!))!;
+                        // capture all stones in the group
+                        for (const stone of group) {
+                            this.board.delete(stone);
+                        }
+                        this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
+                        // place at designated place
+                        this.board.set(capCell, this.currplayer);
+                        this.results.push({type: "place", where: capCell});
                     }
-                    this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
-                    // place at designated place
-                    this.board.set(capCell, this.currplayer);
-                    this.results.push({type: "place", where: capCell});
-                }
 
-                // if partial and no capture yet, show dots
-                if (partial && capCell === undefined) {
-                    const thisGroup = this.getGroups().find(grp => grp.includes(cells[0]))!;
-                    const continuations = this.getContinuations(thisGroup, whitelist);
-                    const captures = this.getClosingCaptures(thisGroup, whitelist);
-                    this.dots = [...continuations, ...captures];
+                    // if partial and no capture yet, show dots
+                    if (partial && capCell === undefined) {
+                        const thisGroup = this.getGroups().find(grp => grp.includes(cells[0]))!;
+                        const continuations = this.getContinuations(thisGroup, whitelist);
+                        const captures = this.getClosingCaptures(thisGroup, whitelist);
+                        this.dots = [...continuations, ...captures];
+                    }
                 }
             }
         }

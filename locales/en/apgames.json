@@ -1970,6 +1970,20 @@
                 "description": "Controlling all the open spaces around a park grants bonus points"
             }
         },
+        "surmount": {
+            "#board": {
+                "name": "Hexhex 5 (61 spaces)"
+            },
+            "hex-4": {
+                "name": "Hexhex 4 (37 spaces)"
+            },
+            "hex-6": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "hex-7": {
+                "name": "Hexhex 7 (127 spaces)"
+            }
+        },
         "symple": {
             "#penalty": {
                 "description": "A lower penalty creates a more aggressive game, and a higher penalty, a more conservative one.",

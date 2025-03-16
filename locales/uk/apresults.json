@@ -91,7 +91,10 @@
         "blastradius_many": "{{player}} зняв стопку з {{count}} фігур ворога {{where}}.",
         "entrapment_opponent": "{{player}} захопив роумер суперника на {{where}}.",
         "hexentafl_king": "Король потрапив у полон при {{where}}.",
-        "owlman_approach": "{{player}} налякав помічника в {{where}} з лісу."
+        "owlman_approach": "{{player}} налякав помічника в {{where}} з лісу.",
+        "group_one": "{{player}} захопив камінь у {{cells}}.",
+        "group_few": "{{player}} захопив {{count}} каменів у таких клітинках: {{cells}}.",
+        "group_many": "{{player}} захопив {{count}} каменів у таких клітинках: {{cells}}."
     },
     "BEAROFF": {
         "complete_one": "{{player}} відрізати один шматок від {{from}}.",

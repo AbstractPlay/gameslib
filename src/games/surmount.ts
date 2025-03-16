@@ -539,7 +539,7 @@ export class SurmountGame extends GameBase {
             return result;
         }
         // just continuations
-        else if (!canCap && continuations.length > 0) {
+        else if (!canCap && capCell === undefined && continuations.length > 0) {
             result.valid = true;
             result.complete = cells.length === 1 ? 0 : -1;
             result.canrender = true;

@@ -386,7 +386,7 @@ export class PonteDDGame extends GameBase {
 
             // we're good
             result.valid = true;
-            result.complete = cells.length === 2 ? 1 : 0;
+            result.complete = cells.length === 2 ? 1 : -1;
             result.canrender = true;
             result.message = cells.length === 2 ?
                 i18next.t("apgames:validation._general.VALID_MOVE") :

@@ -169,12 +169,14 @@ export class PonteDDGame extends GameBase {
             const shuffled = shuffle(empty) as string[];
             for (let i = 0; i < shuffled.length; i++) {
                 const start = shuffled[i];
-                const rest = shuffled.slice(i+1);
-                for (const end of rest) {
-                    const mv = [start, end].join(",")
-                    const result = this.validateMove(mv);
-                    if (result.valid && result.complete === 1) {
-                        return mv;
+                if (this.validateMove(start).valid) {
+                    const rest = shuffled.slice(i+1);
+                    for (const end of rest) {
+                        const mv = [start, end].join(",")
+                        const result = this.validateMove(mv);
+                        if (result.valid && result.complete === 1) {
+                            return mv;
+                        }
                     }
                 }
             }

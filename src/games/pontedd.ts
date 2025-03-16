@@ -32,7 +32,7 @@ export class PonteDDGame extends GameBase {
         uid: "pontedd",
         playercounts: [2],
         version: "20250310",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-03-16",
         // i18next.t("apgames:descriptions.pontedd")
         description: "apgames:descriptions.pontedd",
         urls: ["https://boardgamegeek.com/boardgame/27172/ponte-del-diavolo"],
@@ -48,7 +48,7 @@ export class PonteDDGame extends GameBase {
             {uid: "unlimited", group: "pieces"},
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "pie", "scores", "no-moves", "custom-randomization", "custom-buttons"],
+        flags: ["pie", "scores", "no-moves", "custom-randomization", "custom-buttons"],
     };
 
     public numplayers = 2;
@@ -169,12 +169,14 @@ export class PonteDDGame extends GameBase {
             const shuffled = shuffle(empty) as string[];
             for (let i = 0; i < shuffled.length; i++) {
                 const start = shuffled[i];
-                const rest = shuffled.slice(i+1);
-                for (const end of rest) {
-                    const mv = [start, end].join(",")
-                    const result = this.validateMove(mv);
-                    if (result.valid && result.complete === 1) {
-                        return mv;
+                if (this.validateMove(start).valid) {
+                    const rest = shuffled.slice(i+1);
+                    for (const end of rest) {
+                        const mv = [start, end].join(",")
+                        const result = this.validateMove(mv);
+                        if (result.valid && result.complete === 1) {
+                            return mv;
+                        }
                     }
                 }
             }
@@ -384,7 +386,7 @@ export class PonteDDGame extends GameBase {
 
             // we're good
             result.valid = true;
-            result.complete = cells.length === 2 ? 1 : 0;
+            result.complete = cells.length === 2 ? 1 : -1;
             result.canrender = true;
             result.message = cells.length === 2 ?
                 i18next.t("apgames:validation._general.VALID_MOVE") :

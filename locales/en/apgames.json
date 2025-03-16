@@ -165,6 +165,7 @@
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
         "subdivision": "You are a real estate developer competing with others to develop a new subdivision. Where you build is somewhat restricted, and what gets built next to you affects your value. Bring down your competitors' values while maximizing your own.",
+        "surmount": "An exnihilation game in which larger groups destroy smaller ones.",
         "susan": "In Susan, the goal is to surround any opponent's piece with other pieces. On your turn, you may place a piece or slide a piece to an adjacent empty space. If both players have a stone surrounded simultaneously, the player that just took their turn loses. The game ends in a tie if both players performed three slides each consecutively.",
         "symple": "A territory game where you get a point for every stone placed, and a penalty for each individual group of connected pieces. Find the right balance to maximize your score.",
         "tablero": "A quick-playing dice game where players compete to control high-value spaces on the board.",
@@ -1568,15 +1569,14 @@
                 "name": "10x10 board"
             },
             "size-12": {
-                "name": "12x12 board",
-                "description": "Larger board but same number of tiles and bridges."
+                "name": "12x12 board"
             },
             "#pieces": {
                 "name": "40 tiles each and 15 bridges"
             },
             "unlimited": {
                 "name": "Unlimited tiles and bridges",
-                "description": "Draws become possible."
+                "description": "Draws are possible."
             }
         },
         "pylon": {
@@ -1967,6 +1967,20 @@
             "parkControl": {
                 "name": "Park control",
                 "description": "Controlling all the open spaces around a park grants bonus points"
+            }
+        },
+        "surmount": {
+            "#board": {
+                "name": "Hexhex 5 (61 spaces)"
+            },
+            "hex-4": {
+                "name": "Hexhex 4 (37 spaces)"
+            },
+            "hex-6": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "hex-7": {
+                "name": "Hexhex 7 (127 spaces)"
             }
         },
         "symple": {
@@ -4585,6 +4599,18 @@
             "NEED_PARKS": "You may not place a piece until all parks are placed. Click an empty cell to place a park.",
             "NO_PIECE": "You don't have a size {{size}} piece to place.",
             "PARTIAL_PLACEMENT": "Click an empty space on the board to place your {{size}} piece."
+        },
+        "surmount": {
+            "BAD_CAP": "You may not capture the stone at {{cell}}. The captured stone must be adjacent to the capturing group and must be part of a group that is the same size as the capturing group.",
+            "BAD_CONTINUE": "You may not place a stone at {{cell}}. Continuations may not make contact with any groups other than those initially contacted, and they may not grow the group any larger than the largest enemy group initially contacted.",
+            "BAD_INIT_CAP": "You may not capture the stone at {{cell}}. The captured stone must be adjacent to one of your groups that are larger than the target group.",
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "CANT_CONTINUE": "You may not place more stones unless the first stone ({{start}}) touches at least one friendly stone and at least one enemy group that is the same size or larger then the friendly group.",
+            "DEAD_END": "There are no valid continuations available but you are not yet large enough to capture. Reset and try a different approach.",
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece, or select a capturable stone to capture it and destroy the group.",
+            "PARTIAL_BOTH": "Either continue placing stones or select one of the highlighted enemy cells to capture it and destroy that group.",
+            "PARTIAL_CAP": "Select one of the highlighted enemy cells to capture it and destroy that group.",
+            "PARTIAL_CONTINUE": "Continue placing stones until the group is the same size of one of the contacted enemy groups."
         },
         "susan": {
             "EMPTY_FROM": "You have indicated a sliding move, but there is no piece at {{where}}.",

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -45,7 +45,6 @@ export class PonteDDGame extends GameBase {
         ],
         variants: [
             {uid: "size-12", group: "board"},
-            {uid: "unlimited", group: "pieces"},
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["pie", "scores", "no-moves", "custom-randomization", "custom-buttons"],
@@ -120,16 +119,10 @@ export class PonteDDGame extends GameBase {
         return 10;
     }
     public get maxTiles(): number {
-        if (this.variants.includes("unlimited")) {
-            return Infinity;
-        }
-        return 40;
+        return Infinity;
     }
     public get maxBridges(): number {
-        if (this.variants.includes("unlimited")) {
-            return Infinity;
-        }
-        return 15;
+        return Infinity;
     }
     public coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, this.boardsize);
@@ -850,17 +843,7 @@ export class PonteDDGame extends GameBase {
 
     public getPlayersScores(): IScores[] {
         const scores: IScores[] = [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }];
-        if (!this.variants.includes("unlimited")) {
-            scores.push({ name: i18next.t("apgames:status.pontedd.TILES"), scores: [this.inhand(1), this.inhand(2)] });
-        }
         return scores;
-    }
-
-    public statuses(): IStatus[] {
-        if (this.variants.includes("unlimited")) {
-            return [];
-        }
-        return [{ key: i18next.t("apgames:status.pontedd.BRIDGES"), value: [(this.maxBridges - this.bridges.length).toString()] }];
     }
 
     public clone(): PonteDDGame {

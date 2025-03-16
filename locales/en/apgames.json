@@ -1570,13 +1570,6 @@
             },
             "size-12": {
                 "name": "12x12 board"
-            },
-            "#pieces": {
-                "name": "40 tiles each and 15 bridges"
-            },
-            "unlimited": {
-                "name": "Unlimited tiles and bridges",
-                "description": "Draws are possible."
             }
         },
         "pylon": {

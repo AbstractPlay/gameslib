@@ -32,7 +32,7 @@ export class PonteDDGame extends GameBase {
         uid: "pontedd",
         playercounts: [2],
         version: "20250310",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-03-16",
         // i18next.t("apgames:descriptions.pontedd")
         description: "apgames:descriptions.pontedd",
         urls: ["https://boardgamegeek.com/boardgame/27172/ponte-del-diavolo"],
@@ -48,7 +48,7 @@ export class PonteDDGame extends GameBase {
             {uid: "unlimited", group: "pieces"},
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "pie", "scores", "no-moves", "custom-randomization", "custom-buttons"],
+        flags: ["pie", "scores", "no-moves", "custom-randomization", "custom-buttons"],
     };
 
     public numplayers = 2;

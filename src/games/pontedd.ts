@@ -214,17 +214,20 @@ export class PonteDDGame extends GameBase {
             }
             // extending move
             else {
-                // if clicking the same cell twice, deselect
-                if (cell === move) {
-                    newmove = "";
+                const first = move.split(/[-,]/)[0];
+                const cells = new Set<string>(move.split(/[-,]/));
+                if (cells.has(cell)) {
+                    cells.delete(cell);
+                } else {
+                    cells.add(cell);
                 }
                 // if first click was empty cell, placing
-                if (!this.board.has(move)) {
-                    newmove = [move, cell].join(",");
+                if (!this.board.has(first)) {
+                    newmove = [...cells].join(",");
                 }
                 // otherwise bridge
                 else {
-                    newmove = [move, cell].join("-");
+                    newmove = [...cells].join("-");
                 }
             }
 
@@ -328,6 +331,11 @@ export class PonteDDGame extends GameBase {
             if (cells.length > 2) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.pontedd.TOO_MANY");
+                return result;
+            }
+            if (cells[0] === cells[1]) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.pontedd.DOUBLE_PLACEMENT");
                 return result;
             }
             const cloned = this.clone();

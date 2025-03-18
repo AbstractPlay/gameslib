@@ -46,7 +46,7 @@ export class SurmountGame extends GameBase {
             { uid: "hex-7", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "no-moves", "custom-buttons", "custom-randomization"],
+        flags: ["experimental", "no-moves", "custom-buttons", "custom-randomization", "limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {

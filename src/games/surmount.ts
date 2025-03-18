@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -781,6 +781,22 @@ export class SurmountGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    private getGroupSizes(p?: playerid): number[] {
+        if (p === undefined) {
+            p = this.currplayer;
+        }
+        const groups = this.getGroups(p);
+        return groups.map(g => g.length).sort((a,b) => b - a);
+    }
+
+    public getPlayersScores(): IScores[] {
+        const groupSizes1 = this.getGroupSizes(1);
+        const groupSizes2 = this.getGroupSizes(2);
+        return [
+            { name: i18next.t("apgames:status.GROUPSIZES"), scores: [groupSizes1.join(","), groupSizes2.join(",")] },
+        ]
     }
 
     public clone(): SurmountGame {

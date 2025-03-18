@@ -617,23 +617,8 @@ export class PonteDDGame extends GameBase {
                     numIslands++;
                 }
             }
-            if (numIslands === 1) {
-                score += 1;
-            } else if (numIslands === 2) {
-                score += 3;
-            } else if (numIslands === 3) {
-                score += 6;
-            } else if (numIslands === 4) {
-                score += 10;
-            } else if (numIslands === 5) {
-                score += 15;
-            } else if (numIslands === 6) {
-                score += 21;
-            } else if (numIslands === 7) {
-                score += 28;
-            } else if (numIslands > 7) {
-                score += 36;
-            }
+            // score is the sequence of triangular numbers
+            score += Math.floor(numIslands * (numIslands + 1) / 2);
         }
         return score;
     }

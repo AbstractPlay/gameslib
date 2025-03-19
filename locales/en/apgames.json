@@ -1006,6 +1006,17 @@
                 "name": "Swap-5 opening"
             }
         },
+        "gliss": {
+            "#board": {
+                "name": "12x12 board"
+            },
+            "size-16": {
+                "name": "16x16 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
+            }
+        },
         "gomoku": {
             "#board": {
                 "name": "Default 15x15 board"

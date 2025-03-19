@@ -78,6 +78,7 @@
         "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
         "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
+        "gliss": "Establish bases and deploy gliders to capture opposing gliders and control towers. Eliminate all opposing bases or establish a critical number of control towers to win.",
         "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         "gonnect": "Gonnect is a connection game where players try to connect any two opposite sides. All rules of Go apply except that players may not pass.",
         "gyges": "A breakthrough game where nobody owns any pieces, and pieces rebound off of each other.",
@@ -3639,6 +3640,14 @@
             "MOVE4CAPTURE": "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
             "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3x3 piece to.",
             "TOO_MANY_MOVES": "You have already selected a piece to move."
+        },
+        "gliss": {
+            "BAD_BASE": "You may not place a base at {{where}}. Bases may not be orthogonally adjacent to any friendly pieces.",
+            "BAD_DEST": "The glider at {{from}} cannot reach {{to}}.",
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a base (the clicked cell will the top-left corner of the base), or select the core of a glider to move.",
+            "NO_GLIDER": "Could not find a glider core that you control at {{where}}.",
+            "NO_MOVES": "The glider at {{where}} has no legal moves.",
+            "PARTIAL": "Select one of the highlighted cells to move the glider. If a bar has appeared at the edge of the board, you can click it to move the glider off the board."
         },
         "gonnect": {
             "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece.",

@@ -420,6 +420,7 @@
         "fourinarow_se": "{{player}} cleared two lines, shifting the pieces on the board downwards and rightwards.",
         "fourinarow_sw": "{{player}} cleared two lines, shifting the pieces on the board downwards and leftwards.",
         "fourinarow_w": "{{player}} cleared a line, shifting the pieces on the board leftwards.",
+        "gliss": "{{player}} moved their glider at {{where}} off the edge of the board.",
         "nonum": "{{player}} removed a piece from {{where}}.",
         "phutball_one": "{{count}} player was removed.",
         "phutball_other": "{{count}} players were removed.",

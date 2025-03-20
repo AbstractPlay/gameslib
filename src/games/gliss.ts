@@ -49,7 +49,8 @@ export class GlissGame extends GameBase {
             }
         ],
         variants: [
-            { uid: "size-16", group: "board" },
+            { uid: "size-12", group: "board" },
+            { uid: "#board" },
             { uid: "size-19", group: "board" },
         ],
         categories: ["goal>annihilate", "goal>score>race", "mechanic>place", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],

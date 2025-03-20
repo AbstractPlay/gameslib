@@ -806,7 +806,11 @@ export class GlissGame extends GameBase {
                 const enemyTowers = cloned.getTowers(this.currplayer === 1 ? 2 : 1).flat();
                 let conversions: string|undefined;
                 if (enemyTowers.includes(newglider.dock)) {
-                    conversions = newglider.dock;
+                    // check for illegal shape
+                    cloned.board.set(newglider.dock, this.currplayer);
+                    if (cloned.validShapes(this.currplayer)) {
+                        conversions = newglider.dock;
+                    }
                 }
 
                 // record the movement first, but don't execute yet

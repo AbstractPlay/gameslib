@@ -118,7 +118,122 @@ describe("Gliss", () => {
         expect(g.board.has("f4")).to.be.false;
         expect(g.board.has("h6")).to.be.false;
         expect(g.board.has("h5")).to.be.false;
+    });
+    it ("Conversion scenarios", () => {
+        // capture & convert base - legal shape
+        let g = new GlissGame();
+        for (const cell of "a12,b12,a11,b11,d8,e8,d7,e7".split(",")) {
+            g.board.set(cell, 1);
+        }
+        for (const cell of "k2,l2,k1,l1,g7,h7,g6,h6".split(",")) {
+            g.board.set(cell, 2);
+        }
+        let result = g.validateMove("d8-g7");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        g.move("d8-g7");
+        expect(g.board.has("d8")).to.be.false;
+        expect(g.board.has("e8")).to.be.false;
+        expect(g.board.has("d7")).to.be.false;
+        expect(g.board.get("e7")).equal(1);
+        expect(g.board.get("g7")).equal(1);
+        expect(g.board.get("h7")).equal(1);
+        expect(g.board.get("g6")).equal(1);
+        expect(g.board.get("h6")).equal(1);
+        let convertResult = g.results.find(r => r.type === "convert");
+        expect(convertResult).to.not.be.undefined;
 
+        // - illegal shape
+        g = new GlissGame();
+        for (const cell of "a12,b12,a11,b11,d8,e8,d7,e7,i6".split(",")) {
+            g.board.set(cell, 1);
+        }
+        for (const cell of "k2,l2,k1,l1,g7,h7,g6,h6".split(",")) {
+            g.board.set(cell, 2);
+        }
+        result = g.validateMove("d8-g7");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        g.move("d8-g7");
+        expect(g.board.has("d8")).to.be.false;
+        expect(g.board.has("e8")).to.be.false;
+        expect(g.board.has("d7")).to.be.false;
+        expect(g.board.get("e7")).equal(1);
+        expect(g.board.get("g7")).equal(1);
+        expect(g.board.get("h7")).equal(1);
+        expect(g.board.get("g6")).equal(1);
+        expect(g.board.get("h6")).equal(2);
+        convertResult = g.results.find(r => r.type === "convert");
+        expect(convertResult).to.be.undefined;
+
+        // dock at enemy tower - legal shape
+        g = new GlissGame();
+        for (const cell of "a12,b12,a11,b11,d8,e8,d7,e7".split(",")) {
+            g.board.set(cell, 1);
+        }
+        for (const cell of "k2,l2,k1,l1,h6".split(",")) {
+            g.board.set(cell, 2);
+        }
+        result = g.validateMove("d8-g7");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        g.move("d8-g7");
+        expect(g.board.has("d8")).to.be.false;
+        expect(g.board.has("e8")).to.be.false;
+        expect(g.board.has("d7")).to.be.false;
+        expect(g.board.get("e7")).equal(1);
+        expect(g.board.get("g7")).equal(1);
+        expect(g.board.get("h7")).equal(1);
+        expect(g.board.get("g6")).equal(1);
+        expect(g.board.get("h6")).equal(1);
+        convertResult = g.results.find(r => r.type === "convert");
+        expect(convertResult).to.not.be.undefined;
+
+        // - illegal shape
+        g = new GlissGame();
+        for (const cell of "a12,b12,a11,b11,d8,e8,d7,e7,i6".split(",")) {
+            g.board.set(cell, 1);
+        }
+        for (const cell of "k2,l2,k1,l1,h6".split(",")) {
+            g.board.set(cell, 2);
+        }
+        result = g.validateMove("d8-g7");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        g.move("d8-g7");
+        expect(g.board.has("d8")).to.be.false;
+        expect(g.board.has("e8")).to.be.false;
+        expect(g.board.has("d7")).to.be.false;
+        expect(g.board.get("e7")).equal(1);
+        expect(g.board.get("g7")).equal(1);
+        expect(g.board.get("h7")).equal(1);
+        expect(g.board.get("g6")).equal(1);
+        expect(g.board.get("h6")).equal(2);
+        convertResult = g.results.find(r => r.type === "convert");
+        expect(convertResult).to.be.undefined;
+
+        // dock at friendly tower (nothing happens)
+        g = new GlissGame();
+        for (const cell of "a12,b12,a11,b11,d8,e8,d7,e7,h6".split(",")) {
+            g.board.set(cell, 1);
+        }
+        for (const cell of "k2,l2,k1,l1".split(",")) {
+            g.board.set(cell, 2);
+        }
+        result = g.validateMove("d8-g7");
+        expect(result.valid).to.be.true;
+        expect(result.complete).eq(1);
+        g.move("d8-g7");
+        expect(g.board.has("d8")).to.be.false;
+        expect(g.board.has("e8")).to.be.false;
+        expect(g.board.has("d7")).to.be.false;
+        expect(g.board.get("e7")).equal(1);
+        expect(g.board.get("g7")).equal(1);
+        expect(g.board.get("h7")).equal(1);
+        expect(g.board.get("g6")).equal(1);
+        expect(g.board.get("h6")).equal(1);
+        convertResult = g.results.find(r => r.type === "convert");
+        expect(convertResult).to.be.undefined;
     });
 });
 

@@ -28,7 +28,7 @@ export class SurmountGame extends GameBase {
         uid: "surmount",
         playercounts: [2],
         version: "20250313",
-        dateAdded: "2024-05-13",
+        dateAdded: "2025-03-21",
         // i18next.t("apgames:descriptions.surmount")
         description: "apgames:descriptions.surmount",
         urls: ["https://boardgamegeek.com/boardgame/436268/surmount"],
@@ -46,7 +46,7 @@ export class SurmountGame extends GameBase {
             { uid: "hex-7", group: "board" },
         ],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "no-moves", "custom-buttons", "custom-randomization"],
+        flags: ["no-moves", "custom-buttons", "custom-randomization", "limited-pieces"],
     };
 
     public coords2algebraic(x: number, y: number): string {

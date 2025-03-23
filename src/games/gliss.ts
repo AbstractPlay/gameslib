@@ -7,6 +7,7 @@ import { DirectionCardinal, RectGrid, reviver, shuffle, SquareOrthGraph, UserFac
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { DirectedGraph } from "graphology";
+import { bidirectional } from "graphology-shortest-path";
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
 const deepclone = require("rfdc/default");
 
@@ -408,17 +409,17 @@ export class GlissGame extends GameBase {
     private isBase(group: string[]): boolean {
         if (group.length !== 4) { return false; }
         const g = this.graph;
-        const sortBase = (a: string, b: string) => {
-            const [x1, y1] = g.algebraic2coords(a);
-            const [x2, y2] = g.algebraic2coords(b);
+        const coords = group.map(c => g.algebraic2coords(c));
+        const sortBase = (a: [number,number], b: [number,number]) => {
+            const [x1, y1] = a;
+            const [x2, y2] = b;
             if (y1 === y2) {
                 return x1 - x2;
             } else {
                 return y1 - y2;
             }
         }
-        group.sort(sortBase);
-        const coords = group.map(c => g.algebraic2coords(c));
+        coords.sort(sortBase);
         if (
             (coords[0][0] - coords[1][0] !== -1)||
             (coords[0][1] !== coords[1][1]) ||
@@ -480,11 +481,11 @@ export class GlissGame extends GameBase {
         }
 
         // standalone gliders
-        for (const group of groups.filter(grp => grp.length === 3)) {
-            let core: string|undefined;
-            for (const cell of group) {
-                const [x1, y1] = g.algebraic2coords(cell);
-                const rest = group.filter(c => c !== cell).map(c => g.algebraic2coords(c));
+        const threes = groups.filter(grp => grp.length === 3).map(grp => grp.map(c => g.algebraic2coords(c)));
+        for (const group of threes) {
+            let core: [number,number]|undefined;
+            for (const [x1, y1] of group) {
+                const rest = group.filter(([x,y]) => x !== x1 || y !== y1);
                 let isOrth = true;
                 for (const [x2, y2] of rest) {
                     if (x1 !== x2 && y1 !== y2) {
@@ -493,27 +494,26 @@ export class GlissGame extends GameBase {
                     }
                 }
                 if (isOrth) {
-                    core = cell;
+                    core = [x1,y1];
                     break;
                 }
             }
             if (core === undefined) {
                 throw new Error("Core should never be undefined.");
             }
-            const [xCore, yCore] = g.algebraic2coords(core);
+            const [xCore, yCore] = core;
             let xDock = xCore; let yDock = yCore;
             const arms: {dir: DirectionCardinal, cell: string}[] = [];
-            for (const cell of group.filter(c => c !== core)) {
-                const [x, y] = g.algebraic2coords(cell);
+            for (const [x, y] of group.filter(([inx, iny]) => inx !== xCore || iny !== yCore)) {
                 if (x < xCore) { xDock--; }
                 if (x > xCore) { xDock++; }
                 if (y < yCore) { yDock--; }
                 if (y > yCore) { yDock++; }
                 const dir = RectGrid.bearing(xCore, yCore, x, y)! as DirectionCardinal;
-                arms.push({dir, cell});
+                arms.push({dir, cell: g.coords2algebraic(x, y)});
             }
             const dock = g.coords2algebraic(xDock, yDock);
-            gliders.push({core, dock, arm1: arms[0], arm2: arms[1]});
+            gliders.push({core: g.coords2algebraic(xCore, yCore), dock, arm1: arms[0], arm2: arms[1]});
         }
 
         return gliders;
@@ -606,10 +606,12 @@ export class GlissGame extends GameBase {
                 if (cell === move) {
                     newmove = "";
                 } else if (cell !== undefined) {
-                    newmove = move + "-" + cell;
+                    const [from,] = move.split("-");
+                    newmove = from + "-" + cell;
                 } else {
+                    const [from,] = move.split("-");
                     const parts = piece!.split("_");
-                    newmove = move + "-" + parts[parts.length - 1];
+                    newmove = from + "-" + parts[parts.length - 1];
                 }
             }
 
@@ -768,8 +770,15 @@ export class GlissGame extends GameBase {
             }
             // first check for moving off the board
             if (cells[1].length === 1) {
+                // draw path
+                const mg = this.buildMoveGraph(glider);
+                const path = bidirectional(mg, cells[0], cells[1].toUpperCase());
+                if (path !== null) {
+                    this.results.push({type: "move", from: cells[0], to: cells[1], how: path.join(","), what: [glider.core, glider.arm1.cell, glider.arm2.cell].join(",")});
+                } else {
+                    this.results.push({type: "move", from: cells[0], to: cells[1], what: [glider.core, glider.arm1.cell, glider.arm2.cell].join(",")});
+                }
                 [glider.core, glider.arm1.cell, glider.arm2.cell].forEach(cell => this.board.delete(cell));
-                this.results.push({type: "remove", where: glider.core, what: [glider.core, glider.arm1.cell, glider.arm2.cell].join(",")});
                 m = cells[0] + "-" + cells[1].toUpperCase();
             }
             // otherwise moving to an actual cell
@@ -819,7 +828,13 @@ export class GlissGame extends GameBase {
                 }
 
                 // record the movement first, but don't execute yet
-                this.results.push({type: "move", from: cells[0], to: cells[1]});
+                const mg = this.buildMoveGraph(glider);
+                const path = bidirectional(mg, cells[0], cells[1]);
+                if (path !== null) {
+                    this.results.push({type: "move", from: cells[0], to: cells[1], how: path.join(",")});
+                } else {
+                    this.results.push({type: "move", from: cells[0], to: cells[1]});
+                }
 
                 // record captures & conversions
                 const capped: string[] = [];
@@ -971,21 +986,39 @@ export class GlissGame extends GameBase {
                         targets.push({row: y, col: x});
                     }
                     rep.annotations.push({type: "exit", shape: "circle", targets: targets as [RowCol, ...RowCol[]]});
-                } else if (move.type === "remove") {
-                    const targets: RowCol[] = [];
-                    for (const m of move.what!.split(",")) {
-                        const [x, y] = g.algebraic2coords(m);
-                        targets.push({row: y, col: x});
-                    }
-                    rep.annotations.push({type: "exit", shape: "circle", targets: targets as [RowCol, ...RowCol[]]});
                 } else if (move.type === "convert") {
                     const [x, y] = g.algebraic2coords(move.where!);
                     rep.annotations.push({ type: "enter", shape: "circle", targets: [{ row: y, col: x }] });
                 } else if (move.type === "move") {
-                    if (move.to.length > 1) {
-                        const [fx, fy] = g.algebraic2coords(move.from);
-                        const [tx, ty] = g.algebraic2coords(move.to);
-                        rep.annotations.push({type: "move", targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                    // if what is present, then this is a removal and we need to show that
+                    if (move.what !== undefined) {
+                        const targets: RowCol[] = [];
+                        for (const m of move.what.split(",")) {
+                            const [x, y] = g.algebraic2coords(m);
+                            targets.push({row: y, col: x});
+                        }
+                        rep.annotations.push({type: "exit", shape: "circle", targets: targets as [RowCol, ...RowCol[]]});
+                    }
+                    // if how is present, show the whole path
+                    if (move.how !== undefined) {
+                        const path = move.how.split(",");
+                        for (let i = 1; i < path.length; i++) {
+                            const from = path[i-1];
+                            const to = path[i];
+                            if (to.length > 1) {
+                                const [fx, fy] = g.algebraic2coords(from);
+                                const [tx, ty] = g.algebraic2coords(to);
+                                rep.annotations.push({type: "move", strokeWidth: 0.04, targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                            }
+                        }
+                    }
+                    // otherwise just a simple arrow
+                    else {
+                        if (move.to.length > 1) {
+                            const [fx, fy] = g.algebraic2coords(move.from);
+                            const [tx, ty] = g.algebraic2coords(move.to);
+                            rep.annotations.push({type: "move", strokeWidth: 0.04, targets: [{row: fy, col: fx},{row: ty, col: tx}]});
+                        }
                     }
                 }
             }
@@ -1028,8 +1061,8 @@ export class GlissGame extends GameBase {
                 node.push(i18next.t("apresults:CONVERT.simple", { player, where: r.where }));
                 resolved = true;
                 break;
-            case "remove":
-                node.push(i18next.t("apresults:REMOVE.gliss", { player, where: r.where }));
+            case "move":
+                node.push(r.to.length === 1 ? i18next.t("apresults:REMOVE.gliss", { player, where: r.from }) : i18next.t("apresults:MOVE.nowhat", {player, from: r.from, to: r.to}));
                 resolved = true;
                 break;
         }

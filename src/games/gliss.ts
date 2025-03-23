@@ -124,7 +124,7 @@ export class GlissGame extends GameBase {
             const n = parseInt(nstr, 10);
             return n;
         }
-        return 12;
+        return 16;
     }
 
     private get graph(): SquareOrthGraph {

@@ -67,6 +67,7 @@ export class GlissGame extends GameBase {
     public variants: string[] = [];
     private highlights: string[] = [];
     private selected: string|undefined;
+    private memos = new Map<string, DirectedGraph>();
 
     constructor(state?: IGlissState | string, variants?: string[]) {
         super();
@@ -181,7 +182,7 @@ export class GlissGame extends GameBase {
     public getMovesFor(glider: Glider): string[] {
         const moves: string[] = [];
         const g = this.buildMoveGraph(glider);
-        const terminals = g.nodes().filter(n => g.outEdges(n).length === 0 && g.getNodeAttribute(n, "validDestination") === true);
+        const terminals = g.nodes().filter(n => g.getNodeAttribute(n, "validDestination") === true);
         for (const term of terminals) {
             moves.push(term);
         }
@@ -217,6 +218,9 @@ export class GlissGame extends GameBase {
     }
 
     private buildMoveGraph(glider: Glider): DirectedGraph {
+        if (this.memos.has(glider.core)) {
+            return this.memos.get(glider.core)!;
+        }
         const mg = new DirectedGraph();
         mg.addNode(glider.core);
 
@@ -278,6 +282,7 @@ export class GlissGame extends GameBase {
             }
         }
 
+        this.memos.set(glider.core, mg);
         return mg;
     }
 

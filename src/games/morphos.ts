@@ -495,6 +495,7 @@ export class MorphosGame extends GameBase {
         result.valid = valid;
         result.complete = complete;
         result.message = message;
+        result.canrender = true;
         return result;
     }
 

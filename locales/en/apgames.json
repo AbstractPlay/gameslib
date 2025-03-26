@@ -111,6 +111,7 @@
         "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
+        "morphos": "A drawless connection game for two players where stones in specific formations can be captured by replacement.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "moonsquad": "Your mining company has found rich ore on this small moon, but you need buyers. Connect your mine to all 3 surface settlements, and hire squads to defend your mine and attack your rival.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
@@ -1335,6 +1336,37 @@
             "limping": {
                 "name": "Limping 5-6 (75 spaces)",
                 "description": "Two colours will have an extra cube."
+            }
+        },
+        "morphos": {
+            "#board": {
+                "name": "13x13 board"
+            },
+            "size-9": {
+                "name": "9x9 board"
+            },
+            "size-11": {
+                "name": "11x11 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "size-17": {
+                "name": "17x17 board"
+            },
+            "#rules": {
+                "name": "Default rules"
+            },
+            "simplified": {
+                "name": "Simplified formations"
+            },
+            "double": {
+                "name": "Double placement",
+                "description": "Players place two pieces per turn, and formations are simplified."
+            },
+            "replace": {
+                "name": "Replacement",
+                "description": "Captured pieces must be placed back on the board, and formations are simplified."
             }
         },
         "murus": {
@@ -3954,6 +3986,17 @@
             "PARTIAL_MOVE_second": "Select a destination. The squad must stay in the same connected group.",
             "PARTIAL_PLACE1": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the second red piece.",
             "PARTIAL_PLACE2": "On the first move of the game, place two red pieces and one blue piece. Click an empty space to place the blue piece."
+        },
+        "morphos": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "CAP_OR_PLACE": "In double placement, you may either place two stones or capture a single stone. You can't do both.",
+            "INITIAL_INSTRUCTIONS_normal": "Select an empty cell to place a piece, or select a weak enemy stone to capture it.",
+            "INITIAL_INSTRUCTIONS_replace": "One of your pieces were captured. First select an empty space to replace the captured piece, then you will be able to make a normal move.",
+            "MUST_REPLACE": "You must start your move by replacing the captured stone on an empty space.",
+            "NOT_WEAK": "The stone at {{cell}} is not weak.",
+            "ONE_CAP": "You may only capture one stone per turn.",
+            "PARTIAL_DOUBLE": "You may place a second stone.",
+            "TOO_MANY": "You've tried to make too many moves at once."
         },
         "murus": {
             "BAD_CAP": "Adjacent pieces may only be captured by towers, and only walls and catapults can be captured in this way.",

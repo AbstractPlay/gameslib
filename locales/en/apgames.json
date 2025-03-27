@@ -440,16 +440,19 @@
         },
         "ayu": {
             "#board": {
-                "name": "Default board (13x13)"
+                "name": "13x13 board"
             },
             "size-9": {
-                "name": "Smallest board (9x9)"
+                "name": "9x9 board"
             },
             "size-11": {
-                "name": "Smaller board (11x11)"
+                "name": "11x11 board"
             },
             "size-15": {
-                "name": "Larger board (15x15)"
+                "name": "15x15 board"
+            },
+            "size-17": {
+                "name": "17x17 board"
             }
         },
         "bao": {
@@ -1794,6 +1797,9 @@
             },
             "size-15": {
                 "name": "15x15 board"
+            },
+            "size-17": {
+                "name": "17x17 board"
             }
         },
         "scaffold": {

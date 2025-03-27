@@ -111,7 +111,7 @@
         "mirador": "Mirador is a fast and exhilarating connection game played on a 27 x 27 square grid by placing 2 x 2 squares to represent watchtowers. It uses line-of-sight connections and equivalent goals (making it more of a race than a pure connection game).",
         "mixtour": "Two players create towers with the goal of creating a tower at least five high with your colour at the top. The twist here is two-fold: (1) you can move opponent's pieces and (2) movement range is determined by the *target* stack height and not the moving stack height.",
         "monkey": "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
-        "morphos": "A drawless connection game for two players where stones in specific formations can be captured by replacement.",
+        "morphos": "Orthogonal-only square connection game. On your turn, place a friendly stone or flip an enemy stone in one of two predetermined patterns. Win by connecting your two opposite sides of the board with a chain of stones of your color.",
         "murus": "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
         "moonsquad": "Your mining company has found rich ore on this small moon, but you need buyers. Connect your mine to all 3 surface settlements, and hire squads to defend your mine and attack your rival.",
         "mvolcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
@@ -1362,7 +1362,7 @@
             },
             "double": {
                 "name": "Double placement",
-                "description": "On each turn, place two new pieces or capture one. Capture formations are simplified."
+                "description": "On each turn, place two new pieces or capture one. Capture formations are simplified, and the pie rule is not used."
             },
             "replace": {
                 "name": "Replacement",

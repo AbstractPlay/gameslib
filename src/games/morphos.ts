@@ -71,7 +71,7 @@ export class MorphosGame extends GameBase {
         uid: "morphos",
         playercounts: [2],
         version: "20250325",
-        dateAdded: "2024-04-30",
+        dateAdded: "2025-03-27",
         // i18next.t("apgames:descriptions.morphos")
         description: "apgames:descriptions.morphos",
         urls: [
@@ -95,7 +95,7 @@ export class MorphosGame extends GameBase {
             {uid: "replace", group: "rules"},
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "no-moves", "custom-randomization", "pie", "custom-buttons"]
+        flags: ["no-moves", "custom-randomization", "pie", "custom-buttons"]
     };
 
     public coords2algebraic(x: number, y: number): string {

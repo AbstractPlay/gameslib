@@ -204,6 +204,14 @@ export class MorphosGame extends GameBase {
         return this.graph.graph.nodes().filter(c => !this.board.has(c));
     }
 
+    public shouldOfferPie(): boolean {
+        return (!this.variants.includes("double"));
+    }
+
+    public isPieTurn(): boolean {
+        return this.stack.length === 2;
+    }
+
     private randomCap(player?: playerid): string|null {
         if (player === undefined) {
             player = this.currplayer
@@ -318,7 +326,10 @@ export class MorphosGame extends GameBase {
             if (rand < 0.5 && cap !== null) {
                 return `x${cap}`;
             } else if (empties.length > 0) {
-                if (empties.length > 1) {
+                if (this.stack.length === 1) {
+                    return empties[0];
+                }
+                else if (empties.length > 1) {
                     return [empties[0], empties[1]].join(",");
                 } else {
                     return empties[0];
@@ -462,10 +473,10 @@ export class MorphosGame extends GameBase {
         let complete: -1|0|1 = -1;
         let message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
         if (this.variants.includes("double")) {
-            if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || cloned.empties.length === 0)) || parts.length === 2) {
+            if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || cloned.empties.length === 0 || this.stack.length === 1)) || (parts.length === 2 && this.stack.length > 1)) {
                 complete = 1;
                 message = i18next.t("apgames:validation._general.VALID_MOVE");
-            } else if (parts.length === 1 && cloned.empties.length > 0) {
+            } else if (parts.length === 1 && cloned.empties.length > 0 && this.stack.length > 1) {
                 message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE");
             } else {
                 valid = false;

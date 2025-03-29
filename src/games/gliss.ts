@@ -38,7 +38,7 @@ export class GlissGame extends GameBase {
         uid: "gliss",
         playercounts: [2],
         version: "20250316",
-        dateAdded: "2024-05-13",
+        dateAdded: "2025-03-29",
         // i18next.t("apgames:descriptions.gliss")
         description: "apgames:descriptions.gliss",
         urls: ["https://boardgamegeek.com/boardgame/428098/gliss"],
@@ -55,7 +55,7 @@ export class GlissGame extends GameBase {
             { uid: "size-19", group: "board" },
         ],
         categories: ["goal>annihilate", "goal>score>race", "mechanic>place", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "no-moves", "custom-randomization"],
+        flags: ["no-moves", "custom-randomization"],
     };
 
     public numplayers = 2;

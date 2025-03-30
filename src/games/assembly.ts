@@ -33,7 +33,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
         uid: "assembly",
         playercounts: [2],
         version: "20250330",
-        dateAdded: "2024-11-28",
+        dateAdded: "2025-03-30",
         // i18next.t("apgames:descriptions.assembly")
         description: "apgames:descriptions.assembly",
         urls: [
@@ -50,7 +50,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
             {uid: "defective"}
         ],
         categories: ["goal>score>eog", "mechanic>displace",  "mechanic>simultaneous", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>5c"],
-        flags: ["experimental", "simultaneous", "scores", "custom-buttons", "custom-colours"]
+        flags: ["simultaneous", "scores", "custom-buttons", "custom-colours"]
     };
 
     public static coords2algebraic(x: number, y: number): string {

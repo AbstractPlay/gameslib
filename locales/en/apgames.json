@@ -129,6 +129,7 @@
         "owlman": "An asymmetrical game where a professor and his assistants are trying to track down the mythical Owlman and his lair, while the Owlman tries to scare them all out of the forest.",
         "pacru": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
         "pahtum": "Accumulate points by establishing lines of your own pieces of various lengths, but five cells each game are blocked. A capturing option is also available.",
+        "paintbucket": "An elimination game where you flip groups of opposing pieces until only yours remain.",
         "penguin": "It is a truth universally acknowledged that everybody loves seeing penguins sliding around on the ice. And soccer is the world's game, right? So take some cute families of penguins, give them an icy soccer field and a ball, and watch the slippery goodness that ensues.",
         "pente": "In Pente, players take turns placing stones on the intersections of the board. The first player to get five in a row or capture ten stones wins.",
         "phutball": "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
@@ -1529,6 +1530,17 @@
             "captures": {
                 "name": "Custodial captures",
                 "description": "Sandwiching an enemy stone between two of yours converts it to your colour."
+            }
+        },
+        "paintbucket": {
+            "#board": {
+                "name": "16x16 board"
+            },
+            "size-12": {
+                "name": "12x12 board"
+            },
+            "size-16": {
+                "name": "16x16 board"
             }
         },
         "pente": {
@@ -4170,6 +4182,9 @@
             "INITIAL_INSTRUCTIONS_rest": "Select an empty cell to place a stone.",
             "PARTIAL_setup": "Continue selecting empty cells to block until you have selected five.",
             "PARTIAL_rest": "Select one of the highlighted cells to capture it."
+        },
+        "paintbucket": {
+            "INITIAL_INSTRUCTIONS": "Select any enemy cell to convert that group."
         },
         "penguin": {
             "INITIAL_INSTRUCTIONS": "Select one of your penguins on the board or in your hand.",

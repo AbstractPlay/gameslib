@@ -13,6 +13,7 @@
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "asli": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Captured groups are sent to an off-board prison where they give additional moves to their captor. Win by leaving your opponent with no moves.",
+        "assembly": "A simultaneous selection game where you try to trigger scoring when high-value products are on your sections of the assembly line. Highest score at the end of the game wins.",
         "ataxx": "Control the majority of spaces by spreading, jumping and infecting.",
         "atoll": "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
@@ -401,6 +402,12 @@
             "woven": {
                 "name": "Woven",
                 "description": "Incursions are not legal."
+            }
+        },
+        "assembly": {
+            "defective": {
+                "name": "Defective product",
+                "description": "A single defective product is added to the bag that causes the owner to lose points."
             }
         },
         "ataxx": {
@@ -3057,6 +3064,11 @@
             "NEGATIVE_KOMI": "Are you sure? Negative komi offers should only be needed in specific handicapping situations.",
             "SUICIDE": "You may not place a piece such that you have dead friendly groups at the end of your turn.",
             "WOVEN_INCURSION": "In the 'Woven' variant, incursions are not legal."
+        },
+        "assembly": {
+            "BAD_MOVE": "The only valid move is a number between 1 and 3.",
+            "INITIAL_INSTRUCTIONS": "Select a number between 1 and 3.",
+            "LABEL_BAG": "Pieces in bag"
         },
         "ataxx": {
             "HOLE": "The cell at {{where}} is blocked.",

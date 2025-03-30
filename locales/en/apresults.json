@@ -178,6 +178,7 @@
     },
     "DRAWAGREED": "Players agreed to a draw.",
     "EJECT": {
+        "assembly": "The production line moved forward {{distance}} spaces.",
         "penguin_ball": "{{player}} kicked the ball from {{from}} to {{to}}.",
         "penguin_penguin": "A penguin was pushed from {{from}} to {{to}}."
     },
@@ -292,6 +293,7 @@
     },
     "PASS": {
         "asli": "{{player}} took an opposing piece from the prison and passed their turn.",
+        "assembly": "The production line doesn't move.",
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
         "pigs": "{{player}} idles.",

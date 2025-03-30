@@ -197,6 +197,7 @@ import { PonteDDGame, IPonteDDState } from "./pontedd";
 import { SurmountGame, ISurmountState } from "./surmount";
 import { GlissGame, IGlissState } from "./gliss";
 import { MorphosGame, IMorphosState } from "./morphos";
+import { AssemblyGame, IAssemblyState } from "./assembly";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -396,6 +397,7 @@ export {
     SurmountGame, ISurmountState,
     GlissGame, IGlissState,
     MorphosGame, IMorphosState,
+    AssemblyGame, IAssemblyState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -463,7 +465,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof GyveGame | typeof PahTumGame | typeof NakattaGame |
                               typeof OmnyGame | typeof PacruGame | typeof AzacruGame |
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
-                              typeof SurmountGame | typeof GlissGame | typeof MorphosGame
+                              typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
+                              typeof AssemblyGame
                 >();
 // Manually add each game to the following array
 [
@@ -494,7 +497,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
     PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
-    SurmountGame, GlissGame, MorphosGame,
+    SurmountGame, GlissGame, MorphosGame, AssemblyGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -898,6 +901,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new GlissGame(...args);
         case "morphos":
             return new MorphosGame(...args);
+        case "assembly":
+            return new AssemblyGame(...args);
     }
     return;
 }

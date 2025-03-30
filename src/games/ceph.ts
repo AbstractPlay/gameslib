@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -8,7 +8,7 @@ import { IGraph, SquareOrthGraph, SnubSquareGraph } from "../common/graphs";
 import { Permutation, PowerSet } from "js-combinatorics";
 
 type playerid = 1|2;
-type Value = 1|2|3|4|5|6;
+type Value = 1|2|3|4|5|6|7|8|9|10|11|12;
 type CellContents = [playerid, Value];
 
 export interface IMoveState extends IIndividualState {
@@ -44,6 +44,10 @@ export class CephalopodGame extends GameBase {
                 uid: "snub",
                 group: "board"
             },
+            {
+                uid: "dodeca",
+                group: "dice",
+            }
         ],
         categories: ["goal>majority", "mechanic>place", "mechanic>capture", "mechanic>merge", "board>shape>rect", "board>connect>rect", "board>connect>snub", "components>dice"],
         flags: ["scores"]
@@ -70,10 +74,8 @@ export class CephalopodGame extends GameBase {
                 currplayer: 1,
                 board: new Map(),
             };
-            if ( (variants !== undefined) && (variants.length === 1) ) {
-                if (variants[0] === "snub") {
-                    this.variants = ["snub"];
-                }
+            if (variants !== undefined) {
+                this.variants = [...variants];
             }
             this.stack = [fresh];
         } else {
@@ -135,10 +137,10 @@ export class CephalopodGame extends GameBase {
                 // Build a powerset of those neighbours
                 const pset = new PowerSet(neighbours);
                 for (const set of pset) {
-                    // Every set that is length 2 or longer and that sums to <=6 is a capture
+                    // Every set that is length 2 or longer and that sums to <=maxNum is a capture
                     if (set.length > 1) {
                         const sum = set.map(e => e[1]).reduce((a, b) => a + b, 0);
-                        if (sum <= 6) {
+                        if (sum <= this.maxNum) {
                             // If `permissive`, then add every permutation of captured pieces
                             if (permissive) {
                                 const caps = [...set.map(e => e[0])];
@@ -167,6 +169,13 @@ export class CephalopodGame extends GameBase {
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
+    }
+
+    public get maxNum(): number {
+        if (this.variants.includes("dodeca")) {
+            return 12;
+        }
+        return 6;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -246,10 +255,10 @@ export class CephalopodGame extends GameBase {
             // Build a powerset of those neighbours
             const pset = new PowerSet(neighbours);
             for (const set of pset) {
-                // Every set that is length 2 or longer and that sums to <=6 is a capture
+                // Every set that is length 2 or longer and that sums to <=maxNum is a capture
                 if (set.length > 1) {
                     const sum = set.map(e => e[1]).reduce((a, b) => a + b, 0);
-                    if (sum <= 6) {
+                    if (sum <= this.maxNum) {
                         cancap = true;
                         break;
                     }
@@ -293,7 +302,7 @@ export class CephalopodGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.CAPTURE4MOVE", {cell: m});
                     return result;
                 }
-                // pipcount <= 6
+                // pipcount <= maxNum
                 pipcount += this.board.get(cap)![1];
                 // Not duplicated
                 if (allcaps.has(cap)) {
@@ -304,9 +313,9 @@ export class CephalopodGame extends GameBase {
                     allcaps.add(cap);
                 }
             }
-            if (pipcount > 6) {
+            if (pipcount > this.maxNum) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.ceph.TOOHIGH");
+                result.message = i18next.t("apgames:validation.ceph.TOOHIGH", {context: this.maxNum === 6 ? "six" : "twelve"});
                 return result;
             }
 
@@ -323,10 +332,10 @@ export class CephalopodGame extends GameBase {
             // Build a powerset of those neighbours
             const pset = new PowerSet(neighbours);
             for (const set of pset) {
-                // Every set that sums to <=6 is a capture
+                // Every set that sums to <=maxNum is a capture
                 if (set.length > 0) {
                     const sum = set.map(e => e[1]).reduce((a, b) => a + b, pipcount);
-                    if (sum <= 6) {
+                    if (sum <= this.maxNum) {
                         capcount++;
                     }
                 }
@@ -375,8 +384,8 @@ export class CephalopodGame extends GameBase {
             const [cell, rest] = m.split("=");
             const caps = rest.split("+");
             const sum = [...this.board.entries()].filter(e => caps.includes(e[0])).map(e => e[1][1] as number).reduce((a, b) => a + b, 0);
-            if (sum > 6) {
-                throw new Error("Invalid capture. Sum greater than 6.");
+            if (sum > this.maxNum) {
+                throw new Error(`Invalid capture. Sum greater than ${this.maxNum}.`);
             }
             this.board.set(cell, [this.currplayer, sum as Value]);
             this.results.push({type: "place", what: sum.toString(), where: cell});
@@ -452,6 +461,7 @@ export class CephalopodGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         const pieces: string[][] = [];
+        const prefix = this.variants.includes("dodeca") ? "p" : "";
         const letters = "AB";
         const cells = this.graph.listCells(true);
         for (const row of cells) {
@@ -459,7 +469,7 @@ export class CephalopodGame extends GameBase {
             for (const cell of row) {
                 if (this.board.has(cell)) {
                     const [owner, value] = this.board.get(cell)!;
-                    node.push(`${letters[owner - 1]}${value}`);
+                    node.push(`${prefix}${letters[owner - 1]}${value}`);
                 } else {
                     node.push("");
                 }
@@ -482,58 +492,328 @@ export class CephalopodGame extends GameBase {
                 height: 5,
             };
         }
+
+        let legend: {[k: string]: Glyph | [Glyph, ...Glyph[]]} = {
+            A1: {
+                name: "d6-1",
+                colour: 1
+            },
+            A2: {
+                name: "d6-2",
+                colour: 1
+            },
+            A3: {
+                name: "d6-3",
+                colour: 1
+            },
+            A4: {
+                name: "d6-4",
+                colour: 1
+            },
+            A5: {
+                name: "d6-5",
+                colour: 1
+            },
+            A6: {
+                name: "d6-6",
+                colour: 1
+            },
+            B1: {
+                name: "d6-1",
+                colour: 2
+            },
+            B2: {
+                name: "d6-2",
+                colour: 2
+            },
+            B3: {
+                name: "d6-3",
+                colour: 2
+            },
+            B4: {
+                name: "d6-4",
+                colour: 2
+            },
+            B5: {
+                name: "d6-5",
+                colour: 2
+            },
+            B6: {
+                name: "d6-6",
+                colour: 2
+            },
+        };
+        if (this.variants.includes("dodeca")) {
+            legend = {
+                pA1: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "1",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA2: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "2",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA3: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "3",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA4: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "4",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA5: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "5",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA6: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "6",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA7: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "7",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA8: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "8",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA9: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "9",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA10: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "10",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA11: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "11",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pA12: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 1
+                    },
+                    {
+                        text: "12",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB1: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "1",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB2: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "2",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB3: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "3",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB4: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "4",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB5: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "5",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB6: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "6",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB7: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "7",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB8: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "8",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB9: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "9",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB10: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "10",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB11: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "11",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+                pB12: [
+                    {
+                        name: "piece-pentagon",
+                        colour: 2
+                    },
+                    {
+                        text: "12",
+                        colour: "_context_fill",
+						scale: 0.5,
+                    }
+                ],
+            };
+        }
         const rep: APRenderRep =  {
             board,
-            legend: {
-                A1: {
-                    name: "d6-1",
-                    colour: 1
-                },
-                A2: {
-                    name: "d6-2",
-                    colour: 1
-                },
-                A3: {
-                    name: "d6-3",
-                    colour: 1
-                },
-                A4: {
-                    name: "d6-4",
-                    colour: 1
-                },
-                A5: {
-                    name: "d6-5",
-                    colour: 1
-                },
-                A6: {
-                    name: "d6-6",
-                    colour: 1
-                },
-                B1: {
-                    name: "d6-1",
-                    colour: 2
-                },
-                B2: {
-                    name: "d6-2",
-                    colour: 2
-                },
-                B3: {
-                    name: "d6-3",
-                    colour: 2
-                },
-                B4: {
-                    name: "d6-4",
-                    colour: 2
-                },
-                B5: {
-                    name: "d6-5",
-                    colour: 2
-                },
-                B6: {
-                    name: "d6-6",
-                    colour: 2
-                },
-            },
+            legend,
             pieces: pstr
         };
 

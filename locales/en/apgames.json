@@ -672,9 +672,18 @@
             }
         },
         "ceph": {
+            "#board": {
+                "name": "Board: Square"
+            },
             "snub": {
                 "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
                 "name": "Board: Snub Square"
+            },
+            "#dice": {
+                "name": "6-sided dice"
+            },
+            "dodeca": {
+                "name": "12-sided dice"
             }
         },
         "churn": {
@@ -3343,7 +3352,8 @@
             "NOTADJACENT": "You can only capture pieces orthogonally adjacent to your placed piece.",
             "PARTIAL_ONECAP": "Select at least one more adjacent piece to capture.",
             "PARTIAL_PRECAP": "Select a piece to capture.",
-            "TOOHIGH": "The pieces you capture cannot total more than six."
+            "TOOHIGH_six": "The pieces you capture cannot total more than six.",
+            "TOOHIGH_twelve": "The pieces you capture cannot total more than twelve."
         },
         "chameleon": {
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",

@@ -41,6 +41,11 @@ export class CephalopodGame extends GameBase {
         ],
         variants: [
             {
+                uid: "size-3",
+                group: "size"
+            },
+            { uid: "#size" },
+            {
                 uid: "snub",
                 group: "board"
             },
@@ -110,11 +115,20 @@ export class CephalopodGame extends GameBase {
         return this;
     }
 
+    public get boardSize(): number {
+        const found = this.variants.find(v => v.startsWith("size-"));
+        if (found !== undefined) {
+            const [,nstr] = found.split("-");
+            return parseInt(nstr, 10);
+        }
+        return 5;
+    }
+
     private buildGraph(): CephalopodGame {
         if (this.variants.includes("snub")) {
-            this.graph = new SnubSquareGraph(5, 5);
+            this.graph = new SnubSquareGraph(this.boardSize, this.boardSize);
         } else {
-            this.graph = new SquareOrthGraph(5, 5);
+            this.graph = new SquareOrthGraph(this.boardSize, this.boardSize);
         }
         return this;
     }
@@ -482,14 +496,14 @@ export class CephalopodGame extends GameBase {
         // Build rep
         let board: BoardBasic = {
             style: "squares",
-            width: 5,
-            height: 5,
+            width: this.boardSize,
+            height: this.boardSize,
         }
         if (this.variants.includes("snub")) {
             board = {
                 style: "snubsquare",
-                width: 5,
-                height: 5,
+                width: this.boardSize,
+                height: this.boardSize,
             };
         }
 

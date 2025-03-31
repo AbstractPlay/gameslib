@@ -198,6 +198,7 @@ import { SurmountGame, ISurmountState } from "./surmount";
 import { GlissGame, IGlissState } from "./gliss";
 import { MorphosGame, IMorphosState } from "./morphos";
 import { AssemblyGame, IAssemblyState } from "./assembly";
+import { PaintbucketGame, IPaintbucketState } from "./paintbucket";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -398,6 +399,7 @@ export {
     GlissGame, IGlissState,
     MorphosGame, IMorphosState,
     AssemblyGame, IAssemblyState,
+    PaintbucketGame, IPaintbucketState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -466,7 +468,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof OmnyGame | typeof PacruGame | typeof AzacruGame |
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
-                              typeof AssemblyGame
+                              typeof AssemblyGame | typeof PaintbucketGame
                 >();
 // Manually add each game to the following array
 [
@@ -497,7 +499,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
     PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
-    SurmountGame, GlissGame, MorphosGame, AssemblyGame,
+    SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -903,6 +905,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new MorphosGame(...args);
         case "assembly":
             return new AssemblyGame(...args);
+        case "paintbucket":
+            return new PaintbucketGame(...args);
     }
     return;
 }

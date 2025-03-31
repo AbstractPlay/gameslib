@@ -685,6 +685,12 @@
             },
             "dodeca": {
                 "name": "12-sided dice"
+            },
+            "#size": {
+                "name": "5x5 board"
+            },
+            "size-3": {
+                "name": "3x3 board"
             }
         },
         "churn": {

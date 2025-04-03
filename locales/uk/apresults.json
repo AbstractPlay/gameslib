@@ -94,7 +94,8 @@
         "owlman_approach": "{{player}} налякав помічника в {{where}} з лісу.",
         "group_one": "{{player}} захопив камінь у {{cells}}.",
         "group_few": "{{player}} захопив {{count}} каменів у таких клітинках: {{cells}}.",
-        "group_many": "{{player}} захопив {{count}} каменів у таких клітинках: {{cells}}."
+        "group_many": "{{player}} захопив {{count}} каменів у таких клітинках: {{cells}}.",
+        "c1": "{{player}} усуває плитку при {{where}}."
     },
     "BEAROFF": {
         "complete_one": "{{player}} відрізати один шматок від {{from}}.",

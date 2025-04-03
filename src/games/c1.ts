@@ -854,7 +854,7 @@ export class C1Game extends GameBase {
                 // p1 slidable tile
                 B: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 1, scale: 1.2, opacity: 0.7 }],
                 // p1 pyramid
-                C: [{ name: "piece-square", colour: 1, scale: 0.8 }, { name: "x", scale: 0.99, colour: "_context_borders" }],
+                C: [{ name: "piece-square", colour: 1, scale: 0.8 }, { name: "x", scale: 0.85, colour: "_context_borders" }],
                 // p1 cone
                 D: [{ name: "piece", colour: 1 }, { name: "ring-01", colour: "_context_borders", scale: 0.3 }],
                 // p2 fixed tile

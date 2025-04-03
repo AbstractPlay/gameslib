@@ -41,6 +41,7 @@
         "blooms": "{{player}} captured a {{what}} group of size {{count}}.",
         "boom": "{{player}} destroyed a piece at {{where}}.",
         "buku": "{{count}} pieces were captured at {{where}}.",
+        "c1": "{{player}} eliminates a tile at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
         "dameo_king": "{{player}} captured a king at {{where}}.",
         "dameo_soldier": "{{player}} captured a soldier at {{where}}.",

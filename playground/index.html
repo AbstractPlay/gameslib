@@ -351,6 +351,25 @@
                     renderGame();
                 });
 
+                // Listen for undo move button
+                document.getElementById("moveUndo").addEventListener("click", () => {
+                    var state = window.sessionStorage.getItem("state");
+                    if (state !== null) {
+                        var gamename = window.sessionStorage.getItem("gamename");
+                        var game = APGames.GameFactory(gamename, state);
+                        try {
+                            game.undo();
+                            game.gameover = false;
+                            game.winner = [];
+                            window.sessionStorage.setItem("state", game.serialize());
+                            window.sessionStorage.removeItem("interim");
+                            renderGame();
+                        } catch (err) {
+                            alert("Cannot undo: " + err.message);
+                        }
+                    }
+                });
+
                 // Listen for AI buttons
                 document.getElementById("aiFast").addEventListener("click", () => {
                     var state = window.sessionStorage.getItem("state");
@@ -456,6 +475,7 @@
                 const moveRandomBtn = document.getElementById('moveRandom');
                 const moveClear = document.getElementById('moveClear');
                 const moveEntry = document.getElementById('moveEntry');
+                const moveUndo = document.getElementById('moveUndo');
 
                 document.addEventListener('keypress', function(event) {
                     if (event.key === 'Enter') {
@@ -474,6 +494,9 @@
                     } else if (event.key === 'l' || event.key === 'L') {
                         event.preventDefault();
                         launchBtn.click();
+                    } else if (event.key === 'u' || event.key === 'U') {
+                        event.preventDefault();
+                        moveUndo.click();
                     }
                 });
 
@@ -561,6 +584,7 @@
                             <button id="moveBtn" name="moveBtn" type="button">Move</button>
                             <button id="moveRandom" name="moveRandom" type="button">Make a random move</button>
                             <button id="moveClear" name="moveClear" type="button">Clear move</button>
+                            <button id="moveUndo" name="moveUndo" type="button">Undo Move</button>
                         </div>
                         <!--
                         <div>

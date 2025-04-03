@@ -854,19 +854,17 @@ export class C1Game extends GameBase {
                 // p1 slidable tile
                 B: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 1, scale: 1.2, opacity: 0.7 }],
                 // p1 pyramid
-                C: [{ name: "piece-square", colour: 1, scale: 0.8 }, { name: "x", scale: 0.85 }],
+                C: [{ name: "piece-square", colour: 1, scale: 0.8 }, { name: "x", scale: 0.99, colour: "_context_borders" }],
                 // p1 cone
-                D: [{ name: "piece", colour: 1 }, { name: "ring-01", colour: "_context_strokes", scale: 0.3 }],
+                D: [{ name: "piece", colour: 1 }, { name: "ring-01", colour: "_context_borders", scale: 0.3 }],
                 // p2 fixed tile
                 E: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 2, scale: 1.2, opacity: 0.45 }],
                 // p2 slidable tile
                 F: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 2, scale: 1.2, opacity: 0.7 }],
                 // p2 pyramid
-                G: [{ name: "piece-square", colour: 2, scale: 0.8 }, { name: "x", scale: 0.85 }],
+                G: [{ name: "piece-square", colour: 2, scale: 0.8 }, { name: "x", scale: 0.85, colour: "_context_borders" }],
                 // p2 cone
-                H: [{ name: "piece", colour: 2 }, { name: "ring-01", colour: "_context_strokes", scale: 0.3 }],
-                // cross for annotations
-                T: [{ name: "cross-orth", colour: "#333", scale: 0.25 }]
+                H: [{ name: "piece", colour: 2 }, { name: "ring-01", colour: "_context_borders", scale: 0.3 }],
             },
             pieces: pstr,
         };

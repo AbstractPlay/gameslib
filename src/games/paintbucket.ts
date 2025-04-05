@@ -29,7 +29,7 @@ export class PaintbucketGame extends GameBase {
         uid: "paintbucket",
         playercounts: [2],
         version: "20250330",
-        dateAdded: "2025-01-19",
+        dateAdded: "2025-04-05",
         // version: "20231225",
         // i18next.t("apgames:descriptions.paintbucket")
         description: "apgames:descriptions.paintbucket",
@@ -47,12 +47,10 @@ export class PaintbucketGame extends GameBase {
             },
         ],
         variants: [
-            {uid: "size-12", group: "board"},
-            {uid: "#board" },
-            {uid: "size-20", group: "board"},
+            {uid: "size-16", group: "board"},
         ],
         categories: ["goal>annihilate", "mechanic>convert",  "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "automove", "limited-pieces"],
+        flags: ["automove", "limited-pieces"],
     };
     public numplayers = 2;
     public currplayer!: playerid;
@@ -139,7 +137,7 @@ export class PaintbucketGame extends GameBase {
             const [,nstr] = size.split("-");
             return parseInt(nstr, 10);
         }
-        return 16;
+        return 12;
     }
 
     private get graph(): SquareOrthGraph {

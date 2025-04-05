@@ -199,6 +199,7 @@ import { GlissGame, IGlissState } from "./gliss";
 import { MorphosGame, IMorphosState } from "./morphos";
 import { AssemblyGame, IAssemblyState } from "./assembly";
 import { PaintbucketGame, IPaintbucketState } from "./paintbucket";
+import { C1Game, IC1State } from "./c1";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -400,6 +401,7 @@ export {
     MorphosGame, IMorphosState,
     AssemblyGame, IAssemblyState,
     PaintbucketGame, IPaintbucketState,
+    C1Game, IC1State,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -468,7 +470,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof OmnyGame | typeof PacruGame | typeof AzacruGame |
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
-                              typeof AssemblyGame | typeof PaintbucketGame
+                              typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game
                 >();
 // Manually add each game to the following array
 [
@@ -499,7 +501,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
     PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
-    SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame,
+    SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -907,6 +909,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new AssemblyGame(...args);
         case "paintbucket":
             return new PaintbucketGame(...args);
+        case "c1":
+            return new C1Game(...args);
     }
     return;
 }

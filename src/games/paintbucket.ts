@@ -49,7 +49,7 @@ export class PaintbucketGame extends GameBase {
         variants: [
             {uid: "size-16", group: "board"},
         ],
-        categories: ["goal>annihilate", "mechanic>convert",  "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>annihilate", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "limited-pieces"],
     };
     public numplayers = 2;

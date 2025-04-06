@@ -45,7 +45,13 @@ export class BlamGame extends GameBase {
             {
                 type: "designer",
                 name: "Jon Eargle"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
         flags: ["player-stashes", "scores", "automove"]

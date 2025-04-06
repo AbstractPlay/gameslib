@@ -36,7 +36,13 @@ export class FlumeGame extends GameBase {
                 type: "designer",
                 name: "Mark Steere",
                 urls: ["http://www.marksteeregames.com/"],
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {

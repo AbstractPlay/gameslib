@@ -37,7 +37,13 @@ export class MurusGame extends GameBase {
                 type: "designer",
                 name: "Phil Leduc",
                 urls: ["https://sites.google.com/site/theowlsnest02/home"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {

@@ -54,7 +54,13 @@ export class EntropyGame extends GameBaseSimultaneous {
             {
                 type: "designer",
                 name: "Eric Solomon"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>score>eog", "mechanic>asymmetry", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>7c"],
         flags: ["simultaneous", "shared-pieces", "shared-stash", "perspective", "scores"]

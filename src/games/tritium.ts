@@ -47,6 +47,12 @@ export class TritiumGame extends GameBase {
                 name: "Noé Falzon",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/164706/noe-falzon"]
             },
+            {
+                type: "coder",
+                name: "castux",
+                urls: [],
+                apid: "89144a32-7a68-41b4-a443-f98ed3c6df01",
+            },
         ],
         flags: ["automove", "scores"],
         dateAdded: "2024-08-26",

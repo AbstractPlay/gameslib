@@ -34,6 +34,12 @@ export class ComplicaGame extends GameBase {
                 type: "designer",
                 name: "Reiner Knizia",
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: []

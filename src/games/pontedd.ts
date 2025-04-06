@@ -42,6 +42,12 @@ export class PonteDDGame extends GameBase {
                 name: "Martin Ebel",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/431/martin-ebel"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {uid: "size-12", group: "board"},

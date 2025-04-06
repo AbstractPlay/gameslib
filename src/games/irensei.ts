@@ -37,6 +37,12 @@ export class IrenseiGame extends InARowBase {
                 type: "designer",
                 name: "Toki Higashi",
             },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             // { uid: "toroidal-15", group: "board" },

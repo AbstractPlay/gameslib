@@ -37,6 +37,14 @@ export class ToguzGame extends GameBase {
         // i18next.t("apgames:notes.toguz")
         notes: "apgames:notes.toguz",
         urls: ["https://en.wikipedia.org/wiki/Toguz_korgol"],
+        people: [
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "other>traditional", "board>mancala", "components>simple>1c"],
         flags: ["perspective", "scores", "automove"],
         displays: [{uid: "pips"}]

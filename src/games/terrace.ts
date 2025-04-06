@@ -60,7 +60,13 @@ export class TerraceGame extends GameBase {
                 type: "designer",
                 name: "Buzz Siler",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/1172/buzz-siler"],
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         displays: [{ uid: "flat" }],
         categories: ["goal>royal-escape", "goal>royal-capture", "mechanic>move", "mechanic>capture", "board>3d", "board>shape>rect", "board>connect>rect", "components>special"],

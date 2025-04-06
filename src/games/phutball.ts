@@ -44,6 +44,12 @@ export class PhutballGame extends GameBase {
                 type: "designer",
                 name: "Elwyn Berlekamp, John Horton Conway, and Richard K. Guy",
             },
+            {
+                type: "coder",
+                name: "fritzd",
+                urls: [],
+                apid: "a96b36a2-2c9d-4597-8c4a-f926062a45b6",
+            },
         ],
         categories: ["goal>breakthrough", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>2c"],
         flags: ["perspective", "pie"],

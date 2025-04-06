@@ -50,7 +50,13 @@ export class SubdivisionGame extends GameBase {
                 type: "designer",
                 name: "Carlton Noles",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/9260/carlton-noles"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {

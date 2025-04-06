@@ -40,7 +40,13 @@ export class ScaffoldGame extends GameBase {
                 type: "designer",
                 name: "Andrew Lannan",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/88413/andrew-lannan"],
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             { uid: "size-25", group: "board" },

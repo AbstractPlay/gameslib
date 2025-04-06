@@ -48,6 +48,12 @@ export class CatapultGame extends GameBase {
                 name: "Alek Erickson",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/101050/alek-erickson"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {uid: "size-9", group: "board"},

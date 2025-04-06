@@ -30,6 +30,10 @@
                 "urls": {
                     "description": "List of URLs associated with this person or organization",
                     "$ref": "#/definitions/urllist"
+                },
+                "apid": {
+                    "description": "Abstract Play user ID",
+                    "type": "string"
                 }
             },
             "required": ["name"]

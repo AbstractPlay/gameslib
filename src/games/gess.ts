@@ -35,7 +35,14 @@ export class GessGame extends GameBase {
         // i18next.t("apgames:descriptions.gess")
         description: "apgames:descriptions.gess",
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
-        people: [],
+        people: [
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
+        ],
         variants: [],
         categories: ["goal>royal-capture", "mechanic>capture", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective"],

@@ -90,7 +90,13 @@ export class HavannahGame extends GameBase {
                 type: "designer",
                 name: "Christian Freeling",
                 urls: ["https://www.mindsports.nl/"]
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         categories: ["goal>align", "goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove", "pie"],

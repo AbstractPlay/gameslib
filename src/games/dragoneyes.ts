@@ -36,10 +36,18 @@ export class DragonEyesGame extends GameBase {
         // i18next.t("apgames:descriptions.dragoneyes")
         description: "apgames:descriptions.dragoneyes",
         urls: ["https://dragoneyesabstractgame.blogspot.com/2024/07/dragon-eyes.html"],
-        people: [{
-            type: "designer",
-            name: "Vadrya Pokshtya",
-        }],
+        people: [
+            {
+                type: "designer",
+                name: "Vadrya Pokshtya",
+            },
+            {
+                type: "coder",
+                name: "ManaT",
+                urls: [],
+                apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
+            },
+        ],
         categories: ["goal>score>eog", "mechanic>capture", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove", "limited-pieces", "custom-buttons"],
         variants: [{uid: "claimdraw", group: "rules"}]

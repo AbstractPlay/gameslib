@@ -91,7 +91,13 @@ export class PigsGame extends GameBaseSimultaneous {
                 type: "designer",
                 name: "Randy Cox",
                 urls: ["http://cox-tv.com/games/index.php"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>annihilate", "mechanic>program",  "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1per", "other>2+players"],
         flags: ["simultaneous", "scores", "no-moves"]

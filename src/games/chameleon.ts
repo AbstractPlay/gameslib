@@ -50,6 +50,12 @@ export class ChameleonGame extends GameBase {
                 name: "Logy Games",
                 urls: ["http://www.logygames.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>annihilate", "goal>breakthrough", "mechanic>asymmetry", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "automove", "custom-rotation"],

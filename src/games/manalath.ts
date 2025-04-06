@@ -43,7 +43,13 @@ export class ManalathGame extends GameBase {
                 type: "designer",
                 name: "Néstor Romeral Andrés",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/9393/nestor-romeral-andres"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>align", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["automove"]

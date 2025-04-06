@@ -38,6 +38,12 @@ export class HensGame extends GameBase {
                 name: "James Ernest",
                 urls: ["https://crabfragmentlabs.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             { uid: "size-10" }

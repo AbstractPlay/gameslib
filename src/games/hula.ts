@@ -40,6 +40,18 @@ export class HulaGame extends GameBase {
                 name: "Hoembla",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/148212/hoembla"]
             },
+            {
+                type: "coder",
+                name: "castux",
+                urls: [],
+                apid: "89144a32-7a68-41b4-a443-f98ed3c6df01",
+            },
+            {
+                type: "coder",
+                name: "hoembla",
+                urls: [],
+                apid: "36926ace-08c0-417d-89ec-15346119abf2",
+            },
         ],
         flags: ["pie"],
         dateAdded: "2024-10-19",

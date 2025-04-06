@@ -40,6 +40,12 @@ export class FourInARowGame extends InARowBase {
                 type: "designer",
                 name: "Howard Wexler",
             },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             { uid: "standard-10", group: "board" },

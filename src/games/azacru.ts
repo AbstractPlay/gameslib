@@ -91,6 +91,12 @@ export class AzacruGame extends GameBase {
                 name: "Mike Wellman",
                 urls: ["http://www.pacru.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>special", "other>2+players"],
         flags: ["scores", "automove"]

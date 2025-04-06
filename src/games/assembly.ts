@@ -44,7 +44,13 @@ export class AssemblyGame extends GameBaseSimultaneous {
                 type: "designer",
                 name: "Stephen Glenn",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/2118/stephen-glenn"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {uid: "defective"}

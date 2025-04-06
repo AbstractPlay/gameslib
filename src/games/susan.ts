@@ -38,6 +38,12 @@ export class SusanGame extends GameBase {
                 name: "Stephen Linhart",
                 urls: ["https://www.stephen.com"]
             },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [],
         categories: ["goal>align", "mechanic>place", "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

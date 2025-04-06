@@ -75,7 +75,13 @@ export class OmnyGame extends GameBase {
                 type: "designer",
                 name: "Luis Bolaños Mures",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/47001/luis-bolanos-mures"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {uid: "size-4", group: "board"},

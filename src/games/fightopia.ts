@@ -38,7 +38,13 @@ export class FightopiaGame extends GameBase {
             {
                 type: "designer",
                 name: "Mike Selinker"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>breakthrough", "goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["perspective", "pie"]

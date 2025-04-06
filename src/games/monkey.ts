@@ -39,6 +39,12 @@ export class MonkeyQueenGame extends GameBase {
                 name: "Mark Steere",
                 urls: ["http://www.marksteeregames.com/"]
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>royal-capture", "mechanic>capture",  "mechanic>differentiate", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "perspective", "check", "limited-pieces"]

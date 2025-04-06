@@ -37,6 +37,12 @@ export class OwlmanGame extends GameBase {
                 type: "designer",
                 name: "Andrew Perkis",
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>annihilate", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove"]

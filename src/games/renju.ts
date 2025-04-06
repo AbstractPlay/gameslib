@@ -56,7 +56,14 @@ export class RenjuGame extends InARowBase {
         // i18next.t("apgames:descriptions.renju")
         description: "apgames:descriptions.renju",
         urls: ["https://boardgamegeek.com/boardgame/11930/renju"],
-        people: [],
+        people: [
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
+        ],
         variants: [
             { uid: "taraguchi-10", group: "opening" },
             { uid: "soosyrv-8", group: "opening" },

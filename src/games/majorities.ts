@@ -44,7 +44,13 @@ export class MajoritiesGame extends GameBase {
                 type: "designer",
                 name: "Bill Taylor",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/9249/bill-taylor"],
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             // { uid: "size-3", group: "board" },

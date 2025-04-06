@@ -73,7 +73,13 @@ export class ExxitGame extends GameBase {
                 type: "designer",
                 name: "Vincent Everaert",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/6083/vincent-everaert"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {uid: "exNihilo", group: "setup"},

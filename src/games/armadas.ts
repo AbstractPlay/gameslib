@@ -69,7 +69,13 @@ export class ArmadasGame extends GameBase {
             {
                 type: "designer",
                 name: "Dan Isaac"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         flags: ["no-moves"],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>asymmetry", "mechanic>differentiate", "mechanic>move", "board>none", "components>pyramids", "other>2+players"],

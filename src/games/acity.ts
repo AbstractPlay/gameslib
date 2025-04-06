@@ -51,7 +51,13 @@ export class ACityGame extends GameBase {
             {
                 type: "designer",
                 name: "Michael Schoessow",
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],
         flags: ["player-stashes", "scores", "no-moves", "custom-colours", "random-start", "custom-buttons", "custom-randomization"]

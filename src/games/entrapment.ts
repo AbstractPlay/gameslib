@@ -40,7 +40,13 @@ export class EntrapmentGame extends GameBase {
                 type: "designer",
                 name: "Rich Gowell",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3936/rich-gowell"]
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             { uid: "size-7x7", group: "board" },

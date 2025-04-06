@@ -36,6 +36,12 @@ export class FocusGame extends GameBase {
                 type: "designer",
                 name: "Sid Sackson",
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>oct", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "scores"]

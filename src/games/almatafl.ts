@@ -43,7 +43,13 @@ export class AlmataflGame extends GameBase {
                 type: "designer",
                 name: "Paschalis Antoniou",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/153526/paschalis-antoniou"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [{uid: "advanced"}, {uid: "plus"}],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>asymmetry", "mechanic>move", "mechanic>stack", "mechanic>differentiate", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

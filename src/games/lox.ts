@@ -52,6 +52,12 @@ export class LoxGame extends GameBase {
                 name: "Luis Bolaños Mures",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/47001/luis-bolanos-mures"]
             },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>hex", "components>simple>1per"],
         flags: ["pie", "check"],

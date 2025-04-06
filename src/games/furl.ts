@@ -43,7 +43,13 @@ export class FurlGame extends GameBase {
                 type: "designer",
                 name: "Stephen Tavener",
                 urls: ["http://www.mrraow.com"]
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["check", "perspective", "aiai", "limited-pieces"],

@@ -37,9 +37,11 @@ export class KonaneGame extends GameBase {
         urls: ["https://boardgamegeek.com/boardgame/8122/konane"],
         people: [
             {
-                type: "designer",
-                name: "Traditional Game"
-            }
+                type: "coder",
+                name: "ManaT",
+                urls: [],
+                apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
+            },
         ],
         categories: ["goal>immobilize", "mechanic>capture", "other>traditional", "board>shape>rect"],
         flags: ["automove"],

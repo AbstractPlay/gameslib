@@ -40,7 +40,13 @@ export class OnagerGame extends GameBase {
                 type: "designer",
                 name: "Néstor Romeral Andrés",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/9393/nestor-romeral-andres"]
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         categories: ["goal>breakthrough", "mechanic>capture",  "mechanic>move", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
         flags: ["check", "perspective"],

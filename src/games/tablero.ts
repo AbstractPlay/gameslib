@@ -46,6 +46,12 @@ export class TableroGame extends GameBase {
                 name: "Crab Fragment Labs",
                 urls: ["https://crabfragmentlabs.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [{uid: "5-10", group: "scoring"}, {uid: "abba"}],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],

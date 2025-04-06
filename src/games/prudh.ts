@@ -36,6 +36,12 @@ export class PrudhGame extends GameBase {
                 name: "James Ernest",
                 urls: ["https://crabfragmentlabs.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>move>sow", "mechanic>share", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         flags: ["scores", "perspective", "pie", "custom-colours", "automove"],

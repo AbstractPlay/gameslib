@@ -203,6 +203,12 @@ export class GygesGame extends GameBase {
                 name: "Claude Leroy",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3187/claude-leroy"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>breakthrough", "mechanic>place", "mechanic>move", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["custom-randomization", "no-moves", "perspective"]

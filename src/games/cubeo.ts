@@ -57,6 +57,12 @@ export class CubeoGame extends GameBase {
                 name: "Marek Kolcun",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/88381/marek-kolcun"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {uid: "strict", group: "moves"}

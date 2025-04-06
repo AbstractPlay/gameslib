@@ -40,7 +40,13 @@ export class FnapGame extends GameBaseSimultaneous {
             {
                 type: "designer",
                 name: "Andrew Juell"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>align", "goal>score>eog", "mechanic>place", "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["simultaneous", "scores", "automove"]

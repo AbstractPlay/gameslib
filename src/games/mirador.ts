@@ -45,6 +45,12 @@ export class MiradorGame extends GameBase {
                 type: "designer",
                 name: "Andrew Perkis",
             },
+            {
+                type: "coder",
+                name: "fritzd",
+                urls: [],
+                apid: "a96b36a2-2c9d-4597-8c4a-f926062a45b6",
+            },
         ],
         categories: ["goal>connect", "mechanic>block",  "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>pnp"],
         flags: ["pie"],

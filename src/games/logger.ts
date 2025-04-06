@@ -49,7 +49,13 @@ export class LoggerGame extends GameBase {
                 type: "designer",
                 name: "Erik Dresner",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/10753/erik-dresner"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>move", "mechanic>block", "mechanic>share", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
         flags: ["scores", "no-moves", "custom-randomization", "perspective", "custom-colours"]

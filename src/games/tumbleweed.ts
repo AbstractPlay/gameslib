@@ -48,7 +48,13 @@ export class TumbleweedGame extends GameBase {
                 type: "designer",
                 name: "Mike Zapawa",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/126470/mike-zapawa"],
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>3c"],
         flags: ["pie-even", "scores", "aiai", "custom-randomization"],

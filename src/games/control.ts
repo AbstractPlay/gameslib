@@ -37,7 +37,13 @@ export class ControlGame extends GameBase {
                 type: "designer",
                 name: "Takuro Kawasaki",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/150765/takuro-kawasaki"]
-            }
+            },
+            {
+                type: "coder",
+                name: "ManaT",
+                urls: [],
+                apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
+            },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
         flags: ["scores", "automove"],

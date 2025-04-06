@@ -42,6 +42,12 @@ export class DagEnNachtGame extends GameBase {
                 type: "designer",
                 name: "Chris Huntoon",
             },
+            {
+                type: "coder",
+                name: "fritzd",
+                urls: [],
+                apid: "a96b36a2-2c9d-4597-8c4a-f926062a45b6",
+            },
         ],
         variants: [
             {

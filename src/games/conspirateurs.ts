@@ -32,6 +32,14 @@ export class ConspirateursGame extends GameBase {
         // i18next.t("apgames:notes.conspirateurs")
         notes: "apgames:notes.conspirateurs",
         urls: ["https://en.wikipedia.org/wiki/Conspirateurs"],
+        people: [
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
         variants: [{uid: "quick", group: "setup"}, {uid: "strict", group: "movement"}],
         categories: ["goal>evacuate", "other>traditional", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per", "other>2+players"],
         flags: ["no-moves", "custom-randomization", "scores"]

@@ -50,6 +50,14 @@ export class BaoGame extends GameBase {
         // i18next.t("apgames:notes.bao")
         notes: "apgames:notes.bao",
         urls: ["https://mancala.fandom.com/wiki/Bao_la_Kiswahili"],
+        people: [
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
         flags: ["perspective", "limited-pieces", "scores", "automove"],
         variants: [
             {

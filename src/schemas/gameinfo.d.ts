@@ -104,6 +104,10 @@ export interface Person {
    */
   name: string;
   urls?: Urllist1;
+  /**
+   * Abstract Play user ID
+   */
+  apid?: string;
   [k: string]: unknown;
 }
 export interface Variant {

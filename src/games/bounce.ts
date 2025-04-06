@@ -39,7 +39,13 @@ export class BounceGame extends GameBase {
                 type: "designer",
                 name: "Mark Steere",
                 urls: ["https://marksteeregames.com/"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>unify", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["automove", "pie"],

@@ -72,7 +72,13 @@ export class CalculusGame extends GameBase {
             {
                 type: "designer",
                 name: "Gord! (Gordon Hamilton)"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         flags: ["pie", "no-moves"],
         categories: ["goal>connect", "mechanic>place", "mechanic>move", "board>none", "components>simple>1per"],

@@ -56,6 +56,12 @@ export class UnlurGame extends GameBase {
                 name: "Jorge Gomez Arrausi",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/1544/jorge-gomez-arrausi"]
             },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             {uid: "size-6", group: "board"},

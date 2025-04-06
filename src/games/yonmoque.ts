@@ -51,6 +51,12 @@ export class YonmoqueGame extends GameBase {
                 name: "Logy Games",
                 urls: ["http://www.logygames.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>align", "mechanic>asymmetry", "mechanic>place", "mechanic>move", "mechanic>convert", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "custom-colours"]

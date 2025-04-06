@@ -36,6 +36,14 @@ export class FanoronaGame extends GameBase {
         urls: [
             "https://en.wikipedia.org/wiki/Fanorona",
         ],
+        people: [
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
+        ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>other", "components>simple>1per"],
         flags: ["perspective", "limited-pieces", "no-moves", "aiai", "custom-rotation"]
     };

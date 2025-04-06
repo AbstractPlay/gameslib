@@ -95,7 +95,13 @@ export class HomeworldsGame extends GameBase {
             {
                 type: "designer",
                 name: "John Cooper"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>economy", "mechanic>place", "mechanic>share", "board>none", "components>pyramids", "other>2+players"],
         flags: ["shared-pieces", "perspective", "rotate90", "no-moves", "custom-rotation"]

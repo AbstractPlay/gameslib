@@ -57,7 +57,14 @@ export class TaflGame extends GameBase {
             "https://abstractplay.com/wiki/doku.php?id=hnefatafl",
             "http://aagenielsen.dk/tafl_rules.php",
         ],
-        people: [],
+        people: [
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
+        ],
         variants: [
             // default: "linnaean-9x9-tcross-w"
             { uid: "linnaean-11x11-belldiamond-w", group: "variant" },

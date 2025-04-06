@@ -32,7 +32,14 @@ export class GomokuGame extends InARowBase {
         // i18next.t("apgames:descriptions.gomoku")
         description: "apgames:descriptions.gomoku",
         urls: ["https://boardgamegeek.com/boardgame/11929/go-moku"],
-        people: [],
+        people: [
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
+        ],
         variants: [
             { uid: "standard-19", group: "board" },
             { uid: "long-pro", group: "opening" },

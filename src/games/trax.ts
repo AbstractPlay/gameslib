@@ -61,6 +61,12 @@ export class TraxGame extends GameBase {
                 name: "David L. Smith",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/3412/david-l-smith"],
             },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             { uid: "size-8", group: "variant" },

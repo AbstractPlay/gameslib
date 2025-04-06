@@ -44,6 +44,12 @@ export class TBTGame extends GameBase {
                 name: "Crab Fragment Labs",
                 urls: ["https://crabfragmentlabs.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>align", "mechanic>share",  "mechanic>move", "mechanic>stack", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         flags: ["perspective", "automove", "no-explore", "custom-rotation"]

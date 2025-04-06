@@ -35,7 +35,13 @@ export class FramesGame extends GameBaseSimultaneous {
             {
                 type: "designer",
                 name: "Marcos Donnantuoni"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>score>race", "mechanic>place",  "mechanic>enclose", "mechanic>simultaneous", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         flags: ["simultaneous", "scores"]

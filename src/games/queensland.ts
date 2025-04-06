@@ -39,6 +39,12 @@ export class QueenslandGame extends GameBase {
                 name: "James Ernest",
                 urls: ["https://crabfragmentlabs.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "scores", "automove"],

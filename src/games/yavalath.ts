@@ -38,6 +38,12 @@ export class YavalathGame extends GameBase {
                 name: "Cameron Browne",
                 urls: ["http://cambolbro.com/"]
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per", "other>2+players"],
         flags: ["pie", "no-moves", "custom-randomization"]

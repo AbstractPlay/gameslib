@@ -39,7 +39,13 @@ export class MegGame extends GameBase {
             {
                 type: "designer",
                 name: "Andrew Bressette"
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>align", "mechanic>move",  "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1c"],
         flags: []

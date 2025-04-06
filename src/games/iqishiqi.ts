@@ -62,7 +62,13 @@ export class IqishiqiGame extends GameBase {
                 type: "designer",
                 name: "Bill Taylor",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/9249/bill-taylor"],
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [],
         categories: ["goal>immobilize", "goal>breakthrough", "mechanic>place", "mechanic>displace", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>2c", "other>2+players"],

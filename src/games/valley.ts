@@ -45,6 +45,12 @@ export class ValleyGame extends GameBase {
                 name: "Logy Games",
                 urls: ["http://www.logygames.com/"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         variants: [
             {

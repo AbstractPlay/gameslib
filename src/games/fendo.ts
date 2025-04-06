@@ -49,7 +49,13 @@ export class FendoGame extends GameBase {
                 type: "designer",
                 name: "Dieter Stein",
                 urls: ["https://spielstein.com/"]
-            }
+            },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>area", "mechanic>block", "mechanic>move", "mechanic>enclose", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["limited-pieces", "scores", "automove", "perspective"]

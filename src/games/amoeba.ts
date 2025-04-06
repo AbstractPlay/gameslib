@@ -38,6 +38,12 @@ export class AmoebaGame extends GameBase {
                 name: "Masahiro Nakajima",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/68359/masahiro-nakajima"],
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>royal-capture", "goal>immobilize", "mechanic>move", "mechanic>coopt", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["pie", "automove"]

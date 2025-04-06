@@ -34,6 +34,12 @@ export class SquaredanceGame extends GameBase {
                 type: "designer",
                 name: "Karl Scherer",
             },
+            {
+                type: "coder",
+                name: "Aaron Dalton (Perlkönig)",
+                urls: [],
+                apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
+            },
         ],
         categories: ["goal>immobilize", "mechanic>move>group", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "perspective", "automove"]

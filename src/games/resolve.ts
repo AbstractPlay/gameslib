@@ -37,7 +37,13 @@ export class ResolveGame extends GameBase {
                 type: "designer",
                 name: "Alek Erickson",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/101050/alek-erickson"],
-            }
+            },
+            {
+                type: "coder",
+                name: "ypaul",
+                urls: [],
+                apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
+            },
         ],
         variants: [
             { uid: "size-13", group: "board" },

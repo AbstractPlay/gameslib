@@ -42,7 +42,13 @@ export class VergeGame extends GameBase {
                 type: "designer",
                 name: "Michael Amundsen",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/133389/michael-amundsen"],
-            }
+            },
+            {
+                type: "coder",
+                name: "ManaT",
+                urls: [],
+                apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
+            },
         ],
         categories: ["goal>immobilize", "mechanic>place",  "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         flags: ["pie"],

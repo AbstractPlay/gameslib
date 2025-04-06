@@ -38,7 +38,13 @@ export class MimicGame extends GameBase {
             {
                 type: "designer",
                 name: "Andrew Bressette"
-            }
+            },
+            {
+                type: "coder",
+                name: "ManaT",
+                urls: [],
+                apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
+            },
         ],
         categories: ["goal>breakthrough", "mechanic>displace",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective"]

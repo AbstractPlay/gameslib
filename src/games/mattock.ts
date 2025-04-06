@@ -36,7 +36,8 @@ export class MattockGame extends GameBase {
             {
                 type: "designer",
                 name: "Drew Edwards",
-                urls: ["https://games.drew-edwards.com/"]
+                urls: ["https://games.drew-edwards.com/"],
+                apid: "b56c401e-1643-4c3a-9e66-c27c995885cf",
             },
             {
                 type: "coder",

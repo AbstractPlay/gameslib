@@ -41,11 +41,13 @@ export class NecklaceGame extends GameBase {
                 type: "designer",
                 name: "Mark Steere",
                 urls: ["http://www.marksteeregames.com/"],
+                apid: "e7a3ebf6-5b05-4548-ae95-299f75527b3f",
             },
             {
                 type: "designer",
                 name: "Luis Bolaños Mures",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/47001/luis-bolanos-mures"],
+                apid: "6b518a3f-7f63-47b8-b92b-a04792fba8e7",
             },
             {
                 type: "coder",

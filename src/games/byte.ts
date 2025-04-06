@@ -34,6 +34,7 @@ export class ByteGame extends GameBase {
                 type: "designer",
                 name: "Mark Steere",
                 urls: ["https://www.marksteeregames.com"],
+                apid: "e7a3ebf6-5b05-4548-ae95-299f75527b3f",
             },
             {
                 type: "coder",

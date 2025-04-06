@@ -49,6 +49,7 @@ export class PenguinGame extends GameBase {
                 urls: [
                     "https://linktr.ee/nycavri"
                 ],
+                apid: "14ca7afe-e9da-4e28-a920-eba9131f8453",
             },
             {
                 type: "coder",

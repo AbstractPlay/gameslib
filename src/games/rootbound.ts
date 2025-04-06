@@ -45,7 +45,8 @@ export class RootBoundGame extends GameBase {
             {
                 type: "designer",
                 name: "Christopher Field",
-                urls: ["https://cjffield.com"]
+                urls: ["https://cjffield.com"],
+                apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
             },
             {
                 type: "coder",

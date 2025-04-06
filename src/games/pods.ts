@@ -37,7 +37,8 @@ export class PodsGame extends GameBase {
             {
                 type: "designer",
                 name: "Dale Walton",
-                urls: ["https://boardgamegeek.com/boardgamedesigner/1988/dale-walton"]
+                urls: ["https://boardgamegeek.com/boardgamedesigner/1988/dale-walton"],
+                apid: "1f26a119-d9a4-4ff1-bbc7-ec599c07ea1e",
             },
             {
                 type: "coder",

@@ -89,7 +89,8 @@ export class HavannahGame extends GameBase {
             {
                 type: "designer",
                 name: "Christian Freeling",
-                urls: ["https://www.mindsports.nl/"]
+                urls: ["https://www.mindsports.nl/"],
+                apid: "b12bd9cd-59cf-49c7-815f-af877e46896a",
             },
             {
                 type: "coder",

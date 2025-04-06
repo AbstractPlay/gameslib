@@ -53,6 +53,7 @@ export class AnacheGame extends GameBase {
                 type: "designer",
                 name: "Ocean Brindisi",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/163211/ocean-brindisi"],
+                apid: "7612c9d9-8145-45b5-8717-41551f96c6cb",
             },
             {
                 type: "coder",

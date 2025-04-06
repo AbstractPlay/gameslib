@@ -37,7 +37,8 @@ export class MimicGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "Andrew Bressette"
+                name: "Andrew Bressette",
+                apid: "73709b1d-c703-4d9d-a2a3-8a6247e252f2",
             },
             {
                 type: "coder",

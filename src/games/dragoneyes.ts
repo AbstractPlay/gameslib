@@ -40,6 +40,7 @@ export class DragonEyesGame extends GameBase {
             {
                 type: "designer",
                 name: "Vadrya Pokshtya",
+                apid: "22e00912-00a7-4d46-b216-a1c6716bb948",
             },
             {
                 type: "coder",

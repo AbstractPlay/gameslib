@@ -44,6 +44,7 @@ export class ChameleonGame extends GameBase {
             {
                 type: "designer",
                 name: "Mitsuo Yamamoto",
+                apid: "14dcbd2c-e6f7-421b-a051-025461c38158",
             },
             {
                 type: "publisher",

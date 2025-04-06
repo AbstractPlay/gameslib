@@ -42,7 +42,8 @@ export class FurlGame extends GameBase {
             {
                 type: "designer",
                 name: "Stephen Tavener",
-                urls: ["http://www.mrraow.com"]
+                urls: ["http://www.mrraow.com"],
+                apid: "151518d9-dcec-4900-8277-f86830befb64",
             },
             {
                 type: "coder",

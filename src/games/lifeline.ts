@@ -59,7 +59,7 @@ export class LifelineGame extends GameBase {
             },
             {
                 type: "coder",
-                name: "castux",
+                name: "Castux",
                 urls: [],
                 apid: "89144a32-7a68-41b4-a443-f98ed3c6df01",
             },

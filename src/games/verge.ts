@@ -42,6 +42,7 @@ export class VergeGame extends GameBase {
                 type: "designer",
                 name: "Michael Amundsen",
                 urls: ["https://boardgamegeek.com/boardgamedesigner/133389/michael-amundsen"],
+                apid: "6925c5d6-89f7-4e73-b56f-476ab8eb3444",
             },
             {
                 type: "coder",

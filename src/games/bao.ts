@@ -232,7 +232,24 @@ export class BaoGame extends GameBase {
                     const firsts = new Set<string>(results.map(r => r.captured.cells[0]));
                     // if all the first captures are the same, that pit is blocked
                     if (firsts.size === 1) {
-                        return [...firsts.values()][0];
+                        const blocked = [...firsts.values()][0];
+                        const [col, row] = this.graph.algebraic2coords(blocked);
+                        // but you can't block a functional nyumba
+                        if ( (this.graph.getType(blocked) === "nyumba") && (this.board[row][col] >= 6) ) {
+                            return undefined;
+                        }
+                        const myFront = player === 1 ? 2 : 1;
+                        const occupied = this.board[myFront].filter(n => n > 0);
+                        // you also can't block the only occupied pit in the front row
+                        if (occupied.length === 1) {
+                            return undefined
+                        }
+                        const gt1 = occupied.filter(n => n > 1);
+                        // and you can't block the only pit with >1 stones in it
+                        if (this.board[row][col] > 1 && gt1.length === 1) {
+                            return undefined;
+                        }
+                        return blocked;
                     }
                 }
             }
@@ -381,7 +398,11 @@ export class BaoGame extends GameBase {
             }
             // if we're in a kutakata move and we've reached a blocked pit, we have to stop
             if (isKutakata) {
-                const blocked = this.getBlocked(player);
+                // have to check the static `blocked` variable and not the live one
+                // otherwise we can get into a situation where your move has changed
+                // the state of the blocked cell after the fact
+                // const blocked = this.getBlocked(player);
+                const blocked = this.blocked[player - 1];
                 if ( (blocked !== undefined) && (blocked === curr) ) {
                     break;
                 }

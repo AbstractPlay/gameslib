@@ -229,7 +229,7 @@ describe("Bao", () => {
         g.board = [
             [0,0,0,0,0,0,0,0],
             [0,6,0,0,2,0,2,0],
-            [0,0,1,0,0,1,0,0],
+            [0,0,1,0,0,0,0,0],
             [2,3,0,0,0,0,4,0],
         ];
         g.move("a1<*", {skipEconomy: true});
@@ -238,10 +238,52 @@ describe("Bao", () => {
         expect(g.lastmove).eq("a1<**");
         // player 2 makes a kutakata move, setting up a second capture for south
         g.move("g3>*", {skipEconomy: true});
-        expect(g.board[1]).eql([0,7,1,1,0,1,0,0]);
         expect(g.blocked).eql([undefined, "b3"]);
+        expect(g.board[1]).eql([0,7,1,1,0,1,0,0]);
         // but south is required to capture the blocked pit
         expect(g.moves()).eql(["b1<"]);
+
+        // can't block a functioning nyumba
+        g = new BaoGame();
+        g.inhand = [0,0];
+        g.board = [
+            [0,0,0,0,0,0,0,0],
+            [0,0,0,7,2,0,2,0],
+            [0,0,1,0,0,1,0,0],
+            [3,5,0,0,0,0,4,0],
+        ];
+        g.move("b1<*", {skipEconomy: true});
+        blocked = g.getBlocked(2);
+        expect(blocked).to.be.undefined;
+        expect(g.lastmove).eq("b1<*");
+
+        // can't block only occupied pit
+        g = new BaoGame();
+        g.inhand = [0,0];
+        g.board = [
+            [0,0,3,0,0,0,7,0],
+            [0,0,1,0,0,0,0,0],
+            [0,0,0,1,0,1,0,0],
+            [2,4,0,0,0,0,4,0],
+        ];
+        g.move("b1<*", {skipEconomy: true});
+        blocked = g.getBlocked(2);
+        expect(blocked).to.be.undefined;
+        expect(g.lastmove).eq("b1<*");
+
+        // can't block the only pit with >1 stones
+        g = new BaoGame();
+        g.inhand = [0,0];
+        g.board = [
+            [0,0,3,0,0,0,7,0],
+            [0,0,2,0,1,0,1,1],
+            [0,0,0,1,0,1,0,0],
+            [2,4,0,0,0,0,4,0],
+        ];
+        g.move("b1<*", {skipEconomy: true});
+        blocked = g.getBlocked(2);
+        expect(blocked).to.be.undefined;
+        expect(g.lastmove).eq("b1<*");
     });
 
     it ("Kutakatia clearing", () => {

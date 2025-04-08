@@ -433,8 +433,7 @@ export class C1Game extends GameBase {
             result.complete = -1;
             result.canrender = true;
             if (this.variants.includes("two-move")) {
-                const hasTileMoves = this.variants.includes("two-move") && this.hasTileMoves(this.board);
-                if (hasTileMoves) {
+                if (this.hasTileMoves(this.board)) {
                     result.message = i18next.t("apgames:validation.c1.INITIAL_INSTRUCTIONS_TWO_MOVE");
                 } else {
                     result.message = i18next.t("apgames:validation.c1.INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE");

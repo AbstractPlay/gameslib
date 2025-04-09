@@ -58,8 +58,8 @@ export class C1Game extends GameBase {
         // i18next.t("apgames:descriptions.c1")
         description: "apgames:descriptions.c1",
         urls: [
-            "http://lumicube.uk/",
             "https://boardgamegeek.com/boardgame/386986/c1",
+            "http://lumicube.uk/",
         ],
         people: [
             {
@@ -74,7 +74,9 @@ export class C1Game extends GameBase {
                 apid: "46f6da78-be02-4469-94cb-52f17078e9c1",
             },
         ],
-        variants: [],
+        variants: [
+            { uid: "two-move" },
+        ],
         categories: ["goal>align", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["experimental", "perspective", "check"],
     };
@@ -226,25 +228,92 @@ export class C1Game extends GameBase {
         if (this.gameover) { return []; }
 
         const moves: string[] = [];
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                const contents = this.board.get(cell);
-                if (!contents) { continue; }
-                if (contents.piece !== undefined) {
-                    // Check for pieces belonging to current player
-                    if (contents.piece.owner !== player) { continue; }
-                    const moveType = contents.piece.type === "C" ? "C" : "P";
-                    const destinations = this.getTos(cell, moveType);
-                    for (const dest of destinations) {
-                        const separator = this.eliminatesTile(cell, dest) ? "x" : "-";
-                        moves.push(`${moveType}${cell}${separator}${dest}`);
-                    }
-                } else if (contents.tile?.owner === player && contents.tile.type === "S") {
-                    // Check for slidable tiles belonging to current player
+
+        if (this.variants.includes("two-move")) {
+            // Get all possible tile moves first
+            const tileMoves: string[] = [];
+            for (let row = 0; row < this.boardSize; row++) {
+                for (let col = 0; col < this.boardSize; col++) {
+                    const cell = this.coords2algebraic(col, row);
+                    const contents = this.board.get(cell);
+                    if (contents?.piece) { continue; }
+                    if (!contents?.tile || contents.tile.owner !== player || contents.tile.type !== "S") { continue; }
                     const destinations = this.getTos(cell, "T");
                     for (const dest of destinations) {
-                        moves.push(`T${cell}-${dest}`);
+                        tileMoves.push(`T${cell}-${dest}`);
+                    }
+                }
+            }
+
+            // If there are no tile moves, we must move a piece
+            if (tileMoves.length === 0) {
+                for (let row = 0; row < this.boardSize; row++) {
+                    for (let col = 0; col < this.boardSize; col++) {
+                        const cell = this.coords2algebraic(col, row);
+                        const contents = this.board.get(cell);
+                        if (!contents?.piece || contents.piece.owner !== player) { continue; }
+                        const moveType = contents.piece.type === "C" ? "C" : "P";
+                        const destinations = this.getTos(cell, moveType);
+                        for (const dest of destinations) {
+                            const separator = this.eliminatesTile(cell, dest) ? "x" : "-";
+                            moves.push(`${moveType}${cell}${separator}${dest}`);
+                        }
+                    }
+                }
+                return moves;
+            }
+
+            // Otherwise, for each tile move, simulate it and get all possible piece moves
+            for (const tileMove of tileMoves) {
+                // Clone the board
+                const tempBoard = new Map(
+                    [...this.board.entries()].map(([cell, contents]) => [cell, {
+                        tile: contents.tile ? { ...contents.tile } : undefined,
+                        piece: contents.piece ? { ...contents.piece } : undefined
+                    }])
+                );
+
+                // Apply the tile move
+                const [from, to] = tileMove.slice(1).split("-");
+                this.applyMoveToBoard(tempBoard, from, to, "T");
+
+                // Now get all piece moves in this new position
+                for (let row = 0; row < this.boardSize; row++) {
+                    for (let col = 0; col < this.boardSize; col++) {
+                        const cell = this.coords2algebraic(col, row);
+                        const contents = tempBoard.get(cell);
+                        if (!contents?.piece || contents.piece.owner !== player) { continue; }
+
+                        const moveType = contents.piece.type === "C" ? "C" : "P";
+                        const destinations = this.getTos(cell, moveType, tempBoard);
+                        for (const dest of destinations) {
+                            // Use the existing board for eliminatesTile check since we're constructing the move string
+                            const separator = this.eliminatesTile(cell, dest, tempBoard) ? "x" : "-";
+                            moves.push(`${tileMove} ${moveType}${cell}${separator}${dest}`);
+                        }
+                    }
+                }
+            }
+        } else {
+            // Original move generation for non-variant game
+            for (let row = 0; row < this.boardSize; row++) {
+                for (let col = 0; col < this.boardSize; col++) {
+                    const cell = this.coords2algebraic(col, row);
+                    const contents = this.board.get(cell);
+                    if (!contents) { continue; }
+                    if (contents.piece !== undefined) {
+                        if (contents.piece.owner !== player) { continue; }
+                        const moveType = contents.piece.type === "C" ? "C" : "P";
+                        const destinations = this.getTos(cell, moveType);
+                        for (const dest of destinations) {
+                            const separator = this.eliminatesTile(cell, dest) ? "x" : "-";
+                            moves.push(`${moveType}${cell}${separator}${dest}`);
+                        }
+                    } else if (contents.tile?.owner === player && contents.tile.type === "S") {
+                        const destinations = this.getTos(cell, "T");
+                        for (const dest of destinations) {
+                            moves.push(`T${cell}-${dest}`);
+                        }
                     }
                 }
             }
@@ -258,10 +327,11 @@ export class C1Game extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
-    private eliminatesTile(from: string, to: string): boolean {
+    private eliminatesTile(from: string, to: string, board?: Map<string, ICellContents>): boolean {
         // Check if the move from `from` to `to` eliminates a tile.
-        const fromContents = this.board.get(from);
-        const toContents = this.board.get(to);
+        board ??= this.board;
+        const fromContents = board.get(from);
+        const toContents = board.get(to);
         if (!fromContents?.tile || !toContents?.tile) { return false; }
         if (fromContents.piece === undefined) { return false; }
         return fromContents.tile.owner !== fromContents.piece.owner &&
@@ -273,41 +343,54 @@ export class C1Game extends GameBase {
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
 
-            if (move === "") {
-                const moveType = this.getMoveType(cell);
-                if (moveType === undefined) {
-                    // Let the validation handle this
-                    newmove = cell;
-                } else {
-                    newmove = moveType + cell;
-                }
-            } else if (move.slice(1) === cell) {
-                // Deselection
-                newmove = "";
-            } else if (
-                (this.board.get(cell)?.piece?.owner === this.currplayer) ||
-                (this.board.get(cell)?.tile?.owner === this.currplayer &&
-                 this.board.get(cell)?.tile?.type === "S" &&
-                 !this.board.get(cell)?.piece)
-            ) {
-                // Piece reselection without deselection
-                const firstCell = move.slice(1);
-                const moveType = this.getMoveType(firstCell);
-                if (moveType !== undefined) {
-                    const validDests = this.getTos(firstCell, moveType);
-                    if (!validDests.includes(cell)) {
-                        const newMoveType = this.getMoveType(cell)!;
-                        newmove = newMoveType + cell;
+            // First check if we're deselecting
+            let done = false;
+            if (move !== "") {
+                const moves = move.split(" ");
+                const lastMove = moves[moves.length - 1];
+                if (lastMove.slice(1) === cell) {
+                    moves.pop();
+                    newmove = moves.join(" ");
+                    done = true;
+                } else if (moves.length === 1 && lastMove.includes("-") || lastMove.includes("x")) {
+                    const [from, to] = lastMove.slice(1).split(/[x-]/);
+                    if (from === cell || to === cell) {
+                        moves.pop();
+                        newmove = moves.join(" ");
+                        done = true;
                     }
                 }
-                if (newmove === "") {
-                    const separator = this.eliminatesTile(firstCell, cell) ? "x" : "-";
-                    newmove = move + separator + cell;
+            }
+            if (!done) {
+                // Then try to build the move
+                const parts = move.split(" ");
+                const lastMove = parts[parts.length - 1];
+                if (move === "" || lastMove.includes("-") || lastMove.includes("x")) {
+                    const moveType = this.getMoveType(cell);
+                    if (moveType === undefined) {
+                        // Let the validation handle this
+                        newmove = move + (move === "" ? "" : " ") + cell;
+                    } else {
+                        newmove = move + (move === "" ? "" : " ") + moveType + cell;
+                    }
+                } else {
+                    const prevMoves = parts.slice(0, -1);
+                    const tempBoard = new Map(
+                        [...this.board.entries()].map(([c, contents]) => [c, {
+                            tile: contents.tile ? { ...contents.tile } : undefined,
+                            piece: contents.piece ? { ...contents.piece } : undefined
+                        }])
+                    );
+                    for (const m of prevMoves) {
+                        const [f, t] = m.slice(1).split(/[x-]/);
+                        const moveType = this.getMoveType(f, tempBoard)!;
+                        this.applyMoveToBoard(tempBoard, f, t, moveType);
+                    }
+                    const from = lastMove.slice(1);
+                    const separator = this.eliminatesTile(from, cell, tempBoard) ? "x" : "-";
+                    parts[parts.length - 1] = lastMove + separator + cell;
+                    newmove = parts.join(" ");
                 }
-            } else {
-                const firstCell = move.slice(1);
-                const separator = this.eliminatesTile(firstCell, cell) ? "x" : "-";
-                newmove = move + separator + cell;
             }
 
             const result = this.validateMove(newmove) as IClickResult;
@@ -326,136 +409,216 @@ export class C1Game extends GameBase {
         }
     }
 
+    private hasTileMoves(board: Map<string, ICellContents>): boolean {
+        // Check if there are any tile moves available for the current player.
+        for (let row = 0; row < this.boardSize; row++) {
+            for (let col = 0; col < this.boardSize; col++) {
+                const cell = this.coords2algebraic(col, row);
+                const contents = board.get(cell);
+                if (contents?.piece) { continue; }
+                if (!contents?.tile || contents.tile.owner !== this.currplayer || contents.tile.type !== "S") { continue; }
+                const destinations = this.getTos(cell, "T", board);
+                if (destinations.length > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = { valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER") };
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.c1.INITIAL_INSTRUCTIONS");
+            if (this.variants.includes("two-move")) {
+                if (this.hasTileMoves(this.board)) {
+                    result.message = i18next.t("apgames:validation.c1.INITIAL_INSTRUCTIONS_TWO_MOVE");
+                } else {
+                    result.message = i18next.t("apgames:validation.c1.INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE");
+                }
+            } else {
+                result.message = i18next.t("apgames:validation.c1.INITIAL_INSTRUCTIONS");
+            }
             return result;
         }
         m = this.normaliseMove(m);
-        const prefix = ["C", "P", "T"].includes(m[0]) ? m[0] : undefined;
-        const [from, to] = (() => {
-            const s = prefix ? m.slice(1) : m;
-            const idx = s.search(/[x-]/);
-            return idx === -1 ? [s, ""] : [s.slice(0, idx), s.slice(idx + 1)];
-        })();
-        // Valid cell
-        let currentMove;
-        try {
-            for (const p of [from, to]) {
-                if (p === undefined || p.length === 0) { continue; }
-                currentMove = p;
-                const [x, y] = this.algebraic2coords(p);
-                if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) {
-                    throw new Error("Invalid cell");
+
+        // Track board state for sequential moves
+        const tempBoard = new Map(
+            [...this.board.entries()].map(([cell, contents]) => [cell, {
+                tile: contents.tile ? { ...contents.tile } : undefined,
+                piece: contents.piece ? { ...contents.piece } : undefined
+            }])
+        );
+
+        // Split into moves
+        const moves = m.split(" ");
+        if (this.variants.includes("two-move") && moves.length > 2) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+            return result;
+        }
+        if (!this.variants.includes("two-move") && moves.length > 1) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+            return result;
+        }
+        const hasTileMoves = this.variants.includes("two-move") && this.hasTileMoves(tempBoard);
+
+        for (let i = 0; i < moves.length; i++) {
+            const move = moves[i];
+            const prefix = ["C", "P", "T"].includes(move[0]) ? move[0] : undefined;
+            const [from, to] = (() => {
+                const s = prefix ? move.slice(1) : move;
+                const idx = s.search(/[x-]/);
+                return idx === -1 ? [s, ""] : [s.slice(0, idx), s.slice(idx + 1)];
+            })();
+
+            // Valid cell check
+            let currentMove;
+            try {
+                for (const p of [from, to]) {
+                    if (p === undefined || p.length === 0) { continue; }
+                    currentMove = p;
+                    const [x, y] = this.algebraic2coords(p);
+                    if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) {
+                        throw new Error("Invalid cell");
+                    }
                 }
-            }
-        } catch {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
-            return result;
-        }
-        const contentsFrom = this.board.get(from);
-        // No piece or tile at `from`
-        if (contentsFrom === undefined) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: from });
-            return result;
-        }
-        const pieceFrom = contentsFrom.piece;
-        if (pieceFrom !== undefined) {
-            // Wrong player
-            if (pieceFrom.owner !== this.currplayer) {
+            } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
                 return result;
             }
-            // Prefix check
-            if (prefix === undefined) {
-                const rightPrefix = pieceFrom.type;
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.c1.MISSING_PREFIX", { prefix: rightPrefix, move: rightPrefix + m });
-                return result;
-            }
-            if (prefix === "C" && pieceFrom.type !== "C" || prefix === "P" && pieceFrom.type !== "P") {
-                const rightPrefix = pieceFrom.type;
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.c1.WRONG_PREFIX", { prefix: rightPrefix, move: rightPrefix + m });
-                return result;
-            }
-        } else {
-            const tileFrom = contentsFrom.tile;
-            // No piece or tile at `from`
-            if (tileFrom === undefined) {
+
+            // Get cell contents
+            const contentsFrom = tempBoard.get(from);
+            if (contentsFrom === undefined) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: from });
                 return result;
             }
-            // Fixed tile
-            if (tileFrom.type !== "S") {
+
+            if (this.variants.includes("two-move")) {
+                if (i === 0) {
+                    // Check if the first move is a tile move
+                    if (hasTileMoves && prefix !== "T") {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.c1.FIRST_MOVE_TILE", {move: m});
+                        return result;
+                    }
+                } else if (i === 1) {
+                    // Check if the second move is a piece move
+                    if (prefix !== "C" && prefix !== "P") {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.c1.SECOND_MOVE_PIECE", {move: m});
+                        return result;
+                    }
+                }
+            }
+
+            // Validate piece or tile move
+            const pieceFrom = contentsFrom.piece;
+            if (pieceFrom !== undefined) {
+                if (pieceFrom.owner !== this.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
+                    return result;
+                }
+                if (prefix === undefined) {
+                    const rightPrefix = pieceFrom.type;
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.c1.MISSING_PREFIX", { prefix: rightPrefix, move: rightPrefix + move });
+                    return result;
+                }
+                if (prefix === "C" && pieceFrom.type !== "C" || prefix === "P" && pieceFrom.type !== "P") {
+                    const rightPrefix = pieceFrom.type;
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.c1.WRONG_PREFIX", { prefix: rightPrefix, move: rightPrefix + move });
+                    return result;
+                }
+            } else {
+                const tileFrom = contentsFrom.tile;
+                if (tileFrom === undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: from });
+                    return result;
+                }
+                if (tileFrom.type !== "S") {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.c1.NOT_SLIDABLE", { where: from });
+                    return result;
+                }
+                if (tileFrom.owner !== this.currplayer) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
+                    return result;
+                }
+                if (prefix === undefined) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.c1.MISSING_PREFIX", { prefix: "T", move: "T" + move });
+                    return result;
+                }
+                if (prefix !== "T") {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.c1.WRONG_PREFIX", { prefix: "T", move: "T" + move });
+                    return result;
+                }
+            }
+
+            // Validate destinations
+            const tos = this.getTos(from, prefix as MoveType, tempBoard);
+            if (tos.length === 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.c1.NOT_SLIDABLE", { where: from });
+                result.message = i18next.t("apgames:validation._general.NO_MOVES", { where: from });
                 return result;
             }
-            // Wrong player
-            if (tileFrom.owner !== this.currplayer) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.UNCONTROLLED", { where: from });
+            if (to === "") {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
                 return result;
             }
-            // Prefix check
-            if (prefix === undefined) {
+            if (to === from) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.c1.MISSING_PREFIX", { prefix: "T", move: "T" + m });
+                result.message = i18next.t("apgames:validation._general.SAME_FROM_TO", { where: from });
                 return result;
             }
-            if (prefix !== "T") {
+            if (!tos.includes(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.c1.WRONG_PREFIX", { prefix: "T", move: "T" + m });
+                result.message = i18next.t("apgames:validation.c1.INVALID_TO", { what: moveType2name[prefix as MoveType], from, to });
                 return result;
             }
+
+            // Check separator
+            const separator = move.includes("x") ? "x" : "-";
+            if (separator === "x" && !this.eliminatesTile(from, to, tempBoard)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.c1.USE_MOVE_NOTATION", { move: move.replace("x", "-") });
+                return result;
+            }
+            if (separator === "-" && this.eliminatesTile(from, to, tempBoard)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.c1.USE_ELIMINATE_NOTATION", { move: move.replace("-", "x") });
+                return result;
+            }
+
+            // Apply the move to tempBoard for next validation
+            this.applyMoveToBoard(tempBoard, from, to, prefix as MoveType);
         }
-        const tos = this.getTos(from, prefix as MoveType);
-        // Has destinations
-        if (tos.length === 0) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.NO_MOVES", { where: from });
-            return result;
-        }
-        // Select destination
-        if (to === "") {
+
+        // Partial move for variant
+        if (this.variants.includes("two-move") && hasTileMoves && moves.length === 1) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
+            result.message = i18next.t("apgames:validation.c1.NEED_SECOND_MOVE");
             return result;
         }
-        // Check tos.
-        if (to === from) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.SAME_FROM_TO", { where: from });
-            return result;
-        }
-        if (!tos.includes(to)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.c1.INVALID_TO", { what: moveType2name[prefix as MoveType], from, to });
-            return result;
-        }
-        // Separator type.
-        const separator = m.includes("x") ? "x" : "-";
-        if (separator === "x" && !this.eliminatesTile(from, to)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.c1.USE_MOVE_NOTATION", { move: m.replace("x", "-") });
-            return result;
-        }
-        if (separator === "-" && this.eliminatesTile(from, to)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.c1.USE_ELIMINATE_NOTATION", { move: m.replace("-", "x") });
-            return result;
-        }
+
         // All good
         result.valid = true;
         result.complete = 1;
@@ -463,10 +626,10 @@ export class C1Game extends GameBase {
         return result;
     }
 
-    private getMoveType(at: string): MoveType | undefined {
+    private getMoveType(at: string, board: Map<string, ICellContents> = this.board): MoveType | undefined {
         // Get move type at `at`.
         // If there is a piece, return the type of the piece.
-        const contents = this.board.get(at);
+        const contents = board.get(at);
         if (contents?.piece) {
             return contents.piece.type;
         }
@@ -477,22 +640,22 @@ export class C1Game extends GameBase {
         return undefined;
     }
 
-    private getTos(from: string, moveType: MoveType): string[] {
+    private getTos(from: string, moveType: MoveType, board: Map<string, ICellContents> = this.board): string[] {
         // Get all possible destinations for a move from `from`.
         const [fromX, fromY] = this.algebraic2coords(from);
         if (moveType === "C") {
-            return this.getConeMoves(fromX, fromY);
+            return this.getConeMoves(fromX, fromY, board);
         } else if (moveType === "T") {
-            return this.getTileMoves(fromX, fromY);
+            return this.getTileMoves(fromX, fromY, board);
         } else {
             const visited = new Set<string>([from]);
             const tos: string[] = [];
-            this.findPyramidJumps(fromX, fromY, visited, tos, true);
+            this.findPyramidJumps(fromX, fromY, visited, tos, true, board);
             return tos;
         }
     }
 
-    private findPyramidJumps(x: number, y: number, visited: Set<string>, tos: string[], isFirstMove: boolean): void {
+    private findPyramidJumps(x: number, y: number, visited: Set<string>, tos: string[], isFirstMove: boolean, board: Map<string, ICellContents>): void {
         // Find all possible jumps for a pyramid piece from (x, y).
         for (const [dx, dy] of orthogonalDirs) {
             const newX = x + dx;
@@ -501,21 +664,21 @@ export class C1Game extends GameBase {
             const cell = this.coords2algebraic(newX, newY);
             if (visited.has(cell)) { continue; }
 
-            if (isFirstMove && this.canLandOn(newX, newY)) {
+            if (isFirstMove && this.canLandOn(newX, newY, board)) {
                 tos.push(cell);
                 continue;
             }
 
-            if (!this.isObstacle(newX, newY)) { continue; }
+            if (!this.isObstacle(newX, newY, board)) { continue; }
 
             const jumpX = newX + dx;
             const jumpY = newY + dy;
             if (!this.inBounds(jumpX, jumpY)) { continue; }
             const jumpCell = this.coords2algebraic(jumpX, jumpY);
-            if (!visited.has(jumpCell) && this.canLandOn(jumpX, jumpY)) {
+            if (!visited.has(jumpCell) && this.canLandOn(jumpX, jumpY, board)) {
                 tos.push(jumpCell);
                 visited.add(jumpCell);
-                this.findPyramidJumps(jumpX, jumpY, visited, tos, false);
+                this.findPyramidJumps(jumpX, jumpY, visited, tos, false, board);
             }
         }
     }
@@ -574,29 +737,29 @@ export class C1Game extends GameBase {
         return x >= 0 && x < this.boardSize && y >= 0 && y < this.boardSize;
     }
 
-    private getCellContents(x: number, y: number): ICellContents | undefined {
+    private getCellContents(x: number, y: number, board: Map<string, ICellContents>): ICellContents | undefined {
         // Get the contents of the cell at (x, y).
-        return this.board.get(this.coords2algebraic(x, y));
+        return board.get(this.coords2algebraic(x, y));
     }
 
-    private hasPiece(x: number, y: number): boolean {
+    private hasPiece(x: number, y: number, board: Map<string, ICellContents>): boolean {
         // Check if the cell at (x, y) has a piece.
-        return this.getCellContents(x, y)?.piece !== undefined;
+        return this.getCellContents(x, y, board)?.piece !== undefined;
     }
 
-    private hasTile(x: number, y: number): boolean {
+    private hasTile(x: number, y: number, board: Map<string, ICellContents>): boolean {
         // Check if the cell at (x, y) has a tile.
-        return this.getCellContents(x, y)?.tile !== undefined;
+        return this.getCellContents(x, y, board)?.tile !== undefined;
     }
 
-    private isObstacle(x: number, y: number): boolean {
+    private isObstacle(x: number, y: number, board: Map<string, ICellContents>): boolean {
         // Check if the cell at (x, y) is an obstacle for a pyramid.
-        return this.hasPiece(x, y) || !this.hasTile(x, y);
+        return this.hasPiece(x, y, board) || !this.hasTile(x, y, board);
     }
 
-    private canLandOn(x: number, y: number): boolean {
+    private canLandOn(x: number, y: number, board: Map<string, ICellContents>): boolean {
         // Check if the cell at (x, y) is a valid landing spot for a pyramid.
-        const contents = this.getCellContents(x, y);
+        const contents = this.getCellContents(x, y, board);
         return contents?.tile !== undefined && contents.piece === undefined;
     }
 
@@ -616,34 +779,38 @@ export class C1Game extends GameBase {
         return cells;
     }
 
-    private getConeMoves(fromX: number, fromY: number): string[] {
+    private getConeMoves(fromX: number, fromY: number, board: Map<string, ICellContents>): string[] {
         // Get all possible moves for a cone piece.
         return allDirs.flatMap(dir =>
             this.moveAlongLine(fromX, fromY, dir, (x, y) =>
-                !this.hasPiece(x, y) && this.hasTile(x, y)
+                !this.hasPiece(x, y, board) && this.hasTile(x, y, board)
             )
         );
     }
 
-    private getTileMoves(fromX: number, fromY: number): string[] {
+    private getTileMoves(fromX: number, fromY: number, board: Map<string, ICellContents>): string[] {
         // Get all possible moves for a tile.
         return orthogonalDirs.flatMap(dir =>
             this.moveAlongLine(fromX, fromY, dir, (x, y) =>
-                !this.hasTile(x, y)
+                !this.hasTile(x, y, board)
             )
         );
     }
 
     private normaliseMove(m: string): string {
-        // Normalise the move string by removing spaces and converting the capitalisation.
-        m = m.replace(/\s+/g, "");
-        if (m.length > 1 && m[0].match(/[a-z]/i) && m.slice(1).match(/^\d+$/)) {
-            return m.toLowerCase();
-        }
-        if (m.length > 0 && m[0].match(/[a-z]/i)) {
-            return m[0].toUpperCase() + m.slice(1).toLowerCase();
-        }
-        return m.toLowerCase();
+        // Normalize the move string by removing extra spaces and ensuring proper casing.
+        m = m.trim().replace(/\s+/g, " ");
+        const parts = m.split(" ");
+        const normalized = parts.map(part => {
+            if (part.length > 1 && part[0].match(/[a-z]/i) && part.slice(1).match(/^\d+$/)) {
+                return part.toLowerCase();
+            }
+            if (part.length > 0 && part[0].match(/[a-z]/i)) {
+                return part[0].toUpperCase() + part.slice(1).toLowerCase();
+            }
+            return part.toLowerCase();
+        });
+        return normalized.join(" ");
     }
 
     private applyMoveToBoard(
@@ -652,6 +819,7 @@ export class C1Game extends GameBase {
         to: string,
         moveType: MoveType
     ): void {
+        // Apply the move to a board.
         const fromContents = board.get(from)!;
         if (!board.has(to)) {
             board.set(to, { tile: undefined, piece: undefined });
@@ -700,21 +868,24 @@ export class C1Game extends GameBase {
         this.dots = [];
         this.results = [];
 
-        const [from, to] = m.slice(1).split(/[x-]/);
-        const moveType = this.getMoveType(from)!;
-        if (to === undefined) {
-            this.dots = this.getTos(from, moveType);
-            return this;
-        } else {
-            let path: string[] | undefined;
-            // Check some stuff before move is committed.
-            const eliminatesTile = this.eliminatesTile(from, to);
-            if (moveType === "P") { path = this.findPyramidPath(from, to); }
+        // Apply moves in sequence
+        const moves = m.split(" ");
+        for (const singlemove of moves) {
+            const [from, to] = singlemove.slice(1).split(/[x-]/);
+            const moveType = this.getMoveType(from)!;
+            if (to === undefined) {
+                this.dots = this.getTos(from, moveType);
+                return this;
+            }
 
-            // Apply the move
+            let path: string[] | undefined;
+            const eliminatesTile = this.eliminatesTile(from, to);
+            if (moveType === "P") {
+                path = this.findPyramidPath(from, to);
+            }
+
             this.applyMoveToBoard(this.board, from, to, moveType);
 
-            // Now record moves
             const moveResult: APMoveResult = { type: "move", from, to, what: moveType };
             if (path !== undefined) {
                 moveResult.how = path.join(",");
@@ -734,11 +905,10 @@ export class C1Game extends GameBase {
         return this;
     }
 
-    private isConeSurrounded(player: playerid, board?: Map<string, ICellContents>): boolean {
-        const currentBoard = board || this.board;
+    private isConeSurrounded(player: playerid, board: Map<string, ICellContents> = this.board): boolean {
         // Find this player's cone
         let coneCell: string | undefined;
-        for (const [cell, contents] of currentBoard.entries()) {
+        for (const [cell, contents] of board.entries()) {
             if (contents.piece?.type === "C" && contents.piece.owner === player) {
                 coneCell = cell;
                 break;
@@ -754,7 +924,7 @@ export class C1Game extends GameBase {
             const newX = x + dx;
             const newY = y + dy;
             if (!this.inBounds(newX, newY)) { return true; }
-            const contents = board ? board.get(this.coords2algebraic(newX, newY)) : this.getCellContents(newX, newY);
+            const contents = board ? board.get(this.coords2algebraic(newX, newY)) : this.getCellContents(newX, newY, board);
             return contents?.piece !== undefined || contents?.tile === undefined;
         });
     }
@@ -914,7 +1084,6 @@ export class C1Game extends GameBase {
             return [];
         }
         const checked: number[] = [];
-        // Create a single clone of the board that we'll reuse
         const testBoard = new Map(
             [...this.board.entries()].map(([cell, contents]) => [cell, {
                 tile: contents.tile ? { ...contents.tile } : undefined,
@@ -924,28 +1093,29 @@ export class C1Game extends GameBase {
 
         for (const p of [1,2] as playerid[]) {
             const otherPlayer = p === 1 ? 2 : 1;
-            // Get all possible moves for the other player
             const possibleMoves = this.moves(otherPlayer);
 
             for (const move of possibleMoves) {
-                // Apply the move
-                const [from, to] = move.slice(1).split(/[x-]/);
-                const moveType = this.getMoveType(from)!;
-                this.applyMoveToBoard(testBoard, from, to, moveType);
-
-                // Check if this move would surround the opponent's cone
-                if (this.isConeSurrounded(p, testBoard)) {
-                    checked.push(p);
-                    break;
-                }
-
-                // Restore the board state
+                // Reset board state
                 testBoard.clear();
                 for (const [cell, contents] of this.board) {
                     testBoard.set(cell, {
                         tile: contents.tile ? { ...contents.tile } : undefined,
                         piece: contents.piece ? { ...contents.piece } : undefined
                     });
+                }
+
+                // Apply each move in sequence
+                const moves = move.split(" ");
+                for (const singlemove of moves) {
+                    const [from, to] = singlemove.slice(1).split(/[x-]/);
+                    const moveType = this.getMoveType(from, testBoard)!;
+                    this.applyMoveToBoard(testBoard, from, to, moveType);
+                }
+
+                if (this.isConeSurrounded(p, testBoard)) {
+                    checked.push(p);
+                    break;
                 }
             }
         }

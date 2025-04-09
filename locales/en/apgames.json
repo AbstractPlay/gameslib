@@ -603,6 +603,12 @@
                 "name": "Larger board: 10x10"
             }
         },
+        "c1": {
+            "two-move": {
+                "name": "C2",
+                "description": "On your turn, move a tile if possible, then move a pyramid or cone."
+            }
+        },
         "calculus": {
             "#board": {
                 "description": "Roughly 12 pieces across"
@@ -1856,6 +1862,9 @@
             },
             "#movement": {
                 "name": "Default movement rules"
+            },
+            "11x11": {
+                "name": "11x11 board"
             },
             "13x13": {
                 "name": "13x13 board"
@@ -3290,12 +3299,17 @@
         },
         "c1": {
             "INITIAL_INSTRUCTIONS": "Select a piece or a tile to move.",
+            "INITIAL_INSTRUCTIONS_TWO_MOVE": "Select a tile to move, then select a pyramid or cone to move.",
+            "INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE": "Select a pyramid or cone to move.",
             "NOT_SLIDABLE": "The tile at {{where}} is not slidable.",
             "MISSING_PREFIX": "The prefix '{{prefix}}' is missing. Try '{{move}}'.",
             "WRONG_PREFIX": "The correct prefix should be '{{prefix}}'. Try '{{move}}'.",
             "INVALID_TO": "The {{what}} at {{from}} cannot move to {{to}}.",
             "USE_ELIMINATE_NOTATION": "Use an 'x' to indicate tile elimination. Try '{{move}}'.",
-            "USE_MOVE_NOTATION": "You used a 'x' but there was no tile elimination. Try '{{move}}'."
+            "USE_MOVE_NOTATION": "You used a 'x' but there was no tile elimination. Try '{{move}}'.",
+            "FIRST_MOVE_TILE": "The first move must be a tile move.",
+            "SECOND_MOVE_PIECE": "The second move must be a pyramid or a cone move.",
+            "NEED_SECOND_MOVE": "Select a pyramid or cone to move."
         },
         "calculus": {
             "BAD_MOVE": "You may not move pieces that form perimeters around legal areas.",

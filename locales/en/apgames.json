@@ -1863,6 +1863,9 @@
             "#movement": {
                 "name": "Default movement rules"
             },
+            "11x11": {
+                "name": "11x11 board"
+            },
             "13x13": {
                 "name": "13x13 board"
             },

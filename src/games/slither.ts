@@ -48,14 +48,9 @@ export class SlitherGame extends GameBase {
             },
         ],
         variants: [
-            {
-                uid: "13x13",
-                group: "board"
-            },
-            {
-                uid: "classic",
-                group: "movement"
-            }
+            { uid: "11x11", group: "board" },
+            { uid: "13x13", group: "board" },
+            { uid: "classic", group: "movement" },
         ],
         categories: ["goal>connect", "mechanic>place",  "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "automove"]

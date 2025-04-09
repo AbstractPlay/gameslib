@@ -120,6 +120,8 @@ export class SlitherGame extends GameBase {
         this.connPath = [...state.connPath];
         if (this.variants.includes("13x13")) {
             this.boardSize = 13;
+        } else if (this.variants.includes("11x11")) {
+            this.boardSize = 11;
         } else {
             this.boardSize = 9;
         }

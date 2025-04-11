@@ -75,7 +75,7 @@ export class C1Game extends GameBase {
             },
         ],
         variants: [
-            { uid: "two-move" },
+            { uid: "two-move", experimental: true },
         ],
         categories: ["goal>align", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["experimental", "perspective", "check"],

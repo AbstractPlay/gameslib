@@ -54,7 +54,7 @@ export class C1Game extends GameBase {
         uid: "c1",
         playercounts: [2],
         version: "20250401",
-        dateAdded: "2024-04-01",
+        dateAdded: "2025-04-11",
         // i18next.t("apgames:descriptions.c1")
         description: "apgames:descriptions.c1",
         urls: [

@@ -20,7 +20,6 @@ const moveType2name: Record<MoveType, string> = {
 
 const orthogonalDirs: Direction[] = [[0,1], [1,0], [0,-1], [-1,0]];
 const diagonalDirs: Direction[] = [[1,1], [1,-1], [-1,-1], [-1,1]];
-const allDirs: Direction[] = [...orthogonalDirs, ...diagonalDirs];
 
 interface IPiece {
     type: PieceType;
@@ -781,11 +780,26 @@ export class C1Game extends GameBase {
 
     private getConeMoves(fromX: number, fromY: number, board: Map<string, ICellContents>): string[] {
         // Get all possible moves for a cone piece.
-        return allDirs.flatMap(dir =>
+        const moves: string[] = [];
+
+        // Orthogonal moves (one step only)
+        for (const [dx, dy] of orthogonalDirs) {
+            const newX = fromX + dx;
+            const newY = fromY + dy;
+            if (!this.inBounds(newX, newY)) { continue; }
+            if (!this.hasPiece(newX, newY, board) && this.hasTile(newX, newY, board)) {
+                moves.push(this.coords2algebraic(newX, newY));
+            }
+        }
+
+        // Diagonal moves (any distance)
+        moves.push(...diagonalDirs.flatMap(dir =>
             this.moveAlongLine(fromX, fromY, dir, (x, y) =>
                 !this.hasPiece(x, y, board) && this.hasTile(x, y, board)
             )
-        );
+        ));
+
+        return moves;
     }
 
     private getTileMoves(fromX: number, fromY: number, board: Map<string, ICellContents>): string[] {

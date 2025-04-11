@@ -75,10 +75,10 @@ export class C1Game extends GameBase {
             },
         ],
         variants: [
-            { uid: "two-move" },
+            { uid: "two-move", experimental: true },
         ],
         categories: ["goal>align", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "perspective", "check"],
+        flags: ["perspective", "check"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -1026,17 +1026,17 @@ export class C1Game extends GameBase {
             },
             legend: {
                 // p1 fixed tile
-                A: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 1, scale: 1.2, opacity: 0.45 }],
+                A: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 1, scale: 1.2, opacity: 0.55 }],
                 // p1 slidable tile
-                B: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 1, scale: 1.2, opacity: 0.7 }],
+                B: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 1, scale: 1.2, opacity: 0.8 }],
                 // p1 pyramid
                 C: [{ name: "piece-square", colour: 1, scale: 0.8 }, { name: "x", scale: 0.85, colour: "_context_borders" }],
                 // p1 cone
                 D: [{ name: "piece", colour: 1 }, { name: "ring-01", colour: "_context_borders", scale: 0.3 }],
                 // p2 fixed tile
-                E: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 2, scale: 1.2, opacity: 0.45 }],
+                E: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 2, scale: 1.2, opacity: 0.55 }],
                 // p2 slidable tile
-                F: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 2, scale: 1.2, opacity: 0.7 }],
+                F: [{ name: "piece-square", colour: "#FFF", scale: 1.2 }, { name: "piece-square", colour: 2, scale: 1.2, opacity: 0.8 }],
                 // p2 pyramid
                 G: [{ name: "piece-square", colour: 2, scale: 0.8 }, { name: "x", scale: 0.85, colour: "_context_borders" }],
                 // p2 cone

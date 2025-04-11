@@ -781,7 +781,7 @@ export class C1Game extends GameBase {
     private getConeMoves(fromX: number, fromY: number, board: Map<string, ICellContents>): string[] {
         // Get all possible moves for a cone piece.
         const moves: string[] = [];
-        
+
         // Orthogonal moves (one step only)
         for (const [dx, dy] of orthogonalDirs) {
             const newX = fromX + dx;

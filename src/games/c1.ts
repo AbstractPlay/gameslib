@@ -78,7 +78,7 @@ export class C1Game extends GameBase {
             { uid: "two-move", experimental: true },
         ],
         categories: ["goal>align", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "perspective", "check"],
+        flags: ["perspective", "check"],
     };
 
     public coords2algebraic(x: number, y: number): string {

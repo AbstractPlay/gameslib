@@ -586,10 +586,10 @@ export class RenjuGame extends InARowBase {
                 return [x, 2 * cy - y];
             case "vertical":
                 return [2 * cx - x, y];
-            case "diagonal1": // top-left to bottom-right diagonal
-                return [cy - y + cx, cx - x + cy];
-            case "diagonal2": // top-right to bottom-left diagonal
-                return [2 * cx - (cy - y + cx), 2 * cy - (cx - x + cy)];
+            case "diagonal1": // reflection about the line y=x through the centroid
+                return [cx + (y - cy), cy + (x - cx)];
+            case "diagonal2": // reflection about the line y=-x through the centroid
+                return [cx - (y - cy), cy - (x - cx)];
             default:
                 return point;
         }

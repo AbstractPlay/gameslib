@@ -606,7 +606,7 @@
         "c1": {
             "two-move": {
                 "name": "C2",
-                "description": "On your turn, move a tile if possible, then move a pyramid or cone."
+                "description": "On your turn, you may begin with an optional tile move, followed by a required pyramid or cone move."
             }
         },
         "calculus": {
@@ -3299,16 +3299,16 @@
         },
         "c1": {
             "INITIAL_INSTRUCTIONS": "Select a piece or a tile to move.",
-            "INITIAL_INSTRUCTIONS_TWO_MOVE": "Select a tile to move, then select a pyramid or cone to move.",
-            "INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE": "Select a pyramid or cone to move.",
+            "INITIAL_INSTRUCTIONS_TWO_MOVE": "Select a tile, then a piece to move; or select a piece to move directly.",
+            "INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE": "Select a piece to move.",
             "NOT_SLIDABLE": "The tile at {{where}} is not slidable.",
             "MISSING_PREFIX": "The prefix '{{prefix}}' is missing. Try '{{move}}'.",
             "WRONG_PREFIX": "The correct prefix should be '{{prefix}}'. Try '{{move}}'.",
             "INVALID_TO": "The {{what}} at {{from}} cannot move to {{to}}.",
             "USE_ELIMINATE_NOTATION": "Use an 'x' to indicate tile elimination. Try '{{move}}'.",
             "USE_MOVE_NOTATION": "You used a 'x' but there was no tile elimination. Try '{{move}}'.",
-            "FIRST_MOVE_TILE": "The first move must be a tile move.",
-            "SECOND_MOVE_PIECE": "The second move must be a pyramid or a cone move.",
+            "MOVE_TILE_FIRST": "If you make two moves, the first move must be a tile move.",
+            "MOVE_PIECE_SECOND": "If you make two moves, the second move must be a piece move.",
             "NEED_SECOND_MOVE": "Select a pyramid or cone to move."
         },
         "calculus": {

@@ -229,7 +229,21 @@ export class C1Game extends GameBase {
         const moves: string[] = [];
 
         if (this.variants.includes("two-move")) {
-            // Get all possible tile moves first
+            // Add direct piece moves
+            for (let row = 0; row < this.boardSize; row++) {
+                for (let col = 0; col < this.boardSize; col++) {
+                    const cell = this.coords2algebraic(col, row);
+                    const contents = this.board.get(cell);
+                    if (!contents?.piece || contents.piece.owner !== player) { continue; }
+                    const moveType = contents.piece.type === "C" ? "C" : "P";
+                    const destinations = this.getTos(cell, moveType);
+                    for (const dest of destinations) {
+                        const separator = this.eliminatesTile(cell, dest) ? "x" : "-";
+                        moves.push(`${moveType}${cell}${separator}${dest}`);
+                    }
+                }
+            }
+            // Get all possible tile moves
             const tileMoves: string[] = [];
             for (let row = 0; row < this.boardSize; row++) {
                 for (let col = 0; col < this.boardSize; col++) {
@@ -243,26 +257,7 @@ export class C1Game extends GameBase {
                     }
                 }
             }
-
-            // If there are no tile moves, we must move a piece
-            if (tileMoves.length === 0) {
-                for (let row = 0; row < this.boardSize; row++) {
-                    for (let col = 0; col < this.boardSize; col++) {
-                        const cell = this.coords2algebraic(col, row);
-                        const contents = this.board.get(cell);
-                        if (!contents?.piece || contents.piece.owner !== player) { continue; }
-                        const moveType = contents.piece.type === "C" ? "C" : "P";
-                        const destinations = this.getTos(cell, moveType);
-                        for (const dest of destinations) {
-                            const separator = this.eliminatesTile(cell, dest) ? "x" : "-";
-                            moves.push(`${moveType}${cell}${separator}${dest}`);
-                        }
-                    }
-                }
-                return moves;
-            }
-
-            // Otherwise, for each tile move, simulate it and get all possible piece moves
+            // For each tile move, apply it to a copy of the board and get all possible piece moves
             for (const tileMove of tileMoves) {
                 // Clone the board
                 const tempBoard = new Map(
@@ -351,7 +346,9 @@ export class C1Game extends GameBase {
                     moves.pop();
                     newmove = moves.join(" ");
                     done = true;
-                } else if (moves.length === 1 && lastMove.includes("-") || lastMove.includes("x")) {
+                } else if (moves.length === 1 && (lastMove.includes("-") || lastMove.includes("x"))) {
+                    // A way to undo the tile move since we know that in the two-move variant
+                    // the tile moves first, then the piece moves.
                     const [from, to] = lastMove.slice(1).split(/[x-]/);
                     if (from === cell || to === cell) {
                         moves.pop();
@@ -364,8 +361,20 @@ export class C1Game extends GameBase {
                 // Then try to build the move
                 const parts = move.split(" ");
                 const lastMove = parts[parts.length - 1];
+                const prevMoves = parts.slice(0, -1);
+                const tempBoard = new Map(
+                    [...this.board.entries()].map(([c, contents]) => [c, {
+                        tile: contents.tile ? { ...contents.tile } : undefined,
+                        piece: contents.piece ? { ...contents.piece } : undefined
+                    }])
+                );
+                for (const m of prevMoves) {
+                    const [f, t] = m.slice(1).split(/[x-]/);
+                    const moveType = this.getMoveType(f, tempBoard)!;
+                    this.applyMoveToBoard(tempBoard, f, t, moveType);
+                }
                 if (move === "" || lastMove.includes("-") || lastMove.includes("x")) {
-                    const moveType = this.getMoveType(cell);
+                    const moveType = this.getMoveType(cell, tempBoard);
                     if (moveType === undefined) {
                         // Let the validation handle this
                         newmove = move + (move === "" ? "" : " ") + cell;
@@ -373,22 +382,22 @@ export class C1Game extends GameBase {
                         newmove = move + (move === "" ? "" : " ") + moveType + cell;
                     }
                 } else {
-                    const prevMoves = parts.slice(0, -1);
-                    const tempBoard = new Map(
-                        [...this.board.entries()].map(([c, contents]) => [c, {
-                            tile: contents.tile ? { ...contents.tile } : undefined,
-                            piece: contents.piece ? { ...contents.piece } : undefined
-                        }])
-                    );
-                    for (const m of prevMoves) {
-                        const [f, t] = m.slice(1).split(/[x-]/);
-                        const moveType = this.getMoveType(f, tempBoard)!;
-                        this.applyMoveToBoard(tempBoard, f, t, moveType);
+                    const firstCell = lastMove.slice(1);
+                    // Piece reselection without deselection
+                    const lastMoveType = this.getMoveType(firstCell, tempBoard);
+                    if (lastMoveType !== undefined) {
+                        const validDests = this.getTos(firstCell, lastMoveType, tempBoard);
+                        if (!validDests.includes(cell)) {
+                            const newMoveType = this.getMoveType(cell, tempBoard)!;
+                            parts[parts.length - 1] = newMoveType + cell;
+                            newmove = parts.join(" ");
+                        }
                     }
-                    const from = lastMove.slice(1);
-                    const separator = this.eliminatesTile(from, cell, tempBoard) ? "x" : "-";
-                    parts[parts.length - 1] = lastMove + separator + cell;
-                    newmove = parts.join(" ");
+                    if (newmove === "") {
+                        const separator = this.eliminatesTile(firstCell, cell, tempBoard) ? "x" : "-";
+                        parts[parts.length - 1] = lastMove + separator + cell;
+                        newmove = parts.join(" ");
+                    }
                 }
             }
 
@@ -464,11 +473,14 @@ export class C1Game extends GameBase {
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
             return result;
         }
-        const hasTileMoves = this.variants.includes("two-move") && this.hasTileMoves(tempBoard);
-
+        let firstMoveType: MoveType | undefined;
+        let secondMoveType: MoveType | undefined;
         for (let i = 0; i < moves.length; i++) {
             const move = moves[i];
             const prefix = ["C", "P", "T"].includes(move[0]) ? move[0] : undefined;
+            if (i === 0) { firstMoveType = prefix as MoveType; }
+            if (i === 1) { secondMoveType = prefix as MoveType; }
+
             const [from, to] = (() => {
                 const s = prefix ? move.slice(1) : move;
                 const idx = s.search(/[x-]/);
@@ -498,24 +510,6 @@ export class C1Game extends GameBase {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.NONEXISTENT", { where: from });
                 return result;
-            }
-
-            if (this.variants.includes("two-move")) {
-                if (i === 0) {
-                    // Check if the first move is a tile move
-                    if (hasTileMoves && prefix !== "T") {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.c1.FIRST_MOVE_TILE", {move: m});
-                        return result;
-                    }
-                } else if (i === 1) {
-                    // Check if the second move is a piece move
-                    if (prefix !== "C" && prefix !== "P") {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.c1.SECOND_MOVE_PIECE", {move: m});
-                        return result;
-                    }
-                }
             }
 
             // Validate piece or tile move
@@ -609,13 +603,29 @@ export class C1Game extends GameBase {
             this.applyMoveToBoard(tempBoard, from, to, prefix as MoveType);
         }
 
-        // Partial move for variant
-        if (this.variants.includes("two-move") && hasTileMoves && moves.length === 1) {
-            result.valid = true;
-            result.complete = -1;
-            result.canrender = true;
-            result.message = i18next.t("apgames:validation.c1.NEED_SECOND_MOVE");
-            return result;
+        if (this.variants.includes("two-move")) {
+            if (moves.length === 1) {
+                // Partial move for variant
+                if (firstMoveType === "T") {
+                    result.valid = true;
+                    result.complete = -1;
+                    result.canrender = true;
+                    result.message = i18next.t("apgames:validation.c1.NEED_SECOND_MOVE");
+                    return result;
+                }
+            } else {
+                // Check move types for double move
+                if (firstMoveType !== "T") {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.c1.MOVE_TILE_FIRST");
+                    return result;
+                }
+                if (secondMoveType === "T") {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.c1.MOVE_PIECE_SECOND");
+                    return result;
+                }
+            }
         }
 
         // All good

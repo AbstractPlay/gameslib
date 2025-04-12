@@ -939,13 +939,6 @@ export class RenjuGame extends InARowBase {
                 if (this.stack.length < 6) {
                     const placeMoveCount = this.placeMoveCount();
                     if (placeMoveCount === 2) {
-                        if (moves.length === 1) {
-                            result.valid = true;
-                            result.complete = -1;
-                            result.canrender = true;
-                            result.message = i18next.t("apgames:validation.renju.RIF32");
-                            return result;
-                        }
                         if (moves.length > 2) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.renju.RIF3_EXCESS");
@@ -954,6 +947,13 @@ export class RenjuGame extends InARowBase {
                         if (this.isSymmetric(moves)) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.renju.SYMMETRY");
+                            return result;
+                        }
+                        if (moves.length === 1) {
+                            result.valid = true;
+                            result.complete = -1;
+                            result.canrender = true;
+                            result.message = i18next.t("apgames:validation.renju.RIF32");
                             return result;
                         }
                         max1 = false;
@@ -1013,14 +1013,6 @@ export class RenjuGame extends InARowBase {
                         max1 = false;
                     } else if (placeMoveCount === 2) {
                         const tentativeCountChosen = this.stack[this.stack.length - 1].tentativeCount!;
-                        if (moves.length < tentativeCountChosen) {
-                            result.valid = true;
-                            result.complete = -1;
-                            result.canrender = true;
-                            result.message = i18next.t("apgames:validation.renju.SOOSYRV3_MORE", { count: tentativeCountChosen - moves.length });
-                            return result;
-
-                        }
                         if (moves.length > tentativeCountChosen) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.renju.SOOSYRV3_EXCESS", { count: tentativeCountChosen });
@@ -1030,6 +1022,14 @@ export class RenjuGame extends InARowBase {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.renju.SYMMETRY");
                             return result;
+                        }
+                        if (moves.length < tentativeCountChosen) {
+                            result.valid = true;
+                            result.complete = -1;
+                            result.canrender = true;
+                            result.message = i18next.t("apgames:validation.renju.SOOSYRV3_MORE", { count: tentativeCountChosen - moves.length });
+                            return result;
+
                         }
                         max1 = false;
                     } else if (placeMoveCount === 3) {
@@ -1101,6 +1101,11 @@ export class RenjuGame extends InARowBase {
                             }
                         }
                     } else if (this.stack[this.stack.length - 1].lastmove !== "pass") {
+                        if (moves.length > 10) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.renju.TARAGUCHI_RESTRICTION5_EXCESS");
+                            return result;
+                        }
                         if (this.isSymmetric(moves)) {
                             result.valid = false;
                             result.message = i18next.t("apgames:validation.renju.SYMMETRY");
@@ -1111,11 +1116,6 @@ export class RenjuGame extends InARowBase {
                             result.complete = -1;
                             result.canrender = true;
                             result.message = i18next.t("apgames:validation.renju.TARAGUCHI_RESTRICTION5_MORE", { count: 10 - moves.length });
-                            return result;
-                        }
-                        if (moves.length > 10) {
-                            result.valid = false;
-                            result.message = i18next.t("apgames:validation.renju.TARAGUCHI_RESTRICTION5_EXCESS");
                             return result;
                         }
                         max1 = false;

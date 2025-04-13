@@ -328,6 +328,8 @@ export class C1Game extends GameBase {
         const toContents = board.get(to);
         if (!fromContents?.tile || !toContents?.tile) { return false; }
         if (fromContents.piece === undefined) { return false; }
+        // Do not eliminate fixed tile
+        if (fromContents.tile.type === "F") { return false; }
         return fromContents.tile.owner !== fromContents.piece.owner &&
                 fromContents.tile.owner !==  toContents.tile.owner;
     }

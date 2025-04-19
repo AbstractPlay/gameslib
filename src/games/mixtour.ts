@@ -30,7 +30,10 @@ export class MixtourGame extends GameBase {
         dateAdded: "2023-07-01",
         // i18next.t("apgames:descriptions.mixtour")
         description: "apgames:descriptions.mixtour",
-        urls: ["https://spielstein.com/games/mixtour/rules"],
+        urls: [
+            "https://spielstein.com/games/mixtour/rules",
+            "https://boardgamegeek.com/boardgame/90942/mixtour",
+        ],
         people: [
             {
                 type: "designer",

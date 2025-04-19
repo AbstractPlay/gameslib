@@ -42,7 +42,9 @@ export class AlfredsWykeGame extends GameBase {
             {
                 type: "coder",
                 name: "Aaron Dalton (Perlkönig)",
-                urls: [],
+                urls: [
+                    "https://boardgamegeek.com/boardgame/37584/alfreds-wyke",
+                ],
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],

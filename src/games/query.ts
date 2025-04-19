@@ -31,7 +31,10 @@ export class QueryGame extends GameBase {
         dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.query")
         description: "apgames:descriptions.query",
-        urls: ["https://mindsports.nl/index.php/the-pit/548-query"],
+        urls: [
+            "https://mindsports.nl/index.php/the-pit/548-query",
+            "https://boardgamegeek.com/boardgame/432215/query",
+        ],
         people: [
             {
                 type: "designer",

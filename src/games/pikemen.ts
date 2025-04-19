@@ -41,7 +41,10 @@ export class PikemenGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.pikemen")
         description: "apgames:descriptions.pikemen",
-        urls: ["http://playagaingames.com/games/pikemen/"],
+        urls: [
+            "http://playagaingames.com/games/pikemen/",
+            "https://boardgamegeek.com/boardgame/20269/pikemen",
+        ],
         people: [
             {
                 type: "designer",

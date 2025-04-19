@@ -36,7 +36,10 @@ export class ToguzGame extends GameBase {
         description: "apgames:descriptions.toguz",
         // i18next.t("apgames:notes.toguz")
         notes: "apgames:notes.toguz",
-        urls: ["https://en.wikipedia.org/wiki/Toguz_korgol"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Toguz_korgol",
+            "https://boardgamegeek.com/boardgame/39617/togizqumalaq",
+        ],
         people: [
             {
                 type: "coder",

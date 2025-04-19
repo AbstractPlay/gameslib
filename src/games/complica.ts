@@ -28,7 +28,10 @@ export class ComplicaGame extends GameBase {
         dateAdded: "2023-06-18",
         // i18next.t("apgames:descriptions.complica")
         description: "apgames:descriptions.complica",
-        urls: ["https://www.di.fc.ul.pt/~jpn/gv/complica.htm"],
+        urls: [
+            "https://jpneto.github.io/world_abstract_games/complica.htm",
+            "https://boardgamegeek.com/boardgame/7476/complica",
+        ],
         people: [
             {
                 type: "designer",

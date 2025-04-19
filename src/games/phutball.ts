@@ -38,7 +38,10 @@ export class PhutballGame extends GameBase {
         version: "20230704",
         dateAdded: "2023-08-25",
         description: "apgames:descriptions.phutball",
-        urls: ["https://en.wikipedia.org/wiki/Phutball"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Phutball",
+            "https://boardgamegeek.com/boardgame/25433/phutball",
+        ],
         people: [
             {
                 type: "designer",

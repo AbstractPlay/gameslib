@@ -33,7 +33,10 @@ export class ConectGame extends GameBase {
         dateAdded: "2024-06-17",
         // i18next.t("apgames:descriptions.conect")
         description: "apgames:descriptions.conect",
-        urls: ["https://www.marksteeregames.com/Conect_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/Conect_rules.pdf",
+            "https://boardgamegeek.com/boardgame/432207/conect",
+        ],
         people: [
             {
                 type: "designer",

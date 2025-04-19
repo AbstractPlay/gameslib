@@ -38,7 +38,10 @@ export class FabrikGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.fabrik")
         description: "apgames:descriptions.fabrik",
-        urls: ["https://spielstein.com/games/fabrik"],
+        urls: [
+            "https://spielstein.com/games/fabrik",
+            "https://boardgamegeek.com/boardgame/233447/fabrik",
+        ],
         people: [
             {
                 type: "designer",

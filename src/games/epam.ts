@@ -28,7 +28,10 @@ export class EpamGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.epam")
         description: "apgames:descriptions.epam",
-        urls: ["http://www.logicmazes.com/games/epam.html"],
+        urls: [
+            "http://www.logicmazes.com/games/epam.html",
+            "https://boardgamegeek.com/boardgame/7338/epaminondas",
+        ],
         people: [
             {
                 type: "designer",

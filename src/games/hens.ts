@@ -31,7 +31,10 @@ export class HensGame extends GameBase {
         dateAdded: "2024-02-13",
         // i18next.t("apgames:descriptions.hens")
         description: "apgames:descriptions.hens",
-        urls: ["https://crabfragmentlabs.com/verdigris-pawn"],
+        urls: [
+            "https://crabfragmentlabs.com/verdigris-pawn",
+            "https://boardgamegeek.com/boardgame/432210/hens-and-chicks",
+        ],
         people: [
             {
                 type: "designer",

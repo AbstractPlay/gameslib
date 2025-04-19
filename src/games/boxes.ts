@@ -30,7 +30,10 @@ export class BoxesGame extends GameBase {
         dateAdded: "2024-09-14",
         // i18next.t("apgames:descriptions.boxes")
         description: "apgames:descriptions.boxes",
-        urls: ["https://en.wikipedia.org/wiki/Dots_and_Boxes"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Dots_and_Boxes",
+            "https://boardgamegeek.com/boardgame/17106/boxes",
+        ],
         people: [
             {
                 type: "designer",

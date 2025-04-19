@@ -31,7 +31,10 @@ export class HexYGame extends GameBase {
         dateAdded: "2023-09-23",
         // i18next.t("apgames:descriptions.hexy")
         description: "apgames:descriptions.hexy",
-        urls: ["https://www.marksteeregames.com/Hexagonal_Y_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/Hexagonal_Y_rules.pdf",
+            "https://boardgamegeek.com/boardgame/432211/hexagonal-y",
+        ],
         people: [
             {
                 type: "designer",

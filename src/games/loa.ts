@@ -29,7 +29,10 @@ export class LinesOfActionGame extends GameBase {
         description: "apgames:descriptions.loa",
         // i18next.t("apgames:notes.loa")
         notes: "apgames:notes.loa",
-        urls: ["https://en.wikipedia.org/wiki/Lines_of_Action"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Lines_of_Action",
+            "https://boardgamegeek.com/boardgame/3406/lines-of-action",
+        ],
         people: [
             {
                 type: "designer",

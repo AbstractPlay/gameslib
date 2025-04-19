@@ -33,7 +33,10 @@ export class BounceGame extends GameBase {
         dateAdded: "2023-10-29",
         // i18next.t("apgames:descriptions.bounce")
         description: "apgames:descriptions.bounce",
-        urls: ["https://marksteeregames.com/Bounce_rules.pdf"],
+        urls: [
+            "https://marksteeregames.com/Bounce_rules.pdf",
+            "https://boardgamegeek.com/boardgame/435089/bounce",
+        ],
         people: [
             {
                 type: "designer",

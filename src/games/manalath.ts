@@ -32,7 +32,10 @@ export class ManalathGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.manalath")
         description: "apgames:descriptions.manalath",
-        urls: ["https://spielstein.com/games/manalath/rules"],
+        urls: [
+            "https://spielstein.com/games/manalath/rules",
+            "https://boardgamegeek.com/boardgame/127993/manalath",
+        ],
         people: [
             {
                 type: "designer",

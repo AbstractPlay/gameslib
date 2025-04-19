@@ -49,7 +49,10 @@ export class BaoGame extends GameBase {
         description: "apgames:descriptions.bao",
         // i18next.t("apgames:notes.bao")
         notes: "apgames:notes.bao",
-        urls: ["https://mancala.fandom.com/wiki/Bao_la_Kiswahili"],
+        urls: [
+            "https://mancala.fandom.com/wiki/Bao_la_Kiswahili",
+            "https://boardgamegeek.com/boardgame/14186/bao",
+        ],
         people: [
             {
                 type: "coder",

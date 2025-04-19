@@ -34,7 +34,10 @@ export class TableroGame extends GameBase {
         description: "apgames:descriptions.tablero",
         // i18next.t("apgames:notes.tablero")
         notes: "apgames:notes.tablero",
-        urls: ["https://crabfragmentlabs.com/tablero-di-berona"],
+        urls: [
+            "https://crabfragmentlabs.com/tablero-di-berona",
+            "https://boardgamegeek.com/boardgame/363339/tablero-di-berona",
+        ],
         people: [
             {
                 type: "designer",

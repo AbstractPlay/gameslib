@@ -39,7 +39,10 @@ export class AmazonsGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.amazons")
         description: "apgames:descriptions.amazons",
-        urls: ["https://en.wikipedia.org/wiki/Amazons_%28game%29"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Amazons_%28game%29",
+            "https://boardgamegeek.com/boardgame/2125/amazons",
+        ],
         people: [
             {
                 type: "designer",

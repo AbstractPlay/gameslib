@@ -52,7 +52,10 @@ export class JacynthGame extends GameBase {
         description: "apgames:descriptions.jacynth",
         // i18next.t("apgames:notes.jacynth")
         notes: "apgames:notes.jacynth",
-        urls: ["http://wiki.decktet.com/game:jacynth"],
+        urls: [
+            "http://wiki.decktet.com/game:jacynth",
+            "https://boardgamegeek.com/boardgame/39290/jacynth",
+        ],
         people: [
             {
                 type: "designer",

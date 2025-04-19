@@ -31,7 +31,10 @@ export class CourtesanGame extends GameBase {
         dateAdded: "2023-07-02",
         // i18next.t("apgames:descriptions.courtesan")
         description: "apgames:descriptions.courtesan",
-        urls: ["https://www.marksteeregames.com/King_and_Courtesan_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/King_and_Courtesan_rules.pdf",
+            "https://boardgamegeek.com/boardgame/413118/king-and-courtesan",
+        ],
         people: [
             {
                 type: "designer",

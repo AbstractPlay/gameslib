@@ -39,8 +39,7 @@ export class RazzleGame extends GameBase {
         dateAdded: "2023-09-16",
         description: "apgames:descriptions.razzle",
         urls: [
-            "https://boardgamegeek.com/thread/169556/review-razzle-dazzle",
-            "https://boardgamegeek.com/filepage/14788/razzledazzlextxt",
+            "https://boardgamegeek.com/boardgame/21479/knight-moves",
         ],
         people: [
             {

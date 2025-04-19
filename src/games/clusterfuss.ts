@@ -33,7 +33,10 @@ export class ClusterfussGame extends GameBase {
         dateAdded: "2024-02-03",
         // i18next.t("apgames:descriptions.clusterfuss")
         description: "apgames:descriptions.clusterfuss",
-        urls: ["https://marksteeregames.com/Clusterfuss_rules.pdf"],
+        urls: [
+            "https://marksteeregames.com/Clusterfuss_rules.pdf",
+            "https://boardgamegeek.com/boardgame/413919/clusterfuss",
+        ],
         people: [
             {
                 type: "designer",

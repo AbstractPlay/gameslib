@@ -42,7 +42,10 @@ export class HalfcutGame extends GameBase {
         dateAdded: "2023-07-31",
         // i18next.t("apgames:descriptions.clearcut")
         description: "apgames:descriptions.clearcut",
-        urls: ["https://www.marksteeregames.com/Halfcut_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/Halfcut_rules.pdf",
+            "https://boardgamegeek.com/boardgame/399723/halfcut",
+        ],
         people: [
             {
                 type: "designer",

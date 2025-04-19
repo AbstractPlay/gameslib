@@ -35,7 +35,11 @@ export class AttangleGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.attangle")
         description: "apgames:descriptions.attangle",
-        urls: ["https://spielstein.com/games/attangle/rules", "https://spielstein.com/games/attangle/rules/grand-attangle"],
+        urls: [
+            "https://spielstein.com/games/attangle/rules",
+            "https://spielstein.com/games/attangle/rules/grand-attangle",
+            "https://boardgamegeek.com/boardgame/24525/attangle",
+        ],
         people: [
             {
                 type: "designer",

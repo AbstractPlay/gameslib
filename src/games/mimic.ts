@@ -33,7 +33,10 @@ export class MimicGame extends GameBase {
         dateAdded: "2024-01-20",
         // i18next.t("apgames:descriptions.mimic")
         description: "apgames:descriptions.mimic",
-        urls: ["https://geomegranate.com/wp-content/uploads/2024/01/Mimic.pdf"],
+        urls: [
+            "https://geomegranate.com/wp-content/uploads/2024/01/Mimic.pdf",
+            "https://boardgamegeek.com/boardgame/432214/mimic",
+        ],
         people: [
             {
                 type: "designer",

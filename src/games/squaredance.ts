@@ -28,7 +28,7 @@ export class SquaredanceGame extends GameBase {
         dateAdded: "2025-01-25",
         // i18next.t("apgames:descriptions.squaredance")
         description: "apgames:descriptions.squaredance",
-        urls: ["https://www.di.fc.ul.pt/~jpn/gv/squaredance.htm"],
+        urls: ["https://jpneto.github.io/world_abstract_games/squaredance.htm"],
         people: [
             {
                 type: "designer",

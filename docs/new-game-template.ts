@@ -59,7 +59,7 @@ export class ComplicaGame extends GameBase {
         version: "20230617",
         // i18next.t("apgames:descriptions.complica")
         description: "apgames:descriptions.complica",
-        urls: ["https://www.di.fc.ul.pt/~jpn/gv/complica.htm"],
+        urls: ["https://jpneto.github.io/world_abstract_games/complica.htm"],
         people: [
             {
                 type: "designer",

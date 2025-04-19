@@ -35,7 +35,10 @@ export class OwareGame extends GameBase {
         description: "apgames:descriptions.oware",
         // i18next.t("apgames:notes.oware")
         notes: "apgames:notes.oware",
-        urls: ["https://en.wikipedia.org/wiki/Oware"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Oware",
+            "https://boardgamegeek.com/boardgame/28302/oware",
+        ],
         people: [
             {
                 type: "coder",

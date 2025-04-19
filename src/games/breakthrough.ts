@@ -29,7 +29,11 @@ export class BreakthroughGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.breakthrough")
         description: "apgames:descriptions.breakthrough",
-        urls: ["https://en.wikipedia.org/wiki/Breakthrough_(board_game)", "http://www.di.fc.ul.pt/~jpn/gv/bombardment.htm"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Breakthrough_(board_game)",
+            "https://jpneto.github.io/world_abstract_games/bombardment.htm",
+            "https://boardgamegeek.com/boardgame/3825/breakthrough",
+        ],
         people: [
             {
                 type: "designer",

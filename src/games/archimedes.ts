@@ -27,7 +27,9 @@ export class ArchimedesGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.archimedes")
         description: "apgames:descriptions.archimedes",
-        urls: ["http://www.di.fc.ul.pt/~jpn/gv/archimedes.htm", "http://superdupergames.org/rules/archimedes.pdf"],
+        urls: [
+            "https://boardgamegeek.com/boardgame/18698/archimedes",
+        ],
         people: [
             {
                 type: "designer",

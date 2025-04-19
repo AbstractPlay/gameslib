@@ -31,7 +31,10 @@ export class CephalopodGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.ceph")
         description: "apgames:descriptions.ceph",
-        urls: ["http://www.marksteeregames.com/Cephalopod_rules.pdf"],
+        urls: [
+            "http://www.marksteeregames.com/Cephalopod_rules.pdf",
+            "https://boardgamegeek.com/boardgame/22790/cephalopod",
+        ],
         people: [
             {
                 type: "designer",

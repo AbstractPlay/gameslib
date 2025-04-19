@@ -32,7 +32,10 @@ export class CrosswayGame extends GameBase {
         dateAdded: "2023-06-25",
         // i18next.t("apgames:descriptions.crossway")
         description: "apgames:descriptions.crossway",
-        urls: ["https://www.marksteeregames.com/Crossway_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/Crossway_rules.pdf",
+            "https://boardgamegeek.com/boardgame/30517/crossway",
+        ],
         people: [
             {
                 type: "designer",

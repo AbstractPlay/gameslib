@@ -81,7 +81,10 @@ export class VolcanoGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.volcano")
         description: "apgames:descriptions.volcano",
-        urls: ["https://www.looneylabs.com/content/volcano"],
+        urls: [
+            "https://www.looneylabs.com/content/volcano",
+            "https://boardgamegeek.com/boardgame/13084/volcano",
+        ],
         people: [
             {
                 type: "designer",

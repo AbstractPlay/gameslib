@@ -37,7 +37,10 @@ export class UrbinoGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.urbino")
         description: "apgames:descriptions.urbino",
-        urls: ["https://spielstein.com/games/urbino"],
+        urls: [
+            "https://spielstein.com/games/urbino",
+            "https://boardgamegeek.com/boardgame/237009/urbino",
+        ],
         people: [
             {
                 type: "designer",

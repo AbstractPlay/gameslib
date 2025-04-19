@@ -35,6 +35,7 @@ export class FanoronaGame extends GameBase {
         description: "apgames:descriptions.fanorona",
         urls: [
             "https://en.wikipedia.org/wiki/Fanorona",
+            "https://boardgamegeek.com/boardgame/4386/fanorona",
         ],
         people: [
             {

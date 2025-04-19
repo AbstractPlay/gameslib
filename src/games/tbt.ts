@@ -32,7 +32,10 @@ export class TBTGame extends GameBase {
         description: "apgames:descriptions.tbt",
         // i18next.t("apgames:notes.tbt")
         notes: "apgames:notes.tbt",
-        urls: ["https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/642651dba939a00630eae0d7/1680232925727/TBTRules2023.pdf"],
+        urls: [
+            "https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/642651dba939a00630eae0d7/1680232925727/TBTRules2023.pdf",
+            "https://boardgamegeek.com/boardgame/98978/take-back-toe",
+        ],
         people: [
             {
                 type: "designer",

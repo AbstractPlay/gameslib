@@ -39,7 +39,10 @@ export class MiradorGame extends GameBase {
         version: "20230729",
         dateAdded: "2023-08-25",
         description: "apgames:descriptions.mirador",
-        urls: ["https://www.abstractgames.org/mirador.html"],
+        urls: [
+            "https://www.abstractgames.org/mirador.html",
+            "https://boardgamegeek.com/boardgame/65822/mirador",
+        ],
         people: [
             {
                 type: "designer",

@@ -32,7 +32,10 @@ export class MeridiansGame extends GameBase {
         dateAdded: "2024-01-05",
         // i18next.t("apgames:descriptions.meridians")
         description: "apgames:descriptions.meridians",
-        urls: ["https://kanare-abstract.com/en/pages/meridians"],
+        urls: [
+            "https://kanare-abstract.com/en/pages/meridians",
+            "https://boardgamegeek.com/boardgame/333775/meridians",
+        ],
         people: [
             {
                 type: "designer",

@@ -35,7 +35,10 @@ export class DragonEyesGame extends GameBase {
         dateAdded: "2024-08-02",
         // i18next.t("apgames:descriptions.dragoneyes")
         description: "apgames:descriptions.dragoneyes",
-        urls: ["https://dragoneyesabstractgame.blogspot.com/2024/07/dragon-eyes.html"],
+        urls: [
+            "https://dragoneyesabstractgame.blogspot.com/2024/07/dragon-eyes.html",
+            "https://boardgamegeek.com/boardgame/432209/dragon-eyes",
+        ],
         people: [
             {
                 type: "designer",

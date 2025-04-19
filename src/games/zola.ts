@@ -34,7 +34,10 @@ export class ZolaGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.zola")
         description: "apgames:descriptions.zola",
-        urls: ["http://www.marksteeregames.com/Zola.pdf"],
+        urls: [
+            "http://www.marksteeregames.com/Zola.pdf",
+            "https://boardgamegeek.com/boardgame/331666/zola",
+        ],
         people: [
             {
                 type: "designer",

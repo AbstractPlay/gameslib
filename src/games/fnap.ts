@@ -35,6 +35,7 @@ export class FnapGame extends GameBaseSimultaneous {
         description: "apgames:descriptions.fnap",
         urls: [
             "https://docs.google.com/document/d/1wSdFpFY1qcCpNO_06f9lllZPOun4jcXgk_RBPnV6UQo/edit?usp=sharing",
+            "https://boardgamegeek.com/boardgame/22698/fnap",
         ],
         people: [
             {

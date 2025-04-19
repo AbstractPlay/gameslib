@@ -59,7 +59,10 @@ export class MvolcanoGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.mvolcano")
         description: "apgames:descriptions.mvolcano",
-        urls: ["http://www.wunderland.com/WTS/Kristin/Games/Volcano.html#MegaVolcano"],
+        urls: [
+            "http://www.wunderland.com/WTS/Kristin/Games/Volcano.html#MegaVolcano",
+            "https://boardgamegeek.com/boardgame/13084/volcano",
+        ],
         people: [
             {
                 type: "designer",

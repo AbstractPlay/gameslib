@@ -31,7 +31,10 @@ export class MattockGame extends GameBase {
         dateAdded: "2024-01-07",
         // i18next.t("apgames:descriptions.mattock")
         description: "apgames:descriptions.mattock",
-        urls: ["https://mattock.drew-edwards.com/"],
+        urls: [
+            "https://mattock.drew-edwards.com/",
+            "https://boardgamegeek.com/boardgame/320505/mattock",
+        ],
         people: [
             {
                 type: "designer",

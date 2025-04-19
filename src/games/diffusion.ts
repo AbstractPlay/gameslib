@@ -31,7 +31,10 @@ export class DiffusionGame extends GameBase {
         dateAdded: "2023-12-29",
         // i18next.t("apgames:descriptions.diffusion")
         description: "apgames:descriptions.diffusion",
-        urls: ["https://marksteeregames.com/Diffusion_rules.pdf"],
+        urls: [
+            "https://marksteeregames.com/Diffusion_rules.pdf",
+            "https://boardgamegeek.com/boardgame/22326/diffusion",
+        ],
         people: [
             {
                 type: "designer",

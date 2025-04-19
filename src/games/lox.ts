@@ -35,7 +35,10 @@ export class LoxGame extends GameBase {
         dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.lox")
         description: "apgames:descriptions.lox",
-        urls: ["https://www.mindsports.nl/index.php/the-pit/1212-lox"],
+        urls: [
+            "https://www.mindsports.nl/index.php/the-pit/1212-lox",
+            "https://boardgamegeek.com/boardgame/432212/lox",
+        ],
         people: [
             {
                 type: "designer",

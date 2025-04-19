@@ -32,7 +32,10 @@ export class MonkeyQueenGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.monkey")
         description: "apgames:descriptions.monkey",
-        urls: ["http://www.marksteeregames.com/Monkey_Queen_rules.html"],
+        urls: [
+            "http://www.marksteeregames.com/Monkey_Queen_rules.html",
+            "https://boardgamegeek.com/boardgame/95757/monkey-queen",
+        ],
         people: [
             {
                 type: "designer",

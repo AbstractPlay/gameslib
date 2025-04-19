@@ -38,7 +38,10 @@ export class AtollGame extends GameBase {
         dateAdded: "2024-04-02",
         // i18next.t("apgames:descriptions.atoll")
         description: "apgames:descriptions.atoll",
-        urls: ["http://www.marksteeregames.com/Atoll_rules.pdf"],
+        urls: [
+            "http://www.marksteeregames.com/Atoll_rules.pdf",
+            "https://boardgamegeek.com/boardgame/34221/atoll",
+        ],
         people: [
             {
                 type: "designer",

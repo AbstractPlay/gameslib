@@ -117,7 +117,10 @@ export class StreetcarGame extends GameBase {
         dateAdded: "2023-07-03",
         // i18next.t("apgames:descriptions.streetcar")
         description: "apgames:descriptions.streetcar",
-        urls: ["https://streetcar.drew-edwards.com/rules"],
+        urls: [
+            "https://streetcar.drew-edwards.com/rules",
+            "https://boardgamegeek.com/boardgame/355847/streetcar-suburb",
+        ],
         people: [
             {
                 type: "designer",

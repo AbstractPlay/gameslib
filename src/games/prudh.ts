@@ -29,7 +29,10 @@ export class PrudhGame extends GameBase {
         dateAdded: "2024-04-28",
         // i18next.t("apgames:descriptions.prudh")
         description: "apgames:descriptions.prudh",
-        urls: ["https://crabfragmentlabs.com/prudh"],
+        urls: [
+            "https://crabfragmentlabs.com/prudh",
+            "https://boardgamegeek.com/boardgame/417698/prudh-the-gentlemens-game",
+        ],
         people: [
             {
                 type: "designer",

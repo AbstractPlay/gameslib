@@ -40,7 +40,10 @@ export class RootBoundGame extends GameBase {
         dateAdded: "2024-02-25",
         // i18next.t("apgames:descriptions.rootbound")
         description: "apgames:descriptions.rootbound",
-        urls: ["https://cjffield.com/rules/rootbound.pdf"],
+        urls: [
+            "https://cjffield.com/rules/rootbound.pdf",
+            "https://boardgamegeek.com/boardgame/416201/root-bound",
+        ],
         people: [
             {
                 type: "designer",

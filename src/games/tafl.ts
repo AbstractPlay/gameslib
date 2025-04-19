@@ -56,6 +56,7 @@ export class TaflGame extends GameBase {
         urls: [
             "https://abstractplay.com/wiki/doku.php?id=hnefatafl",
             "http://aagenielsen.dk/tafl_rules.php",
+            "https://boardgamegeek.com/boardgame/2932/hnefatafl",
         ],
         people: [
             {

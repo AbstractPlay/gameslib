@@ -89,7 +89,8 @@ export class HomeworldsGame extends GameBase {
         notes: "apgames:notes.homeworlds",
         urls: [
             "https://www.looneylabs.com/content/homeworlds",
-            "http://wunderland.com/WTS/Andy/Games/ILoveHomeworlds.html"
+            "http://wunderland.com/WTS/Andy/Games/ILoveHomeworlds.html",
+            "https://boardgamegeek.com/boardgame/14634/homeworlds",
         ],
         people: [
             {

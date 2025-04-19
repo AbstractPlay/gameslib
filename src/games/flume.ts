@@ -30,7 +30,10 @@ export class FlumeGame extends GameBase {
         dateAdded: "2023-07-17",
         // i18next.t("apgames:descriptions.flume")
         description: "apgames:descriptions.flume",
-        urls: ["https://www.marksteeregames.com/Flume_Go_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/Flume_Go_rules.pdf",
+            "https://boardgamegeek.com/boardgame/67080/flume",
+        ],
         people: [
             {
                 type: "designer",

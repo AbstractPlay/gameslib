@@ -37,7 +37,10 @@ export class TakeGame extends GameBase {
         dateAdded: "2024-02-25",
         // i18next.t("apgames:descriptions.take")
         description: "apgames:descriptions.take",
-        urls: ["https://www.marksteeregames.com/Take_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/Take_rules.pdf",
+            "https://boardgamegeek.com/boardgame/432220/take",
+        ],
         people: [
             {
                 type: "designer",

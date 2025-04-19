@@ -84,7 +84,11 @@ export class HavannahGame extends GameBase {
         dateAdded: "2024-01-01",
         // i18next.t("apgames:descriptions.havannah")
         description: "apgames:descriptions.havannah",
-        urls: ["https://www.mindsports.nl/index.php/arena/havannah", "https://en.wikipedia.org/wiki/Havannah_(board_game)"],
+        urls: [
+            "https://www.mindsports.nl/index.php/arena/havannah",
+            "https://en.wikipedia.org/wiki/Havannah_(board_game)",
+            "https://boardgamegeek.com/boardgame/2759/havannah",
+        ],
         people: [
             {
                 type: "designer",

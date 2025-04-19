@@ -46,7 +46,10 @@ export class TintasGame extends GameBase {
         dateAdded: "2023-07-01",
         // i18next.t("apgames:descriptions.tintas")
         description: "apgames:descriptions.tintas",
-        urls: ["https://spielstein.com/games/tintas/rules"],
+        urls: [
+            "https://spielstein.com/games/tintas/rules",
+            "https://boardgamegeek.com/boardgame/207951/tintas",
+        ],
         people: [
             {
                 type: "designer",

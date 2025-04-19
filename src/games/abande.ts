@@ -33,7 +33,11 @@ export class AbandeGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.abande")
         description: "apgames:descriptions.abande",
-        urls: ["https://spielstein.com/games/abande/rules"],
+        urls: [
+            "https://spielstein.com/games/abande/rules",
+            "https://boardgamegeek.com/boardgame/21324/abande",
+            "https://boardgamegeek.com/boardgameexpansion/57291/abande2",
+        ],
         people: [
             {
                 type: "designer",

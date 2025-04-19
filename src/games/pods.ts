@@ -32,7 +32,10 @@ export class PodsGame extends GameBase {
         dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.pods")
         description: "apgames:descriptions.pods",
-        urls: ["https://cjffield.com/rules/pods.pdf"],
+        urls: [
+            "https://cjffield.com/rules/pods.pdf",
+            "https://boardgamegeek.com/boardgame/402621/natal-seas",
+        ],
         people: [
             {
                 type: "designer",

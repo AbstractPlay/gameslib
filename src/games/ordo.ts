@@ -39,7 +39,10 @@ export class OrdoGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.ordo")
         description: "apgames:descriptions.ordo",
-        urls: ["https://spielstein.com/games/ordo"],
+        urls: [
+            "https://spielstein.com/games/ordo",
+            "https://boardgamegeek.com/boardgame/41006/ordo",
+        ],
         people: [
             {
                 type: "designer",

@@ -31,7 +31,10 @@ export class MurusGame extends GameBase {
         description: "apgames:descriptions.murus",
         // i18next.t("apgames:notes.murus")
         notes: "apgames:notes.murus",
-        urls: ["https://sites.google.com/site/theowlsnest02/home/murus-gallicus"],
+        urls: [
+            "https://sites.google.com/site/theowlsnest02/home/murus-gallicus",
+            "https://boardgamegeek.com/boardgame/55131/murus-gallicus",
+        ],
         people: [
             {
                 type: "designer",

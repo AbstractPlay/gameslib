@@ -38,7 +38,10 @@ export class DipoleGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.dipole")
         description: "apgames:descriptions.dipole",
-        urls: ["http://www.marksteeregames.com/Dipole_rules.pdf"],
+        urls: [
+            "http://www.marksteeregames.com/Dipole_rules.pdf",
+            "https://boardgamegeek.com/boardgame/29491/dipole",
+        ],
         people: [
             {
                 type: "designer",

@@ -47,7 +47,7 @@ export class UnlurGame extends GameBase {
         // i18next.t("apgames:descriptions.unlur")
         description: "apgames:descriptions.unlur",
         urls: [
-            "http://www.di.fc.ul.pt/~jpn/gv/unlur.htm",
+            "https://jpneto.github.io/world_abstract_games/unlur.htm",
             "https://boardgamegeek.com/boardgame/3826/unlur",
         ],
         people: [

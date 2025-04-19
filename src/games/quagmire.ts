@@ -32,7 +32,10 @@ export class QuagmireGame extends GameBase {
         dateAdded: "2023-11-26",
         // i18next.t("apgames:descriptions.quagmire")
         description: "apgames:descriptions.quagmire",
-        urls: ["https://cjffield.com/rules/quagmire.pdf"],
+        urls: [
+            "https://cjffield.com/rules/quagmire.pdf",
+            "https://boardgamegeek.com/boardgame/407206/quagmire",
+        ],
         people: [
             {
                 type: "designer",

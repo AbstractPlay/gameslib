@@ -30,7 +30,10 @@ export class FocusGame extends GameBase {
         dateAdded: "2023-06-27",
         // i18next.t("apgames:descriptions.focus")
         description: "apgames:descriptions.focus",
-        urls: ["https://en.wikipedia.org/wiki/Focus_(board_game)"],
+        urls: [
+            "https://en.wikipedia.org/wiki/Focus_(board_game)",
+            "https://boardgamegeek.com/boardgame/789/focus",
+        ],
         people: [
             {
                 type: "designer",

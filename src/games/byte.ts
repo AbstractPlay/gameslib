@@ -28,7 +28,10 @@ export class ByteGame extends GameBase {
         dateAdded: "2023-12-24",
         // i18next.t("apgames:descriptions.byte")
         description: "apgames:descriptions.byte",
-        urls: ["https://www.marksteeregames.com/Byte_rules.pdf"],
+        urls: [
+            "https://www.marksteeregames.com/Byte_rules.pdf",
+            "https://boardgamegeek.com/boardgame/19360/byte",
+        ],
         people: [
             {
                 type: "designer",

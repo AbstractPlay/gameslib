@@ -40,7 +40,10 @@ export class BlamGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.blam")
         description: "apgames:descriptions.blam",
-        urls: ["http://invisible-city.com/content/blam"],
+        urls: [
+            "http://invisible-city.com/content/blam",
+            "https://boardgamegeek.com/boardgame/17765/blam",
+        ],
         people: [
             {
                 type: "designer",

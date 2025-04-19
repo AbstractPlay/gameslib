@@ -37,7 +37,10 @@ export class AccastaGame extends GameBase {
         dateAdded: "2023-05-01",
         // i18next.t("apgames:descriptions.accasta")
         description: "apgames:descriptions.accasta",
-        urls: ["https://spielstein.com/games/accasta"],
+        urls: [
+            "https://spielstein.com/games/accasta",
+            "https://boardgamegeek.com/boardgame/9060/accasta",
+        ],
         people: [
             {
                 type: "designer",

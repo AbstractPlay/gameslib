@@ -33,7 +33,7 @@
         "bug": "Fill the ecosystem with your bugs so much that you can no longer expand. On your turn, place a piece to start a new bug or grow an existing bug. Then, if any of your bugs are adjacent to enemy bugs of the same shape, they must eat them, and perform a bonus growth (if bonus growth is not possible, no eating occurs). This can result in chain reactions. If there are multiple choices of bugs that can eat, you may determine which bugs do it and in which order.",
         "buku": "Buku is a two-dimensional sowing game on a checkerboard where the colour corresponds to the pits of each player. The first player selects a row to collect, then pieces are sown from any square towards any orthogonal direction but never passing the same square twice. The second player does the same, but collects from columns. After sowing, any square with 3 or 4 pieces on their colour are captured. The game ends when one player gets more than half the total number of possible points, or all pieces are singletons (each player claims one point for every piece in their pit), or when the board position is repeated (other player claims the rest of the pieces). The first player gets an additonal piece on the first sow.",
         "byte": "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
-        "c1": "In C1 (C-one or Cone), each player commands 1 cone, 4 pyramids, and 10 sliding tiles with unique movements. Players manoeuvre their pieces to eliminate opponent tiles and ultimately surround the enemy cone on all four orthogonal sides using pieces or the voids left by vanished tiles.",
+        "c1": "In C1 (or cone), each player commands 1 cone, 4 pyramids, and 10 sliding tiles with unique movements. Players manoeuvre their pieces to eliminate opponent tiles and ultimately surround the enemy cone on all four orthogonal sides using pieces or the voids left by vanished tiles.",
         "calculus": "A free-form game where pieces of arbitrary size and shape are freely placed on a surface of any dimensions or shape, trying to connect opposite sides. The implementation here uses a round board and round pieces.",
         "camelot": "A classic game where you try to move two pieces into your opponent's castle or eliminate all of your opponent's pieces.",
         "cannon": "A two-player game played on a 10x10 board. Soldiers can move independently, but three soldiers in a row form a \"cannon\" and can move along their length or kill soldiers two or three spaces away. The first player to capture the opposing town wins.",
@@ -606,7 +606,7 @@
         "c1": {
             "two-move": {
                 "name": "C2",
-                "description": "On your turn, move a tile if possible, then move a pyramid or cone."
+                "description": "On your turn, you may begin with an optional tile move, followed by a required pyramid or cone move."
             }
         },
         "calculus": {
@@ -3299,16 +3299,16 @@
         },
         "c1": {
             "INITIAL_INSTRUCTIONS": "Select a piece or a tile to move.",
-            "INITIAL_INSTRUCTIONS_TWO_MOVE": "Select a tile to move, then select a pyramid or cone to move.",
-            "INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE": "Select a pyramid or cone to move.",
+            "INITIAL_INSTRUCTIONS_TWO_MOVE": "Select a tile, then a piece to move; or select a piece to move directly.",
+            "INITIAL_INSTRUCTIONS_TWO_MOVE_NO_TILE": "Select a piece to move.",
             "NOT_SLIDABLE": "The tile at {{where}} is not slidable.",
             "MISSING_PREFIX": "The prefix '{{prefix}}' is missing. Try '{{move}}'.",
             "WRONG_PREFIX": "The correct prefix should be '{{prefix}}'. Try '{{move}}'.",
             "INVALID_TO": "The {{what}} at {{from}} cannot move to {{to}}.",
             "USE_ELIMINATE_NOTATION": "Use an 'x' to indicate tile elimination. Try '{{move}}'.",
             "USE_MOVE_NOTATION": "You used a 'x' but there was no tile elimination. Try '{{move}}'.",
-            "FIRST_MOVE_TILE": "The first move must be a tile move.",
-            "SECOND_MOVE_PIECE": "The second move must be a pyramid or a cone move.",
+            "MOVE_TILE_FIRST": "If you make two moves, the first move must be a tile move.",
+            "MOVE_PIECE_SECOND": "If you make two moves, the second move must be a piece move.",
             "NEED_SECOND_MOVE": "Select a pyramid or cone to move."
         },
         "calculus": {

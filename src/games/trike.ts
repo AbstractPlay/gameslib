@@ -53,6 +53,7 @@ export class TrikeGame extends GameBase {
         ],
         variants: [
             {uid: "standard-7", group: "board"},
+            { uid: "#board", },
             {uid: "standard-13", group: "board"},
             {uid: "standard-15", group: "board"},
         ],

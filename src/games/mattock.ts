@@ -56,6 +56,7 @@ export class MattockGame extends GameBase {
                 uid: "size-5",
                 group: "board",
             },
+            { uid: "#board", },
             {
                 uid: "random",
                 group: "setup",

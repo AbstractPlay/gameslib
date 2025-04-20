@@ -55,6 +55,7 @@ export class BlastRadiusGame extends GameBase {
                 uid: "board-5",
                 group: "board",
             },
+            { uid: "#board", },
             {
                 uid: "board-7",
                 group: "board",

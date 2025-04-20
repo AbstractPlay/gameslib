@@ -48,6 +48,7 @@ export class TaijiGame extends GameBase {
                 uid: "7x7",
                 group: "board"
             },
+            { uid: "#board", },
             {
                 uid: "11x11",
                 group: "board"

@@ -47,6 +47,7 @@ export class GonnectGame extends GameBase {
         ],
         variants: [
             { uid: "size-9", group: "board" },
+            { uid: "#board", },
             { uid: "size-19", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple"],

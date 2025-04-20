@@ -56,6 +56,7 @@ export class MeridiansGame extends GameBase {
                 uid: "size-6",
                 group: "board",
             },
+            { uid: "#board", },
             {
                 uid: "size-8",
                 group: "board",

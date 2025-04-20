@@ -60,6 +60,7 @@ export class TumbleweedGame extends GameBase {
         flags: ["pie-even", "scores", "aiai", "custom-randomization"],
         variants: [
             { uid: "size-6", group: "board" },
+            { uid: "#board", },
             { uid: "size-10", group: "board" },
             { uid: "capture-delay" },
             { uid: "free-neutral" },

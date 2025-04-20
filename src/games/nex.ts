@@ -56,6 +56,7 @@ export class NexGame extends GameBase {
         flags: ["pie"],
         variants: [
             { uid: "size-9", group: "board" },
+            { uid: "#board", },
         ]
     };
 

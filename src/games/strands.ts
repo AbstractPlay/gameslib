@@ -52,6 +52,7 @@ export class StrandsGame extends GameBase {
             { uid: "size-5-fixed", group: "board" },
             { uid: "size-6-fixed", group: "board" },
             { uid: "size-6-fixed-lownumbers", group: "board" },
+            { uid: "#board", },
             { uid: "size-7-fixed", group: "board" },
         ],
         categories: ["goal>majority", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

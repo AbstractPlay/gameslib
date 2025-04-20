@@ -56,6 +56,7 @@ export class BloomsGame extends GameBase {
         variants: [
             { uid: "size-4", group: "board" },
             { uid: "size-5", group: "board" },
+            { uid: "#board", },
             { uid: "size-8", group: "board" },
             { uid: "size-10", group: "board" },
         ],

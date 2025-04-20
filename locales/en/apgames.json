@@ -26,6 +26,7 @@
         "blastradius": "An abstract war game where pieces irradiate the spaces around them. Eliminate all opposing pieces.",
         "blockade": "Blockade (also known as Cul-de-sac) is a 'beat the barrier' game where you get one of your pawns to a starting space of your opponent. Players place 2-wide walls to block each other.",
         "blooms": "Each player owns 2 colours of stones. Players take turns placing one or two stones each turn (if you place two, they must be different colours), then capture all fenced enemy blooms. The first player to capture a certain number of stones wins.",
+        "bloqueo": "Manipulate pawns to create towers of player pieces. Score points based on connected groups of controlled towers. Highest score wins.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
@@ -3230,6 +3231,12 @@
             "SAME_TILE": "You cannot place two tiles of the same type in the same move.",
             "TOO_MANY_MOVES": "You may only place two pieces on the board per turn.",
             "TOO_MANY_MOVES_FIRST": "You may only place one piece on the board on the first turn."
+        },
+        "bloqueo": {
+            "INITIAL_INSTRUCTIONS_play": "Select a pawn to move.",
+            "INITIAL_INSTRUCTIONS_setup": "Select an empty space to place a pawn.",
+            "PARTIAL_dest": "Select the destination.",
+            "PARTIAL_place": "Select a cell to place one of your pieces."
         },
         "boom": {
             "INITIAL_INSTRUCTIONS": "Select a stack to move or attack with.",

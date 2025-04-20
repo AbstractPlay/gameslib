@@ -54,6 +54,7 @@ export class ReversiGame extends GameBase {
         ],
         variants: [
             {uid: "standard-6", group: "board"},
+            { uid: "#board", },
             {uid: "standard-10", group: "board"},
             {uid: "octagon-8", group: "board"},
             {uid: "octagon-10", group: "board"},

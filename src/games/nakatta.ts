@@ -55,6 +55,7 @@ export class NakattaGame extends GameBase {
         ],
         variants: [
             { uid: "size-19", group: "board" },
+            { uid: "#board", },
             { uid: "size-25", group: "board" },
             { uid: "size-29", group: "board" },
         ],

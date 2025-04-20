@@ -51,6 +51,7 @@ export class QueryGame extends GameBase {
         ],
         variants: [
             { uid: "size-9", group: "board" },
+            { uid: "#board", },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple"],
         flags: ["pie"],

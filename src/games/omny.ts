@@ -89,6 +89,7 @@ export class OmnyGame extends GameBase {
             {uid: "size-5", group: "board"},
             {uid: "size-6", group: "board"},
             {uid: "size-7", group: "board"},
+            { uid: "#board", },
             {uid: "size-9", group: "board"},
             {uid: "size-10", group: "board"},
             {uid: "constellation", group: "stars"},

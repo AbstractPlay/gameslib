@@ -58,6 +58,7 @@ export class DagEnNachtGame extends GameBase {
                 uid: "13x13",
                 group: "board",
             },
+            { uid: "#board", },
             {
                 uid: "17x17",
                 group: "board",

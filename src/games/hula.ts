@@ -59,6 +59,7 @@ export class HulaGame extends GameBase {
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>3c"],
         variants: [
             {uid: "size-5", group: "board"},
+            { uid: "#board", },
             {uid: "size-7", group: "board"}
         ]
     };

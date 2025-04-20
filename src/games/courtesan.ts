@@ -50,7 +50,8 @@ export class CourtesanGame extends GameBase {
             },
         ],
         variants: [
-            {uid: "size-6", group: "board"}
+            {uid: "size-6", group: "board"},
+            { uid: "#board", },
         ],
         categories: ["goal>royal-capture", "goal>royal-escape", "mechanic>capture", "mechanic>move", "mechanic>displace", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "perspective", "limited-pieces"],

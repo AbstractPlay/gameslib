@@ -68,6 +68,7 @@ export class StigmergyGame extends GameBase {
                 uid: "size-7",
                 group: "board"
             },
+            { uid: "#board", },
             {
                 uid: "size-9",
                 group: "board"

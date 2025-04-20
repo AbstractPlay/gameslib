@@ -45,6 +45,7 @@ export class BugGame extends GameBase {
         ],
         variants: [
             { uid: "size-3", group: "board" },
+            { uid: "#board", },
             { uid: "size-5", group: "board" },
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple"],

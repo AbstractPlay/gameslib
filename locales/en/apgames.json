@@ -373,7 +373,7 @@
                 "name": "13x13 board"
             },
             "#komi": {
-                "name": "fluid komi",
+                "name": "Komi swap",
                 "description": "At the start of the game, the first player sets komi and the second player chooses sides."
             },
             "#rules": {
@@ -522,7 +522,7 @@
         },
         "blooms": {
             "#board": {
-                "name": "Default board (base-6)"
+                "name": "Default board (base 6)"
             },
             "size-4": {
                 "name": "Smallest board (base 4)"
@@ -838,9 +838,6 @@
             },
             "size-5": {
                 "name": "Size-5 board"
-            },
-            "size-9": {
-                "name": "Size-9 board"
             }
         },
         "conspirateurs": {
@@ -1161,14 +1158,17 @@
             }
         },
         "hexy": {
+            "#board": {
+                "name": "Hexhex 7 (127 spaces)"
+            },
             "11": {
-                "name": "11-21 board (331 total cells)"
+                "name": "Hexhex 11 (331 total cells)"
             },
             "08": {
-                "name": "8-15 board (169 total cells)"
+                "name": "Hexhex 8 (169 total cells)"
             },
             "09": {
-                "name": "9-17 board (217 total cells)"
+                "name": "Hexhex 9 (217 total cells)"
             }
         },
         "hula": {
@@ -1227,6 +1227,9 @@
             }
         },
         "konane": {
+            "#board": {
+                "name": "Size 6 board"
+            },
             "size-8": {
                 "name": "Size 8 board"
             }
@@ -1788,6 +1791,9 @@
             }
         },
         "reversi": {
+            "#board": {
+                "name": "Default 8x8 board"
+            },
             "anti": {
                 "description": "The player who has the fewest pieces at the end of the game wins.",
                 "name": "Anti-Reversi"

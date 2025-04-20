@@ -48,6 +48,7 @@ export class OustGame extends GameBase {
         ],
         variants: [
             { uid: "hex-6", group: "board" },
+            { uid: "#board", },
             { uid: "hex-8", group: "board" },
             { uid: "square-11", group: "board" },
         ],

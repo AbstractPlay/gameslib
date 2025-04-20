@@ -63,6 +63,7 @@ export class StorisendeGame extends GameBase {
         variants: [
             // default is hex5 board
             {uid: "board-hex4", group: "board"},
+            { uid: "#board", },
             {uid: "board-hex6", group: "board"},
             {uid: "board-hex7", group: "board"},
             {uid: "board-modular-13", group: "board"},

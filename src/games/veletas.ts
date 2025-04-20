@@ -53,13 +53,14 @@ export class VeletasGame extends GameBase {
         ],
         variants: [
             {
-                uid: "size-9",
-                group: "board",
-            },
-            {
                 uid: "size-7",
                 group: "board",
             },
+            {
+                uid: "size-9",
+                group: "board",
+            },
+            { uid: "#board", },
             {
                 uid: "random",
                 group: "setup",

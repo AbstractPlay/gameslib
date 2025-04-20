@@ -48,6 +48,7 @@ export class ConnecticutGame extends GameBase {
         ],
         variants: [
             { uid: "size-15", group: "board" },
+            { uid: "#board", },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie"],

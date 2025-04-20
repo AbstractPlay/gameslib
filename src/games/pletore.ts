@@ -61,6 +61,7 @@ export class PletoreGame extends GameBase {
                 uid: "size-11",
                 group: "board"
             },
+            { uid: "#board", },
             {
                 uid: "size-15",
                 group: "board"

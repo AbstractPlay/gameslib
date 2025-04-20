@@ -54,6 +54,7 @@ export class AsliGame extends GameBase {
         variants: [
             {uid: "board-9", group: "board"},
             {uid: "board-11", group: "board"},
+            { uid: "#board", },
             {uid: "board-15", group: "board"},
             {uid: "board-17", group: "board"},
             {uid: "board-19", group: "board"},

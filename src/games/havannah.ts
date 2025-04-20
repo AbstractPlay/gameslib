@@ -114,6 +114,7 @@ export class HavannahGame extends GameBase {
                 uid: "size-6",
                 group: "board",
             },
+            { uid: "#board", },
             {
                 uid: "size-10",
                 group: "board",

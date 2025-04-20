@@ -62,6 +62,7 @@ export class HalfcutGame extends GameBase {
         ],
         variants: [
             { uid: "size-15", group: "board" },
+            { uid: "#board", },
             { uid: "clearcut", group: "ruleset" },
         ],
         categories: ["goal>connect", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],

@@ -69,6 +69,7 @@ export class SympleGame extends GameBase {
                 uid: "p-6",
                 group: "penalty"
             },
+            { uid: "#penalty", },
             {
                 uid: "p-10",
                 group: "penalty"

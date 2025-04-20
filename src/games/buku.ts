@@ -49,6 +49,7 @@ export class BukuGame extends GameBase {
         ],
         variants: [
             {uid: "size-6", group: "board"},
+            { uid: "#board", },
             {uid: "size-10", group: "board"},
         ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>move>sow", "board>shape>rect", "board>connect>rect", "components>simple>1c"],

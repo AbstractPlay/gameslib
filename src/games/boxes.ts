@@ -48,6 +48,7 @@ export class BoxesGame extends GameBase {
         ],
         variants: [
             { uid: "size-4x4", group: "board" },
+            { uid: "#board", },
             { uid: "size-5x7", group: "board" },
             { uid: "size-7x7", group: "board" },
         ],

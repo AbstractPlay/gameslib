@@ -87,6 +87,7 @@ export class CalculusGame extends GameBase {
                 uid: "width-10",
                 group: "board",
             },
+            { uid: "#board", },
             {
                 uid: "width-15",
                 group: "board"

@@ -56,6 +56,7 @@ export class GyveGame extends GameBase {
         variants: [
             {uid: "size-6", group: "board"},
             {uid: "size-7", group: "board"},
+            { uid: "#board", },
             {uid: "size-10", group: "board"},
             {uid: "size-12", group: "board"},
         ],

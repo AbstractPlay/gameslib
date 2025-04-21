@@ -1395,15 +1395,16 @@
                 "name": "Default rules"
             },
             "simplified": {
-                "name": "Simplified formations"
+                "name": "Simplified formations",
+                "descriptions": "Capture formations are simplified, and the colored edges of the board do not count as stones."
             },
             "double": {
                 "name": "Double placement",
-                "description": "On each turn, place two new pieces or capture one. Capture formations are simplified, and the pie rule is not used."
+                "description": "On each turn, place two new stones or capture one. The pie rule is not used. Simplified formations apply."
             },
             "replace": {
                 "name": "Replacement",
-                "description": "Captured pieces must be placed back on the board by their owner. Capture formations are simplified."
+                "description": "Captured stones must be placed back on the board by their owner. Simplified formations apply."
             }
         },
         "murus": {

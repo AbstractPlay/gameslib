@@ -390,7 +390,7 @@ export class BloqueoGame extends GameBase {
             }
             // second time
             else if (currBlocks.length === 1) {
-                const two = currBlocks.find(b => b.count === 2)!;
+                const two = currBlocks[0];
                 // two becomes one
                 this.blocks.set(two.cell, {...two, count: 1});
                 // new becomes 2

@@ -252,10 +252,24 @@ export class MorphosGame extends GameBase {
                 const x = ox + px;
                 const y = oy + py;
                 // if both x and y are out of bounds, then illegal
-                if ( (x < 0 || x >= size) && (y < 0 || y >= size)) {
+                if ( (x < 0 || x >= size) && (y < 0 || y >= size) ) {
                     return null;
                 }
                 // otherwise single out of bounds
+                // if simplified formations, then no out of bounds is acceptable
+                if (
+                    (
+                        this.variants.includes("simplified") ||
+                        this.variants.includes("double") ||
+                        this.variants.includes("replace")
+                    ) &&
+                    (
+                        (x < 0 || x >= size) ||
+                        (y < 0 || y >= size)
+                    )
+                ) {
+                    return null;
+                }
                 // there's only one row outside of each edge
                 else if (x < 0) {
                     if (x === -1) {

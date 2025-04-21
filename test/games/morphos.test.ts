@@ -38,9 +38,10 @@ describe("Morphos", () => {
         // extends too far
         g = initGame([["a7", 2], ["a8", 1], ["b7", 2]]);
         expect(g.isWeak("a8")).to.be.false;
-        // but is valid if simplified
-        g = initGame([["a7", 2], ["a8", 1], ["b7", 2]], ["simplified"]);
-        expect(g.isWeak("a8")).to.be.true;
+        /* no peripheral stones in simplified formations */
+        // // but is valid if simplified
+        // g = initGame([["a7", 2], ["a8", 1], ["b7", 2]], ["simplified"]);
+        // expect(g.isWeak("a8")).to.be.true;
         // wrong edge
         g = initGame([["f9", 2], ["g9", 1], ["h9", 2]]);
         expect(g.isWeak("g9")).to.be.false;

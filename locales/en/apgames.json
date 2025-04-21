@@ -1396,7 +1396,7 @@
             },
             "simplified": {
                 "name": "Simplified formations",
-                "descriptions": "Capture formations are simplified, and the colored edges of the board do not count as stones."
+                "description": "Capture formations are simplified, and the colored edges of the board do not count as stones."
             },
             "double": {
                 "name": "Double placement",

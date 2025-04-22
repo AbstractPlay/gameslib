@@ -30,7 +30,7 @@ export class StormCGame extends GameBase {
         dateAdded: "2025-03-21",
         // i18next.t("apgames:descriptions.stormc")
         description: "apgames:descriptions.stormc",
-        urls: ["https://boardgamegeek.com/boardgame/436268/stormc"],
+        urls: ["https://boardgamegeek.com/boardgame/429340/storm-clouds"],
         people: [
             {
                 type: "designer",

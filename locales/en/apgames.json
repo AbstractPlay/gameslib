@@ -167,6 +167,7 @@
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
         "stigmergy": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "storisende": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
+        "stormc": "An asymmetrical game where each player's pieces move and capture differently. Destroy your opponent!",
         "strands": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
@@ -4692,6 +4693,10 @@
             "TOO_MANY": "You placed too many pieces. Please reset the move and try again.",
             "WALL_CLIMB": "Pieces may not move from the ground onto a wall tile.",
             "WALL_JUMP": "Pieces may only jump over a wall tile if that tile contains at least one of your own pieces."
+        },
+        "stormc": {
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
+            "PARTIAL": "Select a destination."
         },
         "strands": {
             "DIFFERENT_NUMS": "You have to select spaces with the same number.",

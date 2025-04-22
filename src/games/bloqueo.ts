@@ -32,7 +32,7 @@ export class BloqueoGame extends GameBase {
         uid: "bloqueo",
         playercounts: [2],
         version: "20250420",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-04-22",
         // i18next.t("apgames:descriptions.bloqueo")
         description: "apgames:descriptions.bloqueo",
         urls: [
@@ -53,7 +53,7 @@ export class BloqueoGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>share", "mechanic>move", "mechanic>place", "mechanic>displace", "board>shape>rect", "board>connect>rect", "components>simple>5c"],
-        flags: ["experimental", "scores", "custom-colours", "limited-pieces", "automove"]
+        flags: ["scores", "custom-colours", "limited-pieces", "automove"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 7);
@@ -390,10 +390,14 @@ export class BloqueoGame extends GameBase {
             }
             // second time
             else if (currBlocks.length === 1) {
+                const two = currBlocks[0];
+                // two becomes one
+                this.blocks.set(two.cell, {...two, count: 1});
+                // new becomes 2
                 this.blocks.set(place, {
                     cell: place,
                     colour: contents,
-                    count: 1,
+                    count: 2,
                 });
             }
             // all the rest of the time

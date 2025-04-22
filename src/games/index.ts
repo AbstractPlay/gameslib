@@ -201,6 +201,7 @@ import { AssemblyGame, IAssemblyState } from "./assembly";
 import { PaintbucketGame, IPaintbucketState } from "./paintbucket";
 import { C1Game, IC1State } from "./c1";
 import { BloqueoGame, IBloqueoState } from "./bloqueo";
+import { StormCGame, IStormCState } from "./stormc";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -404,6 +405,7 @@ export {
     PaintbucketGame, IPaintbucketState,
     C1Game, IC1State,
     BloqueoGame, IBloqueoState,
+    StormCGame, IStormCState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -473,7 +475,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
-                              typeof BloqueoGame
+                              typeof BloqueoGame | typeof StormCGame
                 >();
 // Manually add each game to the following array
 [
@@ -505,6 +507,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
     PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
     SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game, BloqueoGame,
+    StormCGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -916,6 +919,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new C1Game(...args);
         case "bloqueo":
             return new BloqueoGame(...args);
+        case "stormc":
+            return new StormCGame(...args);
     }
     return;
 }

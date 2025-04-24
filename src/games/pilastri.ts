@@ -50,7 +50,7 @@ export class PilastriGame extends GameBase {
             },
         ],
         categories: ["goal>immobilize", "mechanic>move", "board>shape>rect"],
-        flags: ["automove"],
+        flags: ["automove", "experimental"],
         variants: [
             {
                 uid: "size-8",

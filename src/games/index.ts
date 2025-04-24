@@ -203,6 +203,7 @@ import { PaintbucketGame, IPaintbucketState } from "./paintbucket";
 import { C1Game, IC1State } from "./c1";
 import { BloqueoGame, IBloqueoState } from "./bloqueo";
 import { StormCGame, IStormCState } from "./stormc";
+import { PilastriGame, IPilastriState } from "./pilastri";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -408,6 +409,7 @@ export {
     C1Game, IC1State,
     BloqueoGame, IBloqueoState,
     StormCGame, IStormCState,
+    PilastriGame, IPilastriState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -477,7 +479,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
-                              typeof BloqueoGame | typeof StibroGame | typeof StormCGame
+                              typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
+                              typeof StibroGame
                 >();
 // Manually add each game to the following array
 [
@@ -509,7 +512,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
     PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
     SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game, BloqueoGame,
-    StormCGame,
+    StormCGame, PilastriGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -925,6 +928,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BloqueoGame(...args);
         case "stormc":
             return new StormCGame(...args);
+        case "pilastri":
+            return new PilastriGame(...args);
     }
     return;
 }

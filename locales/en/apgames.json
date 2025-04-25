@@ -138,6 +138,7 @@
         "pigs": "This is the base-rules version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players, and each player programs five moves each turn.",
         "pigs2": "This is the continuous feedback version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–8 players, and each player only programs one move per turn.",
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
+        "pilastri": "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
@@ -167,6 +168,7 @@
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
         "stigmergy": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "storisende": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
+        "stormc": "An annihilation game with asymmetrical piece movement.",
         "strands": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         "streetcar": "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         "strings": "Players simultaneously choose a string to pull, moving, splitting, and joining stacks of coins. The winner is the first one able to get five coins on their home spaces. Are you pulling strings? Or is your opponent pulling yours?",
@@ -1630,6 +1632,22 @@
             "15pts": {
                 "description": "The game doesn't end until you have 15 points worth of enemy soldiers.",
                 "name": "Longer Game: 15 points"
+            }
+        },
+        "pilastri": {
+            "#board": {
+                "name": "Size 6 board"
+            },
+            "size-8": {
+                "name": "Size 8 board"
+            },
+            "#rules": {
+                "name": "Default rules",
+                "description": "A piece must move higher and pieces that start with nothing beneath them can only end with a single piece beneath them."
+            },
+            "jumpers": {
+                "name": "High jumpers",
+                "description": "A piece must move higher, but pieces that start with nothing beneath them are allowed to land on any other stack."
             }
         },
         "pletore": {
@@ -4276,6 +4294,10 @@
             "UPRIGHT_MOVEMENT": "Upright pieces cannot move.",
             "USELESS_ORIENTATION": "If you reorient, you have to change to a new facing."
         },
+        "pilastri": {
+            "NORMAL_MOVE": "Choose a piece to move.",
+            "INVALID_MOVE": "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks."
+        },
         "pletore": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or 'pass' if all intersections are occupied or controlled. The game ends when both players pass in sequence.",
             "INITIAL_INSTRUCTIONS_BUTTON": "Place a piece onto an empty intersection not controlled by the opponent, replace an enemy piece on an intersection you control, or take the button (worth .5 points).",
@@ -4692,6 +4714,10 @@
             "TOO_MANY": "You placed too many pieces. Please reset the move and try again.",
             "WALL_CLIMB": "Pieces may not move from the ground onto a wall tile.",
             "WALL_JUMP": "Pieces may only jump over a wall tile if that tile contains at least one of your own pieces."
+        },
+        "stormc": {
+            "INITIAL_INSTRUCTIONS": "Select one of your pieces to move.",
+            "PARTIAL": "Select a destination."
         },
         "strands": {
             "DIFFERENT_NUMS": "You have to select spaces with the same number.",

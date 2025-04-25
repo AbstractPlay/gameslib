@@ -29,7 +29,7 @@ export class PilastriGame extends GameBase {
         uid: "pilastri",
         playercounts: [2],
         version: "20250424",
-        dateAdded: "2025-04-24",
+        dateAdded: "2025-04-25",
         // i18next.t("apgames:descriptions.pilastri")
         description: "apgames:descriptions.pilastri",
         urls: [

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -29,7 +29,8 @@ export class PahTumGame extends GameBase {
         name: "Pah-Tum",
         uid: "pahtum",
         playercounts: [2],
-        version: "20250201",
+        // version: "20250201",
+        version: "20250425",
         dateAdded: "2025-02-01",
         // i18next.t("apgames:descriptions.pahtum")
         description: "apgames:descriptions.pahtum",
@@ -51,7 +52,7 @@ export class PahTumGame extends GameBase {
             {uid: "quick"},
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "mechanic>convert", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores", "pie-even", "custom-buttons", "random-start"]
+        flags: ["scores", "pie", "random-start"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 7);
@@ -123,21 +124,6 @@ export class PahTumGame extends GameBase {
         return this;
     }
 
-    public shouldOfferPie(): boolean {
-        return (!this.variants.includes("quick"));
-    }
-
-    public isPieTurn(): boolean {
-        return this.stack.length === 2;
-    }
-
-    public getButtons(): ICustomButton[] {
-        if (!this.variants.includes("quick") && this.stack.length === 2) {
-            return [{ label: "pass", move: "pass" }];
-        }
-        return [];
-    }
-
     private get graph(): SquareDirectedGraph {
         return new SquareDirectedGraph(7, 7);
     }
@@ -146,12 +132,8 @@ export class PahTumGame extends GameBase {
         if (this.gameover) { return []; }
 
         // don't return a list of moves when manually placing blocks or choosing sides
-        if (!this.variants.includes("quick") && this.stack.length <= 2) {
-            if (this.stack.length === 1) {
-                return [];
-            } else {
-                return ["pass"];
-            }
+        if (!this.variants.includes("quick") && this.stack.length === 1) {
+            return [];
         }
 
         const moves = new Set<string>(this.graph.graph.nodes().filter(n => !this.board.has(n)));
@@ -205,7 +187,7 @@ export class PahTumGame extends GameBase {
                     if (!cells.includes(cell)) {
                         newmove = [...cells, cell].join(",");
                     } else {
-                        newmove = move;
+                        newmove = cells.filter(c => c !== cell).join(",");
                     }
                 }
             }
@@ -283,14 +265,18 @@ export class PahTumGame extends GameBase {
                         return result;
                     }
                 }
+                let target = 6;
+                if (this.stack[0]._version === "20250201") {
+                    target = 5;
+                }
                 result.valid = true;
-                result.complete = cells.size === 5 ? 1 : -1;
+                result.complete = cells.size === target ? 1 : -1;
                 result.canrender = true;
-                result.message = cells.size === 5 ?
+                result.message = cells.size === target ?
                     i18next.t("apgames:validation._general.VALID_MOVE") :
                     i18next.t("apgames:validation.pahtum.PARTIAL", {context: "setup"});
                 return result;
-            } else {
+            } else if (this.stack[0]._version === "20250201") {
                 if (m !== "pass") {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
@@ -360,16 +346,24 @@ export class PahTumGame extends GameBase {
         }
 
         // setup scenarios first
-        if (!this.variants.includes("quick") && this.stack.length <= 2) {
-            if (this.stack.length === 1) {
-                const cells = m.split(",");
-                for (const cell of cells) {
-                    this.board.set(cell, "X");
-                    this.results.push({type: "place", where: cell, what: "block"});
-                }
-            } else {
-                this.results.push({type: "pass"});
+        if (!this.variants.includes("quick") && this.stack.length === 1) {
+            const cells = m.split(",");
+            const blocks = cells.length === 6 ? cells.slice(0, -1) : [...cells];
+            let piece: string|undefined;
+            if (cells.length === 6) {
+                piece = cells[cells.length - 1];
             }
+            for (const cell of blocks) {
+                this.board.set(cell, "X");
+                this.results.push({type: "place", where: cell, what: "block"});
+            }
+            if (piece !== undefined) {
+                this.board.set(piece, this.currplayer);
+                this.results.push({type: "place", where: piece, what: "piece"});
+            }
+        }
+        else if (this.stack[0]._version === "20250201" && !this.variants.includes("quick") && this.stack.length === 2) {
+            this.results.push({type: "pass"});
         }
         // all the rest
         else {

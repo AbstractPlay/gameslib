@@ -4237,10 +4237,10 @@
             "WITHIN_BL": "Claimed/converted cells as a result of a borderland change must be within the destination borderland."
         },
         "pahtum": {
-            "INITIAL_INSTRUCTIONS_offer": "Place all five blocks. Your opponent will then choose which colour to play.",
-            "INITIAL_INSTRUCTIONS_response": "Click \"Swap player seats\" to play as first player or pass to remain as second player.",
+            "INITIAL_INSTRUCTIONS_offer": "Place all five blocks and a single stone. Your opponent will then choose which colour to play.",
+            "INITIAL_INSTRUCTIONS_response": "Click \"Swap player seats\" to play as first player or place a stone to remain as second player.",
             "INITIAL_INSTRUCTIONS_rest": "Select an empty cell to place a stone.",
-            "PARTIAL_setup": "Continue selecting empty cells to block until you have selected five.",
+            "PARTIAL_setup": "Continue selecting empty cells to block until you have selected five. Then place a single stone.",
             "PARTIAL_rest": "Select one of the highlighted cells to capture it."
         },
         "paintbucket": {

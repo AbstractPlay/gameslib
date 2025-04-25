@@ -7,6 +7,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common";
 import { bfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
+import { strict as assert } from 'assert';
 
 
 export type playerid = 1|2;
@@ -23,6 +24,19 @@ export interface IStibroState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
+
+function setUnion<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
+    return new Set([...a, ...b]);
+}
+
+function setIntersection<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
+    return new Set([...a].filter(x => b.has(x)));
+}
+
+function setDifference<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
+    return new Set([...a].filter(x => !b.has(x)));
+}
+
 
 export class StibroGame extends GameBase {
 
@@ -71,6 +85,198 @@ export class StibroGame extends GameBase {
     public outerRing: Set<string> = new Set();
 
     public winningLoop: string[] = [];
+
+    /* 
+    The placement restriction: Each player must always have at least one free group of their colour on the board.
+    A free group is a group that both:
+    (a) does not touch the edge;
+    (b) has at least two cells between itself and at least one opponent group that does
+    not touch the edge.
+
+    Keep track of groups, including whether they are free or not. Recomputing the free groups and
+    their distances each time could get quite expensive, otherwise.
+
+    The `groups` maps contain all groups for both players.
+    `distantGroups` contains pairs of indices of groups of the respective player that are at >=2 distance
+    from each other.
+    These can be used to check whether a placement is legal, and should be updated after each
+    placement.
+    */
+
+    /* Groups per player, groups are mapped to an ID*/
+    private groups: Map<playerid, Map<number, Set<string>>> = new Map([
+        [1, new Map()],
+        [2, new Map()]
+    ]);
+    /* Pairs of group-IDs {p1: p1groupid, p2: p2-groupid}. When a pair is present in this set,
+    it indicates that the groups are at sufficient distance (>2) from each other to count as
+    "free" groups. The ID -1 (on both sides) is reserved for sufficient distance (>1) from the edge.
+    To properly count as a "free" group, a group must be in this list, distant enough from the edge
+    (i.e. one of the pairs in this list is (g, -1) or v.v.)
+    */
+    private distantGroups: Set<Map<playerid, number>> = new Set();
+    // private distantGroupsSets: Map<playerid, Map<number, Set<number>>> = new Map([
+    //     [1, new Map()],
+    //     [2, new Map()]
+    // ]);
+
+    /* Expand with a border thickness of 2 around it */
+    private expandby2(group: Set<string>): Set<string> {
+        const newgroup = new Set(group);
+        for (var i=0; i < 2; i++) {
+            const oldgroup = new Set(newgroup);
+            for(const cell of oldgroup){
+                for(const neighbour of this.graph.neighbours(cell)){
+                    newgroup.add(neighbour);
+                }
+            }
+        }
+        return newgroup;
+    }
+
+    private bothPlayers(player: playerid): [playerid, playerid] {
+        if(player === 1){
+            return [1, 2];
+        } else {
+            return [2, 1];
+        }
+    }
+
+    private isEdgeGroup(groupI: number, player: playerid, distantGroups: Set<Map<playerid, number>> = this.distantGroups): boolean {
+        const [queriedPlayer, otherPlayer] = this.bothPlayers(player);
+        // TODO can't efficiently check map equality, find some other way to do it, probably a map
+        // p1_groupI -> Set(p2_groupIds)
+        // and another one v.v.
+        for(const dist of distantGroups){
+            if(dist.get(queriedPlayer) === groupI){
+                if(dist.get(otherPlayer) === -1){
+                    return false;
+                }
+            }
+        }
+        return true;
+        // return !this.distantGroupsSets.get(player)!.get(groupI)!.has(-1);
+    }
+
+    private distantGroupsOf(groupI: number, player: playerid, distantGroups: Set<Map<playerid, number>> = this.distantGroups): Set<number> {
+        const [queriedPlayer, otherPlayer] = this.bothPlayers(player);
+        const distantThis: Set<number> = new Set();
+        for (const distance of distantGroups) {
+            if (distance.get(queriedPlayer) === groupI) {
+                distantThis.add(distance.get(otherPlayer)!);
+            }
+        }
+        return distantThis;
+    }
+
+    private newGroupsAndDistantGroups(cell: string): [Map<number, Set<string>>, Set<Map<playerid, number>>]{
+        /* First add the single new stone as a separate group, including its
+        distance relations. */
+
+        /* Check if it is distant from the edge */
+        const edge: Set<number> = new Set();
+        if(!this.outerRing.has(cell)){
+            edge.add(-1);
+        }
+
+        /* Check which opponent groups it is distant from */
+        const nearbyOpponentGroups: Set<number> = new Set();
+        const cellWithHalo = this.expandby2(new Set([cell]));
+        for(const [groupkey, group] of this.groups.get(this.otherPlayer())!) {
+            if(setIntersection(cellWithHalo, group).size){
+                nearbyOpponentGroups.add(groupkey);
+            }
+        }
+        const cellDistantGroups: Set<number> = setUnion(
+            setDifference(new Set(this.groups.get(this.otherPlayer())!.keys()),
+                nearbyOpponentGroups), edge); // Opp. groups + the edge
+
+        /* Add the new singleton as a separate group, including distance relations */
+        const newI: number = Math.max(...this.groups.get(this.currplayer)!.keys(), 0) + 1;
+
+
+        var newGroups: Map<number, Set<string>> = new Map(this.groups.get(this.currplayer));
+        var newDistantGroups: Set<Map<playerid, number>> = new Set(this.distantGroups);
+        /* First add the new stone as a separate group, then afterwards check whether
+        it has to be merged with other groups */
+        newGroups.set(newI, new Set([cell]));
+        for(const index of cellDistantGroups){
+            newDistantGroups.add(new Map([
+                [this.currplayer, newI],
+                [this.otherPlayer(), index]
+            ]));
+        }
+
+        /* If they touch, merge groups and distances */
+        const touchedGroups: Set<number> = new Set();
+        for(const [groupkey, group] of this.groups.get(this.currplayer)!) {
+            for(const neighbour of this.graph.neighbours(cell)){
+                if(group.has(neighbour)){
+                    touchedGroups.add(groupkey);
+                    break;
+                }
+            }
+        }
+        if(touchedGroups.size){
+            /* Merge (set union) distant groups of all touching groups */
+            const distantGroupsToAll: Array<Set<number>> = []; // group indices of other player
+            for (const touchingI of setUnion(touchedGroups, new Set([newI]))){
+                distantGroupsToAll.push(this.distantGroupsOf(touchingI, this.currplayer, newDistantGroups));
+            }
+
+            // group indices of other player
+            const mergedDistant: Set<number> = distantGroupsToAll.reduce((a, b) => setIntersection(a, b));
+
+            /* Merge pieces of all touching groups */
+            const newGroup = new Set([cell]);
+            for (const touchedGroupI of touchedGroups) {
+                for (const groupCell of this.groups.get(this.currplayer)!.get(touchedGroupI)!){
+                    newGroup.add(groupCell);
+                }
+            }
+
+            const obsoleteGroups = setUnion(touchedGroups, new Set([newI])); // group indices of curr player
+
+            /* Remove obsolete distance relations */
+            newDistantGroups = new Set([...newDistantGroups].filter((dist) =>
+                !obsoleteGroups.has(dist.get(this.currplayer)!)))
+
+            /* Remove obsolete groups */
+            newGroups = new Map([...newGroups.entries()]
+                .filter(([key, value]) => !obsoleteGroups.has(key)));
+
+            /* Add new distance relations */
+            for (const otherI of mergedDistant) {
+                const newDist: Map<playerid, number> = new Map([
+                    [this.currplayer, newI],
+                    [this.otherPlayer(), otherI]
+                ]);
+                newDistantGroups.add(newDist);
+            }
+
+            /* Add new merged group */
+            newGroups.set(newI, newGroup);
+
+        }
+        return [newGroups, newDistantGroups];
+    }
+
+    private freegroupsafter(cell: string): boolean {
+        const [newGroups, newDistantGroups] = this.newGroupsAndDistantGroups(cell);
+
+        for(const thisI of newGroups.keys()) {
+            if(!this.isEdgeGroup(thisI, this.currplayer, newDistantGroups)){
+                /* It is free if a group at a distance does not touch the edge */
+                for(const otherGroupI of this.distantGroupsOf(thisI, this.currplayer, newDistantGroups)){
+                    if(!this.isEdgeGroup(otherGroupI, this.otherPlayer(), newDistantGroups)){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 
     public coords2algebraic(x: number, y: number): string {
         return this.graph.coords2algebraic(x, y);
@@ -164,12 +370,34 @@ export class StibroGame extends GameBase {
         return this;
     }
 
+    private validPlacement(cell: string): boolean {
+        assert(this.graph.graph.hasNode(cell));
+
+        // First placement
+        if (this.groups.get(this.otherPlayer())!.size === 0) {
+            return !this.outerRing.has(cell);
+        }
+
+        if (this.board.has(cell)) { // occupied
+            return false;
+        }
+        return this.freegroupsafter(cell);
+    }
+
     public moves(): string[] {
+        /*
+        Some optimizations we could still do if move generation is too slow:
+        - If player has 4 or more free groups, all free cells are valid
+        - If player has 2 or more free groups that are 2+ spaces away, all free cells are valid
+        ^^ for these two we'd have to keep track of (or count) # of free groups...
+        - All cells 2 away from existing opponent stones, and not on the edge, are valid
+        - (Except on player's first move) all cells not touching an existing group of player are valid
+        */
         const moves: string[] = [];
         if (this.gameover) { return moves; }
 
         for (const cell of this.graph.listCells(false) as string[]) {
-            if (!this.board.has(cell)) {
+            if (this.validPlacement(cell)) {
                 moves.push(cell);
             }
         }
@@ -224,7 +452,9 @@ export class StibroGame extends GameBase {
             return result
         }
 
-        if (this.board.has(cell)) {
+        if (!this.validPlacement(cell)) {
+            // TODO disambiguate occupied and would-reduce-free-groups-to-0
+            // with appropriate message
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
             return result;
@@ -260,6 +490,10 @@ export class StibroGame extends GameBase {
         const piece = this.currplayer;
 
         this.board.set(cell, piece);
+        const [newGroups, newDistantGroups] = this.newGroupsAndDistantGroups(cell);
+        this.groups.set(this.currplayer, newGroups);
+        this.distantGroups = newDistantGroups;
+
         this.results.push({type: "place", where: cell});
 
         this.lastmove = m;

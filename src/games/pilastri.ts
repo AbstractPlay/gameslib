@@ -32,9 +32,10 @@ export class PilastriGame extends GameBase {
         dateAdded: "2025-04-24",
         // i18next.t("apgames:descriptions.pilastri")
         description: "apgames:descriptions.pilastri",
-        // i18next.t("apgames:notes.pilastri")
-        notes: "apgames:notes.pilastri",
-        urls: ["https://cjffield.com/rules/pilastri.pdf",],
+        urls: [
+            "https://cjffield.com/rules/pilastri.pdf",
+            "https://boardgamegeek.com/boardgame/445080/pilastri"
+        ],
         people: [
             {
                 type: "designer",

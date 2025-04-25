@@ -17,8 +17,9 @@ import { Square3DGraph } from "./square-3d";
 import { SquareOrth3DGraph } from "./square-orth-3d";
 import { SquareDiag3DGraph } from "./square-diag-3d";
 import { HexFieldGraph } from "./hex-field";
+import { SquareDiamondsDirectedGraph } from "./square-diamonds-directed";
 
-export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareDirectedGraph, SquareOrth3DGraph, SquareOrthGraph, SquareDiag3DGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, OnyxGraph, HexTriGraph, HexMoonGraph, HexSlantedGraph, HexConeGraph, HexFieldGraph, BaoGraph, SowingNoEndsGraph };
+export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareDirectedGraph, SquareOrth3DGraph, SquareOrthGraph, SquareDiag3DGraph, SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, OnyxGraph, HexTriGraph, HexMoonGraph, HexSlantedGraph, HexConeGraph, HexFieldGraph, BaoGraph, SowingNoEndsGraph, SquareDiamondsDirectedGraph };
 
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";

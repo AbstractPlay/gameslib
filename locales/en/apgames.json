@@ -181,6 +181,7 @@
         "taiji": "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
         "take": "Grow root-like formations of stones from seeds. Plants die when they run out of room to grow. The winner is the last player with a plant alive on the board.",
         "tbt": "A simple dice game where you attempt to form stacks of equal height on your home row.",
+        "tessella": "Pieces capture in pairs using a \"shooting\" mechanic. Be the first to capture four of your opponent's pieces.",
         "tintas": "Players race to either collect all seven of one colour or to collect four of four different colours.",
         "terrace": "A royal capture/escape game played on a three-dimensional board with pieces of various sizes.",
         "toguz": "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
@@ -4848,6 +4849,11 @@
             "MOVE_SAME_LEVEL": "You may not jump over enemy pieces when moving on the same level.",
             "MOVE_UP": "You may only move one level at a time to an adjacent cell.",
             "NO_MOVES": "The piece at {{cell}} does not have any valid moves."
+        },
+        "tessella": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "PARTIAL_cancap": "Select a destination. This piece can capture.",
+            "PARTIAL_move": "Select a destination. This piece may only move."
         },
         "tintas": {
             "CAPTURED_LABEL": "Player {{playerNum}}'s captured pieces",

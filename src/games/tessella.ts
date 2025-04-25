@@ -25,7 +25,7 @@ export class TessellaGame extends GameBase {
         uid: "tessella",
         playercounts: [2],
         version: "20250422",
-        dateAdded: "2023-06-18",
+        dateAdded: "2025-04-25",
         // i18next.t("apgames:descriptions.tessella")
         description: "apgames:descriptions.tessella",
         urls: [

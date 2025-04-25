@@ -45,7 +45,7 @@ export class TessellaGame extends GameBase {
             },
         ],
         categories: ["goal>score>race", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "scores"]
+        flags: ["perspective", "scores"]
     };
 
     public numplayers = 2;

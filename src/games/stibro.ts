@@ -25,18 +25,6 @@ export interface IStibroState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-function setUnion<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
-    return new Set([...a, ...b]);
-}
-
-function setIntersection<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
-    return new Set([...a].filter(x => b.has(x)));
-}
-
-function setDifference<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
-    return new Set([...a].filter(x => !b.has(x)));
-}
-
 
 export class StibroGame extends GameBase {
 
@@ -86,7 +74,7 @@ export class StibroGame extends GameBase {
 
     public winningLoop: string[] = [];
 
-    /* 
+    /*
     The placement restriction: Each player must always have at least one free group of their colour on the board.
     A free group is a group that both:
     (a) does not touch the edge;
@@ -105,8 +93,8 @@ export class StibroGame extends GameBase {
 
     /* Groups per player, groups are mapped to an ID*/
     private groups: Map<playerid, Map<number, Set<string>>> = new Map([
-        [1, new Map()],
-        [2, new Map()]
+        [1, new Map<number, Set<string>>()],
+        [2, new Map<number, Set<string>>()]
     ]);
     /* Pairs of group-IDs {p1: p1groupid, p2: p2-groupid}. When a pair is present in this set,
     it indicates that the groups are at sufficient distance (>2) from each other to count as
@@ -119,7 +107,7 @@ export class StibroGame extends GameBase {
     /* Expand with a border thickness of 2 around it */
     private expandby2(group: Set<string>): Set<string> {
         const newgroup = new Set(group);
-        for (var i=0; i < 2; i++) {
+        for (let i=0; i < 2; i++) {
             const oldgroup = new Set(newgroup);
             for(const cell of oldgroup){
                 for(const neighbour of this.graph.neighbours(cell)){
@@ -176,20 +164,20 @@ export class StibroGame extends GameBase {
         const nearbyOpponentGroups: Set<number> = new Set();
         const cellWithHalo = this.expandby2(new Set([cell]));
         for(const [groupkey, group] of this.groups.get(this.otherPlayer())!) {
-            if(setIntersection(cellWithHalo, group).size){
+            if(this.setIntersection(cellWithHalo, group).size){
                 nearbyOpponentGroups.add(groupkey);
             }
         }
-        const cellDistantGroups: Set<number> = setUnion(
-            setDifference(new Set(this.groups.get(this.otherPlayer())!.keys()),
+        const cellDistantGroups: Set<number> = this.setUnion(
+            this.setDifference(new Set(this.groups.get(this.otherPlayer())!.keys()),
                 nearbyOpponentGroups), edge); // Opp. groups + the edge
 
         /* Add the new singleton as a separate group, including distance relations */
         const newI: number = Math.max(...this.groups.get(this.currplayer)!.keys(), 0) + 1;
 
 
-        var newGroups: Map<number, Set<string>> = new Map(this.groups.get(this.currplayer));
-        var newDistantGroups: Set<Map<playerid, number>> = new Set(this.distantGroups);
+        let newGroups: Map<number, Set<string>> = new Map(this.groups.get(this.currplayer));
+        let newDistantGroups: Set<Map<playerid, number>> = new Set(this.distantGroups);
         /* First add the new stone as a separate group, then afterwards check whether
         it has to be merged with other groups */
         newGroups.set(newI, new Set([cell]));
@@ -213,12 +201,12 @@ export class StibroGame extends GameBase {
         if(touchedGroups.size){
             /* Merge (set union) distant groups of all touching groups */
             const distantGroupsToAll: Array<Set<number>> = []; // group indices of other player
-            for (const touchingI of setUnion(touchedGroups, new Set([newI]))){
+            for (const touchingI of this.setUnion(touchedGroups, new Set([newI]))){
                 distantGroupsToAll.push(this.distantGroupsOf(touchingI, this.currplayer, newDistantGroups));
             }
 
             // group indices of other player
-            const mergedDistant: Set<number> = distantGroupsToAll.reduce((a, b) => setIntersection(a, b));
+            const mergedDistant: Set<number> = distantGroupsToAll.reduce((a, b) => this.setIntersection(a, b));
 
             /* Merge pieces of all touching groups */
             const newGroup = new Set([cell]);
@@ -228,7 +216,7 @@ export class StibroGame extends GameBase {
                 }
             }
 
-            const obsoleteGroups = setUnion(touchedGroups, new Set([newI])); // group indices of curr player
+            const obsoleteGroups = this.setUnion(touchedGroups, new Set([newI])); // group indices of curr player
 
             /* Remove obsolete distance relations */
             newDistantGroups = new Set([...newDistantGroups].filter((dist) =>
@@ -723,5 +711,17 @@ export class StibroGame extends GameBase {
 
     public clone(): StibroGame {
         return new StibroGame(this.serialize());
+    }
+
+    private setUnion<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
+        return new Set([...a, ...b]);
+    }
+
+    private setIntersection<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
+        return new Set([...a].filter(x => b.has(x)));
+    }
+
+    private setDifference<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
+        return new Set([...a].filter(x => !b.has(x)));
     }
 };

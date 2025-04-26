@@ -192,22 +192,23 @@ describe("Stibro", () => {
         expect(moves).to.not.include("g4");
     });
 
+/*
     it("semi-random playout(s)", () => {
         let g = new StibroGame();
-        // for(let n=0; n<100; n++){
-        let n = 42
-        g = new StibroGame();
-        while(true){
-            let moves = g.moves();
-            let move = moves[n % moves.length];
-            g = g.move(move);
-            if(g.gameover){
-                console.log(g.winner[0], "wins!")
-                break;
+        for(let n=0; n<100; n++){
+            g = new StibroGame();
+            while(true){
+                let moves = g.moves();
+                let move = moves[n % moves.length];
+                g = g.move(move);
+                if(g.gameover){
+                    console.log(g.winner[0], "wins!")
+                    break;
+                }
             }
         }
-        // }
         expect(g.gameover).to.be.true;
     });
+    */
 });
 

@@ -115,10 +115,6 @@ export class StibroGame extends GameBase {
     (i.e. one of the pairs in this list is (g, -1) or v.v.)
     */
     private distantGroups: Set<Map<playerid, number>> = new Set();
-    // private distantGroupsSets: Map<playerid, Map<number, Set<number>>> = new Map([
-    //     [1, new Map()],
-    //     [2, new Map()]
-    // ]);
 
     /* Expand with a border thickness of 2 around it */
     private expandby2(group: Set<string>): Set<string> {
@@ -144,9 +140,6 @@ export class StibroGame extends GameBase {
 
     private isEdgeGroup(groupI: number, player: playerid, distantGroups: Set<Map<playerid, number>> = this.distantGroups): boolean {
         const [queriedPlayer, otherPlayer] = this.bothPlayers(player);
-        // TODO can't efficiently check map equality, find some other way to do it, probably a map
-        // p1_groupI -> Set(p2_groupIds)
-        // and another one v.v.
         for(const dist of distantGroups){
             if(dist.get(queriedPlayer) === groupI){
                 if(dist.get(otherPlayer) === -1){

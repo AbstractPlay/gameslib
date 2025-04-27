@@ -400,6 +400,9 @@ body[data-theme='dark'] input[type="radio"] {
         min-width: auto;
         order: 2;
         flex: initial;
+        max-height: 40vh;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
     .game-info h3 {
         margin-top: 0;

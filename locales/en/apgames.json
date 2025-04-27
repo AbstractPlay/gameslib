@@ -3799,12 +3799,12 @@
             "SELF_CAPTURE": "You may not place your stones in self-capture."
         },
         "gorogo": {
-            "INITIAL_INSTRUCTIONS_play": "Select a cell to place a normal piece, or click on one of your neutral pieces to place that instead.",
-            "INITIAL_INSTRUCTIONS_setup": "Select a cell to place a neutral piece.",
+            "INITIAL_INSTRUCTIONS_play": "Select a cell to place a normal piece, or click on one of your henge pieces to place that instead.",
+            "INITIAL_INSTRUCTIONS_setup": "Select a cell to place a henge piece.",
             "INVALID_MOVE": "The move {{move}} is not valid. Remember that you may not place a normal piece in a position with no liberties unless it triggers a capture that creates a liberty.",
-            "NO_PIECES_neutral": "You have no neutral pieces in hand.",
+            "NO_PIECES_neutral": "You have no henge pieces in hand.",
             "NO_PIECES_normal": "You don't have any normal pieces left.",
-            "PARTIAL": "Select the cell where you wish to place the neutral piece."
+            "PARTIAL": "Select the cell where you wish to place the henge piece."
         },
         "gyges": {
             "BAD_DISPLACE": "You may not displace a piece to {{cell}}. The target cell must be unoccupied and may not be beyond the opponent's playable row.",

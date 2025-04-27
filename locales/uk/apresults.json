@@ -409,7 +409,9 @@
         "volo": "{{player}} додає пташку в {{where}}.",
         "strands_one": "{{player}} поставив фігуру в {{where}}.",
         "strands_few": "{{player}} розмістив {{count}} фігур у {{where}}.",
-        "strands_many": "{{player}} розмістив {{count}} фігур у {{where}}."
+        "strands_many": "{{player}} розмістив {{count}} фігур у {{where}}.",
+        "gorogo_piece": "{{player}} розмістив шматок на {{where}}.",
+        "gorogo_henge": "{{player}} поклав шматок хенге на {{where}}."
     },
     "PROMOTE": {
         "basicWhere": "Твір при {{where}} був підвищений.",

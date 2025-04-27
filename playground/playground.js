@@ -1759,36 +1759,47 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const sidebar = document.querySelector('.sidebar');
     const collapseBtn = document.querySelector('.collapse-button');
     const topBar = document.querySelector('.top-bar');
+    const openSidebarBtn = document.getElementById('openSidebarBtn');
 
-    const isCollapsed = window.sessionStorage.getItem("sidebarCollapsed") === "true";
-    if (isCollapsed) {
-        sidebar.classList.add('collapsed');
-        topBar.classList.add('sidebar-collapsed');
-        collapseBtn.innerHTML = '▼';
-        collapseBtn.style.right = '-25px';
-    } else {
-        sidebar.classList.remove('collapsed');
-        topBar.classList.remove('sidebar-collapsed');
-        topBar.classList.add('sidebar-expanded');
-        collapseBtn.innerHTML = '▲';
-        collapseBtn.style.right = '-15px';
-    }
-
-    collapseBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('collapsed');
-        topBar.classList.toggle('sidebar-collapsed');
-        const isNowCollapsed = sidebar.classList.contains('collapsed');
-        collapseBtn.innerHTML = isNowCollapsed ? '▼' : '▲';
-        collapseBtn.style.right = isNowCollapsed ? '-25px' : '-15px';
-        window.sessionStorage.setItem("sidebarCollapsed", isNowCollapsed);
-        if (isNowCollapsed) {
+    // Function to set the sidebar state
+    function setSidebarState(isCollapsed) {
+        if (isCollapsed) {
+            sidebar.classList.add('collapsed');
+            topBar.classList.add('sidebar-collapsed');
             topBar.classList.remove('sidebar-expanded');
+            collapseBtn.innerHTML = '▼'; // Or use an appropriate icon/character
+            collapseBtn.setAttribute('aria-label', 'Expand Sidebar');
+            // Adjust position if needed, though CSS might handle this
+            // collapseBtn.style.right = '-25px';
         } else {
+            sidebar.classList.remove('collapsed');
+            topBar.classList.remove('sidebar-collapsed');
             topBar.classList.add('sidebar-expanded');
+            collapseBtn.innerHTML = '▲'; // Or use an appropriate icon/character
+            collapseBtn.setAttribute('aria-label', 'Collapse Sidebar');
+            // Adjust position if needed
+            // collapseBtn.style.right = '-15px';
         }
-        if (!sidebar.classList.contains('collapsed')) {
+        window.sessionStorage.setItem("sidebarCollapsed", isCollapsed);
+        // Ensure the edge detection class is removed when sidebar is open
+        if (!isCollapsed) {
             collapseBtn.classList.remove('show-edge');
         }
+    }
+
+    // Initial setup
+    const initiallyCollapsed = window.sessionStorage.getItem("sidebarCollapsed") === "true";
+    setSidebarState(initiallyCollapsed);
+
+    // Event listener for the original collapse button
+    collapseBtn.addEventListener('click', () => {
+        const isCurrentlyCollapsed = sidebar.classList.contains('collapsed');
+        setSidebarState(!isCurrentlyCollapsed); // Toggle state
+    });
+
+    // Event listener for the open sidebar button
+    openSidebarBtn.addEventListener('click', () => {
+        setSidebarState(false); // Force open
     });
 
     document.addEventListener('mousemove', (e) => {

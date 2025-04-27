@@ -143,17 +143,30 @@ body[data-theme='dark'] .collapsible summary {
     left: 0;
 }
 
+#openSidebarBtn {
+    display: none;
+    padding: 6px 10px;
+    font-size: 1.2em;
+    line-height: 1;
+    cursor: pointer;
+}
+
 .top-bar {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0.5rem;
+    transition: padding-left 0.3s;
 }
 .top-bar.sidebar-collapsed {
     padding-left: 1rem;
 }
+/* Show the open button only when sidebar is collapsed */
+.top-bar.sidebar-collapsed #openSidebarBtn {
+    display: inline-block;
+}
 .top-bar.sidebar-expanded {
-    padding-left: calc(300px + 1rem);
+    padding-left: calc(var(--sidebar-width) + 1rem);
 }
 
 .play-area {

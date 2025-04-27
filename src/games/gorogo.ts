@@ -555,12 +555,12 @@ export class GorogoGame extends GameBase {
         }
         pstr = pstr.replace(/-{5}/g, "_");
 
-        let mainColour = 1;
-        let smallColour = 2;
-        if (!this.gameover && this.currplayer === 2) {
-            mainColour = 2;
-            smallColour = 1;
-        }
+        // let mainColour = 1;
+        // let smallColour = 2;
+        // if (!this.gameover && this.currplayer === 2) {
+        //     mainColour = 2;
+        //     smallColour = 1;
+        // }
 
         const areas: AreaPieces[] = [];
         for (const p of [1,2]) {
@@ -569,7 +569,7 @@ export class GorogoGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     label: `Player ${p}'s neutral pieces`,
-                    pieces: Array.from({length: neutral}, () => p === 1 ? "pcA" : "pcB") as [string, ...string[]],
+                    pieces: Array.from({length: neutral}, () => "pcX") as [string, ...string[]],
                 });
             }
         }
@@ -590,41 +590,17 @@ export class GorogoGame extends GameBase {
                     name: "piece",
                     colour: 2,
                 },
-                X: [
-                    {
-                        name: "piece",
-                        colour: mainColour,
-                    },
-                    {
-                        name: "piece-borderless",
-                        colour: smallColour,
-                        scale: 0.25,
-                    }
-                ],
-                pcA: [
-                    {
-                        name: "piece",
-                        colour: 1,
-                        scale: 0.86,
-                    },
-                    {
-                        name: "piece-borderless",
-                        colour: 2,
-                        scale: 0.20,
-                    }
-                ],
-                pcB: [
-                    {
-                        name: "piece",
-                        colour: 2,
-                        scale: 0.86,
-                    },
-                    {
-                        name: "piece-borderless",
-                        colour: 1,
-                        scale: 0.2,
-                    }
-                ],
+                X: {
+                    name: "yinyang",
+                    colour: 1,
+                    colour2: 2,
+                },
+                pcX: {
+                    name: "yinyang",
+                    colour: 1,
+                    colour2: 2,
+                    scale: 0.86,
+                },
             },
             pieces: pstr,
             areas: areas.length > 0 ? areas : undefined,

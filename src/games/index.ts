@@ -204,6 +204,7 @@ import { BloqueoGame, IBloqueoState } from "./bloqueo";
 import { StormCGame, IStormCState } from "./stormc";
 import { PilastriGame, IPilastriState } from "./pilastri";
 import { TessellaGame, ITessellaState } from "./tessella";
+import { GorogoGame, IGorogoState } from "./gorogo";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -410,6 +411,7 @@ export {
     StormCGame, IStormCState,
     PilastriGame, IPilastriState,
     TessellaGame, ITessellaState,
+    GorogoGame, IGorogoState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -480,7 +482,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
                               typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
-                              typeof TessellaGame
+                              typeof TessellaGame | typeof GorogoGame
                 >();
 // Manually add each game to the following array
 [
@@ -512,7 +514,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
     PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
     SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game, BloqueoGame,
-    StormCGame, PilastriGame, TessellaGame,
+    StormCGame, PilastriGame, TessellaGame, GorogoGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -930,6 +932,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new PilastriGame(...args);
         case "tessella":
             return new TessellaGame(...args);
+        case "gorogo":
+            return new GorogoGame(...args);
     }
     return;
 }

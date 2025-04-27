@@ -16,4 +16,4 @@ custom:
   client:
     bucketName: gameslib.dev.abstractplay.com
     distributionFolder: ./dist
-    indexDocument: index.html
+    indexDocument: playground.html

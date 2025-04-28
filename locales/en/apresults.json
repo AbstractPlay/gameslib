@@ -333,6 +333,8 @@
         "entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
         "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
+        "gorogo_henge": "{{player}} placed a henge piece at {{where}}.",
+        "gorogo_piece": "{{player}} placed a piece at {{where}}.",
         "iqishiqi": "{{player}} placed a shared stone at {{where}}.",
         "logger_logger": "{{player}} placed their logger at {{where}}.",
         "logger_plant": "{{player}} planted a sapling at {{where}}.",

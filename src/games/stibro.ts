@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-console */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common";
-import { bfsFromNode } from 'graphology-traversal';
+import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
-import { strict as assert } from 'assert';
 
 
 export type playerid = 1|2;
@@ -18,6 +18,8 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, cellcontent>;
     lastmove?: string;
     winningLoop: string[];
+    groups: Map<playerid, Map<number, Set<string>>>;
+    distantGroups: Set<Map<playerid, number>>;
 }
 
 export interface IStibroState extends IAPGameState {
@@ -74,6 +76,8 @@ export class StibroGame extends GameBase {
 
     public winningLoop: string[] = [];
 
+    public log = false;
+
     /*
     The placement restriction: Each player must always have at least one free group of their colour on the board.
     A free group is a group that both:
@@ -92,17 +96,14 @@ export class StibroGame extends GameBase {
     */
 
     /* Groups per player, groups are mapped to an ID*/
-    private groups: Map<playerid, Map<number, Set<string>>> = new Map([
-        [1, new Map<number, Set<string>>()],
-        [2, new Map<number, Set<string>>()]
-    ]);
+    public groups: Map<playerid, Map<number, Set<string>>> = new Map();
     /* Pairs of group-IDs {p1: p1groupid, p2: p2-groupid}. When a pair is present in this set,
     it indicates that the groups are at sufficient distance (>2) from each other to count as
     "free" groups. The ID -1 (on both sides) is reserved for sufficient distance (>1) from the edge.
     To properly count as a "free" group, a group must be in this list, distant enough from the edge
     (i.e. one of the pairs in this list is (g, -1) or v.v.)
     */
-    private distantGroups: Set<Map<playerid, number>> = new Set();
+    public distantGroups: Set<Map<playerid, number>> = new Set();
 
     /* Expand with a border thickness of 2 around it */
     private expandby2(group: Set<string>): Set<string> {
@@ -224,7 +225,7 @@ export class StibroGame extends GameBase {
 
             /* Remove obsolete groups */
             newGroups = new Map([...newGroups.entries()]
-                .filter(([key, value]) => !obsoleteGroups.has(key)));
+                .filter((item) => !obsoleteGroups.has(item[0])));
 
             /* Add new distance relations */
             for (const otherI of mergedDistant) {
@@ -314,7 +315,12 @@ export class StibroGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map<string, cellcontent>(),
-                winningLoop: []
+                winningLoop: [],
+                groups: new Map([
+                    [1, new Map<number, Set<string>>()],
+                    [2, new Map<number, Set<string>>()],
+                    ]),
+                distantGroups: new Set()
             };
             this.stack = [fresh];
 
@@ -347,12 +353,16 @@ export class StibroGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.winningLoop = [...state.winningLoop];
+        this.groups = state.groups;
+        this.distantGroups = state.distantGroups;
 
         return this;
     }
 
     private validPlacement(cell: string): boolean {
-        assert(this.graph.graph.hasNode(cell));
+        if(!this.graph.graph.hasNode(cell)){
+            return false;
+        }
 
         // First placement
         if (this.groups.get(this.otherPlayer())!.size === 0) {
@@ -374,8 +384,13 @@ export class StibroGame extends GameBase {
         - All cells 2 away from existing opponent stones, and not on the edge, are valid
         - (Except on player's first move) all cells not touching an existing group of player are valid
         */
+        let t1 = 0;
+        let t2 = 0;
+        if(this.log) t1 = performance.now()
+
         const moves: string[] = [];
         if (this.gameover) { return moves; }
+
 
         for (const cell of this.graph.listCells(false) as string[]) {
             if (this.validPlacement(cell)) {
@@ -383,6 +398,8 @@ export class StibroGame extends GameBase {
             }
         }
 
+        if(this.log) t2 = performance.now()
+        if(this.log) console.log("moves() took", t2-t1, "ms");
         return moves;
     }
 
@@ -460,9 +477,6 @@ export class StibroGame extends GameBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            }
         }
         this.results = [];
 
@@ -487,12 +501,11 @@ export class StibroGame extends GameBase {
     }
 
     private isLoopAround(group: Set<string>, center: string): boolean {
-        const graph = this.getGraph();
         if (group.has(center)) {
             return false;
         }
         let reachedOuter = false;
-        bfsFromNode(graph.graph, center, (cell) => {
+        dfsFromNode(this.graph.graph, center, (cell) => {
             if (group.has(cell)) {
                 return true;
             }
@@ -507,13 +520,28 @@ export class StibroGame extends GameBase {
     private isLoop(group: Set<string>, laststone: string): boolean {
         /* Check whether the group is a loop. For all neighbours of the last-added
         stone, check whether the path to the edge is blocked by the current group. */
+        if(group.size < 6) {
+            return false;
+        }
         const neighbours = this.graph.neighbours(laststone);
         let isLoop = false;
+        const checked = new Set()
+        const graph = this.graph.graph;
         for (const neighbour of neighbours) {
+            if(this.board.has(neighbour) && (this.board.get(neighbour) === this.board.get(laststone))){
+                continue;
+            }
+            for(const checkedPiece of checked){
+                if(graph.hasEdge(checkedPiece, neighbour)){
+                    checked.add(neighbour);
+                    continue;
+                }
+            }
             if (this.isLoopAround(group, neighbour)){
                 isLoop = true;
                 break;
             }
+            checked.add(neighbour);
         }
         return isLoop;
     }
@@ -589,12 +617,9 @@ export class StibroGame extends GameBase {
         Since it is a BFS the shortest one will be found first.
         Could be sped up by not taking sharp-angled steps in the BFS.
         */
-        const graph = this.getGraph(); // The board, including center cell
-
         // Find the current group of player stones
         const currentGroup = new Set<string>();
-
-        bfsFromNode(graph.graph, lastmove, (cell) => {
+        bfsFromNode(this.graph.graph, lastmove, (cell) => {
             const value = this.board.get(cell);
             if (value === player) {
                 currentGroup.add(cell);
@@ -603,7 +628,6 @@ export class StibroGame extends GameBase {
                 return true;
             }
         });
-
         // First check if there's a winning loop at all (i.e. path from center to edge is blocked by player stones)
         if (!this.isLoop(currentGroup, lastmove)) { return []; };
 
@@ -650,7 +674,9 @@ export class StibroGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            winningLoop: [...this.winningLoop]
+            winningLoop: [...this.winningLoop],
+            groups: this.groups,
+            distantGroups: this.distantGroups
         };
         return state;
     }

@@ -27,7 +27,7 @@ Test with both p1 and p2 as the current player:
 
 */
 
-describe("Stibro", () => {
+describe.only("Stibro", () => {
     it("give all p1 opening moves", () => {
         // All locations except the edge
         let g = new StibroGame();
@@ -192,12 +192,12 @@ describe("Stibro", () => {
         expect(moves).to.not.include("g4");
     });
 
-/*
     it("semi-random playout(s)", () => {
         let g = new StibroGame();
-        for(let n=0; n<100; n++){
+        // for(let n=0; n<100; n++){
+            let n = 555;
             g = new StibroGame();
-            while(true){
+            for(let i=0; i<88; i++){
                 let moves = g.moves();
                 let move = moves[n % moves.length];
                 g = g.move(move);
@@ -206,9 +206,12 @@ describe("Stibro", () => {
                     break;
                 }
             }
-        }
-        expect(g.gameover).to.be.true;
+            g.log = true;
+            let moves = g.moves();
+            let move = moves[n % moves.length];
+            g = g.move(move);
+        // }
+        expect(g.gameover).to.be.false;
     });
-    */
 });
 

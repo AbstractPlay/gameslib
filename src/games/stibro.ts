@@ -52,7 +52,7 @@ export class StibroGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["pie"],
+        flags: ["pie", "experimental"],
         dateAdded: "2025-04-20",
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>3c"],
         variants: [
@@ -151,7 +151,7 @@ export class StibroGame extends GameBase {
 
     private touchesOwnGroups(cell: string): boolean {
         const cellWithHalo = this.expandby(new Set([cell]), 1);
-        for(const [_key, group] of this.groups.get(this.currplayer)!) {
+        for(const group of this.groups.get(this.currplayer)!.values()) {
             if(this.setIntersection(cellWithHalo, group).size){
                 return true;
             }
@@ -389,6 +389,22 @@ export class StibroGame extends GameBase {
         return this.freegroupsafter(cell);
     }
 
+    private validPlacementWithReason(cell: string): [boolean, string] {
+        if(!this.graph.graph.hasNode(cell)){
+            return [false, "occupied"];
+        }
+
+        // First placement
+        if (this.groups.get(this.otherPlayer())!.size === 0) {
+            return [!this.outerRing.has(cell), "firstplacement"];
+        }
+
+        if (this.board.has(cell)) { // occupied
+            return [false, "occupied"];
+        }
+        return [this.freegroupsafter(cell), "freegroupsafter"];
+    }
+
     public moves(): string[] {
         /*
         Some optimizations we could still do if move generation is too slow:
@@ -457,11 +473,20 @@ export class StibroGame extends GameBase {
             return result
         }
 
-        if (!this.validPlacement(cell)) {
-            // TODO disambiguate occupied and would-reduce-free-groups-to-0
-            // with appropriate message
+        const [valid, reason] = this.validPlacementWithReason(cell);
+        if (!valid) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+            switch (reason) {
+                case "occupied":
+                    result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+                    break;
+                case "firstplacement":
+                    result.message = i18next.t("apgames:validation.stibro.FIRST_PLACEMENT");
+                    break;
+                case "freegroupsafter":
+                    result.message = i18next.t("apgames:validation.stibro.FREE_GROUPS_AFTER");;
+                    break;
+                }
             return result;
         }
 

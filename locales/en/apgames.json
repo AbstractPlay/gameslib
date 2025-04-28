@@ -166,6 +166,7 @@
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
+        "stibro": "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
         "stigmergy": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "storisende": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
         "stormc": "An annihilation game with asymmetrical piece movement.",
@@ -4686,6 +4687,10 @@
             "INITIAL_INSTRUCTIONS": "Select the pivot stone. This is the stone that won't move.",
             "PARTIAL_DESTINATION": "Select the point where the end stone will end up. You may not cover friendly pieces, and any covered enemy pieces will be captured.",
             "PARTIAL_ENDSTONE": "Select the end stone. This is the stone that will move the furthest."
+        },
+        "stibro": {
+            "FIRST_PLACEMENT": "The first placement cannot be on the edge.",
+            "FREE_GROUPS_AFTER": "You must always have at least one free group: a group that does not touch the edge, and has two spaces between itself and an opponent group that does not touch the edge."
         },
         "stigmergy": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",

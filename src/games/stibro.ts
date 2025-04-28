@@ -24,7 +24,6 @@ export interface IStibroState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-
 export class StibroGame extends GameBase {
 
     public static readonly gameinfo: APGamesInformation = {
@@ -32,6 +31,7 @@ export class StibroGame extends GameBase {
         uid: "stibro",
         playercounts: [2],
         version: "1.0",
+        dateAdded: "2025-04-28",
         // i18next.t("apgames:descriptions.stibro")
         description: "apgames:descriptions.stibro",
         urls: ["https://boardgamegeek.com/boardgame/430591/stibro"],
@@ -49,9 +49,8 @@ export class StibroGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["pie", "experimental"],
-        dateAdded: "2025-04-20",
-        categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>3c"],
+        flags: ["pie"],
+        categories: ["goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             {uid: "size-6", group: "board"},
             {uid: "#board", },
@@ -341,7 +340,7 @@ export class StibroGame extends GameBase {
                 state = JSON.parse(state, reviver) as IStibroState;
             }
             if (state.game !== StibroGame.gameinfo.uid) {
-                throw new Error(`The Tritium engine cannot process a game of '${state.game}'.`);
+                throw new Error(`The Stibro engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];

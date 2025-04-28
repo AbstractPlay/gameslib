@@ -76,8 +76,6 @@ export class StibroGame extends GameBase {
 
     public winningLoop: string[] = [];
 
-    public log = false;
-
     /*
     The placement restriction: Each player must always have at least one free group of their colour on the board.
     A free group is a group that both:
@@ -105,10 +103,10 @@ export class StibroGame extends GameBase {
     */
     public distantGroups: Set<Map<playerid, number>> = new Set();
 
-    /* Expand with a border thickness of 2 around it */
-    private expandby2(group: Set<string>): Set<string> {
+    /* Expand with a border thickness of n around it */
+    private expandby(group: Set<string>, n: number): Set<string> {
         const newgroup = new Set(group);
-        for (let i=0; i < 2; i++) {
+        for (let i=0; i < n; i++) {
             const oldgroup = new Set(newgroup);
             for(const cell of oldgroup){
                 for(const neighbour of this.graph.neighbours(cell)){
@@ -151,6 +149,16 @@ export class StibroGame extends GameBase {
         return distantThis;
     }
 
+    private touchesOwnGroups(cell: string): boolean {
+        const cellWithHalo = this.expandby(new Set([cell]), 1);
+        for(const [_key, group] of this.groups.get(this.currplayer)!) {
+            if(this.setIntersection(cellWithHalo, group).size){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private newGroupsAndDistantGroups(cell: string): [Map<number, Set<string>>, Set<Map<playerid, number>>]{
         /* First add the single new stone as a separate group, including its
         distance relations. */
@@ -163,7 +171,7 @@ export class StibroGame extends GameBase {
 
         /* Check which opponent groups it is distant from */
         const nearbyOpponentGroups: Set<number> = new Set();
-        const cellWithHalo = this.expandby2(new Set([cell]));
+        const cellWithHalo = this.expandby(new Set([cell]), 2);
         for(const [groupkey, group] of this.groups.get(this.otherPlayer())!) {
             if(this.setIntersection(cellWithHalo, group).size){
                 nearbyOpponentGroups.add(groupkey);
@@ -199,6 +207,7 @@ export class StibroGame extends GameBase {
                 }
             }
         }
+
         if(touchedGroups.size){
             /* Merge (set union) distant groups of all touching groups */
             const distantGroupsToAll: Array<Set<number>> = []; // group indices of other player
@@ -244,6 +253,11 @@ export class StibroGame extends GameBase {
     }
 
     private freegroupsafter(cell: string): boolean {
+        if(this.groups.get(this.currplayer)!.size && !this.touchesOwnGroups(cell)){
+            /* fast pre-check: it doesn't touch any of its own groups */
+            return true;
+        }
+
         const [newGroups, newDistantGroups] = this.newGroupsAndDistantGroups(cell);
 
         for(const thisI of newGroups.keys()) {
@@ -384,10 +398,6 @@ export class StibroGame extends GameBase {
         - All cells 2 away from existing opponent stones, and not on the edge, are valid
         - (Except on player's first move) all cells not touching an existing group of player are valid
         */
-        let t1 = 0;
-        let t2 = 0;
-        if(this.log) t1 = performance.now()
-
         const moves: string[] = [];
         if (this.gameover) { return moves; }
 
@@ -397,9 +407,6 @@ export class StibroGame extends GameBase {
                 moves.push(cell);
             }
         }
-
-        if(this.log) t2 = performance.now()
-        if(this.log) console.log("moves() took", t2-t1, "ms");
         return moves;
     }
 

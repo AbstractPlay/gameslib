@@ -159,6 +159,7 @@ import { ResolveGame, IResolveState } from "./resolve";
 import { OnyxGame, IOnyxState } from "./onyx";
 import { AltaGame, IAltaState } from "./alta";
 import { HulaGame, IHulaState } from "./hula";
+import { StibroGame, IStibroState } from "./stibro";
 import { KonaneGame, IKonaneState } from "./konane";
 import { BlastRadiusGame, IBlastRadiusState } from "./blastradius";
 import { FramesGame, IFramesState } from "./frames";
@@ -366,6 +367,7 @@ export {
     OnyxGame, IOnyxState,
     AltaGame, IAltaState,
     HulaGame, IHulaState,
+    StibroGame, IStibroState,
     KonaneGame, IKonaneState,
     BlastRadiusGame, IBlastRadiusState,
     FramesGame, IFramesState,
@@ -482,7 +484,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
                               typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
-                              typeof TessellaGame | typeof GorogoGame
+                              typeof TessellaGame | typeof GorogoGame | typeof StibroGame
                 >();
 // Manually add each game to the following array
 [
@@ -508,7 +510,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
-    HulaGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
+    HulaGame, StibroGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
     MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
     AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
@@ -842,6 +844,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new AltaGame(...args);
         case "hula":
             return new HulaGame(...args);
+        case "stibro":
+            return new StibroGame(...args);
         case "konane":
             return new KonaneGame(...args);
         case "blastradius":

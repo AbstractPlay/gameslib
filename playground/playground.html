@@ -1,0 +1,292 @@
+<!--
+    To use this in your own environment, build the `APRender.js` and `APGames.js` bundles
+    and put them and this HTML file somewhere a browser can see it.
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>AP Game Tester</title>
+        <script src="https://renderer.dev.abstractplay.com/APRender.js"></script>
+        <script src="./APGames.js"></script>
+        <script src=" https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+        <link rel="stylesheet" href="playground.css">
+    </head>
+    <body>
+        <div class="top-bar">
+            <div class="move-controls">
+                <button id="openSidebarBtn" aria-label="Open Sidebar">☰</button>
+                <input id="moveEntry" type="text" placeholder="Enter your move">
+                <button id="moveBtn" name="moveBtn" type="button">Move</button>
+                <button id="moveClear" name="moveClear" type="button">Clear</button>
+                <button id="passBtn" name="passBtn" type="button">Pass</button>
+                <button id="moveRandom" name="moveRandom" type="button">Random</button>
+                <button id="moveUndo" name="moveUndo" type="button">Undo</button>
+                <button id="moveRedo" name="moveRedo" type="button">Redo</button>
+                <button id="aiFast" name="aiFast" type="button">AI (Fast)</button>
+                <button id="aiSlow" name="aiSlow" type="button">AI (Slow)</button>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="sidebar">
+                <h1 class="page-title">AP Game Tester</h1>
+                <details class="collapsible" id="details-game-selection" open>
+                    <summary>Game Selection</summary>
+                    <div>
+                        <button id="launch" name="launch" type="button">Launch Game</button>
+                        <select id="selectGame">
+                            <option name="empty"></option>
+                        </select>
+                    </div>
+                    <div id="gameInfo"></div>
+                    <div id="variantsContainer"></div>
+                    <div id="playerCountContainer" style="margin-top: 0.5em;"></div>
+                    <div id="varInfo"></div>
+                </details>
+
+                <details class="collapsible" id="details-render-settings">
+                    <summary>Render Settings</summary>
+                    <div>
+                        <div class="instant-settings">
+                            <button id="darkMode" type="button">Dark Mode</button>
+                            <label class="instant-label" for="autoSubmit">
+                                <input type="checkbox" id="autoSubmit" name="autoSubmit" checked>
+                                Auto-submit?
+                            </label>
+                            <div style="width: 100%; margin-top: 0.5em;">
+                                <input type="radio" id="fillStandard" name="playerfill" value="standard" checked>
+                                <label for="fillStandard">Standard colours</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="fillBlind" name="playerfill" value="blind">
+                                <label for="fillBlind">Colour-blind-friendly</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="fillPatterns" name="playerfill" value="patterns">
+                                <label for="fillPatterns">B&W patterns</label>
+                            </div>
+                            <div class="custom-palette-option">
+                                <div class="custom-palette-radio">
+                                    <input type="radio" id="fillCustom" name="playerfill" value="custom">
+                                    <label for="fillCustom" id="fillCustomLabel">Custom Palette:</label>
+                                </div>
+                                <select id="selectCustomPalette" name="selectCustomPalette">
+                                    <option value="" disabled selected>No palettes available</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                            <button id="managePalettesBtn" type="button" class="button is-small">Manage Palettes</button>
+                            <button id="manageContextsBtn" type="button" class="button is-small">Manage Contexts</button>
+                        </div>
+                        <div style="width: 100%; margin-top: 0.5em;">
+                            <label for="rotation">Rotate map (&deg;)</label>
+                            <input type="number" id="rotation" name="rotate" style="width: 80px;">
+                        </div>
+                        <div style="width: 100%; margin-top: 0.5em;">
+                            <label class="instant-label" for="annotate">
+                                <input type="checkbox" id="annotate" name="annotate" checked>
+                                Show annotations?
+                            </label>
+                        </div>
+                        <div id="displayOptionsContainer"></div>
+                    </div>
+                </details>
+
+                <details class="collapsible" id="details-state-management">
+                    <summary>State Management</summary>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div style="display: flex; gap: 0.5rem; align-items: center; min-width: 0;">
+                            <input type="text" id="stateInject" placeholder="Paste state here" style="flex-grow: 1; min-width: 0; max-width: 100%;">
+                            <button id="inject" name="inject" type="button" style="white-space: nowrap; flex-shrink: 0;">Inject</button>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <button id="saveSVG" name="saveSVG" type="button">Save SVG</button>
+                            <button id="dumpState" name="dumpState" type="button">Dump State</button>
+                            <button id="dumpMoves" name="dumpMoves" type="button">Dump Moves</button>
+                        </div>
+                    </div>
+                </details>
+
+                <details class="collapsible" id="details-keyboard-shortcuts">
+                    <summary>Keyboard Shortcuts</summary>
+                    <div>
+                        <ul>
+                            <li><strong>Enter</strong>: Submit move</li>
+                            <li><strong>R</strong>: Execute random move</li>
+                            <li><strong>P</strong>: Set move to "pass"</li>
+                            <li><strong>C</strong>: Clear move</li>
+                            <li><strong>L</strong>: Launch game</li>
+                            <li><strong>U</strong>: Undo move</li>
+                            <li><strong>Y</strong>: Redo move</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+
+            <div class="play-area">
+                <button class="collapse-button" aria-label="Collapse Sidebar">▲</button>
+                <div id="clickstatus"></div>
+                <div class="board-container">
+                    <div id="drawing"></div>
+                    <div class="game-info">
+                        <h3>Move History</h3>
+                        <div id="moveHistory"></div>
+                        <h3>Status</h3>
+                        <div id="status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Modal -->
+        <div id="dataModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Data Dump</h2>
+                    <span id="modalCloseBtn" class="modal-close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <pre id="modalContent"></pre>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-status" id="dataModalStatus" style="flex-grow: 1; text-align: left;"></div>
+                    <button id="modalCopyBtn" type="button">Copy</button>
+                    <button id="modalSaveBtn" type="button">Save as JSON</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Palette Management Modal -->
+        <div id="paletteModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="paletteModalTitle">Manage Palettes</h2>
+                    <span id="paletteModalCloseBtn" class="modal-close">&times;</span>
+                </div>
+                <div class="modal-status" id="paletteModalStatus"></div>
+                <div class="modal-body">
+                    <p>Define custom color palettes for rendering game boards.</p>
+                    <!-- Use a flex container for layout -->
+                    <div class="palette-modal-layout">
+                        <!-- Left side: Create/Edit Palette -->
+                        <div class="palette-edit-section">
+                            <h3 class="modal-subtitle">Create or Edit Palette</h3>
+                            <div class="field">
+                                <label class="label is-small" for="paletteNameInput">Palette Name:</label>
+                                <div class="control">
+                                    <input class="input is-small" id="paletteNameInput" type="text" placeholder="e.g., My Favorite Colors">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label is-small" for="paletteColorInput">Add Color:</label>
+                                <div class="control color-add-group">
+                                    <input class="input is-small color-input-native" id="paletteColorInput" type="color" value="#ffffff">
+                                    <input class="input is-small hex-input" id="paletteColorHexInput" type="text" value="#ffffff" maxlength="7" style="width: 7em;" pattern="^#[0-9A-Fa-f]{6}$" aria-label="Hex code">
+                                    <button id="addPaletteColorBtn" type="button" class="button is-small">Add</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="label is-small">Current Palette Colors (Click swatch to remove):</label>
+                                <div id="currentPaletteColors" class="color-swatch-container edit-mode"></div>
+                            </div>
+                             <button id="savePaletteBtn" type="button" class="button is-small apButton" style="margin-top: 1em;">Save/Update Palette</button>
+                        </div>
+                        <!-- Right side: Saved Palettes List -->
+                        <div class="palette-list-section">
+                             <h3 class="modal-subtitle">Saved Palettes</h3>
+                            <ul id="savedPalettesList">
+                                <!-- List items will be populated by JS -->
+                                <li class="no-palettes-message">No custom palettes saved yet.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="paletteModalSaveAndCloseBtn" type="button">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Colour Context Management Modal -->
+        <div id="contextModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="contextModalTitle">Manage Colour Contexts</h2>
+                    <span id="contextModalCloseBtn" class="modal-close">&times;</span>
+                </div>
+                <div class="modal-status" id="contextModalStatus"></div>
+                <div class="modal-body">
+                     <p>Customize the default colors used for light and dark modes.</p>
+                     <div class="field">
+                        <label class="label is-small" for="selectContextMode">Mode:</label>
+                        <div class="control is-small">
+                          <div class="select is-small">
+                            <select id="selectContextMode" name="selectContextMode">
+                              <option value="dark">Dark</option>
+                              <option value="light">Light</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Remove columns is-multiline and use a custom grid -->
+                      <div class="context-grid">
+                          <!-- Input fields for each context color -->
+                          <div class="context-color-field">
+                              <label class="label is-small" for="contextBackground">Background:</label>
+                              <div class="color-input-group">
+                                  <input class="input is-small color-input-native" id="contextBackground" type="color">
+                                  <input class="input is-small hex-input" id="contextBackgroundHexInput" type="text" maxlength="7" style="width: 7em;" pattern="^#[0-9A-Fa-f]{6}$" aria-label="Hex code">
+                              </div>
+                          </div>
+                          <div class="context-color-field">
+                              <label class="label is-small" for="contextFill">Fill:</label>
+                              <div class="color-input-group">
+                                  <input class="input is-small color-input-native" id="contextFill" type="color">
+                                  <input class="input is-small hex-input" id="contextFillHexInput" type="text" maxlength="7" style="width: 7em;" pattern="^#[0-9A-Fa-f]{6}$" aria-label="Hex code">
+                              </div>
+                          </div>
+                          <div class="context-color-field">
+                              <label class="label is-small" for="contextStrokes">Strokes:</label>
+                              <div class="color-input-group">
+                                  <input class="input is-small color-input-native" id="contextStrokes" type="color">
+                                  <input class="input is-small hex-input" id="contextStrokesHexInput" type="text" maxlength="7" style="width: 7em;" pattern="^#[0-9A-Fa-f]{6}$" aria-label="Hex code">
+                              </div>
+                          </div>
+                          <div class="context-color-field">
+                              <label class="label is-small" for="contextBorders">Borders:</label>
+                              <div class="color-input-group">
+                                  <input class="input is-small color-input-native" id="contextBorders" type="color">
+                                  <input class="input is-small hex-input" id="contextBordersHexInput" type="text" maxlength="7" style="width: 7em;" pattern="^#[0-9A-Fa-f]{6}$" aria-label="Hex code">
+                              </div>
+                          </div>
+                          <div class="context-color-field">
+                              <label class="label is-small" for="contextLabels">Labels:</label>
+                              <div class="color-input-group">
+                                  <input class="input is-small color-input-native" id="contextLabels" type="color">
+                                  <input class="input is-small hex-input" id="contextLabelsHexInput" type="text" maxlength="7" style="width: 7em;" pattern="^#[0-9A-Fa-f]{6}$" aria-label="Hex code">
+                              </div>
+                          </div>
+                          <div class="context-color-field">
+                              <label class="label is-small" for="contextAnnotations">Annotations:</label>
+                              <div class="color-input-group">
+                                  <input class="input is-small color-input-native" id="contextAnnotations" type="color">
+                                  <input class="input is-small hex-input" id="contextAnnotationsHexInput" type="text" maxlength="7" style="width: 7em;" pattern="^#[0-9A-Fa-f]{6}$" aria-label="Hex code">
+                              </div>
+                          </div>
+                      </div>
+                      <div id="contextSampleRender" style="margin-top: 1em; border: 1px solid #ccc; min-height: 100px;">
+                          <!-- Sample render will go here -->
+                      </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="resetContextBtn" type="button">Reset to Defaults</button>
+                    <button id="saveContextBtn" type="button">Save Context</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="playground.js"></script>
+    </body>
+</html>

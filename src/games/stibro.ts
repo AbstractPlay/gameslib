@@ -54,6 +54,7 @@ export class StibroGame extends GameBase {
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "components>simple>3c"],
         variants: [
             {uid: "size-6", group: "board"},
+            {uid: "#board", },
             {uid: "size-8", group: "board"}
         ]
     };

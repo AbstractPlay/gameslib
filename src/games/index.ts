@@ -482,8 +482,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
                               typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
-                              typeof StibroGame |
-                              typeof TessellaGame
+                              typeof TessellaGame | typeof StibroGame
                 >();
 // Manually add each game to the following array
 [

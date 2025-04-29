@@ -46,7 +46,7 @@ export class ACityGame extends GameBase {
         dateAdded: "2023-06-22",
         // i18next.t("apgames:descriptions.acity")
         description: "apgames:descriptions.acity",
-        urls: ["http://www.piecepack.org/rules/AlienCity.pdf", "https://boardgamegeek.com/boardgame/20623/alien-city"],
+        urls: ["https://www.looneylabs.com/content/alien-city", "https://boardgamegeek.com/boardgame/20623/alien-city"],
         people: [
             {
                 type: "designer",

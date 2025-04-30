@@ -36,7 +36,7 @@ export class GorogoGame extends GameBase {
         uid: "gorogo",
         playercounts: [2],
         version: "20250425",
-        dateAdded: "2025-01-27",
+        dateAdded: "2025-04-30",
         // i18next.t("apgames:descriptions.gorogo")
         description: "apgames:descriptions.gorogo",
         urls: [
@@ -62,7 +62,7 @@ export class GorogoGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["experimental", "limited-pieces", "scores"]
+        flags: ["limited-pieces", "scores"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);

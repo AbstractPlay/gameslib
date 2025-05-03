@@ -245,7 +245,7 @@ export class GorogoGame extends GameBase {
         const hasLiberties = cloned.hasLiberties(cell);
         // if no liberties, check that captures create a liberty
         if (!hasLiberties) {
-            const toCap = this.toCapture(p === 1 ? 2 : 1);
+            const toCap = cloned.toCapture(p);
             if (toCap.length > 0) {
                 toCap.forEach(c => cloned.board.delete(c));
                 if (cloned.hasLiberties(cell)) {

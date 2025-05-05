@@ -487,6 +487,33 @@
             "size-11": {
                 "name": "Plateau de taille 11."
             }
+        },
+        "moonsquad": {
+            "#board": {
+                "description": "Une tableau hexhex5 avec une cellule centrale subdivisée et des bords modifiés pour former une surface de type lune.",
+                "name": "Plateau lune"
+            }
+        },
+        "meridians": {
+            "#board": {
+                "name": "Tableau par défaut (base 7)"
+            },
+            "size-6": {
+                "name": "Tableau Plus petit (base 6)"
+            },
+            "size-8": {
+                "name": "Tableau plus large"
+            }
+        },
+        "mixtour": {
+            "five": {
+                "description": "Le vainqueur est le permier à marquer trois points.",
+                "name": "Meilleur des cinq"
+            },
+            "three": {
+                "description": "Le vainqueur est le premier à marquer deux points.",
+                "name": "Meilleur des trois"
+            }
         }
     },
     "variantGroups": {

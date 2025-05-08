@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -147,6 +145,7 @@ export class ControlGame extends GameBase {
             } else {
                 return this.getGraph().listCells(ordered);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return this.buildGraph().listCells(ordered);
         }

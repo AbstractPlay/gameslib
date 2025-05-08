@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, MarkerGlyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { diagDirections, Direction, orthDirections, RectGrid, reviver, SquareDirectedGraph, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -123,7 +122,7 @@ export class KachitGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         this.board = deepclone(state.board) as Map<string, Piece>;
         this.inhand = [...state.inhand];
         this.lastmove = state.lastmove;
@@ -825,7 +824,7 @@ export class KachitGame extends GameBase {
     }
 
     public clone(): KachitGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         return Object.assign(new KachitGame(), deepclone(this) as KachitGame);
     }
 }

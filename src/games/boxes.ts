@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerLine, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -499,7 +499,7 @@ export class BoxesGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.width}}`, "g"), "_");
 
-        const markers: any[] = []
+        const markers: MarkerLine[] = []
         for (const [wall, player] of this.boardEdge.entries()) {
             const [x, y, orient] = this.splitWall(wall);
             if (orient === "h") {

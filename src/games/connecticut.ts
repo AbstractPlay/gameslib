@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerEdge, MarkerLine } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -491,7 +491,7 @@ export class ConnecticutGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
-        const markers: Array<any> = [
+        const markers: Array<MarkerEdge|MarkerLine> = [
             {type:"edge", edge: "N", colour: 1},
             {type:"edge", edge: "S", colour: 1},
             {type:"edge", edge: "E", colour: 2},

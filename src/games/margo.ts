@@ -643,6 +643,7 @@ export class MargoGame extends GameBase {
             }
             checkPlayer = checkPlayer % 2 + 1 as playerid;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return this.stateCount(new Map<string, any>([["board", newBoard], ["currplayer", player % 2 + 1]])) >= 1;
     }
 

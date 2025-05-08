@@ -5,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type Player = 1|2;
@@ -113,9 +113,9 @@ export class PodsGame extends GameBase {
         const state = this.stack[idx];
         this.version = parseInt(state._version, 10);
         this.currplayer = state.currplayer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         this.board = deepclone(state.board) as Map<string, Player>;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         this.influenceBoard = deepclone(state.influenceBoard) as Map<string, Player>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
@@ -139,6 +139,7 @@ export class PodsGame extends GameBase {
             } else {
                 return this.getGraph().listCells(ordered);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return this.buildGraph().listCells(ordered);
         }
@@ -275,7 +276,7 @@ export class PodsGame extends GameBase {
                     moves.push(cell);
                 }
             }
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             const boardClone = deepclone(this.board) as Map<string, Player>;
             for (const cell of playerCells) {
                 const steps = this.getSteps(player, cell, boardClone);
@@ -347,6 +348,7 @@ export class PodsGame extends GameBase {
         for (const cell of cells) {
             try {
                 this.getGraph().algebraic2coords(cell);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (e) {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                 return result;
@@ -520,9 +522,9 @@ export class PodsGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             board: deepclone(this.board) as Map<string, Player>,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             influenceBoard: deepclone(this.influenceBoard) as Map<string, Player>,
             scores: [...this.scores]
         };
@@ -554,6 +556,7 @@ export class PodsGame extends GameBase {
             pstr.push(pieces);
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let markers: Array<any> = [];
         if (this.gameover) {
             let colour1 = 1;

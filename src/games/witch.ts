@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -539,7 +537,6 @@ export class WitchGame extends GameBase {
                 this.captured[this.currplayer - 1].push(contents);
                 this.board.delete(b);
             }
-            // eslint-disable-next-line guard-for-in
             for (const key in counts) {
                 this.results.push({type: "capture", "what": key, "count": counts[key]});
             }
@@ -694,7 +691,7 @@ export class WitchGame extends GameBase {
         };
 
         // Add annotations
-        const reMove = /^(\([SM]\))?[a-i]\d(\-[a-i]\d)?$/;
+        const reMove = /^(\([SM]\))?[a-i]\d(-[a-i]\d)?$/;
         if (this.lastmove !== undefined) {
         // if (this.stack[this.stack.length - 1]._results.length > 0) {
             // let lastmove = this.stack[this.stack.length - 1].lastmove;
@@ -760,6 +757,8 @@ export class WitchGame extends GameBase {
         return status;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["capture", "affiliate", "eog", "winners"]);
     }

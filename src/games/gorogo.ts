@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +6,8 @@ import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthDirectedGraph } from "../common/graphs";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -36,7 +36,7 @@ export class GorogoGame extends GameBase {
         uid: "gorogo",
         playercounts: [2],
         version: "20250425",
-        dateAdded: "2025-01-27",
+        dateAdded: "2025-04-30",
         // i18next.t("apgames:descriptions.gorogo")
         description: "apgames:descriptions.gorogo",
         urls: [
@@ -62,7 +62,7 @@ export class GorogoGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["experimental", "limited-pieces", "scores"]
+        flags: ["limited-pieces", "scores"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 5);
@@ -245,7 +245,7 @@ export class GorogoGame extends GameBase {
         const hasLiberties = cloned.hasLiberties(cell);
         // if no liberties, check that captures create a liberty
         if (!hasLiberties) {
-            const toCap = this.toCapture(p === 1 ? 2 : 1);
+            const toCap = cloned.toCapture(p);
             if (toCap.length > 0) {
                 toCap.forEach(c => cloned.board.delete(c));
                 if (cloned.hasLiberties(cell)) {

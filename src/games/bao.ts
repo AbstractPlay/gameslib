@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +6,8 @@ import { BaoGraph, reviver, UserFacingError } from "../common";
 import type { IRenderOpts, IScores } from "./_base";
 import i18next from "i18next";
 import type { PitType } from "../common/graphs/bao";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -1267,9 +1267,9 @@ export class BaoGame extends GameBase {
         const inhand = this.inhand[0] + this.inhand[1];
         const board = this.board.map(r => r.reduce((prev, curr) => prev + curr, 0)).reduce((prev, curr) => prev + curr, 0);
         if ( (inhand + board) !== 64) {
-            // eslint-disable-next-line no-console
+
             console.log(JSON.stringify(this.state()));
-            // eslint-disable-next-line no-console
+
             console.log(JSON.stringify(this.render()));
             throw new Error(`Invalid game economy! In hand: ${inhand}, on board: ${board}`);
         }

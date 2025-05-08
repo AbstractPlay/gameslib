@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, IStashEntry, ICustomButton } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, BoardBasic, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +6,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -46,7 +45,7 @@ export class ACityGame extends GameBase {
         dateAdded: "2023-06-22",
         // i18next.t("apgames:descriptions.acity")
         description: "apgames:descriptions.acity",
-        urls: ["http://www.piecepack.org/rules/AlienCity.pdf", "https://boardgamegeek.com/boardgame/20623/alien-city"],
+        urls: ["https://www.looneylabs.com/content/alien-city", "https://boardgamegeek.com/boardgame/20623/alien-city"],
         people: [
             {
                 type: "designer",
@@ -373,7 +372,7 @@ export class ACityGame extends GameBase {
             }
         }
 
-        const reMove = /^([RGBN][DT])(\-([a-h]\d+))?(\(([a-h]\d+)\))?$/;
+        const reMove = /^([RGBN][DT])(-([a-h]\d+))?(\(([a-h]\d+)\))?$/;
         if (reMove.test(m)) {
             const [,pc,,to,,claim] = m.match(reMove)!; // can't be null because we tested
             // `pc` is guaranteed to be defined and at least well formed
@@ -641,7 +640,7 @@ export class ACityGame extends GameBase {
         if (m === "pass") {
             this.results.push({type: "pass"});
         } else {
-            const reMove = /^([RGBN][DT])(\-([a-h]\d+))(\(([a-h]\d+)\))?$/;
+            const reMove = /^([RGBN][DT])(-([a-h]\d+))(\(([a-h]\d+)\))?$/;
             if (reMove.test(m)) {
                 const [,piece,,to,,claim] = m.match(reMove)!;
                 // remove piece from stash
@@ -1122,14 +1121,15 @@ export class ACityGame extends GameBase {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "winners":
+                            }
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -1144,6 +1144,7 @@ export class ACityGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                                 break;
+                            }
                         }
                 }
                 result.push(node);

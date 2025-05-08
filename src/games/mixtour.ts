@@ -563,6 +563,8 @@ export class MixtourGame extends GameBase {
         return status;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["pass", "move", "place", "eog", "winners"]);
     }

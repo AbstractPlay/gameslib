@@ -264,7 +264,7 @@ export class AmazonsGame extends GameBase {
                 newmove = cell;
             }
             if (move.length > 0) {
-                const [from, to,] = move.split(/[-\/]/);
+                const [from, to,] = move.split(/[-/]/);
                 if ( (from !== undefined) && (to === undefined) ) {
                     newmove = `${from}-${cell}`;
                 } else if ( (from !== undefined) && (to !== undefined) ) {
@@ -301,7 +301,7 @@ export class AmazonsGame extends GameBase {
             result.message = i18next.t("apgames:validation.amazons.INITIAL_INSTRUCTIONS")
             return result;
         }
-        const [from, to, block] = m.split(/[-\/]/);
+        const [from, to, block] = m.split(/[-/]/);
         // validate coordinates
         for (const cell of [from, to, block]) {
             if (cell !== undefined) {
@@ -437,7 +437,7 @@ export class AmazonsGame extends GameBase {
                 result = this.validateMove(m);
             }
             if ( (result.complete !== undefined) && (result.complete >= 0) || result.canrender === true ) {
-                const [f, t, b] = m.split(/[-\/]/);
+                const [f, t, b] = m.split(/[-/]/);
                 if ( (f === undefined) || (t === undefined) ) {
                     throw new Error(`The move '${m}' is not a valid partial.`)
                 }
@@ -455,7 +455,7 @@ export class AmazonsGame extends GameBase {
         }
 
         // Move valid, so change the state
-        const [from, to, block] = m.split(/[-\/]/);
+        const [from, to, block] = m.split(/[-/]/);
         this.board.delete(from);
         this.board.set(to, this.currplayer);
         this.board.set(block, 0);
@@ -663,7 +663,7 @@ export class AmazonsGame extends GameBase {
                 }
             }
         }
-        pstr = pstr.replace(/\-{10}/g, "_");
+        pstr = pstr.replace(/-{10}/g, "_");
 
         // Build rep
         const rep: APRenderRep =  {
@@ -741,11 +741,12 @@ export class AmazonsGame extends GameBase {
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
-            case "move":
+            case "move": {
                 const block = results.find(mr => mr.type === "block")! as {type: "block"; where: string};
                 node.push(i18next.t("apresults:MOVE.amazons", {player, from: r.from, to: r.to, block: block.where}));
                 resolved = true;
                 break;
+            }
             case "block":
                 resolved = true;
                 break;

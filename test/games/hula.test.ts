@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import "mocha";
@@ -6,7 +5,7 @@ import { expect } from "chai";
 import { HulaGame } from '../../src/games';
 
 function state(p1s: string[], p2s: string[], neutrals: string[]): HulaGame {
-    let g = new HulaGame();
+    const g = new HulaGame();
     for(const m of p1s){
         g.board.set(m, 1);
     }
@@ -33,7 +32,7 @@ neutral stone, two loops of equal size and #neutrals, p2 wins
 
 describe("Hula", () => {
     it("p1 win with partisan stone placement", () => {
-        let g = state(
+        const g = state(
             ['g5', 'g6', 'f5', 'f7', 'e5'],
             [],
             []);
@@ -42,7 +41,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([1]);
     });
     it("p2 win with partisan stone placement", () => {
-        let g = state(
+        const g = state(
             [],
             ['g5', 'g6', 'f5', 'f7', 'e5'],
             []);
@@ -52,7 +51,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([2]);
     });
     it("p1 win with neutral stone placed by p1", () => {
-        let g = state(
+        const g = state(
             ['g5', 'g6', 'f5', 'e5', 'e6',
             'f8', 'f9', 'f10', 'f11'],
             [],
@@ -62,7 +61,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([1]);
     });
     it("p1 win with neutral stone placed by p2", () => {
-        let g = state(
+        const g = state(
             ['g5', 'g6', 'f5', 'e5', 'e6'],
             ['f8', 'f9', 'f10', 'f11'],
             []);
@@ -72,7 +71,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([1]);
     });
     it("p1 win with shortest loop, neutral stone placed by p1", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6',
             'i4', 'j4', 'k4'],
             ['h4', 'g4', 'g3', 'f3', 'e3', 'e4', 'd4', 'g6', 'f7', 'e6'],
@@ -82,7 +81,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([1]);
     });
     it("p1 win with shortest loop, neutral stone placed by p2", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6'],
             ['h4', 'g4', 'g3', 'f3', 'e3', 'e4', 'd4', 'g6', 'f7', 'e6',
             'i4', 'j4', 'k4'],
@@ -93,7 +92,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([1]);
     });
     it("p2 win with shortest loop, neutral stone placed by p2", () => {
-        let g = state(
+        const g = state(
             ['h4', 'g4', 'g3', 'f3', 'e3', 'e4', 'd4', 'g6', 'f7', 'e6'],
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6',
             'i4', 'j4', 'k4'],
@@ -104,7 +103,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([2]);
     });
     it("p2 win with shortest loop, neutral stone placed by p1", () => {
-        let g = state(
+        const g = state(
             ['h4', 'g4', 'g3', 'f3', 'e3', 'e4', 'd4', 'g6', 'f7', 'e6',
             'i4', 'j4', 'k4'],
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6'],
@@ -114,7 +113,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([2]);
     });
     it("p1 win with equally long loops but fewer neutrals, neutral stone placed by p1", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6',
             'i4', 'j4', 'k4'],
             ['h4', 'g4', 'e4', 'd4', 'g6', 'f7', 'e6'],
@@ -124,7 +123,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([1]);
     });
     it("p1 win with equally long loops but fewer neutrals, neutral stone placed by p2", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6'],
             ['h4', 'g4', 'e4', 'd4', 'g6', 'f7', 'e6',
             'i4', 'j4', 'k4'],
@@ -135,7 +134,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([1]);
     });
     it("p2 win with equally long loops but fewer neutrals, neutral stone placed by p1", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'h6', 'g7', 'f8', 'e7', 'd6',
             'i4', 'j4', 'k4'],
             ['h4', 'g4', 'f4', 'e4', 'd4', 'g6', 'f7', 'e6'],
@@ -145,7 +144,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([2]);
     });
     it("p2 win with equally long loops but fewer neutrals, neutral stone placed by p2", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'h6', 'g7', 'f8', 'e7', 'd6'],
             ['h4', 'g4', 'f4', 'e4', 'd4', 'g6', 'f7', 'e6',
             'i4', 'j4', 'k4'],
@@ -156,7 +155,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([2]);
     });
     it("p2 win with equally long loops and equal number of neutrals, neutral stone placed by p1", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6',
             'i4', 'j4', 'k4'],
             ['h4', 'g4', 'f4', 'e4', 'd4', 'g6', 'f7', 'e6'],
@@ -166,7 +165,7 @@ describe("Hula", () => {
         expect(g.winner).to.have.members([2]);
     });
     it("p2 win with equally long loops and equal number of neutrals, neutral stone placed by p2", () => {
-        let g = state(
+        const g = state(
             ['g5', 'f5', 'e5', 'h6', 'g7', 'f8', 'e7', 'd6'],
             ['h4', 'g4', 'f4', 'e4', 'd4', 'g6', 'f7', 'e6',
             'i4', 'j4', 'k4'],

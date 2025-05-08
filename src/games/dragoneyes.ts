@@ -5,7 +5,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type PlayerId = 1|2|3|4;
@@ -122,7 +123,7 @@ export class DragonEyesGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         this.board = deepclone(state.board) as Map<string, CellContent>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
@@ -147,6 +148,7 @@ export class DragonEyesGame extends GameBase {
         try {
             if (ordered === undefined) return this.getGraph().listCells();
             else return this.getGraph().listCells(ordered);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return this.buildGraph().listCells(ordered);
         }
@@ -257,7 +259,7 @@ export class DragonEyesGame extends GameBase {
             const temp2: string[] = [];
             const landings = this.getLandingCells(start, enemy, board);
             for (const empty of landings) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
                 const boardClone = deepclone(board) as Map<string, CellContent>;
                 const enchanted = boardClone.get(start)![1] || this.eyes.includes(empty);
                 boardClone.set(empty, [boardClone.get(start)![0], enchanted]);
@@ -363,6 +365,7 @@ export class DragonEyesGame extends GameBase {
                 for (const cell of cells) {
                     try {
                         this.getGraph().algebraic2coords(cell);
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     } catch (e) {
                         result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                         return result;
@@ -515,7 +518,7 @@ export class DragonEyesGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             board: deepclone(this.board) as Map<string, CellContent>,
             scores: [...this.scores],
             flips: [...this.flips],

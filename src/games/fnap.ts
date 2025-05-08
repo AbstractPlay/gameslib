@@ -372,6 +372,7 @@ export class FnapGame extends GameBaseSimultaneous {
         else {
             const [m1, m2] = m.split(";");
             // m1 is guaranteed to exist, at least
+            // eslint-disable-next-line prefer-const
             let [tile1, cell1] = m1.split("-");
             tile1 = tile1.toLowerCase();
             // tile is selected
@@ -402,6 +403,7 @@ export class FnapGame extends GameBaseSimultaneous {
                 return result;
             }
             if (m2 !== undefined) {
+                // eslint-disable-next-line prefer-const
                 let [tile2, cell2] = m2.split("-");
                 tile2 = tile2.toLowerCase();
 
@@ -1020,14 +1022,15 @@ export class FnapGame extends GameBaseSimultaneous {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners": {
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -1042,6 +1045,7 @@ export class FnapGame extends GameBaseSimultaneous {
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                             break;
+                        }
                     }
                 }
                 result.push(node);

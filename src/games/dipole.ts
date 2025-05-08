@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections, Direction } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -210,7 +208,7 @@ export class DipoleGame extends GameBase {
             }
             let newmove = "";
             if (move.length > 0) {
-                const [from,] = move.split(/[\+\-x]/);
+                const [from,] = move.split(/[+\-x]/);
                 // if you clicked on the original cell again, reset
                 if (from === cell) {
                     return {move: "", message: ""} as IClickResult;
@@ -271,7 +269,7 @@ export class DipoleGame extends GameBase {
             return result;
         }
 
-        const [from, to] = m.split(/[\+\-x]/);
+        const [from, to] = m.split(/[+\-x]/);
         let xFrom: number; let yFrom: number;
         try {
             [xFrom, yFrom] = DipoleGame.algebraic2coords(from, this.boardsize);
@@ -452,7 +450,7 @@ export class DipoleGame extends GameBase {
         const grid = new RectGrid(this.boardsize, this.boardsize);
 
         if (m !== "pass") {
-            const [from, to] = m.split(/[\+\-x]/);
+            const [from, to] = m.split(/[+\-x]/);
             const stackFrom = this.board.get(from)![1];
             const [xFrom, yFrom] = DipoleGame.algebraic2coords(from, this.boardsize);
             if (to === "off") {

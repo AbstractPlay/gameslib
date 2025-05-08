@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 0|1|2;
@@ -427,6 +425,7 @@ export class UrbinoGame extends GameBase {
                     }
                 }
             } else {
+                // eslint-disable-next-line prefer-const
                 let [from, to, place] = move.split(/[-,]/);
                 if (place === undefined && move.includes(',')) { // this happens when user clicks on stash (without movement)
                     place = to;

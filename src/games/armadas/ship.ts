@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/no-loss-of-precision */
+
 import { Size, playerid } from "../armadas";
 import { projectPoint, IPoint, smallestDegreeDiff, ptDistance } from "../../common";
 import { polygon as turfPoly, lineString as turfLine } from "@turf/helpers";
 import turfIntersects from "@turf/boolean-intersects";
 
 // ship sizes at default rendering size
-export const heights = [27.777786254882812, 38.1944274902344, 48.61114501953125];
-export const widths = [15.60546875, 21.701393127441435, 27.777786254882812];
+export const heights = [27.77778625488281, 38.1944274902344, 48.61114501953125];
+export const widths = [15.60546875, 21.701393127441435, 27.77778625488281];
 
 export interface IShipOpts {
     id: string;

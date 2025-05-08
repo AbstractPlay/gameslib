@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Ship, System, Stash } from "./homeworlds/";
 import { reviver } from "../common";
@@ -17,7 +17,7 @@ export type Star = [Colour, Size];
 
 // This should only include public-facing errors.
 // Errors that should never happen can be omitted.
-// eslint-disable-next-line no-shadow
+
 export const enum HomeworldsErrors {
     STASH_EMPTY = "STASH_EMPTY",                // Attempting to take a piece when one is not available
     SYSTEM_BADNAME = "SYSTEM_BADNAME",          // The system name does not meet the requirements
@@ -564,7 +564,7 @@ export class HomeworldsGame extends GameBase {
             // get move context
             let moves: string[] = [];
             if ( (move !== undefined) && (move !== "") ) {
-                moves = move.split(/\s*[\n,;\/\\]\s*/);
+                moves = move.split(/\s*[\n,;/\\]\s*/);
             }
             const myseat = this.player2seat(this.currplayer);
             const mysys = this.systems.find(s => s.owner === myseat);
@@ -923,7 +923,7 @@ export class HomeworldsGame extends GameBase {
         }
 
         const keywords: string[] = ["homeworld", "discover", "move", "build", "trade", "attack", "sacrifice", "catastrophe", "pass"];
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         const cloned = this.clone();
 
         cloned.actions = {free: 1, R: 0, B: 0, G: 0, Y: 0};
@@ -1132,7 +1132,7 @@ export class HomeworldsGame extends GameBase {
          *   - pass number?
          */
         const keywords: string[] = ["homeworld", "discover", "move", "build", "trade", "attack", "sacrifice", "catastrophe", "pass"];
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         this.actions = {free: 1, R: 0, B: 0, G: 0, Y: 0};
         const LHO = this.getLHO();
         if ( (LHO === undefined) && (this.stack.length > this.numplayers) ) {
@@ -2558,7 +2558,7 @@ export class HomeworldsGame extends GameBase {
             }
         }
 
-        let annotations: any[] = [];
+        let annotations: AnnotationHomeworlds[] = [];
         const seen: Set<string> = new Set<string>();
         for (const r of this.results) {
             if (r.type === "move") {
@@ -2632,7 +2632,7 @@ export class HomeworldsGame extends GameBase {
             }
         }
         // Remove any nonexistent systems from the list
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
         annotations = annotations.filter(n => this.systems.find(s => s.name === n.system) !== undefined);
 
         // Build rep
@@ -2704,14 +2704,15 @@ export class HomeworldsGame extends GameBase {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners": {
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -2726,6 +2727,7 @@ export class HomeworldsGame extends GameBase {
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                             break;
+                        }
                     }
                 }
                 result.push(node);

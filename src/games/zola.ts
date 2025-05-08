@@ -694,7 +694,7 @@ export class ZolaGame extends GameBase {
         const lst: string[] = [];
         for (const round of moves) {
             for (const move of round) {
-                const [from, to] = move.split(/[x\-]/);
+                const [from, to] = move.split(/[x-]/);
                 lst.push(`${ZolaGame.mirrorCell(from, width)}-${ZolaGame.mirrorCell(to, width)}`);
             }
         }

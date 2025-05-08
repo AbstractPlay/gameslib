@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerFenceData } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerFenceData, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -471,7 +471,7 @@ export class AtollGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
-        const blocked: Array<any> = [];
+        const blocked: Array<RowCol> = [];
         for (let i = 0; i < (this.boardSize + 1) / 2; i++) {
             blocked.push({ row: 0, col: 2 * i });
         }

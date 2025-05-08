@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -7,7 +6,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
@@ -73,7 +72,7 @@ const dir2string = (dir: Direction): string|undefined => {
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+
 const myHex = defineHex({
     offset: 1,
     orientation: Orientation.POINTY
@@ -1177,25 +1176,25 @@ export class ChaseGame extends GameBase {
             throw new Error(`Invalid direction passed for pointy hexes: ${dir}`);
         }
         if (log) {
-            // eslint-disable-next-line no-console
+
             console.log(`RecurseMove - cell: ${cell}, piece: ${JSON.stringify(piece)}, dir: ${dir}`);
         }
         // Captures and bumps
         if (this.board.has(cell)) {
-            // eslint-disable-next-line no-console
+
             if (log) { console.log(`\tDestination is occupied`); }
             const nPiece = this.board.get(cell);
             // If it doesn't belong to us, we're done
             // Remove the piece, and exit, which will lead to applying the stack
             if (nPiece![0] !== this.currplayer) {
-                // eslint-disable-next-line no-console
+
                 if (log) { console.log(`\tEnemy piece. Capturing.`); }
                 this.board.delete(cell);
                 this.results.push({type: "capture", what: nPiece![1].toString(), where: cell});
                 this.board.set(cell, piece);
             // Otherwise, recurse
             } else {
-                // eslint-disable-next-line no-console
+
                 if (log) { console.log(`\tFriendly piece. Pushing.`); }
                 this.board.set(cell, piece);
                 const result: APMoveResult = {type: "eject", what: nPiece![1].toString(), from: cell, to: ""};
@@ -1213,7 +1212,7 @@ export class ChaseGame extends GameBase {
             }
         // Chamber moves
         } else if (cell === "e5") {
-            // eslint-disable-next-line no-console
+
             if (log) { console.log(`Chamber move`); }
             const [lcell, rcell] = chamberExits.get(dir)!;
             // If the player already has 10 pieces (9, actually, because we're in the middle of a move), just eject the piece
@@ -1239,7 +1238,7 @@ export class ChaseGame extends GameBase {
             }
         // Regular move
         } else {
-            // eslint-disable-next-line no-console
+
             if (log) { console.log(`Regular move`); }
             this.board.set(cell, piece);
         }
@@ -1484,14 +1483,15 @@ export class ChaseGame extends GameBase {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners": {
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -1507,6 +1507,7 @@ export class ChaseGame extends GameBase {
 
                             break;
                         }
+                    }
                 }
                 result.push(node);
             }

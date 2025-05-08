@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +6,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -282,12 +281,12 @@ export class AccastaGame extends GameBase {
                 const [source, moves] = move.split(":");
                 const steps = moves.split(",");
                 const last = steps[steps.length - 1];
-                const lastComplete = ( (last !== undefined) && (/^\d?[-\+]/.test(last)) );
+                const lastComplete = ( (last !== undefined) && (/^\d?[-+]/.test(last)) );
                 if (lastComplete) {
                     // If they're clicking on the source cell, assume they are selecting a new index
                     if (cell === source) {
                         // If the last move used up all the pieces, then this is an error; just return the move
-                        if (/^[-\+]/.test(last)) {
+                        if (/^[-+]/.test(last)) {
                             newmove = move;
                         } else {
                             // If selecting the rest of the stack, things are simple
@@ -354,7 +353,7 @@ export class AccastaGame extends GameBase {
                         }
                     // otherwise, assume you're trying to move there
                     } else {
-                        if (this.board.has(cell) || newsteps.some(step => step.match(/[-\+]([a-g]\d+)/)![1] === cell)) {
+                        if (this.board.has(cell) || newsteps.some(step => step.match(/[-+]([a-g]\d+)/)![1] === cell)) {
                             newmove = `${move}+${cell}`;
                         } else {
                             newmove = `${move}-${cell}`;
@@ -421,7 +420,7 @@ export class AccastaGame extends GameBase {
 
         let steps = moves.split(",");
         const last = steps[steps.length - 1];
-        const lastComplete = ( (last !== undefined) && (/^\d?[-\+]/.test(last)) );
+        const lastComplete = ( (last !== undefined) && (/^\d?[-+]/.test(last)) );
 
         // If the last move is incomplete, process the rest of the moves first
         if (! lastComplete) {
@@ -432,7 +431,7 @@ export class AccastaGame extends GameBase {
         let stack: CellContents[] = deepclone(sourceContents) as CellContents[];
         const cloned = this.clone();
         for (const step of steps) {
-            const [num, destination] = step.split(/[-\+]/);
+            const [num, destination] = step.split(/[-+]/);
             let subsize: number;
             if (num === undefined) {
                 subsize = stack.length;

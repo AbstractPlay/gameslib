@@ -4,7 +4,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, UserFacingError, SquareOrthGraph } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -83,7 +83,6 @@ export class TableroGame extends GameBase {
         throw new Error(`Could not convert move "${move}" into a d6 result.`);
     }
     public static clone(obj: TableroGame): TableroGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const cloned: TableroGame = Object.assign(new TableroGame(), deepclone(obj) as TableroGame);
         return cloned;
     }
@@ -1152,6 +1151,8 @@ export class TableroGame extends GameBase {
         return resolved;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "take", "pass", "eog", "winners"]);
     }

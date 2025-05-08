@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaKey } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaKey, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -594,12 +593,12 @@ export class BloomsGame extends GameBase {
             pstr.push(pieces);
         }
 
-        const points: { row: number, col: number }[] = [];
+        const points: RowCol[] = [];
         for (const cell of this.currMoveHighlight) {
             const [x, y] = this.graph.algebraic2coords(cell);
             points.push({ row: y, col: x });
         }
-        const markers: Array<any> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.25, points }] : undefined;
+        const markers: Array<MarkerFlood> | undefined = points.length !== 0 ? [{ type: "flood", colour: "#FFFF00", opacity: 0.25, points: points as [RowCol, ...RowCol[]] }] : undefined;
 
         // Build rep
         const rep: APRenderRep =  {

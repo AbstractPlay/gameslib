@@ -670,7 +670,7 @@ export class CannonGame extends GameBase {
             this.board.delete(cell);
             this.results = [{type: "capture", where: cell}]
         } else if ( (m.includes("-")) || (m.includes("x")) ) {
-            const cells: string[] = m.split(new RegExp('[\-x]'));
+            const cells: string[] = m.split(new RegExp('[-x]'));
             this.board.set(cells[1], this.board.get(cells[0])!);
             this.board.delete(cells[0]);
             this.results = [{type: "move", from: cells[0], to: cells[1]}];
@@ -935,7 +935,7 @@ export class CannonGame extends GameBase {
                 }
             }
         }
-        pstr = pstr.replace(/\-{10}/g, "_");
+        pstr = pstr.replace(/-{10}/g, "_");
 
         // Build rep
         const rep: APRenderRep =  {
@@ -1013,7 +1013,7 @@ export class CannonGame extends GameBase {
                 ];
             // movement
             } else  {
-                const cells: string[] = this.lastmove.split(new RegExp('[\-x]'));
+                const cells: string[] = this.lastmove.split(new RegExp('[-x]'));
                 const [xFrom, yFrom] = CannonGame.algebraic2coords(cells[0]);
                 const [xTo, yTo] = CannonGame.algebraic2coords(cells[1]);
                 rep.annotations = [

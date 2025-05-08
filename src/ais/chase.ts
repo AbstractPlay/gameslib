@@ -32,8 +32,7 @@ const evaluate = (state: IChaseState): number => {
 
 export class ChaseAI extends AIBase {
     public static findmove(state: IChaseState, plies: number): string {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const result: IAIResult =  minmax(state, gameRules, evaluate, plies);
+                const result: IAIResult =  minmax(state, gameRules, evaluate, plies);
         if ( (result === undefined) || (! result.hasOwnProperty("bestMove")) || (result.bestMove === undefined) || (result.bestMove === null) ) {
             throw new Error("No best move found. This should never happen.");
         }

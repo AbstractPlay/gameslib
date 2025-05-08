@@ -6,7 +6,8 @@ import { reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
 import { Card, Deck, cardSortAsc, cardSortDesc, cardsBasic, cardsExtended, suits } from "../common/decktet";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3;
@@ -396,6 +397,7 @@ export class JacynthGame extends GameBase {
         }
 
         const [mv, influence] = m.split(",");
+        // eslint-disable-next-line prefer-const
         let [card, to] = mv.split("-");
         card = card.toUpperCase();
 
@@ -521,6 +523,7 @@ export class JacynthGame extends GameBase {
         this.results = [];
         this.emulated = emulation;
         const [mv, influence] = m.split(",");
+        // eslint-disable-next-line prefer-const
         let [card, to] = mv.split("-");
         card = card.toUpperCase();
 
@@ -817,7 +820,7 @@ export class JacynthGame extends GameBase {
     }
 
     public clone(): JacynthGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         return Object.assign(new JacynthGame(this.numplayers), deepclone(this) as JacynthGame);
     }
 }

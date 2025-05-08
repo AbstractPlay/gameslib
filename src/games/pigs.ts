@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBaseSimultaneous, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const clone = require("rfdc/default");
 
 type playerid = 1|2|3|4;
@@ -346,7 +344,7 @@ export class PigsGame extends GameBaseSimultaneous {
                     const [fx, fy] = PigsGame.algebraic2coords(pig.cell);
                     let dir: Direction = pig.facing;
                     if (cmd === "v") {
-                        // @ts-ignore (can ignore because facing is never "U" at this point)
+                        // @ts-expect-error (can ignore because facing is never "U" at this point)
                         dir = opp.get(pig.facing)!;
                     } else if (cmd === "\\") {
                         dir = moveLeft.get(pig.facing)!;
@@ -578,13 +576,13 @@ export class PigsGame extends GameBaseSimultaneous {
         for (const [player, facing] of this.board.values()) {
             const label = `${player2label.get(player)}${facing}`;
             if (facing === "U") {
-                // @ts-ignore
+                // @ts-expect-error (let it be)
                 legend[label] = {
                     name: "pyramid-up-large-upscaled",
                     colour: player
                 };
             } else {
-                // @ts-ignore
+                // @ts-expect-error (let it be)
                 legend[label] = {
                     name: "pyramid-flat-large",
                     colour: player,
@@ -596,7 +594,7 @@ export class PigsGame extends GameBaseSimultaneous {
         for (const [player, facing] of this.ghosts.map(g => g[1])) {
             const label = `g${player2label.get(player)}${facing}`;
             if (facing === "U") {
-                // @ts-ignore
+                // @ts-expect-error (let it be)
                 legend[label] = {
                     name: "pyramid-up-large-upscaled",
                     colour: player,
@@ -604,7 +602,7 @@ export class PigsGame extends GameBaseSimultaneous {
                     scale: 0.75,
                 };
             } else {
-                // @ts-ignore
+                // @ts-expect-error (let it be)
                 legend[label] = {
                     name: "pyramid-flat-large",
                     rotate: facing2rot.get(facing),
@@ -731,14 +729,17 @@ export class PigsGame extends GameBaseSimultaneous {
                                         const opponent = players[parseInt(r2.who as string, 10) - 1];
                                         node.push(i18next.t("apresults:DAMAGE.pigs", {player, where: r2.where as string, opponent}));
                                         break;
+                                    } else {
+                                        break;
                                     }
                                 case "repair":
                                     node.push(i18next.t("apresults:REPAIR.simple", {player}));
                                     break;
-                                case "eliminated":
+                                case "eliminated": {
                                     const oppPlayer = players[parseInt(r2.who, 10) - 1];
                                     node.push(i18next.t("apresults:ELIMINATED", {player: oppPlayer}));
                                     break;
+                                }
                             }
                         }
                     } else {
@@ -746,14 +747,15 @@ export class PigsGame extends GameBaseSimultaneous {
                             case "eog":
                                 node.push(i18next.t("apresults:EOG.default"));
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r1.player}`;
                                 if (r1.player <= players.length) {
                                     rname = players[r1.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "winners":
+                            }
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r1.players) {
                                     if (w <= players.length) {
@@ -767,6 +769,7 @@ export class PigsGame extends GameBaseSimultaneous {
                                 else
                                     node.push(i18next.t("apresults:WINNERS", {count: r1.players.length, winners: names.join(", ")}));
                                 break;
+                            }
                         }
                     }
                 }

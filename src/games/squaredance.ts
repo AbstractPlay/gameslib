@@ -277,9 +277,7 @@ export class SquaredanceGame extends GameBase {
             if (!m.includes(":")) {
                 this.dots.push(m);
             } else {
-                // eslint-disable-next-line @typescript-eslint/no-shadow
                 const [left, ] = m.split("-");
-                // eslint-disable-next-line @typescript-eslint/no-shadow
                 const [pivot, end] = left.split(":");
                 this.line = [pivot, end];
                 this.dots = [...new Set<string>(allMoves.filter(mv => mv.startsWith(left)).map(mv => mv.split("-")).map(parts => parts[parts.length - 1])).values()];

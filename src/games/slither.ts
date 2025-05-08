@@ -203,7 +203,7 @@ export class SlitherGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             const cell = SlitherGame.coords2algebraic(col, row, this.boardSize);
-            const moves = move.split(/[\/-]+/);
+            const moves = move.split(/[/-]+/);
             let newmove = "";
             if (move.length === 0) {
                 newmove = cell;
@@ -265,7 +265,7 @@ export class SlitherGame extends GameBase {
         m = m.replace(/\s+/g, "");
         // Distinction is not made between separators.
         // They are just there to make it clearer what they mean.
-        const moves = m.split(/[\/-]+/);
+        const moves = m.split(/[/-]+/);
 
         // number of moves
         if (moves.length > 3) {
@@ -538,7 +538,7 @@ export class SlitherGame extends GameBase {
         if (m === "pass") {
             this.results = [{ type: "pass" }];
         } else {
-            const moves = m.split(/[\/-]+/);
+            const moves = m.split(/[/-]+/);
             if (moves.length === 1) {
                 if (!this.board.has(moves[0])) {
                     this.board.set(moves[0], this.currplayer);
@@ -686,6 +686,7 @@ export class SlitherGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: Array<any> = [
             { type:"edge", edge: "N", colour: 1 },
             { type:"edge", edge: "S", colour: 1 },

@@ -281,7 +281,7 @@ export class FocusGame extends GameBase {
                 return result;
             }
             // that stack belongs to you
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+
             const contents = this.board.get(m)!;
             if (contents[contents.length - 1] !== this.currplayer) {
                 result.valid = false;
@@ -382,7 +382,7 @@ export class FocusGame extends GameBase {
         if (m.startsWith("+")) {
             this.inhand[this.currplayer - 1]--;
             dest = m.substring(1);
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+
             const contents = this.board.get(dest);
             if (contents === undefined) {
                 this.board.set(dest, [this.currplayer]);
@@ -589,6 +589,8 @@ export class FocusGame extends GameBase {
         return status;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "place", "eog", "winners"]);
     }
@@ -624,14 +626,15 @@ export class FocusGame extends GameBase {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "winners":
+                            }
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -646,6 +649,7 @@ export class FocusGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                                 break;
+                            }
                         }
                 }
                 result.push(node);

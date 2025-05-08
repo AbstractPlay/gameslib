@@ -278,7 +278,7 @@ export class PrudhGame extends GameBase {
         }
 
         const allMoves = this.moves();
-        const [from, to] = m.split(/[\-\+]/);
+        const [from, to] = m.split(/[-+]/);
         let evenOffset: 0|1 = 1;
         if (this.currplayer === 2) {
             evenOffset = 0;
@@ -413,7 +413,7 @@ export class PrudhGame extends GameBase {
 
         // if partial, just set the points and get out
         if ( (partial) && (! m.includes("-")) && (! m.includes("+")) ) {
-            const [cell,] = m.split(/[\-\+]/);
+            const [cell,] = m.split(/[-+]/);
             const pts = this.findPoints(cell);
             if (pts !== undefined) {
                 this._points = pts.map(c => PrudhGame.algebraic2coords(c));
@@ -428,7 +428,7 @@ export class PrudhGame extends GameBase {
 
         this.results = [];
 
-        const [from, to] = m.split(/[\-\+]/);
+        const [from, to] = m.split(/[-+]/);
         const sizeFrom = this.board.get(from)!;
         const sizeTo = this.board.get(to) || 0;
         const [fx, fy] = PrudhGame.algebraic2coords(from);

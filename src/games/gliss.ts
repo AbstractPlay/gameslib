@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -8,7 +7,8 @@ import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
 import { DirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1 | 2;
@@ -659,6 +659,7 @@ export class GlissGame extends GameBase {
 
         // full moves first
         if (m.includes("-")) {
+            // eslint-disable-next-line prefer-const
             let [from, to] = m.split("-");
             if (to.length === 1) { to = to.toUpperCase();}
             const glider = this.getGliders().find(gl => gl.core === from);

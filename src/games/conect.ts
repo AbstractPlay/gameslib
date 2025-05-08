@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Glyph, MarkerEdge, MarkerFence, MarkerFlood, MarkerGlyph, MarkerHalo, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -653,7 +652,7 @@ export class ConectGame extends GameBase {
             }
         }
 
-        const markers: Array<any> = [];
+        const markers: Array<MarkerEdge|MarkerFlood|MarkerFence|MarkerHalo|MarkerGlyph> = [];
         if (displayHex) {
             markers.push({ type: "edge", edge: "N", colour: 1 });
             markers.push({ type: "edge", edge: this.coneType === "narrow" ? "W" : "E", colour: 2 });
@@ -667,7 +666,7 @@ export class ConectGame extends GameBase {
                     flood.push({ row: this.boardSize - 1, col: i + 1 });
                 }
             }
-            markers.push({ type: "flood", colour: "#FFFF00", opacity: 0.15, points: flood });
+            markers.push({ type: "flood", colour: "#FFFF00", opacity: 0.15, points: flood as [RowCol, ...RowCol[]] });
             if (this.coneType === "wide") {
                 markers.push({ type: "fence", side: "NW", cell: { row: 0, col: 0 }})
                 markers.push({ type: "fence", side: "E", cell: { row: this.boardSize - 1, col: this.boardSize - 1 }})
@@ -680,8 +679,8 @@ export class ConectGame extends GameBase {
         }
 
         if (!displayHex) {
-            const p1: Array<any> = [];
-            const p2: Array<any> = [];
+            const p1: Array<RowCol> = [];
+            const p2: Array<RowCol> = [];
             // const winning: Array<any> = [];
             for (const [cell, player] of this.board) {
                 const [x, y] = this.graph.algebraic2coords(cell);
@@ -695,10 +694,10 @@ export class ConectGame extends GameBase {
                 }
             }
             if (p1.length > 0) {
-                markers.push({ type: "flood", colour: 1, points: p1, opacity: 0.95 });
+                markers.push({ type: "flood", colour: 1, points: p1 as [RowCol, ...RowCol[]], opacity: 0.95 });
             }
             if (p2.length > 0) {
-                markers.push({ type: "flood", colour: 2, points: p2, opacity: 0.95 });
+                markers.push({ type: "flood", colour: 2, points: p2 as [RowCol, ...RowCol[]], opacity: 0.95 });
             }
             // if (winning.length > 0) {
             //     markers.push({ type: "flood", colour: "#FFFF00", points: winning, opacity: 0.2 });

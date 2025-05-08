@@ -131,7 +131,7 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
     for (const grp of components) {
         const bases: string[][] = [];
         const subset = g.copy();
-        // eslint-disable-next-line @typescript-eslint/no-shadow
+         
         for (const missing of g.nodes().filter(n => ! grp.includes(n))) {
             subset.dropNode(missing);
         }
@@ -183,7 +183,7 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
             const xord: number[] = [...first];
             for (const other of rest) {
                 for (let i = 0; i < other.length; i++) {
-                    // eslint-disable-next-line no-bitwise
+                     
                     xord[i] = xord[i] ^ other[i];
                 }
             }

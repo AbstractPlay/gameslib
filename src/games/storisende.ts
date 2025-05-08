@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
@@ -12,10 +9,8 @@ import i18next from "i18next";
 import { StorisendeHex } from "./storisende/hex";
 import { StorisendeBoard } from "./storisende/board";
 import { shuffle } from "../common";
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
 import pako, { Data } from "pako";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -854,19 +849,19 @@ export class StorisendeGame extends GameBase {
                 bg: "_context_background",
                 opacity: 0.5
             },
-            // @ts-ignore
+            // @ts-expect-error (because I will add them incrementally)
             points: [],
         };
         const wallMarker2: MarkerFlood = {
             type: "flood",
             pattern: "slant",
-            // @ts-ignore
+            // @ts-expect-error (because I will add them incrementally)
             points: []
         };
         const terrMarker: MarkerFlood = {
             type: "flood",
             colour: 3,
-            // @ts-ignore
+            // @ts-expect-error (because I will add them incrementally)
             points: [],
         };
         for (const hex of this.board.hexes) {

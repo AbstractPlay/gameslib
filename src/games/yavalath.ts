@@ -5,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import type { HexDir } from "../common/graphs/hextri";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3;
@@ -487,7 +487,6 @@ export class YavalathGame extends GameBase {
     }
 
     public clone(): YavalathGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         return Object.assign(new YavalathGame(this.numplayers), deepclone(this) as YavalathGame);
     }
 }

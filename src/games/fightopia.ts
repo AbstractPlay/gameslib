@@ -414,10 +414,10 @@ export class FightopiaGame extends GameBase {
                 return result;
             }
 
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+             
             let selected: Piece|undefined;
             const [capX, capY] = FightopiaGame.algebraic2coords(cell);
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+             
             const pieces = this.board.filter(p => p.includes(capX, capY));
             if (pieces.length > 0) {
                 selected = pieces[0];
@@ -478,9 +478,9 @@ export class FightopiaGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
                 return result;
             }
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+             
             let selected: Piece|undefined;
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+             
             const pieces = this.board.filter(p => p.includes(selX, selY));
             if (pieces.length > 0) {
                 selected = pieces[0];

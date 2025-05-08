@@ -644,6 +644,7 @@ export class QueenslandGame extends GameBase {
                 return {row, col};
             });
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let markers: Array<any> | undefined = []
         if (points1.length > 0) {
             markers.push({ type: "flood", colour: 1, opacity: 0.33, points: points1 });

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, MarkerEdge, MarkerFlood, MarkerHalo, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -8,7 +6,7 @@ import { reviver, UserFacingError, intersects, shuffle } from "../common";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 import { HexMoonGraph, HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
@@ -27,7 +25,7 @@ const colourName2Num = new Map<string, OreColour>([
     ["O", 6],
     ["B", 7],
 ]);
-const reMvmt = /^\-\S+?\((.*?)\)$/;
+const reMvmt = /^-\S+?\((.*?)\)$/;
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
 }

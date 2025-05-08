@@ -1,6 +1,7 @@
+/* eslint-disable no-constant-condition */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AnnotationBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AnnotationBasic, MarkerFlood, MarkerLine, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -766,6 +767,7 @@ export class AnacheGame extends GameBase {
                 }
             }
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const count = this.stateCount(new Map<string, any>([["board", newBoard], ["currplayer", this.currplayer % 2 + 1]]));
         // Handling of partial group moves.
         if (isDragonMove) {
@@ -1234,7 +1236,7 @@ export class AnacheGame extends GameBase {
             }
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        const markers: Array<any> = [
+        const markers: Array<MarkerFlood|MarkerLine|MarkerShading> = [
             {
                 type: "flood", colour: 2, opacity: 0.2,
                 points: [{ col: 0, row: 0}, { col: this.boardSize - 1, row: 0 }],

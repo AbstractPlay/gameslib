@@ -606,6 +606,7 @@ export class VoloGame extends GameBase {
         froms.forEach(x => originalGroup.delete(x));
         loop:
         for (const dir of directions) {
+            // eslint-disable-next-line no-constant-condition
             for (let i = 1; true; i++) {
                 const moved = new Map<string, string>();
                 for (const from of froms) {

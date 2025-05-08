@@ -191,7 +191,7 @@ export class LielowGame extends GameBase {
             }
             let newmove = "";
             if (move.length > 0) {
-                const [from,] = move.split(/[\-x]/);
+                const [from,] = move.split(/[-x]/);
                 if (cell === undefined) {
                     newmove = `${from}-off`;
                 } else if (!this.board.has(cell)) {
@@ -230,7 +230,7 @@ export class LielowGame extends GameBase {
             return result;
         }
 
-        const [from, to] = m.split(/[\-x]/);
+        const [from, to] = m.split(/[-x]/);
         let xFrom: number; let yFrom: number;
         try {
             [xFrom, yFrom] = this.algebraic2coords(from);
@@ -437,7 +437,7 @@ export class LielowGame extends GameBase {
 
         this.results = [];
 
-        const [from, to] = m.split(/[\-x]/);
+        const [from, to] = m.split(/[-x]/);
         const fromPiece = this.board.get(from)!;
         if (m.includes("-")) {
             if (to === "off") {
@@ -644,6 +644,8 @@ export class LielowGame extends GameBase {
         return rep;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "eog", "winners"]);
     }
@@ -680,24 +682,26 @@ export class LielowGame extends GameBase {
                             case "eog":
                                 node.push(i18next.t("apresults:EOG.default"));
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "timeout":
+                            }
+                            case "timeout": {
                                 let tname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     tname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            }
                             case "gameabandoned":
                                 node.push(i18next.t("apresults:ABANDONED"));
                                 break;
-                            case "winners":
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -710,7 +714,8 @@ export class LielowGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERSNONE"));
                                 else
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                            break;
+                                break;
+                            }
                         }
                     }
                 }

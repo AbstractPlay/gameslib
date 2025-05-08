@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -147,7 +147,7 @@ export class AmoebaGame extends GameBase {
                 // we need to do some processing to determine if it's a move a sow
                 // if the stack height is > 1 but we're clicking right next to the
                 // other cell, then it's a sow; otherwise it's a move
-                const [left,] = move.split(/[-\>]/);
+                const [left,] = move.split(/[->]/);
                 const fstack = this.board.get(left);
                 if (fstack === undefined) {
                     newmove = cell;
@@ -206,7 +206,7 @@ export class AmoebaGame extends GameBase {
 
         const g = new HexTriGraph(4, 7);
         const allmoves = this.moves();
-        const [from, to] = m.split(/[-\>]/);
+        const [from, to] = m.split(/[->]/);
 
         // from must be a valid cell
         if (!g.graph.hasNode(from)) {
@@ -284,7 +284,7 @@ export class AmoebaGame extends GameBase {
 
         this.results = [];
         const g = new HexTriGraph(4, 7);
-        const [from, to] = m.split(/[-\>]/);
+        const [from, to] = m.split(/[->]/);
         const fstack = this.board.get(from)!;
         // direct movement
         if (m.includes("-")) {

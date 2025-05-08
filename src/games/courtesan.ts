@@ -275,7 +275,7 @@ export class CourtesanGame extends GameBase {
             return result;
         }
 
-        const [from, to] = m.split(/[-x\/]/);
+        const [from, to] = m.split(/[-x/]/);
 
         // valid cell
         let xFrom: number; let yFrom: number;
@@ -411,7 +411,7 @@ export class CourtesanGame extends GameBase {
         }
 
 
-        const [from, to] = m.split(/[-x\/]/);
+        const [from, to] = m.split(/[-x/]/);
         const contents = this.board.get(from)!;
         if (m.includes("/")) {
             this.board.set(from, [this.currplayer, "C"]);

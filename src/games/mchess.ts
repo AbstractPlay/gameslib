@@ -361,7 +361,7 @@ export class MchessGame extends GameBase {
                     newmove = cell;
                 }
             } else {
-                const [from,] = move.split(/[-x\+]/);
+                const [from,] = move.split(/[-x+]/);
                 if (from === cell) {
                     return {move: "", message: ""} as IClickResult;
                 }
@@ -408,7 +408,7 @@ export class MchessGame extends GameBase {
             }
             m = m.substring(0, m.length - 1);
         }
-        const [from, to] = m.split(/[-x\+]/);
+        const [from, to] = m.split(/[-x+]/);
 
         if (from !== undefined) {
             // valid cell
@@ -664,7 +664,7 @@ export class MchessGame extends GameBase {
             this._points = [];
         }
 
-        const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)(\*?)$/;
+        const rMove = /^([a-d]\d+)([-+x])([a-d]\d+)(\*?)$/;
         const match = m.match(rMove);
         if (match === null) {
             throw new Error("Malformed move encountered.");
@@ -863,7 +863,7 @@ export class MchessGame extends GameBase {
             }
             pstr += pieces.join(",");
         }
-        pstr = pstr.replace(/\-,\-,\-,\-/g, "_");
+        pstr = pstr.replace(/-,-,-,-/g, "_");
 
         // build legend based on number of players
         const myLegend: ILegendObj = {};
@@ -913,7 +913,7 @@ export class MchessGame extends GameBase {
 
         // Add annotations
         if ( (this.lastmove !== undefined) && !this.specialMove(this.lastmove) ) {
-            const rMove = /^([a-d]\d+)([\-\+x])([a-d]\d+)(\*?)$/;
+            const rMove = /^([a-d]\d+)([-+x])([a-d]\d+)(\*?)$/;
             const match = this.lastmove.match(rMove);
             if (match === null) {
                 throw new Error("Malformed move encountered.");
@@ -979,7 +979,7 @@ export class MchessGame extends GameBase {
             for (const cell of this._points) {
                 points.push({row: cell[1], col: cell[0]});
             }
-            if (rep.hasOwnProperty("annotations")) {
+            if ("annotations" in rep) {
                 rep.annotations!.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
             } else {
                 rep.annotations = [{type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]}];
@@ -1020,6 +1020,8 @@ export class MchessGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "capture", "promote", "eog", "winners"]);
     }

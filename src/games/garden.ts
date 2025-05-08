@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -542,7 +542,7 @@ export class GardenGame extends GameBase {
         // convert each stage into its own piece string
         const stages: string[] = [];
         for (const stage of [...this.stages, {board: this.board, highlights: []}]) {
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+
             let pstr = "";
             for (let row = 0; row < 4; row++) {
                 if (pstr.length > 0) {
@@ -716,6 +716,8 @@ export class GardenGame extends GameBase {
         return status;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "take", "eog", "winners"]);
     }
@@ -723,7 +725,7 @@ export class GardenGame extends GameBase {
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
-            case "place":
+            case "place": {
                 let what = "dovetail";
                 if (r.what! === "b") {
                     what = "ravenclaw";
@@ -731,6 +733,7 @@ export class GardenGame extends GameBase {
                 node.push(i18next.t("apresults:PLACE.complete", {player, where: r.where, what}));
                 resolved = true;
                 break;
+            }
         }
         return resolved;
     }

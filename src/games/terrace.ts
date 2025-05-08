@@ -8,7 +8,7 @@ import { IGraph3D, SquareDiag3DGraph, SquareOrth3DGraph } from "../common/graphs
 import { Square3DGraph } from "../common/graphs";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -227,7 +227,6 @@ export class TerraceGame extends GameBase {
         const state = this.stack[idx];
         this.results = [...state._results];
         this.currplayer = state.currplayer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         this.board = deepclone(state.board) as Map<string, TerracePiece>;
         this.lastmove = state.lastmove;
         return this;
@@ -654,7 +653,6 @@ export class TerraceGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             board: deepclone(this.board) as Map<string, TerracePiece>,
         };
     }
@@ -956,7 +954,7 @@ export class TerraceGame extends GameBase {
     }
 
     public clone(): TerraceGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         return Object.assign(new TerraceGame(), deepclone(this) as TerraceGame);
     }
 }

@@ -166,7 +166,7 @@ export interface Ruleset {
      * The type of piece that a space is passable by
      */
     emptyPassableBy?: "all" | "none" | "king-only";
-    additionalProperties?: false;
+    additionalProperties?: never;
     [k: string]: unknown;
   };
   /**

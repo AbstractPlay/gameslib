@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaStackingExpanded, AreaVolcanoStash, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 interface ILegendObj {
@@ -34,7 +32,7 @@ export type Colour = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN"|"PK";
 export type CellContents = [Colour, Size];
 const allColours: string[] = ["RD", "BU", "GN", "YE", "VT", "OG", "BN", "PK"];
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const clone = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clone(item) : item);
 
 export interface IMoveState extends IIndividualState {
@@ -219,7 +217,7 @@ export class VolcanoGame extends GameBase {
                 }
             }
             const grid = new RectGrid(5, 5);
-            const moves = move.split(/\s*[\n,;\/\\]\s*/);
+            const moves = move.split(/\s*[\n,;/\\]\s*/);
             let lastmove = moves.pop();
             if (lastmove === undefined) {
                 lastmove = "";
@@ -306,7 +304,7 @@ export class VolcanoGame extends GameBase {
         }
 
         const cloned: VolcanoGame = Object.assign(new VolcanoGame(), deepclone(this) as VolcanoGame);
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         const grid = new RectGrid(5, 5);
         let erupted = false;
         let powerplay = false;
@@ -448,7 +446,7 @@ export class VolcanoGame extends GameBase {
             }
         }
 
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         const grid = new RectGrid(5, 5);
         this.erupted = false;
         let powerPlay = false;
@@ -558,7 +556,6 @@ export class VolcanoGame extends GameBase {
         if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
             return true;
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const cloned: VolcanoGame = Object.assign(new VolcanoGame(), deepclone(this));
         cloned.stack.pop();
         cloned.load(-1);
@@ -883,6 +880,7 @@ export class VolcanoGame extends GameBase {
             pieces: pieces as [string[][], ...string[][][]],
         };
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const areas: any[] = [];
 
         // Add captured stashes
@@ -990,6 +988,8 @@ export class VolcanoGame extends GameBase {
         return status;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "eog", "winners"]);
     }
@@ -1029,14 +1029,15 @@ export class VolcanoGame extends GameBase {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners":{
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -1051,6 +1052,7 @@ export class VolcanoGame extends GameBase {
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                             break;
+                        }
                     }
                 }
                 result.push(node);

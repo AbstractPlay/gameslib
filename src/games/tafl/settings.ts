@@ -163,6 +163,7 @@ export class TaflSettings {
                             "___t___",
                         ];
             }
+            // eslint-disable-next-line no-fallthrough
             case 9:
                 switch (this.boardSetup) {
                     case "tcross":
@@ -190,6 +191,7 @@ export class TaflSettings {
                             "____t____",
                         ];
             }
+            // eslint-disable-next-line no-fallthrough
             case 11:
                 switch (this.boardSetup) {
                     case "tdiamond":
@@ -277,6 +279,7 @@ export class TaflSettings {
                             "t__t___t__t",
                         ];
                 }
+            // eslint-disable-next-line no-fallthrough
             case 15:
                 switch (this.boardSetup) {
                     case "tyr":

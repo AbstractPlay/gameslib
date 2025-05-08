@@ -242,7 +242,7 @@ export class MurusGame extends GameBase {
             if (move === "") {
                 newmove = cell;
             } else {
-                const [prev,rest] = move.split(/[-x\*]/);
+                const [prev,rest] = move.split(/[-x*]/);
                 // if at any time you reclick the first cell, clear everything
                 if (cell === prev) {
                     newmove = "";
@@ -326,7 +326,7 @@ export class MurusGame extends GameBase {
 
         // complete move
         if ( (m.includes("-")) || (m.includes("x")) || (m.includes("*")) ) {
-            const [from, rest] = m.split(/[-x\*]/);
+            const [from, rest] = m.split(/[-x*]/);
             const [to, other] = rest.split(",");
 
             // cells are valid
@@ -628,7 +628,7 @@ export class MurusGame extends GameBase {
         this.results = [];
 
         const grid = new RectGrid(8, 7);
-        const [from, rest] = m.split(/[-x\*]/);
+        const [from, rest] = m.split(/[-x*]/);
         // If it's just a single cell, nothing to do
         if (rest !== undefined) {
             const [to, other] = rest.split(",");

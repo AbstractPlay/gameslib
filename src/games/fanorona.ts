@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -8,7 +6,7 @@ import { SquareFanoronaGraph } from "../common/graphs";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
@@ -254,7 +252,7 @@ export class FanoronaGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL");
                     return result;
                 }
-                if ( (move.length > 2) && (/[a-i]\d[\+\-]?$/) ) {
+                if ( (move.length > 2) && (/[a-i]\d[+-]?$/) ) {
                     const from = move.substring(0, 2); // already validated
                     const to = move.substring(2, 4);
                     // can't be the same
@@ -609,6 +607,7 @@ export class FanoronaGame extends GameBase {
         }
 
         if (! this.gameover) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
             if (count >= 4) {
                 this.gameover = true;
@@ -667,7 +666,7 @@ export class FanoronaGame extends GameBase {
                 }
             }
         }
-        pstr = pstr.replace(/\-{9}/g, "_");
+        pstr = pstr.replace(/-{9}/g, "_");
 
         // Build rep
         const rep: APRenderRep =  {
@@ -761,14 +760,15 @@ export class FanoronaGame extends GameBase {
                                 node.push(i18next.t("apresults:EOG.default"));
                             }
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners": {
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -783,6 +783,7 @@ export class FanoronaGame extends GameBase {
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                             break;
+                        }
                     }
                 }
                 result.push(node);

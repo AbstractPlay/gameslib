@@ -605,6 +605,7 @@ export class SaltireGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: Array<any> = [
             { type:"edge", edge: "N", colour: 1 },
             { type:"edge", edge: "S", colour: 1 },

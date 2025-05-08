@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IStashEntry, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerFence, MarkerFlood, MarkerLine, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -507,6 +507,7 @@ export class BlockadeGame extends GameBase {
             result.message = i18next.t(message);
             return result;
         }
+        // eslint-disable-next-line prefer-const
         let [first, second] = m.split("/");
         if (second !== undefined && this.variants.includes("exclusive-wall")) {
             result.valid = false;
@@ -1001,18 +1002,18 @@ export class BlockadeGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.width}}`, "g"), "_");
 
-        const markers: any[] = []
+        const markers: (MarkerFlood|MarkerFence|MarkerLine)[] = []
         for (const [i, spaces] of this.winningSpaces.entries()) {
-            const points: any[] = [];
+            const points: RowCol[] = [];
             for (const cell of spaces) {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({row: y, col: x});
             }
-            markers.push({ type: "flood", points, colour: (i + 1) % 2 + 1, opacity: 0.4 });
+            markers.push({ type: "flood", points: points as [RowCol, ...RowCol[]], colour: (i + 1) % 2 + 1, opacity: 0.4 });
         }
         for (const wall of this.completableWalls) {
             const [x, y, side] = this.wall2render(wall);
-            markers.push({ type: "fence", cell: {row: y, col: x}, side, colour: "#888", width: 1.5, dashed: [2, 9] });
+            markers.push({ type: "fence", cell: {row: y, col: x}, side: side as "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW", colour: "#888", width: 1.5, dashed: [2, 9] });
         }
         if (this.partialWall !== undefined) {
             const [x, y, orient] = this.splitWall(this.partialWall);

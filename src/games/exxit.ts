@@ -1,6 +1,4 @@
-/* eslint-disable max-classes-per-file */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 import { defineHex, Orientation } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -11,7 +9,7 @@ import { CompassDirection, hexNeighbours, nextHex, bearing as calcBearing } from
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
@@ -25,7 +23,7 @@ export class ExxitHex extends defineHex({ offset: 1, orientation: Orientation.PO
     }
 
     public get col(): number {
-        // eslint-disable-next-line no-bitwise
+
         return this.q + (this.r + (this.r & 1)) / 2;
     }
 
@@ -927,6 +925,7 @@ export class ExxitGame extends GameBase {
         return new ExxitGame(this.serialize());
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["claim", "place", "move", "eog", "winners"]);
     }

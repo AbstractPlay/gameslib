@@ -524,24 +524,26 @@ export class AssemblyGame extends GameBaseSimultaneous {
                         case "pass":
                             node.push(i18next.t("apresults:PASS.assembly"));
                             break;
-                        case "eject":
+                        case "eject": {
                             const dist = parseInt(r.to, 10);
                             node.push(i18next.t("apresults:EJECT.assembly", {distance: dist}));
                             break;
+                        }
                         case "deltaScore":
                             node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {count: r.delta, delta: r.delta, player: players[r.who! - 1]}));
                             break;
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners": {
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -556,6 +558,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                             break;
+                        }
                     }
                 }
                 result.push(node);

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerEdge } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import { UndirectedGraph } from "graphology";
@@ -564,7 +564,7 @@ export class HalfcutGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
-        const markers: Array<any> = [
+        const markers: Array<MarkerEdge> = [
             { type:"edge", edge: "N", colour: 1 },
             { type:"edge", edge: "S", colour: 1 },
             { type:"edge", edge: "E", colour: 2 },
@@ -631,6 +631,7 @@ export class HalfcutGame extends GameBase {
         return status;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["place", "pass", "eog", "winners"]);
     }

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaStackingExpanded, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, RectGrid, UserFacingError } from "../common";
 import { CartesianProduct } from "js-combinatorics";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const clone = require("rfdc/default");
 
 interface ILegendObj {
@@ -176,7 +174,7 @@ export class MvolcanoGame extends GameBase {
         try {
             const cell = MvolcanoGame.coords2algebraic(col, row);
             const grid = new RectGrid(6, 6);
-            const moves = move.split(/\s*[\n,;\/\\]\s*/);
+            const moves = move.split(/\s*[\n,;/\\]\s*/);
             let lastmove = moves.pop();
             if (lastmove === undefined) {
                 lastmove = "";
@@ -244,7 +242,7 @@ export class MvolcanoGame extends GameBase {
         }
 
         const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this) as MvolcanoGame);
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         const grid = new RectGrid(6, 6);
         let erupted = false;
         for (const move of moves) {
@@ -352,7 +350,7 @@ export class MvolcanoGame extends GameBase {
             }
         }
 
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         const grid = new RectGrid(6, 6);
         this.erupted = false;
         this.results = [];
@@ -440,8 +438,7 @@ export class MvolcanoGame extends GameBase {
         if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
             return true;
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this));
+                const cloned: MvolcanoGame = Object.assign(new MvolcanoGame(), clone(this));
         cloned.stack.pop();
         cloned.load(-1);
         cloned.gameover = false;
@@ -663,7 +660,7 @@ export class MvolcanoGame extends GameBase {
         if (whites.length > 0) {
             let highestScore = this.getPlayerScore(org);
             const colourSet: string[][] = [];
-            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
             for (let i = 0; i < whites.length; i++) {
                 colourSet.push([...allColours]);
             }
@@ -1030,6 +1027,8 @@ export class MvolcanoGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "eog", "winners"]);
     }
@@ -1061,14 +1060,15 @@ export class MvolcanoGame extends GameBase {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners": {
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -1083,6 +1083,7 @@ export class MvolcanoGame extends GameBase {
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                             break;
+                        }
                     }
                 }
                 result.push(node);

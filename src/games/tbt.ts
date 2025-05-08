@@ -4,7 +4,7 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, UserFacingError, SquareOrthGraph } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -64,7 +64,6 @@ export class TBTGame extends GameBase {
         return GameBase.algebraic2coords(cell, 3);
     }
     public static clone(obj: TBTGame): TBTGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const cloned: TBTGame = Object.assign(new TBTGame(), deepclone(obj) as TBTGame);
         return cloned;
     }

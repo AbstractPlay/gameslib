@@ -1,5 +1,4 @@
-/* tslint:disable:no-unused-expression */
-
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
 import { AmazonsGame, IAmazonsState } from '../../src/games';

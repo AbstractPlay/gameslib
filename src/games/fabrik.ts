@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;

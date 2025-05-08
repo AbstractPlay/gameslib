@@ -70,7 +70,7 @@ export class OrbGame extends GameBase {
     ]);
     public static cores = new Map<playerid,string>([[1,"a1"],[2,"h8"]]);
     public static frontLine: string[] = ["a8","b7","c6","d5","e4","f3","g2","h1"];
-    public static reOps = /[\-x\+\/\#\*]/;
+    public static reOps = /[-x+/#*]/;
 
     public numplayers = 2;
     public currplayer: playerid = 1;

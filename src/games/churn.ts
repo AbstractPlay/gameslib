@@ -7,10 +7,11 @@ import i18next from "i18next";
 import { IGraph } from "../common/graphs";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
 import pako, { Data } from "pako";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -91,7 +92,7 @@ export class ChurnGame extends GameBase {
                 if (state.startsWith("{")) {
                     state = JSON.parse(state, reviver) as IChurnState;
                 } else {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+
                     const decoded = Buffer.from(state, "base64") as Data;
                     const decompressed = pako.ungzip(decoded, {to: "string"});
                     state = JSON.parse(decompressed, reviver) as IChurnState;
@@ -112,7 +113,7 @@ export class ChurnGame extends GameBase {
     public serialize(opts?: {strip?: boolean, player?: number}): string {
         const json = JSON.stringify(this.state(), replacer);
         const compressed = pako.gzip(json);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+
         return Buffer.from(compressed).toString("base64") as string;
     }
 
@@ -126,7 +127,7 @@ export class ChurnGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         this.board = deepclone(state.board) as Map<string, playerid>;
         this.lastmove = state.lastmove;
         return this;
@@ -149,7 +150,7 @@ export class ChurnGame extends GameBase {
     }
 
     private getGroupSize(g: UndirectedGraph, cell: string): number {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         const cloned = deepclone(this.board) as Map<string, playerid>;
         cloned.set(cell, this.currplayer);
         for (const node of g.nodes()) {
@@ -351,7 +352,7 @@ export class ChurnGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             board: deepclone(this.board) as Map<string, playerid>
         };
     }

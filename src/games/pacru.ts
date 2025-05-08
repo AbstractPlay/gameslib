@@ -6,10 +6,10 @@ import { deg2dir, dir2deg, Direction, normDeg, oppositeDirections, RectGrid, rep
 import i18next from "i18next";
 import { PacruGraph } from "./pacru/graph";
 import { Glyph } from "@abstractplay/renderer/build";
-// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
 import pako, { Data } from "pako";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
@@ -147,7 +147,7 @@ export class PacruGame extends GameBase {
                 }
                 // or is it a b64 encoded gzip
                 else {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+
                     const decoded = Buffer.from(state, "base64") as Data;
                     const decompressed = pako.ungzip(decoded, {to: "string"});
                     state = JSON.parse(decompressed, reviver) as IPacruState;
@@ -169,7 +169,7 @@ export class PacruGame extends GameBase {
     public serialize(opts?: {strip?: boolean, player?: number}): string {
         const json = JSON.stringify(this.state(), replacer);
         const compressed = pako.gzip(json);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+
         return Buffer.from(compressed).toString("base64") as string;
     }
 
@@ -1387,7 +1387,7 @@ export class PacruGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             board: deepclone(this.board) as Map<string, CellContents>,
         };
     }
@@ -1540,7 +1540,7 @@ export class PacruGame extends GameBase {
     }
 
     public clone(): PacruGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         const cloned = Object.assign(new PacruGame(this.numplayers), deepclone(this) as PacruGame);
         return cloned;
     }

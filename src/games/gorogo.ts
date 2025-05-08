@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +6,8 @@ import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthDirectedGraph } from "../common/graphs";
 import { connectedComponents } from "graphology-components";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;

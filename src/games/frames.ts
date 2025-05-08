@@ -434,14 +434,15 @@ export class FramesGame extends GameBaseSimultaneous {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                        case "resigned":
+                        case "resigned": {
                             let rname = `Player ${r.player}`;
                             if (r.player <= players.length) {
                                 rname = players[r.player - 1]
                             }
                             node.push(i18next.t("apresults:RESIGN", {player: rname}));
                             break;
-                        case "winners":
+                        }
+                        case "winners": {
                             const names: string[] = [];
                             for (const w of r.players) {
                                 if (w <= players.length) {
@@ -456,6 +457,7 @@ export class FramesGame extends GameBaseSimultaneous {
                                 node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                             break;
+                        }
                     }
                 }
                 result.push(node);

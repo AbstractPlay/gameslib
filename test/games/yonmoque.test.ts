@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import "mocha";
 import { expect } from "chai";
 import { YonmoqueGame } from '../../src/games';

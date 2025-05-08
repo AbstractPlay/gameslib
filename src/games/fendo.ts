@@ -1,16 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerFence, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const clonelst = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);
 
 export type playerid = 1|2;
@@ -425,9 +424,9 @@ export class FendoGame extends GameBase {
 
         if ( (m.length === 3) && (/[NESW]$/.test(m)) ) {
             const cell = m.substring(0, 2);
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+
             const dir = m[2] as Direction;
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+
             const allcells = this.graph.listCells(false) as string[];
 
             // cell is valid
@@ -775,10 +774,10 @@ export class FendoGame extends GameBase {
         }
 
         // Build rep
-        const markers: any[] = [];
+        const markers: (MarkerFence|MarkerShading)[] = [];
         // First add fences
         for (const fence of this.fences) {
-            const dir = this.graph.bearing(fence[0], fence[1]);
+            const dir = this.graph.bearing(fence[0], fence[1])!;
             const [x, y] = this.graph.algebraic2coords(fence[0]);
             markers.push({type: "fence", cell: {row: y, col: x}, side: dir});
         }
@@ -792,7 +791,7 @@ export class FendoGame extends GameBase {
             }
         }
 
-        const board = {
+        const board: BoardBasic = {
             style: "squares-beveled",
             width: 7,
             height: 7,
@@ -921,14 +920,15 @@ export class FendoGame extends GameBase {
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));
                             break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "winners":
+                            }
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -943,6 +943,7 @@ export class FendoGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
 
                                 break;
+                            }
                         }
                 }
                 result.push(node);

@@ -1,4 +1,4 @@
-/* eslint-disable id-denylist */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import type { APRenderRep, Polymatrix } from "@abstractplay/renderer/src/schemas/schema";
@@ -6,7 +6,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { Piece } from "./four/piece";
 import { reviver, UserFacingError, matrixRectRot90, matrixRectRotN90, x2uid } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -740,7 +741,7 @@ export class FourGame extends GameBase {
     }
 
     public clone(): FourGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         const cloned = Object.assign(new FourGame(), deepclone(this) as FourGame);
         cloned.board = cloned.board.map(obj => new Piece(obj));
         return cloned;

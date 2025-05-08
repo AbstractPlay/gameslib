@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AnnotationFreespace, BoardFreespace, Freepiece, Glyph, MarkerFreespaceGlyph, MarkerPath } from "@abstractplay/renderer/src/schemas/schema";
@@ -9,8 +8,6 @@ import { UserFacingError } from "../common";
 import { wng } from "../common";
 import i18next from "i18next";
 import { Obstacle } from "./armadas/obstacle";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-// const deepclone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
 export type Size = 1|2|3;
@@ -102,7 +99,7 @@ export class ArmadasGame extends GameBase {
      * into a single command. Only does one instance and then recurses.
      */
     public static mergeMoves(moveStr: string): string {
-        const moves = moveStr.split(/\s*[\n,;\/\\]\s*/).map(m => m.split(/\s+/));
+        const moves = moveStr.split(/\s*[\n,;/\\]\s*/).map(m => m.split(/\s+/));
         let dupe: number|undefined;
         for (let i = 1; i < moves.length; i++) {
             const move = moves[i];
@@ -304,7 +301,7 @@ export class ArmadasGame extends GameBase {
             // get move context
             let moves: string[] = [];
             if ( (move !== undefined) && (move !== "") ) {
-                moves = move.split(/\s*[\n,;\/\\]\s*/);
+                moves = move.split(/\s*[\n,;/\\]\s*/);
             }
             let lastmove = "";
             if (moves.length > 0) {
@@ -455,7 +452,7 @@ export class ArmadasGame extends GameBase {
             return result;
         }
 
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         const cloned = this.clone();
         cloned.attackTracker.clear();
 
@@ -598,7 +595,7 @@ export class ArmadasGame extends GameBase {
          *   - name attack targetName
          *   - pass
          */
-        const moves = m.split(/\s*[\n,;\/\\]\s*/);
+        const moves = m.split(/\s*[\n,;/\\]\s*/);
         this.results = [];
         this.ghosts = [];
         this.attackTracker.clear();
@@ -1313,6 +1310,7 @@ export class ArmadasGame extends GameBase {
         return rep;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         if (this.numplayers > 2) {
             return this.getMovesAndResultsWithSequence();

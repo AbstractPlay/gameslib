@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError } from "../common";
 import { Glyph } from "@abstractplay/renderer";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type tileid = 1|2|3;
@@ -508,6 +506,7 @@ export class TritiumGame extends GameBase {
         // Central hexagon
 
         const center: [RowCol, ...RowCol[]] = [{ row: this.boardsize - 1, col: this.boardsize - 1}];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: Array<any> | undefined = [
             { type: "flood", colour: "#888", opacity: 0.25, points: center}
         ];

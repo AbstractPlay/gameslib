@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -157,6 +155,7 @@ export class TumbleweedGame extends GameBase {
             } else {
                 return this.getGraph().listCells(ordered);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return this.buildGraph().listCells(ordered);
         }
@@ -781,6 +780,7 @@ export class TumbleweedGame extends GameBase {
             points1 = points.get(1)!;
             points2 = points.get(2)!;
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let markers: Array<any> | undefined = []
         if (points1.length > 0) {
             markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 as [RowCol, ...RowCol[]] });
@@ -886,35 +886,38 @@ export class TumbleweedGame extends GameBase {
                             case "place":
                                 node.push(i18next.t("apresults:PLACE.tumbleweed", {player: name, where: r.where, count: r.count}));
                                 break;
-                            case "capture":
+                            case "capture": {
                                 // Check if capture is self-capture.
                                 const str = r.whose === otherPlayer ? "apresults:CAPTURE.tumbleweed_self" : "apresults:CAPTURE.tumbleweed";
                                 node.push(i18next.t(str, {player: name, where: r.where, count: r.count}));
                                 break;
+                            }
                             case "pass":
                                 node.push(i18next.t("apresults:PASS.simple", {player: name}));
                                 break;
                             case "eog":
                                 node.push(i18next.t("apresults:EOG.default"));
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "timeout":
+                            }
+                            case "timeout": {
                                 let tname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     tname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            }
                             case "gameabandoned":
                                 node.push(i18next.t("apresults:ABANDONED"));
                                 break;
-                            case "winners":
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -927,7 +930,8 @@ export class TumbleweedGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERSNONE"));
                                 else
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                            break;
+                                break;
+                            }
                         }
                     }
                 }

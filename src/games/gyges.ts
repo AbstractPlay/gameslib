@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -9,7 +8,8 @@ import i18next from "i18next";
 import Graph, { DirectedGraph, MultiDirectedGraph } from "graphology";
 import { allSimpleEdgeGroupPaths } from "graphology-simple-path";
 import { bidirectional } from "graphology-shortest-path";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -111,7 +111,8 @@ const expandGroups = (lst: string[][]): string[][] => {
 
 type Opts = {gBase: GygesGraph, start: string, board: Map<string, Size>, seen: Set<string>, gWorking?: MultiDirectedGraph}
 const buildMoveGraph = (opts: Opts): [MultiDirectedGraph, GygesGraph] => {
-    let {gBase, start, board, seen, gWorking} = opts;
+    const {gBase, start, board, seen} = opts;
+    let { gWorking } = opts;
     const size = board.get(start);
     if (size === undefined) {
         throw new Error(`No piece at ${start}`);
@@ -771,7 +772,7 @@ export class GygesGame extends GameBase {
         if (this.board.size < 12) {
             const placements = m.split(",");
             const sizes = placements.map(p => parseInt(p[0], 10) as Size);
-            // eslint-disable-next-line @typescript-eslint/no-shadow
+
             const cells = placements.map(p => p.substring(1));
 
             // only two of each size

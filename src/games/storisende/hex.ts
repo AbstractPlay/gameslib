@@ -12,7 +12,6 @@ export class StorisendeHex extends defineHex({ offset: 1, orientation: Orientati
     }
 
     public get col(): number {
-        // eslint-disable-next-line no-bitwise
         return this.q + (this.r + (this.r & 1)) / 2;
     }
 

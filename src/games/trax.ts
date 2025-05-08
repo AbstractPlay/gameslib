@@ -360,7 +360,7 @@ export class TraxGame extends GameBase {
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        if (!/^((\@|[a-z]+)\d+)?[\+\/\\]$/.test(m)) {
+        if (!/^((@|[a-z]+)\d+)?[+/\\]$/.test(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.trax.INVALID_NOTATION", { move: m });
             return result;

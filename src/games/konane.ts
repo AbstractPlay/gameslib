@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +5,8 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type PlayerId = 1|2;
@@ -118,7 +117,7 @@ export class KonaneGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         this.board = deepclone(state.board) as Map<string, PlayerId>;
         this.lastmove = state.lastmove;
         this.results = [...state._results];
@@ -146,6 +145,7 @@ export class KonaneGame extends GameBase {
             } else {
                 return this.getGraph().listCells(ordered);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return this.buildGraph().listCells(ordered);
         }
@@ -386,7 +386,7 @@ export class KonaneGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             board: deepclone(this.board) as Map<string, PlayerId>
         };
     }

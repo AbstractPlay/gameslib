@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -10,7 +8,7 @@ import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, ve
 import { UndirectedGraph } from "graphology";
 import {connectedComponents} from 'graphology-components';
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
@@ -45,7 +43,6 @@ const reMovePartial = /^\[(.*?)\](.*?)$/;
 const reEdge = /^([a-h]\d)(.+?)$/i;
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const myHex = defineHex({
     offset: 1,
     orientation: Orientation.POINTY
@@ -1159,6 +1156,8 @@ export class StreetcarGame extends GameBase {
         return `[${edges.map(e => edge2string(e)).join(",")}]${house}`;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["claim", "take", "eog", "winners"]);
     }

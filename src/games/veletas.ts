@@ -340,7 +340,7 @@ export class VeletasGame extends GameBase {
                     newmove = cell;
                 } else {
                     if (move.length > 0) {
-                        const [from, to,] = move.split(/[-\/]/);
+                        const [from, to,] = move.split(/[-/]/);
                         if ( (from !== undefined) && (to === undefined) ) {
                             newmove = `${from}-${cell}`;
                         } else if ( (from !== undefined) && (to !== undefined) ) {
@@ -489,7 +489,7 @@ export class VeletasGame extends GameBase {
             return result;
 
         }
-        const [from, to, block] = m.split(/[-\/]/);
+        const [from, to, block] = m.split(/[-/]/);
         // validate coordinates
         for (const cell of [from, to, block]) {
             if (cell !== undefined) {
@@ -662,7 +662,7 @@ export class VeletasGame extends GameBase {
                 this.results.push({type: "place", where: ownPiece, what: "piece"});
             }
         } else {
-            const [from, to, block] = m.split(/[-\/]/);
+            const [from, to, block] = m.split(/[-/]/);
             let checkTrapped = false;
             if (!this.board.has(from)) {
                 this.board.set(from, this.currplayer);
@@ -956,24 +956,26 @@ export class VeletasGame extends GameBase {
                             case "eog":
                                 node.push(i18next.t("apresults:EOG.default"));
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1];
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "timeout":
+                            }
+                            case "timeout": {
                                 let tname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     tname = players[r.player - 1];
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            }
                             case "gameabandoned":
                                 node.push(i18next.t("apresults:ABANDONED"));
                                 break;
-                            case "winners":
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -986,7 +988,8 @@ export class VeletasGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERSNONE"));
                                 else
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                            break;
+                                break;
+                            }
                         }
                     }
                 }

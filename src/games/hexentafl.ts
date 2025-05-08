@@ -491,6 +491,7 @@ export class HexentaflGame extends GameBase {
             this.gameover = true;
             this.winner = [2];
             this.results.push({ type: "eog" });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } else if (this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]])) >= 2) {
             this.gameover = true;
             this.winner = [1, 2];

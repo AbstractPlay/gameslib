@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import {
     GameBase,
     IAPGameState,
@@ -12,7 +10,6 @@ import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, Direction } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 
 export type playerid = 1 | 2;
 export type Piece = "W" | "WB" | "WX" | "B" | "BB" | "BX";

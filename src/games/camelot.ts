@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
@@ -1388,6 +1389,7 @@ export class CamelotGame extends GameBase {
                     node.push(i18next.t("apresults:USE.camelot_castle_move", { player, count: r.remaining }));
                 }
                 resolved = true;
+                break;
             case "claim":
                 resolved = true;
                 break;

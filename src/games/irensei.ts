@@ -246,6 +246,7 @@ export class IrenseiGame extends InARowBase {
         // If there are three placements, sort the first and third placements.
         const moves = m.split(",");
         if (moves.length < 3) { return m; }
+        // eslint-disable-next-line prefer-const
         let [first, second, third] = moves;
         [first, third] = this.sort(first, third) === -1 ? [first, third] : [third, first];
         return [first, second, third].join(",");
@@ -601,6 +602,7 @@ export class IrenseiGame extends InARowBase {
             this.results.push({ type: "eog" });
         }
         if (!this.gameover) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
             if (count >= 1) {
                 this.gameover = true;
@@ -688,6 +690,7 @@ export class IrenseiGame extends InARowBase {
                 referencePointsObj.push({ row: y1, col: x1 });
             }
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj, size: 0.15 }] : [];
         const end = this.toroidal ? this.boardSize + 2 * this.toroidalPadding : this.boardSize;
         const padding = this.toroidal ? this.toroidalPadding : this.border;

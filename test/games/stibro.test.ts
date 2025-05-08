@@ -169,5 +169,19 @@ describe("Stibro", () => {
         let moves = g.moves();
         expect(moves).to.not.include("g4");
     });
+
+    it.only("semi-random playout", () => {
+        let g = new StibroGame();
+        let random1 = 752;
+        while(!g.gameover) {
+            random1 += 139
+            let moves = g.moves();
+            let m = moves[random1 % moves.length];
+            g.move(m);
+            process.stdout.write("" + m + " ");
+        }
+        console.log("");
+        expect(g.gameover).to.be.true;
+    });
 });
 

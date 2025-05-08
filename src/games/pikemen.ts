@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 interface ILegendObj {
@@ -591,7 +589,7 @@ export class PikemenGame extends GameBase {
         for (const player of [1, 2]) {
             for (const size of [1, 2, 3]) {
                 for (const dir of rotations.entries()) {
-                    // eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow
+
                     const node: Glyph = {
                         name: "pyramid-flat-" + sizeNames[size - 1],
                         colour: player,
@@ -665,6 +663,8 @@ export class PikemenGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores }]
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "capture", "orient", "eog", "winners"]);
     }

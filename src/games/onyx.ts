@@ -588,11 +588,12 @@ export class OnyxGame extends GameBase {
                 node.push(i18next.t("apresults:PLACE.nowhat", { player, where: r.where }));
                 resolved = true;
                 break;
-            case "capture":
+            case "capture": {
                 const [c1, c2] = r.where!.split(",");
                 node.push(i18next.t("apresults:CAPTURE.onyx", { where1: c1, where2: c2 }));
                 resolved = true;
                 break;
+            }
         }
         return resolved;
     }

@@ -253,6 +253,7 @@ export class PenteGame extends InARowBase {
         // If there are three placements, sort the first and third placements.
         const moves = m.split(",");
         if (moves.length < 3) { return m; }
+        // eslint-disable-next-line prefer-const
         let [first, second, third] = moves;
         [first, third] = this.sort(first, third) === -1 ? [first, third] : [third, first];
         return [first, second, third].join(",");
@@ -896,6 +897,7 @@ export class PenteGame extends InARowBase {
                 referencePointsObj.push({ row: y1, col: x1 });
             }
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let markers: Array<any> | undefined = referencePointsObj.length > 0 ? [{ type: "dots", points: referencePointsObj, size: 0.15 }] : [];
         if (this.variants.includes("capture-2-3")) {
             markers.push({

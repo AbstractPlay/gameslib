@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/naming-convention */
+
+
 import { Colour, Size, HomeworldsErrors as HWErrors } from "../homeworlds";
 import { UserFacingError } from "../../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 interface IStashContents {

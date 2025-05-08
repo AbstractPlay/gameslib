@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
@@ -178,6 +176,7 @@ export class StigmergyGame extends GameBase {
             } else {
                 return this.getGraph().listCells(ordered);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return this.buildGraph().listCells(ordered);
         }
@@ -328,7 +327,7 @@ export class StigmergyGame extends GameBase {
                 return result;
             }
 
-            if (! /^\-?\d+$/.test(m)) {
+            if (! /^-?\d+$/.test(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.stigmergy.INVALIDKOMI");
                 return result
@@ -649,6 +648,7 @@ export class StigmergyGame extends GameBase {
             ];
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let markers: Array<any> | undefined = []
         let points1: {row: number, col: number}[] = [];
         let points2: {row: number, col: number}[] = [];

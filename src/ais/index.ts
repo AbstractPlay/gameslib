@@ -78,7 +78,7 @@ export const slowGames: Map<string, number> = new Map([
     ["dipole", 5],
 ]);
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+ 
 export const AIFactory = (game: string): AIBase|undefined => {
     switch (game) {
         case "amazons":

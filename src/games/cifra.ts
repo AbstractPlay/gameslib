@@ -1043,7 +1043,7 @@ export class CifraGame extends GameBase {
                 node.push(i18next.t("apresults:PLACE.complete", {player, where: r.where, what: r.what}));
                 resolved = true;
                 break;
-            case "affiliate":
+            case "affiliate": {
                 const [shade, pos] = this.stack[1].lastmove!.split(",");
                 const context = shade === "light" ?
                     (pos === "top" ? "lt" : pos === "bottom" ? "lb" : pos === "left" ? "ll" : "lr") :
@@ -1051,6 +1051,7 @@ export class CifraGame extends GameBase {
                 node.push(i18next.t("apresults:AFFILIATE.cifra", {player, context}));
                 resolved = true;
                 break;
+            }
         }
         return resolved;
     }

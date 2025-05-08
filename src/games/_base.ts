@@ -1,4 +1,6 @@
-/* eslint-disable max-classes-per-file */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-prototype-builtins */
+
 import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo';
 import { APRenderRep, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from '../schemas/moveresults';
@@ -320,7 +322,7 @@ export abstract class GameBase  {
     }
 
     protected saveState(): void {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
         this.stack.push(this.moveState());
     }
 
@@ -595,27 +597,29 @@ export abstract class GameBase  {
                             case "eog":
                                 node.push(i18next.t("apresults:EOG.default"));
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "timeout":
+                            }
+                            case "timeout": {
                                 let tname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     tname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            }
                             case "drawagreed":
                                 node.push(i18next.t("apresults:DRAWAGREED"));
                                 break;
                             case "gameabandoned":
                                 node.push(i18next.t("apresults:ABANDONED"));
                                 break;
-                            case "winners":
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -628,7 +632,8 @@ export abstract class GameBase  {
                                     node.push(i18next.t("apresults:WINNERSNONE"));
                                 else
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                            break;
+                                break;
+                            }
                         }
                     }
                 }
@@ -648,7 +653,7 @@ export abstract class GameBase  {
         const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
         const results = this.resultsHistory();
         if (moveCount !== results.length) {
-            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0].join("|")}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1].join("|")}, Last result: ${JSON.stringify(results[results.length - 1])}`);
+            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\nFirst move: ${moves[0].join("|")}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1].join("|")}, Last result: ${JSON.stringify(results[results.length - 1])}`);
         }
         const combined = [];
         for (let i = 0; i < moves.length; i++) {
@@ -680,7 +685,7 @@ export abstract class GameBase  {
         const moveCount = moves.map((x) => { return x.length; }).reduce((a, b) => { return a + b; });
         const results = this.resultsHistory();
         if (moveCount !== results.length) {
-            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\First move: ${moves[0].join("|")}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1].join("|")}, Last result: ${JSON.stringify(results[results.length - 1])}`);
+            throw new Error(`The list of moves and list of results are not the correct length.\nMoves: ${moveCount}, Results: ${results.length}\nFirst move: ${moves[0].join("|")}, First result: ${JSON.stringify(results[0])}\nLast move: ${moves[moves.length - 1].join("|")}, Last result: ${JSON.stringify(results[results.length - 1])}`);
         }
         const combined = [];
         for (let i = 0; i < moves.length; i++) {
@@ -724,7 +729,7 @@ export abstract class GameBase  {
         if (data.dateEnd !== undefined) {
             endDate = data.dateEnd;
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
         const gameinfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
         const rec: APGameRecord = {
             header: {
@@ -743,11 +748,10 @@ export abstract class GameBase  {
                 "date-generated": new Date().toISOString(),
                 // This exception is here because the type requires 1+ entries
                 // but here at initialization, we can't.
-                // @ts-ignore
+                // @ts-expect-error (See above)
                 players: []
             },
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            moves: this.getMoveList()
+                        moves: this.getMoveList()
         };
         if ( (data.unrated !== undefined) && (data.unrated) ) {
             rec.header.unrated = data.unrated;
@@ -772,7 +776,7 @@ export abstract class GameBase  {
             rec.header.players.push({
                 name: data.players[i].name,
                 userid: data.players[i].uid,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
+
                 is_ai: data.players[i].isai,
                 score: this.getPlayerScore(i + 1),
                 result,
@@ -836,8 +840,7 @@ export abstract class GameBase  {
         for (const state of stack) {
             const test = new Map<string, any>();
             for (const key of toCheck.keys()) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                test.set(key, state[key]);
+                                test.set(key, state[key]);
             }
             const otherStr = JSDstringify(test, { replacer: sortingReplacer });
             if (srcStr === otherStr) {

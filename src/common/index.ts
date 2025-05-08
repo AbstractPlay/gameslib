@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RectGrid } from "./rectGrid";
 import { StackSet} from "./stackset";
 import { reviver, replacer, sortingReplacer } from "./serialization";
@@ -62,7 +63,7 @@ export const x2uid = (x: any): string => {
 export const partitionArray = (a: any[], size: number): any[][] =>
     Array.from(
         new Array(Math.ceil(a.length / size)),
-        // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-unsafe-return
+
         (_, i) => a.slice(i * size, i * size + size)
     );
 

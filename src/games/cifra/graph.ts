@@ -34,7 +34,7 @@ export class CifraGraph extends SquareDirectedGraph {
             const o2 = (targetAttributes as NodeData).shade;
             // I DO NOT UNDERSTAND!
             // o1 will never *strictly* equal perspective
-            // eslint-disable-next-line eqeqeq
+             
             if (o1 == perspective && o1 === o2) {
                 this.graph.setEdgeAttribute(edge, "cost", 0);
             } else {

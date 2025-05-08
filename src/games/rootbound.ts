@@ -5,7 +5,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type PlayerId = 1|2|3;
@@ -123,7 +123,6 @@ export class RootBoundGame extends GameBase {
         const state = this.stack[idx];
         this.version = parseInt(state._version, 10);
         this.currplayer = state.currplayer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         this.board = deepclone(state.board) as Map<string, CellContent>;
         this.lastmove = state.lastmove;
         this.lastgroupid = state.lastgroupid;
@@ -151,6 +150,7 @@ export class RootBoundGame extends GameBase {
             } else {
                 return this.getGraph().listCells(ordered);
             }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return this.buildGraph().listCells(ordered);
         }
@@ -371,7 +371,7 @@ export class RootBoundGame extends GameBase {
         moves.push(...validFirstMoves);
 
         if (this.stack.length > 1) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             const boardClone = deepclone(this.board) as Map<string, CellContent>;
 
             for (const firstMove of validFirstMoves) {
@@ -475,6 +475,7 @@ export class RootBoundGame extends GameBase {
             for (const cell of cells) {
                 try {
                     if (cell !== "pass") this.getGraph().algebraic2coords(cell);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 } catch (e) {
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result;
@@ -501,7 +502,7 @@ export class RootBoundGame extends GameBase {
             }
 
             if (cells.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1])) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
                 const boardClone = deepclone(this.board) as Map<string, CellContent>;
                 boardClone.set(cells[0], [this.currplayer, 10000]);
                 const neighbors = this.getGraph().neighbours(cells[1]).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer);
@@ -657,7 +658,7 @@ export class RootBoundGame extends GameBase {
     }
 
     private resolveBoardAndUpdateScore(): Map<string, CellContent> {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         const board = deepclone(this.board) as Map<string, CellContent>;
 
         const originalRegions = this.computeClaimedRegions(board);
@@ -829,7 +830,7 @@ export class RootBoundGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             lastgroupid: this.lastgroupid,
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             board: deepclone(this.board) as Map<string, CellContent>,
             firstpasser: this.firstpasser,
             deadcells: this.deadcells,

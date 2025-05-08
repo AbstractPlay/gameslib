@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, shuffle, SquareOrthGraph } from "../common";
@@ -7,7 +5,7 @@ import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/src/schem
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const clone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
@@ -312,6 +310,7 @@ export class LoggerGame extends GameBase {
             }
 
             const mode = this.getMode(move);
+            // eslint-disable-next-line prefer-const
             let [mv, spawn, act] = move.split(/\s*;\s*/);
             if (spawn === undefined) {
                 spawn = "";
@@ -1022,6 +1021,8 @@ export class LoggerGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores}];
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "place", "destroy", "add", "winners", "eog", "deltaScore"]);
     }

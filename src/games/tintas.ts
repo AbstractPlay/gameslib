@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Direction, Grid, rectangle, defineHex, Orientation } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
@@ -7,7 +5,7 @@ import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/sche
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 type playerid = 1|2;
@@ -29,7 +27,6 @@ export interface ITintasState extends IAPGameState {
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const myHex = defineHex({
     offset: 1,
     orientation: Orientation.FLAT

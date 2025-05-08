@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerLine } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -1319,7 +1319,7 @@ export class EntrapmentGame extends GameBase {
         // Markers are declared here, but this list will be appended to later.
         // We do this because we want the markers related to annotating previous moves
         // to be drawn below the actual barriers.
-        const markers: any[] = []
+        const markers: (MarkerLine)[] = []
 
         // Build rep
         const rep: APRenderRep =  {

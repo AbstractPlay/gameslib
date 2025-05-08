@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -611,15 +611,15 @@ export class CairoCorridorGame extends GameBase {
                 highlight.push({ row: y, col: x });
             }
         }
-        let markers: Array<any> | undefined = [];
+        let markers: Array<MarkerFlood> | undefined = [];
         if (spaces1.length > 0) {
-            markers.push({ type: "flood", points: spaces1, colour: 1, opacity: 0.5 });
+            markers.push({ type: "flood", points: spaces1 as [RowCol, ...RowCol[]], colour: 1, opacity: 0.5 });
         }
         if (spaces2.length > 0) {
-            markers.push({ type: "flood", points: spaces2, colour: 2, opacity: 0.5 });
+            markers.push({ type: "flood", points: spaces2 as [RowCol, ...RowCol[]], colour: 2, opacity: 0.5 });
         }
         if (highlight.length > 0) {
-            markers.push({ type: "flood", points: highlight, colour: "#FFFF00", opacity: 0.3 });
+            markers.push({ type: "flood", points: highlight as [RowCol, ...RowCol[]], colour: "#FFFF00", opacity: 0.3 });
         }
         if (markers.length === 0) {
             markers = undefined;

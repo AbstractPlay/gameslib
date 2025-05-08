@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 import { APGamesInformation } from "../schemas/gameinfo";
 import { GameBase, GameBaseSimultaneous, IAPGameState } from "./_base";
 import { AmazonsGame, IAmazonsState } from "./amazons";
@@ -525,7 +525,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
 });
 export { games };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimultaneous|undefined => {
     switch (game) {
         case "amazons":

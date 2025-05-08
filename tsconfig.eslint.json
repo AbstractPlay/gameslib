@@ -3,7 +3,6 @@
     "include": [
         "src/**/*.ts",
         "test/**/*.ts",
-        ".eslintrc.js"
     ],
     "exclude": [
         "src/schemas/**/*.ts",

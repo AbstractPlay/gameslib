@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBaseSimultaneous, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const clone = require("rfdc/default");
 
 type playerid = 1|2|3|4|5|6|7|8;
@@ -430,7 +428,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
                 const [fx, fy] = Pigs2Game.algebraic2coords(pig.cell);
                 let dir: Direction = pig.facing;
                 if (cmd === "v") {
-                    // @ts-ignore (can ignore because facing is never "U" at this point)
+                    // @ts-expect-error (can ignore because facing is never "U" at this point)
                     dir = opp.get(pig.facing)!;
                 } else if (cmd === "\\") {
                     dir = moveLeft.get(pig.facing)!;
@@ -849,25 +847,30 @@ export class Pigs2Game extends GameBaseSimultaneous {
                                         const opponent = players[parseInt(r2.who as string, 10) - 1];
                                         node.push(i18next.t("apresults:DAMAGE.pigs", {player, where: r2.where as string, opponent}));
                                         break;
+                                    } else {
+                                        break;
                                     }
-                                case "eliminated":
+                                case "eliminated": {
                                     const oppPlayer = players[parseInt(r2.who!, 10) - 1];
                                     node.push(i18next.t("apresults:ELIMINATED", {player: oppPlayer}));
                                     break;
-                                case "resigned":
+                                }
+                                case "resigned": {
                                     let rname = `Player ${r2.player}`;
                                     if (r2.player <= players.length) {
                                         rname = players[r2.player - 1]
                                     }
                                     node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                     break;
-                                case "timeout":
+                                }
+                                case "timeout": {
                                     let tname = `Player ${r2.player}`;
                                     if (r2.player <= players.length) {
                                         tname = players[r2.player - 1]
                                     }
                                     node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                     break;
+                                }
                                 case "gameabandoned":
                                     node.push(i18next.t("apresults:ABANDONED"));
                                     break;
@@ -878,14 +881,15 @@ export class Pigs2Game extends GameBaseSimultaneous {
                             case "eog":
                                 node.push(i18next.t("apresults:EOG.default"));
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r1.player}`;
                                 if (r1.player <= players.length) {
                                     rname = players[r1.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "winners":
+                            }
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r1.players) {
                                     if (w <= players.length) {
@@ -899,6 +903,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
                                 else
                                     node.push(i18next.t("apresults:WINNERS", {count: r1.players.length, winners: names.join(", ")}));
                                 break;
+                            }
                         }
                     }
                 }

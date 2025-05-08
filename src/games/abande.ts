@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +6,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { IGraph, SquareGraph, SnubSquareGraph, HexTriGraph } from "../common/graphs";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerID = 1|2;
@@ -171,8 +170,7 @@ export class AbandeGame extends GameBase {
             for (const [cell, stack] of playerPieces) {
                 const neighbours = this.graph.neighbours(cell);
                 for (const n of neighbours) {
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                    const cloned: AbandeGame = Object.assign(new AbandeGame(), deepclone(this));
+                                        const cloned: AbandeGame = Object.assign(new AbandeGame(), deepclone(this));
                     cloned.buildGraph();
                     // You can't move to empty spaces, only spaces occupied by opponents
                     if (cloned.board.has(n)) {

@@ -5,6 +5,7 @@ import { Direction, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
 import { APRenderRep } from "@abstractplay/renderer";
+import { MarkerEdge, MarkerLine, MarkerShading } from "@abstractplay/renderer/src/schemas/schema";
 
 type playerid = 1 | 2;
 
@@ -762,7 +763,7 @@ export class FourInARowGame extends InARowBase {
             }
         }
         pstr = pstr.replace(new RegExp(`-{${renderBoardSize}}`, "g"), "_");
-        let markers: Array<any> | undefined = [];
+        let markers: Array<MarkerShading|MarkerLine|MarkerEdge> | undefined = [];
         if (this.clear) {
             if (this.placement.includes("4")) {
                 markers.push(...[
@@ -782,7 +783,7 @@ export class FourInARowGame extends InARowBase {
                         type: "shading", colour: "#FFA500", opacity: 0.1,
                         points: [{row: this.boardSize - 1, col: 1}, {row: this.boardSize - 1, col: this.boardSize - 1}, {row: this.boardSize, col: this.boardSize - 1}, {row: this.boardSize, col: 1}],
                     },
-                ]);
+                ] as MarkerShading[]);
             } else {
                 markers.push({
                     type: "shading", colour: "#FFA500", opacity: 0.1,

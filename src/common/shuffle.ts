@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const shuffle = (lst: Array<any>): Array<any> => {
     const working = [...lst];
     let remaining = working.length;

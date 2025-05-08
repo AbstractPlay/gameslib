@@ -472,6 +472,7 @@ export class AyuGame extends GameBase {
         //     this.results.push({ type: "eog" });
         }
         if (!this.gameover) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const count = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
             if (count >= 1) {
                 this.gameover = true;

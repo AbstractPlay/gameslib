@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -267,7 +267,7 @@ export class AsliGame extends GameBase {
         }
 
         if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
-            if (! /^\-?\d+$/.test(m)) {
+            if (! /^-?\d+$/.test(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.asli.BAD_KOMI", {cell: m});
                 return result
@@ -565,6 +565,7 @@ export class AsliGame extends GameBase {
         if (this.stack.length > 3) {
             let stateCount = 0;
             if (this.stack[this.stack.length - 2].lastmove !== "pass") {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 stateCount = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
             }
 
@@ -706,11 +707,11 @@ export class AsliGame extends GameBase {
         // add territory dots
         if (this.maxGroups[0] > 0 && this.maxGroups[1] > 0) {
             const territories = this.getTerritories();
-            let markers: Array<any> | undefined = []
+            let markers: Array<MarkerDots> | undefined = []
             for (const t of territories) {
                 if (t.owner !== undefined) {
                     const points = t.cells.map(c => this.algebraic2coords(c));
-                    markers.push({type: "dots", colour: t.owner, points: points.map(p => { return {col: p[0], row: p[1]}; })});
+                    markers.push({type: "dots", colour: t.owner, points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
                 }
             }
             if (markers.length === 0) {

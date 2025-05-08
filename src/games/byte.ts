@@ -655,6 +655,8 @@ export class ByteGame extends GameBase {
         return status;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "capture", "deltaScore", "eog", "winners"]);
     }
@@ -688,35 +690,38 @@ export class ByteGame extends GameBase {
                             case "capture":
                                 node.push(i18next.t("apresults:CAPTURE.noperson.simple", {what: "stack", where: r.where}));
                                 break;
-                            case "deltaScore":
+                            case "deltaScore": {
                                 const scorer = players[(r.who as number) - 1];
                                 node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {player: scorer, delta: r.delta as number, count: r.delta as number}));
                                 node.push(i18next.t("apresults:SCORE_REPORT", {player: scorer, score: (state.scores as number[])[(r.who as number) - 1]}));
                                 break;
+                            }
                             case "eog":
                                 node.push(i18next.t("apresults:EOG.default"));
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", {player: rname}));
                                 break;
-                            case "timeout":
+                            }
+                            case "timeout": {
                                 let tname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     tname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", {player: tname}));
                                 break;
+                            }
                             case "gameabandoned":
                                 node.push(i18next.t("apresults:ABANDONED"));
                                 break;
                             case "drawagreed":
                                 node.push(i18next.t("apresults:DRAWAGREED"));
                             break;
-                            case "winners":
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -729,7 +734,8 @@ export class ByteGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERSNONE"));
                                 else
                                     node.push(i18next.t("apresults:WINNERS", {count: r.players.length, winners: names.join(", ")}));
-                            break;
+                                break;
+                            }
                         }
                     }
                 }

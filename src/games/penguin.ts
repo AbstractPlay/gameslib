@@ -410,7 +410,7 @@ export class PenguinGame extends GameBase {
             result.cell = working.substring(0, 2).toLowerCase();
             working = working.substring(2);
         }
-        if (/[LR\.]$/.test(working)) {
+        if (/[LR.]$/.test(working)) {
             if (working.endsWith("L")) {
                 const idx = working.indexOf("L");
                 const str = working.substring(idx);
@@ -847,7 +847,7 @@ export class PenguinGame extends GameBase {
         for (const player of [1, 2]) {
             for (const size of [1, 2, 3]) {
                 for (const dir of rotations.entries()) {
-                    // eslint-disable-next-line no-shadow,@typescript-eslint/no-shadow
+
                     const node: Glyph = {
                         name: "pyramid-flat-" + sizeNames[size - 1],
                         colour: player,

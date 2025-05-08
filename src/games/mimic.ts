@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type pieceType = 1|2;
@@ -507,7 +505,7 @@ export class MimicGame extends GameBase {
             return result;
         }
 
-        const cells: string[] = m.split(new RegExp('[\-]'));
+        const cells: string[] = m.split(new RegExp('[-]'));
         if (cells.length === 1) {
             if (!this.board.has(cells[0]) || this.getTopPiece(cells[0]) !== this.currplayer) {
                 result.valid = false;
@@ -620,7 +618,7 @@ export class MimicGame extends GameBase {
 
         this.results = [];
 
-        const cells: string[] = m.split(new RegExp('[\-]'));
+        const cells: string[] = m.split(new RegExp('[-]'));
         if (cells.length !== 2) {
             throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
         }

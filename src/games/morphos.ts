@@ -1,11 +1,12 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerEdge, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import { bidirectional } from "graphology-shortest-path/unweighted";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -679,7 +680,7 @@ export class MorphosGame extends GameBase {
             pstr += pieces.join("");
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        const markers: Array<any> = [
+        const markers: Array<MarkerEdge> = [
             { type:"edge", edge: "N", colour: 1 },
             { type:"edge", edge: "S", colour: 1 },
             { type:"edge", edge: "E", colour: 2 },
@@ -753,7 +754,7 @@ export class MorphosGame extends GameBase {
     }
 
     public clone(): MorphosGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         return Object.assign(new MorphosGame(), deepclone(this) as MorphosGame);
     }
 }

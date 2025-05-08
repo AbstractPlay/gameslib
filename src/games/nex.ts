@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -620,6 +618,7 @@ export class NexGame extends GameBase {
             pstr.push(pieces);
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: Array<any> = [
             { type: "edge", edge: "N", colour: 1 },
             { type: "edge", edge: "S", colour: 1 },

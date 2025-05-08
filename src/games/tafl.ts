@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid, Direction } from "../common";
@@ -221,9 +222,10 @@ export class TaflGame extends GameBase {
         // Get location of the throne. If there is no throne, return undefined.
         const throneType = this.settings.ruleset.throne!.type;
         switch (throneType) {
-            case "centre":
+            case "centre": {
                 const centre = Math.floor(this.settings.boardSize / 2);
                 return this.coords2algebraic(centre, centre);
+            }
             case "no-throne":
                 return undefined;
             default:
@@ -367,10 +369,10 @@ export class TaflGame extends GameBase {
         // Rebuild the move notation to ensure it is in the correct format.
         const moves = move.split(" ");
         const createdMoves: string[] = [];
-        const initialFrom = this.stripPrefix(moves[0].split(/[-\^]/)[0]);
+        const initialFrom = this.stripPrefix(moves[0].split(/[-^]/)[0]);
         const captures: string[] = [];
         for (const m of moves) {
-            const [from, to ] = m.split(/[-\^x]/);
+            const [from, to ] = m.split(/[-^x]/);
             const strippedFrom = this.stripPrefix(from);
             if (to === undefined) {
                 createdMoves.push(this.addPrefix(strippedFrom, initialFrom));
@@ -814,7 +816,7 @@ export class TaflGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
             const captured = this.extractCaptures(move);
-            if (move === "" || this.board.has(cell) && !captured.includes(cell) && cell !== this.stripPrefix(move.split(" ")[0].split(/[-\^]/)[0])) {
+            if (move === "" || this.board.has(cell) && !captured.includes(cell) && cell !== this.stripPrefix(move.split(" ")[0].split(/[-^]/)[0])) {
                 if (this.board.has(cell) && !captured.includes(cell)) {
                     newmove = this.addPrefix(cell);
                 } else {
@@ -826,8 +828,8 @@ export class TaflGame extends GameBase {
                 const moves = move.split(" ");
                 const firstMove = moves[0];
                 const lastMove = moves[moves.length - 1];
-                const [initialFrom, ] = firstMove.split(/[-\^x]/);
-                const [from, to, ] = lastMove.split(/[-\^x]/);
+                const [initialFrom, ] = firstMove.split(/[-^x]/);
+                const [from, to, ] = lastMove.split(/[-^x]/);
                 if (to === undefined) {
                     // This can only happen after first click.
                     const latestMove = this.createMove(this.stripPrefix(from), cell);
@@ -861,7 +863,7 @@ export class TaflGame extends GameBase {
             result.message = i18next.t("apgames:validation.tafl.INITIAL_INSTRUCTIONS");
             return result;
         }
-        const cells = m.split(/[-\^x ]/);
+        const cells = m.split(/[-^x ]/);
 
         // Valid cell
         let currentMove;
@@ -882,7 +884,7 @@ export class TaflGame extends GameBase {
 
         // Check that first click is a piece of the current player
         const firstMove = moves[0];
-        const [initialFrom, initialTo, ] = firstMove.split(/[-\^x]/);
+        const [initialFrom, initialTo, ] = firstMove.split(/[-^x]/);
         const initialFromStripped = this.stripPrefix(initialFrom);
         if (!this.board.has(this.stripPrefix(initialFromStripped))) {
             result.valid = false;
@@ -909,7 +911,7 @@ export class TaflGame extends GameBase {
 
         let previousTo: string | undefined;
         for (const [i, move] of moves.entries()) {
-            const [from, to, ...toCaptures] = move.split(/[-\^x]/);
+            const [from, to, ...toCaptures] = move.split(/[-^x]/);
             const strippedFrom = this.stripPrefix(from);
             // No same from and to.
             if (strippedFrom === to) {
@@ -971,7 +973,7 @@ export class TaflGame extends GameBase {
             const currentCaptures = this.extractCaptures(firstMove);
             let currentFrom = initialTo;
             for (const move of moves.slice(1)) {
-                const [, to, ] = move.split(/[-\^x]/);
+                const [, to, ] = move.split(/[-^x]/);
                 if (!this.getTos(currentFrom, currentCaptures, initialFromStripped, "berserk").includes(to)) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.tafl.BERSERK", {to});
@@ -982,7 +984,7 @@ export class TaflGame extends GameBase {
             }
         }
         const lastMove = moves[moves.length - 1];
-        const [, lastTo, ] = lastMove.split(/[-\^x]/);
+        const [, lastTo, ] = lastMove.split(/[-^x]/);
         if (this.settings.ruleset.berserkCapture && captures.length > 0 && this.getTos(lastTo, captures, initialFromStripped, "berserk").length > 0) {
             result.valid = true;
             result.complete = 0;
@@ -1016,7 +1018,7 @@ export class TaflGame extends GameBase {
         const moves = m.split(" ");
         this.results = [];
         for (const move of moves) {
-            const [from, to, ] = move.split(/[-\^x]/);
+            const [from, to, ] = move.split(/[-^x]/);
             const strippedFrom = this.stripPrefix(from);
             if (to !== undefined) {
                 const [, pcF] = this.board.get(strippedFrom)!;
@@ -1047,13 +1049,12 @@ export class TaflGame extends GameBase {
             }
         }
         if (partial) {
-            const [from, to, ] = moves[0].split(/[-\^x]/);
+            const [from, to, ] = moves[0].split(/[-^x]/);
             if (moves.length === 1 && to === undefined) {
                 this.dots = this.getTos(this.stripPrefix(from));
             } else if (this.settings.ruleset.berserkCapture) {
                 const lastMove = moves[moves.length - 1];
-                // eslint-disable-next-line @typescript-eslint/no-shadow, no-shadow
-                const [, to, ] = lastMove.split(/[-\^x]/);
+                const [, to, ] = lastMove.split(/[-^x]/);
                 const captured = this.extractCaptures(lastMove);
                 if (captured.length > 0) {
                     this.dots = this.getTos(to, [], undefined, "berserk");
@@ -1192,7 +1193,7 @@ export class TaflGame extends GameBase {
         if (kingPos.length > 0) {
             for (const move of this.getAllMoves(kingPos[0])) {
                 const moveSegments = move.split(" ");
-                const breakups = moveSegments[moveSegments.length - 1].split(/[-\^x]/);
+                const breakups = moveSegments[moveSegments.length - 1].split(/[-^x]/);
                 const to = breakups[1];
                 if (this.escaped(to)) {
                     checks.push(this.playerAttacker);

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -7,7 +6,7 @@ import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common";
 import i18next from "i18next";
 import { Glyph } from "@abstractplay/renderer";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -197,7 +196,7 @@ export class BoomGame extends GameBase {
             }
             let newmove = "";
             if (move.length > 0) {
-                const [from,] = move.split(/[\-x]/);
+                const [from,] = move.split(/[-x]/);
                 if (cell === undefined) {
                     newmove = `${from}-off`;
                 } else if (! this.board.has(cell)) {
@@ -236,7 +235,7 @@ export class BoomGame extends GameBase {
             return result;
         }
 
-        const [from, to] = m.split(/[\-x]/);
+        const [from, to] = m.split(/[-x]/);
         let xFrom: number; let yFrom: number;
         try {
             [xFrom, yFrom] = BoomGame.algebraic2coords(from);
@@ -373,7 +372,7 @@ export class BoomGame extends GameBase {
 
         this.results = [];
 
-        const [from, to] = m.split(/[\-x]/);
+        const [from, to] = m.split(/[-x]/);
         if (m.includes("-")) {
             const contents = this.board.get(from)!;
             if (to === "off") {
@@ -599,6 +598,7 @@ export class BoomGame extends GameBase {
         return rep;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "damage", "destroy", "bearoff", "eog", "winners"]);
     }

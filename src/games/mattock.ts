@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -742,13 +740,13 @@ export class MattockGame extends GameBase {
         }
 
         const emptyCells = (this.graph.listCells() as string[]).filter(c => !this.board.has(c));
-        const points: { row: number, col: number }[] = [];
+        const points: RowCol[] = [];
         for (const cell of emptyCells) {
             const [x, y] = this.graph.algebraic2coords(cell);
             points.push({ row: y, col: x });
         }
-        const markers: Array<any> = [];
-        markers.push({ type: "flood", colour: "#444", opacity: 0.6, points });
+        const markers: Array<MarkerFlood> = [];
+        markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: points as [RowCol, ...RowCol[]] });
 
         // Build rep
         const rep: APRenderRep =  {

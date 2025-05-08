@@ -571,7 +571,7 @@ export class AlfredsWykeGame extends GameBase {
             type: "buttonBar",
             position: "left",
             // Keep this one just because of the pain of initializing
-            // @ts-ignore
+            // @ts-expect-error (I want to add the buttons incrementally)
             buttons: []
         };
         for (const mt of moveTypes) {
@@ -602,6 +602,8 @@ export class AlfredsWykeGame extends GameBase {
         return status;
     }
 
+     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["add", "remove", "eog", "winners"]);
     }

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStashEntry, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
@@ -8,7 +7,7 @@ import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const clone = require("rfdc/default");
 
 export type playerid = 1|2|3|4;
@@ -521,7 +520,7 @@ export class BlamGame extends GameBase {
             }
             pstr += pieces.join(",");
         }
-        pstr = pstr.replace(/\-{8}/g, "_");
+        pstr = pstr.replace(/-{8}/g, "_");
 
         // build legend based on number of players
         const myLegend: ILegendObj = {};
@@ -614,6 +613,7 @@ export class BlamGame extends GameBase {
         return [{ name: i18next.t("apgames:status.SCORES"), scores: this.scores.map((s,i) => `${s} (${i18next.t("apgames:status.blam.NUMPIECES", {count: this.caps[i]})})`)}];
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["move", "place", "pass", "winners", "eog", "deltaScore"]);
     }

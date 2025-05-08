@@ -358,7 +358,11 @@ export class SusanGame extends GameBase {
                     this.winner = [this.currplayer % 2 + 1 as playerid];
                 }
             } else {
-                this.winner = [surroundedPlayers.values().next().value % 2 + 1 as playerid];
+                const preSurroundedPlayer = surroundedPlayers.values().next().value as playerid|undefined;
+                if (preSurroundedPlayer === undefined) {
+                    throw new Error("Could not determine the surrounded player. This should never happen!");
+                }
+                this.winner = [preSurroundedPlayer % 2 + 1 as playerid];
             }
             this.results.push({ type: "eog" });
         }

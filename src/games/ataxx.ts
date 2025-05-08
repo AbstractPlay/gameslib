@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerFlood, MarkerShading, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { Direction, HexTriGraph, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -643,6 +643,7 @@ export class AtaxxGame extends GameBase {
     }
 
     protected checkEOG(): AtaxxGame {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const stateCount = this.stateCount(new Map<string, any>([["board", this.board], ["currplayer", this.currplayer]]));
         if (this.scores[this.currplayer - 1] === 0) {
             this.results.push({ type: "eog", reason: "elimination" });
@@ -750,7 +751,7 @@ export class AtaxxGame extends GameBase {
             }
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        let markers: Array<any> | undefined = [];
+        let markers: Array<MarkerShading|MarkerFlood> | undefined = [];
         if (this.variants.includes("straight-jumps-only")) {
             markers.push({
                     type: "shading", colour: "#FFA500", opacity: 0.1,
@@ -763,7 +764,7 @@ export class AtaxxGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 holes.push({ row: y, col: x });
             }
-            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes });
+            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes as [RowCol, ...RowCol[]] });
         }
         if (markers.length === 0) {
             markers = undefined;
@@ -807,14 +808,14 @@ export class AtaxxGame extends GameBase {
             }
             pstr.push(pieces);
         }
-        let markers: Array<any> | undefined = [];
-        const points: Array<any> | undefined = [];
+        let markers: Array<MarkerFlood> | undefined = [];
+        const points: Array<RowCol> | undefined = [];
         if (this.variants.includes("straight-jumps-only")) {
             for (const cell of this.hexTriGraph!.listCells() as string[]) {
                 const [x, y] = this.algebraic2coords(cell);
                 points.push({ row: y, col: x });
             }
-            markers.push({ type: "flood", colour: "#FFA500", opacity: 0.1, points });
+            markers.push({ type: "flood", colour: "#FFA500", opacity: 0.1, points: points as [RowCol, ...RowCol[]] });
         }
         if (this.holes.length > 0) {
             const holes: RowCol[] = [];
@@ -822,7 +823,7 @@ export class AtaxxGame extends GameBase {
                 const [x, y] = this.algebraic2coords(cell);
                 holes.push({ row: y, col: x });
             }
-            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes });
+            markers.push({ type: "flood", colour: "#444", opacity: 0.6, points: holes as [RowCol, ...RowCol[]] });
         }
         if (markers.length === 0) {
             markers = undefined;

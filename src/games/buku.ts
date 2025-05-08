@@ -665,6 +665,7 @@ export class BukuGame extends GameBase {
             this.results.push({ type: "eog" });
         }
         if (!this.gameover) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const stateCount = this.stateCount(new Map<string, any>([["board", this.board]]));
             if (stateCount >= 1) {
                 this.gameover = true;
@@ -867,7 +868,7 @@ export class BukuGame extends GameBase {
                             case "capture":
                                 node.push(i18next.t("apresults:CAPTURE.buku", { player: name, where: r.where, count: r.count }));
                                 break;
-                            case "claim":
+                            case "claim": {
                                 const who = r.who !== this.currplayer ? name : players.filter(p => p !== name)[0];
                                 if (r.how === "singletons") {
                                     node.push(i18next.t("apresults:CLAIM.buku_singletons", { player: who, count: r.count }));
@@ -875,6 +876,7 @@ export class BukuGame extends GameBase {
                                     node.push(i18next.t("apresults:CLAIM.buku_repetition", { player: who, count: r.count }));
                                 }
                                 break;
+                            }
                             case "eog":
                                 if (r.reason === "singletons") {
                                     node.push(i18next.t("apresults:EOG.buku_singletons"));
@@ -884,24 +886,26 @@ export class BukuGame extends GameBase {
                                     node.push(i18next.t("apresults:EOG.default"));
                                 }
                                 break;
-                            case "resigned":
+                            case "resigned": {
                                 let rname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     rname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:RESIGN", { player: rname }));
                                 break;
-                            case "timeout":
+                            }
+                            case "timeout": {
                                 let tname = `Player ${r.player}`;
                                 if (r.player <= players.length) {
                                     tname = players[r.player - 1]
                                 }
                                 node.push(i18next.t("apresults:TIMEOUT", { player: tname }));
                                 break;
+                            }
                             case "gameabandoned":
                                 node.push(i18next.t("apresults:ABANDONED"));
                                 break;
-                            case "winners":
+                            case "winners": {
                                 const names: string[] = [];
                                 for (const w of r.players) {
                                     if (w <= players.length) {
@@ -914,7 +918,8 @@ export class BukuGame extends GameBase {
                                     node.push(i18next.t("apresults:WINNERSNONE"));
                                 else
                                     node.push(i18next.t("apresults:WINNERS", { count: r.players.length, winners: names.join(", ") }));
-                            break;
+                                break;
+                            }
                         }
                     }
                 }

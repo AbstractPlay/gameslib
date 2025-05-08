@@ -9,7 +9,8 @@ import { CubeoDie } from "./cubeo/die";
 import { UndirectedGraph } from "graphology/dist/graphology";
 import { Combination } from "js-combinatorics";
 import { Glyph } from "@abstractplay/renderer/build";
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
@@ -341,7 +342,7 @@ export class CubeoGame extends GameBase {
         // then moves and merges
         else {
             // check for partials first
-            if (/^\d,\-?\d+,\-?\d+$/.test(m)) {
+            if (/^\d,-?\d+,-?\d+$/.test(m)) {
                 const [,x,y] = m.split(",").map(n => parseInt(n, 10));
                 const die = this.board.getDieAt(x,y);
                 // die exists
@@ -411,7 +412,7 @@ export class CubeoGame extends GameBase {
 
         // if partial, populate dots and get out
         if (partial && !m.startsWith("+")) {
-            const [from,] = m.split(/[-\+]\>/);
+            const [from,] = m.split(/[-+]>/);
             this.dots = [...allmoves.filter(mv => mv.startsWith(from)).map(mv => mv.split(">")[1])].map(coords => coords.split(",").map(n => parseInt(n, 10)) as [number,number]);
             return this;
         }
@@ -426,7 +427,7 @@ export class CubeoGame extends GameBase {
         }
         // moves and merges
         else {
-            const [from, to] = m.split(/[-\+]\>/);
+            const [from, to] = m.split(/[-+]>/);
             const [fsize, fx, fy] = from.split(",").map(n => parseInt(n, 10));
             const [tx, ty] = to.split(",").map(n => parseInt(n, 10));
             const fDie = this.board.getDieAt(fx, fy)!;
@@ -657,7 +658,7 @@ export class CubeoGame extends GameBase {
     }
 
     public clone(): CubeoGame {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
         return Object.assign(new CubeoGame(), deepclone(this) as CubeoGame);
     }
 }

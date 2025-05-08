@@ -1,7 +1,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerShading, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { Direction } from "../common";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
@@ -536,10 +536,10 @@ export class GessGame extends GameBase {
         };
     }
 
-    private pieceHighlightPoints(cell: string): { row: number, col: number }[] {
+    private pieceHighlightPoints(cell: string): RowCol[] {
         // Get points that can be used in "shading" marker to highlight the nine cells surrounding `cell`.
         const [x, y] = this.algebraic2coords(cell);
-        const points: { row: number, col: number }[] = [];
+        const points: RowCol[] = [];
         points.push({ row: Math.max(0, y - 1), col: Math.max(0, x - 1) });
         points.push({ row: Math.max(0, y - 1), col: Math.min(this.boardSize, x + 2) });
         points.push({ row: Math.min(this.boardSize, y + 2), col: Math.min(this.boardSize, x + 2) });
@@ -580,7 +580,7 @@ export class GessGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
-        const markers: Array<any> = [
+        const markers: Array<MarkerShading> = [
             {
                 type: "shading", colour: "_context_fill", opacity: 0.2,
                 points: [{row: 0, col: 0}, {row: 0, col: 1}, {row: this.boardSize, col: 1}, {row: this.boardSize, col: 0}],
@@ -602,13 +602,13 @@ export class GessGame extends GameBase {
             if (this.stack[this.stack.length - 1]._results.length > 0) {
                 for (const move of this.stack[this.stack.length - 1]._results) {
                     if (move.type === "move") {
-                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.25, points: this.pieceHighlightPoints(move.from) });
-                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.25, points: this.pieceHighlightPoints(move.to) });
+                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.25, points: this.pieceHighlightPoints(move.from) as [RowCol, RowCol, RowCol, ...RowCol[]] });
+                        markers.push({ type: "shading", colour: "#FFFF00", opacity: 0.25, points: this.pieceHighlightPoints(move.to) as [RowCol, RowCol, RowCol,...RowCol[]] });
                     }
                 }
             }
             for (const cell of this.nineCellHighlight) {
-                markers.push({ type: "shading", colour: "#00FF00", opacity: 0.25, points: this.pieceHighlightPoints(cell) });
+                markers.push({ type: "shading", colour: "#00FF00", opacity: 0.25, points: this.pieceHighlightPoints(cell) as [RowCol, RowCol, RowCol, ...RowCol[]] });
             }
         }
 

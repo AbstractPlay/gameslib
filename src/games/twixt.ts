@@ -429,6 +429,7 @@ export class TwixtGame extends GameBase {
         let y: number | undefined;
         try {
             [x, y] = this.peg2coords(moveSegment);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             return false;
         }
@@ -451,7 +452,7 @@ export class TwixtGame extends GameBase {
     private validateMoveSegment(move: string): boolean {
         // Check that a move segment is valid.
         if (move.length === 0) { return false; }
-        const regex = new RegExp(/^-?[\/\\]?[a-z]+'?[0-9]+'?$/);
+        const regex = new RegExp(/^-?[/\\]?[a-z]+'?[0-9]+'?$/);
         if (!regex.test(move)) { return false; }
         if (move.split("'").length > 2) { return false; }
         if (move[0] === "-" && this.isPeg(move.slice(1))) { return false; }
@@ -938,6 +939,7 @@ export class TwixtGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: Array<any> = [
             {
                 type: "line",

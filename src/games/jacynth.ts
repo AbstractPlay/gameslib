@@ -526,6 +526,7 @@ export class JacynthGame extends GameBase {
         // eslint-disable-next-line prefer-const
         let [card, to] = mv.split("-");
         card = card.toUpperCase();
+        const cardObj = Card.deserialize(card)!;
 
         const idx = this.hands[this.currplayer - 1].findIndex(c => c === card);
         if (idx < 0) {
@@ -534,7 +535,7 @@ export class JacynthGame extends GameBase {
         this.hands[this.currplayer - 1].splice(idx, 1);
         if (to !== undefined && to.length > 0) {
             this.board.set(to, card);
-            this.results.push({type: "place", what: card, where: to});
+            this.results.push({type: "place", what: cardObj.plain, where: to});
             if (influence !== undefined && influence.length > 0) {
                 this.claimed.set(influence, this.currplayer);
                 this.influence[this.currplayer - 1]--;
@@ -808,7 +809,7 @@ export class JacynthGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.complete", {player, where: r.where, what: r.what}));
+                node.push(i18next.t("apresults:PLACE.decktet", {player, where: r.where, what: r.what}));
                 resolved = true;
                 break;
             case "claim":

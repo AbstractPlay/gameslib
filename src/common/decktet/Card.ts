@@ -89,6 +89,10 @@ export class Card {
         return [this.rank.uid, ...this.suits.map(s => s.uid)].join("");
     }
 
+    public get plain(): string {
+        return [this.rank.name, ...this.suits.map(s => s.name)].join(" ");
+    }
+
     public clone(): Card {
         return new Card({name: this.name, rank: this.rank, suits: [...this.suits.map(s => s.clone())], personality: this.personality, location: this.location, event: this.event});
     }
@@ -97,7 +101,7 @@ export class Card {
         if (typeof card === "string") {
             return [...cardsBasic, ...cardsExtended].find(c => c.uid === card.toUpperCase());
         }
-        return new Card({name: card.name, rank: card.rank, suits: [...card.suits.map(s => s.clone())], personality: card.personality, location: card.location, event: card.event});
+        return new Card({name: card._name, rank: Component.deserialize(card._rank)!, suits: [...card._suits.map(s => Component.deserialize(s)!)], personality: card._personality, location: card._location, event: card._event});
     }
 }
 

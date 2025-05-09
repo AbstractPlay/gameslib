@@ -39,7 +39,7 @@ export class Component {
         if (typeof comp === "string") {
             return [...suits, ...ranks].find(c => c.uid === comp);
         }
-        return new Component({uid: comp.uid, seq: comp.seq, name: comp.name, glyph: comp.glyph});
+        return new Component({uid: comp._uid, seq: comp._seq, name: comp._name, glyph: comp._glyph});
     }
 
     public toString(): string {

@@ -169,7 +169,8 @@
     },
     "DECLARE": {
         "renju": "{{player}} оголосив {{count}} орієнтовні квінти.",
-        "mchess": "{{player}} \"подзвонив годинник\". Якщо протягом наступних семи ходів не буде зроблено жодного захоплення, гра завершується та зараховується очко."
+        "mchess": "{{player}} \"подзвонив годинник\". Якщо протягом наступних семи ходів не буде зроблено жодного захоплення, гра завершується та зараховується очко.",
+        "biscuit": "{{player}} вийшов!"
     },
     "DELTA_SCORE_LOSS_one": "{{player}} втрачено {{delta}} бал.",
     "DELTA_SCORE_LOSS_few": "{{player}} втрачено {{delta}} балів.",
@@ -452,7 +453,8 @@
         "simple": "{{player}} ремонти."
     },
     "RESET": {
-        "queensland": "Почалася друга гра."
+        "queensland": "Почалася друга гра.",
+        "biscuit": "Новий раунд розпочався."
     },
     "ROLL": {
         "single": "Гральний кубик кинули: {{values}}.",
@@ -471,7 +473,14 @@
         "fnap_circles": "Кругова плитка на {{where}} є ізольований.",
         "fnap_triplets_one": "{{player}} забив {{count}} трійня.",
         "fnap_triplets_few": "{{player}} забив {{count}} трійні.",
-        "fnap_triplets_many": "{{player}} забив {{count}} трійні."
+        "fnap_triplets_many": "{{player}} забив {{count}} трійні.",
+        "biscuit_cross": "{{player}} забив гарячий хрест-печиво.",
+        "biscuit_hot": "{{player}} з'їв гаряче печиво.",
+        "biscuit_elevensies": "{{player}} набрав одинадцять очок. Усі інші гравці були змушені взяти картку.",
+        "biscuit_biscuit_one": "{{player}} набрав печиво.",
+        "biscuit_biscuit_few": "{{player}} набрав {{count}} печива.",
+        "biscuit_biscuit_many": "{{player}} набрав {{count}} печива.",
+        "biscuit_straight": "{{player}} набрав прямий удар довжиною {{count}}."
     },
     "SOW": {
         "prudh": "{{player}} сіяні шашки с {{from}} до {{to}}.",
@@ -566,5 +575,11 @@
     "CONNECT": {
         "pontedd": "{{player}} поставив міст між {{left}} і {{right}}."
     },
-    "PLAYSECOND": "{{player}} вирішив грати другим."
+    "PLAYSECOND": "{{player}} вирішив грати другим.",
+    "DECKDRAW": {
+        "biscuit": "Наступний гравець не зміг зіграти жодної карти з руки, тому він взяв карту."
+    },
+    "STALEMATE": {
+        "biscuit": "Рука зачерствіла."
+    }
 }

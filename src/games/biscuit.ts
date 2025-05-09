@@ -441,6 +441,7 @@ export class BiscuitGame extends GameBase {
             if (matches.length > 0) {
                 result.valid = true;
                 result.complete = -1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.biscuit.PARTIAL");
                 return result;
             } else {
@@ -1028,8 +1029,9 @@ export class BiscuitGame extends GameBase {
             if (!("annotations" in rep)) {
                 rep.annotations = [];
             }
-            for (const [col, row] of this.highlights) {
-                rep.annotations!.push({type: "enter", occlude: false, targets: [{row, col}]});
+            for (const [absx, absy] of this.highlights) {
+                const [col, row] = this.board.abs2rel(absx, absy)!;
+                rep.annotations!.push({type: "enter", targets: [{row, col}]});
             }
         }
 

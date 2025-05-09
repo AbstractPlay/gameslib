@@ -97,7 +97,7 @@ export class Card {
         if (typeof card === "string") {
             return [...cardsBasic, ...cardsExtended].find(c => c.uid === card.toUpperCase());
         }
-        return new Card({name: card.name, rank: card.rank, suits: [...card.suits.map(s => s.clone())], personality: card.personality, location: card.location, event: card.event});
+        return new Card({name: card._name, rank: Component.deserialize(card._rank)!, suits: [...card._suits.map(s => Component.deserialize(s)!)], personality: card._personality, location: card._location, event: card._event});
     }
 }
 

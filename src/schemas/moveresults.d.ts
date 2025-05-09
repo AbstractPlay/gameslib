@@ -105,6 +105,10 @@ export type APMoveResult =
       type: "draw";
     }
   | {
+      type: "deckDraw";
+      what?: string;
+    }
+  | {
       type: "resigned";
       player: number;
     }
@@ -289,6 +293,9 @@ export type APMoveResult =
     }
   | {
       type: "reset";
+    }
+  | {
+      type: "stalemate";
     }
   | {
       type: "swap";

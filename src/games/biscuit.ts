@@ -301,6 +301,10 @@ export class BiscuitGame extends GameBase {
         const moves: string[] = [];
 
         for (const uid of this.hands[p - 1]) {
+            // skip if you're looking at hands you can't see
+            if (uid === "") {
+                continue;
+            }
             const card = Card.deserialize(uid)!;
             const suits = new Set<string>(card.suits.map(s => s.uid));
             // mainline first
@@ -962,6 +966,15 @@ export class BiscuitGame extends GameBase {
         for (const card of allcards) {
             legend["c" + card.uid] = BiscuitGame.card2glyph(card);
         }
+        legend["cUNKNOWN"] = {
+            name: "piece-square-borderless",
+            colour: {
+                func: "flatten",
+                fg: "_context_fill",
+                bg: "_context_background",
+                opacity: 0.5,
+            },
+        }
 
         // build pieces areas
         const areas: AreaPieces[] = [];
@@ -971,6 +984,13 @@ export class BiscuitGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(c => "c" + c) as [string, ...string[]],
+                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || "local",
+                    spacing: 0.5,
+                });
+            } else if (hand.includes("")) {
+                areas.push({
+                    type: "pieces",
+                    pieces: hand.map(() => "cUNKNOWN") as [string, ...string[]],
                     label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || "local",
                     spacing: 0.5,
                 });

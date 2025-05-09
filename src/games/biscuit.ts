@@ -676,7 +676,7 @@ export class BiscuitGame extends GameBase {
             const card = Card.deserialize(cardId)!;
             const cardObj = new BiscuitCard({x, y, card})
             this.board.add(cardObj);
-            this.results.push({type: "place", what: cardId, where: to});
+            this.results.push({type: "place", what: card.plain, where: to});
             this.hands[this.currplayer - 1] = this.hands[this.currplayer - 1].filter(cid => cid !== cardId);
 
             // tabulate scores
@@ -1095,7 +1095,7 @@ export class BiscuitGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "place":
-                node.push(i18next.t("apresults:PLACE.complete", {player, where: r.where, what: r.what}));
+                node.push(i18next.t("apresults:PLACE.decktet", {player, where: r.where, what: r.what}));
                 resolved = true;
                 break;
             case "set":

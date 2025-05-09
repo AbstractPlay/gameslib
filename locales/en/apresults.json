@@ -334,6 +334,7 @@
         "boxes": "{{player}} adds a line at {{where}}.",
         "boxes_claim1": "{{player}} adds a line at {{where}}, claiming {{box}}.",
         "boxes_claim2": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
+        "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
         "entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
         "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",

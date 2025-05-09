@@ -89,6 +89,10 @@ export class Card {
         return [this.rank.uid, ...this.suits.map(s => s.uid)].join("");
     }
 
+    public get plain(): string {
+        return [this.rank.name, ...this.suits.map(s => s.name)].join(" ");
+    }
+
     public clone(): Card {
         return new Card({name: this.name, rank: this.rank, suits: [...this.suits.map(s => s.clone())], personality: this.personality, location: this.location, event: this.event});
     }

@@ -1069,7 +1069,7 @@ export class BiscuitGame extends GameBase {
         }
         return [
             { name: i18next.t("apgames:status.SCORES"), scores},
-            { name: i18next.t("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
+            // { name: i18next.t("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
         ];
     }
 

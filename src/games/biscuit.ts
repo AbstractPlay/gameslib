@@ -50,8 +50,8 @@ export class BiscuitGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "P.D. Magnus",
-                urls: ["https://www.fecundity.com/pmagnus/gaming.html"],
+                name: "David L. Van Slyke",
+                urls: ["http://wiki.decktet.com/designer:david-l-van-slyke"],
             },
             {
                 type: "coder",

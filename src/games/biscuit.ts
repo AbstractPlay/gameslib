@@ -984,15 +984,17 @@ export class BiscuitGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(c => "c" + c) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || "local",
+                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
+                    width: 6,
                 });
             } else if (hand.includes("")) {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(() => "cUNKNOWN") as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || "local",
+                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
+                    width: 6,
                 });
             }
         }
@@ -1010,6 +1012,7 @@ export class BiscuitGame extends GameBase {
                 label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
                 spacing: 0.25,
                 pieces: remaining,
+                width: 6,
             });
         }
 

@@ -933,6 +933,7 @@ export class BiscuitGame extends GameBase {
         for (let x = minX - 1; x <= maxX + 1; x++) {
             columnLabels.push(x.toString());
         }
+        const [rootCol, rootRow] = this.board.abs2rel(0, 0);
 
         // build pieces string and block most cells, for visual clarity
         const pieces: string[][] = [];
@@ -1009,7 +1010,7 @@ export class BiscuitGame extends GameBase {
                     pieces: hand.map(c => "c" + c) as [string, ...string[]],
                     label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
-                    width: 6,
+                    width: width < 6 ? 6 : undefined,
                 });
             } else if (hand.includes("")) {
                 areas.push({
@@ -1017,7 +1018,7 @@ export class BiscuitGame extends GameBase {
                     pieces: hand.map(() => "cUNKNOWN") as [string, ...string[]],
                     label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
-                    width: 6,
+                    width: width < 6 ? 6 : undefined,
                 });
             }
         }
@@ -1035,7 +1036,7 @@ export class BiscuitGame extends GameBase {
                 label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
                 spacing: 0.25,
                 pieces: remaining,
-                width: 6,
+                width: width < 6 ? 6 : undefined,
             });
         }
 
@@ -1052,6 +1053,18 @@ export class BiscuitGame extends GameBase {
                 blocked: blocked as [RowCol, ...RowCol[]],
                 rowLabels: rowLabels.map(l => l.replace("-", "\u2212")),
                 columnLabels: columnLabels.map(l => l.replace("-", "\u2212")),
+                markers: [
+                    {
+                        type: "flood",
+                        points: [{row: rootRow, col: rootCol}],
+                        colour: {
+                            func: "flatten",
+                            fg: "_context_fill",
+                            bg: "_context_background",
+                            opacity: 0.1,
+                        },
+                    },
+                ],
             },
             legend,
             pieces: pstr,

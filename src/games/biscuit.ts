@@ -83,7 +83,7 @@ export class BiscuitGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
-        flags: ["experimental", "scores", "no-explore", "shared-pieces", "automove"],
+        flags: ["experimental", "scores", "no-explore", "shared-pieces"],
     };
 
     public static card2glyph(card: Card): [Glyph, ...Glyph[]] {

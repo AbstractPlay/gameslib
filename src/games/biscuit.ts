@@ -419,6 +419,11 @@ export class BiscuitGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        // if parenthetical is present, strip it
+        const idx = m.indexOf("(");
+        if (idx >= 0) {
+            m = m.substring(0, idx);
+        }
 
         if (m.length === 0) {
             result.valid = true;
@@ -631,6 +636,11 @@ export class BiscuitGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        // if parenthetical is present, strip it
+        const idx = m.indexOf("(");
+        if (idx >= 0) {
+            m = m.substring(0, idx);
+        }
         if (m !== "pass") {
             const [c,t] = m.split(">");
             m = `${c.toUpperCase()}>${t || ""}`;
@@ -760,11 +770,24 @@ export class BiscuitGame extends GameBase {
             // no bonus points awarded
         }
 
+        // calculate total deltaScore
+        let scoreChange = 0;
+        for (const {delta} of this.results.filter(r => r.type === "deltaScore")) {
+            scoreChange += delta!;
+        }
+        let tag = "";
+        if (scoreChange > 0) {
+            tag += scoreChange.toString();
+        }
+        if (roundOver) {
+            tag += "*";
+        }
+
         // update currplayer
         // Regardless of whether the round just ended,
         // play continues in sequence. Other approaches require
         // more complicated state manipulation.
-        this.lastmove = lastmove;
+        this.lastmove = lastmove + (tag === "" ? "" : `(${tag})`);
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;

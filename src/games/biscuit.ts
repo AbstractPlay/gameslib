@@ -1043,13 +1043,12 @@ export class BiscuitGame extends GameBase {
         // Build rep
         const rep: APRenderRep =  {
             board: {
-                style: "squares-beveled",
+                style: "squares",
                 width: width + 2,
                 height: height + 2,
                 tileHeight: 1,
                 tileWidth: 1,
                 tileSpacing: 0.1,
-                // strokeOpacity: 0.05,
                 blocked: blocked as [RowCol, ...RowCol[]],
                 rowLabels: rowLabels.map(l => l.replace("-", "\u2212")),
                 columnLabels: columnLabels.map(l => l.replace("-", "\u2212")),

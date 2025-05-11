@@ -50,8 +50,8 @@ export class BiscuitGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "P.D. Magnus",
-                urls: ["https://www.fecundity.com/pmagnus/gaming.html"],
+                name: "David L. Van Slyke",
+                urls: ["http://wiki.decktet.com/designer:david-l-van-slyke"],
             },
             {
                 type: "coder",
@@ -83,7 +83,7 @@ export class BiscuitGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
-        flags: ["experimental", "scores", "no-explore", "shared-pieces", "automove"],
+        flags: ["experimental", "scores", "no-explore", "shared-pieces"],
     };
 
     public static card2glyph(card: Card): [Glyph, ...Glyph[]] {
@@ -419,6 +419,11 @@ export class BiscuitGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        // if parenthetical is present, strip it
+        const idx = m.indexOf("(");
+        if (idx >= 0) {
+            m = m.substring(0, idx);
+        }
 
         if (m.length === 0) {
             result.valid = true;
@@ -631,6 +636,11 @@ export class BiscuitGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        // if parenthetical is present, strip it
+        const idx = m.indexOf("(");
+        if (idx >= 0) {
+            m = m.substring(0, idx);
+        }
         if (m !== "pass") {
             const [c,t] = m.split(">");
             m = `${c.toUpperCase()}>${t || ""}`;
@@ -760,11 +770,24 @@ export class BiscuitGame extends GameBase {
             // no bonus points awarded
         }
 
+        // calculate total deltaScore
+        let scoreChange = 0;
+        for (const {delta} of this.results.filter(r => r.type === "deltaScore")) {
+            scoreChange += delta!;
+        }
+        let tag = "";
+        if (scoreChange > 0) {
+            tag += scoreChange.toString();
+        }
+        if (roundOver) {
+            tag += "*";
+        }
+
         // update currplayer
         // Regardless of whether the round just ended,
         // play continues in sequence. Other approaches require
         // more complicated state manipulation.
-        this.lastmove = lastmove;
+        this.lastmove = lastmove + (tag === "" ? "" : `(${tag})`);
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
@@ -984,15 +1007,17 @@ export class BiscuitGame extends GameBase {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(c => "c" + c) as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || "local",
+                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
+                    width: 6,
                 });
             } else if (hand.includes("")) {
                 areas.push({
                     type: "pieces",
                     pieces: hand.map(() => "cUNKNOWN") as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || "local",
+                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
+                    width: 6,
                 });
             }
         }
@@ -1010,6 +1035,7 @@ export class BiscuitGame extends GameBase {
                 label: i18next.t("apgames:validation.jacynth.LABEL_REMAINING") || "Cards in deck",
                 spacing: 0.25,
                 pieces: remaining,
+                width: 6,
             });
         }
 

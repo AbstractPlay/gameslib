@@ -809,6 +809,20 @@ export class ExxitGame extends GameBase {
             }
         }
 
+        const labelGrid: string[][] = [];
+        for (let row = 0; row < height; row++) {
+            const node: string[] = [];
+            for (let col = 0; col < width; col++) {
+                const found = [...this.board.values()].find(h => h.row + dy === row && h.col + dx === col);
+                if (found === undefined) {
+                    node.push("");
+                } else {
+                    node.push(found.uid);
+                }
+            }
+            labelGrid.push(node);
+        }
+
         // Build piece string
         const p2piece: string[] = ["A","B"];
         const pieces: string[][] = [];
@@ -831,12 +845,13 @@ export class ExxitGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            options: ["hide-labels"],
             renderer: "stacking-offset",
             board: {
                 style: (originHex.row + dy) % 2 === 0 ? "hex-even-p" : "hex-odd-p",
                 width,
                 height,
+                labelGrid,
+                labelOpacity: 0.5,
                 blocked: blocked as [{row: number; col: number},...{row: number; col: number}[]],
                 markers: [],
             },

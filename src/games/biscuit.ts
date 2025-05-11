@@ -933,7 +933,7 @@ export class BiscuitGame extends GameBase {
         for (let x = minX - 1; x <= maxX + 1; x++) {
             columnLabels.push(x.toString());
         }
-        const [rootCol, rootRow] = this.board.abs2rel(0, 0);
+        const [rootCol, rootRow] = this.board.abs2rel(0, 0)!;
 
         // build pieces string and block most cells, for visual clarity
         const pieces: string[][] = [];

@@ -377,15 +377,33 @@ export class BlockadeGame extends GameBase {
             if (piece === undefined || !["N", "E", "S", "W"].includes(piece)) {
                 if (move === "") {
                     newmove = cell + "-";
+                } else if (move === cell + "-") {
+                    newmove = "";
                 } else {
-                    const playerLocs = this.playerLocs[this.currplayer - 1];
-                    if (playerLocs.includes(cell)) {
-                        // Clicking on the player's piece will reset the entire move.
-                        newmove = cell + "-";
-                    } else if (move[move.length - 1] === "-" && playerLocs.includes(move.slice(0, move.length - 1))) {
-                        newmove = move + cell;
+                    const parts = move.split('-');
+                    // If the move is exactly (cell1)-(cell2), and the clicked `cell` is either cell1 or cell2,
+                    // reset newmove to an empty string.
+                    if (parts.length === 2 && parts[0] && parts[1] && (cell === parts[0] || cell === parts[1])) {
+                        newmove = "";
                     } else {
-                        newmove = move;
+                        const playerLocs = this.playerLocs[this.currplayer - 1];
+                        if (playerLocs.includes(cell)) {
+                            // Clicking on the player's piece will reset the entire move.
+                            newmove = cell + "-";
+                        } else if (move.endsWith("-")) {
+                            const fromCellInPartialMove = move.slice(0, -1);
+                            if (playerLocs.includes(fromCellInPartialMove)) {
+                                // Complete the move if the partial move starts from a player's piece.
+                                newmove = move + cell;
+                            } else {
+                                // Partial move does not start from a valid player piece, keep current move.
+                                newmove = move;
+                            }
+                        } else {
+                            // No other specific action, keep current move.
+                            newmove = move;
+                        }
+                            
                     }
                 }
             } else {

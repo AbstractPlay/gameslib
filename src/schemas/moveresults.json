@@ -276,6 +276,19 @@
             "additionalProperties": false
         },
         {
+            "description": "Announces drawing from some sort of deck.",
+            "properties": {
+                "type": {
+                    "enum": ["deckDraw"]
+                },
+                "what": {
+                    "type": "string"
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
             "description": "Announces someone voluntarily resigned.",
             "properties": {
                 "type": {
@@ -790,7 +803,7 @@
             "additionalProperties": false
         },
         {
-            "description": "Player has formed a set of some kin",
+            "description": "Player has formed a set of some kind",
             "properties": {
                 "type": {
                     "enum": ["set"]
@@ -873,6 +886,16 @@
             "properties": {
                 "type": {
                     "enum": ["reset"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
+            "description": "Used to declare a stalemate or some other sort of impasse.",
+            "properties": {
+                "type": {
+                    "enum": ["stalemate"]
                 }
             },
             "required": ["type"],

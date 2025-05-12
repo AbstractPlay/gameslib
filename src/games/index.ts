@@ -206,6 +206,7 @@ import { StormCGame, IStormCState } from "./stormc";
 import { PilastriGame, IPilastriState } from "./pilastri";
 import { TessellaGame, ITessellaState } from "./tessella";
 import { GorogoGame, IGorogoState } from "./gorogo";
+import { BiscuitGame, IBiscuitState } from "./biscuit";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -414,6 +415,7 @@ export {
     PilastriGame, IPilastriState,
     TessellaGame, ITessellaState,
     GorogoGame, IGorogoState,
+    BiscuitGame, IBiscuitState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -484,7 +486,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
                               typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
-                              typeof TessellaGame | typeof GorogoGame | typeof StibroGame
+                              typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
+                              typeof BiscuitGame
                 >();
 // Manually add each game to the following array
 [
@@ -516,7 +519,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
     PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
     SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game, BloqueoGame,
-    StormCGame, PilastriGame, TessellaGame, GorogoGame,
+    StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -939,6 +942,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new TessellaGame(...args);
         case "gorogo":
             return new GorogoGame(...args);
+        case "biscuit":
+            return new BiscuitGame(args[0], ...args.slice(1));
     }
     return;
 }

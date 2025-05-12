@@ -153,7 +153,11 @@
         "armadas": "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
+    "DECKDRAW": {
+        "biscuit": "The next player was unable to play any cards in their hand, so they drew a card."
+    },
     "DECLARE": {
+        "biscuit": "{{player}} has gone out!",
         "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
         "renju": "{{player}} has declared {{count}} tentative fifths."
     },
@@ -330,6 +334,7 @@
         "boxes": "{{player}} adds a line at {{where}}.",
         "boxes_claim1": "{{player}} adds a line at {{where}}, claiming {{box}}.",
         "boxes_claim2": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
+        "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
         "entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
         "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",
@@ -443,6 +448,7 @@
         "simple": "{{player}} repairs."
     },
     "RESET": {
+        "biscuit": "A new round has begun.",
         "queensland": "The second game has begun."
     },
     "RESIGN": "{{player}} has resigned.",
@@ -465,6 +471,12 @@
         "spree": "{{player}} handed a ball of colour {{who}} to the opponent."
     },
     "SET": {
+        "biscuit_biscuit_one": "{{player}} scored a biscuit.",
+        "biscuit_biscuit_other": "{{player}} scored {{count}} biscuits.",
+        "biscuit_cross": "{{player}} scored a hot cross biscuit.",
+        "biscuit_elevensies": "{{player}} scored elevensies. All other players were forced to draw a card.",
+        "biscuit_hot": "{{player}} scored a hot biscuit.",
+        "biscuit_straight": "{{player}} scored a straight of length {{count}}.",
         "fnap_circles": "The circle tile at {{where}} is isolated.",
         "fnap_triplets_one": "{{player}} scored {{count}} triplet.",
         "fnap_triplets_other": "{{player}} scored {{count}} triplets."
@@ -474,6 +486,9 @@
         "general_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
         "into": "{{player}} sowed into the pits {{pits}}.",
         "prudh": "{{player}} sowed checkers from {{from}} to {{to}}."
+    },
+    "STALEMATE": {
+        "biscuit": "The hand has gone stale."
     },
     "SWAP": {
         "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",

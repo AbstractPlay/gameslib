@@ -39,7 +39,7 @@ export class Deck {
     public draw(count = 1): Card[] {
         const drawn: Card[] = [];
         for (let i = 0; i < Math.min(count, this._cards.length); i++) {
-            drawn.push(this._cards.pop()!)
+            drawn.push(this._cards.shift()!)
         }
         return drawn;
     }

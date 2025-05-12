@@ -983,8 +983,8 @@ export class GygesGame extends GameBase {
             const to = cells[cells.length - 1];
             const size = this.board.get(from)!;
             const sizeTo = this.board.get(to);
-            this.board.set(to, size);
             this.board.delete(from);
+            this.board.set(to, size);
             for (let i = 1; i < cells.length; i++) {
                 this.results.push({type: "move", from: cells[i-1], to: cells[i], how: detailedPath?.join(",")});
             }

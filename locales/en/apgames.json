@@ -22,6 +22,7 @@
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
+        "biscuit": "A domino-style Decktet game where you play cards to immediately score points and try to be the first to play all the cards in your hand. A game is played over multiple rounds to a specified target.",
         "blam": "An Icehouse game for 2–4 players played on a standard chess board. Pieces placed push adjacent pieces away. Push pieces off the board to capture them. Whoever has captured the highest pip total of pieces at the end of the game wins.",
         "blastradius": "An abstract war game where pieces irradiate the spaces around them. Eliminate all opposing pieces.",
         "blockade": "Blockade (also known as Cul-de-sac) is a 'beat the barrier' game where you get one of your pawns to a starting space of your opponent. Players place 2-wide walls to block each other.",
@@ -212,13 +213,14 @@
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
+        "biscuit": "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "blooms": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         "bug": "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
-        "exxit": "Because the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. We chose this so that the labels wouldn't change as the map grew. Because the labels aren't particularly helpful while you play, they are not displayed on the board. Also, translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.",
+        "exxit": "Translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.\n\nBecause the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. This ensures that the labels don't change as the map grows.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "gyges": "The goal squares are adjacent to all the cells in the back row. The renderer cannot currently handle \"floating\" cells.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
@@ -484,6 +486,35 @@
             "pie": {
                 "name": "Custom pie offer",
                 "description": "First player places 2–4 pieces and then second player chooses what side to play."
+            }
+        },
+        "biscuit": {
+            "excuse": {
+                "name": "The Excuse",
+                "description": "The excuse can be played next to any card but never scores any points. It is not included in any straights"
+            },
+            "#extended": {
+                "name": "No pawns or courts"
+            },
+            "pawns-only": {
+                "name": "Pawns only",
+                "description": "Pawns count as either 1 or 10 when making elevensies and lie between 9s and Crowns in straights. Pawns in opposing hands are worth 3 points to the player who goes out."
+            },
+            "pawns+courts": {
+                "name": "Pawns and Courts",
+                "description": "Pawns and Courts can only make elevensies with each other. In straights, the order is 9, Pawn, Court, Crown. Both Pawns and Courts are worth 3 points to the player who goes out."
+            },
+            "#eog": {
+                "name": "Goal score: 60 points",
+                "description": "The game ends after the round in which someone reaches the goal score. Highest score wins."
+            },
+            "goal-40": {
+                "name": "Goal score: 40 points",
+                "description": "The game ends after the round in which someone reaches the goal score. Highest score wins."
+            },
+            "goal-80": {
+                "name": "Goal score: 80 points",
+                "description": "The game ends after the round in which someone reaches the goal score. Highest score wins."
             }
         },
         "blastradius": {
@@ -2842,6 +2873,7 @@
         "camelot": {
             "CASTLE_MOVE_COUNTS": "Castle move count"
         },
+        "CARDSINHAND": "Cards in hand",
         "catapult": {
             "DAGGER": "Dagger"
         },
@@ -2893,6 +2925,7 @@
             "GAME1": "Game 1",
             "GAME2": "Game 2"
         },
+        "ROUND": "Round",
         "SCORES": "Scores",
         "tumbleweed": "Score (pieces + influence)",
        "ESTIMATEDSCORES": "Estimated scores",
@@ -3220,6 +3253,12 @@
             "INITIAL_INSTRUCTIONS": "Select an empty space to place a piece, or pass if you wish to save this piece for later.",
             "MAY_RELEASE": "Place more pieces if you wish to trigger a release.",
             "MUST_RELEASE": "A release has been triggered. You must place all your pieces."
+        },
+        "biscuit": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "INITIAL_INSTRUCTIONS": "Select a card from your hand to place on the board.",
+            "INVALID_MOVE": "That move is invalid. You may only place cards next to cards with at least one matching suit.",
+            "PARTIAL": "Select the cell where you want to place the card."
         },
         "blam": {
             "BADSYNTAX": "Invalid syntax: {{move}}. It should be the number 1, 2, or 3 followed by an empty cell (e.g., 1e4, or 3b2).",

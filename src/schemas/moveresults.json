@@ -1019,6 +1019,20 @@
             },
             "required": ["type", "p1", "p2"],
             "additionalProperties": false
+        },
+        {
+            "description": "A generic announcement. A generalized way of inserting stuff into the chat log.",
+            "properties": {
+                "type": {
+                    "enum": ["announce"]
+                },
+                "payload": {
+                    "description": "No type specified. Pass whatever makes sense for your game.",
+                    "type": "array"
+                }
+            },
+            "required": ["type", "payload"],
+            "additionalProperties": false
         }
     ]
 }

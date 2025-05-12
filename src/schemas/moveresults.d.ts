@@ -333,4 +333,11 @@ export type APMoveResult =
       type: "connect";
       p1: string;
       p2: string;
+    }
+  | {
+      type: "announce";
+      /**
+       * No type specified. Pass whatever makes sense for your game.
+       */
+      payload: unknown[];
     };

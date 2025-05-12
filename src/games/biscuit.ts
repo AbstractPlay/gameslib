@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -83,7 +83,7 @@ export class BiscuitGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
-        flags: ["experimental", "scores", "no-explore", "shared-pieces"],
+        flags: ["experimental", "scores", "no-explore", "shared-pieces", "custom-buttons", "autopass"],
     };
 
     public static card2glyph(card: Card): [Glyph, ...Glyph[]] {
@@ -372,6 +372,13 @@ export class BiscuitGame extends GameBase {
         }
 
         return moves;
+    }
+
+    public getButtons(): ICustomButton[] {
+        if (this.moves().includes("pass")) {
+            return [{ label: "pass", move: "pass" }];
+        }
+        return [];
     }
 
     public randomMove(): string {
@@ -740,14 +747,15 @@ export class BiscuitGame extends GameBase {
         // gone out
         if (handEmpty) {
             roundOver = true;
-            this.results.push({type: "declare"});
             let bonus = 5;
+            const opposingCards: Card[] = [];
             for (let i = 1; i < this.numplayers; i++) {
                 if (i === this.currplayer) {
                     continue;
                 }
                 for (const cuid of this.hands[i - 1]) {
                     const card = Card.deserialize(cuid)!;
+                    opposingCards.push(card);
                     // Excuse is worth nothing
                     if (card.rank.uid === "0") {
                         continue;
@@ -761,6 +769,8 @@ export class BiscuitGame extends GameBase {
                 }
             }
             this.scores[this.currplayer - 1] += bonus;
+            this.results.push({type: "declare"});
+            this.results.push({type: "announce", payload: opposingCards.sort(cardSortAsc).map(c => c.plain)});
             this.results.push({type: "deltaScore", delta: bonus});
         }
         // stale hand
@@ -1146,6 +1156,10 @@ export class BiscuitGame extends GameBase {
                 break;
             case "declare":
                 node.push(i18next.t("apresults:DECLARE.biscuit", {player}));
+                resolved = true;
+                break;
+            case "announce":
+                node.push(i18next.t("apresults:ANNOUNCE.biscuit", {cards: (r.payload as string[]).join(", ")}));
                 resolved = true;
                 break;
             case "stalemate":

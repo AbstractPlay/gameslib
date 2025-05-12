@@ -51,6 +51,7 @@ export class StibroGame extends GameBase {
         flags: ["pie"],
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
+            {uid: "size-5", group: "board"},
             {uid: "size-6", group: "board"},
             {uid: "#board", },
             {uid: "size-8", group: "board"}

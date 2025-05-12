@@ -4,7 +4,7 @@ import "mocha";
 import { expect } from "chai";
 import { StibroGame } from '../../src/games';
 
-describe.only("Stibro", () => {
+describe("Stibro", () => {
     it("give all p1 opening moves", () => {
         // All locations except the edge
         const g = new StibroGame();
@@ -177,13 +177,10 @@ describe.only("Stibro", () => {
             let moves = g.moves();
             let m = moves[random1 % moves.length];
             g.move(m);
-            process.stdout.write("" + m + " ");
         }
-        console.log("");
         expect(g.gameover).to.be.true;
     });
-/*
-    it.only("result is the same when round-tripping through state save/load", () => {
+    it("result is the same when round-tripping through state save/load", () => {
         let g = new StibroGame();
         let random1 = 752;
         while(!g.gameover) {
@@ -191,9 +188,7 @@ describe.only("Stibro", () => {
             let moves = g.moves();
             let m = moves[random1 % moves.length];
             g.move(m);
-            process.stdout.write("" + m + " ");
         }
-        console.log("");
         expect(g.gameover).to.be.true;
 
         let g2 = new StibroGame();
@@ -203,15 +198,12 @@ describe.only("Stibro", () => {
             let moves = g2.moves();
             let m = moves[random1 % moves.length];
             g2.move(m);
-            process.stdout.write("" + m + " ");
             let state = g2.state()
             g2 = new StibroGame(state);
         }
-        console.log("");
         expect(g.gameover).to.be.true;
         expect(g2.gameover).to.be.true;
         expect(g.board.entries).to.equal(g2.board.entries);
     });
-*/
 });
 

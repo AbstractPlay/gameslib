@@ -170,23 +170,24 @@ describe("Stibro", () => {
     });
 
     it("semi-random playout", () => {
-        let g = new StibroGame();
+        const g = new StibroGame();
         let random1 = 752;
         while(!g.gameover) {
             random1 += 139
-            let moves = g.moves();
-            let m = moves[random1 % moves.length];
+            const moves = g.moves();
+            const m = moves[random1 % moves.length];
             g.move(m);
         }
         expect(g.gameover).to.be.true;
     });
+
     it("result is the same when round-tripping through state save/load", () => {
-        let g = new StibroGame();
+        const g = new StibroGame();
         let random1 = 752;
         while(!g.gameover) {
             random1 += 139
-            let moves = g.moves();
-            let m = moves[random1 % moves.length];
+            const moves = g.moves();
+            const m = moves[random1 % moves.length];
             g.move(m);
         }
         expect(g.gameover).to.be.true;
@@ -195,10 +196,10 @@ describe("Stibro", () => {
         random1 = 752;
         while(!g2.gameover) {
             random1 += 139
-            let moves = g2.moves();
-            let m = moves[random1 % moves.length];
+            const moves = g2.moves();
+            const m = moves[random1 % moves.length];
             g2.move(m);
-            let state = g2.state()
+            const state = g2.state()
             g2 = new StibroGame(state);
         }
         expect(g.gameover).to.be.true;

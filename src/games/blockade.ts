@@ -361,9 +361,9 @@ export class BlockadeGame extends GameBase {
     private firstWall(wall: string): string | undefined {
         // Given a wall in contracted form, return the first wall in the pair.
         const [x, y, orient] = this.splitWall(wall);
-        if (orient === "h" && x > 1) {
+        if (orient === "h" && x > 0) {
             return this.createWall(x - 1, y, "h");
-        } else if (orient === "v" && y < this.height - 1) {
+        } else if (orient === "v" && y < this.height) {
             return this.createWall(x, y + 1, "v");
         } else {
             return undefined;
@@ -485,12 +485,36 @@ export class BlockadeGame extends GameBase {
     }
 
     private boardHas(halfWall: string, newWall?: string): boolean {
-        // Check if board has a half wall.
-        // This is useful because `this.board` is a one-sided map.
-        const firstWall = this.firstWall(halfWall);
-        if (firstWall === undefined) { return false; }
-        return this.board.has(halfWall) || this.board.has(firstWall) ||
-            newWall !== undefined && (halfWall === newWall || halfWall === this.secondWall(newWall));
+        // Check if 'halfWall' (a single wall segment) exists on the board or corresponds to 'newWall'.
+        // Walls are stored by their "first" segment (leftmost for horizontal, "southern"/larger-y for vertical).
+
+        // 1. Is halfWall itself a stored "first" segment?
+        if (this.board.has(halfWall)) {
+            return true;
+        }
+
+        // 2. Is halfWall the "second" segment of an already stored wall?
+        //    If so, firstWall(halfWall) would be the segment that is actually in this.board.
+        const correspondingFirstSegment = this.firstWall(halfWall);
+        if (correspondingFirstSegment !== undefined && this.board.has(correspondingFirstSegment)) {
+            return true;
+        }
+
+        // 3. Does halfWall correspond to the newWall being placed?
+        //    newWall is assumed to be the "first" segment if it's part of a 2-segment placement.
+        if (newWall !== undefined) {
+            // Check if halfWall is the first segment of the newWall
+            if (halfWall === newWall) {
+                return true;
+            }
+            // Check if halfWall is the second segment of the newWall
+            // this.secondWall(newWall) gives the second segment if newWall is the first.
+            if (halfWall === this.secondWall(newWall)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public validateMove(m: string): IValidationResult {

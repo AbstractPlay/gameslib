@@ -2010,6 +2010,9 @@
             }
         },
         "stibro": {
+            "size-5": {
+                "name": "Size 5 board"
+            },
             "size-6": {
                 "name": "Size 6 board"
             },

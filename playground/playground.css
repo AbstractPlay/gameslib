@@ -963,3 +963,160 @@ body[data-theme='dark'] .modal-status {
 .modal-status.fade {
     opacity: 0;
 }
+
+/* Styling for Player Info Display, In Check Panel, and Game Status Panel */
+.status-panel-common {
+    padding: 0.3em 0.5em;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+    background-color: var(--collapsible-light);
+}
+
+body[data-theme='dark'] .status-panel-common {
+    border-color: var(--border-dark);
+    background-color: var(--collapsible-dark);
+}
+
+.status-panel-common h3 {
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 0.3em;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 0.2em;
+    color: var(--text-light);
+}
+
+body[data-theme='dark'] .status-panel-common h3 {
+    border-bottom-color: var(--border-dark);
+    color: var(--text-dark);
+}
+
+/* Styling for Player Info Display */
+#playerInfoDisplay > div:last-child {
+    border-bottom: none;
+}
+body[data-theme='dark'] #playerInfoDisplay > div {
+    border-bottom-color: var(--border-dark);
+}
+#playerInfoDisplay span[style*="display: inline-block"] { /* The swatch */
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    margin-bottom: 2px;
+}
+
+/* Styling for Game Status Panel */
+#gameStatusPanel h3:first-child {
+    margin-top: 0;
+}
+
+
+#gameStatusPanel h4 {
+    font-size: 1.0em;
+    margin-top: 0.5em;
+    margin-bottom: 0.25em;
+    color: var(--text-light);
+}
+body[data-theme='dark'] #gameStatusPanel h4 {
+    color: var(--text-dark);
+}
+
+#gameStatusPanel ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.15em;
+    margin-bottom: 0.5em;
+}
+
+/* General list items in game status (e.g., scores, player-specific statuses) */
+#gameStatusPanel > ul > li,
+#gameStatusPanel h4 + ul > li {
+    background-color: var(--background-light);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    padding: 0.3em 0.5em;
+    margin-bottom: 0.3em;
+    word-wrap: break-word;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+body[data-theme='dark'] #gameStatusPanel > ul > li,
+body[data-theme='dark'] #gameStatusPanel h4 + ul > li {
+    background-color: var(--background-dark);
+    border-color: var(--border-dark);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#gameStatusPanel h4 + .stash-list,
+#gameStatusPanel h4 + .stash-map {
+    padding-left: 0.5em;
+}
+
+#gameStatusPanel .stash-item,
+#gameStatusPanel .stash-map-item {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0.1em 0;
+    margin-bottom: 0.2em;
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    box-shadow: none;
+}
+
+body[data-theme='dark'] #gameStatusPanel .stash-item,
+body[data-theme='dark'] #gameStatusPanel .stash-map-item {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+#gameStatusPanel .stash-glyph-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4em;
+    height: 1.4em;
+    vertical-align: middle;
+    line-height: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 3px;
+    padding: 1px;
+    background-color: rgba(0,0,0,0.02);
+}
+body[data-theme='dark'] #gameStatusPanel .stash-glyph-wrapper {
+    border-color: rgba(255,255,255,0.15);
+    background-color: rgba(255,255,255,0.03);
+}
+
+#gameStatusPanel .stash-movepart {
+    font-size: 0.75em;
+    color: #555;
+    background-color: rgba(0,0,0,0.04);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+}
+body[data-theme='dark'] #gameStatusPanel .stash-movepart {
+    color: #ccc;
+    background-color: rgba(255,255,255,0.08);
+}
+
+/* For JSON preformatted text within stash items */
+#gameStatusPanel .stash-item-json pre {
+    flex-grow: 1;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: rgba(0,0,0,0.03);
+    border: 1px dashed var(--border-light);
+    padding: 0.2em 0.4em;
+    margin: 0;
+    color: inherit;
+    font-size: 0.85em;
+    line-height: 1.3;
+    border-radius: 3px;
+}
+body[data-theme='dark'] #gameStatusPanel .stash-item-json pre {
+    background-color: rgba(255,255,255,0.05);
+    border-color: var(--border-dark);
+}

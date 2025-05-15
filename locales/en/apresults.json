@@ -19,6 +19,9 @@
         "witch_M": "{{player}} chose the Moonstones.",
         "witch_S": "{{player}} chose the Sunstones."
     },
+    "ANNOUNCE": {
+        "biscuit": "The following cards were in opposing hands: {{cards}}."
+    },
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
         "complete_other": "{{player}} bore off {{count}} pieces from {{from}}.",

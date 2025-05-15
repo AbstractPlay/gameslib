@@ -4,6 +4,7 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common";
 import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
+import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
 
 
@@ -15,8 +16,6 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, cellcontent>;
     lastmove?: string;
     winningLoop: string[];
-    groups: Map<playerid, Map<number, Set<string>>>;
-    distantGroups: Set<Map<playerid, number>>;
 }
 
 export interface IStibroState extends IAPGameState {
@@ -52,6 +51,7 @@ export class StibroGame extends GameBase {
         flags: ["pie"],
         categories: ["goal>connect", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
+            {uid: "size-5", group: "board"},
             {uid: "size-6", group: "board"},
             {uid: "#board", },
             {uid: "size-8", group: "board"}
@@ -79,29 +79,10 @@ export class StibroGame extends GameBase {
     (a) does not touch the edge;
     (b) has at least two cells between itself and at least one opponent group that does
     not touch the edge.
-
-    Keep track of groups, including whether they are free or not. Recomputing the free groups and
-    their distances each time could get quite expensive, otherwise.
-
-    The `groups` maps contain all groups for both players.
-    `distantGroups` contains pairs of indices of groups of the respective player that are at >=2 distance
-    from each other.
-    These can be used to check whether a placement is legal, and should be updated after each
-    placement.
     */
-
-    /* Groups per player, groups are mapped to an ID*/
-    public groups: Map<playerid, Map<number, Set<string>>> = new Map();
-    /* Pairs of group-IDs {p1: p1groupid, p2: p2-groupid}. When a pair is present in this set,
-    it indicates that the groups are at sufficient distance (>2) from each other to count as
-    "free" groups. The ID -1 (on both sides) is reserved for sufficient distance (>1) from the edge.
-    To properly count as a "free" group, a group must be in this list, distant enough from the edge
-    (i.e. one of the pairs in this list is (g, -1) or v.v.)
-    */
-    public distantGroups: Set<Map<playerid, number>> = new Set();
 
     /* Expand with a border thickness of n around it */
-    private expandby(group: Set<string>, n: number): Set<string> {
+    private expandby(group: Array<string>, n: number): Set<string> {
         const newgroup = new Set(group);
         for (let i=0; i < n; i++) {
             const oldgroup = new Set(newgroup);
@@ -114,160 +95,93 @@ export class StibroGame extends GameBase {
         return newgroup;
     }
 
-    private bothPlayers(player: playerid): [playerid, playerid] {
-        if(player === 1){
-            return [1, 2];
-        } else {
-            return [2, 1];
-        }
-    }
+    private curredgegroups: Array<Array<string>> | null = null;
+    private currgrouphalos: Map<number, Set<string>> | null = null;
+    private othergrouphalos: Map<number, Set<string>> | null = null;
 
-    private isEdgeGroup(groupI: number, player: playerid, distantGroups: Set<Map<playerid, number>> = this.distantGroups): boolean {
-        const [queriedPlayer, otherPlayer] = this.bothPlayers(player);
-        for(const dist of distantGroups){
-            if(dist.get(queriedPlayer) === groupI){
-                if(dist.get(otherPlayer) === -1){
-                    return false;
+    private freegroupsafter(newCell: string): boolean {
+        if(this.curredgegroups === null || 
+            this.currgrouphalos === null || 
+            this.othergrouphalos === null){
+            const currgraph = this.getGraph();
+            const othergraph = this.getGraph();
+            for (const cell of currgraph.graph.nodes()) {
+                if(!this.board.has(cell) || this.board.get(cell) == this.otherPlayer()) {
+                    currgraph.graph.dropNode(cell);
+                }
+                if(!this.board.has(cell) || this.board.get(cell) == this.currplayer) {
+                    othergraph.graph.dropNode(cell);
                 }
             }
-        }
-        return true;
-        // return !this.distantGroupsSets.get(player)!.get(groupI)!.has(-1);
-    }
 
-    private distantGroupsOf(groupI: number, player: playerid, distantGroups: Set<Map<playerid, number>> = this.distantGroups): Set<number> {
-        const [queriedPlayer, otherPlayer] = this.bothPlayers(player);
-        const distantThis: Set<number> = new Set();
-        for (const distance of distantGroups) {
-            if (distance.get(queriedPlayer) === groupI) {
-                distantThis.add(distance.get(otherPlayer)!);
-            }
-        }
-        return distantThis;
-    }
-
-    private touchesOwnGroups(cell: string): boolean {
-        const cellWithHalo = this.expandby(new Set([cell]), 1);
-        for(const group of this.groups.get(this.currplayer)!.values()) {
-            if(this.setIntersection(cellWithHalo, group).size){
+            const nonEdgeGroup = (group: Array<string>) => {
+                for (const cell of group) {
+                    if(this.outerRing.has(cell)){
+                        return false;
+                    }
+                }
                 return true;
             }
+
+            const currgroups: Array<Array<string>> = []; // non-edge
+            this.curredgegroups = [];
+            connectedComponents(currgraph.graph).forEach(group => {
+                if(nonEdgeGroup(group)){
+                    currgroups.push(group);
+                } else {
+                    this.curredgegroups!.push(group);
+                }
+            });
+            const othergroups = connectedComponents(othergraph.graph).filter(nonEdgeGroup);
+
+            this.currgrouphalos = new Map(currgroups.map(group => this.expandby(group, 1)).entries());
+            this.othergrouphalos = new Map(othergroups.map(group => this.expandby(group, 1)).entries());
         }
-        return false;
-    }
 
-    private newGroupsAndDistantGroups(cell: string): [Map<number, Set<string>>, Set<Map<playerid, number>>]{
-        /* First add the single new stone as a separate group, including its
-        distance relations. */
+        const currgrouphalos = new Map(this.currgrouphalos);
 
-        /* Check if it is distant from the edge */
-        const edge: Set<number> = new Set();
-        if(!this.outerRing.has(cell)){
-            edge.add(-1);
-        }
+        const newhalo = this.expandby([newCell], 1);
 
-        /* Check which opponent groups it is distant from */
-        const nearbyOpponentGroups: Set<number> = new Set();
-        const cellWithHalo = this.expandby(new Set([cell]), 2);
-        for(const [groupkey, group] of this.groups.get(this.otherPlayer())!) {
-            if(this.setIntersection(cellWithHalo, group).size){
-                nearbyOpponentGroups.add(groupkey);
+        for (const [i, currhalo] of currgrouphalos.entries()) {
+            if (currhalo.has(newCell)) {
+                for (const halocell of currhalo) {
+                    newhalo.add(halocell)
+                }
+                currgrouphalos.delete(i);
             }
         }
-        const cellDistantGroups: Set<number> = this.setUnion(
-            this.setDifference(new Set(this.groups.get(this.otherPlayer())!.keys()),
-                nearbyOpponentGroups), edge); // Opp. groups + the edge
-
-        /* Add the new singleton as a separate group, including distance relations */
-        const newI: number = Math.max(...this.groups.get(this.currplayer)!.keys(), 0) + 1;
 
 
-        let newGroups: Map<number, Set<string>> = new Map(this.groups.get(this.currplayer));
-        let newDistantGroups: Set<Map<playerid, number>> = new Set(this.distantGroups);
-        /* First add the new stone as a separate group, then afterwards check whether
-        it has to be merged with other groups */
-        newGroups.set(newI, new Set([cell]));
-        for(const index of cellDistantGroups){
-            newDistantGroups.add(new Map([
-                [this.currplayer, newI],
-                [this.otherPlayer(), index]
-            ]));
-        }
-
-        /* If they touch, merge groups and distances */
-        const touchedGroups: Set<number> = new Set();
-        for(const [groupkey, group] of this.groups.get(this.currplayer)!) {
-            for(const neighbour of this.graph.neighbours(cell)){
-                if(group.has(neighbour)){
-                    touchedGroups.add(groupkey);
+        if(!this.outerRing.has(newCell)){
+            let newgroupisedgegroup = false;
+            for (const edgegroupstone of this.curredgegroups.flat()){
+                if (this.graph.graph.hasEdge(edgegroupstone, newCell)) {
+                    newgroupisedgegroup = true;
                     break;
                 }
             }
+            if (!newgroupisedgegroup){
+                currgrouphalos.set(-1, newhalo);
+            }
         }
 
-        if(touchedGroups.size){
-            /* Merge (set union) distant groups of all touching groups */
-            const distantGroupsToAll: Array<Set<number>> = []; // group indices of other player
-            for (const touchingI of this.setUnion(touchedGroups, new Set([newI]))){
-                distantGroupsToAll.push(this.distantGroupsOf(touchingI, this.currplayer, newDistantGroups));
-            }
-
-            // group indices of other player
-            const mergedDistant: Set<number> = distantGroupsToAll.reduce((a, b) => this.setIntersection(a, b));
-
-            /* Merge pieces of all touching groups */
-            const newGroup = new Set([cell]);
-            for (const touchedGroupI of touchedGroups) {
-                for (const groupCell of this.groups.get(this.currplayer)!.get(touchedGroupI)!){
-                    newGroup.add(groupCell);
-                }
-            }
-
-            const obsoleteGroups = this.setUnion(touchedGroups, new Set([newI])); // group indices of curr player
-
-            /* Remove obsolete distance relations */
-            newDistantGroups = new Set([...newDistantGroups].filter((dist) =>
-                !obsoleteGroups.has(dist.get(this.currplayer)!)))
-
-            /* Remove obsolete groups */
-            newGroups = new Map([...newGroups.entries()]
-                .filter((item) => !obsoleteGroups.has(item[0])));
-
-            /* Add new distance relations */
-            for (const otherI of mergedDistant) {
-                const newDist: Map<playerid, number> = new Map([
-                    [this.currplayer, newI],
-                    [this.otherPlayer(), otherI]
-                ]);
-                newDistantGroups.add(newDist);
-            }
-
-            /* Add new merged group */
-            newGroups.set(newI, newGroup);
-
-        }
-        return [newGroups, newDistantGroups];
-    }
-
-    private freegroupsafter(cell: string): boolean {
-        if(this.groups.get(this.currplayer)!.size && !this.touchesOwnGroups(cell)){
-            /* fast pre-check: it doesn't touch any of its own groups */
-            return true;
-        }
-
-        const [newGroups, newDistantGroups] = this.newGroupsAndDistantGroups(cell);
-
-        for(const thisI of newGroups.keys()) {
-            if(!this.isEdgeGroup(thisI, this.currplayer, newDistantGroups)){
-                /* It is free if a group at a distance does not touch the edge */
-                for(const otherGroupI of this.distantGroupsOf(thisI, this.currplayer, newDistantGroups)){
-                    if(!this.isEdgeGroup(otherGroupI, this.otherPlayer(), newDistantGroups)){
-                        return true;
+        /* If there is (at least) a single group whose halo has no overlap with a halo of (at least)
+        a single opponent group, the placement restriction is satisfied. */
+        for (const currhalo of currgrouphalos.values()) {
+            for (const otherhalo of this.othergrouphalos.values()) {
+                let skiphalo = false;
+                for (const currcell of currhalo) {
+                    if (otherhalo.has(currcell)) {
+                        skiphalo = true;
+                        break;
                     }
                 }
+                if (!skiphalo) {
+                    /* No overlap was found between currhalo and otherhalo, satisfying the restriction */
+                    return true;
+                }
             }
         }
-
         return false;
     }
 
@@ -327,11 +241,6 @@ export class StibroGame extends GameBase {
                 currplayer: 1,
                 board: new Map<string, cellcontent>(),
                 winningLoop: [],
-                groups: new Map([
-                    [1, new Map<number, Set<string>>()],
-                    [2, new Map<number, Set<string>>()],
-                    ]),
-                distantGroups: new Set()
             };
             this.stack = [fresh];
 
@@ -364,8 +273,6 @@ export class StibroGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.winningLoop = [...state.winningLoop];
-        this.groups = state.groups;
-        this.distantGroups = state.distantGroups;
 
         return this;
     }
@@ -376,13 +283,14 @@ export class StibroGame extends GameBase {
         }
 
         // First placement
-        if (this.groups.get(this.otherPlayer())!.size === 0) {
+        if (this.board.size === 0) {
             return !this.outerRing.has(cell);
         }
 
         if (this.board.has(cell)) { // occupied
             return false;
         }
+
         return this.freegroupsafter(cell);
     }
 
@@ -392,7 +300,7 @@ export class StibroGame extends GameBase {
         }
 
         // First placement
-        if (this.groups.get(this.otherPlayer())!.size === 0) {
+        if (this.board.size === 0) {
             return [!this.outerRing.has(cell), "firstplacement"];
         }
 
@@ -507,6 +415,12 @@ export class StibroGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
         }
+
+        /* invalidate cache */
+        this.curredgegroups = null;
+        this.currgrouphalos = null;
+        this.othergrouphalos = null;
+
         this.results = [];
 
         const cell = m;
@@ -514,9 +428,6 @@ export class StibroGame extends GameBase {
         const piece = this.currplayer;
 
         this.board.set(cell, piece);
-        const [newGroups, newDistantGroups] = this.newGroupsAndDistantGroups(cell);
-        this.groups.set(this.currplayer, newGroups);
-        this.distantGroups = newDistantGroups;
 
         this.results.push({type: "place", where: cell});
 
@@ -704,8 +615,6 @@ export class StibroGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             winningLoop: [...this.winningLoop],
-            groups: this.groups,
-            distantGroups: this.distantGroups
         };
         return state;
     }
@@ -766,17 +675,5 @@ export class StibroGame extends GameBase {
 
     public clone(): StibroGame {
         return new StibroGame(this.serialize());
-    }
-
-    private setUnion<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
-        return new Set([...a, ...b]);
-    }
-
-    private setIntersection<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
-        return new Set([...a].filter(x => b.has(x)));
-    }
-
-    private setDifference<Type>(a: Set<Type>, b: Set<Type>): Set<Type> {
-        return new Set([...a].filter(x => !b.has(x)));
     }
 };

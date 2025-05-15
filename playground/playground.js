@@ -40,6 +40,7 @@ function boardClick(row, col, piece) {
         window.sessionStorage.setItem("interim", interim);
     }
     renderGame();
+    updateGameStatusPanel(game, gamename);
     if (result.complete === 1 && document.getElementById("autoSubmit").checked) {
         document.getElementById("moveBtn").click();
     }
@@ -89,6 +90,7 @@ function boardClickSimultaneous(row, col, piece) {
         window.sessionStorage.removeItem("interim");
     }
     renderGame();
+    updateGameStatusPanel(game, gamename);
     if (result.complete === 1 && document.getElementById("autoSubmit").checked) {
         document.getElementById("moveBtn").click();
     }
@@ -105,6 +107,419 @@ let customContextLight = { background: "#fff", strokes: "#000", borders: "#000",
 let customContextDark = { background: "#222", strokes: "#6d6d6d", borders: "#000", labels: "#009fbf", annotations: "#99cccc", fill: "#e6f2f2" };
 let selectedCustomPaletteName = null;
 let draggedColor = null;
+
+const PREDEFINED_LOG_NAMES = ["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy"];
+
+// Helper to get player names for status panel
+function getPlayerNamesForStatus(game, gamename) {
+    const gameMetaInfo = APGames.gameinfo.get(gamename);
+    let playerNames = [];
+    if (typeof game.getPlayerNames === "function") {
+        playerNames = game.getPlayerNames();
+    } else if (gameMetaInfo && gameMetaInfo.flags && gameMetaInfo.flags.includes("shared-pieces")) {
+        if (typeof game.player2seat === 'function') {
+            for (let i = 1; i <= game.numplayers; i++) playerNames.push(game.player2seat(i));
+        } else {
+            for (let i = 1; i <= game.numplayers; i++) playerNames.push(`Seat ${i}`);
+        }
+    } else {
+        for (let i = 1; i <= game.numplayers; i++) {
+            if (i - 1 < PREDEFINED_LOG_NAMES.length) {
+                playerNames.push(PREDEFINED_LOG_NAMES[i - 1]);
+            } else {
+                playerNames.push(`Player ${i}`);
+            }
+        }
+    }
+    return playerNames;
+}
+
+// Helper to format score (can be simple string or object)
+function formatScore(score) {
+    if (typeof score === 'object' && score !== null) {
+        return JSON.stringify(score); // Or a more sophisticated formatting
+    }
+    return String(score);
+}
+
+// Helper to create a unique ID for SVG elements
+function generateUniqueSvgId(base = "stashglyph") {
+    return `${base}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+}
+
+// Helper to format the content of a single stash item that represents a piece/glyph
+function formatSingleStashItemContent(item, glyphRenderOptions) {
+    let content = "";
+    try {
+        const glyphName = (typeof item.glyph === 'object' && item.glyph !== null) ? item.glyph.name : String(item.glyph);
+        const glyphColour = (typeof item.glyph === 'object' && item.glyph !== null && item.glyph.hasOwnProperty('colour')) ? item.glyph.colour : 1;
+        const glyphSvgId = generateUniqueSvgId(); // This is for the outer <svg> id if APRender uses it, or for our uniqueness.
+
+        const localGlyphOpts = {
+            ...glyphRenderOptions,
+            svgid: glyphSvgId, // Pass unique ID for the SVG element itself
+        };
+        let glyphSvg = APRender.renderglyph(glyphName, glyphColour, localGlyphOpts);
+
+        // Ensure internal IDs within the SVG are unique to avoid conflicts
+        // APRender.renderglyph often uses "A" as a default internal defs ID.
+        const uniqueInternalDefId = `def_A_${glyphSvgId}`;
+        glyphSvg = glyphSvg.replace(/id="A"/g, `id="${uniqueInternalDefId}"`)
+                           .replace(/xlink:href="#A"/g, `xlink:href="#${uniqueInternalDefId}"`);
+        // Attempt to make other common internal def IDs unique as well, if present
+        glyphSvg = glyphSvg.replace(/id="B"/g, `id="def_B_${glyphSvgId}"`)
+                           .replace(/xlink:href="#B"/g, `xlink:href="#def_B_${glyphSvgId}"`);
+        glyphSvg = glyphSvg.replace(/id="C"/g, `id="def_C_${glyphSvgId}"`)
+                           .replace(/xlink:href="#C"/g, `xlink:href="#def_C_${glyphSvgId}"`);
+        glyphSvg = glyphSvg.replace(/id="D"/g, `id="def_D_${glyphSvgId}"`)
+                           .replace(/xlink:href="#D"/g, `xlink:href="#def_D_${glyphSvgId}"`);
+
+        content += `${item.count} &times; <span class="stash-glyph-wrapper">${glyphSvg}</span>`;
+        if (item.movePart) {
+            content += ` <span class="stash-movepart">(${item.movePart})</span>`;
+        }
+    } catch (e) {
+        console.error("Error rendering stash glyph item:", e, item);
+        const glyphIdentifier = (typeof item.glyph === 'object' && item.glyph !== null) ? item.glyph.name : String(item.glyph);
+        content += `<span>${item.count} &times; [Error rendering ${glyphIdentifier}]</span>`;
+        if (item.movePart) {
+            content += ` (${item.movePart})`;
+        }
+    }
+    return content;
+}
+
+// Helper to format stash (can be object or array)
+function formatStash(stash, glyphRenderOptions) {
+    let stashHTML = "";
+    if (typeof stash === 'object' && stash !== null) {
+        if (Array.isArray(stash)) { // Assumed to be an array of stashable items
+            if (stash.length === 0) return "<p><em>Empty</em></p>";
+            stashHTML += `<ul class="stash-list">`;
+            stash.forEach(item => {
+                if (typeof item === 'object' && item !== null && item.hasOwnProperty('glyph') && item.hasOwnProperty('count')) {
+                    stashHTML += `<li class="stash-item">${formatSingleStashItemContent(item, glyphRenderOptions)}</li>`;
+                } else if (typeof item === 'object' && item !== null) { // Fallback for other objects in array
+                    stashHTML += `<li class="stash-item stash-item-json"><pre>${JSON.stringify(item, null, 2)}</pre></li>`;
+                } else { // Primitive in array
+                    stashHTML += `<li class="stash-item">${item}</li>`;
+                }
+            });
+            stashHTML += `</ul>`;
+        } else { // stash is an object but not an array (e.g., { "pieceA": 3, "pieceB": {...} })
+            const keys = Object.keys(stash);
+            if (keys.length === 0) return "<p><em>Empty</em></p>";
+
+            // Check if the object itself is a single stashable item
+            if (stash.hasOwnProperty('glyph') && stash.hasOwnProperty('count') && keys.filter(k => k !== 'glyph' && k !== 'count' && k !== 'movePart').length === 0) {
+                 return `<div class="stash-item">${formatSingleStashItemContent(stash, glyphRenderOptions)}</div>`;
+            }
+
+            // Otherwise, treat as a map of piece types to counts or more complex definitions
+            stashHTML += `<ul class="stash-map">`;
+            for (const key in stash) {
+                if (stash.hasOwnProperty(key)) {
+                    const value = stash[key];
+                    stashHTML += `<li class="stash-map-item"><strong>${key}:</strong> `;
+                    if (typeof value === 'object' && value !== null && value.hasOwnProperty('glyph') && value.hasOwnProperty('count')) {
+                        // Value is a stashable item definition
+                        stashHTML += `<span class="stash-item-inline">${formatSingleStashItemContent(value, glyphRenderOptions)}</span>`;
+                    } else if (typeof value === 'object' && value !== null) {
+                        stashHTML += `<pre class="stash-item-json-inline">${JSON.stringify(value, null, 2)}</pre>`;
+                    } else { // Primitive value (e.g., count)
+                        stashHTML += value;
+                    }
+                    stashHTML += `</li>`;
+                }
+            }
+            stashHTML += `</ul>`;
+        }
+    } else if (stash !== undefined && stash !== null && String(stash).trim() !== "") { // Primitive type stash
+        stashHTML += `<p>${String(stash)}</p>`;
+    }
+    return stashHTML || "<p><em>Empty</em></p>";
+}
+
+// Helper function to render the "In Check" section
+function _renderInCheckSection(game, playerNames) {
+    let inCheckBlockHTML = "";
+    const inCheckPlayerNumbers = game.inCheck(); // Assumed to return player numbers [1, 2, ...]
+    if (Array.isArray(inCheckPlayerNumbers) && inCheckPlayerNumbers.length > 0) {
+        const checkedPlayerNames = inCheckPlayerNumbers.map(pNum => playerNames[pNum - 1] || `Player ${pNum}`);
+        inCheckBlockHTML += `<div class="in-check-section">`;
+        inCheckBlockHTML += `<h3>In Check:</h3>`;
+        inCheckBlockHTML += `<ul class="in-check-list">`;
+        checkedPlayerNames.forEach(name => {
+            inCheckBlockHTML += `<li>${name}</li>`;
+        });
+        inCheckBlockHTML += `</ul></div>`;
+    }
+    return inCheckBlockHTML;
+}
+
+// Helper function to render the general statuses section
+function _renderStatusesSection(game, playerNames) {
+    let statusBlockHTML = "";
+    const statuses = game.statuses();
+    let actualStatusContent = "";
+
+    if (statuses) {
+        if (Array.isArray(statuses)) {
+            if (statuses.length > 0) {
+                if (statuses.length === game.numplayers && statuses.every(s => typeof s === 'string')) {
+                    actualStatusContent += "<ul>";
+                    statuses.forEach((s, idx) => {
+                        actualStatusContent += `<li>${playerNames[idx] || `Player ${idx+1}`}: ${s}</li>`;
+                    });
+                    actualStatusContent += "</ul>";
+                } else {
+                    actualStatusContent += `<ul>${statuses.map(s => `<li>${s}</li>`).join("")}</ul>`;
+                }
+            }
+        } else if (typeof statuses === 'string' && statuses.trim() !== "") {
+            actualStatusContent += `<p>${statuses.trim()}</p>`;
+        }
+    }
+
+    if (actualStatusContent !== "") {
+        statusBlockHTML += "<h3>Current Status:</h3>";
+        statusBlockHTML += actualStatusContent;
+    }
+    return statusBlockHTML;
+}
+
+// Helper function to render the scores/limited pieces section
+function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRenderOptions, isDark) {
+    let scoresBlockHTML = "";
+    if (typeof game.getPlayersScores === "function") {
+        const metricsArray = game.getPlayersScores();
+        if (metricsArray !== undefined && metricsArray !== null && Array.isArray(metricsArray) && metricsArray.length > 0) {
+            scoresBlockHTML += `<h3>${gameFlags.includes("limited-pieces") ? "Pieces Left" : "Scores"}:</h3>`;
+
+            metricsArray.forEach(metric => {
+                if (typeof metric === 'object' && metric !== null && metric.hasOwnProperty('name') && typeof metric.name === 'string' && metric.hasOwnProperty('scores') && Array.isArray(metric.scores)) {
+                    scoresBlockHTML += `<h4>${metric.name}:</h4>`;
+                    metric.scores.forEach((playerScore, playerIndex) => {
+                        const playerNum = playerIndex + 1;
+                        const playerName = playerNames[playerIndex] || `Player ${playerNum}`;
+
+                        const playerDiv = document.createElement('div');
+                        playerDiv.style.display = 'flex';
+                        playerDiv.style.alignItems = 'center';
+                        playerDiv.style.marginBottom = '0.25em';
+
+                        const swatch = document.createElement('span');
+                        swatch.style.display = 'inline-flex';
+                        swatch.style.alignItems = 'center';
+                        swatch.style.justifyContent = 'center';
+                        swatch.style.width = '20px';
+                        swatch.style.height = '20px';
+                        swatch.style.marginRight = '8px';
+                        swatch.style.border = `1px solid ${isDark ? '#555' : '#ccc'}`;
+                        swatch.style.borderRadius = '3px';
+                        swatch.style.lineHeight = '0';
+                        swatch.style.textAlign = 'center';
+                        swatch.style.fontSize = '10px';
+
+                        let hexBG = null;
+                        let playerColourIdent = playerNum;
+
+                        if (typeof game.getPlayerColour === 'function') {
+                            const gc = game.getPlayerColour(playerNum);
+                            if (typeof gc === 'string' && /^#[0-9A-Fa-f]{6}$/.test(gc)) {
+                                hexBG = gc;
+                            } else if (typeof gc === 'number') {
+                                playerColourIdent = gc;
+                            }
+                        }
+
+                        if (hexBG) {
+                            swatch.style.backgroundColor = hexBG;
+                            swatch.title = `${playerName}: ${hexBG}`;
+                        } else {
+                            const localGlyphOpts = {
+                                ...glyphRenderOptions,
+                                svgid: `scoreSwatchGlyph_${metric.name.replace(/\s+/g, '_')}_${playerNum}`
+                            };
+
+                            try {
+                                let glyphSVG = APRender.renderglyph("piece", playerColourIdent, localGlyphOpts);
+                                const uniqueInternalDefId = `def_A_${localGlyphOpts.svgid}`;
+                                glyphSVG = glyphSVG.replace(/id="A"/g, `id="${uniqueInternalDefId}"`)
+                                                   .replace(/xlink:href="#A"/g, `xlink:href="#${uniqueInternalDefId}"`);
+                                swatch.innerHTML = glyphSVG;
+                                const svgElement = swatch.querySelector('svg');
+                                if (svgElement) {
+                                    svgElement.style.width = '100%';
+                                    svgElement.style.height = '100%';
+                                    svgElement.style.display = 'block';
+                                }
+                                swatch.title = `${playerName}: P${playerColourIdent}`;
+                            } catch (e) {
+                                console.error(`Error rendering glyph for player ${playerNum} in scores:`, e);
+                                swatch.textContent = `P${playerColourIdent}`;
+                                swatch.style.lineHeight = '20px';
+                                swatch.title = `${playerName}: P${playerColourIdent} (render error)`;
+                            }
+                        }
+                        playerDiv.appendChild(swatch);
+
+                        const scoreTextSpan = document.createElement('span');
+                        scoreTextSpan.textContent = `${playerName}: ${formatScore(playerScore)}`;
+                        playerDiv.appendChild(scoreTextSpan);
+                        scoresBlockHTML += playerDiv.outerHTML;
+                    });
+                } else {
+                    console.warn("Unexpected score metric format in metricsArray:", metric);
+                    scoresBlockHTML += `<p><em>Data for a metric is in an unexpected format.</em></p>`;
+                }
+            });
+        } else if (metricsArray !== undefined && metricsArray !== null && !Array.isArray(metricsArray)) {
+            scoresBlockHTML += `<h3>${gameFlags.includes("limited-pieces") ? "Pieces Left" : "Scores"}:</h3>`;
+            scoresBlockHTML += `<p><em>Scores data is in an unrecognized format. Expected an array of metrics. Displaying raw: ${formatScore(metricsArray)}</em></p>`;
+        }
+    }
+    return scoresBlockHTML;
+}
+
+// Helper function to render player stashes section
+function _renderPlayerStashesSection(game, playerNames, glyphRenderOptions) {
+    let stashesCombined = "";
+    for (let i = 1; i <= game.numplayers; i++) {
+        const stash = game.getPlayerStash(i);
+        const playerName = playerNames[i-1] || `Player ${i}`;
+        let stashDisplay = "";
+        if (typeof stash === 'object' && stash !== null) {
+            if (Array.isArray(stash) && stash.length > 0) {
+                stashDisplay = formatStash(stash, glyphRenderOptions);
+            } else if (!Array.isArray(stash) && Object.keys(stash).length > 0) {
+                stashDisplay = formatStash(stash, glyphRenderOptions);
+            }
+        } else if (stash) {
+             stashDisplay = formatStash(stash, glyphRenderOptions);
+        }
+
+        if (stashDisplay !== "<p><em>Empty</em></p>" && stashDisplay !== "") {
+            stashesCombined += `<h4>${playerName}:</h4>${stashDisplay}`;
+        }
+    }
+    if (stashesCombined !== "") {
+        return "<h3>Player Stashes:</h3>" + stashesCombined;
+    }
+    return "";
+}
+
+// Helper function to render shared stash section
+function _renderSharedStashSection(game, glyphRenderOptions) {
+    let sharedStashHTML = "";
+    const sharedStash = game.getSharedStash();
+    if (sharedStash) {
+        const sharedStashDisplay = formatStash(sharedStash, glyphRenderOptions);
+        if (sharedStashDisplay !== "<p><em>Empty</em></p>" && sharedStashDisplay !== "") {
+            sharedStashHTML += "<h3>Shared Stash:</h3>";
+            sharedStashHTML += sharedStashDisplay;
+        }
+    }
+    return sharedStashHTML;
+}
+
+function updateGameStatusPanel(game, gamename) {
+    const panel = document.getElementById("gameStatusPanel");
+    const inCheckPanel = document.getElementById("inCheckPanel");
+    if (!panel || !inCheckPanel) {
+        return;
+    }
+
+    if (!game || !gamename) {
+        panel.innerHTML = "";
+        panel.style.display = 'none'; // Hide if no game/gamename
+        inCheckPanel.innerHTML = ""; // Clear inCheckPanel
+        inCheckPanel.style.display = 'none'; // Hide inCheckPanel
+        return;
+    }
+
+    const gameMetaInfo = APGames.gameinfo.get(gamename);
+    if (!gameMetaInfo) {
+        panel.innerHTML = "";
+        panel.style.display = 'none'; // Hide if no meta info
+        inCheckPanel.innerHTML = ""; // Clear inCheckPanel
+        inCheckPanel.style.display = 'none'; // Hide inCheckPanel
+        return;
+    }
+
+    let content = "";
+    let inCheckBlockHTML = "";
+
+    const gameFlags = gameMetaInfo.flags || [];
+    const playerNames = getPlayerNamesForStatus(game, gamename);
+
+    // Prepare glyphRenderOptions for formatStash and swatches
+    let glyphRenderOptions = {};
+    const isDark = window.sessionStorage.getItem("darkMode") === "true";
+    glyphRenderOptions.colourContext = isDark ? { ...customContextDark } : { ...customContextLight };
+
+    const playerFillRadio = document.querySelector('input[name="playerfill"]:checked');
+    if (playerFillRadio) {
+        const fillValue = playerFillRadio.value;
+        if (fillValue === "blind") {
+            glyphRenderOptions.colourBlind = true;
+        } else if (fillValue === "patterns") {
+            glyphRenderOptions.patterns = true;
+        } else if (fillValue === "custom") {
+            const selectedPaletteName = document.getElementById("selectCustomPalette").value;
+            const selectedPalette = customPalettes.find(p => p.name === selectedPaletteName);
+            if (selectedPalette && selectedPalette.colours && selectedPalette.colours.length > 0) {
+                glyphRenderOptions.colours = [...selectedPalette.colours];
+            }
+        }
+    }
+
+    // In Check Status
+    if (gameFlags.includes("check") && typeof game.inCheck === "function") {
+        inCheckBlockHTML = _renderInCheckSection(game, playerNames);
+    }
+
+    // Populate inCheckPanel
+    if (inCheckBlockHTML !== "") {
+        inCheckPanel.innerHTML = inCheckBlockHTML;
+        inCheckPanel.style.display = 'block'; // Or its default display type
+    } else {
+        inCheckPanel.innerHTML = "";
+        inCheckPanel.style.display = 'none';
+    }
+
+    // General Statuses from game.statuses()
+    if (typeof game.statuses === "function") {
+        content += _renderStatusesSection(game, playerNames);
+    }
+
+    // Scores / Limited Pieces
+    if (gameFlags.includes("scores") || gameFlags.includes("limited-pieces")) {
+        content += _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRenderOptions, isDark);
+    }
+
+    // Player Stashes
+    if (gameFlags.includes("player-stashes")) {
+        if (typeof game.getPlayerStash === "function") {
+            content += _renderPlayerStashesSection(game, playerNames, glyphRenderOptions);
+        }
+    }
+
+    // Shared Stash
+    if (gameFlags.includes("shared-stash")) {
+        if (typeof game.getSharedStash === "function") {
+            content += _renderSharedStashSection(game, glyphRenderOptions);
+        }
+    }
+
+    if (content.trim() === "") {
+        panel.innerHTML = ""; // Ensure it's empty
+        panel.style.display = 'none';
+    } else {
+        panel.innerHTML = content;
+        panel.style.display = 'block'; // Or its default display type
+    }
+}
 
 function loadPalettes() {
     const stored = window.sessionStorage.getItem("customPalettes");
@@ -610,6 +1025,7 @@ function renderGame(...args) {
     var state = window.sessionStorage.getItem("state");
     const displayOptionsContainer = document.getElementById("displayOptionsContainer");
     const clickStatusBox = document.getElementById("clickstatus");
+    const playerInfoDisplay = document.getElementById("playerInfoDisplay");
 
     let selectedDisplay = window.sessionStorage.getItem("selectedDisplay") || "default";
     const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
@@ -639,10 +1055,127 @@ function renderGame(...args) {
             }
         }
 
-        if (gamename === "entropy") {
-            options.boardClick = boardClickSimultaneous;
-        }
         var game = APGames.GameFactory(gamename, state);
+
+        if (playerInfoDisplay) {
+            playerInfoDisplay.innerHTML = ""; // Clear previous content
+
+            // Add the heading for player info
+            const playerInfoHeading = document.createElement('h3');
+            playerInfoHeading.textContent = "Players:";
+            playerInfoDisplay.appendChild(playerInfoHeading);
+
+            const numPlayers = game.numplayers;
+            const gameMetaInfo = APGames.gameinfo.get(gamename);
+            let playerNames = [];
+            const hasSharedPieces = gameMetaInfo && gameMetaInfo.flags && gameMetaInfo.flags.includes("shared-pieces");
+
+            if (typeof game.getPlayerNames === "function") {
+                playerNames = game.getPlayerNames();
+            } else {
+                // Fallback to predefined names or Player X, regardless of shared-pieces for naming
+                for (let i = 1; i <= numPlayers; i++) {
+                    if (i - 1 < PREDEFINED_LOG_NAMES.length) {
+                        playerNames.push(`Player ${i}: ${PREDEFINED_LOG_NAMES[i - 1]}`);
+                    } else {
+                        playerNames.push(`Player ${i}`);
+                    }
+                }
+            }
+
+
+            for (let p = 1; p <= numPlayers; p++) {
+                const playerName = playerNames[p-1] || `Player ${p}`;
+
+                const playerDiv = document.createElement('div');
+                playerDiv.style.display = 'flex';
+                playerDiv.style.alignItems = 'center';
+                playerDiv.style.marginBottom = '0.25em';
+
+                const swatch = document.createElement('span');
+                swatch.style.display = 'inline-flex'; // Use flex for centering content
+                swatch.style.alignItems = 'center';
+                swatch.style.justifyContent = 'center';
+                swatch.style.width = '20px';
+                swatch.style.height = '20px';
+                swatch.style.marginRight = '8px';
+                swatch.style.border = `1px solid ${isDark ? '#555' : '#ccc'}`;
+                swatch.style.borderRadius = '3px';
+                swatch.style.lineHeight = '0'; // Important for SVG alignment
+                swatch.style.textAlign = 'center'; // For text fallback
+                swatch.style.fontSize = '10px'; // For text fallback
+
+
+                if (hasSharedPieces) {
+                    swatch.textContent = `P${p}`;
+                    swatch.title = `${playerName}: P${p} (shared pieces)`;
+                    swatch.style.backgroundColor = 'transparent'; // Ensure no bg color from previous states
+                    swatch.style.lineHeight = '20px'; // Vertically center text
+                } else {
+                    let hexBG = null;
+                    let playerColourIdent = p;
+
+                    if (typeof game.getPlayerColour === 'function') {
+                        const gc = game.getPlayerColour(p);
+                        if (typeof gc === 'string' && /^#[0-9A-Fa-f]{6}$/.test(gc)) {
+                            hexBG = gc;
+                        } else if (typeof gc === 'number') {
+                            playerColourIdent = gc;
+                        }
+                    }
+
+                    if (hexBG) {
+                        swatch.style.backgroundColor = hexBG;
+                        swatch.title = `${playerName}: ${hexBG}`;
+                    } else {
+                        // Prepare options for renderglyph
+                        const glyphOpts = {
+                            colourContext: { ...options.colourContext }, // Pass a copy
+                            svgid: `playerSwatchGlyph_${p}` // Unique ID for the glyph
+                        };
+                        if (options.colourBlind) {
+                            glyphOpts.colourBlind = true;
+                        }
+                        if (options.patterns) {
+                            glyphOpts.patterns = true;
+                        }
+                        if (options.colours) { // Custom palette
+                            glyphOpts.colours = [...options.colours];
+                        }
+
+                        try {
+                            let glyphSVG = APRender.renderglyph("piece", playerColourIdent, glyphOpts);
+                            // Ensure internal IDs within the SVG are unique to avoid conflicts
+                            const uniqueInternalDefId = `def_A_${glyphOpts.svgid}`; // e.g., def_A_playerSwatchGlyph_1
+                            glyphSVG = glyphSVG.replace(/id="A"/g, `id="${uniqueInternalDefId}"`)
+                                               .replace(/xlink:href="#A"/g, `xlink:href="#${uniqueInternalDefId}"`);
+                            swatch.innerHTML = glyphSVG;
+                            // Ensure the SVG inside the swatch scales correctly
+                            const svgElement = swatch.querySelector('svg');
+                            if (svgElement) {
+                                svgElement.style.width = '100%';
+                                svgElement.style.height = '100%';
+                                svgElement.style.display = 'block';
+                            }
+                            swatch.title = `${playerName}: P${playerColourIdent}`;
+                        } catch (e) {
+                            console.error(`Error rendering glyph for player ${p}:`, e);
+                            swatch.textContent = `P${playerColourIdent}`;
+                            swatch.style.lineHeight = '20px'; // Vertically center text
+                            swatch.title = `${playerName}: P${playerColourIdent} (render error)`;
+                        }
+                    }
+                }
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = playerName;
+
+                playerDiv.appendChild(swatch);
+                playerDiv.appendChild(nameSpan);
+                playerInfoDisplay.appendChild(playerDiv);
+            }
+        }
+
+        updateGameStatusPanel(game, gamename);
 
         if (displayOptionsContainer && displayOptionsContainer.children.length > 0) {
             displayOptionsContainer.style.display = 'block';
@@ -715,7 +1248,7 @@ function renderGame(...args) {
 
         var status = game.status();
         if (typeof game.chatLog === "function") {
-            var results = game.chatLog(["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy"]).reverse().slice(0, 5).map(e => e.join(" "));
+            var results = game.chatLog(PREDEFINED_LOG_NAMES).reverse().slice(0, 5).map(e => e.join(" "));
             if (results.length > 0) {
                 status += "\n\n* " + results.join("\n* ") + "\n\n&hellip;";
             }
@@ -732,6 +1265,10 @@ function renderGame(...args) {
         if (displayOptionsContainer) {
             displayOptionsContainer.style.display = 'none';
         }
+        if (playerInfoDisplay) {
+            playerInfoDisplay.innerHTML = '<p style="font-style: italic; color: #888;">No game loaded.</p>';
+        }
+        updateGameStatusPanel(null, null);
     }
 
     return false;
@@ -762,10 +1299,15 @@ makeTextFile = function (text) {
 };
 
 function setDarkMode(isDark) {
+    const sidebar = document.querySelector('.sidebar');
+    const scrollPosition = sidebar.scrollTop;
+
     window.sessionStorage.setItem("darkMode", isDark ? "true" : "false");
     document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
     renderGame();
     document.getElementById("darkMode").textContent = isDark ? "Light Mode" : "Dark Mode";
+
+    sidebar.scrollTop = scrollPosition;
 }
 
 // Global state for selected variants
@@ -1296,6 +1838,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         } else {
             renderGame();
         }
+        updateGameStatusPanel(game, gameUid);
     }, false);
 
     document.getElementById("inject").addEventListener("click", () => {
@@ -1337,6 +1880,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         var statusbox = document.getElementById("clickstatus");
                         statusbox.innerHTML = resultStr;
                         renderGame();
+                        updateGameStatusPanel(game, meta);
                     } else {
                         alert("Failed to hydrate injected state.")
                     }
@@ -1390,6 +1934,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             window.sessionStorage.setItem("state", game.serialize());
             window.sessionStorage.removeItem("interim");
             renderGame();
+            updateGameStatusPanel(game, gamename);
         }
     });
 
@@ -1440,6 +1985,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             window.sessionStorage.setItem("state", game.serialize());
             window.sessionStorage.removeItem("interim");
             renderGame();
+            updateGameStatusPanel(game, gamename);
         }
     });
 
@@ -1551,6 +2097,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.removeItem("interim");
                     renderGame();
+                    updateGameStatusPanel(game, gamename);
                 } else {
                     alert("This game does not support fast AI.");
                 }
@@ -1577,6 +2124,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     window.sessionStorage.setItem("state", game.serialize());
                     window.sessionStorage.removeItem("interim");
                     renderGame();
+                    updateGameStatusPanel(game, gamename);
                 } else {
                     alert("This game does not support slow AI.");
                 }

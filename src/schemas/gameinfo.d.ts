@@ -71,6 +71,7 @@ export interface APGamesInformation {
   flags?: (
     | "aiai"
     | "automove"
+    | "autopass"
     | "check"
     | "custom-buttons"
     | "custom-colours"

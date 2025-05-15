@@ -168,5 +168,43 @@ describe("Stibro", () => {
         const moves = g.moves();
         expect(moves).to.not.include("g4");
     });
+
+    it("semi-random playout", () => {
+        const g = new StibroGame();
+        let random1 = 752;
+        while(!g.gameover) {
+            random1 += 139
+            const moves = g.moves();
+            const m = moves[random1 % moves.length];
+            g.move(m);
+        }
+        expect(g.gameover).to.be.true;
+    });
+
+    it("result is the same when round-tripping through state save/load", () => {
+        const g = new StibroGame();
+        let random1 = 752;
+        while(!g.gameover) {
+            random1 += 139
+            const moves = g.moves();
+            const m = moves[random1 % moves.length];
+            g.move(m);
+        }
+        expect(g.gameover).to.be.true;
+
+        let g2 = new StibroGame();
+        random1 = 752;
+        while(!g2.gameover) {
+            random1 += 139
+            const moves = g2.moves();
+            const m = moves[random1 % moves.length];
+            g2.move(m);
+            const state = g2.state()
+            g2 = new StibroGame(state);
+        }
+        expect(g.gameover).to.be.true;
+        expect(g2.gameover).to.be.true;
+        expect(g.board.entries).to.equal(g2.board.entries);
+    });
 });
 

@@ -1010,8 +1010,10 @@ export class BiscuitGame extends GameBase {
         for (const card of allcards) {
             let glyph = BiscuitGame.card2glyph(card);
             if (!this.gameover && perspective !== undefined && perspective === this.currplayer) {
-                if (!movable.has(card.uid)) {
-                    glyph = glyph.map(g => { return {...g, opacity: 0.5}; }) as [Glyph, ...Glyph[]];
+                if (this.hands[this.currplayer - 1].includes(card.uid)) {
+                    if (!movable.has(card.uid)) {
+                        glyph = glyph.map(g => { return {...g, opacity: 0.5}; }) as [Glyph, ...Glyph[]];
+                    }
                 }
             }
             legend["c" + card.uid] = glyph;

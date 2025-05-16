@@ -1012,7 +1012,7 @@ export class BiscuitGame extends GameBase {
             if (!this.gameover && perspective !== undefined && perspective === this.currplayer) {
                 if (this.hands[this.currplayer - 1].includes(card.uid)) {
                     if (!movable.has(card.uid)) {
-                        glyph = glyph.map(g => { return {...g, opacity: g.opacity === undefined ? 0.5 : g.opacity * 0.5}; }) as [Glyph, ...Glyph[]];
+                        glyph = glyph.map(g => { return {...g, opacity: g.opacity === undefined ? 0.25 : g.opacity * 0.25}; }) as [Glyph, ...Glyph[]];
                     }
                 }
             }

@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatus, IValidationResult, ICustomButton, IRenderOpts } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -293,6 +293,9 @@ export class BiscuitGame extends GameBase {
     // the start of their turn. If there's still no legal move,
     // then `pass` is allowed.
     public moves(p?: playerid): string[] {
+        if (this.gameover) {
+            return [];
+        }
         if (p === undefined) {
             p = this.currplayer;
         }
@@ -749,7 +752,7 @@ export class BiscuitGame extends GameBase {
             roundOver = true;
             let bonus = 5;
             const opposingCards: Card[] = [];
-            for (let i = 1; i < this.numplayers; i++) {
+            for (let i = 1; i <= this.numplayers; i++) {
                 if (i === this.currplayer) {
                     continue;
                 }
@@ -932,7 +935,7 @@ export class BiscuitGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render({perspective}: IRenderOpts = {perspective: undefined}): APRenderRep {
         const {height, width, minX, maxX, minY, maxY} = this.board.dimensions;
 
         const rowLabels: string[] = [];
@@ -997,8 +1000,21 @@ export class BiscuitGame extends GameBase {
             }
         }
         const legend: ILegendObj = {};
+        // if the current player is looking at the game, then make unusable
+        // cards partially opaque
+        const movable = new Set<string>();
+        for (const move of [...this.moves()]) {
+            const [c,] = move.split(">");
+            movable.add(c);
+        }
         for (const card of allcards) {
-            legend["c" + card.uid] = BiscuitGame.card2glyph(card);
+            let glyph = BiscuitGame.card2glyph(card);
+            if (!this.gameover && perspective !== undefined && perspective === this.currplayer) {
+                if (!movable.has(card.uid)) {
+                    glyph = glyph.map(g => { return {...g, opacity: 0.5}; }) as [Glyph, ...Glyph[]];
+                }
+            }
+            legend["c" + card.uid] = glyph;
         }
         legend["cUNKNOWN"] = {
             name: "piece-square-borderless",

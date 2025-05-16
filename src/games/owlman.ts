@@ -304,7 +304,8 @@ export class OwlmanGame extends GameBase {
         const tContents = this.board.get(to);
 
         // owlman steps might be a capture
-        if (fContents === "O" && this.graph.neighbours(from).includes(to)) {
+        // but moves from `h1` are never steps
+        if (fContents === "O" && from !== "h1" && this.graph.neighbours(from).includes(to)) {
             const [fx, fy] = this.graph.algebraic2coords(from);
             const [tx, ty] = this.graph.algebraic2coords(to);
             const bearing = RectGrid.bearing(fx, fy, tx, ty)!;

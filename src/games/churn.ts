@@ -10,7 +10,6 @@ import { connectedComponents } from "graphology-components";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
 import pako, { Data } from "pako";
-
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
@@ -352,7 +351,6 @@ export class ChurnGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-
             board: deepclone(this.board) as Map<string, playerid>
         };
     }
@@ -473,6 +471,6 @@ export class ChurnGame extends GameBase {
     }
 
     public clone(): ChurnGame {
-        return new ChurnGame(this.serialize());
+        return Object.assign(new ChurnGame(), deepclone(this) as ChurnGame);
     }
 }

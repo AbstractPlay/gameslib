@@ -723,11 +723,11 @@ export class QuincunxGame extends GameBase {
         const {height, width, minX, maxX, minY, maxY} = this.board.dimensions;
 
         const rowLabels: string[] = [];
-        for (let y = minY - 1; y <= maxY + 1; y++) {
+        for (let y = (height < 5 ? minY - 1 : minY); y <= (height < 5 ? maxY + 1 : maxY); y++) {
             rowLabels.push(y.toString());
         }
         const columnLabels: string[] = [];
-        for (let x = minX - 1; x <= maxX + 1; x++) {
+        for (let x = (width < 5 ? minX - 1 : minX); x <= (width < 5 ? maxX + 1 : maxX); x++) {
             columnLabels.push(x.toString());
         }
 

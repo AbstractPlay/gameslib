@@ -150,6 +150,7 @@
         "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "query": "A connection game on an Alquerque board. Place a piece on an eight-way intersection, or two pieces on four-way intersections.",
+        "quincunx": "A Decktet tableau-building game where the grid gets built as you go. Each play scores points (sometimes negative points). The player with the highest score after two consecutive games wins.",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
@@ -235,6 +236,7 @@
         "pigs2": "This is the same as the old Super Duper Games. The game starts by you programming three moves, but only one move is resolved and added each turn.\n\nMovement is resolved before damage is applied. Unlike most other AP games, if players resign or timeout, the game does not immediately end. Instead, they're eliminated and their robot becomes inactive, but the other players can play on.",
         "pletore": "An intersection is controlled by a player if they 'pinch' it while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. Your score is the sum of the number of stones of your color on the board and the number of empty points you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
+        "quincunx": "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a triple, it does *not* also score as a pair.)\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nPower play: If you played an Ace or Crown adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "razzle": "The implementation here is the so called tournament rules.",
         "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation currently only provides beginner protection for the first move of the game. Be careful not to merge down to one Dead Group.",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
@@ -1752,6 +1754,16 @@
             },
             "size-9": {
                 "name": "9x9 board"
+            }
+        },
+        "quincunx": {
+            "excuse": {
+                "name": "The Excuse",
+                "description": "Adds The Excuse to the deck. This card accrues no basic scoring when played or when played next to, plays no role in straights, and it exacts no penalty if still in your hand at the end of the round."
+            },
+            "flush": {
+                "name": "Flush bonuses",
+                "description": "When present, if the card you played creates or extends a continuous line (including diagonal) of four or more cards that share the same suit, or that forms a 2x2 square of cards that share a suit, score 10 points for each line and square."
             }
         },
         "realm": {
@@ -4462,6 +4474,10 @@
             "NOTC4": "The intersection at {{where}} is not a four-way intersection.",
             "TOOMANY1": "You may only place one piece on eight-way intersections.",
             "TOOMANY2": "You may only place two pieces on four-way intersections."
+        },
+        "quincunx": {
+            "INITIAL_INSTRUCTIONS": "Select a card from your hand to place on the board.",
+            "PARTIAL": "Provide the destination."
         },
         "razzle": {
             "BAD_DIRECTION": "You can only move the ball orthogonally or diagonally. The move from {{from}} to {{to}} is invalid.",

@@ -1,4 +1,5 @@
 import { Component, ranks, suits } from "./Component";
+import { Glyph } from "@abstractplay/renderer/src/schemas/schema";
 
 type Params = {
     name: string;
@@ -91,6 +92,53 @@ export class Card {
 
     public get plain(): string {
         return [this.rank.name, ...this.suits.map(s => s.name)].join(" ");
+    }
+
+    public sharesSuitWith(other: Card): boolean {
+        const otherSuits = new Set<string>(...other._suits.map(s => s.uid));
+        let hasMatch = false;
+        for (const suit of this._suits) {
+            if (otherSuits.has(suit.uid)) {
+                hasMatch = true;
+                break;
+            }
+        }
+        return hasMatch;
+    }
+
+    public toGlyph(): [Glyph, ...Glyph[]] {
+        const glyph: [Glyph, ...Glyph[]] = [
+            {
+                name: "piece-square-borderless",
+                opacity: 0,
+            },
+        ];
+        // rank
+        if (this.rank.glyph !== undefined) {
+            glyph.push({
+                name: this.rank.glyph,
+                scale: 0.5,
+                colour: "_context_strokes",
+                nudge: {
+                    dx: 250,
+                    dy: -250,
+                }
+            });
+        }
+        const nudges: [number,number][] = [[-250, -250], [-250, 250], [250, 250]];
+        for (let i = 0; i < this.suits.length; i++) {
+            const suit = this.suits[i];
+            const nudge = nudges[i];
+            glyph.push({
+                name: suit.glyph,
+                scale: 0.5,
+                nudge: {
+                    dx: nudge[0],
+                    dy: nudge[1],
+                }
+            });
+        }
+        return glyph;
     }
 
     public clone(): Card {

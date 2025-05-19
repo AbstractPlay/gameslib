@@ -94,41 +94,6 @@ export class JacynthGame extends GameBase {
         return GameBase.algebraic2coords(cell, 6);
     }
 
-    public static card2glyph(card: Card): [Glyph, ...Glyph[]] {
-        const glyph: [Glyph, ...Glyph[]] = [
-            {
-                name: "piece-square-borderless",
-                opacity: 0,
-            },
-        ];
-        // rank
-        if (card.rank.glyph !== undefined) {
-            glyph.push({
-                name: card.rank.glyph,
-                scale: 0.5,
-                colour: "_context_strokes",
-                nudge: {
-                    dx: 250,
-                    dy: -250,
-                }
-            });
-        }
-        const nudges: [number,number][] = [[-250, -250], [-250, 250], [250, 250]];
-        for (let i = 0; i < card.suits.length; i++) {
-            const suit = card.suits[i];
-            const nudge = nudges[i];
-            glyph.push({
-                name: suit.glyph,
-                scale: 0.5,
-                nudge: {
-                    dx: nudge[0],
-                    dy: nudge[1],
-                }
-            });
-        }
-        return glyph;
-    }
-
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, string>;
@@ -695,7 +660,7 @@ export class JacynthGame extends GameBase {
         }
         const legend: ILegendObj = {};
         for (const card of allcards) {
-            legend["c" + card.uid] = JacynthGame.card2glyph(card);
+            legend["c" + card.uid] = card.toGlyph();
         }
 
         // build pieces areas

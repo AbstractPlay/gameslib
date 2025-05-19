@@ -12,6 +12,7 @@ export default tseslint.config(
   {
     rules: {
         "@typescript-eslint/no-explicit-any": "warn",
+        "no-console": "error",
     },
   }
 );

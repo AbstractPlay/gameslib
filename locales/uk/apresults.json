@@ -481,7 +481,20 @@
         "biscuit_biscuit_one": "{{player}} набрав печиво.",
         "biscuit_biscuit_few": "{{player}} набрав {{count}} печива.",
         "biscuit_biscuit_many": "{{player}} набрав {{count}} печива.",
-        "biscuit_straight": "{{player}} набрав прямий удар довжиною {{count}}."
+        "biscuit_straight": "{{player}} набрав прямий удар довжиною {{count}}.",
+        "quincunx_pairs_one": "{{player}} набрано {{count}} пар.",
+        "quincunx_pairs_few": "{{player}} набрано {{count}} пари.",
+        "quincunx_pairs_many": "{{player}} набрано {{count}} пари.",
+        "quincunx_sets_one": "{{player}} набрав {{count}} сет.",
+        "quincunx_sets_few": "{{player}} набрав {{count}} сети.",
+        "quincunx_sets_many": "{{player}} набрав {{count}} сетів.",
+        "quincunx_straights_one": "{{player}} набрав {{count}} стріт.",
+        "quincunx_straights_few": "{{player}} набрав {{count}} стріти.",
+        "quincunx_straights_many": "{{player}} набрав {{count}} стрітів.",
+        "quincunx_flushes_one": "{{player}} набрав {{count}} флеш.",
+        "quincunx_flushes_few": "{{player}} набрав {{count}} флеши.",
+        "quincunx_flushes_many": "{{player}} набрав {{count}} флешів.",
+        "quincunx_powerplay": "{{player}} забив гру в більшості!"
     },
     "SOW": {
         "prudh": "{{player}} сіяні шашки с {{from}} до {{to}}.",
@@ -578,12 +591,23 @@
     },
     "PLAYSECOND": "{{player}} вирішив грати другим.",
     "DECKDRAW": {
-        "biscuit": "Наступний гравець не зміг зіграти жодної карти з руки, тому він взяв карту."
+        "biscuit": "Наступний гравець не зміг зіграти жодної карти з руки, тому він взяв карту.",
+        "quincunx_one": "{{player}} витягнув {{count}} карту.",
+        "quincunx_few": "{{player}} витягнув {{count}} карти.",
+        "quincunx_many": "{{player}} витягнув {{count}} карт."
     },
     "STALEMATE": {
         "biscuit": "Рука зачерствіла."
     },
     "ANNOUNCE": {
-        "biscuit": "Наступні карти були в протилежних руках: {{cards}}."
+        "biscuit": "Наступні карти були в протилежних руках: {{cards}}.",
+        "quincunx": "У гравця {{playerNum}} залишилися такі карти на руці: {{cards}}."
+    },
+    "DELTASCORE": {
+        "quincunx": {
+            "penalty_one": "Гравець {{playerNum}} втратив {{count}} очко через наявність карт у руці.",
+            "penalty_few": "Гравець {{playerNum}} втратив {{count}} очок через наявні карти.",
+            "penalty_many": "Гравець {{playerNum}} втратив {{count}} очок через наявні карт."
+        }
     }
 }

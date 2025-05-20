@@ -470,6 +470,7 @@ export class ChurnGame extends GameBase {
         return resolved;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected sameMove(move1: string, move2: string): boolean {
         return true;
     }

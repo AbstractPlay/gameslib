@@ -38,7 +38,7 @@ export class BiscuitGame extends GameBase {
         uid: "biscuit",
         playercounts: [2,3],
         version: "20250428",
-        dateAdded: "2024-12-15",
+        dateAdded: "2025-05-20",
         // i18next.t("apgames:descriptions.biscuit")
         description: "apgames:descriptions.biscuit",
         // i18next.t("apgames:notes.biscuit")
@@ -83,7 +83,7 @@ export class BiscuitGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
-        flags: ["experimental", "scores", "no-explore", "shared-pieces", "custom-buttons", "autopass"],
+        flags: ["scores", "no-explore", "shared-pieces", "custom-buttons", "autopass"],
     };
 
     public numplayers = 2;

@@ -762,7 +762,9 @@ export class QuincunxGame extends GameBase {
                 const nCard = this.board.getCardAt(nabsx, nabsy);
                 if (nCard === undefined) {
                     const idx = blocked.findIndex(({row, col}) => row === nrely && col === nrelx);
-                    blocked.splice(idx, 1);
+                    if (idx >= 0) {
+                        blocked.splice(idx, 1);
+                    }
                 }
             }
         }

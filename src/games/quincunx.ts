@@ -222,7 +222,7 @@ export class QuincunxGame extends GameBase {
 
         // if the board is full, then the only choice is to pass
         // which will trigger the end of the round
-        if (moves.length === 0) {
+        if (moves.length === 0 && this.board.cards.length === 25) {
             moves.push("pass");
         }
 

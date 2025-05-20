@@ -780,11 +780,12 @@ export class QuincunxGame extends GameBase {
         // build pieces areas
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
-            const hand = this.hands[p-1];
+            const hand = [...this.hands[p-1]];
             if (hand.length > 0) {
+                const sorted = hand.map(uid => Card.deserialize(uid)!).sort(cardSortAsc).map(c => c.uid);
                 areas.push({
                     type: "pieces",
-                    pieces: hand.map(c => "c" + c) as [string, ...string[]],
+                    pieces: sorted.map(c => "c" + c) as [string, ...string[]],
                     label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
                     width: width < 6 ? 6 : undefined,

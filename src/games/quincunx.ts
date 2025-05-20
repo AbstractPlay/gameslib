@@ -488,7 +488,7 @@ export class QuincunxGame extends GameBase {
         return {basics, draws, pairs, straights, sets, flushes, powerplay, powerplayScore};
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): QuincunxGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): QuincunxGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -516,6 +516,7 @@ export class QuincunxGame extends GameBase {
         }
 
         if (partial) { return this; }
+        if (emulation && m === "pass") { return this; }
         this.results = [];
 
         let lastmove = m;

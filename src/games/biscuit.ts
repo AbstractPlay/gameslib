@@ -38,7 +38,7 @@ export class BiscuitGame extends GameBase {
         uid: "biscuit",
         playercounts: [2,3],
         version: "20250428",
-        dateAdded: "2024-12-15",
+        dateAdded: "2025-05-20",
         // i18next.t("apgames:descriptions.biscuit")
         description: "apgames:descriptions.biscuit",
         // i18next.t("apgames:notes.biscuit")
@@ -83,43 +83,8 @@ export class BiscuitGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
-        flags: ["experimental", "scores", "no-explore", "shared-pieces", "custom-buttons", "autopass"],
+        flags: ["scores", "no-explore", "shared-pieces", "custom-buttons", "autopass"],
     };
-
-    public static card2glyph(card: Card): [Glyph, ...Glyph[]] {
-        const glyph: [Glyph, ...Glyph[]] = [
-            {
-                name: "piece-square-borderless",
-                opacity: 0,
-            },
-        ];
-        // rank
-        if (card.rank.glyph !== undefined) {
-            glyph.push({
-                name: card.rank.glyph,
-                scale: 0.5,
-                colour: "_context_strokes",
-                nudge: {
-                    dx: 250,
-                    dy: -250,
-                }
-            });
-        }
-        const nudges: [number,number][] = [[-250, -250], [-250, 250], [250, 250]];
-        for (let i = 0; i < card.suits.length; i++) {
-            const suit = card.suits[i];
-            const nudge = nudges[i];
-            glyph.push({
-                name: suit.glyph,
-                scale: 0.5,
-                nudge: {
-                    dx: nudge[0],
-                    dy: nudge[1],
-                }
-            });
-        }
-        return glyph;
-    }
 
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -846,7 +811,7 @@ export class BiscuitGame extends GameBase {
                 const root = new BiscuitCard({x: 0, y: 0, card: deck.draw()[0]});
                 this.board.add(root);
 
-                // init scores and hands
+                // init hands (but not scores)
                 this.hands = [];
                 for (let i = 0; i < this.numplayers; i++) {
                     this.hands.push([...deck.draw(6).map(c => c.uid)]);
@@ -1008,11 +973,11 @@ export class BiscuitGame extends GameBase {
             movable.add(c);
         }
         for (const card of allcards) {
-            let glyph = BiscuitGame.card2glyph(card);
+            let glyph = card.toGlyph();
             if (!this.gameover && perspective !== undefined && perspective === this.currplayer) {
                 if (this.hands[this.currplayer - 1].includes(card.uid)) {
                     if (!movable.has(card.uid)) {
-                        glyph = glyph.map(g => { return {...g, opacity: 0.5}; }) as [Glyph, ...Glyph[]];
+                        glyph = glyph.map(g => { return {...g, opacity: g.opacity === undefined ? 0.25 : g.opacity * 0.25}; }) as [Glyph, ...Glyph[]];
                     }
                 }
             }

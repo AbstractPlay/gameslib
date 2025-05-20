@@ -20,7 +20,8 @@
         "witch_S": "{{player}} chose the Sunstones."
     },
     "ANNOUNCE": {
-        "biscuit": "The following cards were in opposing hands: {{cards}}."
+        "biscuit": "The following cards were in opposing hands: {{cards}}.",
+        "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}."
     },
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
@@ -157,7 +158,9 @@
         "pigs": "{{player}} struck {{opponent}} at {{where}}."
     },
     "DECKDRAW": {
-        "biscuit": "The next player was unable to play any cards in their hand, so they drew a card."
+        "biscuit": "The next player was unable to play any cards in their hand, so they drew a card.",
+        "quincunx_one": "{{player}} drew {{count}} card.",
+        "quincunx_other": "{{player}} drew {{count}} cards."
     },
     "DECLARE": {
         "biscuit": "{{player}} has gone out!",
@@ -168,6 +171,13 @@
     "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points.",
     "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
     "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
+    "DELTASCORE": {
+        "quincunx": {
+            "penalty_zero": "Player {{playerNum}} lost no points due to cards in hand.",
+            "penalty_one": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
+            "penalty_other": "Player {{playerNum}} lost {{count}} points due to cards in hand."
+        }
+    },
     "DESTROY": {
         "armadas": "{{player}} sunk the enemy ship named {{name}}.",
         "bao": "The nyumba at {{pit}} was destroyed.",
@@ -482,7 +492,16 @@
         "biscuit_straight": "{{player}} scored a straight of length {{count}}.",
         "fnap_circles": "The circle tile at {{where}} is isolated.",
         "fnap_triplets_one": "{{player}} scored {{count}} triplet.",
-        "fnap_triplets_other": "{{player}} scored {{count}} triplets."
+        "fnap_triplets_other": "{{player}} scored {{count}} triplets.",
+        "quincunx_pairs_one": "{{player}} scored {{count}} pair.",
+        "quincunx_pairs_other": "{{player}} scored {{count}} pairs.",
+        "quincunx_sets_one": "{{player}} scored {{count}} set.",
+        "quincunx_sets_other": "{{player}} scored {{count}} sets.",
+        "quincunx_straights_one": "{{player}} scored {{count}} straight.",
+        "quincunx_straights_other": "{{player}} scored {{count}} straights.",
+        "quincunx_flushes_one": "{{player}} scored {{count}} flush.",
+        "quincunx_flushes_other": "{{player}} scored {{count}} flushes.",
+        "quincunx_powerplay": "{{player}} scored a power play!"
     },
     "SOW": {
         "general_one": "{{player}} sowed seeds from the following pit: {{pits}}.",

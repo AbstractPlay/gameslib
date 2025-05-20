@@ -1267,10 +1267,6 @@ export class BaoGame extends GameBase {
         const inhand = this.inhand[0] + this.inhand[1];
         const board = this.board.map(r => r.reduce((prev, curr) => prev + curr, 0)).reduce((prev, curr) => prev + curr, 0);
         if ( (inhand + board) !== 64) {
-
-            console.log(JSON.stringify(this.state()));
-
-            console.log(JSON.stringify(this.render()));
             throw new Error(`Invalid game economy! In hand: ${inhand}, on board: ${board}`);
         }
     }

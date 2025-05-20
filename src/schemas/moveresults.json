@@ -186,6 +186,9 @@
                 },
                 "who": {
                     "type": "number"
+                },
+                "description": {
+                    "type": "string"
                 }
             },
             "required": ["type"],
@@ -280,6 +283,9 @@
             "properties": {
                 "type": {
                     "enum": ["deckDraw"]
+                },
+                "count": {
+                    "type": "integer"
                 },
                 "what": {
                     "type": "string"

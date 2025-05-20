@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 
 import { Direction, Grid, rectangle, defineHex, Orientation, Hex } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult } from "./_base";
@@ -1176,12 +1177,10 @@ export class ChaseGame extends GameBase {
             throw new Error(`Invalid direction passed for pointy hexes: ${dir}`);
         }
         if (log) {
-
             console.log(`RecurseMove - cell: ${cell}, piece: ${JSON.stringify(piece)}, dir: ${dir}`);
         }
         // Captures and bumps
         if (this.board.has(cell)) {
-
             if (log) { console.log(`\tDestination is occupied`); }
             const nPiece = this.board.get(cell);
             // If it doesn't belong to us, we're done
@@ -1194,7 +1193,6 @@ export class ChaseGame extends GameBase {
                 this.board.set(cell, piece);
             // Otherwise, recurse
             } else {
-
                 if (log) { console.log(`\tFriendly piece. Pushing.`); }
                 this.board.set(cell, piece);
                 const result: APMoveResult = {type: "eject", what: nPiece![1].toString(), from: cell, to: ""};
@@ -1212,7 +1210,6 @@ export class ChaseGame extends GameBase {
             }
         // Chamber moves
         } else if (cell === "e5") {
-
             if (log) { console.log(`Chamber move`); }
             const [lcell, rcell] = chamberExits.get(dir)!;
             // If the player already has 10 pieces (9, actually, because we're in the middle of a move), just eject the piece
@@ -1238,7 +1235,6 @@ export class ChaseGame extends GameBase {
             }
         // Regular move
         } else {
-
             if (log) { console.log(`Regular move`); }
             this.board.set(cell, piece);
         }

@@ -71,6 +71,7 @@ export type APMoveResult =
       type: "deltaScore";
       delta?: number;
       who?: number;
+      description?: string;
     }
   | {
       type: "reclaim";
@@ -106,6 +107,7 @@ export type APMoveResult =
     }
   | {
       type: "deckDraw";
+      count?: number;
       what?: string;
     }
   | {

@@ -903,7 +903,7 @@ export class QuincunxGame extends GameBase {
                 }
                 // individual score components
                 else {
-                    node.push(i18next.t(r.delta! >= 0 ? "apresults:DELTA_SCORE_GAIN" : "apresults:DELTA_SCORE_LOSS", {player, count: r.delta, delta: r.delta}));
+                    node.push(i18next.t(r.delta! >= 0 ? "apresults:DELTA_SCORE_GAIN" : "apresults:DELTA_SCORE_LOSS", {player, count: Math.abs(r.delta!), delta: Math.abs(r.delta!)}));
                     resolved = true;
                 }
                 break;

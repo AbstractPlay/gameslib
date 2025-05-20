@@ -257,7 +257,7 @@ export class TessellaGame extends GameBase {
 
         if (partial) {
             const [f,] = m.split(/[-x]/);
-            const matches = allMoves.filter(mv => mv.startsWith(`${f}-`));
+            const matches = allMoves.filter(mv => mv.startsWith(`${f}-`) || mv.startsWith(`${f}x`));
             const tos = new Set<string>(matches.map(mv => {
                 const [,t] = mv.split(/[-x]/);
                 return t;

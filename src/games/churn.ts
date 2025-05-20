@@ -470,6 +470,10 @@ export class ChurnGame extends GameBase {
         return resolved;
     }
 
+    protected sameMove(move1: string, move2: string): boolean {
+        return true;
+    }
+
     public clone(): ChurnGame {
         return Object.assign(new ChurnGame(), deepclone(this) as ChurnGame);
     }

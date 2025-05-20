@@ -310,8 +310,8 @@ export class QuincunxGame extends GameBase {
         }
     }
 
-    public scorePlacement(placed: QuincunxCard): {basics: number[], draws: number, pairs: number, straights: number, sets: number, flushes: number, powerplay: boolean, powerplayScore: number} {
-        const basics: number[] = [];
+    public scorePlacement(placed: QuincunxCard): {basics: [string,number][], draws: number, pairs: number, straights: number, sets: number, flushes: number, powerplay: boolean, powerplayScore: number} {
+        const basics: [string,number][] = [];
         let draws = 0;
         let pairs = 0;
         let straights = 0;
@@ -345,21 +345,21 @@ export class QuincunxGame extends GameBase {
                         }
                         const suitsMatch = placed.card.sharesSuitWith(nCard.card);
                         if (hasAce && suitsMatch) {
-                            basics.push(sum);
+                            basics.push([nCard.card.uid, sum]);
                         } else {
-                            basics.push(sum * -1);
+                            basics.push([nCard.card.uid, sum * -1]);
                         }
                     } else if (sum === 10) {
-                        basics.push(0);
+                        basics.push([nCard.card.uid, 0]);
                     } else if (sum === 11) {
-                        basics.push(0);
+                        basics.push([nCard.card.uid, 0]);
                         draws++;
                     } else if (sum < 20) {
-                        basics.push(sum - 10);
+                        basics.push([nCard.card.uid, sum - 10]);
                     }
                     // this can only be if the sum is exactly 20
                     else {
-                        basics.push(0);
+                        basics.push([nCard.card.uid, 0]);
                         draws++;
                     }
                 }
@@ -595,9 +595,9 @@ export class QuincunxGame extends GameBase {
             // tabulate scores
             const scores = this.scorePlacement(cardObj);
             // basic first
-            for (const n of scores.basics) {
+            for (const [cuid, n] of scores.basics) {
                 this.scores[this.currplayer - 1] += n;
-                this.results.push({type: "deltaScore", delta: n, description: "basic"});
+                this.results.push({type: "deltaScore", delta: n, description: `basic-${cuid}`});
             }
             // draws
             if (scores.draws > 0) {
@@ -893,6 +893,12 @@ export class QuincunxGame extends GameBase {
                 // announcing penalties at the end of the round
                 if (r.who !== undefined) {
                     node.push(i18next.t("apresults:DELTASCORE.quincunx.penalty", {player, count: r.delta, delta: r.delta, playerNum: r.who}));
+                    resolved = true;
+                }
+                // basic score components
+                else if (r.description !== undefined && r.description.startsWith("basic-")) {
+                    const idx = r.description.indexOf("-");
+                    node.push(i18next.t("apresults:DELTASCORE.quincunx.basic", {player, count: Math.abs(r.delta!), delta: r.delta, card: r.description.substring(idx+1)}));
                     resolved = true;
                 }
                 // individual score components

@@ -7,7 +7,7 @@ import { QuincunxCard } from "../../src/games/quincunx/card";
 import { Card } from "../../src/common/decktet";
 
 type Scores = {
-    basics: number[];
+    basics: [string,number][];
     draws: number;
     pairs: number;
     straights: number;
@@ -33,7 +33,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(1);
-        expect(scores.basics[0]).equal(4);
+        expect(scores.basics[0][1]).equal(4);
         expect(scores.draws).equal(0);
 
         // 2-9, no matching ace (subtract)
@@ -45,7 +45,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(1);
-        expect(scores.basics[0]).equal(-5);
+        expect(scores.basics[0][1]).equal(-5);
         expect(scores.draws).equal(0);
 
         // 10 (zero)
@@ -57,7 +57,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(1);
-        expect(scores.basics[0]).equal(0);
+        expect(scores.basics[0][1]).equal(0);
         expect(scores.draws).equal(0);
 
         // 11 (draw)
@@ -69,7 +69,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(1);
-        expect(scores.basics[0]).equal(0);
+        expect(scores.basics[0][1]).equal(0);
         expect(scores.draws).equal(1);
 
         // 12-19 (add)
@@ -81,7 +81,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(1);
-        expect(scores.basics[0]).equal(5);
+        expect(scores.basics[0][1]).equal(5);
         expect(scores.draws).equal(0);
 
         // 20 (draw)
@@ -93,7 +93,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(1);
-        expect(scores.basics[0]).equal(0);
+        expect(scores.basics[0][1]).equal(0);
         expect(scores.draws).equal(1);
 
         // no basic scoring against excuse
@@ -105,7 +105,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(0);
-        // expect(scores.basics[0]).equal(0);
+        // expect(scores.basics[0][1]).equal(0);
         expect(scores.draws).equal(0);
 
         board = new QuincunxBoard();
@@ -116,7 +116,7 @@ describe("Quincunx", () => {
         g.board = board;
         scores = g.scorePlacement(card);
         expect(scores.basics.length).equal(0);
-        // expect(scores.basics[0]).equal(0);
+        // expect(scores.basics[0][1]).equal(0);
         expect(scores.draws).equal(0);
     });
 

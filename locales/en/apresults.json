@@ -173,6 +173,9 @@
     "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DELTASCORE": {
         "quincunx": {
+            "basic_zero": "Against {{card}} it scored no points.",
+            "basic_one": "Against {{card}} it scored 1 point.",
+            "basic_other": "Against {{card}} it scored {{delta}} points.",
             "penalty_zero": "Player {{playerNum}} lost no points due to cards in hand.",
             "penalty_one": "Player {{playerNum}} lost {{count}} point due to cards in hand.",
             "penalty_other": "Player {{playerNum}} lost {{count}} points due to cards in hand."

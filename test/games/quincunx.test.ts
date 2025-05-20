@@ -136,6 +136,16 @@ describe("Quincunx", () => {
         scores = g.scorePlacement(card);
         expect(scores.pairs).equal(1);
 
+        // pairs are orthogonal only
+        board = new QuincunxBoard();
+        card = new QuincunxCard({x: 0, y: 0, card: Card.deserialize("2MK")!});
+        board.add(card);
+        card = new QuincunxCard({x: 1, y: 1, card: Card.deserialize("2VL")!});
+        board.add(card);
+        g.board = board;
+        scores = g.scorePlacement(card);
+        expect(scores.pairs).equal(0);
+
         // two pairs
         board = new QuincunxBoard();
         card = new QuincunxCard({x: 0, y: 0, card: Card.deserialize("2MK")!});
@@ -199,11 +209,11 @@ describe("Quincunx", () => {
         board.add(card);
         card = new QuincunxCard({x: 0, y: 1, card: Card.deserialize("NL")!});
         board.add(card);
-        card = new QuincunxCard({x: 1, y: -1, card: Card.deserialize("NY")!});
+        card = new QuincunxCard({x: 1, y: 0, card: Card.deserialize("NY")!});
         board.add(card);
-        card = new QuincunxCard({x: 2, y: -1, card: Card.deserialize("NK")!});
+        card = new QuincunxCard({x: 2, y: 1, card: Card.deserialize("NK")!});
         board.add(card);
-        card = new QuincunxCard({x: -1, y: -2, card: Card.deserialize("NM")!});
+        card = new QuincunxCard({x: 1, y: -1, card: Card.deserialize("NM")!});
         board.add(card);
         card = new QuincunxCard({x: 0, y: -1, card: Card.deserialize("NS")!});
         board.add(card);
@@ -499,6 +509,18 @@ describe("Quincunx", () => {
         scores = g.scorePlacement(card);
         expect(scores.powerplay).to.be.true;
         expect(scores.powerplayScore).equal(2);
+
+        // powerplays are orthogonal only
+        // powerplay with no other cards
+        board = new QuincunxBoard();
+        card = new QuincunxCard({x: 0, y: 0, card: Card.deserialize("1M")!});
+        board.add(card);
+        card = new QuincunxCard({x: 1, y: 1, card: Card.deserialize("NM")!});
+        board.add(card);
+        g.board = board;
+        scores = g.scorePlacement(card);
+        expect(scores.powerplay).to.be.false;
+        expect(scores.powerplayScore).equal(0);
     });
 });
 

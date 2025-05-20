@@ -381,8 +381,8 @@ export class QuincunxGame extends GameBase {
                 if (rayPrime.length + rayOpp.length + 1 >= 3) {
                     sets++;
                 }
-                // only a pair is present
-                else if (rayPrime.length > 0 || rayOpp.length > 0) {
+                // only a pair is present (in an orthogonal direction)
+                else if (dir.length === 1 && (rayPrime.length > 0 || rayOpp.length > 0)) {
                     pairs++;
                 }
             }
@@ -467,7 +467,7 @@ export class QuincunxGame extends GameBase {
             }
             // powerplays
             if (placed.card.rank.name === "Ace" || placed.card.rank.name === "Crown") {
-                for (const n of g.neighbours(node)) {
+                for (const n of gOrth.neighbours(node)) {
                     const nCard = this.board.getCardAt(...this.board.rel2abs(...g.algebraic2coords(n)));
                     if (nCard !== undefined && (nCard.card.rank.name === "Ace" || nCard.card.rank.name === "Crown")) {
                         if (placed.card.sharesSuitWith(nCard.card)) {

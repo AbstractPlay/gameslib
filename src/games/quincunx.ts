@@ -697,7 +697,7 @@ export class QuincunxGame extends GameBase {
             state.stack = state.stack.map(mstate => {
                 for (let p = 1; p <= this.numplayers; p++) {
                     if (p === opts.player) { continue; }
-                    mstate.hands[p-1] = [];
+                    mstate.hands[p-1] = mstate.hands[p-1].map(() => "");
                 }
                 return mstate;
             });
@@ -783,7 +783,7 @@ export class QuincunxGame extends GameBase {
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             const hand = [...this.hands[p-1]];
-            if (hand.length > 0) {
+            if (!hand.includes("")) {
                 const sorted = hand.map(uid => Card.deserialize(uid)!).sort(cardSortAsc).map(c => c.uid);
                 areas.push({
                     type: "pieces",
@@ -856,7 +856,7 @@ export class QuincunxGame extends GameBase {
         }
         return [
             { name: i18next.t("apgames:status.SCORES"), scores},
-            // { name: i18next.t("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
+            { name: i18next.t("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
         ];
     }
 

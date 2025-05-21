@@ -109,6 +109,8 @@ export class QuincunxGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public round = 1;
     private deck!: Deck;
+    // @ts-expect-error (This is only read by the frontend code)
+    private __noAutomove?: boolean;
 
     constructor(state: number | IQuincunxState | string, variants?: string[]) {
         super();
@@ -488,7 +490,7 @@ export class QuincunxGame extends GameBase {
         return {basics, draws, pairs, straights, sets, flushes, powerplay, powerplayScore};
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): QuincunxGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): QuincunxGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -516,6 +518,10 @@ export class QuincunxGame extends GameBase {
         }
 
         if (partial) { return this; }
+        if (emulation && m === "pass") {
+            this.__noAutomove = true;
+            return this;
+        }
         this.results = [];
 
         let lastmove = m;

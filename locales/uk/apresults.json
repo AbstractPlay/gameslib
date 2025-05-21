@@ -607,7 +607,10 @@
         "quincunx": {
             "penalty_one": "Гравець {{playerNum}} втратив {{count}} очко через наявність карт у руці.",
             "penalty_few": "Гравець {{playerNum}} втратив {{count}} очок через наявні карти.",
-            "penalty_many": "Гравець {{playerNum}} втратив {{count}} очок через наявні карт."
+            "penalty_many": "Гравець {{playerNum}} втратив {{count}} очок через наявні карт.",
+            "basic_one": "Проти {{card}} вона набрала 1 очко.",
+            "basic_few": "Проти {{card}} вона набрала {{delta}} очки.",
+            "basic_many": "Проти {{card}} вона набрала {{delta}} очок."
         }
     }
 }

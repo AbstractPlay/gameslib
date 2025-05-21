@@ -111,6 +111,7 @@ export class QuincunxGame extends GameBase {
     private deck!: Deck;
     // @ts-expect-error (This is only read by the frontend code)
     private __noAutomove?: boolean;
+    private masked: string[] = [];
 
     constructor(state: number | IQuincunxState | string, variants?: string[]) {
         super();
@@ -523,6 +524,7 @@ export class QuincunxGame extends GameBase {
             return this;
         }
         this.results = [];
+        this.masked = [];
 
         let lastmove = m;
         let tag = "";
@@ -608,7 +610,11 @@ export class QuincunxGame extends GameBase {
             // draws
             if (scores.draws > 0) {
                 this.results.push({type: "deckDraw", count: scores.draws});
-                this.hands[this.currplayer - 1].push(...this.deck.draw(scores.draws).map(c => c.uid));
+                const drawn = this.deck.draw(scores.draws).map(c => c.uid);
+                if (emulation) {
+                    this.masked = [...drawn];
+                }
+                this.hands[this.currplayer - 1].push(...drawn);
             }
             // pairs
             if (scores.pairs > 0) {
@@ -784,6 +790,15 @@ export class QuincunxGame extends GameBase {
         for (const card of allcards) {
             legend["c" + card.uid] = card.toGlyph();
         }
+        legend["cUNKNOWN"] = {
+            name: "piece-square-borderless",
+            colour: {
+                func: "flatten",
+                fg: "_context_fill",
+                bg: "_context_background",
+                opacity: 0.5,
+            },
+        }
 
         // build pieces areas
         const areas: AreaPieces[] = [];
@@ -793,7 +808,7 @@ export class QuincunxGame extends GameBase {
                 const sorted = hand.map(uid => Card.deserialize(uid)!).sort(cardSortAsc).map(c => c.uid);
                 areas.push({
                     type: "pieces",
-                    pieces: sorted.map(c => "c" + c) as [string, ...string[]],
+                    pieces: sorted.map(c => this.masked.includes(c) ? "cUNKNOWN" : ("c" + c)) as [string, ...string[]],
                     label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
                     width: width < 6 ? 6 : undefined,

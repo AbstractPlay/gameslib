@@ -109,6 +109,9 @@ export class QuincunxGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public round = 1;
     private deck!: Deck;
+    // @ts-expect-error (This is only read by the frontend code)
+    private __noAutomove?: boolean;
+    private masked: string[] = [];
 
     constructor(state: number | IQuincunxState | string, variants?: string[]) {
         super();
@@ -381,8 +384,8 @@ export class QuincunxGame extends GameBase {
                 if (rayPrime.length + rayOpp.length + 1 >= 3) {
                     sets++;
                 }
-                // only a pair is present
-                else if (rayPrime.length > 0 || rayOpp.length > 0) {
+                // only a pair is present (in an orthogonal direction)
+                else if (dir.length === 1 && (rayPrime.length > 0 || rayOpp.length > 0)) {
                     pairs++;
                 }
             }
@@ -467,7 +470,7 @@ export class QuincunxGame extends GameBase {
             }
             // powerplays
             if (placed.card.rank.name === "Ace" || placed.card.rank.name === "Crown") {
-                for (const n of g.neighbours(node)) {
+                for (const n of gOrth.neighbours(node)) {
                     const nCard = this.board.getCardAt(...this.board.rel2abs(...g.algebraic2coords(n)));
                     if (nCard !== undefined && (nCard.card.rank.name === "Ace" || nCard.card.rank.name === "Crown")) {
                         if (placed.card.sharesSuitWith(nCard.card)) {
@@ -488,7 +491,7 @@ export class QuincunxGame extends GameBase {
         return {basics, draws, pairs, straights, sets, flushes, powerplay, powerplayScore};
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): QuincunxGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): QuincunxGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -516,7 +519,12 @@ export class QuincunxGame extends GameBase {
         }
 
         if (partial) { return this; }
+        if (emulation && m === "pass") {
+            this.__noAutomove = true;
+            return this;
+        }
         this.results = [];
+        this.masked = [];
 
         let lastmove = m;
         let tag = "";
@@ -602,7 +610,11 @@ export class QuincunxGame extends GameBase {
             // draws
             if (scores.draws > 0) {
                 this.results.push({type: "deckDraw", count: scores.draws});
-                this.hands[this.currplayer - 1].push(...this.deck.draw(scores.draws).map(c => c.uid));
+                const drawn = this.deck.draw(scores.draws).map(c => c.uid);
+                if (emulation) {
+                    this.masked = [...drawn];
+                }
+                this.hands[this.currplayer - 1].push(...drawn);
             }
             // pairs
             if (scores.pairs > 0) {
@@ -778,6 +790,15 @@ export class QuincunxGame extends GameBase {
         for (const card of allcards) {
             legend["c" + card.uid] = card.toGlyph();
         }
+        legend["cUNKNOWN"] = {
+            name: "piece-square-borderless",
+            colour: {
+                func: "flatten",
+                fg: "_context_fill",
+                bg: "_context_background",
+                opacity: 0.5,
+            },
+        }
 
         // build pieces areas
         const areas: AreaPieces[] = [];
@@ -787,7 +808,7 @@ export class QuincunxGame extends GameBase {
                 const sorted = hand.map(uid => Card.deserialize(uid)!).sort(cardSortAsc).map(c => c.uid);
                 areas.push({
                     type: "pieces",
-                    pieces: sorted.map(c => "c" + c) as [string, ...string[]],
+                    pieces: sorted.map(c => this.masked.includes(c) ? "cUNKNOWN" : ("c" + c)) as [string, ...string[]],
                     label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                     spacing: 0.5,
                     width: width < 6 ? 6 : undefined,
@@ -903,7 +924,7 @@ export class QuincunxGame extends GameBase {
                 }
                 // individual score components
                 else {
-                    node.push(i18next.t(r.delta! >= 0 ? "apresults:DELTA_SCORE_GAIN" : "apresults:DELTA_SCORE_LOSS", {player, count: r.delta, delta: r.delta}));
+                    node.push(i18next.t(r.delta! >= 0 ? "apresults:DELTA_SCORE_GAIN" : "apresults:DELTA_SCORE_LOSS", {player, count: Math.abs(r.delta!), delta: Math.abs(r.delta!)}));
                     resolved = true;
                 }
                 break;

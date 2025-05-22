@@ -95,9 +95,9 @@ export class Card {
     }
 
     public sharesSuitWith(other: Card): boolean {
-        const otherSuits = new Set<string>(...other._suits.map(s => s.uid));
+        const otherSuits = new Set<string>(other.suits.map(s => s.uid));
         let hasMatch = false;
-        for (const suit of this._suits) {
+        for (const suit of this.suits) {
             if (otherSuits.has(suit.uid)) {
                 hasMatch = true;
                 break;

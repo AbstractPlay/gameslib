@@ -374,7 +374,8 @@ export class OwlmanGame extends GameBase {
         }
         // daybreak
         // initial pos + 48 doc plies + 48 owlman plies + 1 more doc ply
-        else if (this.stack.length >= 98) {
+        // MINUS ONE because EOG is checked *before* the current move is pushed to the stack
+        else if (this.stack.length >= 97) {
             this.gameover = true;
             this.winner = [2];
             reason = "daybreak";

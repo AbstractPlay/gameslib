@@ -108,10 +108,40 @@ export class TessellaGame extends GameBase {
         return new SquareDiamondsDirectedGraph(5, 5);
     }
 
+    // Captures are possible between unconnected squares
+    // so this graph adds extra edges to the existing ones
+    public get capGraph(): SquareDiamondsDirectedGraph {
+        const g = this.graph;
+        for (let row = 0; row <= 6; row+=2) {
+            for (let col = 0; col <= 3; col++) {
+                const tl = g.coords2algebraic(col, row);
+                const br = g.coords2algebraic(col+1, row+2);
+                const node = `${tl}|${br}`;
+                if (col < 3) {
+                    const tlr = g.coords2algebraic(col+1, row);
+                    const brr = g.coords2algebraic(col+2, row+2);
+                    const nodeRight = `${tlr}|${brr}`;
+                    g.graph.addEdgeWithKey(`${node}>${nodeRight}`, node, nodeRight, {type: "orth", direction: "E"});
+                    g.graph.addEdgeWithKey(`${nodeRight}>${node}`, nodeRight, node, {type: "orth", direction: "W"});
+                }
+                // everything except for the last row, down
+                if (row < 6) {
+                    const tld = g.coords2algebraic(col, row+2);
+                    const brd = g.coords2algebraic(col+1, row+4);
+                    const nodeDown = `${tld}|${brd}`;
+                    g.graph.addEdgeWithKey(`${node}>${nodeDown}`, node, nodeDown, {type: "orth", direction: "S"});
+                    g.graph.addEdgeWithKey(`${nodeDown}>${node}`, nodeDown, node, {type: "orth", direction: "N"});
+                }
+            }
+        }
+        return g;
+    }
+
     public moves(): string[] {
         if (this.gameover) { return []; }
 
         const g = this.graph;
+        const gCap = this.capGraph;
         const moves: string[] = [];
 
         const mine = [...this.board.entries()].filter(([,v]) => v === this.currplayer).map(([k,]) => k);
@@ -124,13 +154,13 @@ export class TessellaGame extends GameBase {
             }
             // captures
             for (const dir of allDirections) {
-                const ray = g.ray(start, dir);
+                const ray = gCap.ray(start, dir);
                 const occ = ray.find(n => this.board.has(n));
                 if (occ !== undefined) {
                     // can only capture enemy pieces
                     if (this.board.get(occ)! !== this.currplayer) {
                         // go in the opposite dir looking for backup
-                        const oppRay = g.ray(start, oppositeDirections.get(dir)!);
+                        const oppRay = gCap.ray(start, oppositeDirections.get(dir)!);
                         const oppOcc = oppRay.find(n => this.board.has(n));
                         if (oppOcc !== undefined) {
                             // if it's your own piece, valid capture

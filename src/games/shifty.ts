@@ -27,7 +27,9 @@ export class ShiftyGame extends GameBase {
         name: "Shifty",
         uid: "shifty",
         playercounts: [2],
-        version: "20240831",
+        // version: "20240831",
+        // Add rule that only pieces orthogonally adjacent to friendly pieces can be moved.
+        version: "20250525",
         dateAdded: "2024-09-05",
         // i18next.t("apgames:descriptions.shifty")
         description: "apgames:descriptions.shifty",
@@ -182,6 +184,8 @@ export class ShiftyGame extends GameBase {
                     }
                     moves.push(cell);
                 } else if (this.board.get(cell) === player) {
+                    // Version 20250525: Only allow moving pieces that are orthogonally adjacent to friently piece.
+                    if (!this.isOrthogonallyAdjacent(cell, player)) { continue; }
                     const tos = this.getTos(cell);
                     for (const to of tos) {
                         moves.push(`${cell}-${to}`);
@@ -205,6 +209,8 @@ export class ShiftyGame extends GameBase {
                         return true;
                     }
                 } else if (this.board.get(cell) === player) {
+                    // Version 20250525: Only allow moving pieces that are orthogonally adjacent to friently piece.
+                    if (!this.isOrthogonallyAdjacent(cell, player)) { continue; }
                     const tos = this.getTos(cell);
                     if (tos.length > 0) {
                         return true;
@@ -361,6 +367,12 @@ export class ShiftyGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                     return result;
                 }
+                // Version 20250525: Only allow moving pieces that are orthogonally adjacent to friently piece.
+                if (!this.isOrthogonallyAdjacent(first, this.currplayer)) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.shifty.MOVE_NOT_ADJACENT", { from: first });
+                    return result;
+                }
                 if (last === undefined || last === "") {
                     // The selected piece might not have any possible destinations at this point.
                     // We allow this because there is now sufficient feedback in the UI
@@ -424,6 +436,14 @@ export class ShiftyGame extends GameBase {
             }
         }
         return tos;
+    }
+
+    private isOrthogonallyAdjacent(cell: string, player: playerid): boolean {
+        // Check if a piece at `cell` is orthogonally adjacent to `player`'s piece.
+        const [x, y] = this.algebraic2coords(cell);
+        return this.grid.adjacencies(x, y, false)
+            .map(n => this.coords2algebraic(...n))
+            .some(ncell => this.board.get(ncell) === player);
     }
 
     public move(m: string, { partial = false, trusted = false } = {}): ShiftyGame {

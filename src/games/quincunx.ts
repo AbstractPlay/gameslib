@@ -800,7 +800,12 @@ export class QuincunxGame extends GameBase {
             if (this.selected === card.uid) {
                 glyph.unshift({
                     name: "piece-square",
-                    opacity: 0,
+                    colour: {
+                        func: "flatten",
+                        fg: "_context_fill",
+                        bg: "_context_background",
+                        opacity: 0.2,
+                    },
                 });
             }
             legend["c" + card.uid] = glyph;

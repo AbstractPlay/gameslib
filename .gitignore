@@ -134,3 +134,8 @@ dist
 # bin folder, except for example.ts
 bin/
 !bin/example.ts
+
+# scratch files in the root
+scratch.*
+debug.json
+

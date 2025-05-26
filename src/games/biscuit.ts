@@ -1093,13 +1093,43 @@ export class BiscuitGame extends GameBase {
         return this.scores[player - 1];
     }
 
+    public getHandScores(): number[] {
+        const scores: number[] = [];
+        for (let i = 0; i < this.numplayers; i++) {
+            scores.push(0);
+        }
+        const idxRev = [...this.stack].reverse().findIndex(s => s._results.find(r => r.type === "declare") !== undefined);
+        let subset = [...this.stack];
+        if (idxRev >= 0) {
+            const idx = this.stack.length - 1 - idxRev;
+            subset = this.stack.slice(idx+1);
+        }
+        for (const state of subset) {
+            for (const result of state._results) {
+                if (result.type === "deltaScore") {
+                    const p = state.currplayer === 3 ? 2 :
+                                state.currplayer === 2 ? 1 :
+                                this.numplayers === 3 ? 3 :
+                                2;
+                    scores[p - 1] += result.delta!
+                }
+            }
+        }
+        return scores;
+    }
+
     public getPlayersScores(): IScores[] {
         const scores: number[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             scores.push(this.getPlayerScore(p));
         }
+        const handScores = this.getHandScores();
+        const combined: string[] = [];
+        for (let i = 0; i < this.numplayers; i++) {
+            combined.push(`${scores[i]} (${handScores[i]})`);
+        }
         return [
-            { name: i18next.t("apgames:status.SCORES"), scores},
+            { name: i18next.t("apgames:status.SCORES"), scores: combined},
             // { name: i18next.t("apgames:status.CARDSINHAND"), scores: this.hands.map(h => h.length)},
         ];
     }

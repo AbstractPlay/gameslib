@@ -421,10 +421,7 @@ export class MorphosGame extends GameBase {
             if (rand < 0.5 && cap !== null) {
                 return `x${cap}`;
             } else if (empties.length > 0) {
-                if (this.stack.length === 1) {
-                    return empties[0];
-                }
-                else if (empties.length > 1) {
+                if (empties.length > 1) {
                     const moves: string[] = [empties[0]];
                     const neighbours = shuffle(g.neighbours(empties[0])) as string[];
                     for (const n of neighbours) {
@@ -606,10 +603,10 @@ export class MorphosGame extends GameBase {
                         }
                     }
                 }
-                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || adjEmpties.length === 0 || this.stack.length === 1)) || (parts.length === 2 && this.stack.length > 1)) {
+                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || adjEmpties.length === 0 || this.stack.length === 1)) || (parts.length === 2)) {
                     complete = 1;
                     message = i18next.t("apgames:validation._general.VALID_MOVE");
-                } else if (parts.length === 1 && adjEmpties.length > 0 && this.stack.length > 1) {
+                } else if (parts.length === 1 && adjEmpties.length > 0) {
                     message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE", {context: "new"});
                 } else {
                     valid = false;
@@ -727,6 +724,30 @@ export class MorphosGame extends GameBase {
                         }
                     }
                 }
+            }
+        }
+
+        // tie breaker
+        if (this.board.size === this.boardSize * this.boardSize && this.connPath === undefined) {
+            this.gameover = true;
+            let vertAdj = false;
+            for (let y = 0; y < this.boardSize - 1; y++) {
+                for (let x = 0; x < this.boardSize; x++) {
+                    const cell1 = this.coords2algebraic(x, y);
+                    const cell2 = this.coords2algebraic(x, y+1);
+                    if (this.board.get(cell1)! === this.board.get(cell2)!) {
+                        vertAdj = true;
+                        break;
+                    }
+                }
+                if (vertAdj) {
+                    break;
+                }
+            }
+            if (vertAdj) {
+                this.winner = [1];
+            } else {
+                this.winner = [2];
             }
         }
 

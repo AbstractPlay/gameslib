@@ -1433,16 +1433,16 @@
                 "name": "Default rules"
             },
             "simplified": {
-                "name": "Simplified formations",
-                "description": "Capture formations are simplified, and the colored edges of the board do not count as stones."
+                "name": "Minimorph",
+                "description": "Faster game with simplified capture formations. Deadlocks are not possible."
             },
             "double": {
-                "name": "Double placement",
-                "description": "On each turn, place two new stones or capture one. The pie rule is not used. Simplified formations apply."
+                "name": "Duomorph",
+                "description": "On each turn, place two new stones (orthogonally adjacent to each other) or capture one. Minimorph formations apply."
             },
             "replace": {
-                "name": "Replacement",
-                "description": "Captured stones must be placed back on the board by their owner. Simplified formations apply."
+                "name": "Remorph",
+                "description": "Captured stones must be placed back on the board by their owner. Minimorph formations apply."
             }
         },
         "murus": {
@@ -4168,9 +4168,11 @@
             "INITIAL_INSTRUCTIONS_normal": "Select an empty cell to place a piece, or select a weak enemy stone to capture it.",
             "INITIAL_INSTRUCTIONS_replace": "One of your pieces was captured. First select an empty space to replace the captured piece, then you will be able to make a normal move.",
             "MUST_REPLACE": "You must start your move by replacing the captured stone on an empty space.",
+            "NOT_ORTHOGONAL": "When placing two stones, the second must be orthogonally adjacent to the first.",
             "NOT_WEAK": "The stone at {{cell}} is not weak.",
             "ONE_CAP": "You may only capture one stone per turn.",
-            "PARTIAL_DOUBLE": "You may place a second stone.",
+            "PARTIAL_DOUBLE_orig": "You may place a second stone.",
+            "PARTIAL_DOUBLE_new": "You must place a second stone orthogonally adjacent to the first one, if possible.",
             "TOO_MANY": "You've tried to make too many moves at once."
         },
         "murus": {

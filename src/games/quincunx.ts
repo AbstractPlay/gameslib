@@ -522,7 +522,7 @@ export class QuincunxGame extends GameBase {
         this.selected = undefined;
         let [cardId,] = m.split(">");
         cardId = cardId.toUpperCase();
-        if (cardId !== undefined && cardId.length > 0) {
+        if (cardId !== undefined && cardId.length > 0 && !m.includes(">")) {
             this.selected = cardId;
         }
 

@@ -520,11 +520,11 @@ export class QuincunxGame extends GameBase {
         }
 
         this.selected = undefined;
-        let [cardId,] = m.split(">");
-        cardId = cardId.toUpperCase();
-        if (cardId !== undefined && cardId.length > 0 && !m.includes(">")) {
-            this.selected = cardId;
+        if (m.endsWith(">")) {
+            this.selected = m.substring(0, m.length-1);
         }
+        // eslint-disable-next-line no-console
+        console.log(`Selected: ${this.selected}`);
 
         if (partial) { return this; }
         if (emulation && m === "pass") {

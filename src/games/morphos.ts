@@ -533,7 +533,7 @@ export class MorphosGame extends GameBase {
             return result;
         }
         // in double placement, the stones must be orthogonally adjacent
-        if (this.variants.includes("double") && this.stack[0]._version !== "20250325") {
+        if (this.variants.includes("double") && this.stack[0]._version !== "20250325" && this.stack.length > 1 && parts.length === 2) {
             const neighbours = g.neighbours(parts[0]);
             if (!neighbours.includes(parts[1])) {
                 result.valid = false;
@@ -586,14 +586,35 @@ export class MorphosGame extends GameBase {
         let complete: -1|0|1 = -1;
         let message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
         if (this.variants.includes("double")) {
-            if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || cloned.empties.length === 0 || this.stack.length === 1)) || (parts.length === 2 && this.stack.length > 1)) {
-                complete = 1;
-                message = i18next.t("apgames:validation._general.VALID_MOVE");
-            } else if (parts.length === 1 && cloned.empties.length > 0 && this.stack.length > 1) {
-                message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE", {context: this.stack[0]._version === "20250325" ? "orig" : "new"});
+            // for simplicity, break this up into original and new
+            if (this.stack[0]._version === "20250325") {
+                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || cloned.empties.length === 0 || this.stack.length === 1)) || (parts.length === 2 && this.stack.length > 1)) {
+                    complete = 1;
+                    message = i18next.t("apgames:validation._general.VALID_MOVE");
+                } else if (parts.length === 1 && cloned.empties.length > 0 && this.stack.length > 1) {
+                    message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE", {context: "orig"});
+                } else {
+                    valid = false;
+                    message = i18next.t("apgames:validation.morphos.TOO_MANY");
+                }
             } else {
-                valid = false;
-                message = i18next.t("apgames:validation.morphos.TOO_MANY");
+                const adjEmpties: string[] = [];
+                if (parts.length > 0 && !m.startsWith("x")) {
+                    for (const n of g.neighbours(parts[0])) {
+                        if (!cloned.board.has(n)) {
+                            adjEmpties.push(n);
+                        }
+                    }
+                }
+                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || adjEmpties.length === 0 || this.stack.length === 1)) || (parts.length === 2 && this.stack.length > 1)) {
+                    complete = 1;
+                    message = i18next.t("apgames:validation._general.VALID_MOVE");
+                } else if (parts.length === 1 && adjEmpties.length > 0 && this.stack.length > 1) {
+                    message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE", {context: "new"});
+                } else {
+                    valid = false;
+                    message = i18next.t("apgames:validation.morphos.TOO_MANY");
+                }
             }
         } else if (this.variants.includes("replace")) {
             if ((mustReplace && parts.length === 2) || (!mustReplace && parts.length === 1)) {
@@ -634,6 +655,9 @@ export class MorphosGame extends GameBase {
             const result = this.validateMove(m);
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (result.complete === -1 && !partial) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
             // if (! this.moves().includes(m)) {
             //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))

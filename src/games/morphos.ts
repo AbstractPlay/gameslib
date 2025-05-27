@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerEdge, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerDots, MarkerEdge, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import { bidirectional } from "graphology-shortest-path/unweighted";
@@ -41,9 +41,30 @@ const base2: [number,number][] = [
     [1,1],
 ];
 
+const base3: [number,number][] = [
+    [-1, 0],
+    [-1, -1],
+    [0, -2],
+    [1, -2],
+    [2, -1],
+    [2, 0],
+    [1, 1],
+    [0, 1],
+];
 
 // base patterns
 const offsetsBase: [number,number][][] = [];
+for (const pattern of [base1, base2, base3]) {
+    const rot90 = pattern.map(([x,y]) => [0 - y, x] as [number,number]);
+    const rot180 = rot90.map(([x,y]) => [0 - y, x] as [number,number]);
+    const rot270 = rot180.map(([x,y]) => [0 - y, x] as [number,number]);
+    for (const rot of [pattern, rot90, rot180, rot270]) {
+        offsetsBase.push(rot);
+        offsetsBase.push(rot.map(([x,y]) => [x, y*-1]));
+    }
+}
+
+const offsetsBaseOrig: [number,number][][] = [];
 for (const pattern of [base1, base2]) {
     const rot90 = pattern.map(([x,y]) => [0 - y, x] as [number,number]);
     const rot180 = rot90.map(([x,y]) => [0 - y, x] as [number,number]);
@@ -71,7 +92,8 @@ export class MorphosGame extends GameBase {
         name: "Morphos",
         uid: "morphos",
         playercounts: [2],
-        version: "20250325",
+        // version: "20250325",
+        version: "20250527",
         dateAdded: "2025-03-27",
         // i18next.t("apgames:descriptions.morphos")
         description: "apgames:descriptions.morphos",
@@ -212,13 +234,15 @@ export class MorphosGame extends GameBase {
         return this.graph.graph.nodes().filter(c => !this.board.has(c));
     }
 
-    public shouldOfferPie(): boolean {
-        return (!this.variants.includes("double"));
-    }
+    // new rules remove this pie restriction
+    // not doing any grandfathering
+    // public shouldOfferPie(): boolean {
+    //     return (!this.variants.includes("double"));
+    // }
 
-    public isPieTurn(): boolean {
-        return this.stack.length === 2;
-    }
+    // public isPieTurn(): boolean {
+    //     return this.stack.length === 2;
+    // }
 
     private randomCap(player?: playerid): string|null {
         if (player === undefined) {
@@ -237,10 +261,58 @@ export class MorphosGame extends GameBase {
         if (this.variants.includes("simplified") || this.variants.includes("double") || this.variants.includes("replace")) {
             return offsetsSimple;
         }
+        // if this game started before the rules change,
+        // then use the original offsets
+        else if (this.stack[0]._version === "20250325") {
+            return offsetsBaseOrig;
+        }
         return offsetsBase;
     }
 
     public isWeak(stone: string): boolean {
+        // if game started before the rules change, use the original code
+        if (this.stack[0]._version === "20250325") {
+            return this.isWeakOrig(stone);
+        }
+
+        // under the new rules, there are *no* edge stones at all
+        const p = this.board.get(stone);
+        if (p === undefined) {
+            return false;
+        }
+        const g = this.graph;
+        const size = this.boardSize;
+        const [ox, oy] = g.algebraic2coords(stone);
+        for (const pattern of this.offsets) {
+            const cells: (string|null)[] = pattern.map(([px,py]) => {
+                const x = ox + px;
+                const y = oy + py;
+                if ((x < 0 || x >= size) || (y < 0 || y >= size)) {
+                    return null;
+                }
+                return g.coords2algebraic(x, y);
+            });
+            // if `cells` contains any `null`s, then skip
+            if (cells.includes(null)) {
+                continue;
+            }
+            const target: playerid = p === 1 ? 2 : 1;
+            let isGood = true;
+            for (const cell of cells as string[]) {
+                if (!this.board.has(cell) || this.board.get(cell)! !== target) {
+                    isGood = false;
+                    break;
+                }
+            }
+            if (isGood) {
+                return true;
+            }
+        }
+        // if we get here, then it's false
+        return false;
+    }
+
+    public isWeakOrig(stone: string): boolean {
         const p = this.board.get(stone);
         if (p === undefined) {
             return false;
@@ -335,12 +407,23 @@ export class MorphosGame extends GameBase {
         return false;
     }
 
+    public get numWeak(): number {
+        let num = 0;
+        for (const cell of [...this.board.keys()]) {
+            if (this.isWeak(cell)) {
+                num++;
+            }
+        }
+        return num;
+    }
+
     public getButtons(): ICustomButton[] {
         if (this.randomCap() === null && this.empties.length === 0) return [{ label: "pass", move: "pass" }];
         return [];
     }
 
     public randomMove(): string {
+        const g = this.graph;
         const empties = shuffle(this.empties) as string[];
         const cap = this.randomCap();
         const rand = Math.random();
@@ -348,11 +431,16 @@ export class MorphosGame extends GameBase {
             if (rand < 0.5 && cap !== null) {
                 return `x${cap}`;
             } else if (empties.length > 0) {
-                if (this.stack.length === 1) {
-                    return empties[0];
-                }
-                else if (empties.length > 1) {
-                    return [empties[0], empties[1]].join(",");
+                if (empties.length > 1) {
+                    const moves: string[] = [empties[0]];
+                    const neighbours = shuffle(g.neighbours(empties[0])) as string[];
+                    for (const n of neighbours) {
+                        if (! this.board.has(n)) {
+                            moves.push(n);
+                            break;
+                        }
+                    }
+                    return moves.join(",");
                 } else {
                     return empties[0];
                 }
@@ -430,6 +518,7 @@ export class MorphosGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
+        const g = this.graph;
         const parts = m.split(",");
         // can't start with a capture if replacement is possible
         if (mustReplace && (parts[0].startsWith("x") || parts[0] === "pass")) {
@@ -449,6 +538,15 @@ export class MorphosGame extends GameBase {
             result.valid = false;
             result.message = i18next.t("apgames:validation.morphos.CAP_OR_PLACE")
             return result;
+        }
+        // in double placement, the stones must be orthogonally adjacent
+        if (this.variants.includes("double") && this.stack[0]._version !== "20250325" && parts.length === 2) {
+            const neighbours = g.neighbours(parts[0]);
+            if (!neighbours.includes(parts[1])) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.morphos.NOT_ORTHOGONAL")
+                return result;
+            }
         }
         const cloned = this.clone();
         for (const move of parts) {
@@ -495,14 +593,35 @@ export class MorphosGame extends GameBase {
         let complete: -1|0|1 = -1;
         let message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
         if (this.variants.includes("double")) {
-            if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || cloned.empties.length === 0 || this.stack.length === 1)) || (parts.length === 2 && this.stack.length > 1)) {
-                complete = 1;
-                message = i18next.t("apgames:validation._general.VALID_MOVE");
-            } else if (parts.length === 1 && cloned.empties.length > 0 && this.stack.length > 1) {
-                message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE");
+            // for simplicity, break this up into original and new
+            if (this.stack[0]._version === "20250325") {
+                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || cloned.empties.length === 0 || this.stack.length === 1)) || (parts.length === 2 && this.stack.length > 1)) {
+                    complete = 1;
+                    message = i18next.t("apgames:validation._general.VALID_MOVE");
+                } else if (parts.length === 1 && cloned.empties.length > 0 && this.stack.length > 1) {
+                    message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE", {context: "orig"});
+                } else {
+                    valid = false;
+                    message = i18next.t("apgames:validation.morphos.TOO_MANY");
+                }
             } else {
-                valid = false;
-                message = i18next.t("apgames:validation.morphos.TOO_MANY");
+                const adjEmpties: string[] = [];
+                if (parts.length > 0 && !m.startsWith("x")) {
+                    for (const n of g.neighbours(parts[0])) {
+                        if (!cloned.board.has(n)) {
+                            adjEmpties.push(n);
+                        }
+                    }
+                }
+                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || adjEmpties.length === 0)) || (parts.length === 2)) {
+                    complete = 1;
+                    message = i18next.t("apgames:validation._general.VALID_MOVE");
+                } else if (parts.length === 1 && adjEmpties.length > 0) {
+                    message = i18next.t("apgames:validation.morphos.PARTIAL_DOUBLE", {context: "new"});
+                } else {
+                    valid = false;
+                    message = i18next.t("apgames:validation.morphos.TOO_MANY");
+                }
             }
         } else if (this.variants.includes("replace")) {
             if ((mustReplace && parts.length === 2) || (!mustReplace && parts.length === 1)) {
@@ -543,6 +662,9 @@ export class MorphosGame extends GameBase {
             const result = this.validateMove(m);
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            }
+            if (result.complete === -1 && !partial) {
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
             }
             // if (! this.moves().includes(m)) {
             //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
@@ -615,6 +737,30 @@ export class MorphosGame extends GameBase {
             }
         }
 
+        // tie breaker
+        if (this.board.size === this.boardSize * this.boardSize && this.connPath === undefined && this.numWeak === 0) {
+            this.gameover = true;
+            let vertAdj = false;
+            for (let y = 0; y < this.boardSize - 1; y++) {
+                for (let x = 0; x < this.boardSize; x++) {
+                    const cell1 = this.coords2algebraic(x, y);
+                    const cell2 = this.coords2algebraic(x, y+1);
+                    if (this.board.get(cell1)! === this.board.get(cell2)!) {
+                        vertAdj = true;
+                        break;
+                    }
+                }
+                if (vertAdj) {
+                    break;
+                }
+            }
+            if (vertAdj) {
+                this.winner = [1];
+            } else {
+                this.winner = [2];
+            }
+        }
+
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},
@@ -680,12 +826,46 @@ export class MorphosGame extends GameBase {
             pstr += pieces.join("");
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        const markers: Array<MarkerEdge> = [
+        const markers: Array<MarkerEdge|MarkerDots> = [
             { type:"edge", edge: "N", colour: 1 },
             { type:"edge", edge: "S", colour: 1 },
             { type:"edge", edge: "E", colour: 2 },
             { type:"edge", edge: "W", colour: 2 },
         ];
+
+        // add territory dots
+        const dots1: RowCol[] = [];
+        const dots2: RowCol[] = [];
+        for (const cell of [...this.empties]) {
+            for (const p of [1,2] as const) {
+                const opp = p === 1 ? 2 : 1;
+                const cloned = this.clone();
+                cloned.board.set(cell, opp);
+                if (cloned.isWeak(cell)) {
+                    const [col, row] = this.algebraic2coords(cell);
+                    if (p === 1) {
+                        dots1.push({col, row});
+                    } else {
+                        dots2.push({col, row});
+                    }
+                    break;
+                }
+            }
+        }
+        if (dots1.length > 0) {
+            markers.push({
+                type: "dots",
+                colour: 1,
+                points: dots1 as [RowCol, ...RowCol[]],
+            });
+        }
+        if (dots2.length > 0) {
+            markers.push({
+                type: "dots",
+                colour: 2,
+                points: dots2 as [RowCol, ...RowCol[]],
+            });
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -754,7 +934,6 @@ export class MorphosGame extends GameBase {
     }
 
     public clone(): MorphosGame {
-
         return Object.assign(new MorphosGame(), deepclone(this) as MorphosGame);
     }
 }

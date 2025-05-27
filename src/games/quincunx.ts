@@ -520,11 +520,11 @@ export class QuincunxGame extends GameBase {
         }
 
         this.selected = undefined;
-        let [cardId,] = m.split(">");
-        cardId = cardId.toUpperCase();
-        if (cardId !== undefined && cardId.length > 0) {
-            this.selected = cardId;
+        if (m.endsWith(">")) {
+            this.selected = m.substring(0, m.length-1);
         }
+        // eslint-disable-next-line no-console
+        console.log(`Selected: ${this.selected}`);
 
         if (partial) { return this; }
         if (emulation && m === "pass") {
@@ -974,6 +974,14 @@ export class QuincunxGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        // if either move contains an open parenthesis (giving the scores),
+        // only compare everything up to that parenthesis.
+        const idx1 = move1.indexOf("(");
+        const idx2 = move2.indexOf("(");
+        return move1.substring(0, idx1 >= 0 ? idx1 : undefined) === move2.substring(0, idx2 >= 0 ? idx2 : undefined);
     }
 
     public clone(): QuincunxGame {

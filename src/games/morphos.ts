@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerEdge, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerDots, MarkerEdge, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import { bidirectional } from "graphology-shortest-path/unweighted";
@@ -816,12 +816,46 @@ export class MorphosGame extends GameBase {
             pstr += pieces.join("");
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
-        const markers: Array<MarkerEdge> = [
+        const markers: Array<MarkerEdge|MarkerDots> = [
             { type:"edge", edge: "N", colour: 1 },
             { type:"edge", edge: "S", colour: 1 },
             { type:"edge", edge: "E", colour: 2 },
             { type:"edge", edge: "W", colour: 2 },
         ];
+
+        // add territory dots
+        const dots1: RowCol[] = [];
+        const dots2: RowCol[] = [];
+        for (const cell of [...this.empties]) {
+            for (const p of [1,2] as const) {
+                const opp = p === 1 ? 2 : 1;
+                const cloned = this.clone();
+                cloned.board.set(cell, opp);
+                if (cloned.isWeak(cell)) {
+                    const [col, row] = this.algebraic2coords(cell);
+                    if (p === 1) {
+                        dots1.push({col, row});
+                    } else {
+                        dots2.push({col, row});
+                    }
+                    break;
+                }
+            }
+        }
+        if (dots1.length > 0) {
+            markers.push({
+                type: "dots",
+                colour: 1,
+                points: dots1 as [RowCol, ...RowCol[]],
+            });
+        }
+        if (dots2.length > 0) {
+            markers.push({
+                type: "dots",
+                colour: 2,
+                points: dots2 as [RowCol, ...RowCol[]],
+            });
+        }
 
         // Build rep
         const rep: APRenderRep =  {
@@ -890,7 +924,6 @@ export class MorphosGame extends GameBase {
     }
 
     public clone(): MorphosGame {
-
         return Object.assign(new MorphosGame(), deepclone(this) as MorphosGame);
     }
 }

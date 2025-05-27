@@ -976,6 +976,14 @@ export class QuincunxGame extends GameBase {
         return resolved;
     }
 
+    public sameMove(move1: string, move2: string): boolean {
+        // if either move contains an open parenthesis (giving the scores),
+        // only compare everything up to that parenthesis.
+        const idx1 = move1.indexOf("(");
+        const idx2 = move2.indexOf("(");
+        return move1.substring(0, idx1 >= 0 ? idx1 : undefined) === move2.substring(0, idx2 >= 0 ? idx2 : undefined);
+    }
+
     public clone(): QuincunxGame {
         return Object.assign(new QuincunxGame(this.numplayers), deepclone(this) as QuincunxGame);
     }

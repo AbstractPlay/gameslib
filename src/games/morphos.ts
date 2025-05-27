@@ -407,6 +407,16 @@ export class MorphosGame extends GameBase {
         return false;
     }
 
+    public get numWeak(): number {
+        let num = 0;
+        for (const cell of [...this.board.keys()]) {
+            if (this.isWeak(cell)) {
+                num++;
+            }
+        }
+        return num;
+    }
+
     public getButtons(): ICustomButton[] {
         if (this.randomCap() === null && this.empties.length === 0) return [{ label: "pass", move: "pass" }];
         return [];
@@ -530,7 +540,7 @@ export class MorphosGame extends GameBase {
             return result;
         }
         // in double placement, the stones must be orthogonally adjacent
-        if (this.variants.includes("double") && this.stack[0]._version !== "20250325" && this.stack.length > 1 && parts.length === 2) {
+        if (this.variants.includes("double") && this.stack[0]._version !== "20250325" && parts.length === 2) {
             const neighbours = g.neighbours(parts[0]);
             if (!neighbours.includes(parts[1])) {
                 result.valid = false;
@@ -603,7 +613,7 @@ export class MorphosGame extends GameBase {
                         }
                     }
                 }
-                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || adjEmpties.length === 0 || this.stack.length === 1)) || (parts.length === 2)) {
+                if ( (parts.length === 1 && (m.startsWith("x") || m === "pass" || adjEmpties.length === 0)) || (parts.length === 2)) {
                     complete = 1;
                     message = i18next.t("apgames:validation._general.VALID_MOVE");
                 } else if (parts.length === 1 && adjEmpties.length > 0) {
@@ -728,7 +738,7 @@ export class MorphosGame extends GameBase {
         }
 
         // tie breaker
-        if (this.board.size === this.boardSize * this.boardSize && this.connPath === undefined) {
+        if (this.board.size === this.boardSize * this.boardSize && this.connPath === undefined && this.numWeak === 0) {
             this.gameover = true;
             let vertAdj = false;
             for (let y = 0; y < this.boardSize - 1; y++) {

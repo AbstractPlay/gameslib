@@ -182,6 +182,7 @@ export class JacynthGame extends GameBase {
         }
 
         const state = this.stack[idx];
+        this.results = [...state._results];
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.claimed = new Map(state.claimed);
@@ -714,12 +715,19 @@ export class JacynthGame extends GameBase {
         };
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
+        if (this.results.length > 0) {
             rep.annotations = [];
-            for (const move of this.stack[this.stack.length - 1]._results) {
-                if (move.type === "place" || move.type === "claim") {
+            for (const move of this.results) {
+                if (move.type === "place") {
+                    // only add if there's not a claim for the same cell
+                    const found = this.results.find(r => r.type === "claim" && r.where === move.where);
+                    if (found === undefined) {
+                        const [x, y] = JacynthGame.algebraic2coords(move.where!);
+                        rep.annotations.push({type: "enter", occlude: false, targets: [{row: y, col: x}]});
+                    }
+                } else if (move.type === "claim") {
                     const [x, y] = JacynthGame.algebraic2coords(move.where!);
-                    rep.annotations.push({type: "enter", occlude: false, targets: [{row: y, col: x}]});
+                    rep.annotations.push({type: "enter", occlude: false, dashed: [4,8], targets: [{row: y, col: x}]});
                 }
             }
         }

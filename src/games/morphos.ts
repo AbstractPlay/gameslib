@@ -831,9 +831,9 @@ export class MorphosGame extends GameBase {
                             cloned.board.set(cell, p);
                             if (cloned.isWeak(cell)) {
                                 if (p === 1) {
-                                    dots1.push({row, col});
-                                } else {
                                     dots2.push({row, col});
+                                } else {
+                                    dots1.push({row, col});
                                 }
                                 break;
                             }

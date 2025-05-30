@@ -98,7 +98,9 @@ export class SpireGame extends GameBase {
 
     private algebraic2coords2(cell: string): [number, number, number] {
         // The same as algebraic2coords, but also return the layer.
-        const [l, coords] = cell.split(/(?<=^\d)/);
+        const idx = cell.search(/\D/);
+        const l = cell.substring(0, idx);
+        const coords = cell.substring(idx);
         const layer = parseInt(l, 10) - 1;
         const [x, y] = this.algebraic2coords(coords);
         return [x, y, layer];

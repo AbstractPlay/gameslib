@@ -1126,7 +1126,11 @@ export class BiscuitGame extends GameBase {
         const handScores = this.getHandScores();
         const combined: string[] = [];
         for (let i = 0; i < this.numplayers; i++) {
-            combined.push(`${scores[i]} (${handScores[i]})`);
+            if (this.round > 1) {
+                combined.push(`${scores[i]} (${handScores[i]})`);
+            } else {
+                combined.push(`${scores[i]}`);
+            }
         }
         return [
             { name: i18next.t("apgames:status.SCORES"), scores: combined},

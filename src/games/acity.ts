@@ -1116,7 +1116,7 @@ export class ACityGame extends GameBase {
                             node.push(i18next.t("apresults:PLACE.complete", {player: name, where: r.where, what: r.what}));
                             break;
                         case "claim":
-                            node.push(i18next.t("apresults:CLAIM", {player: name, where: r.where}));
+                            node.push(i18next.t("apresults:CLAIM.default", {player: name, where: r.where}));
                             break;
                         case "eog":
                             node.push(i18next.t("apresults:EOG.default"));

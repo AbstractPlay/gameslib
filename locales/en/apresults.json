@@ -137,9 +137,9 @@
         "majorities_D": "{{player}} claimed the descending direction.",
         "meg": "{{player}} has taken the ball and placed it at {{where}}.",
         "penguin": "The penguin at {{where}} claimed the ball!",
+        "toguz": "Pit {{pit}} became a tuz.",
         "veletas": "Shooter at {{where}} is trapped and is claimed by {{who}}."
     },
-    "CLAIM_TOGUZ": "Pit {{pit}} became a tuz.",
     "CONNECT": {
         "pontedd": "{{player}} placed a bridge between {{left}} and {{right}}."
     },

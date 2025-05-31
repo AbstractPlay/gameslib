@@ -518,7 +518,7 @@ export class ToguzGame extends GameBase {
                 resolved = true;
                 break;
             case "claim":
-                node.push(i18next.t("apresults:CLAIM_TOGUZ", {pit: r.where}));
+                node.push(i18next.t("apresults:CLAIM.toguz", {pit: r.where}));
                 resolved = true;
                 break;
             case "capture":

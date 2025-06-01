@@ -150,7 +150,8 @@
         "penguin": "Пінгвін у {{where}} забрав м’яч!",
         "buku_singletons_one": "{{player}} забрав решту 1 фігуру свого кольору.",
         "buku_singletons_few": "{{player}} забрав решти {{count}} фішки за своїх кольори.",
-        "buku_singletons_many": "{{player}} забрав решти {{count}} фішки за своїми кольорів."
+        "buku_singletons_many": "{{player}} забрав решти {{count}} фішки за своїми кольорів.",
+        "toguz": "Яма {{pit}} стала тузом."
     },
     "CONVERT": {
         "courtesan": "Король і куртизанка помінялися посадами {{where}}.",

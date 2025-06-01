@@ -63,7 +63,7 @@ export class QuincunxGame extends GameBase {
         uid: "quincunx",
         playercounts: [2,3],
         version: "20250518",
-        dateAdded: "2024-12-15",
+        dateAdded: "2025-06-01",
         // i18next.t("apgames:descriptions.quincunx")
         description: "apgames:descriptions.quincunx",
         // i18next.t("apgames:notes.quincunx")
@@ -94,7 +94,7 @@ export class QuincunxGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
-        flags: ["experimental", "scores", "no-explore", "shared-pieces", "automove"],
+        flags: ["scores", "no-explore", "shared-pieces", "automove"],
     };
 
     public numplayers = 2;
@@ -523,8 +523,6 @@ export class QuincunxGame extends GameBase {
         if (m.endsWith(">")) {
             this.selected = m.substring(0, m.length-1);
         }
-        // eslint-disable-next-line no-console
-        console.log(`Selected: ${this.selected}`);
 
         if (partial) { return this; }
         if (emulation && m === "pass") {

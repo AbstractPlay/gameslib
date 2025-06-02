@@ -432,6 +432,7 @@ export class ShiftyGame extends GameBase {
                 const cell = this.coords2algebraic(...coords2);
                 if (this.board.has(cell)) { break; }
                 if (this.isOrthogonallyAdjacentToFriendly(cell, this.currplayer, from)) { continue; }
+                if (!this.canPlace(cell, this.currplayer, from)) { continue; }
                 tos.push(cell);
             }
         }

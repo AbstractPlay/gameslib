@@ -80,6 +80,10 @@ export class BiscuitGame extends GameBase {
             {
                 uid: "goal-80",
                 group: "eog",
+            },
+            {
+                uid: "goal-120",
+                group: "eog"
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
@@ -838,6 +842,8 @@ export class BiscuitGame extends GameBase {
             return 40;
         } else if (this.variants.includes("goal-80")) {
             return 80;
+        } else if (this.variants.includes("goal-120")) {
+            return 120;
         }
         return 60;
     }

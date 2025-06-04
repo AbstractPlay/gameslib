@@ -517,6 +517,10 @@
             "goal-80": {
                 "name": "Goal score: 80 points",
                 "description": "The game ends after the round in which someone reaches the goal score. Highest score wins."
+            },
+            "goal-120": {
+                "name": "Goal score: 120 points",
+                "description": "The game ends after the round in which someone reaches the goal score. Highest score wins."
             }
         },
         "blastradius": {

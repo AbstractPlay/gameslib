@@ -14,8 +14,8 @@ import { Glyph } from "@abstractplay/renderer/build";
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
-// 0 means >6, and therefore a winning merge
-export type Pips = 1|2|3|4|5|6|7|8|9|0;
+// 0 means > diesize, and therefore a winning merge
+export type Pips = 1|2|3|4|5|6|7|8|9|10|11|12|0;
 
 export type NodeData = {
     contents?: CubeoDie;
@@ -67,9 +67,9 @@ export class CubeoGame extends GameBase {
         ],
         variants: [
             {uid: "strict", group: "moves"},
-	    {uid: "d7", group: "dice"},
 	    {uid: "d8", group: "dice"},
-	    {uid: "d9", group: "dice"},
+	    {uid: "d10", group: "dice"},
+	    {uid: "d12", group: "dice"},
         ],
         categories: ["goal>immobilize", "goal>score>race", "mechanic>place", "mechanic>move", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>dice"],
         flags: ["automove"]
@@ -364,7 +364,7 @@ export class CubeoGame extends GameBase {
         // then moves and merges
         else {
             // check for partials first
-            if (/^\d,-?\d+,-?\d+$/.test(m)) {
+            if (/^\d+,-?\d+,-?\d+$/.test(m)) {
                 const [,x,y] = m.split(",").map(n => parseInt(n, 10));
                 const die = this.board.getDieAt(x,y);
                 // die exists
@@ -561,15 +561,15 @@ export class CubeoGame extends GameBase {
             if (die === undefined) {
                 return "-";
             } else {
-                return `${die.owner === 1 ? "A" : "B"}${die.pips}`;
+                return `${die.owner === 1 ? "A" : "B"}${die.pips.toString(16)}`;
             }
         })).map(r => r.join(",")).join("\n");
 
         // build legend
         const legend: {[k: string]: Glyph} = {};
         for (const p of [1,2] as const) {
-            for (const size of [0,1,2,3,4,5,6,7,8,9] as const) {
-                legend[`${p === 1 ? "A" : "B"}${size}`] = {
+            for (let size = 0; size <=  this.diesize; size++) {
+                legend[`${p === 1 ? "A" : "B"}${size.toString(16)}`] = {
                     name: `d6-${size === 0 ? "empty" : size}`,
                     colour: p,
                     scale: 1.15,

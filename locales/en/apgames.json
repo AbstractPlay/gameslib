@@ -937,17 +937,17 @@
                 "name": "Default die size (d6)",
                 "description": "Each player has six d6, and the merge goal is 7."
             },
-            "d7": {
-                "name": "d7",
-                "description": "Each player has seven 7-sided, yet cubical, dice, and the merge goal is 8."
-            },
             "d8": {
                 "name": "d8",
                 "description": "Each player has eight 8-sided, yet cubical, dice, and the merge goal is 9."
             },
-            "d9": {
-                "name": "d9",
-                "description": "Each player has nine 9-sided, yet cubical, dice, and the merge goal is 10."
+            "d10": {
+                "name": "d10",
+                "description": "Each player has ten 10-sided, yet cubical, dice, and the merge goal is 11."
+            },
+            "d12": {
+                "name": "d12",
+                "description": "Each player has twelve 12-sided, yet cubical, dice, and the merge goal is 13."
             }
         },
         "dagnacht": {

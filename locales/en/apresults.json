@@ -382,6 +382,7 @@
         "query_c8": "{{player}} one piece at vertex {{where}}.",
         "renju_tentative": "{{player}} placed a tentative fifth at {{where}}.",
         "renju_tentative_choose": "{{player}} chose the fifth stone at {{where}}.",
+        "siegeofj": "{{player}} placed \"{{what}}\" next to {{where}}.",
         "spire_neutral": "{{player}} placed a neutral ball at {{where}}.",
         "spire_player": "{{player}} placed a ball of their colour at {{where}}.",
         "spooky": "Spooky has entered the board at {{where}}.",

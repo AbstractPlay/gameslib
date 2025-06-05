@@ -1,5 +1,5 @@
 import { Component, ranks, suits } from "./Component";
-import { Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { Colourfuncs, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 
 type Params = {
     name: string;
@@ -51,6 +51,7 @@ export class Card {
     private readonly _personality: boolean = false;
     private readonly _event: boolean = false;
     private readonly _location: boolean = false;
+    private _plain: string|undefined;
 
     constructor(params: Params) {
         this._name = params.name;
@@ -90,7 +91,15 @@ export class Card {
         return [this.rank.uid, ...this.suits.map(s => s.uid)].join("");
     }
 
+    public setPlain(plain: string|undefined): Card {
+        this._plain = plain;
+        return this;
+    }
+
     public get plain(): string {
+        if (this._plain !== undefined) {
+            return this._plain;
+        }
         return [this.rank.name, ...this.suits.map(s => s.name)].join(" ");
     }
 
@@ -106,11 +115,25 @@ export class Card {
         return hasMatch;
     }
 
-    public toGlyph(): [Glyph, ...Glyph[]] {
+    public toGlyph(opts: {border?: boolean; fill?: string|number|Colourfuncs, opacity?: number} = {}): [Glyph, ...Glyph[]] {
+        let border = false;
+        if (opts !== undefined && opts.border !== undefined) {
+            border = opts.border;
+        }
+        let opacity = 0;
+        if (opts !== undefined && opts.opacity !== undefined) {
+            opacity = opts.opacity;
+        }
+        let fill: string|number|Colourfuncs|undefined;
+        if (opts !== undefined && opts.fill !== undefined) {
+            fill = opts.fill;
+        }
         const glyph: [Glyph, ...Glyph[]] = [
             {
-                name: "piece-square-borderless",
-                opacity: 0,
+                name: border ? "piece-square" : "piece-square-borderless",
+                scale: border? 1.1 : 1,
+                colour: fill,
+                opacity: opacity === undefined ? 0 : opacity,
             },
         ];
         // rank
@@ -145,9 +168,19 @@ export class Card {
         return new Card({name: this.name, rank: this.rank, suits: [...this.suits.map(s => s.clone())], personality: this.personality, location: this.location, event: this.event});
     }
 
-    public static deserialize(card: Card|string): Card|undefined {
+    public static deserialize(card: Card|string, allowCustom = false): Card|undefined {
         if (typeof card === "string") {
-            return [...cardsBasic, ...cardsExtended].find(c => c.uid === card.toUpperCase());
+            const found = [...cardsBasic, ...cardsExtended].find(c => c.uid === card.toUpperCase());
+            if (allowCustom && found === undefined) {
+                const [strRank, ...strSuits] = card.split("");
+                const rank = Component.deserialize(strRank);
+                const suits = strSuits.map(s => Component.deserialize(s));
+                if (rank === undefined || suits.includes(undefined)) {
+                    return undefined;
+                }
+                return new Card({name: "_custom", rank, suits: (suits as Component[]).sort((a,b) => a.seq - b.seq)});
+            }
+            return found;
         }
         return new Card({name: card._name, rank: Component.deserialize(card._rank)!, suits: [...card._suits.map(s => Component.deserialize(s)!)], personality: card._personality, location: card._location, event: card._event});
     }

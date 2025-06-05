@@ -208,6 +208,7 @@ import { TessellaGame, ITessellaState } from "./tessella";
 import { GorogoGame, IGorogoState } from "./gorogo";
 import { BiscuitGame, IBiscuitState } from "./biscuit";
 import { QuincunxGame, IQuincunxState } from "./quincunx";
+import { SiegeOfJGame, ISiegeOfJState } from "./siegeofj";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -418,6 +419,7 @@ export {
     GorogoGame, IGorogoState,
     BiscuitGame, IBiscuitState,
     QuincunxGame, IQuincunxState,
+    SiegeOfJGame, ISiegeOfJState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -489,7 +491,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
                               typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
-                              typeof BiscuitGame | typeof QuincunxGame
+                              typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame
                 >();
 // Manually add each game to the following array
 [
@@ -515,13 +517,14 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     HexentaflGame, VoloGame, StrandsGame, GonnectGame, BugGame, DragonEyesGame, AtaxxGame,
     MajoritiesGame, BukuGame, TritiumGame, CamelotGame, LifelineGame, ShiftyGame, PodsGame, LoxGame,
     QueryGame, ControlGame, BoxesGame, ConnectionsGame, ResolveGame, OnyxGame, AltaGame,
-    HulaGame, StibroGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame, PylonGame,
-    MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame, TraxGame,
-    AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame, PenguinGame,
-    OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame, GyveGame,
-    PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame, PonteDDGame,
-    SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game, BloqueoGame,
-    StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
+    HulaGame, StibroGame, KonaneGame, BlastRadiusGame, FramesGame, LoggerGame, SubdivisionGame,
+    PylonGame, MoonSquadGame, JacynthGame, Pigs2Game, TerraceGame, CubeoGame, StorisendeGame,
+    TraxGame, AmoebaGame, YavalathGame, ConspirateursGame, CatapultGame, BasaltGame, ChurnGame,
+    PenguinGame, OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame,
+    GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
+    PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
+    BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
+    SiegeOfJGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -529,7 +532,6 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     games.set(g.gameinfo.uid, g);
 });
 export { games };
-
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimultaneous|undefined => {
@@ -948,6 +950,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BiscuitGame(args[0], ...args.slice(1));
         case "quincunx":
             return new QuincunxGame(args[0], ...args.slice(1));
+        case "siegeofj":
+            return new SiegeOfJGame(...args);
     }
     return;
 }

@@ -66,7 +66,7 @@ export class SiegeOfJGame extends GameBase {
             { uid: "full", group: "rules" },
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>network", "mechanic>hidden", "board>dynamic", "components>decktet"],
-        flags: ["experimental", "random-start", "no-explore"],
+        flags: ["experimental", "random-start", "no-explore", "scores"],
     };
 
     public numplayers = 2;

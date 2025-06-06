@@ -414,7 +414,8 @@
         "strands_many": "{{player}} розмістив {{count}} фігур у {{where}}.",
         "gorogo_piece": "{{player}} розмістив шматок на {{where}}.",
         "gorogo_henge": "{{player}} поклав шматок хенге на {{where}}.",
-        "decktet": "{{player}} розміщено \"{{what}}\" о {{where}}."
+        "decktet": "{{player}} розміщено \"{{what}}\" о {{where}}.",
+        "siegeofj": "{{player}} помістив \"{{what}}\" поруч із {{where}}."
     },
     "PROMOTE": {
         "basicWhere": "Твір при {{where}} був підвищений.",

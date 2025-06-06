@@ -84,6 +84,7 @@ export class SiegeOfJGame extends GameBase {
     private node2owner = new Map<string, playerid>();
     private orgBoard: Node[][] = [];
     private selected: string|undefined;
+    private highlights: string[] = [];
 
     constructor(state?: ISiegeOfJState | string, variants?: string[]) {
         super();
@@ -504,6 +505,23 @@ export class SiegeOfJGame extends GameBase {
             this.selected = m;
         }
 
+        this.highlights = [];
+        if (partial) {
+            const matches = allMoves.filter(mv => mv.startsWith(m));
+            for (let match of matches) {
+                match = match.substring(m.length);
+                if (match.startsWith(">") || match.startsWith("+")) {
+                    match = match.substring(1);
+                }
+                if (match.includes("+")) {
+                    [match,] = match.split("+");
+                }
+                if (match.length > 0) {
+                    this.highlights.push(match);
+                }
+            }
+        }
+
         if (m.includes(">")) {
             const [placed, targets] = m.split(">");
             const parents = targets.split("+");
@@ -865,6 +883,13 @@ export class SiegeOfJGame extends GameBase {
                     (rep.annotations! as AnnotationTree[]).push({type: "enter", nodes: ["c" + move.how!]});
                 }
             }
+        }
+
+        // add highlights, if any
+        if (this.highlights.length > 0) {
+            const nodes: string[] = [];
+            this.highlights.forEach(node => nodes.push(node.startsWith("wall") ? node : "c" + node));
+            (rep.annotations! as AnnotationTree[]).push({type: "enter", nodes: nodes as [string, ...string[]]});
         }
 
         return rep;

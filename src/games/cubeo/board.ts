@@ -360,7 +360,7 @@ export class CubeoBoard {
                 if (die === undefined) {
                     lst.push("-");
                 } else {
-                    lst.push([die.owner, die.pips].join(""))
+                    lst.push([die.owner, die.pips.toString(16)].join(""))
                 }
             }
             rep.push(lst);

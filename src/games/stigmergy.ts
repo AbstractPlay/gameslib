@@ -61,7 +61,7 @@ export class StigmergyGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
-        flags: ["scores", "automove", "custom-buttons"],
+        flags: ["scores", "automove", "custom-buttons", "custom-colours"],
         variants: [
             {
                 uid: "size-7",

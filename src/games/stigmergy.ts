@@ -160,7 +160,7 @@ export class StigmergyGame extends GameBase {
         // We have to check the first state because we store the updated version in later states
         if (parseInt(this.stack[0]._version) > 20240524 && this.isKomiRuleActive()) {
             if (state.swapped === undefined) {
-                this.swapped = this.stack.length < 3 || this.stack[1].lastmove !== "play-second";
+                this.swapped = this.stack.length < 3 || this.stack[2].lastmove !== "play-second";
             } else {
                 this.swapped = state.swapped;
             }

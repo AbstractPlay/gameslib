@@ -21,6 +21,7 @@ export interface IMoveState extends IIndividualState {
     scores: [number, number];
     buttontaker?: playerid;
     komi?: number;
+    swapped: boolean;
 };
 
 export interface IStigmergyState extends IAPGameState {
@@ -33,7 +34,7 @@ export class StigmergyGame extends GameBase {
         name: "Stigmergy",
         uid: "stigmergy",
         playercounts: [2],
-        version: "20250314",
+        version: "20250607",
         dateAdded: "2024-06-08",
         // i18next.t("apgames:descriptions.stigmergy")
         description: "apgames:descriptions.stigmergy",
@@ -60,7 +61,7 @@ export class StigmergyGame extends GameBase {
             },
         ],
         categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
-        flags: ["scores", "automove", "custom-buttons"],
+        flags: ["scores", "automove", "custom-buttons", "custom-colours"],
         variants: [
             {
                 uid: "size-7",
@@ -88,6 +89,7 @@ export class StigmergyGame extends GameBase {
     };
 
     public numplayers = 2;
+    public version = StigmergyGame.gameinfo.version;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
     public graph?: HexTriGraph;
@@ -99,6 +101,7 @@ export class StigmergyGame extends GameBase {
     public scores: [number, number] = [0, 0];
     public buttontaker?: playerid;
     public komi?: number;
+    public swapped = true;
     private boardSize = 0;
 
     constructor(state?: IStigmergyState | string, variants?: string[]) {
@@ -116,7 +119,8 @@ export class StigmergyGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                scores: [0, 0]
+                scores: [0, 0],
+                swapped: this.isKomiRuleActive()
             };
             this.stack = [fresh];
         } else {
@@ -151,7 +155,16 @@ export class StigmergyGame extends GameBase {
         this.results = [...state._results];
         this.scores = [...state.scores];
         this.buttontaker = state.buttontaker;
-        this.komi = (this.isKomiRuleActive()) ? state.komi : 0;
+        this.komi = this.isKomiRuleActive() ? state.komi : 0;
+        this.swapped = false;
+        // We have to check the first state because we store the updated version in later states
+        if (parseInt(this.stack[0]._version) > 20240524 && this.isKomiRuleActive()) {
+            if (state.swapped === undefined) {
+                this.swapped = this.stack.length < 3 || this.stack[2].lastmove !== "play-second";
+            } else {
+                this.swapped = state.swapped;
+            }
+        }
         return this;
     }
 
@@ -476,6 +489,7 @@ export class StigmergyGame extends GameBase {
             this.results.push({type: "button"});
         } else if (m === "play-second") {
             this.komi! *= -1;
+            this.swapped = false;
             this.results.push({type: "play-second"});
         } else {
             if (this.board.has(m)) {
@@ -585,8 +599,13 @@ export class StigmergyGame extends GameBase {
             board: new Map(this.board),
             scores: [...this.scores],
             buttontaker: this.buttontaker,
-            komi: this.komi
+            komi: this.komi,
+            swapped: this.swapped
         };
+    }
+
+    public getPlayerColour(player: playerid): number | string {
+        return (player == 1 && !this.swapped) || (player == 2 && this.swapped) ? 1 : 2;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
@@ -642,7 +661,7 @@ export class StigmergyGame extends GameBase {
 
         const legend: ILegendObj = {};
         for (const piece of legendNames) {
-            const player = piece === "A" ? 1 : 2;
+            const player = piece === "A" ? this.getPlayerColour(1) : this.getPlayerColour(2);
             legend[piece] = [
                 { name: "piece", colour: player }
             ];
@@ -660,17 +679,17 @@ export class StigmergyGame extends GameBase {
 
             if (points1.length > 0) {
                 if (vertexStyle) {
-                    markers.push({ type: "dots", colour: 1, points: points1 });
+                    markers.push({ type: "dots", colour: this.getPlayerColour(1), points: points1 });
                 } else {
-                    markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+                    markers.push({ type: "flood", colour: this.getPlayerColour(1), opacity: 0.2, points: points1 });
                 }
             }
 
             if (points2.length > 0) {
                 if (vertexStyle) {
-                    markers.push({ type: "dots", colour: 2, points: points2 });
+                    markers.push({ type: "dots", colour: this.getPlayerColour(2), points: points2 });
                 } else {
-                    markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+                    markers.push({ type: "flood", colour: this.getPlayerColour(2), opacity: 0.2, points: points2 });
                 }
             }
         }
@@ -681,11 +700,11 @@ export class StigmergyGame extends GameBase {
             points2 = points.get(2)!;
 
             if (points1.length > 0) {
-                markers.push({ type: "flood", colour: 1, opacity: 0.2, points: points1 });
+                markers.push({ type: "flood", colour: this.getPlayerColour(1), opacity: 0.2, points: points1 });
             }
 
             if (points2.length > 0) {
-                markers.push({ type: "flood", colour: 2, opacity: 0.2, points: points2 });
+                markers.push({ type: "flood", colour: this.getPlayerColour(2), opacity: 0.2, points: points2 });
             }
         }
 
@@ -719,11 +738,11 @@ export class StigmergyGame extends GameBase {
             points2 = points.get(2)!;
 
             if (points1.length > 0) {
-                rep.annotations.push({type: "dots", colour: 1, targets: points1 as [{row: number; col: number}, ...{row: number; col: number}[]] });
+                rep.annotations.push({type: "dots", colour: this.getPlayerColour(1), targets: points1 as [{row: number; col: number}, ...{row: number; col: number}[]] });
             }
 
             if (points2.length > 0) {
-                rep.annotations.push({type: "dots", colour: 2, targets: points2 as [{row: number; col: number}, ...{row: number; col: number}[]] });
+                rep.annotations.push({type: "dots", colour: this.getPlayerColour(2), targets: points2 as [{row: number; col: number}, ...{row: number; col: number}[]] });
             }
         }
 

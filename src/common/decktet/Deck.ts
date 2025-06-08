@@ -12,6 +12,10 @@ export class Deck {
         return this._cards.map(c => new Card(c));
     }
 
+    public get size(): number {
+        return this._cards.length;
+    }
+
     public shuffle(): Deck {
         this._cards = shuffle(this._cards) as Card[];
         return this;
@@ -38,7 +42,8 @@ export class Deck {
 
     public draw(count = 1): Card[] {
         const drawn: Card[] = [];
-        for (let i = 0; i < Math.min(count, this._cards.length); i++) {
+        const limit = Math.min(count, this._cards.length);
+        for (let i = 0; i < limit; i++) {
             drawn.push(this._cards.shift()!)
         }
         return drawn;

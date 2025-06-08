@@ -160,6 +160,7 @@
         "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
+        "siegeofj": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
         "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
         "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
         "spire": "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
@@ -239,6 +240,7 @@
         "quincunx": "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each orthogonally adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a set, it does *not* also score as a pair.)\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nPower play: If you played an Ace or Crown orthogonally adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "razzle": "The implementation here is the so called tournament rules.",
         "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation currently only provides beginner protection for the first move of the game. Be careful not to merge down to one Dead Group.",
+        "siegeofj": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
         "spree": "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
@@ -1930,6 +1932,20 @@
             },
             "size-13": {
                 "name": "13x13 board"
+            }
+        },
+        "siegeofj": {
+            "#rules": {
+                "name": "Default rules",
+                "description": "Each player starts with five cards and draws one after each turn. Hands are hidden until the deck is empty."
+            },
+            "open": {
+                "name": "Open hands",
+                "description": "Each player starts with five cards and draws one after each turn. Hands are always visible."
+            },
+            "full": {
+                "name": "Full deal",
+                "description": "Deals all 24 cards to the players at the beginning of the game. All hands are visible."
             }
         },
         "slither": {
@@ -4666,6 +4682,13 @@
             "MOVE_NOT_ADJACENT": "You may not move the piece at {{from}} because it is not orthogonally adjacent to a friently piece.",
             "NEXT_TO_FRIENDLY": "You may not move to {{where}} because it is orthogonally adjacent to a friendly piece.",
             "INVALID_DESTINATION": "The piece at {{from}} cannot move to {{to}} because it has no line of sight."
+        },
+        "siegeofj": {
+            "INITIAL_INSTRUCTIONS": "Select a card from your hand to place on the board.",
+            "INVALID_MOVE": "That move is invalid. Remember that every placed card must be fully supported (cards can't \"hang off the edge\" of a single card).",
+            "PARTIAL": "Click the card on the board you want this card attached to.",
+            "LABEL_STASH": "Player {{playerNum}}'s hand",
+            "VALID_BUT": "That placement is valid. It's also possible to span two cards. Click \"Complete Move\" to keep the single parent, or click the adjacent card to span them both."
         },
         "slither": {
             "CANNOT_MOVE": "Advanced Slither: the piece at {{where}} cannot move because it is not part of a contiguous orthogonal group consisting of pieces of both colors.",

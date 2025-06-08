@@ -326,7 +326,7 @@ function _renderScoresSection(game, gamename, playerNames, gameFlags, glyphRende
 
                         if (typeof game.getPlayerColour === 'function') {
                             const gc = game.getPlayerColour(playerNum);
-                            if (typeof gc === 'string' && /^#[0-9A-Fa-f]{6}$/.test(gc)) {
+                            if (typeof gc === 'string' && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(gc)) {
                                 hexBG = gc;
                             } else if (typeof gc === 'number') {
                                 playerColourIdent = gc;
@@ -1117,7 +1117,7 @@ function renderGame(...args) {
 
                     if (typeof game.getPlayerColour === 'function') {
                         const gc = game.getPlayerColour(p);
-                        if (typeof gc === 'string' && /^#[0-9A-Fa-f]{6}$/.test(gc)) {
+                        if (typeof gc === 'string' && /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(gc)) {
                             hexBG = gc;
                         } else if (typeof gc === 'number') {
                             playerColourIdent = gc;
@@ -2186,9 +2186,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function hideModal() {
         modal.style.display = "none";
         document.body.style.overflow = '';
-        modalContent.textContent = "";
-        delete modal.dataset.filename;
-        delete modal.dataset.rawJson;
     }
 
     document.getElementById("modalCloseBtn").addEventListener("click", hideModal);

@@ -14,8 +14,8 @@ import { Glyph } from "@abstractplay/renderer/build";
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
-// 0 means >6, and therefore a winning merge
-export type Pips = 1|2|3|4|5|6|0;
+// 0 means > diesize, and therefore a winning merge
+export type Pips = 1|2|3|4|5|6|7|8|9|10|11|12|0;
 
 export type NodeData = {
     contents?: CubeoDie;
@@ -66,7 +66,10 @@ export class CubeoGame extends GameBase {
             },
         ],
         variants: [
-            {uid: "strict", group: "moves"}
+            {uid: "strict", group: "moves"},
+	    {uid: "d8", group: "dice"},
+	    {uid: "d10", group: "dice"},
+	    {uid: "d12", group: "dice"},
         ],
         categories: ["goal>immobilize", "goal>score>race", "mechanic>place", "mechanic>move", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>dice"],
         flags: ["automove"]
@@ -82,6 +85,7 @@ export class CubeoGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public dots: [number,number][] = [];
     private eogTriggered = false;
+    private diesize = 0;
 
     constructor(state?: ICubeoState | string, variants?: string[]) {
         super();
@@ -128,14 +132,30 @@ export class CubeoGame extends GameBase {
         this.board = CubeoBoard.deserialize(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
+        this.diesize = this.getDieSize();
         return this;
+    }
+
+    private getDieSize(): number {
+        // Get die size from variants.
+        if ((this.variants !== undefined) && (this.variants.length > 0) && (this.variants[0] !== undefined) && (this.variants[0].length > 0)) {
+            const diceVariants = this.variants.filter(v => v.startsWith("d"));
+            if (diceVariants.length > 0) {
+                const size = diceVariants[0].match(/\d+/);
+                return parseInt(size![0], 10);
+            }
+            if (isNaN(this.diesize)) {
+                throw new Error(`Could not determine the die size from variant "${this.variants[0]}"`);
+            }
+        }
+        return 6;
     }
 
     public diceInHand(p?: playerid): number {
         if (p === undefined) {
             p = this.currplayer;
         }
-        return 6 - this.board.getDiceOf(p).length;
+        return this.diesize - this.board.getDiceOf(p).length;
     }
 
     public moves(): string[] {
@@ -331,7 +351,9 @@ export class CubeoGame extends GameBase {
         if (m.startsWith("+")) {
             if (this.diceInHand(this.currplayer) === 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.cubeo.MAX_DICE");
+                result.message = i18next.t("apgames:validation.cubeo.MAX_DICE", {
+		    dice: this.diesize,
+		});
                 return result;
             } else {
                 result.valid = false;
@@ -342,7 +364,7 @@ export class CubeoGame extends GameBase {
         // then moves and merges
         else {
             // check for partials first
-            if (/^\d,-?\d+,-?\d+$/.test(m)) {
+            if (/^\d+,-?\d+,-?\d+$/.test(m)) {
                 const [,x,y] = m.split(",").map(n => parseInt(n, 10));
                 const die = this.board.getDieAt(x,y);
                 // die exists
@@ -441,7 +463,7 @@ export class CubeoGame extends GameBase {
             // otherwise merge
             else {
                 let newsize = fDie.pips + tDie.pips;
-                if (newsize > 6) {
+                if (newsize > this.diesize) {
                     newsize = 0;
                     this.eogTriggered = true;
                 }
@@ -539,15 +561,15 @@ export class CubeoGame extends GameBase {
             if (die === undefined) {
                 return "-";
             } else {
-                return `${die.owner === 1 ? "A" : "B"}${die.pips}`;
+                return `${die.owner === 1 ? "A" : "B"}${die.pips.toString(16)}`;
             }
         })).map(r => r.join(",")).join("\n");
 
         // build legend
         const legend: {[k: string]: Glyph} = {};
         for (const p of [1,2] as const) {
-            for (const size of [0,1,2,3,4,5,6] as const) {
-                legend[`${p === 1 ? "A" : "B"}${size}`] = {
+            for (let size = 0; size <=  this.diesize; size++) {
+                legend[`${p === 1 ? "A" : "B"}${size.toString(16)}`] = {
                     name: `d6-${size === 0 ? "empty" : size}`,
                     colour: p,
                     scale: 1.15,

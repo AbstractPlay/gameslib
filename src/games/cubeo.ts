@@ -67,9 +67,9 @@ export class CubeoGame extends GameBase {
         ],
         variants: [
             {uid: "strict", group: "moves"},
-	    {uid: "d8", group: "dice"},
-	    {uid: "d10", group: "dice"},
-	    {uid: "d12", group: "dice"},
+            {uid: "d8", group: "dice"},
+            {uid: "d10", group: "dice"},
+            {uid: "d12", group: "dice"},
         ],
         categories: ["goal>immobilize", "goal>score>race", "mechanic>place", "mechanic>move", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>dice"],
         flags: ["automove"]

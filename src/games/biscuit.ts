@@ -86,7 +86,7 @@ export class BiscuitGame extends GameBase {
                 group: "eog"
             }
         ],
-        categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "mechanic>random>setup", "mechanic>random>play", "board>dynamic", "board>connect>rect", "components>decktet", "other>2+players"],
         flags: ["scores", "no-explore", "shared-pieces", "custom-buttons", "autopass"],
     };
 

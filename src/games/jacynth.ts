@@ -84,7 +84,7 @@ export class JacynthGame extends GameBase {
                 group: "setup",
             }
         ],
-        categories: ["goal>score>eog", "mechanic>place", "mechanic>network", "mechanic>hidden", "board>shape>rect", "board>connect>rect", "components>decktet", "other>2+players"],
+        categories: ["goal>score>eog", "mechanic>place", "mechanic>network", "mechanic>hidden", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>decktet", "other>2+players"],
         flags: ["scores", "random-start", "no-moves", "custom-randomization", "no-explore"],
     };
     public static coords2algebraic(x: number, y: number): string {

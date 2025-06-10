@@ -65,7 +65,7 @@ export class SiegeOfJGame extends GameBase {
             { uid: "open", group: "rules" },
             { uid: "full", group: "rules" },
         ],
-        categories: ["goal>area", "mechanic>place", "mechanic>network", "mechanic>hidden", "board>dynamic", "components>decktet"],
+        categories: ["goal>area", "mechanic>place", "mechanic>network", "mechanic>hidden", "mechanic>random>setup", "mechanic>random>play", "board>dynamic", "components>decktet"],
         flags: ["random-start", "no-explore", "scores"],
     };
 

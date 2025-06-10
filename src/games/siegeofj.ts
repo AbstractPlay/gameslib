@@ -40,7 +40,7 @@ export class SiegeOfJGame extends GameBase {
         uid: "siegeofj",
         playercounts: [2],
         version: "20250523",
-        dateAdded: "2024-12-15",
+        dateAdded: "2025-06-10",
         // i18next.t("apgames:descriptions.siegeofj")
         description: "apgames:descriptions.siegeofj",
         // i18next.t("apgames:notes.siegeofj")
@@ -66,7 +66,7 @@ export class SiegeOfJGame extends GameBase {
             { uid: "full", group: "rules" },
         ],
         categories: ["goal>area", "mechanic>place", "mechanic>network", "mechanic>hidden", "board>dynamic", "components>decktet"],
-        flags: ["experimental", "random-start", "no-explore", "scores"],
+        flags: ["random-start", "no-explore", "scores"],
     };
 
     public numplayers = 2;

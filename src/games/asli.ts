@@ -63,7 +63,7 @@ export class AsliGame extends GameBase {
             {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization", "scores"]
+        flags: ["custom-buttons", "no-moves", "custom-randomization", "scores", "custom-colours"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -200,6 +200,14 @@ export class AsliGame extends GameBase {
         return [];
     }
 
+    public getPlayerColour(p: playerid): number|string {
+        if (this.stack.length ===  1) {
+            return "#999";
+        } else {
+            return this.stack[1].lastmove === "pie" ? p : p === 1 ? 2 : 1;
+        }
+    }
+
     public randomMove(): string {
         if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
             return randomInt(10).toString();
@@ -316,12 +324,6 @@ export class AsliGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         } else {
-            // no moves allowed at this point of the game
-            if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.MUST_PIE");
-                return result;
-            }
             const g = this.getGraph();
             // valid cell
             if (! g.graph.hasNode(m)) {
@@ -510,7 +512,7 @@ export class AsliGame extends GameBase {
             const n = parseInt(m, 10);
             this.prison[0] = n;
             this.results.push({type: "komi", value: n});
-        } else if (!this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
+        } else if (!this.variants.includes("setkomi") && (m === "pie" && this.stack.length === 2)) {
             m = "pie";
             this.results.push({type: "pie"});
         } else if (m === "pass") {
@@ -520,6 +522,10 @@ export class AsliGame extends GameBase {
                 this.incursion = false;
             }
         } else {
+            // if this is a move right after a komi offer, swap the prison
+            if (!this.variants.includes("setkomi") && this.stack.length === 2) {
+                this.prison = [...this.prison].reverse() as [number,number];
+            }
             // need to check for incursion before modifying state
             let incursion = false;
             const terr = this.getTerritories().find(t => t.cells.includes(m))!;

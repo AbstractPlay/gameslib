@@ -204,11 +204,7 @@ export class AsliGame extends GameBase {
         if (this.stack.length ===  1) {
             return "#999";
         } else {
-            if (!this.variants.includes("setkomi")) {
-                return this.stack[1].lastmove === "pie" ? p : p === 1 ? 2 : 1;
-            } else {
-                return p;
-            }
+            return this.stack[1].lastmove === "pie" ? p : p === 1 ? 2 : 1;
         }
     }
 

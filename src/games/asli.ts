@@ -201,14 +201,14 @@ export class AsliGame extends GameBase {
     }
 
     public getPlayerColour(p: playerid): number|string {
-        if (!this.variants.includes("setkomi")) {
-            if (this.stack.length === 1) {
-                return "#999";
-            } else {
-                return this.stack[1].lastmove === "pie" ? p : p === 1 ? 2 : 1;
-            }
+        if (this.stack.length ===  1) {
+            return "#999";
         } else {
-            return p;
+            if (!this.variants.includes("setkomi")) {
+                return this.stack[1].lastmove === "pie" ? p : p === 1 ? 2 : 1;
+            } else {
+                return p;
+            }
         }
     }
 

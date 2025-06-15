@@ -837,7 +837,7 @@ export class AsliGame extends GameBase {
         }
         // new version
         else {
-            if (!this.variants.includes("setkomi")) {
+            if (this.variants.includes("setkomi")) {
                 return p
             } else {
                 if (this.stack.length <= 2) {

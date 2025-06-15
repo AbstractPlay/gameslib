@@ -555,7 +555,7 @@ export class AsliGame extends GameBase {
                 }
             } else {
                 if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
-                    this.results.push({type: "pass"});
+                    this.results.push({type: "pass", why: "pie"});
                     this.incursion = false;
                 } else {
                     this.prison[enemy - 1] -= 1;
@@ -811,7 +811,7 @@ export class AsliGame extends GameBase {
                 resolved = true;
                 break;
             case "pass":
-                node.push(i18next.t("apresults:PASS.asli", {player}));
+                node.push(i18next.t(r.why === undefined ? "apresults:PASS.asli" : "apresults:PASS.pie", {player}));
                 resolved = true;
                 break;
         }

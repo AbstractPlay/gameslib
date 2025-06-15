@@ -32,7 +32,8 @@ export class AsliGame extends GameBase {
         name: "Asli",
         uid: "asli",
         playercounts: [2],
-        version: "20240610",
+        // version: "20240610",
+        version: "20250615",
         dateAdded: "2024-06-12",
         // i18next.t("apgames:descriptions.asli")
         description: "apgames:descriptions.asli",
@@ -63,7 +64,7 @@ export class AsliGame extends GameBase {
             {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie-even", "custom-buttons", "no-moves", "custom-randomization", "scores"]
+        flags: ["custom-buttons", "no-moves", "custom-randomization", "scores", "custom-colours"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -186,15 +187,30 @@ export class AsliGame extends GameBase {
 
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
-        if (this.stack.length === 2 && !this.variants.includes("setkomi")) return [{ label: "acceptpie", move: "pie" }];
-        if (this.stack.length > 2 || this.variants.includes("setkomi")) {
-            const otherPlayer = this.currplayer === 1 ? 2 : 1;
-            let canpass = false;
-            if (this.prison[otherPlayer - 1] > 0) {
-                canpass = true;
+        if (this.stack[0]._version !== "20250615") {
+            if (this.stack.length === 2 && !this.variants.includes("setkomi")) return [{ label: "acceptpie", move: "pie" }];
+            if (this.stack.length > 2 || this.variants.includes("setkomi")) {
+                const otherPlayer = this.currplayer === 1 ? 2 : 1;
+                let canpass = false;
+                if (this.prison[otherPlayer - 1] > 0) {
+                    canpass = true;
+                }
+                if (canpass) {
+                    return [{ label: "pass", move: "pass" }];
+                }
             }
-            if (canpass) {
+        } else {
+            if (!this.variants.includes("setkomi") && this.stack.length === 2) {
                 return [{ label: "pass", move: "pass" }];
+            } else {
+                const otherPlayer = this.currplayer === 1 ? 2 : 1;
+                let canpass = false;
+                if (this.prison[otherPlayer - 1] > 0) {
+                    canpass = true;
+                }
+                if (canpass) {
+                    return [{ label: "pass", move: "pass" }];
+                }
             }
         }
         return [];
@@ -204,7 +220,11 @@ export class AsliGame extends GameBase {
         if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
             return randomInt(10).toString();
         } else if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
-            return "pie";
+            if (this.stack[0]._version !== "20250615") {
+                return "pie";
+            } else {
+                return "pass";
+            }
         } else {
             const otherPlayer = this.currplayer === 1 ? 2 : 1;
             let canpass = false;
@@ -260,9 +280,19 @@ export class AsliGame extends GameBase {
         m = m.replace(/\s+/g, "");
 
         if (m.length === 0) {
+            let context = "play";
+            if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
+                context = "komi";
+            } else if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
+                if (this.stack[0]._version !== "20250615") {
+                    context = "pie";
+                } else {
+                    context = "pie2";
+                }
+            }
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.asli.INITIAL_INSTRUCTIONS", {context: (this.stack.length === 1 && !this.variants.includes("setkomi")) ? "komi" : (this.stack.length === 2 && !this.variants.includes("setkomi")) ? "pie" : "play"});
+            result.message = i18next.t("apgames:validation.asli.INITIAL_INSTRUCTIONS", {context});
             return result;
         }
 
@@ -316,11 +346,13 @@ export class AsliGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;
         } else {
-            // no moves allowed at this point of the game
-            if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.asli.MUST_PIE");
-                return result;
+            // in previous version, no moves allowed at this point of the game
+            if (this.stack[0]._version !== "20250615") {
+                if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.asli.MUST_PIE");
+                    return result;
+                }
             }
             const g = this.getGraph();
             // valid cell
@@ -510,16 +542,32 @@ export class AsliGame extends GameBase {
             const n = parseInt(m, 10);
             this.prison[0] = n;
             this.results.push({type: "komi", value: n});
-        } else if (!this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
+        } else if (this.stack[0]._version !== "20250615" && !this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
             m = "pie";
             this.results.push({type: "pie"});
         } else if (m === "pass") {
-            if (this.stack.length > 2 || this.variants.includes("setkomi")) {
-                this.prison[enemy - 1] -= 1;
-                this.results.push({type: "pass"});
-                this.incursion = false;
+            // old version
+            if (this.stack[0]._version !== "20250615") {
+                if (this.stack.length > 2 || this.variants.includes("setkomi")) {
+                    this.prison[enemy - 1] -= 1;
+                    this.results.push({type: "pass"});
+                    this.incursion = false;
+                }
+            } else {
+                if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
+                    this.results.push({type: "pass"});
+                    this.incursion = false;
+                } else {
+                    this.prison[enemy - 1] -= 1;
+                    this.results.push({type: "pass"});
+                    this.incursion = false;
+                }
             }
         } else {
+            // in new version, a move on the second turn swaps colours
+            if (this.stack[0]._version === "20250615" && this.stack.length === 2 && !this.variants.includes("setkomi")) {
+                this.prison = [...this.prison].reverse() as [number,number];
+            }
             // need to check for incursion before modifying state
             let incursion = false;
             const terr = this.getTerritories().find(t => t.cells.includes(m))!;
@@ -655,7 +703,7 @@ export class AsliGame extends GameBase {
         if (hasPrison) {
             prisonPiece.push({
                 name: "piece",
-                colour: this.prison[0] > 0 ? 1 : 2,
+                colour: this.prison[0] > 0 ? this.getPlayerColour(1) : this.getPlayerColour(2),
                 scale: 0.85,
             });
             prisonPiece.push({
@@ -681,11 +729,11 @@ export class AsliGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    colour: 1
+                    colour: this.getPlayerColour(1),
                 },
                 B: {
                     name: "piece",
-                    colour: 2
+                    colour: this.getPlayerColour(2),
                 },
                 P: prisonPiece as [Glyph, ...Glyph[]]
             },
@@ -711,7 +759,7 @@ export class AsliGame extends GameBase {
             for (const t of territories) {
                 if (t.owner !== undefined) {
                     const points = t.cells.map(c => this.algebraic2coords(c));
-                    markers.push({type: "dots", colour: t.owner, points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
+                    markers.push({type: "dots", colour: this.getPlayerColour(t.owner), points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
                 }
             }
             if (markers.length === 0) {
@@ -780,6 +828,27 @@ export class AsliGame extends GameBase {
             ];
         }
         return [{ name: i18next.t("apgames:status.asli.TERRITORY"), scores, spoiler: true}];
+    }
+
+    public getPlayerColour(p: playerid): number|string {
+        // previous versions, just return the player id
+        if (this.stack[0]._version !== "20250615") {
+            return p;
+        }
+        // new version
+        else {
+            if (this.variants.includes("setkomi")) {
+                return p
+            } else {
+                if (this.stack.length <= 2) {
+                    return "#999";
+                } else if (this.stack[2].lastmove === "pass") {
+                    return p;
+                } else {
+                    return p === 1 ? 2 : 1;
+                }
+            }
+        }
     }
 
     public clone(): AsliGame {

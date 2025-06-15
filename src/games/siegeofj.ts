@@ -837,6 +837,7 @@ export class SiegeOfJGame extends GameBase {
                     label: i18next.t("apgames:validation.siegeofj.LABEL_STASH", {playerNum: p}) || `P${p} hand`,
                     spacing: 0.5,
                     width: 6,
+                    ownerMark: p,
                 });
             }
         }

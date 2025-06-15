@@ -319,6 +319,7 @@
         "assembly": "The production line doesn't move.",
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
+        "pie": "{{player}} accepted the komi offer and will continue playing second.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",
         "tablero": "{{player}} bumped!",

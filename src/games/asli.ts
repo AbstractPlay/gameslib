@@ -187,7 +187,7 @@ export class AsliGame extends GameBase {
 
     // In this game only one button is active at a time.
     public getButtons(): ICustomButton[] {
-        if (this.stack[0]._version !== "20250615") {
+        if (this.stack[0]._version === "20240610") {
             if (this.stack.length === 2 && !this.variants.includes("setkomi")) return [{ label: "acceptpie", move: "pie" }];
             if (this.stack.length > 2 || this.variants.includes("setkomi")) {
                 const otherPlayer = this.currplayer === 1 ? 2 : 1;
@@ -220,7 +220,7 @@ export class AsliGame extends GameBase {
         if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
             return randomInt(10).toString();
         } else if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
-            if (this.stack[0]._version !== "20250615") {
+            if (this.stack[0]._version === "20240610") {
                 return "pie";
             } else {
                 return "pass";
@@ -284,7 +284,7 @@ export class AsliGame extends GameBase {
             if (this.stack.length === 1 && !this.variants.includes("setkomi")) {
                 context = "komi";
             } else if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
-                if (this.stack[0]._version !== "20250615") {
+                if (this.stack[0]._version === "20240610") {
                     context = "pie";
                 } else {
                     context = "pie2";
@@ -347,7 +347,7 @@ export class AsliGame extends GameBase {
             return result;
         } else {
             // in previous version, no moves allowed at this point of the game
-            if (this.stack[0]._version !== "20250615") {
+            if (this.stack[0]._version === "20240610") {
                 if (this.stack.length === 2 && !this.variants.includes("setkomi")) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.asli.MUST_PIE");
@@ -542,12 +542,12 @@ export class AsliGame extends GameBase {
             const n = parseInt(m, 10);
             this.prison[0] = n;
             this.results.push({type: "komi", value: n});
-        } else if (this.stack[0]._version !== "20250615" && !this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
+        } else if (this.stack[0]._version === "20240610" && !this.variants.includes("setkomi") && (m === "pie" || (m === "pass" && this.stack.length === 2))) {
             m = "pie";
             this.results.push({type: "pie"});
         } else if (m === "pass") {
             // old version
-            if (this.stack[0]._version !== "20250615") {
+            if (this.stack[0]._version === "20240610") {
                 if (this.stack.length > 2 || this.variants.includes("setkomi")) {
                     this.prison[enemy - 1] -= 1;
                     this.results.push({type: "pass"});
@@ -832,7 +832,7 @@ export class AsliGame extends GameBase {
 
     public getPlayerColour(p: playerid): number|string {
         // previous versions, just return the player id
-        if (this.stack[0]._version !== "20250615") {
+        if (this.stack[0]._version === "20240610") {
             return p;
         }
         // new version

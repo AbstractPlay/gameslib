@@ -1027,6 +1027,16 @@
             "additionalProperties": false
         },
         {
+            "description": "Player has taken the lead.",
+            "properties": {
+                "type": {
+                    "enum": ["lead"]
+                }
+            },
+            "required": ["type"],
+            "additionalProperties": false
+        },
+        {
             "description": "A generic announcement. A generalized way of inserting stuff into the chat log.",
             "properties": {
                 "type": {

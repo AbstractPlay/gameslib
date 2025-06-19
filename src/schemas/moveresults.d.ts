@@ -337,6 +337,9 @@ export type APMoveResult =
       p2: string;
     }
   | {
+      type: "lead";
+    }
+  | {
       type: "announce";
       /**
        * No type specified. Pass whatever makes sense for your game.

@@ -240,6 +240,7 @@
     },
     "INFINITE": "{{player}} has triggered an infinite loop!",
     "KOMI": "{{player}} sets komi to {{value}}.",
+    "LEAD": "{{player}} took the lead.",
     "MOVE": {
         "amazons": "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
         "anache_dragon": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",

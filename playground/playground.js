@@ -26,7 +26,7 @@ function boardClick(row, col, piece) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = {};
+        let renderOpts = { perspective: game.currplayer };
         let selectedDisplay = window.sessionStorage.getItem("selectedDisplay") || "default";
         const checkedDisplayRadio = document.querySelector('input[name="displayOption"]:checked');
         if (checkedDisplayRadio) {
@@ -1183,7 +1183,7 @@ function renderGame(...args) {
 
         var data = JSON.parse(window.sessionStorage.getItem("interim"));
 
-        let renderOpts = {};
+        let renderOpts = { perspective: game.currplayer };
         if (selectedDisplay !== "default") {
             renderOpts = { altDisplay: selectedDisplay };
         }

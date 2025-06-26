@@ -289,6 +289,9 @@
                 },
                 "what": {
                     "type": "string"
+                },
+                "from": {
+                    "type": "string"
                 }
             },
             "required": ["type"],

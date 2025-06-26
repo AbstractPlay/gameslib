@@ -91,7 +91,6 @@ export class ChurnGame extends GameBase {
                 if (state.startsWith("{")) {
                     state = JSON.parse(state, reviver) as IChurnState;
                 } else {
-
                     const decoded = Buffer.from(state, "base64") as Data;
                     const decompressed = pako.ungzip(decoded, {to: "string"});
                     state = JSON.parse(decompressed, reviver) as IChurnState;

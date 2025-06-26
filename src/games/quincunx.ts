@@ -452,12 +452,15 @@ export class QuincunxGame extends GameBase {
                     }
                     const oppDir = oppositeDirections.get(dir)!;
                     let rayOpp = gOcc.ray(node, oppDir).map(n => this.board.getCardAt(...this.board.rel2abs(...gOcc.algebraic2coords(n)))!);
-                    const idxOpp = rayOpp.findIndex((c,idx) => getSharedSuits([placed, ...rayPrime.slice(0, idx+1)].map(c => c.card.uid)).length === 0);
+                    const idxOpp = rayOpp.findIndex((c,idx) => getSharedSuits([placed, ...rayOpp.slice(0, idx+1)].map(c => c.card.uid)).length === 0);
                     if (idxOpp >= 0) {
                         rayOpp = rayOpp.slice(0, idxOpp)
                     }
                     if (rayPrime.length + rayOpp.length + 1 >= 4) {
-                        flushes++;
+                        // console.log(JSON.stringify({placed: placed.card.uid, dir, rayPrime: rayPrime.map(c => c.card.uid), idxPrime, rayOpp: rayOpp.map(c => c.card.uid), idxOpp}));
+                        const allCards = [...rayPrime.map(c => c.card.uid), placed.card.uid, ...rayOpp.map(c => c.card.uid)];
+                        const shared = getSharedSuits(allCards);
+                        flushes += shared.length;
                     }
                 }
                 // squares, there are four possible configurations
@@ -624,6 +627,7 @@ export class QuincunxGame extends GameBase {
 
             // tabulate scores
             const scores = this.scorePlacement(cardObj);
+            console.log(JSON.stringify(scores));
             // basic first
             for (const [cuid, n] of scores.basics) {
                 this.scores[this.currplayer - 1] += n;

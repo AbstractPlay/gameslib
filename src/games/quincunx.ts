@@ -57,6 +57,22 @@ const getNextRank = (curr: number, dir: "A"|"D"): number|null => {
     }
 }
 
+export const getSharedSuits = (line: string[]): string[] => {
+    const cards = line.map(c => Card.deserialize(c)!);
+    // find suits of initial card
+    const initSuits = new Set<string>(cards[0].suits.map(s => s.uid));
+    // narrow it down to the one (or potentially two) suits that all cards share
+    for (const c of cards.slice(1)) {
+        const cardSuits = new Set<string>(c.suits.map(s => s.uid))
+        for (const init of [...initSuits]) {
+            if (!cardSuits.has(init)) {
+                initSuits.delete(init);
+            }
+        }
+    }
+    return [...initSuits];
+}
+
 export class QuincunxGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Quincunx",
@@ -430,13 +446,13 @@ export class QuincunxGame extends GameBase {
                 // lines first
                 for (const dir of ["N", "NE", "E", "SE"] as const) {
                     let rayPrime = gOcc.ray(node, dir).map(n => this.board.getCardAt(...this.board.rel2abs(...gOcc.algebraic2coords(n)))!);
-                    const idxPrime = rayPrime.findIndex(c => !c.card.sharesSuitWith(placed.card));
+                    const idxPrime = rayPrime.findIndex((c,idx) => getSharedSuits([placed, ...rayPrime.slice(0, idx+1)].map(c => c.card.uid)).length === 0);
                     if (idxPrime >= 0) {
                         rayPrime = rayPrime.slice(0, idxPrime)
                     }
                     const oppDir = oppositeDirections.get(dir)!;
                     let rayOpp = gOcc.ray(node, oppDir).map(n => this.board.getCardAt(...this.board.rel2abs(...gOcc.algebraic2coords(n)))!);
-                    const idxOpp = rayOpp.findIndex(c => !c.card.sharesSuitWith(placed.card));
+                    const idxOpp = rayOpp.findIndex((c,idx) => getSharedSuits([placed, ...rayPrime.slice(0, idx+1)].map(c => c.card.uid)).length === 0);
                     if (idxOpp >= 0) {
                         rayOpp = rayOpp.slice(0, idxOpp)
                     }

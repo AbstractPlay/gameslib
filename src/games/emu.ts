@@ -95,7 +95,10 @@ export const getBirdSuits = (bird: string[]): string[] => {
 
 export const canGrowBird = (bird: string[], card: string): boolean => {
     const cards = bird.map(c => Card.deserialize(c)!);
-    const cardObj = Card.deserialize(card)!;
+    const cardObj = Card.deserialize(card);
+    if (cardObj === undefined) {
+        throw new Error(`Could not deserialize the card ${card}. Bird: ${JSON.stringify(bird)}`);
+    }
 
     // suits first
     // find suits of initial card

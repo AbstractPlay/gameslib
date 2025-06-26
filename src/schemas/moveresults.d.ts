@@ -109,6 +109,7 @@ export type APMoveResult =
       type: "deckDraw";
       count?: number;
       what?: string;
+      from?: string;
     }
   | {
       type: "resigned";

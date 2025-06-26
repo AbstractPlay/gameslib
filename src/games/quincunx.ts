@@ -627,7 +627,6 @@ export class QuincunxGame extends GameBase {
 
             // tabulate scores
             const scores = this.scorePlacement(cardObj);
-            console.log(JSON.stringify(scores));
             // basic first
             for (const [cuid, n] of scores.basics) {
                 this.scores[this.currplayer - 1] += n;

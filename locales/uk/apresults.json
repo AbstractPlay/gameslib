@@ -171,7 +171,8 @@
     "DECLARE": {
         "renju": "{{player}} оголосив {{count}} орієнтовні квінти.",
         "mchess": "{{player}} \"подзвонив годинник\". Якщо протягом наступних семи ходів не буде зроблено жодного захоплення, гра завершується та зараховується очко.",
-        "biscuit": "{{player}} вийшов!"
+        "biscuit": "{{player}} вийшов!",
+        "emu": "Рік {{year}} закінчився."
     },
     "DELTA_SCORE_LOSS_one": "{{player}} втрачено {{delta}} бал.",
     "DELTA_SCORE_LOSS_few": "{{player}} втрачено {{delta}} балів.",
@@ -416,7 +417,10 @@
         "gorogo_piece": "{{player}} розмістив шматок на {{where}}.",
         "gorogo_henge": "{{player}} поклав шматок хенге на {{where}}.",
         "decktet": "{{player}} розміщено \"{{what}}\" о {{where}}.",
-        "siegeofj": "{{player}} помістив \"{{what}}\" поруч із {{where}}."
+        "siegeofj": "{{player}} помістив \"{{what}}\" поруч із {{where}}.",
+        "emu_new": "{{player}} вилупився новий птах з {{what}}.",
+        "emu_existing": "{{player}} використав {{what}}, щоб виростити птаха №{{where}}.",
+        "emu_discard": "{{player}} викинув картку {{what}}."
     },
     "PROMOTE": {
         "basicWhere": "Твір при {{where}} був підвищений.",
@@ -597,7 +601,9 @@
         "biscuit": "Наступний гравець не зміг зіграти жодної карти з руки, тому він взяв карту.",
         "quincunx_one": "{{player}} витягнув {{count}} карту.",
         "quincunx_few": "{{player}} витягнув {{count}} карти.",
-        "quincunx_many": "{{player}} витягнув {{count}} карт."
+        "quincunx_many": "{{player}} витягнув {{count}} карт.",
+        "emu_discard": "{{player}} витягнув {{what}} з верху купи скинутих карт.",
+        "emu_deck": "{{player}} витягнув з колоди карту, що лежала сорочкою донизу."
     },
     "STALEMATE": {
         "biscuit": "Рука зачерствіла."
@@ -614,6 +620,8 @@
             "basic_one": "Проти {{card}} вона набрала 1 очко.",
             "basic_few": "Проти {{card}} вона набрала {{delta}} очки.",
             "basic_many": "Проти {{card}} вона набрала {{delta}} очок."
-        }
+        },
+        "emu_excuse": "{{player}} грає \"Виправдання\", щоб компенсувати свого птаха з найнижчим балом ({{delta}} очок).",
+        "emu_score": "Птах гравця {{player}} з такими рангами набрав {{delta}} очок: {{ranks}}."
     }
 }

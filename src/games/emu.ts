@@ -552,6 +552,9 @@ export class EmuGame extends GameBase {
         // otherwise, normal play
         else {
             for (const card of this.hands[player - 1]) {
+                if (card === "") {
+                    continue;
+                }
                 // any card may be discarded
                 moves.push(`${card}-discard,deck`);
                 if (card !== "0") {

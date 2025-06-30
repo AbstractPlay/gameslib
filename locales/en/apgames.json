@@ -4860,7 +4860,7 @@
         },
         "stairs": {
             "NORMAL_MOVE": "Choose a piece to move.",
-            "INVALID_MOVE": "You must move a piece to a neighboring stack of the same height.  You must move one of your lowest movable pieces.",
+            "INVALID_MOVE": "You must move a piece to a neighboring stack of the same height. You must move one of your lowest movable pieces.",
             "MUST_PASS": "The only move available to you is to pass."
         },
         "stibro": {

@@ -2086,6 +2086,14 @@
                 "name": "5x5 board"
             }
         },
+        "stairs": {
+            "#board": {
+                "name": "Size 6 board"
+            },
+            "size-8": {
+                "name": "Size 8 board"
+            }
+        },
         "stibro": {
             "size-5": {
                 "name": "Size 5 board"

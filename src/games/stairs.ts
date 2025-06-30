@@ -55,8 +55,6 @@ export class StairsGame extends GameBase {
             {
                 uid: "size-8",
                 group: "board",
-                name: "Size 8 board",
-                description: "Size 8 board"
             }
         ]
     };
@@ -211,7 +209,7 @@ export class StairsGame extends GameBase {
         const uniqueSizeSet = new Set(sizeArray);
         const uniqueSizeArray = [...uniqueSizeSet].sort((a, b) => b - a);
         let truncatedStackCounts = "";
-        for (var s = 0; s<uniqueSizeArray.length; s++) {
+        for (let s = 0; s<uniqueSizeArray.length; s++) {
             truncatedStackCounts += (s > 0 ? ", " : "") + uniqueSizeArray[s] + "(" + this.getItemCount(sizeArray,uniqueSizeArray[s])  + ")";
         }
         return truncatedStackCounts;
@@ -387,7 +385,7 @@ export class StairsGame extends GameBase {
                 this.board.set(cells[1], newStack);
                 // update tiebreaker
                 this.results.push({type: "move", from: cells[0], to: cells[1]});
-                const newTiebreaker = this.getUpperHand(this.tiebreaker); 
+                const newTiebreaker = this.getUpperHand(this.tiebreaker);
 		if (this.tiebreaker !== newTiebreaker) {
 		    this.results.push({type: "lead"});
 		}

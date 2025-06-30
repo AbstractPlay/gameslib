@@ -857,7 +857,9 @@ export class EmuGame extends GameBase {
             }
             // error
             else {
-                throw new Error(`Unrecognized move part: ${part}`);
+                if (!partial) {
+                    throw new Error(`Unrecognized move part: ${part}`);
+                }
             }
         }
 
@@ -1098,9 +1100,17 @@ export class EmuGame extends GameBase {
             }
         }
         // add glyph for deck countdown
+        // the deck count here has to take into account any face-down cards
+        // in players' hands (observers don't see any cards, for example,
+        // but the count should be consistent)
+        let facedown = 0;
+        for (const hand of this.hands) {
+            const down = hand.filter(c => c === "");
+            facedown += down.length;
+        }
         legend["deck"] = [
             {name: "piece-square", colour: "_context_background",},
-            {text: this.deck.size.toString(),}
+            {text: (this.deck.size - facedown).toString(),}
         ];
         // add glyph for empty discard
         legend["discard"] = [

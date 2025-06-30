@@ -48,7 +48,7 @@ export class StairsGame extends GameBase {
                 apid: "4bd8317d-fb04-435f-89e0-2557c3f2e66c",
             },
         ],
-        categories: ["goal>score>eog", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>score>eog", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "pie", "autopass", "scores"],
         variants: [
             { uid: "#board", },

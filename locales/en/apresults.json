@@ -282,7 +282,7 @@
         "entrapment_roamer_jump": "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}.",
         "fightopia_1": "{{player}} moved a pawn from {{from}} to {{to}}.",
         "fightopia_2": "{{player}} moved a tank from {{from}} to {{to}}.",
-        "fightopia_3": "{{player}} moved their giant from {{from}} to {{to}}.",
+        "fightopia_4": "{{player}} moved their giant from {{from}} to {{to}}.",
         "fightopia_pivot": "{{player}} pivoted a tank from {{from}} to {{to}}.",
         "gess_one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
         "gess_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",

@@ -1026,10 +1026,10 @@
             },
             "both": {
                 "name": "Full extended",
-                "description": "Includes the Pawns *and* the Courts. Results in a much more forgiving, higher-scoring game."
+                "description": "Includes the Excuse, the Pawns, *and* the Courts. Results in a much more forgiving, higher-scoring game."
             },
             "none": {
-                "name": "No extended",
+                "name": "Basic deck only",
                 "description": "No extended deck cards. Results in a much less forgiving, lower-scoring game."
             }
         },
@@ -1304,7 +1304,7 @@
             },
             "extended": {
                 "name": "Extended deck",
-                "description": "Deck includes the Excuse, the pawns, and the courts (influence tokens may not be placed on any of these cards)."
+                "description": "Deck includes the Excuse, the Pawns, and the Courts (influence tokens may not be placed on any of these cards)."
             },
             "towers": {
                 "name": "Towers",
@@ -3728,6 +3728,7 @@
         },
         "emu": {
             "INITIAL_INSTRUCTIONS": "Select a card from your hand to place on the board.",
+            "LABEL_DISCARD": "Discard pile",
             "SELECT_DEST": "Select the plus sign to add the card to an existing bird or to hatch a new one, or click the discard pile to discard the card.",
             "SELECT_SRC": "Click the draw deck to draw a face-down card, or click the face-up card in the discard pile to draw it instead."
         },

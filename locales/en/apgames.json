@@ -1026,10 +1026,10 @@
             },
             "both": {
                 "name": "Full extended",
-                "description": "Includes the Pawns *and* the Courts. Results in a much more forgiving, higher-scoring game."
+                "description": "Includes the Excuse, the Pawns, *and* the Courts. Results in a much more forgiving, higher-scoring game."
             },
             "none": {
-                "name": "No extended",
+                "name": "Basic deck only",
                 "description": "No extended deck cards. Results in a much less forgiving, lower-scoring game."
             }
         },

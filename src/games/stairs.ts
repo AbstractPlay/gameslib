@@ -49,7 +49,7 @@ export class StairsGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "pie", "autopass"],
+        flags: ["experimental", "pie", "autopass", "scores"],
         variants: [
             { uid: "#board", },
             {

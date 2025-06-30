@@ -341,6 +341,14 @@ export const eoyMoves =
             if (canGrowBird(bird, card)) {
                 const newbirds = deepclone(birds) as string[][];
                 newbirds[j].push(card);
+                // if card is an Ace or Crown, don't continue this line
+                // if the new bird is negative scoring
+                if (card.startsWith("1") || card.startsWith("N")) {
+                    const newScore = scoreBird(newbirds[j]);
+                    if (newScore.value < 0) {
+                        continue;
+                    }
+                }
                 const newhand = [...hand].filter(c => c !== card);
                 const continuations = eoyMoves(newhand, newbirds);
                 if (continuations.length > 0) {

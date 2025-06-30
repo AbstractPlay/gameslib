@@ -209,6 +209,7 @@ import { GorogoGame, IGorogoState } from "./gorogo";
 import { BiscuitGame, IBiscuitState } from "./biscuit";
 import { QuincunxGame, IQuincunxState } from "./quincunx";
 import { SiegeOfJGame, ISiegeOfJState } from "./siegeofj";
+import { StairsGame, IStairsState } from "./stairs";
 import { EmuGame, IEmuState } from "./emu";
 
 export {
@@ -421,6 +422,7 @@ export {
     BiscuitGame, IBiscuitState,
     QuincunxGame, IQuincunxState,
     SiegeOfJGame, ISiegeOfJState,
+    StairsGame, IStairsState,
     EmuGame, IEmuState,
 };
 
@@ -494,7 +496,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
-                              typeof EmuGame
+                              typeof StairsGame | typeof EmuGame
                 >();
 // Manually add each game to the following array
 [
@@ -527,7 +529,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
-    SiegeOfJGame, EmuGame,
+    SiegeOfJGame, StairsGame, EmuGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -955,6 +957,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new QuincunxGame(args[0], ...args.slice(1));
         case "siegeofj":
             return new SiegeOfJGame(...args);
+        case "stairs":
+            return new StairsGame(...args);
         case "emu":
             return new EmuGame(...args);
     }

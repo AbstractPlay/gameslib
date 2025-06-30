@@ -354,6 +354,50 @@ describe("Quincunx", () => {
         scores = g.scorePlacement(card);
         expect(scores.flushes).equal(1);
 
+        // four in a row (BUG CHECK!!)
+        board = new QuincunxBoard();
+        card = new QuincunxCard({x: -1, y: -1, card: Card.deserialize("7ML")!});
+        board.add(card);
+        card = new QuincunxCard({x: 0, y: -1, card: Card.deserialize("6SY")!});
+        board.add(card);
+        card = new QuincunxCard({x: -3, y: -1, card: Card.deserialize("NS")!});
+        board.add(card);
+        card = new QuincunxCard({x: -2, y: -1, card: Card.deserialize("9MS")!});
+        board.add(card);
+        g.board = board;
+        scores = g.scorePlacement(card);
+        expect(scores.flushes).equal(0);
+
+        // another bug check
+        board = new QuincunxBoard();
+        card = new QuincunxCard({x: -3, y: 1, card: Card.deserialize("6SY")!});
+        board.add(card);
+        card = new QuincunxCard({x: -2, y: 0, card: Card.deserialize("7SK")!});
+        board.add(card);
+        card = new QuincunxCard({x: -1, y: -1, card: Card.deserialize("8VL")!});
+        board.add(card);
+        card = new QuincunxCard({x: 0, y: -2, card: Card.deserialize("9MS")!});
+        board.add(card);
+        card = new QuincunxCard({x: 1, y: -3, card: Card.deserialize("NS")!});
+        board.add(card);
+        g.board = board;
+        scores = g.scorePlacement(card);
+        expect(scores.flushes).equal(0);
+
+        // another bug check
+        board = new QuincunxBoard();
+        card = new QuincunxCard({x: 1, y: 0, card: Card.deserialize("NK")!});
+        board.add(card);
+        card = new QuincunxCard({x: 0, y: 0, card: Card.deserialize("9LK")!});
+        board.add(card);
+        card = new QuincunxCard({x: -1, y: 0, card: Card.deserialize("8MS")!});
+        board.add(card);
+        card = new QuincunxCard({x: -2, y: 0, card: Card.deserialize("7SK")!});
+        board.add(card);
+        g.board = board;
+        scores = g.scorePlacement(card);
+        expect(scores.flushes).equal(0);
+
         // five in a row
         board = new QuincunxBoard();
         card = new QuincunxCard({x: 0, y: 0, card: Card.deserialize("2MK")!});

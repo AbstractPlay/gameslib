@@ -29,7 +29,7 @@ export class FightopiaGame extends GameBase {
         // i18next.t("apgames:descriptions.fightopia")
         description: "apgames:descriptions.fightopia",
         urls: [
-            "https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/650f2c8b474f371e5dee3168/1695493264900/Fightopia2Pages.pdf",
+            "https://crabfragmentlabs.com/s/Fightopia2Pages.pdf",
             "https://boardgamegeek.com/boardgame/12878/fightopia",
         ],
         people: [
@@ -414,10 +414,10 @@ export class FightopiaGame extends GameBase {
                 return result;
             }
 
-             
+
             let selected: Piece|undefined;
             const [capX, capY] = FightopiaGame.algebraic2coords(cell);
-             
+
             const pieces = this.board.filter(p => p.includes(capX, capY));
             if (pieces.length > 0) {
                 selected = pieces[0];
@@ -478,9 +478,9 @@ export class FightopiaGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
                 return result;
             }
-             
+
             let selected: Piece|undefined;
-             
+
             const pieces = this.board.filter(p => p.includes(selX, selY));
             if (pieces.length > 0) {
                 selected = pieces[0];

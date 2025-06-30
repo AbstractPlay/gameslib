@@ -823,7 +823,8 @@ export class SiegeOfJGame extends GameBase {
             if (winner !== null) {
                 glyph = obj.toGlyph({border: true, fill: winner, opacity: 0.25})
             }
-            legend["c" + obj.uid] = glyph;
+            const safeid = card.id.replace("(", "").replace(")", "");
+            legend[safeid] = glyph;
         }
 
         // build pieces areas
@@ -866,7 +867,7 @@ export class SiegeOfJGame extends GameBase {
             pieces: this.board.map(n => {
                 return {
                     id: n.id.startsWith("wall") ? n.id : `c${n.id}`,
-                    glyph: n.glyph === undefined ? undefined : `c${n.glyph}`,
+                    glyph: n.glyph === undefined ? undefined : n.id.replace("(", "").replace(")", ""),
                     parents: n.parents.length === 0 ? null : n.parents.map(p => p.startsWith("wall") ? p : "c" + p),
                 };
             }) as PiecesTree,

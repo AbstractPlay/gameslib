@@ -159,11 +159,14 @@
     },
     "DECKDRAW": {
         "biscuit": "The next player was unable to play any cards in their hand, so they drew a card.",
+        "emu_deck": "{{player}} drew a face-down card from the deck.",
+        "emu_discard": "{{player}} drew the {{what}} from the top of the discard pile.",
         "quincunx_one": "{{player}} drew {{count}} card.",
         "quincunx_other": "{{player}} drew {{count}} cards."
     },
     "DECLARE": {
         "biscuit": "{{player}} has gone out!",
+        "emu": "Year {{year}} has ended.",
         "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
         "renju": "{{player}} has declared {{count}} tentative fifths."
     },
@@ -172,6 +175,8 @@
     "DELTA_SCORE_LOSS_one": "{{player}} lost {{delta}} point.",
     "DELTA_SCORE_LOSS_other": "{{player}} lost {{delta}} points.",
     "DELTASCORE": {
+        "emu_excuse": "{{player}} plays The Excuse to offset their lowest-scoring bird ({{delta}} points).",
+        "emu_score": "{{player}}'s bird with the following ranks scored {{delta}} points: {{ranks}}.",
         "quincunx": {
             "basic_zero": "Against {{card}} it scored no points.",
             "basic_one": "Against {{card}} it scored 1 point.",
@@ -278,7 +283,7 @@
         "entrapment_roamer_jump": "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}.",
         "fightopia_1": "{{player}} moved a pawn from {{from}} to {{to}}.",
         "fightopia_2": "{{player}} moved a tank from {{from}} to {{to}}.",
-        "fightopia_3": "{{player}} moved their giant from {{from}} to {{to}}.",
+        "fightopia_4": "{{player}} moved their giant from {{from}} to {{to}}.",
         "fightopia_pivot": "{{player}} pivoted a tank from {{from}} to {{to}}.",
         "gess_one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
         "gess_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
@@ -353,6 +358,9 @@
         "boxes_claim1": "{{player}} adds a line at {{where}}, claiming {{box}}.",
         "boxes_claim2": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
         "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
+        "emu_discard": "{{player}} discarded the card {{what}}.",
+        "emu_existing": "{{player}} used the {{what}} to grow bird #{{where}}.",
+        "emu_new": "{{player}} hatched a new bird with the {{what}}.",
         "entrapment_barrier": "{{player}} placed a barrier at {{where}}.",
         "entrapment_roamer": "{{player}} placed a roamer at {{where}}.",
         "epam": "{{player}} placed a stone at {{where}}.",

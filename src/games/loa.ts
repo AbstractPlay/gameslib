@@ -47,15 +47,15 @@ export class LinesOfActionGame extends GameBase {
         ],
         variants: [
             {
-                uid: "scrambled",
-                group: "setup"
-            },
-            {
                 uid: "classic",
                 group: "board",
                 default: true,
             },
-            { uid: "#board" }
+            { uid: "#board" },
+            {
+                uid: "scrambled",
+                group: "setup"
+            },
         ],
         categories: ["goal>unify", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["check", "limited-pieces", "automove"]

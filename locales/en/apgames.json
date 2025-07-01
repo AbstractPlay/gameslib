@@ -1352,10 +1352,10 @@
         "loa": {
             "#board": {
                 "description": "9x9 \"black hole\" variant. Moving a piece onto the central hole removes the piece from the game.",
-                "name": "Larger board (9x9)"
+                "name": "9x9 board"
             },
             "classic": {
-                "name": "Classic 8x8 board"
+                "name": "8x8 board"
             },
             "scrambled": {
                 "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",

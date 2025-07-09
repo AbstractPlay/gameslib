@@ -529,7 +529,11 @@ export class EntropyGame extends GameBaseSimultaneous {
         };
     }
 
-    public render({perspective}: IRenderOpts): APRenderRep {
+    public render({perspective, altDisplay}: IRenderOpts): APRenderRep {
+        let display: string|undefined;
+        if (altDisplay !== undefined) {
+            display = altDisplay;
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 7; row++) {
@@ -584,8 +588,27 @@ export class EntropyGame extends GameBaseSimultaneous {
             board.boardTwo!.label = "Player 1: Chaos";
         }
 
-        const legend : { [k: string]: Glyph } = {};
-        allColours.map((c, i) => legend[c] = { name: "piece", colour: i + 1 } as Glyph);
+        const legend : { [k: string]: [Glyph, ...Glyph[]]|Glyph } = {};
+        allColours.forEach((c, i) => {
+            let glyph: [Glyph, ...Glyph[]]|Glyph = { name: "piece", colour: i + 1 } as Glyph;
+            if (display === "piece-numbers") {
+                glyph = [
+                    {
+                        name: "piece",
+                        colour: i + 1,
+                    },
+                    {
+                        text: (i+1).toString(),
+                        colour: {
+                            func: "bestContrast",
+                            bg: i + 1,
+                            fg: ["#000000", "#ffffff"],
+                        },
+                    },
+                ] as [Glyph, ...Glyph[]];
+            }
+            legend[c] = glyph;
+        });
 
         // Build rep
         const rep: APRenderRep =  {

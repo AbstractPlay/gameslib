@@ -2647,6 +2647,12 @@
                 "description": "Display the board using vertexes instead of hexes."
             }
         },
+        "entropy": {
+            "piece-numbers": {
+                "name": "Piece numbers",
+                "description": "Add numbers to the pieces to further distinguish them."
+            }
+        },
         "fourinarow": {
             "hide-moves": {
                 "description": "Don't show possible moves.",

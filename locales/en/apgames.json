@@ -4182,8 +4182,8 @@
         },
         "meridians": {
             "INITIAL_INSTRUCTIONS": "Place a piece on the board.",
-            "INITIAL_INSTRUCTIONS_PASS": "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
-            "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board.",
+            "INITIAL_INSTRUCTIONS_PASS": "Either click the 'Swap player seats' button to play as first player or pass to play as second. If seats were swapped, then your only option is to pass.",
+            "INITIAL_INSTRUCTIONS_SETUP": "Setup phase: place a piece of each colour on the board. Your opponent will then choose what colour to play.",
             "NOLOS": "There is no line of sight to {{where}} from any of your pieces.",
             "ONE_MORE": "Place a piece of the other colour.",
             "SAME_CELL": "In the setup phase, place two pieces on different cells.",

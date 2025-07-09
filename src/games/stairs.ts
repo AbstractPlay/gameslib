@@ -50,13 +50,7 @@ export class StairsGame extends GameBase {
         ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "pie", "autopass", "scores"],
-        variants: [
-            { uid: "#board", },
-            {
-                uid: "size-8",
-                group: "board",
-            }
-        ]
+        variants: []
     };
 
     public numplayers = 2;

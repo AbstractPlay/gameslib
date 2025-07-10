@@ -939,6 +939,9 @@ export class PenguinGame extends GameBase {
                     if (move.from === move.to) {
                         const [x, y] = PenguinGame.algebraic2coords(move.from);
                         rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+                    } else if (move.to === "off") {
+                        const [x, y] = PenguinGame.algebraic2coords(move.from);
+                        rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                     } else {
                         const [fromX, fromY] = PenguinGame.algebraic2coords(move.from);
                         const [toX, toY] = PenguinGame.algebraic2coords(move.to);

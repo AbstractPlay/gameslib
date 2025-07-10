@@ -967,9 +967,15 @@ export class EmuGame extends GameBase {
                     this.results = [{type: "pass"}];
                     this.lastmove = "pass"
                 } else {
-                    // actually, don't clear the results
-                    // this will clobber the scoring
-                    // this.results = [];
+                    // insert TWO passes so the final board state is rendered
+                    // save the state
+                    this.saveState();
+                    this.results = [{type: "pass"}];
+                    this.lastmove = "pass"
+                    // save the state
+                    this.saveState();
+                    this.results = [{type: "pass"}];
+                    this.lastmove = "pass"
                 }
                 this.currplayer = nextp;
                 // reset the game

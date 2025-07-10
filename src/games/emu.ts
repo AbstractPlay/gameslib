@@ -967,7 +967,6 @@ export class EmuGame extends GameBase {
                     this.results = [{type: "pass"}];
                     this.lastmove = "pass"
                 } else {
-                    console.log("Already the correct player")
                     // actually, don't clear the results
                     // this will clobber the scoring
                     // this.results = [];

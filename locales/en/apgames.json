@@ -1760,6 +1760,9 @@
             }
         },
         "pontedd": {
+            "size-8": {
+                "name": "8x8 board"
+            },
             "#board": {
                 "name": "10x10 board"
             },

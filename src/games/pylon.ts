@@ -254,7 +254,7 @@ export class PylonGame extends GameBase {
             // otherwise the stash
             else {
                 if (piece !== undefined) {
-                    newmove = piece[1];
+                    newmove = piece.length === 2 ? piece[1] : piece[3];
                 } else {
                     newmove = "";
                 }
@@ -612,18 +612,36 @@ export class PylonGame extends GameBase {
                 name: "pyramid-up-large-3D",
                 colour: n+1,
             };
-            // myLegend["PC" + prefixes[n] + "1"] = {
-            //     name: "pyramid-up-small-upscaled",
-            //     colour: n+1,
-            // };
-            // myLegend["PC" + prefixes[n] + "2"] = {
-            //     name: "pyramid-up-medium-upscaled",
-            //     colour: n+1,
-            // };
-            // myLegend["PC" + prefixes[n] + "3"] = {
-            //     name: "pyramid-up-large-upscaled",
-            //     colour: n+1,
-            // };
+            myLegend["PC" + prefixes[n] + "1"] = [
+                {
+                    name: "piece-square-borderless",
+                    colour: "_context_background",
+                },
+                {
+                    name: "pyramid-up-small-3D",
+                    colour: n+1,
+                }
+            ];
+            myLegend["PC" + prefixes[n] + "2"] = [
+                {
+                    name: "piece-square-borderless",
+                    colour: "_context_background",
+                },
+                {
+                    name: "pyramid-up-medium-3D",
+                    colour: n+1,
+                }
+            ];
+            myLegend["PC" + prefixes[n] + "3"] = [
+                {
+                    name: "piece-square-borderless",
+                    colour: "_context_background",
+                },
+                {
+                    name: "pyramid-up-large-3D",
+                    colour: n+1,
+                }
+            ];
         }
 
         const areas: AreaPieces[] = [];
@@ -639,7 +657,7 @@ export class PylonGame extends GameBase {
                 if (stash[size-1] === 0) { continue; }
                 for (let i = 0; i < 5; i++) {
                     if (stash[size-1] > i) {
-                        pcs.push(`${prefixes[p-1]}${size}`);
+                        pcs.push(`PC${prefixes[p-1]}${size}`);
                     } else {
                         pcs.push("SPACER");
                     }

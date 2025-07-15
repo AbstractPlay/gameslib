@@ -49,6 +49,8 @@ export class PonteDDGame extends GameBase {
             },
         ],
         variants: [
+            {uid: "size-8", group: "board"},
+            {uid: "#board"},
             {uid: "size-12", group: "board"},
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>special"],
@@ -120,6 +122,8 @@ export class PonteDDGame extends GameBase {
     public get boardsize(): number {
         if (this.variants.includes("size-12")) {
             return 12;
+        } else if (this.variants.includes("size-8")) {
+            return 8;
         }
         return 10;
     }

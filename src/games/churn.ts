@@ -471,7 +471,7 @@ export class ChurnGame extends GameBase {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected sameMove(move1: string, move2: string): boolean {
-        return true;
+        return move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
     }
 
     public clone(): ChurnGame {

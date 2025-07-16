@@ -871,15 +871,20 @@ export class EmuGame extends GameBase {
             }
         }
 
-        if (partial || emulation ) { return this; }
-
         // draw new card
         if (drawNew) {
-            const [drawn] = this.deck.draw();
-            if (drawn !== undefined) {
-                this.hands[this.currplayer - 1].push(drawn.uid);
+            if (partial || emulation) {
+                this.hands[this.currplayer - 1].push("");
+            } else {
+                const [drawn] = this.deck.draw();
+                if (drawn !== undefined) {
+                    this.hands[this.currplayer - 1] = this.hands[this.currplayer - 1].filter(c => c !== "");
+                    this.hands[this.currplayer - 1].push(drawn.uid);
+                }
             }
         }
+
+        if (partial || emulation ) { return this; }
 
         this.lastmove = m;
         // update currplayer

@@ -1532,7 +1532,7 @@ export class PacruGame extends GameBase {
                 resolved = true;
                 break;
             case "convert":
-                node.push(i18next.t("apresults:CONVERT.simple", {player, where: r.where}));
+                node.push(i18next.t("apresults:CONVERT.pacru", {player, where: r.where}));
                 resolved = true;
                 break;
         }

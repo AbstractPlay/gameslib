@@ -1357,6 +1357,9 @@
             "classic": {
                 "name": "8x8 board"
             },
+            "#setup": {
+                "name": "Classic setup"
+            },
             "scrambled": {
                 "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",
                 "name": "Scrambled Eggs"

@@ -279,6 +279,9 @@
             "#board": {
                 "name": "Triangle board (8 wide)"
             },
+            "cobweb": {
+                "name": "Cobweb (4 rings)"
+            },
             "cobweb-small": {
                 "description": "A variant played on a round board where you try to connect two opposite sides.",
                 "name": "Cobweb (3 rings)"

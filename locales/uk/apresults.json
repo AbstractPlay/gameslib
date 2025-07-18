@@ -162,7 +162,8 @@
         "storisende_wall": "Плитка на {{where}} стала стіною.",
         "paintbucket_one": "{{player}} конвертував 1 шт {{where}}.",
         "paintbucket_few": "{{player}} конвертували {{count}} фігури, починаючи з {{where}}.",
-        "paintbucket_many": "{{player}} конвертували {{count}} фігури, починаючи з {{where}}."
+        "paintbucket_many": "{{player}} конвертували {{count}} фігури, починаючи з {{where}}.",
+        "pacru": "{{player}} конвертований {{where}}."
     },
     "DAMAGE": {
         "pigs": "{{player}} вдарив {{opponent}} в {{where}}.",

@@ -50,7 +50,8 @@ export class AlfredsWykeGame extends GameBase {
         ],
         variants: [
             {
-                uid: "6x6"
+                uid: "6x6",
+                group: "size",
             }
         ],
         categories: ["goal>align", "mechanic>asymmetry",  "mechanic>capture", "mechanic>economy", "mechanic>place", "mechanic>share", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
@@ -602,7 +603,7 @@ export class AlfredsWykeGame extends GameBase {
         return status;
     }
 
-     
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["add", "remove", "eog", "winners"]);

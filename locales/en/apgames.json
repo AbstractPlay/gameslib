@@ -842,7 +842,7 @@
         },
         "connect6": {
             "#board": {
-                "name": "Default 19x19 board"
+                "name": "19x19 board"
             },
             "#opening": {
                 "description": "The first stone has to be at the centre.",
@@ -850,7 +850,7 @@
             },
             "#ruleset": {
                 "description": "Free placement of both stones.",
-                "name": "Default ruleset"
+                "name": "Free placement"
             },
             "#tiebreaker": {
                 "name": "No tiebreak"
@@ -2540,16 +2540,19 @@
             }
         },
         "wyke": {
+            "#size": {
+                "name": "4x4 board"
+            },
             "6x6": {
-                "name": "Larger board: 6x6"
+                "name": "6x6 board"
             }
         },
         "zola": {
             "#board": {
-                "name": "Default board: 6x6"
+                "name": "6x6 board"
             },
             "8x8": {
-                "name": "Larger board: 8x8"
+                "name": "8x8 board"
             }
         }
     },

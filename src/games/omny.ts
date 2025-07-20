@@ -797,7 +797,11 @@ export class OmnyGame extends GameBase {
                         name: "star-solid",
                         colour: {
                             func: "flatten",
-                            fg: "_context_fill",
+                            fg: {
+                                func: "bestContrast",
+                                bg: 1,
+                                fg: ["#ffffff", "#000000"]
+                            },
                             bg: 1,
                             opacity: 0.25,
                         },
@@ -813,7 +817,11 @@ export class OmnyGame extends GameBase {
                         name: "star-solid",
                         colour: {
                             func: "flatten",
-                            fg: "_context_fill",
+                            fg: {
+                                func: "bestContrast",
+                                bg: 2,
+                                fg: ["#ffffff", "#000000"]
+                            },
                             bg: 2,
                             opacity: 0.25,
                         },

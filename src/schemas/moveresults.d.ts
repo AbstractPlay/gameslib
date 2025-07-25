@@ -303,6 +303,7 @@ export type APMoveResult =
   | {
       type: "swap";
       where: string;
+      what?: string;
       with?: string;
       who?: number;
     }

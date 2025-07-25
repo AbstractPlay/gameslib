@@ -62,6 +62,7 @@
         "cubeo": "A boardless, perfect-information dice game where you attempt to promote your dice faster than your opponent or manoeuvre your opponent into a position where they cannot move.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
+        "deckfish": "A two-player game of map reduction and suit collection where the player with the most of their least collected Decktet suit wins.",
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
@@ -223,6 +224,7 @@
         "calculus": "Click on an existing piece to move it, or click on a free point to place a new piece. There must be a sufficiently wide path from some edge of the board to the placement point. If your placed piece would overlap existing pieces, the system will try to \"snap\" the placed piece so it is touching all overlapped pieces.\n\nDashed lines show pieces that are touching. Solid lines show perimeters around legal areas. Pieces connected by solid lines may not be moved.",
         "chase": "Currently, most exchange moves will need to be hand edited. We're working on fixing this.",
         "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
+        "deckfish": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
         "emu": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         "exxit": "Translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.\n\nBecause the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. This ensures that the labels don't change as the map grows.",
@@ -3724,6 +3726,25 @@
             "INITIAL_INSTRUCTIONS": "Select a piece to move.",
             "INVALID_MOVE": "Remember that capturing is compulsory, as is capturing the maximum number of pieces. Movement can only happen in a forward direction, and captures can only happen orthogonally.",
             "VALID_PARTIAL": "Looks good so far. Select the next empty cell to move to."
+        },
+        "deckfish": {
+            "BAD_PASS": "You may not pass if legal moves are available.",
+            "EARLY_TO_MARKET": "You cannot make a market swap now.",
+            "INITIAL_PLACEMENT_INSTRUCTIONS": "Click a card to place your piece on the board.",
+            "INITIAL_MOVE_INSTRUCTIONS": "Click a piece to move.",
+            "INITIAL_SWAP_INSTRUCTIONS": "Click a market card to swap it with one on the board.",
+            "INVALID_FROM": "You may only move your own pieces.",
+            "INVALID_PLACEMENT": "You may only place your piece on an unoccupied Ace or Crown.",
+            "INVALID_TO": "The destination {{cell}} is not legal.",
+            "LABEL_MARKET": "Market cards",
+            "LABEL_COLLECTION": "Player {{playerNum}}'s suits",
+            "LATE_TO_MARKET": "You have already selected a market card.",
+            "NO_SWAP": "There is no card to swap at {{cell}}.",
+            "OCCUPIED_SWAP": "The card at {{cell}} is occupied by a piece and cannot be swapped.",
+            "PARTIAL_MOVE": "Click a card on the board to move your piece to.",
+            "PARTIAL_SWAP": "Click a card on the board to swap with {{what}}.",
+            "REVERSED_MARKET": "Please choose the market card to swap first..",
+            "VALID_PLACEMENT": "Looks like a good placement."
         },
         "diffusion": {
             "INITIAL_INSTRUCTIONS": "Select any pit to sow."

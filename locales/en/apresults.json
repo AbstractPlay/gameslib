@@ -21,6 +21,7 @@
     },
     "ANNOUNCE": {
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
+        "deckfish": "{{player}} was unable to move and must pass from now on.",
         "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}."
     },
     "BEAROFF": {
@@ -208,6 +209,7 @@
     "DRAWAGREED": "Players agreed to a draw.",
     "EJECT": {
         "assembly": "The production line moved forward {{distance}} spaces.",
+        "deckfish": "{{player}} pushed a piece from {{from}} to {{to}}.",
         "penguin_ball": "{{player}} kicked the ball from {{from}} to {{to}}.",
         "penguin_penguin": "A penguin was pushed from {{from}} to {{to}}."
     },
@@ -217,6 +219,7 @@
         "camelot_claim_draw_repetition": "The game has ended because {{player}} has claimed a draw by repetition.",
         "camelot_claim_draw_progression": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
         "consecutive_passes": "The game has ended because both players passed consecutively.",
+        "deckfish": "The game has ended because the last player was unable to move.",
         "default": "The game has ended.",
         "material": "The game has ended because both players have insufficient material.",
         "repetition_one": "The game has ended because the same position has occurred by the same player.",
@@ -279,6 +282,7 @@
         "complete": "{{player}} moved a {{what}} from {{from}} to {{to}}.",
         "complete_one": "{{player}} moved one piece from {{from}} to {{to}}.",
         "complete_other": "{{player}} moved {{count}} pieces from {{from}} to {{to}}.",
+        "deckfish": "{{player}} moved a piece from {{from}} to {{to}}, collecting {{what}}.",
         "entrapment_barrier": "{{player}} moved a barrier from {{from}} to {{to}}.",
         "entrapment_roamer": "{{player}} moved a roamer from {{from}} to {{to}}.",
         "entrapment_roamer_jump": "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}.",
@@ -324,6 +328,7 @@
     "PASS": {
         "asli": "{{player}} took an opposing piece from the prison and passed their turn.",
         "assembly": "The production line doesn't move.",
+        "deckfish": "{{player}} was unable to move.",
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
         "pie": "{{player}} accepted the komi offer and will continue playing second.",
@@ -333,6 +338,7 @@
         "tiebreaker": "{{player}} passed, winning the tiebreaker."
     },
     "PIE": {
+        "deckfish": "{{player}} moves second.",
         "default": "{{player}} invoked the pie rule.",
         "unlur": "{{player}} has passed to be the Y player."
     },
@@ -359,6 +365,7 @@
         "boxes_claim1": "{{player}} adds a line at {{where}}, claiming {{box}}.",
         "boxes_claim2": "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
         "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
+        "deckfish": "{{player}} placed a piece at {{where}}.",
         "emu_discard": "{{player}} discarded the card {{what}}.",
         "emu_existing": "{{player}} used the {{what}} to grow bird #{{where}}.",
         "emu_new": "{{player}} hatched a new bird with the {{what}}.",
@@ -528,6 +535,7 @@
         "biscuit": "The hand has gone stale."
     },
     "SWAP": {
+        "deckfish": "{{player}} swapped {{what}} from the market with {{with}} at {{where}}.",
         "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
         "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
         "resolve": "The piece is swapped to {{where}}."

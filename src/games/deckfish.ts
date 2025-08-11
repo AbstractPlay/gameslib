@@ -105,7 +105,7 @@ export class DeckfishGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private highlights: string[] = [];
-    private tableau: number[][] = new Array(columns).fill(-1).map(() => 
+    private tableau: number[][] = new Array(columns).fill(-1).map(() =>
         new Array(rows).fill(-1));
 
     constructor(state?: IDeckfishState | string) {
@@ -136,7 +136,7 @@ export class DeckfishGame extends GameBase {
                 const [card] = deck.draw();
                 market.push(card.uid);
             }
- 
+
             // init positions
             const occupied = new Map<string, playerid>();
             const mode = "place";
@@ -209,15 +209,15 @@ export class DeckfishGame extends GameBase {
         if (! this.board.has(toCell)) {
             //Cannot land in the gaps.
             return false;
-        } 
+        }
         const card = this.getCardFromCell(toCell);
         if (card.rank.name === "Excuse") {
             //Cannot land on the Excuse.
             return false;
         }
-        
+
         //Need to check the move.
-        
+
         const suits = this.getSuits(fromCell);
 
         const fromLoc = this.algebraic2loc(fromCell);
@@ -243,6 +243,7 @@ export class DeckfishGame extends GameBase {
             return false;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public canSwap(cell: string, market: string): boolean {
         return true;
     }
@@ -277,7 +278,7 @@ export class DeckfishGame extends GameBase {
         //Convert to locations for easier calculating.
         const fromLoc = this.algebraic2loc(fromCell);
         const toLoc = this.algebraic2loc(toCell);
-        let bounceLoc = toLoc.slice() as location;
+        const bounceLoc = toLoc.slice() as location;
 
         if (fromLoc[0] === toLoc[0]) {
             if (fromLoc[1] > toLoc[1])
@@ -315,16 +316,19 @@ export class DeckfishGame extends GameBase {
                 break;
             case "NE":
                 nextLoc[1]--;
+            // eslint-disable-next-line no-fallthrough
             case "E":
                 nextLoc[0]++;
                 break;
             case "SE":
                 nextLoc[0]++;
+            // eslint-disable-next-line no-fallthrough
             case "S":
                 nextLoc[1]++;
                 break;
             case "SW":
                 nextLoc[1]++;
+            // eslint-disable-next-line no-fallthrough
             case "W":
                 nextLoc[0]--;
                 break;
@@ -343,7 +347,7 @@ export class DeckfishGame extends GameBase {
         //Abstract the data structure to only what is needed for movement.
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
-                //The tableau was initialized to all -1's (gaps).  
+                //The tableau was initialized to all -1's (gaps).
                 const cell = DeckfishGame.coords2algebraic(x, y);
                 if (this.board.has(cell)) {
                     // Revise card spaces: 2 is occupied, 1 is unoccupied, 0 is the Excuse.
@@ -387,7 +391,7 @@ export class DeckfishGame extends GameBase {
                     const tabValue = this.getTableau(neighbor);
                     if (tabValue === 2 || tabValue === 0)
                         return false;
-                    else 
+                    else
                         continue;
                 }
             }
@@ -403,7 +407,7 @@ export class DeckfishGame extends GameBase {
 
     private isBlockage(loc: location): boolean {
         //Check for the exact edge of the board.
-        
+
         if (loc[0] === -1 || loc[1] === -1 || loc[0] === columns || loc[1] === rows) {
             return true;
         } else if (this.checkUnoccupied(loc)) {
@@ -436,14 +440,14 @@ export class DeckfishGame extends GameBase {
             myTargets = myTargets.concat(this.collectLeafTargets(meepleLoc));
         if (suits.includes('Wyrms'))
             myTargets = myTargets.concat(this.collectWyrmTargets(meepleLoc));
-        if (suits.includes('Knots'))      
+        if (suits.includes('Knots'))
             myTargets = myTargets.concat(this.collectKnotTargets(meepleLoc));
 
         return myTargets;
     }
 
     private collectMoonTargets(meepleLoc: location): location[] {
-        let targets: location[] = [];
+        const targets: location[] = [];
 
         for (const dir of orthDirections) {
             let nextLoc = this.getNext(meepleLoc,dir);
@@ -469,9 +473,9 @@ export class DeckfishGame extends GameBase {
         //these are already legal targets and don't need filtering.
         return targets;
     }
-    
+
     private collectSunTargets(meepleLoc: location): location[] {
-        let targets: location[] = [];
+        const targets: location[] = [];
 
         for (const dir of diagDirections) {
             const nextLoc = this.getNext(meepleLoc,dir);
@@ -480,7 +484,7 @@ export class DeckfishGame extends GameBase {
                 const secondLoc = this.getNext(nextLoc,dir);
                 if (this.checkUnoccupied(secondLoc))
                     targets.push(secondLoc);
-            } //Otherwise: 
+            } //Otherwise:
             //if the first space diagonally is off the board, so is the second.
             //if it's is the Excuse or occupied, we cannot reach the second.
         }
@@ -490,7 +494,7 @@ export class DeckfishGame extends GameBase {
     }
 
     private collectWaveTargets(meepleLoc: location): location[] {
-        let targets: location[] = [];
+        const targets: location[] = [];
 
         for (const dir of orthDirections) {
             let candidateLoc = meepleLoc.slice() as location;
@@ -505,7 +509,7 @@ export class DeckfishGame extends GameBase {
                     if (this.isBlockage(stopLoc)) {
                         targets.push(candidateLoc);
                         break;
-                    } 
+                    }
                 }// else continue
             }
         }
@@ -514,7 +518,7 @@ export class DeckfishGame extends GameBase {
     }
 
     private collectLeafTargets(meepleLoc: location): location[] {
-        let targets: location[] = [];
+        const targets: location[] = [];
 
         for (const dir of orthDirections) {
             let nextLoc = meepleLoc.slice() as location;
@@ -539,7 +543,7 @@ export class DeckfishGame extends GameBase {
     }
 
     private collectWyrmTargets(meepleLoc: location): location[] {
-        let targets: location[] = [];
+        const targets: location[] = [];
 
         for (const dir of orthDirections) {
             let candidateLoc = meepleLoc.slice() as location;
@@ -552,7 +556,7 @@ export class DeckfishGame extends GameBase {
                     const bounceLoc = this.getNext(candidateLoc,dir);
                     if (this.checkUnoccupied(bounceLoc)) {
                         targets.push(candidateLoc);
-                    } 
+                    }
                     break;
                 } else if (!this.checkUnoccupied(candidateLoc)) {
                     //In this case we hit the Excuse, a gap, or the edge.
@@ -565,8 +569,8 @@ export class DeckfishGame extends GameBase {
     }
 
     private collectKnotTargets(meepleLoc: location): location[] {
-        let targets: location[] = [];
-        
+        const targets: location[] = [];
+
         //We take three steps, never backwards.
         for (const dir1 of orthDirections) {
             const loc1 = this.getNext(meepleLoc,dir1);
@@ -593,7 +597,7 @@ export class DeckfishGame extends GameBase {
 
         return targets;
     }
- 
+
     /* end suit movement logic */
 
     public moves(player?: playerid): string[] {
@@ -696,8 +700,8 @@ export class DeckfishGame extends GameBase {
                 } else if (! move.includes("-")) {
                     //Selecting move target location.
                     newmove = `${move}-${cell}`;
-                } else { 
-                    // move includes a dash but not a comma, 
+                } else {
+                    // move includes a dash but not a comma,
                     // trying to click on the board instead of market first.
                     return {
                         move,
@@ -710,7 +714,7 @@ export class DeckfishGame extends GameBase {
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 //Revert latest addition to newmove.
-                result.move = newmove.includes(",") ? newmove.split(",")[0] : (newmove.includes("-") ? newmove.split("-")[0] : ""); 
+                result.move = newmove.includes(",") ? newmove.split(",")[0] : (newmove.includes("-") ? newmove.split("-")[0] : "");
             } else {
                 result.move = newmove;
             }
@@ -785,7 +789,7 @@ export class DeckfishGame extends GameBase {
                 result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT");
             }
             return result;
-        } 
+        }
         //Otherwise, collecting.
 
         // if `to` is missing, partial
@@ -818,13 +822,13 @@ export class DeckfishGame extends GameBase {
             result.complete = 0;
             result.message = i18next.t("apgames:validation.deckfish.INITIAL_SWAP_INSTRUCTIONS");
             return result;
- 
+
         } else {
 
             //otherwise
-            let [mark, swap] = sw.split("-");
+            const [mark, swap] = sw.split("-");
 
-            //A successful market choice is always valid. 
+            //A successful market choice is always valid.
             //Need to check the click?
             const marketCard = this.market[this.algebraic2coord(mark)];
 
@@ -857,7 +861,7 @@ export class DeckfishGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): DeckfishGame {
+    public move(m: string, {trusted = false, partial = false} = {}): DeckfishGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -893,16 +897,16 @@ export class DeckfishGame extends GameBase {
             const [mv, sw] = m.split(",");
             // eslint-disable-next-line prefer-const
             let [frm, to] = mv.split("-");
- 
+
             const card = this.getCardFromCell(frm);
             if (card === undefined)
                 throw new Error(`Could not load the card at ${frm}.`);
 
             this.highlights.push(card.uid);
-           
+
             if (to !== undefined && to.length > 0) {
                 //Remove the card.
- 
+
                 this.highlights.push(card.uid);
                 if (!partial)
                     this.board.delete(frm);
@@ -923,7 +927,7 @@ export class DeckfishGame extends GameBase {
                 this.occupied.set(to, this.currplayer);
 
                 //TODO
-                
+
                 //Score the card.
                 const newSuits = card.suits.map(s => s.uid as Suit);
                 newSuits.forEach(s => {
@@ -931,7 +935,7 @@ export class DeckfishGame extends GameBase {
                 })
 
                 if (sw !== undefined && sw.length > 0) {
-                    let [marketCell, swapCell] = sw.split("-");
+                    const [marketCell, swapCell] = sw.split("-");
                     //highlight market card
                     const marketCard = this.market[this.algebraic2coord(marketCell)];
                     this.highlights.push(marketCard);
@@ -954,7 +958,7 @@ export class DeckfishGame extends GameBase {
                 } else {
                     //Partial move already illustrated, though a bit flakily.
                 }
-            }   
+            }
         }
 
         if (partial) { return this; }
@@ -1068,7 +1072,7 @@ export class DeckfishGame extends GameBase {
             name: "ring-13",
             scale: 0.55,
             opacity: opacity === undefined ? 1 : opacity,
-            colour: colour, 
+            colour: colour,
             nudge: {
                 dx: 280,
                 dy: dy,
@@ -1098,8 +1102,7 @@ export class DeckfishGame extends GameBase {
             pstr += pieces.join(",");
         }
         // build card markers
-        let markers: (MarkerGlyph)[]|undefined;
-        markers = [];
+        const markers: MarkerGlyph[] = [];
         if (this.board.size > 0) {
             for (const [cell, c] of this.board.entries()) {
                 const [x,y] = DeckfishGame.algebraic2coords(cell);
@@ -1131,14 +1134,14 @@ export class DeckfishGame extends GameBase {
         const allcards = [...cardsBasic, ...cardsExtended];
 
         const legend: ILegendObj = {};
-        
+
         let lastMarketCard = "";
         if (this.highlights.length === 0 && this.lastmove  && this.lastmove.length > 0) {
             const lastMarketCell = this.lastmove!.split(/\W+/).find((elt) => elt[0] == "m");
             if (lastMarketCell)
                 lastMarketCard = this.market[this.algebraic2coord(lastMarketCell!)];
         }
-        
+
         const occupiedCards = new Map<string, playerid>();
         this.occupied.forEach((player,cell) => {
             occupiedCards.set(this.board.get(cell)!,player);
@@ -1193,12 +1196,12 @@ export class DeckfishGame extends GameBase {
 
         // suits
         for (let p = 1; p <= this.numplayers; p++) {
-            let captive = this.collected[p-1].reduce((partialSum, a) => partialSum + a, 0);
+            const captive = this.collected[p-1].reduce((partialSum, a) => partialSum + a, 0);
             if (captive > 0) {
-                let captives: string[] = [];
+                const captives: string[] = [];
                 this.collected[p-1].forEach((cnt,idx) => {
                     if (cnt > 0) {
-                        for (let c = 0; c<cnt; c++) 
+                        for (let c = 0; c<cnt; c++)
                             captives.push(suitOrder[idx]);
                     }
                 });
@@ -1269,7 +1272,7 @@ export class DeckfishGame extends GameBase {
             tieWinner.push((winArray[0] > 0 ? 1 : 2) as playerid);
         }
         return tieWinner;
-    } 
+    }
 
     public getPlayerScore(player: number): number {
         //gets min of suits

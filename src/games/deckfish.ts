@@ -105,8 +105,7 @@ export class DeckfishGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private highlights: string[] = [];
-    private tableau: number[][] = new Array(columns).fill(-1).map(() =>
-        new Array(rows).fill(-1));
+    private tableau!: number[][];
 
     constructor(state?: IDeckfishState | string) {
         super();
@@ -187,9 +186,8 @@ export class DeckfishGame extends GameBase {
         this.lastmove = state.lastmove;
         this.eliminated = state.eliminated;
 
-        if (this.mode === "collect")
-            this.populateTableau();
-
+        this.tableau = this.populateTableau();
+	
         return this;
     }
 
@@ -343,8 +341,9 @@ export class DeckfishGame extends GameBase {
         return nextLoc!;
     }
 
-    private populateTableau(): void {
+    private populateTableau(): number[][] {
         //Abstract the data structure to only what is needed for movement.
+	let tableau = new Array(columns).fill(-1).map(() => new Array(rows).fill(-1));
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
                 //The tableau was initialized to all -1's (gaps).
@@ -353,19 +352,21 @@ export class DeckfishGame extends GameBase {
                     // Revise card spaces: 2 is occupied, 1 is unoccupied, 0 is the Excuse.
                     if (this.occupied.has(cell)) {
                         //The card is occupied by a piece.
-                        this.tableau[x][y] = 2;
+                        tableau[x][y] = 2;
                     } else {
                         //There's an unoccupied card.
                         const card = this.getCardFromCell(cell);
                         //Check for excuse.
                         if (card.rank.name === "Excuse")
-                            this.tableau[x][y] = 0;
+                            tableau[x][y] = 0;
                         else
-                            this.tableau[x][y] = 1;
+                            tableau[x][y] = 1;
                     }
                 }
             }
         }
+
+	return tableau;
     }
 
     private checkUnoccupied(loc: location): boolean {
@@ -612,6 +613,10 @@ export class DeckfishGame extends GameBase {
         if (this.mode === "place" && this.occupied.size === 6) {
             return ["pass"];
         }
+
+	if (this.mode === "collect" && this.currplayer === this.eliminated) {
+            return ["pass"];
+	}
 
         const moves: string[] = [];
 
@@ -978,7 +983,7 @@ export class DeckfishGame extends GameBase {
     }
 
     protected checkEOG(): DeckfishGame {
-        if (this.lastmove === "pass" && this.eliminated == this.currplayer) {
+        if (this.lastmove === "pass" && this.eliminated === this.currplayer) {
             this.gameover = true;
             const scores: number[] = [];
             for (let p = 1; p <= this.numplayers; p++) {

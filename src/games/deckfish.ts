@@ -343,7 +343,7 @@ export class DeckfishGame extends GameBase {
 
     private populateTableau(): number[][] {
         //Abstract the data structure to only what is needed for movement.
-	let tableau = new Array(columns).fill(-1).map(() => new Array(rows).fill(-1));
+	const tableau = new Array(columns).fill(-1).map(() => new Array(rows).fill(-1));
         for (let x = 0; x < columns; x++) {
             for (let y = 0; y < rows; y++) {
                 //The tableau was initialized to all -1's (gaps).

@@ -241,11 +241,6 @@ export class DeckfishGame extends GameBase {
             return false;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public canSwap(cell: string, market: string): boolean {
-        return true;
-    }
-
     public getCardFromCell(cell: string): Card {
         if (this.board.has(cell)) {
             return this.getCardFromUID(this.board.get(cell)!);
@@ -255,7 +250,7 @@ export class DeckfishGame extends GameBase {
         } else {
             //To keep things defined, we return the Excuse.
             throw new Error(`The cell has no card: ${cell}.`);
-            return this.getCardFromUID("0");
+            //return this.getCardFromUID("0");
         }
     }
 
@@ -641,12 +636,12 @@ export class DeckfishGame extends GameBase {
         else {
             this.occupied.forEach((value, cell) => {
                 if (value === this.currplayer) {
-                    //push all other card cells in row and column
-                    const meepleLoc = this.algebraic2loc(cell);
-                    const suits = this.getSuits(cell);
-                    const targets = this.assembleTargets(meepleLoc,suits);
+                    //const meepleLoc = this.algebraic2loc(cell);
+                    //const suits = this.getSuits(cell);
+                    const targets = this.myMoves(cell);
+		    //this.assembleTargets(meepleLoc,suits);
                     targets.forEach(t => {
-                        moves.push(cell + "-" + this.loc2algebraic(t))
+                        moves.push(cell + "-" + t);
                     });
                 }
             });
@@ -657,6 +652,13 @@ export class DeckfishGame extends GameBase {
         }
 
         return moves.sort((a,b) => a.localeCompare(b));
+    }
+
+    public myMoves(cell: string): string[] {
+	const meepleLoc = this.algebraic2loc(cell);
+        const suits = this.getSuits(cell);
+        const targets = this.assembleTargets(meepleLoc,suits);
+	return targets.map(loc => this.loc2algebraic(loc));
     }
 
     public randomMove(): string {
@@ -825,6 +827,7 @@ export class DeckfishGame extends GameBase {
         if (sw === undefined || sw.length === 0) {
             result.valid = true;
             result.complete = 0;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.deckfish.INITIAL_SWAP_INSTRUCTIONS");
             return result;
 
@@ -931,9 +934,7 @@ export class DeckfishGame extends GameBase {
                 //Move the piece to
                 this.occupied.set(to, this.currplayer);
 
-                //TODO
-
-                //Score the card.
+                 //Score the card.
                 const newSuits = card.suits.map(s => s.uid as Suit);
                 newSuits.forEach(s => {
                     this.collected[this.currplayer - 1][suitOrder.indexOf(s)]++;
@@ -962,6 +963,10 @@ export class DeckfishGame extends GameBase {
                     this.results.push({type: "place", where: frm});
                 } else {
                     //Partial move already illustrated, though a bit flakily.
+		    //Highlight potential targets.
+		    const potentialTargets = this.myMoves(frm);
+		    potentialTargets.forEach(t =>
+			this.highlights.push(this.board.get(t)!)!);
                 }
             }
         }
@@ -1157,9 +1162,11 @@ export class DeckfishGame extends GameBase {
             if (occupiedCards.has(card.uid)) {
                 const player = occupiedCards.get(card.uid);
                 legend["c" + card.uid] = card.toGlyph({border: border, fill: player, opacity: 0.2});
-            } else {
+            } else if (this.highlights.indexOf(card.uid) > -1 || this.market.indexOf(card.uid) > -1) {
                 legend["c" + card.uid] = card.toGlyph({border: border});
-            }
+            } else {
+		legend["c" + card.uid] = card.toGlyph({border: border, fill: "#888", opacity: 0.2});
+	    }
         }
 
         for (const suit of suits) {

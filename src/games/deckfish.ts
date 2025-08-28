@@ -787,7 +787,10 @@ export class DeckfishGame extends GameBase {
 
         //Testing placements.
         if (this.mode === "place") {
-            if (this.canPlace(frm)) {
+	    if (this.occupied.size >= 6) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.deckfish.MUST_PASS");
+            } else if (this.canPlace(frm)) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation.deckfish.VALID_PLACEMENT");
@@ -1163,6 +1166,8 @@ export class DeckfishGame extends GameBase {
                 const player = occupiedCards.get(card.uid);
                 legend["c" + card.uid] = card.toGlyph({border: border, fill: player, opacity: 0.2});
             } else if (this.highlights.indexOf(card.uid) > -1 || this.market.indexOf(card.uid) > -1) {
+                legend["c" + card.uid] = card.toGlyph({border: border});
+            } else if (this.mode === "place" && (card.rank.name === "Ace" || card.rank.name === "Crown")) {
                 legend["c" + card.uid] = card.toGlyph({border: border});
             } else {
 		legend["c" + card.uid] = card.toGlyph({border: border, fill: "#888", opacity: 0.2});

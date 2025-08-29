@@ -62,8 +62,9 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "@abstractplay/gameslib": "^1.0.0-ci-16977106276.0",
     "@abstractplay/recranks": "latest",
-    "@abstractplay/renderer": "^1.0.0-ci-15542788686.0",
+    "@abstractplay/renderer": "^1.0.0-ci-16977088517.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

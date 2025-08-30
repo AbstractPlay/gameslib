@@ -62,6 +62,7 @@ export class BluestoneGame extends GameBase {
             group: "board",
             description: "Larger board (35 blue stones)"
         }]
+
     };
 
     public numplayers = 2;
@@ -274,9 +275,18 @@ export class BluestoneGame extends GameBase {
             return result;
         }
 
-        if (this.moves().includes(m)) {
+        const moves = this.moves();
+        if (moves.includes(m)) {
+            let hasDoubleMove = false;
+            for (let i = 0; i < moves.length; i++) {
+                if (moves[i].includes(",")) {
+                    hasDoubleMove = true;
+                    break;
+                }
+            }
+            result.complete = (hasDoubleMove && m.split(",").length == 2) || !hasDoubleMove ? 1 : 0;
+
             result.valid = true;
-            result.complete = m.split(",").length == 2 ? 1 : 0;
             result.canrender = true;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         } else {
@@ -585,7 +595,8 @@ export class BluestoneGame extends GameBase {
     }
 
     public getPlayerColour(player: PlayerId): number | string {
-        return (player === 1) ? "#000" : "#fff";
+
+        return (player === 1) ? 1 : 3;
     }
 
     public render(): APRenderRep {

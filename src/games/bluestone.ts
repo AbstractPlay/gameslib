@@ -513,7 +513,8 @@ export class BluestoneGame extends GameBase {
                 if (score != 0) playerScores.push(score);
             });
             playerScores.sort((a,b) => b-a);
-            this.groupScores[player] = [...playerScores];
+            this.groupScores[player-1] = [...playerScores];
+            if (this.groupScores[player-1].length == 0) this.groupScores[player-1] = [0];
 
             // We use string concat to avoid js nonsense.
             // Show up to the first 5 group scores and call that good enough.
@@ -564,9 +565,10 @@ export class BluestoneGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [
-            { name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-        ]
+        return [{
+            name: i18next.t("apgames:status.SCORES"),
+            scores: [this.groupScores[0].join(","), this.groupScores[1].join(",")]
+        }];
     }
 
     public state(): IBluestoneState {
@@ -595,7 +597,6 @@ export class BluestoneGame extends GameBase {
     }
 
     public getPlayerColour(player: PlayerId): number | string {
-
         return (player === 1) ? 1 : 3;
     }
 
@@ -674,8 +675,9 @@ export class BluestoneGame extends GameBase {
         }
 
         status += "**Scores**\n\n";
+        console.log(this.groupScores);
         for (let n = 1; n <= this.numplayers; n++) {
-            const score = this.getPlayerScore(n as PlayerId);
+            const score = this.groupScores[n-1].join(",");
             status += `Player ${n}:  ${score}\n\n`;
         }
 

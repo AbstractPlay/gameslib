@@ -830,7 +830,6 @@ export class RootBoundGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             lastgroupid: this.lastgroupid,
-
             board: deepclone(this.board) as Map<string, CellContent>,
             firstpasser: this.firstpasser,
             deadcells: this.deadcells,

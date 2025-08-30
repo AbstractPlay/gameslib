@@ -675,7 +675,6 @@ export class BluestoneGame extends GameBase {
         }
 
         status += "**Scores**\n\n";
-        console.log(this.groupScores);
         for (let n = 1; n <= this.numplayers; n++) {
             const score = this.groupScores[n-1].join(",");
             status += `Player ${n}:  ${score}\n\n`;

@@ -2,13 +2,16 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IStatu
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { reviver, replacer, UserFacingError } from "../common";
 import i18next from "i18next";
 import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended } from "../common/decktet";
 import { BiscuitBoard } from "./biscuit/board";
 import { BiscuitCard } from "./biscuit/card";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const Buffer = require('buffer/').Buffer  // note: the trailing slash is important!
+import pako, { Data } from "pako";
 
 export type playerid = 1|2|3;
 
@@ -188,7 +191,14 @@ export class BiscuitGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as IBiscuitState;
+                // is the state a raw JSON obj
+                if (state.startsWith("{")) {
+                    state = JSON.parse(state, reviver) as IBiscuitState;
+                } else {
+                    const decoded = Buffer.from(state, "base64") as Data;
+                    const decompressed = pako.ungzip(decoded, {to: "string"});
+                    state = JSON.parse(decompressed, reviver) as IBiscuitState;
+                }
             }
             if (state.game !== BiscuitGame.gameinfo.uid) {
                 throw new Error(`The Biscuit engine cannot process a game of '${state.game}'.`);
@@ -1199,6 +1209,14 @@ export class BiscuitGame extends GameBase {
                 break;
         }
         return resolved;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public serialize(opts?: {strip?: boolean, player?: number}): string {
+        const json = JSON.stringify(this.state(), replacer);
+        const compressed = pako.gzip(json);
+
+        return Buffer.from(compressed).toString("base64") as string;
     }
 
     public clone(): BiscuitGame {

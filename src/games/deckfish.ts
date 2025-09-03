@@ -1215,8 +1215,10 @@ export class DeckfishGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             const captive = this.collected[p-1].reduce((partialSum, a) => partialSum + a, 0);
             if (captive > 0) {
+                const indexBySize = this.collected[p-1].map((val, idx) => idx).sort((a, b) => this.collected[p-1][a] - this.collected[p-1][b]);		
                 const captives: string[] = [];
-                this.collected[p-1].forEach((cnt,idx) => {
+                indexBySize.forEach(idx => {
+		    const cnt = this.collected[p-1][idx];
                     if (cnt > 0) {
                         for (let c = 0; c<cnt; c++)
                             captives.push(suitOrder[idx]);

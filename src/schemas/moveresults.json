@@ -919,6 +919,9 @@
                 "where": {
                     "type": "string"
                 },
+                "what": {
+                    "type": "string"
+                },
                 "with": {
                     "type": "string"
                 },

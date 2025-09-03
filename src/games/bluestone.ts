@@ -34,11 +34,9 @@ export class BluestoneGame extends GameBase {
         uid: "bluestone",
         playercounts: [2],
         version: "20250830",
-        dateAdded: "2025-08-30",
+        dateAdded: "2025-09-03",
         // i18next.t("apgames:descriptions.bluestone")
         description: "apgames:descriptions.bluestone",
-        // i18next.t("apgames:notes.bluestone")
-        notes: "apgames:notes.bluestone",
         urls: ["https://boardgamegeek.com/boardgame/444241/bluestone"],
         people: [
             {
@@ -54,7 +52,7 @@ export class BluestoneGame extends GameBase {
                 apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
             },
         ],
-        categories: ["goal>area", "mechanic>place",  "mechanic>capture", "board>shape>hex"],
+        categories: ["goal>score>eog", "mechanic>place",  "mechanic>capture", "board>shape>pent", "board>connect>hex"],
         flags: ["scores", "automove", "custom-colours"],
         variants: [{
             uid: "size-8",

@@ -28,7 +28,7 @@
         "blockade": "Blockade (also known as Cul-de-sac) is a 'beat the barrier' game where you get one of your pawns to a starting space of your opponent. Players place 2-wide walls to block each other.",
         "blooms": "Each player owns 2 colours of stones. Players take turns placing one or two stones each turn (if you place two, they must be different colours), then capture all fenced enemy blooms. The first player to capture a certain number of stones wins.",
         "bloqueo": "Manipulate pawns to create towers of player pieces. Score points based on connected groups of controlled towers. Highest score wins.",
-        "bluestone": "Connect your groups to as many of the blue pieces on the perimeter of the board, in this mixture of territory and connection game.",
+        "bluestone": "Connect your groups to the most blue pieces on the perimeter of the board, in this mixture of territory and connection game.",
         "boom": "A minimalist abstract that combines simple move and capture mechanics with a scoring mechanic. Score by bearing your stacks off the opposing side of the board, but you'll want to reduce your opponent's scoring opportunities at the same time.",
         "bounce": "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         "boxes": "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
@@ -3423,7 +3423,7 @@
             "PARTIAL_place": "Select a cell to place one of your pieces."
         },
         "bluestone": {
-            "INITIAL_INSTRUCTIONS_FIRST_TURN": "Place one pieces onto any empty intersection.",
+            "INITIAL_INSTRUCTIONS_FIRST_TURN": "Place one piece onto any empty intersection.",
             "INITIAL_INSTRUCTIONS": "Place one or two pieces onto empty intersections.",
             "FULL_INSTRUCTIONS": "Place one or two pieces onto empty intersections. You cannot place both pieces as a part of the same group or where they would be immediately removed."
         },

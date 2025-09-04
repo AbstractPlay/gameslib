@@ -37,6 +37,10 @@ export class GessGame extends GameBase {
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
         people: [
             {
+                type: "designer",
+                name: "the Puzzles and Games Ring of the Archimedeans (the Cambridge University Mathematical Society)"
+            },
+            {
                 type: "coder",
                 name: "ypaul",
                 urls: [],

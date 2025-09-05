@@ -1002,9 +1002,15 @@
                 "name": "10x10 board (experimental)"
             }
         },
+        "deckfish": {
+            "double": {
+                "description": "A 9x9 board using a double Decktet. Initial placements are restricted to Aces.",
+                "name": "Double Deckfish"
+            }
+        },
         "diffusion": {
             "topBottom": {
-                "description": "Players own the rows closest to them (as in most mancala games)rather than the left half of the board.",
+                "description": "Players own the rows closest to them (as in most mancala games) rather than the left half of the board.",
                 "name": "Above/Below"
             }
         },
@@ -3749,6 +3755,7 @@
             "INITIAL_SWAP_INSTRUCTIONS": "Click a market card to swap it with one on the board.",
             "INVALID_FROM": "You may only move your own pieces.",
             "INVALID_PLACEMENT": "You may only place your piece on an unoccupied Ace or Crown.",
+            "INVALID_PLACEMENT_DOUBLE": "You may only place your piece on an unoccupied Ace.",
             "INVALID_TO": "The destination {{cell}} is not legal.",
             "LABEL_MARKET": "Market cards",
             "LABEL_COLLECTION": "Player {{playerNum}}'s suits",

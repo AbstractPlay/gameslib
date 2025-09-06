@@ -554,7 +554,7 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
         case "mchess":
             return new MchessGame(...args);
         case "homeworlds":
-            return new HomeworldsGame(args[0]);
+            return new HomeworldsGame(args[0], ...args.slice(1));
         case "entropy":
             return new EntropyGame(...args);
         case "volcano":

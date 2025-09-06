@@ -941,6 +941,7 @@ export class HomeworldsGame extends GameBase {
 
         let subResult: IValidationResult | undefined;
         let nemesisCatastrophed = false;
+        let canPass = false;
         for (let i = 0; i < moves.length; i++) {
         // for (const move of moves) {
             const move = moves[i];
@@ -1018,6 +1019,9 @@ export class HomeworldsGame extends GameBase {
                     break;
                 case "pass":
                     subResult = cloned.validatePass(...tokens.slice(1));
+                    if (subResult.complete === 0) {
+                        canPass = true;
+                    }
                     break;
                 default:
                     subResult = {
@@ -1101,7 +1105,7 @@ export class HomeworldsGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         }
         // Otherwise, if you have a free action, you have to use it.
-        else if ( (hasActions) && (! eliminated) ) {
+        else if ( (hasActions) && (! eliminated) && (!canPass) ) {
             result.complete = -1;
             result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
         }

@@ -1281,6 +1281,11 @@
                 "name": "Hexhex 9 (217 total cells)"
             }
         },
+        "homeworlds": {
+            "passFree": {
+                "name": "Allow full passing"
+            }
+        },
         "hula": {
             "#board": {
                 "name": "Size 6 board"

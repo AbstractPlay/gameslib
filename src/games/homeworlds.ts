@@ -104,6 +104,9 @@ export class HomeworldsGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
+        variants: [
+            {uid: "passFree"},
+        ],
         categories: ["goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>economy", "mechanic>place", "mechanic>share", "board>none", "components>pyramids", "other>2+players"],
         flags: ["shared-pieces", "perspective", "rotate90", "no-moves", "custom-rotation"]
     };
@@ -120,10 +123,13 @@ export class HomeworldsGame extends GameBase {
     private eliminated: Seat[] = [];
     public variants: string[] = [];
 
-    constructor(state: number | IHomeworldsState | string) {
+    constructor(state: number | IHomeworldsState | string, variants?: string[]) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             const fresh: IMoveState = {
                 _version: HomeworldsGame.gameinfo.version,
                 _results: [],
@@ -144,6 +150,7 @@ export class HomeworldsGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.variants = [...state.variants];
 
             // Now recursively "Objectify" the subclasses
             this.stack.map((s) => {
@@ -2361,7 +2368,12 @@ export class HomeworldsGame extends GameBase {
         }
 
         if (this.actions.free > 0) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:homeworlds.CMD_PASS_FREE"));
+            const varActive = this.variants.includes("passFree");
+            const mySeat = this.player2seat();
+            const hasHW = this.systems.find(s => s.owner === mySeat) !== undefined;
+            if (!varActive || !hasHW) {
+                throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:homeworlds.CMD_PASS_FREE"));
+            }
         }
 
         if (args[0] === "*") {
@@ -2405,9 +2417,14 @@ export class HomeworldsGame extends GameBase {
         }
 
         if (this.actions.free > 0) {
-            result.valid = false;
-            result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
-            return result;
+            const varActive = this.variants.includes("passFree");
+            const mySeat = this.player2seat();
+            const hasHW = this.systems.find(s => s.owner === mySeat) !== undefined;
+            if (!varActive || !hasHW) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
+                return result;
+            }
         }
 
         if (args[0] === "*") {

@@ -2416,6 +2416,7 @@ export class HomeworldsGame extends GameBase {
             return result;
         }
 
+        let complete = undefined;
         if (this.actions.free > 0) {
             const varActive = this.variants.includes("passFree");
             const mySeat = this.player2seat();
@@ -2424,6 +2425,8 @@ export class HomeworldsGame extends GameBase {
                 result.valid = false;
                 result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
                 return result;
+            } else {
+                complete = 0;
             }
         } else {
             if (args[0] === "*") {
@@ -2458,7 +2461,7 @@ export class HomeworldsGame extends GameBase {
         // valid complete move
         result.valid = true;
         result.canrender = true;
-        if (this.countActions() > 0) {
+        if (this.countActions() > 0 && complete === undefined) {
             result.complete = -1;
             result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
         } else {

@@ -5185,6 +5185,7 @@
             "INITIAL_INSTRUCTIONS_fresh": "Place an architect in an empty cell.",
             "INITIAL_INSTRUCTIONS_inprogress": "Select an architect to move or select the size of a piece to place.",
             "INVALID_PASS": "You may only pass if you have no other moves available.",
+            "INVALID_PIECE": "You don't have a {{piece}} in your stash to place.",
             "INVALID_PLACE_CELL": "The cell {{where}} is not visible to both architects.",
             "INVALID_PLACE_PIECE": {
                 "house": "You may not place a house here because it would create multiple blocks of one colour.",

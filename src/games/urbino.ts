@@ -499,6 +499,9 @@ export class UrbinoGame extends GameBase {
                 } else { // from *has* to be defined if move itself has content
                     if (smallest === undefined) {
                         newmove = "pass";
+                    // if you click on a different architect, switch to that one
+                    } else if ( (this.board.has(cell)) && (this.board.get(cell)![0] === 0) && (cell !== from) ) {
+                        newmove = cell;
                     // if you click on an empty cell, assume movement
                     } else if ( (this.board.has(from)) && (! this.board.has(cell)) ) {
                         newmove = `${from}-${cell}`;
@@ -699,6 +702,22 @@ export class UrbinoGame extends GameBase {
                         break;
                     case 3:
                         result.message = i18next.t("apgames:validation.urbino.INVALID_PLACE_PIECE.palace", {where: pCell});
+                        break;
+                }
+                return result;
+            }
+            // Check if player has this piece in their stash
+            if (this.pieces[this.currplayer - 1][pSize - 1] < 1) {
+                result.valid = false;
+                switch (pSize) {
+                    case 1:
+                        result.message = i18next.t("apgames:validation.urbino.INVALID_PIECE", {piece: "house"});
+                        break;
+                    case 2:
+                        result.message = i18next.t("apgames:validation.urbino.INVALID_PIECE", {piece: "tower"});
+                        break;
+                    case 3:
+                        result.message = i18next.t("apgames:validation.urbino.INVALID_PIECE", {piece: "palace"});
                         break;
                 }
                 return result;
@@ -952,6 +971,7 @@ export class UrbinoGame extends GameBase {
     public findPoints(): string[] {
         const points: string[] = [];
         if (this.board.size >= 2) {
+            // First, find all architect line-of-sight intersections (original behavior)
             for (let i = 0; i < 9; i++) {
                 for (let j = 0; j < 9; j++) {
                     this.scratchboard[i][j] = 0;
@@ -994,6 +1014,35 @@ export class UrbinoGame extends GameBase {
             }
         }
         return points;
+    }
+
+    /**
+     * Enhanced version of findPoints that filters by all placement restrictions.
+     * Returns only cells where the current player can actually place a building.
+     */
+    public findValidPlacementPoints(): string[] {
+        const intersectionPoints = this.findPoints();
+        const validPoints: string[] = [];
+        
+        for (const cell of intersectionPoints) {
+            // Check if any piece can be placed here
+            let canPlaceAny = false;
+            for (let size = 1; size <= 3; size++) {
+                // Check if player has this piece available
+                if (this.pieces[this.currplayer - 1][size - 1] > 0) {
+                    // Check if placement is valid (adjacency + district rules)
+                    if (this.validPlacement(cell, size as Size, this.currplayer)) {
+                        canPlaceAny = true;
+                        break;
+                    }
+                }
+            }
+            if (canPlaceAny) {
+                validPoints.push(cell);
+            }
+        }
+        
+        return validPoints;
     }
 
     public state(): IUrbinoState {
@@ -1101,7 +1150,7 @@ export class UrbinoGame extends GameBase {
             },
             pieces: pstr
         };
-        const cells = this.findPoints().map(p => UrbinoGame.algebraic2coords(p));
+        const cells = this.findValidPlacementPoints().map(p => UrbinoGame.algebraic2coords(p));
         if (cells.length > 0) {
             const points: RowCol[] = [];
             for (const cell of cells) {

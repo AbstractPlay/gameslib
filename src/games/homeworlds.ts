@@ -2374,30 +2374,30 @@ export class HomeworldsGame extends GameBase {
             if (!varActive || !hasHW) {
                 throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:homeworlds.CMD_PASS_FREE"));
             }
-        }
-
-        if (args[0] === "*") {
-            this.actions.R = 0;
-            this.actions.B = 0;
-            this.actions.G = 0;
-            this.actions.Y = 0;
         } else {
-            let num = 1;
-            if (args.length > 0) {
-                num = parseInt(args[0], 10);
-            }
+            if (args[0] === "*") {
+                this.actions.R = 0;
+                this.actions.B = 0;
+                this.actions.G = 0;
+                this.actions.Y = 0;
+            } else {
+                let num = 1;
+                if (args.length > 0) {
+                    num = parseInt(args[0], 10);
+                }
 
-            for (let i = 0; i < num; i++) {
-                if (this.actions.R > 0) {
-                    this.actions.R--;
-                } else if (this.actions.B > 0) {
-                    this.actions.B--;
-                } else if (this.actions.G > 0) {
-                    this.actions.G--;
-                } else if (this.actions.Y > 0) {
-                    this.actions.Y--;
-                } else {
-                    throw new UserFacingError(HomeworldsErrors.CMD_PASS_TOOMANY, i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY"));
+                for (let i = 0; i < num; i++) {
+                    if (this.actions.R > 0) {
+                        this.actions.R--;
+                    } else if (this.actions.B > 0) {
+                        this.actions.B--;
+                    } else if (this.actions.G > 0) {
+                        this.actions.G--;
+                    } else if (this.actions.Y > 0) {
+                        this.actions.Y--;
+                    } else {
+                        throw new UserFacingError(HomeworldsErrors.CMD_PASS_TOOMANY, i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY"));
+                    }
                 }
             }
         }
@@ -2425,32 +2425,32 @@ export class HomeworldsGame extends GameBase {
                 result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
                 return result;
             }
-        }
-
-        if (args[0] === "*") {
-            this.actions.R = 0;
-            this.actions.B = 0;
-            this.actions.G = 0;
-            this.actions.Y = 0;
         } else {
-            let num = 1;
-            if (args.length > 0) {
-                num = parseInt(args[0], 10);
-            }
+            if (args[0] === "*") {
+                this.actions.R = 0;
+                this.actions.B = 0;
+                this.actions.G = 0;
+                this.actions.Y = 0;
+            } else {
+                let num = 1;
+                if (args.length > 0) {
+                    num = parseInt(args[0], 10);
+                }
 
-            for (let i = 0; i < num; i++) {
-                if (this.actions.R > 0) {
-                    this.actions.R--;
-                } else if (this.actions.B > 0) {
-                    this.actions.B--;
-                } else if (this.actions.G > 0) {
-                    this.actions.G--;
-                } else if (this.actions.Y > 0) {
-                    this.actions.Y--;
-                } else {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY");
-                    return result;
+                for (let i = 0; i < num; i++) {
+                    if (this.actions.R > 0) {
+                        this.actions.R--;
+                    } else if (this.actions.B > 0) {
+                        this.actions.B--;
+                    } else if (this.actions.G > 0) {
+                        this.actions.G--;
+                    } else if (this.actions.Y > 0) {
+                        this.actions.Y--;
+                    } else {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY");
+                        return result;
+                    }
                 }
             }
         }

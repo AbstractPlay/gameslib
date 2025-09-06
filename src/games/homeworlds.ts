@@ -128,7 +128,6 @@ export class HomeworldsGame extends GameBase {
         if (typeof state === "number") {
             this.numplayers = state;
             if (variants !== undefined) {
-                console.log(`adding variants ${JSON.stringify(variants)}`);
                 this.variants = [...variants];
             }
             const fresh: IMoveState = {

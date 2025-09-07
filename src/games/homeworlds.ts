@@ -122,6 +122,7 @@ export class HomeworldsGame extends GameBase {
     public actions!: IActionTracker;
     private eliminated: Seat[] = [];
     public variants: string[] = [];
+    private _mayPass = false;
 
     constructor(state: number | IHomeworldsState | string, variants?: string[]) {
         super();
@@ -1220,7 +1221,7 @@ export class HomeworldsGame extends GameBase {
         }
 
         // You have to account for all your actions, unless you or your nemesis have been eliminated
-        if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
+        if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0 && !this._mayPass) ) {
             if (! this.eliminated.includes(this.player2seat()) && ! this.eliminated.includes(LHO!)) {
                 throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:homeworlds.MOVE_MOREACTIONS"));
             }
@@ -2377,6 +2378,9 @@ export class HomeworldsGame extends GameBase {
             const hasHW = this.systems.find(s => s.owner === mySeat) !== undefined;
             if (!varActive || !hasHW) {
                 throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:homeworlds.CMD_PASS_FREE"));
+                this._mayPass = false;
+            } else {
+                this._mayPass = true;
             }
         } else {
             if (args[0] === "*") {

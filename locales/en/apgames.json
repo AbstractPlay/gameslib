@@ -1282,6 +1282,10 @@
             }
         },
         "homeworlds": {
+            "#rules": {
+                "name": "Disallow full passes",
+                "description": "You may not pass your free action, but you may pass undesired sacrifice actions"
+            },
             "passFree": {
                 "name": "Allow full passing"
             }

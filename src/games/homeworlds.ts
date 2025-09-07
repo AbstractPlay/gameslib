@@ -104,6 +104,9 @@ export class HomeworldsGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
+        variants: [
+            {uid: "passFree"},
+        ],
         categories: ["goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>economy", "mechanic>place", "mechanic>share", "board>none", "components>pyramids", "other>2+players"],
         flags: ["shared-pieces", "perspective", "rotate90", "no-moves", "custom-rotation"]
     };
@@ -119,11 +122,15 @@ export class HomeworldsGame extends GameBase {
     public actions!: IActionTracker;
     private eliminated: Seat[] = [];
     public variants: string[] = [];
+    private _mayPass = false;
 
-    constructor(state: number | IHomeworldsState | string) {
+    constructor(state: number | IHomeworldsState | string, variants?: string[]) {
         super();
         if (typeof state === "number") {
             this.numplayers = state;
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             const fresh: IMoveState = {
                 _version: HomeworldsGame.gameinfo.version,
                 _results: [],
@@ -144,6 +151,7 @@ export class HomeworldsGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.variants = [...state.variants];
 
             // Now recursively "Objectify" the subclasses
             this.stack.map((s) => {
@@ -934,6 +942,7 @@ export class HomeworldsGame extends GameBase {
 
         let subResult: IValidationResult | undefined;
         let nemesisCatastrophed = false;
+        let canPass = false;
         for (let i = 0; i < moves.length; i++) {
         // for (const move of moves) {
             const move = moves[i];
@@ -1011,6 +1020,9 @@ export class HomeworldsGame extends GameBase {
                     break;
                 case "pass":
                     subResult = cloned.validatePass(...tokens.slice(1));
+                    if (subResult.complete === 0) {
+                        canPass = true;
+                    }
                     break;
                 default:
                     subResult = {
@@ -1094,7 +1106,7 @@ export class HomeworldsGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         }
         // Otherwise, if you have a free action, you have to use it.
-        else if ( (hasActions) && (! eliminated) ) {
+        else if ( (hasActions) && (! eliminated) && (!canPass) ) {
             result.complete = -1;
             result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
         }
@@ -1209,7 +1221,7 @@ export class HomeworldsGame extends GameBase {
         }
 
         // You have to account for all your actions, unless you or your nemesis have been eliminated
-        if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
+        if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0 && !this._mayPass) ) {
             if (! this.eliminated.includes(this.player2seat()) && ! this.eliminated.includes(LHO!)) {
                 throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:homeworlds.MOVE_MOREACTIONS"));
             }
@@ -2361,31 +2373,39 @@ export class HomeworldsGame extends GameBase {
         }
 
         if (this.actions.free > 0) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:homeworlds.CMD_PASS_FREE"));
-        }
-
-        if (args[0] === "*") {
-            this.actions.R = 0;
-            this.actions.B = 0;
-            this.actions.G = 0;
-            this.actions.Y = 0;
-        } else {
-            let num = 1;
-            if (args.length > 0) {
-                num = parseInt(args[0], 10);
+            const varActive = this.variants.includes("passFree");
+            const mySeat = this.player2seat();
+            const hasHW = this.systems.find(s => s.owner === mySeat) !== undefined;
+            if (!varActive || !hasHW) {
+                throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:homeworlds.CMD_PASS_FREE"));
+                this._mayPass = false;
+            } else {
+                this._mayPass = true;
             }
+        } else {
+            if (args[0] === "*") {
+                this.actions.R = 0;
+                this.actions.B = 0;
+                this.actions.G = 0;
+                this.actions.Y = 0;
+            } else {
+                let num = 1;
+                if (args.length > 0) {
+                    num = parseInt(args[0], 10);
+                }
 
-            for (let i = 0; i < num; i++) {
-                if (this.actions.R > 0) {
-                    this.actions.R--;
-                } else if (this.actions.B > 0) {
-                    this.actions.B--;
-                } else if (this.actions.G > 0) {
-                    this.actions.G--;
-                } else if (this.actions.Y > 0) {
-                    this.actions.Y--;
-                } else {
-                    throw new UserFacingError(HomeworldsErrors.CMD_PASS_TOOMANY, i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY"));
+                for (let i = 0; i < num; i++) {
+                    if (this.actions.R > 0) {
+                        this.actions.R--;
+                    } else if (this.actions.B > 0) {
+                        this.actions.B--;
+                    } else if (this.actions.G > 0) {
+                        this.actions.G--;
+                    } else if (this.actions.Y > 0) {
+                        this.actions.Y--;
+                    } else {
+                        throw new UserFacingError(HomeworldsErrors.CMD_PASS_TOOMANY, i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY"));
+                    }
                 }
             }
         }
@@ -2404,36 +2424,44 @@ export class HomeworldsGame extends GameBase {
             return result;
         }
 
+        let complete = undefined;
         if (this.actions.free > 0) {
-            result.valid = false;
-            result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
-            return result;
-        }
-
-        if (args[0] === "*") {
-            this.actions.R = 0;
-            this.actions.B = 0;
-            this.actions.G = 0;
-            this.actions.Y = 0;
-        } else {
-            let num = 1;
-            if (args.length > 0) {
-                num = parseInt(args[0], 10);
+            const varActive = this.variants.includes("passFree");
+            const mySeat = this.player2seat();
+            const hasHW = this.systems.find(s => s.owner === mySeat) !== undefined;
+            if (!varActive || !hasHW) {
+                result.valid = false;
+                result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
+                return result;
+            } else {
+                complete = 0;
             }
+        } else {
+            if (args[0] === "*") {
+                this.actions.R = 0;
+                this.actions.B = 0;
+                this.actions.G = 0;
+                this.actions.Y = 0;
+            } else {
+                let num = 1;
+                if (args.length > 0) {
+                    num = parseInt(args[0], 10);
+                }
 
-            for (let i = 0; i < num; i++) {
-                if (this.actions.R > 0) {
-                    this.actions.R--;
-                } else if (this.actions.B > 0) {
-                    this.actions.B--;
-                } else if (this.actions.G > 0) {
-                    this.actions.G--;
-                } else if (this.actions.Y > 0) {
-                    this.actions.Y--;
-                } else {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY");
-                    return result;
+                for (let i = 0; i < num; i++) {
+                    if (this.actions.R > 0) {
+                        this.actions.R--;
+                    } else if (this.actions.B > 0) {
+                        this.actions.B--;
+                    } else if (this.actions.G > 0) {
+                        this.actions.G--;
+                    } else if (this.actions.Y > 0) {
+                        this.actions.Y--;
+                    } else {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY");
+                        return result;
+                    }
                 }
             }
         }
@@ -2441,7 +2469,7 @@ export class HomeworldsGame extends GameBase {
         // valid complete move
         result.valid = true;
         result.canrender = true;
-        if (this.countActions() > 0) {
+        if (this.countActions() > 0 && complete === undefined) {
             result.complete = -1;
             result.message = i18next.t("apgames:validation.homeworlds.VALID_W_ACTIONS");
         } else {

@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValid
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Colourfuncs, Glyph, MarkerGlyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { diagDirections, Direction, oppositeDirections, orthDirections, reviver, UserFacingError } from "../common";
+import { diagDirections, Direction, oppositeDirections, orthDirections, reviver, shuffle, UserFacingError } from "../common";
 import i18next from "i18next";
 import { Card, Deck, cardsBasic, cardsExtended, suits } from "../common/decktet";
 
@@ -16,9 +16,6 @@ export type location = [number, number];
 
 const suitOrder = ["M","S","V","L","Y","K"];
 const crowdedRanks = ["Pawn","Court"];
-const columns = 7;
-const rows = 6;
-const maxdim = 7;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -69,20 +66,26 @@ export class DeckfishGame extends GameBase {
                 apid: "4bd8317d-fb04-435f-89e0-2557c3f2e66c",
             },
         ],
+        variants: [
+            {
+                uid: "double",
+                experimental: true
+            }
+        ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>place", "mechanic>random>setup", "mechanic>set", "board>shape>rect", "board>connect>rect", "components>decktet"],
         flags: ["scores", "random-start", "custom-randomization", "autopass", "experimental"],
     };
-    public static coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, rows);
+    public coords2algebraic(x: number, y: number): string {
+        return GameBase.coords2algebraic(x, y, this.rows);
     }
-    public static algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, rows);
+    public algebraic2coords(cell: string): [number, number] {
+        return GameBase.algebraic2coords(cell, this.rows);
     }
     public loc2algebraic(loc: location): string {
-        return DeckfishGame.coords2algebraic(loc[0], loc[1]);
+        return this.coords2algebraic(loc[0], loc[1]);
     }
     public algebraic2loc(cell: string): location {
-        return DeckfishGame.algebraic2coords(cell);
+        return this.algebraic2coords(cell);
     }
     public coord2algebraic(m: number): string {
         return "m" + (m + 1);
@@ -106,34 +109,53 @@ export class DeckfishGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private highlights: string[] = [];
     private tableau!: number[][];
+    private rows = 0;
+    private columns = 0;
+    private maxdim = 0;
 
-    constructor(state?: IDeckfishState | string) {
+    constructor(state?: IDeckfishState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
 
-            // init deck
+            // init deck as array of uids b/c Deck does not support a double deck,
+            //and we don't do anything complicated with cards anyway.
+            let deck: string[] = [];
+
             const cards = [...cardsBasic, ...cardsExtended];
-
-            const deck = new Deck(cards);
-            deck.shuffle();
+            const deckOfClass = new Deck(cards);
+            const origSize = deckOfClass.size;
+            for (let c=0; c<origSize; c++) {
+                const [card] = deckOfClass.draw();
+                deck.push(card.uid);
+                if (this.variants.includes("double")) {
+                    if (card.rank.name !== "Crown")
+                        deck.push(card.uid);
+                }
+            }
+            deck = shuffle(deck);
 
             // init board
             const board = new Map<string, string>();
 
-            for (let x = 0; x < columns; x++) {
-                for (let y = 0; y < rows; y++) {
-                    const cell = DeckfishGame.coords2algebraic(x, y);
+            this.rows = this.getBoardSize()[0];
+            this.columns = this.getBoardSize()[1];
+            this.maxdim = this.getBoardSize()[2];
+
+            for (let x = 0; x < this.columns; x++) {
+                for (let y = 0; y < this.rows; y++) {
+                    const cell = this.coords2algebraic(x, y);
                     if (!board.has(cell)) {
-                        const [card] = deck.draw();
-                        board.set(cell, card.uid);
+                        board.set(cell, deck.pop()!);
                     }
                 }
             }
 
             const market = new Array<string>();
             for (let m = 0; m < 3; m++) {
-                const [card] = deck.draw();
-                market.push(card.uid);
+                market.push(deck.pop()!);
             }
 
             // init positions
@@ -163,6 +185,10 @@ export class DeckfishGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.variants = state.variants;
+            this.rows = this.getBoardSize()[0];
+            this.columns = this.getBoardSize()[1];
+            this.maxdim = this.getBoardSize()[2];
         }
         this.load();
     }
@@ -187,8 +213,18 @@ export class DeckfishGame extends GameBase {
         this.eliminated = state.eliminated;
 
         this.tableau = this.populateTableau();
-	
+
         return this;
+    }
+
+     public getBoardSize(): number[] {
+        //0: rows (6 or 9)
+        //1: columns (7 or 9)
+        //2: maxdim (7 or 9)
+        if (this.variants !== undefined && this.variants.length > 0 && this.variants.includes("double"))
+            return [9,9,9];
+        else
+            return [6,7,7];
     }
 
     /* helper functions for general gameplay */
@@ -231,12 +267,18 @@ export class DeckfishGame extends GameBase {
         if (this.occupied.has(cell)) {
             return false;
         }
-        if (this.board.has(cell)) {
-            const card = this.getCardFromCell(cell);
-            if (card.rank.name === "Ace" || card.rank.name === "Crown") {
-                return true;
-            } else
+        if (! this.board.has(cell)) {
+            return false;
+        }
+
+        const card = this.getCardFromCell(cell);
+        if (card.rank.name === "Ace")
+            return true;
+        if (card.rank.name === "Crown") {
+            if (this.variants.includes("double"))
                 return false;
+            else
+                return true;
         } else
             return false;
     }
@@ -338,11 +380,11 @@ export class DeckfishGame extends GameBase {
 
     private populateTableau(): number[][] {
         //Abstract the data structure to only what is needed for movement.
-	const tableau = new Array(columns).fill(-1).map(() => new Array(rows).fill(-1));
-        for (let x = 0; x < columns; x++) {
-            for (let y = 0; y < rows; y++) {
+        const tableau = new Array(this.columns).fill(-1).map(() => new Array(this.rows).fill(-1));
+        for (let x = 0; x < this.columns; x++) {
+            for (let y = 0; y < this.rows; y++) {
                 //The tableau was initialized to all -1's (gaps).
-                const cell = DeckfishGame.coords2algebraic(x, y);
+                const cell = this.coords2algebraic(x, y);
                 if (this.board.has(cell)) {
                     // Revise card spaces: 2 is occupied, 1 is unoccupied, 0 is the Excuse.
                     if (this.occupied.has(cell)) {
@@ -361,7 +403,7 @@ export class DeckfishGame extends GameBase {
             }
         }
 
-	return tableau;
+        return tableau;
     }
 
     private checkUnoccupied(loc: location): boolean {
@@ -403,8 +445,7 @@ export class DeckfishGame extends GameBase {
 
     private isBlockage(loc: location): boolean {
         //Check for the exact edge of the board.
-
-        if (loc[0] === -1 || loc[1] === -1 || loc[0] === columns || loc[1] === rows) {
+        if (loc[0] === -1 || loc[1] === -1 || loc[0] === this.columns || loc[1] === this.rows) {
             return true;
         } else if (this.checkUnoccupied(loc)) {
             //an unoccupied card is the only non-blockage in the tableau
@@ -417,7 +458,7 @@ export class DeckfishGame extends GameBase {
 
     private onBoard(loc: location): boolean {
         //Check for leaving the board with movement math.
-        if (loc[0] < 0 || loc[1] < 0 || loc[0] >= columns || loc[1] >= rows)
+        if (loc[0] < 0 || loc[1] < 0 || loc[0] >= this.columns || loc[1] >= this.rows)
             return false;
         else
             return true;
@@ -451,7 +492,7 @@ export class DeckfishGame extends GameBase {
             //The first space orthogonally must be a gap.
             if (this.checkGap(nextLoc)) {
                 //Check the next space in the current direction.
-                for (let a = 2; a < maxdim; a++) {
+                for (let a = 2; a < this.maxdim; a++) {
                     nextLoc = this.getNext(nextLoc,dir);
                     if (this.checkGap(nextLoc)) {
                         continue;
@@ -496,7 +537,7 @@ export class DeckfishGame extends GameBase {
             let candidateLoc = meepleLoc.slice() as location;
 
             //Check the next space in the current direction.
-            for (let a = 1; a < maxdim; a++) {
+            for (let a = 1; a < this.maxdim; a++) {
                 candidateLoc = this.getNext(candidateLoc,dir);
                 if (! this.checkUnoccupied(candidateLoc))
                     break;
@@ -519,7 +560,7 @@ export class DeckfishGame extends GameBase {
         for (const dir of orthDirections) {
             let nextLoc = meepleLoc.slice() as location;
             //Check the next space in the current direction.
-            for (let a = 1; a < maxdim; a++) {
+            for (let a = 1; a < this.maxdim; a++) {
                 nextLoc = this.getNext(nextLoc,dir);
                 if (this.checkUnoccupied(nextLoc)) {
                     //We don't need to check the space we're coming from.
@@ -545,7 +586,7 @@ export class DeckfishGame extends GameBase {
             let candidateLoc = meepleLoc.slice() as location;
 
             //Check the next space in the current direction.
-            for (let a = 1; a < maxdim; a++) {
+            for (let a = 1; a < this.maxdim; a++) {
                 candidateLoc = this.getNext(candidateLoc,dir);
                 if (this.checkOccupied(candidateLoc)) {
                     //Check the rest of the conditions and push or break.
@@ -609,23 +650,23 @@ export class DeckfishGame extends GameBase {
             return ["pass"];
         }
 
-	if (this.mode === "collect" && this.currplayer === this.eliminated) {
+        if (this.mode === "collect" && this.currplayer === this.eliminated) {
             return ["pass"];
-	}
+        }
 
         const moves: string[] = [];
 
         // if placing
         if (this.mode === "place") {
             //push all unoccupied aces and crown on the board
-            for (let x = 0; x < columns; x++) {
-                for (let y = 0; y < rows; y++) {
-                    const cell = DeckfishGame.coords2algebraic(x, y);
+            for (let x = 0; x < this.columns; x++) {
+                for (let y = 0; y < this.rows; y++) {
+                    const cell = this.coords2algebraic(x, y);
                     if (this.board.has(cell) && ! this.occupied.has(cell)) {
                         //There's an unoccupied card.
                         const card = this.getCardFromCell(cell);
                         //Check rank.
-                        if (card.rank.name === "Ace" || card.rank.name === "Crown") {
+                        if (card.rank.name === "Ace" || (card.rank.name === "Crown" && ! this.variants.includes("double"))) {
                             moves.push(`${cell}`);
                         }
                     }
@@ -639,7 +680,7 @@ export class DeckfishGame extends GameBase {
                     //const meepleLoc = this.algebraic2loc(cell);
                     //const suits = this.getSuits(cell);
                     const targets = this.myMoves(cell);
-		    //this.assembleTargets(meepleLoc,suits);
+                    //this.assembleTargets(meepleLoc,suits);
                     targets.forEach(t => {
                         moves.push(cell + "-" + t);
                     });
@@ -655,10 +696,10 @@ export class DeckfishGame extends GameBase {
     }
 
     public myMoves(cell: string): string[] {
-	const meepleLoc = this.algebraic2loc(cell);
+        const meepleLoc = this.algebraic2loc(cell);
         const suits = this.getSuits(cell);
         const targets = this.assembleTargets(meepleLoc,suits);
-	return targets.map(loc => this.loc2algebraic(loc));
+        return targets.map(loc => this.loc2algebraic(loc));
     }
 
     public randomMove(): string {
@@ -693,7 +734,7 @@ export class DeckfishGame extends GameBase {
             }
             // otherwise, clicked on the board
             else {
-                const cell = DeckfishGame.coords2algebraic(col, row);
+                const cell = this.coords2algebraic(col, row);
                 // continuation of placement
                 if (this.mode === "place") {
                     //Selecting initial placement location.
@@ -787,7 +828,7 @@ export class DeckfishGame extends GameBase {
 
         //Testing placements.
         if (this.mode === "place") {
-	    if (this.occupied.size >= 6) {
+            if (this.occupied.size >= 6) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.deckfish.MUST_PASS");
             } else if (this.canPlace(frm)) {
@@ -796,7 +837,10 @@ export class DeckfishGame extends GameBase {
                 result.message = i18next.t("apgames:validation.deckfish.VALID_PLACEMENT");
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT");
+		if (this.variants.includes("double"))
+		    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT_DOUBLE");	    
+		else
+		    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT");
             }
             return result;
         }
@@ -1097,13 +1141,13 @@ export class DeckfishGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         let pstr = "";
-        for (let row = 0; row < rows; row++) {
+        for (let row = 0; row < this.rows; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
             const pieces: string[] = [];
-            for (let col = 0; col < columns; col++) {
-                const cell = DeckfishGame.coords2algebraic(col, row);
+            for (let col = 0; col < this.columns; col++) {
+                const cell = this.coords2algebraic(col, row);
                 if (this.occupied.has(cell)) {
                     const card = this.getCardFromCell(cell);
                     const adjust = crowdedRanks.includes(card.rank.name) ? "H" : "";
@@ -1118,7 +1162,7 @@ export class DeckfishGame extends GameBase {
         const markers: MarkerGlyph[] = [];
         if (this.board.size > 0) {
             for (const [cell, c] of this.board.entries()) {
-                const [x,y] = DeckfishGame.algebraic2coords(cell);
+                const [x,y] = this.algebraic2coords(cell);
                 const card = this.getCardFromUID(c);
 
                 markers.push({
@@ -1131,7 +1175,7 @@ export class DeckfishGame extends GameBase {
         /*
         if (this.occupied.size > 0) {
            for (const [cell,p] of this.occupied.entries()) {
-                const [x,y] = DeckfishGame.algebraic2coords(cell);
+                const [x,y] = this.algebraic2coords(cell);
 
                 markers.push({
                     type: "outline",
@@ -1167,7 +1211,9 @@ export class DeckfishGame extends GameBase {
                 legend["c" + card.uid] = card.toGlyph({border: border, fill: player, opacity: 0.2});
             } else if (this.highlights.indexOf(card.uid) > -1 || this.market.indexOf(card.uid) > -1) {
                 legend["c" + card.uid] = card.toGlyph({border: border});
-            } else if (this.mode === "place" && (card.rank.name === "Ace" || card.rank.name === "Crown")) {
+            } else if (this.mode === "place" && card.rank.name === "Ace") {
+                legend["c" + card.uid] = card.toGlyph({border: border});
+            } else if (this.mode === "place" && card.rank.name === "Crown" && ! this.variants.includes("double")) {
                 legend["c" + card.uid] = card.toGlyph({border: border});
             } else {
 		legend["c" + card.uid] = card.toGlyph({border: border, fill: "#888", opacity: 0.2});
@@ -1215,8 +1261,10 @@ export class DeckfishGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             const captive = this.collected[p-1].reduce((partialSum, a) => partialSum + a, 0);
             if (captive > 0) {
+                const indexBySize = this.collected[p-1].map((val, idx) => idx).sort((a, b) => this.collected[p-1][a] - this.collected[p-1][b]);		
                 const captives: string[] = [];
-                this.collected[p-1].forEach((cnt,idx) => {
+                indexBySize.forEach(idx => {
+		    const cnt = this.collected[p-1][idx];
                     if (cnt > 0) {
                         for (let c = 0; c<cnt; c++)
                             captives.push(suitOrder[idx]);
@@ -1237,8 +1285,8 @@ export class DeckfishGame extends GameBase {
         const rep: APRenderRep =  {
             board: {
                 style: "squares",
-                width: 7,
-                height: 6,
+                width: this.columns,
+                height: this.rows,
                 tileHeight: 1,
                 tileWidth: 1,
                 tileSpacing: 0.25,
@@ -1256,15 +1304,15 @@ export class DeckfishGame extends GameBase {
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const [x, y] = DeckfishGame.algebraic2coords(move.where!);
+                    const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", occlude: false, dashed: [6,8], targets: [{row: y, col: x}]});
                 } else if (move.type === "move") {
-                    const [fromX, fromY] = DeckfishGame.algebraic2coords(move.from);
-                    const [toX, toY] = DeckfishGame.algebraic2coords(move.to);
+                    const [fromX, fromY] = this.algebraic2coords(move.from);
+                    const [toX, toY] = this.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                     rep.annotations.push({type: "enter", occlude: false, targets: [{row: toY, col: toX}]});
                 } else if (move.type === "swap") {
-                    const [x, y] = DeckfishGame.algebraic2coords(move.where!);
+                    const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", occlude: false, dashed: [2,4], targets: [{row: y, col: x}]});
                 }
             }
@@ -1313,9 +1361,9 @@ export class DeckfishGame extends GameBase {
         const pcs: string[] = [];
         const board = this.stack[0].board;
         const market = this.stack[0].market;
-        for (let x = 0; x < columns; x++) {
-            for (let y = 0; y < rows; y++) {
-                const cell = DeckfishGame.coords2algebraic(x, y);
+        for (let x = 0; x < this.columns; x++) {
+            for (let y = 0; y < this.rows; y++) {
+                const cell = this.coords2algebraic(x, y);
                 if (board.has(cell)) {
                     pcs.push(board.get(cell)!);
                 }

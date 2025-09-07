@@ -464,14 +464,28 @@ describe("Homeworlds", () => {
         expect(() => g.move("homeworld g3 b2 y3, sacrifice y3 north")).to.throw(HWError.CMD_NOACTIONS);
     });
     it ("CMD: Pass", () => {
-        let g = new HomeworldsGame(2);
+        let g = new HomeworldsGame(2, ["passFree"]);
+
+        // passing not allowed if you don't have a homeworld yet
+        expect(() => g.move("pass")).to.throw(HWError.CMD_PASS_FREE);
+
         g.move("homeworld g3 b2 y3");
         g.move("homeworld g2 b1 y3");
         let north = g.systems.find(s => s.owner === "N");
         north!.dock(new Ship("Y", 2, "N"));
         g.stash.remove("Y", 2);
 
-        // passing free action
+        // allow full pass with variant
+        expect(() => g.move("pass")).to.not.throw;
+
+        g = new HomeworldsGame(2);
+        g.move("homeworld g3 b2 y3");
+        g.move("homeworld g2 b1 y3");
+        north = g.systems.find(s => s.owner === "N");
+        north!.dock(new Ship("Y", 2, "N"));
+        g.stash.remove("Y", 2);
+
+        // passing free action not normally allowed
         expect(() => g.move("pass")).to.throw(HWError.CMD_PASS_FREE);
 
         // malformed command

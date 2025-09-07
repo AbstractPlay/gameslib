@@ -42,7 +42,8 @@ export class DeckfishGame extends GameBase {
         name: "Deckfish",
         uid: "deckfish",
         playercounts: [2],
-        version: "20250724",
+        //version: "20250724",
+	version: "20250906",
         dateAdded: "2025-07-24",
         // i18next.t("apgames:descriptions.deckfish")
         description: "apgames:descriptions.deckfish",
@@ -120,21 +121,8 @@ export class DeckfishGame extends GameBase {
                 this.variants = [...variants];
             }
 
-            // init deck as array of uids b/c Deck does not support a double deck,
-            //and we don't do anything complicated with cards anyway.
-            let deck: string[] = [];
-
-            const cards = [...cardsBasic, ...cardsExtended];
-            const deckOfClass = new Deck(cards);
-            const origSize = deckOfClass.size;
-            for (let c=0; c<origSize; c++) {
-                const [card] = deckOfClass.draw();
-                deck.push(card.uid);
-                if (this.variants.includes("double")) {
-                    if (card.rank.name !== "Crown")
-                        deck.push(card.uid);
-                }
-            }
+            // init deck
+            let deck = this.getDeck();
             deck = shuffle(deck);
 
             // init board
@@ -227,6 +215,28 @@ export class DeckfishGame extends GameBase {
             return [6,7,7];
     }
 
+    public getDeck(): string[] {
+        //deck is not Deck but an array of modified uids
+        //b/c Deck does not support a double deck,
+        //and we don't do anything complicated with cards anyway.
+        const deck: string[] = [];
+	
+        const cards = [...cardsBasic, ...cardsExtended];
+        const deckOfClass = new Deck(cards);
+        const origSize = deckOfClass.size;
+	
+        for (let c=0; c<origSize; c++) {
+            const [card] = deckOfClass.draw();
+            deck.push(card.uid + "_0");
+	    
+            if (this.variants.includes("double")) {
+                if (card.rank.name !== "Crown")
+                    deck.push(card.uid + "_1");
+            }
+        }
+        return deck;
+    }
+
     /* helper functions for general gameplay */
 
     public canMoveFrom(cell: string): boolean {
@@ -284,20 +294,30 @@ export class DeckfishGame extends GameBase {
     }
 
     public getCardFromCell(cell: string): Card {
+        return this.getCardFromID(this.getIDFromCell(cell))!;
+    }
+
+    public getIDFromCell(cell: string): string {
         if (this.board.has(cell)) {
-            return this.getCardFromUID(this.board.get(cell)!);
+            return this.board.get(cell)!;
         } else if (cell[0] === "m") {
             //The market is always fully populated.
-            return this.getCardFromUID(this.market[this.algebraic2coord(cell)]!);
+            return this.market[this.algebraic2coord(cell)]!;
         } else {
-            //To keep things defined, we return the Excuse.
             throw new Error(`The cell has no card: ${cell}.`);
-            //return this.getCardFromUID("0");
         }
+    }
+
+    public getCardFromID(id: string): Card {
+        return this.getCardFromUID(this.getUIDFromID(id));
     }
 
     public getCardFromUID(uid: string): Card {
         return Card.deserialize(uid)!;
+    }
+
+    public getUIDFromID(id: string): string {
+        return id.split("_")[0];
     }
 
     /* end helper functions for general gameplay */
@@ -837,10 +857,11 @@ export class DeckfishGame extends GameBase {
                 result.message = i18next.t("apgames:validation.deckfish.VALID_PLACEMENT");
             } else {
                 result.valid = false;
-		if (this.variants.includes("double"))
-		    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT_DOUBLE");	    
-		else
-		    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT");
+                if (this.variants.includes("double"))
+                    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT_DOUBLE");     
+                else
+                    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT");
+
             }
             return result;
         }
@@ -953,20 +974,20 @@ export class DeckfishGame extends GameBase {
             // eslint-disable-next-line prefer-const
             let [frm, to] = mv.split("-");
 
-            const card = this.getCardFromCell(frm);
-            if (card === undefined)
+            const cardID = this.getIDFromCell(frm);
+            if (cardID === undefined)
                 throw new Error(`Could not load the card at ${frm}.`);
 
-            this.highlights.push(card.uid);
+            this.highlights.push(cardID);
 
             if (to !== undefined && to.length > 0) {
                 //Remove the card.
 
-                this.highlights.push(card.uid);
+                this.highlights.push(cardID);
                 if (!partial)
                     this.board.delete(frm);
 
-                this.results.push({type: "move", from: frm, to: to, what: card.uid});
+                this.results.push({type: "move", from: frm, to: to, what: this.getUIDFromID(cardID)});
 
                 //Move the piece from
                 this.occupied.delete(frm);
@@ -974,14 +995,15 @@ export class DeckfishGame extends GameBase {
                 if (this.occupied.has(to)) {
                     const bounceCell = this.bounce(frm, to);
                     this.results.push({type: "eject", from: to, to: bounceCell});
-                    const bounceCard = this.getCardFromCell(bounceCell);
-                    this.highlights.push(bounceCard.uid);
+                    const bounceCardID = this.getIDFromCell(bounceCell);
+                    this.highlights.push(bounceCardID);
                 }
 
                 //Move the piece to
                 this.occupied.set(to, this.currplayer);
 
-                 //Score the card.
+                //Score the card.
+                const card = this.getCardFromID(cardID);
                 const newSuits = card.suits.map(s => s.uid as Suit);
                 newSuits.forEach(s => {
                     this.collected[this.currplayer - 1][suitOrder.indexOf(s)]++;
@@ -999,7 +1021,7 @@ export class DeckfishGame extends GameBase {
                         this.highlights.push(swapCard);
                         this.market[this.market.indexOf(marketCard)] = swapCard!;
                         this.board.set(swapCell, marketCard);
-                        this.results.push({type: "swap", what: marketCard, with: swapCard, where: swapCell});
+                        this.results.push({type: "swap", what: this.getUIDFromID(marketCard), with: this.getUIDFromID(swapCard), where: swapCell});
                     } else {
                         //TODO
                     }
@@ -1010,10 +1032,10 @@ export class DeckfishGame extends GameBase {
                     this.results.push({type: "place", where: frm});
                 } else {
                     //Partial move already illustrated, though a bit flakily.
-		    //Highlight potential targets.
-		    const potentialTargets = this.myMoves(frm);
-		    potentialTargets.forEach(t =>
-			this.highlights.push(this.board.get(t)!)!);
+                    //Highlight potential targets.
+                    const potentialTargets = this.myMoves(frm);
+                    potentialTargets.forEach(t =>
+                        this.highlights.push(this.board.get(t)!)!);
                 }
             }
         }
@@ -1163,11 +1185,11 @@ export class DeckfishGame extends GameBase {
         if (this.board.size > 0) {
             for (const [cell, c] of this.board.entries()) {
                 const [x,y] = this.algebraic2coords(cell);
-                const card = this.getCardFromUID(c);
+                //const card = this.getCardFromID(c);
 
                 markers.push({
                     type: "glyph",
-                    glyph: "c" + card.uid,
+                    glyph: "c" + c,
                     points: [{row: y, col: x}],
                 });
             }
@@ -1187,9 +1209,8 @@ export class DeckfishGame extends GameBase {
         }
         */
 
-        // build legend of ALL cards
-        const allcards = [...cardsBasic, ...cardsExtended];
-
+        // build legend of ALL cards, from card ids.
+        const allcards = this.getDeck();
         const legend: ILegendObj = {};
 
         let lastMarketCard = "";
@@ -1204,21 +1225,22 @@ export class DeckfishGame extends GameBase {
             occupiedCards.set(this.board.get(cell)!,player);
         });
 
-        for (const card of allcards) {
-            const border = (this.highlights.indexOf(card.uid) > -1 || card.uid === lastMarketCard);
-            if (occupiedCards.has(card.uid)) {
-                const player = occupiedCards.get(card.uid);
-                legend["c" + card.uid] = card.toGlyph({border: border, fill: player, opacity: 0.2});
-            } else if (this.highlights.indexOf(card.uid) > -1 || this.market.indexOf(card.uid) > -1) {
-                legend["c" + card.uid] = card.toGlyph({border: border});
+        allcards.forEach(cardID => {
+            const card = this.getCardFromID(cardID);
+            const border = (this.highlights.indexOf(cardID) > -1 || cardID === lastMarketCard);
+            if (occupiedCards.has(cardID)) {
+                const player = occupiedCards.get(cardID);
+                legend["c" + cardID] = card.toGlyph({border: border, fill: player, opacity: 0.2});
+            } else if (this.highlights.indexOf(cardID) > -1 || this.market.indexOf(cardID) > -1) {
+                legend["c" + cardID] = card.toGlyph({border: border});
             } else if (this.mode === "place" && card.rank.name === "Ace") {
-                legend["c" + card.uid] = card.toGlyph({border: border});
+                legend["c" + cardID] = card.toGlyph({border: border});
             } else if (this.mode === "place" && card.rank.name === "Crown" && ! this.variants.includes("double")) {
-                legend["c" + card.uid] = card.toGlyph({border: border});
+                legend["c" + cardID] = card.toGlyph({border: border});
             } else {
-		legend["c" + card.uid] = card.toGlyph({border: border, fill: "#888", opacity: 0.2});
-	    }
-        }
+                legend["c" + cardID] = card.toGlyph({border: border, fill: "#888", opacity: 0.2});
+            }
+        });
 
         for (const suit of suits) {
             legend[suit.uid] = {
@@ -1246,7 +1268,7 @@ export class DeckfishGame extends GameBase {
 
         //market
         if (this.market.length > 0) {
-            const marketCards = this.market.map(uid => Card.deserialize(uid)!).map(c => "c" + c.uid) as [string, ...string[]];
+            const marketCards = this.market.map(id => "c" + id) as [string, ...string[]];
 
             areas.push({
                 type: "pieces",
@@ -1261,10 +1283,10 @@ export class DeckfishGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             const captive = this.collected[p-1].reduce((partialSum, a) => partialSum + a, 0);
             if (captive > 0) {
-                const indexBySize = this.collected[p-1].map((val, idx) => idx).sort((a, b) => this.collected[p-1][a] - this.collected[p-1][b]);		
+                const indexBySize = this.collected[p-1].map((val, idx) => idx).sort((a, b) => this.collected[p-1][a] - this.collected[p-1][b]);         
                 const captives: string[] = [];
                 indexBySize.forEach(idx => {
-		    const cnt = this.collected[p-1][idx];
+                    const cnt = this.collected[p-1][idx];
                     if (cnt > 0) {
                         for (let c = 0; c<cnt; c++)
                             captives.push(suitOrder[idx]);

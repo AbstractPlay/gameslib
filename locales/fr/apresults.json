@@ -126,5 +126,8 @@
         "add_many": "{{player}} a ajouté {{count}} pièces à {{where}}.",
         "add_other": "{{player}} a ajouté {{count}} pièces à {{where}}."
     },
-    "BUTTON": "{{player}} a pris le bouton."
+    "BUTTON": "{{player}} a pris le bouton.",
+    "AFFILIATE": {
+        "cifra_lt": "{{player}} a choisi de jouer les pièces claires depuis la rangée du haut."
+    }
 }

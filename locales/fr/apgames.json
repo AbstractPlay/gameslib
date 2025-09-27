@@ -31,7 +31,10 @@
         "zola": "[FR]A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
         "hex": "Au Hex, les deux joueurs doivent connecter les côtés opposés d'un plateau formé de cases hexagonales",
         "agere": "Un jeu de connexion où vous pouvez également empiler des pièces. Joué soit sur un plateau triangulaire où vous devez connecter les trois côtés, ou une planche \"toile d'araignée\" circulaire où vous connectez les côtés opposés.",
-        "anache": "Dans Anache, le but est d'occuper les coins de l'adversaire en coordonnant vos pièces."
+        "anache": "Dans Anache, le but est d'occuper les coins de l'adversaire en coordonnant vos pièces.",
+        "akron": "Arkon enrichit les jeux de connexion classiques en ajoutant une troisième dimension. À tour de rôle, chaque joueur peut soit ajouter de nouvelles billes de sa couleur sur la couche inférieure du plateau, soit déplacer une bille qui n'est pas bloquée (c'est-à-dire une bille sur laquelle ne reposent pas des billes dans deux directions ou plus) vers un emplacement qui est connecté au même groupe avant et après le déplacement. Lorsque les billes sont déplacées, celles qui leur reposaient dessus tombent, modifiant ainsi les connexions sur le plateau.",
+        "almatafl": "AlmaTafl est un jeu asymétrique où un camp joue les défenseurs tentant de mettre le roi en sécurité, tandis que l’autre camp essaie de capturer le roi ou de le rendre sans défense.",
+        "alta": "Alta est un jeu de connexion joué avec des interrupteurs sur un plateau en forme de losange. Reliez vos deux côtés par un chemin d’interrupteurs appartenant à l’un ou l’autre joueur. À votre tour, placez un nouvel interrupteur ou basculez l’un de vos interrupteurs pour en changer l’orientation."
     },
     "homeworlds": {
         "CMD_ATK_OWNER": "[FR]In games with more than two players, you have to always specify the owner of the ship you are attacking.",

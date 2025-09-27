@@ -841,25 +841,27 @@ export class QuincunxGame extends GameBase {
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
             const hand = [...this.hands[p-1]];
-            if (!hand.includes("")) {
-                const sorted = hand.map(uid => Card.deserialize(uid)!).sort(cardSortAsc).map(c => c.uid).sort((a,b) => {
-                    if (this.masked.includes(a) && this.masked.includes(b)) {
-                        return 0;
-                    } else if (this.masked.includes(a)) {
-                        return 1
-                    } else if (this.masked.includes(b)) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }).map(c => this.masked.includes(c) ? "cUNKNOWN" : ("c" + c));
-                areas.push({
-                    type: "pieces",
-                    pieces: sorted as [string, ...string[]],
-                    label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
-                    spacing: 0.5,
-                    width: width < 6 ? 6 : undefined,
-                });
+            if (hand.length > 0) {
+                if (!hand.includes("")) {
+                    const sorted = hand.map(uid => Card.deserialize(uid)!).sort(cardSortAsc).map(c => c.uid).sort((a,b) => {
+                        if (this.masked.includes(a) && this.masked.includes(b)) {
+                            return 0;
+                        } else if (this.masked.includes(a)) {
+                            return 1
+                        } else if (this.masked.includes(b)) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }).map(c => this.masked.includes(c) ? "cUNKNOWN" : ("c" + c));
+                    areas.push({
+                        type: "pieces",
+                        pieces: sorted as [string, ...string[]],
+                        label: i18next.t("apgames:validation.jacynth.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
+                        spacing: 0.5,
+                        width: width < 6 ? 6 : undefined,
+                    });
+                }
             }
         }
         // create an area for all invisible cards (if there are any cards left)

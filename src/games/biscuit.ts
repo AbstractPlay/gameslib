@@ -1211,7 +1211,6 @@ export class BiscuitGame extends GameBase {
         return resolved;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public serialize(opts?: {strip?: boolean, player?: number}): string {
         const json = JSON.stringify(this.state(opts), replacer);
         const compressed = pako.gzip(json);

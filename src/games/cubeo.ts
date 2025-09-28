@@ -352,8 +352,8 @@ export class CubeoGame extends GameBase {
             if (this.diceInHand(this.currplayer) === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.cubeo.MAX_DICE", {
-		    dice: this.diesize,
-		});
+                    dice: this.diesize,
+                });
                 return result;
             } else {
                 result.valid = false;
@@ -648,6 +648,8 @@ export class CubeoGame extends GameBase {
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
+
+        status += "**Dice**: " + this.getPlayersScores()[0].scores.join(",") + "\n\n";
 
         return status;
     }

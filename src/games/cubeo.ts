@@ -72,7 +72,7 @@ export class CubeoGame extends GameBase {
             {uid: "d12", group: "dice"},
         ],
         categories: ["goal>immobilize", "goal>score>race", "mechanic>place", "mechanic>move", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>dice"],
-        flags: ["automove"]
+        flags: ["automove", "limited-pieces"]
     };
 
     public numplayers = 2;

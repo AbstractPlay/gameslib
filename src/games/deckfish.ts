@@ -333,7 +333,7 @@ export class DeckfishGame extends GameBase {
         //Convert to locations for easier calculating.
         const fromLoc = this.algebraic2loc(fromCell);
         const toLoc = this.algebraic2loc(toCell);
-        const bounceLoc = toLoc.slice() as location;
+        const bounceLoc = [...toLoc] as location;
 
         if (fromLoc[0] === toLoc[0]) {
             if (fromLoc[1] > toLoc[1])
@@ -364,7 +364,7 @@ export class DeckfishGame extends GameBase {
 
     private getNext(loc: location, dir: Direction): location {
         //Get the next location in a compass direction, not checked.
-        const nextLoc = loc.slice() as location;
+        const nextLoc = [...loc] as location;
         switch (dir) {
             case "N":
                 nextLoc[1]--;
@@ -554,7 +554,7 @@ export class DeckfishGame extends GameBase {
         const targets: location[] = [];
 
         for (const dir of orthDirections) {
-            let candidateLoc = meepleLoc.slice() as location;
+            let candidateLoc = [...meepleLoc] as location;
 
             //Check the next space in the current direction.
             for (let a = 1; a < this.maxdim; a++) {
@@ -578,7 +578,7 @@ export class DeckfishGame extends GameBase {
         const targets: location[] = [];
 
         for (const dir of orthDirections) {
-            let nextLoc = meepleLoc.slice() as location;
+            let nextLoc = [...meepleLoc] as location;
             //Check the next space in the current direction.
             for (let a = 1; a < this.maxdim; a++) {
                 nextLoc = this.getNext(nextLoc,dir);
@@ -603,7 +603,7 @@ export class DeckfishGame extends GameBase {
         const targets: location[] = [];
 
         for (const dir of orthDirections) {
-            let candidateLoc = meepleLoc.slice() as location;
+            let candidateLoc = [...meepleLoc] as location;
 
             //Check the next space in the current direction.
             for (let a = 1; a < this.maxdim; a++) {
@@ -923,7 +923,7 @@ export class DeckfishGame extends GameBase {
                 return result;
             } else if (this.occupied.has(swap)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.OCCUPIED_SWAP", {cell: swap});
+                result.message = i18next.t("apgames:validation.deckfish.OCCUPIED_SWAP", {cell: swap});
                 return result;
             } else {
 
@@ -1349,7 +1349,7 @@ export class DeckfishGame extends GameBase {
         //Evaluate tiebreaker.
         let tieWinner: playerid[] = [];
         //Sort.
-        const sortedArrays = this.collected.map(collection => collection.slice().sort());
+        const sortedArrays = this.collected.map(collection => [...collection].sort((a,b) => a - b));
         //Subtract.
         const winArray = sortedArrays[0].map((item, index) => item - (sortedArrays[1])[index]).filter((item) => item !== 0);
 
@@ -1363,7 +1363,7 @@ export class DeckfishGame extends GameBase {
 
     public getPlayerScore(player: number): number {
         //gets min of suits
-        const score = this.collected[player - 1].slice().sort()[0];
+        const score = [...this.collected[player - 1]].sort((a,b) => a - b)[0];
         return score;
     }
 

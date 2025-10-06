@@ -344,7 +344,7 @@ export class Pigs2Game extends GameBaseSimultaneous {
 
         // get ready
         const grid = new RectGrid(8, 8);
-        const pigs = [...this.board.entries()].map(e => { return {player: e[1][0], cell: e[0], facing: e[1][1]} as IPigPos}).sort((a, b) => a.player - b.player);
+        let pigs = [...this.board.entries()].map(e => { return {player: e[1][0], cell: e[0], facing: e[1][1]} as IPigPos}).sort((a, b) => a.player - b.player);
         const dmgApplied: number[] = []
         const resultGroups: APMoveResult[][] = [];
         for (let i = 0; i < this.numplayers; i++) {
@@ -472,6 +472,11 @@ export class Pigs2Game extends GameBaseSimultaneous {
             resultGroups[i].push({type: "move", from, to});
             pig.cell = to;
         }
+        // filter out any disabled pigs that share a space with an active pig
+        const able = pigs.filter(p => p.facing !== "U");
+        const ableCells = able.map(p => p.cell);
+        const disabled = pigs.filter(p => p.facing === "U");
+        pigs = [...able, ...disabled.filter(p => !ableCells.includes(p.cell))];
 
         // then resolve damage
         for (let player = 1; player <= this.numplayers; player++) {

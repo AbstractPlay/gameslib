@@ -1,1 +1,14 @@
-{}
+{
+    "ABANDONED": "O jogo foi abandonado.",
+    "ADD": {
+        "logger": "A árvore em {{where}} cresceu um estágio.",
+        "nonum": "{{player}} adicionou uma peça em {{where}}."
+    },
+    "AFFILIATE": {
+        "witch_M": "{{player}} escolheu as Pedras Lunares.",
+        "witch_S": "{{player}} escolheu as Pedras do Sol."
+    },
+    "homeworlds": {
+        "SACRIFICE": "{{player}} sacrificou um {{what}} no sistema de {{where}}."
+    }
+}

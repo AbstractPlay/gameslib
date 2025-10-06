@@ -72,7 +72,7 @@ export class CubeoGame extends GameBase {
             {uid: "d12", group: "dice"},
         ],
         categories: ["goal>immobilize", "goal>score>race", "mechanic>place", "mechanic>move", "board>dynamic", "board>shape>rect", "board>connect>rect", "components>dice"],
-        flags: ["automove"]
+        flags: ["automove", "limited-pieces"]
     };
 
     public numplayers = 2;
@@ -352,8 +352,8 @@ export class CubeoGame extends GameBase {
             if (this.diceInHand(this.currplayer) === 0) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.cubeo.MAX_DICE", {
-		    dice: this.diesize,
-		});
+                    dice: this.diesize,
+                });
                 return result;
             } else {
                 result.valid = false;
@@ -648,6 +648,8 @@ export class CubeoGame extends GameBase {
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
+
+        status += "**Dice**: " + this.getPlayersScores()[0].scores.join(",") + "\n\n";
 
         return status;
     }

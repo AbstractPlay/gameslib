@@ -771,17 +771,19 @@ export class Pigs2Game extends GameBaseSimultaneous {
                                 });
                             }
                         } else if ( (result.type === "fire") && (result.which === "F") ) {
-                            const [fx, fy] = Pigs2Game.algebraic2coords(result.from!);
-                            const [tx, ty] = Pigs2Game.algebraic2coords(result.to!);
-                            rep.annotations.push({
-                                type: "move",
-                                arrow: true,
-                                style: "dashed",
-                                targets: [
-                                    {col: fx, row: fy},
-                                    {col: tx, row: ty}
-                                ]
-                            });
+                            if (result.to !== undefined) {
+                                const [fx, fy] = Pigs2Game.algebraic2coords(result.from!);
+                                const [tx, ty] = Pigs2Game.algebraic2coords(result.to);
+                                rep.annotations.push({
+                                    type: "move",
+                                    arrow: true,
+                                    style: "dashed",
+                                    targets: [
+                                        {col: fx, row: fy},
+                                        {col: tx, row: ty}
+                                    ]
+                                });
+                            }
                         } else if (result.type === "damage") {
                             const [x, y] = Pigs2Game.algebraic2coords(result.where as string);
                             rep.annotations.push({

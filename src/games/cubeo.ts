@@ -674,15 +674,10 @@ export class CubeoGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        const statuses: IScores[] = [];
-        if (this.diceInHand(1) > 0 || this.diceInHand(2) > 0) {
-            statuses.push({ name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.diceInHand(1), this.diceInHand(2)] });
-        }
-        return statuses;
+        return [{ name: i18next.t("apgames:status.PIECESINHAND"), scores: [this.diceInHand(1), this.diceInHand(2)] }];
     }
 
     public clone(): CubeoGame {
-
         return Object.assign(new CubeoGame(), deepclone(this) as CubeoGame);
     }
 }

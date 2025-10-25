@@ -1,7 +1,7 @@
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted';
 import { IGraph } from "./IGraph";
-import { algebraic2coords, coords2algebraic } from "..";
+import { algebraic2coords, coords2algebraic, Direction } from "..";
 
 export type EdgeData = {
     type: "orth"|"diag";
@@ -84,5 +84,61 @@ export class SquareGraph implements IGraph {
 
     public path(from: string, to: string): string[] | null {
         return bidirectional(this.graph, from, to);
+    }
+
+    public move(x: number, y: number, dir: Direction, dist = 1): [number, number] | undefined {
+        let xNew = x;
+        let yNew = y;
+        for (let i = 0; i < dist; i++) {
+            switch (dir) {
+                case "N":
+                    yNew--;
+                    break;
+                case "E":
+                    xNew++;
+                    break;
+                case "S":
+                    yNew++;
+                    break;
+                case "W":
+                    xNew--;
+                    break;
+                case "NE":
+                    xNew++;
+                    yNew--;
+                    break;
+                case "SE":
+                    xNew++;
+                    yNew++;
+                    break;
+                case "SW":
+                    xNew--;
+                    yNew++;
+                    break;
+                case "NW":
+                    xNew--;
+                    yNew--;
+                    break;
+                default:
+                    throw new Error("Invalid direction requested.");
+            }
+            if ((yNew < 0) || (yNew >= this.height)) {
+                return undefined;
+            }
+            if ((xNew < 0) || (xNew >= this.width)) {
+                return undefined;
+            }
+        }
+        return [xNew, yNew];
+    }
+
+    public ray(x: number, y: number, dir: Direction): [number, number][] {
+        const cells: [number, number][] = [];
+        let next = this.move(x, y, dir);
+        while (next !== undefined) {
+            cells.push(next);
+            next = this.move(...next, dir);
+        }
+        return cells;
     }
 }

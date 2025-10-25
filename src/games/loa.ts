@@ -252,7 +252,7 @@ export class LinesOfActionGame extends GameBase {
         }
         const pieces = [...this.board.entries()].filter(e => e[1] === player).map(e => e[0]);
         for (const cell of pieces) {
-            const [x, y] = LinesOfActionGame.algebraic2coords(cell, this.boardsize);
+            const [x, y] = grid.algebraic2coords(cell);
             for (const pair of dirPairs) {
                 const rays: [number, number][][] = [];
                 let magnitude = 1;
@@ -260,7 +260,7 @@ export class LinesOfActionGame extends GameBase {
                     // @ts-expect-error: I don't have the patience to differentiate Direction and HexDir right now
                     const ray = grid.ray(x, y, d);
                     for (const point of ray) {
-                        if (this.board.has(LinesOfActionGame.coords2algebraic(...point, this.boardsize))) {
+                        if (this.board.has(grid.coords2algebraic(...point))) {
                             magnitude++;
                         }
                     }
@@ -271,7 +271,7 @@ export class LinesOfActionGame extends GameBase {
                         let valid = true;
                         for (let i = 0; i < magnitude - 1; i++) {
                             const next = ray[i];
-                            const nextCell = LinesOfActionGame.coords2algebraic(...next, this.boardsize);
+                            const nextCell = grid.coords2algebraic(...next);
                             if (this.board.has(nextCell)) {
                                 const contents = this.board.get(nextCell);
                                 if (contents !== player) {
@@ -282,7 +282,7 @@ export class LinesOfActionGame extends GameBase {
                         }
                         if (valid) {
                             const next = ray[magnitude - 1];
-                            const nextCell = LinesOfActionGame.coords2algebraic(...next, this.boardsize);
+                            const nextCell = grid.coords2algebraic(...next);
                             if (this.board.has(nextCell)) {
                                 const contents = this.board.get(nextCell);
                                 if (contents !== player) {
@@ -314,7 +314,7 @@ export class LinesOfActionGame extends GameBase {
         }
         const targets: string[] = [];
         const grid = this.graph;
-        const [x, y] = LinesOfActionGame.algebraic2coords(start, this.boardsize);
+        const [x, y] = grid.algebraic2coords(start);
         let dirPairs: ([Direction,Direction][])|([HexDir,HexDir][]) = [];
         if (this.variants.includes("hex5") || this.variants.includes("hex6")) {
             dirPairs = [["NE","SW"], ["NW", "SE"], ["E","W"]] as [HexDir,HexDir][];
@@ -323,9 +323,9 @@ export class LinesOfActionGame extends GameBase {
         }
         for (const pair of dirPairs) {
             // @ts-expect-error: I don't have the patience to differentiate Direction and HexDir right now
-            const ray1 = grid.ray(x, y, pair[0]).map(pt => LinesOfActionGame.coords2algebraic(...pt, this.boardsize));
+            const ray1 = grid.ray(x, y, pair[0]).map(pt => grid.coords2algebraic(...pt));
             // @ts-expect-error: I don't have the patience to differentiate Direction and HexDir right now
-            const ray2 = grid.ray(x, y, pair[1]).map(pt => LinesOfActionGame.coords2algebraic(...pt, this.boardsize));
+            const ray2 = grid.ray(x, y, pair[1]).map(pt => grid.coords2algebraic(...pt));
             const combined: string[] = [start, ...ray1, ...ray2];
             const numPieces = [...this.board.entries()].filter(e => combined.includes(e[0])).length;
             for (const ray of [ray1, ray2]) {
@@ -352,7 +352,8 @@ export class LinesOfActionGame extends GameBase {
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            const cell = LinesOfActionGame.coords2algebraic(col, row, this.boardsize);
+            const g = this.graph;
+            const cell = g.coords2algebraic(col, row);
             let newmove = "";
             if (move.length > 0) {
                 let prev = move;
@@ -421,11 +422,12 @@ export class LinesOfActionGame extends GameBase {
             }
         }
 
+        const g = this.graph;
         const [from, to] = m.split(/[-x]/);
         if (from !== undefined) {
             // cell is valid
             try {
-                LinesOfActionGame.algebraic2coords(from, this.boardsize);
+                g.algebraic2coords(from);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
@@ -459,7 +461,7 @@ export class LinesOfActionGame extends GameBase {
             } else {
                 // cell is valid
                 try {
-                    LinesOfActionGame.algebraic2coords(to, this.boardsize);
+                    g.algebraic2coords(to);
                 } catch {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
@@ -508,6 +510,7 @@ export class LinesOfActionGame extends GameBase {
             }
         }
 
+        const g = this.graph;
         this.results = [];
         if (m === "pass") {
             this.results.push({type: "pass"});
@@ -517,7 +520,7 @@ export class LinesOfActionGame extends GameBase {
                 const [cell,] = m.split(/[-x]/);
                 const pts = this.findPoints(cell);
                 if (pts !== undefined) {
-                    this._points = pts.map(c => LinesOfActionGame.algebraic2coords(c, this.boardsize));
+                    this._points = pts.map(c => g.algebraic2coords(c));
                 } else {
                     this._points = [];
                 }
@@ -695,11 +698,11 @@ export class LinesOfActionGame extends GameBase {
 
             for (const move of this.results) {
                 if (move.type === "move") {
-                    const [fromX, fromY] = LinesOfActionGame.algebraic2coords(move.from, this.boardsize);
-                    const [toX, toY] = LinesOfActionGame.algebraic2coords(move.to, this.boardsize);
+                    const [fromX, fromY] = g.algebraic2coords(move.from);
+                    const [toX, toY] = g.algebraic2coords(move.to);
                     rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "capture") {
-                    const [x, y] = LinesOfActionGame.algebraic2coords(move.where!, this.boardsize);
+                    const [x, y] = g.algebraic2coords(move.where!);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }

@@ -1386,11 +1386,19 @@
             "classic": {
                 "name": "8x8 board"
             },
+            "hex5": {
+                "name": "Hexagonal board (base-5)",
+                "description": "9 pieces each, starting in clusters in the corners."
+            },
+            "hex6": {
+                "name": "Hexagonal board (base-6)",
+                "description": "12 pieces each, 4 on each side. Moving a piece onto the central hole removes the piece from the game."
+            },
             "#setup": {
                 "name": "Classic setup"
             },
             "scrambled": {
-                "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board.",
+                "description": "Pieces are interspersed with each other instead of starting together on opposite sides of the board. (Doesn't apply to the hex5 board.)",
                 "name": "Scrambled Eggs"
             }
         },

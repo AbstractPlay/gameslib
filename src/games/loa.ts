@@ -173,7 +173,7 @@ export class LinesOfActionGame extends GameBase {
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.variants = state.variants;
+            this.variants = [...state.variants];
             this.stack = [...state.stack];
         }
         this.load();

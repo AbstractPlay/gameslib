@@ -733,11 +733,12 @@ export class StorisendeGame extends GameBase {
         return true;
     }
 
+    // Edited to also reset with a capture
     public get pliesWithoutConversion(): number {
         const results = [...this.stack].reverse().map(s => s._results);
         let count = 0;
         for (const batch of results) {
-            const found = batch.find(r => r.type === "convert");
+            const found = batch.find(r => r.type === "convert" || r.type === "capture");
             if (found === undefined) {
                 count++;
             } else {

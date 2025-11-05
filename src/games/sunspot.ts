@@ -791,7 +791,7 @@ export class SunspotGame extends GameBase {
                     {name: "piece", colour: 2},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
-                            bg: 1,
+                            bg: 2,
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.3, opacity: 0.5}
                 ],

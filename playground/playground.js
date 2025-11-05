@@ -1920,6 +1920,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var statusbox = document.getElementById("clickstatus");
                     statusbox.innerHTML = resultStr;
                 } else {
+                    console.log(err);
                     alert("An error occurred: " + err.message);
                 }
                 console.log("Game state: "+state);
@@ -1978,6 +1979,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var statusbox = document.getElementById("clickstatus");
                     statusbox.innerHTML = resultStr;
                 } else {
+                    console.log(err);
                     alert("An error occurred: " + err.message);
                 }
                 console.log("Game state: "+state);

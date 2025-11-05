@@ -213,6 +213,7 @@ import { StairsGame, IStairsState } from "./stairs";
 import { EmuGame, IEmuState } from "./emu";
 import { DeckfishGame, IDeckfishState } from "./deckfish";
 import { BluestoneGame, IBluestoneState } from "./bluestone";
+import { SunspotGame, ISunspotState } from "./sunspot";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -428,6 +429,7 @@ export {
     EmuGame, IEmuState,
     DeckfishGame, IDeckfishState,
     BluestoneGame, IBluestoneState,
+    SunspotGame, ISunspotState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -500,7 +502,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
-                              typeof StairsGame | typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame
+                              typeof StairsGame | typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
+                              typeof SunspotGame
                 >();
 // Manually add each game to the following array
 [
@@ -533,7 +536,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
-    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame,
+    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -969,6 +972,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new DeckfishGame(...args);
         case "bluestone":
             return new BluestoneGame(...args);
+        case "sunspot":
+            return new SunspotGame(...args);
     }
     return;
 }

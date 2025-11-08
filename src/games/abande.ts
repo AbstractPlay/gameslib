@@ -367,6 +367,13 @@ export class AbandeGame extends GameBase {
                 result.message = i18next.t("apgames:validation.abande.MOVE2EMPTY", {from, to});
                 return result;
             }
+            // Tried to move too far
+            const neighbours = this.graph.neighbours(from);
+            if (! neighbours.includes(to)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.abande.TOOFAR", {from, to});
+                return result;
+            }
             const tContents = this.board.get(to)!;
             // tried to move on top of your own piece
             if (tContents[tContents.length - 1] === this.currplayer) {

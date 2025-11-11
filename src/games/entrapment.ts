@@ -531,6 +531,12 @@ export class EntrapmentGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: m });
                 return result;
             }
+            // Already occupied cell.
+            if (this.boardCell.has(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.entrapment.OCCUPIED", { cell: m });
+                return result;
+            }
         } else {
             const split = m.split(splitSymbol);
             // Excess action count.
@@ -600,7 +606,7 @@ export class EntrapmentGame extends GameBase {
                         if (this.boardEdge.get(from)![0] !== this.currplayer) {
                             if (this.boardCell.get(to) !== this.currplayer) {
                                 result.valid = false;
-                                result.message = i18next.t("apgames:validation.entrapment.UNCONTROLLED_BARRIER", { wall: from });
+                                result.message = i18next.t("apgames:validation.entrapment.UNCONTROLLED_BARRIER");
                                 return result;
                             }
                         }

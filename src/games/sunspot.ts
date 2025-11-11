@@ -57,7 +57,7 @@ export class SunspotGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["pie", "no-moves"],
+        flags: ["pie", "no-moves", "experimental"],
         categories: ["goal>connect", "mechanic>place", "mechanic>convert", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             {uid: "size-4", group: "board"},
@@ -283,16 +283,16 @@ export class SunspotGame extends GameBase {
     private checkCounterFlipIsNotPossible = (board: Map<string, cellcontent>, previousAction: string): boolean => {
         if (!previousAction.startsWith('X')) {
             return false;
-        }    
+        }
         const cell = previousAction.slice(1);
         const possible = this.isInteriorStoneInCombinedGroup(cell, this.currplayer, board);
         return !possible;
-    }        
+    }
 
     private placeIsNotPossible = {
         condition: this.checkPlaceIsNotPossible
     }
-    
+
     private counterFlipIsNotPossible = {
         condition: this.checkCounterFlipIsNotPossible
     }
@@ -307,7 +307,7 @@ export class SunspotGame extends GameBase {
                 message: i18next.t("apgames:validation.slither.INITIAL_INSTRUCTIONS")
             }
         }
-        
+
         const actions: string[] = m.split(';');
         // Valid cells
         try {

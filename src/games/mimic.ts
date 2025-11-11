@@ -32,7 +32,6 @@ export class MimicGame extends GameBase {
         // i18next.t("apgames:descriptions.mimic")
         description: "apgames:descriptions.mimic",
         urls: [
-            "https://geomegranate.com/wp-content/uploads/2024/01/Mimic.pdf",
             "https://boardgamegeek.com/boardgame/432214/mimic",
         ],
         people: [

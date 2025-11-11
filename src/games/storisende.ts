@@ -760,9 +760,11 @@ export class StorisendeGame extends GameBase {
 
             // If you don't have any pieces on the wall, and you have no double stacks, and there are no nations where you have more than a single piece, then you can never get more points than you already have
             const canCatchUp = this.playerOnWall() || this.playerHasStack() || !this.playerIsSparse()
+            // console.log({canCatchUp, plies: this.pliesWithoutConversion});
 
             // if consecutive passes, or 100 plies without conversion, then normal score comparison
             if (passedOut || this.pliesWithoutConversion >= 100) {
+                // console.log("passed out || plies")
                 const myScore = this.getPlayerScore(this.currplayer);
                 const otherScore = this.getPlayerScore(otherPlayer);
                 this.gameover = true;
@@ -781,6 +783,7 @@ export class StorisendeGame extends GameBase {
             }
             // if current player is losing and only has a single piece or can't catch up, they lose
             else if (numPieces === 1 || !canCatchUp) {
+                // console.log("numPieces || !canCatchUp");
                 const myScore = this.getPlayerScore(this.currplayer);
                 const otherScore = this.getPlayerScore(otherPlayer);
                 if (myScore < otherScore) {

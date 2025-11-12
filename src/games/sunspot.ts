@@ -401,8 +401,6 @@ export class SunspotGame extends GameBase {
                 complete = true;
             }
         }
-        /* eslint-disable no-console */
-        console.log("complete", complete, "incomplete", incomplete);
 
         if (complete || incomplete){
             const result: IValidationResult = {

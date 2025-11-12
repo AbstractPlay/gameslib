@@ -422,7 +422,7 @@ export class SunspotGame extends GameBase {
             return {
                 valid: false,
                 complete: -1,
-                message: i18next.t("apgames:validation._general.INVALID_MOVE")
+                message: i18next.t("apgames:validation._general.INVALID_MOVE", { move: m })
             }
         }
     }

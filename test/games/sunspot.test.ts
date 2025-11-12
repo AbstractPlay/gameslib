@@ -4,7 +4,7 @@ import "mocha";
 import { expect } from "chai";
 import { SunspotGame } from '../../src/games';
 
-describe.only("Sunspot", () => {
+describe("Sunspot", () => {
     it("p1 win by encircling an opponent group", () => {
         const g = [
             "b2", "h6",

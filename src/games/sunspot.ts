@@ -180,7 +180,7 @@ export class SunspotGame extends GameBase {
         try {
             const cell = this.graph.coords2algebraic(col, row);
             let newaction;
-            if (this.board.has(cell)) {
+            if (this.board.has(cell) || move.startsWith(cell)) { // Have to accomodate counter-flipping the initially placed stone
                 newaction = "X" + cell;
             } else {
                 newaction = cell;
@@ -262,24 +262,20 @@ export class SunspotGame extends GameBase {
         return [true, newBoard]
     }
 
-    private placeAction = {
-        action: this.doPlaceAction
-    }
-
-    private flipAction = {
-        action: this.doFlipAction
-    }
-
-    private counterFlipAction = {
-        action: this.doCounterFlipAction
-    }
-
     /* Conditions */
 
     private checkPlaceIsNotPossible = (board: Map<string, cellcontent>): boolean => {
         return board.size === this.graph.graph.order;
     }
 
+    private checkCounterFlipIsPossible = (board: Map<string, cellcontent>, previousAction: string): boolean => {
+        if (!previousAction.startsWith('X')) {
+            return false;
+        }
+        const cell = previousAction.slice(1);
+        return this.isInteriorStoneInCombinedGroup(cell, this.currplayer, board);
+    }
+    
     private checkCounterFlipIsNotPossible = (board: Map<string, cellcontent>, previousAction: string): boolean => {
         if (!previousAction.startsWith('X')) {
             return false;
@@ -289,6 +285,34 @@ export class SunspotGame extends GameBase {
         return !possible;
     }
 
+    private checkFlipIsPossible = (board: Map<string, cellcontent>): boolean => {
+        for (const [cell, content] of board) {
+            if(content === this.otherPlayer() && !this.isEdgeStone(cell, board)){
+                for(const cell2 of this.graph.neighbours(cell)){
+                    if(this.board.has(cell2) && this.board.get(cell2) === this.otherPlayer()
+                        && this.isEdgeStone(cell2, board)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private placeAction = {
+        action: this.doPlaceAction
+    }
+
+    private flipAction = {
+        condition: this.checkFlipIsPossible,
+        action: this.doFlipAction
+    }
+
+    private counterFlipAction = {
+        condition: this.checkCounterFlipIsPossible,
+        action: this.doCounterFlipAction
+    }
+
     private placeIsNotPossible = {
         condition: this.checkPlaceIsNotPossible
     }
@@ -296,7 +320,6 @@ export class SunspotGame extends GameBase {
     private counterFlipIsNotPossible = {
         condition: this.checkCounterFlipIsNotPossible
     }
-
 
     public validateMove(m: string): IValidationResult {
         if (m.length === 0) {
@@ -378,6 +401,8 @@ export class SunspotGame extends GameBase {
                 complete = true;
             }
         }
+        /* eslint-disable no-console */
+        console.log("complete", complete, "incomplete", incomplete);
 
         if (complete || incomplete){
             const result: IValidationResult = {

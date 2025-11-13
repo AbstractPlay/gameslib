@@ -55,7 +55,6 @@ export class TaflGame extends GameBase {
         // i18next.t("apgames:notes.tafl")
         notes: "apgames:notes.tafl",
         urls: [
-            "https://abstractplay.com/wiki/doku.php?id=hnefatafl",
             "http://aagenielsen.dk/tafl_rules.php",
             "https://boardgamegeek.com/boardgame/2932/hnefatafl",
         ],

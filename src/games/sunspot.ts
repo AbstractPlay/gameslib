@@ -18,6 +18,7 @@ type MovePart = {
         previousAction: string
     ) => [boolean, Map<string, cellcontent>];
     condition?: (board: Map<string, cellcontent>, previousAction: string) => boolean;
+    message?: string;
 }
 
 export interface IMoveState extends IIndividualState {
@@ -212,6 +213,8 @@ export class SunspotGame extends GameBase {
      - Finally, actions also return the board after the action has been applied.
      - Note that conditions don't have an 'action' argument.
      - Note that they must be arrow functions, to keep the 'this' in scope.
+     - Moves that have both a condition and an action can have a message, to indicate to the player
+       what to do next in case of an incomplete move.
     */
 
     /* Actions */
@@ -305,12 +308,14 @@ export class SunspotGame extends GameBase {
 
     private flipAction = {
         condition: this.checkFlipIsPossible,
-        action: this.doFlipAction
+        action: this.doFlipAction,
+        message: "apgames:validation.sunspot.OPTIONAL_FLIP"
     }
 
     private counterFlipAction = {
         condition: this.checkCounterFlipIsPossible,
-        action: this.doCounterFlipAction
+        action: this.doCounterFlipAction,
+        message: "apgames:validation.sunspot.MANDATORY_COUNTERFLIP"
     }
 
     private placeIsNotPossible = {
@@ -362,6 +367,7 @@ export class SunspotGame extends GameBase {
 
         let complete = false; // found at least one (valid) complete move
         let incomplete = false; // found at least one (valid) incomplete move
+        let message = undefined;
         for (const movePartSequence of validMoves) {
             let remainingActionStrs = m.split(';');
             let previousActionStr = "";
@@ -393,6 +399,9 @@ export class SunspotGame extends GameBase {
                         movePartSequence. */
                         incomplete = true;
                         validComplete = false;
+                        if (movePart.message !== undefined) {
+                            message = movePart.message;
+                        }
                         break;
                     }
                 }
@@ -416,6 +425,9 @@ export class SunspotGame extends GameBase {
             } else if (!complete && incomplete) {
                 result.complete = -1;
                 result.message = i18next.t("apgames:validation._general.INCOMPLETE_MOVE");
+            }
+            if (incomplete && message !== undefined) {
+                result.message = i18next.t(message);
             }
             return result
         } else {

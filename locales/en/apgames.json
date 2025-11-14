@@ -5044,6 +5044,10 @@
             "NO_PIECE": "You don't have a size {{size}} piece to place.",
             "PARTIAL_PLACEMENT": "Click an empty space on the board to place your {{size}} piece."
         },
+        "sunspot": {
+            "OPTIONAL_FLIP": "You may submit the move as-is, or you may additionally flip an interior stone that is part of a combined group to your colour.",
+            "MANDATORY_COUNTERFLIP": "You must flip one of your own edge subgroups in the same group as the flipped stone."
+        },
         "surmount": {
             "BAD_CAP": "You may not capture the stone at {{cell}}. The captured stone must be adjacent to the capturing group and must be part of a group that is the same size as the capturing group.",
             "BAD_CONTINUE": "You may not place a stone at {{cell}}. Continuations may not make contact with any groups other than those initially contacted, and they may not grow the group any larger than the largest enemy group initially contacted.",

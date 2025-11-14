@@ -43,8 +43,8 @@ export class DeckfishGame extends GameBase {
         uid: "deckfish",
         playercounts: [2],
         //version: "20250724",
-	version: "20250906",
-        dateAdded: "2025-07-24",
+	    version: "20250906",
+        dateAdded: "2025-11-14",
         // i18next.t("apgames:descriptions.deckfish")
         description: "apgames:descriptions.deckfish",
         // i18next.t("apgames:notes.deckfish")
@@ -74,7 +74,7 @@ export class DeckfishGame extends GameBase {
             }
         ],
         categories: ["goal>score>eog", "mechanic>move", "mechanic>place", "mechanic>random>setup", "mechanic>set", "board>shape>rect", "board>connect>rect", "components>decktet"],
-        flags: ["scores", "random-start", "custom-randomization", "autopass", "experimental"],
+        flags: ["scores", "random-start", "custom-randomization", "autopass"],
     };
     public coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, this.rows);
@@ -220,15 +220,15 @@ export class DeckfishGame extends GameBase {
         //b/c Deck does not support a double deck,
         //and we don't do anything complicated with cards anyway.
         const deck: string[] = [];
-	
+
         const cards = [...cardsBasic, ...cardsExtended];
         const deckOfClass = new Deck(cards);
         const origSize = deckOfClass.size;
-	
+
         for (let c=0; c<origSize; c++) {
             const [card] = deckOfClass.draw();
             deck.push(card.uid + "_0");
-	    
+
             if (this.variants.includes("double")) {
                 if (card.rank.name !== "Crown")
                     deck.push(card.uid + "_1");
@@ -858,7 +858,7 @@ export class DeckfishGame extends GameBase {
             } else {
                 result.valid = false;
                 if (this.variants.includes("double"))
-                    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT_DOUBLE");     
+                    result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT_DOUBLE");
                 else
                     result.message = i18next.t("apgames:validation.deckfish.INVALID_PLACEMENT");
 
@@ -1283,7 +1283,7 @@ export class DeckfishGame extends GameBase {
         for (let p = 1; p <= this.numplayers; p++) {
             const captive = this.collected[p-1].reduce((partialSum, a) => partialSum + a, 0);
             if (captive > 0) {
-                const indexBySize = this.collected[p-1].map((val, idx) => idx).sort((a, b) => this.collected[p-1][a] - this.collected[p-1][b]);         
+                const indexBySize = this.collected[p-1].map((val, idx) => idx).sort((a, b) => this.collected[p-1][a] - this.collected[p-1][b]);
                 const captives: string[] = [];
                 indexBySize.forEach(idx => {
                     const cnt = this.collected[p-1][idx];

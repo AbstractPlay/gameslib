@@ -39,7 +39,7 @@ export class SunspotGame extends GameBase {
         uid: "sunspot",
         playercounts: [2],
         version: "1.0",
-        dateAdded: "2025-10-28",
+        dateAdded: "2025-11-14",
         // i18next.t("apgames:descriptions.sunspot")
         description: "apgames:descriptions.sunspot",
         urls: ["https://boardgamegeek.com/boardgame/444740/sunspot"],
@@ -275,7 +275,7 @@ export class SunspotGame extends GameBase {
         const cell = previousAction.slice(1);
         return this.isInteriorStoneInCombinedGroup(cell, this.currplayer, board);
     }
-    
+
     private checkCounterFlipIsNotPossible = (board: Map<string, cellcontent>, previousAction: string): boolean => {
         if (!previousAction.startsWith('X')) {
             return false;

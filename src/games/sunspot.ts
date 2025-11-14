@@ -57,7 +57,7 @@ export class SunspotGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["pie", "no-moves"],
+        flags: ["pie", "no-moves", "experimental"],
         categories: ["goal>connect", "mechanic>place", "mechanic>convert", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
         variants: [
             {uid: "size-4", group: "board"},

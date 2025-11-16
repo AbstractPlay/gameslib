@@ -214,6 +214,7 @@ import { EmuGame, IEmuState } from "./emu";
 import { DeckfishGame, IDeckfishState } from "./deckfish";
 import { BluestoneGame, IBluestoneState } from "./bluestone";
 import { SunspotGame, ISunspotState } from "./sunspot";
+import { StawvsGame, IStawvsState } from "./stawvs";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -430,6 +431,7 @@ export {
     DeckfishGame, IDeckfishState,
     BluestoneGame, IBluestoneState,
     SunspotGame, ISunspotState,
+    StawvsGame, IStawvsState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -503,7 +505,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
                               typeof StairsGame | typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
-                              typeof SunspotGame
+                              typeof SunspotGame | typeof StawvsGame
                 >();
 // Manually add each game to the following array
 [
@@ -536,7 +538,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
-    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame
+    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -974,6 +976,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BluestoneGame(...args);
         case "sunspot":
             return new SunspotGame(...args);
+        case "stawvs":
+            return new StawvsGame(args[0], ...args.slice(1));
     }
     return;
 }

@@ -22,7 +22,8 @@
     "ANNOUNCE": {
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
         "deckfish": "{{player}} was unable to move and must pass from now on.",
-        "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}."
+        "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
+        "stawvs": "{{player}} was unable to move and must pass from now on."
     },
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
@@ -227,6 +228,7 @@
         "repetition_positional_one": "The game has ended because the same position has occurred.",
         "repetition_positionas_other": "The game has ended because the same position has occurred {{count}} times.",
         "stalemate": "The game has ended because one player has run out of moves.",
+        "stawvs": "The game has ended because the last player was unable to move.",
         "susan_nonplacement": "The game has ended because no player has placed a piece for 6 plies.",
         "tafl_encirclement": "The game has ended because the defenders are encircled.",
         "tafl_exit_fort": "The game has ended because the defenders created an exit fort.",
@@ -314,6 +316,7 @@
         "saltire": "{{player}} swapped the pieces at {{from}} and {{to}}.",
         "slyde": "{{player}} slid a piece from {{from}} to {{to}}.",
         "spook": "{{player}} moved Spooky from {{from}} to {{to}}.",
+        "stawvs": "{{player}} moved a piece from {{from}} to {{to}} and captured the {{what}} at {{how}}.",
         "susan": "{{player}} slid a piece from {{from}} to {{to}}.",
         "tafl": "{{player}} moved a piece from {{from}} to {{to}}.",
         "tafl_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
@@ -404,6 +407,7 @@
         "spire_neutral": "{{player}} placed a neutral ball at {{where}}.",
         "spire_player": "{{player}} placed a ball of their colour at {{where}}.",
         "spooky": "Spooky has entered the board at {{where}}.",
+        "stawvs": "{{player}} placed a piece at {{where}}.",
         "strands_initial": "{{player}} placed a piece on a space labelled 2 at {{where}}.",
         "strands_one": "{{player}} placed a piece at {{where}}.",
         "strands_other": "{{player}} placed {{count}} pieces at {{where}}.",

@@ -174,6 +174,7 @@
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
         "stairs": "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
+        "stawvs": "A set collection game for 2-4 players that's similar to Amazons, with old-style Volcano scoring.  On a checkerboard randomly filled with individual pyramids, player pieces can move and capture pyramids in a straight line (orthogonally or diagonally), if and only if all intervening spaces and the target space contain pyramids but not pieces.",
         "stibro": "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
         "stigmergy": "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         "storisende": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
@@ -251,6 +252,7 @@
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
         "spree": "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
+        "stawvs": "For clarity, the game pieces are represented as circles, though in real life, caps (small pyramids of distinct player colors) are usually used.  The UI will sort and score your trees (trios consisting of one of each pyramid size) for you as in Mega-Volcano, but for reference the point values are: 7 points for each monochrome tree, 5 points for multicolor trees, and 1 point each for loose pyramids.  Except in the variant where final pyramids aren't collected, the pyramids under player pieces are added to the players' collections and scored, but greyed-out pyramids remain on the board under the pieces to clarify the final position.",
         "stigmergy": "You control a space if more than half of the lines of sight to it end at a piece of your color. Your score is the sum of the number of pieces of your color on the board and the number of empty spaces you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         "tablero": "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         "tafl": "The variant names are in the format {ruleset}-{board size}-{initial layout}-{optional: starting player}. For example, 'linnaean-9x9-tcross-w' is the linnaean rules on a 9x9 board with T-cross setup, and the starting player is the defenders. If starting player is not mentioned, then attackers start.",
@@ -2128,6 +2130,32 @@
             },
             "size-5": {
                 "name": "5x5 board"
+            }
+        },
+        "stawvs": {
+            "#setup": {
+              "description": "In the default setup, the corners of the board are empty.",
+              "name": "Default setup (empty corners)"
+            },
+            "hole": {
+                "description": "Set up the board with four empty squares in the center.",
+                "name": "Center hole"
+            },
+            "random": {
+                "description": "Set up the board with four random empty squares.",
+                "name": "Random gaps"
+            },
+	    "hey": {
+                "name": "Simpler captures",
+                "description": "A simplification of the rules in which you always capture the pyramid you moved away from, instead of a pyramid in any line from your piece's new location.  This makes the game less like Amazons and more like Hey! That's My Fish."
+            },
+ 	    "finalfree": {
+                "name": "No final captures",
+                "description": "At the end of the game, players do not collect the pyramids under their pieces."
+            },
+ 	    "pieces-2": {
+                "name": "2 pieces each",
+              "description": "The piece count may optionally be reduced from 3 each to 2 each in a four-player game.  (This variant is not intended for lower player counts.)"
             }
         },
         "stibro": {
@@ -4958,6 +4986,22 @@
             "NORMAL_MOVE": "Choose a piece to move.",
             "INVALID_MOVE": "You must move a piece to a neighboring stack of the same height. You must move one of your lowest movable pieces.",
             "MUST_PASS": "The only move available to you is to pass."
+        },
+        "stawvs": {
+            "BAD_CLAIM": "You must claim a pyramid in a straight, unobstructed line from your new position.",
+            "BAD_CLAIM_HEY": "In this variant, you must claim the pyramid from your previous position.",
+            "BAD_MOVE": "You must move to a pyramid in a straight, unobstructed line from your old position.",
+            "BAD_START": "You must choose one of your own pieces to move.",
+            "BAD_PLACEMENT": "You must place your cap on an unoccupied pyramid, not on an occupied one or an empty cell.",
+            "EXTRA_CLAIMS": "You may only claim one pyramid on your turn.",
+            "INITIAL_PLACEMENT_INSTRUCTIONS": "Click a pyramid to place your piece on the board.",
+            "INITIAL_MOVE_INSTRUCTIONS": "Click a piece to move.",
+            "LABEL_COLLECTION": "Player {{playerNum}}'s pyramids",
+            "MUST_PASS": "Once you have passed, you must continue passing.",
+            "NOPASS": "You cannot pass while you have legal moves.",
+            "PARTIAL_MOVE": "Click an accessible destination pyramid.",
+	    "VALID_PLACEMENT": "Looks like a good placement.",
+	    "VALID_PLAY": "Looks like a good play."
         },
         "stibro": {
             "FIRST_PLACEMENT": "The first placement cannot be on the edge.",

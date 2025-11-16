@@ -128,7 +128,7 @@ export class StawvsGame extends GameBase {
             this.pieceCount = this.getPieceCount();
             
             const board = new Map<string, CellContents>([]);
-            let bag: Pyramid[] = [];
+            const bag: Pyramid[] = [];
             for (let stash = 0; stash < triosPerColor; stash++) {
                 for (let size = 1; size < numberOfColors; size++) {
                     for (let c = 0; c < allColours.length; c++) {
@@ -342,7 +342,7 @@ export class StawvsGame extends GameBase {
 
     public checkPlaced(): boolean {
         //Count up pieces placed to support Mode change.
-        let placements: number[] = Array(this.numplayers).fill(0);
+        const placements: number[] = Array(this.numplayers).fill(0);
         for (let row = 0; row < boardDim; row++) {
             for (let col = 0; col < boardDim; col++) {
                 const cell = StawvsGame.coords2algebraic(col, row);
@@ -734,7 +734,7 @@ export class StawvsGame extends GameBase {
             pile = [...(this.captured[indata - 1])];
         }
 
-        let org: IOrganizedCaps = {
+        const org: IOrganizedCaps = {
             triosMono: [],
             partialsMono: [],
             triosMixed: [],
@@ -892,9 +892,9 @@ export class StawvsGame extends GameBase {
         const myLegend: ILegendObj = {};
         for (let c = 0; c < allColours.length; c++) {
             // Use lighter colors from the end of the palette.
-            let color = c + 8;
+            const color = c + 8;
             //The board pyramids.
-            myLegend[allColours[c] as String + "1"] = {
+            myLegend[allColours[c] as string + "1"] = {
                 name: "pyramid-up-small-upscaled",
                 colour: color
             };
@@ -907,7 +907,7 @@ export class StawvsGame extends GameBase {
                 colour: color
             };
             //The stash area pyramids.
-            myLegend[allColours[c] as String + "1c"] = {
+            myLegend[allColours[c] as string + "1c"] = {
                 name: "pyramid-flattened-small",
                 colour: color
             };
@@ -941,7 +941,7 @@ export class StawvsGame extends GameBase {
 
         //Player pieces.
         for (let p = 0; p < this.numplayers; p++) {
-            let color = p + 1;
+            const color = p + 1;
             myLegend["P" + color] = {
                 name: "piece",
                 scale: 0.3,
@@ -992,13 +992,9 @@ export class StawvsGame extends GameBase {
         }
 
         if (areas.length > 0) {
-            //console.log("Testing areas: " + JSON.stringify(areas));
             rep.areas = areas;
         }
 
-        console.log("Testing areas:");
-        console.log(JSON.stringify(rep));
-        
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             rep.annotations = [];

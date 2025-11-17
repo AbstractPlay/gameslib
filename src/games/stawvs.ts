@@ -87,7 +87,7 @@ export class StawvsGame extends GameBase {
             {uid: "pieces-2"}
         ],
         categories: ["goal>score>eog", "mechanic>set", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
-        flags: ["scores", "autopass"]
+        flags: ["scores", "autopass", "experimental"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -126,13 +126,13 @@ export class StawvsGame extends GameBase {
                 emptyCells = this.getFourRandomCells();
 
             this.pieceCount = this.getPieceCount();
-            
+
             const board = new Map<string, CellContents>([]);
             const bag: Pyramid[] = [];
             for (let stash = 0; stash < triosPerColor; stash++) {
                 for (let size = 1; size < numberOfColors; size++) {
                     for (let c = 0; c < allColours.length; c++) {
-                        bag.push([allColours[c], size] as Pyramid);   
+                        bag.push([allColours[c], size] as Pyramid);
                     }
                 }
             }
@@ -146,8 +146,8 @@ export class StawvsGame extends GameBase {
                 }
             }
 
-            const captured = Array(this.numplayers).fill([]);    
-            
+            const captured = Array(this.numplayers).fill([]);
+
             const fresh: IMoveState = {
                 _version: StawvsGame.gameinfo.version,
                 _results: [],
@@ -223,7 +223,7 @@ export class StawvsGame extends GameBase {
         //Can't fish yourself.
         if (cellA === cellB)
             return false;
-        
+
         //Test cellB for existence and availability.
         if (! this.isAvailable(cellB))
             return false;
@@ -244,7 +244,7 @@ export class StawvsGame extends GameBase {
             if (! this.isAvailable(testCell) && ((! cellMe) || (testCell !== cellMe)))
                 return false;
         }
-        
+
         //Passed all our tests.
         return true;
     }
@@ -377,7 +377,7 @@ export class StawvsGame extends GameBase {
         //Generate the list of moves, for pass validation and autopass.
         //If this is too inefficient, generating only the moves for the "hey" variant,
         // would still suffice for pass testing in all cases.
-        
+
         if (this.gameover) {
             return [];
         }
@@ -390,7 +390,7 @@ export class StawvsGame extends GameBase {
         if (this.mode === "collect" && this.eliminated.indexOf(this.currplayer) > -1) {
             return ["pass"];
         }
-        
+
         if (this.mode === "place") {
             // If the player is placing pieces, enumerate the available cells.
             for (let row = 0; row < boardDim; row++) {
@@ -441,7 +441,7 @@ export class StawvsGame extends GameBase {
         try {
             let newmove = "";
             const cell = StawvsGame.coords2algebraic(col, row);
-            
+
             if (this.mode === "place" || move === "")
                 newmove = cell;
             else if (move.indexOf(",") > -1) {
@@ -541,7 +541,7 @@ export class StawvsGame extends GameBase {
             return result;
         }
 
-        if (cells.length === 1) { 
+        if (cells.length === 1) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
@@ -550,14 +550,14 @@ export class StawvsGame extends GameBase {
         }
 
         const [cell1,cell2] = cells[1].split(",");
-        
+
         if (! this.canFish(cell0,cell1) ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.stawvs.BAD_MOVE");
             return result;
         }
 
-        if (! cell2) { 
+        if (! cell2) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
@@ -580,7 +580,7 @@ export class StawvsGame extends GameBase {
                 return result;
             }
         }
-            
+
         if (cell2 !== cell0 && (! this.canFish(cell1,cell2,cell0)) ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.stawvs.BAD_CLAIM");
@@ -614,7 +614,7 @@ export class StawvsGame extends GameBase {
                 this.eliminated.push(this.currplayer);
                 if (this.eliminated.length < this.numplayers)
                     this.results = [{type: "eliminated", who: this.currplayer.toString()}];
-                else 
+                else
                     this.results = [{type: "pass"}];
             } else {
                 this.results = [{type: "pass"}];
@@ -653,7 +653,7 @@ export class StawvsGame extends GameBase {
         if (this.mode === "place" && this.checkPlaced()) {
             this.mode = "collect";
         }
-        
+
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -688,7 +688,7 @@ export class StawvsGame extends GameBase {
                     }
                 }
             }
-                
+
             const scores = this.getPlayersScores()[0].scores as number[];
             const max = Math.max(...scores);
             for (let p = 1; p <= this.numplayers; p++) {
@@ -697,7 +697,7 @@ export class StawvsGame extends GameBase {
                 }
             }
         }
- 
+
         if (this.gameover) {
             this.results.push(
                 {type: "eog"},
@@ -750,7 +750,7 @@ export class StawvsGame extends GameBase {
         const lgs = pile.filter(x => x[1] === 3);
         const mds = pile.filter(x => x[1] === 2);
         const sms = pile.filter(x => x[1] === 1);
-        
+
         // Put each large in a stack and then look for a matching medium and small
         // This will find all monochrome trios
         while (lgs.length > 0) {
@@ -832,7 +832,7 @@ export class StawvsGame extends GameBase {
                 org.miscellaneous.push(...clone(stack) as Pyramid[]);
             }
         }
-        
+
         return org;
     }
 
@@ -892,7 +892,7 @@ export class StawvsGame extends GameBase {
             pstr.push(pieces);
         }
 
-        // build legend 
+        // build legend
         const myLegend: ILegendObj = {};
         for (let c = 0; c < allColours.length; c++) {
             // Use lighter colors from the end of the palette.
@@ -971,7 +971,7 @@ export class StawvsGame extends GameBase {
         };
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const areas: any[] = [];        
+        const areas: any[] = [];
 
         // Add captured pyramids
         for (let p = 1; p <= this.numplayers; p++) {
@@ -982,7 +982,7 @@ export class StawvsGame extends GameBase {
                     label: i18next.t("apgames:validation.stawvs.LABEL_COLLECTION", {playerNum: p}) || `P${p}'s pyramids`,
                     stash: []
                 };
-                
+
                 const org = this.organizeCaps((p) as playerid);
                 node.stash.push(...org.triosMono.map((s) => this.renderStashHelper(s)));
                 node.stash.push(...org.triosMixed.map((s) => this.renderStashHelper(s)));
@@ -990,7 +990,7 @@ export class StawvsGame extends GameBase {
                 node.stash.push(...org.partialsMixed.map((s) => this.renderStashHelper(s)));
                 node.stash.push(...org.miscellaneous.map((s) => this.renderStashHelper([s])));
                 areas.push(node);
-                
+
             }
         }
 
@@ -1047,7 +1047,7 @@ export class StawvsGame extends GameBase {
         };
         for (let n = 3; n <= this.numplayers; n++) {
             iscoreObj.scores.push(this.getPlayerScore(n));
-        }       
+        }
         return [iscoreObj];
     }
 

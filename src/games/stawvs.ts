@@ -537,7 +537,7 @@ export class StawvsGame extends GameBase {
         const cell0 = cells[0];
         if (!this.hasOwner(cell0) || this.getOwner(cell0) !== this.currplayer) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.stawvs.BAD_START", {m});
+            result.message = i18next.t("apgames:validation.stawvs.BAD_START");
             return result;
         }
 

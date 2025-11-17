@@ -146,7 +146,7 @@ export class StawvsGame extends GameBase {
                 }
             }
 
-	    const captured = Array(this.numplayers).fill([]);    
+            const captured = Array(this.numplayers).fill([]);    
             
             const fresh: IMoveState = {
                 _version: StawvsGame.gameinfo.version,
@@ -213,17 +213,19 @@ export class StawvsGame extends GameBase {
         return StawvsGame.coords2algebraic(randx,randy);
     }
 
-    public canFish(cellA: string, cellB: string): boolean {
+    public canFish(cellA: string, cellB: string, cellMe?: string): boolean {
         //The unobstructed straight line test for moves and claims.
         //Named for Hey, That's My Fish!
         //Assumes that we're starting from a rational value of cellA.
+        //cellMe permits shooting over the starting cell on captures
+        //  w/o actually updating the board
 
         //Can't fish yourself.
         if (cellA === cellB)
             return false;
         
         //Test cellB for existence and availability.
-        if (! this.isAvailable(cellB) )
+        if (! this.isAvailable(cellB))
             return false;
 
         // We need the coordinates for more testing.
@@ -239,7 +241,7 @@ export class StawvsGame extends GameBase {
         for (let t = 0; t < testCells.length; t++) {
             const testCoords = testCells[t];
             const testCell =  StawvsGame.coords2algebraic(testCoords[0],testCoords[1]);
-            if (! this.isAvailable(testCell))
+            if (! this.isAvailable(testCell) && ((! cellMe) || (testCell !== cellMe)))
                 return false;
         }
         
@@ -412,7 +414,7 @@ export class StawvsGame extends GameBase {
                                 for (let subrow = 0; subrow < boardDim; subrow++) {
                                     for (let subcol = 0; subcol < boardDim; subcol++) {
                                         const subcell = StawvsGame.coords2algebraic(subcol, subrow);
-                                        if (this.canFish(cell,subcell)) {
+                                        if (this.canFish(cell,subcell,start)) {
                                             moves.push(start + "-" + cell + "," + subcell);
                                         }
                                     }
@@ -579,7 +581,7 @@ export class StawvsGame extends GameBase {
             }
         }
             
-        if (cell2 !== cell0 && (! this.canFish(cell1,cell2)) ) {
+        if (cell2 !== cell0 && (! this.canFish(cell1,cell2,cell0)) ) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.stawvs.BAD_CLAIM");
             return result;
@@ -1039,7 +1041,14 @@ export class StawvsGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [{ name: i18next.t("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] }]
+        const iscoreObj = {
+            name: i18next.t("apgames:status.SCORES"),
+            scores: [this.getPlayerScore(1), this.getPlayerScore(2)]
+        };
+        for (let n = 1; n <= this.numplayers; n++) {
+            iscoreObj.scores.push(this.getPlayerScore(n));
+        }       
+        return [iscoreObj];
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

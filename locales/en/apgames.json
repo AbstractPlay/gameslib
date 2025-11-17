@@ -4999,6 +4999,7 @@
             "LABEL_COLLECTION": "Player {{playerNum}}'s pyramids",
             "MUST_PASS": "Once you have passed, you must continue passing.",
             "NOPASS": "You cannot pass while you have legal moves.",
+            "PARTIAL_CLAIM": "Click an accessible target pyramid to claim it.",
             "PARTIAL_MOVE": "Click an accessible destination pyramid.",
 	    "VALID_PLACEMENT": "Looks like a good placement.",
 	    "VALID_PLAY": "Looks like a good play."

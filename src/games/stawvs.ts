@@ -1045,7 +1045,7 @@ export class StawvsGame extends GameBase {
             name: i18next.t("apgames:status.SCORES"),
             scores: [this.getPlayerScore(1), this.getPlayerScore(2)]
         };
-        for (let n = 1; n <= this.numplayers; n++) {
+        for (let n = 3; n <= this.numplayers; n++) {
             iscoreObj.scores.push(this.getPlayerScore(n));
         }       
         return [iscoreObj];

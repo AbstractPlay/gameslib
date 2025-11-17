@@ -661,7 +661,10 @@ export class PigsGame extends GameBaseSimultaneous {
                             }
                         } else if ( (result.type === "fire") && (result.which === "F") ) {
                             const [fx, fy] = PigsGame.algebraic2coords(result.from!);
-                            const [tx, ty] = PigsGame.algebraic2coords(result.to!);
+                            if (result.to === undefined) {
+                                continue;
+                            }
+                            const [tx, ty] = PigsGame.algebraic2coords(result.to);
                             rep.annotations.push({
                                 type: "move",
                                 colour: player,

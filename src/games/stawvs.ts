@@ -42,7 +42,7 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     mode: Mode;
     board: Map<string, CellContents>;
-    captured: [Pyramid[], Pyramid[]];
+    captured: Pyramid[][];
     lastmove?: string;
     eliminated: playerid[];
 }
@@ -58,7 +58,7 @@ export class StawvsGame extends GameBase {
         uid: "stawvs",
         playercounts: [2,3,4],
         version: "20251113",
-        dateAdded: "2025-11-13",
+        dateAdded: "2025-11-16",
         // i18next.t("apgames:descriptions.stawvs")
         description: "apgames:descriptions.stawvs",
         urls: [
@@ -104,7 +104,7 @@ export class StawvsGame extends GameBase {
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
-    public captured: [Pyramid[], Pyramid[]] = [[], []];
+    public captured: Pyramid[][] = [];
     public eliminated: playerid[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = []
@@ -145,6 +145,8 @@ export class StawvsGame extends GameBase {
                     }
                 }
             }
+
+	    const captured = Array(this.numplayers).fill([]);    
             
             const fresh: IMoveState = {
                 _version: StawvsGame.gameinfo.version,
@@ -153,7 +155,7 @@ export class StawvsGame extends GameBase {
                 currplayer: 1,
                 mode: "place",
                 board: board,
-                captured: [[], []],
+                captured: captured,
                 eliminated: [],
             };
             this.stack = [fresh];
@@ -188,7 +190,7 @@ export class StawvsGame extends GameBase {
         this.mode = state.mode;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
-        this.captured = clone(state.captured) as [Pyramid[], Pyramid[]];
+        this.captured = clone(state.captured) as Pyramid[][];
         this.eliminated = [...state.eliminated];
 
         return this;
@@ -853,7 +855,7 @@ export class StawvsGame extends GameBase {
             lastmove: this.lastmove,
             eliminated: [...this.eliminated],
             board: new Map(this.board),
-            captured: clone(this.captured) as [Pyramid[], Pyramid[]]
+            captured: clone(this.captured) as Pyramid[][],
         };
     }
 
@@ -894,7 +896,7 @@ export class StawvsGame extends GameBase {
             // Use lighter colors from the end of the palette.
             const color = c + 8;
             //The board pyramids.
-            myLegend[allColours[c] as string + "1"] = {
+            myLegend[allColours[c].toString() + "1"] = {
                 name: "pyramid-up-small-upscaled",
                 colour: color
             };
@@ -907,7 +909,7 @@ export class StawvsGame extends GameBase {
                 colour: color
             };
             //The stash area pyramids.
-            myLegend[allColours[c] as string + "1c"] = {
+            myLegend[allColours[c].toString() + "1c"] = {
                 name: "pyramid-flattened-small",
                 colour: color
             };
@@ -922,27 +924,26 @@ export class StawvsGame extends GameBase {
         }
 
         //An extra set of "ghost" board pyramids for the end state
-        const color = "#aaa";
         myLegend["GH1"] = {
             name: "pyramid-up-small-upscaled",
-            colour: color,
+            colour: "#aaa",
             opacity: 0.25
         };
         myLegend["GH2"] = {
             name: "pyramid-up-medium-upscaled",
-            colour: color,
+            colour: "#aaa",
             opacity: 0.25
         };
         myLegend["GH3"] = {
             name: "pyramid-up-large-upscaled",
-            colour: color,
+            colour: "#aaa",
             opacity: 0.25
         };
 
         //Player pieces.
         for (let p = 0; p < this.numplayers; p++) {
             const color = p + 1;
-            myLegend["P" + color] = {
+            myLegend["P" + color.toString()] = {
                 name: "piece",
                 scale: 0.3,
                 colour: color,

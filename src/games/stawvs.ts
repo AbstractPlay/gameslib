@@ -300,6 +300,31 @@ export class StawvsGame extends GameBase {
         return mycells;
     }
 
+    public getPyramidsByPlayer(player: playerid): Pyramid[] {
+	//Used for final collections.
+	const tempcaps: Pyramid[] = [];
+        for (let row = 0; row < boardDim; row++) {
+            for (let col = 0; col < boardDim; col++) {
+                const cell = StawvsGame.coords2algebraic(col, row);
+                if (this.board.has(cell)) {
+                    const contents = this.board.get(cell);
+                    if (contents!.length > 1) {
+                        const cellplayer = contents![1];
+			if (cellplayer === player)
+			    tempcaps.push(contents![0]);
+                    }
+                }
+            }
+        }
+	return tempcaps;
+    }
+
+    public getPyramidsByName(): string[] {
+	//Used for final collection logging.
+	const mymids = this.getPyramidsByPlayer(this.currplayer);
+	return mymids.map(mid => this.namePyramid(mid));
+    }
+
     public getOwner(cell: string): playerid | undefined {
         if (! this.board.has(cell)) {
             return undefined;
@@ -367,7 +392,7 @@ export class StawvsGame extends GameBase {
         //Name the captured pyramid for the chat log.
         const colors = ["pink","blue","green","orange"];
         const sizes = ["small","medium","large"];
-        let name = "";
+        let name = "a ";
         name += sizes[pyramid[1] as number - 1] + " ";
         name += colors[allColours.indexOf(pyramid[0])] + " pyramid";
         return name;
@@ -612,10 +637,8 @@ export class StawvsGame extends GameBase {
             //passing is forevah
             if (this.eliminated.indexOf(this.currplayer) < 0) {
                 this.eliminated.push(this.currplayer);
-                if (this.eliminated.length < this.numplayers)
-                    this.results = [{type: "eliminated", who: this.currplayer.toString()}];
-                else
-                    this.results = [{type: "pass"}];
+		const finalMids = this.getPyramidsByName();
+                this.results = [{type: "announce", payload: finalMids}];
             } else {
                 this.results = [{type: "pass"}];
             }
@@ -1067,12 +1090,20 @@ export class StawvsGame extends GameBase {
                 node.push(i18next.t("apresults:MOVE.stawvs", {player, what: r.what, from: r.from, to: r.to, how: r.how}));
                 resolved = true;
                 break;
+            case "capture":
+                node.push(i18next.t("apresults:CAPTURE.stawvs", {what: r.what, where: r.where}));
+                resolved = true;
+                break;
             case "pass":
                 node.push(i18next.t("apresults:PASS.simple", {player}));
                 resolved = true;
                 break;
             case "eliminated":
                 node.push(i18next.t("apresults:ELIMINATED", {player}));
+                resolved = true;
+                break;
+            case "announce":
+                node.push(i18next.t("apresults:ANNOUNCE.stawvs", {player, pyramids: (r.payload as string[]).join(", ")}));
                 resolved = true;
                 break;
             case "eog":

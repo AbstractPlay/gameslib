@@ -23,7 +23,7 @@
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
         "deckfish": "{{player}} was unable to move and must pass from now on.",
         "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
-        "stawvs": "{{player}} was unable to move and must pass from now on."
+        "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
     },
     "BEAROFF": {
         "complete_one": "{{player}} bore off one piece from {{from}}.",
@@ -100,6 +100,7 @@
         "spook_lateral_opponent_other": "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_one": "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
         "spook_lateral_self_other": "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
+        "stawvs": "{{player}} captured the {{what}} at {{where}}.",
         "tafl": "{{player}} captured a piece at {{where}}.",
         "terrace_other": "{{player}} captured a size {{what}} piece at {{where}}.",
         "terrace_self": "{{player}} cannibalized their own size {{what}} piece at {{where}}.",
@@ -316,7 +317,7 @@
         "saltire": "{{player}} swapped the pieces at {{from}} and {{to}}.",
         "slyde": "{{player}} slid a piece from {{from}} to {{to}}.",
         "spook": "{{player}} moved Spooky from {{from}} to {{to}}.",
-        "stawvs": "{{player}} moved a piece from {{from}} to {{to}} and captured the {{what}} at {{how}}.",
+        "stawvs": "{{player}} moved a piece from {{from}} to {{to}} and captured {{what}} at {{how}}.",
         "susan": "{{player}} slid a piece from {{from}} to {{to}}.",
         "tafl": "{{player}} moved a piece from {{from}} to {{to}}.",
         "tafl_jump": "{{player}} jumped a piece from {{from}} to {{to}}.",

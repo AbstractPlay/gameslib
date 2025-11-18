@@ -1057,7 +1057,7 @@ export class DeckfishGame extends GameBase {
     }
 
     protected checkEOG(): DeckfishGame {
-        if (this.lastmove === "pass" && this.eliminated === this.currplayer) {
+	if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass") {
             this.gameover = true;
             const scores: number[] = [];
             for (let p = 1; p <= this.numplayers; p++) {

@@ -43,7 +43,7 @@ export class DeckfishGame extends GameBase {
         uid: "deckfish",
         playercounts: [2],
         //version: "20250724",
-	    version: "20250906",
+        version: "20250906",
         dateAdded: "2025-11-14",
         // i18next.t("apgames:descriptions.deckfish")
         description: "apgames:descriptions.deckfish",
@@ -1042,6 +1042,9 @@ export class DeckfishGame extends GameBase {
 
         if (partial) { return this; }
 
+        //update tableau for autopasser
+        this.tableau = this.populateTableau();
+
         // update currplayer
         this.lastmove = m;
 
@@ -1057,7 +1060,7 @@ export class DeckfishGame extends GameBase {
     }
 
     protected checkEOG(): DeckfishGame {
-	if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass") {
+        if (this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass") {
             this.gameover = true;
             const scores: number[] = [];
             for (let p = 1; p <= this.numplayers; p++) {

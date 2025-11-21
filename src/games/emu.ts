@@ -1111,7 +1111,7 @@ export class EmuGame extends GameBase {
             },
         }
         // add glyphs for bird numbers
-        const maxBird = Math.max(...this.hands.map(h => h.length));
+        const maxBird = Math.max(...this.board.map(h => h.length));
         if (maxBird > 0) {
             for (let i = 1; i <= maxBird; i++) {
                 legend[`birdNum${i}`] = [

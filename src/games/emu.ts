@@ -370,7 +370,7 @@ export class EmuGame extends GameBase {
         uid: "emu",
         playercounts: [2],
         version: "20250610",
-        dateAdded: "2025-06-10",
+        dateAdded: "2025-11-22",
         // i18next.t("apgames:descriptions.emu")
         description: "apgames:descriptions.emu",
         // i18next.t("apgames:notes.emu")
@@ -400,7 +400,7 @@ export class EmuGame extends GameBase {
             { uid: "none", group: "deck" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "mechanic>random>setup", "mechanic>random>play", "board>none", "components>decktet"],
-        flags: ["experimental", "no-explore", "scores", "custom-buttons", "autopass"],
+        flags: ["no-explore", "scores", "custom-buttons", "autopass"],
     };
 
     public numplayers = 2;

@@ -103,6 +103,7 @@
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
         "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman. Played on a square board, each player captures by jumping over their opponent's pieces. Last to move wins.",
+        "lasca": "A Draughts variant where captured pieces remain on the board and can be freed later. Immobilize your opponent to win.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Win by leaving your opponent with no moves.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
@@ -4200,6 +4201,11 @@
             "SECOND_MOVE": "Remove one of your pieces adjacent to the piece your opponent removed.",
             "NORMAL_MOVE": "Choose a piece to jump one or more of your opponent's pieces in a straight line.",
             "INVALID_MOVE": "You must move a piece that can jump over an opponent's piece."
+        },
+        "lasca": {
+            "INITIAL_INSTRUCTIONS": "Select a stack with your piece on top to move.",
+            "INVALID_MOVE": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+            "VALID_PARTIAL": "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible."
         },
         "lielow": {
             "INCORRECT_DISTANCE": "Pieces must move a number of spaces equal to the height of its stack orthogonally or diagonally.",

@@ -50,6 +50,7 @@
     "json-schema-to-typescript": "^15.0.4",
     "mocha": "^11.2.2",
     "rimraf": "^5.0.1",
+    "serverless": "3.40.0-19128fad",
     "serverless-finch": "^4.0.3",
     "shx": "^0.4.0",
     "svgdom": "^0.1.19",

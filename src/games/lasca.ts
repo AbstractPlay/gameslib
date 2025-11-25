@@ -52,7 +52,7 @@ export class LascaGame extends GameBase {
         variants: [
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "automove"]
+        flags: ["experimental", "perspective", "automove", "pie"]
     };
 
     public static clone(obj: LascaGame): LascaGame {

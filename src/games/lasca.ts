@@ -33,7 +33,8 @@ export class LascaGame extends GameBase {
         // i18next.t("apgames:descriptions.lasca")
         description: "apgames:descriptions.lasca",
         urls: [
-            "https://en.wikipedia.org/wiki/Lasca",
+            "http://www.lasca.org/",
+            "https://jpneto.github.io/world_abstract_games/lasca.htm",
             "https://www.boardgamegeek.com/game/6862",
         ],
         people: [
@@ -127,7 +128,7 @@ export class LascaGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = new Map(state.board);
+        this.board = deepclone(state.board);
         this.lastmove = state.lastmove;
         return this;
     }
@@ -137,7 +138,7 @@ export class LascaGame extends GameBase {
             throw new Error(`No piece at ${cell}.`);
         }
         const moves: string[] = [];
-        const g = new SquareDiagGraph(7, 7);
+        const g = new SquareDiagGraph(this.boardsize, this.boardsize);
         const stack = this.board.get(cell)!;
         const [owner, type] = stack[stack.length - 1];
 
@@ -183,13 +184,33 @@ export class LascaGame extends GameBase {
         return moves;
     }
 
+    private static captured(g: SquareDiagGraph, parts: string[]): string[] {
+        const capped: string[] = [];
+        for (let i = 1; i < parts.length; i++) {
+            const from = parts[i-1];
+            const to = parts[i];
+            const [fx, fy] = g.algebraic2coords(from);
+            const [tx, ty] = g.algebraic2coords(to);
+            const between = RectGrid.between(fx, fy, tx, ty).map(c => g.coords2algebraic(...c));
+            capped.push(between[0]);
+        }
+        return capped;
+    }
+
     private recurseCaps(stubs: string[], complete: string[]): void {
+        const g = new SquareDiagGraph(this.boardsize, this.boardsize);
         const toVisit: string[] = [...stubs];
         while (toVisit.length > 0) {
             const mv = toVisit.shift()!;
             const cloned = LascaGame.clone(this);
             cloned.move(mv, {partial: true, trusted: true});
+            // if piece was promoted, move is over
+            if (cloned.results.find(r => r.type === "promote") !== undefined) {
+                complete.push(mv);
+                continue;
+            }
             const parts = mv.split("x");
+            const capped = LascaGame.captured(g, parts);
             const last = parts[parts.length - 1];
             const moves = cloned.movesFor(last);
             if (moves.length === 0 || moves.join(",").includes("-")) {
@@ -197,7 +218,12 @@ export class LascaGame extends GameBase {
             } else {
                 for (const m of moves) {
                     const [,next] = m.split("x");
-                    toVisit.push(`${mv}x${next}`);
+                    const toCap = LascaGame.captured(g, [last, next]);
+                    if (!capped.includes(toCap[0])) {
+                        toVisit.push(`${mv}x${next}`);
+                    } else {
+                        complete.push(mv);
+                    }
                 }
             }
         }
@@ -447,7 +473,7 @@ export class LascaGame extends GameBase {
             const [tx, ty] = g.algebraic2coords(to);
             // move the piece
             const stack = this.board.get(from)!;
-            this.board.set(to, [...stack]);
+            this.board.set(to, deepclone(stack));
             this.board.delete(from);
             this.results.push({type: "move", from, to});
             // if the in-between cells contain an enemy piece, capture it
@@ -467,10 +493,10 @@ export class LascaGame extends GameBase {
                 const enemyStack = this.board.get(enemy)!;
                 const top = enemyStack.pop()!;
                 // add top piece to the bottom of the toStack
-                this.board.set(to, [top, ...toStack])
+                this.board.set(to, deepclone([top, ...toStack]))
                 // save the new enemyStack
                 if (enemyStack.length > 0) {
-                    this.board.set(enemy, [...enemyStack]);
+                    this.board.set(enemy, deepclone(enemyStack));
                 } else {
                     this.board.delete(enemy);
                 }
@@ -484,7 +510,7 @@ export class LascaGame extends GameBase {
                 if (ty === last) {
                     const stack = this.board.get(to)!;
                     stack[stack.length - 1][1] = 2;
-                    this.board.set(to, [...stack]);
+                    this.board.set(to, deepclone(stack));
                     this.results.push({type: "promote", where: to, to: "officer"});
                     promoted = to;
                 }
@@ -549,7 +575,7 @@ export class LascaGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board),
+            board: deepclone(this.board),
         };
     }
 

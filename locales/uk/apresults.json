@@ -96,7 +96,9 @@
         "group_few": "{{player}} захопив {{count}} каменів у таких клітинках: {{cells}}.",
         "group_many": "{{player}} захопив {{count}} каменів у таких клітинках: {{cells}}.",
         "c1": "{{player}} усуває плитку при {{where}}.",
-        "stawvs": "{{player}} захопив {{what}} у {{where}}."
+        "stawvs": "{{player}} захопив {{what}} у {{where}}.",
+        "lasca_officer": "{{player}} захопив офіцера в {{where}}.",
+        "lasca_soldier": "{{player}} захопив солдата в {{where}}."
     },
     "BEAROFF": {
         "complete_one": "{{player}} відрізати один шматок від {{from}}.",

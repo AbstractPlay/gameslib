@@ -278,11 +278,9 @@ export class LascaGame extends GameBase {
             }
 
             // autocomplete if possible
-            if (newmove.includes("x")) {
-                const matches = this.moves().filter(mv => mv.startsWith(newmove));
-                if (matches.length === 1) {
-                    newmove = matches[0];
-                }
+            const matches = this.moves().filter(mv => mv.startsWith(newmove));
+            if (matches.length === 1) {
+                newmove = matches[0];
             }
 
             const result = this.validateMove(newmove) as IClickResult;

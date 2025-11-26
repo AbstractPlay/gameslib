@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -9,8 +9,7 @@ import i18next from "i18next";
 const deepclone = require("rfdc/default");
 
 export type playerid = 1|2;
-export type Size = 1|2;
-export type CellContents = [playerid, Size];
+export type CellContents = playerid;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -18,30 +17,34 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
 };
 
-export interface ILascaState extends IAPGameState {
+export interface IEmergoState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
 
-export class LascaGame extends GameBase {
+export class EmergoGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
-        name: "Lasca",
-        uid: "lasca",
+        name: "Emergo",
+        uid: "emergo",
         playercounts: [2],
-        version: "20251123",
-        dateAdded: "2025-11-23",
-        // i18next.t("apgames:descriptions.lasca")
-        description: "apgames:descriptions.lasca",
+        version: "20251125",
+        dateAdded: "2025-11-25",
+        // i18next.t("apgames:descriptions.emergo")
+        description: "apgames:descriptions.emergo",
         urls: [
-            "http://www.lasca.org/",
-            "https://jpneto.github.io/world_abstract_games/lasca.htm",
-            "https://www.boardgamegeek.com/game/6862",
+            "https://www.mindsports.nl/index.php/arena/emergo/88-rules",
+            "https://boardgamegeek.com/boardgame/14438/emergo",
         ],
         people: [
             {
                 type: "designer",
-                name: "Emanuel Lasker",
-                urls: ["https://en.wikipedia.org/wiki/Emanuel_Lasker"],
+                name: "Christian Freeling",
+                urls: ["https://www.mindsports.nl/"],
+                apid: "b12bd9cd-59cf-49c7-815f-af877e46896a",
+            },
+            {
+                type: "designer",
+                name: "Ed van Zon",
             },
             {
                 type: "coder",
@@ -52,20 +55,20 @@ export class LascaGame extends GameBase {
         ],
         variants: [
         ],
-        categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "automove", "pie"]
+        categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        flags: ["experimental", "perspective", "automove", "limited-pieces"]
     };
 
-    public static clone(obj: LascaGame): LascaGame {
-        const cloned = Object.assign(new LascaGame(), deepclone(obj) as LascaGame);
+    public static clone(obj: EmergoGame): EmergoGame {
+        const cloned = Object.assign(new EmergoGame(), deepclone(obj) as EmergoGame);
         return cloned;
     }
 
     public coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 7);
+        return GameBase.coords2algebraic(x, y, 9);
     }
     public algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 7);
+        return GameBase.algebraic2coords(cell, 9);
     }
 
     public numplayers = 2;
@@ -79,24 +82,16 @@ export class LascaGame extends GameBase {
     private _points: [number, number][] = [];
 
     public get boardsize(): number {
-        return 7;
+        return 9;
     }
 
-    constructor(state?: ILascaState | string, variants?: string[]) {
+    constructor(state?: IEmergoState | string, variants?: string[]) {
         super();
         if (state === undefined) {
             this.variants = variants === undefined ? [] : [...variants];
-            const board = new Map<string, CellContents[]>([
-                ["a7", [[2,1]]], ["c7", [[2,1]]], ["e7", [[2,1]]], ["g7", [[2,1]]],
-                ["b6", [[2,1]]], ["d6", [[2,1]]], ["f6", [[2,1]]],
-                ["a5", [[2,1]]], ["c5", [[2,1]]], ["e5", [[2,1]]], ["g5", [[2,1]]],
-
-                ["a1", [[1,1]]], ["c1", [[1,1]]], ["e1", [[1,1]]], ["g1", [[1,1]]],
-                ["b2", [[1,1]]], ["d2", [[1,1]]], ["f2", [[1,1]]],
-                ["a3", [[1,1]]], ["c3", [[1,1]]], ["e3", [[1,1]]], ["g3", [[1,1]]],
-            ]);
+            const board = new Map<string, CellContents[]>();
             const fresh: IMoveState = {
-                _version: LascaGame.gameinfo.version,
+                _version: EmergoGame.gameinfo.version,
                 _results: [],
                 _timestamp: new Date(),
                 currplayer: 1,
@@ -105,10 +100,10 @@ export class LascaGame extends GameBase {
             this.stack = [fresh];
         } else {
             if (typeof state === "string") {
-                state = JSON.parse(state, reviver) as ILascaState;
+                state = JSON.parse(state, reviver) as IEmergoState;
             }
-            if (state.game !== LascaGame.gameinfo.uid) {
-                throw new Error(`The Lasca engine cannot process a game of '${state.game}'.`);
+            if (state.game !== EmergoGame.gameinfo.uid) {
+                throw new Error(`The Emergo engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -118,7 +113,7 @@ export class LascaGame extends GameBase {
         this.load();
     }
 
-    public load(idx = -1): LascaGame {
+    public load(idx = -1): EmergoGame {
         if (idx < 0) {
             idx += this.stack.length;
         }
@@ -133,6 +128,36 @@ export class LascaGame extends GameBase {
         return this;
     }
 
+    public get inhand(): [number,number] {
+        let a = 0;
+        let b = 0;
+        for (const stack of this.board.values()) {
+            for (const pc of stack) {
+                if (pc === 1) {
+                    a++;
+                } else {
+                    b++;
+                }
+            }
+        }
+        return [12 - a, 12 - b];
+    }
+
+    private get blackSquares(): string[] {
+        const g = new SquareDiagGraph(this.boardsize, this.boardsize);
+        const cells: string[] = [];
+        for (let row = 0; row < this.boardsize; row++) {
+            for (let col = 0; col < this.boardsize; col++) {
+                const rowEven = row % 2 === 0;
+                const colEven = col % 2 === 0;
+                if ( (rowEven && colEven) || (!rowEven && !colEven) ) {
+                    cells.push(g.coords2algebraic(col, row));
+                }
+            }
+        }
+        return cells;
+    }
+
     private movesFor(cell: string): string[] {
         if (!this.board.has(cell)) {
             throw new Error(`No piece at ${cell}.`);
@@ -140,18 +165,8 @@ export class LascaGame extends GameBase {
         const moves: string[] = [];
         const g = new SquareDiagGraph(this.boardsize, this.boardsize);
         const stack = this.board.get(cell)!;
-        const [owner, type] = stack[stack.length - 1];
-
-        let dirs: DirectionDiagonal[];
-        if (type === 2) {
-            dirs = ["NE", "NW", "SE", "SW"];
-        } else {
-            if (owner === 1) {
-                dirs = ["NE", "NW"];
-            } else {
-                dirs = ["SE", "SW"];
-            }
-        }
+        const owner = stack[stack.length - 1];
+        const dirs: DirectionDiagonal[] = ["NE", "NW", "SE", "SW"];
 
         // captures first
         for (const dir of dirs) {
@@ -160,7 +175,7 @@ export class LascaGame extends GameBase {
                 const [next, far] = [...ray];
                 if (this.board.has(next) && !this.board.has(far)) {
                     const nStack = this.board.get(next)!;
-                    const [nOwner,] = nStack[nStack.length - 1];
+                    const nOwner = nStack[nStack.length - 1];
                     if (nOwner !== owner) {
                         moves.push(`${cell}x${far}`);
                     }
@@ -184,33 +199,13 @@ export class LascaGame extends GameBase {
         return moves;
     }
 
-    private static captured(g: SquareDiagGraph, parts: string[]): string[] {
-        const capped: string[] = [];
-        for (let i = 1; i < parts.length; i++) {
-            const from = parts[i-1];
-            const to = parts[i];
-            const [fx, fy] = g.algebraic2coords(from);
-            const [tx, ty] = g.algebraic2coords(to);
-            const between = RectGrid.between(fx, fy, tx, ty).map(c => g.coords2algebraic(...c));
-            capped.push(between[0]);
-        }
-        return capped;
-    }
-
     private recurseCaps(stubs: string[], complete: string[]): void {
-        const g = new SquareDiagGraph(this.boardsize, this.boardsize);
         const toVisit: string[] = [...stubs];
         while (toVisit.length > 0) {
             const mv = toVisit.shift()!;
-            const cloned = LascaGame.clone(this);
+            const cloned = EmergoGame.clone(this);
             cloned.move(mv, {partial: true, trusted: true});
-            // if piece was promoted, move is over
-            if (cloned.results.find(r => r.type === "promote") !== undefined) {
-                complete.push(mv);
-                continue;
-            }
             const parts = mv.split("x");
-            const capped = LascaGame.captured(g, parts);
             const last = parts[parts.length - 1];
             const moves = cloned.movesFor(last);
             if (moves.length === 0 || moves.join(",").includes("-")) {
@@ -218,26 +213,22 @@ export class LascaGame extends GameBase {
             } else {
                 for (const m of moves) {
                     const [,next] = m.split("x");
-                    const toCap = LascaGame.captured(g, [last, next]);
-                    if (!capped.includes(toCap[0])) {
-                        toVisit.push(`${mv}x${next}`);
-                    } else {
-                        complete.push(mv);
-                    }
+                    toVisit.push(`${mv}x${next}`);
                 }
             }
         }
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(player?: playerid, capOnly = false): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
             player = this.currplayer;
         }
+        const other = player === 1 ? 2 : 1;
 
         let moveSets: string[][] = [];
         let canCap = false;
-        const mine = [...this.board.entries()].filter(([,v]) => v[v.length - 1][0] === player).map(([k,]) => k);
+        const mine = [...this.board.entries()].filter(([,v]) => v[v.length - 1] === player).map(([k,]) => k);
         for (const cell of mine) {
             const mvs = this.movesFor(cell);
             if (mvs.join(",").includes("x")) {
@@ -253,16 +244,58 @@ export class LascaGame extends GameBase {
                 moveSets.push(mvs);
             }
         }
+        // At this point I have a list of unique starting moves,
+        // either all captures or all moves.
+        if (capOnly) {
+            return moveSets.flat();
+        }
+        // console.log(JSON.stringify({moveSets}));
 
         let moves: string[] = [];
-        // At this point I have a list of unique starting moves,
-        // either all captures or all moves. If no captures, then we're done.
-        if (!canCap) {
-            moves = moveSets.flat();
-        }
-        // Otherwise, iterate until there are no more captures found.
-        else {
+        // Regardless of pieces in hand, if captures are available, they must be taken.
+        if (canCap) {
             this.recurseCaps(moveSets.flat(), moves);
+            // get maximum length
+            const max = Math.max(...moves.map(mv => mv.length));
+            // console.log(JSON.stringify({moves, max}));
+            // filter out anything shorter
+            moves = moves.filter(mv => mv.length === max);
+            // console.log(JSON.stringify({moves}));
+        }
+        // If no captures, then there are a few different options.
+        else {
+            const inhand = this.inhand;
+            // if this is the first player's first move, anywhere but e5
+            if (player === 1 && inhand[0] === 12) {
+                moves = this.blackSquares.filter(cell => cell !== "e5");
+            }
+            // if the player still has pieces in hand, then they must enter
+            else if (inhand[player - 1] > 0) {
+                // get list of empty cells
+                let empties = this.blackSquares.filter(cell => !this.board.has(cell));
+                // determine if the opponent must already capture
+                const oppMustCap = this.moves(other, true).join(",").includes("x");
+                // if feeding is not allowed, filter the empties to where caps do not occur
+                if (!oppMustCap) {
+                    empties = empties.filter(cell => {
+                        const cloned = EmergoGame.clone(this);
+                        cloned.board.set(cell, [player]);
+                        const causesCap = cloned.moves(other, true).join(",").includes("x");
+                        if (causesCap) {
+                            return false;
+                        }
+                        return true;
+                    });
+                }
+                // otherwise we can leave empties alone and they can place anywhere
+                // the `move()` function detects and notates the shadowpiece
+
+                moves = [...empties];
+            }
+            // otherwise go with the list of calculated moves
+            else {
+                moves = moveSets.flat();
+            }
         }
 
         return moves.sort();
@@ -278,33 +311,53 @@ export class LascaGame extends GameBase {
             const g = new SquareDiagGraph(this.boardsize, this.boardsize);
             const cell = this.coords2algebraic(col, row);
             let newmove = "";
+            const allMoves = this.moves();
             if (move.length === 0) {
-                if (this.board.has(cell)) {
-                    newmove = cell;
+                // if entering, look for empty cells
+                if (allMoves[0].length === 2) {
+                    if (!this.board.has(cell)) {
+                        newmove = cell;
+                    }
+                }
+                // otherwise occupied
+                else {
+                    if (this.board.has(cell)) {
+                        newmove = cell;
+                    }
                 }
             } else {
-                // clicking on an occupied cell resets
-                if (this.board.has(cell)) {
-                    newmove = cell;
-                }
-                // otherwise, assume movement or capture
-                else {
-                    const parts = move.split(/[-x]/);
-                    const last = parts[parts.length - 1];
-                    const [lx, ly] = g.algebraic2coords(last);
-                    // if jumping more than one space, capture
-                    if (Math.abs(lx - col) > 1 || Math.abs(ly - row) > 1) {
-                        newmove = `${move}x${cell}`;
+                // if entering
+                if (allMoves[0].length === 2) {
+                    // clicking on an empty cell resets
+                    if (!this.board.has(cell)) {
+                        newmove = cell;
                     }
-                    // otherwise movement
+                }
+                // otherwise
+                else {
+                    // clicking on an occupied cell resets
+                    if (this.board.has(cell)) {
+                        newmove = cell;
+                    }
+                    // otherwise, assume movement or capture
                     else {
-                        newmove = `${move}-${cell}`;
+                        const parts = move.split(/[-x]/);
+                        const last = parts[parts.length - 1];
+                        const [lx, ly] = g.algebraic2coords(last);
+                        // if jumping more than one space, capture
+                        if (Math.abs(lx - col) > 1 || Math.abs(ly - row) > 1) {
+                            newmove = `${move}x${cell}`;
+                        }
+                        // otherwise movement
+                        else {
+                            newmove = `${move}-${cell}`;
+                        }
                     }
                 }
             }
 
             // autocomplete if possible
-            const matches = this.moves().filter(mv => mv.startsWith(newmove));
+            const matches = allMoves.filter(mv => mv.startsWith(newmove));
             if (matches.length === 1) {
                 newmove = matches[0];
             }
@@ -328,10 +381,12 @@ export class LascaGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
+        const allMoves = this.moves();
+        const inhand = this.inhand;
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.lasca.INITIAL_INSTRUCTIONS")
+            result.message = i18next.t("apgames:validation.emergo.INITIAL_INSTRUCTIONS", {context: inhand[this.currplayer - 1] > 0 ? "enter" : "play"});
             return result;
         }
 
@@ -341,10 +396,9 @@ export class LascaGame extends GameBase {
 
         const cells = m.split(/[-x]/);
 
-        // basics
-        for (let i = 0; i < cells.length; i++) {
-            const cell = cells[i];
-            // valid cell
+        // entry first
+        if (cells.length === 1 && allMoves[0].length === 2) {
+            const cell = cells[0];
             try {
                 this.algebraic2coords(cell)
             } catch {
@@ -352,48 +406,67 @@ export class LascaGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                 return result;
             }
-
-            // if first cell
-            if (i === 0) {
-                // occupied
-                if (! this.board.has(cell)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: cell});
-                    return result;
-                }
-                // owned
-                const stack = this.board.get(cell)!;
-                const [owner,] = stack[stack.length - 1];
-                if (owner !== this.currplayer) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
-                    return result;
-                }
+            if (this.board.has(cell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
+                return result;
             }
-            // otherwise
-            else {
-                // empty
-                if (this.board.has(cell) && cell !== cells[0]) {
+        }
+        // otherwise move/capture
+        else {
+            // basics
+            for (let i = 0; i < cells.length; i++) {
+                const cell = cells[i];
+                // valid cell
+                try {
+                    this.algebraic2coords(cell)
+                } catch {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: cell});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result;
+                }
+
+                // if first cell
+                if (i === 0) {
+                    // occupied
+                    if (! this.board.has(cell)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.NONEXISTENT", {where: cell});
+                        return result;
+                    }
+                    // owned
+                    const stack = this.board.get(cell)!;
+                    const owner = stack[stack.length - 1];
+                    if (owner !== this.currplayer) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
+                        return result;
+                    }
+                }
+                // otherwise
+                else {
+                    // empty
+                    if (this.board.has(cell) && cell !== cells[0]) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", {where: cell});
+                        return result;
+                    }
                 }
             }
         }
 
         // compare against move list
-        const allMoves = this.moves();
         if (! allMoves.includes(m)) {
             if (allMoves.filter(mv => mv.startsWith(m)).length > 0) {
                 // valid partial
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.lasca.VALID_PARTIAL");
+                result.message = i18next.t("apgames:validation.emergo.VALID_PARTIAL");
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.lasca.INVALID_MOVE", {move: m});
+                result.message = i18next.t("apgames:validation.emergo.INVALID_MOVE", {context: inhand[this.currplayer - 1] > 0 ? "enter" : "play"});
                 return result;
             }
         }
@@ -423,7 +496,7 @@ export class LascaGame extends GameBase {
         return points;
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): LascaGame {
+    public move(m: string, {trusted = false, partial = false} = {}): EmergoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -461,58 +534,60 @@ export class LascaGame extends GameBase {
             this._points = [];
         }
 
+        const inhand = this.inhand;
         this.results = [];
         const cells = m.split(/[-x]/);
-        const startStack = this.board.get(cells[0])!;
-        const [,startsize] = startStack[startStack.length - 1];
-        let promoted: string|undefined;
-        for (let i = 1; i < cells.length; i++) {
-            const from = cells[i-1];
-            const [fx, fy] = g.algebraic2coords(from);
-            const to = cells[i];
-            const [tx, ty] = g.algebraic2coords(to);
-            // move the piece
-            const stack = this.board.get(from)!;
-            this.board.set(to, deepclone(stack));
-            this.board.delete(from);
-            this.results.push({type: "move", from, to});
-            // if the in-between cells contain an enemy piece, capture it
-            const between = RectGrid.between(fx, fy, tx, ty).map(pt => g.coords2algebraic(...pt));
-            let enemy: string|undefined;
-            for (const cell of between) {
-                if (this.board.has(cell)) {
-                    const stackBetween = this.board.get(cell)!;
-                    if (stackBetween[stackBetween.length - 1][0] !== this.currplayer) {
-                        enemy = cell;
-                        break;
+        // detect entry first
+        if (cells.length === 1 && !this.board.has(cells[0])) {
+            const other = this.currplayer === 1 ? 2 : 1;
+            // if other player has no pieces in hand, place all your remaining pieces
+            if (inhand[other - 1] === 0) {
+                this.board.set(m, Array.from({length: inhand[this.currplayer - 1]}, () => this.currplayer));
+                this.results.push({type: "add", where: m, num: inhand[this.currplayer - 1]});
+            }
+            // otherwise just place one
+            else {
+                this.board.set(m, [this.currplayer]);
+                this.results.push({type: "add", where: m, num: 1});
+            }
+        }
+        // otherwise movement/capture (partial or otherwise)
+        else {
+            for (let i = 1; i < cells.length; i++) {
+                const from = cells[i-1];
+                const [fx, fy] = g.algebraic2coords(from);
+                const to = cells[i];
+                const [tx, ty] = g.algebraic2coords(to);
+                // move the piece
+                const stack = this.board.get(from)!;
+                this.board.set(to, [...stack]);
+                this.board.delete(from);
+                this.results.push({type: "move", from, to});
+                // if the in-between cells contain an enemy piece, capture it
+                const between = RectGrid.between(fx, fy, tx, ty).map(pt => g.coords2algebraic(...pt));
+                let enemy: string|undefined;
+                for (const cell of between) {
+                    if (this.board.has(cell)) {
+                        const stackBetween = this.board.get(cell)!;
+                        if (stackBetween[stackBetween.length - 1] !== this.currplayer) {
+                            enemy = cell;
+                            break;
+                        }
                     }
                 }
-            }
-            if (enemy !== undefined) {
-                const toStack = this.board.get(to)!;
-                const enemyStack = this.board.get(enemy)!;
-                const top = enemyStack.pop()!;
-                // add top piece to the bottom of the toStack
-                this.board.set(to, deepclone([top, ...toStack]))
-                // save the new enemyStack
-                if (enemyStack.length > 0) {
-                    this.board.set(enemy, deepclone(enemyStack));
-                } else {
-                    this.board.delete(enemy);
-                }
-                const [, capSize] = top;
-                this.results.push({type: "capture", where: enemy, what: capSize === 1 ? "soldier" : "officer"});
-            }
-
-            // check for promotion
-            if (startsize === 1 && promoted === undefined) {
-                const last = this.currplayer === 1 ? 0 : this.boardsize - 1;
-                if (ty === last) {
-                    const stack = this.board.get(to)!;
-                    stack[stack.length - 1][1] = 2;
-                    this.board.set(to, deepclone(stack));
-                    this.results.push({type: "promote", where: to, to: "officer"});
-                    promoted = to;
+                if (enemy !== undefined) {
+                    const toStack = this.board.get(to)!;
+                    const enemyStack = this.board.get(enemy)!;
+                    const top = enemyStack.pop()!;
+                    // add top piece to the bottom of the toStack
+                    this.board.set(to, [top, ...toStack])
+                    // save the new enemyStack
+                    if (enemyStack.length > 0) {
+                        this.board.set(enemy, [...enemyStack]);
+                    } else {
+                        this.board.delete(enemy);
+                    }
+                    this.results.push({type: "capture", where: enemy});
                 }
             }
         }
@@ -520,9 +595,6 @@ export class LascaGame extends GameBase {
         if (partial) { return this; }
 
         // update currplayer
-        if (promoted !== undefined) {
-            m = m.replace(promoted, `${promoted}*`);
-        }
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
@@ -535,17 +607,25 @@ export class LascaGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): LascaGame {
-        let otherPlayer: playerid = 1;
-        if (this.currplayer === 1) {
-            otherPlayer = 2;
-        }
+    protected checkEOG(): EmergoGame {
+        const otherPlayer: playerid = this.currplayer === 1 ? 2 : 1;
+        const inhand = this.inhand.reduce((acc, curr) => acc + curr, 0);
 
-        // otherPlayer wins if current player has no moves
-        const moves = this.moves();
-        if (moves.length === 0) {
-            this.gameover = true;
-            this.winner = [otherPlayer];
+        // otherPlayer wins if current player has no pieces
+        if (inhand === 0) {
+            const mine = [...this.board.entries()].filter(([,v]) => v[v.length - 1] === this.currplayer).map(([k,]) => k);
+            if (mine.length === 0) {
+                this.gameover = true;
+                this.winner = [otherPlayer];
+            }
+            // if the current player has pieces but no moves, it's a draw
+            else {
+                const moves = this.moves();
+                if (moves.length === 0) {
+                    this.gameover = true;
+                    this.winner = [1, 2];
+                }
+            }
         }
 
         if (this.gameover) {
@@ -557,9 +637,9 @@ export class LascaGame extends GameBase {
         return this;
     }
 
-    public state(): ILascaState {
+    public state(): IEmergoState {
         return {
-            game: LascaGame.gameinfo.uid,
+            game: EmergoGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
@@ -570,7 +650,7 @@ export class LascaGame extends GameBase {
 
     public moveState(): IMoveState {
         return {
-            _version: LascaGame.gameinfo.version,
+            _version: EmergoGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
@@ -588,10 +668,7 @@ export class LascaGame extends GameBase {
             const pieces: string[][] = [];
             for (const cell of row) {
                 if (this.board.has(cell)) {
-                    const str = this.board.get(cell)!.map(e =>
-                        e[0] === 1 ? (e[1] === 1 ? "A" : "B") :
-                                     (e[1] === 1 ? "X" : "Y")
-                    );
+                    const str = this.board.get(cell)!.map(e => e === 1 ? "A" : "B");
                     pieces.push([...str]);
                 } else {
                     pieces.push([]);
@@ -607,18 +684,6 @@ export class LascaGame extends GameBase {
                 style: "squares-checkered",
                 width: this.boardsize,
                 height: this.boardsize,
-                markers: [
-                    {
-                        type: "edge",
-                        colour: 1,
-                        edge: "S",
-                    },
-                    {
-                        type: "edge",
-                        colour: 2,
-                        edge: "N",
-                    }
-                ],
             },
             legend: {
                 A: {
@@ -626,17 +691,10 @@ export class LascaGame extends GameBase {
                     colour: 1
                 },
                 B: {
-                    name: "piece-horse",
-                    colour: 1
-                },
-                X: {
                     name: "piece",
                     colour: 2
                 },
-                Y: {
-                    name: "piece-horse",
-                    colour: 2
-                },
+
             },
             pieces: pstr as [string[][], ...string[][][]]
         };
@@ -661,6 +719,9 @@ export class LascaGame extends GameBase {
                 } else if (move.type === "capture") {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
+                } else if (move.type === "add") {
+                    const [x, y] = this.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
         }
@@ -674,19 +735,37 @@ export class LascaGame extends GameBase {
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
+        const inhand = this.inhand;
+        if (inhand.reduce((acc, curr) => acc + curr, 0) > 0) {
+            status += "**Pieces In Hand**\n\n";
+            for (let n = 1; n <= this.numplayers; n++) {
+                const pieces = inhand[n - 1];
+                status += `Player ${n}: ${pieces}\n\n`;
+            }
+        }
 
         return status;
+    }
+
+    public getPlayersScores(): IScores[] {
+        const inhand = this.inhand;
+        if (inhand.reduce((acc, curr) => acc + curr, 0) > 0) {
+            return [
+                { name: i18next.t("apgames:status.PIECESINHAND"), scores: this.inhand }
+            ]
+        }
+        return [];
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
         let resolved = false;
         switch (r.type) {
-            case "capture":
-                node.push(i18next.t("apresults:CAPTURE.lasca", {player, where: r.where!, context: r.what!}));
+            case "add":
+                node.push(i18next.t("apresults:ADD.add", {player, where: r.where!, count: r.num}));
                 resolved = true;
                 break;
-            case "promote":
-                node.push(i18next.t("apresults:PROMOTE.basicWhere", {player, where: r.where!}));
+            case "capture":
+                node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where!}));
                 resolved = true;
                 break;
         }
@@ -698,7 +777,7 @@ export class LascaGame extends GameBase {
     //     return this.getMovesAndResults(["move", "winners", "eog"]);
     // }
 
-    public clone(): LascaGame {
-        return new LascaGame(this.serialize());
+    public clone(): EmergoGame {
+        return new EmergoGame(this.serialize());
     }
 }

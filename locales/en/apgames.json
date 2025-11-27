@@ -2645,6 +2645,20 @@
                 "name": "3D orbs"
             }
         },
+        "amazons": {
+            "blackbloc": {
+                "description": "Show blocked squares as a black square.",
+                "name": "Black block"
+            },
+            "brick": {
+                "description": "Show blocked squares as a square brick.",
+                "name": "Brick"
+            },
+            "bricks": {
+                "description": "Show blocked squares as a wall of bricks.",
+                "name": "Bricks"
+            }
+        },
         "alta": {
             "hide-panel": {
                 "description": "Don't show panel to select orientation.",

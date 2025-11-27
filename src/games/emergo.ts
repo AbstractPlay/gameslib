@@ -411,6 +411,11 @@ export class EmergoGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
                 return result;
             }
+            if (!this.blackSquares.includes(cell)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.emergo.WHITE_SQUARE");
+                return result;
+            }
         }
         // otherwise move/capture
         else {

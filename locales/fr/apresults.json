@@ -124,7 +124,8 @@
         "twixt": "{{player}} a ajouté un lien à {{where}}.",
         "add_one": "{{player}} a ajouté 1 pièce à {{where}}.",
         "add_many": "{{player}} a ajouté {{count}} pièces à {{where}}.",
-        "add_other": "{{player}} a ajouté {{count}} pièces à {{where}}."
+        "add_other": "{{player}} a ajouté {{count}} pièces à {{where}}.",
+        "logger": "L'arbre de {{where}} a grandi d'un stade."
     },
     "BUTTON": "{{player}} a pris le bouton.",
     "AFFILIATE": {

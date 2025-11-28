@@ -51,6 +51,7 @@ export class LascaGame extends GameBase {
             },
         ],
         variants: [
+            {uid: "size-9", group: "board"},
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "perspective", "automove", "pie"]
@@ -62,10 +63,10 @@ export class LascaGame extends GameBase {
     }
 
     public coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, 7);
+        return GameBase.coords2algebraic(x, y, this.boardsize);
     }
     public algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, 7);
+        return GameBase.algebraic2coords(cell, this.boardsize);
     }
 
     public numplayers = 2;
@@ -79,6 +80,9 @@ export class LascaGame extends GameBase {
     private _points: [number, number][] = [];
 
     public get boardsize(): number {
+        if (this.variants.includes("size-9")) {
+            return 9;
+        }
         return 7;
     }
 
@@ -86,15 +90,32 @@ export class LascaGame extends GameBase {
         super();
         if (state === undefined) {
             this.variants = variants === undefined ? [] : [...variants];
-            const board = new Map<string, CellContents[]>([
-                ["a7", [[2,1]]], ["c7", [[2,1]]], ["e7", [[2,1]]], ["g7", [[2,1]]],
-                ["b6", [[2,1]]], ["d6", [[2,1]]], ["f6", [[2,1]]],
-                ["a5", [[2,1]]], ["c5", [[2,1]]], ["e5", [[2,1]]], ["g5", [[2,1]]],
-
-                ["a1", [[1,1]]], ["c1", [[1,1]]], ["e1", [[1,1]]], ["g1", [[1,1]]],
-                ["b2", [[1,1]]], ["d2", [[1,1]]], ["f2", [[1,1]]],
-                ["a3", [[1,1]]], ["c3", [[1,1]]], ["e3", [[1,1]]], ["g3", [[1,1]]],
-            ]);
+            const g = new SquareDiagGraph(this.boardsize, this.boardsize);
+            let maxrow = 3;
+            if (this.variants.includes("size-9")) {
+                maxrow = 4;
+            }
+            const board = new Map<string, CellContents[]>();
+            for (let row = 0; row < maxrow; row++) {
+                for (let col = 0; col < this.boardsize; col++) {
+                    const rowEven = row % 2 === 0;
+                    const colEven = col % 2 === 0;
+                    if ( (rowEven && colEven) || (!rowEven && !colEven) ) {
+                        const cell = g.coords2algebraic(col, row);
+                        board.set(cell, [[2, 1]]);
+                    }
+                }
+            }
+            for (let row = this.boardsize - maxrow; row < this.boardsize; row++) {
+                for (let col = 0; col < this.boardsize; col++) {
+                    const rowEven = row % 2 === 0;
+                    const colEven = col % 2 === 0;
+                    if ( (rowEven && colEven) || (!rowEven && !colEven) ) {
+                        const cell = g.coords2algebraic(col, row);
+                        board.set(cell, [[1, 1]]);
+                    }
+                }
+            }
             const fresh: IMoveState = {
                 _version: LascaGame.gameinfo.version,
                 _results: [],

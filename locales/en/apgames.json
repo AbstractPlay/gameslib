@@ -1358,6 +1358,14 @@
                 "name": "Size 8 board"
             }
         },
+        "lasca": {
+            "#board": {
+                "name": "7x7 board (11 pieces)"
+            },
+            "size-9": {
+                "name": "9x9 board (18 pieces)"
+            }
+        },
         "lielow": {
             "#board": {
                 "name": "Size-8 board"

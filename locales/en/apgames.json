@@ -3888,6 +3888,7 @@
             "INITIAL_INSTRUCTIONS_play": "Select a stack with your piece on top to move.",
             "INVALID_MOVE_enter": "The move does not appear to be legal. You may not place a piece where it will induce a capture (feeding) unless your opponent is already required to capture.",
             "INVALID_MOVE_play": "The move does not appear to be legal. Capturing is compulsory, and you must capture the most pieces you can.",
+            "FIRST_MOVE": "The first move of the game can not be in the center",
             "VALID_PARTIAL": "Select a destination. Capturing is compulsory, and you must capture the most pieces you can.",
             "WHITE_SQUARE": "Pieces may only be placed on the dark squares."
         },

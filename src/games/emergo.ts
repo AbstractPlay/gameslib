@@ -416,6 +416,11 @@ export class EmergoGame extends GameBase {
                 result.message = i18next.t("apgames:validation.emergo.WHITE_SQUARE");
                 return result;
             }
+            if (this.currplayer === 1 && inhand[0] === 12 && cell === "e5") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.emergo.FIRST_MOVE");
+                return result;
+            }
         }
         // otherwise move/capture
         else {

@@ -998,7 +998,7 @@ export class StawvsGame extends GameBase {
         const rep: APRenderRep =  {
             renderer: "stacking-expanding",
             board: {
-                style: "squares-checkered",
+                style: "squares",
                 width: boardDim,
                 height: boardDim
             },

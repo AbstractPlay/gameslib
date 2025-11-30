@@ -719,6 +719,12 @@ export class LascaGame extends GameBase {
     //     return this.getMovesAndResults(["move", "winners", "eog"]);
     // }
 
+    public sameMove(move1: string, move2: string): boolean {
+        move1 = move1.toLowerCase().replace("*", "");
+        move2 = move2.toLowerCase().replace("*", "");
+        return move1 === move2;
+    }
+
     public clone(): LascaGame {
         return new LascaGame(this.serialize());
     }

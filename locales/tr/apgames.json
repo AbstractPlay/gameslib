@@ -1,1 +1,7 @@
-{}
+{
+    "descriptions": {
+        "abande": "Abande, Dieter Stein’in istifleme üçlemesinin ikinci oyunudur. Sıra sana geldiğinde taşları veya yığınları yerleştirir ya da hareket ettirirsin; amacın en yüksek puanı elde etmektir—ancak bunu yaparken tahtanın daima bağlantılı kalmasını sağlamalısın. Oyun üç farklı düzen üzerinde oynanabilir: kare, kırpık kare(snubsquare) ve altıgen tahtalar.",
+        "accasta": "Accasta, Dieter Stein’in üç bölümlük istifleme üçlemesinin ilk oyunudur. Amaç, kendi istiflerinizden üç tanesini rakibin kale alanına ulaştırmaktır. Temel sürümde üç farklı taş türü bulunur. \"Pari\" varyantında ise hareket, yığının içinde kaç tane dost taş bulunduğuna göre belirlenir.",
+        "acity": "Alien City, yeni kolonileştirilmiş bir dünyada bir şehir inşa etmeyi konu alan bir Piecepack/Icehouse birleşimi oyundur. Dört lonca müşteri toplamak için rekabet eder ve oyuncu hangi hamlelerin oyunun sonunda kazandıracağını öngörmek zorundadır. Her turda oyuncu bir kule veya kubbe yerleştirir ve isteğe bağlı olarak oyunun sonunda yüksek puan getireceğini düşündüğü bir kuleyi sahiplenebilir. Oyun, artık inşaat yapılabilecek bir yer kalmayana kadar devam eder. Puanlar, binaların konumlarının oyuncunun sahip çıktığı kulelere göre göreceli yerleşimine dayanarak hesaplanır."
+    }
+}

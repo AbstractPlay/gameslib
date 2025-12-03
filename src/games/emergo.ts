@@ -200,6 +200,7 @@ export class EmergoGame extends GameBase {
     }
 
     private recurseCaps(stubs: string[], complete: string[]): void {
+        // console.log(`Recursing over ${JSON.stringify(stubs)}`);
         const toVisit: string[] = [...stubs];
         while (toVisit.length > 0) {
             const mv = toVisit.shift()!;
@@ -207,13 +208,20 @@ export class EmergoGame extends GameBase {
             cloned.move(mv, {partial: true, trusted: true});
             const parts = mv.split("x");
             const last = parts[parts.length - 1];
+            const penult = parts[parts.length - 2];
             const moves = cloned.movesFor(last);
+            // console.log(JSON.stringify({mv, parts, last, penult, moves}));
             if (moves.length === 0 || moves.join(",").includes("-")) {
                 complete.push(mv);
             } else {
                 for (const m of moves) {
                     const [,next] = m.split("x");
-                    toVisit.push(`${mv}x${next}`);
+                    // forbid 180deg jumps
+                    if (next !== penult) {
+                        toVisit.push(`${mv}x${next}`);
+                    } else {
+                        complete.push(mv);
+                    }
                 }
             }
         }

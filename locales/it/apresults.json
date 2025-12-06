@@ -1,8 +1,10 @@
 {
     "ADD_one": "[IT] {{player}} added 1 piece to {{where}}.",
+    "ADD_many": "",
     "ADD_other": "[IT] {{player}} added {{count}} pieces to {{where}}.",
     "BEAROFF": {
         "complete_one": "[IT] {{player}} bore off one piece from {{from}}.",
+        "complete_many": "",
         "complete_other": "[IT] {{player}} bore off {{count}} pieces from {{from}}."
     },
     "BLOCK": {
@@ -14,11 +16,13 @@
         "monkey_queen": "[IT] A queen was captured.",
         "monkey_single": "[IT] A singleton was captured.",
         "multiple_one": "[IT] A piece was captured.",
+        "multiple_many": "",
         "multiple_other": "[IT] {{count}} pieces were captured.",
         "noperson": {
             "multiple": "[IT] The following pieces were captured: {{capped}}.",
             "nowhere": "[IT] A {{what}} was captured.",
             "nowhere_one": "[IT] One piece was captured.",
+            "nowhere_many": "",
             "nowhere_other": "[IT] {{count}} pieces were captured.",
             "simple": "[IT] A {{what}} was captured at {{where}}."
         },
@@ -31,10 +35,12 @@
     "DESTROY": {
         "enemy": {
             "minimal_one": "[IT] {{count}} enemy piece was destroyed.",
+            "minimal_many": "",
             "minimal_other": "[IT] {{count}} enemy pieces were destroyed."
         },
         "friendly": {
             "minimal_one": "[IT] {{count}} friendly piece was destroyed.",
+            "minimal_many": "",
             "minimal_other": "[IT] {{count}} friendly pieces were destroyed."
         }
     },
@@ -59,6 +65,7 @@
         "chase": "[IT] {{player}} moved from {{from}} to {{to}} (through {{through}}).",
         "complete": "[IT] {{player}} moved a {{what}} from {{from}} to {{to}}.",
         "complete_one": "[IT] {{player}} moved one piece from {{from}} to {{to}}.",
+        "complete_many": "",
         "complete_other": "[IT] {{player}} moved {{count}} pieces from {{from}} to {{to}}.",
         "monkey_queen": "[IT] {{player}} moved their queen from {{from}} to {{to}}.",
         "monkey_single": "[IT] {{player}} moved a singleton from {{from}} to {{to}}.",
@@ -95,6 +102,7 @@
         "noperson": "[IT] A {{what}} was reclaimed."
     },
     "REMOVE_one": "[IT] {{player}} removed 1 piece from {{where}}.",
+    "REMOVE_many": "",
     "REMOVE_other": "[IT] {{player}} removed {{count}} pieces from {{where}}.",
     "RESIGN": "[IT] {{player}} has resigned.",
     "TIMEOUT": "[IT] {{player}} lost on time.",
@@ -104,5 +112,7 @@
         "chase": "[IT] A {{what}} was fed to the chamber."
     },
     "WINNERS_one": "[IT] The following player won: {{winners}}.",
-    "WINNERS_other": "[IT] The following players won: {{winners}}."
+    "WINNERS_many": "",
+    "WINNERS_other": "[IT] The following players won: {{winners}}.",
+    "ABANDONED": "Il gioco è stato abbandonato"
 }

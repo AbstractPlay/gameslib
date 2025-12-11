@@ -223,6 +223,7 @@ export class LascaGame extends GameBase {
         const toVisit: string[] = [...stubs];
         while (toVisit.length > 0) {
             const mv = toVisit.shift()!;
+            // console.log(JSON.stringify({mv}));
             const cloned = LascaGame.clone(this);
             cloned.move(mv, {partial: true, trusted: true});
             // if piece was promoted, move is over
@@ -234,15 +235,20 @@ export class LascaGame extends GameBase {
             const capped = LascaGame.captured(g, parts);
             const last = parts[parts.length - 1];
             const moves = cloned.movesFor(last);
+            // console.log(JSON.stringify({parts, capped, last, moves}));
             if (moves.length === 0 || moves.join(",").includes("-")) {
+                // console.log(`Terminal. Pushing ${mv}`);
                 complete.push(mv);
             } else {
                 for (const m of moves) {
                     const [,next] = m.split("x");
                     const toCap = LascaGame.captured(g, [last, next]);
+                    // console.log(JSON.stringify({next, toCap}));
                     if (!capped.includes(toCap[0])) {
+                        // console.log(`Continuing search: ${mv}x${next}`);
                         toVisit.push(`${mv}x${next}`);
                     } else {
+                        // console.log(`180 degree turn. Pushing ${mv}.`);
                         complete.push(mv);
                     }
                 }
@@ -284,6 +290,23 @@ export class LascaGame extends GameBase {
         // Otherwise, iterate until there are no more captures found.
         else {
             this.recurseCaps(moveSets.flat(), moves);
+            // Because of how we have to check for 180deg turns and make sure no
+            // valid partial captures get missed, sometimes partial but illegal captures
+            // linger. So we have to sort by length and strip any shorter moves that
+            // form the starting point for a validated longer move.
+            const sorted = [...moves].sort((a,b) => a.length - b.length);
+            // console.log(JSON.stringify({sorted}));
+            const clean: string[] = [];
+            for (let i = 0; i < sorted.length; i++) {
+                const mv = sorted[i];
+                const subset = sorted.slice(i+1);
+                // console.log(JSON.stringify({mv, subset}));
+                if (subset.filter(m => m.startsWith(mv)).length === 0) {
+                    // console.log(`keeping ${mv}`);
+                    clean.push(mv);
+                }
+            }
+            moves = [...clean];
         }
 
         return moves.sort();

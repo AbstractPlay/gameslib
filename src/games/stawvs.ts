@@ -87,7 +87,7 @@ export class StawvsGame extends GameBase {
             {uid: "pieces-2"}
         ],
         categories: ["goal>score>eog", "mechanic>set", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
-        flags: ["scores", "autopass", "experimental"]
+        flags: ["scores", "autopass"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -996,7 +996,6 @@ export class StawvsGame extends GameBase {
 
         // Build rep
         const rep: APRenderRep =  {
-            renderer: "stacking-expanding",
             board: {
                 style: "squares",
                 width: boardDim,

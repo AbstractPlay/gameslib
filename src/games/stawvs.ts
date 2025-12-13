@@ -58,7 +58,7 @@ export class StawvsGame extends GameBase {
         uid: "stawvs",
         playercounts: [2,3,4],
         version: "20251113",
-        dateAdded: "2025-11-16",
+        dateAdded: "2025-12-12",
         // i18next.t("apgames:descriptions.stawvs")
         description: "apgames:descriptions.stawvs",
         urls: [

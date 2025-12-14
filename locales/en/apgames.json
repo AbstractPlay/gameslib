@@ -1005,7 +1005,10 @@
                 "name": "Anti-Dameo"
             },
             "size-10": {
-                "name": "10x10 board (experimental)"
+                "name": "10x10 board (4 rows; experimental)"
+            },
+            "size-10b": {
+                "name": "10x10 board (3 rows; experimental)"
             }
         },
         "deckfish": {

@@ -3111,6 +3111,10 @@
         "GROUPCOUNT": "Group count",
         "GROUPSIZES": "Group sizes",
         "jacynth": "Influence tokens",
+        "lasca": {
+            "STEPS": "Steps to officer",
+            "MATERIAL": "Material"
+        },
         "majorities": "Scores (─, ⟋, ⟍)",
         "meg": {
             "OFFENSE": "Offensive player",

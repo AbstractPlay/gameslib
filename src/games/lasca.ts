@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -54,7 +54,7 @@ export class LascaGame extends GameBase {
             {uid: "size-9", group: "board"},
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "automove", "pie"]
+        flags: ["experimental", "perspective", "automove", "pie", "limited-pieces"]
     };
 
     public static clone(obj: LascaGame): LascaGame {
@@ -719,7 +719,59 @@ export class LascaGame extends GameBase {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
 
+        status += "**Steps to officer**: " + [this.getStepsToOfficer(1), this.getStepsToOfficer(2)].join(", ") + "\n\n";
+        status += "**Material**: " + [this.getMaterial(1), this.getMaterial(2)].join(", ") + "\n\n";
+
         return status;
+    }
+
+    private getStepsToOfficer(player?: playerid): number {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const startRank = player === 1 ? this.boardsize - 1 : 0;
+        const g = new SquareDiagGraph(this.boardsize, this.boardsize);
+        const mine = [...this.board.entries()].filter(([,v]) => v[v.length - 1][0] === player).map(([k,v]) => {
+            const [col, row] = g.algebraic2coords(k);
+            return {col, row, stack: v};
+        });
+        let steps = 0;
+        for (const {row, stack} of mine) {
+            const top = stack[stack.length - 1];
+            if (top[1] === 2) {
+                steps += this.boardsize;
+            } else {
+                steps += (Math.abs(startRank - row) + 1);
+            }
+        }
+        return steps;
+    }
+
+    private getMaterial(player?: playerid): number {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        const mine = [...this.board.entries()].filter(([,v]) => v[v.length - 1][0] === player).map(([,v]) => v);
+        let score = 0;
+        for (const stack of mine) {
+            stack.forEach(pc => {
+                if (pc[0] === player) {
+                    score++;
+                }
+            });
+            const top = stack[stack.length - 1];
+            if (top[1] === 2) {
+                score++;
+            }
+        }
+        return score;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [
+            { name: i18next.t("apgames:status.lasca.STEPS"), scores: [this.getStepsToOfficer(1), this.getStepsToOfficer(2)] },
+            { name: i18next.t("apgames:status.lasca.MATERIAL"), scores: [this.getMaterial(1), this.getMaterial(2)] },
+        ]
     }
 
     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {

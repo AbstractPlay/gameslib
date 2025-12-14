@@ -32,6 +32,8 @@ export class LascaGame extends GameBase {
         dateAdded: "2025-11-23",
         // i18next.t("apgames:descriptions.lasca")
         description: "apgames:descriptions.lasca",
+        // i18next.t("apgames:notes.lasca")
+        notes: "apgames:notes.lasca",
         urls: [
             "http://www.lasca.org/",
             "https://jpneto.github.io/world_abstract_games/lasca.htm",

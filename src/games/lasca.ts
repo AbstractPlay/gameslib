@@ -29,7 +29,7 @@ export class LascaGame extends GameBase {
         uid: "lasca",
         playercounts: [2],
         version: "20251123",
-        dateAdded: "2025-11-23",
+        dateAdded: "2025-12-15",
         // i18next.t("apgames:descriptions.lasca")
         description: "apgames:descriptions.lasca",
         // i18next.t("apgames:notes.lasca")
@@ -56,7 +56,7 @@ export class LascaGame extends GameBase {
             {uid: "size-9", group: "board"},
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>differentiate", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "automove", "pie", "limited-pieces"]
+        flags: ["perspective", "automove", "pie", "limited-pieces"]
     };
 
     public static clone(obj: LascaGame): LascaGame {

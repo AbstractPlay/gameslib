@@ -2,13 +2,30 @@
     "ABANDONED": "O jogo foi abandonado.",
     "ADD": {
         "logger": "A árvore em {{where}} cresceu um estágio.",
-        "nonum": "{{player}} adicionou uma peça em {{where}}."
+        "nonum": "{{player}} adicionou uma peça em {{where}}.",
+        "add_one": "{{player}} adicionou 1 peça a {{where}}.",
+        "add_many": "{{player}} adicionou {{count}} peças a {{where}}.",
+        "add_other": "{{player}} adicionou {{count}} peças a {{where}}.",
+        "twixt": "{{player}} adicionou um link em {{where}}."
     },
     "AFFILIATE": {
         "witch_M": "{{player}} escolheu as Pedras Lunares.",
-        "witch_S": "{{player}} escolheu as Pedras do Sol."
+        "witch_S": "{{player}} escolheu as Pedras do Sol.",
+        "cifra_lt": "{{player}} escolheu jogar as peças claras da fileira superior.",
+        "cifra_lb": "{{player}} escolheu jogar as peças claras da fileira de baixo.",
+        "cifra_dt": "{{player}} escolheu jogar as peças escuras da fileira superior.",
+        "cifra_db": "{{player}} escolheu jogar as peças escuras da fileira superior.",
+        "cifra_ll": "{{player}} escolheu jogar as peças claras da coluna da esquerda.",
+        "cifra_lr": "{{player}} escolheu jogar as peças claras da coluna da direita.",
+        "cifra_dl": "{{player}} escolheu jogar as peças escuras da coluna da esquerda.",
+        "cifra_dr": "{{player}} escolheu jogar as peças escuras da coluna da direita."
     },
     "homeworlds": {
         "SACRIFICE": "{{player}} sacrificou um {{what}} no sistema de {{where}}."
+    },
+    "ANNOUNCE": {
+        "biscuit": "As seguintes cartas estavam nas mãos opostas: {{cards}}.",
+        "deckfish": "{{player}} não pôde se mover e deve passar a vez a partir de agora.",
+        "quincunx": "O jogador {{playerNum}} tinha as seguintes cartas restantes na mão: {{cards}}."
     }
 }

@@ -522,6 +522,7 @@ export class StawvsGame extends GameBase {
             if (this.eliminated.indexOf(this.currplayer) > -1) {
                 //This would be caught by the next condition but why calculate the moves?
                 result.valid = true;
+                result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else if (this.mode === "place" || this.moves()[0] !== "pass") {
@@ -530,6 +531,7 @@ export class StawvsGame extends GameBase {
                 return result;
             } else {
                 result.valid = true;
+                result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             }

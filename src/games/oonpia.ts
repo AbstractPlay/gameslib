@@ -189,7 +189,31 @@ export class OonpiaGame extends GameBase {
             if ((piece === "1" || piece === "2") && row === -1) {
                 newmove = piece;
             } else if (move === "") {
-                newmove = `1${cell}`;
+                const blocked = this.blockedCells();
+                if (blocked[1].has(cell) && blocked[2].has(cell)) {
+                    move = `1${cell}`; // This move is invalid, but we'll let validateMove give the correct
+                                       // error message
+                } else if (blocked[1].has(cell)){
+                    newmove = `2${cell}`;
+                } else if (blocked[2].has(cell)){
+                    newmove = `1${cell}`;
+                } else {
+                    // Both tiles are valid. If there are friendly neighbouring stones and they are
+                    // of one type only, automatically place the other type.
+                    const friendlyTiles = new Set(
+                        this.graph.neighbours(cell)
+                        .filter(c => this.board.has(c))
+                        .map(c => this.board.get(c))
+                        .filter(piece => piece![0] === this.currplayer)
+                        .map(piece => piece![1])
+                    );
+                    if (friendlyTiles.size === 1) {
+                        const otherTile = [...friendlyTiles][0] === 1 ? 2 : 1;
+                        newmove = `${otherTile}${cell}`;
+                    } else {
+                        newmove = `1${cell}`;
+                    }
+                }
             } else if (move === "1" || move === "2") {
                 if (row === -1) {
                     newmove = move;
@@ -245,19 +269,26 @@ export class OonpiaGame extends GameBase {
                 }
             }
         } else {
-            const coord = m.slice(1);
+            const [tile, cell] = this.splitTileCell(m);
             try {
-                this.graph.algebraic2coords(coord);
+                this.graph.algebraic2coords(cell);
             } catch {
                 return {
                     valid: false,
                     message: i18next.t("apgames:validation._general.INVALIDCELL", { move: m })
                 }
             }
-            if (this.board.has(coord)) {
+            if (this.board.has(cell)) {
                 return {
                     valid: false,
-                    message: i18next.t("apgames:validation._general.OCCUPIED", {where: coord})
+                    message: i18next.t("apgames:validation._general.OCCUPIED", {where: cell})
+                }
+            }
+            const blockedCells = this.blockedCells();
+            if (blockedCells[tile].has(cell)) {
+                return {
+                    valid: false,
+                    message: i18next.t("apgames:validation.oonpia.ARC", {where: cell})
                 }
             }
         }

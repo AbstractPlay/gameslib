@@ -4528,7 +4528,8 @@
         },
         "oonpia": {
             "DESTINATION": "Select a cell to place the piece.",
-            "INITIAL_INSTRUCTIONS": "Place 1 piece of either type on the board."
+            "INITIAL_INSTRUCTIONS": "Place 1 piece of either type on the board.",
+            "ARC": "You may not form a size 4 arc of stones of one type, regardless of colour."
         },
         "orb": {
             "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",

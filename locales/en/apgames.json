@@ -131,6 +131,7 @@
         "omny": "Generalized connection game where players try to split star cells into different regions so that no single region contains a majority of star cells.",
         "onager": "In Onager each player tries to reach the opponent's back rank. Onager is named after a Roman siege engine that is a type of catapult, as the way the pieces move resembles how projectiles are hurled forward with this device.",
         "onyx": "A connection game on a modified snub-square board with a capture rule.",
+        "oonpia": "A hexagonal go-like where pieces come in two types. Only pieces of opposite type are connected, and a 4-arc of pieces of the same type (regardless of colour) is forbidden.",
         "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
         "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
@@ -1660,6 +1661,32 @@
             "head-start": {
                 "name": "Head start",
                 "description": "Both players start with two pieces on each opponent's edge."
+            }
+        },
+        "oonpia": {
+            "size-5": {
+                "name": "Size 5 board"
+            },
+            "#board": {
+                "name": "Size 6 board"
+            },
+            "size-7": {
+                "name": "Size 7 board"
+            },
+            "size-8": {
+                "name": "Size 8 board"
+            },
+            "size-9": {
+                "name": "Size 9 board"
+            },
+            "size-10": {
+                "name": "Size 10 board"
+            },
+            "size-11": {
+                "name": "Size 11 board"
+            },
+            "size-12": {
+                "name": "Size 12 board"
             }
         },
         "orb": {
@@ -4498,6 +4525,10 @@
             "NO_CAPTURE": "You have indicated capture, but there is no captures in this move. Try '{{move}}'.",
             "SINGLE_CAPTURE": "This move captures one pair, it has to be suffixed with 'x'. Try '{{move}}'.",
             "DOUBLE_CAPTURE": "This move captures two pairs, it has to be suffixed with 'xx'. Try '{{move}}'."
+        },
+        "oonpia": {
+            "DESTINATION": "Select a cell to place the piece.",
+            "INITIAL_INSTRUCTIONS": "Place 1 piece of either type on the board."
         },
         "orb": {
             "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",

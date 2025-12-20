@@ -197,17 +197,12 @@ export class OonpiaGame extends GameBase {
                     newmove = `${move}${cell}`;
                 }
             } else {
-                const moves = move.split(",");
-                if (moves.length === 1) {
-                    const [tile, oldCell] = this.splitTileCell(moves[0]);
-                    if (oldCell === cell) {
-                        // Swap tile.
-                        newmove = `${tile % 2 + 1}${cell}`;
-                    } else if (tile === 1) {
-                        newmove = `${moves[0]},2${cell}`;
-                    } else {
-                        newmove = `1${cell},${moves[0]}`;
-                    }
+                const [tile, oldCell] = this.splitTileCell(move);
+                if (oldCell === cell) {
+                    // Swap tile.
+                    newmove = `${tile % 2 + 1}${cell}`;
+                } else {
+                    return this.handleClick("", row, col, piece);
                 }
             }
             const result = this.validateMove(newmove) as IClickResult;

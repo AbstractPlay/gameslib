@@ -7,15 +7,24 @@ import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
 
-export type playerid = 1|2;
+export type playerid = 1|2|3; // 3 is neutral
 export type tileid = 1|2;
 const tileNames = ["plain", "dotted"];  // For tileid 1 and 2
+
+// Moves are always represented from the perspective of the current player (so we don't need
+// to store the stone colour). All fields are optional, so we can use undefined to represent partial
+// or partially parsed moves.
+type Move = {
+    tile?: tileid;
+    cell?: string;
+    iscapture?: boolean;
+}
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, [playerid, tileid]>;
     lastmove?: string;
-    scores: number[];
+    prison: [number,number];
 };
 
 export interface IOonpiaState extends IAPGameState {
@@ -64,6 +73,7 @@ export class OonpiaGame extends GameBase {
 
     public numplayers = 2;
     public currplayer: playerid = 1;
+    public neutral: playerid = 3;
     public board!: Map<string, [playerid, tileid]>;
     public graph: HexTriGraph = new HexTriGraph(7, 13);
     public gameover = false;
@@ -71,7 +81,7 @@ export class OonpiaGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    public scores: number[] = [0, 0];
+    public prison: [number, number] = [0, 0];
     private boardSize = 0;
 
     constructor(state?: IOonpiaState | string, variants?: string[]) {
@@ -86,7 +96,7 @@ export class OonpiaGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                scores: [0, 0],
+                prison: [0, 0],
             };
             this.stack = [fresh];
         } else {
@@ -117,7 +127,7 @@ export class OonpiaGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.results = [...state._results];
-        this.scores = [...state.scores];
+        this.prison = [...state.prison];
         this.boardSize = this.getBoardSize();
         this.buildGraph();
         return this;
@@ -159,10 +169,14 @@ export class OonpiaGame extends GameBase {
 
         const moves: string[] = [];
         const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort();
-        // Get singles
+        const blocked = this.blockedCells();
         for (const cell of empties) {
-            moves.push("1" + cell);
-            moves.push("2" + cell);
+            if (!blocked[1].has(cell)) {
+                moves.push("1" + cell);
+            }
+            if (!blocked[2].has(cell)) {
+                moves.push("2" + cell);
+            }
         }
         return moves;
     }
@@ -245,58 +259,116 @@ export class OonpiaGame extends GameBase {
         }
     }
 
-    public validateMove(m: string): IValidationResult {
+    private parseMoveString(m: string, move: Move = {}): Move | undefined {
         // the stone type (1 or 2) comes before the coordinate, e.g. 1c3 or 2c3
-        if (m.length === 0) {
+        // After that an 'X' if it's a capture using neutral stone, e.g. 1Xc3, 2Xc3
+        // Return a Move object if it's valid, undefined if the string is invalid
+        // This checks that a cell exists on the board, but not if it's occupied etc...
+        if (m === "" || m === undefined) {
+            return move;
+        }
+        if (move.tile === undefined) {
+            const ts = m.slice(0, 1);
+            const rest = m.slice(1);
+            let tile: tileid;
+            if (ts === "1") {
+                tile = 1;
+            } else if (ts === "2") {
+                tile = 2;
+            } else {
+                return undefined;
+            }
+            return this.parseMoveString(rest, {tile: tile});
+        }
+        if (move.iscapture === undefined) {
+            if (m.startsWith("X") {
+                const rest = m.slice(1);
+                move.iscapture = true;
+                return this.parseMoveString(rest, move);
+            } else {
+                move.iscapture = false;
+                return this.parseMoveString(m, move);
+            }
+        }
+        if (move.cell === undefined) {
+            try {
+                this.graph.algebraic2coords(m);
+                move.cell = m;
+                return move;
+            } catch {
+                return undefined
+            }
+        }
+        return undefined;
+    }
+
+    public validateMove(m: string): IValidationResult {
+        const move = this.parseMoveString(m);
+        if (move === undefined) {
+            return {
+                valid: false,
+                message: i18next.t("apgames:validation._general.INVALID_MOVE", { move: m })
+            }
+        }
+        if (move.tile === undefined) {
             return {
                 valid: true,
                 complete: -1,
                 canrender: true,
                 message: i18next.t("apgames:validation.oonpia.INITIAL_INSTRUCTIONS"),
             }
-        } else if (m.length === 1) {
-            if (m === '1' || m === '2') {
+        }
+        if (move.iscapture === undefined || move.cell === undefined) {
+            return {
+                valid: true,
+                complete: -1,
+                canrender: false,
+                message: i18next.t("apgames:validation.oonpia.DESTINATION")
+            }
+        }
+
+        /* from here on out we know that the move string is valid and complete */
+
+        if (this.board.has(move.cell)) {
+            return {
+                valid: false,
+                message: i18next.t("apgames:validation._general.OCCUPIED", {where: move.cell})
+            }
+        }
+        const blockedCells = this.blockedCells();
+        if (blockedCells[move.tile].has(move.cell)) {
+            return {
+                valid: false,
+                message: i18next.t("apgames:validation.oonpia.ARC", {where: move.cell})
+            }
+        }
+
+        if (move.iscapture) {
+            if (this.isValidCapture(move.cell, move.tile) {
                 return {
                     valid: true,
-                    complete: -1,
-                    canrender: true,
-                    message: i18next.t("apgames:validation.oonpia.DESTINATION")
+                    complete: 1,
+                    message: i18next.t("apgames:validation._general.VALID_MOVE")
                 }
             } else {
                 return {
                     valid: false,
-                    message: i18next.t("apgames:validation._general.INVALID_MOVE", { move: m })
+                    message: i18next.t("apgames:validation.oonpia.INVALID_CAPTURE")
                 }
             }
         } else {
-            const [tile, cell] = this.splitTileCell(m);
-            try {
-                this.graph.algebraic2coords(cell);
-            } catch {
+            if (this.isValidPlace(move.cell, move.tile) {
+                return {
+                    valid: true,
+                    complete: 1,
+                    message: i18next.t("apgames:validation._general.VALID_MOVE")
+                }
+            } else {
                 return {
                     valid: false,
-                    message: i18next.t("apgames:validation._general.INVALIDCELL", { move: m })
+                    message: i18next.t("apgames:validation.oonpia.INVALID_PLACE")
                 }
             }
-            if (this.board.has(cell)) {
-                return {
-                    valid: false,
-                    message: i18next.t("apgames:validation._general.OCCUPIED", {where: cell})
-                }
-            }
-            const blockedCells = this.blockedCells();
-            if (blockedCells[tile].has(cell)) {
-                return {
-                    valid: false,
-                    message: i18next.t("apgames:validation.oonpia.ARC", {where: cell})
-                }
-            }
-        }
-
-        return {
-            valid: true,
-            complete: 1,
-            message: i18next.t("apgames:validation._general.VALID_MOVE")
         }
     }
 
@@ -322,38 +394,39 @@ export class OonpiaGame extends GameBase {
         this.board.set(cell, [this.currplayer, tile]);
         this.results.push({type: "place", where: cell, what: tile === 1 ? tileNames[0] : tileNames[1]});
 
-        if (partial) { return this; }
-
+        
         // First capture other player's groups, then your own (if any)
-
+        let capd = false;
         for (const group of this.deadGroups(this.otherPlayer())) {
+            capd = true;
             for (const cell of group) {
                 this.board.delete(cell);
             }
             this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
-            this.scores[this.currplayer - 1] += group.size;
+            this.prison[this.currplayer - 1] += group.size;
         }
         
         for (const group of this.deadGroups(this.currplayer)) {
+            capd = true
             for (const cell of group) {
                 this.board.delete(cell);
             }
             this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
-            this.scores[this.currplayer - 1] += group.size;
+            this.prison[this.currplayer - 1] += group.size;
         }
 
-
+        if (capd) {
+            this.board.set(cell, [this.neutral, tile]);
+        }
+        
+        if (partial) { return this; }
+        
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
         this.saveState();
         return this;
     }
-
-    // private piecesByTile(player: playerid, tile: tileid): string[] {
-    //     // Get all pieces owned by `player` and is `tile`.
-    //     return [...this.board.entries()].filter(e => (e[1][0] === player) && (e[1][1] === tile)).map(e => e[0]);
-    // }
 
     private pieces(player: playerid): string[] {
         // Get all pieces owned by `player`
@@ -394,7 +467,7 @@ export class OonpiaGame extends GameBase {
         return groups;
     }
 
-    private blockedCells(): {1: Set<string>, 2: Set<string>} {
+    private blockedCells(board = this.board): {1: Set<string>, 2: Set<string>} {
         // Return all cells blocked for playing plain resp. dotted stones (by the placement restriction
         // that no 4-arc of same-type stones may occur)
 
@@ -403,12 +476,14 @@ export class OonpiaGame extends GameBase {
         // - For each of these neighbours check whether it forms an arc together with the previous
         //    and/or subsequent neighbours
 
+        // TODO caching
+
         const cells = this.graph.listCells() as string[];
         const blockedPlain: Set<string> = new Set();
         const blockedDotted: Set<string> = new Set();
         for (const cell of cells) {
             const neighbours = this.graph.neighbours(cell);
-            if (neighbours.length < 4 || neighbours.filter(n => this.board.has(n)).length < 3) {
+            if (neighbours.length < 4 || neighbours.filter(n => board.has(n)).length < 3) {
                 continue;
             }
             for (const type of [1, 2] as tileid[]){
@@ -416,7 +491,7 @@ export class OonpiaGame extends GameBase {
                     const nbCoords = this.graph.move(...this.graph.algebraic2coords(cell), baseDir);
                     if (nbCoords === undefined) { continue; }
                     const nb = this.graph.coords2algebraic(...nbCoords);
-                    if (this.board.has(nb)) { continue; }
+                    if (board.has(nb)) { continue; }
                     // Checking for 4-arcs in the circular (clockwise) neighbours around this cell at all offsets
                     let arc = false;
                     for (let offsetI = 3; offsetI <= 6; offsetI++) { // going from 3 to 6 instead of -3 to 0, because modulo of negative numbers in js is bugged
@@ -430,7 +505,7 @@ export class OonpiaGame extends GameBase {
                                 break;
                             } else {
                                 const iCell = this.graph.coords2algebraic(...offsetNbCoords);
-                                if (!this.board.has(iCell) || this.board.get(iCell)![1] !== type) {
+                                if (!board.has(iCell) || board.get(iCell)![1] !== type) {
                                     arcAtOffset = false;
                                     break;
                                 }
@@ -450,17 +525,17 @@ export class OonpiaGame extends GameBase {
         return {1: blockedPlain, 2: blockedDotted};
     }
 
-    private deadGroups(player: playerid): Set<string>[] {
+    private deadGroups(player: playerid, board = this.board): Set<string>[] {
         // Get all groups owned by `player` that are captured.
         const captured: Set<string>[] = [];
         const groups = this.getGroups(player);
-        const blocked = this.blockedCells();
+        const blocked = this.blockedCells(board);
         loop:
         for (const group of groups) {
             for (const cell of group) {
                 for (const n of this.graph.neighbours(cell)) {
-                    if (!this.board.has(n)) {
-                        const myTile = this.board.get(cell)![1];
+                    if (!board.has(n)) {
+                        const myTile = board.get(cell)![1];
                         const needTile = myTile === 1 ? 2 : 1;
                         if (!blocked[needTile].has(n)) {
                             continue loop;
@@ -473,11 +548,36 @@ export class OonpiaGame extends GameBase {
         return captured;
     }
 
+    private isValidPlace(cell: string, tile: tileid): boolean {
+        // It's a valid placement of a player (non-blue) stone, i.e. no groups will be captured
+        const tmpboard = new Map(this.board);
+        tmpboard.set(cell, [this.currplayer, tile]);
+        return (
+            this.deadGroups(this.otherPlayer(), tmpboard).length === 0 &&
+            this.deadGroups(this.currplayer, tmpboard).length === 0
+        )
+    }
+
+    private isValidCapture(cell: string, tile: tileid): boolean {
+        // It's a valid capture (i.e. blue stone placement), at least one stone (friendly or not) 
+        // will be captured
+        const tmpboard = new Map(this.board);
+        tmpboard.set(cell, [this.neutral, tile]);
+        return (
+            this.deadGroups(this.otherPlayer(), tmpboard).length > 0 ||
+            this.deadGroups(this.currplayer, tmpboard).length > 0
+        )
+    }
+
     protected checkEOG(): OonpiaGame {
-        // Two passes
+        // TODO
+
+        // Two passes? or just resign?
+        // strictly speaking: """If you move to the prison the last enemy group on the board, you win. Otherwise, if you move to the prison the last friendly group on the board, you lose."""
+        // check what asli does
 
         // const prevPlayer = this.currplayer % 2 + 1 as playerid;
-        // if (this.scores[prevPlayer - 1] >= this.threshold) {
+        // if (this.prison[prevPlayer - 1] >= this.threshold) {
         //     this.gameover = true;
         //     this.winner = [prevPlayer];
         // }
@@ -511,7 +611,7 @@ export class OonpiaGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            scores: [...this.scores],
+            prison: [...this.prison],
         };
     }
 
@@ -530,11 +630,17 @@ export class OonpiaGame extends GameBase {
                         } else {
                             pieces.push("B");
                         }
-                    } else {
+                    } else if (player === 2) {
                         if (tile === 1) {
                             pieces.push("C");
                         } else {
                             pieces.push("D");
+                        }
+                    } else {
+                        if (tile === 1) {
+                            pieces.push("E");
+                        } else {
+                            pieces.push("F");
                         }
                     }
                 } else {
@@ -651,6 +757,16 @@ export class OonpiaGame extends GameBase {
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.363, opacity: 0.5}
                 ],
+                E: {name: "piece-borderless", colour: 3, scale: 1.1},
+                F: [
+                    {name: "piece-borderless", colour: 3, scale: 1.1},
+                    {name: "piece-borderless", colour: {
+                            func: "bestContrast",
+                            bg: 3,
+                            fg: ["#000000", "#ffffff"],
+                        }, scale: 0.363, opacity: 0.5}
+                ],
+
             },
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
@@ -675,7 +791,7 @@ export class OonpiaGame extends GameBase {
                             type: "dots",
                             points: [{row: y, col: x}],
                             colour: "#000",
-                            opacity: 0.3,
+                            opacity: 0.2,
                             size: 0.3
                         })
             }
@@ -687,7 +803,7 @@ export class OonpiaGame extends GameBase {
                             type: "dots",
                             points: [{row: y, col: x}],
                             colour: "#000",
-                            opacity: 0.3,
+                            opacity: 0.2,
                             size: 0.9
                         })
             }
@@ -720,11 +836,7 @@ export class OonpiaGame extends GameBase {
         if (this.variants !== undefined) {
             status += "**Variants**: " + this.variants.join(", ") + "\n\n";
         }
-
-        status += "**Score**:\n\n";
-        for (let n = 1; n <= this.numplayers; n++) {
-            status += `Player ${n}: ${this.scores[n - 1]}\n\n`;
-        }
+        status += "**Prison**: " + this.prison.join(", ") + "\n\n";
 
         return status;
     }

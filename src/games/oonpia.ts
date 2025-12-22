@@ -490,56 +490,56 @@ export class OonpiaGame extends GameBase {
         }
     }
 
-    public move(m: string, { partial = false, trusted = false } = {}): OonpiaGame {
+    public move(ms: string, { partial = false, trusted = false } = {}): OonpiaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
-            const result = this.validateMove(m);
+            const result = this.validateMove(ms);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
             if (!partial && !this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: ms}))
             }
         }
+        
+        const move = this.parseMoveString(ms);
+        
+        if (move === undefined) {
+            throw new UserFacingError("VALIDATION_GENERAL", "Invalid movestring encountered.");
+        }
 
-        if (m.length === 0 || m === "1" || m === "2") { return this; }
+        if (move.cell === undefined) { return this; } // Partial move
 
         this.results = [];
-        const [tile, cell] = this.splitTileCell(m);
-        this.board.set(cell, [this.currplayer, tile]);
-        this.results.push({type: "place", where: cell, what: tile === 1 ? tileNames[0] : tileNames[1]});
+        this.board.set(move.cell, [this.currplayer, move.tile]);
+        this.results.push({type: "place", where: move.cell, what: move.tile === 1 ? tileNames[0] : tileNames[1]});
 
         
         // First capture other player's groups, then your own (if any)
-        let capd = false;
-        for (const group of this.deadGroups(this.otherPlayer())) {
-            capd = true;
-            for (const cell of group) {
-                this.board.delete(cell);
+        if (move.iscapture) {
+            for (const group of this.deadGroups(this.otherPlayer())) {
+                for (const cell of group) {
+                    this.board.delete(cell);
+                }
+                this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
+                this.prison[this.currplayer - 1] += group.size;
             }
-            this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
-            this.prison[this.currplayer - 1] += group.size;
-        }
-        
-        for (const group of this.deadGroups(this.currplayer)) {
-            capd = true
-            for (const cell of group) {
-                this.board.delete(cell);
+            
+            for (const group of this.deadGroups(this.currplayer)) {
+                for (const cell of group) {
+                    this.board.delete(cell);
+                }
+                this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
+                this.prison[this.currplayer - 1] += group.size;
             }
-            this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
-            this.prison[this.currplayer - 1] += group.size;
-        }
-
-        if (capd) {
-            this.board.set(cell, [this.neutral, tile]);
         }
         
         if (partial) { return this; }
         
-        this.lastmove = m;
+        this.lastmove = ms;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
         this.checkEOG();
         this.saveState();

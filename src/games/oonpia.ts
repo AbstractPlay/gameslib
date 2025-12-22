@@ -196,80 +196,194 @@ export class OonpiaGame extends GameBase {
         return [tile as tileid, cell];
     }
 
-    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
-        try {
-            let newmove = "";
-            const cell = this.graph.coords2algebraic(col, row);
-            if ((piece === "1" || piece === "2") && row === -1) {
-                newmove = piece;
-            } else if (move === "") {
-                const blocked = this.blockedCells();
-                if (blocked[1].has(cell) && blocked[2].has(cell)) {
-                    move = `1${cell}`; // This move is invalid, but we'll let validateMove give the correct
-                                       // error message
-                } else if (blocked[1].has(cell)){
-                    newmove = `2${cell}`;
-                } else if (blocked[2].has(cell)){
-                    newmove = `1${cell}`;
-                } else {
-                    // Both tiles are valid. If there are friendly neighbouring stones and they are
-                    // of one type only, automatically place the other type.
-                    const friendlyTiles = new Set(
-                        this.graph.neighbours(cell)
-                        .filter(c => this.board.has(c))
-                        .map(c => this.board.get(c))
-                        .filter(piece => piece![0] === this.currplayer)
-                        .map(piece => piece![1])
-                    );
-                    if (friendlyTiles.size === 1) {
-                        const otherTile = [...friendlyTiles][0] === 1 ? 2 : 1;
-                        newmove = `${otherTile}${cell}`;
-                    } else {
-                        newmove = `1${cell}`;
-                    }
-                }
-            } else if (move === "1" || move === "2") {
-                if (row === -1) {
-                    newmove = move;
-                } else {
-                    newmove = `${move}${cell}`;
-                }
-            } else {
-                const [tile, oldCell] = this.splitTileCell(move);
-                if (oldCell === cell) {
-                    // Swap tile.
-                    newmove = `${tile % 2 + 1}${cell}`;
-                } else {
-                    return this.handleClick("", row, col, piece);
-                }
-            }
-            const result = this.validateMove(newmove) as IClickResult;
-            if (!result.valid) {
-                result.move = move;
-            } else {
-                result.move = newmove;
-            }
-            return result;
-        } catch (e) {
+    private preferDotted(cell: string): boolean {
+        /* Check that all adjacent friendly stones are plain, so we want to default to placing
+        a dotted stone next to them */
+        const friendlyTiles = new Set(
+            this.graph.neighbours(cell)
+            .filter(c => this.board.has(c))
+            .map(c => this.board.get(c))
+            .filter(piece => piece![0] === this.currplayer)
+            .map(piece => piece![1])
+        );
+        return friendlyTiles.size === 1 && [...friendlyTiles][0] === 1
+    }
+
+    private validateMoveAsClick(move: Move, oldms: string): IClickResult {
+        const newms = this.move2string(move);
+        const result = this.validateMove(newms) as IClickResult;
+        if (result.valid) {
+            result.move = newms;
+        } else {
+            result.move = oldms;
+        }
+        return result;
+    }
+
+    public handleClick(ms: string, row: number, col: number, piece?: string): IClickResult {
+        let move = this.parseMoveString(ms);
+        if (move === undefined) {
             return {
-                move,
+                move: ms,
                 valid: false,
-                message: i18next.t("apgames:validation._general.GENERIC", {move, row, col, piece, emessage: (e as Error).message})
+                message: i18next.t("apgames:validation._general.GENERIC", ms)
             };
+        }
+
+        if (row === -1) {
+            /* Always reset if player clicks the legend */
+            if (piece) {
+                move = this.parseMoveString(piece);
+                if (move === undefined) {
+                    return {
+                        move: ms,
+                        valid: false,
+                        message: i18next.t("apgames:validation._general.GENERIC", ms)
+                    };
+                } else {
+                    return this.validateMoveAsClick(move, ms);
+                }
+            }
+        }
+
+        const cell = this.validateRowColAsCell(row, col);
+
+        if (cell === undefined) {
+            return {
+                move: ms,
+                valid: false,
+                message: i18next.t("apgames:validation._general.GENERIC", ms)
+            };
+        }
+
+        if (move.cell === undefined && move.tile !== undefined) {
+            /* player has clicked the legend previously, so try to validate this specific
+            piece and capture choice */
+            move.cell = cell;
+            return this.validateMoveAsClick(move, ms);
+        }
+
+        if (move.cell !== undefined && move.cell !== cell) {
+            /* clicked again on other cell, reset */
+            return this.handleClick("", row, col);
+        }
+
+        // First we build a list of all possible tile and capture combinations at this cell,
+        // in the most likely default order.
+        // Then we take the first if there is no piece yet, or cycle through the list if a placed
+        // piece was clicked again.
+
+        const place: tileid[] = [];
+        const cap: tileid[] = [];
+
+        // First the normal placements:
+        // - If a cell is blocked for one type by the arc rule, only the other type is valid
+        // - Otherwise, if both types can be placed, prefer placing a connecting type
+        //   - If there is no preferred connecting type start with type 1 and then type 2
+        const blocked = this.blockedCells();
+        
+        if (blocked[1].has(cell) && !blocked[2].has(cell)) {
+            if (this.isValidPlace(cell, 2)) {
+                place.push(2);
+            }
+            if (this.isValidCapture(cell, 2)) {
+                cap.push(2);
+            }
+        } else if (blocked[2].has(cell) && !blocked[1].has(cell)) {
+            if (this.isValidPlace(cell, 1)) {
+                place.push(1);
+            }
+            if (this.isValidCapture(cell, 1)) {
+                cap.push(1);
+            }
+        } else {
+            /* Both tiles are valid. If there are friendly neighbouring stones and they are
+            of one type only, default to placing the other type to form a connection. */
+            for (let tile of (this.preferDotted(cell) ? [2, 1] : [1, 2]) as tileid[]) {
+                if (this.isValidPlace(cell, tile)) {
+                    place.push(tile);
+                }
+            }
+            for (let tile of [1, 2] as tileid[]) {
+                if (this.isValidCapture(cell, tile)) {
+                    cap.push(tile);
+                }
+            }
+        }
+
+        // Capturing placements:
+        // - If one includes self-capture and the other doesn't, prefer the latter
+        if (cap.length === 2
+            && this.isSelfCapture(cell, cap[0])
+            && !this.isSelfCapture(cell, cap[1])
+        ) {
+            [cap[0], cap[1]] = [cap[1], cap[0]];
+        }
+
+        const possibleMoves: Move[] = [];
+        for (const tile of place) {
+            possibleMoves.push({tile: tile, iscapture: false, cell: cell});
+        }
+        for (const tile of cap) {
+            possibleMoves.push({tile: tile, iscapture: true, cell: cell});
+        }
+
+        if (possibleMoves.length === 0) {
+            return {
+                valid: false,
+                message: i18next.t("apgames:validation.oonpia.INVALID_BOTH", {where: move.cell}),
+                move: ms
+            }
+        }
+
+        if (move.cell === undefined) {
+            /* place a piece for the first time */
+            return this.validateMoveAsClick(possibleMoves[0], ms);
+        } else if (cell === move.cell) {
+            /* clicked again on placed piece, cycle through types */
+            let i = 0;
+            for (; i < possibleMoves.length; i++) {
+                if (possibleMoves[i].tile === move.tile && possibleMoves[i].iscapture === move.iscapture) {
+                    break;
+                }
+            }
+            const newi = (i + 1) % possibleMoves.length;
+            return this.validateMoveAsClick(possibleMoves[newi], ms);
+        }
+
+        /* this shouldn't happen but the compiler doesn't know it */
+        return this.validateMoveAsClick({tile: 1, iscapture: false, cell: cell}, ms);
+    }
+
+    private validateCell(ms: string): string | undefined {
+        try {
+            this.graph.algebraic2coords(ms);
+            return ms;
+        } catch {
+            return undefined
         }
     }
 
-    private parseMoveString(m: string, move: Move = {}): Move | undefined {
+    private validateRowColAsCell(row: number, col: number): string | undefined {
+        try {
+            const cell = this.graph.coords2algebraic(col, row);
+            return this.validateCell(cell);
+        } catch {
+            return undefined
+        }
+    }
+
+    private parseMoveString(ms: string, move: Move = {}): Move | undefined {
         // the stone type (1 or 2) comes before the coordinate, e.g. 1c3 or 2c3
         // After that an 'X' if it's a capture using neutral stone, e.g. 1Xc3, 2Xc3
         // Return a Move object if it's valid, undefined if the string is invalid
         // This checks that a cell exists on the board, but not if it's occupied etc...
-        if (m === "" || m === undefined) {
+        if (ms === "" || ms === undefined) {
             return move;
         }
         if (move.tile === undefined) {
-            const ts = m.slice(0, 1);
-            const rest = m.slice(1);
+            const ts = ms.slice(0, 1);
+            const rest = ms.slice(1);
             let tile: tileid;
             if (ts === "1") {
                 tile = 1;
@@ -281,8 +395,8 @@ export class OonpiaGame extends GameBase {
             return this.parseMoveString(rest, {tile: tile});
         }
         if (move.iscapture === undefined) {
-            if (m.startsWith("X") {
-                const rest = m.slice(1);
+            if (ms.startsWith("X")) {
+                const rest = ms.slice(1);
                 move.iscapture = true;
                 return this.parseMoveString(rest, move);
             } else {
@@ -291,15 +405,19 @@ export class OonpiaGame extends GameBase {
             }
         }
         if (move.cell === undefined) {
-            try {
-                this.graph.algebraic2coords(m);
-                move.cell = m;
+            const coords = this.validateCell(ms);
+            if (coords === undefined) {
+                return undefined;
+            } else {
+                move.cell = ms;
                 return move;
-            } catch {
-                return undefined
             }
         }
         return undefined;
+    }
+
+    private move2string(move: Move): string {
+        return `${move.tile || ''}${move.iscapture ? 'X' : ''}${move.cell || ''}`
     }
 
     public validateMove(m: string): IValidationResult {
@@ -339,12 +457,12 @@ export class OonpiaGame extends GameBase {
         if (blockedCells[move.tile].has(move.cell)) {
             return {
                 valid: false,
-                message: i18next.t("apgames:validation.oonpia.ARC", {where: move.cell})
+                message: i18next.t("apgames:validation.oonpia.ARC")
             }
         }
 
         if (move.iscapture) {
-            if (this.isValidCapture(move.cell, move.tile) {
+            if (this.isValidCapture(move.cell, move.tile)) {
                 return {
                     valid: true,
                     complete: 1,
@@ -357,7 +475,7 @@ export class OonpiaGame extends GameBase {
                 }
             }
         } else {
-            if (this.isValidPlace(move.cell, move.tile) {
+            if (this.isValidPlace(move.cell, move.tile)) {
                 return {
                     valid: true,
                     complete: 1,
@@ -567,6 +685,12 @@ export class OonpiaGame extends GameBase {
             this.deadGroups(this.otherPlayer(), tmpboard).length > 0 ||
             this.deadGroups(this.currplayer, tmpboard).length > 0
         )
+    }
+    
+    private isSelfCapture(cell: string, tile: tileid): boolean {
+        const tmpboard = new Map(this.board);
+        tmpboard.set(cell, [this.neutral, tile]);
+        return this.deadGroups(this.currplayer, tmpboard).length > 0
     }
 
     protected checkEOG(): OonpiaGame {
@@ -779,6 +903,8 @@ export class OonpiaGame extends GameBase {
             list: [
                 { piece: this.currplayer === 1 ? "A" : "C", name: "", value: "1" },
                 { piece: this.currplayer === 1 ? "B" : "D", name: "", value: "2" },
+                { piece: "E", name: "", value: "1X" },
+                { piece: "F", name: "", value: "2X" },
             ],
             clickable: true,
         };

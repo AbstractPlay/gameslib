@@ -58,6 +58,7 @@ export class OonpiaGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
+        flags: ["no-moves"],
         categories: ["mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
             { uid: "size-5", group: "board" },
@@ -161,40 +162,41 @@ export class OonpiaGame extends GameBase {
         return this.currplayer === 1 ? 2 : 1;
     }
 
-    public moves(player?: playerid): string[] {
-        if (this.gameover) { return []; }
-        if (player === undefined) {
-            player = this.currplayer;
-        }
+    /* Too slow */
+    // public moves(player?: playerid): string[] {
+    //     if (this.gameover) { return []; }
+    //     if (player === undefined) {
+    //         player = this.currplayer;
+    //     }
 
-        const moves: string[] = [];
-        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort();
-        const blocked = this.blockedCells();
-        for (const cell of empties) {
-            if (!blocked[1].has(cell)) {
-                if (this.isValidPlace(cell, 1)) {
-                    moves.push(this.move2string({tile: 1, iscapture: false, cell: cell}));
-                }
-                if (this.isValidCapture(cell, 1)) {
-                    moves.push(this.move2string({tile: 1, iscapture: true, cell: cell}));
-                }
-            }
-            if (!blocked[2].has(cell)) {
-                if (this.isValidPlace(cell, 2)) {
-                    moves.push(this.move2string({tile: 2, iscapture: false, cell: cell}));
-                }
-                if (this.isValidCapture(cell, 2)) {
-                    moves.push(this.move2string({tile: 2, iscapture: true, cell: cell}));
-                }
-            }
-        }
-        return moves;
-    }
+    //     const moves: string[] = [];
+    //     const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort();
+    //     const blocked = this.blockedCells();
+    //     for (const cell of empties) {
+    //         if (!blocked[1].has(cell)) {
+    //             if (this.isValidPlace(cell, 1)) {
+    //                 moves.push(this.move2string({tile: 1, iscapture: false, cell: cell}));
+    //             }
+    //             if (this.isValidCapture(cell, 1)) {
+    //                 moves.push(this.move2string({tile: 1, iscapture: true, cell: cell}));
+    //             }
+    //         }
+    //         if (!blocked[2].has(cell)) {
+    //             if (this.isValidPlace(cell, 2)) {
+    //                 moves.push(this.move2string({tile: 2, iscapture: false, cell: cell}));
+    //             }
+    //             if (this.isValidCapture(cell, 2)) {
+    //                 moves.push(this.move2string({tile: 2, iscapture: true, cell: cell}));
+    //             }
+    //         }
+    //     }
+    //     return moves;
+    // }
 
-    public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
-    }
+    // public randomMove(): string {
+    //     const moves = this.moves();
+    //     return moves[Math.floor(Math.random() * moves.length)];
+    // }
 
     private preferDotted(cell: string): boolean {
         /* Check that all adjacent friendly stones are plain, so we want to default to placing
@@ -328,7 +330,6 @@ export class OonpiaGame extends GameBase {
             possibleMoves.push({tile: tile, iscapture: true, cell: cell});
         }
 
-        console.log(possibleMoves);
 
         if (possibleMoves.length === 0) {
             return {
@@ -502,9 +503,6 @@ export class OonpiaGame extends GameBase {
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && !this.moves().includes(ms)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: ms}))
-            }
         }
         
         const move = this.parseMoveString(ms);
@@ -559,7 +557,6 @@ export class OonpiaGame extends GameBase {
         // Get groups of cells that are connected to `cell` and owned by `player`.
         const groups: Set<string>[] = [];
         const pieces = this.pieces(player, board);
-        // /* eslint-disable no-console */ console.log(pieces);
         const seen: Set<string> = new Set();
         for (const piece of pieces) {
             if (seen.has(piece)) {
@@ -646,11 +643,9 @@ export class OonpiaGame extends GameBase {
     }
 
     private deadGroups(player: playerid, board = this.board): Set<string>[] {
-        console.log("deadgroups", player, board);
         // Get all groups owned by `player` that are captured.
         const captured: Set<string>[] = [];
         const groups = this.getGroups(player, board);
-        console.log(groups);
         const blocked = this.blockedCells(board);
         loop:
         for (const group of groups) {
@@ -667,7 +662,6 @@ export class OonpiaGame extends GameBase {
             }
             captured.push(group);
         }
-        console.log(captured);
         return captured;
     }
 
@@ -679,7 +673,6 @@ export class OonpiaGame extends GameBase {
             this.deadGroups(this.otherPlayer(), tmpboard).length === 0 &&
             this.deadGroups(this.currplayer, tmpboard).length === 0
         )
-        console.log("validplace", result);
         return result;
     }
 
@@ -697,6 +690,11 @@ export class OonpiaGame extends GameBase {
     private isSelfCapture(cell: string, tile: tileid): boolean {
         const tmpboard = new Map(this.board);
         tmpboard.set(cell, [this.neutral, tile]);
+        for (const group of this.deadGroups(this.otherPlayer(), tmpboard)) {
+            for (const cell of group) {
+                tmpboard.delete(cell);
+            }
+        }
         return this.deadGroups(this.currplayer, tmpboard).length > 0
     }
 
@@ -705,7 +703,7 @@ export class OonpiaGame extends GameBase {
 
         // Two passes? or just resign?
         // strictly speaking: """If you move to the prison the last enemy group on the board, you win. Otherwise, if you move to the prison the last friendly group on the board, you lose."""
-        // check what asli does
+        // check what asli does (oh it has unenterable territories)
 
         // const prevPlayer = this.currplayer % 2 + 1 as playerid;
         // if (this.prison[prevPlayer - 1] >= this.threshold) {
@@ -941,7 +939,6 @@ export class OonpiaGame extends GameBase {
                         })
             }
         }
-        console.log("yep");
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {

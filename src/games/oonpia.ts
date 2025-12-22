@@ -58,7 +58,7 @@ export class OonpiaGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["no-moves"],
+        flags: ["no-moves", "custom-randomization"],
         categories: ["mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
             { uid: "size-5", group: "board" },
@@ -163,40 +163,58 @@ export class OonpiaGame extends GameBase {
     }
 
     /* Too slow */
-    // public moves(player?: playerid): string[] {
-    //     if (this.gameover) { return []; }
-    //     if (player === undefined) {
-    //         player = this.currplayer;
-    //     }
+    public moves(player?: playerid): string[] {
+        if (this.gameover) { return []; }
+        if (player === undefined) {
+            player = this.currplayer;
+        }
 
-    //     const moves: string[] = [];
-    //     const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort();
-    //     const blocked = this.blockedCells();
-    //     for (const cell of empties) {
-    //         if (!blocked[1].has(cell)) {
-    //             if (this.isValidPlace(cell, 1)) {
-    //                 moves.push(this.move2string({tile: 1, iscapture: false, cell: cell}));
-    //             }
-    //             if (this.isValidCapture(cell, 1)) {
-    //                 moves.push(this.move2string({tile: 1, iscapture: true, cell: cell}));
-    //             }
-    //         }
-    //         if (!blocked[2].has(cell)) {
-    //             if (this.isValidPlace(cell, 2)) {
-    //                 moves.push(this.move2string({tile: 2, iscapture: false, cell: cell}));
-    //             }
-    //             if (this.isValidCapture(cell, 2)) {
-    //                 moves.push(this.move2string({tile: 2, iscapture: true, cell: cell}));
-    //             }
-    //         }
-    //     }
-    //     return moves;
-    // }
+        const moves: string[] = [];
+        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c)).sort();
+        const blocked = this.blockedCells();
+        for (const cell of empties) {
+            if (!blocked[1].has(cell)) {
+                if (this.isValidPlace(cell, 1)) {
+                    moves.push(this.move2string({tile: 1, iscapture: false, cell: cell}));
+                }
+                if (this.isValidCapture(cell, 1)) {
+                    moves.push(this.move2string({tile: 1, iscapture: true, cell: cell}));
+                }
+            }
+            if (!blocked[2].has(cell)) {
+                if (this.isValidPlace(cell, 2)) {
+                    moves.push(this.move2string({tile: 2, iscapture: false, cell: cell}));
+                }
+                if (this.isValidCapture(cell, 2)) {
+                    moves.push(this.move2string({tile: 2, iscapture: true, cell: cell}));
+                }
+            }
+        }
+        return moves;
+    }
 
-    // public randomMove(): string {
-    //     const moves = this.moves();
-    //     return moves[Math.floor(Math.random() * moves.length)];
-    // }
+    public randomMove(): string {
+        // Simulate a random click, it's not exhaustive but will give reasonable moves
+        const blocked = this.blockedCells();
+        const empties = new Set((this.graph.listCells() as string[]).filter(c => (
+            !this.board.has(c) &&
+            !(
+                blocked[1].has(c) &&
+                blocked[2].has(c)
+            )
+        )));
+        while (empties.size) {
+            const i = Math.floor(Math.random() * empties.size);
+            const cell = [...empties][i];
+            const [col, row] = this.graph.algebraic2coords(cell);
+            const clickResult = this.handleClick("", row, col);
+            if (clickResult.valid) {
+                return clickResult.move
+            }
+            empties.delete(cell);
+        }
+        return "";
+    }
 
     private preferDotted(cell: string): boolean {
         /* Check that all adjacent friendly stones are plain, so we want to default to placing
@@ -592,8 +610,6 @@ export class OonpiaGame extends GameBase {
         // - For each cell look at the neighbours in clockwise direction
         // - For each of these neighbours check whether it forms an arc together with the previous
         //    and/or subsequent neighbours
-
-        // TODO caching
 
         const cells = this.graph.listCells() as string[];
         const blockedPlain: Set<string> = new Set();

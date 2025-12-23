@@ -3429,6 +3429,7 @@
             "NO_MOVES": "The piece at {{where}} cannot move."
         },
         "azacru": {
+            "BAD_MOVE": "Pieces may only move straight ahead or at a 45 degree angle.",
             "BAD_ORIENTATION": "The only valid orientation notations are \">\", \"<\", and \".\".",
             "BAD_PASS": "You may not pass if legal moves are available.",
             "ENEMY_TILE": "You can't land on opposing tiles.",

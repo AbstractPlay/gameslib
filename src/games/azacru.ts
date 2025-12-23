@@ -495,6 +495,14 @@ export class AzacruGame extends GameBase {
 
         // check for reorientation trigger
         if (m.endsWith("*")) {
+            // make sure base move is legal
+            const base = m.substring(0, m.length - 1);
+            if (! this.baseMoves().includes(base)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.azacru.BAD_MOVE")
+                return result;
+            }
+            // if it is, then proceed
             result.valid = true;
             result.complete = -1;
             result.canrender = true;

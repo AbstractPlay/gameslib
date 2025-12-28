@@ -2859,6 +2859,20 @@
                 "name": "Hide threatened"
             }
         },
+        "oonpia": {
+            "palette_no_blocked_no": {
+                "description": "Black/white/blue colours, don't highlight blocked cells",
+                "name": "palette_no_blocked_no"
+            },
+            "palette_yes_blocked_yes": {
+                "description": "Palette colours, highlight blocked cells.",
+                "name": "palette_yes_blocked_yes"
+            },
+            "palette_yes_blocked_no": {
+                "description": "Palette colours, don't highlight blocked cells.",
+                "name": "palette_yes_blocked_no"
+            }
+        },
         "oust": {
             "hide-moves": {
                 "description": "Don't show possible moves.",
@@ -4531,11 +4545,13 @@
         },
         "oonpia": {
             "DESTINATION": "Select a cell to place the piece.",
-            "INITIAL_INSTRUCTIONS": "Place 1 piece of either type on the board.",
+            "INITIAL_INSTRUCTIONS": "Place a piece of either type on an empty space, or pass to take an enemy piece out of the prison instead (if one is available). Either select a piece from the legend, or click on the board to cycle through the available pieces.",
+            "INITIAL_INSTRUCTIONS_komi": "Komi pie offer: enter the number of pieces to place in the prison as a compensation for not playing the first stone. The other player will then decide which seat to take.",
             "ARC": "You may not form a size 4 arc of stones of one type, regardless of colour.",
             "INVALID_CAPTURE": "A blue stone must always capture some enemy or friendly stones.",
             "INVALID_PLACE": "Placing a stone of your own colour may not capture any stones.",
-            "INVALID_BOTH": "Neither a placement nor a capture is possible at {{where}}."
+            "INVALID_BOTH": "Neither a placement nor a capture is possible at {{where}}.",
+            "BAD_KOMI": "The first move of the game must be a non-negative integer representing the number of pieces to place in the starting prison."
         },
         "orb": {
             "INITIAL_INSTRUCTIONS": "Select one of your own pieces to move.",

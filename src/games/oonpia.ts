@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaKey, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { randomInt, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
 import { Glyph } from "@abstractplay/renderer";
@@ -20,6 +20,7 @@ type Move = {
     cell?: string;
     iscapture?: boolean;
     pass?: boolean;
+    komi?: number;
 }
 
 export interface IMoveState extends IIndividualState {
@@ -60,7 +61,7 @@ export class OonpiaGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        flags: ["custom-buttons", "no-moves", "custom-randomization"],
+        flags: ["pie", "custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
         categories: ["mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
             { uid: "size-4", group: "board" },
@@ -72,6 +73,11 @@ export class OonpiaGame extends GameBase {
             { uid: "size-10", group: "board" },
             { uid: "size-11", group: "board" },
             { uid: "size-12", group: "board" }
+        ],
+        displays: [ // default: palette_no_blocked_yes
+            {uid: "palette_no_blocked_no"},
+            {uid: "palette_yes_blocked_yes"},
+            {uid: "palette_yes_blocked_no"},
         ]
     };
 
@@ -87,6 +93,7 @@ export class OonpiaGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public prison: [number, number] = [0, 0];
     private boardSize = 0;
+    private usePalette = false;
 
     constructor(state?: IOonpiaState | string, variants?: string[]) {
         super();
@@ -205,6 +212,9 @@ export class OonpiaGame extends GameBase {
     // }
 
     public randomMove(): string {
+        if (this.stack.length === 1) {
+            return randomInt(10).toString();
+        }
         // Simulate a random click, it's not exhaustive but will give reasonable moves
         const blocked = this.blockedCells();
         const empties = new Set((this.graph.listCells() as string[]).filter(c => (
@@ -256,6 +266,14 @@ export class OonpiaGame extends GameBase {
     }
 
     public handleClick(ms: string, row: number, col: number, piece?: string): IClickResult {
+        if (this.stack.length === 1) {
+            return {
+                move: "",
+                valid: true,
+                message: i18next.t("apgames:validation.oonpia.BAD_KOMI", ms)
+            };
+        }
+
         let move = this.parseMoveString(ms);
         if (move === undefined) {
             return {
@@ -410,6 +428,14 @@ export class OonpiaGame extends GameBase {
         }
     }
 
+    private parseKomiString(ms: string): Move | undefined {
+        const komi = parseInt(ms);
+        if (isNaN(komi) || komi < 0 || (! /^\d+$/.test(ms)) || komi > this.graph.graph.nodes().length) {
+            return undefined;
+        }
+        return {komi: komi};
+    }
+
     private parseMoveString(ms: string, move: Move = {}): Move | undefined {
         // the stone type (1 or 2) comes before the coordinate, e.g. 1c3 or 2c3
         // After that an 'X' if it's a capture using neutral stone, e.g. 1Xc3, 2Xc3
@@ -465,6 +491,30 @@ export class OonpiaGame extends GameBase {
     }
 
     public validateMove(m: string): IValidationResult {
+        if (this.stack.length === 1) { // Make a komi offer
+            if (m === "") {
+                return {
+                    valid: true,
+                    complete: -1,
+                    message: i18next.t("apgames:validation.oonpia.INITIAL_INSTRUCTIONS_komi"),
+                }
+            }
+            const move = this.parseKomiString(m);
+            if (move === undefined) {
+                return {
+                    valid: false,
+                    message: i18next.t("apgames:validation.oonpia.BAD_KOMI")
+                }
+            } else {
+                return {
+                    valid: true,
+                    complete: 1,
+                    canrender: true,
+                    message: i18next.t("apgames:validation._general.VALID_MOVE"),
+                }
+            }
+        }
+
         const move = this.parseMoveString(m);
         if (move === undefined) {
             return {
@@ -560,40 +610,50 @@ export class OonpiaGame extends GameBase {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
         }
-        
-        const move = this.parseMoveString(ms);
-        
-        if (move === undefined) {
-            throw new UserFacingError("VALIDATION_GENERAL", "Invalid movestring encountered.");
-        }
 
-        if (move.pass === true) {
-            this.prison[this.otherPlayer() - 1] -= 1;
-            this.results.push({type: "pass"});
+        if (this.stack.length === 1) { // Make komi offer
+            const move = this.parseKomiString(ms);
+            if (move === undefined) {
+                throw new UserFacingError("VALIDATION_GENERAL", "Invalid movestring encountered.");
+            }
+            if (move.komi === undefined) { return this; } // Partial move
+            this.prison[1] = move.komi;
+            this.results.push({type: "komi", value: move.komi});
         } else {
-            if (move.cell === undefined || move.tile === undefined) { return this; } // Partial move
-
-            this.results = [];
-            this.board.set(move.cell, [move.iscapture ? this.neutral : this.currplayer, move.tile]);
-            this.results.push({type: "place", where: move.cell, what: move.tile === 1 ? tileNames[0] : tileNames[1]});
-
+            const move = this.parseMoveString(ms);
             
-            // First capture other player's groups, then your own (if any)
-            if (move.iscapture) {
-                for (const group of this.deadGroups(this.otherPlayer())) {
-                    for (const cell of group) {
-                        this.board.delete(cell);
-                    }
-                    this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
-                    this.prison[this.otherPlayer() - 1] += group.size;
-                }
+            if (move === undefined) {
+                throw new UserFacingError("VALIDATION_GENERAL", "Invalid movestring encountered.");
+            }
+
+            if (move.pass === true) {
+                this.prison[this.otherPlayer() - 1] -= 1;
+                this.results.push({type: "pass"});
+            } else {
+                if (move.cell === undefined || move.tile === undefined) { return this; } // Partial move
+
+                this.results = [];
+                this.board.set(move.cell, [move.iscapture ? this.neutral : this.currplayer, move.tile]);
+                this.results.push({type: "place", where: move.cell, what: move.tile === 1 ? tileNames[0] : tileNames[1]});
+
                 
-                for (const group of this.deadGroups(this.currplayer)) {
-                    for (const cell of group) {
-                        this.board.delete(cell);
+                // First capture other player's groups, then your own (if any)
+                if (move.iscapture) {
+                    for (const group of this.deadGroups(this.otherPlayer())) {
+                        for (const cell of group) {
+                            this.board.delete(cell);
+                        }
+                        this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
+                        this.prison[this.otherPlayer() - 1] += group.size;
                     }
-                    this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
-                    this.prison[this.currplayer - 1] += group.size;
+                    
+                    for (const group of this.deadGroups(this.currplayer)) {
+                        for (const cell of group) {
+                            this.board.delete(cell);
+                        }
+                        this.results.push({type: "capture", where: Array.from(group).join(","), count: group.size});
+                        this.prison[this.currplayer - 1] += group.size;
+                    }
                 }
             }
         }
@@ -813,7 +873,42 @@ export class OonpiaGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+
+    public getPlayerColour(p: playerid): number|string {
+        // previous versions, just return the player id
+        if (this.usePalette) {
+            return p;
+        } else {
+            return {1: "#eeeeee", 2: "#252525", 3: "#0165fc"}[p] // colours from besogo viewer
+        }
+    }
+
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let highlightBlocked = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "palette_no_blocked_no") {
+                this.usePalette = false;
+                highlightBlocked = false;
+            }
+            if (altDisplay === "palette_yes_blocked_yes") {
+                this.usePalette = true;
+                highlightBlocked = true;
+            }
+            if (altDisplay === "palette_yes_blocked_no") {
+                this.usePalette = true;
+                highlightBlocked = false;
+            }
+        }
+        console.log(highlightBlocked);
+
+        const p1 = this.getPlayerColour(1);
+        const p2 = this.getPlayerColour(2);
+        const p3 = this.getPlayerColour(3);
+
         // Build piece string
         const pstr: string[][] = [];
         const cells = this.graph.listCells(true);
@@ -849,7 +944,7 @@ export class OonpiaGame extends GameBase {
         }
 
         const s = this.boardSize - 1;
-        const boardcol = "#e0bb6c"; // colours from besogo viewer together with #252525,  #eeeeee and #0165fc
+        const boardcol = "#e0bb6c"; // colours from besogo viewer together with 
         const boardEdgeW = 55;
 
         const hasPrison = this.prison.reduce((prev, curr) => prev + curr, 0) > 0;
@@ -857,14 +952,14 @@ export class OonpiaGame extends GameBase {
         if (hasPrison) {
             prisonPiece.push({
                 name: "piece-borderless",
-                colour: this.prison[0] > 0 ? 1 : 2,
+                colour: this.prison[0] > 0 ? p1 : p2,
                 scale: 0.85,
             });
             prisonPiece.push({
                 text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
                 colour: {
                             func: "bestContrast",
-                            bg: this.prison[0] > 0 ? 1 : 2,
+                            bg: this.prison[0] > 0 ? p1 : p2,
                             fg: ["#000000", "#ffffff"],
                         },
                 scale: 0.7,
@@ -963,57 +1058,57 @@ export class OonpiaGame extends GameBase {
                 ]
             },
             legend: {
-                A: {name: "piece-borderless", colour: 1, scale: 1.1},
+                A: {name: "piece-borderless", colour: p1, scale: 1.1},
                 B: [
-                    {name: "piece-borderless", colour: 1, scale: 1.1},
+                    {name: "piece-borderless", colour: p1, scale: 1.1},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
-                            bg: 1,
+                            bg: p1,
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.363, opacity: 0.5}
                 ],
-                C: {name: "piece-borderless", colour: 2, scale: 1.1},
+                C: {name: "piece-borderless", colour: p2, scale: 1.1},
                 D: [
-                    {name: "piece-borderless", colour: 2, scale: 1.1},
+                    {name: "piece-borderless", colour: p2, scale: 1.1},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
-                            bg: 2,
+                            bg: p2,
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.363, opacity: 0.5}
                 ],
-                E: {name: "piece-borderless", colour: 3, scale: 1.0},
+                E: {name: "piece-borderless", colour: p3, scale: 1.0},
                 F: [
-                    {name: "piece-borderless", colour: 3, scale: 1.0},
+                    {name: "piece-borderless", colour: p3, scale: 1.0},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
-                            bg: 3,
+                            bg: p3,
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.33, opacity: 0.5}
                 ],
-                G: {name: "piece-borderless", colour: 1, scale: 1.0}, // G-K are just for the key
+                G: {name: "piece-borderless", colour: p1, scale: 1.0}, // G-K are just for the key
                 H: [
-                    {name: "piece-borderless", colour: 1, scale: 1.0},
+                    {name: "piece-borderless", colour: p1, scale: 1.0},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
-                            bg: 1,
+                            bg: p1,
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.33, opacity: 0.5}
                 ],
-                I: {name: "piece-borderless", colour: 2, scale: 1.0},
+                I: {name: "piece-borderless", colour: p2, scale: 1.0},
                 J: [
-                    {name: "piece-borderless", colour: 2, scale: 1.0},
+                    {name: "piece-borderless", colour: p2, scale: 1.0},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
-                            bg: 2,
+                            bg: p2,
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.33, opacity: 0.5}
                 ],
-                K: {name: "piece-borderless", colour: 3, scale: 1.0},
+                K: {name: "piece-borderless", colour: p3, scale: 1.0},
                 L: [
-                    {name: "piece-borderless", colour: 3, scale: 1.0},
+                    {name: "piece-borderless", colour: p3, scale: 1.0},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
-                            bg: 3,
+                            bg: p3,
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.33, opacity: 0.5}
                 ],
@@ -1027,22 +1122,25 @@ export class OonpiaGame extends GameBase {
             pieces: pstr.map(p => p.join("")).join("\n"),
         };
 
-        // Add key so the user can click to select the color to place
-        const key: AreaKey = {
-            type: "key",
-            position: "left",
-            height: 0.7,
-            list: [
-                { piece: "P", name: "", value: "pass"},
-                { piece: "Q", name: ""},
-                { piece: this.currplayer === 1 ? "G" : "I", name: "", value: "1" },
-                { piece: this.currplayer === 1 ? "H" : "J", name: "", value: "2" },
-                { piece: "K", name: "", value: "1X" },
-                { piece: "L", name: "", value: "2X" },
-            ],
-            clickable: true,
-        };
-        rep.areas = [key];
+        if (this.stack.length !== 1) {
+            // Add key so the user can click to select the color to place
+            const key: AreaKey = {
+                type: "key",
+                position: "left",
+                height: 0.7,
+                list: [
+                    { piece: "P", name: "", value: "pass"},
+                    { piece: "Q", name: ""},
+                    { piece: this.currplayer === 1 ? "G" : "I", name: "", value: "1" },
+                    { piece: this.currplayer === 1 ? "H" : "J", name: "", value: "2" },
+                    { piece: "K", name: "", value: "1X" },
+                    { piece: "L", name: "", value: "2X" },
+                ],
+                clickable: true,
+            };
+            rep.areas = [key];
+        }
+
         const {1: blockedPlain, 2: blockedDotted} = this.blockedCells();
         for (const cell of blockedPlain) {
             const [x, y] = this.graph.algebraic2coords(cell);

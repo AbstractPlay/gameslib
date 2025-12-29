@@ -22,6 +22,7 @@
     "ANNOUNCE": {
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
         "deckfish": "{{player}} was unable to move and must pass from now on.",
+        "frogger": "{{player}} chose to refill the market.  Other players must pass so he can take his {{moves}} remaining move(s).",
         "quincunx": "Player {{playerNum}} had the following cards left in their hand: {{cards}}.",
         "stawvs": "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}."
     },
@@ -132,6 +133,7 @@
         "fnap_col": "{{player}} claimed column {{where}}.",
         "fnap_fnap": "{{player}} has claimed the FNAP token.",
         "fnap_row": "{{player}} claimed row {{where}}.",
+        "frogger": "{{player}} was blocked and drew {{card}} from the market.",
         "jacynth": "{{player}} exerted influence at {{where}}.",
         "logger": "{{player}} claimed a protestor from the tree felled at {{where}}.",
         "majorities_line": "{{player}} claimed the line {{where}}.",
@@ -165,12 +167,14 @@
         "biscuit": "The next player was unable to play any cards in their hand, so they drew a card.",
         "emu_deck": "{{player}} drew a face-down card from the deck.",
         "emu_discard": "{{player}} drew the {{what}} from the top of the discard pile.",
+        "frogger": "The market was refilled.",
         "quincunx_one": "{{player}} drew {{count}} card.",
         "quincunx_other": "{{player}} drew {{count}} cards."
     },
     "DECLARE": {
         "biscuit": "{{player}} has gone out!",
         "emu": "Year {{year}} has ended.",
+        "frogger": "The crocodiles advanced.",
         "mchess": "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
         "renju": "{{player}} has declared {{count}} tentative fifths."
     },
@@ -212,6 +216,8 @@
     "EJECT": {
         "assembly": "The production line moved forward {{distance}} spaces.",
         "deckfish": "{{player}} pushed a piece from {{from}} to {{to}}.",
+        "frogger_card": "{{player}} played an Ace or Crown and returned a frog from {{from}} to {{to}}.",
+        "frogger_croc": "The frog at {{from}} was eaten by crocodiles (and returned to {{to}}).",
         "penguin_ball": "{{player}} kicked the ball from {{from}} to {{to}}.",
         "penguin_penguin": "A penguin was pushed from {{from}} to {{to}}."
     },
@@ -293,6 +299,8 @@
         "fightopia_2": "{{player}} moved a tank from {{from}} to {{to}}.",
         "fightopia_4": "{{player}} moved their giant from {{from}} to {{to}}.",
         "fightopia_pivot": "{{player}} pivoted a tank from {{from}} to {{to}}.",
+        "frogger_back": "{{player}} moved a frog back from {{from}} to {{to}}, and drew {{card}} from the market.",
+        "frogger_forward": "{{player}} used {{card}} to move a frog forward from {{from}} to {{to}}.",
         "gess_one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
         "gess_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
         "hexentafl_king": "{{player}} moved the king from {{from}} to {{to}}.",
@@ -335,6 +343,7 @@
         "deckfish": "{{player}} was unable to move.",
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
+        "frogger": "{{player}} passed to permit a market refill.",
         "pie": "{{player}} accepted the komi offer and will continue playing second.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",

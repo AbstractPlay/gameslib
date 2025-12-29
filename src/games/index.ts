@@ -215,6 +215,7 @@ import { DeckfishGame, IDeckfishState } from "./deckfish";
 import { BluestoneGame, IBluestoneState } from "./bluestone";
 import { SunspotGame, ISunspotState } from "./sunspot";
 import { StawvsGame, IStawvsState } from "./stawvs";
+import { FroggerGame, IFroggerState } from "./frogger";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -432,6 +433,7 @@ export {
     BluestoneGame, IBluestoneState,
     SunspotGame, ISunspotState,
     StawvsGame, IStawvsState,
+    FroggerGame, IFroggerState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -505,7 +507,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
                               typeof StairsGame | typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
-                              typeof SunspotGame | typeof StawvsGame
+                              typeof SunspotGame | typeof StawvsGame | typeof FroggerGame
                 >();
 // Manually add each game to the following array
 [
@@ -538,7 +540,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
-    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame
+    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame, FroggerGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -978,6 +980,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SunspotGame(...args);
         case "stawvs":
             return new StawvsGame(args[0], ...args.slice(1));
+        case "frogger":
+            return new FroggerGame(args[0], ...args.slice(1));
     }
     return;
 }

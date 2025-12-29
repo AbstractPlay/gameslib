@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { RectGrid } from "../common";
 import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
@@ -60,7 +60,8 @@ export class AmazonsGame extends GameBase {
             {uid: "scrambled", group: "setup"},
         ],
         categories: ["goal>immobilize", "mechanic>block", "mechanic>move", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["scores", "perspective", "pie", "aiai"]
+        flags: ["scores", "perspective", "pie", "aiai"],
+        displays: [{ uid: "bricks" }, { uid: "blackbloc" }],
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 10);
@@ -634,7 +635,11 @@ export class AmazonsGame extends GameBase {
         return markers;
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
         // Build piece string
         let pstr = "";
         for (let row = 0; row < 10; row++) {
@@ -684,10 +689,19 @@ export class AmazonsGame extends GameBase {
                     colour: 2,
                     orientation: "vertical",
                 },
-                X: {
-                    name: "piece-square",
-                    colour: "_context_fill"
-                }
+                X: altDisplay === "bricks"
+                    ? {
+                        name: "bricks",
+                        colour: "_context_fill"
+                    }
+                    : altDisplay === "blackbloc"
+                    ? {
+                        name: "piece-square",
+                        colour: "_context_fill"
+                    } : {
+                        name: "brick",
+                        colour: "_context_fill"
+                    }
             },
             pieces: pstr
         };

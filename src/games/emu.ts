@@ -370,7 +370,7 @@ export class EmuGame extends GameBase {
         uid: "emu",
         playercounts: [2],
         version: "20250610",
-        dateAdded: "2025-06-10",
+        dateAdded: "2025-11-22",
         // i18next.t("apgames:descriptions.emu")
         description: "apgames:descriptions.emu",
         // i18next.t("apgames:notes.emu")
@@ -400,7 +400,7 @@ export class EmuGame extends GameBase {
             { uid: "none", group: "deck" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>hidden", "mechanic>random>setup", "mechanic>random>play", "board>none", "components>decktet"],
-        flags: ["experimental", "no-explore", "scores", "custom-buttons", "autopass"],
+        flags: ["no-explore", "scores", "custom-buttons", "autopass"],
     };
 
     public numplayers = 2;
@@ -420,6 +420,8 @@ export class EmuGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private deck!: Deck;
     private selected: string|undefined;
+    // @ts-expect-error (This is only read by the frontend code)
+    private __noAutomove?: boolean;
 
     public static readonly BOARD_UNIT_DIMENSIONS = 50; // 48.61114501953125;
 
@@ -884,7 +886,12 @@ export class EmuGame extends GameBase {
             }
         }
 
-        if (partial || emulation ) { return this; }
+        if (partial || emulation ) {
+            if (emulation) {
+                this.__noAutomove = true;
+            }
+            return this;
+        }
 
         this.lastmove = m;
         // update currplayer
@@ -1111,7 +1118,7 @@ export class EmuGame extends GameBase {
             },
         }
         // add glyphs for bird numbers
-        const maxBird = Math.max(...this.hands.map(h => h.length));
+        const maxBird = Math.max(...this.board.map(h => h.length));
         if (maxBird > 0) {
             for (let i = 1; i <= maxBird; i++) {
                 legend[`birdNum${i}`] = [

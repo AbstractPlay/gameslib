@@ -58,7 +58,7 @@ export class StawvsGame extends GameBase {
         uid: "stawvs",
         playercounts: [2,3,4],
         version: "20251113",
-        dateAdded: "2025-11-16",
+        dateAdded: "2025-12-12",
         // i18next.t("apgames:descriptions.stawvs")
         description: "apgames:descriptions.stawvs",
         urls: [
@@ -87,7 +87,7 @@ export class StawvsGame extends GameBase {
             {uid: "pieces-2"}
         ],
         categories: ["goal>score>eog", "mechanic>set", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
-        flags: ["scores", "autopass", "experimental"]
+        flags: ["scores", "autopass"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -301,8 +301,8 @@ export class StawvsGame extends GameBase {
     }
 
     public getPyramidsByPlayer(player: playerid): Pyramid[] {
-	//Used for final collections.
-	const tempcaps: Pyramid[] = [];
+        //Used for final collections.
+        const tempcaps: Pyramid[] = [];
         for (let row = 0; row < boardDim; row++) {
             for (let col = 0; col < boardDim; col++) {
                 const cell = StawvsGame.coords2algebraic(col, row);
@@ -310,19 +310,19 @@ export class StawvsGame extends GameBase {
                     const contents = this.board.get(cell);
                     if (contents!.length > 1) {
                         const cellplayer = contents![1];
-			if (cellplayer === player)
-			    tempcaps.push(contents![0]);
+                        if (cellplayer === player)
+                            tempcaps.push(contents![0]);
                     }
                 }
             }
         }
-	return tempcaps;
+        return tempcaps;
     }
 
     public getPyramidsByName(): string[] {
-	//Used for final collection logging.
-	const mymids = this.getPyramidsByPlayer(this.currplayer);
-	return mymids.map(mid => this.namePyramid(mid));
+        //Used for final collection logging.
+        const mymids = this.getPyramidsByPlayer(this.currplayer);
+        return mymids.map(mid => this.namePyramid(mid));
     }
 
     public getOwner(cell: string): playerid | undefined {
@@ -522,6 +522,7 @@ export class StawvsGame extends GameBase {
             if (this.eliminated.indexOf(this.currplayer) > -1) {
                 //This would be caught by the next condition but why calculate the moves?
                 result.valid = true;
+                result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else if (this.mode === "place" || this.moves()[0] !== "pass") {
@@ -530,6 +531,7 @@ export class StawvsGame extends GameBase {
                 return result;
             } else {
                 result.valid = true;
+                result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             }
@@ -548,6 +550,7 @@ export class StawvsGame extends GameBase {
             } else {
                 result.valid = true;
                 result.complete = 1;
+                result.canrender = true;
                 result.message = i18next.t("apgames:validation.stawvs.VALID_PLACEMENT");
                 return result;
             }
@@ -570,7 +573,7 @@ export class StawvsGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.stawvs.PARTIAL_MOVE");
+            result.message = i18next.t("apgames:validation.stawvs.PARTIAL_MOVE", {from: cell0});
             return result;
         }
 
@@ -586,7 +589,7 @@ export class StawvsGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.stawvs.PARTIAL_CLAIM");
+            result.message = i18next.t("apgames:validation.stawvs.PARTIAL_CLAIM", {from: cell0, to: cell1});
             return result;
         }
 
@@ -601,7 +604,8 @@ export class StawvsGame extends GameBase {
                 //cell0 is always available for capture
                 result.valid = true;
                 result.complete = 1;
-                result.message = i18next.t("apgames:validation.stawvs.VALID_PLAY");
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.stawvs.VALID_PLAY", {from: cell0, to: cell1, how: cell2});
                 return result;
             }
         }
@@ -613,12 +617,13 @@ export class StawvsGame extends GameBase {
         } else {
             result.valid = true;
             result.complete = 1;
-            result.message = i18next.t("apgames:validation.stawvs.VALID_PLAY");
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.stawvs.VALID_PLAY", {from: cell0, to: cell1, how: cell2});
             return result;
         }
     }
 
-    public move(m: string, {trusted = false} = {}): StawvsGame {
+    public move(m: string, {partial = false, trusted = false} = {}): StawvsGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -637,7 +642,7 @@ export class StawvsGame extends GameBase {
             //passing is forevah
             if (this.eliminated.indexOf(this.currplayer) < 0) {
                 this.eliminated.push(this.currplayer);
-		const finalMids = this.getPyramidsByName();
+                const finalMids = this.getPyramidsByName();
                 this.results = [{type: "announce", payload: finalMids}];
             } else {
                 this.results = [{type: "pass"}];
@@ -667,9 +672,19 @@ export class StawvsGame extends GameBase {
                         //3. Remove target.
                         this.board.delete(cell2);
                         this.results = [{type: "move", from: cell0, to: cell1, how: cell2, what: captive}]
+                    } else {
+                        //Partial
+                        this.results = [{type: "move", from: cell0, to: cell1, how: cell2}]
                     }
+                } else {
+                    //Partial.
+                    this.results = [{type: "move", from: cell0, to: ""}]
                 }
             }
+        }
+
+        if (partial) {
+            return this;
         }
 
         // update mode if all pieces are placed.
@@ -985,7 +1000,7 @@ export class StawvsGame extends GameBase {
         const rep: APRenderRep =  {
             renderer: "stacking-expanding",
             board: {
-                style: "squares-checkered",
+                style: "squares",
                 width: boardDim,
                 height: boardDim
             },
@@ -1022,8 +1037,31 @@ export class StawvsGame extends GameBase {
         }
 
         // Add annotations
-        if (this.stack[this.stack.length - 1]._results.length > 0) {
-            rep.annotations = [];
+        rep.annotations = [];
+        if (this.results.length > 0 ) {
+            for (const move of this.results ) {
+                if (move.type === "place") {
+                    const [toX, toY] = StawvsGame.algebraic2coords(move.where!);
+                    rep.annotations.push({type: "enter", targets: [{row: toY, col: toX}]});
+                } else if (move.type === "move") {
+                    //The move.  Partials are very partial.
+                    if (move.from) {
+                        const [fromX, fromY] = StawvsGame.algebraic2coords(move.from);
+                        rep.annotations.push({type: "exit", targets: [{row: fromY, col: fromX}]});
+                        if (move.to) {
+                            const [toX, toY] = StawvsGame.algebraic2coords(move.to);
+                            rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
+                            if (move.how) {
+                                //The capture.
+                                const [capX, capY] = StawvsGame.algebraic2coords(move.how!);
+                                rep.annotations.push({type: "glyph", glyph: "note", targets: [{row: capY, col: capX}]});
+                                rep.annotations.push({type: "move", style: "dashed", targets: [{row: toY, col: toX}, {row: capY, col: capX}]});
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (this.stack[this.stack.length - 1]._results.length > 0) {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const [toX, toY] = StawvsGame.algebraic2coords(move.where!);
@@ -1039,9 +1077,10 @@ export class StawvsGame extends GameBase {
                     rep.annotations.push({type: "move", style: "dashed", targets: [{row: toY, col: toX}, {row: capY, col: capX}]});
                 }
             }
-            if (rep.annotations.length === 0) {
-                delete rep.annotations;
-            }
+        }
+
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
 
         return rep;

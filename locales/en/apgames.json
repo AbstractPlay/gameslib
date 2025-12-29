@@ -11,6 +11,7 @@
         "amoeba": "Manipulate stacks of pieces to entrap your opponent's kernel or leave them with no legal moves.",
         "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
+        "arimaa": "A Chess-like game where the pieces are animals of various strengths jockeying for position, trying to get one of their rabbits to the far row. But watch out for traps!",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "asli": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Captured groups are sent to an off-board prison where they give additional moves to their captor. Win by leaving your opponent with no moves.",
         "assembly": "A simultaneous selection game where you try to trigger scoring when high-value products are on your sections of the assembly line. Highest score at the end of the game wins.",
@@ -67,6 +68,7 @@
         "diffusion": "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         "dipole": "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
+        "emergo": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
         "emu": "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
         "entrapment": "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way, the game is over and his or her opponent declared the winner.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
@@ -104,6 +106,7 @@
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
         "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman. Played on a square board, each player captures by jumping over their opponent's pieces. Last to move wins.",
+        "lasca": "A Draughts variant where captured pieces remain on the board and can be freed later. Immobilize your opponent to win.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Win by leaving your opponent with no moves.",
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
@@ -219,6 +222,7 @@
     "notes": {
         "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
+        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).",
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
@@ -238,6 +242,7 @@
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
         "jacynth": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "konane": "Several competing opening protocols exist, but the most common ruleset is described in the BGG reference and is what is implemented here.",
+        "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
@@ -1004,7 +1009,10 @@
                 "name": "Anti-Dameo"
             },
             "size-10": {
-                "name": "10x10 board (experimental)"
+                "name": "10x10 board (4 rows; experimental)"
+            },
+            "size-10b": {
+                "name": "10x10 board (3 rows; experimental)"
             }
         },
         "deckfish": {
@@ -1386,6 +1394,14 @@
             },
             "size-8": {
                 "name": "Size 8 board"
+            }
+        },
+        "lasca": {
+            "#board": {
+                "name": "7x7 board (11 pieces)"
+            },
+            "size-9": {
+                "name": "9x9 board (18 pieces)"
             }
         },
         "lielow": {
@@ -2675,6 +2691,20 @@
                 "name": "3D orbs"
             }
         },
+        "amazons": {
+            "blackbloc": {
+                "description": "Show blocked squares as a black square.",
+                "name": "Black block"
+            },
+            "brick": {
+                "description": "Show blocked squares as a square brick.",
+                "name": "Brick"
+            },
+            "bricks": {
+                "description": "Show blocked squares as a wall of bricks.",
+                "name": "Bricks"
+            }
+        },
         "alta": {
             "hide-panel": {
                 "description": "Don't show panel to select orientation.",
@@ -3119,6 +3149,10 @@
         "GROUPCOUNT": "Group count",
         "GROUPSIZES": "Group sizes",
         "jacynth": "Influence tokens",
+        "lasca": {
+            "STEPS": "Maneuverability",
+            "MATERIAL": "Material"
+        },
         "majorities": "Scores (─, ⟋, ⟍)",
         "meg": {
             "OFFENSE": "Offensive player",
@@ -3429,6 +3463,7 @@
             "NO_MOVES": "The piece at {{where}} cannot move."
         },
         "azacru": {
+            "BAD_MOVE": "Pieces may only move straight ahead or at a 45 degree angle.",
             "BAD_ORIENTATION": "The only valid orientation notations are \">\", \"<\", and \".\".",
             "BAD_PASS": "You may not pass if legal moves are available.",
             "ENEMY_TILE": "You can't land on opposing tiles.",
@@ -3891,6 +3926,15 @@
             "INITIAL_INSTRUCTIONS_ONE": "Click a gray piece to flip and reveal the owner.",
             "INITIAL_INSTRUCTIONS_TWO": "Select one of your pieces to move. Then click a space with a dot to choose where to move."
         },
+        "emergo": {
+            "INITIAL_INSTRUCTIONS_enter": "Select an empty dark cell to place a piece.",
+            "INITIAL_INSTRUCTIONS_play": "Select a stack with your piece on top to move.",
+            "INVALID_MOVE_enter": "The move does not appear to be legal. You may not place a piece where it will induce a capture (feeding) unless your opponent is already required to capture.",
+            "INVALID_MOVE_play": "The move does not appear to be legal. Capturing is compulsory, and you must capture the most pieces you can.",
+            "FIRST_MOVE": "The first move of the game can not be in the center",
+            "VALID_PARTIAL": "Select a destination. Capturing is compulsory, and you must capture the most pieces you can.",
+            "WHITE_SQUARE": "Pieces may only be placed on the dark squares."
+        },
         "emu": {
             "INITIAL_INSTRUCTIONS": "Select a card from your hand to place on the board.",
             "LABEL_DISCARD": "Discard pile",
@@ -4273,6 +4317,11 @@
             "SECOND_MOVE": "Remove one of your pieces adjacent to the piece your opponent removed.",
             "NORMAL_MOVE": "Choose a piece to jump one or more of your opponent's pieces in a straight line.",
             "INVALID_MOVE": "You must move a piece that can jump over an opponent's piece."
+        },
+        "lasca": {
+            "INITIAL_INSTRUCTIONS": "Select a stack with your piece on top to move.",
+            "INVALID_MOVE": "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+            "VALID_PARTIAL": "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible."
         },
         "lielow": {
             "INCORRECT_DISTANCE": "Pieces must move a number of spaces equal to the height of its stack orthogonally or diagonally.",

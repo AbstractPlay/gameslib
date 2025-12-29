@@ -53,6 +53,7 @@ export class DameoGame extends GameBase {
         ],
         variants: [
             { uid: "size-10", group: "board" },
+            { uid: "size-10b", group: "board" },
             { uid: "anti" },
         ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>differentiate", "mechanic>move>group", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
@@ -67,14 +68,14 @@ export class DameoGame extends GameBase {
 
     public coords2algebraic(x: number, y: number): string {
         let boardsize = 8;
-        if (this.variants.includes("size-10")) {
+        if (this.variants.includes("size-10") || this.variants.includes("size-10b")) {
             boardsize = 10;
         }
         return GameBase.coords2algebraic(x, y, boardsize);
     }
     public algebraic2coords(cell: string): [number, number] {
         let boardsize = 8;
-        if (this.variants.includes("size-10")) {
+        if (this.variants.includes("size-10") || this.variants.includes("size-10b")) {
             boardsize = 10;
         }
         return GameBase.algebraic2coords(cell, boardsize);
@@ -92,7 +93,7 @@ export class DameoGame extends GameBase {
     private _points: [number, number][] = [];
 
     public get boardsize(): number {
-        if (this.variants.includes("size-10")) {
+        if (this.variants.includes("size-10") || this.variants.includes("size-10b")) {
             return 10;
         }
         return 8;
@@ -103,7 +104,10 @@ export class DameoGame extends GameBase {
         if (state === undefined) {
             this.variants = variants === undefined ? [] : [...variants];
             const board = new Map<string, CellContents>();
-            const half = this.boardsize / 2;
+            let half = this.boardsize / 2;
+            if (this.variants.includes("size-10b")) {
+                half--;
+            }
             for (let deltaRow = 0; deltaRow < half - 1; deltaRow++) {
                 for (const row of [0 + deltaRow, this.boardsize - 1 - deltaRow]) {
                     for (let col = deltaRow; col < this.boardsize - deltaRow; col++) {

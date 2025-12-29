@@ -215,6 +215,8 @@ import { DeckfishGame, IDeckfishState } from "./deckfish";
 import { BluestoneGame, IBluestoneState } from "./bluestone";
 import { SunspotGame, ISunspotState } from "./sunspot";
 import { StawvsGame, IStawvsState } from "./stawvs";
+import { LascaGame, ILascaState } from "./lasca";
+import { EmergoGame, IEmergoState } from "./emergo";
 import { FroggerGame, IFroggerState } from "./frogger";
 
 export {
@@ -433,6 +435,8 @@ export {
     BluestoneGame, IBluestoneState,
     SunspotGame, ISunspotState,
     StawvsGame, IStawvsState,
+    LascaGame, ILascaState,
+    EmergoGame, IEmergoState,
     FroggerGame, IFroggerState,
 };
 
@@ -507,7 +511,10 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
                               typeof StairsGame | typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
-                              typeof SunspotGame | typeof StawvsGame | typeof FroggerGame
+                              typeof SunspotGame | typeof StawvsGame | typeof StairsGame |
+                              typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
+                              typeof SunspotGame | typeof StawvsGame | typeof LascaGame |
+                              typeof EmergoGame | typeof FroggerGame
                 >();
 // Manually add each game to the following array
 [
@@ -540,7 +547,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
-    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame, FroggerGame
+    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
+    LascaGame, EmergoGame, FroggerGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -980,6 +988,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new SunspotGame(...args);
         case "stawvs":
             return new StawvsGame(args[0], ...args.slice(1));
+        case "lasca":
+            return new LascaGame(...args);
+        case "emergo":
+            return new EmergoGame(...args);
         case "frogger":
             return new FroggerGame(args[0], ...args.slice(1));
     }

@@ -903,7 +903,6 @@ export class OonpiaGame extends GameBase {
                 highlightBlocked = false;
             }
         }
-        console.log(highlightBlocked);
 
         const p1 = this.getPlayerColour(1);
         const p2 = this.getPlayerColour(2);
@@ -1141,29 +1140,31 @@ export class OonpiaGame extends GameBase {
             rep.areas = [key];
         }
 
-        const {1: blockedPlain, 2: blockedDotted} = this.blockedCells();
-        for (const cell of blockedPlain) {
-            const [x, y] = this.graph.algebraic2coords(cell);
-            if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
-                ((rep.board! as BoardBasic).markers!).push({
-                            type: "dots",
-                            points: [{row: y, col: x}],
-                            colour: "#000",
-                            opacity: 0.2,
-                            size: 0.3
-                        })
+        if (highlightBlocked) {
+            const {1: blockedPlain, 2: blockedDotted} = this.blockedCells();
+            for (const cell of blockedPlain) {
+                const [x, y] = this.graph.algebraic2coords(cell);
+                if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
+                    ((rep.board! as BoardBasic).markers!).push({
+                                type: "dots",
+                                points: [{row: y, col: x}],
+                                colour: "#000",
+                                opacity: 0.2,
+                                size: 0.3
+                            })
+                }
             }
-        }
-        for (const cell of blockedDotted) {
-            const [x, y] = this.graph.algebraic2coords(cell);
-            if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
-                ((rep.board! as BoardBasic).markers!).push({
-                            type: "dots",
-                            points: [{row: y, col: x}],
-                            colour: "#000",
-                            opacity: 0.2,
-                            size: 0.9
-                        })
+            for (const cell of blockedDotted) {
+                const [x, y] = this.graph.algebraic2coords(cell);
+                if ("markers" in (rep.board! as BoardBasic)) { // make the compiler happy
+                    ((rep.board! as BoardBasic).markers!).push({
+                                type: "dots",
+                                points: [{row: y, col: x}],
+                                colour: "#000",
+                                opacity: 0.2,
+                                size: 0.9
+                            })
+                }
             }
         }
 

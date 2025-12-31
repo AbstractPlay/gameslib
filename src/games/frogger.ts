@@ -333,8 +333,11 @@ export class FroggerGame extends GameBase {
         //  using the function for generating random moves.
         
         //The advanced case is handled inside this function, unlike in getNextForward.
-        const cardObj = Card.deserialize(card)!;
-        
+        const cardObj = Card.deserialize(card);
+        if (cardObj === undefined) {
+            throw new Error(`Could not deserialize the card ${card}`);
+        }
+       
         if (this.variants.includes("advanced") && cardObj.rank.uid !== this.courtrank) {
             //In the advanced game, courts still function like regular game cards,
             // but number cards do not.
@@ -468,7 +471,10 @@ export class FroggerGame extends GameBase {
     }
 
     private getSuits(cardId: string): string[] {
-        const card = Card.deserialize(cardId)!;
+        const card = Card.deserialize(cardId);
+        if (card === undefined) {
+            throw new Error(`Could not deserialize the card ${cardId}`);
+        }
         const suits = card.suits.map(s => s.uid);
         return suits;
     }
@@ -560,7 +566,11 @@ export class FroggerGame extends GameBase {
         const bounced: string[][] = [];
         
         //Bouncing occurs when an Ace or Crown was played, not a number card or a Court.
-        const card = Card.deserialize(cardId)!;
+        const card = Card.deserialize(cardId);
+        if (card === undefined) {
+            throw new Error(`Could not deserialize the card ${cardId}`);
+        }
+
         const rank = card.rank.name;
         if ( rank === "Crown" || rank === "Ace" ) {
 
@@ -852,7 +862,11 @@ export class FroggerGame extends GameBase {
             const suit = this.randomElement(suits);
 
             let to;
-            const cardObj = Card.deserialize(card)!;
+            const cardObj = Card.deserialize(card);
+            if (cardObj === undefined) {
+                throw new Error(`Could not deserialize the card ${card}`);
+            }
+
             if (this.variants.includes("advanced") && cardObj.rank.uid !== this.courtrank) {
                 //Courts next forward normally in the advanced game.
                 //Aces and Crowns do, too, but this function handles them.
@@ -1639,7 +1653,11 @@ export class FroggerGame extends GameBase {
         //add flood and suit markers for the active spaces
         for (let col = 1; col < this.columns - 1; col++) {
             const cell = this.coords2algebraic(col,0);
-            const cardObj = Card.deserialize(this.board.get(cell)!);
+            const card = this.board.get(cell)!;
+            const cardObj = Card.deserialize(card);
+            if (cardObj === undefined) {
+                throw new Error(`Could not deserialize the card ${card}`);
+            }
             const suits = cardObj!.suits;
 
             let shadeRow = 1;

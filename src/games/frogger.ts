@@ -257,7 +257,8 @@ export class FroggerGame extends GameBase {
         this.suitboard = new Map<string, string>();
         const scards = this.getBoardCards();
         for (let col = 1; col < this.columns - 1; col++) {
-            const suits = this.getSuits(scards[col - 1]);
+            //Suit check on load.
+            const suits = this.getSuits(scards[col - 1], "load");
             for (let s = 1; s < suits.length + 1; s++) {
                 const cell = this.coords2algebraic(col, s);
                 this.suitboard.set(cell,suits[s-1]);
@@ -342,10 +343,10 @@ export class FroggerGame extends GameBase {
             //In the advanced game, courts still function like regular game cards,
             // but number cards do not.
             // (Crowns and aces are a degenerate case that can use either function.)
-            return this.checkNextForwardAdvanced(from, to, card);
+            return this.checkNextForwardAdvanced(from, to, cardObj);
         }
 
-        const suits = this.getSuits(card);
+        const suits = cardObj.suits.map(s => s.uid);
 
         for (let s = 0; s < suits.length; s++) {
             //In the base game, you can use any suit off the card,
@@ -359,12 +360,12 @@ export class FroggerGame extends GameBase {
         return false;
     }
 
-    private checkNextForwardAdvanced(from: string, to: string, card: string): boolean {
+    private checkNextForwardAdvanced(from: string, to: string, cardObj: Card): boolean {
         //Checks that {to} is the next available cell under the advanced game movement restriction.
         //Assumes you are not passing in a Court, but handles Aces and Crowns.
 
         //Uses getNextForwardAdvanced to get the array of legal values for {to}.
-        const suits = this.getSuits(card);
+        const suits = cardObj.suits.map(s => s.uid);
         const options = this.getNextForwardAdvanced(from, suits);
         return (options.indexOf(to) > -1);
     }
@@ -470,10 +471,10 @@ export class FroggerGame extends GameBase {
             return [to2];
     }
 
-    private getSuits(cardId: string): string[] {
+    private getSuits(cardId: string, callerInfo: string): string[] {
         const card = Card.deserialize(cardId);
         if (card === undefined) {
-            throw new Error(`Could not deserialize the card ${cardId} in getSuits.`);
+            throw new Error(`Could not deserialize the card ${cardId} in getSuits for ${callerInfo}.`);
         }
         const suits = card.suits.map(s => s.uid);
         return suits;
@@ -858,7 +859,8 @@ export class FroggerGame extends GameBase {
         if ( handcard ) {
             //hop forward
             const card = this.randomElement( this.closedhands[this.currplayer - 1].concat(this.hands[this.currplayer - 1]) );
-            const suits = this.getSuits(card);
+            //Suit check for random move forward.
+            const suits = this.getSuits(card, "randomMove (forward)");
             const suit = this.randomElement(suits);
 
             let to;
@@ -890,9 +892,9 @@ export class FroggerGame extends GameBase {
                 //Filter the market by the forbidden suit.
                 const suit = this.suitboard.get(to);
                 const whiteMarket: string[] = [];
-
+                //Suit check for random market pick.
                 this.market.forEach(card => {
-                    const suits = this.getSuits(card);
+                    const suits = this.getSuits(card, "randomMove (backward)");
                     if (suits.indexOf(suit!) < 0)
                         whiteMarket.push(card);
                 });
@@ -1308,7 +1310,8 @@ export class FroggerGame extends GameBase {
                 }
                 if (toX > 0 && subIFM.card) {
                     const suit = cloned.suitboard.get(subIFM.to)!;
-                    const suits = cloned.getSuits(subIFM.card);
+                    //Suit check on moving backward in validateMove.
+                    const suits = cloned.getSuits(subIFM.card, "validateMove");
                     if (suits.indexOf(suit) > -1) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.frogger.INVALID_MARKET_CARD");

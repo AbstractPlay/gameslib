@@ -859,6 +859,10 @@ export class FroggerGame extends GameBase {
         if ( handcard ) {
             //hop forward
             const card = this.randomElement( this.closedhands[this.currplayer - 1].concat(this.hands[this.currplayer - 1]) );
+            //Card shouldn't be invisible but if it is we need to give up gracefully.
+            if (card === "") {
+                return "hidden";
+            }
             //Suit check for random move forward.
             const suits = this.getSuits(card, "randomMove (forward)");
             const suit = this.randomElement(suits);
@@ -1209,7 +1213,7 @@ export class FroggerGame extends GameBase {
             //Check cards.
             //(The case remaining with no card is falling back at no profit.)
             if (subIFM.card) {
-               if (subIFM.forward && (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card!) < 0 ) {                    
+                if (subIFM.forward && (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card!) < 0 ) {
                     //Bad hand card.
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.frogger.NO_SUCH_HAND_CARD", {card: subIFM.card});
@@ -1321,9 +1325,9 @@ export class FroggerGame extends GameBase {
                     // When backing up to start you can pick any market card.
                     // We already checked it was in the market.
                 } else if (!complete && cloned.market.length > 0) {
-                    // No card.  May be a partial move.
+                    // No card.  May be a partial move, or can back up without a card.
                     result.valid = true;
-                    result.complete = -1;
+                    result.complete = 0;
                     result.canrender = true;
                     if (s < cloned.nummoves - 1)
                         result.message = i18next.t("apgames:validation.frogger.CARD_NEXT_OR");

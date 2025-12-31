@@ -1320,10 +1320,16 @@ export class FroggerGame extends GameBase {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.frogger.INVALID_MARKET_CARD");
                         return result;
+                    } else {
+                        // If we have a card, a move back is complete.
+                        complete = true;
                     }
                 } else if (subIFM.card) {
                     // When backing up to start you can pick any market card.
                     // We already checked it was in the market.
+                    
+                    // If we have a card, a move back is complete.
+                    complete = true;
                 } else if (!complete && cloned.market.length > 0) {
                     // No card.  May be a partial move, or can back up without a card.
                     result.valid = true;
@@ -1374,7 +1380,7 @@ export class FroggerGame extends GameBase {
 
         //Really really done.
         result.valid = true;
-        result.complete = allcomplete ? 1 : 0;
+        result.complete = (allcomplete && moves.length === this.nummoves) ? 1 : 0;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }

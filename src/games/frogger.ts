@@ -335,7 +335,7 @@ export class FroggerGame extends GameBase {
         //The advanced case is handled inside this function, unlike in getNextForward.
         const cardObj = Card.deserialize(card);
         if (cardObj === undefined) {
-            throw new Error(`Could not deserialize the card ${card}`);
+            throw new Error(`Could not deserialize the card ${card} in checkNextForward.`);
         }
        
         if (this.variants.includes("advanced") && cardObj.rank.uid !== this.courtrank) {
@@ -473,7 +473,7 @@ export class FroggerGame extends GameBase {
     private getSuits(cardId: string): string[] {
         const card = Card.deserialize(cardId);
         if (card === undefined) {
-            throw new Error(`Could not deserialize the card ${cardId}`);
+            throw new Error(`Could not deserialize the card ${cardId} in getSuits.`);
         }
         const suits = card.suits.map(s => s.uid);
         return suits;
@@ -568,7 +568,7 @@ export class FroggerGame extends GameBase {
         //Bouncing occurs when an Ace or Crown was played, not a number card or a Court.
         const card = Card.deserialize(cardId);
         if (card === undefined) {
-            throw new Error(`Could not deserialize the card ${cardId}`);
+            throw new Error(`Could not deserialize the card ${cardId} in moveNeighbors`);
         }
 
         const rank = card.rank.name;
@@ -864,7 +864,7 @@ export class FroggerGame extends GameBase {
             let to;
             const cardObj = Card.deserialize(card);
             if (cardObj === undefined) {
-                throw new Error(`Could not deserialize the card ${card}`);
+                throw new Error(`Could not deserialize the card ${card} in randomMove.`);
             }
 
             if (this.variants.includes("advanced") && cardObj.rank.uid !== this.courtrank) {
@@ -1656,7 +1656,7 @@ export class FroggerGame extends GameBase {
             const card = this.board.get(cell)!;
             const cardObj = Card.deserialize(card);
             if (cardObj === undefined) {
-                throw new Error(`Could not deserialize the card ${card}`);
+                throw new Error(`Could not deserialize the card ${card} in render.`);
             }
             const suits = cardObj!.suits;
 

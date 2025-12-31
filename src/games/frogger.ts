@@ -112,6 +112,7 @@ export class FroggerGame extends GameBase {
     private marketsize: number = 6;
     private deck!: Deck;
     private suitboard!: Map<string, string>;
+    private selected: string[] = [];
 
     constructor(state: number | IFroggerState | string, variants?: string[]) {
         super();
@@ -1232,6 +1233,7 @@ export class FroggerGame extends GameBase {
                 if ( ! complete ) {
                     result.valid = true;
                     result.complete = -1;
+                    result.canrender = true;
                     result.message = i18next.t("apgames:validation.frogger.PIECE_NEXT");
                     return result;
                 } else {
@@ -1267,6 +1269,7 @@ export class FroggerGame extends GameBase {
                 if ( ! complete ) {
                     result.valid = true;
                     result.complete = -1;
+//                    result.canrender = true;
                     result.message = i18next.t("apgames:validation.frogger.PLACE_NEXT");
                     return result;
                 } else {
@@ -1380,6 +1383,7 @@ export class FroggerGame extends GameBase {
 
         //Really really done.
         result.valid = true;
+        result.canrender = true;
         result.complete = (allcomplete && moves.length === this.nummoves) ? 1 : 0;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
@@ -1400,6 +1404,8 @@ export class FroggerGame extends GameBase {
         }
 
         this.results = [];
+        this.selected = [];
+
         let marketEmpty = false;
         let refill = false;
         let remaining: number;
@@ -1425,42 +1431,25 @@ export class FroggerGame extends GameBase {
 
                 if (subIFM.refill)
                     refill = true;
-/*
-             
-                if (submove.indexOf(":") > -1) {
-                    //Card followed by move is a hand card.
-                    [ca, mv] = submove.split(":");
-                    handcard = true;
-                } else if (submove.indexOf(",") > -1) {
-                    //Move followed by card is a backwards move.
-                    [mv, ca] = submove.split(",");
-                } else if (submove.indexOf("-") > -1) {
-                    //Raw move is a unproductive or partial backwards move.
-                    [from, to] = submove.split("-");
-                    //              nocard = true;
-                } else {
-                    //Raw card must be a blocked move or a partial.
-                    ca = submove;
-                    if (!partial)
-                        this.results.push({type: "claim", what: ca});
-                }
 
-                if ( mv ) 
-                    [from, to] = mv!.split("-");
-*/
                 //Make the submove.
                 //Possible card adjustments.
                 if (subIFM.forward && subIFM.card) {
-                    this.popHand(subIFM.card);
-                    this.results.push({type: "move", from: subIFM.from!, to: subIFM.to!, what: subIFM.card!, how: "forward"});
-                    const bounced = this.moveNeighbors(subIFM.to!,subIFM.card!);
-                    bounced.forEach( ([from, to]) => {
-                        this.results.push({type: "eject", from: from, to: to, what: "a Crown or Ace"});
-                    });
+                    if (subIFM.from && subIFM.to) {
+                        this.popHand(subIFM.card);
+                        this.results.push({type: "move", from: subIFM.from, to: subIFM.to, what: subIFM.card, how: "forward"});
+                        const bounced = this.moveNeighbors(subIFM.to,subIFM.card);
+                        bounced.forEach( ([from, to]) => {
+                            this.results.push({type: "eject", from: from, to: to, what: "a Crown or Ace"});
+                        });
+                    } else {
+                        //Partial.
+                    }
                 } else if (subIFM.card) {
                     marketEmpty = this.popMarket(subIFM.card);
+                   
                     if (subIFM.from) {
-                        this.results.push({type: "move", from: subIFM.from!, to: subIFM.to!, what: subIFM.card!, how: "back"});
+                        this.results.push({type: "move", from: subIFM.from, to: subIFM.to!, what: subIFM.card!, how: "back"});
                     }
                 } else {
                     this.results.push({type: "move", from: subIFM.from!, to: subIFM.to!, what: "no card", how: "back"});
@@ -1473,6 +1462,11 @@ export class FroggerGame extends GameBase {
                 if (refill) {
                     remaining = 2 - s;
                     break;
+                }
+
+                if (subIFM.card) {
+                    this.selected.push(subIFM.card);
+                    //console.log("selecting ", subIFM.card);
                 }
             }
         }
@@ -1694,7 +1688,16 @@ export class FroggerGame extends GameBase {
         // build legend of ALL cards
         const legend: ILegendObj = {};
         for (const card of allcards) {
-            legend["c" + card.uid] = card.toGlyph();
+            let glyph = card.toGlyph();
+            if (this.selected.indexOf(card.uid) > -1) {
+                glyph = card.toGlyph({border: true, fill: {
+                    func: "flatten",
+                    fg: "_context_fill",
+                    bg: "_context_background",
+                    opacity: 0.2
+                }});
+            } 
+            legend["c" + card.uid] = glyph;
         }
         
         const excuses = [...cardsExtended.filter(c => c.rank.uid === "0")];

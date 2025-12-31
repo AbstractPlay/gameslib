@@ -126,6 +126,15 @@ describe("Frogger", () => {
         expect(g.validateMove("8YK:a3-c2/c2-d2,1S/b2-a3,7SK/")).to.have.deep.property("valid", false);  //Wrong direction.
         expect(g.validateMove("8YK:a3-c2/c2-b2,1S!/b2-a3,7SK/")).to.have.deep.property("valid", false); //Can't refill.
         expect(g.validateMove("8YK:a3-c2/c2-b2,1S/b2-a3,7SK/")).to.have.deep.property("valid", true);   //A legal sequence.
+        expect(g.validateMove("8YK:a3-c2/c2-b2,1S/b2-a3,7SK/")).to.have.deep.property("complete", 1);   //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:a3-c2/c2-b2,1S/b2-a3")).to.have.deep.property("complete", 0);        //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:a3-c2/c2-b2,1S/b2-")).to.have.deep.property("complete", -1);         //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:a3-c2/c2-b2,1S")).to.have.deep.property("complete", 0);              //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:a3-c2/c2-b2")).to.have.deep.property("complete", 0);     //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:a3-c2/c2-")).to.have.deep.property("complete", -1);      //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:a3-c2")).to.have.deep.property("complete", 0);           //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:a3-")).to.have.deep.property("complete", -1);            //A legal sequence, for completeness.
+        expect(g.validateMove("8YK:")).to.have.deep.property("complete", -1);               //A legal sequence, for completeness.
         g.move("8YK:a3-c2/c2-b2,1S/b2-a3,7SK/");
         expect(g.validateMove("8YK:a3-c2/c2-b2,1S/b2-a3,7SK/")).to.have.deep.property("valid", false);  //No longer legal.
 
@@ -335,4 +344,5 @@ describe("Frogger", () => {
         expect(g.validateMove("5YK:b2-e2/e2-d2,NV/")).to.have.deep.property("valid", true);
 
     });
+
 });

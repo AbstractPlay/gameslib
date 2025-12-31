@@ -859,6 +859,10 @@ export class FroggerGame extends GameBase {
         if ( handcard ) {
             //hop forward
             const card = this.randomElement( this.closedhands[this.currplayer - 1].concat(this.hands[this.currplayer - 1]) );
+            //Card shouldn't be invisible but if it is we need to give up gracefully.
+            if (card === "") {
+                return "hidden";
+            }
             //Suit check for random move forward.
             const suits = this.getSuits(card, "randomMove (forward)");
             const suit = this.randomElement(suits);

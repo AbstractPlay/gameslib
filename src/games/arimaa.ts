@@ -1028,6 +1028,7 @@ export class ArimaaGame extends GameBase {
                         ]
                     },
                     flipy: colour === 2 ? true : false,
+                    orientation: "vertical",
                 };
                 legend[`${pc}${colour}x`] = {
                     name,
@@ -1042,6 +1043,7 @@ export class ArimaaGame extends GameBase {
                     },
                     flipy: colour === 2 ? true : false,
                     opacity: 0.25,
+                    orientation: "vertical",
                 };
             }
         }

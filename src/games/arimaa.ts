@@ -1053,7 +1053,7 @@ export class ArimaaGame extends GameBase {
                         ]
                     },
                     // flipy: colour === 2 ? true : false,
-                    opacity: 0.25,
+                    opacity: 0.5,
                     orientation: "vertical",
                 };
             }

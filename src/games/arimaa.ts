@@ -599,10 +599,19 @@ export class ArimaaGame extends GameBase {
             // now we just have to check completeness and return
             let complete: -1|0|1;
             let message: string;
-            // in free mode, always 0 with specific message
+            // in free mode:
+            // - usually 0 with specific message
+            // - but must have 1 rabbit and none on the goal row
             if (this.variants.includes("free")) {
-                complete = 0;
-                message = i18next.t("apgames:validation.arimaa.PARTIAL_FREE")
+                const rabbits = [...cloned.board.entries()].filter(e => e[1][1] === cloned.currplayer && e[1][0] === "R").map(e => e[0]);
+                const goal = cloned.currplayer === 1 ? "8" : "1";
+                if (rabbits.length === 0 || rabbits.filter(cell => cell.endsWith(goal)).length > 0) {
+                    complete = -1;
+                    message = i18next.t("apgames:validation.arimaa.PARTIAL_FREE_NO")
+                } else {
+                    complete = 0;
+                    message = i18next.t("apgames:validation.arimaa.PARTIAL_FREE")
+                }
             }
             // otherwise, you have to place all your pieces
             else {
@@ -904,6 +913,18 @@ export class ArimaaGame extends GameBase {
             (this.variants.includes("free") && this.stack.length ===2)
         ) {
             this.hands = undefined;
+        }
+
+        // After free setup, activate all traps
+        if (this.variants.includes("free") && this.stack.length === 2) {
+            for (const trap of traps) {
+                if (this.board.has(trap) && this.isAlone(trap)) {
+                    const [trapPc, trapOwner] = this.board.get(trap)!;
+                    this.board.delete(trap);
+                    this.results.push({type: "destroy", what: trapOwner === 1 ? trapPc : trapPc.toLowerCase(), where: trap});
+                    lastmove.push(`x${trapOwner === 1 ? trapPc : trapPc.toLowerCase()}${trap}`);
+                }
+            }
         }
 
         // update currplayer

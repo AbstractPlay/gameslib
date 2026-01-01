@@ -3411,6 +3411,7 @@
             "PARTIAL_PLAY": "Continue placing your pieces.",
             "PARTIAL_PUSH": "You must now complete the push.",
             "PARTIAL_FREE": "You may continue placing pieces, or click Complete Move to end your turn.",
+            "PARTIAL_FREE_NO": "You may continue placing pieces, but you must place at least one rabbit, and you may not place any rabbits on the goal row.",
             "REPEAT": "You may not repeat a given position a third time.",
             "TOO_MANY": "You may only take up to {{num}} actions this turn."
         },

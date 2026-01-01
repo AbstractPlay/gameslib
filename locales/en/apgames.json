@@ -11,7 +11,7 @@
         "amoeba": "Manipulate stacks of pieces to entrap your opponent's kernel or leave them with no legal moves.",
         "anache": "In Anache, the goal is to occupy the opponent's corner squares by coordinating your pieces.",
         "archimedes": "A game based on the legend of Archimedes teaching the Syracuse soldiers how to focus the sun's rays with their shields to set ships on fire. The goal is to begin your turn with a piece in your enemy's port. At the end of each turn, any enemy ships in sight of three of your pieces are destroyed by fire. Destroyed ships can eventually be rebuilt.",
-        "arimaa": "A Chess-like game where the pieces are animals of various strengths jockeying for position, trying to get one of their rabbits to the far row. But watch out for traps!",
+        "arimaa": "The pieces are animals of various strengths jockeying for position, trying to get one of their rabbits to the far row. But watch out for traps!",
         "armadas": "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
         "asli": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Captured groups are sent to an off-board prison where they give additional moves to their captor. Win by leaving your opponent with no moves.",
         "assembly": "A simultaneous selection game where you try to trigger scoring when high-value products are on your sections of the assembly line. Highest score at the end of the game wins.",
@@ -386,11 +386,11 @@
         "arimaa": {
             "#setup": {
                 "name": "Standard setup",
-                "description": "Chess-like complement placed on your closest two ranks"
+                "description": "Array your 16 pieces on your closest two ranks in any way you wish"
             },
             "eee": {
                 "name": "Endless Endgame",
-                "description": "An algorithmic setup that gives each side the same armies"
+                "description": "Randomly generated setup with reduced army size"
             },
             "free": {
                 "name": "Free placement",

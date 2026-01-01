@@ -472,12 +472,17 @@ export class ArimaaGame extends GameBase {
                     const cell = ArimaaGame.coords2algebraic(col, row);
                     // clicking a placed cell unplaces it
                     if (cloned.board.has(cell)) {
-                        const idx = steps.findIndex(([pc,,f,]) => pc === piece![0] && f === cell);
-                        if (idx === -1) {
-                            throw new Error("This should never happen");
+                        // clicking an occupied cell after selecting a piece to place
+                        if (lastmove.length === 0) {
+                            const idx = steps.findIndex(([pc,,f,]) => pc === piece![0] && f === cell);
+                            if (idx === -1) {
+                                throw new Error("This should never happen");
+                            }
+                            steps.splice(idx, 1);
+                            newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
+                        } else {
+                            newmove = stub;
                         }
-                        steps.splice(idx, 1);
-                        newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
                     } else {
                         newmove = `${stub}${stub.length > 0 ? "," : ""}${lastmove}${cell}`;
                     }

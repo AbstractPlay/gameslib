@@ -77,7 +77,7 @@ export class ArimaaGame extends GameBase {
             { uid: "free", name: "Arbitrary Setup", group: "setup" },
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "perspective", "limited-pieces", "no-moves", "custom-buttons"]
+        flags: ["experimental", "perspective", "no-moves", "custom-buttons"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

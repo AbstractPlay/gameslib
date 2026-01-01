@@ -236,7 +236,7 @@
         "emu": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         "exxit": "Translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.\n\nBecause the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. This ensures that the labels don't change as the map grows.",
-        "frogger": "As in other Decktet games at Abstract Play, the deck is displayed at the bottom of the board and includes both cards in the deck and unknown cards in other players' hands.  After the first hand, all cards are drawn from the open market, so hands are then open.  The discards pile is also displayed.\n\nDue to how randomization works at Abstract Play, forced passes are needed for a player to refill the market in the middle of his turn.  These are handled by the server, but a couple of variants for the market have also been added to avoid forced passing.\n\nThe Crocodiles variant is by Jorge Arroyo, the translator of the English rules.  The Advanced rules and other minor variants are by P. D. Magnus; they appear in The Decktet Book, where the game is called Xing.",
+        "frogger": "As in other Decktet games at Abstract Play, the deck is displayed at the bottom of the board and includes both cards in the deck and unknown cards in other players' hands.  After the first hand, all cards are drawn from the open draw pool, so hands gradually become open.  The discards pile is also displayed.\n\nDue to how randomization works at Abstract Play, forced passes are needed for a player to refill the draw pool in the middle of his turn.  These are handled by the server, but a couple of variants for the draw pool have also been added to avoid forced passing.\n\nThe Crocodiles variant is by Jorge Arroyo, the translator of the English rules.  The Advanced rules and other minor variants are by P. D. Magnus; they appear in The Decktet Book, where the game is called Xing.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "gyges": "The goal squares are adjacent to all the cells in the back row. The renderer cannot currently handle \"floating\" cells.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
@@ -1176,7 +1176,7 @@
         },
         "frogger": {
             "#market": {
-		"description": "The market does not refill until the next player's turn.",
+		"description": "The draw pool does not refill until the next player's turn.",
                 "name": "No refills"
             },
             "advanced": {
@@ -1184,8 +1184,8 @@
                 "name": "Advanced"
             },
             "continuous": {
-		"description": "The market is smaller but refills after each turn.",
-                "name": "Continuous market"
+		"description": "The draw pool is smaller but refills after each turn.",
+                "name": "Continuous refills"
             },
             "courtpawns": {
 		"description": "For variety, the roles of pawns and courts may be reversed.",
@@ -1199,8 +1199,12 @@
 		"description": "Add hungry crocodiles to the pawn cards.  Crocodiles advance at the end of each round, sending any frog on their new space back to the Excuse.  This variant is intended for a two-player game, but you may add crocodiles at any player count.",
                 "name": "Crocodiles"
             },
+            "freeswim": {
+		"description": "There is no restriction on cards drawn from the draw pool.",
+                "name": "Free swim"
+            },
             "refills": {
-		"description": "The market may be refilled during a player's turn, by splitting their actions over two turns.",
+		"description": "The draw pool may be refilled during a player's turn, by splitting their actions over two turns.",
                 "name": "Refills"
             }
         },
@@ -4140,18 +4144,18 @@
 	"frogger": {
             "ADDITIONAL_INSTRUCTIONS": "You may make up to three moves.  Choose another card or frog to start another move, or press the complete move button to finish your turn.",
             "CARD_FIRST": "Please select a hand card before moving a frog forward.",
-            "CARD_NEXT": "You may click on a market card to add it to your hand, or submit your move.",
-            "CARD_NEXT_OR": "You may click on a market card to add it to your hand, or start another move.",
+            "CARD_NEXT": "You may click on a card in the draw pool to add it to your hand, or submit your move.",
+            "CARD_NEXT_OR": "You may click on a card in the draw pool to add it to your hand, or start another move.",
             "INITIAL_INSTRUCTIONS": "Click a card in your hand to use to move a frog forward.",
-            "LATER_INSTRUCTIONS": "Click a card in your hand to use to move a frog forward, or click a frog to move it back (and possibly draw a market card).",
-            "INVALID_MARKET_CARD": "Your chosen market card must not include the suit your frog landed on.",
+            "LATER_INSTRUCTIONS": "Click a card in your hand to use to move a frog forward, or click a frog to move it back (and possibly draw a card from the draw pool).",
+            "INVALID_MARKET_CARD": "Your chosen pool card must not include the suit your frog landed on.",
             "INVALID_FROG": "You may only move your own frogs.",
             "INVALID_HOP_FORWARD": "When advancing, your frog must land on the first available spot of a given suit.",
             "INVALID_HOP_FORWARD_ADVANCED": "Under the advanced rules, when playing a two-suited card from your hand, your frog must land on the first available spot of either suit (not your choice).  If both suits are present on the same board card (that is, in the same column), you may choose either spot.",
             "INVALID_HOP_BACKWARD": "When hopping back, your frog must land on the nearest available card.  If there is more than one spot available in that column, you may choose any one of them.",
             "INVALID_MOVE": "The move '{{move}}' could not be parsed.",
             "INVALID_NON-MOVE": "Unless you're blocked, you must move a frog on each of your moves.",
-            "LABEL_MARKET": "Market cards",
+            "LABEL_MARKET": "Draw pool",
             "LABEL_REMAINING": "Cards in deck",
             "LABEL_DISCARDS": "Discard pile",
             "LABEL_STASH": "Player {{playerNum}}'s hand",
@@ -4159,14 +4163,14 @@
             "MUST_HOP_FORWARD": "When using a hand card, your frog must hop forward.",
             "MUST_MOVE": "Your frog must move to a different card/column.",
             "MUST_PASS": "You must pass to allow another player to complete their turn.",
-            "NO_CHOICE_BLOCKED": "If, at the start of your turn, you have no hand cards and none of your frogs can move back, you must draw a single card from the market and end your turn.",
+            "NO_CHOICE_BLOCKED": "If, at the start of your turn, you have no hand cards and none of your frogs can move back, you must draw a single card from the draw pool and end your turn.",
             "NO_MOVE_BLOCKED": "You cannot move after claiming a card for being blocked.",
-            "NO_PASSING": "There is no passing as such in Frogger.  If you are blocked, you must draw a single card from the market.",
-            "NO_REFILLS": "Refilling the market is not allowed in this variant.",
+            "NO_PASSING": "There is no passing as such in Frogger.  If you are blocked, you must draw a single card from the draw pool.",
+            "NO_REFILLS": "Refilling the draw pool is not allowed in this variant.",
             "NO_RETURN": "Frogs may not leave home once they've reached it.",
             "NO_SUCH_HAND_CARD": "The card \"{{card}}\" does not appear to be in your hand.",
-            "NO_SUCH_MARKET_CARD": "The card \"{{card}}\" does not appear to be in the market.",
-            "NOT_BLOCKED": "You're not blocked, so you must move back before claiming a market card.",
+            "NO_SUCH_MARKET_CARD": "The card \"{{card}}\" does not appear to be in the draw pool.",
+            "NOT_BLOCKED": "You're not blocked, so you must move back before claiming a pool card.",
             "OCCUPIED": "Only one frog per suit space.",
             "OFF_BOARD": "Frogs must be placed on locations with suits, at home, or at the Excuse.",
             "OFFSIDES": "Please click on your desired suit space, not the informational icons on the top row.",
@@ -4175,7 +4179,7 @@
 	    "TOO_HOPPY": "You may not make more than {{count}} moves on your turn.",
             "TOO_EARLY_FOR_REFILL": "Please submit your refill request before making your remaining moves.",
 	    "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
-            "TOO_LATE_FOR_REFILL": "There is no need to force a market refill after your third move.  It will refill automatically after your turn."
+            "TOO_LATE_FOR_REFILL": "There is no need to force a refill of the draw pool after your third move.  It will refill automatically after you submit."
         },
 
         "furl": {

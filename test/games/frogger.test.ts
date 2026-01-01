@@ -351,4 +351,32 @@ describe("Frogger", () => {
 
     });
 
+    it ("Implements the original market rules", () => {
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["courtpawns"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[],"_timestamp":"2025-12-31T23:44:13.590Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","3SK"],["c4","7VY"],["d4","TSVY"],["e4","5YK"],["f4","2SY"],["g4","8MS"],["h4","3LY"],["i4","TSLK"],["j4","1Y"],["k4","TMLY"],["l4","1S"],["m4","TMVK"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["1L","1K","6LK","6SY"],["NY","1V","NS","NM"]],"hands":[[],[]],"market":["9LK","NK","9VY","8YK","2MK","6MV"],"discards":[],"nummoves":3}]}`);
+        
+        expect(g.validateMove("1L:a3-h3/h3-g3/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,6MV")).to.have.deep.property("valid", false);
+        expect(g.validateMove("1L:a3-h3/h3-g3,2MK/")).to.have.deep.property("valid", false);
+        expect(g.validateMove("1L:a3-h3/h3-g3,8YK/")).to.have.deep.property("valid", true);
+        g.move("1L:a3-h3/h3-g3,8YK/");
+
+        //Second move is back to the Excuse.
+        expect(g.validateMove("NY:a2-c2/c2-b2,NK/b2-a2,9LK/")).to.have.deep.property("valid", false);
+        expect(g.validateMove("NY:a2-c2/c2-b2,9VY/b2-a2,NK/")).to.have.deep.property("valid", true);
+    });
+    
+    it ("Implements the free swim variant", () => {
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["courtpawns","freeswim"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[],"_timestamp":"2025-12-31T23:44:13.590Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","3SK"],["c4","7VY"],["d4","TSVY"],["e4","5YK"],["f4","2SY"],["g4","8MS"],["h4","3LY"],["i4","TSLK"],["j4","1Y"],["k4","TMLY"],["l4","1S"],["m4","TMVK"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["1L","1K","6LK","6SY"],["NY","1V","NS","NM"]],"hands":[[],[]],"market":["9LK","NK","9VY","8YK","2MK","6MV"],"discards":[],"nummoves":3}]}`);
+        
+        expect(g.validateMove("1L:a3-h3/h3-g3/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,6MV")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,2MK/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,8YK/")).to.have.deep.property("valid", true);
+        g.move("1L:a3-h3/h3-g3,2MK/");
+
+        //Second move is back to the Excuse.
+        expect(g.validateMove("NY:a2-c2/c2-b2,NK/b2-a2,9LK/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("NY:a2-c2/c2-b2,9LK/b2-a2,NK/")).to.have.deep.property("valid", true);
+    });
+
 });

@@ -222,7 +222,7 @@
     "notes": {
         "alta": "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         "anache": "This implementation follows David Ploog's rulesheet. Three notable changes are that (1) barriers are forbidden, (2) instead of a 16x16, we have a 15x15 variant, where pieces promote to knights on the centreline, and the dragon may not jump to the 7x7 space from the other corner, and (3) against the corners, pieces are captured via crushing capture instead of custodian capture, so there needs to be at least two opponent pieces in a line before a capture is made against the corners.\n\nNote: the stalemate check is expensive. If you cannot make a legal move, you should resign manually.",
-        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).",
+        "arimaa": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nHarlog is an accepted method for determining advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
         "armadas": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         "ataxx": "On three-fold repetition, the game ends and the scores are calculated.",
         "bao": "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
@@ -381,6 +381,20 @@
             "8x10": {
                 "description": "An elongated board that breaks up the power of a central diagonal",
                 "name": "8x10 board"
+            }
+        },
+        "arimaa": {
+            "#setup": {
+                "name": "Standard setup",
+                "description": "Chess-like complement placed on your closest two ranks"
+            },
+            "eee": {
+                "name": "Endless Endgame",
+                "description": "An algorithmic setup that gives each side the same armies"
+            },
+            "free": {
+                "name": "Free placement",
+                "description": "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting."
             }
         },
         "armadas": {
@@ -3100,6 +3114,9 @@
             "ISOLATEDQUEENS": "The queens are now isolated",
             "TERRITORY": "Territory"
         },
+        "arimaa": {
+            "HARLOG": "Harlog"
+        },
         "asli": {
             "TERRITORY": "Territory & Prisoners"
         },
@@ -3375,6 +3392,27 @@
             "MUST_MOVE": "Ships must move at least one space.",
             "PARTIAL": "Select a destination.",
             "SELF_OCCUPATION": "You may not leave your own pieces on your home port."
+        },
+        "arimaa": {
+            "BACKWARDS": "You may not move your own rabbits backwards.",
+            "FROZEN": "The piece at {{where}} is frozen. It cannot move on its own.",
+            "HOME_ROW": "You may only place pieces on the two ranks closest to you.",
+            "INITIAL_INSTRUCTIONS_place": "Select a piece from your hand to place on the board.",
+            "INITIAL_INSTRUCTIONS_play": "Select a piece to move.",
+            "INVALID_PUSH": "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
+            "INVALID_PUSHPULL": "You may only move enemy pieces when completing a pull or starting a push. Neither seem to apply in this case.",
+            "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "NOPASS": "You may not make a move that does not change the board state (no passing).",
+            "NOPIECE": "Trying to place a piece you don't have in your hand: {{piece}}.",
+            "NOT_ADJ": "Pieces may only move one space orthogonally.",
+            "PARTIAL": "You may continue making moves, or click Complete Move to end your turn.",
+            "PARTIAL_MOVE": "Select the destination.",
+            "PARTIAL_PLACE": "Click an empty cell to place the piece.",
+            "PARTIAL_PLAY": "Continue placing your pieces.",
+            "PARTIAL_PUSH": "You must now complete the push.",
+            "PARTIAL_FREE": "You may continue placing pieces, or click Complete Move to end your turn.",
+            "REPEAT": "You may not repeat a given position a third time.",
+            "TOO_MANY": "You may only take up to {{num}} actions this turn."
         },
         "armadas": {
             "BAD_PASS": "When passing, that must be the only command you provide.",

@@ -130,8 +130,12 @@ export interface IRenderOpts {
  export interface IValidationResult {
     valid: boolean;
     message: string;
-    complete?: -1|0|1;   // implies canrender
+    complete?: -1|0|1;   // 0 or 1 implies canrender
     canrender?: boolean; // implies valid
+    // in some cases it's the validator that can autocomplete a move
+    // if present, the caller can safely replace the validated move
+    // with the value of this property
+    autocomplete?: string;
 }
 
 /**

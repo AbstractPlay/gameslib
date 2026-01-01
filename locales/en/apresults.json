@@ -197,6 +197,7 @@
         }
     },
     "DESTROY": {
+        "arimaa": "A {{colour}} {{what}} was trapped at {{where}}.",
         "armadas": "{{player}} sunk the enemy ship named {{name}}.",
         "bao": "The nyumba at {{pit}} was destroyed.",
         "enemy": {

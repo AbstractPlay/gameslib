@@ -461,8 +461,8 @@ export class ArimaaGame extends GameBase {
             const cloned = this.clone();
             cloned.move(stub, {partial: true});
 
-            // placing pieces (detected by clicking off the board or when clicking a cell where `move` is only a single character)
-            if (row === -1 || col === -1 || lastmove.length === 1) {
+            // placing pieces
+            if (cloned.hands !== undefined && cloned.hands[cloned.currplayer - 1].length > 0) {
                 // clicking off the board resets
                 if (row === -1 || col === -1) {
                     const [pc, pstr] = piece!.split("");
@@ -470,7 +470,17 @@ export class ArimaaGame extends GameBase {
                     newmove = `${stub}${stub.length > 0 ? "," : ""}${p === 1 ? pc : pc.toLowerCase()}`;
                 } else {
                     const cell = ArimaaGame.coords2algebraic(col, row);
-                    newmove = `${stub}${stub.length > 0 ? "," : ""}${lastmove}${cell}`;
+                    // clicking a placed cell unplaces it
+                    if (cloned.board.has(cell)) {
+                        const idx = steps.findIndex(([pc,,f,]) => pc === piece![0] && f === cell);
+                        if (idx === -1) {
+                            throw new Error("This should never happen");
+                        }
+                        steps.splice(idx, 1);
+                        newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
+                    } else {
+                        newmove = `${stub}${stub.length > 0 ? "," : ""}${lastmove}${cell}`;
+                    }
                 }
             }
             // moving pieces
@@ -521,6 +531,7 @@ export class ArimaaGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.arimaa.INITIAL_INSTRUCTIONS", {context: (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) ? "place" : "play"});
             return result;
         }
@@ -1027,7 +1038,7 @@ export class ArimaaGame extends GameBase {
                             "_context_fill"
                         ]
                     },
-                    flipy: colour === 2 ? true : false,
+                    // flipy: colour === 2 ? true : false,
                     orientation: "vertical",
                 };
                 legend[`${pc}${colour}x`] = {
@@ -1041,7 +1052,7 @@ export class ArimaaGame extends GameBase {
                             "_context_fill"
                         ]
                     },
-                    flipy: colour === 2 ? true : false,
+                    // flipy: colour === 2 ? true : false,
                     opacity: 0.25,
                     orientation: "vertical",
                 };

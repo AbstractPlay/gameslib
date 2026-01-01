@@ -894,7 +894,10 @@ export class ArimaaGame extends GameBase {
         }
 
         // clear hands when both are empty
-        if (this.hands !== undefined && this.hands[0].length === 0 && this.hands[1].length === 0) {
+        if (
+            (this.hands !== undefined && this.hands[0].length === 0 && this.hands[1].length === 0) ||
+            (this.variants.includes("free") && this.stack.length ===2)
+        ) {
             this.hands = undefined;
         }
 

@@ -843,13 +843,13 @@ export class ArimaaGame extends GameBase {
             // placement
             if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) {
                 if (from !== undefined) {
-                    this.board.set(from, [pc, owner]);
+                    this.board.set(from, [pc, this.currplayer]);
                     this.results.push({type: "place", what: pc, where: from});
                     // update hand
                     if (!this.variants.includes("free")) {
                         this.hands![this.currplayer - 1].splice(this.hands![this.currplayer - 1].indexOf(pc), 1);
                     }
-                    lastmove.push(`${owner === 1 ? pc : pc.toLowerCase()}${from}`);
+                    lastmove.push(`${this.currplayer === 1 ? pc : pc.toLowerCase()}${from}`);
                 } else if (i !== steps.length - 1) {
                     throw new Error("Invalid placement detected in the middle of the move.");
                 }

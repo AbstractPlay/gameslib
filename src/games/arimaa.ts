@@ -77,7 +77,7 @@ export class ArimaaGame extends GameBase {
             { uid: "free", name: "Arbitrary Setup", group: "setup" },
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "perspective", "no-moves", "custom-buttons"]
+        flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -149,6 +149,7 @@ export class ArimaaGame extends GameBase {
 
     // strip any parentheticals and just return the base move
     private static baseMove(mv: string): [Piece, playerid, string?, string?] {
+        mv = mv.replace(/\s+/g, "");
         const idx = mv.indexOf("(");
         let base = mv;
         if (idx >= 0) {
@@ -171,6 +172,15 @@ export class ArimaaGame extends GameBase {
             to = base.substring(3);
         }
         return [pc, player, from, to];
+    }
+
+    private static bareMove(mv: string): string {
+        const idx = mv.indexOf("(");
+        let bare = mv;
+        if (idx >= 0) {
+            bare = mv.slice(0, idx);
+        }
+        return bare;
     }
 
     public numplayers = 2;
@@ -619,8 +629,43 @@ export class ArimaaGame extends GameBase {
                     complete = -1;
                     message = i18next.t("apgames:validation.arimaa.PARTIAL_PLAY")
                 } else {
-                    complete = 1;
-                    message = i18next.t("apgames:validation._general.VALID_MOVE")
+                    // warnings go here
+                    const warnings: string[] = [];
+                    // same file (only silver)
+                    if (this.currplayer === 2) {
+                        const [e1, e2] = [...cloned.board.entries()].filter(e => e[1][0] === "E").map(e => e[0][0]);
+                        if (e1 === e2) {
+                            warnings.push(i18next.t("apgames:validation.arimaa.WARN_FILE"));
+                        }
+                    }
+                    // unbalanced (gold and silver)
+                    const majors = [...cloned.board.entries()].filter(e => e[1][1] === this.currplayer && ["E", "M", "H"].includes(e[1][0])).map(e => ArimaaGame.algebraic2coords(e[0])[0]);
+                    const oneSide = majors.filter(n => n < 5).length;
+                    if (oneSide === 0 || oneSide === 4) {
+                        warnings.push(i18next.t("apgames:validation.arimaa.WARN_BALANCE"));
+                    }
+                    // hiding (gold and silver)
+                    const frontRow = this.currplayer === 1 ? 6 : 1;
+                    const backRow = this.currplayer === 1 ? 7 : 0;
+                    for (let col = 0; col < 8; col++) {
+                        const frontCell = g.coords2algebraic(col, frontRow);
+                        const backCell = g.coords2algebraic(col, backRow);
+                        const front = cloned.board.get(frontCell)![0];
+                        const back = cloned.board.get(backCell)![0];
+                        if (ArimaaGame.strength(front) < ArimaaGame.strength(back)) {
+                            if (front !== "R" && back !== "C") {
+                                warnings.push(i18next.t("apgames:validation.arimaa.WARN_HIDE"));
+                                break;
+                            }
+                        }
+                    }
+                    if (warnings.length > 0) {
+                        complete = 0;
+                        message = [i18next.t("apgames:validation.arimaa.WARNINGS"), ...warnings].join(" ");
+                    } else {
+                        complete = 1;
+                        message = i18next.t("apgames:validation._general.VALID_MOVE")
+                    }
                 }
             }
 
@@ -928,7 +973,7 @@ export class ArimaaGame extends GameBase {
         }
 
         // update currplayer
-        this.lastmove = lastmove.join(",");
+        this.lastmove = lastmove.join(", ");
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
@@ -1262,4 +1307,24 @@ export class ArimaaGame extends GameBase {
         }
         return num;
     }
+
+    public sameMove(move1: string, move2: string): boolean {
+        const left = move1.replace(/\s+/g, "").split(",").map(m => ArimaaGame.bareMove(m)).join(",");
+        const right = move2.replace(/\s+/g, "").split(",").map(m => ArimaaGame.bareMove(m)).join(",");
+        return left === right;
+    }
+
+    public getStartingPosition(): string {
+        if (this.variants.includes("eee")) {
+            const pcs: string[] = [];
+            const board = this.stack[0].board;
+            for (const [cell, [pc, owner]] of board.entries()) {
+                pcs.push(`${owner === 1 ? pc : pc.toLowerCase()}${cell}`);
+            }
+            return pcs.join(",");
+        } else {
+            return "";
+        }
+    }
+
 }

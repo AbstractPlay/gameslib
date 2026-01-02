@@ -3417,7 +3417,11 @@
             "PARTIAL_FREE": "You may continue placing pieces, or click Complete Move to end your turn.",
             "PARTIAL_FREE_NO": "You may continue placing pieces, but you must place at least one rabbit, and you may not place any rabbits on the goal row.",
             "REPEAT": "You may not repeat a given position a third time.",
-            "TOO_MANY": "You may only take up to {{num}} actions this turn."
+            "TOO_MANY": "You may only take up to {{num}} actions this turn.",
+            "WARN_BALANCE": "Balance your four strongest pieces east to west.",
+            "WARN_FILE": "Don't put your elephant in the same file as the opposing elephant.",
+            "WARN_HIDE": "Don't hide stronger pieces behind weaker pieces (except cats behind rabbits).",
+            "WARNINGS": "Your setup is complete, but there are some things for new players to consider. You can click Complete Move to ignore, or you can read the following advice:"
         },
         "armadas": {
             "BAD_PASS": "When passing, that must be the only command you provide.",

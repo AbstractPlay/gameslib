@@ -63,7 +63,7 @@ export class FroggerGame extends GameBase {
             {
                 type: "designer",
                 name: "José Carlos de Diego Guerrero",
-                urls: ["http://www.labsk.net"],
+                urls: ["https://labsk.net/wkr/autor/"],
             },
             {
                 type: "coder",
@@ -420,7 +420,8 @@ export class FroggerGame extends GameBase {
         const fromX = this.algebraic2coords(from)[0];
 
         if ( fromX === 0 ) {
-            throw new Error("Could not back up from the Excuse. This should never happen.");
+            //This can happen now so don't throw it never happens.
+            return [];
         }
 
         for (let c = fromX - 1; c > 0; c--) {
@@ -1044,6 +1045,9 @@ export class FroggerGame extends GameBase {
                             }
                         }
                     } else {
+                        //It would help to be able to check the market for the card
+                        //(${piece!.substring(1)}), b/c it may start a new submove,
+                        //but that would require cloning.
                         newmove = `${move},${piece!.substring(1)}/`;
                     }
                 }
@@ -1101,11 +1105,18 @@ export class FroggerGame extends GameBase {
                 }
             }
             
-            const result = this.validateMove(newmove) as IClickResult;
+            let result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = move;
             } else {
-                result.move = newmove;
+                if (result.autocomplete !== undefined) {
+                    //Internal autocompletion:
+                    const automove = result.autocomplete;
+                    result = this.validateMove(automove) as IClickResult;
+                    result.move = automove;
+                } else {
+                    result.move = newmove;
+                }
             }
             return result;
         } catch (e) {
@@ -1250,16 +1261,29 @@ export class FroggerGame extends GameBase {
             //Check cards.
             //(The case remaining with no card is falling back at no profit.)
             if (subIFM.card) {
-                if (subIFM.forward && (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card!) < 0 ) {
+                if (subIFM.forward && (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card) < 0 ) {
                     //Bad hand card.
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.frogger.NO_SUCH_HAND_CARD", {card: subIFM.card});
                     return result;
                 } else if (!subIFM.forward && cloned.market.indexOf(subIFM.card) < 0 ) {
-                    //Bad card.
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.frogger.NO_SUCH_MARKET_CARD", {card: subIFM.card});
-                    return result;
+                    //Bad card? Unless...
+                    if ( (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card) > -1 ) {
+                        //The player clicked on a hand card to start the next move.
+                        //We use autocompletion to patch up this case.
+                        result.valid = true;
+                        result.complete = -1;
+                        result.canrender = true;
+
+                        //Trim the card off the end of the submone to start another.
+                        result.autocomplete = m.substring(0,m.lastIndexOf(subIFM.card) - 1) + "/" + subIFM.card + ":";
+
+                        return result;
+                    } else {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.frogger.NO_SUCH_MARKET_CARD", {card: subIFM.card});
+                        return result;
+                    }
                 }
             }
 
@@ -1271,6 +1295,13 @@ export class FroggerGame extends GameBase {
                     result.complete = -1;
                     result.canrender = true;
                     result.message = i18next.t("apgames:validation.frogger.PIECE_NEXT");
+
+                    //Internal autocompletion:
+                    if (subIFM.card && (cloned.countColumnFrogs() + cloned.countColumnFrogs(true) === 6)) {
+                        //If no frogs are on the road, the choice of frog is clear.
+                        result.autocomplete = m + cloned.coords2algebraic(0, cloned.currplayer) + "-";
+                    }
+                    
                     return result;
                 } else {
                     //Reachable if an unblocked player submits the blocked move.
@@ -1299,6 +1330,10 @@ export class FroggerGame extends GameBase {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.frogger.NO_RETURN");
                 return result;
+            } else if (fromX === 0 && !subIFM.forward) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.frogger.INVALID_HOP_BACKWARD_EXCUSE");
+                return result;
             }
 
             if ( ! subIFM.to ) {
@@ -1307,6 +1342,13 @@ export class FroggerGame extends GameBase {
                     result.complete = -1;
                     result.canrender = true;
                     result.message = i18next.t("apgames:validation.frogger.PLACE_NEXT");
+
+                    //Internal autocompletion:
+                    const targets:string[] = subIFM.forward ? cloned.getNextForwardsForCard(subIFM.from, subIFM.card!) : this.getNextBack(subIFM.from);
+                    if (targets.length === 1) {
+                        result.autocomplete = m + targets[0] + (subIFM.forward ? "/" : ",");
+                    }
+                    
                     return result;
                 } else {
                     //malformed, no longer reachable.
@@ -1364,6 +1406,7 @@ export class FroggerGame extends GameBase {
                     }
                 } else if (!complete && cloned.market.length > 0) {
                     // No card.  May be a partial move, or can back up without a card.
+                    // We don't autocomplete market picks because it's always optional.
                     result.valid = true;
                     result.complete = 0;
                     result.canrender = true;
@@ -1786,7 +1829,8 @@ export class FroggerGame extends GameBase {
                     {
                         name: "piece",
                         colour: player,
-                        scale: 0.75
+                        scale: 0.75,
+                        opacity: 0.75
                     },
                     {
                         text: count.toString(),

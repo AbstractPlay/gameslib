@@ -499,6 +499,11 @@ export class ArimaaGame extends GameBase {
                             newmove = stub;
                         }
                     } else {
+                        // if just clicking directly on the board, select the strongest piece in hand
+                        if (lastmove === undefined || lastmove === "") {
+                            const sorted = [...cloned.hands![cloned.currplayer - 1]].sort((a,b) => ArimaaGame.strength(b) - ArimaaGame.strength(a));
+                            lastmove = cloned.currplayer === 1 ? sorted[0] : sorted[0].toLowerCase();
+                        }
                         newmove = `${stub}${stub.length > 0 ? "," : ""}${lastmove}${cell}`;
                     }
                 }

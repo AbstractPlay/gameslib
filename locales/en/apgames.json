@@ -4179,7 +4179,7 @@
             "OCCUPIED": "Only one frog per suit space.",
             "OFF_BOARD": "Frogs must be placed on locations with suits, at home, or at the Excuse.",
             "OFFSIDES": "Please click on your desired suit space, not the informational icons on the top row.",
-            "PIECE_NEXT": "Click on a frog to move it forward or backwards.",
+            "PIECE_NEXT": "Click on a frog to move it.",
             "PLACE_NEXT": "Click on a new location for your frog.",
 	    "TOO_HOPPY": "You may not make more than {{count}} moves on your turn.",
             "TOO_EARLY_FOR_REFILL": "Please submit your refill request before making your remaining moves.",

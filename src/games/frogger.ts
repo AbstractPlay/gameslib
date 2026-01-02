@@ -1110,9 +1110,14 @@ export class FroggerGame extends GameBase {
                 result.move = move;
             } else {
                 if (result.autocomplete !== undefined) {
-                    //Internal autocompletion:
-                    const automove = result.autocomplete;
+                    //Internal autocompletion.
+                    let automove = result.autocomplete;
                     result = this.validateMove(automove) as IClickResult;
+                    //A double auto-completion may be needed.
+                    if (result.autocomplete !== undefined) {
+                        automove = result.autocomplete;
+                        result = this.validateMove(automove) as IClickResult;
+                    }
                     result.move = automove;
                 } else {
                     result.move = newmove;
@@ -1346,7 +1351,7 @@ export class FroggerGame extends GameBase {
                     //Internal autocompletion:
                     const targets:string[] = subIFM.forward ? cloned.getNextForwardsForCard(subIFM.from, subIFM.card!) : this.getNextBack(subIFM.from);
                     if (targets.length === 1) {
-                        result.autocomplete = m + targets[0] + (subIFM.forward ? "/" : ",");
+                        result.autocomplete = m + targets[0] + (subIFM.forward ? "/" : "");
                     }
                     
                     return result;
@@ -1476,8 +1481,6 @@ export class FroggerGame extends GameBase {
         }
 
         this.results = [];
-        this._highlight = [];
-        this._points = [];
 
         let marketEmpty = false;
         let refill = false;
@@ -1496,10 +1499,16 @@ export class FroggerGame extends GameBase {
             const moves = m.split("/");
         
             for (let s = 0; s < moves.length; s++) {
+
+                //Really only need these on a final partial submove
+                //but it's simpler to do it every submove.
+                this._highlight = [];
+                this._points = [];
+                
                 const submove = moves[s];
                 if ( submove === "" )
                     continue;
-                
+
                 const subIFM = this.parseMove(submove);
 
                 if (subIFM.refill)

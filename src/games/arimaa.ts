@@ -74,7 +74,7 @@ export class ArimaaGame extends GameBase {
         ],
         variants: [
             { uid: "eee", name: "Endless Endgame", group: "setup" },
-            { uid: "free", name: "Arbitrary Setup", group: "setup" },
+            { uid: "free", name: "Arbitrary Setup", group: "setup", unrated: true },
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>special"],
         flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start"]

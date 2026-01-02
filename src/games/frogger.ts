@@ -1346,7 +1346,7 @@ export class FroggerGame extends GameBase {
                     //Internal autocompletion:
                     const targets:string[] = subIFM.forward ? cloned.getNextForwardsForCard(subIFM.from, subIFM.card!) : this.getNextBack(subIFM.from);
                     if (targets.length === 1) {
-                        result.autocomplete = m + targets[0] + (subIFM.forward ? "/" : ",");
+                        result.autocomplete = m + targets[0] + (subIFM.forward ? "/" : "");
                     }
                     
                     return result;

@@ -393,8 +393,8 @@
                 "description": "Randomly generated setup with reduced army size"
             },
             "free": {
-                "name": "Free placement",
-                "description": "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting."
+                "name": "Free placement (unrated)",
+                "description": "Lets players place as many pieces as they want wherever they want, including creating illegal or otherwise broken positions. Players should communicate clearly before starting. These games cannot be rated."
             }
         },
         "armadas": {

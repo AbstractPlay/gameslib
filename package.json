@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run json2ts && npm run build-ts && npm run lint",
     "build-ts": "tsc && npm pack",
-    "test0": "mocha -r ts-node/register test/games/lasca.test.ts",
+    "test0": "mocha -r ts-node/register test/games/arimaa.test.ts",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
     "lint": "npx eslint .",
     "dist-dev": "rimraf dist && webpack",

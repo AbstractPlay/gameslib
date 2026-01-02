@@ -472,7 +472,12 @@ export class ArimaaGame extends GameBase {
             cloned.move(stub, {partial: true});
 
             // placing pieces
-            if (cloned.hands !== undefined && cloned.hands[cloned.currplayer - 1].length > 0) {
+            // - either still pieces in hand
+            // - or we're in standard setup and ply 1 or 2, no matter the hands
+            if (
+                (cloned.hands !== undefined && cloned.hands[cloned.currplayer - 1].length > 0) ||
+                (this.variants.length === 0 && this.stack.length <= 2)
+            ) {
                 // clicking off the board resets
                 if (row === -1 || col === -1) {
                     const [pc, pstr] = piece!.split("");

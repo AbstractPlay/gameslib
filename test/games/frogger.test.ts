@@ -351,4 +351,54 @@ describe("Frogger", () => {
 
     });
 
+    it ("Implements the original market rules", () => {
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["courtpawns"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[],"_timestamp":"2025-12-31T23:44:13.590Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","3SK"],["c4","7VY"],["d4","TSVY"],["e4","5YK"],["f4","2SY"],["g4","8MS"],["h4","3LY"],["i4","TSLK"],["j4","1Y"],["k4","TMLY"],["l4","1S"],["m4","TMVK"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["1L","1K","6LK","6SY"],["NY","1V","NS","NM"]],"hands":[[],[]],"market":["9LK","NK","9VY","8YK","2MK","6MV"],"discards":[],"nummoves":3}]}`);
+        
+        expect(g.validateMove("1L:a3-h3/h3-g3/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,6MV")).to.have.deep.property("valid", false);
+        expect(g.validateMove("1L:a3-h3/h3-g3,2MK/")).to.have.deep.property("valid", false);
+        expect(g.validateMove("1L:a3-h3/h3-g3,8YK/")).to.have.deep.property("valid", true);
+        g.move("1L:a3-h3/h3-g3,8YK/");
+
+        //Second move is back to the Excuse.
+        expect(g.validateMove("NY:a2-c2/c2-b2,NK/b2-a2,9LK/")).to.have.deep.property("valid", false);
+        expect(g.validateMove("NY:a2-c2/c2-b2,9VY/b2-a2,NK/")).to.have.deep.property("valid", true);
+    });
+    
+    it ("Implements the free swim variant", () => {
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["courtpawns","freeswim"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[],"_timestamp":"2025-12-31T23:44:13.590Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","3SK"],["c4","7VY"],["d4","TSVY"],["e4","5YK"],["f4","2SY"],["g4","8MS"],["h4","3LY"],["i4","TSLK"],["j4","1Y"],["k4","TMLY"],["l4","1S"],["m4","TMVK"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["1L","1K","6LK","6SY"],["NY","1V","NS","NM"]],"hands":[[],[]],"market":["9LK","NK","9VY","8YK","2MK","6MV"],"discards":[],"nummoves":3}]}`);
+        
+        expect(g.validateMove("1L:a3-h3/h3-g3/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,6MV")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,2MK/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("1L:a3-h3/h3-g3,8YK/")).to.have.deep.property("valid", true);
+        g.move("1L:a3-h3/h3-g3,2MK/");
+
+        //Second move is back to the Excuse.
+        expect(g.validateMove("NY:a2-c2/c2-b2,NK/b2-a2,9LK/")).to.have.deep.property("valid", true);
+        expect(g.validateMove("NY:a2-c2/c2-b2,9LK/b2-a2,NK/")).to.have.deep.property("valid", true);
+    });
+    
+    it ("Autocompletes a la Arimaa", () => {
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["advanced","courts"],"gameover":false,"winner":[],"stack":[{"_version":"20251220","_results":[],"_timestamp":"2025-12-29T04:01:17.728Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","PSVK"],["c4","PMYK"],["d4","9LK"],["e4","7VY"],["f4","9VY"],["g4","NL"],["h4","PMSL"],["i4","9MS"],["j4","5ML"],["k4","PVLY"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["6LK","8YK","TMLY","1L"],["8MS","7SK","NM","5SV"]],"hands":[[],[]],"market":["NK","1Y","2VL","NV","NS","1K"],"discards":[],"nummoves":3}]}`);
+
+        //Can move to first occurrence of only suit. (Ace/Crown rule unchanged.)
+        expect(g.validateMove("1L:")).to.have.deep.property("autocomplete", "1L:a3-");
+        expect(g.validateMove("1L:a3-")).to.have.deep.property("autocomplete", "1L:a3-d3/");
+
+        //Can move to first occurrence of the first occuring suit.
+        expect(g.validateMove("6LK:a3-")).to.have.deep.property("autocomplete", "6LK:a3-b1/");
+
+        //Return valid false when user tries to move back from the Excuse.
+        expect(g.validateMove("a3-")).to.have.deep.property("valid", false);
+        
+        //Special autocompletion case to reparse a "bad" handleClick result.
+        expect(g.validateMove("TMLY:a3-d3/d3-c2,6LK")).to.have.deep.property("autocomplete", "TMLY:a3-d3/d3-c2/6LK:");
+        expect(g.validateMove("TMLY:a3-d3/d3-c2/c2-b3,6LK")).to.have.deep.property("autocomplete", "TMLY:a3-d3/d3-c2/c2-b3/6LK:");
+        //OK to autocorrect to a bad value b/c during the game it gets revalidated.
+        expect(g.validateMove("TMLY:a3-d3/d3-c2/c2-b3/6LK:")).to.have.deep.property("valid", false);
+        
+    });
+
+    
 });

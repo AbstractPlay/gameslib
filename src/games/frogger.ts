@@ -63,7 +63,7 @@ export class FroggerGame extends GameBase {
             {
                 type: "designer",
                 name: "José Carlos de Diego Guerrero",
-                urls: ["http://www.labsk.net"],
+                urls: ["https://labsk.net/wkr/autor/"],
             },
             {
                 type: "coder",
@@ -77,7 +77,8 @@ export class FroggerGame extends GameBase {
             { uid: "crocodiles" }, //see the comments on the Decktet Wiki
             { uid: "courts" }, //include courts in the draw deck
             { uid: "courtpawns" }, //courts for pawns
-            { uid: "#market" }, //i.e., no refills
+            { uid: "freeswim" }, //no check on market card claims
+            { uid: "#market" }, //Now called the draw pool.  The base setting is no refills.
             { uid: "refills", group: "market", default: true }, //the official rule
             { uid: "continuous", group: "market" }, //continuous small refills
         ],
@@ -112,7 +113,8 @@ export class FroggerGame extends GameBase {
     private marketsize: number = 6;
     private deck!: Deck;
     private suitboard!: Map<string, string>;
-    private selected: string[] = [];
+    private _highlight: string[] = [];
+    private _points: string[] = [];
 
     constructor(state: number | IFroggerState | string, variants?: string[]) {
         super();
@@ -371,6 +373,18 @@ export class FroggerGame extends GameBase {
         return (options.indexOf(to) > -1);
     }
 
+    private checkWhiteMarket(card: string, to: string): boolean {
+        const toX = this.algebraic2coords(to)[0];
+        if ( toX === 0 || this.variants.includes("freeswim") ) {
+            // When backing up to start you can pick any market card.
+            return true;
+        }
+
+        const suit = this.suitboard.get(to)!;
+        const suits = this.getSuits(card, "validateMove");
+        return ( suits.indexOf(suit) === -1 )
+    }
+
     private countColumnFrogs(home?: boolean): number {
         //Returns number of currplayer's frogs in the start (false/undefined) or home (true) column.
         let col = 0;
@@ -406,7 +420,8 @@ export class FroggerGame extends GameBase {
         const fromX = this.algebraic2coords(from)[0];
 
         if ( fromX === 0 ) {
-            throw new Error("Could not back up from the Excuse. This should never happen.");
+            //This can happen now so don't throw it never happens.
+            return [];
         }
 
         for (let c = fromX - 1; c > 0; c--) {
@@ -470,6 +485,45 @@ export class FroggerGame extends GameBase {
             return [to1];
         else
             return [to2];
+    }
+
+    private getNextForwardsForCard(from: string, cardId: string): string[] {
+        //Generates forward points for the renderer.
+        let points: string[] = [];
+        const card = Card.deserialize(cardId);
+        if (card === undefined) {
+            throw new Error(`Could not deserialize the card ${cardId} in getNextForwardsFromCard.`);
+        }
+        const suits = card.suits.map(s => s.uid);
+
+        if (this.variants.includes("advanced") && card.rank.uid !== this.courtrank) {
+            points = this.getNextForwardAdvanced(from, suits);
+        } else {
+            for (let s = 0; s < suits.length; s++) {
+                points.push(this.getNextForward(from, suits[s]));
+            }
+        }            
+        return points;
+    }
+    
+    private getWhiteMarket(to: string): string[] {
+        //Returns a list of available market cards given a frog destination.
+        const toX = this.algebraic2coords(to)[0];
+        if ( toX === 0 || this.variants.includes("freeswim") ) {
+            //Unrestricted choice.
+            return this.market.slice();
+        }
+
+        const suit = this.suitboard.get(to);
+        const whiteMarket: string[] = [];
+        //Suit check.
+        this.market.forEach(card => {
+            const suits = this.getSuits(card, "randomMove (backward)");
+            if (suits.indexOf(suit!) < 0)
+                whiteMarket.push(card);
+        });
+        
+        return whiteMarket;
     }
 
     private getSuits(cardId: string, callerInfo: string): string[] {
@@ -888,32 +942,15 @@ export class FroggerGame extends GameBase {
 
             const toArray = this.getNextBack(from);
             const to = this.randomElement(toArray);
-            const toX = this.algebraic2coords(to)[0];
-            let card;
-            if (toX === 0) {
-                //Can choose any market card.
-                card = this.randomElement(this.market);
-            } else {
-                //Filter the market by the forbidden suit.
-                const suit = this.suitboard.get(to);
-                const whiteMarket: string[] = [];
-                //Suit check for random market pick.
-                this.market.forEach(card => {
-                    const suits = this.getSuits(card, "randomMove (backward)");
-                    if (suits.indexOf(suit!) < 0)
-                        whiteMarket.push(card);
-                });
 
-                if (whiteMarket.length > 0)
-                    card = this.randomElement(whiteMarket);
-            }
-
-            if ( card )
+            const whiteMarket = this.getWhiteMarket(to);
+            if (whiteMarket.length > 0) {
+                const card = this.randomElement(whiteMarket);
                 return `${from}-${to},${card}`;
-            else
+            } else {
                 return `${from}-${to}`;
+            }
         }
-
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -1008,6 +1045,9 @@ export class FroggerGame extends GameBase {
                             }
                         }
                     } else {
+                        //It would help to be able to check the market for the card
+                        //(${piece!.substring(1)}), b/c it may start a new submove,
+                        //but that would require cloning.
                         newmove = `${move},${piece!.substring(1)}/`;
                     }
                 }
@@ -1065,11 +1105,18 @@ export class FroggerGame extends GameBase {
                 }
             }
             
-            const result = this.validateMove(newmove) as IClickResult;
+            let result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = move;
             } else {
-                result.move = newmove;
+                if (result.autocomplete !== undefined) {
+                    //Internal autocompletion:
+                    const automove = result.autocomplete;
+                    result = this.validateMove(automove) as IClickResult;
+                    result.move = automove;
+                } else {
+                    result.move = newmove;
+                }
             }
             return result;
         } catch (e) {
@@ -1214,16 +1261,29 @@ export class FroggerGame extends GameBase {
             //Check cards.
             //(The case remaining with no card is falling back at no profit.)
             if (subIFM.card) {
-                if (subIFM.forward && (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card!) < 0 ) {
+                if (subIFM.forward && (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card) < 0 ) {
                     //Bad hand card.
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.frogger.NO_SUCH_HAND_CARD", {card: subIFM.card});
                     return result;
                 } else if (!subIFM.forward && cloned.market.indexOf(subIFM.card) < 0 ) {
-                    //Bad card.
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.frogger.NO_SUCH_MARKET_CARD", {card: subIFM.card});
-                    return result;
+                    //Bad card? Unless...
+                    if ( (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card) > -1 ) {
+                        //The player clicked on a hand card to start the next move.
+                        //We use autocompletion to patch up this case.
+                        result.valid = true;
+                        result.complete = -1;
+                        result.canrender = true;
+
+                        //Trim the card off the end of the submone to start another.
+                        result.autocomplete = m.substring(0,m.lastIndexOf(subIFM.card) - 1) + "/" + subIFM.card + ":";
+
+                        return result;
+                    } else {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.frogger.NO_SUCH_MARKET_CARD", {card: subIFM.card});
+                        return result;
+                    }
                 }
             }
 
@@ -1235,6 +1295,13 @@ export class FroggerGame extends GameBase {
                     result.complete = -1;
                     result.canrender = true;
                     result.message = i18next.t("apgames:validation.frogger.PIECE_NEXT");
+
+                    //Internal autocompletion:
+                    if (subIFM.card && (cloned.countColumnFrogs() + cloned.countColumnFrogs(true) === 6)) {
+                        //If no frogs are on the road, the choice of frog is clear.
+                        result.autocomplete = m + cloned.coords2algebraic(0, cloned.currplayer) + "-";
+                    }
+                    
                     return result;
                 } else {
                     //Reachable if an unblocked player submits the blocked move.
@@ -1263,14 +1330,25 @@ export class FroggerGame extends GameBase {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.frogger.NO_RETURN");
                 return result;
+            } else if (fromX === 0 && !subIFM.forward) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.frogger.INVALID_HOP_BACKWARD_EXCUSE");
+                return result;
             }
 
             if ( ! subIFM.to ) {
                 if ( ! complete ) {
                     result.valid = true;
                     result.complete = -1;
-//                    result.canrender = true;
+                    result.canrender = true;
                     result.message = i18next.t("apgames:validation.frogger.PLACE_NEXT");
+
+                    //Internal autocompletion:
+                    const targets:string[] = subIFM.forward ? cloned.getNextForwardsForCard(subIFM.from, subIFM.card!) : this.getNextBack(subIFM.from);
+                    if (targets.length === 1) {
+                        result.autocomplete = m + targets[0] + (subIFM.forward ? "/" : ",");
+                    }
+                    
                     return result;
                 } else {
                     //malformed, no longer reachable.
@@ -1315,26 +1393,20 @@ export class FroggerGame extends GameBase {
                     result.message = i18next.t("apgames:validation.frogger.INVALID_HOP_BACKWARD");
                     return result;
                 }
-                if (toX > 0 && subIFM.card) {
-                    const suit = cloned.suitboard.get(subIFM.to)!;
-                    //Suit check on moving backward in validateMove.
-                    const suits = cloned.getSuits(subIFM.card, "validateMove");
-                    if (suits.indexOf(suit) > -1) {
+                if (subIFM.card) {
+                    // We already checked it was in the market.
+                    // Suit check on moving backward.
+                    if ( !cloned.checkWhiteMarket(subIFM.card, subIFM.to) ) {
                         result.valid = false;
                         result.message = i18next.t("apgames:validation.frogger.INVALID_MARKET_CARD");
                         return result;
                     } else {
-                        // If we have a card, a move back is complete.
+                        // If we have a valid card, a move back is complete.
                         complete = true;
                     }
-                } else if (subIFM.card) {
-                    // When backing up to start you can pick any market card.
-                    // We already checked it was in the market.
-                    
-                    // If we have a card, a move back is complete.
-                    complete = true;
                 } else if (!complete && cloned.market.length > 0) {
                     // No card.  May be a partial move, or can back up without a card.
+                    // We don't autocomplete market picks because it's always optional.
                     result.valid = true;
                     result.complete = 0;
                     result.canrender = true;
@@ -1404,7 +1476,8 @@ export class FroggerGame extends GameBase {
         }
 
         this.results = [];
-        this.selected = [];
+        this._highlight = [];
+        this._points = [];
 
         let marketEmpty = false;
         let refill = false;
@@ -1442,8 +1515,14 @@ export class FroggerGame extends GameBase {
                         bounced.forEach( ([from, to]) => {
                             this.results.push({type: "eject", from: from, to: to, what: "a Crown or Ace"});
                         });
+                    } else if (subIFM.from) {
+                        //Partial.  Highlight the frog.
+                        this._points.push(subIFM.from);
+                        //Highlight possible moves.
+                        const forwardPoints = this.getNextForwardsForCard(subIFM.from, subIFM.card);
+                        forwardPoints.forEach(cell => this._points.push(cell));
                     } else {
-                        //Partial.
+                        //Partial no points.
                     }
                 } else if (subIFM.card) {
                     marketEmpty = this.popMarket(subIFM.card);
@@ -1451,8 +1530,21 @@ export class FroggerGame extends GameBase {
                     if (subIFM.from) {
                         this.results.push({type: "move", from: subIFM.from, to: subIFM.to!, what: subIFM.card!, how: "back"});
                     }
+                } else if (subIFM.to) {
+                    if (partial) {
+                        //Highlight available market cards.
+                        this._highlight = this.getWhiteMarket(subIFM.to);
+                    } else {
+                        this.results.push({type: "move", from: subIFM.from!, to: subIFM.to, what: "no card", how: "back"});
+                    }
+                } else if (subIFM.from) {
+                    //Partial.  Highlight the frog.
+                    this._points.push(subIFM.from);
+                    //Highlight possible moves.
+                    const backwardPoints = this.getNextBack(subIFM.from);
+                    backwardPoints.forEach(cell => this._points.push(cell));
                 } else {
-                    this.results.push({type: "move", from: subIFM.from!, to: subIFM.to!, what: "no card", how: "back"});
+                    //Would be the empty move but that's already covered.
                 }
 
                 if (subIFM.from && subIFM.to) {
@@ -1465,8 +1557,9 @@ export class FroggerGame extends GameBase {
                 }
 
                 if (subIFM.card) {
-                    this.selected.push(subIFM.card);
-                    //console.log("selecting ", subIFM.card);
+                    //In this situation we only highlight a single card,
+                    //but we need an array to highlight legal market cards.
+                    this._highlight = [subIFM.card];
                 }
             }
         }
@@ -1689,10 +1782,10 @@ export class FroggerGame extends GameBase {
         const legend: ILegendObj = {};
         for (const card of allcards) {
             let glyph = card.toGlyph();
-            if (this.selected.indexOf(card.uid) > -1) {
+            if (this._highlight.indexOf(card.uid) > -1) {
                 glyph = card.toGlyph({border: true, fill: {
                     func: "flatten",
-                    fg: "_context_fill",
+                    fg: "_context_strokes",
                     bg: "_context_background",
                     opacity: 0.2
                 }});
@@ -1736,7 +1829,8 @@ export class FroggerGame extends GameBase {
                     {
                         name: "piece",
                         colour: player,
-                        scale: 0.75
+                        scale: 0.75,
+                        opacity: 0.75
                     },
                     {
                         text: count.toString(),
@@ -1860,8 +1954,9 @@ export class FroggerGame extends GameBase {
         //console.log(rep);
 
         // Add annotations
+        rep.annotations = [];
+
         if (this.results.length > 0) {
-            rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = this.algebraic2coords(move.from!);
@@ -1884,6 +1979,26 @@ export class FroggerGame extends GameBase {
                     }
                 }
             }
+        }
+
+        if (this._points.length > 0) {
+            const pts = this._points.map(c => this.algebraic2coords(c));
+
+            //The first point is always the frog, so render it more visibly.
+            const points: {row: number, col: number}[] = [];
+            const point = pts.shift()!;
+            rep.annotations.push({type: "exit", targets: [{ row: point[1], col: point[0] }]});
+            //The type requires contents so test.
+            if (pts.length > 0) {
+                for (const coords of pts) {
+                    points.push({ row: coords[1], col: coords[0] });
+                }
+                rep.annotations.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
+            }
+        }
+
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
 
         return rep;

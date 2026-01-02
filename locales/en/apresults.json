@@ -20,6 +20,7 @@
         "witch_S": "{{player}} chose the Sunstones."
     },
     "ANNOUNCE": {
+        "arimaa": "This position has occurred before. Further repeats of this position are forbidden.",
         "biscuit": "The following cards were in opposing hands: {{cards}}.",
         "deckfish": "{{player}} was unable to move and must pass from now on.",
         "frogger": "{{player}} chose to refill the draw pool.  Other players must pass so he can take his {{moves}} remaining move(s).",

@@ -956,6 +956,10 @@ export class ArimaaGame extends GameBase {
         if (this.numRepeats() >= 2) {
             throw new Error("Three-time repeats should not make it this far.");
         }
+        // but we should let players know if this position is a repeat
+        if (this.numRepeats() === 1) {
+            this.results.push({type: "announce", payload: ["repeat"]});
+        }
 
         // clear hands when both are empty
         if (
@@ -1266,6 +1270,10 @@ export class ArimaaGame extends GameBase {
                 break;
             case "destroy":
                 node.push(i18next.t("apresults:DESTROY.arimaa", {colour: isLower(r.what!) ? "silver" : "gold", what: pc2name.get(r.what!.toUpperCase() as Piece), where: r.where}));
+                resolved = true;
+                break;
+            case "announce":
+                node.push(i18next.t("apresults:ANNOUNCE.arimaa"));
                 resolved = true;
                 break;
         }

@@ -1077,6 +1077,20 @@ export class GlissGame extends GameBase {
         return resolved;
     }
 
+    public sameMove(move1: string, move2: string): boolean {
+        move1 = move1.toLowerCase().replace(/\s+/g, "");
+        move2 = move2.toLowerCase().replace(/\s+/g, "");
+        let idx = move1.indexOf("(");
+        if (idx >= 0) {
+            move1 = move1.substring(0, idx);
+        }
+        idx = move2.indexOf("(");
+        if (idx >= 0) {
+            move2 = move2.substring(0, idx);
+        }
+        return move1 === move2;
+    }
+
     public clone(): GlissGame {
         return Object.assign(new GlissGame(), deepclone(this) as GlissGame);
     }

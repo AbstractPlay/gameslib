@@ -4153,6 +4153,7 @@
             "INVALID_HOP_FORWARD": "When advancing, your frog must land on the first available spot of a given suit.",
             "INVALID_HOP_FORWARD_ADVANCED": "Under the advanced rules, when playing a two-suited card from your hand, your frog must land on the first available spot of either suit (not your choice).  If both suits are present on the same board card (that is, in the same column), you may choose either spot.",
             "INVALID_HOP_BACKWARD": "When hopping back, your frog must land on the nearest available card.  If there is more than one spot available in that column, you may choose any one of them.",
+            "INVALID_HOP_BACKWARD_EXCUSE": "Your frog cannot hop backward from the Excuse.",
             "INVALID_MOVE": "The move '{{move}}' could not be parsed.",
             "INVALID_NON-MOVE": "Unless you're blocked, you must move a frog on each of your moves.",
             "LABEL_MARKET": "Draw pool",

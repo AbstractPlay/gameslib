@@ -1989,9 +1989,9 @@ export class FroggerGame extends GameBase {
         
         // create an area for all invisible cards (if there are any cards left)
         const hands = this.hands.map(h => [...h]);
-        const closedhands = this.closedhands.map(h => [...h]);
-        const visibleCards = [...this.getBoardCards(), ...hands.flat(), ...this.market, ...this.discards, ...closedhands.flat()].map(uid => Card.deserialize(uid));
-
+        const closedhands = this.closedhands.map(h => [...h]).flat().filter(c => c !== "");
+        const visibleCards = [...this.getBoardCards(), ...hands.flat(), ...this.market, ...this.discards, ...closedhands].map(uid => Card.deserialize(uid));
+        
         if (visibleCards.includes(undefined)) {
             throw new Error("Could not deserialize one of the cards. This should never happen!");
         }

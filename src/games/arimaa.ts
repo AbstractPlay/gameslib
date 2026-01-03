@@ -645,14 +645,14 @@ export class ArimaaGame extends GameBase {
                     if (this.currplayer === 2) {
                         const [e1, e2] = [...cloned.board.entries()].filter(e => e[1][0] === "E").map(e => e[0][0]);
                         if (e1 === e2) {
-                            warnings.push(i18next.t("apgames:validation.arimaa.WARN_FILE"));
+                            warnings.push(i18next.t("apgames:validation.arimaa.WARN_FILE") || "WARN");
                         }
                     }
                     // unbalanced (gold and silver)
                     const majors = [...cloned.board.entries()].filter(e => e[1][1] === this.currplayer && ["E", "M", "H"].includes(e[1][0])).map(e => ArimaaGame.algebraic2coords(e[0])[0]);
                     const oneSide = majors.filter(n => n < 5).length;
                     if (oneSide === 0 || oneSide === 4) {
-                        warnings.push(i18next.t("apgames:validation.arimaa.WARN_BALANCE"));
+                        warnings.push(i18next.t("apgames:validation.arimaa.WARN_BALANCE") || "WARN");
                     }
                     // hiding (gold and silver)
                     const frontRow = this.currplayer === 1 ? 6 : 1;
@@ -664,7 +664,7 @@ export class ArimaaGame extends GameBase {
                         const back = cloned.board.get(backCell)![0];
                         if (ArimaaGame.strength(front) < ArimaaGame.strength(back)) {
                             if (front !== "R" && back !== "C") {
-                                warnings.push(i18next.t("apgames:validation.arimaa.WARN_HIDE"));
+                                warnings.push(i18next.t("apgames:validation.arimaa.WARN_HIDE") || "WARN");
                                 break;
                             }
                         }
@@ -673,7 +673,8 @@ export class ArimaaGame extends GameBase {
                         complete = 0;
                         message = [i18next.t("apgames:validation.arimaa.WARNINGS"), ...warnings].join(" ");
                     } else {
-                        complete = 1;
+                        // complete is never 1 for setup
+                        complete = 0;
                         message = i18next.t("apgames:validation._general.VALID_MOVE")
                     }
                 }

@@ -394,10 +394,35 @@ describe("Frogger", () => {
         
         //Special autocompletion case to reparse a "bad" handleClick result.
         expect(g.validateMove("TMLY:a3-d3/d3-c2,6LK")).to.have.deep.property("autocomplete", "TMLY:a3-d3/d3-c2/6LK:");
-        expect(g.validateMove("TMLY:a3-d3/d3-c2/c2-b3,6LK")).to.have.deep.property("autocomplete", "TMLY:a3-d3/d3-c2/c2-b3/6LK:");
+        //Same result when passing through handleClick.
+        expect(g.handleClick("TMLY:a3-d3/d3-c2", -1, -1, "c6LK")).to.have.deep.property("move", "TMLY:a3-d3/d3-c2/6LK:");
+
         //OK to autocorrect to a bad value b/c during the game it gets revalidated.
+        expect(g.validateMove("TMLY:a3-d3/d3-c2/c2-b3,6LK")).to.have.deep.property("autocomplete", "TMLY:a3-d3/d3-c2/c2-b3/6LK:");
         expect(g.validateMove("TMLY:a3-d3/d3-c2/c2-b3/6LK:")).to.have.deep.property("valid", false);
-        
+        //Same result when passing through handleClick.
+        expect(g.handleClick("TMLY:a3-d3/d3-c2/c2-b3", -1, -1, "c6LK")).to.have.deep.property("move", "TMLY:a3-d3/d3-c2/c2-b3/6LK:");
+
+    });
+
+    it ("Double autocompletes", () => {
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["continuous","advanced"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[],"_timestamp":"2025-12-30T15:56:10.049Z","currplayer":1,"board":{"dataType":"Map","value":[["b4","PMYK"],["c4","PMSL"],["d4","1M"],["e4","PVLY"],["f4","NL"],["g4","PSVK"],["h4","NK"],["i4","1Y"],["j4","3SK"],["k4","NS"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[["","","",""],["8MS","7ML","9VY","8YK"]],"hands":[[],[]],"market":["6LK","6SY","9LK"],"discards":[],"nummoves":3},{"_version":"20251229","_results":[{"type":"move","from":"a3","to":"e3","what":"NV","how":"forward"},{"type":"move","from":"e3","to":"g3","what":"2SY","how":"forward"},{"type":"move","from":"g3","to":"l3","what":"1V","how":"forward"}],"_timestamp":"2025-12-31T20:57:34.367Z","currplayer":2,"lastmove":"NV:a3-e3/2SY:e3-g3/1V:g3-l3/","board":{"dataType":"Map","value":[["b4","PMYK"],["c4","PMSL"],["d4","1M"],["e4","PVLY"],["f4","NL"],["g4","PSVK"],["h4","NK"],["i4","1Y"],["j4","3SK"],["k4","NS"],["a3","X1-5"],["a2","X2-6"],["l3","X1-1"]]},"closedhands":[[""],["8MS","7ML","9VY","8YK"]],"hands":[[],[]],"market":["6LK","6SY","9LK"],"discards":["NV","2SY","1V"],"nummoves":3},{"_version":"20251229","_results":[{"type":"move","from":"a2","to":"b2","what":"8YK","how":"forward"},{"type":"move","from":"a2","to":"e3","what":"9VY","how":"forward"},{"type":"move","from":"e3","to":"d3","what":"6SY","how":"back"},{"type":"deckDraw"}],"_timestamp":"2026-01-01T03:11:03.580Z","currplayer":1,"lastmove":"8YK:a2-b2/9VY:a2-e3/e3-d3,6SY/","board":{"dataType":"Map","value":[["b4","PMYK"],["c4","PMSL"],["d4","1M"],["e4","PVLY"],["f4","NL"],["g4","PSVK"],["h4","NK"],["i4","1Y"],["j4","3SK"],["k4","NS"],["a3","X1-5"],["a2","X2-4"],["l3","X1-1"],["b2","X2"],["d3","X2"]]},"closedhands":[[""],["8MS","7ML"]],"hands":[[],["6SY"]],"market":["4YK","4VL","3LY"],"discards":["NV","2SY","1V","8YK","9VY"],"nummoves":3},{"_version":"20251229","_results":[{"type":"move","from":"a3","to":"b1","what":"1K","how":"forward"},{"type":"eject","from":"b2","to":"a2","what":"a Crown or Ace"},{"type":"move","from":"b1","to":"a3","what":"4VL","how":"back"},{"type":"deckDraw"}],"_timestamp":"2026-01-01T13:48:53.017Z","currplayer":2,"lastmove":"1K:a3-b1/b1-a3,4VL/","board":{"dataType":"Map","value":[["b4","PMYK"],["c4","PMSL"],["d4","1M"],["e4","PVLY"],["f4","NL"],["g4","PSVK"],["h4","NK"],["i4","1Y"],["j4","3SK"],["k4","NS"],["a3","X1-5"],["a2","X2-5"],["l3","X1-1"],["d3","X2"]]},"closedhands":[[],["8MS","7ML"]],"hands":[["4VL"],["6SY"]],"market":["NM","8VL","5YK"],"discards":["NV","2SY","1V","8YK","9VY","1K"],"nummoves":3}]}`);
+
+        //Setup, with testing of single completes.
+        expect(g.handleClick("8MS:d3-g3/", -1, -1, "c7ML")).to.have.deep.property("move", "8MS:d3-g3/7ML:");
+
+        expect(g.validateMove("8MS:d3-g3/7ML:g3-")).to.have.deep.property("autocomplete", "8MS:d3-g3/7ML:g3-l2/");
+        //Same result when passing through handleClick.
+        expect(g.handleClick("8MS:d3-g3/7ML:", 1, 6, "X2")).to.have.deep.property("move", "8MS:d3-g3/7ML:g3-l2/");
+
+        g.move("8MS:d3-g3/7ML:g3-l2/");
+
+        //The actual double autocomplete.
+        expect(g.validateMove("4VL:")).to.have.deep.property("autocomplete", "4VL:a3-");
+        expect(g.validateMove("4VL:a3-")).to.have.deep.property("autocomplete", "4VL:a3-c1/");
+        //The double validation happens in handleClick.
+        expect(g.handleClick("", -1, -1, "c4VL")).to.have.deep.property("move", "4VL:a3-c1/");
+
     });
 
     

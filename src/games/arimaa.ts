@@ -493,6 +493,8 @@ export class ArimaaGame extends GameBase {
                             if (idx >= 0) {
                                 steps.splice(idx, 1);
                                 newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
+                            } else {
+                                newmove = stub;
                             }
                         } else {
                             newmove = stub;

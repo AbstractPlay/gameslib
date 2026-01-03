@@ -490,11 +490,10 @@ export class ArimaaGame extends GameBase {
                         // clicking an occupied cell after selecting a piece to place
                         if (lastmove.length === 0) {
                             const idx = steps.findIndex(([pc,,f,]) => pc === piece![0] && f === cell);
-                            if (idx === -1) {
-                                throw new Error("This should never happen");
+                            if (idx >= 0) {
+                                steps.splice(idx, 1);
+                                newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
                             }
-                            steps.splice(idx, 1);
-                            newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
                         } else {
                             newmove = stub;
                         }

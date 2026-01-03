@@ -80,6 +80,7 @@ export class ArmadasGame extends GameBase {
             {
                 uid: "freeform",
                 group: "fleet",
+                unrated: true,
             },
             {
                 uid: "noislands",

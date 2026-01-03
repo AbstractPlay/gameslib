@@ -402,8 +402,8 @@
                 "name": "One obstacle"
             },
             "freeform": {
-                "description": "Lets the players determine their own fleet compositions. Requires good communication before starting.",
-                "name": "Freeform"
+                "description": "Lets the players determine their own fleet compositions. Requires good communication before starting. These games cannot be rated.",
+                "name": "Freeform (unrated)"
             },
             "noislands": {
                 "description": "No starting islands",
@@ -2211,15 +2211,15 @@
                 "description": "Set up the board with four random empty squares.",
                 "name": "Random gaps"
             },
-	    "hey": {
+	       "hey": {
                 "name": "Simpler captures",
                 "description": "A simplification of the rules in which you always capture the pyramid you moved away from, instead of a pyramid in any line from your piece's new location.  This makes the game less like Amazons and more like Hey! That's My Fish."
             },
- 	    "finalfree": {
+ 	        "finalfree": {
                 "name": "No final captures",
                 "description": "At the end of the game, players do not collect the pyramids under their pieces."
             },
- 	    "pieces-2": {
+ 	        "pieces-2": {
                 "name": "2 pieces each",
               "description": "The piece count may optionally be reduced from 3 each to 2 each in a four-player game.  (This variant is not intended for lower player counts.)"
             }

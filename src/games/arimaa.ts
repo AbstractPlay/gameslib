@@ -525,7 +525,7 @@ export class ArimaaGame extends GameBase {
                 }
             }
 
-            // console.log(`About to validate ${newmove}`);
+            console.log(`About to validate '${newmove}'`);
             let result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = move;
@@ -557,6 +557,11 @@ export class ArimaaGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            // if in the setup phase, we need canrender, otherwise don't
+            result.canrender = false;
+            if (!this.variants.includes("eee") && this.stack.length <= 2) {
+                result.canrender = true;
+            }
             result.canrender = true;
             result.message = i18next.t("apgames:validation.arimaa.INITIAL_INSTRUCTIONS", {context: (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) ? "place" : "play"});
             return result;
@@ -971,7 +976,7 @@ export class ArimaaGame extends GameBase {
         // clear hands when both are empty
         if (
             (this.hands !== undefined && this.hands[0].length === 0 && this.hands[1].length === 0) ||
-            (this.variants.includes("free") && this.stack.length ===2)
+            (this.variants.includes("free") && this.stack.length === 2)
         ) {
             this.hands = undefined;
         }

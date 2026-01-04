@@ -497,7 +497,7 @@ export class FroggerGame extends GameBase {
         let points: string[] = [];
         const card = Card.deserialize(cardId);
         if (card === undefined) {
-            throw new Error(`Could not deserialize the card ${cardId} in getNextForwardsFromCard.`);
+            throw new Error(`Could not deserialize the card ${cardId} in getNextForwardsForCard (from ${from}).`);
         }
         const suits = card.suits.map(s => s.uid);
 

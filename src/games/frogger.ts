@@ -497,7 +497,9 @@ export class FroggerGame extends GameBase {
         let points: string[] = [];
         const card = Card.deserialize(cardId);
         if (card === undefined) {
-            throw new Error(`Could not deserialize the card ${cardId} in getNextForwardsForCard (from ${from}).`);
+            //If you can see this, the front end is trying to generate moves
+            // for the next player from his hidden hand cards.  Be forgiving...
+            return points;
         }
         const suits = card.suits.map(s => s.uid);
 
@@ -984,6 +986,7 @@ export class FroggerGame extends GameBase {
             let to;
             const cardObj = Card.deserialize(card);
             if (cardObj === undefined) {
+                //Already handled the hidden case, so something else is wrong.
                 throw new Error(`Could not deserialize the card ${card} in randomMove.`);
             }
 

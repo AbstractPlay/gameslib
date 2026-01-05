@@ -903,12 +903,12 @@ export class ArimaaGame extends GameBase {
         }
 
         const initial = this.clone(); // used to triple check that the board state changes
+        const lastmove: string[] = [];
         if (m.length > 0) {
             // because we don't have a move list to fall back on,
             // we do some basic validation as we go and throw on errors
             // but we don't go so far as to validate pushes and pulls here
             this.results = [];
-            const lastmove: string[] = [];
             const steps = m.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
             for (let i = 0; i < steps.length; i++) {
                 const [pc, owner, from, to] = steps[i];

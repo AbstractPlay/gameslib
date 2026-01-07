@@ -458,6 +458,7 @@ export class AzacruGame extends GameBase {
             }
             return result;
         } catch (e) {
+            // console.log(e);
             return {
                 move,
                 valid: false,
@@ -608,6 +609,15 @@ export class AzacruGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
                 return result;
             }
+            const pom = this.calcMvPower(from!);
+            const [fx, fy] = g.algebraic2coords(from!);
+            const [tx, ty] = g.algebraic2coords(to!);
+            const dist = RectGrid.distance(fx, fy, tx, ty);
+            if (dist > pom) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.azacru.TOO_FAR", {pom});
+                return result;
+            }
             const tContents = this.board.get(to);
             // if to is occupied, validate constraints
             if (tContents !== undefined) {
@@ -635,7 +645,7 @@ export class AzacruGame extends GameBase {
             }
 
             // final failsafe for base move
-            const base = m.substring(0, 6);
+            const base = m.substring(0, 5);
             if (!baseMoves.includes(base)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.azacru.BAD_MOVE");

@@ -158,6 +158,7 @@
         "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
         "query": "A connection game on an Alquerque board. Place a piece on an eight-way intersection, or two pieces on four-way intersections.",
         "quincunx": "A Decktet tableau-building game where the grid gets built as you go. Each play scores points (sometimes negative points). A game consists of as many rounds as there are players. Highest accumulated score wins.",
+        "rampart": "An annihilation game where players grow from a predetermined set of groups.",
         "razzle": "Razzle Dazzle, also called Knight Moves, is a fast-paced game, designed to recreate as much of the experience of Ultimate Frisbee as possible while keeping the rules and gameplay simple and elegant. Two players try to move their ball to the opposite side of the board, using their 5 pieces as passing instruments. A player may either pass the ball or move a piece like a knight in a game of Chess.",
         "realm": "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
@@ -4856,6 +4857,13 @@
         "quincunx": {
             "INITIAL_INSTRUCTIONS": "Select a card from your hand to place on the board.",
             "PARTIAL": "Provide the destination."
+        },
+        "rampart": {
+            "BAD_PLACEMENT": "One of the cells you're trying to place a piece on is either nonexistent or occupied.",
+            "INITIAL_INSTRUCTIONS_play": "Select an empty cell to place a piece or a dead enemy piece to remove the groups.",
+            "INITIAL_INSTRUCTIONS_setup": "Select any empty cell to place a piece or an existing friendly piece to remove it.",
+            "PARTIAL_PLACE": "Continue adding and removing pieces until you're done, then click the Complete Move button.",
+            "PLACE_ONE": "You must place at least one piece."
         },
         "razzle": {
             "BAD_DIRECTION": "You can only move the ball orthogonally or diagonally. The move from {{from}} to {{to}} is invalid.",

@@ -3529,14 +3529,15 @@
             "NO_MOVES": "The piece at {{where}} cannot move."
         },
         "azacru": {
-            "BAD_MOVE": "Pieces may only move straight ahead or at a 45 degree angle.",
+            "BAD_MOVE": "That move does not appear to be valid. Pieces may only move straight ahead or at a 45 degree angle, may not land on enemy tiles or chevrons, and can't normally jump other chevrons.",
             "BAD_ORIENTATION": "The only valid orientation notations are \">\", \"<\", and \".\".",
             "BAD_PASS": "You may not pass if legal moves are available.",
             "ENEMY_TILE": "You can't land on opposing tiles.",
             "INITIAL_INSTRUCTIONS": "Select a chevron to move.",
             "NEED_DESTINATION": "Select the destination (valid targets are highlighted).",
             "NO_CAPTURES": "You may not move onto a cell with another chevron.",
-            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face."
+            "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face.",
+            "TOO_FAR": "You can't move further than your power of movement (currently {{pom}})."
         },
         "bao": {
             "BAD_TAX": "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",

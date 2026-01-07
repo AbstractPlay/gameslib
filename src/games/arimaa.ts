@@ -490,11 +490,12 @@ export class ArimaaGame extends GameBase {
                         // clicking an occupied cell after selecting a piece to place
                         if (lastmove.length === 0) {
                             const idx = steps.findIndex(([pc,,f,]) => pc === piece![0] && f === cell);
-                            if (idx === -1) {
-                                throw new Error("This should never happen");
+                            if (idx >= 0) {
+                                steps.splice(idx, 1);
+                                newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
+                            } else {
+                                newmove = stub;
                             }
-                            steps.splice(idx, 1);
-                            newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
                         } else {
                             newmove = stub;
                         }
@@ -524,7 +525,7 @@ export class ArimaaGame extends GameBase {
                 }
             }
 
-            // console.log(`About to validate ${newmove}`);
+            // console.log(`About to validate '${newmove}'`);
             let result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = move;
@@ -556,6 +557,11 @@ export class ArimaaGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            // if in the setup phase, we need canrender, otherwise don't
+            result.canrender = false;
+            if (!this.variants.includes("eee") && this.stack.length <= 2) {
+                result.canrender = true;
+            }
             result.canrender = true;
             result.message = i18next.t("apgames:validation.arimaa.INITIAL_INSTRUCTIONS", {context: (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) ? "place" : "play"});
             return result;
@@ -896,49 +902,51 @@ export class ArimaaGame extends GameBase {
             }
         }
 
-        // because we don't have a move list to fall back on,
-        // we do some basic validation as we go and throw on errors
-        // but we don't go so far as to validate pushes and pulls here
-        this.results = [];
         const initial = this.clone(); // used to triple check that the board state changes
         const lastmove: string[] = [];
-        const steps = m.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
-        for (let i = 0; i < steps.length; i++) {
-            const [pc, owner, from, to] = steps[i];
-            // placement
-            if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) {
-                if (from !== undefined) {
-                    this.board.set(from, [pc, this.currplayer]);
-                    this.results.push({type: "place", what: pc, where: from});
-                    // update hand
-                    if (!this.variants.includes("free")) {
-                        this.hands![this.currplayer - 1].splice(this.hands![this.currplayer - 1].indexOf(pc), 1);
-                    }
-                    lastmove.push(`${this.currplayer === 1 ? pc : pc.toLowerCase()}${from}`);
-                } else if (i !== steps.length - 1) {
-                    throw new Error("Invalid placement detected in the middle of the move.");
-                }
-            }
-            // movement
-            else {
-                if (from !== undefined && to !== undefined) {
-                    const moved = this.board.get(from)!;
-                    this.board.set(to, moved);
-                    this.board.delete(from);
-                    this.results.push({type: "move", from, to});
-                    // check traps
-                    let parenthetical = "";
-                    for (const trap of traps) {
-                        if (this.board.has(trap) && this.isAlone(trap)) {
-                            const [trapPc, trapOwner] = this.board.get(trap)!;
-                            this.board.delete(trap);
-                            this.results.push({type: "destroy", what: trapOwner === 1 ? trapPc : trapPc.toLowerCase(), where: trap});
-                            parenthetical = `(x${trapOwner === 1 ? trapPc : trapPc.toLowerCase()}${trap})`;
+        if (m.length > 0) {
+            // because we don't have a move list to fall back on,
+            // we do some basic validation as we go and throw on errors
+            // but we don't go so far as to validate pushes and pulls here
+            this.results = [];
+            const steps = m.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
+            for (let i = 0; i < steps.length; i++) {
+                const [pc, owner, from, to] = steps[i];
+                // placement
+                if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) {
+                    if (from !== undefined) {
+                        this.board.set(from, [pc, this.currplayer]);
+                        this.results.push({type: "place", what: pc, where: from});
+                        // update hand
+                        if (!this.variants.includes("free")) {
+                            this.hands![this.currplayer - 1].splice(this.hands![this.currplayer - 1].indexOf(pc), 1);
                         }
+                        lastmove.push(`${this.currplayer === 1 ? pc : pc.toLowerCase()}${from}`);
+                    } else if (i !== steps.length - 1) {
+                        throw new Error("Invalid placement detected in the middle of the move.");
                     }
-                    lastmove.push(`${owner === 1 ? pc : pc.toLowerCase()}${from}${to}${parenthetical}`);
-                } else if (i !== steps.length - 1) {
-                    throw new Error("Invalid move detected in the middle of the move.");
+                }
+                // movement
+                else {
+                    if (from !== undefined && to !== undefined) {
+                        const moved = this.board.get(from)!;
+                        this.board.set(to, moved);
+                        this.board.delete(from);
+                        this.results.push({type: "move", from, to});
+                        // check traps
+                        let parenthetical = "";
+                        for (const trap of traps) {
+                            if (this.board.has(trap) && this.isAlone(trap)) {
+                                const [trapPc, trapOwner] = this.board.get(trap)!;
+                                this.board.delete(trap);
+                                this.results.push({type: "destroy", what: trapOwner === 1 ? trapPc : trapPc.toLowerCase(), where: trap});
+                                parenthetical = `(x${trapOwner === 1 ? trapPc : trapPc.toLowerCase()}${trap})`;
+                            }
+                        }
+                        lastmove.push(`${owner === 1 ? pc : pc.toLowerCase()}${from}${to}${parenthetical}`);
+                    } else if (i !== steps.length - 1) {
+                        throw new Error("Invalid move detected in the middle of the move.");
+                    }
                 }
             }
         }
@@ -970,7 +978,7 @@ export class ArimaaGame extends GameBase {
         // clear hands when both are empty
         if (
             (this.hands !== undefined && this.hands[0].length === 0 && this.hands[1].length === 0) ||
-            (this.variants.includes("free") && this.stack.length ===2)
+            (this.variants.includes("free") && this.stack.length === 2)
         ) {
             this.hands = undefined;
         }

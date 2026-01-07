@@ -201,7 +201,6 @@ import { AssemblyGame, IAssemblyState } from "./assembly";
 import { PaintbucketGame, IPaintbucketState } from "./paintbucket";
 import { C1Game, IC1State } from "./c1";
 import { BloqueoGame, IBloqueoState } from "./bloqueo";
-import { StormCGame, IStormCState } from "./stormc";
 import { PilastriGame, IPilastriState } from "./pilastri";
 import { TessellaGame, ITessellaState } from "./tessella";
 import { GorogoGame, IGorogoState } from "./gorogo";
@@ -218,6 +217,7 @@ import { LascaGame, ILascaState } from "./lasca";
 import { EmergoGame, IEmergoState } from "./emergo";
 import { FroggerGame, IFroggerState } from "./frogger";
 import { ArimaaGame, IArimaaState } from "./arimaa";
+import { RampartGame, IRampartState } from "./rampart";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -422,7 +422,6 @@ export {
     PaintbucketGame, IPaintbucketState,
     C1Game, IC1State,
     BloqueoGame, IBloqueoState,
-    StormCGame, IStormCState,
     PilastriGame, IPilastriState,
     TessellaGame, ITessellaState,
     GorogoGame, IGorogoState,
@@ -439,6 +438,7 @@ export {
     EmergoGame, IEmergoState,
     FroggerGame, IFroggerState,
     ArimaaGame, IArimaaState,
+    RampartGame, IRampartState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -508,13 +508,14 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
-                              typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
+                              typeof BloqueoGame | typeof PilastriGame |
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
                               typeof StairsGame | typeof EmuGame | typeof DeckfishGame |
                               typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
                               typeof SunspotGame | typeof StawvsGame | typeof LascaGame |
-                              typeof EmergoGame | typeof FroggerGame | typeof ArimaaGame
+                              typeof EmergoGame | typeof FroggerGame | typeof ArimaaGame |
+                              typeof RampartGame
                 >();
 // Manually add each game to the following array
 [
@@ -546,9 +547,9 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PenguinGame, OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame,
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
-    BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
+    BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
-    LascaGame, EmergoGame, FroggerGame, ArimaaGame,
+    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -962,8 +963,6 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new C1Game(...args);
         case "bloqueo":
             return new BloqueoGame(...args);
-        case "stormc":
-            return new StormCGame(...args);
         case "pilastri":
             return new PilastriGame(...args);
         case "tessella":
@@ -996,6 +995,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new FroggerGame(args[0], ...args.slice(1));
         case "arimaa":
             return new ArimaaGame(...args);
+        case "rampart":
+            return new RampartGame(...args);
     }
     return;
 }

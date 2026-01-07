@@ -413,6 +413,11 @@ export class FroggerGame extends GameBase {
         return cards;
     }
 
+    private getFullHand(player: playerid): string[] {
+        //Returns concatenated hidden and visible hands for player playerId.
+        return this.hands[player - 1].concat(this.closedhands[player - 1]);
+    }
+
     private getNextBack(from: string): string[] {
         //Walk back through the board until we find a free column.
         //Return an array of all available cells in that column.
@@ -492,7 +497,9 @@ export class FroggerGame extends GameBase {
         let points: string[] = [];
         const card = Card.deserialize(cardId);
         if (card === undefined) {
-            throw new Error(`Could not deserialize the card ${cardId} in getNextForwardsFromCard.`);
+            //If you can see this, the front end is trying to generate moves
+            // for the next player from his hidden hand cards.  Be forgiving...
+            return points;
         }
         const suits = card.suits.map(s => s.uid);
 
@@ -853,7 +860,8 @@ export class FroggerGame extends GameBase {
     }
 
     public moves(player?: playerid): string[] {
-        //Used for the autopasser.  Not a full move list.
+        //Used for the autopasser.
+        //Not a full move list, but better than just one random single move.
         if (this.gameover) {
             return [];
         }
@@ -867,11 +875,64 @@ export class FroggerGame extends GameBase {
             return ["pass"];
         }
 
-        return [this.randomMove()];
+        //Make a list of all possible first moves (out of the three allowed).
+        let moves:string[] = [];
+        if (this.checkBlocked()) {
+            //Note the market must be populated at this point.
+            moves = this.market.map(card => card + "//");
+            return moves;
+        }
+
+        //List frogs.
+        let firstFrog = "";
+        const freeFrogs: string[] = [];
+        for (let row = 1; row < this.rows; row++) {
+            for (let col = 0; col < this.columns - 1; col++) {
+                const cell = this.coords2algebraic(col, row);
+                if (this.board.has(cell)) {
+                    const frog = this.board.get(cell)!;
+                    if ( frog.charAt(1) === this.currplayer.toString() ) {
+                        if (col === 0)
+                            firstFrog = cell;
+                        else
+                            freeFrogs.push(cell);
+                    }
+                }
+            }
+        }
+
+        //Get backward moves.
+        freeFrogs.forEach( from => {
+            const toArray = this.getNextBack(from);
+            toArray.forEach( to => {
+                moves.push(`${from}-${to}`); //the non-profit move
+                this.getWhiteMarket(to).forEach( card => moves.push(`${from}-${to},${card}`) );
+            });
+        });
+
+        //Get forward moves.
+        //Now we can use a first frog.
+        if (firstFrog !== "")
+            freeFrogs.push(firstFrog);
+
+        const amalgahand = this.getFullHand(this.currplayer);
+        amalgahand.forEach( card => {
+            freeFrogs.forEach( from => {
+                let targets:string[] = this.getNextForwardsForCard(from, card);
+                //Can sometimes get duplicate targets, so uniquify.
+                targets = [...new Set(targets)];
+                targets.forEach( to => moves.push(`${card}:${from}-${to}`) );
+            });
+        });
+
+        return moves;
     }
     
     public randomMove(): string {
         //We return only one, legal move, for testing purposes.
+
+        //Now that there's a move list we could use it,
+        //  but these results are weighted so keeping them.
 
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -913,7 +974,7 @@ export class FroggerGame extends GameBase {
         
         if ( handcard ) {
             //hop forward
-            const card = this.randomElement( this.closedhands[this.currplayer - 1].concat(this.hands[this.currplayer - 1]) );
+            const card = this.randomElement( this.getFullHand(this.currplayer) );
             //Card shouldn't be invisible but if it is we need to give up gracefully.
             if (card === "") {
                 return "hidden";
@@ -925,6 +986,7 @@ export class FroggerGame extends GameBase {
             let to;
             const cardObj = Card.deserialize(card);
             if (cardObj === undefined) {
+                //Already handled the hidden case, so something else is wrong.
                 throw new Error(`Could not deserialize the card ${card} in randomMove.`);
             }
 
@@ -1113,10 +1175,12 @@ export class FroggerGame extends GameBase {
                     //Internal autocompletion.
                     let automove = result.autocomplete;
                     result = this.validateMove(automove) as IClickResult;
+                    //console.log("first autocomplete", automove);
                     //A double auto-completion may be needed.
                     if (result.autocomplete !== undefined) {
                         automove = result.autocomplete;
                         result = this.validateMove(automove) as IClickResult;
+                        //console.log("double autocompleting", automove);
                     }
                     result.move = automove;
                 } else {
@@ -1266,14 +1330,14 @@ export class FroggerGame extends GameBase {
             //Check cards.
             //(The case remaining with no card is falling back at no profit.)
             if (subIFM.card) {
-                if (subIFM.forward && (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card) < 0 ) {
+                if (subIFM.forward && cloned.getFullHand(cloned.currplayer).indexOf(subIFM.card) < 0 ) {
                     //Bad hand card.
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.frogger.NO_SUCH_HAND_CARD", {card: subIFM.card});
                     return result;
                 } else if (!subIFM.forward && cloned.market.indexOf(subIFM.card) < 0 ) {
                     //Bad card? Unless...
-                    if ( (cloned.closedhands[cloned.currplayer - 1].concat(cloned.hands[cloned.currplayer - 1])).indexOf(subIFM.card) > -1 ) {
+                    if ( cloned.getFullHand(cloned.currplayer).indexOf(subIFM.card) > -1 ) {
                         //The player clicked on a hand card to start the next move.
                         //We use autocompletion to patch up this case.
                         result.valid = true;
@@ -1349,7 +1413,9 @@ export class FroggerGame extends GameBase {
                     result.message = i18next.t("apgames:validation.frogger.PLACE_NEXT");
 
                     //Internal autocompletion:
-                    const targets:string[] = subIFM.forward ? cloned.getNextForwardsForCard(subIFM.from, subIFM.card!) : this.getNextBack(subIFM.from);
+                    let targets:string[] = subIFM.forward ? cloned.getNextForwardsForCard(subIFM.from, subIFM.card!) : cloned.getNextBack(subIFM.from);
+                    //Can sometimes get duplicate targets, so uniquify.
+                    targets = [...new Set(targets)];
                     if (targets.length === 1) {
                         result.autocomplete = m + targets[0] + (subIFM.forward ? "/" : "");
                     }
@@ -1794,7 +1860,7 @@ export class FroggerGame extends GameBase {
             if (this._highlight.indexOf(card.uid) > -1) {
                 glyph = card.toGlyph({border: true, fill: {
                     func: "flatten",
-                    fg: "_context_strokes",
+                    fg: "_context_labels",
                     bg: "_context_background",
                     opacity: 0.2
                 }});
@@ -1843,7 +1909,7 @@ export class FroggerGame extends GameBase {
                     },
                     {
                         text: count.toString(),
-                        colour: "_context_strokes",
+                        colour: "_context_labels",
                         scale: 0.66
                     }
                 ]
@@ -1886,7 +1952,7 @@ export class FroggerGame extends GameBase {
         // build pieces areas
         const areas: AreaPieces[] = [];
         for (let p = 1; p <= this.numplayers; p++) {
-            const hand = this.closedhands[p-1].concat(this.hands[p-1]);
+            const hand = this.getFullHand(p as playerid);
             if (hand.length > 0) {
                 areas.push({
                     type: "pieces",
@@ -1926,10 +1992,13 @@ export class FroggerGame extends GameBase {
         
         // create an area for all invisible cards (if there are any cards left)
         const hands = this.hands.map(h => [...h]);
-        const visibleCards = [...this.getBoardCards(), ...hands.flat(), ...this.market, ...this.discards].map(uid => Card.deserialize(uid));
+        const closedhands = this.closedhands.map(h => [...h]).flat().filter(c => c !== "");
+        const visibleCards = [...this.getBoardCards(), ...hands.flat(), ...this.market, ...this.discards, ...closedhands].map(uid => Card.deserialize(uid));
+        
         if (visibleCards.includes(undefined)) {
             throw new Error("Could not deserialize one of the cards. This should never happen!");
         }
+
         const remaining = allcards.sort(cardSortAsc).filter(c => visibleCards.find(cd => cd!.uid === c.uid) === undefined).map(c => "c" + c.uid) as [string, ...string[]]
         if (remaining.length > 0) {
             areas.push({

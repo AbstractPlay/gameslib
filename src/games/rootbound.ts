@@ -368,7 +368,9 @@ export class RootBoundGame extends GameBase {
         }
 
         const validFirstMoves = (this.listCells() as string[]).filter(c => !prohibitedCells.includes(c) && this.isValidPlacement(player!, c)).sort();
-        moves.push(...validFirstMoves);
+        if (this.stack.length !== 2) {
+            moves.push(...validFirstMoves);
+        }
 
         if (this.stack.length > 1) {
 
@@ -450,6 +452,8 @@ export class RootBoundGame extends GameBase {
             result.complete = -1;
             if (this.stack.length > 3) {
                 result.message = i18next.t("apgames:validation.rootbound.INITIAL_INSTRUCTIONS");
+            } else if (this.stack.length > 2) {
+                result.message = i18next.t("apgames:validation.rootbound.THIRD_MOVE_INSTRUCTIONS");
             } else if (this.stack.length > 1) {
                 result.message = i18next.t("apgames:validation.rootbound.SECOND_MOVE_INSTRUCTIONS");
             } else {
@@ -459,8 +463,14 @@ export class RootBoundGame extends GameBase {
         }
 
         const moves = this.moves();
+        const cells: string[] = m.split(",");
+        
+        if (this.stack.length < 4 && m === "pass") {
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            return result;
+        }
+
         if (m !== "pass") {
-            const cells: string[] = m.split(",");
             if (cells.length > 2) {
                 result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
                 return result;
@@ -502,7 +512,6 @@ export class RootBoundGame extends GameBase {
             }
 
             if (cells.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1])) {
-
                 const boardClone = deepclone(this.board) as Map<string, CellContent>;
                 boardClone.set(cells[0], [this.currplayer, 10000]);
                 const neighbors = this.getGraph().neighbours(cells[1]).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer);
@@ -514,8 +523,8 @@ export class RootBoundGame extends GameBase {
                     }
                 }
 
-                if (this.stack.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1]) ||
-                        this.stack.length === 3 && this.getGraph().neighbours(cells[0]).includes(cells[1]) && this.getEmptyNeighborsOfGroup(0).includes(cells[1])) {
+                if ((this.stack.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1])) ||
+                        (this.stack.length === 3 && this.getGraph().neighbours(cells[0]).includes(cells[1]) && this.getEmptyNeighborsOfGroup(0).includes(cells[1]))) {
                     result.message = i18next.t("apgames:validation.rootbound.BAD_SECOND_MOVE");
                     return result;
                 }
@@ -527,16 +536,28 @@ export class RootBoundGame extends GameBase {
             }
         }
 
-        if (moves.includes(m)) {
+        if (moves.includes(m) || (this.stack.length === 2 && cells.length === 1 && m !== "pass")) {
             result.valid = true;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
 
-            const cells: string[] = m.split(",");
-            if (this.stack.length > 1 && cells.length === 1 && m !== "pass") {
-                result.complete = 0;
-            } else {
+            if ((this.stack.length > 3 && (cells.length === 2 || m === "pass"))
+                || (this.stack.length > 1 && cells.length === 2)
+                || (this.stack.length === 1 && cells.length === 1)) {
                 result.complete = 1;
+            } else if (this.stack.length > 2 && cells.length === 1) {
+                result.complete = 0;
+            } else if (this.stack.length === 2 && cells.length === 1) {
+                result.complete = -1;
+            }
+
+            if (this.stack.length > 3) {
+                result.message = i18next.t("apgames:validation.rootbound.INITIAL_INSTRUCTIONS");
+            } else if (this.stack.length > 2) {
+                result.message = i18next.t("apgames:validation.rootbound.THIRD_MOVE_INSTRUCTIONS");
+            } else if (this.stack.length > 1) {
+                result.message = i18next.t("apgames:validation.rootbound.SECOND_MOVE_INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.rootbound.FIRST_MOVE_INSTRUCTIONS");
             }
         }
 
@@ -579,7 +600,7 @@ export class RootBoundGame extends GameBase {
         return this;
     }
 
-    public move(m: string, {trusted = false} = {}): RootBoundGame {
+    public move(m: string, {partial = false, trusted = false} = {}): RootBoundGame {
         if (m === "") return this;
 
         if (this.gameover) {
@@ -590,11 +611,13 @@ export class RootBoundGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        let complete = false;
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
+            complete = result.complete !== undefined && result.complete >= 0;
         }
 
         if (m === "pass") {
@@ -635,6 +658,8 @@ export class RootBoundGame extends GameBase {
         if (this.removeDeadGroups(claimedRegions)) {
             claimedRegions = this.computeClaimedRegions();
         }
+
+        if (partial || !complete) return this;
 
         // update currplayer
         this.lastmove = m;

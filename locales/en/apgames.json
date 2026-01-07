@@ -5005,13 +5005,13 @@
             "INVALID_MOVE": "You may only place a piece where it will flip at least one of your opponent's pieces."
         },
         "rootbound": {
+            "FIRST_MOVE_INSTRUCTIONS": "Place a piece anywhere on the board.",
+            "SECOND_MOVE_INSTRUCTIONS": "Place two pieces on empty spaces. You must make a second group as soon as possible.",
+            "THIRD_MOVE_INSTRUCTIONS": "Place one or two pieces on empty spaces. You must make a second group as soon as possible.",
+            "INITIAL_INSTRUCTIONS": "Place one or two pieces on an unclaimed empty space. Your pieces may not form a small triangle nor can you grow a group in a straight line from an existing piece.",
             "BAD_SECOND_MOVE": "You must start by making a second group as soon as possible.",
             "CLAIMED_CELL": "You may not place a piece into a claimed territory.",
-            "FIRST_MOVE_INSTRUCTIONS": "Place a piece anywhere on the board.",
-            "INITIAL_INSTRUCTIONS": "Place one or two pieces on an unclaimed empty space. Your pieces may not form a small triangle nor can you grow a group in a straight line from an existing piece.",
             "RAPID_GROWTH": "You cannot grow a group in a straight line from an existing piece in a single turn.",
-            "SECOND_MOVE_INSTRUCTIONS": "Place one or two pieces on empty spaces. You must make a second group as soon as possible.",
-            "TOO_FEW_GROUPS": "You cannot end a turn with only one group unless it claims territory.",
             "TOO_MANY_NEIGHBORS": "Your pieces cannot form a small triangle."
         },
         "saltire": {

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { HexTriGraph, reviver, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -243,7 +243,7 @@ export class RampartGame extends GameBase {
             // setup first
             if (this.variants.includes("custom") && this.stack.length <= 2) {
                 const moves = new Set<string>(move.split(",").filter(Boolean));
-                if (!this.board.has(cell)) {
+                if (!moves.has(cell)) {
                     moves.add(cell);
                 } else {
                     moves.delete(cell);
@@ -334,7 +334,7 @@ export class RampartGame extends GameBase {
             }
             if (! allMoves.includes(m)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALID_MOVE");
+                result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
                 return result;
             }
 
@@ -368,6 +368,7 @@ export class RampartGame extends GameBase {
         }
         if (m === "") { return this; }
 
+        this.results = [];
         // setup first
         if (this.variants.includes("custom") && this.stack.length <= 2) {
             const moves = new Set<string>(m.split(",").filter(Boolean));
@@ -426,6 +427,11 @@ export class RampartGame extends GameBase {
     }
 
     protected checkEOG(): RampartGame {
+        // don't do any checks in setup mode
+        if (this.variants.includes("custom") && this.stack.length <= 2) {
+            return this;
+        }
+
         const one = [...this.board.entries()].filter(([,p]) => p === 1).map(([cell,]) => cell);
         const two = [...this.board.entries()].filter(([,p]) => p === 2).map(([cell,]) => cell);
         if (one.length === 0) {
@@ -470,6 +476,9 @@ export class RampartGame extends GameBase {
     public render(): APRenderRep {
         // Build piece string
         const g = this.graph;
+        const deadRed: RowCol[] = [];
+        const deadBlue: RowCol[] = [];
+
         let pstr = "";
         for (const row of g.listCells(true) as string[][]) {
             if (pstr.length > 0) {
@@ -480,16 +489,16 @@ export class RampartGame extends GameBase {
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell)!;
                     if (contents === 1) {
+                        pieces.push("A");
                         if (this.isDead(cell)) {
-                            pieces.push("Y");
-                        } else {
-                            pieces.push("A");
+                            const [x, y] = g.algebraic2coords(cell);
+                            deadRed.push({col: x, row: y});
                         }
                     } else {
+                        pieces.push("B");
                         if (this.isDead(cell)) {
-                            pieces.push("Z");
-                        } else {
-                            pieces.push("B");
+                            const [x, y] = g.algebraic2coords(cell);
+                            deadBlue.push({col: x, row: y});
                         }
                     }
                 } else {
@@ -518,15 +527,23 @@ export class RampartGame extends GameBase {
             legend: {
                 A: { name: "piece", colour: 1 },
                 B: { name: "piece", colour: 2 },
-                // Dead pieces
-                Y: { name: "piece", colour: 1, opacity: 0.75 },
-                Z: { name: "piece", colour: 2, opacity: 0.75 },
             },
             pieces: pstr
         };
 
         // Add annotations
         rep.annotations = [];
+
+        // add dots on dead stones
+        if (deadRed.length > 0 || deadBlue.length > 0) {
+            if (deadRed.length > 0) {
+                rep.annotations.push({type: "dots", targets: deadRed as [RowCol, ...RowCol[]], colour: 2});
+            }
+            if (deadBlue.length > 0) {
+                rep.annotations.push({type: "dots", targets: deadBlue as [RowCol, ...RowCol[]], colour: 1});
+            }
+        }
+
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place") {

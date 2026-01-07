@@ -1930,6 +1930,24 @@
                 "description": "When present, if the card you played creates or extends a continuous line (including diagonal) of four or more cards that share the same suit, or that forms a 2x2 square of cards that share a suit, score 10 points for each line and square."
             }
         },
+        "rampart": {
+            "#setup": {
+                "name": "Standard setup"
+            },
+            "custom": {
+                "name": "Custom setup (unrated)",
+                "description": "The players can create arbitrary setups. Should only be done with good communication. These games cannot be rated."
+            },
+            "#board": {
+                "name": "11x11 board"
+            },
+            "13x13": {
+                "name": "13x13 board"
+            },
+            "hex7": {
+                "name": "Hexagonal board (base-7)"
+            }
+        },
         "realm": {
             "capturedBases": {
                 "description": "The number of captured bases becomes a second tie breaker.",

@@ -201,7 +201,6 @@ import { AssemblyGame, IAssemblyState } from "./assembly";
 import { PaintbucketGame, IPaintbucketState } from "./paintbucket";
 import { C1Game, IC1State } from "./c1";
 import { BloqueoGame, IBloqueoState } from "./bloqueo";
-import { StormCGame, IStormCState } from "./stormc";
 import { PilastriGame, IPilastriState } from "./pilastri";
 import { TessellaGame, ITessellaState } from "./tessella";
 import { GorogoGame, IGorogoState } from "./gorogo";
@@ -423,7 +422,6 @@ export {
     PaintbucketGame, IPaintbucketState,
     C1Game, IC1State,
     BloqueoGame, IBloqueoState,
-    StormCGame, IStormCState,
     PilastriGame, IPilastriState,
     TessellaGame, ITessellaState,
     GorogoGame, IGorogoState,
@@ -510,7 +508,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
-                              typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
+                              typeof BloqueoGame | typeof PilastriGame |
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
                               typeof StairsGame | typeof EmuGame | typeof DeckfishGame |
@@ -549,7 +547,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PenguinGame, OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame,
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
-    BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
+    BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame,
 ].forEach((g) => {
@@ -965,8 +963,6 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new C1Game(...args);
         case "bloqueo":
             return new BloqueoGame(...args);
-        case "stormc":
-            return new StormCGame(...args);
         case "pilastri":
             return new PilastriGame(...args);
         case "tessella":

@@ -539,7 +539,6 @@ export class RootBoundGame extends GameBase {
         if (moves.includes(m) || (this.stack.length === 2 && cells.length === 1 && m !== "pass")) {
             result.valid = true;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
 
             if ((this.stack.length > 3 && (cells.length === 2 || m === "pass"))
                 || (this.stack.length > 1 && cells.length === 2)
@@ -549,6 +548,16 @@ export class RootBoundGame extends GameBase {
                 result.complete = 0;
             } else if (this.stack.length === 2 && cells.length === 1) {
                 result.complete = -1;
+            }
+
+            if (this.stack.length > 3) {
+                result.message = i18next.t("apgames:validation.rootbound.INITIAL_INSTRUCTIONS");
+            } else if (this.stack.length > 2) {
+                result.message = i18next.t("apgames:validation.rootbound.THIRD_MOVE_INSTRUCTIONS");
+            } else if (this.stack.length > 1) {
+                result.message = i18next.t("apgames:validation.rootbound.SECOND_MOVE_INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.rootbound.FIRST_MOVE_INSTRUCTIONS");
             }
         }
 

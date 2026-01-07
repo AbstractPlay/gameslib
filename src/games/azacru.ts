@@ -449,6 +449,7 @@ export class AzacruGame extends GameBase {
                 }
             }
 
+            // console.log(`About to validate '${newmove}'`);
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = move;
@@ -498,6 +499,51 @@ export class AzacruGame extends GameBase {
             // make sure base move is legal
             const base = m.substring(0, m.length - 1);
             if (! this.baseMoves().includes(base)) {
+                // at this point, the only possible issues are with `to`
+                // so let's duplicate some of those checks
+                const { from, to } = this.parseMove(base);
+                const pom = this.calcMvPower(from!);
+                const [fx, fy] = g.algebraic2coords(from!);
+                const [tx, ty] = g.algebraic2coords(to!);
+                const dist = RectGrid.distance(fx, fy, tx, ty);
+                if (dist > pom) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.azacru.TOO_FAR", {pom});
+                    return result;
+                }
+                if (to !== undefined) {
+                    // valid cell
+                    if (!g.graph.hasNode(to)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
+                        return result;
+                    }
+                    // not the same
+                    if (from === to) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation._general.SAME_FROM_TO");
+                        return result;
+                    }
+                    const tContents = this.board.get(to);
+                    // if to is occupied, validate constraints
+                    if (tContents !== undefined) {
+                        // if chevron is present
+                        if (tContents.chevron !== undefined) {
+                            result.valid = false;
+                            result.message = i18next.t("apgames:validation.azacru.NO_CAPTURES");
+                            return result;
+                        }
+                        // if no chevron
+                        else {
+                            // can't land on enemy tiles
+                            if (tContents.tile !== undefined && tContents.tile !== this.currplayer) {
+                                result.valid = false;
+                                result.message = i18next.t("apgames:validation.azacru.ENEMY_TILE");
+                                return result;
+                            }
+                        }
+                    }
+                }
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.azacru.BAD_MOVE")
                 return result;
@@ -568,7 +614,7 @@ export class AzacruGame extends GameBase {
                 // if chevron is present
                 if (tContents.chevron !== undefined) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation.azacru.NO_CAPTURE");
+                    result.message = i18next.t("apgames:validation.azacru.NO_CAPTURES");
                     return result;
                 }
                 // if no chevron
@@ -585,6 +631,14 @@ export class AzacruGame extends GameBase {
             if (orientation !== undefined && orientation !== "<" && orientation !== ">" && orientation !== "^") {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.azacru.BAD_ORIENTATION");
+                return result;
+            }
+
+            // final failsafe for base move
+            const base = m.substring(0, 6);
+            if (!baseMoves.includes(base)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.azacru.BAD_MOVE");
                 return result;
             }
 
@@ -1016,7 +1070,6 @@ export class AzacruGame extends GameBase {
     }
 
     public clone(): AzacruGame {
-
         const cloned = Object.assign(new AzacruGame(this.numplayers), deepclone(this) as AzacruGame);
         return cloned;
     }

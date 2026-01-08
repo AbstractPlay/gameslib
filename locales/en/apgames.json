@@ -1090,6 +1090,14 @@
                 "name": "Board (7x7)"
             }
         },
+        "entropy": {
+            "#board": {
+                "name": "7x7 board"
+            },
+            "5x5": {
+                "name": "5x5 board"
+            }
+        },
         "epam": {
             "stones": {
                 "description": "In this variant, the players place three impassable stones in the middle of the board.",

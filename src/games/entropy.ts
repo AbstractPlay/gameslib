@@ -10,14 +10,8 @@ import i18next from "i18next";
 
 type playerid = 1|2;
 type CellContents = "RD"|"BU"|"GN"|"YE"|"VT"|"OG"|"BN";
-const allColours: CellContents[] = ["RD","BU","GN","YE","VT","OG","BN"]
 type Phases = "order"|"chaos";
-const startBag: CellContents[] = [];
-for (const colour of allColours) {
-    for (let i = 0; i < 7; i++) {
-        startBag.push(colour);
-    }
-}
+const allColours: CellContents[] = ["RD","BU","GN","YE","VT","OG","BN"]
 
 interface ICountObj {
     [key: string]: number;
@@ -62,16 +56,20 @@ export class EntropyGame extends GameBaseSimultaneous {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
+        variants: [
+            // {uid: "6x6", group: "board"},
+            {uid: "5x5", group: "board"},
+        ],
         displays: [{uid: "piece-numbers"}],
         categories: ["goal>score>eog", "mechanic>asymmetry", "mechanic>coopt", "mechanic>move", "mechanic>place", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>simple>7c"],
         flags: ["simultaneous", "shared-pieces", "shared-stash", "perspective", "scores"]
     };
 
-    public static coords2algebraic(x: number, y: number): string {
-        return GameBaseSimultaneous.coords2algebraic(x, y, 7);
+    public coords2algebraic(x: number, y: number): string {
+        return GameBaseSimultaneous.coords2algebraic(x, y, this.boardsize);
     }
-    public static algebraic2coords(cell: string): [number, number] {
-        return GameBaseSimultaneous.algebraic2coords(cell, 7);
+    public algebraic2coords(cell: string): [number, number] {
+        return GameBaseSimultaneous.algebraic2coords(cell, this.boardsize);
     }
 
     public numplayers = 2;
@@ -86,7 +84,7 @@ export class EntropyGame extends GameBaseSimultaneous {
     public variants: string[] = [];
     public highlight?: string;
 
-    constructor(state?: IEntropyState | string) {
+    constructor(state?: IEntropyState | string, variants?: string[]) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -98,7 +96,20 @@ export class EntropyGame extends GameBaseSimultaneous {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.stack = [...state.stack];
+            this.variants = [...state.variants];
         } else {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
+
+            const startBag: CellContents[] = [];
+            const colours = allColours.slice(0, this.boardsize);
+            for (const colour of colours) {
+                for (let i = 0; i < this.boardsize; i++) {
+                    startBag.push(colour);
+                }
+            }
+
             const fresh: IMoveState = {
                 _version: EntropyGame.gameinfo.version,
                 _results: [],
@@ -123,12 +134,22 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
 
         const state = this.stack[idx];
+        this.results = [...state._results];
         this.board1 = new Map(state.board1);
         this.board2 = new Map(state.board2);
         this.bag = [...state.bag];
         this.phase = state.phase;
         this.lastmove = state.lastmove.join(',');
         return this;
+    }
+
+    public get boardsize(): number {
+        if (this.variants.includes("5x5")) {
+            return 5;
+        } else if (this.variants.includes("6x6")) {
+            return 6;
+        }
+        return 7;
     }
 
     public moves(player: 1|2): string[] {
@@ -141,9 +162,9 @@ export class EntropyGame extends GameBaseSimultaneous {
             if (player === 2) {
                 theirBoard = this.board1;
             }
-            for (let row = 0; row < 7; row++) {
-                for (let col = 0; col < 7; col++) {
-                    const cell = EntropyGame.coords2algebraic(col, row);
+            for (let row = 0; row < this.boardsize; row++) {
+                for (let col = 0; col < this.boardsize; col++) {
+                    const cell = this.coords2algebraic(col, row);
                     if (! theirBoard.has(cell)) {
                         moves.push(cell);
                     }
@@ -154,13 +175,13 @@ export class EntropyGame extends GameBaseSimultaneous {
             if (player === 2) {
                 myBoard = this.board2;
             }
-            const grid = new RectGrid(7, 7);
+            const grid = new RectGrid(this.boardsize, this.boardsize);
             for (const cell of myBoard.keys()) {
-                const coords = EntropyGame.algebraic2coords(cell);
+                const coords = this.algebraic2coords(cell);
                 for (const dir of ["N" as Direction, "E" as Direction, "S" as Direction, "W" as Direction]) {
                     let ray = grid.ray(...coords, dir);
-                    while ( (ray.length > 0) && (! myBoard.has(EntropyGame.coords2algebraic(...ray[0]))) ) {
-                        moves.push(`${cell}-${EntropyGame.coords2algebraic(...ray[0])}`);
+                    while ( (ray.length > 0) && (! myBoard.has(this.coords2algebraic(...ray[0]))) ) {
+                        moves.push(`${cell}-${this.coords2algebraic(...ray[0])}`);
                         ray = ray.slice(1);
                     }
                 }
@@ -180,7 +201,7 @@ export class EntropyGame extends GameBaseSimultaneous {
 
     public handleClickSimultaneous(move: string, row: number, col: number, player: playerid, piece?: string): IClickResult {
         try {
-            const cell = EntropyGame.coords2algebraic(col, row);
+            const cell = this.coords2algebraic(col, row);
             let myboard = this.board1;
             if (player === 2) {
                 myboard = this.board2;
@@ -273,7 +294,7 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
             // valid cell
             try {
-                EntropyGame.algebraic2coords(from);
+                this.algebraic2coords(from);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
@@ -295,7 +316,7 @@ export class EntropyGame extends GameBaseSimultaneous {
             // valid cell
             let xFrom: number; let yFrom: number;
             try {
-                [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
+                [xFrom, yFrom] = this.algebraic2coords(from);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
@@ -319,7 +340,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                 // valid cell
                 let xTo: number; let yTo: number;
                 try {
-                    [xTo, yTo] = EntropyGame.algebraic2coords(to);
+                    [xTo, yTo] = this.algebraic2coords(to);
                 } catch {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
@@ -339,7 +360,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                     return result;
                 }
                 // no obstructions
-                const between = RectGrid.between(xFrom, yFrom, xTo, yTo).map(pt => EntropyGame.coords2algebraic(...pt));
+                const between = RectGrid.between(xFrom, yFrom, xTo, yTo).map(pt => this.coords2algebraic(...pt));
                 for (const cell of between) {
                     if (myboard.has(cell)) {
                         result.valid = false;
@@ -437,7 +458,8 @@ export class EntropyGame extends GameBaseSimultaneous {
     }
 
     protected checkEOG(): EntropyGame {
-        if ( (this.board1.size === 49) && (this.board2.size === 49) ) {
+        const maxSize = this.boardsize * this.boardsize;
+        if ( (this.board1.size === maxSize) && (this.board2.size === maxSize) ) {
             this.gameover = true;
             this.results.push({type: "eog"});
             const score1 = this.getPlayerScore(1);
@@ -462,20 +484,20 @@ export class EntropyGame extends GameBaseSimultaneous {
         if (player === 2) {
             board = this.board2;
         }
-        for (let row = 0; row < 7; row++) {
+        for (let row = 0; row < this.boardsize; row++) {
             score += this.scoreLine(this.getLine(board, [0, row], "E"));
         }
-        for (let col = 0; col < 7; col++) {
+        for (let col = 0; col < this.boardsize; col++) {
             score += this.scoreLine(this.getLine(board, [col, 0], "S"));
         }
         return score;
     }
 
     private getLine(board: Map<string, CellContents>, start: [number, number], dir: Direction): string[] {
-        const grid = new RectGrid(7, 7);
+        const grid = new RectGrid(this.boardsize, this.boardsize);
         const ray = [start, ...grid.ray(...start, dir)];
         // Convert coords to algebraic
-        const cells = ray.map(c => EntropyGame.coords2algebraic(...c));
+        const cells = ray.map(c => this.coords2algebraic(...c));
         // Convert cells into contents
         const pieces = cells.map(c => {
             if (board.has(c)) {
@@ -537,14 +559,14 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
         // Build piece string
         let pstr = "";
-        for (let row = 0; row < 7; row++) {
+        for (let row = 0; row < this.boardsize; row++) {
             if (pstr.length > 0) {
                 pstr += "\n";
             }
             const contents1: string[] = [];
             const contents2: string[] = [];
-            for (let col = 0; col < 7; col++) {
-                const cell = EntropyGame.coords2algebraic(col, row);
+            for (let col = 0; col < this.boardsize; col++) {
+                const cell = this.coords2algebraic(col, row);
                 if (this.board1.has(cell)) {
                     contents1.push(this.board1.get(cell)!);
                 } else {
@@ -558,10 +580,11 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
             pstr += [...contents1, ...contents2].join(",");
         }
-        pstr = pstr.replace(/\n,{13}(?=\n)/g, "\n_");
+        // pstr = pstr.replace(/\n,{13}(?=\n)/g, "\n_");
 
         const board: BoardEntropy = {
             style: "entropy",
+            size: this.boardsize as 5|6|7,
             orientation: "vertical",
             boardOne: { occluded: false, label: "" },
             boardTwo: { occluded: false, label: "" }
@@ -590,7 +613,7 @@ export class EntropyGame extends GameBaseSimultaneous {
         }
 
         const legend : { [k: string]: [Glyph, ...Glyph[]]|Glyph } = {};
-        allColours.forEach((c, i) => {
+        allColours.slice(0, this.boardsize).forEach((c, i) => {
             let glyph: [Glyph, ...Glyph[]]|Glyph = { name: "piece", colour: i + 1 } as Glyph;
             if (display === "piece-numbers") {
                 glyph = [
@@ -622,10 +645,10 @@ export class EntropyGame extends GameBaseSimultaneous {
         // show the last two turns (place AND move)
         rep.annotations = [];
         if (this.highlight !== undefined) {
-            const [col, row] = EntropyGame.algebraic2coords(this.highlight);
+            const [col, row] = this.algebraic2coords(this.highlight);
             let x = col;
             if ( (perspective === 1 && this.phase === "chaos") || (perspective === 2 && this.phase === "order") ) {
-                x += 7;
+                x += this.boardsize;
             }
             rep.annotations.push({type: "dots", targets: [{col: x, row}]});
         }
@@ -636,11 +659,11 @@ export class EntropyGame extends GameBaseSimultaneous {
                     if (move.type === "move") {
                         const [from, to] = [move.from, move.to];
                         // eslint-disable-next-line prefer-const
-                        let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
-                        if (perspective === 2) { xFrom += 7; }
+                        let [xFrom, yFrom] = this.algebraic2coords(from);
+                        if (perspective === 2) { xFrom += this.boardsize; }
                         // eslint-disable-next-line prefer-const
-                        let [xTo, yTo] = EntropyGame.algebraic2coords(to);
-                        if (perspective === 2) { xTo += 7; }
+                        let [xTo, yTo] = this.algebraic2coords(to);
+                        if (perspective === 2) { xTo += this.boardsize; }
                         rep.annotations.push({
                             type: "move",
                             targets: [
@@ -650,8 +673,8 @@ export class EntropyGame extends GameBaseSimultaneous {
                         });
                     } else if (move.type === "place") {
                         // eslint-disable-next-line prefer-const
-                        let [x, y] = EntropyGame.algebraic2coords(move.where!);
-                        if (perspective === 1) { x += 7; }
+                        let [x, y] = this.algebraic2coords(move.where!);
+                        if (perspective === 1) { x += this.boardsize; }
                         rep.annotations.push({
                             type: "enter",
                             targets: [
@@ -673,11 +696,11 @@ export class EntropyGame extends GameBaseSimultaneous {
                             if (move.type === "move") {
                                 const [from, to] = [move.from, move.to];
                                 // eslint-disable-next-line prefer-const
-                                let [xFrom, yFrom] = EntropyGame.algebraic2coords(from);
-                                if (i === 1) { xFrom += 7; }
+                                let [xFrom, yFrom] = this.algebraic2coords(from);
+                                if (i === 1) { xFrom += this.boardsize; }
                                 // eslint-disable-next-line prefer-const
-                                let [xTo, yTo] = EntropyGame.algebraic2coords(to);
-                                if (i === 1) { xTo += 7; }
+                                let [xTo, yTo] = this.algebraic2coords(to);
+                                if (i === 1) { xTo += this.boardsize; }
                                 rep.annotations.push({
                                     type: "move",
                                     targets: [
@@ -687,8 +710,8 @@ export class EntropyGame extends GameBaseSimultaneous {
                                 });
                             } else if (move.type === "place") {
                                 // eslint-disable-next-line prefer-const
-                                let [x, y] = EntropyGame.algebraic2coords(move.where!);
-                                if (i === 0) { x += 7; }
+                                let [x, y] = this.algebraic2coords(move.where!);
+                                if (i === 0) { x += this.boardsize; }
                                 rep.annotations.push({
                                     type: "enter",
                                     targets: [

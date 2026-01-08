@@ -1072,7 +1072,10 @@ export class FroggerGame extends GameBase {
                 } else if (currmove === "") {
                     //Deal with the refill button.
                     if (this.variants.includes("refills") && piece === "refill") {
-                        newmove = `${move.slice(0,-1)}!/`;
+                        if (move.indexOf("!") < 0)
+                            newmove = `${move.slice(0,-1)}!/`;
+                        else
+                            newmove = move;
                     } else {
                         // starting another move (forward).
                         newmove = `${move}${piece!.substring(1)}:`;

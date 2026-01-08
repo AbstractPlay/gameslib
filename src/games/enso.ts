@@ -42,6 +42,11 @@ export class EnsoGame extends GameBase {
                 urls: ["https://spielstein.com/"]
             },
             {
+                type: "publisher",
+                name: "Kanare Kato",
+                urls: ["https://kanare-abstract.com/en"],
+            },
+            {
                 type: "coder",
                 name: "Aaron Dalton (Perlkönig)",
                 urls: [],

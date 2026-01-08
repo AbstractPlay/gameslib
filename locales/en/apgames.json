@@ -70,6 +70,7 @@
         "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
         "emergo": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
         "emu": "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
+        "enso": "A Zen-inspired game of movement and capture in which you attempt to fully surround one of your pieces with emptiness.",
         "entrapment": "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way, the game is over and his or her opponent declared the winner.",
         "entropy": "Entropy is a 2-player game representing the struggle between Order and Chaos. The Order player tries to organize their board in such a way to score the highest amount. But the Chaos player gets to *place* the pieces and attempts to thwart Order whenever possible.",
         "epam": "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
@@ -4015,6 +4016,11 @@
             "LABEL_DISCARD": "Discard pile",
             "SELECT_DEST": "Select the plus sign to add the card to an existing bird or to hatch a new one, or click the discard pile to discard the card.",
             "SELECT_SRC": "Click the draw deck to draw a face-down card, or click the face-up card in the discard pile to draw it instead."
+        },
+        "enso": {
+            "INITIAL_INSTRUCTIONS": "Select a piece to move.",
+            "NO_MOVES": "The piece at {{cell}} does not have any legal moves.",
+            "PARTIAL": "Select a destination."
         },
         "entrapment": {
             "BARRIER_EXISTS": "There is already a barrier at {{wall}}.",

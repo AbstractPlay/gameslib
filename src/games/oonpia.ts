@@ -328,7 +328,21 @@ export class OonpiaGame extends GameBase {
         // piece was clicked again.
 
         const place: tileid[] = [];
-        const cap: tileid[] = [];
+        const otherCap: tileid[] = [];
+        const selfAndOtherCap: tileid[] = [];
+        const selfCap: tileid[] = [];
+
+        const addCaps = (tile: tileid) => {
+            const self = this.isSelfCapture(cell, tile);
+            const other = this.isOtherCapture(cell, tile);
+            if (other && !self) {
+                otherCap.push(tile);
+            } else if (other && self) {
+                selfAndOtherCap.push(tile);
+            } else if (!other && self) {
+                selfCap.push(tile);
+            }
+        }
 
         // First the normal placements:
         // - If a cell is blocked for one type by the arc rule, only the other type is valid
@@ -340,15 +354,13 @@ export class OonpiaGame extends GameBase {
             if (this.isValidPlace(cell, 2)) {
                 place.push(2);
             }
-            if (this.isValidCapture(cell, 2)) {
-                cap.push(2);
-            }
+            addCaps(2);
         } else if (blocked[2].has(cell) && !blocked[1].has(cell)) {
             if (this.isValidPlace(cell, 1)) {
                 place.push(1);
             }
             if (this.isValidCapture(cell, 1)) {
-                cap.push(1);
+                addCaps(1);
             }
         } else {
             /* Both tiles are valid. If there are friendly neighbouring stones and they are
@@ -360,25 +372,23 @@ export class OonpiaGame extends GameBase {
             }
             for (const tile of [1, 2] as tileid[]) {
                 if (this.isValidCapture(cell, tile)) {
-                    cap.push(tile);
+                    addCaps(tile);
                 }
             }
         }
 
-        // Capturing placements:
-        // - If one includes self-capture and the other doesn't, prefer the latter
-        if (cap.length === 2
-            && this.isSelfCapture(cell, cap[0])
-            && !this.isSelfCapture(cell, cap[1])
-        ) {
-            [cap[0], cap[1]] = [cap[1], cap[0]];
-        }
-
+        // Ordering:
         const possibleMoves: Move[] = [];
+        for (const tile of otherCap) {
+            possibleMoves.push({tile: tile, iscapture: true, cell: cell});
+        }
+        for (const tile of selfAndOtherCap) {
+            possibleMoves.push({tile: tile, iscapture: true, cell: cell});
+        }
         for (const tile of place) {
             possibleMoves.push({tile: tile, iscapture: false, cell: cell});
         }
-        for (const tile of cap) {
+        for (const tile of selfCap) {
             possibleMoves.push({tile: tile, iscapture: true, cell: cell});
         }
 
@@ -817,6 +827,12 @@ export class OonpiaGame extends GameBase {
             }
         }
         return this.deadGroups(this.currplayer, tmpboard).length > 0
+    }
+
+    private isOtherCapture(cell: string, tile: tileid): boolean {
+        const tmpboard = new Map(this.board);
+        tmpboard.set(cell, [this.neutral, tile]);
+        return this.deadGroups(this.otherPlayer(), tmpboard).length > 0
     }
 
     private reducePrison(): void {

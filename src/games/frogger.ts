@@ -80,7 +80,7 @@ export class FroggerGame extends GameBase {
             { uid: "freeswim" }, //no check on market card claims
             { uid: "#market" }, //Now called the draw pool.  The base setting is no refills.
             { uid: "refills", group: "market", default: true }, //the official rule
-            { uid: "continuous", group: "market" }, //continuous small refills
+            { uid: "continuous", group: "market", experimental: true }, //continuous small refills
         ],
         categories: ["goal>evacuate", "mechanic>move", "mechanic>bearoff", "mechanic>block", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>decktet", "other>2+players"],
         flags: ["autopass", "custom-buttons", "custom-randomization", "random-start", "experimental"],
@@ -778,9 +778,20 @@ export class FroggerGame extends GameBase {
         for (let col = 1; col < this.columns - 1; col++) {
             // check for pawn column using the suit board
             if ( this.suitboard.has(this.coords2algebraic(col, 3)) ) {
-                //We have a croc's column; we could go looking for its row
-                // but we can also just derive it from the stack length.
-                const crocRow = (((this.stack.length / this.numplayers) - 1) % 3) + 1;
+                //We have a croc's column; we have to go looking for its row
+                // because the stack length is unreliable.
+                let crocRow = 1;
+                for (let row = 1; row <= 3; row++) {
+                    const cell = this.coords2algebraic(col, row);
+                    if (this.board.has(cell)) {
+                        const occupant = this.board.get(cell);
+                        if (occupant === "X0") {
+                            crocRow = row;
+                            break;
+                        }
+                    }
+                }
+
                 const victimRow = (crocRow % 3) + 1;
                 const crocFrom = this.coords2algebraic(col, crocRow);
                 const victimFrom = this.coords2algebraic(col, victimRow); 

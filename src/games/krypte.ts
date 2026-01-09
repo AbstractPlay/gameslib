@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
-import { reviver, UserFacingError } from "../common";
+import { DirectionCardinal, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
 import { APRenderRep } from "@abstractplay/renderer";
+import { MarkerEdge } from "@abstractplay/renderer/src/schemas/schema";
 
 type playerid = 1 | 2;
 
@@ -13,9 +14,9 @@ interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
+    lastmoveSide?: DirectionCardinal;
     winningLines: string[][];
     swapped: boolean;
-    tiebreaker?: playerid;
 }
 
 export interface IKrypteState extends IAPGameState {
@@ -47,16 +48,37 @@ export class KrypteGame extends InARowBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"]
+        categories: ["goal>align", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
+        displays: [ // default: All highlights enabled
+            {uid: "moves_no_sides_yes"},
+            {uid: "moves_yes_sides_no"},
+            {uid: "moves_no_sides_no"},
+        ]
     };
 
     public coords2algebraic(x: number, y: number): string {
-        return GameBase.coords2algebraic(x, y, this.boardSize);
+        return GameBase.coords2algebraic(x, y, this.boardSize, true);
     }
 
     public algebraic2coords(cell: string): [number, number] {
-        return GameBase.algebraic2coords(cell, this.boardSize);
+        return GameBase.algebraic2coords(cell, this.boardSize, true);
     }
+
+    private clockwiseNextDirection(dir: DirectionCardinal): DirectionCardinal {
+        return {"N": "E", "E": "S", "S": "W", "W": "N"}[dir] as DirectionCardinal
+    }
+
+    private side2dxdy(dir: DirectionCardinal): [number, number] {
+        /* Convert the side at which the piece is entered (i.e. the *OPPOSITE* direction from the
+        one in which the piece slides) to dcol, drow */
+        return {
+            "N": [0, 1],
+            "E": [-1, 0],
+            "S": [0, -1],
+            "W": [1, 0]
+        }[dir] as [number, number]
+    }
+
 
     public numplayers = 2;
     public currplayer!: playerid;
@@ -71,6 +93,7 @@ export class KrypteGame extends InARowBase {
     public boardSize = 8;
     public defaultBoardSize = 8;
     public winningLineLength = 4;
+    public lastmoveSide?: DirectionCardinal = undefined;
 
     constructor(state?: IKrypteState | string, variants?: string[]) {
         super();
@@ -85,8 +108,7 @@ export class KrypteGame extends InARowBase {
                 currplayer: 1,
                 board: new Map(),
                 winningLines: [],
-                swapped: false,
-                tiebreaker: undefined,
+                swapped: false
             };
             this.stack = [fresh];
         } else {
@@ -122,6 +144,7 @@ export class KrypteGame extends InARowBase {
         this.winningLines  = state.winningLines.map(a => [...a]);
         this.swapped = state.swapped;
         this.lastmove = state.lastmove;
+        this.lastmoveSide = state.lastmoveSide;
         this.boardSize = this.getBoardSize();
         return this;
     }
@@ -132,11 +155,12 @@ export class KrypteGame extends InARowBase {
         }
         if (this.gameover) { return []; }
         const moves: string[] = [];
-        for (let row = 0; row < this.boardSize; row++) {
-            for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.coords2algebraic(col, row);
-                if (this.board.has(cell)) { continue; }
-                moves.push(cell);
+        for (const activeSide of this.activeSides()) {
+            for (const entryCell of this.sideCells(activeSide)) {
+                const move = this.slidePiece(entryCell, activeSide);
+                if (move !== undefined && !this.isAmbiguousMove(move)) {
+                    moves.push(move);
+                }
             }
         }
         return moves;
@@ -148,9 +172,10 @@ export class KrypteGame extends InARowBase {
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+        // TODO convert click on entry cell to target cell
         try {
             let newmove = "";
-            const cell = this.renderCoords2algebraic(col, row);
+            const cell = this.coords2algebraic(col, row);
             if (move === "") {
                 newmove = cell;
             }
@@ -170,6 +195,10 @@ export class KrypteGame extends InARowBase {
         }
     }
 
+    private outOfBounds(x: number, y: number): boolean {
+        return x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize;
+    }
+
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
@@ -184,7 +213,7 @@ export class KrypteGame extends InARowBase {
         try {
             const [x, y] = this.algebraic2coords(m);
             // `algebraic2coords` does not check if the cell is on the board.
-            if (x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize) {
+            if (this.outOfBounds(x, y)) {
                 throw new Error("Invalid cell");
             }
         } catch {
@@ -198,7 +227,6 @@ export class KrypteGame extends InARowBase {
             result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: m });
             return result;
         }
-        console.log(this.moves());
         if (!this.moves().includes(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
@@ -229,19 +257,111 @@ export class KrypteGame extends InARowBase {
             }
         }
         if (m.length === 0) { return this; }
-        this.results = [];
 
+        /* Store side from which the move was made (must be computed before the board
+        is updated) */
+        const [side1, side2] = this.activeSides();
+        const moveSide = this.isMoveFromSide(m, side1) ? side1 : side2;
+        
+        this.results = [];
+        
         this.results.push({ type: "place", where: m });
         this.board.set(m, this.currplayer);
-
+        
         if (partial) { return this; }
-
+        
+        this.lastmoveSide = moveSide;
+        
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
 
         this.checkEOG();
         this.saveState();
         return this;
+    }
+
+    private activeSides(): DirectionCardinal[] {
+        if (this.lastmoveSide === undefined) {
+            return ["N"];
+        } else {
+            const next = this.clockwiseNextDirection(this.lastmoveSide);
+            const nextnext = this.clockwiseNextDirection(next);
+            return [next, nextnext];
+        }
+    }
+
+    private sideCells(side: DirectionCardinal): string[] {
+        const cells = [];
+        switch (side) {
+        case "N":
+            for (let col = 0; col < this.boardSize; col++){
+                cells.push(this.coords2algebraic(col, 0));
+            }
+            break;
+        case "S":
+            for (let col = 0; col < this.boardSize; col++){
+                cells.push(this.coords2algebraic(col, this.boardSize - 1));
+            }
+            break;
+        case "W":
+            for (let row = 0; row < this.boardSize; row++){
+                cells.push(this.coords2algebraic(0, row));
+            }
+            break;
+        case "E":
+            for (let row = 0; row < this.boardSize; row++){
+                cells.push(this.coords2algebraic(this.boardSize - 1, row));
+            }
+            break;
+        }
+        return cells;
+    }
+
+    private slidePiece(cell: string, side: DirectionCardinal): string | undefined {
+        let [col, row] = this.algebraic2coords(cell);
+        const [dcol, drow] = this.side2dxdy(side);
+        while (! this.outOfBounds(col, row)) {
+            const newCell = this.coords2algebraic(col, row);
+            if (! this.board.has(newCell)) {
+                return newCell;
+            } else {
+                col += dcol;
+                row += drow;
+            }
+        }
+        return undefined;
+    }
+
+    private entryCellFromMove(cell: string, side: DirectionCardinal): string {
+        /* Get the potential entry cell of a move (regardless of intervening pieces) */
+        let [col, row] = this.algebraic2coords(cell);
+        switch (side) {
+        case "N":
+            row = 0;
+            break;
+        case "S":
+            row = this.boardSize - 1;
+            break;
+        case "W":
+            col = 0;
+            break;
+        case "E":
+            col = this.boardSize - 1;
+            break;
+        }
+        return this.coords2algebraic(col, row);
+    }
+
+    private isMoveFromSide(cell: string, side: DirectionCardinal): boolean {
+        return this.slidePiece(this.entryCellFromMove(cell, side), side) === cell;
+    }
+
+    private isAmbiguousMove(cell: string): boolean {
+        if (this.activeSides().length !== 2) {
+            return false;
+        }
+        const [side1, side2] = this.activeSides();
+        return this.isMoveFromSide(cell, side1) && this.isMoveFromSide(cell, side2);
     }
 
     protected checkEOG(): KrypteGame {
@@ -265,7 +385,28 @@ export class KrypteGame extends InARowBase {
         return this;
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string | undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+        let showMoves = true;
+        let showSides = true;
+        if (altDisplay !== undefined) {
+            if (altDisplay === "moves_no_sides_yes") {
+                showMoves = false;
+                showSides = true;
+            }
+            if (altDisplay === "moves_yes_sides_no") {
+                showMoves = true;
+                showSides = false;
+            }
+            if (altDisplay === "moves_no_sides_no") {
+                showMoves = false;
+                showSides = false;
+            }
+        }
+
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -273,7 +414,7 @@ export class KrypteGame extends InARowBase {
                 pstr += "\n";
             }
             for (let col = 0; col < this.boardSize; col++) {
-                const cell = this.renderCoords2algebraic(col, row);
+                const cell = this.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const contents = this.board.get(cell);
                     if (contents === 1) {
@@ -288,13 +429,29 @@ export class KrypteGame extends InARowBase {
         }
         pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
 
+        const markers: MarkerEdge[] = [];
+
+        if (showSides) {
+            for (const side of this.activeSides()) {
+                markers.push({
+                    type: "edge",
+                    edge: side,
+                    colour: 3 // active player colour? or one of _context_fill, _context_background, _context_borders, _context_strokes?
+                })
+            }
+        }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "squares",
                 width: this.boardSize,
-                height: this.boardSize
+                height: this.boardSize,
+                markers: markers
             },
+            options: [
+                "reverse-numbers"
+            ],
             legend: {
                 A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
                 B: [{ name: "piece", colour: this.getPlayerColour(2) as playerid }],
@@ -306,16 +463,12 @@ export class KrypteGame extends InARowBase {
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place") {
-                    const coordsAll = this.renderAlgebraic2coords(move.where!);
-                    for (const [x, y] of coordsAll) {
-                        rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
-                    }
+                    const [x, y] = this.algebraic2coords(move.where!);
+                    rep.annotations.push({ type: "enter", targets: [{ row: y, col: x }] });
                 } else if (move.type === "capture") {
                     for (const cell of move.where!.split(",")) {
-                        const coordsAll = this.renderAlgebraic2coords(cell);
-                        for (const [x, y] of coordsAll) {
-                            rep.annotations.push({ type: "exit", targets: [{ row: y, col: x }] });
-                        }
+                        const [x, y] = this.algebraic2coords(cell);
+                        rep.annotations.push({ type: "exit", targets: [{ row: y, col: x }] });
                     }
                 }
             }
@@ -330,6 +483,12 @@ export class KrypteGame extends InARowBase {
                     }
                     rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
+            }
+        }
+        if (showMoves) {
+            for (const cell of this.moves()){
+                const [x, y] = this.algebraic2coords(cell);
+                rep.annotations.push({ type: "dots", targets: [{ row: y, col: x }] });
             }
         }
         return rep;
@@ -353,6 +512,7 @@ export class KrypteGame extends InARowBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
+            lastmoveSide: this.lastmoveSide,
             board: new Map(this.board),
             winningLines: this.winningLines.map(a => [...a]),
             swapped: this.swapped

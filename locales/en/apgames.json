@@ -2861,6 +2861,20 @@
                 "name": "Hide restriction indicators"
             }
         },
+        "krypte": {
+            "moves_no_sides_yes": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
+            },
+            "moves_yes_sides_no": {
+                "description": "Don't show active sides.",
+                "name": "Hide sides"
+            },
+            "moves_no_sides_no": {
+                "description": "Show neither possible moves nor active sides.",
+                "name": "Hide both"
+            }
+        },
         "lox": {
             "hide-focus-threatened": {
                 "description": "Don't put additional highlight on pieces that are threatened to be captured.",

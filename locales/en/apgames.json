@@ -4402,7 +4402,10 @@
             "INVALID_MOVE": "You must move a piece that can jump over an opponent's piece."
         },
         "krypte": {
-            "INITIAL_INSTRUCTIONS": "Enter a piece on the active side of the board"
+            "INITIAL_INSTRUCTIONS": "Enter a piece on the active side of the board",
+            "AMBIGUOUS": "Ambiguous moves, i.e. moves that could be entered from both active sides simultaneously, are forbidden.",
+            "SIMULTANEOUS": "Moves that would create winning lines for both players simultaneously are not allowed.",
+            "ACTIVE": "Pieces must be entered from one of the active sides of the board, sliding over existing pieces to the first empty square."
         },
         "lasca": {
             "INITIAL_INSTRUCTIONS": "Select a stack with your piece on top to move.",

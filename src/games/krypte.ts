@@ -139,6 +139,10 @@ export class KrypteGame extends InARowBase {
         return this;
     }
 
+    public otherPlayer(): playerid {
+        return this.currplayer === 1 ? 2 : 1;
+    }
+
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
@@ -148,11 +152,8 @@ export class KrypteGame extends InARowBase {
         for (const activeSide of this.activeSides()) {
             for (const entryCell of this.sideCells(activeSide)) {
                 const move = this.slidePiece(entryCell, activeSide);
-                if (move !== undefined && !this.isAmbiguousMove(move)) {
-                    const boardAfter = this.boardAfterMove(move);
-                    if (!this.simultaneousAlignment(move, boardAfter)) {
-                        moves.push(move);
-                    }
+                if (move !== undefined && !this.isAmbiguousMove(move) && !this.simultaneousAfter(move)) {
+                    moves.push(move);
                 }
             }
         }
@@ -165,7 +166,6 @@ export class KrypteGame extends InARowBase {
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
-        // TODO convert click on entry cell to target cell
         try {
             let newmove = "";
             const cell = this.coords2algebraic(col, row);
@@ -217,9 +217,19 @@ export class KrypteGame extends InARowBase {
             return result;
         }
         if (!this.moves().includes(m)) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
-            return result;
+            if (this.isAmbiguousMove(m)) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.krypte.AMBIGUOUS", { move: m });
+                return result;
+            } else if (this.simultaneousAfter(m)){
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.krypte.SIMULTANEOUS", { move: m });
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.krypte.ACTIVE", { move: m });
+                return result;
+            }
         }
 
         result.valid = true;
@@ -443,25 +453,34 @@ export class KrypteGame extends InARowBase {
         return line1 && line2;
     }
 
+    private simultaneousAfter(move: string): boolean {
+        const boardAfter = this.boardAfterMove(move);
+        return this.simultaneousAlignment(move, boardAfter);
+    }
+
     protected checkEOG(): KrypteGame {
         if (this.lastmove === undefined) {
             return this;
         }
 
-        /* Assuming at most 1 player has a winning line. If both would have it
-        the move is invalid */
-        const [x, y] = this.algebraic2coords(this.lastmove);
-        const adj = [[x, y]];
-        adj.push(...this.grid.adjacencies(x, y, false));
+        if (this.moves().length === 0) {
+            this.winner.push(this.otherPlayer());
+        } else {
+            /* Assuming at most 1 player has a winning line. If both would have it
+            the move is invalid */
+            const [x, y] = this.algebraic2coords(this.lastmove);
+            const adj = [[x, y]];
+            adj.push(...this.grid.adjacencies(x, y, false));
 
-        for (const [ax, ay] of adj) {
-            const alg = this.coords2algebraic(ax, ay);
-            if (this.board.has(alg)) {
-                const line = this.checkLineAt(alg, this.board);
-                if (line !== undefined) {
-                    this.winner.push(this.board.get(alg)!);
-                    this.winningLines.push(line);
-                    break;
+            for (const [ax, ay] of adj) {
+                const alg = this.coords2algebraic(ax, ay);
+                if (this.board.has(alg)) {
+                    const line = this.checkLineAt(alg, this.board);
+                    if (line !== undefined) {
+                        this.winner.push(this.board.get(alg)!);
+                        this.winningLines.push(line);
+                        break;
+                    }
                 }
             }
         }

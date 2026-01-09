@@ -294,7 +294,10 @@ export class EntropyGame extends GameBaseSimultaneous {
             }
             // valid cell
             try {
-                this.algebraic2coords(from);
+                const [fx, fy] = this.algebraic2coords(from);
+                if (fx >= this.boardsize || fy >= this.boardsize) {
+                    throw new Error("Coordinates out of bounds");
+                }
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
@@ -317,6 +320,9 @@ export class EntropyGame extends GameBaseSimultaneous {
             let xFrom: number; let yFrom: number;
             try {
                 [xFrom, yFrom] = this.algebraic2coords(from);
+                if (xFrom >= this.boardsize || yFrom >= this.boardsize) {
+                    throw new Error("Coordinates out of bounds");
+                }
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
@@ -341,6 +347,9 @@ export class EntropyGame extends GameBaseSimultaneous {
                 let xTo: number; let yTo: number;
                 try {
                     [xTo, yTo] = this.algebraic2coords(to);
+                    if (xTo >= this.boardsize || yTo >= this.boardsize) {
+                        throw new Error("Coordinates out of bounds");
+                    }
                 } catch {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});

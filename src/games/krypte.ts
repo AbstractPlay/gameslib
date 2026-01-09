@@ -53,7 +53,8 @@ export class KrypteGame extends InARowBase {
             {uid: "moves_no_sides_yes"},
             {uid: "moves_yes_sides_no"},
             {uid: "moves_no_sides_no"},
-        ]
+        ],
+        flags: ["experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {

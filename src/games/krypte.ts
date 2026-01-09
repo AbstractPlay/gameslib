@@ -2,7 +2,7 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APMoveResult } from "../schemas/moveresults";
-import { DirectionCardinal, reviver, UserFacingError } from "../common";
+import { DirectionCardinal, allDirections, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase";
 import { APRenderRep } from "@abstractplay/renderer";
@@ -68,18 +68,6 @@ export class KrypteGame extends InARowBase {
         return {"N": "E", "E": "S", "S": "W", "W": "N"}[dir] as DirectionCardinal
     }
 
-    private side2dxdy(dir: DirectionCardinal): [number, number] {
-        /* Convert the side at which the piece is entered (i.e. the *OPPOSITE* direction from the
-        one in which the piece slides) to dcol, drow */
-        return {
-            "N": [0, 1],
-            "E": [-1, 0],
-            "S": [0, -1],
-            "W": [1, 0]
-        }[dir] as [number, number]
-    }
-
-
     public numplayers = 2;
     public currplayer!: playerid;
     public board!: Map<string, playerid>;
@@ -94,6 +82,7 @@ export class KrypteGame extends InARowBase {
     public defaultBoardSize = 8;
     public winningLineLength = 4;
     public lastmoveSide?: DirectionCardinal = undefined;
+    private grid!: RectGrid;
 
     constructor(state?: IKrypteState | string, variants?: string[]) {
         super();
@@ -125,7 +114,7 @@ export class KrypteGame extends InARowBase {
         }
         this.load();
     }
-
+    
     public load(idx = -1): KrypteGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -133,7 +122,7 @@ export class KrypteGame extends InARowBase {
         if (idx < 0 || idx >= this.stack.length) {
             throw new Error("Could not load the requested state from the stack.");
         }
-
+        
         const state = this.stack[idx];
         if (state === undefined) {
             throw new Error(`Could not load state index ${idx}`);
@@ -146,6 +135,7 @@ export class KrypteGame extends InARowBase {
         this.lastmove = state.lastmove;
         this.lastmoveSide = state.lastmoveSide;
         this.boardSize = this.getBoardSize();
+        this.grid = new RectGrid(this.boardSize, this.boardSize);
         return this;
     }
 
@@ -159,7 +149,10 @@ export class KrypteGame extends InARowBase {
             for (const entryCell of this.sideCells(activeSide)) {
                 const move = this.slidePiece(entryCell, activeSide);
                 if (move !== undefined && !this.isAmbiguousMove(move)) {
-                    moves.push(move);
+                    const boardAfter = this.boardAfterMove(move);
+                    if (!this.simultaneousAlignment(move, boardAfter)) {
+                        moves.push(move);
+                    }
                 }
             }
         }
@@ -195,10 +188,6 @@ export class KrypteGame extends InARowBase {
         }
     }
 
-    private outOfBounds(x: number, y: number): boolean {
-        return x < 0 || x >= this.boardSize || y < 0 || y >= this.boardSize;
-    }
-
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         if (m.length === 0) {
@@ -213,7 +202,7 @@ export class KrypteGame extends InARowBase {
         try {
             const [x, y] = this.algebraic2coords(m);
             // `algebraic2coords` does not check if the cell is on the board.
-            if (this.outOfBounds(x, y)) {
+            if (!this.grid.inBounds(x, y)) {
                 throw new Error("Invalid cell");
             }
         } catch {
@@ -265,8 +254,8 @@ export class KrypteGame extends InARowBase {
         
         this.results = [];
         
+        this.board = this.boardAfterMove(m);
         this.results.push({ type: "place", where: m });
-        this.board.set(m, this.currplayer);
         
         if (partial) { return this; }
         
@@ -278,6 +267,21 @@ export class KrypteGame extends InARowBase {
         this.checkEOG();
         this.saveState();
         return this;
+    }
+
+    private boardAfterMove(m: string): Map<string, playerid> {
+        const newBoard = new Map(this.board);
+        const [x, y] = this.algebraic2coords(m);
+        const adj = this.grid.adjacencies(x, y, false);
+        for (const [ax, ay] of adj) {
+            const alg = this.coords2algebraic(ax, ay);
+            if (this.board.has(alg)) {
+                newBoard.set(alg, this.board.get(alg) === 1 ? 2 : 1);
+            }
+        }
+        newBoard.set(m, this.currplayer);
+
+        return newBoard;
     }
 
     private activeSides(): DirectionCardinal[] {
@@ -319,14 +323,12 @@ export class KrypteGame extends InARowBase {
 
     private slidePiece(cell: string, side: DirectionCardinal): string | undefined {
         let [col, row] = this.algebraic2coords(cell);
-        const [dcol, drow] = this.side2dxdy(side);
-        while (! this.outOfBounds(col, row)) {
+        while (this.grid.inBounds(col, row)) {
             const newCell = this.coords2algebraic(col, row);
             if (! this.board.has(newCell)) {
                 return newCell;
             } else {
-                col += dcol;
-                row += drow;
+                [col, row] = RectGrid.move(col, row, oppositeDirections.get(side)!);
             }
         }
         return undefined;
@@ -364,19 +366,108 @@ export class KrypteGame extends InARowBase {
         return this.isMoveFromSide(cell, side1) && this.isMoveFromSide(cell, side2);
     }
 
-    protected checkEOG(): KrypteGame {
-        const winningLinesMap = this.getWinningLinesMap();
-        const winner: playerid[] = [];
-        this.winningLines = [];
-        for (const player of [1, 2] as playerid[]) {
-            if (winningLinesMap.get(player)!.length > 0) {
-                winner.push(player);
-                this.winningLines.push(...winningLinesMap.get(player)!);
+    private checkLineAt(cell: string, board: Map<string, playerid>): string[] | undefined {
+        // Check if there is a line centered on the cell on the passed board
+        const [x, y] = this.algebraic2coords(cell);
+        const player = board.get(cell);
+        if (player === undefined) { return undefined; }
+
+        for (const dir of allDirections) {
+            let count = 1;
+            for (const sign of [-1, 1]) {
+                let [cx, cy] = [x, y];
+                for (;;) {
+                    [cx, cy] = RectGrid.move(cx, cy, dir, sign);
+                    if (! this.grid.inBounds(cx, cy)) {
+                        break;
+                    }
+                    const checkCell = this.coords2algebraic(cx, cy);
+                    if (! board.has(checkCell)) {
+                        break;
+                    } else {
+                        if (board.get(checkCell) === player) {
+                            count++;
+                            if (count >= this.winningLineLength) {
+                                const line = [];
+                                for (let i = 0; i < this.winningLineLength; i++) {
+                                    line.push(this.coords2algebraic(...RectGrid.move(
+                                        cx, cy, dir, i*sign*-1)));
+                                }
+                                return line;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
             }
         }
-        if (winner.length > 0) {
+        return undefined;
+    }
+
+    private simultaneousAlignment(cell: string, board: Map<string, playerid>): boolean {
+        /* Check whether the placement at cell (which should be already included on the passed board)
+        creates a winning line for both players at the same time (which means the placement is forbidden) */
+        const [x, y] = this.algebraic2coords(cell);
+        const adj = [[x, y]];
+        adj.push(...this.grid.adjacencies(x, y, false));
+
+        const check1 = [];
+        const check2 = [];
+        for (const coords of adj) {
+            const alg = this.coords2algebraic(...coords as [number, number]);
+            if (board.get(alg) === 1) {
+                check1.push(alg);
+            } else if (board.get(alg) === 2) {
+                check2.push(alg);
+            }
+        }
+
+        if (check1.length === 0 || check2.length === 0) {
+            return false;
+        }
+        let line1 = false;
+        let line2 = false;
+        for (const check of check1) {
+            if (this.checkLineAt(check, board) !== undefined) {
+                line1 = true;
+                break;
+            }
+        }
+        for (const check of check2) {
+            if (this.checkLineAt(check, board) !== undefined) {
+                line2 = true;
+                break;
+            }
+        }
+        return line1 && line2;
+    }
+
+    protected checkEOG(): KrypteGame {
+        if (this.lastmove === undefined) {
+            return this;
+        }
+
+        /* Assuming at most 1 player has a winning line. If both would have it
+        the move is invalid */
+        const [x, y] = this.algebraic2coords(this.lastmove);
+        const adj = [[x, y]];
+        adj.push(...this.grid.adjacencies(x, y, false));
+
+        for (const [ax, ay] of adj) {
+            const alg = this.coords2algebraic(ax, ay);
+            if (this.board.has(alg)) {
+                const line = this.checkLineAt(alg, this.board);
+                if (line !== undefined) {
+                    this.winner.push(this.board.get(alg)!);
+                    this.winningLines.push(line);
+                    break;
+                }
+            }
+        }
+
+        if (this.winner.length > 0) {
             this.gameover = true;
-            this.winner = winner;
         }
         if (this.gameover) {
             this.results.push({ type: "eog" });

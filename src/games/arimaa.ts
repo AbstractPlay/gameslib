@@ -47,7 +47,7 @@ export class ArimaaGame extends GameBase {
         uid: "arimaa",
         playercounts: [2],
         version: "20251223",
-        dateAdded: "2023-05-01",
+        dateAdded: "2025-12-23",
         // i18next.t("apgames:descriptions.arimaa")
         description: "apgames:descriptions.arimaa",
         // i18next.t("apgames:notes.arimaa")

@@ -653,7 +653,7 @@ export class EntropyGame extends GameBaseSimultaneous {
             rep.annotations.push({type: "dots", targets: [{col: x, row}]});
         }
         // check for pending annotations
-        if (this.results.length > 0) {
+        if (this.results.length > 0 && perspective !== undefined) {
             for (const move of this.results) {
                 if (move.type !== "pass") {
                     if (move.type === "move") {

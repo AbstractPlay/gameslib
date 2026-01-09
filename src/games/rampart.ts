@@ -26,7 +26,7 @@ export class RampartGame extends GameBase {
         uid: "rampart",
         playercounts: [2],
         version: "20260106",
-        dateAdded: "2023-12-20",
+        dateAdded: "2026-01-06",
         // i18next.t("apgames:descriptions.rampart")
         description: "apgames:descriptions.rampart",
         urls: [

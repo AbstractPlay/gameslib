@@ -218,6 +218,7 @@ import { EmergoGame, IEmergoState } from "./emergo";
 import { FroggerGame, IFroggerState } from "./frogger";
 import { ArimaaGame, IArimaaState } from "./arimaa";
 import { RampartGame, IRampartState } from "./rampart";
+import { EnsoGame, IEnsoState } from "./enso";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -439,6 +440,7 @@ export {
     FroggerGame, IFroggerState,
     ArimaaGame, IArimaaState,
     RampartGame, IRampartState,
+    EnsoGame, IEnsoState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -515,7 +517,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
                               typeof SunspotGame | typeof StawvsGame | typeof LascaGame |
                               typeof EmergoGame | typeof FroggerGame | typeof ArimaaGame |
-                              typeof RampartGame
+                              typeof RampartGame | typeof EnsoGame
                 >();
 // Manually add each game to the following array
 [
@@ -549,7 +551,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
-    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame,
+    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, EnsoGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -997,6 +999,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new ArimaaGame(...args);
         case "rampart":
             return new RampartGame(...args);
+        case "enso":
+            return new EnsoGame(...args);
     }
     return;
 }

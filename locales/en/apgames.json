@@ -1707,7 +1707,7 @@
                 "description": "Intended for players who communicate expectations before the game. Each player will be able to place as many stars as they wish."
             },
             "captures": {
-                "name": "Enable Adere-style captures",
+                "name": "Adere-style captures",
                 "description": "Pieces can move onto an opposing stack of the same height. Increases game length. Consider using smaller boards."
             }
         },

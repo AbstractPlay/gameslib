@@ -611,7 +611,7 @@ export class RootBoundGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        let complete = false;
+        let complete = trusted;
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {

@@ -30,7 +30,7 @@ export class KrypteGame extends InARowBase {
         uid: "krypte",
         playercounts: [2],
         version: "20260108",
-        dateAdded: "2026-01-08",
+        dateAdded: "2026-01-10",
         // i18next.t("apgames:descriptions.krypte")
         description: "apgames:descriptions.krypte",
         urls: ["https://boardgamegeek.com/boardgame/209858/krypte"],
@@ -54,7 +54,7 @@ export class KrypteGame extends InARowBase {
             {uid: "moves_yes_sides_no"},
             {uid: "moves_no_sides_no"},
         ],
-        flags: ["experimental"]
+        flags: []
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -115,7 +115,7 @@ export class KrypteGame extends InARowBase {
         }
         this.load();
     }
-    
+
     public load(idx = -1): KrypteGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -123,7 +123,7 @@ export class KrypteGame extends InARowBase {
         if (idx < 0 || idx >= this.stack.length) {
             throw new Error("Could not load the requested state from the stack.");
         }
-        
+
         const state = this.stack[idx];
         if (state === undefined) {
             throw new Error(`Could not load state index ${idx}`);
@@ -262,16 +262,16 @@ export class KrypteGame extends InARowBase {
         is updated) */
         const [side1, side2] = this.activeSides();
         const moveSide = this.isMoveFromSide(m, side1) ? side1 : side2;
-        
+
         this.results = [];
-        
+
         this.board = this.boardAfterMove(m);
         this.results.push({ type: "place", where: m });
-        
+
         if (partial) { return this; }
-        
+
         this.lastmoveSide = moveSide;
-        
+
         this.lastmove = m;
         this.currplayer = this.currplayer % 2 + 1 as playerid;
 

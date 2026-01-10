@@ -107,6 +107,7 @@
         "jacynth": "A Decktet card game where opponents vye for control of the city of Jacynth. Place cards, exert influence, and control the most area to win.",
         "kachit": "A chess-like game played on a 4x4 board where you try to eliminate the opposing king or promote your own. Pieces can change their orientation after moving.",
         "konane": "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman. Played on a square board, each player captures by jumping over their opponent's pieces. Last to move wins.",
+        "krypte": "A 4-in-a-row game where pieces enter from active sides that rotate after each turn, and placing a piece flips all adjacent pieces.",
         "lasca": "A Draughts variant where captured pieces remain on the board and can be freed later. Immobilize your opponent to win.",
         "lielow": "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
         "lifeline": "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Win by leaving your opponent with no moves.",
@@ -2869,6 +2870,20 @@
                 "name": "Hide restriction indicators"
             }
         },
+        "krypte": {
+            "moves_no_sides_yes": {
+                "description": "Don't show possible moves.",
+                "name": "Hide moves"
+            },
+            "moves_yes_sides_no": {
+                "description": "Don't show active sides.",
+                "name": "Hide sides"
+            },
+            "moves_no_sides_no": {
+                "description": "Show neither possible moves nor active sides.",
+                "name": "Hide both"
+            }
+        },
         "lox": {
             "hide-focus-threatened": {
                 "description": "Don't put additional highlight on pieces that are threatened to be captured.",
@@ -4399,6 +4414,12 @@
             "SECOND_MOVE": "Remove one of your pieces adjacent to the piece your opponent removed.",
             "NORMAL_MOVE": "Choose a piece to jump one or more of your opponent's pieces in a straight line.",
             "INVALID_MOVE": "You must move a piece that can jump over an opponent's piece."
+        },
+        "krypte": {
+            "INITIAL_INSTRUCTIONS": "Enter a piece on the active side of the board",
+            "AMBIGUOUS": "Ambiguous moves (moves that could be entered from both active sides simultaneously) are forbidden.",
+            "SIMULTANEOUS": "Moves that would create winning lines for both players simultaneously are not allowed.",
+            "ACTIVE": "Pieces must be entered from one of the active sides of the board, sliding over existing pieces to the first empty square."
         },
         "lasca": {
             "INITIAL_INSTRUCTIONS": "Select a stack with your piece on top to move.",

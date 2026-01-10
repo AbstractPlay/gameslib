@@ -115,6 +115,7 @@ export class FroggerGame extends GameBase {
     private suitboard!: Map<string, string>;
     private _highlight: string[] = [];
     private _points: string[] = [];
+    private _button: boolean = true; //for refill button hiding
 
     constructor(state: number | IFroggerState | string, variants?: string[]) {
         super();
@@ -281,7 +282,7 @@ export class FroggerGame extends GameBase {
         //Remove cards from the deck that are on the board, in the market, or in known hands.
         this.getBoardCards().forEach( uid =>
             this.deck.remove(uid)
-        );
+                                    );
         
         //We track the initial closed hand for hiding because all subsequent draws are open.
         //Note that even if closehands become known logically, they remain hidden until played.
@@ -306,6 +307,14 @@ export class FroggerGame extends GameBase {
         }
 
         this.deck.shuffle();
+
+        if ( this.variants.includes("refills") ) {
+            //Initial standard for showing the refill button is...
+            this._button = ( (this.getTrueDeckSize() + this.discards.length) > 0 );
+            //Does not consider market length because that is the toggle in the renderer.
+        } else {
+            this._button = false;
+        }
 
         return this;
     }
@@ -341,7 +350,7 @@ export class FroggerGame extends GameBase {
         if (cardObj === undefined) {
             throw new Error(`Could not deserialize the card ${card} in checkNextForward.`);
         }
-       
+        
         if (this.variants.includes("advanced") && cardObj.rank.uid !== this.courtrank) {
             //In the advanced game, courts still function like regular game cards,
             // but number cards do not.
@@ -542,6 +551,26 @@ export class FroggerGame extends GameBase {
         return suits;
     }
 
+    public getTrueDeckSize(): number {
+        //On the server, the "deck" can contain duplicates of hidden hand cards.
+        //For testing and some corner cases we want to know the true deck size.
+
+        //The full decktet is 45 cards, but we may not be using the courts.
+        let truesize = this.variants.includes("courts") ? 45 : 41;
+        
+        //We are not using the Excuse or the 10--12 board cards.
+        truesize = truesize - (this.columns - 1)
+
+        //Anything in the market or discards is not in the deck.
+        truesize = truesize - this.market.length - this.discards.length;
+
+        const closedhandsize = this.closedhands.reduce((acc, curr) => acc + curr.length, 0);
+        const handsize = this.hands.reduce((acc, curr) => acc + curr.length, 0);
+        truesize = truesize - closedhandsize - handsize;
+        
+        return truesize;
+    }
+
     private getUnsuitedCells(): string[] {
         //Return those board cells that aren't on suitboard but are playable.
         const uncells: string[] = [];
@@ -679,7 +708,7 @@ export class FroggerGame extends GameBase {
         // marketcard//                a whole (blocked) turn to draw a marketcard
 
         let mv, from, to, card;
- 
+        
         const ifm: IFrogMove = {
             incomplete: false,
             forward: false,
@@ -828,21 +857,32 @@ export class FroggerGame extends GameBase {
         return array[index];
     }
 
-    private refillMarket(): boolean {
+    private refillMarket(emulated: boolean): number {
         //Fills the market regardless of current size.
         //Shuffles the discards when necessary.
         //Refill variant behavior is mostly handled by the caller,
 
         //May be called when the market is already full (in the continuous variant).
         if (this.market.length === this.marketsize)
-            return false;
+            return 0;
+
+        if (emulated) {
+            const toFake = Math.min(this.marketsize, this.getTrueDeckSize() + this.discards.length);
+            this.market.length = toFake;
+            this.market.fill("");
+            return toFake;
+        }
         
         //First, try to draw what we need from the deck.
-        const toDraw = Math.min(this.marketsize, this.deck.size);
+        let toDraw = Math.min(this.marketsize, this.deck.size);
+        
         this.market = [...this.deck.draw(toDraw).map(c => c.uid)];
 
-        //If we didn't fill the market, shuffle the discards.
-        if (this.market.length < this.marketsize) {
+        if (this.market.length === this.marketsize) {
+            return toDraw;
+        } else {
+            //If we didn't fill the market, shuffle the discards.
+            
             //Return the discards to the deck and shuffle.
             this.discards.forEach( card => {
                 this.deck.add(card);
@@ -853,10 +893,15 @@ export class FroggerGame extends GameBase {
             //Draw the rest.
             for (let n = this.market.length; n < this.marketsize; n++) {
                 const [card] = this.deck.draw();
-                this.market.push(card.uid);
+                if (card) {
+                    this.market.push(card.uid);
+                    toDraw++;
+                } else {
+                    return toDraw;
+                }
             }
         }
-        return true;
+        return toDraw;
     }
 
     private removeCard(card: string, arr: string[]): boolean {
@@ -889,9 +934,12 @@ export class FroggerGame extends GameBase {
         //Make a list of all possible first moves (out of the three allowed).
         let moves:string[] = [];
         if (this.checkBlocked()) {
-            //Note the market must be populated at this point.
+            //Note the market is almost certainly populated at this point.
             moves = this.market.map(card => card + "//");
-            return moves;
+            if (moves.length > 0)
+                return moves;
+            else
+                return ["pass"];
         }
 
         //List frogs.
@@ -952,10 +1000,14 @@ export class FroggerGame extends GameBase {
         //Refill/skipto case.  Not reachable from the move list, but useful for testing.
         if ( this.variants.includes("refills") && this.skipto !== undefined && this.skipto !== this.currplayer )
             return "pass";
-        
+
         if (this.checkBlocked()) {
-            const marketCard = this.randomElement(this.market);
-            return marketCard + "/";
+            if (this.market.length === 0)
+                return "pass";
+            else {
+                const marketCard = this.randomElement(this.market);
+                return marketCard + "/";
+            }
         }
 
         //Flip a coin about what to do (if there's an option).
@@ -1058,7 +1110,7 @@ export class FroggerGame extends GameBase {
 
             const currmove = moves[moves.length - 1];
             const currIFM = this.parseMove(currmove);
-         
+            
             if (moves.length > this.nummoves) {
                 return {
                     move,
@@ -1083,9 +1135,10 @@ export class FroggerGame extends GameBase {
                 } else if (currmove === "") {
                     //Deal with the refill button.
                     if (this.variants.includes("refills") && piece === "refill") {
-                        if (move.indexOf("!") < 0)
+                        if (move.indexOf("!") < 0) {
                             newmove = `${move.slice(0,-1)}!/`;
-                        else
+                            this._button = false;
+                        } else
                             newmove = move;
                     } else {
                         // starting another move (forward).
@@ -1146,7 +1199,7 @@ export class FroggerGame extends GameBase {
                 if (currmove === "" || currIFM.from === undefined) {
                     //Piece picking cases, so need a piece.
                     if ( piece === undefined || piece === "" ) {
-                         return {
+                        return {
                             move,
                             valid: false,
                             message: i18next.t("apgames:validation.frogger.PIECE_NEXT")
@@ -1230,7 +1283,9 @@ export class FroggerGame extends GameBase {
             result.valid = true;
             result.complete = -1;
 
-            if ( blocked )
+            if ( blocked && this.market.length === 0 )
+                result.message = i18next.t("apgames:validation.frogger.NO_CARDS_BLOCKED");
+            else if ( blocked )
                 result.message = i18next.t("apgames:validation.frogger.NO_CHOICE_BLOCKED");
             else if ( this.stack.length > this.numplayers )
                 result.message = i18next.t("apgames:validation.frogger.LATER_INSTRUCTIONS")
@@ -1240,7 +1295,7 @@ export class FroggerGame extends GameBase {
         }
 
         if (m === "pass") {
-            //May only pass in some refill situations.
+            //May only pass in rare/refill situations.
             if ( this.variants.includes("refills") && this.skipto !== undefined ) {
 
                 // && this.skipto !== this.currplayer 
@@ -1255,6 +1310,10 @@ export class FroggerGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 result.complete = 1;
                 return result;
+            } else if ( blocked && this.market.length === 0 ) {
+                result.valid = true;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                result.complete = 1;
             } else {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.frogger.NO_PASSING");
@@ -1292,7 +1351,12 @@ export class FroggerGame extends GameBase {
 
             //Check blocked first.
             if (blocked) {
-                if (subIFM.forward || subIFM.from || ! subIFM.card) {
+                if (submove === "pass" && cloned.market.length === 0) {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                } else if (subIFM.forward || subIFM.from || ! subIFM.card) {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.frogger.NO_CHOICE_BLOCKED");
                     return result;
@@ -1332,7 +1396,11 @@ export class FroggerGame extends GameBase {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.frogger.TOO_EARLY_FOR_REFILL");
                     return result;
-                } // else refill = true;
+                } else if ( cloned.getTrueDeckSize() + cloned.discards.length === 0 ) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.frogger.NO_CARDS_FOR_REFILL");
+                    return result;
+                }// else refill = true;
             }
             
             let complete = false;
@@ -1546,7 +1614,7 @@ export class FroggerGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): FroggerGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): FroggerGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -1567,17 +1635,25 @@ export class FroggerGame extends GameBase {
         let remaining: number;
 
         if ( m === "pass") {
-            this.results.push({type: "pass"});
 
-            //Passes only happen in the context of the refill option.
+            //Passes only happen in the rare blocked w/no pool situation,
+            //  or in the context of the refill option. 
             //Besides the forced passes, the original player can pass
             //  once he sees the market and (perhaps) doesn't like it.
             //In that case, we need to clean up (below).
             
+            if ( this.variants.includes("refills") && this.skipto !== undefined && this.skipto === this.currplayer) {
+                //Player passed during refill turn.
+                this.results.push({type: "pass", why: "to complete their partial turn"});
+            } else if (this.checkBlocked() && this.market.length === 0) {
+                this.results.push({type: "pass", why: "because they were blocked and there were no cards in the draw pool"});
+            } else {
+                this.results.push({type: "pass", why: "to permit refilling the draw pool"});
+            }
         } else {
-        
+            
             const moves = m.split("/");
-        
+            
             for (let s = 0; s < moves.length; s++) {
 
                 //Really only need these on a final partial submove
@@ -1591,8 +1667,10 @@ export class FroggerGame extends GameBase {
 
                 const subIFM = this.parseMove(submove);
 
-                if (subIFM.refill)
+                if (subIFM.refill) {
                     refill = true;
+                    this._button = false;
+                }
 
                 //Make the submove.
                 //Possible card adjustments.
@@ -1615,7 +1693,7 @@ export class FroggerGame extends GameBase {
                     }
                 } else if (subIFM.card) {
                     marketEmpty = this.popMarket(subIFM.card);
-                   
+                    
                     if (subIFM.from) {
                         this.results.push({type: "move", from: subIFM.from, to: subIFM.to!, what: subIFM.card!, how: "back"});
                     }
@@ -1687,11 +1765,13 @@ export class FroggerGame extends GameBase {
 
         //update market if necessary
         if (marketEmpty || this.variants.includes("continuous")) {
-                const refilled = this.refillMarket();
-                if (refilled)
-                    this.results.push({type: "deckDraw"});
+            const refilled = this.refillMarket(emulation);
+            let description = "";
+            if (refilled < 6)
+                description = (refilled === 0 ? "not" : "only partly");
+            this.results.push({type: "deckDraw", what: description});
         }
- 
+        
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -1837,7 +1917,7 @@ export class FroggerGame extends GameBase {
         allcards.push(...cardsExtended.filter(c => c.rank.uid === this.pawnrank));
         if (this.variants.includes("courts"))
             allcards.push(...cardsExtended.filter(c => c.rank.uid === this.courtrank));
-            
+        
 
         //add flood and suit markers for the active spaces
         for (let col = 1; col < this.columns - 1; col++) {
@@ -1945,7 +2025,7 @@ export class FroggerGame extends GameBase {
             ]
         }
 
-         if (this.variants.includes("refills")) {
+        if (this.variants.includes("refills")) {
             legend["refill"] = [
                 {
                     text: "\u{1F504}",
@@ -1985,7 +2065,7 @@ export class FroggerGame extends GameBase {
                 label: i18next.t("apgames:validation.frogger.LABEL_MARKET") || "Market",
                 spacing: 0.375,
             });
-        } else if ( this.variants.includes("refills") ) {
+        } else if ( this.variants.includes("refills") && this._button ) {
             areas.push({
                 type: "pieces",
                 pieces: ["refill"],
@@ -2117,11 +2197,11 @@ export class FroggerGame extends GameBase {
                 node.push(i18next.t("apresults:CLAIM.frogger", {player, card: r.what}));
                 resolved = true;
                 break;
-           case "deckDraw":                
-                node.push(i18next.t("apresults:DECKDRAW.frogger"));
+            case "deckDraw":
+                node.push(i18next.t("apresults:DECKDRAW.frogger", {what: r.what}));
                 resolved = true;
                 break;
-           case "declare":                
+            case "declare":
                 node.push(i18next.t("apresults:DECLARE.frogger"));
                 resolved = true;
                 break;
@@ -2144,7 +2224,7 @@ export class FroggerGame extends GameBase {
                 resolved = true;
                 break;
             case "pass":                
-                node.push(i18next.t("apresults:PASS.frogger", {player}));
+                node.push(i18next.t("apresults:PASS.frogger", {player, why: r.why}));
                 resolved = true;
                 break;
             case "eog":                

@@ -170,7 +170,7 @@
         "biscuit": "The next player was unable to play any cards in their hand, so they drew a card.",
         "emu_deck": "{{player}} drew a face-down card from the deck.",
         "emu_discard": "{{player}} drew the {{what}} from the top of the discard pile.",
-        "frogger": "The draw pool was refilled.",
+        "frogger": "The draw pool was {{what}} refilled.",
         "quincunx_one": "{{player}} drew {{count}} card.",
         "quincunx_other": "{{player}} drew {{count}} cards."
     },
@@ -347,7 +347,7 @@
         "deckfish": "{{player}} was unable to move.",
         "entropy": "{{player}} chose not to move any pieces this turn.",
         "forced": "{{player}} was forced to pass.",
-        "frogger": "{{player}} passed to permit refilling the draw pool.",
+        "frogger": "{{player}} passed {{why}}.",
         "pie": "{{player}} accepted the komi offer and will continue playing second.",
         "pigs": "{{player}} idles.",
         "simple": "{{player}} passed.",

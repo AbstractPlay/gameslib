@@ -2236,7 +2236,7 @@ export class FroggerGame extends GameBase {
                 resolved = true;
                 break;
             case "eog":                
-                node.push(i18next.t("apresults:EOG.frogger", {player}));
+                node.push(i18next.t("apresults:EOG.default"));
                 resolved = true;
                 break;
         }

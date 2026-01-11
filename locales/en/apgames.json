@@ -61,6 +61,7 @@
         "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         "crossway": "A game of connecting opposite sides of the board, but lines of pieces may not cross each other.",
+        "crosshairs": "A WW1 aerial dogfight game with no random elements. Planes have height and direction. Movement includes climbing, level flight, and diving. Combat is simple: if a plane is in the line of fire of two enemy planes, it is shot down. Reduce your opponent to one plane to win.",
         "cubeo": "A boardless, perfect-information dice game where you attempt to promote your dice faster than your opponent or manoeuvre your opponent into a position where they cannot move.",
         "dagnacht": "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
         "dameo": "A modern draughts game with linear movement and orthogonal captures.",
@@ -3950,6 +3951,13 @@
             "BAD_PASS": "You may not pass if legal moves are available.",
             "INITIAL_INSTRUCTIONS": "Select a point to place a piece.",
             "NO_CROSSINGS": "Lines may not cross."
+        },
+        "crosshairs": {
+            "PLACE_CLOUD": "Click on an empty cell to place a cloud. Clouds cannot be larger than 2 hexes.",
+            "INITIAL_INSTRUCTIONS": "Select a plane to move, or enter a new plane on your starting edge. You must move/enter all required planes this turn.",
+            "PARTIAL_MOVE": "Continue selecting the move destination and direction.",
+            "PARTIAL_PLANE_MOVE": "Complete the current plane's move by selecting a destination.",
+            "NEED_MORE_PLANES": "You need to move/enter {{count}} more plane(s) this turn. Select the next plane."
         },
         "cubeo": {
             "BAD_MERGE": "You may only merge when you have at least three dice in the formation, and you may not remove a pinned die or a die that cannot be slid out of the formation.",

@@ -129,6 +129,7 @@
     },
     "BUTTON": "{{player}} a pris le bouton.",
     "AFFILIATE": {
-        "cifra_lt": "{{player}} a choisi de jouer les pièces claires depuis la rangée du haut."
+        "cifra_lt": "{{player}} a choisi de jouer les pièces claires depuis la rangée du haut.",
+        "cifra_lb": "{{player}} a choisi de jouer les pièces claires de la rangée du bas."
     }
 }

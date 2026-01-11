@@ -394,13 +394,15 @@ export class FroggerGame extends GameBase {
         return ( suits.indexOf(suit) === -1 )
     }
 
-    private countColumnFrogs(home?: boolean): number {
+    private countColumnFrogs(home?: boolean, player?: playerid): number {
         //Returns number of currplayer's frogs in the start (false/undefined) or home (true) column.
+        if (player === undefined)
+            player = this.currplayer;
         let col = 0;
         if (home)
             col = this.columns - 1;
         
-        const cell = this.coords2algebraic(col, this.currplayer as number);
+        const cell = this.coords2algebraic(col, player as number);
         if (!this.board.has(cell))
             return 0;
         const piece = this.board.get(cell)!;
@@ -1786,9 +1788,15 @@ export class FroggerGame extends GameBase {
     }
 
     protected checkEOG(): FroggerGame {
-        if ( this.countColumnFrogs(true) === 6 ) {
+        //You can only win on your own turn.
+        let prevplayer = this.currplayer - 1;
+        if (prevplayer < 1) {
+            prevplayer = this.numplayers;
+        }
+        
+        if ( this.countColumnFrogs(true, prevplayer as playerid) === 6 ) {
             this.gameover = true;
-            this.winner.push(this.currplayer);
+            this.winner.push(prevplayer as playerid);
         }
 
         if (this.gameover) {

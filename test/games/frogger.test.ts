@@ -470,4 +470,13 @@ describe("Frogger", () => {
 
     });
 
+    it ("Declares the winner", () => {
+        //Trimmed a game down to the last move for testing purposes.
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["refills","advanced","courts","freeswim"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[{"type":"move","from":"a3","to":"c2","what":"2VL","how":"forward"}],"_timestamp":"2026-01-11T15:35:08.026Z","currplayer":2,"lastmove":"2VL:a3-c2/","board":{"dataType":"Map","value":[["b4","PMYK"],["c4","PSVK"],["d4","NM"],["e4","PMSL"],["f4","5SV"],["g4","NY"],["h4","3SK"],["i4","PVLY"],["j4","8MS"],["k4","5ML"],["a3","X1-4"],["l3","X1-1"],["l2","X2-5"],["i1","X2"],["c2","X1"]]},"closedhands":[[],[]],"hands":[[],["NL","9LK"]],"market":["1S"],"discards":["6SY","TSLK","TMLY","TSVY","8VL","5YK","2VL"],"nummoves":3}]}`);
+
+        expect(g.validateMove("9LK:i1-k2/NL:k2-l2/")).to.have.deep.property("valid", true);
+        g.move("9LK:i1-k2/NL:k2-l2/");
+        expect(g.gameover).eq(true);
+    });
+
 });

@@ -2852,6 +2852,12 @@
                 "name": "Hide moves"
             }
         },
+        "frogger": {
+            "frog-pieces": {
+                "description": "Use frog-shaped pieces.",
+                "name": "Frog pieces"
+            }
+        },
         "gess": {
             "hide-piece-highlight": {
                 "description": "Don't highlight the 9x9 pieces.",

@@ -4217,6 +4217,8 @@
             "MUST_HOP_FORWARD": "When using a hand card, your frog must hop forward.",
             "MUST_MOVE": "Your frog must move to a different card/column.",
             "MUST_PASS": "You must pass to allow another player to complete their turn.",
+            "NO_CARDS_FOR_REFILL": "There are no cards left with which to refill the draw pool.",
+            "NO_CARDS_BLOCKED": "If, at the start of your turn, you have no hand cards, none of your frogs can move back, and the draw pool is empty, you must pass.",
             "NO_CHOICE_BLOCKED": "If, at the start of your turn, you have no hand cards and none of your frogs can move back, you must draw a single card from the draw pool and end your turn.",
             "NO_MOVE_BLOCKED": "You cannot move after claiming a card for being blocked.",
             "NO_PASSING": "There is no passing as such in Frogger.  If you are blocked, you must draw a single card from the draw pool.",

@@ -442,5 +442,41 @@ describe("Frogger", () => {
 
     });
 
-    
+    it ("Handles an empty deck/pool situation", () => {
+        //This is an artificial starting state trimmed off of a game long enough to exhaust the deck.
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["freeswim","refills"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[{"type":"move","from":"g3","to":"f3","what":"2MK","how":"back"},{"type":"move","from":"f3","to":"e2","what":"6MV","how":"back"},{"type":"move","from":"e2","to":"d3","what":"NS","how":"back"}],"_timestamp":"2026-01-08T20:08:26.404Z","currplayer":2,"lastmove":"g3-f3,2MK/f3-e2,6MV/e2-d3,NS/","board":{"dataType":"Map","value":[["b4","3MV"],["c4","4YK"],["d4","NY"],["e4","PVLY"],["f4","5SV"],["g4","5YK"],["h4","PMSL"],["i4","PMYK"],["j4","NM"],["k4","4VL"],["l4","PSVK"],["m4","4MS"],["a3","X1-5"],["a2","X2-5"],["c3","X2"],["d3","X1"]]},"closedhands":[["5ML","8VL","3LY"],["2VL","9VY","7SK"]],"hands":[["1Y","6LK","9LK","NK","8YK","2SY","1K","2MK","6MV","NS"],["9MS","1L","7VY","1S","6SY","1M","NL","1V","3SK","7ML"]],"market":["NV"],"discards":[],"nummoves":3}]}`);
+        expect(g.validateMove("c3-b3,NV!/")).to.have.deep.property("valid", true);
+        g.move("c3-b3,NV!/");
+        g.move("pass"); //refill pass
+
+        expect(g.getTrueDeckSize() + g.market.length).eq(1);
+        //This should be false because there is nothing to refill,
+        //and we don't want to do the refill dance in that situation.
+        //However, we're not showing the refill button so not a big risk.
+        expect(g.validateMove("b3-a2,8MS!/")).to.have.deep.property("valid", false);
+        expect(g.validateMove("b3-a2,8MS/")).to.have.deep.property("valid", true);
+        g.move("b3-a2,8MS/");
+        expect(g.getTrueDeckSize() + g.market.length).eq(0);
+    });
+
+    it ("Handles the rare corner case of blocked with no pool", () => {
+        //This is another artificial starting state.
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["freeswim","refills"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[{"type":"pass"}],"_timestamp":"2026-01-09T16:55:28.415Z","currplayer":2,"skipto":2,"lastmove":"pass","board":{"dataType":"Map","value":[["b4","3MV"],["c4","4YK"],["d4","NY"],["e4","PVLY"],["f4","5SV"],["g4","5YK"],["h4","PMSL"],["i4","PMYK"],["j4","NM"],["k4","4VL"],["l4","PSVK"],["m4","4MS"],["a3","X1-6"],["a2","X2-5"],["b3","X2"]]},"closedhands":[[],["5ML","8VL","3LY","2VL","9VY","7SK"]],"hands":[[],["1Y","6LK","9LK","NK","8YK","2SY","1K","2MK","6MV","NS","9MS","1L","7VY","1S","6SY","1M","NL","1V","3SK","7ML","NV"]],"market":["8MS"],"discards":[],"nummoves":2},{"_version":"20251229","_results":[{"type":"move","from":"b3","to":"a2","what":"8MS","how":"back"},{"type":"deckDraw","what":"not"}],"_timestamp":"2026-01-09T16:55:40.553Z","currplayer":1,"lastmove":"b3-a2,8MS/","board":{"dataType":"Map","value":[["b4","3MV"],["c4","4YK"],["d4","NY"],["e4","PVLY"],["f4","5SV"],["g4","5YK"],["h4","PMSL"],["i4","PMYK"],["j4","NM"],["k4","4VL"],["l4","PSVK"],["m4","4MS"],["a3","X1-6"],["a2","X2-6"]]},"closedhands":[[],["5ML","8VL","3LY","2VL","9VY","7SK"]],"hands":[[],["1Y","6LK","9LK","NK","8YK","2SY","1K","2MK","6MV","NS","9MS","1L","7VY","1S","6SY","1M","NL","1V","3SK","7ML","NV","8MS"]],"market":[],"discards":[],"nummoves":3}]}`);
+
+        expect(g.getTrueDeckSize() + g.market.length).eq(0);
+        expect(g.validateMove("pass")).to.have.deep.property("valid", true);
+        g.move("pass");
+        expect(g.getTrueDeckSize() + g.market.length).eq(0);
+
+    });
+
+    it ("Declares the winner", () => {
+        //Trimmed a game down to the last move for testing purposes.
+        const g = new FroggerGame(`{"game":"frogger","numplayers":2,"variants":["refills","advanced","courts","freeswim"],"gameover":false,"winner":[],"stack":[{"_version":"20251229","_results":[{"type":"move","from":"a3","to":"c2","what":"2VL","how":"forward"}],"_timestamp":"2026-01-11T15:35:08.026Z","currplayer":2,"lastmove":"2VL:a3-c2/","board":{"dataType":"Map","value":[["b4","PMYK"],["c4","PSVK"],["d4","NM"],["e4","PMSL"],["f4","5SV"],["g4","NY"],["h4","3SK"],["i4","PVLY"],["j4","8MS"],["k4","5ML"],["a3","X1-4"],["l3","X1-1"],["l2","X2-5"],["i1","X2"],["c2","X1"]]},"closedhands":[[],[]],"hands":[[],["NL","9LK"]],"market":["1S"],"discards":["6SY","TSLK","TMLY","TSVY","8VL","5YK","2VL"],"nummoves":3}]}`);
+
+        expect(g.validateMove("9LK:i1-k2/NL:k2-l2/")).to.have.deep.property("valid", true);
+        g.move("9LK:i1-k2/NL:k2-l2/");
+        expect(g.gameover).eq(true);
+    });
+
 });

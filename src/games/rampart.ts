@@ -26,7 +26,7 @@ export class RampartGame extends GameBase {
         uid: "rampart",
         playercounts: [2],
         version: "20260106",
-        dateAdded: "2026-01-06",
+        dateAdded: "2026-01-12",
         // i18next.t("apgames:descriptions.rampart")
         description: "apgames:descriptions.rampart",
         urls: [
@@ -53,7 +53,7 @@ export class RampartGame extends GameBase {
             { uid: "custom", group: "setup", unrated: true },
         ],
         categories: ["goal>annihilate", "mechanic>place",  "mechanic>capture", "board>shape>rect", "board>connect>rect", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "automove"]
+        flags: ["automove"]
     };
 
     public numplayers = 2;

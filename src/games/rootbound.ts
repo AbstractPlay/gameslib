@@ -40,6 +40,8 @@ export class RootBoundGame extends GameBase {
         dateAdded: "2024-02-25",
         // i18next.t("apgames:descriptions.rootbound")
         description: "apgames:descriptions.rootbound",
+        // i18next.t("apgames:notes.rootbound")
+        notes: "apgames:notes.rootbound",
         urls: [
             "https://cjffield.com/rules/rootbound.pdf",
             "https://boardgamegeek.com/boardgame/416201/root-bound",
@@ -464,7 +466,7 @@ export class RootBoundGame extends GameBase {
 
         const moves = this.moves();
         const cells: string[] = m.split(",");
-        
+
         if (this.stack.length < 4 && m === "pass") {
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
             return result;

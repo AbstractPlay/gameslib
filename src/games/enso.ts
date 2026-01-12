@@ -28,7 +28,7 @@ export class EnsoGame extends GameBase {
         uid: "enso",
         playercounts: [2],
         version: "20260108",
-        dateAdded: "2026-01-08",
+        dateAdded: "2026-01-12",
         // i18next.t("apgames:descriptions.enso")
         description: "apgames:descriptions.enso",
         urls: [
@@ -54,7 +54,7 @@ export class EnsoGame extends GameBase {
             },
         ],
         categories: ["goal>isolate", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["automove", "experimental"]
+        flags: ["automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -385,6 +385,9 @@ export class EnsoGame extends GameBase {
         } else if (ensoTwo) {
             this.gameover = true;
             this.winner = [2];
+        } else if (this.moves().length === 0) {
+            this.gameover = true;
+            this.winner = [this.currplayer === 1 ? 2 : 1];
         }
 
         if (this.gameover) {

@@ -1138,21 +1138,27 @@ export class ArimaaGame extends GameBase {
                     // flipy: colour === 2 ? true : false,
                     orientation: "vertical",
                 };
-                legend[`${pc}${colour}x`] = {
-                    name,
-                    colour,
-                    colour2: {
-                        func: "bestContrast",
-                        bg: colour,
-                        fg: [
-                            "_context_strokes",
-                            "_context_fill"
-                        ]
+                legend[`${pc}${colour}x`] = [
+                    {
+                        name,
+                        colour: {
+                            func: "flatten",
+                            fg: colour,
+                            bg: "_context_background",
+                            opacity: 0.25,
+                        },
+                        colour2: {
+                            func: "bestContrast",
+                            bg: colour,
+                            fg: [
+                                "_context_strokes",
+                                "_context_fill"
+                            ]
+                        },
+                        // flipy: colour === 2 ? true : false,
+                        orientation: "vertical",
                     },
-                    // flipy: colour === 2 ? true : false,
-                    opacity: 0.5,
-                    orientation: "vertical",
-                };
+                ];
             }
         }
 

@@ -594,9 +594,9 @@ export class ArchimedesGame extends GameBase {
             },
             legend: {
                 A: { name: "piece", colour: 1 },
-                AHome: { name: "piecepack-suit-anchors", colour: 1, opacity: 0.5, scale: 0.85 },
+                AHome: { name: "piecepack-suit-anchors", colour: 1, opacity: 0.5, scale: 0.85, orientation: "vertical" },
                 B: { name: "piece", colour: 2 },
-                BHome: { name: "piecepack-suit-anchors", colour: 2, opacity: 0.5, scale: 0.85 },
+                BHome: { name: "piecepack-suit-anchors", colour: 2, opacity: 0.5, scale: 0.85, orientation: "vertical" },
                 // Threatened pieces
                 C: [{ name: "piece", colour: 1 }, { name: "x" }],
                 D: [{ name: "piece", colour: 2 }, { name: "x" }],

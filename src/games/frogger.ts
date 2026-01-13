@@ -1854,7 +1854,7 @@ export class FroggerGame extends GameBase {
         //Taken from the decktet sheet.
         const suitColors = ["#c7c8ca","#e08426","#6a9fcc","#bc8a5d","#6fc055","#d6dd40"];
         
-        // Build piece string. 
+        // Build piece string.
         let pstr = "";
         for (let row = 0; row < this.rows; row++) {
             if (pstr.length > 0) {
@@ -2004,11 +2004,18 @@ export class FroggerGame extends GameBase {
                     scale: 0.75
                 }
             } else {
-                legend["X" + player] = {
-                    name: "frog",
-                    colour: player,
-                    rotate: 90 
-                }
+                legend["X" + player] = [
+                    {
+                        name: "piece-borderless",
+                        colour: "_context_background",
+                        opacity: 0.55
+                    },
+                    {
+                        name: "frog",
+                        colour: player,
+                        rotate: 90
+                    }
+                ]
             }
             
             //The XP-1 token is used in the first and last rows.

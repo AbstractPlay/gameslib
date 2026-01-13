@@ -162,7 +162,7 @@ export class EnsoGame extends GameBase {
                 for (const dir of allDirections) {
                     let ray = g.ray(fx, fy, dir).map(c => g.coords2algebraic(...c));
                     const idx = ray.findIndex(cell => this.board.has(cell));
-                    if (idx > 0) {
+                    if (idx >= 0) {
                         // this ray only contains contiguous empty spaces leading up
                         // to the first occupied space
                         ray = ray.slice(0, idx);

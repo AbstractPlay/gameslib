@@ -77,7 +77,7 @@ export class ArimaaGame extends GameBase {
             { uid: "eee", name: "Endless Endgame", group: "setup" },
             { uid: "free", name: "Arbitrary Setup", group: "setup", unrated: true },
         ],
-        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>special"],
+        categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
         flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {

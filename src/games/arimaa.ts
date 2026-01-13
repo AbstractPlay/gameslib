@@ -1362,9 +1362,9 @@ export class ArimaaGame extends GameBase {
 
     public getPlayerColour(p: playerid): number|string {
         if (p === 1) {
-            return "#bf9212 ";
+            return "#bf9212";
         } else {
-            return "#989898 ";
+            return "#989898";
         }
     }
 

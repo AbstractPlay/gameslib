@@ -77,7 +77,7 @@ export class ArimaaGame extends GameBase {
             { uid: "free", name: "Arbitrary Setup", group: "setup", unrated: true },
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start"]
+        flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -1145,7 +1145,7 @@ export class ArimaaGame extends GameBase {
                             func: "flatten",
                             fg: colour,
                             bg: "_context_background",
-                            opacity: 0.5,
+                            opacity: 0.25,
                         },
                         colour2: {
                             func: "bestContrast",
@@ -1357,6 +1357,14 @@ export class ArimaaGame extends GameBase {
             return pcs.join(",");
         } else {
             return "";
+        }
+    }
+
+    public getPlayerColour(p: playerid): number|string {
+        if (p === 1) {
+            return "#bf9212 ";
+        } else {
+            return "#989898 ";
         }
     }
 

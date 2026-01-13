@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, AreaPieces, Glyph, MarkerFlood, MarkerGlyph, RowCol} from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -84,6 +84,7 @@ export class FroggerGame extends GameBase {
         ],
         categories: ["goal>evacuate", "mechanic>move", "mechanic>bearoff", "mechanic>block", "mechanic>random>setup", "mechanic>random>play", "board>shape>rect", "board>connect>rect", "components>decktet", "other>2+players"],
         flags: ["autopass", "custom-buttons", "custom-randomization", "random-start", "experimental"],
+        displays: [{uid: "frog-pieces"}]
     };
     public coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, this.rows);
@@ -1847,7 +1848,9 @@ export class FroggerGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        const plainPieces = (opts === undefined || opts.altDisplay === undefined || opts.altDisplay !== "frog-pieces");
+        
         //Taken from the decktet sheet.
         const suitColors = ["#c7c8ca","#e08426","#6a9fcc","#bc8a5d","#6fc055","#d6dd40"];
         
@@ -1993,28 +1996,54 @@ export class FroggerGame extends GameBase {
 
         //Player pieces.
         for (let player = 1; player <= this.numplayers; player++) {
-            
-            legend["X" + player] = {
-                name: "piece",
-                colour: player,
-                scale: 0.75
-            }
 
+            if (plainPieces) {
+                legend["X" + player] = {
+                    name: "piece",
+                    colour: player,
+                    scale: 0.75
+                }
+            } else {
+                legend["X" + player] = {
+                    name: "frog",
+                    colour: player,
+                    rotate: 90 
+                }
+            }
+            
             //The XP-1 token is used in the first and last rows.
             for (let count = 1; count <= 6; count++) {
-                legend["X" + player + "-" + count] = [
-                    {
-                        name: "piece",
-                        colour: player,
-                        scale: 0.75,
-                        opacity: 0.75
-                    },
-                    {
-                        text: count.toString(),
-                        colour: "_context_labels",
-                        scale: 0.66
-                    }
-                ]
+
+                if (plainPieces) {
+                    legend["X" + player + "-" + count] = [
+                        {
+                            name: "piece",
+                            colour: player,
+                            scale: 0.75,
+                            opacity: 0.75
+                        },
+                        {
+                            text: count.toString(),
+                            colour: "_context_labels",
+                            scale: 0.70
+                        }
+                    ]
+                } else {
+                    legend["X" + player + "-" + count] = [
+                        {
+                            name: "frog",
+                            colour: player,
+                            scale: 1.1,
+                            opacity: 0.75
+                        },
+                        {
+                            text: count.toString(),
+                            colour: "_context_labels",
+                            scale: 0.60
+                        }
+                    ]
+                }
+                
             }
         }
 

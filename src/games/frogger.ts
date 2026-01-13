@@ -1854,7 +1854,7 @@ export class FroggerGame extends GameBase {
         //Taken from the decktet sheet.
         const suitColors = ["#c7c8ca","#e08426","#6a9fcc","#bc8a5d","#6fc055","#d6dd40"];
         
-        // Build piece string. 
+        // Build piece string.
         let pstr = "";
         for (let row = 0; row < this.rows; row++) {
             if (pstr.length > 0) {
@@ -1909,9 +1909,9 @@ export class FroggerGame extends GameBase {
             points: [{row: 0, col: this.columns - 1}],
         });
 
-        // add flood markers for the end column
+        // add flood markers for the start and end columns
         const points = [];
-        for (let r = 0; r < this.numplayers; r++) {
+        for (let r = 0; r <= this.numplayers; r++) {
             const row = this.rows - 2 - r;
             points.push({col: 0, row: row} as RowCol);
             points.push({col: this.columns - 1, row: row} as RowCol);
@@ -1919,7 +1919,7 @@ export class FroggerGame extends GameBase {
         markers.push({
             type: "flood",
             colour: "_context_fill_",
-            opacity: 0.03,
+            opacity: (plainPieces ? 0.05 : 0.15),
             points: points as [RowCol, ...RowCol[]],
         });
 
@@ -2004,11 +2004,18 @@ export class FroggerGame extends GameBase {
                     scale: 0.75
                 }
             } else {
-                legend["X" + player] = {
-                    name: "frog",
-                    colour: player,
-                    rotate: 90 
-                }
+                legend["X" + player] = [
+                    {
+                        name: "piece-borderless",
+                        colour: "_context_background",
+                        opacity: 0.55
+                    },
+                    {
+                        name: "frog",
+                        colour: player,
+                        rotate: 90
+                    }
+                ]
             }
             
             //The XP-1 token is used in the first and last rows.

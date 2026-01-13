@@ -54,6 +54,7 @@ export class ArimaaGame extends GameBase {
         notes: "apgames:notes.arimaa",
         urls: [
             "https://arimaa.com/arimaa/",
+            "https://arimaa.com/arimaa/learn/rulesIntro.html",
             "https://boardgamegeek.com/boardgame/4616/arimaa",
         ],
         people: [

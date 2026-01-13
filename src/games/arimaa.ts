@@ -1126,10 +1126,10 @@ export class ArimaaGame extends GameBase {
             for (const colour of [1, 2] as const) {
                 legend[`${pc}${colour}`] = {
                     name,
-                    colour,
+                    colour: this.getPlayerColour(colour),
                     colour2: {
                         func: "bestContrast",
-                        bg: colour,
+                        bg: this.getPlayerColour(colour),
                         fg: [
                             "_context_strokes",
                             "_context_fill"
@@ -1143,13 +1143,13 @@ export class ArimaaGame extends GameBase {
                         name,
                         colour: {
                             func: "flatten",
-                            fg: colour,
+                            fg: this.getPlayerColour(colour),
                             bg: "_context_background",
                             opacity: 0.25,
                         },
                         colour2: {
                             func: "bestContrast",
-                            bg: colour,
+                            bg: this.getPlayerColour(colour),
                             fg: [
                                 "_context_strokes",
                                 "_context_fill"

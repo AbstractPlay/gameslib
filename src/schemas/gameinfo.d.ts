@@ -133,6 +133,10 @@ export interface Variant {
    */
   default?: boolean;
   /**
+   * If present and `true`, this variant will force the game to be unrated.
+   */
+  unrated?: boolean;
+  /**
    * If present and `true`, the variant will not appear in the production environment.
    */
   experimental?: boolean;

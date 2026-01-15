@@ -420,6 +420,8 @@ export class EmuGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private deck!: Deck;
     private selected: string|undefined;
+    // @ts-expect-error (This is only read by the frontend code)
+    private __noAutomove?: boolean;
 
     public static readonly BOARD_UNIT_DIMENSIONS = 50; // 48.61114501953125;
 
@@ -884,7 +886,12 @@ export class EmuGame extends GameBase {
             }
         }
 
-        if (partial || emulation ) { return this; }
+        if (partial || emulation ) {
+            if (emulation) {
+                this.__noAutomove = true;
+            }
+            return this;
+        }
 
         this.lastmove = m;
         // update currplayer

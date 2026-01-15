@@ -666,14 +666,19 @@ export class OmnyGame extends GameBase {
 
     protected checkEOG(): OmnyGame {
         const prev = this.currplayer === 1 ? 2 : 1;
-        if (this.lastmove !== undefined && !this.lastmove.includes(",")) {
-            let cell = this.lastmove;
+        let lastmove = this.lastmove;
+        // Adere variant has delayed win
+        if (this.variants.includes("captures")) {
+            lastmove = this.stack[this.stack.length - 1].lastmove;
+        }
+        if (lastmove !== undefined && !lastmove.includes(",")) {
+            let cell = lastmove;
             if (cell.includes("-")) {
                 cell = cell.split("-")[1];
             }
             if (this.isWinningMove(cell)) {
                 this.gameover = true;
-                this.winner = [prev];
+                this.winner = [this.variants.includes("captures") ? this.currplayer : prev];
             }
         }
 

@@ -58,7 +58,7 @@ export class StawvsGame extends GameBase {
         uid: "stawvs",
         playercounts: [2,3,4],
         version: "20251113",
-        dateAdded: "2025-11-16",
+        dateAdded: "2025-12-12",
         // i18next.t("apgames:descriptions.stawvs")
         description: "apgames:descriptions.stawvs",
         urls: [
@@ -87,7 +87,7 @@ export class StawvsGame extends GameBase {
             {uid: "pieces-2"}
         ],
         categories: ["goal>score>eog", "mechanic>set", "board>shape>rect", "board>connect>rect", "components>pyramids", "other>2+players"],
-        flags: ["scores", "autopass", "experimental"]
+        flags: ["scores", "autopass"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -522,6 +522,7 @@ export class StawvsGame extends GameBase {
             if (this.eliminated.indexOf(this.currplayer) > -1) {
                 //This would be caught by the next condition but why calculate the moves?
                 result.valid = true;
+                result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else if (this.mode === "place" || this.moves()[0] !== "pass") {
@@ -530,6 +531,7 @@ export class StawvsGame extends GameBase {
                 return result;
             } else {
                 result.valid = true;
+                result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             }

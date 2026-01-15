@@ -1,4 +1,3 @@
-
 import { APGamesInformation } from "../schemas/gameinfo";
 import { GameBase, GameBaseSimultaneous, IAPGameState } from "./_base";
 import { AmazonsGame, IAmazonsState } from "./amazons";
@@ -202,7 +201,6 @@ import { AssemblyGame, IAssemblyState } from "./assembly";
 import { PaintbucketGame, IPaintbucketState } from "./paintbucket";
 import { C1Game, IC1State } from "./c1";
 import { BloqueoGame, IBloqueoState } from "./bloqueo";
-import { StormCGame, IStormCState } from "./stormc";
 import { PilastriGame, IPilastriState } from "./pilastri";
 import { TessellaGame, ITessellaState } from "./tessella";
 import { GorogoGame, IGorogoState } from "./gorogo";
@@ -218,6 +216,11 @@ import { StawvsGame, IStawvsState } from "./stawvs";
 import { LascaGame, ILascaState } from "./lasca";
 import { EmergoGame, IEmergoState } from "./emergo";
 import { OonpiaGame, IOonpiaState } from "./oonpia";
+import { FroggerGame, IFroggerState } from "./frogger";
+import { ArimaaGame, IArimaaState } from "./arimaa";
+import { RampartGame, IRampartState } from "./rampart";
+import { KrypteGame, IKrypteState } from "./krypte";
+import { EnsoGame, IEnsoState } from "./enso";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -422,7 +425,6 @@ export {
     PaintbucketGame, IPaintbucketState,
     C1Game, IC1State,
     BloqueoGame, IBloqueoState,
-    StormCGame, IStormCState,
     PilastriGame, IPilastriState,
     TessellaGame, ITessellaState,
     GorogoGame, IGorogoState,
@@ -438,6 +440,11 @@ export {
     LascaGame, ILascaState,
     EmergoGame, IEmergoState,
     OonpiaGame, IOonpiaState,
+    FroggerGame, IFroggerState,
+    ArimaaGame, IArimaaState,
+    RampartGame, IRampartState,
+    KrypteGame, IKrypteState,
+    EnsoGame, IEnsoState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -507,12 +514,15 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof CifraGame | typeof GygesGame | typeof PonteDDGame |
                               typeof SurmountGame | typeof GlissGame | typeof MorphosGame |
                               typeof AssemblyGame | typeof PaintbucketGame | typeof C1Game |
-                              typeof BloqueoGame | typeof StormCGame | typeof PilastriGame |
+                              typeof BloqueoGame | typeof PilastriGame |
                               typeof TessellaGame | typeof GorogoGame | typeof StibroGame |
                               typeof BiscuitGame | typeof QuincunxGame | typeof SiegeOfJGame |
                               typeof StairsGame | typeof EmuGame | typeof DeckfishGame |
-                              typeof BluestoneGame | typeof SunspotGame | typeof StawvsGame | typeof OonpiaGame |
-                              typeof LascaGame | typeof EmergoGame
+                              typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
+                              typeof SunspotGame | typeof StawvsGame | typeof LascaGame |
+                              typeof EmergoGame | typeof FroggerGame | typeof ArimaaGame |
+                              typeof RampartGame | typeof KrypteGame | typeof EnsoGame |
+                              typeof OonpiaGame
                 >();
 // Manually add each game to the following array
 [
@@ -544,9 +554,9 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PenguinGame, OwlmanGame, SquaredanceGame, MegGame, YonmoqueGame, ChameleonGame, KachitGame,
     GyveGame, PahTumGame, NakattaGame, OmnyGame, PacruGame, AzacruGame, CifraGame, GygesGame,
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
-    BloqueoGame, StormCGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
-    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame, OonpiaGame,
-    LascaGame, EmergoGame,
+    BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
+    SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
+    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, OonpiaGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -960,8 +970,6 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new C1Game(...args);
         case "bloqueo":
             return new BloqueoGame(...args);
-        case "stormc":
-            return new StormCGame(...args);
         case "pilastri":
             return new PilastriGame(...args);
         case "tessella":
@@ -992,6 +1000,16 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new EmergoGame(...args);
         case "oonpia":
             return new OonpiaGame(...args);
+        case "frogger":
+            return new FroggerGame(args[0], ...args.slice(1));
+        case "arimaa":
+            return new ArimaaGame(...args);
+        case "rampart":
+            return new RampartGame(...args);
+        case "krypte":
+            return new KrypteGame(...args);
+        case "enso":
+            return new EnsoGame(...args);
     }
     return;
 }

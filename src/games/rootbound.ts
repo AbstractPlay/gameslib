@@ -36,10 +36,12 @@ export class RootBoundGame extends GameBase {
         name: "Root Bound",
         uid: "rootbound",
         playercounts: [2],
-        version: "20240729",
+        version: "20250109",
         dateAdded: "2024-02-25",
         // i18next.t("apgames:descriptions.rootbound")
         description: "apgames:descriptions.rootbound",
+        // i18next.t("apgames:notes.rootbound")
+        notes: "apgames:notes.rootbound",
         urls: [
             "https://cjffield.com/rules/rootbound.pdf",
             "https://boardgamegeek.com/boardgame/416201/root-bound",
@@ -357,31 +359,33 @@ export class RootBoundGame extends GameBase {
         }
 
         const moves: string[] = [];
-        const prohibitedCells: string[] = [];
+        const claimedCells: string[] = [];
         const claimedRegions = this.computeClaimedRegions();
         for (const claimedRegion of claimedRegions) {
-            if (claimedRegion[0] !== 3) prohibitedCells.push(...claimedRegion[3]);
+            if (claimedRegion[0] !== 3) claimedCells.push(...claimedRegion[3]);
         }
 
+        const prohibitedFirstCells: string[] = [];
         if (this.stack.length === 3) {
-            prohibitedCells.push(...this.getEmptyNeighborsOfGroup(0));
+            prohibitedFirstCells.push(...this.getEmptyNeighborsOfGroup(0));
         }
 
-        const validFirstMoves = (this.listCells() as string[]).filter(c => !prohibitedCells.includes(c) && this.isValidPlacement(player!, c)).sort();
-        moves.push(...validFirstMoves);
+        const validFirstMoves = (this.listCells() as string[]).filter(c => !prohibitedFirstCells.includes(c) && !claimedCells.includes(c) && this.isValidPlacement(player!, c)).sort();
+        if (this.stack.length !== 2) {
+            moves.push(...validFirstMoves);
+        }
 
         if (this.stack.length > 1) {
-
             const boardClone = deepclone(this.board) as Map<string, CellContent>;
 
             for (const firstMove of validFirstMoves) {
-                const neighbors: string[] = [];
-                if (this.stack.length === 2) neighbors.push(...this.getGraph().neighbours(firstMove).filter(c => !this.board.has(c)));
-                if (this.stack.length === 3) neighbors.push(...this.getGraph().neighbours(firstMove).filter(c => this.getEmptyNeighborsOfGroup(0).includes(c)));
+                const prohibitedSecondCells: string[] = [];
+                if (this.stack.length === 2) prohibitedSecondCells.push(...this.getGraph().neighbours(firstMove).filter(c => !this.board.has(c)));
+                if (this.stack.length === 3) prohibitedSecondCells.push(...this.getGraph().neighbours(firstMove).filter(c => this.getEmptyNeighborsOfGroup(0).includes(c)));
 
                 boardClone.set(firstMove, [player, 10000]);
 
-                const validSecondMoves = (this.listCells() as string[]).filter(c => !prohibitedCells.includes(c) && !neighbors.includes(c)
+                const validSecondMoves = (this.listCells() as string[]).filter(c => !prohibitedSecondCells.includes(c) && !claimedCells.includes(c)
                         && this.isValidSecondPlacement(player!, c, boardClone)).sort();
                 for (const secondMove of validSecondMoves) {
                     if (!this.isRapidGrowthMove(firstMove, secondMove)) {
@@ -450,6 +454,8 @@ export class RootBoundGame extends GameBase {
             result.complete = -1;
             if (this.stack.length > 3) {
                 result.message = i18next.t("apgames:validation.rootbound.INITIAL_INSTRUCTIONS");
+            } else if (this.stack.length > 2) {
+                result.message = i18next.t("apgames:validation.rootbound.THIRD_MOVE_INSTRUCTIONS");
             } else if (this.stack.length > 1) {
                 result.message = i18next.t("apgames:validation.rootbound.SECOND_MOVE_INSTRUCTIONS");
             } else {
@@ -459,8 +465,14 @@ export class RootBoundGame extends GameBase {
         }
 
         const moves = this.moves();
+        const cells: string[] = m.split(",");
+
+        if (this.stack.length < 4 && m === "pass") {
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
+            return result;
+        }
+
         if (m !== "pass") {
-            const cells: string[] = m.split(",");
             if (cells.length > 2) {
                 result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
                 return result;
@@ -496,13 +508,12 @@ export class RootBoundGame extends GameBase {
                 }
             }
 
-            if (this.stack.length === 3 && this.getEmptyNeighborsOfGroup(0).includes(cells[0])) {
+            if (this.stack.length === 3 && this.getEmptyNeighborsOfGroup(0).includes(cells[0]) && (cells.length < 2 || this.getEmptyNeighborsOfGroup(0).includes(cells[1]))) {
                 result.message = i18next.t("apgames:validation.rootbound.BAD_SECOND_MOVE");
                 return result;
             }
 
             if (cells.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1])) {
-
                 const boardClone = deepclone(this.board) as Map<string, CellContent>;
                 boardClone.set(cells[0], [this.currplayer, 10000]);
                 const neighbors = this.getGraph().neighbours(cells[1]).filter(c => boardClone.has(c) && boardClone.get(c)![0] === this.currplayer);
@@ -514,8 +525,8 @@ export class RootBoundGame extends GameBase {
                     }
                 }
 
-                if (this.stack.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1]) ||
-                        this.stack.length === 3 && this.getGraph().neighbours(cells[0]).includes(cells[1]) && this.getEmptyNeighborsOfGroup(0).includes(cells[1])) {
+                if ((this.stack.length === 2 && this.getGraph().neighbours(cells[0]).includes(cells[1])) ||
+                        (this.stack.length === 3 && this.getGraph().neighbours(cells[0]).includes(cells[1]) && this.getEmptyNeighborsOfGroup(0).includes(cells[1]))) {
                     result.message = i18next.t("apgames:validation.rootbound.BAD_SECOND_MOVE");
                     return result;
                 }
@@ -527,16 +538,28 @@ export class RootBoundGame extends GameBase {
             }
         }
 
-        if (moves.includes(m)) {
+        if (moves.includes(m) || (this.stack.length === 2 && cells.length === 1 && m !== "pass")) {
             result.valid = true;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
 
-            const cells: string[] = m.split(",");
-            if (this.stack.length > 1 && cells.length === 1 && m !== "pass") {
-                result.complete = 0;
-            } else {
+            if ((this.stack.length > 3 && (cells.length === 2 || m === "pass"))
+                || (this.stack.length > 1 && cells.length === 2)
+                || (this.stack.length === 1 && cells.length === 1)) {
                 result.complete = 1;
+            } else if (this.stack.length > 2 && cells.length === 1) {
+                result.complete = 0;
+            } else if (this.stack.length === 2 && cells.length === 1) {
+                result.complete = -1;
+            }
+
+            if (this.stack.length > 3) {
+                result.message = i18next.t("apgames:validation.rootbound.INITIAL_INSTRUCTIONS");
+            } else if (this.stack.length > 2) {
+                result.message = i18next.t("apgames:validation.rootbound.THIRD_MOVE_INSTRUCTIONS");
+            } else if (this.stack.length > 1) {
+                result.message = i18next.t("apgames:validation.rootbound.SECOND_MOVE_INSTRUCTIONS");
+            } else {
+                result.message = i18next.t("apgames:validation.rootbound.FIRST_MOVE_INSTRUCTIONS");
             }
         }
 
@@ -579,7 +602,7 @@ export class RootBoundGame extends GameBase {
         return this;
     }
 
-    public move(m: string, {trusted = false} = {}): RootBoundGame {
+    public move(m: string, {partial = false, trusted = false} = {}): RootBoundGame {
         if (m === "") return this;
 
         if (this.gameover) {
@@ -590,11 +613,13 @@ export class RootBoundGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
+        let complete = trusted;
         if (!trusted) {
             const result = this.validateMove(m);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
+            complete = result.complete !== undefined && result.complete >= 0;
         }
 
         if (m === "pass") {
@@ -636,28 +661,24 @@ export class RootBoundGame extends GameBase {
             claimedRegions = this.computeClaimedRegions();
         }
 
+        if (partial || !complete) return this;
+
         // update currplayer
         this.lastmove = m;
         this.currplayer = ((this.currplayer as number) % this.numplayers) + 1 as PlayerId;
 
-        if (this.isNewRules()) {
-            const board = this.resolveBoardAndUpdateScore();
-            if (this.checkEOGTrigger()) {
-                this.board = board;
-                this.resolveEOG();
-            }
+        if (this.checkEOGTrigger()) {
+            this.board = this.resolveBoardAndUpdateScore(true);
+            this.resolveEOG();
         } else {
-            this.updateScore(claimedRegions);
-            if (this.checkEOGTrigger()) {
-                this.resolveEOG();
-            }
+            this.resolveBoardAndUpdateScore(false);
         }
 
         this.saveState();
         return this;
     }
 
-    private resolveBoardAndUpdateScore(): Map<string, CellContent> {
+    private resolveBoardAndUpdateScore(includeInResult: boolean): Map<string, CellContent> {
 
         const board = deepclone(this.board) as Map<string, CellContent>;
 
@@ -671,7 +692,7 @@ export class RootBoundGame extends GameBase {
             let groupsRemoved = false;
             for (const group of keyValueArray[1]) {
                 if (!liveGroups.includes(group) && !this.canSeeAllyGroup(group, liveGroups, board)) {
-                    this.removeGroup(group, false, board);
+                    this.removeGroup(group, includeInResult, board);
                     groupsRemoved = true;
                 }
             }
@@ -680,11 +701,7 @@ export class RootBoundGame extends GameBase {
             }
         }
 
-        if (claimedRegions.filter(c => c[0] !== null).length < 2) {
-            this.updateScore(originalRegions, this.board);
-        } else {
-            this.updateScore(claimedRegions, board);
-        }
+        this.updateScore(claimedRegions, board);
         return board;
     }
 
@@ -713,19 +730,17 @@ export class RootBoundGame extends GameBase {
             if (claimedRegion[0] === 2) this.scores[1] += claimedRegion[1];
         }
 
-        if (this.isNewRules()) {
-            for (const cell of (this.listCells() as string[]).filter(c => board!.has(c))) {
-                if (board.get(cell)![0] === 1) {
-                    this.scores[0]++;
-                } else {
-                    this.scores[1]++;
-                }
+        for (const cell of (this.listCells() as string[]).filter(c => board!.has(c))) {
+            if (board.get(cell)![0] === 1) {
+                this.scores[0]++;
+            } else {
+                this.scores[1]++;
             }
+        }
 
-            if (this.firstpasser !== undefined) {
-                if (this.firstpasser === 1) this.scores[0] += 0.5;
-                else this.scores[1] += 0.5;
-            }
+        if (this.firstpasser !== undefined) {
+            if (this.firstpasser === 1) this.scores[0] += 0.5;
+            else this.scores[1] += 0.5;
         }
         return this;
     }
@@ -788,11 +803,6 @@ export class RootBoundGame extends GameBase {
         }
 
         return deadGroups;
-    }
-
-    private isNewRules(): boolean {
-        if (this.version < 20240729) return false;
-        return true;
     }
 
     private checkEOGTrigger(): boolean {

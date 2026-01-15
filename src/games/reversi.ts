@@ -376,7 +376,7 @@ export class ReversiGame extends GameBase {
                 }
             }
         }
-        return moves;
+        return Array.from(new Set(moves));
     }
 
     public randomMove(): string {

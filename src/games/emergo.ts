@@ -28,7 +28,7 @@ export class EmergoGame extends GameBase {
         uid: "emergo",
         playercounts: [2],
         version: "20251125",
-        dateAdded: "2025-11-25",
+        dateAdded: "2025-12-15",
         // i18next.t("apgames:descriptions.emergo")
         description: "apgames:descriptions.emergo",
         urls: [
@@ -56,7 +56,7 @@ export class EmergoGame extends GameBase {
         variants: [
         ],
         categories: ["goal>annihilate", "mechanic>capture", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "perspective", "automove", "limited-pieces"]
+        flags: ["perspective", "automove", "limited-pieces"]
     };
 
     public static clone(obj: EmergoGame): EmergoGame {

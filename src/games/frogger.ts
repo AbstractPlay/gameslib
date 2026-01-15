@@ -1918,8 +1918,7 @@ export class FroggerGame extends GameBase {
 
         // add flood markers for the start and end columns
         const points = [];
-        for (let r = 0; r <= this.numplayers; r++) {
-            const row = this.rows - 2 - r;
+        for (let row = 0; row <= this.numplayers; row++) {
             points.push({col: 0, row: row} as RowCol);
             points.push({col: this.columns - 1, row: row} as RowCol);
         }

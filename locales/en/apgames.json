@@ -2840,6 +2840,12 @@
                 "description": "Display the board using vertexes instead of hexes."
             }
         },
+        "diffusion": {
+            "pips": {
+                "description": "Display the stones as pips instead of as numerals.",
+                "name": "Pips"
+            }
+        },
         "entropy": {
             "piece-numbers": {
                 "name": "Piece numbers",
@@ -2938,6 +2944,12 @@
             "hide-moves": {
                 "description": "Don't show possible moves.",
                 "name": "Hide moves"
+            }
+        },
+        "oware": {
+            "pips": {
+                "description": "Display the stones as pips instead of as numerals.",
+                "name": "Pips"
             }
         },
         "pente": {
@@ -3065,6 +3077,12 @@
             "flat": {
                 "description": "A flat view that uses shading to indicate height.",
                 "name": "Flat view"
+            }
+        },
+        "toguz": {
+            "pips": {
+                "description": "Display the stones as pips instead of as numerals.",
+                "name": "Pips"
             }
         },
         "trax": {

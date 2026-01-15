@@ -1327,6 +1327,7 @@ export class FroggerGame extends GameBase {
         const cloned: FroggerGame = Object.assign(new FroggerGame(this.numplayers, [...this.variants]), deepclone(this) as FroggerGame);
 
         let allcomplete = false;
+        let refill = false;
         const moves: string[] = m.split("/");
 
         if (moves[moves.length - 1] === "") {
@@ -1403,7 +1404,9 @@ export class FroggerGame extends GameBase {
                     result.valid = false;
                     result.message = i18next.t("apgames:validation.frogger.NO_CARDS_FOR_REFILL");
                     return result;
-                }// else refill = true;
+                } else {
+                    refill = true;
+                }
             }
             
             let complete = false;
@@ -1613,7 +1616,11 @@ export class FroggerGame extends GameBase {
         result.valid = true;
         result.canrender = true;
         result.complete = (allcomplete && moves.length === this.nummoves) ? 1 : 0;
-        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if (refill)
+            result.message = i18next.t("apgames:validation.frogger.VALID_REFILL", {count: 3 - moves.length});
+        else
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        
         return result;
     }
 
@@ -1911,8 +1918,7 @@ export class FroggerGame extends GameBase {
 
         // add flood markers for the start and end columns
         const points = [];
-        for (let r = 0; r <= this.numplayers; r++) {
-            const row = this.rows - 2 - r;
+        for (let row = 0; row <= this.numplayers; row++) {
             points.push({col: 0, row: row} as RowCol);
             points.push({col: this.columns - 1, row: row} as RowCol);
         }

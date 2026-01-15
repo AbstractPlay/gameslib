@@ -54,6 +54,7 @@ export class ArimaaGame extends GameBase {
         notes: "apgames:notes.arimaa",
         urls: [
             "https://arimaa.com/arimaa/",
+            "https://arimaa.com/arimaa/learn/rulesIntro.html",
             "https://boardgamegeek.com/boardgame/4616/arimaa",
         ],
         people: [
@@ -76,8 +77,8 @@ export class ArimaaGame extends GameBase {
             { uid: "eee", name: "Endless Endgame", group: "setup" },
             { uid: "free", name: "Arbitrary Setup", group: "setup", unrated: true },
         ],
-        categories: ["goal>breakthrough", "mechanic>capture", "mechanic>move", "mechanic>coopt", "board>shape>rect", "board>connect>rect", "components>special"],
-        flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start"]
+        categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
+        flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);
@@ -1126,10 +1127,10 @@ export class ArimaaGame extends GameBase {
             for (const colour of [1, 2] as const) {
                 legend[`${pc}${colour}`] = {
                     name,
-                    colour,
+                    colour: this.getPlayerColour(colour),
                     colour2: {
                         func: "bestContrast",
-                        bg: colour,
+                        bg: this.getPlayerColour(colour),
                         fg: [
                             "_context_strokes",
                             "_context_fill"
@@ -1143,13 +1144,13 @@ export class ArimaaGame extends GameBase {
                         name,
                         colour: {
                             func: "flatten",
-                            fg: colour,
+                            fg: this.getPlayerColour(colour),
                             bg: "_context_background",
-                            opacity: 0.5,
+                            opacity: 0.375,
                         },
                         colour2: {
                             func: "bestContrast",
-                            bg: colour,
+                            bg: this.getPlayerColour(colour),
                             fg: [
                                 "_context_strokes",
                                 "_context_fill"
@@ -1357,6 +1358,14 @@ export class ArimaaGame extends GameBase {
             return pcs.join(",");
         } else {
             return "";
+        }
+    }
+
+    public getPlayerColour(p: playerid): number|string {
+        if (p === 1) {
+            return "#bf9212";
+        } else {
+            return "#989898";
         }
     }
 

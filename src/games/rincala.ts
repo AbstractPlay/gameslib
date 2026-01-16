@@ -116,6 +116,7 @@ export class RincalaGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public hands: [Colour[], Colour[]] = [[],[]];
     public frames: FrameState[] = [];
+    private _loaded = 0;
 
     constructor(state?: IRincalaState | string, variants?: string[]) {
         super();
@@ -157,6 +158,7 @@ export class RincalaGame extends GameBase {
         if ( (idx < 0) || (idx >= this.stack.length) ) {
             throw new Error("Could not load the requested state from the stack.");
         }
+        this._loaded = idx;
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
@@ -520,20 +522,33 @@ export class RincalaGame extends GameBase {
 
     public render(): APRenderRep[] {
         const renders: APRenderRep[] = [];
+        // insert the previous state's last frame at the beginning of this one
+        const frames = deepclone(this.frames) as FrameState[];
+        const cloned = this.clone();
+        cloned.load(0);
+        if (this._loaded > 0) {
+            cloned.load(this._loaded - 1);
+        }
+        frames.unshift({
+            hands: cloned.hands,
+            board: cloned.board,
+        });
+        const allResults = deepclone(this.results) as APMoveResult[];
+        allResults.unshift({type: "_group", who: this.currplayer, results: [{type: "pass"}]});
         // we need to look at each frame, and then finally the base object
-        for (let i = 0; i < this.frames.length + 1; i++) {
+        for (let i = 0; i < frames.length + 1; i++) {
             let board: Colour[][];
             let hands: [Colour[], Colour[]];
-            if (i < this.frames.length) {
-                board = this.frames[i].board;
-                hands = this.frames[i].hands;
+            if (i < frames.length) {
+                board = frames[i].board;
+                hands = frames[i].hands;
             } else {
                 board = this.board;
                 hands = this.hands;
             }
             let results: APMoveResult[] = [];
-            if (this.results.length > 0) {
-                const group = this.results[i];
+            if (allResults.length > 0) {
+                const group = allResults[i];
                 if (group !== undefined && group.type !== "_group") {
                     throw new Error("The only results that should be present are _group results!");
                 } else if (group !== undefined) {

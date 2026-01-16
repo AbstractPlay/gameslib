@@ -76,6 +76,7 @@ describe("Rincala", () => {
 
     it ("recurseMoves", () => {
         const g = new RincalaGame();
+        g.move(g.randomMove());
         g.board = toBoard("B,YGY,R,R,,,,");
         const moves = g.moves();
         expect(moves).to.deep.equal([
@@ -95,6 +96,7 @@ describe("Rincala", () => {
 
     it ("handleClick", () => {
         const g = new RincalaGame();
+        g.move(g.randomMove());
         g.board = toBoard("GRG,RBR,YGB,GBR,YRY,BGY,YBG,YBR");
         const result = g.handleClick("A>", 0, 1, "3");
         expect(result.valid).to.be.true;

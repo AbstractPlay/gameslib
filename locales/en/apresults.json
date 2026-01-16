@@ -547,7 +547,9 @@
         "general_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
         "general_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
         "into": "{{player}} sowed into the pits {{pits}}.",
-        "prudh": "{{player}} sowed checkers from {{from}} to {{to}}."
+        "prudh": "{{player}} sowed checkers from {{from}} to {{to}}.",
+        "rincala_one": "{{player}} sowed {{count}} {{pieces}} piece from {{from}} to {{to}}.",
+        "rincala_other": "{{player}} sowed {{count}} pieces from {{from}} to the following pits: {{pieces}} -> {{to}}."
     },
     "STALEMATE": {
         "biscuit": "The hand has gone stale."

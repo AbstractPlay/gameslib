@@ -784,9 +784,27 @@
                     "items": {
                         "type": "string"
                     }
+                },
+                "from": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "to": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "pieces": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
-            "required": ["type", "pits"],
+            "required": ["type"],
             "additionalProperties": false
         },
         {

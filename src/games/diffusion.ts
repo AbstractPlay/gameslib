@@ -435,7 +435,7 @@ export class DiffusionGame extends GameBase {
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "sow") {
-                    const [fromX, fromY] = DiffusionGame.algebraic2coords(move.pits[0]);
+                    const [fromX, fromY] = DiffusionGame.algebraic2coords(move.pits![0]);
                     rep.annotations.push({type: "exit", targets: [{row: fromY, col: fromX}]});
                 }
             }
@@ -458,7 +458,7 @@ export class DiffusionGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "sow":
-                node.push(i18next.t("apresults:SOW.general", {player, pits: r.pits.join(", "), count: r.pits.length}));
+                node.push(i18next.t("apresults:SOW.general", {player, pits: r.pits!.join(", "), count: r.pits!.length}));
                 resolved = true;
                 break;
         }

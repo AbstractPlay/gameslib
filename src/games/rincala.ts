@@ -544,8 +544,8 @@ export class RincalaGame extends GameBase {
                 hands = this.hands;
             }
             let results: APMoveResult[] = [];
-            if (this.results.length > 0) {
-                const group = this.results[i -1];
+            if (i > 0 && this.results.length > 0) {
+                const group = this.results[i-1];
                 if (group !== undefined && group.type !== "_group") {
                     throw new Error("The only results that should be present are _group results!");
                 } else if (group !== undefined) {

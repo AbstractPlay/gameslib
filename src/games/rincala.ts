@@ -172,7 +172,16 @@ export class RincalaGame extends GameBase {
         if (this.gameover) { return []; }
 
         const moves: string[] = [];
-        this.recurseMoves(moves, null);
+
+        // for first move of the game, just do gatherMoves and leave it at that
+        if (this.stack.length === 1) {
+            moves.push(...this.gatherMoves().map(({move}) => move));
+        }
+        // otherwise, recurse
+        else {
+            this.recurseMoves(moves, null);
+        }
+
         return [...moves].sort((a,b) => {
             if (a.length === b.length) {
                 return a.localeCompare(b);
@@ -406,7 +415,10 @@ export class RincalaGame extends GameBase {
         }
 
         this.results = [];
-        this.frames = [];
+        this.frames = [{
+            board: deepclone(this.board),
+            hands: deepclone(this.hands),
+        }];
         const capped: Colour[] = [];
 
         const steps = m.split(",").filter(Boolean);
@@ -448,7 +460,7 @@ export class RincalaGame extends GameBase {
 
         // remove the last frame to save space because the current state is the same
         this.frames.pop();
-        if (this.results.length - this.frames.length !== 1) {
+        if (this.results.length !== this.frames.length) {
             throw new Error("There's a mismatch in the length of the results array and the frames array. Something is wrong.");
         }
         this.lastmove = m;
@@ -533,7 +545,7 @@ export class RincalaGame extends GameBase {
             }
             let results: APMoveResult[] = [];
             if (this.results.length > 0) {
-                const group = this.results[i];
+                const group = this.results[i -1];
                 if (group !== undefined && group.type !== "_group") {
                     throw new Error("The only results that should be present are _group results!");
                 } else if (group !== undefined) {

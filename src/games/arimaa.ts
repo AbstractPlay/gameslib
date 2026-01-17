@@ -534,7 +534,7 @@ export class ArimaaGame extends GameBase {
             } else {
                 if (result.autocomplete !== undefined) {
                     const automove = result.autocomplete;
-                    result = this.validateMove(result.autocomplete) as IClickResult;
+                    result = this.validateMove(automove) as IClickResult;
                     result.move = automove;
                 } else {
                     result.move = newmove;

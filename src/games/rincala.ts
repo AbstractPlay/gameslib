@@ -93,7 +93,7 @@ export class RincalaGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>move>sow", "mechanic>capture", "board>shape>circle", "board>connect>linear", "components>simple>4c"],
-        flags: ["automove", "scores", "random-start", "experimental"]
+        flags: ["no-moves", "custom-randomization", "scores", "random-start", "experimental"]
     };
 
     public static value(pc: Colour): number {
@@ -168,52 +168,52 @@ export class RincalaGame extends GameBase {
         return this;
     }
 
-    public moves(): string[] {
-        if (this.gameover) { return []; }
+    // public moves(): string[] {
+    //     if (this.gameover) { return []; }
 
-        const moves: string[] = [];
+    //     const moves: string[] = [];
 
-        // for first move of the game, just do gatherMoves and leave it at that
-        if (this.stack.length === 1) {
-            moves.push(...this.gatherMoves().map(({move}) => move));
-        }
-        // otherwise, recurse
-        else {
-            this.recurseMoves(moves, null);
-        }
+    //     // for first move of the game, just do gatherMoves and leave it at that
+    //     if (this.stack.length === 1) {
+    //         moves.push(...this.gatherMoves().map(({move}) => move));
+    //     }
+    //     // otherwise, recurse
+    //     else {
+    //         this.recurseMoves(moves, null);
+    //     }
 
-        return [...moves].sort((a,b) => {
-            if (a.length === b.length) {
-                return a.localeCompare(b);
-            } else {
-                return a.length - b.length;
-            }
-        });
-    }
+    //     return [...moves].sort((a,b) => {
+    //         if (a.length === b.length) {
+    //             return a.localeCompare(b);
+    //         } else {
+    //             return a.length - b.length;
+    //         }
+    //     });
+    // }
 
-    public recurseMoves(moves: string[], working: string[]|null): void {
-        // null means very first time
-        if (working === null) {
-            const results = this.gatherMoves();
-            // store all terminal moves
-            moves.push(...results.filter(({terminal}) => terminal).map(({move}) => move));
-            // recurse with any nonterminal moves
-            this.recurseMoves(moves, results.filter(({terminal}) => !terminal).map(({move}) => move));
-        }
-        // otherwise we have some starting moves
-        else {
-            for (const mv of working) {
-                const cloned = this.clone();
-                cloned.move(mv, {partial: true, trusted: true});
-                const results = cloned.gatherMoves();
-                // store all terminal moves
-                moves.push(...results.filter(({terminal}) => terminal).map(({move}) => move).map(m => `${mv},${m}`));
-                // recurse with any nonterminal moves
-                const nonterminal = results.filter(({terminal}) => !terminal).map(({move}) => move).map(m => `${mv},${m}`);
-                this.recurseMoves(moves, nonterminal);
-            }
-        }
-    }
+    // public recurseMoves(moves: string[], working: string[]|null): void {
+    //     // null means very first time
+    //     if (working === null) {
+    //         const results = this.gatherMoves();
+    //         // store all terminal moves
+    //         moves.push(...results.filter(({terminal}) => terminal).map(({move}) => move));
+    //         // recurse with any nonterminal moves
+    //         this.recurseMoves(moves, results.filter(({terminal}) => !terminal).map(({move}) => move));
+    //     }
+    //     // otherwise we have some starting moves
+    //     else {
+    //         for (const mv of working) {
+    //             const cloned = this.clone();
+    //             cloned.move(mv, {partial: true, trusted: true});
+    //             const results = cloned.gatherMoves();
+    //             // store all terminal moves
+    //             moves.push(...results.filter(({terminal}) => terminal).map(({move}) => move).map(m => `${mv},${m}`));
+    //             // recurse with any nonterminal moves
+    //             const nonterminal = results.filter(({terminal}) => !terminal).map(({move}) => move).map(m => `${mv},${m}`);
+    //             this.recurseMoves(moves, nonterminal);
+    //         }
+    //     }
+    // }
 
     // gets a list of all single legal moves from a given position,
     // including whether the move was terminal (capture or empty hollow)
@@ -289,8 +289,28 @@ export class RincalaGame extends GameBase {
     }
 
     public randomMove(): string {
-        const moves = this.moves();
-        return moves[Math.floor(Math.random() * moves.length)];
+        const steps: string[] = [];
+        let step: {move: string; terminal: boolean};
+        let cloned = this.clone();
+        const onlyOne = this.stack.length === 1;
+        do {
+            const moves = cloned.gatherMoves();
+            if (moves.length > 0) {
+                step = moves[Math.floor(Math.random() * moves.length)];
+                steps.push(step.move);
+                cloned = this.clone();
+                cloned.move(steps.join(","), {partial: true, trusted: true});
+                if (onlyOne) break;
+            } else {
+                return "pass";
+            }
+        } while (!step.terminal);
+        const combined = steps.join(",");
+        const result = this.validateMove(combined);
+        if (!result.valid || result.complete !== 1) {
+            throw new Error(`The move ${combined} was generated but is not valid.`);
+        }
+        return steps.join(",");
     }
 
     public getDirection(first: number, second: number): Direction|undefined {
@@ -359,30 +379,59 @@ export class RincalaGame extends GameBase {
             return result;
         }
 
-        const allmoves = this.moves();
         const steps = m.split(",");
-        if (allmoves.filter(mv => mv.startsWith(m)).length > 0) {
-            // if the exact move is found, we're done
-            if (allmoves.includes(m)) {
-                result.valid = true;
-                result.complete = 1;
-                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        const last = steps.pop()!;
+        let cloned = this.clone();
+        // validate each step
+        for (let i = 0; i < steps.length; i++) {
+            cloned = this.clone();
+            const moves = cloned.gatherMoves();
+            const found = moves.find(({move}) => move === steps[i]);
+            if (found === undefined || found.terminal) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: steps.slice(0, i+1).join(",")});
                 return result;
+            }
+            cloned.move(steps.slice(0, i+1).join(","), {partial: true, trusted: true});
+        }
+        // validate very last step
+        const moves = cloned.gatherMoves();
+        if (moves.filter(({move}) => move.startsWith(last)).length > 0) {
+            const found = moves.find(({move}) => move === last);
+            // exact match
+            if (found !== undefined) {
+                // if first move of the game, only one step is allowed, so ignore terminal
+                if (this.stack.length === 1) {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                }
+                // every other time
+                else {
+                    // terminal
+                    if (found.terminal) {
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    }
+                    // must continue
+                    else {
+                        result.valid = true;
+                        result.complete = -1;
+                        result.canrender = true;
+                        result.message = i18next.t("apgames:validation.rincala.CONTINUE");
+                        return result;
+                    }
+                }
             }
             // if the last step is incomplete, then partial
-            else if (steps[steps.length - 1].length === 1) {
-                result.valid = true;
-                result.complete = -1;
-                result.canrender = true;
-                result.message = i18next.t("apgames:validation.rincala.PARTIAL");
-                return result;
-            }
-            // otherwise, the last step was not terminal so you just need to keep going
             else {
                 result.valid = true;
                 result.complete = -1;
                 result.canrender = true;
-                result.message = i18next.t("apgames:validation.rincala.CONTINUE");
+                result.message = i18next.t("apgames:validation.rincala.PARTIAL");
                 return result;
             }
         } else {
@@ -394,8 +443,6 @@ export class RincalaGame extends GameBase {
         }
     }
 
-    // The partial flag enabled dynamic connection checking.
-    // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, {partial = false, trusted = false} = {}): RincalaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -409,9 +456,12 @@ export class RincalaGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && !this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            if (!partial && result.complete !== 1) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
+            // if (!partial && !this.moves().includes(m)) {
+            //     throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
+            // }
         }
 
         this.results = [];
@@ -423,13 +473,18 @@ export class RincalaGame extends GameBase {
 
         const steps = m.split(",").filter(Boolean);
         for (const step of steps) {
-            // skip incomplete steps
-            if (step.length < 2) break;
+            // skip incomplete steps when partial
+            if (partial && step.length < 2) {
+                break;
+            }
+            // otherwise throw
+            else if (step.length < 2) {
+                throw new Error("Incomplete move somehow made it through.");
+            }
             const results: APMoveResult[] = [];
             const [startLbl, dirstr] = step.split("");
             const dir: Direction = dirstr === ">" ? "CW" : "CCW";
             const start = RincalaGame.lbl2col(startLbl);
-            // console.log(JSON.stringify({startLbl, dirstr, dir, start}));
             const pits = this.mv2pits(start, dir);
             const stack = [...this.board[start]];
             this.board[start] = [];
@@ -484,7 +539,7 @@ export class RincalaGame extends GameBase {
         // game ends if there is only 4 pieces left on the board
         // (by definition, this would be one of each colour)
         // or if there are no moves available
-        if (this.board.flat().length === 4 || this.moves().length === 0) {
+        if (this.board.flat().length === 4 || this.gatherMoves().length === 0) {
             this.gameover = true;
             const score1 = this.getPlayerScore(1);
             const score2 = this.getPlayerScore(2);
@@ -689,6 +744,24 @@ export class RincalaGame extends GameBase {
 
     public getPlayerScore(player: number): number {
         return this.hands[player - 1].map(pc => RincalaGame.value(pc)).reduce((a, b) => a + b, 0);
+    }
+
+     public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        if (r.type === "_group") {
+            let resolved = true;
+            for (const nested of r.results) {
+                if (nested.type === "sow") {
+                    node.push(i18next.t("apresults:SOW.rincala", {player, count: nested.pieces!.length, pieces: nested.pieces!.join(","), from: nested.from, to: nested.to!.join(",")}));
+                } else if (nested.type === "capture") {
+                    node.push(i18next.t("apresults:CAPTURE.complete", {player, where: nested.where, what: nested.what}));
+                } else {
+                    resolved = false;
+                    break;
+                }
+            }
+            return resolved;
+        }
+        return false;
     }
 
     public sameMove(move1: string, move2: string): boolean {

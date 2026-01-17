@@ -74,25 +74,25 @@ describe("Rincala", () => {
         ]);
     });
 
-    it ("recurseMoves", () => {
-        const g = new RincalaGame();
-        g.move(g.randomMove());
-        g.board = toBoard("B,YGY,R,R,,,,");
-        const moves = g.moves();
-        expect(moves).to.deep.equal([
-            "B<",
-            "B>",
-            "C>",
-            "D<",
-            "A>,B>",
-            "A>,C>",
-            "A>,D<",
-            "C<,B<",
-            "C<,B>",
-            "A>,C<,B>",
-            "C<,A>,B>",
-        ]);
-    });
+    // it ("recurseMoves", () => {
+    //     const g = new RincalaGame();
+    //     g.move(g.randomMove());
+    //     g.board = toBoard("B,YGY,R,R,,,,");
+    //     const moves = g.moves();
+    //     expect(moves).to.deep.equal([
+    //         "B<",
+    //         "B>",
+    //         "C>",
+    //         "D<",
+    //         "A>,B>",
+    //         "A>,C>",
+    //         "A>,D<",
+    //         "C<,B<",
+    //         "C<,B>",
+    //         "A>,C<,B>",
+    //         "C<,A>,B>",
+    //     ]);
+    // });
 
     it ("handleClick", () => {
         const g = new RincalaGame();
@@ -102,6 +102,40 @@ describe("Rincala", () => {
         expect(result.valid).to.be.true;
         expect(result.complete).to.equal(-1);
         expect(result.move).to.equal("A>,B");
+    });
+
+    it ("moveValidation", () => {
+        const g = new RincalaGame();
+        g.move(g.randomMove());
+        g.board = toBoard("B,YGY,R,R,,,,");
+        let result = g.validateMove("A");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(-1);
+        result = g.validateMove("A>");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(-1);
+        result = g.validateMove("A<");
+        expect(result.valid).to.be.false;
+        result = g.validateMove("A>,B");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(-1);
+        result = g.validateMove("A>,B>");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(1);
+        result = g.validateMove("A>,C<");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(-1);
+        result = g.validateMove("A>,C<,B>");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(1);
+    });
+
+    it ("checkEOG", () => {
+        const g = new RincalaGame();
+        g.move(g.randomMove());
+        g.board = toBoard("R,,B,,G,Y,Y,");
+        g.move("F>");
+        expect(g.gameover).to.be.true;
     });
 });
 

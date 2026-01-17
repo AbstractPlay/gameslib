@@ -479,4 +479,22 @@ describe("Frogger", () => {
         expect(g.gameover).eq(true);
     });
 
+    it ("Handles all player counts", () => {
+        const g2 = new FroggerGame(2);
+        g2.move(g2.randomMove());
+        expect(g2.validateMove(g2.randomMove())).to.have.deep.property("valid", true);
+
+        const g3 = new FroggerGame(3);
+        g3.move(g3.randomMove());
+        expect(g3.validateMove(g3.randomMove())).to.have.deep.property("valid", true);
+
+        const g4 = new FroggerGame(4);
+        g4.move(g4.randomMove());
+        expect(g4.validateMove(g4.randomMove())).to.have.deep.property("valid", true);
+
+        const g5 = new FroggerGame(5);
+        g5.move(g5.randomMove());
+        expect(g5.validateMove(g5.randomMove())).to.have.deep.property("valid", true);
+    });
+
 });

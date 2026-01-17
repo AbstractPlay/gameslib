@@ -537,9 +537,11 @@ export class FroggerGame extends GameBase {
         const whiteMarket: string[] = [];
         //Suit check.
         this.market.forEach(card => {
-            const suits = this.getSuits(card, "randomMove (backward)");
-            if (suits.indexOf(suit!) < 0)
-                whiteMarket.push(card);
+            if (card !== "") {
+                const suits = this.getSuits(card, "getWhiteMarket");
+                if (suits.indexOf(suit!) < 0)
+                    whiteMarket.push(card);
+            }
         });
         
         return whiteMarket;
@@ -860,7 +862,7 @@ export class FroggerGame extends GameBase {
         return array[index];
     }
 
-    private refillMarket(emulated: boolean): number {
+    private refillMarket(): number {
         //Fills the market regardless of current size.
         //Shuffles the discards when necessary.
         //Refill variant behavior is mostly handled by the caller,
@@ -868,13 +870,6 @@ export class FroggerGame extends GameBase {
         //May be called when the market is already full (in the continuous variant).
         if (this.market.length === this.marketsize)
             return 0;
-
-        if (emulated) {
-            const toFake = Math.min(this.marketsize, this.getTrueDeckSize() + this.discards.length);
-            this.market.length = toFake;
-            this.market.fill("");
-            return toFake;
-        }
         
         //First, try to draw what we need from the deck.
         let toDraw = Math.min(this.marketsize, this.deck.size);
@@ -1773,9 +1768,9 @@ export class FroggerGame extends GameBase {
             
         }
 
-        //update market if necessary
+        //update market if necessary.  No longer emulating here.
         if (marketEmpty || this.variants.includes("continuous")) {
-            const refilled = this.refillMarket(emulation);
+            const refilled = this.refillMarket();
             let description = "";
             if (refilled < 6)
                 description = (refilled === 0 ? "not" : "only partly");
@@ -1885,7 +1880,7 @@ export class FroggerGame extends GameBase {
             pstr += pieces.join(",");
         }
 
-        //Also build blocked sting.
+        //Build blocked sting.
         const blocked = [];
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.columns; col++) {
@@ -2215,7 +2210,9 @@ export class FroggerGame extends GameBase {
                 for (const coords of pts) {
                     points.push({ row: coords[1], col: coords[0] });
                 }
-                rep.annotations.push({type: "dots", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
+                //Do both for visibility.
+                rep.annotations.push({type: "dots", size: 0.33, colour: "_context_background", opacity: 0.66, targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
+                rep.annotations.push({type: "dots", colour: "_context_annotations", targets: points as [{row: number; col: number;}, ...{row: number; col: number;}[]]});
             }
         }
 

@@ -1741,7 +1741,7 @@ export class FroggerGame extends GameBase {
             }
         }
 
-        if (partial) { return this; }
+        if (partial || emulation) { return this; }
 
         if (refill) {
             //Set skipto and nummoves.

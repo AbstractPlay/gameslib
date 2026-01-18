@@ -1768,8 +1768,10 @@ export class FroggerGame extends GameBase {
             //We may leave the last frame in case of crocodile action, so just check the results length for now.
             if (this.results.length + 1 !== this.frames.length) {
                 throw new Error(`There's a mismatch in the length of the results array and the frames array. This should never happen.`);
+            } else if (!this.variants.includes("crocodiles") || this.currplayer as number !== this.numplayers || this.skipto) {
+                //We don't need the last frame.
+                this.frames.pop();
             }
-            
         }
 
         if (partial || emulation) { return this; }
@@ -1783,8 +1785,6 @@ export class FroggerGame extends GameBase {
             this.skipto = this.currplayer;
             this.nummoves = remaining!;
 
-            //Pop the last frame?
-            this.frames.pop();
         } else {
 
             //If this was the refill turn, unset skipto and nummoves,
@@ -1803,9 +1803,6 @@ export class FroggerGame extends GameBase {
                 victims.forEach( ([from, to]) => {
                     this.results.push({type: "eject", from: from, to: to, what: "crocodiles"});
                 });
-            } else {
-                //We don't need the last frame.
-                this.frames.pop();
             }
         }
 

@@ -4262,7 +4262,7 @@
             "TOO_EARLY_FOR_REFILL": "Please submit your refill request before making your remaining moves.",
 	    "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
             "TOO_LATE_FOR_REFILL": "There is no need to force a refill of the draw pool after your third move.  It will refill automatically after you submit.",
-            "VALID_REFILL": "Please submit your move to trigger the refill.  You will have {{count}} moves remaining after the refill, as well as the option to pass."
+            "VALID_REFILL": "Please submit your move to trigger the refill.  The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass)."
         },
 
         "furl": {

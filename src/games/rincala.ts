@@ -384,7 +384,6 @@ export class RincalaGame extends GameBase {
         let cloned = this.clone();
         // validate each step
         for (let i = 0; i < steps.length; i++) {
-            cloned = this.clone();
             const moves = cloned.gatherMoves();
             const found = moves.find(({move}) => move === steps[i]);
             if (found === undefined || found.terminal) {
@@ -392,6 +391,7 @@ export class RincalaGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: steps.slice(0, i+1).join(",")});
                 return result;
             }
+            cloned = this.clone();
             cloned.move(steps.slice(0, i+1).join(","), {partial: true, trusted: true});
         }
         // validate very last step

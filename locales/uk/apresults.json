@@ -526,7 +526,10 @@
         "general_one": "{{player}} висіяла насіння з такої ями: {{pits}}.",
         "general_few": "{{player}} висіяв насіння з таких ям: {{pits}}.",
         "general_many": "{{player}} висіяв насіння з таких ям: {{pits}}.",
-        "into": "{{player}} посіяв у ями {{pits}}."
+        "into": "{{player}} посіяв у ями {{pits}}.",
+        "rincala_one": "{{player}} посіяв {{count}} {{pieces}} фігуру з {{from}} до {{to}}.",
+        "rincala_few": "{{player}} посіяв {{count}} фігури з {{from}} у такі ями: {{pieces}} -> {{to}}.",
+        "rincala_many": "{{player}} посіяв {{count}} фігур з {{from}} у такі ями: {{pieces}} -> {{to}}."
     },
     "TAKE": {
         "chase": "У камеру подано {{what}}.",

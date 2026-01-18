@@ -418,11 +418,22 @@ export class RincalaGame extends GameBase {
                     }
                     // must continue
                     else {
-                        result.valid = true;
-                        result.complete = -1;
-                        result.canrender = true;
-                        result.message = i18next.t("apgames:validation.rincala.CONTINUE");
-                        return result;
+                        const cloned = this.clone();
+                        cloned.move(m, {partial: true, trusted: true});
+                        const moves = cloned.gatherMoves();
+                        // you can't continue if no more moves are possible
+                        if (moves.length === 0) {
+                            result.valid = true;
+                            result.complete = 1;
+                            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                            return result;
+                        } else {
+                            result.valid = true;
+                            result.complete = -1;
+                            result.canrender = true;
+                            result.message = i18next.t("apgames:validation.rincala.CONTINUE");
+                            return result;
+                        }
                     }
                 }
             }
@@ -539,10 +550,10 @@ export class RincalaGame extends GameBase {
         // game ends if there is only 4 pieces left on the board
         // (by definition, this would be one of each colour)
         // or if there are no moves available
-        if (this.board.flat().length === 4 || this.gatherMoves().length === 0) {
+        const score1 = this.getPlayerScore(1);
+        const score2 = this.getPlayerScore(2);
+        if (this.board.flat().length === 4 || this.gatherMoves().length === 0 || score1 >= 26 || score2 >= 26) {
             this.gameover = true;
-            const score1 = this.getPlayerScore(1);
-            const score2 = this.getPlayerScore(2);
             if (score1 > score2) {
                 this.winner = [1];
             } else if (score2 > score1) {

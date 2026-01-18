@@ -131,11 +131,19 @@ describe("Rincala", () => {
     });
 
     it ("checkEOG", () => {
-        const g = new RincalaGame();
+        let g = new RincalaGame();
         g.move(g.randomMove());
         g.board = toBoard("R,,B,,G,Y,Y,");
         g.move("F>");
         expect(g.gameover).to.be.true;
+
+        // edge case
+        g = new RincalaGame();
+        g.move(g.randomMove());
+        g.board = toBoard("B,,,YR,,,Y,G");
+        const result = g.validateMove("G>,A<");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(1);
     });
 });
 

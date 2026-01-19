@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -1236,7 +1236,13 @@ export class ArimaaGame extends GameBase {
         // show selected piece if present
         if (this._selected !== undefined) {
             const [x, y] = ArimaaGame.algebraic2coords(this._selected);
-            rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+            (rep.board as BoardBasic).markers!.push({
+                type: "flood",
+                colour: this.getPlayerColour(this.currplayer),
+                opacity: 0.25,
+                points: [{row: y, col: x}],
+            });
+            // rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
         }
         if (rep.annotations.length === 0) {
             delete rep.annotations;

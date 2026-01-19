@@ -550,9 +550,9 @@ export class RincalaGame extends GameBase {
         // game ends if there is only 4 pieces left on the board
         // (by definition, this would be one of each colour)
         // or if there are no moves available
-        const score1 = this.getPlayerScore(1);
-        const score2 = this.getPlayerScore(2);
-        if (this.board.flat().length === 4 || this.gatherMoves().length === 0 || score1 >= 26 || score2 >= 26) {
+        if (this.board.flat().length === 4 || this.gatherMoves().length === 0) {
+            const score1 = this.getPlayerScore(1);
+            const score2 = this.getPlayerScore(2);
             this.gameover = true;
             if (score1 > score2) {
                 this.winner = [1];

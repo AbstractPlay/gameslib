@@ -9,6 +9,7 @@
     "build-ts": "tsc && npm pack",
     "test0": "mocha -r ts-node/register test/games/rincala.test.ts",
     "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "testc": "mocha -r ts-node/register test/common/*.test.ts",
     "lint": "npx eslint .",
     "dist-dev": "rimraf dist && webpack",
     "dist-prod": "rimraf dist && webpack --mode=production",

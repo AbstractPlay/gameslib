@@ -275,7 +275,7 @@ export class WaldMeisterGame extends GameBase {
                     }
                     // clicking an unoccupied cell moves a piece
                     else if (!this.board.has(cell) && parsed.from !== undefined) {
-                        newmove = `${parsed.moved}@${parsed.from}-${cell}`;
+                        newmove = `${parsed.moved!.join("")}@${parsed.from}-${cell}`;
                     }
                 }
             }
@@ -308,6 +308,7 @@ export class WaldMeisterGame extends GameBase {
         }
 
         const parsed = WaldMeisterGame.parseMove(m);
+        console.log(JSON.stringify({m, parsed}));
         const allMoves = this.moves();
         const matches = allMoves.filter(mv => mv.startsWith(m));
         // if only one match, we're done

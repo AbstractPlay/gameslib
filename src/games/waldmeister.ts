@@ -635,9 +635,9 @@ export class WaldMeisterGame extends GameBase {
         if (this.results.find(r => r.type === "deltaScore")) {
             const reps: APRenderRep[] = [];
 
-            if (this.round === 1) {
-                const cloned = this.clone();
-                cloned.load(this.loadedIdx - 1);
+            const cloned = this.clone();
+            cloned.load(this.loadedIdx - 1);
+            if (cloned.round === 1) {
                 reps.push(cloned.renderColours(1));
                 reps.push(cloned.renderHeights(2));
             } else {

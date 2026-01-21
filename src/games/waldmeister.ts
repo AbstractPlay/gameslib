@@ -783,12 +783,14 @@ export class WaldMeisterGame extends GameBase {
                 });
             }
         }
-        (rep.board! as BoardBasic).markers = [{
-            type: "flood",
-            colour: player,
-            opacity: 0.25,
-            points: points as [RowCol, ...RowCol[]],
-        }];
+        if (points.length > 0) {
+            (rep.board! as BoardBasic).markers = [{
+                type: "flood",
+                colour: player,
+                opacity: 0.25,
+                points: points as [RowCol, ...RowCol[]],
+            }];
+        }
         return rep;
     }
 
@@ -808,12 +810,14 @@ export class WaldMeisterGame extends GameBase {
                 });
             }
         }
-        (rep.board! as BoardBasic).markers = [{
-            type: "flood",
-            colour: player,
-            opacity: 0.25,
-            points: points as [RowCol, ...RowCol[]],
-        }];
+        if (points.length > 0) {
+            (rep.board! as BoardBasic).markers = [{
+                type: "flood",
+                colour: player,
+                opacity: 0.25,
+                points: points as [RowCol, ...RowCol[]],
+            }];
+        }
         return rep;
     }
 

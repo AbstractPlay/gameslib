@@ -324,7 +324,7 @@ export class WaldMeisterGame extends GameBase {
             if (this.board.size === 0) {
                 result.valid = true;
                 result.complete = -1;
-                result.message = i18next.t("apgames:validation.waldmeister.PARTIAL_PLACE", {piece: parsed.moved});
+                result.message = i18next.t("apgames:validation.waldmeister.PARTIAL_PLACE", {piece: parsed.moved?.join("")});
                 return result;
             }
             // regular moves
@@ -334,7 +334,7 @@ export class WaldMeisterGame extends GameBase {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.waldmeister.PARTIAL_MOVE", {piece: parsed.moved});
+                    result.message = i18next.t("apgames:validation.waldmeister.PARTIAL_MOVE", {piece: parsed.moved!.join("")});
                     return result;
                 }
                 // selecting a piece from your hand
@@ -342,7 +342,7 @@ export class WaldMeisterGame extends GameBase {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.waldmeister.PARTIAL_MOVE_PLACE", {piece: parsed.moved});
+                    result.message = i18next.t("apgames:validation.waldmeister.PARTIAL_MOVE_PLACE", {piece: parsed.moved!.join("")});
                     return result;
                 }
                 // otherwise some unexpected error
@@ -396,7 +396,7 @@ export class WaldMeisterGame extends GameBase {
             this.board.set(parsed.from, parsed.moved);
             const idx = this.hands[this.currplayer - 1].findIndex(([colour, size]) => colour === parsed.moved![0] && size === parsed.moved![1]);
             if (idx < 0) {
-                throw new Error(`Could not find the piece ${parsed.moved} in the hand. This should never happen.`);
+                throw new Error(`Could not find the piece ${parsed.moved.join("")} in the hand. This should never happen.`);
             }
             this.hands[this.currplayer - 1].splice(idx, 1);
             this.results.push({type: "place", what: parsed.moved.join(""), where: parsed.from});
@@ -412,7 +412,7 @@ export class WaldMeisterGame extends GameBase {
                     this.board.set(parsed.from, parsed.placed);
                     const idx = this.hands[this.currplayer - 1].findIndex(([colour, size]) => colour === parsed.placed![0] && size === parsed.placed![1]);
                     if (idx < 0) {
-                        throw new Error(`Could not find the piece ${parsed.placed} in the hand. This should never happen.`);
+                        throw new Error(`Could not find the piece ${parsed.placed.join("")} in the hand. This should never happen.`);
                     }
                     this.hands[this.currplayer - 1].splice(idx, 1);
                     this.results.push({type: "place", what: parsed.placed.join(""), where: parsed.from});

@@ -811,7 +811,7 @@ export class WaldMeisterGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        const display: IScores[] = [{ name: i18next.t("apgames:status.waldmeister.GOALS"), scores: (this.round === 1) ? [i18next.t("apgames:status.waldmeister.COLOUR"), i18next.t("apgames:status.waldmeister.HEIGHT")] : [i18next.t("apgames:status.waldmeister.HEIGHT"), i18next.t("apgames:status.waldmeister.COLOUR")]}];
+        const display = [{ name: i18next.t("apgames:status.waldmeister.GOALS"), scores: (this.round === 1) ? [i18next.t("apgames:status.waldmeister.COLOUR"), i18next.t("apgames:status.waldmeister.HEIGHT")] : [i18next.t("apgames:status.waldmeister.HEIGHT"), i18next.t("apgames:status.waldmeister.COLOUR")]}] as IScores[];
         if (this.scores.reduce((a, b) => a + b, 0) > 0) {
             display.push({ name: i18next.t("apgames:status.SCORES"), scores: this.scores});
         }

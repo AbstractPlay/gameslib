@@ -818,6 +818,22 @@ export class WaldMeisterGame extends GameBase {
         return display;
     }
 
+    public sameMove(move1: string, move2: string): boolean {
+        const parsed1 = WaldMeisterGame.parseMove(move1);
+        const parsed2 = WaldMeisterGame.parseMove(move2);
+        let norm1 = `${parsed1.moved?.join("")}@${parsed1.from}`;
+        let norm2 = `${parsed2.moved?.join("")}@${parsed1.from}`;
+
+        if (parsed1.to !== undefined && parsed1.placed !== undefined) {
+            norm1 += `-${parsed1.to},${parsed1.placed.join("")}`;
+        }
+        if (parsed2.to !== undefined && parsed2.placed !== undefined) {
+            norm2 += `-${parsed2.to},${parsed2.placed.join("")}`;
+        }
+
+        return norm1 === norm2;
+    }
+
     public clone(): WaldMeisterGame {
         return Object.assign(new WaldMeisterGame(), deepclone(this) as WaldMeisterGame);
         // return new WaldMeisterGame(this.serialize());

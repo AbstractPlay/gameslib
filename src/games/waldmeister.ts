@@ -694,7 +694,7 @@ export class WaldMeisterGame extends GameBase {
                 if (this.hands[p - 1].length > 0) {
                     areas.push({
                         type: "pieces",
-                        label: i18next.t("apgames:validation.arimaa.LABEL_STASH", {playerNum: this.currplayer}) || `P${this.currplayer} Hand`,
+                        label: i18next.t("apgames:validation.arimaa.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                         pieces: this.hands[p - 1].sort(sorter).map(([colour, size]) => `p${colour}${size}`) as [string, ...string[]],
                     });
                 }

@@ -72,7 +72,7 @@ export class WaldMeisterGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>special"],
-        flags: ["experimental", "custom-colours", "shared-pieces"],
+        flags: ["experimental", "custom-colours", "shared-pieces", "scores"],
     };
     public numplayers = 2;
     public currplayer!: playerid;

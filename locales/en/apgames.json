@@ -274,6 +274,7 @@
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
+        "waldmeister": "Players play two games sequentially. In the first round, Player 1 is playing for colours and Player 2 is playing for heights. At the end of the first round, scores are tabulated and scoring groups highlighted. Then in the second round, Player 2 plays first and plays for colours, and Player 1 plays for heights.\n\nWhen customizing, colours 1 and 2 are the player colours, and colours 3, 4, and 5 are the dark green, light green, and yellow green tree colours.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
     "variants": {
@@ -3269,9 +3270,14 @@
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
         "tumbleweed": "Score (pieces + influence)",
-       "ESTIMATEDSCORES": "Estimated scores",
+        "ESTIMATEDSCORES": "Estimated scores",
         "TOPLACE": "Piece to place",
         "valley": "Moon Tokens",
+        "waldmeister": {
+            "COLOUR": "colours",
+            "GOALS": "Goals",
+            "HEIGHT": "heights"
+        },
         "YEAR": "Year"
     },
     "validation": {
@@ -5622,6 +5628,14 @@
             "PLACE_FRIENDLY_NEIGHBOUR": "You may not place a bird at {{where}} because it would be adjacent to a friendly bird.",
             "SAME_START_END": "The start and end points are the same.",
             "SINGLE_LINE": "The {{range}} is not a straight unbroken line of your birds."
+        },
+        "waldmeister": {
+            "INITIAL_INSTRUCTIONS_move": "Select a piece on the board to move.",
+            "INITIAL_INSTRUCTIONS_place": "Select one of your pieces to place on the board.",
+            "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "PARTIAL_MOVE": "Select the destination.",
+            "PARTIAL_MOVE_PLACE": "Select a piece from your hand to place on the board.",
+            "PARTIAL_PLACE": "Select a space on the board to place your {{piece}} piece."
         },
         "witch": {
             "2P_PRIVILEGE": "Only the second player may choose the pieces they wish to play.",

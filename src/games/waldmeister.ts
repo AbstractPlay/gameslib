@@ -280,7 +280,11 @@ export class WaldMeisterGame extends GameBase {
                 }
             }
 
-            const result = this.validateMove(newmove) as IClickResult;
+            let result = this.validateMove(newmove) as IClickResult;
+            if (result.autocomplete !== undefined) {
+                newmove = result.autocomplete;
+                result = this.validateMove(newmove) as IClickResult;
+            }
             if (!result.valid) {
                 result.move = move;
             } else {
@@ -312,10 +316,17 @@ export class WaldMeisterGame extends GameBase {
         const matches = allMoves.filter(mv => mv.startsWith(m));
         // if only one match, we're done
         if (matches.length === 1) {
-            result.valid = true;
-            result.complete = 1;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            return result;
+            if (matches[0] === m) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = -1;
+                result.autocomplete = matches[0];
+                return result;
+            }
         }
         // if more than one, we're partial
         else if (matches.length > 1) {

@@ -637,6 +637,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                             bg: i + 1,
                             fg: ["#000000", "#ffffff"],
                         },
+                        orientation: "vertical",
                     },
                 ] as [Glyph, ...Glyph[]];
             }

@@ -542,7 +542,7 @@ export class OwareGame extends GameBase {
                 resolved = true;
                 break;
             case "sow":
-                node.push(i18next.t("apresults:SOW.general", {player, pits: r.pits.join(", "), count: r.pits.length}));
+                node.push(i18next.t("apresults:SOW.general", {player, pits: r.pits!.join(", "), count: r.pits!.length}));
                 resolved = true;
                 break;
             case "capture":

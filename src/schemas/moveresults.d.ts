@@ -261,7 +261,10 @@ export type APMoveResult =
     }
   | {
       type: "sow";
-      pits: string[];
+      pits?: string[];
+      from?: string[];
+      to?: string[];
+      pieces?: string[];
     }
   | {
       type: "select";

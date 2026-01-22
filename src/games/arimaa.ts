@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, AreaPieces, Glyph } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -194,6 +194,7 @@ export class ArimaaGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    private _selected: string|undefined;
 
     constructor(state?: IArimaaState | string, variants?: string[]) {
         super();
@@ -533,7 +534,7 @@ export class ArimaaGame extends GameBase {
             } else {
                 if (result.autocomplete !== undefined) {
                     const automove = result.autocomplete;
-                    result = this.validateMove(result.autocomplete) as IClickResult;
+                    result = this.validateMove(automove) as IClickResult;
                     result.move = automove;
                 } else {
                     result.move = newmove;
@@ -930,6 +931,7 @@ export class ArimaaGame extends GameBase {
                 // movement
                 else {
                     if (from !== undefined && to !== undefined) {
+                        this._selected = undefined;
                         const moved = this.board.get(from)!;
                         this.board.set(to, moved);
                         this.board.delete(from);
@@ -945,6 +947,8 @@ export class ArimaaGame extends GameBase {
                             }
                         }
                         lastmove.push(`${owner === 1 ? pc : pc.toLowerCase()}${from}${to}${parenthetical}`);
+                    } else if (from !== undefined) {
+                        this._selected = from;
                     } else if (i !== steps.length - 1) {
                         throw new Error("Invalid move detected in the middle of the move.");
                     }
@@ -1213,8 +1217,8 @@ export class ArimaaGame extends GameBase {
         };
 
         // Add annotations
+        rep.annotations = [];
         if (this.results.length > 0) {
-            rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {
                     const [fromX, fromY] = ArimaaGame.algebraic2coords(move.from);
@@ -1228,6 +1232,20 @@ export class ArimaaGame extends GameBase {
                     rep.annotations.push({type: "exit", targets: [{row: y, col: x}]});
                 }
             }
+        }
+        // show selected piece if present
+        if (this._selected !== undefined) {
+            const [x, y] = ArimaaGame.algebraic2coords(this._selected);
+            (rep.board as BoardBasic).markers!.push({
+                type: "flood",
+                colour: this.getPlayerColour(this.currplayer),
+                opacity: 0.25,
+                points: [{row: y, col: x}],
+            });
+            // rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
+        }
+        if (rep.annotations.length === 0) {
+            delete rep.annotations;
         }
 
         return rep;

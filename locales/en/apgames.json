@@ -166,6 +166,7 @@
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
         "resolve": "A square grid connection game. If a crosscut is formed, swap the placed piece until it is no longer part of a crosscut. If the board is full and there is no winner, choose one of your stones in a crosscut and resolve.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
+        "rincala": "A round Mancala-style sowing game where different coloured pieces have different values. Accumulate the highest score to win.",
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
@@ -257,7 +258,8 @@
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "quincunx": "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each orthogonally adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a set, it does *not* also score as a pair.)\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nPower play: If you played an Ace or Crown orthogonally adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "razzle": "The implementation here is the so called tournament rules.",
-        "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the player with the largest group or the player who has the only territory will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation only provides beginner protections for the first three moves of the game. Be careful not to merge down to one Dead Group.",
+        "rincala": "For reasons, the colours are instead red (4 pts), blue (3 pts), green (2 pts), yellow (1 pt). Also, the game terminates as soon as one player earns more than half the points (>=26 pts).",
+        "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation currently only provides beginner protection for the first move of the game. Be careful not to merge down to one Dead Group.",
         "siegeofj": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
@@ -272,6 +274,7 @@
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
+        "waldmeister": "Players play two games sequentially. In the first round, Player 1 is playing for colours and Player 2 is playing for heights. At the end of the first round, scores are tabulated and scoring groups highlighted. Then in the second round, Player 2 plays first and plays for colours, and Player 1 plays for heights.\n\nWhen customizing, colours 1 and 2 are the player colours, and colours 3, 4, and 5 are the dark green, light green, and yellow green tree colours.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
     "variants": {
@@ -3267,9 +3270,14 @@
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
         "tumbleweed": "Score (pieces + influence)",
-       "ESTIMATEDSCORES": "Estimated scores",
+        "ESTIMATEDSCORES": "Estimated scores",
         "TOPLACE": "Piece to place",
         "valley": "Moon Tokens",
+        "waldmeister": {
+            "COLOUR": "colours",
+            "GOALS": "Goals",
+            "HEIGHT": "heights"
+        },
         "YEAR": "Year"
     },
     "validation": {
@@ -4260,7 +4268,7 @@
             "TOO_EARLY_FOR_REFILL": "Please submit your refill request before making your remaining moves.",
 	    "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
             "TOO_LATE_FOR_REFILL": "There is no need to force a refill of the draw pool after your third move.  It will refill automatically after you submit.",
-            "VALID_REFILL": "Please submit your move to trigger the refill.  You will have {{count}} moves remaining after the refill, as well as the option to pass."
+            "VALID_REFILL": "Please submit your move to trigger the refill.  The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass)."
         },
 
         "furl": {
@@ -5093,6 +5101,14 @@
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
             "INVALID_MOVE": "You may only place a piece where it will flip at least one of your opponent's pieces."
         },
+        "rincala": {
+            "BAD_DIR": "That stack can't move in that direction.",
+            "CONTINUE": "You must continue playing until you capture or sow over an empty pit. Select a stack to sow.",
+            "INITIAL_INSTRUCTIONS": "Select a stack to sow.",
+            "LABEL_STASH": "Player {{playerNum}}'s captures",
+            "NO_MOVES": "That stack doesn't have any legal moves.",
+            "PARTIAL": "Select an adjacent pit to start sowing in that direction."
+        },
         "rootbound": {
             "FIRST_MOVE_INSTRUCTIONS": "Place a piece anywhere on the board.",
             "SECOND_MOVE_INSTRUCTIONS": "Place two pieces on empty spaces. You must make a second group as soon as possible.",
@@ -5612,6 +5628,14 @@
             "PLACE_FRIENDLY_NEIGHBOUR": "You may not place a bird at {{where}} because it would be adjacent to a friendly bird.",
             "SAME_START_END": "The start and end points are the same.",
             "SINGLE_LINE": "The {{range}} is not a straight unbroken line of your birds."
+        },
+        "waldmeister": {
+            "INITIAL_INSTRUCTIONS_move": "Select a piece on the board to move.",
+            "INITIAL_INSTRUCTIONS_place": "Select one of your pieces to place on the board.",
+            "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "PARTIAL_MOVE": "Select the destination.",
+            "PARTIAL_MOVE_PLACE": "Select a piece from your hand to place on the board.",
+            "PARTIAL_PLACE": "Select a space on the board to place your {{piece}} piece."
         },
         "witch": {
             "2P_PRIVILEGE": "Only the second player may choose the pieces they wish to play.",

@@ -7,8 +7,7 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
-export type playerid = 0|1|2;
-export type Size = 0|1|2|3;
+export type playerid = 1|2;
 export type ConnectionStatus = "enemy"|"self"|"isolated";
 
 export interface IMoveState extends IIndividualState {

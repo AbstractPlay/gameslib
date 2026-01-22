@@ -220,6 +220,8 @@ import { ArimaaGame, IArimaaState } from "./arimaa";
 import { RampartGame, IRampartState } from "./rampart";
 import { KrypteGame, IKrypteState } from "./krypte";
 import { EnsoGame, IEnsoState } from "./enso";
+import { RincalaGame, IRincalaState } from "./rincala";
+import { WaldMeisterGame, IWaldMeisterState } from "./waldmeister";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -443,6 +445,8 @@ export {
     RampartGame, IRampartState,
     KrypteGame, IKrypteState,
     EnsoGame, IEnsoState,
+    RincalaGame, IRincalaState,
+    WaldMeisterGame, IWaldMeisterState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -519,7 +523,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof EmuGame | typeof DeckfishGame | typeof BluestoneGame |
                               typeof SunspotGame | typeof StawvsGame | typeof LascaGame |
                               typeof EmergoGame | typeof FroggerGame | typeof ArimaaGame |
-                              typeof RampartGame | typeof KrypteGame | typeof EnsoGame
+                              typeof RampartGame | typeof KrypteGame | typeof EnsoGame |
+                              typeof RincalaGame | typeof WaldMeisterGame
                 >();
 // Manually add each game to the following array
 [
@@ -553,7 +558,8 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     PonteDDGame, SurmountGame, GlissGame, MorphosGame, AssemblyGame, PaintbucketGame, C1Game,
     BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
-    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame,
+    LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
+    WaldMeisterGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1005,6 +1011,10 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new KrypteGame(...args);
         case "enso":
             return new EnsoGame(...args);
+        case "rincala":
+            return new RincalaGame(...args);
+        case "waldmeister":
+            return new WaldMeisterGame(...args);
     }
     return;
 }

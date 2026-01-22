@@ -683,7 +683,7 @@ export class PrudhGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "sow":
-                node.push(i18next.t("apresults:SOW.prudh", {player, from: r.pits[0], to: r.pits[1]}));
+                node.push(i18next.t("apresults:SOW.prudh", {player, from: r.pits![0], to: r.pits![1]}));
                 resolved = true;
                 break;
             case "capture":

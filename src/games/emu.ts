@@ -270,17 +270,22 @@ const scoreIndividual = (bird: string[]): ScoreReport => {
     const sum = numbers.reduce((acc, curr) => acc + curr, 0);
     if (sum < 18) {
         let value = sum - 18;
+        let ac = "";
         if (cards.find(c => c.rank.seq === 1) !== undefined) {
             value -= 5;
-            numbers.unshift(1);
+            ac += "A";
         }
         if (cards.find(c => c.rank.seq === 10) !== undefined) {
             value -= 5;
-            numbers.push(10);
+            ac += "C";
+        }
+        const ranks: (string|number)[] = [...numbers];
+        if (ac.length > 0) {
+            ranks.push(`(${ac})`);
         }
         return {
             value,
-            ranks: numbers,
+            ranks: ranks,
         };
     } else {
         const pset = new PowerSet(numbers);

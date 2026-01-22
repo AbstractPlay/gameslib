@@ -849,6 +849,17 @@ export class WaldMeisterGame extends GameBase {
         return norm1 === norm2;
     }
 
+    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
+        let resolved = false;
+        switch (r.type) {
+            case "deltaScore":
+                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {player, delta: r.delta, count: r.delta}));
+                resolved =true;
+                break;
+        }
+        return resolved;
+    }
+
     public clone(): WaldMeisterGame {
         return Object.assign(new WaldMeisterGame(), deepclone(this) as WaldMeisterGame);
         // return new WaldMeisterGame(this.serialize());

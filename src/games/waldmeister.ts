@@ -697,7 +697,7 @@ export class WaldMeisterGame extends GameBase {
                         name: "piece-square-borderless",
                         colour: "_context_background",
                     },
-                    pc as Glyph,
+                    {...pc, scale: 1} as Glyph,
                 ];
             }
             for (const p of order) {

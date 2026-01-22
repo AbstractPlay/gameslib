@@ -678,9 +678,8 @@ export class WaldMeisterGame extends GameBase {
             for (const size of [1, 2, 3] as Size[]) {
                 const key = `${colour}${size}`;
                 legend[key] = {
-                    name: `pyramid-up-${size === 1 ? "small" : size === 2 ? "medium" : "large"}-3D`,
+                    name: `pyramid-flattened-${size === 1 ? "small" : size === 2 ? "medium" : "large"}`,
                     colour: colour === "G" ? this.getPlayerColour(3) : colour === "L" ? this.getPlayerColour(4) : this.getPlayerColour(5),
-                    scale: 1.25,
                     orientation: "vertical",
                 };
             }
@@ -697,7 +696,7 @@ export class WaldMeisterGame extends GameBase {
                         name: "piece-square-borderless",
                         colour: "_context_background",
                     },
-                    {...pc, scale: 1} as Glyph,
+                    {...pc} as Glyph,
                 ];
             }
             for (const p of order) {
@@ -705,7 +704,7 @@ export class WaldMeisterGame extends GameBase {
                 if (this.hands[p - 1].length > 0) {
                     areas.push({
                         type: "pieces",
-                        label: i18next.t("apgames:validation.arimaa.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
+                        label: i18next.t("apgames:validation.waldmeister.LABEL_STASH", {playerNum: p}) || `P${p} Hand`,
                         pieces: this.hands[p - 1].sort(sorter).map(([colour, size]) => `p${colour}${size}`) as [string, ...string[]],
                     });
                 }

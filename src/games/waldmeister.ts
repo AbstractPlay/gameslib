@@ -213,7 +213,7 @@ export class WaldMeisterGame extends GameBase {
             case 2:
                 return 2;
             case 3:
-                return "#004529";
+                return "#006837";
             case 4:
                 return "#78c679";
             case 5:

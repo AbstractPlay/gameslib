@@ -853,7 +853,7 @@ export class WaldMeisterGame extends GameBase {
         let resolved = false;
         switch (r.type) {
             case "deltaScore":
-                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {player, delta: r.delta, count: r.delta}));
+                node.push(i18next.t("apresults:DELTA_SCORE_GAIN", {player: `Player ${r.who}`, delta: r.delta, count: r.delta}));
                 resolved =true;
                 break;
         }

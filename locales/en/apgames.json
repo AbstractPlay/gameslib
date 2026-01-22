@@ -1099,6 +1099,9 @@
             "#board": {
                 "name": "7x7 board"
             },
+            "6x6": {
+                "name": "6x6 board"
+            },
             "5x5": {
                 "name": "5x5 board"
             }

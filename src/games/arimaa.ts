@@ -47,7 +47,7 @@ export class ArimaaGame extends GameBase {
         uid: "arimaa",
         playercounts: [2],
         version: "20251223",
-        dateAdded: "2025-12-23",
+        dateAdded: "2026-01-23",
         // i18next.t("apgames:descriptions.arimaa")
         description: "apgames:descriptions.arimaa",
         // i18next.t("apgames:notes.arimaa")
@@ -74,11 +74,11 @@ export class ArimaaGame extends GameBase {
             },
         ],
         variants: [
-            { uid: "eee", name: "Endless Endgame", group: "setup" },
-            { uid: "free", name: "Arbitrary Setup", group: "setup", unrated: true },
+            { uid: "eee", group: "setup" },
+            { uid: "free", group: "setup", unrated: true },
         ],
         categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
-        flags: ["experimental", "perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
+        flags: ["perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
     };
     public static coords2algebraic(x: number, y: number): string {
         return GameBase.coords2algebraic(x, y, 8);

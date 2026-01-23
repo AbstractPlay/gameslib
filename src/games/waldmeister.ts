@@ -57,6 +57,8 @@ export class WaldMeisterGame extends GameBase {
         // version: "20231225",
         // i18next.t("apgames:descriptions.waldmeister")
         description: "apgames:descriptions.waldmeister",
+        // i18next.t("apgames:notes.waldmeister")
+        notes: "apgames:notes.waldmeister",
         urls: ["https://boardgamegeek.com/boardgame/371135/waldmeister"],
         people: [
             {

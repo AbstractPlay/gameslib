@@ -482,7 +482,7 @@ export class ArimaaGame extends GameBase {
             ) {
                 // clicking off the board resets
                 if (row === -1 || col === -1) {
-                    const [pc, pstr] = piece!.split("");
+                    const [,pc, pstr] = piece!.split("");
                     const p = parseInt(pstr, 10);
                     newmove = `${stub}${stub.length > 0 ? "," : ""}${p === 1 ? pc : pc.toLowerCase()}`;
                 } else {
@@ -1170,11 +1170,24 @@ export class ArimaaGame extends GameBase {
         // add an area if the current player has pieces to place
         let areas: AreaPieces[]|undefined;
         if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) {
+            // add pieces to legend with wider click boxes to the legend
+            for (const [key, pc] of [...Object.entries(legend)]) {
+                if (key !== "T" && !Array.isArray(pc)) {
+                    const newkey = `p${key}`;
+                    legend[newkey] = [
+                        {
+                            name: "piece-square-borderless",
+                            colour: "_context_background",
+                        },
+                        {...pc} as Glyph,
+                    ];
+                }
+            }
             const pcs = this.hands[this.currplayer - 1].sort((a, b) => ArimaaGame.strength(b) - ArimaaGame.strength(a)).map(pc => `${pc}${this.currplayer}`);
             areas = [
                 {
                     type: "pieces",
-                    pieces: pcs as [string, ...string[]],
+                    pieces: pcs.map(pc => `p${pc}`) as [string, ...string[]],
                     label: i18next.t("apgames:validation.arimaa.LABEL_STASH", {playerNum: this.currplayer}) || `P${this.currplayer} Hand`,
                 }
             ];

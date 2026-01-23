@@ -2699,6 +2699,9 @@
             "size-9": {
                 "description": "Medium board with 5 neutral pieces.",
                 "name": "9x9 board"
+            },
+            "no-corners": {
+                "name": "No corner squares"
             }
         },
         "verge": {

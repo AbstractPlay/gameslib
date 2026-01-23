@@ -737,11 +737,14 @@ export class VeletasGame extends GameBase {
                 for (const cell of ray) {
                     // If there's a space in any direction, then the shooter is not blocked.
                     // Continue to the next shooter.
-                    if (!this.board.has(cell)) { continue blockedLoop; }
+                    if (!this.board.has(cell) && !this.blocked.cells.has(cell)) {
+                        continue blockedLoop;
+                    }
                     const contents = this.board.get(cell);
                     // If we see player pieces, then shooter is blocked in this direction.
+                    // It is undefined if you're in a blocked corner
                     // Break this ray and continue to next direction.
-                    if (contents === 1 || contents === 2) { break; }
+                    if (contents === 1 || contents === 2 || contents === undefined) { break; }
                     // Otherwise, if we see a shooter, claimed or unclaimed,
                     // we continue checking down down the ray.
                     // if (contents === 0 || contents === 3 || contents === 4) { continue; }

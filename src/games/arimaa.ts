@@ -347,9 +347,14 @@ export class ArimaaGame extends GameBase {
                                 }
                             }
                         }
-                        for (const [enemyPc, cell] of enemies) {
-                            if (ArimaaGame.strength(lastPc) > ArimaaGame.strength(enemyPc)) {
-                                moves.push(`${cloned.currplayer === 1 ? enemyPc.toLowerCase() : enemyPc}${cell}${lastFrom}`);
+                        // but this piece can't pull while pushing
+                        const classifications = ArimaaGame.classify(cloned.currplayer, sofar);
+                        const justPushed = classifications[classifications.length - 1] === "pusher";
+                        if (!justPushed) {
+                            for (const [enemyPc, cell] of enemies) {
+                                if (ArimaaGame.strength(lastPc) > ArimaaGame.strength(enemyPc)) {
+                                    moves.push(`${cloned.currplayer === 1 ? enemyPc.toLowerCase() : enemyPc}${cell}${lastFrom}`);
+                                }
                             }
                         }
                     }
@@ -387,6 +392,62 @@ export class ArimaaGame extends GameBase {
         }
 
         return moves;
+    }
+
+    // A very niche helper function to fix the "can't push pull at same time" issue
+    // Looks at each move in a chain and determines the nature of each.
+    // Naive. Just looks at the notation and sequence, not board context.
+    public static classify(player: playerid, moves: string[]): ("placement"|"pusher"|"puller"|"pushee"|"pullee"|"mover"|undefined)[] {
+        const classifications: ("placement"|"pusher"|"puller"|"pushee"|"pullee"|"mover"|undefined)[] = [];
+
+        for (let i = 0; i < moves.length; i++) {
+            const [, owner, from, to] = ArimaaGame.baseMove(moves[i]);
+            // if mine:
+            // - placement if to is undefined
+            // - pusher if previous was pushed
+            // - puller if next is enemy and moves into vacated space
+            // - mover otherwise
+            if (owner === player) {
+                if (to === undefined) {
+                    classifications.push("placement");
+                } else if (i > 0 && classifications[i - 1] === "pushee") {
+                    classifications.push("pusher");
+                } else {
+                    if (i < moves.length - 1) {
+                        const [, nextOwner, , nextTo] = ArimaaGame.baseMove(moves[i + 1]);
+                        if (nextOwner !== player && nextTo === from) {
+                            classifications.push("puller");
+                        } else {
+                            classifications.push("mover");
+                        }
+                    } else {
+                        classifications.push("mover");
+                    }
+                }
+            }
+            // if other:
+            // - pullee if previous is puller
+            // - pushee if previous is not puller and next is mine moving into space
+            // - undefined otherwise
+            else {
+                if (i > 0 && classifications[i - 1] === "puller") {
+                    classifications.push("pullee");
+                } else {
+                    if (i < moves.length - 1) {
+                        const [, nextOwner, , nextTo] = ArimaaGame.baseMove(moves[i + 1]);
+                        if (nextOwner === player && nextTo === from) {
+                            classifications.push("pushee");
+                        } else {
+                            classifications.push(undefined);
+                        }
+                    } else {
+                        classifications.push(undefined);
+                    }
+                }
+            }
+        }
+
+        return classifications;
     }
 
     private isFrozen(cell: string): boolean {
@@ -569,6 +630,7 @@ export class ArimaaGame extends GameBase {
             return result;
         }
 
+        const classifications = ArimaaGame.classify(this.currplayer, m.split(",").filter(Boolean));
         const steps = m.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
         // console.log(JSON.stringify({steps}));
         // placements are validated separately
@@ -759,7 +821,7 @@ export class ArimaaGame extends GameBase {
                 if (owner !== cloned.currplayer) {
                     // check for pulls first
                     let validPull = false;
-                    if (i > 0) {
+                    if (i > 0 && classifications[i - 1] !== "pusher") {
                         const [lastPc, lastPlayer, lastFrom] = steps[i - 1];
                         const ns = g.neighbours(from);
                         if (lastPlayer === cloned.currplayer && ns.includes(lastFrom!) && ArimaaGame.strength(lastPc) > ArimaaGame.strength(pc)) {

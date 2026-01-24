@@ -85,5 +85,29 @@ describe("Arimaa", () => {
         result = g.validateMove("ed7,hb7,hg7,ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7,cf7,ce7,dc7,dd8,me8");
         expect(result.message).to.equal(" WARN");
     });
+
+    it ("classifications", () => {
+        expect(ArimaaGame.classify(1, "Ra1,Ed4".split(","))).to.deep.equal(["placement", "placement"]);
+        expect(ArimaaGame.classify(2, "Ra1,Ed4".split(","))).to.deep.equal([undefined, undefined]);
+        expect(ArimaaGame.classify(1, "rd5d6,Ed4d5,rd3d4".split(","))).to.deep.equal(["pushee", "pusher", undefined]);
+        expect(ArimaaGame.classify(1, "Hd6d7,rd5d6,Ed4d5,rd3d4".split(","))).to.deep.equal(["puller", "pullee", "puller", "pullee"]);
+    });
+
+    it ("Push + Pull", () => {
+        // can't immediately push then pull
+        let g = new ArimaaGame(undefined, ["free"]);
+        g.move("Ra1,Ed4");
+        g.move("rd3,rd5");
+        let result = g.validateMove("rd5d6,Ed4d5,rd3d4");
+        expect(result.valid).to.be.false;
+
+        // but can pull out from then push into
+        g = new ArimaaGame(undefined, ["free"]);
+        g.move("Ra1,Ed4,Hd6");
+        g.move("rd5,rd3");
+        result = g.validateMove("Hd6d7,rd5d6,Ed4d5,rd3d4");
+        expect(result.valid).to.be.true;
+        expect(result.complete).to.equal(1);
+    });
 });
 

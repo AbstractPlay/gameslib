@@ -217,6 +217,7 @@
         "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "volo": "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock.' If a player ends up with one contiguous flock (of any size), he wins.",
+        "waldmeister": "Players take turns planting trees in an attempt to create groups of either colours or heights. Highest score after two rounds wins.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
         "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",

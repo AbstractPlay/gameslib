@@ -83,8 +83,6 @@ export class AzacruGame extends GameBase {
         dateAdded: "2025-02-19",
         // i18next.t("apgames:descriptions.azacru")
         description: "apgames:descriptions.azacru",
-        // i18next.t("apgames:notes.azacru")
-        notes: "apgames:notes.azacru",
         urls: ["https://boardgamegeek.com/boardgame/21065/azacru"],
         people: [
             {

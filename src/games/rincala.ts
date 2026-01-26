@@ -70,7 +70,7 @@ export class RincalaGame extends GameBase {
         uid: "rincala",
         playercounts: [2],
         version: "20260108",
-        dateAdded: "2026-01-08",
+        dateAdded: "2026-01-26",
         // i18next.t("apgames:descriptions.rincala")
         description: "apgames:descriptions.rincala",
         // i18next.t("apgames:notes.rincala")
@@ -93,7 +93,7 @@ export class RincalaGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>move>sow", "mechanic>capture", "board>shape>circle", "board>connect>linear", "components>simple>4c"],
-        flags: ["no-moves", "custom-randomization", "scores", "random-start", "experimental"]
+        flags: ["no-moves", "custom-randomization", "scores", "random-start"]
     };
 
     public static value(pc: Colour): number {

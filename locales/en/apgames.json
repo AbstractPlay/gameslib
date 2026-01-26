@@ -219,6 +219,7 @@
         "volo": "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock.' If a player ends up with one contiguous flock (of any size), he wins.",
         "waldmeister": "Players take turns planting trees in an attempt to create groups of either colours or heights. Highest score after two rounds wins.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
+        "wunchunk": "Unify your pieces as much as you can by the end of the game, while keeping your pieces separate in the early and mid-game so as to increase their power. Fewest groups at the end wins.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
         "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
         "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
@@ -2722,6 +2723,21 @@
             },
             "size-8": {
                 "name": "Size-8 board"
+            }
+        },
+        "wunchunk": {
+            "#board": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "hex5": {
+                "name": "Hexhex 5 (61 spaces)"
+            },
+            "hex7": {
+                "name": "Hexhex 7 (127 spaces)"
+            },
+            "hex8": {
+                "name": "Hexhex 8 (193 spaces)",
+                "description": "For 3 and 4 player games, the hex8 board will be selected automatically."
             }
         },
         "wyke": {
@@ -5657,6 +5673,17 @@
             "ORTHOGONAL": "Lines of pieces must be horizontal or vertical, never diagonal.",
             "PARTIAL": "Select another empty space to remove the pieces in between.",
             "UNBROKEN": "Lines of pieces must be unbroken by empty cells."
+        },
+        "wunchunk": {
+            "BOARD_FULL": "The board is full.",
+            "INITIAL_INSTRUCTIONS_one": "You may place up to {{count}} piece this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+            "INITIAL_INSTRUCTIONS_other": "You may place up to {{count}} pieces this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+            "INVALID_COLOUR": "The requested colour ({{colour}}) is invalid.",
+            "PARTIAL": "Select where you want to place that piece.",
+            "TOO_MANY_one": "You may only place up to {{count}} piece this turn.",
+            "TOO_MANY_other": "You may only place up to {{count}} pieces this turn.",
+            "VALID_BUT_one": "Valid so far. You can stop or place {{count}} more piece.",
+            "VALID_BUT_other": "Valid so far. You can stop or place {{count}} more pieces."
         },
         "wyke": {
             "CELL_CLAIMED": "The cell {{cell}} has already been claimed and cannot be interacted with further.",

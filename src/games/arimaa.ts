@@ -784,7 +784,7 @@ export class ArimaaGame extends GameBase {
                     ArimaaGame.algebraic2coords(from);
                 } catch {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {from});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
                     return result;
                 }
                 // from contents match

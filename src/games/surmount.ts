@@ -583,7 +583,7 @@ export class SurmountGame extends GameBase {
         const surr = new Set<string>(found.map(c => g.neighbours(c)).flat());
         const theirs = this.getGroups(this.currplayer === 1 ? 2 : 1);
         const touching = theirs.filter(grp => grp.some(c => surr.has(c)));
-        const smaller = touching.filter(grp => grp.length <= found.length);
+        const smaller = touching.filter(grp => grp.length < found.length);
         return smaller;
     }
 

@@ -438,7 +438,8 @@
         "emu_existing": "{{player}} використав {{what}}, щоб виростити птаха №{{where}}.",
         "emu_discard": "{{player}} викинув картку {{what}}.",
         "deckfish": "{{player}} поклав шматок на {{where}}.",
-        "stawvs": "{{player}} розмістив фішку на {{where}}."
+        "stawvs": "{{player}} розмістив фішку на {{where}}.",
+        "theirs_specific": "{{player}} розмістив фішку {{enemy}} на {{where}}."
     },
     "PROMOTE": {
         "basicWhere": "Твір при {{where}} був підвищений.",

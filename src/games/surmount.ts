@@ -26,7 +26,8 @@ export class SurmountGame extends GameBase {
         name: "Surmount",
         uid: "surmount",
         playercounts: [2],
-        version: "20250313",
+        // version: "20250313",
+        version: "20260120",
         dateAdded: "2025-03-21",
         // i18next.t("apgames:descriptions.surmount")
         description: "apgames:descriptions.surmount",
@@ -567,6 +568,25 @@ export class SurmountGame extends GameBase {
         }
     }
 
+    // to help with the new rules
+    // it's problematic because the notation is only telling you the enemy stone being captured
+    // so work back from that to find the capturing group, and then find all groups that touch it
+    private findOtherSmallerGroups(cell: string): string[][] {
+        const g = this.graph;
+        const ns = g.neighbours(cell);
+        const mine = this.getGroups(this.currplayer);
+        const found = mine.find(lst => ns.some(n => lst.includes(n)));
+        if (found === undefined) {
+            throw new Error(`Could not find a capturing group for ${cell}.`);
+        }
+        // get list of neighbouring cells
+        const surr = new Set<string>(found.map(c => g.neighbours(c)).flat());
+        const theirs = this.getGroups(this.currplayer === 1 ? 2 : 1);
+        const touching = theirs.filter(grp => grp.some(c => surr.has(c)));
+        const smaller = touching.filter(grp => grp.length <= found.length);
+        return smaller;
+    }
+
     public move(m: string, {partial = false, trusted = false} = {}): SurmountGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -589,16 +609,37 @@ export class SurmountGame extends GameBase {
         } else {
             // initial capture
             if (m.startsWith("x")) {
-                const cell = m.substring(1);
-                const group = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!;
-                // capture all stones in the group
-                for (const stone of group) {
-                    this.board.delete(stone);
+                // old rules
+                if (this.stack[0]._version === "20250313") {
+                    const cell = m.substring(1);
+                    const group = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!;
+                    // capture all stones in the group
+                    for (const stone of group) {
+                        this.board.delete(stone);
+                    }
+                    this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
+                    // place at designated place
+                    this.board.set(cell, this.currplayer);
+                    this.results.push({type: "place", where: cell});
                 }
-                this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
-                // place at designated place
-                this.board.set(cell, this.currplayer);
-                this.results.push({type: "place", where: cell});
+                // new rules
+                else {
+                    const cell = m.substring(1);
+                    const groups: string[][] = [
+                        this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!,
+                        ...this.findOtherSmallerGroups(cell),
+                    ];
+                    // capture all stones in the affected groups
+                    for (const group of groups) {
+                        for (const stone of group) {
+                            this.board.delete(stone);
+                        }
+                        this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
+                    }
+                    // place at designated place
+                    this.board.set(cell, this.currplayer);
+                    this.results.push({type: "place", where: cell});
+                }
             }
             // placements
             else {

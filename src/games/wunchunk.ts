@@ -20,6 +20,7 @@ export interface IMoveState extends IIndividualState {
 export interface IWunchunkState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
+    swapped?: boolean;
 };
 
 function encodeScore(arr: number[], base?: number): number {
@@ -65,9 +66,10 @@ export class WunchunkGame extends GameBase {
             { uid: "#board" },
             { uid: "hex7", group: "board" },
             { uid: "hex8", group: "board" },
+            { uid: "open" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>1per", "other>2+players"],
-        flags: ["experimental", "no-moves", "custom-randomization", "custom-buttons", "scores"]
+        flags: ["experimental", "no-moves", "custom-randomization", "custom-buttons", "scores", "pie", "custom-colours"]
     };
 
     public numplayers = 2;
@@ -78,6 +80,7 @@ export class WunchunkGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
+    public swapped?: boolean;
 
     constructor(state: number | IWunchunkState | string, variants?: string[]) {
         super();
@@ -104,26 +107,31 @@ export class WunchunkGame extends GameBase {
                     ["g9", 4], ["f8", 4],
                 ]);
             } else {
-                if (this.variants.includes("hex5")) {
-                    board = new Map<string, playerid>([
-                        ["f4", 1], ["f5", 1],
-                        ["d4", 2], ["d5", 2],
-                    ]);
-                } else if (this.variants.includes("hex7")) {
-                    board = new Map<string, playerid>([
-                        ["h6", 1], ["h7", 1],
-                        ["f6", 2], ["f7", 2],
-                    ]);
-                } else if (this.variants.includes("hex8")) {
-                    board = new Map<string, playerid>([
-                        ["i7", 1], ["i8", 1],
-                        ["g7", 2], ["g8", 2],
-                    ]);
+                if (this.variants.includes("open")) {
+                    this.swapped = false;
+                    board = new Map<string, playerid>();
                 } else {
-                    board= new Map<string, playerid>([
-                        ["g5", 1], ["g6", 1],
-                        ["e5", 2], ["e6", 2],
-                    ]);
+                    if (this.variants.includes("hex5")) {
+                        board = new Map<string, playerid>([
+                            ["f4", 1], ["f5", 1],
+                            ["d4", 2], ["d5", 2],
+                        ]);
+                    } else if (this.variants.includes("hex7")) {
+                        board = new Map<string, playerid>([
+                            ["h6", 1], ["h7", 1],
+                            ["f6", 2], ["f7", 2],
+                        ]);
+                    } else if (this.variants.includes("hex8")) {
+                        board = new Map<string, playerid>([
+                            ["i7", 1], ["i8", 1],
+                            ["g7", 2], ["g8", 2],
+                        ]);
+                    } else {
+                        board= new Map<string, playerid>([
+                            ["g5", 1], ["g6", 1],
+                            ["e5", 2], ["e6", 2],
+                        ]);
+                    }
                 }
             }
 
@@ -147,6 +155,7 @@ export class WunchunkGame extends GameBase {
             this.winner = [...state.winner];
             this.variants = state.variants;
             this.stack = [...state.stack];
+            this.swapped = state.swapped;
         }
         this.load();
     }
@@ -183,6 +192,13 @@ export class WunchunkGame extends GameBase {
         return new HexTriGraph(this.boardsize, (this.boardsize * 2) - 1);
     }
 
+    public getPlayerColour(p: playerid): number|string {
+        if (this.swapped) {
+            return p === 1 ? 2 : 1;
+        }
+        return p;
+    }
+
     public randomMove(): string {
         const chunks = this.countChunks();
         const possMoves: number[] = [];
@@ -203,8 +219,29 @@ export class WunchunkGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
+        if (this.variants.includes("open") && this.stack.length === 2) {
+            return [
+                {label: "playfirst", move: "swap"},
+                {label: "playsecond", move: "pass"},
+            ];
+        }
         return [{label: "pass", move: "pass"}];
     }
+
+    public isPieTurn(): boolean {
+        if (this.numplayers === 2 && !this.variants.includes("open") && this.stack.length === 2) {
+            return true;
+        }
+        return false;
+    }
+
+    public shouldOfferPie(): boolean {
+        if (this.numplayers === 2 && !this.variants.includes("open")) {
+            return true;
+        }
+        return false;
+    }
+
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         const g = this.graph;
@@ -239,20 +276,29 @@ export class WunchunkGame extends GameBase {
                 newmove = [...steps, piece!].join(",");
             } else {
                 const cell = g.coords2algebraic(col, row);
-                // if you click on a cell you've already placed, remove it
+                // if you click on a cell you've already placed, remove it or swap it
                 if (cloned.board.has(cell) && steps.some(m => m.endsWith(cell))) {
-                    const idx = steps.findIndex(m => m.endsWith(cell));
-                    if (idx >= 0) {
-                        steps.splice(idx, 1);
+                    if (lastPc === cloned.board.get(cell)!.toString()) {
+                        const idx = steps.findIndex(m => m.endsWith(cell));
+                        if (idx >= 0) {
+                            steps.splice(idx, 1);
+                        }
+                        newmove = [...steps, lastmove].filter(Boolean).join(",");
+                    } else {
+                        const p = lastPc === undefined ? this.currplayer.toString() : lastPc;
+                        const idx = steps.findIndex(m => m.endsWith(cell));
+                        if (idx >= 0) {
+                            steps[idx] = p + steps[idx].substring(1);
+                        }
+                        newmove = [...steps].filter(Boolean).join(",");
                     }
-                    newmove = [...steps, lastmove].filter(Boolean).join(",");
                 }
                 // otherwise, on empty spaces, place the piece
                 else if (!cloned.board.has(cell)) {
                     if (lastmove.length > 0) {
                         lastmove += cell;
                     } else {
-                        lastmove = `${this.currplayer}${cell}`;
+                        lastmove = `${this.swapped ? (this.currplayer === 1 ? 2 : 1) : this.currplayer}${cell}`;
                     }
                     newmove = [...steps, lastmove].join(",");
                 }
@@ -277,12 +323,16 @@ export class WunchunkGame extends GameBase {
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
-        const numChunks = this.countChunks();
+        let numChunks = this.countChunks();
+        if (this.variants.includes("open") && this.stack.length === 1) {
+            numChunks = 4;
+        }
 
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.wunchunk.INITIAL_INSTRUCTIONS", {count: numChunks});
+            result.canrender = true;
+            result.message = i18next.t("apgames:validation.wunchunk.INITIAL_INSTRUCTIONS", {count: numChunks, context: (this.variants.includes("open") && this.stack.length === 1) ? "setup" : (this.variants.includes("open") && this.stack.length === 2) ? "choose" : "play"});
             return result;
         }
 
@@ -291,6 +341,19 @@ export class WunchunkGame extends GameBase {
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            return result;
+        }
+
+        // swapping is only allowed in narrow circumstances
+        if (m === "swap") {
+            if (this.variants.includes("open") && this.stack.length === 2) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", {move: m});
             return result;
         }
 
@@ -307,13 +370,14 @@ export class WunchunkGame extends GameBase {
             result.message = i18next.t("apgames:validation.wunchunk.BOARD_FULL", {count: numChunks});
             return result;
         }
+        let cloned = this.clone();
         for (let i = 0; i < steps.length; i++) {
-            const cloned = this.clone();
+            cloned = this.clone();
             const step = steps[i];
             const pc = step[0];
             // valid pc
             const player: playerid = parseInt(pc, 10) as playerid;
-            if (isNaN(player) || (![1,2,3,4].includes(player))) {
+            if (isNaN(player) || (![1,2,3,4].slice(0, this.numplayers).includes(player))) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.wunchunk.INVALID_COLOUR", {colour: pc});
                 return result;
@@ -351,14 +415,53 @@ export class WunchunkGame extends GameBase {
         }
 
         // if we get here, we're good
-        const remaining = Math.min(numChunks - steps.length, empties.length - steps.length);
-        result.valid = true;
-        result.complete = remaining === 0 ? 1 : 0;
-        result.canrender = true;
-        result.message = remaining === 0 ?
-            i18next.t("apgames:validation._general.VALID_MOVE") :
-            i18next.t("apgames:validation.wunchunk.VALID_BUT", {count: remaining});
-        return result;
+        // first handle initial setup
+        if (this.variants.includes("open") && this.stack.length === 1) {
+            // validate chunks
+            for (let p = 1; p <= 2; p++) {
+                const [p1, p2] = [...cloned.board.entries()].filter(e => e[1] === p).map(e => e[0]);
+                if (p1 !== undefined && p2 !== undefined) {
+                    if (!g.neighbours(p1).includes(p2)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.wunchunk.SETUP_CHUNKS");
+                        return result;
+                    }
+                }
+                const mine = [...cloned.board.entries()].filter(e => e[1] === p);
+                if (mine.length > 2) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.wunchunk.SETUP_TOOMANY");
+                    return result;
+                }
+            }
+
+            const remaining = numChunks - steps.length;
+            if (remaining > 0) {
+                result.valid = true;
+                result.complete = -1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation.wunchunk.INITIAL_INSTRUCTIONS", {count: remaining, context: "setup"});
+                return result;
+            } else {
+                result.valid = true;
+                result.complete = 1;
+                result.canrender = true;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            }
+
+        }
+        // everything else
+        else {
+            const remaining = Math.min(numChunks - steps.length, empties.length - steps.length);
+            result.valid = true;
+            result.complete = remaining === 0 ? 1 : 0;
+            result.canrender = true;
+            result.message = remaining === 0 ?
+                i18next.t("apgames:validation._general.VALID_MOVE") :
+                i18next.t("apgames:validation.wunchunk.VALID_BUT", {count: remaining});
+            return result;
+        }
     }
 
     public move(m: string, {partial = false, trusted = false} = {}): WunchunkGame {
@@ -379,9 +482,17 @@ export class WunchunkGame extends GameBase {
         }
 
         this.results = [];
+        // passing
         if (m === "pass") {
             this.results.push({type: "pass"});
-        } else {
+        }
+        // setup
+        else if (m === "swap") {
+            this.swapped = true;
+            this.results.push({type: "swap", where: "global"});
+        }
+        // regular play
+        else {
             const steps = m.split(",").filter(Boolean);
             for (const step of steps) {
                 const pc = step[0];
@@ -400,8 +511,22 @@ export class WunchunkGame extends GameBase {
 
         if (partial) { return this; }
 
-        // update currplayer
         this.lastmove = m;
+        // if this is a swap, we need to insert a pass
+        if (this.results.find(r => r.type === "swap") !== undefined) {
+            // update currplayer
+            let newplayer = (this.currplayer as number) + 1;
+            if (newplayer > this.numplayers) {
+                newplayer = 1;
+            }
+            this.currplayer = newplayer as playerid;
+            this.saveState();
+            this.lastmove = "pass";
+            this.results = [{type: "pass"}];
+            // let the main loop take care of the rest
+        }
+
+        // update currplayer
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {
             newplayer = 1;
@@ -448,6 +573,11 @@ export class WunchunkGame extends GameBase {
                 }
             }
             this.winner = [...winners];
+
+            // if swapped, we need to invert these numbers
+            if (this.swapped && this.winner.length === 1) {
+                this.winner = [this.winner[0] === 1 ? 2 : 1];
+            }
         }
 
         if (this.gameover) {
@@ -539,7 +669,8 @@ export class WunchunkGame extends GameBase {
             variants: this.variants,
             gameover: this.gameover,
             winner: [...this.winner],
-            stack: [...this.stack]
+            stack: [...this.stack],
+            swapped: this.swapped,
         };
     }
 
@@ -642,6 +773,10 @@ export class WunchunkGame extends GameBase {
                 } else {
                     node.push(i18next.t("apresults:PLACE.theirs_specific", {player, where: r.where, enemy: `P${r.who}`}));
                 }
+                resolved = true;
+                break;
+            case "swap":
+                node.push(i18next.t("apresults:SWAP.wunchunk", {player}));
                 resolved = true;
                 break;
         }

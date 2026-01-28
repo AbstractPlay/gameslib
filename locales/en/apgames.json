@@ -2738,6 +2738,10 @@
             "hex8": {
                 "name": "Hexhex 8 (193 spaces)",
                 "description": "For 3 and 4 player games, the hex8 board will be selected automatically."
+            },
+            "open": {
+                "name": "Open placement",
+                "description": "Only applies to two-player games. Here the first player places a chunk of each colour and the second player chooses sides."
             }
         },
         "wyke": {
@@ -5675,10 +5679,15 @@
         },
         "wunchunk": {
             "BOARD_FULL": "The board is full.",
-            "INITIAL_INSTRUCTIONS_one": "You may place up to {{count}} piece this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
-            "INITIAL_INSTRUCTIONS_other": "You may place up to {{count}} pieces this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+            "INITIAL_INSTRUCTIONS_choose": "Use the buttons to choose whether to play first or second.",
+            "INITIAL_INSTRUCTIONS_play_one": "You may place up to {{count}} piece this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+            "INITIAL_INSTRUCTIONS_play_other": "You may place up to {{count}} pieces this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+            "INITIAL_INSTRUCTIONS_setup_one": "Create a chunk for each colour anywhere on the board ({{count}} piece remaining).",
+            "INITIAL_INSTRUCTIONS_setup_other": "Create a chunk for each colour anywhere on the board ({{count}} pieces remaining).",
             "INVALID_COLOUR": "The requested colour ({{colour}}) is invalid.",
             "PARTIAL": "Select where you want to place that piece.",
+            "SETUP_CHUNKS": "The pieces you place must be adjacent to each other (one chunk per player).",
+            "SETUP_TOOMANY": "You may only place one two-piece chunk for each player.",
             "TOO_MANY_one": "You may only place up to {{count}} piece this turn.",
             "TOO_MANY_other": "You may only place up to {{count}} pieces this turn.",
             "VALID_BUT_one": "Valid so far. You can stop or place {{count}} more piece.",

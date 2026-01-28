@@ -573,11 +573,6 @@ export class WunchunkGame extends GameBase {
                 }
             }
             this.winner = [...winners];
-
-            // if swapped, we need to invert these numbers
-            if (this.swapped && this.winner.length === 1) {
-                this.winner = [this.winner[0] === 1 ? 2 : 1];
-            }
         }
 
         if (this.gameover) {
@@ -593,6 +588,9 @@ export class WunchunkGame extends GameBase {
     public countChunks(player?: playerid): number {
         if (player === undefined) {
             player = this.currplayer;
+        }
+        if (this.swapped) {
+            player = player === 1 ? 2 : 1;
         }
         const g = this.graph.graph;
         for (const cell of [...g.nodes()]) {
@@ -648,7 +646,11 @@ export class WunchunkGame extends GameBase {
             candidates = nextCandidates;
         }
 
-        return scores.map(lst => lst.slice(0, cutoff + 1));
+        let results = scores.map(lst => lst.slice(0, cutoff + 1));
+        if (this.swapped) {
+            results = results.reverse();
+        }
+        return results;
     }
 
     public getPlayersScores(): IScores[] {

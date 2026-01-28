@@ -500,7 +500,8 @@ export class WunchunkGame extends GameBase {
                 const cell = step.substring(1);
                 if (cell !== "") {
                     this.board.set(cell, player);
-                    if (player === this.currplayer) {
+                    const realCurrPlayer = this.swapped ? (this.currplayer === 1 ? 2 : 1) : this.currplayer;
+                    if (player === realCurrPlayer) {
                         this.results.push({type: "place", what: "mine", where: cell});
                     } else {
                         this.results.push({type: "place", what: "theirs", who: player, where: cell});

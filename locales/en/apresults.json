@@ -559,7 +559,8 @@
         "deckfish": "{{player}} swapped {{what}} from the market with {{with}} at {{where}}.",
         "nex": "{{player}} swapped a piece of their colour at {{where}} to a neutral piece.",
         "nex_neutral": "{{player}} swapped a neutral piece at {{where}} to a piece of their colour.",
-        "resolve": "The piece is swapped to {{where}}."
+        "resolve": "The piece is swapped to {{where}}.",
+        "wunchunk": "{{player}} swapped seats, choosing to play first."
     },
     "TAKE": {
         "blastradius_one": "{{player}} removed one of their own pieces from {{where}}.",

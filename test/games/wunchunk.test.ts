@@ -27,5 +27,24 @@ describe("Wunchunk", () => {
         g.move("pass");
         expect(g.gameover).to.be.true;
     });
+    it ("Correct winner after swapping", () => {
+        const g = new WunchunkGame(2, ["hex5", "open"]);
+        const moves = [
+            "1e4,1f4,2f5,2f6",
+            "swap",
+            // "pass",
+            "1f7",
+            "2g4",
+            "1f8",
+            "2h3",
+            "1d3,1e7",
+            "pass",
+            "pass",
+        ];
+        moves.forEach(m => {
+            g.move(m);
+        });
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.deep.equal([1]);
+    });
 });
-

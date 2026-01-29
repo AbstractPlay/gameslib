@@ -718,7 +718,11 @@ export class AsliGame extends GameBase {
             });
             prisonPiece.push({
                 text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
-                colour: "_context_strokes",
+                colour: {
+                    func: "bestContrast",
+                    fg: ["_context_background", "_context_fill", "_context_label"],
+                    bg: this.prison[0] > 0 ? this.getPlayerColour(1) : this.getPlayerColour(2),
+                },
                 scale: 0.75,
                 rotate: null,
             });

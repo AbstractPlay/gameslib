@@ -2740,7 +2740,7 @@
                 "description": "For 3 and 4 player games, the hex8 board will be selected automatically."
             },
             "open": {
-                "name": "Open placement",
+                "name": "Open start",
                 "description": "Only applies to two-player games. Here the first player places a chunk of each colour and the second player chooses sides."
             }
         },

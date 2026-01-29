@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -670,6 +670,14 @@ export class TumbleweedGame extends GameBase {
                 showInfluence = false;
             }
         }
+        const bestContrast = (bg: string|number|Colourfuncs): Colourfuncs => {
+            return {
+                func: "bestContrast",
+                bg,
+                fg: ["_context_background", "_context_fill", "_context_label"],
+            };
+        };
+
         // Build piece string
         const legendNames: Set<string> = new Set();
         // A - player1 normal
@@ -743,32 +751,32 @@ export class TumbleweedGame extends GameBase {
             if (piece === "A" || piece === "B" || piece === "E") {
                 legend[name] = [
                     { name: "piece", colour: player },
-                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                    { text: sizeStr, colour: bestContrast(player), scale: 0.75 },
                 ]
             } else if (piece === "C" || piece === "D") {
                 legend[name] = [
                     { name: "piece-borderless", scale: 1.1, colour: player % 2 + 1 },
                     { name: "piece", colour: player },
-                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                    { text: sizeStr, colour: bestContrast(player), scale: 0.75 },
                 ]
             } else if (piece === "F") {
                 legend[name] = [
                     { name: "piece-borderless", scale: 1.1, colour: 1 },
                     { name: "piece", colour: player },
-                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                    { text: sizeStr, colour: bestContrast(player), scale: 0.75 },
                 ]
             } else if (piece === "G") {
                 legend[name] = [
                     { name: "piece-borderless", scale: 1.1, colour: 2 },
                     { name: "piece", colour: player },
-                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                    { text: sizeStr, colour: bestContrast(player), scale: 0.75 },
                 ]
             } else /* if (piece === "H") */ {
                 legend[name] = [
                     { name: "piece-borderless", scale: 1.1, colour: 1 },
                     { name: "piece-borderless", scale: 1.1, colour: 2 },
                     { name: "piece", colour: player },
-                    { text: sizeStr, colour: "#000", scale: 0.75 },
+                    { text: sizeStr, colour: bestContrast(player), scale: 0.75 },
                 ]
             }
         }

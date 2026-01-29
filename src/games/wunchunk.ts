@@ -41,7 +41,7 @@ export class WunchunkGame extends GameBase {
         uid: "wunchunk",
         playercounts: [2,3,4],
         version: "20260123",
-        dateAdded: "2026-01-23",
+        dateAdded: "2026-01-29",
         // i18next.t("apgames:descriptions.wunchunk")
         description: "apgames:descriptions.wunchunk",
         urls: [
@@ -69,7 +69,7 @@ export class WunchunkGame extends GameBase {
             { uid: "open" },
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>simple>1per", "other>2+players"],
-        flags: ["experimental", "no-moves", "custom-randomization", "custom-buttons", "scores", "pie", "custom-colours"]
+        flags: ["no-moves", "custom-randomization", "custom-buttons", "scores", "pie", "custom-colours"]
     };
 
     public numplayers = 2;

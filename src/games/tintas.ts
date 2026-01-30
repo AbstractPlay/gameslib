@@ -1,10 +1,12 @@
 import { Direction, Grid, rectangle, defineHex, Orientation } from "honeycomb-grid";
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, shuffle } from "../common";
 import i18next from "i18next";
+import { generateField, IHexCoord } from "../common/hexes";
+import { ModularBoard } from "../common/modular/board";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
@@ -23,6 +25,8 @@ export interface ITintasState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
     startpos: string;
+    // only needed for the modular board
+    ctrs?: IHexCoord[];
 };
 
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -51,6 +55,7 @@ export class TintasGame extends GameBase {
             {
                 type: "designer",
                 name: "Dieter Stein",
+                apid: "e7f53920-5be9-406a-9d5c-baa0316ab4f4",
                 urls: ["https://spielstein.com/"]
             },
             {
@@ -59,6 +64,12 @@ export class TintasGame extends GameBase {
                 urls: [],
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
+        ],
+        variants: [
+            {
+                uid: "modular",
+                experimental: true,
+            }
         ],
         categories: ["goal>set", "mechanic>set",  "mechanic>move", "mechanic>share", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>simple>7c"],
         flags: ["check", "pie", "automove", "shared-pieces", "random-start", "custom-rotation"]
@@ -125,8 +136,10 @@ export class TintasGame extends GameBase {
     public variants: string[] = [];
     public startpos!: string;
     public captured!: [CellContents[],CellContents[]];
+    public ctrs?: IHexCoord[];
+    private tboard?: ModularBoard = new ModularBoard();
 
-    constructor(state?: ITintasState | string) {
+    constructor(state?: ITintasState | string, variants?: string[]) {
         super();
         if (state !== undefined) {
             if (typeof state === "string") {
@@ -139,18 +152,37 @@ export class TintasGame extends GameBase {
             this.winner = [...state.winner];
             this.stack = [...state.stack];
             this.startpos = state.startpos;
+            this.variants = [...state.variants];
+            this.ctrs = deepclone(state.ctrs) as IHexCoord[]|undefined;
         } else {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
+
             const bag = shuffle("1111111222222233333334444444555555566666667777777".split("").map(n => parseInt(n, 10) as CellContents)) as CellContents[];
             this.startpos = bag.join("");
-            const board = new Map<string,CellContents>();
-            for (let y = 0; y < 8; y++) {
-                for (let x = 0; x < 9; x++) {
-                    const cell = TintasGame.coords2algebraic(x, y);
-                    if (TintasGame.blockedCells.includes(cell)) {
-                        continue;
+            const board: Map<string, CellContents> = new Map<string, CellContents>();
+            if (this.variants.includes("modular")) {
+                this.ctrs = generateField(7);
+                const tboard = new ModularBoard({centres: this.ctrs, orientation: Orientation.FLAT});
+                const cells = tboard.hexesOrdered.flat().map(h => tboard.hex2algebraic(h));
+                for (let i = 0; i < cells.length; i++) {
+                    const pc = bag.pop();
+                    if (pc === undefined) {
+                        throw new Error(`Not enough pieces for the board!`);
                     }
-                    const piece = bag.pop()!;
-                    board.set(cell, piece);
+                    board.set(cells[i], pc)
+                }
+            } else {
+                for (let y = 0; y < 8; y++) {
+                    for (let x = 0; x < 9; x++) {
+                        const cell = TintasGame.coords2algebraic(x, y);
+                        if (TintasGame.blockedCells.includes(cell)) {
+                            continue;
+                        }
+                        const piece = bag.pop()!;
+                        board.set(cell, piece);
+                    }
                 }
             }
             if (bag.length !== 0) {
@@ -188,6 +220,9 @@ export class TintasGame extends GameBase {
         this.lastmove = state.lastmove;
         this.pawnPos = state.pawnPos;
         this.captured = [[...state.captured[0]], [...state.captured[1]]];
+        if (this.ctrs !== undefined) {
+            this.tboard = new ModularBoard({centres: this.ctrs, orientation: Orientation.FLAT});
+        }
        return this;
     }
 
@@ -201,11 +236,16 @@ export class TintasGame extends GameBase {
 
         // if no pawn, place it anywhere
         if (this.pawnPos === undefined) {
-            for (let y = 0; y < 8; y++) {
-                for (let x = 0; x < 9; x++) {
-                    const cell = TintasGame.coords2algebraic(x, y);
-                    if (! TintasGame.blockedCells.includes(cell)) {
-                        moves.push(cell);
+            if (this.variants.includes("modular")) {
+                const cells = this.tboard!.hexes.map(h => this.tboard!.hex2algebraic(h));
+                cells.forEach(cell => moves.push(cell));
+            } else {
+                for (let y = 0; y < 8; y++) {
+                    for (let x = 0; x < 9; x++) {
+                        const cell = TintasGame.coords2algebraic(x, y);
+                        if (! TintasGame.blockedCells.includes(cell)) {
+                            moves.push(cell);
+                        }
                     }
                 }
             }
@@ -237,9 +277,13 @@ export class TintasGame extends GameBase {
 
     public findMoves(colour?:CellContents): string[] {
         const moves: string[] = [];
+        let castRay = TintasGame.castRay;
+        if (this.variants.includes("modular")) {
+            castRay = this.tboard!.castRay.bind(this.tboard);
+        }
 
         for (const dir of allHexDirs) {
-            const ray = TintasGame.castRay(this.pawnPos!, dir);
+            const ray = castRay(this.pawnPos!, dir);
             let next: string|undefined;
             for (const cell of ray) {
                 if (this.board.has(cell)) {
@@ -267,8 +311,12 @@ export class TintasGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         move = move.toLowerCase();
         move = move.replace(/\s+/g, "");
+        let coords2algebraic = TintasGame.coords2algebraic;
+        if (this.variants.includes("modular")) {
+            coords2algebraic = this.tboard!.graph.coords2algebraic.bind(this.tboard!.graph);
+        }
         try {
-            const cell = TintasGame.coords2algebraic(col, row);
+            const cell = coords2algebraic(col, row);
             let newmove = "";
 
             if (move.length === 0) {
@@ -311,6 +359,19 @@ export class TintasGame extends GameBase {
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
+        let algebraic2coords = TintasGame.algebraic2coords;
+        if (this.variants.includes("modular")) {
+            algebraic2coords = this.tboard!.graph.algebraic2coords.bind(this.tboard!.graph);
+        }
+        let castRay = TintasGame.castRay;
+        if (this.variants.includes("modular")) {
+            castRay = this.tboard!.castRay.bind(this.tboard);
+        }
+        let blockedCells = TintasGame.blockedCells;
+        if (this.variants.includes("modular")) {
+            blockedCells = this.tboard!.blockedCells;
+        }
+
         if (m === "") {
             result.valid = true;
             result.complete = -1;
@@ -325,13 +386,13 @@ export class TintasGame extends GameBase {
         if (this.pawnPos === undefined) {
             // move must be a valid cell
             try {
-                TintasGame.algebraic2coords(m);
+                algebraic2coords(m);
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
                 return result;
             }
-            if (TintasGame.blockedCells.includes(m)) {
+            if (blockedCells.includes(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
                 return result;
@@ -369,7 +430,7 @@ export class TintasGame extends GameBase {
         // check for rare occurrence of no visible pieces
         let canSee = false;
         for (const dir of allHexDirs) {
-            const ray = TintasGame.castRay(this.pawnPos, dir);
+            const ray = castRay(this.pawnPos, dir);
             for (const r of ray) {
                 if (this.board.has(r)) {
                     canSee = true;
@@ -382,7 +443,7 @@ export class TintasGame extends GameBase {
         if (! canSee) {
             // target cell is valid
             try {
-                TintasGame.algebraic2coords(cells[1])
+                algebraic2coords(cells[1])
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: cells[1]});
@@ -407,7 +468,7 @@ export class TintasGame extends GameBase {
         for (const cell of cells.slice(1)) {
             // cell is valid
             try {
-                TintasGame.algebraic2coords(cell)
+                algebraic2coords(cell)
             } catch {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: m});
@@ -453,7 +514,7 @@ export class TintasGame extends GameBase {
         // at this point, `cloned` is up to date
         let complete: 0|1|-1|undefined = 1;
         for (const dir of allHexDirs) {
-            const ray = TintasGame.castRay(cloned.pawnPos!, dir);
+            const ray = castRay(cloned.pawnPos!, dir);
             for (const r of ray) {
                 if (cloned.board.has(r)) {
                     const contents = cloned.board.get(r)!;
@@ -485,8 +546,12 @@ export class TintasGame extends GameBase {
      * @memberof TintasGame
      */
     public findRay(from: string, to: string): string[] {
+        let castRay = TintasGame.castRay;
+        if (this.variants.includes("modular")) {
+            castRay = this.tboard!.castRay.bind(this.tboard);
+        }
         for (const dir of allHexDirs) {
-            const ray = TintasGame.castRay(from, dir);
+            const ray = castRay(from, dir);
             if (ray.includes(to)) {
                 return ray;
             }
@@ -634,11 +699,12 @@ export class TintasGame extends GameBase {
         return {
             game: TintasGame.gameinfo.uid,
             numplayers: 2,
-            variants: [],
+            variants: [...this.variants],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack],
             startpos: this.startpos,
+            ctrs: deepclone(this.ctrs) as IHexCoord[]|undefined,
         };
     }
 
@@ -659,11 +725,27 @@ export class TintasGame extends GameBase {
         // Build piece string
         const pieces: string[][] = [];
         const letters = "ABCDEFG";
-        for (let row = 0; row < 8; row++) {
+        let height = 8;
+        let width = 9;
+        let blockedCells = TintasGame.blockedCells;
+        let coords2algebraic = TintasGame.coords2algebraic;
+        let algebraic2coords = TintasGame.algebraic2coords;
+        // let style: "hex-even-f" | "hex-odd-f" = "hex-odd-f";
+        if (this.variants.includes("modular")) {
+            height = this.tboard!.height;
+            width = this.tboard!.width;
+            blockedCells = this.tboard!.blockedCells;
+            coords2algebraic = this.tboard!.graph.coords2algebraic.bind(this.tboard!.graph);
+            algebraic2coords = this.tboard!.graph.algebraic2coords.bind(this.tboard!.graph);
+            // if (this.tboard!.graph.offset === 1) {
+            //      style = "hex-even-f";
+            // }
+        }
+        for (let row = 0; row < height; row++) {
             const node: string[] = [];
-            for (let col = 0; col < 9; col++) {
-                const cell = TintasGame.coords2algebraic(col, row);
-                if ( (TintasGame.blockedCells.includes(cell)) || (! this.board.has(cell)) ) {
+            for (let col = 0; col < width; col++) {
+                const cell = coords2algebraic(col, row);
+                if ( (blockedCells.includes(cell)) || (! this.board.has(cell)) ) {
                     node.push("-");
                 } else if (this.board.has(cell)) {
                     const colour = this.board.get(cell)!;
@@ -672,40 +754,16 @@ export class TintasGame extends GameBase {
             }
             pieces.push(node);
         }
-        let pstr: string = pieces.map(r => r.join("")).join("\n");
-        pstr = pstr.replace(/-{9}/g, "_");
+        const pstr: string = pieces.map(r => r.join("")).join("\n");
+        // pstr = pstr.replace(/-{9}/g, "_");
 
         // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "hex-even-f",
-                width: 9,
-                height: 8,
-                blocked: [
-                    {row: 0, col: 0},
-                    {row: 0, col: 1},
-                    {row: 0, col: 5},
-                    {row: 0, col: 7},
-                    {row: 0, col: 8},
-                    {row: 1, col: 0},
-                    {row: 1, col: 1},
-                    {row: 1, col: 8},
-                    {row: 2, col: 8},
-                    {row: 4, col: 0},
-                    {row: 5, col: 0},
-                    {row: 5, col: 8},
-                    {row: 6, col: 0},
-                    {row: 6, col: 7},
-                    {row: 6, col: 8},
-                    {row: 7, col: 0},
-                    {row: 7, col: 1},
-                    {row: 7, col: 2},
-                    {row: 7, col: 3},
-                    {row: 7, col: 4},
-                    {row: 7, col: 6},
-                    {row: 7, col: 7},
-                    {row: 7, col: 8},
-                ],
+                width,
+                height,
+                blocked: blockedCells.map(hex => algebraic2coords(hex)).map(([col, row]) => ({row, col})) as [RowCol, ...RowCol[]],
             },
             legend: {
                 A: {
@@ -745,7 +803,7 @@ export class TintasGame extends GameBase {
         };
 
         if (this.pawnPos !== undefined) {
-            const [col, row] = TintasGame.algebraic2coords(this.pawnPos);
+            const [col, row] = algebraic2coords(this.pawnPos);
             (rep.board as BoardBasic).markers = [{
                 type: "glyph",
                 glyph: "X",
@@ -774,11 +832,11 @@ export class TintasGame extends GameBase {
             rep.annotations = [];
             for (const move of this.results) {
                 if (move.type === "move") {
-                    const [fromX, fromY] = TintasGame.algebraic2coords(move.from);
-                    const [toX, toY] = TintasGame.algebraic2coords(move.to);
+                    const [fromX, fromY] = algebraic2coords(move.from);
+                    const [toX, toY] = algebraic2coords(move.to);
                     rep.annotations.push({type: "move", arrow: false, targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
                 } else if (move.type === "place") {
-                    const [x, y] = TintasGame.algebraic2coords(move.where!);
+                    const [x, y] = algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }
             }
@@ -798,7 +856,7 @@ export class TintasGame extends GameBase {
             for (const m of moves) {
                 const cloned = this.clone();
                 cloned.currplayer = otherPlayer;
-                cloned.move(m);
+                cloned.move(m, {trusted: true});
                 if ( (cloned.gameover) && (cloned.winner.includes(otherPlayer)) ) {
                     checked.push(p);
                     break;
@@ -812,12 +870,22 @@ export class TintasGame extends GameBase {
         if ( (this.startpos !== undefined) && (this.startpos.length > 0) ) {
             return this.startpos;
         }
+        let height = 8;
+        let width = 9;
+        let blockedCells = TintasGame.blockedCells;
+        let coords2algebraic = TintasGame.coords2algebraic;
+        if (this.variants.includes("modular")) {
+            height = this.tboard!.height;
+            width = this.tboard!.width;
+            blockedCells = this.tboard!.blockedCells;
+            coords2algebraic = this.tboard!.graph.coords2algebraic.bind(this.tboard!.graph);
+        }
         const board = this.stack[0].board;
         const colours = [];
-        for (let y = 0; y < 8; y++) {
-            for (let x = 0; x < 9; x++) {
-                const cell = TintasGame.coords2algebraic(x, y);
-                if (TintasGame.blockedCells.includes(cell)) {
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                const cell = coords2algebraic(x, y);
+                if (blockedCells.includes(cell)) {
                     continue;
                 }
                 colours.push(board.get(cell)!);

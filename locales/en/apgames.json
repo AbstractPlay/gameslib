@@ -2567,6 +2567,12 @@
                 "description": "This variant expands the capturing options, leading to a more aggressive game."
             }
         },
+        "tintas": {
+            "modular": {
+                "name": "Modular board (7 cells, 49 spaces)",
+                "description": "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points."
+            }
+        },
         "trax": {
             "loop": {
                 "name": "Loop Trax",

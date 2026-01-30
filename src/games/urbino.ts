@@ -43,6 +43,7 @@ export class UrbinoGame extends GameBase {
             {
                 type: "designer",
                 name: "Dieter Stein",
+                apid: "e7f53920-5be9-406a-9d5c-baa0316ab4f4",
                 urls: ["https://spielstein.com/"]
             },
             {
@@ -1023,7 +1024,7 @@ export class UrbinoGame extends GameBase {
     public findValidPlacementPoints(): string[] {
         const intersectionPoints = this.findPoints();
         const validPoints: string[] = [];
-        
+
         for (const cell of intersectionPoints) {
             // Check if any piece can be placed here
             let canPlaceAny = false;
@@ -1041,7 +1042,7 @@ export class UrbinoGame extends GameBase {
                 validPoints.push(cell);
             }
         }
-        
+
         return validPoints;
     }
 

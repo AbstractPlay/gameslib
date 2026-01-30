@@ -709,33 +709,27 @@ export class AsliGame extends GameBase {
             }
             pstr += pieces.join("");
         }
-        // pstr = pstr.replace(/-{4}/g, "_");
 
-        const hasPrison = this.prison.reduce((prev, curr) => prev + curr, 0) > 0;
+        const hasPrison = this.prison[0] > 0 || this.prison[1] > 0;
         const prisonPiece: Glyph[] = [];
+        prisonPiece.push({
+            name: hasPrison ? "piece" : "piece-borderless",
+            colour: this.getPrisonColour(swapPrison),
+            scale: 0.85
+        });
         if (hasPrison) {
-            prisonPiece.push({
-                name: "piece",
-                colour: this.prison[0] > 0 ? this.getPlayerColour(swapPrison ? 2 : 1) : this.getPlayerColour(swapPrison ? 1 : 2),
-                scale: 0.85,
-            });
             prisonPiece.push({
                 text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
                 colour: {
                     func: "bestContrast",
                     fg: ["_context_background", "_context_fill", "_context_label"],
-                    bg: this.prison[0] > 0 ? this.getPlayerColour(swapPrison ? 2 : 1) : this.getPlayerColour(swapPrison ? 1 : 2),
+                    bg: this.getPrisonColour(swapPrison)
                 },
                 scale: 0.75,
-                rotate: null,
-            });
-        } else {
-            prisonPiece.push({
-                name: "piece-borderless",
-                colour: "_context_background",
-                scale: 0.85,
+                rotate: null
             });
         }
+
         // Build rep
         const rep: APRenderRep =  {
             board: {
@@ -866,6 +860,20 @@ export class AsliGame extends GameBase {
                 }
             }
         }
+    }
+
+    public getPrisonColour(swapPrison: boolean): number|string {
+        if (this.prison[0] === 0 && this.prison[1] === 0) {
+            return "_context_background";
+        }
+        let swap = swapPrison;
+        if (this.stack.length > 2 && this.stack[2].lastmove !== "pass") {
+            swap = !swap;
+        }
+        if (this.prison[1] > 0) {
+            swap = !swap;
+        }
+        return swap ? 2 : 1;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

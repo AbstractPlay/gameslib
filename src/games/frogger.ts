@@ -1722,6 +1722,9 @@ export class FroggerGame extends GameBase {
 
                     if (subIFM.from) {
                         results.push({type: "move", from: subIFM.from, to: subIFM.to!, what: subIFM.card!, how: "back"});
+                    } else {
+                        //This is the blocked case.
+                        results.push({type: "claim", what: subIFM.card!});
                     }
                 } else if (subIFM.to) {
                     if (partial) {

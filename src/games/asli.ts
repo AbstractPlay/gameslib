@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores, IRenderOpts } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -67,7 +67,8 @@ export class AsliGame extends GameBase {
             {uid: "setkomi", group: "komi"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["custom-buttons", "no-moves", "custom-randomization", "scores", "custom-colours"]
+        flags: ["custom-buttons", "no-moves", "custom-randomization", "scores", "custom-colours"],
+        displays: [{uid: "swap-prison"}]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -683,7 +684,9 @@ export class AsliGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        const swapPrison = (opts !== undefined && opts.altDisplay !== undefined && opts.altDisplay === "swap-prison");
+
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardsize; row++) {
@@ -713,7 +716,7 @@ export class AsliGame extends GameBase {
         if (hasPrison) {
             prisonPiece.push({
                 name: "piece",
-                colour: this.prison[0] > 0 ? this.getPlayerColour(1) : this.getPlayerColour(2),
+                colour: this.prison[0] > 0 ? this.getPlayerColour(swapPrison ? 2 : 1) : this.getPlayerColour(swapPrison ? 1 : 2),
                 scale: 0.85,
             });
             prisonPiece.push({
@@ -721,7 +724,7 @@ export class AsliGame extends GameBase {
                 colour: {
                     func: "bestContrast",
                     fg: ["_context_background", "_context_fill", "_context_label"],
-                    bg: this.prison[0] > 0 ? this.getPlayerColour(1) : this.getPlayerColour(2),
+                    bg: this.prison[0] > 0 ? this.getPlayerColour(swapPrison ? 2 : 1) : this.getPlayerColour(swapPrison ? 1 : 2),
                 },
                 scale: 0.75,
                 rotate: null,

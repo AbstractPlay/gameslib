@@ -28,7 +28,7 @@ export class BambooGame extends GameBase {
         uid: "bamboo",
         playercounts: [2],
         version: "20260129",
-        dateAdded: "2026-01-29",
+        dateAdded: "2026-01-30",
         // i18next.t("apgames:descriptions.bamboo")
         description: "apgames:descriptions.bamboo",
         urls: ["https://www.marksteeregames.com/Bamboo_rules.pdf"],
@@ -51,7 +51,7 @@ export class BambooGame extends GameBase {
             {uid: "#board"},
         ],
         categories: ["goal>immobilize", "mechanic>place", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["automove", "limited-pieces", "experimental"]
+        flags: ["automove", "limited-pieces"]
     };
 
     public numplayers = 2;

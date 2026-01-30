@@ -2745,7 +2745,7 @@
                 "name": "Hexhex 7 (127 spaces)"
             },
             "hex8": {
-                "name": "Hexhex 8 (193 spaces)",
+                "name": "Hexhex 8 (169 spaces)",
                 "description": "For 3 and 4 player games, the hex8 board will be selected automatically."
             },
             "open": {

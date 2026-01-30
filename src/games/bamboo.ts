@@ -27,8 +27,8 @@ export class BambooGame extends GameBase {
         name: "Bamboo",
         uid: "bamboo",
         playercounts: [2],
-        version: "20250119",
-        dateAdded: "2025-01-20",
+        version: "20260129",
+        dateAdded: "2026-01-29",
         // i18next.t("apgames:descriptions.bamboo")
         description: "apgames:descriptions.bamboo",
         urls: ["https://www.marksteeregames.com/Bamboo_rules.pdf"],

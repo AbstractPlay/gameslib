@@ -1617,9 +1617,6 @@
             "size-17": {
                 "name": "17x17 board"
             },
-            "#rules": {
-                "name": "Default rules"
-            },
             "simplified": {
                 "name": "Minimorph",
                 "description": "Faster game with simplified capture formations. Deadlocks are not possible."
@@ -2100,9 +2097,8 @@
             "#board": {
                 "name": "13x13 board"
             },
-            "#ruleset": {
+            "#rules": {
                 "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
-                "name": "Default rules"
             },
             "basic": {
                 "description": "A swap must decrease the number of crosscuts. Draws are possible.",
@@ -2702,8 +2698,7 @@
                 "description": "Default board with 7 neutral pieces."
             },
             "#setup": {
-                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins.",
-                "name": "Freestyle setup"
+                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins."
             },
             "random": {
                 "description": "The starting board has shooters in randomised position. The first player makes a normal move and the second player decides if they want to invoke the pie rule.",

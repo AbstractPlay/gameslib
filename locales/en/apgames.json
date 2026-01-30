@@ -2809,6 +2809,12 @@
                 "name": "Hide threatened"
             }
         },
+        "asli": {
+            "swap-prison": {
+                "description": "Swap the color of the pieces in the prison.",
+                "name": "Swap prison colors"
+            }
+        },
         "atoll": {
             "show-labels": {
                 "description": "Show labels for each cell.",

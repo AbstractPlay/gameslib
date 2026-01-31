@@ -68,6 +68,7 @@ export class TintasGame extends GameBase {
         variants: [
             {
                 uid: "modular",
+                group: "board",
                 experimental: true,
             }
         ],

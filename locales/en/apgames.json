@@ -2564,6 +2564,9 @@
             }
         },
         "tintas": {
+            "#board": {
+                "description": "A square-ish hex field of 49 spaces"
+            },
             "modular": {
                 "name": "Modular board (7 cells, 49 spaces)",
                 "description": "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points."

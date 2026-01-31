@@ -2565,7 +2565,7 @@
         },
         "tintas": {
             "#board": {
-                "description": "A square-ish hex field of 49 spaces"
+                "description": "A round-ish hex field of 49 spaces"
             },
             "modular": {
                 "name": "Modular board (7 cells, 49 spaces)",

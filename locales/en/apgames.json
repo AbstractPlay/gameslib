@@ -2098,7 +2098,7 @@
                 "name": "13x13 board"
             },
             "#rules": {
-                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
+                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts."
             },
             "basic": {
                 "description": "A swap must decrease the number of crosscuts. Draws are possible.",

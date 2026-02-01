@@ -181,6 +181,7 @@ import { ChurnGame, IChurnState } from "./churn";
 import { PenguinGame, IPenguinState } from "./penguin";
 import { OwlmanGame, IOwlmanState } from "./owlman";
 import { SquaredanceGame, ISquaredanceState } from "./squaredance";
+import { SquavaGame, ISquavaState } from "./squava";
 import { MegGame, IMegState } from "./meg";
 import { YonmoqueGame, IYonmoqueState } from "./yonmoque";
 import { ChameleonGame, IChameleonState } from "./chameleon";
@@ -408,6 +409,7 @@ export {
     PenguinGame, IPenguinState,
     OwlmanGame, IOwlmanState,
     SquaredanceGame, ISquaredanceState,
+    SquavaGame, ISquavaState,
     MegGame, IMegState,
     YonmoqueGame, IYonmoqueState,
     ChameleonGame, IChameleonState,
@@ -529,7 +531,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof EmergoGame | typeof FroggerGame | typeof ArimaaGame |
                               typeof RampartGame | typeof KrypteGame | typeof EnsoGame |
                               typeof RincalaGame | typeof WaldMeisterGame | typeof WunchunkGame |
-                              typeof BambooGame
+                              typeof BambooGame | typeof SquavaGame
                 >();
 // Manually add each game to the following array
 [
@@ -564,7 +566,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
-    WaldMeisterGame, WunchunkGame, BambooGame,
+    WaldMeisterGame, WunchunkGame, BambooGame, SquavaGame,
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -938,6 +940,8 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new OwlmanGame(...args);
         case "squaredance":
             return new SquaredanceGame(...args);
+        case "squava":
+            return new SquavaGame(...args);
         case "meg":
             return new MegGame(...args);
         case "yonmoque":

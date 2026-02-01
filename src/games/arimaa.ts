@@ -1283,6 +1283,16 @@ export class ArimaaGame extends GameBase {
                                 row: 5
                             }
                         ]
+                    },
+                    {
+                        type: "edge",
+                        colour: this.getPlayerColour(1),
+                        edge: "S",
+                    },
+                    {
+                        type: "edge",
+                        colour: this.getPlayerColour(2),
+                        edge: "N",
                     }
                 ]
             },

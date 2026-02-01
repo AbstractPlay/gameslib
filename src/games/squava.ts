@@ -44,7 +44,7 @@ export class SquavaGame extends InARowBase {
             },
         ],
         categories: ["goal>align", "mechanic>place", "board>shape>rect"],
-        flags: ["pie"],
+        flags: ["pie","experimental"],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -222,7 +222,7 @@ export class SquavaGame extends InARowBase {
     }
 
     /**
-     * Helper function: checks if a given player has a three in-a-row
+     * Helper function: checks if a given player has a <size> in-a-row
      */
     private hasRow(player: playerid, size: number): boolean {
         const grid = new RectGrid(this.boardSize, this.boardSize);
@@ -231,14 +231,14 @@ export class SquavaGame extends InARowBase {
                 for (const dir of ["W","SW","S","SE","E"] as const) {
                     const ray = [[x,y] as [number,number], ...grid.ray(x, y, dir)].map(node => this.coords2algebraic(...node));
                     if (ray.length >= size) {
-                        let three = true;
+                        let found = true;
                         for (const cell of ray.slice(0,size)) {
                             if ( (! this.board.has(cell)) || (this.board.get(cell)! !== player) ) {
-                                three = false;
+                                found = false;
                                 break;
                             }
                         }
-                        if (three) {
+                        if (found) {
                             return true;
                         }
                     }
@@ -261,7 +261,6 @@ export class SquavaGame extends InARowBase {
         this.winningLines = [];
         for (const player of [1, 2] as playerid[]) {
             if (winningLinesMap.get(player)!.length > 0) {
-                this.winner.push(player);
                 this.winningLines.push(...winningLinesMap.get(player)!);
             }
         }
@@ -349,8 +348,8 @@ export class SquavaGame extends InARowBase {
                 height: this.boardSize,
             },
             legend: {
-                A: [{ name: "piece", colour: this.getPlayerColour(1) as playerid }],
-                B: [{ name: "piece", colour: this.getPlayerColour(2) as playerid }],
+                A: [{ name: "piece", colour: 1 }],
+                B: [{ name: "piece", colour: 2 }],
             },            
             pieces: pstr
         };

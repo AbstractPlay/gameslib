@@ -5309,7 +5309,7 @@
             "PARTIAL_ENDSTONE": "Select the end stone. This is the stone that will move the furthest."
         },
         "squava": {
-            "INITIAL_INSTRUCTIONS": "Place a stone on an empty position."
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a stone."
         },
         "stairs": {
             "NORMAL_MOVE": "Choose a piece to move.",

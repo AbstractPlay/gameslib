@@ -298,7 +298,14 @@ export class WunchunkGame extends GameBase {
                     if (lastmove.length > 0) {
                         lastmove += cell;
                     } else {
-                        lastmove = `${this.swapped ? (this.currplayer === 1 ? 2 : 1) : this.currplayer}${cell}`;
+                        // during setup, assume four bare clicks are red, red, blue, blue
+                        if (this.variants.includes("open") && this.stack.length === 1) {
+                            lastmove = `${steps.length < 2 ? 1 : 2}${cell}`;
+                        }
+                        // otherwise bare clicks assume current player
+                        else {
+                            lastmove = `${this.swapped ? (this.currplayer === 1 ? 2 : 1) : this.currplayer}${cell}`;
+                        }
                     }
                     newmove = [...steps, lastmove].join(",");
                 }

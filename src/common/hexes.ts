@@ -380,7 +380,6 @@ export const generateField = (numModules: number): IHexCoord[] => {
         ];
     }
 
-     
     const selectCtr = (ctrs: Set<string>, filled: Set<string>): [number,number] => {
         const chooseFrom = shuffle([...ctrs.values()].map(c => c.split(",").map(n => parseInt(n, 10)))) as [number,number][];
         // for each known ctr, select one at random until one works

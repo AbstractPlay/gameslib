@@ -41,7 +41,8 @@ export class AbandeGame extends GameBase {
             {
                 type: "designer",
                 name: "Dieter Stein",
-                urls: ["https://spielstein.com/"]
+                urls: ["https://spielstein.com/"],
+                apid: "e7f53920-5be9-406a-9d5c-baa0316ab4f4",
             },
             {
                 type: "coder",

@@ -1617,9 +1617,6 @@
             "size-17": {
                 "name": "17x17 board"
             },
-            "#rules": {
-                "name": "Default rules"
-            },
             "simplified": {
                 "name": "Minimorph",
                 "description": "Faster game with simplified capture formations. Deadlocks are not possible."
@@ -2100,9 +2097,8 @@
             "#board": {
                 "name": "13x13 board"
             },
-            "#ruleset": {
-                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
-                "name": "Default rules"
+            "#rules": {
+                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts."
             },
             "basic": {
                 "description": "A swap must decrease the number of crosscuts. Draws are possible.",
@@ -2567,6 +2563,15 @@
                 "description": "This variant expands the capturing options, leading to a more aggressive game."
             }
         },
+        "tintas": {
+            "#board": {
+                "description": "A round-ish hex field of 49 spaces"
+            },
+            "modular": {
+                "name": "Modular board (7 cells, 49 spaces)",
+                "description": "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points."
+            }
+        },
         "trax": {
             "loop": {
                 "name": "Loop Trax",
@@ -2696,8 +2701,7 @@
                 "description": "Default board with 7 neutral pieces."
             },
             "#setup": {
-                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins.",
-                "name": "Freestyle setup"
+                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins."
             },
             "random": {
                 "description": "The starting board has shooters in randomised position. The first player makes a normal move and the second player decides if they want to invoke the pie rule.",
@@ -3526,7 +3530,8 @@
             "NOPASS": "You may not make a move that does not change the board state (no passing).",
             "NOPIECE": "Trying to place a piece you don't have in your hand: {{piece}}.",
             "NOT_ADJ": "Pieces may only move one space orthogonally.",
-            "PARTIAL": "You may continue making moves, or click Complete Move to end your turn.",
+            "PARTIAL_one": "You may make {{count}} more move, or click Complete Move to end your turn.",
+            "PARTIAL_other": "You may make {{count}} more moves, or click Complete Move to end your turn.",
             "PARTIAL_MOVE": "Select the destination.",
             "PARTIAL_PLACE": "Click an empty cell to place the piece.",
             "PARTIAL_PLAY": "Continue placing your pieces.",

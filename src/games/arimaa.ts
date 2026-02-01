@@ -936,8 +936,9 @@ export class ArimaaGame extends GameBase {
             }
             // if the number of moves are < max moves, then 0
             else if (steps.length < maxMoves) {
+                const remaining = maxMoves - steps.length;
                 complete = 0;
-                message = i18next.t("apgames:validation.arimaa.PARTIAL");
+                message = i18next.t("apgames:validation.arimaa.PARTIAL", {count: remaining});
             }
             // otherwise we're good
             else {

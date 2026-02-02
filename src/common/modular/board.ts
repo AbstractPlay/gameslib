@@ -265,4 +265,16 @@ export class ModularBoard {
         }
         return blocked;
     }
+
+    public neighbours(hex: ModularHex): ModularHex[] {
+        const g = this.grid;
+        const ns: ModularHex[] = [];
+        for (const dir of hex.directions) {
+            const n = g.neighborOf(hex, dir, {allowOutside: true});
+            if (this.getHexAtAxial(n.q, n.r) !== undefined) {
+                ns.push(n);
+            }
+        }
+        return ns;
+    }
 }

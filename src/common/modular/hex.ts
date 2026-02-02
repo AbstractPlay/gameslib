@@ -1,4 +1,4 @@
-import { defineHex, Orientation, Hex, type HexOffset } from "honeycomb-grid";
+import { defineHex, Direction, Orientation, Hex, type HexOffset } from "honeycomb-grid";
 
 export type HexArgs = {q: number; r: number};
 
@@ -6,6 +6,7 @@ export interface ModularHex extends Hex {
     uid: string;
     col: number;
     row: number;
+    directions: Direction[];
     dupe(): ModularHex;
 }
 
@@ -27,6 +28,14 @@ export const createModularHex = (orientation: Orientation = Orientation.FLAT, of
                 return this.r;
             }
             return this.r + (this.q + offset * (this.q & 1)) / 2;
+        }
+
+        public get directions(): Direction[] {
+            if (this.orientation === Orientation.POINTY) {
+                return [Direction.NE, Direction.E, Direction.SE, Direction.SW, Direction.W, Direction.NW];
+            } else {
+                return [Direction.N, Direction.NE, Direction.SE, Direction.S, Direction.SW, Direction.NW];
+            }
         }
 
         static create(args: HexArgs): ModularHex {

@@ -282,6 +282,9 @@
     },
     "variants": {
         "abande": {
+            "#board": {
+                "description": "7x7 square board"
+            },
             "hex": {
                 "description": "A 37-space hexagonal board.",
                 "name": "Board: Hexagonal"
@@ -289,6 +292,10 @@
             "snub": {
                 "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
                 "name": "Board: Snub Square"
+            },
+            "libre": {
+                "name": "Abande Libre",
+                "description": "No board. Pieces are instead placed next to each other to form a hexagonal grid as you play."
             }
         },
         "accasta": {
@@ -3394,6 +3401,7 @@
             "MOVE2EMPTY": "You cannot move to empty spaces.",
             "PARTIAL": "It's possible you're trying to move a stack. Provide the destination.",
             "TOOEARLY": "You cannot move until the first player has placed two pieces.",
+            "TOOEARLY_libre": "You cannot move until four stones have been placed on the board.",
             "TOOFAR": "You can only move to an adjacent cell. {{to}} is not adjacent to {{from}}.",
             "TOOHIGH": "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
             "TRIPLESTACK": "You cannot move triple stacks."

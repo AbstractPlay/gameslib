@@ -182,6 +182,7 @@
         "spook": "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
         "spree": "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
         "squaredance": "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
+        "squava": "Players try to win by making 4 in-a-row, but lose when doing just a 3 in-a-row.",
         "stairs": "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
         "stawvs": "A set collection game for 2-4 players that's similar to Amazons, with old-style Volcano scoring.  On a checkerboard randomly filled with individual pyramids, player pieces can move and capture pyramids in a straight line (orthogonally or diagonally), if and only if all intervening spaces and the target space contain pyramids but not pieces.",
         "stibro": "Win by forming a loop anywhere on the board, while adhering to the placement restriction that ensures loop-forming is always possible.",
@@ -5306,6 +5307,9 @@
             "INITIAL_INSTRUCTIONS": "Select the pivot stone. This is the stone that won't move.",
             "PARTIAL_DESTINATION": "Select the point where the end stone will end up. You may not cover friendly pieces, and any covered enemy pieces will be captured.",
             "PARTIAL_ENDSTONE": "Select the end stone. This is the stone that will move the furthest."
+        },
+        "squava": {
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a stone."
         },
         "stairs": {
             "NORMAL_MOVE": "Choose a piece to move.",

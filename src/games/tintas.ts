@@ -69,7 +69,6 @@ export class TintasGame extends GameBase {
             {
                 uid: "modular",
                 group: "board",
-                experimental: true,
             }
         ],
         categories: ["goal>set", "mechanic>set",  "mechanic>move", "mechanic>share", "mechanic>random>setup", "board>shape>other", "board>connect>hex", "components>simple>7c"],

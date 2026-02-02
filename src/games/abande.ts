@@ -308,7 +308,6 @@ export class AbandeGame extends GameBase {
 
     public randomMove(): string {
         const moves = this.moves();
-        console.log(`${moves.length} moves found`);
         return moves[Math.floor(Math.random() * moves.length)];
     }
 

@@ -67,7 +67,6 @@ export class AbandeGame extends GameBase {
             {
                 uid: "libre",
                 group: "board",
-                experimental: true,
             }
         ],
         categories: ["goal>score>eog", "mechanic>place", "mechanic>stack", "board>shape>rect", "board>shape>hex", "board>connect>rect", "board>connect>hex", "board>connect>snub", "components>simple>1per"],
@@ -148,12 +147,11 @@ export class AbandeGame extends GameBase {
         return this;
     }
 
-    private genHexBoard(): ModularBoard|undefined {
+    private genHexBoard(): void {
         if (this.variants.includes("libre")) {
             const hexes: IHexCoord[] = [...this.board.keys()].map(str => AbandeGame.uid2hexCoord(str));
             this.hexBoard = new ModularBoard({orientation: Orientation.POINTY, offset: 1, centres: hexes});
         }
-        return undefined;
     }
 
     private buildGraph(): AbandeGame {
@@ -754,6 +752,8 @@ export class AbandeGame extends GameBase {
                 throw new Error("Unrecognized move format");
             }
         }
+
+        this.genHexBoard();
 
         // update currplayer
         this.lastmove = m;

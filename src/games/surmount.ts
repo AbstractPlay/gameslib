@@ -142,11 +142,11 @@ export class SurmountGame extends GameBase {
             p = this.currplayer;
         }
         const captures: string[] = [];
-        const grpsP = this.getGroups(p);
+        const grpsMine = this.getGroups(p);
         const grpsOther = this.getGroups(p === 1 ? 2 : 1);
         if (grpsOther.length > 0) {
             const g = this.graph;
-            for (const group of grpsP) {
+            for (const group of grpsMine) {
                 const neighbours = new Set<string>();
                 for (const cell of group) {
                     for (const n of g.neighbours(cell)) {
@@ -166,6 +166,39 @@ export class SurmountGame extends GameBase {
         }
         return captures;
     }
+
+    // Used to help the new rules
+    // Only returns captures that are of strictly smaller groups
+    private strictlySmallerCaps(p?: playerid): string[] {
+        if (p === undefined) {
+            p = this.currplayer;
+        }
+        const captures: string[] = [];
+        const grpsMine = this.getGroups(p);
+        const grpsOther = this.getGroups(p === 1 ? 2 : 1);
+        if (grpsOther.length > 0) {
+            const g = this.graph;
+            for (const group of grpsMine) {
+                const neighbours = new Set<string>();
+                for (const cell of group) {
+                    for (const n of g.neighbours(cell)) {
+                        // by definition, any such cells are occupied by the opponent
+                        if (!group.includes(n) && this.board.has(n)) {
+                            neighbours.add(n);
+                        }
+                    }
+                }
+                for (const n of neighbours) {
+                    const grpOther = grpsOther.find(grp => grp.includes(n))!;
+                    if (group.length > grpOther.length) {
+                        captures.push(n);
+                    }
+                }
+            }
+        }
+        return captures;
+    }
+
 
     // Returns a list of valid initial placements (in this game, all empty cells)
     private initialPlacements(): string[] {
@@ -625,10 +658,12 @@ export class SurmountGame extends GameBase {
                 // new rules
                 else {
                     const cell = m.substring(1);
-                    const groups: string[][] = [
-                        this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!,
-                        ...this.findOtherSmallerGroups(cell),
-                    ];
+                    const toCapture = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!;
+                    const groups: string[][] = [toCapture];
+                    // check if this capture is of a strictly smaller group
+                    if (this.strictlySmallerCaps().includes(cell)) {
+                        groups.push(...this.findOtherSmallerGroups(cell));
+                    }
                     // capture all stones in the affected groups
                     for (const group of groups) {
                         for (const stone of group) {

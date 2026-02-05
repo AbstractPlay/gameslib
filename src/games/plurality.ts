@@ -19,7 +19,7 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
-    scores: [number, number];    
+    scores: [number, number];
 };
 
 export interface IPluralityState extends IAPGameState {
@@ -90,7 +90,7 @@ export class PluralityGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                scores: [0, 0.5],                
+                scores: [0, 0.5],
             };
             this.stack = [fresh];
         } else {
@@ -120,7 +120,7 @@ export class PluralityGame extends GameBase {
         this.currplayer = state.currplayer;
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
-        this.boardSize = this.getBoardSize();             
+        this.boardSize = this.getBoardSize();
         this.scores = [...state.scores];
         return this;
     }
@@ -139,23 +139,23 @@ export class PluralityGame extends GameBase {
         }
         return 13;
     }
-    
+
     private neighbors(x: number, y: number): number[][] {
-        let result = [];
+        const result = [];
         for (const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
-            if (x+dx >= 0 && x+dx < this.boardSize && 
+            if (x+dx >= 0 && x+dx < this.boardSize &&
                 y+dy >= 0 && y+dy < this.boardSize) {
                 const cell = this.coords2algebraic(x+dx, y+dy);
                 if (! this.board.has(cell)) {
                     result.push([x+dx, y+dy]);
                 }
             }
-        }        
+        }
         return result;
     }
-    
+
     private isTaboo(x: number, y: number): boolean {
-        for (const [x1,y1] of [[x+1,y+1],[x-1,y+1],[x+1,y-1],[x-1,y-1]]) { 
+        for (const [x1,y1] of [[x+1,y+1],[x-1,y+1],[x+1,y-1],[x-1,y-1]]) {
             // (x1,y1) is an adjacent diagonal of cell (x,y)
             if (x1 >= 0 && x1 < this.boardSize && y1 >= 0 && y1 < this.boardSize) {
                 let taboo = true;
@@ -182,7 +182,7 @@ export class PluralityGame extends GameBase {
             for (let x = 0; x < this.boardSize; x++) {
                 const cell1 = this.coords2algebraic(x, y);
                 if (this.board.has(cell1) || this.isTaboo(x,y)) continue;
-                
+
                 for (const [x2,y2] of this.neighbors(x,y)) {
                     const cell2 = this.coords2algebraic(x2, y2);
                     if (this.board.has(cell2)) continue;
@@ -192,19 +192,19 @@ export class PluralityGame extends GameBase {
                     this.board.delete(cell1);               // remove it!
                     if (taboo) { continue; }
                     // ------------------- end check
-                    
+
                     for (const [x3,y3] of this.neighbors(x2,y2)) {
                         const cell3 = this.coords2algebraic(x3, y3);
                         if (cell1 === cell3 || this.board.has(cell3)) continue;
                         // check for 3rd stone taboo
                         this.board.set(cell1, this.currplayer); // temporary add cell1
                         this.board.set(cell2, this.currplayer); // temporary add cell2
-                        let taboo = this.isTaboo(x3,y3);
+                        const taboo = this.isTaboo(x3,y3);
                         this.board.delete(cell1);               // remove it!
                         this.board.delete(cell2);               // remove it!
                         if (taboo) { continue; }
                         // ------------------- end check
-                        
+
                         // ok, no 2x2 was found, so add the two possible options
                         moves.push(cell2 + ',' + cell1 + ',' + cell3); // cell3 is enemy stone
                         moves.push(cell1 + ',' + cell2 + ',' + cell3); // cell3 is enemy stone
@@ -239,15 +239,15 @@ export class PluralityGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             if (move === "") {
                 newmove = cell;
-            } else { 
-                let cells = move.split(",");
-                let idx = cells.indexOf(cell); // check if some piece was clicked twice                
+            } else {
+                const cells = move.split(",");
+                const idx = cells.indexOf(cell); // check if some piece was clicked twice
                 if (idx === -1) {
                     newmove = move + "," + cell; // if not, just add move
                 } else {
-                    cells.splice(idx);           // otherwise, remove/unplace it 
+                    cells.splice(idx);           // otherwise, remove/unplace it
                     newmove = cells.join(",");
-                }                
+                }
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -274,21 +274,21 @@ export class PluralityGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.canrender = true;           
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.plurality.INITIAL_INSTRUCTIONS")
             return result;
         }
-        
+
         if (m === "pass") {
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            return result;            
+            return result;
         }
-        
+
         // a complete move corresponds to three placements, ie, three clicks
         const moves = m.split(",");
-        
+
         // is it a valid cell?
         let currentMove;
         try {
@@ -307,27 +307,27 @@ export class PluralityGame extends GameBase {
         }
 
         // get all valid complete moves (so each move will be like "a1,b1,c1")
-        const allMoves = this.moves(); 
+        const allMoves = this.moves();
         // does any of these moves make a taboo? A taboo will not be a prefix of any legal move
         if (! allMoves.some(legalMove => legalMove.startsWith(m))) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.plurality.TABOO", { cell: currentMove });
             return result;
-        }    
-        
+        }
+
         // is cell empty?
-        let lastMove: string = moves[moves.length-1];  // get most recent placement
+        const lastMove: string = moves[moves.length-1];  // get most recent placement
 
         let notEmpty;
-        if (this.board.has(lastMove)) { 
-          notEmpty = lastMove;         
+        if (this.board.has(lastMove)) {
+          notEmpty = lastMove;
         }
         if (notEmpty) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.OCCUPIED", { where: notEmpty });
             return result;
-        }            
-        
+        }
+
         // Cell is empty, do we have three placements?
         if (moves.length < 3) {
             result.valid = true;
@@ -336,14 +336,14 @@ export class PluralityGame extends GameBase {
             result.message = i18next.t("apgames:validation.plurality.INCOMPLETE_TURN");
             return result;
         }
-        
+
         // Three stones were placed, must be a tromino and cannot make a 2x2 forbidden area
         if (! allMoves.includes(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.plurality.TABOO", { where: notEmpty });
             return result;
         }
-        
+
         result.valid = true;
         result.complete = 1;
         result.canrender = true;
@@ -352,14 +352,14 @@ export class PluralityGame extends GameBase {
     }
 
     // --- These next methods are helpers to find territories and their eventual owners ---- //
-    
-    public getGraph(): SquareOrthGraph { // NB: just orthogonal connections 
+
+    public getGraph(): SquareOrthGraph { // NB: just orthogonal connections
         return new SquareOrthGraph(this.boardSize, this.boardSize);
     }
 
     /**
      * Get all moves() in format [ "a1,a2,a3", "a1,a2,b2", "a1,a3,a2", "a1,b1,b2"...]
-     * and returns a set with just the unique coordinates 
+     * and returns a set with just the unique coordinates
      */
     public getUniqueIds(data: string[]): Set<string> {
       // flatMap flattens the resulting arrays into one single array
@@ -374,17 +374,17 @@ export class PluralityGame extends GameBase {
     public isAreaOwned(myArea: Array<string>, validMoves: Set<string>): boolean {
       return myArea.every(id => !validMoves.has(id));
     }
-    
+
     /**
      * What pieces are orthogonally adjacent to a given area?
      */
     public getAdjacentPieces(area: string[], pieces: string[]): string[] {
       // convert area strings to numeric coordinates
       const areaCoords = area.map(cell => this.algebraic2coords(cell));
-      
+
       return pieces.filter(pieceStr => {   // Filter the pieces array
         const piece = this.algebraic2coords(pieceStr);
-        
+
         return areaCoords.some(square => {  // check adjacency
           const dx = Math.abs(piece[0] - square[0]);
           const dy = Math.abs(piece[1] - square[1]);
@@ -402,7 +402,7 @@ export class PluralityGame extends GameBase {
         const p1Pieces = [...this.board.entries()].filter(([,owner]) => owner === 1).map(pair => pair[0]);
         const p2Pieces = [...this.board.entries()].filter(([,owner]) => owner === 2).map(pair => pair[0]);
         const allPieces = [...p1Pieces, ...p2Pieces];
-        
+
         // compute empty areas
         const gEmpties = this.getGraph();
         for (const node of gEmpties.graph.nodes()) {
@@ -411,7 +411,7 @@ export class PluralityGame extends GameBase {
             }
         }
         const emptyAreas : Array<Array<string>> = connectedComponents(gEmpties.graph);
-        
+
         const territories: Territory[] = [];
         for(const area of emptyAreas) {
             const isOwned = this.isAreaOwned(area, allValidMoves);
@@ -431,15 +431,15 @@ export class PluralityGame extends GameBase {
         }
         return territories;
     }
-    
+
     // ------------------------------------------------------------------------------------- //
-    
+
     public move(m: string, {partial = false, trusted = false} = {}): PluralityGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
 
-        let valid_moves = this.moves();
+        const valid_moves = this.moves();
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
 
@@ -454,25 +454,25 @@ export class PluralityGame extends GameBase {
         }
 
         if (m.length === 0) { return this; }
-        
+
         if (m === "pass") {
             this.results.push({type: "pass"});
         } else {
             const moves = m.split(",");
             this.results.push({ type: "place", where: moves[0] });
             this.board.set(moves[0], this.currplayer);
-            
+
             if (moves.length >= 2) {
                 this.results.push({ type: "place", where: moves[1] });
                 this.board.set(moves[1], this.currplayer);
             }
-            
+
             if (moves.length === 3) {
                 this.results.push({ type: "place", where: moves[2] });
                 this.board.set(moves[2], this.currplayer==1 ? 2 : 1);
             }
         }
-        
+
         if (partial) { return this; }
 
         // compute scores by computing current owned territories
@@ -481,9 +481,9 @@ export class PluralityGame extends GameBase {
             this.scores = [
                 terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0.0),
                 terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0.5),
-            ];                           
+            ];
         }
-        
+
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -587,11 +587,11 @@ export class PluralityGame extends GameBase {
             legend: {
                 A: [{ name: "piece", colour: 1 }],
                 B: [{ name: "piece", colour: 2 }],
-            },            
+            },
             pieces: pstr
         };
 
-        // add territory dots        
+        // add territory dots
         const territories = this.getTerritories();
         let markers: Array<MarkerDots> | undefined = []
         for (const t of territories) {
@@ -609,7 +609,6 @@ export class PluralityGame extends GameBase {
 
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
-            // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "move") {

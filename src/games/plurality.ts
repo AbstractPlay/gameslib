@@ -206,6 +206,7 @@ export class PluralityGame extends GameBase {
                         // ------------------- end check
                         
                         // ok, no 2x2 was found, so add the two possible options
+                        moves.push(cell2 + ',' + cell1 + ',' + cell3); // cell3 is enemy stone
                         moves.push(cell1 + ',' + cell2 + ',' + cell3); // cell3 is enemy stone
                         moves.push(cell1 + ',' + cell3 + ',' + cell2); // cell2 is enemy stone
                     }

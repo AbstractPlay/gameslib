@@ -4926,7 +4926,7 @@
         },
         "plurality": {
             "INITIAL_INSTRUCTIONS": "Place a group of three orthogonal stones on empty cells. It is invalid to make a 2x2 shape of stones of any color configuration. First place two friendly pieces, then one opponent piece.",
-            "TABOO": "Place a tromino (orthogonal group of three stones), without making an occupied 2x2 area.",
+            "TABOO": "Place a tromino (orthogonal group of three stones), without making an occupied 2x2 area. The next click will start a new tromino.",
             "INCOMPLETE_TURN": "To complete the turn you need two friendly placements, then an opponent placement."
         },
         "pods": {

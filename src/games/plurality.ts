@@ -238,8 +238,15 @@ export class PluralityGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             if (move === "") {
                 newmove = cell;
-            } else {
-                newmove = move + "," + cell;
+            } else { 
+                let cells = move.split(",");
+                let idx = cells.indexOf(cell); // check if some piece was clicked twice                
+                if (idx === -1) {
+                    newmove = move + "," + cell; // if not, just add move
+                } else {
+                    cells.splice(idx);           // otherwise, remove/unplace it 
+                    newmove = cells.join(",");
+                }                
             }
             const result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
@@ -280,7 +287,7 @@ export class PluralityGame extends GameBase {
         
         // a complete move corresponds to three placements, ie, three clicks
         const moves = m.split(",");
-
+        
         // is it a valid cell?
         let currentMove;
         try {
@@ -297,6 +304,15 @@ export class PluralityGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
             return result;
         }
+
+        // get all valid complete moves (so each move will be like "a1,b1,c1")
+        const allMoves = this.moves(); 
+        // does any of these moves make a taboo? A taboo will not be a prefix of any legal move
+        if (! allMoves.some(legalMove => legalMove.startsWith(m))) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.plurality.TABOO", { cell: currentMove });
+            return result;
+        }    
         
         // is cell empty?
         let lastMove: string = moves[moves.length-1];  // get most recent placement
@@ -321,7 +337,7 @@ export class PluralityGame extends GameBase {
         }
         
         // Three stones were placed, must be a tromino and cannot make a 2x2 forbidden area
-        if (! this.moves().includes(m)) {
+        if (! allMoves.includes(m)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.plurality.TABOO", { where: notEmpty });
             return result;
@@ -417,7 +433,7 @@ export class PluralityGame extends GameBase {
     
     // ------------------------------------------------------------------------------------- //
     
-    public move(m: string, {trusted = false} = {}): PluralityGame {
+    public move(m: string, {partial = false, trusted = false} = {}): PluralityGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
         }
@@ -431,7 +447,7 @@ export class PluralityGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! valid_moves.includes(m)) {
+            if (!partial && ! valid_moves.includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
@@ -456,6 +472,8 @@ export class PluralityGame extends GameBase {
             }
         }
         
+        if (partial) { return this; }
+
         // compute scores by computing current owned territories
         if ((m === "pass") || (m.split(",").length === 3)) {
             const terr = this.getTerritories();
@@ -464,7 +482,7 @@ export class PluralityGame extends GameBase {
                 terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0.5),
             ];                           
         }
-       
+        
         // update currplayer
         this.lastmove = m;
         let newplayer = (this.currplayer as number) + 1;
@@ -618,29 +636,6 @@ export class PluralityGame extends GameBase {
         return status;
     }
 
-    /**
-     * This is for rendering each move in the front end's chat log.
-     * For simple games, you can start by deleting this and going with the defaults.
-     * And then, if you need something special, it might be simpler just to ask for direction in the Discord. But basically you can customize the chat message for your specific game.
-     */
-     /*
-    public chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult): boolean {
-        let resolved = false;
-        switch (r.type) {
-            case "place":
-                node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
-                resolved = true;
-                break;
-            case "move":
-                resolved = true;
-                break;
-        }
-        return resolved;
-    }*/
-
-    /**
-     * Just leave this. You very, very rarely need to do anything here.
-     */
     public clone(): PluralityGame {
         return new PluralityGame(this.serialize());
     }

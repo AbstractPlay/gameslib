@@ -266,6 +266,7 @@ export class PluralityGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;           
             result.message = i18next.t("apgames:validation.plurality.INITIAL_INSTRUCTIONS")
             return result;
         }
@@ -273,6 +274,7 @@ export class PluralityGame extends GameBase {
         if (m === "pass") {
             result.valid = true;
             result.complete = 1;
+            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
             return result;            
         }
         
@@ -313,6 +315,7 @@ export class PluralityGame extends GameBase {
         if (moves.length < 3) {
             result.valid = true;
             result.complete = -1; // need more placements!
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.plurality.INCOMPLETE_TURN");
             return result;
         }
@@ -326,6 +329,7 @@ export class PluralityGame extends GameBase {
         
         result.valid = true;
         result.complete = 1;
+        result.canrender = true;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
     }
@@ -395,7 +399,7 @@ export class PluralityGame extends GameBase {
         for(const area of emptyAreas) {
             const isOwned = this.isAreaOwned(area, allValidMoves);
             if (isOwned) {
-                let owner : playerid = 3; // default value: neutral aea
+                let owner : playerid = 3; // default value: neutral area
                 // find who owns it
                 const p1AdjacentCells = this.getAdjacentPieces(area, p1Pieces);
                 const p2AdjacentCells = this.getAdjacentPieces(area, p2Pieces);

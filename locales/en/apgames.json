@@ -152,6 +152,7 @@
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pilastri": "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
+        "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
@@ -1898,6 +1899,17 @@
             },
             "size-17": {
                 "name": "Largest board (17x17)"
+            }
+        },
+        "plurality": {
+            "#board": {
+                "name": "13x13 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
             }
         },
         "pontedd": {
@@ -4911,6 +4923,11 @@
             "INVALIDPIE": "You cannot accept or reject a pie offer now.",
             "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent."
+        },
+        "plurality": {
+            "INITIAL_INSTRUCTIONS": "Place a group of three orthogonal stones on empty cells. It is invalid to make a 2x2 shape of stones of any color configuration. First place two friendly pieces, then one opponent piece.",
+            "TABOO": "Place a tromino (orthogonal group of three stones), without making an occupied 2x2 area.",
+            "INCOMPLETE_TURN": "To complete the turn you need two friendly placements, then an opponent placement."
         },
         "pods": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space where you have more neighboring pieces, or select a piece to move around other pieces without passing through spaces controlled by the opponent.",

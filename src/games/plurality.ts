@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -58,7 +58,7 @@ export class PluralityGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["no-moves", "scores", "experimental"]
+        flags: ["no-moves", "scores", "custom-buttons", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -228,6 +228,10 @@ export class PluralityGame extends GameBase {
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
+    }
+
+    public getButtons(): ICustomButton[] {
+        return [{ label: "pass", move: "pass" }];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -605,7 +609,7 @@ export class PluralityGame extends GameBase {
     }
 
     public getPlayerScore(player: number): number {
-        const start = player == 2 ? 0.5 : 0.0;
+        const start = player == 1 ? 0.0 : 0.5;
         const terr = this.getTerritories();
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, start);
     }

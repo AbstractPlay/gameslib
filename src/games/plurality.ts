@@ -225,9 +225,6 @@ export class PluralityGame extends GameBase {
         return moves.sort((a,b) => a.localeCompare(b))
     }
 
-    /**
-     * This is a helper function only needed for local testing, and only useful if you have a `moves()` function.
-     */
     public randomMove(): string {
         const moves = this.moves();
         return moves[Math.floor(Math.random() * moves.length)];
@@ -272,9 +269,6 @@ export class PluralityGame extends GameBase {
         }
     }
 
-    /**
-     * This goes hand in hand with `handleClick()` and can be leveraged in other areas of the code as well. It accepts a move string and then returns a description of the move's condition. See description of `handleClick()` for details.
-     */
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
 
@@ -466,6 +460,7 @@ export class PluralityGame extends GameBase {
             this.results.push({type: "pass"});
         } else {
             const moves = m.split(",");
+            
             this.results.push({ type: "place", where: moves[0] });
             this.board.set(moves[0], this.currplayer);
             
@@ -508,6 +503,11 @@ export class PluralityGame extends GameBase {
         this.gameover = this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass";
 
         if (this.gameover) {
+            const terr = this.getTerritories();
+            this.scores = [
+                terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0.0),
+                terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0.5),
+            ];              
             this.winner = this.scores[0] > this.scores[1] ? [1] : [2]; // draws are not possible
             this.results.push(
                 {type: "eog"},
@@ -582,17 +582,14 @@ export class PluralityGame extends GameBase {
 
         // add territory dots        
         const territories = this.getTerritories();
-        let markers: Array<MarkerDots> | undefined = []
+        let markers: Array<MarkerDots> = []
         for (const t of territories) {
             if (t.owner !== undefined) {
                 const points = t.cells.map(c => this.algebraic2coords(c));
                 markers.push({type: "dots", colour: t.owner, points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
             }
         }
-        if (markers.length === 0) {
-            markers = undefined;
-        }
-        if (markers !== undefined) {
+        if (markers.length > 0) {
             (rep.board as BoardBasic).markers = markers;
         }
 

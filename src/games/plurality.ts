@@ -42,11 +42,13 @@ export class PluralityGame extends GameBase {
             {
                 type: "designer",
                 name: "João Pedro Neto",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
+                apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
             {
                 type: "coder",
                 name: "João Pedro Neto",
-                urls: [],
+                urls: ["https://boardgamegeek.com/boardgamedesigner/3829/joao-pedro-neto"],
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
@@ -56,7 +58,7 @@ export class PluralityGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["scores", "experimental"]
+        flags: ["no-moves", "scores", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -140,6 +142,9 @@ export class PluralityGame extends GameBase {
         return 13;
     }
     
+    /**
+     * get the orthogonal adjacent cells of cell (x,y)
+     */
     private neighbors(x: number, y: number): number[][] {
         let result = [];
         for (const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
@@ -154,6 +159,9 @@ export class PluralityGame extends GameBase {
         return result;
     }
     
+    /**
+     * does cell (x,y) creates a 2x2 area with any other three pieces already on board?
+     */
     private isTaboo(x: number, y: number): boolean {
         for (const [x1,y1] of [[x+1,y+1],[x-1,y+1],[x+1,y-1],[x-1,y-1]]) { 
             // (x1,y1) is an adjacent diagonal of cell (x,y)
@@ -169,13 +177,13 @@ export class PluralityGame extends GameBase {
         }
         return false;
     }
+    
     /**
-     * This should generate a full list of valid moves from the current game state. If it is not reasonable for your game to generate such a list, you can remove this function and add the `no-moves` flag to the game's metadata. If you *can* efficiently generate a move list, though, I highly recommend it. It's helpful to players, and it makes your life easier later.
+     * Generates a full list of valid moves from the current game state. 
      */
     public moves(): string[] {
         if (this.gameover) { return []; }
         const moves: string[] = [];
-        let taboo;
 
         // can place on any empty space
         for (let y = 0; y < this.boardSize; y++) {
@@ -188,7 +196,7 @@ export class PluralityGame extends GameBase {
                     if (this.board.has(cell2)) continue;
                     // check for 2nd stone taboo
                     this.board.set(cell1, this.currplayer); // temporary add cell1 to check taboo
-                    taboo = this.isTaboo(x2,y2);
+                    let taboo = this.isTaboo(x2,y2);
                     this.board.delete(cell1);               // remove it!
                     if (taboo) { continue; }
                     // ------------------- end check
@@ -203,17 +211,16 @@ export class PluralityGame extends GameBase {
                         this.board.delete(cell1);               // remove it!
                         this.board.delete(cell2);               // remove it!
                         if (taboo) { continue; }
-                        // ------------------- end check
-                        
-                        // ok, no 2x2 was found, so add the two possible options
-                        moves.push(cell2 + ',' + cell1 + ',' + cell3); // cell3 is enemy stone
-                        moves.push(cell1 + ',' + cell2 + ',' + cell3); // cell3 is enemy stone
-                        moves.push(cell1 + ',' + cell3 + ',' + cell2); // cell2 is enemy stone
+                        // ------------------- end check                        
+                        // ok, no 2x2 was found, add all possible options
+                        moves.push(cell1 + ',' + cell2 + ',' + cell3); // cell3 is the opponent piece
+                        moves.push(cell2 + ',' + cell1 + ',' + cell3); // friendly pieces are interchangeable
+                        moves.push(cell1 + ',' + cell3 + ',' + cell2); // cell2 is the opponent piece
                     }
                 }
             }
         }
-        moves.push("pass");
+        moves.push("pass"); // passing is always possible
 
         return moves.sort((a,b) => a.localeCompare(b))
     }
@@ -308,7 +315,7 @@ export class PluralityGame extends GameBase {
 
         // get all valid complete moves (so each move will be like "a1,b1,c1")
         const allMoves = this.moves(); 
-        // does any of these moves make a taboo? A taboo will not be a prefix of any legal move
+        // does any of these moves makes a taboo? A taboo will not be a prefix of any legal move
         if (! allMoves.some(legalMove => legalMove.startsWith(m))) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.plurality.TABOO", { cell: currentMove });
@@ -361,18 +368,18 @@ export class PluralityGame extends GameBase {
      * Get all moves() in format [ "a1,a2,a3", "a1,a2,b2", "a1,a3,a2", "a1,b1,b2"...]
      * and returns a set with just the unique coordinates 
      */
-    public getUniqueIds(data: string[]): Set<string> {
+    public getUniqueCells(allMoves: string[]): Set<string> {
       // flatMap flattens the resulting arrays into one single array
-      const allIds = data.flatMap(item => item.split(','));
-      return new Set(allIds); // remove duplicates
+      const allCells = allMoves.flatMap(move => move.split(','));
+      return new Set(allCells); // remove duplicates
     }
 
     /*
      * An area is owned if it is not possible to play inside it.
      * The set of possible moves are given by validMoves parameter
      */
-    public isAreaOwned(myArea: Array<string>, validMoves: Set<string>): boolean {
-      return myArea.every(id => !validMoves.has(id));
+    public isAreaOwned(area: Array<string>, validMoves: Set<string>): boolean {
+      return area.every(cell => !validMoves.has(cell));
     }
     
     /**
@@ -398,7 +405,7 @@ export class PluralityGame extends GameBase {
      * This is used in (1) computing scores, and (2) in the render process
      */
     public getTerritories(): Territory[] {
-        const allValidMoves : Set<string> = this.getUniqueIds([...this.moves()]);
+        const allValidMoves : Set<string> = this.getUniqueCells([...this.moves()]);
         const p1Pieces = [...this.board.entries()].filter(([,owner]) => owner === 1).map(pair => pair[0]);
         const p2Pieces = [...this.board.entries()].filter(([,owner]) => owner === 2).map(pair => pair[0]);
         const allPieces = [...p1Pieces, ...p2Pieces];
@@ -448,7 +455,7 @@ export class PluralityGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (!partial && ! valid_moves.includes(m)) {
+            if (! partial && ! valid_moves.includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
@@ -501,12 +508,7 @@ export class PluralityGame extends GameBase {
         this.gameover = this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass";
 
         if (this.gameover) {
-            const p1Score = this.scores[0];
-            const p2Score = this.scores[1];
-            this.winner = p1Score > p2Score ? [1] : [2]; // draws are not possible
-        }
-
-        if (this.gameover) {
+            this.winner = this.scores[0] > this.scores[1] ? [1] : [2]; // draws are not possible
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -515,9 +517,6 @@ export class PluralityGame extends GameBase {
         return this;
     }
 
-    /**
-     * Anything up in your IPluralityState definition needs to be here.
-     */
     public state(): IPluralityState {
         return {
             game: PluralityGame.gameinfo.uid,
@@ -529,10 +528,6 @@ export class PluralityGame extends GameBase {
         };
     }
 
-    /**
-     * And same here for IMoveState. The base object uses these to save things.
-     * If you're new to TypeScript, you will want to familiarize yourself with the difference between reference types and value types. There's a reason you can't just say `board: this.board` in the below. You need to actually create a fresh map that duplicates `this.board`.
-     */
     public moveState(): IMoveState {
         return {
             _version: PluralityGame.gameinfo.version,
@@ -545,12 +540,6 @@ export class PluralityGame extends GameBase {
         };
     }
 
-    /**
-     * And this is how you turn a game state into something people can see and interact with.
-     * The system tries to abstract things as much as possible. You don't have to know anything about computer graphics. You just need to be able to get the rendering engine to do what you want.
-     * To learn that, you will want to visit <http://renderer.dev.abstractplay.com> and learn how the renderer works. Basically you need to choose a board, load your pieces, populate the board, and then annotate any recent moves.
-     * You will see a fair bit of `// @ts-ignore`. This is not good practice generally, but I have found them necessary here. The type system is very strict, and sometimes that gets in the way. As long as your render actually works in the playground, you're OK, regardless of what type errors are thrown here.
-     */
     public render(): APRenderRep {
         // Build piece string
         let pstr = "";
@@ -612,11 +601,7 @@ export class PluralityGame extends GameBase {
             // @ts-ignore
             rep.annotations = [];
             for (const move of this.stack[this.stack.length - 1]._results) {
-                if (move.type === "move") {
-                    const [fromX, fromY] = this.algebraic2coords(move.from);
-                    const [toX, toY] = this.algebraic2coords(move.to);
-                    rep.annotations.push({type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}]});
-                } else if (move.type === "place") {
+                if (move.type === "place") {
                     const [x, y] = this.algebraic2coords(move.where!);
                     rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
                 }

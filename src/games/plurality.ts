@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -597,6 +597,17 @@ export class PluralityGame extends GameBase {
         }
 
         return rep;
+    }
+
+    public getPlayersScores(): IScores[] {
+        return [ { name: i18next.t("apgames:status.SCORES"), 
+                   scores: [this.getPlayerScore(1), this.getPlayerScore(2)] } ];
+    }
+
+    public getPlayerScore(player: number): number {
+        const start = player == 2 ? 0.5 : 0.0;
+        const terr = this.getTerritories();
+        return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, start);
     }
 
     /**

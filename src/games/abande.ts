@@ -220,7 +220,7 @@ export class AbandeGame extends GameBase {
         }
 
         // in libre, you can't move until 4 pieces are on the board
-        if (this.variants.includes("libre") && [...this.board.values()].flat().length > 4) {
+        if (this.variants.includes("libre") && [...this.board.values()].flat().length >= 4) {
             const playerPieces = [...this.board.entries()].filter(([,v]) => v[v.length - 1] === player).map(([k,v]) => [AbandeGame.uid2hexCoord(k), v] as [IHexCoord, playerID[]]).map(([k,v]) => [this.hexBoard!.getHexAtAxial(k.q, k.r)!, v] as [ModularHex, playerID[]]);
             for (const [hex, stack] of playerPieces) {
                 const neighbours = this.hexBoard!.neighbours(hex);

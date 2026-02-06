@@ -5734,6 +5734,7 @@
             "INITIAL_INSTRUCTIONS_setup_one": "Create a chunk (two adjacent pieces) for each colour anywhere on the board ({{count}} piece remaining).",
             "INITIAL_INSTRUCTIONS_setup_other": "Create a chunk (two adjacent pieces) for each colour anywhere on the board ({{count}} pieces remaining).",
             "INVALID_COLOUR": "The requested colour ({{colour}}) is invalid.",
+            "MUST_CHOOSE": "You must choose which side to play. Click the appropriate button, or type 'swap' to play first or 'pass' to play second.",
             "PARTIAL": "Select where you want to place that piece.",
             "SETUP_CHUNKS": "The pieces you place must be adjacent to each other (one chunk per player).",
             "SETUP_TOOMANY": "You may only place one two-piece chunk for each player.",

@@ -356,7 +356,6 @@ export class PluralityGame extends GameBase {
      * and returns a set with just the unique coordinates
      */
     public getUniqueCells(allMoves: string[]): Set<string> {
-      // flatMap flattens the resulting arrays into one single array
       const allCells = allMoves.flatMap(move => move.split(','));
       return new Set(allCells); // remove duplicates
     }

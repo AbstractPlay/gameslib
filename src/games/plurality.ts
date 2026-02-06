@@ -207,7 +207,7 @@ export class PluralityGame extends GameBase {
                         // check for 3rd stone taboo
                         this.board.set(cell1, this.currplayer); // temporary add cell1
                         this.board.set(cell2, this.currplayer); // temporary add cell2
-                        let taboo = this.isTaboo(x3,y3);
+                        const taboo = this.isTaboo(x3,y3);
                         this.board.delete(cell1);               // remove it!
                         this.board.delete(cell2);               // remove it!
                         if (taboo) { continue; }
@@ -236,7 +236,7 @@ export class PluralityGame extends GameBase {
             const cell = this.coords2algebraic(col, row);
             if (move === "") {
                 newmove = cell;
-            } else { 
+            } else {
                 const cells = move.split(",");
                 const idx = cells.indexOf(cell); // check if some piece was clicked twice
                 if (idx === -1) {
@@ -272,17 +272,17 @@ export class PluralityGame extends GameBase {
             result.message = i18next.t("apgames:validation.plurality.INITIAL_INSTRUCTIONS")
             return result;
         }
-        
+
         if (m === "pass") {
             result.valid = true;
             result.complete = 1;
             result.message = i18next.t("apgames:validation._general.VALID_MOVE");
-            return result;            
+            return result;
         }
 
         // a complete move corresponds to three placements, ie, three clicks
         const moves = m.split(",");
-        
+
         // is it a valid cell?
         let currentMove;
         try {
@@ -302,6 +302,7 @@ export class PluralityGame extends GameBase {
 
         // get all valid complete moves (so each move will be like "a1,b1,c1")
         const allMoves = this.moves();
+
         // does any of these moves makes a taboo? A taboo will not be a prefix of any legal move
         if (! allMoves.some(legalMove => legalMove.startsWith(m))) {
             result.valid = false;
@@ -452,7 +453,6 @@ export class PluralityGame extends GameBase {
             this.results.push({type: "pass"});
         } else {
             const moves = m.split(",");
-
             this.results.push({ type: "place", where: moves[0] });
             this.board.set(moves[0], this.currplayer);
 

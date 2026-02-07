@@ -2856,6 +2856,12 @@
                 "name": "Isometric"
             }
         },
+        "blastradius": {
+            "nums": {
+                "name": "Numbers",
+                "description": "Stacks as numbers"
+            }
+        },
         "blockade": {
             "differentiated-walls": {
                 "description": "Display walls placed by each player in different colours.",

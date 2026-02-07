@@ -2858,7 +2858,8 @@
         },
         "blastradius": {
             "nums": {
-                "name": "Stacks as numbers"
+                "name": "Numbers",
+                "description": "Stacks as numbers"
             }
         },
         "blockade": {

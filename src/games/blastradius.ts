@@ -436,6 +436,11 @@ export class BlastRadiusGame extends GameBase {
                         },
                         {
                             text: pc.substring(1),
+                            colour: {
+                                func: "bestContrast",
+                                bg: pc[0] === "A" ? 1 : 2,
+                                fg: ["_context_fill", "_context_background", "_context_strokes", "_context_annotations"],
+                            },
                         }
                     ];
                 }

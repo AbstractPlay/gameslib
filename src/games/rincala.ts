@@ -652,11 +652,6 @@ export class RincalaGame extends GameBase {
                         },
                         {
                             text: RincalaGame.value("R").toString(),
-                            colour: {
-                                func: "bestContrast",
-                                bg: 1,
-                                fg: ["#000", "#fff"]
-                            },
                         }
                     ],
                     B: [
@@ -666,11 +661,6 @@ export class RincalaGame extends GameBase {
                         },
                         {
                             text: RincalaGame.value("B").toString(),
-                            colour: {
-                                func: "bestContrast",
-                                bg: 2,
-                                fg: ["#000", "#fff"]
-                            },
                         }
                     ],
                     G: [
@@ -680,11 +670,6 @@ export class RincalaGame extends GameBase {
                         },
                         {
                             text: RincalaGame.value("G").toString(),
-                            colour: {
-                                func: "bestContrast",
-                                bg: 3,
-                                fg: ["#000", "#fff"]
-                            },
                         }
                     ],
                     Y: [
@@ -694,11 +679,6 @@ export class RincalaGame extends GameBase {
                         },
                         {
                             text: RincalaGame.value("Y").toString(),
-                            colour: {
-                                func: "bestContrast",
-                                bg: 4,
-                                fg: ["#000", "#fff"]
-                            },
                         }
                     ],
                 },

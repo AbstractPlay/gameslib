@@ -532,7 +532,6 @@ export class TBTGame extends GameBase {
                 },
                 {
                     text: size.toString(),
-                    colour: "#000",
                     scale: 0.75,
                 }
             ]

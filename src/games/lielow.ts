@@ -589,11 +589,6 @@ export class LielowGame extends GameBase {
                 },
                 {
                     text: sizeStr,
-                    colour: {
-                        func: "bestContrast",
-                        bg: player,
-                        fg: ["_context_background", "_context_fill", "_context_label"],
-                    },
                     scale: 0.75,
                 }
             ];

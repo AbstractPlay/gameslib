@@ -720,11 +720,6 @@ export class AsliGame extends GameBase {
         if (hasPrison) {
             prisonPiece.push({
                 text: this.prison[0] > 0 ? this.prison[0].toString() : this.prison[1].toString(),
-                colour: {
-                    func: "bestContrast",
-                    fg: ["_context_background", "_context_fill", "_context_label"],
-                    bg: this.getPrisonColour(swapPrison)
-                },
                 scale: 0.75,
                 rotate: null
             });

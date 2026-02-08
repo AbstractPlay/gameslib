@@ -632,11 +632,6 @@ export class EntropyGame extends GameBaseSimultaneous {
                     },
                     {
                         text: (i+1).toString(),
-                        colour: {
-                            func: "bestContrast",
-                            bg: i + 1,
-                            fg: ["#000000", "#ffffff"],
-                        },
                         orientation: "vertical",
                     },
                 ] as [Glyph, ...Glyph[]];

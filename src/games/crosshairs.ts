@@ -143,6 +143,7 @@ export class CrosshairsGame extends GameBase {
                 type: "coder",
                 name: "Claude (AI Assistant)",
                 urls: [],
+                apid: "e5e9c762-f75f-4300-8aac-e623aed63409",
             },
         ],
         categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "mechanic>block", "board>shape>hex", "board>connect>hex", "components>special"],

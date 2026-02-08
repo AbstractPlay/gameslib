@@ -4,11 +4,17 @@ import "mocha";
 import { expect } from "chai";
 import { CrosshairsGame } from '../../src/games';
 import { addResource } from '../../src';
-
-// Initialize i18next translations
-addResource("en");
+import i18next from "i18next";
 
 describe("Crosshairs", () => {
+    // Initialize i18next for this suite, clean up after to avoid polluting other tests
+    before(() => { addResource("en"); });
+    after(() => {
+        i18next.removeResourceBundle("en", "apgames");
+        i18next.removeResourceBundle("en", "apresults");
+        i18next.removeResourceBundle("fr", "apgames");
+        i18next.removeResourceBundle("fr", "apresults");
+    });
     describe("Cloud Phase", () => {
         it("should start in cloud phase", () => {
             const g = new CrosshairsGame();

@@ -989,6 +989,12 @@
                 "name": "Shorter game (6x6 board)"
             }
         },
+        "crosshairs": {
+            "random-start": {
+                "name": "Random clouds",
+                "description": "There is no placing clouds phase. They are placed randomly by the system."
+            }
+        },
         "crossway": {
             "#board": {
                 "name": "Default board (19x19)"

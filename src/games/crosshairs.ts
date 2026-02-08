@@ -921,19 +921,17 @@ export class CrosshairsGame extends GameBase {
 
         // Generate all shoot/pass combinations
         return this.generateShotCombinations(
-            action, tempBoard, newlyShootable, passedPlanes, "trailing"
+            action, tempBoard, newlyShootable, passedPlanes
         );
     }
 
     // Generate all shoot/pass combinations for a set of newly shootable planes.
-    // shotPosition: "trailing" appends (targets) at end, "embedded" for dive steps.
     // Returns action variants with shot notation and updated passedPlanes.
     private generateShotCombinations(
         actionStr: string,
         boardAfterAction: Map<string, PlaneInfo>,
         newlyShootable: string[],
         passedPlanes: Set<string>,
-        shotPosition: "trailing" | "embedded",
     ): { action: string; newPassed: Set<string> }[] {
         const results: { action: string; newPassed: Set<string> }[] = [];
 
@@ -959,7 +957,7 @@ export class CrosshairsGame extends GameBase {
                 if (chainNew.length > 0) {
                     // Recurse into chain shots
                     const chainResults = this.generateShotCombinations(
-                        currentAction, currentBoard, chainNew, currentPassed, shotPosition
+                        currentAction, currentBoard, chainNew, currentPassed
                     );
                     results.push(...chainResults);
                 } else {
@@ -979,7 +977,7 @@ export class CrosshairsGame extends GameBase {
             if (this.isInCrosshairsWithBoard(target, this.currplayer, currentBoard)) {
                 const shotBoard = this.copyBoard(currentBoard);
                 shotBoard.delete(target);
-                const shotAction = this.appendShotToAction(currentAction, target, shotPosition);
+                const shotAction = this.appendShotToAction(currentAction, target);
                 recurse(idx + 1, shotAction, shotBoard, new Set(currentPassed), [...shotsThisRound, target]);
             }
         };
@@ -991,7 +989,7 @@ export class CrosshairsGame extends GameBase {
     // Append a shot target to an action string.
     // "trailing": appends (target) or extends existing trailing (targets)
     // "embedded": same as trailing for the current step notation
-    private appendShotToAction(action: string, target: string, _position: "trailing" | "embedded"): string {
+    private appendShotToAction(action: string, target: string): string {
         // Check if action already ends with a shot group
         const endMatch = action.match(/\(([^)]+)\)$/);
         if (endMatch) {
@@ -1239,7 +1237,7 @@ export class CrosshairsGame extends GameBase {
             if (this.isInCrosshairsWithBoard(target, this.currplayer, currentBoard)) {
                 const shotBoard = this.copyBoard(currentBoard);
                 shotBoard.delete(target);
-                const shotAction = this.appendShotToAction(currentAction, target, "embedded");
+                const shotAction = this.appendShotToAction(currentAction, target);
                 recurse(idx + 1, shotAction, shotBoard, new Set(currentPassed), [...shotsThisRound, target]);
             }
         };

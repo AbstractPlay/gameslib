@@ -265,7 +265,7 @@ export abstract class GameBase  {
     public abstract currplayer: number|undefined;
 
     public abstract move(move: string, opts?: IMoveOptions): GameBase;
-    public abstract render(opts: IRenderOpts): APRenderRep;
+    public abstract render(opts: IRenderOpts): APRenderRep|APRenderRep[];
     public abstract state(opts?: {strip?: boolean, player?: number}): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract clone(): GameBase;

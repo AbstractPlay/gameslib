@@ -39,7 +39,11 @@ function boardClick(row, col, piece) {
             renderOpts = { altDisplay: selectedDisplay };
         }
         game.move(result.move, {partial: true});
-        var interim = JSON.stringify(game.render(renderOpts));
+        let render = game.render(renderOpts);
+        if (Array.isArray(render)) {
+            render = render[render.length - 1];
+        }
+        var interim = JSON.stringify(render);
         window.sessionStorage.setItem("interim", interim);
     }
     renderGame();
@@ -87,7 +91,11 @@ function boardClickSimultaneous(row, col, piece) {
             renderOpts.altDisplay = selectedDisplay;
         }
         game.move(result.move + ",", {partial: true});
-        var interim = JSON.stringify(game.render(renderOpts));
+        let render = game.render(renderOpts);
+        if (Array.isArray(render)) {
+            render = render[render.length - 1];
+        }
+        var interim = JSON.stringify(render);
         window.sessionStorage.setItem("interim", interim);
     } else {
         window.sessionStorage.removeItem("interim");
@@ -1197,6 +1205,9 @@ function renderGame(...args) {
         }
         if (data === null) {
             data = game.render(renderOpts);
+            if (Array.isArray(data)) {
+                data = data[data.length - 1];
+            }
         }
         var canvas;
         try {

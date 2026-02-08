@@ -20,6 +20,7 @@
         "attangle": "Attangle is the final entry in Dieter Stein's stacking trilogy. Place and move pieces to build stacks. First person to build three triple stacks wins. The \"Grand Attangle\" variant is also implemented.",
         "ayu": "Unification game where snaky groups of pieces crawl toward their friends and eventually coalesce. If you cannot make a move on your turn, you win. This occurs when you have only one group or there is no free path between any of your groups.",
         "azacru": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
+        "bamboo": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
         "bao": "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
         "basalt": "A triangular connection game played on the side of a volcano, where lava and basalt vye to connect the three sides first.",
         "bide": "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
@@ -152,6 +153,7 @@
         "pikemen": "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         "pilastri": "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
         "pletore": "Territorial line-of-sight game. Intersections are controlled and pieces on them are flipped based on the number and direction of pieces that can see them. The winner is the player who occupies more of the board at the end.",
+        "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
@@ -167,6 +169,7 @@
         "renju": "An asymmetric five-in-a-row game where the first player is not allowed to create double open threes, double fours, or overlines. Competitive openings like Taraguchi-10 and Soosõrv-8 are implemented here.",
         "resolve": "A square grid connection game. If a crosscut is formed, swap the placed piece until it is no longer part of a crosscut. If the board is full and there is no winner, choose one of your stones in a crosscut and resolve.",
         "reversi": "Reversi is a classic game where you try to capture your opponent's pieces by sandwiching them between your own.",
+        "rincala": "A round Mancala-style sowing game where different coloured pieces have different values. Accumulate the highest score to win.",
         "rootbound": "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
         "saltire": "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         "scaffold": "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
@@ -217,7 +220,9 @@
         "verge": "Verge is a game where players attempt to create groups that partition the board, freezing those groups and removing enemy groups. The first player to have no legal placement wins.",
         "volcano": "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. The winner is the first to capture a certain number of trios.",
         "volo": "Volo was inspired by the beauty of birds flying in flocks. Each player in turn places a piece or moves one or more pieces (here called 'birds') on the board and attempts to connect them all in one contiguous 'flock.' If a player ends up with one contiguous flock (of any size), he wins.",
+        "waldmeister": "Players take turns planting trees in an attempt to create groups of either colours or heights. Highest score after two rounds wins.",
         "witch": "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
+        "wunchunk": "Unify your pieces as much as you can by the end of the game, while keeping your pieces separate in the early and mid-game so as to increase their power. Fewest groups at the end wins.",
         "wyke": "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
         "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
         "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
@@ -240,7 +245,7 @@
         "emu": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents.",
         "entropy": "In this implementation, the players play two games simultaneously but with a single shared stream of randomized pieces. Each player places a piece on their *opponent's* Order board and then makes a move on their *own* Order board; players thus act as both Order and Chaos at the same time. The player with the greatest score wins! Since both players had the exact same placement choices, this provides the cleanest measure of relative skill.",
         "exxit": "Translations of the rules tend to omit certain nuances. This implementation conforms with the original French edition of the rules.\n\nBecause the board is built out as you play in irregular shapes, the hexes are labelled numerically instead of algebraically. This ensures that the labels don't change as the map grows.",
-        "frogger": "As in other Decktet games at Abstract Play, the deck is displayed at the bottom of the board and includes both cards in the deck and unknown cards in other players' hands.  After the first hand, all cards are drawn from the open draw pool, so hands gradually become open.  The discards pile is also displayed.\n\nDue to how randomization works at Abstract Play, forced passes are needed for a player to refill the draw pool in the middle of his turn.  Passes are handled automatically by the server, but a there's also a draw pool variant that avoids forced passing if desired.\n\nThe Crocodiles variant is by Jorge Arroyo, the translator of the English rules.  The Advanced rules and other minor variants are by P. D. Magnus; they appear in The Decktet Book, where the game is called Xing.",
+        "frogger": "As in other Decktet games at Abstract Play, the deck is displayed at the bottom of the board and includes both cards in the deck and unknown cards in other players' hands. After the first hand, all cards are drawn from the open draw pool, so hands gradually become open. The discards pile is also displayed.\n\nDue to how randomization works at Abstract Play, forced passes are needed for a player to refill the draw pool in the middle of his turn. Passes are handled automatically by the server, but a there's also a draw pool variant that avoids forced passing if desired.\n\nThe Crocodiles variant is by Jorge Arroyo, the translator of the English rules. The Advanced rules and other minor variants are by P. D. Magnus; they appear in The Decktet Book, where the game is called Xing.",
         "garden": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         "gyges": "The goal squares are adjacent to all the cells in the back row. The renderer cannot currently handle \"floating\" cells.",
         "homeworlds": "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
@@ -258,7 +263,8 @@
         "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
         "quincunx": "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each orthogonally adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a set, it does *not* also score as a pair.)\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nPower play: If you played an Ace or Crown orthogonally adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         "razzle": "The implementation here is the so called tournament rules.",
-        "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the player with the largest group or the player who has the only territory will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation only provides beginner protections for the first three moves of the game. Be careful not to merge down to one Dead Group.",
+        "rincala": "For reasons, the colours are instead red (4 pts), blue (3 pts), green (2 pts), yellow (1 pt). Also, the game terminates as soon as one player earns more than half the points (>=26 pts).",
+        "rootbound": "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation currently only provides beginner protection for the first move of the game. Be careful not to merge down to one Dead Group.",
         "siegeofj": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
         "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         "spook": "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
@@ -273,10 +279,14 @@
         "toguz": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         "tumbleweed": "A space is claimed by a player if they have a piece on it, or if they have the majority of the line of sights to it. The score is the number of territory own by each player. The game ends when both players pass in succession. If there is no change in score for 20 plies, the game also ends.",
         "twixt": "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
+        "waldmeister": "Players play two games sequentially. In the first round, Player 1 is playing for colours and Player 2 is playing for heights. At the end of the first round, scores are tabulated and scoring groups highlighted. Then in the second round, Player 2 plays first and plays for colours, and Player 1 plays for heights.",
         "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible."
     },
     "variants": {
         "abande": {
+            "#board": {
+                "description": "7x7 square board"
+            },
             "hex": {
                 "description": "A 37-space hexagonal board.",
                 "name": "Board: Hexagonal"
@@ -284,6 +294,10 @@
             "snub": {
                 "description": "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
                 "name": "Board: Snub Square"
+            },
+            "libre": {
+                "name": "Abande Libre",
+                "description": "No board. Pieces are instead placed next to each other to form a hexagonal grid as you play."
             }
         },
         "accasta": {
@@ -511,6 +525,14 @@
             },
             "size-17": {
                 "name": "17x17 board"
+            }
+        },
+        "bamboo": {
+            "hex6": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "#board": {
+                "name": "Hexhex 7 (127 spaces)"
             }
         },
         "bao": {
@@ -1097,6 +1119,9 @@
             "#board": {
                 "name": "7x7 board"
             },
+            "6x6": {
+                "name": "6x6 board"
+            },
             "5x5": {
                 "name": "5x5 board"
             }
@@ -1188,35 +1213,35 @@
         },
         "frogger": {
             "#market": {
-		"description": "The draw pool does not refill until the next player's turn.",
+        		"description": "The draw pool does not refill until the next player's turn.",
                 "name": "No refills"
             },
             "advanced": {
-		"description": "The advanced game has a shorter track anda more restrictive movement rule.",
+		        "description": "The advanced game has a shorter track and a more restrictive movement rule.",
                 "name": "Advanced"
             },
             "continuous": {
-		"description": "The draw pool is smaller but refills after each turn.",
+        		"description": "The draw pool is smaller but refills after each turn.",
                 "name": "Continuous refills"
             },
             "courtpawns": {
-		"description": "For variety, the roles of pawns and courts may be reversed.",
+		        "description": "For variety, the roles of pawns and courts may be reversed.",
                 "name": "Courts for Pawns"
             },
             "courts": {
-		"description": "The four courts are added to the draw deck.  When playing a court, advance a frog to the next available spot in your choice of the three suits (even in the advanced game).  When swapping courts for pawns, pawns will be added instead.",
+        		"description": "The four courts are added to the draw deck.  When playing a court, advance a frog to the next available spot in your choice of the three suits (even in the advanced game). When swapping courts for pawns, pawns will be added instead.",
                 "name": "Courts"
             },
             "crocodiles": {
-		"description": "Add hungry crocodiles to the pawn cards.  Crocodiles advance at the end of each round, sending any frog on their new space back to the Excuse.  This variant is intended for a two-player game, but you may add crocodiles at any player count.",
+		        "description": "Add hungry crocodiles to the pawn cards. Crocodiles advance at the end of each round, sending any frog on their new space back to the Excuse. This variant is intended for a two-player game, but you may add crocodiles at any player count.",
                 "name": "Crocodiles"
             },
             "freeswim": {
-		"description": "There is no restriction on cards drawn from the draw pool.",
+        		"description": "There is no restriction on cards drawn from the draw pool.",
                 "name": "Free swim"
             },
             "refills": {
-		"description": "The draw pool may be refilled during a player's turn, by splitting their actions over two partial turns.",
+        		"description": "The draw pool may be refilled during a player's turn, by splitting their actions over two partial turns.",
                 "name": "Refills"
             }
         },
@@ -1601,9 +1626,6 @@
             "size-17": {
                 "name": "17x17 board"
             },
-            "#rules": {
-                "name": "Default rules"
-            },
             "simplified": {
                 "name": "Minimorph",
                 "description": "Faster game with simplified capture formations. Deadlocks are not possible."
@@ -1880,6 +1902,17 @@
                 "name": "Largest board (17x17)"
             }
         },
+        "plurality": {
+            "#board": {
+                "name": "13x13 board"
+            },
+            "size-15": {
+                "name": "15x15 board"
+            },
+            "size-19": {
+                "name": "19x19 board"
+            }
+        },
         "pontedd": {
             "size-8": {
                 "name": "8x8 board"
@@ -2084,9 +2117,8 @@
             "#board": {
                 "name": "13x13 board"
             },
-            "#ruleset": {
-                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
-                "name": "Default rules"
+            "#rules": {
+                "description": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts."
             },
             "basic": {
                 "description": "A swap must decrease the number of crosscuts. Draws are possible.",
@@ -2551,6 +2583,15 @@
                 "description": "This variant expands the capturing options, leading to a more aggressive game."
             }
         },
+        "tintas": {
+            "#board": {
+                "description": "A round-ish hex field of 49 spaces"
+            },
+            "modular": {
+                "name": "Modular board (7 cells, 49 spaces)",
+                "description": "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points."
+            }
+        },
         "trax": {
             "loop": {
                 "name": "Loop Trax",
@@ -2680,8 +2721,7 @@
                 "description": "Default board with 7 neutral pieces."
             },
             "#setup": {
-                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins.",
-                "name": "Freestyle setup"
+                "description": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins."
             },
             "random": {
                 "description": "The starting board has shooters in randomised position. The first player makes a normal move and the second player decides if they want to invoke the pie rule.",
@@ -2694,6 +2734,9 @@
             "size-9": {
                 "description": "Medium board with 5 neutral pieces.",
                 "name": "9x9 board"
+            },
+            "no-corners": {
+                "name": "No corner squares"
             }
         },
         "verge": {
@@ -2713,6 +2756,25 @@
             },
             "size-8": {
                 "name": "Size-8 board"
+            }
+        },
+        "wunchunk": {
+            "#board": {
+                "name": "Hexhex 6 (91 spaces)"
+            },
+            "hex5": {
+                "name": "Hexhex 5 (61 spaces)"
+            },
+            "hex7": {
+                "name": "Hexhex 7 (127 spaces)"
+            },
+            "hex8": {
+                "name": "Hexhex 8 (169 spaces)",
+                "description": "For 3 and 4 player games, the hex8 board will be selected automatically."
+            },
+            "open": {
+                "name": "Open start",
+                "description": "Only applies to two-player games. Here the first player places a chunk of each colour and the second player chooses sides."
             }
         },
         "wyke": {
@@ -2771,6 +2833,12 @@
                 "name": "Hide threatened"
             }
         },
+        "asli": {
+            "swap-prison": {
+                "description": "Swap the color of the pieces in the prison.",
+                "name": "Swap prison colors"
+            }
+        },
         "atoll": {
             "show-labels": {
                 "description": "Show labels for each cell.",
@@ -2787,6 +2855,12 @@
             "isometric": {
                 "description": "Quasi-3D, isometric view",
                 "name": "Isometric"
+            }
+        },
+        "blastradius": {
+            "nums": {
+                "name": "Numbers",
+                "description": "Stacks as numbers"
             }
         },
         "blockade": {
@@ -2841,6 +2915,12 @@
                 "description": "Display the board using vertexes instead of hexes."
             }
         },
+        "diffusion": {
+            "pips": {
+                "description": "Display the stones as pips instead of as numerals.",
+                "name": "Pips"
+            }
+        },
         "entropy": {
             "piece-numbers": {
                 "name": "Piece numbers",
@@ -2851,6 +2931,12 @@
             "hide-moves": {
                 "description": "Don't show possible moves.",
                 "name": "Hide moves"
+            }
+        },
+        "frogger": {
+            "frog-pieces": {
+                "description": "Use frog-shaped pieces.",
+                "name": "Frog pieces"
             }
         },
         "gess": {
@@ -2933,6 +3019,12 @@
             "hide-moves": {
                 "description": "Don't show possible moves.",
                 "name": "Hide moves"
+            }
+        },
+        "oware": {
+            "pips": {
+                "description": "Display the stones as pips instead of as numerals.",
+                "name": "Pips"
             }
         },
         "pente": {
@@ -3060,6 +3152,12 @@
             "flat": {
                 "description": "A flat view that uses shading to indicate height.",
                 "name": "Flat view"
+            }
+        },
+        "toguz": {
+            "pips": {
+                "description": "Display the stones as pips instead of as numerals.",
+                "name": "Pips"
             }
         },
         "trax": {
@@ -3244,9 +3342,14 @@
         "SCORES": "Scores",
         "STACKSIZES": "Stack heights",
         "tumbleweed": "Score (pieces + influence)",
-       "ESTIMATEDSCORES": "Estimated scores",
+        "ESTIMATEDSCORES": "Estimated scores",
         "TOPLACE": "Piece to place",
         "valley": "Moon Tokens",
+        "waldmeister": {
+            "COLOUR": "colours",
+            "GOALS": "Goals",
+            "HEIGHT": "heights"
+        },
         "YEAR": "Year"
     },
     "validation": {
@@ -3317,6 +3420,7 @@
             "MOVE2EMPTY": "You cannot move to empty spaces.",
             "PARTIAL": "It's possible you're trying to move a stack. Provide the destination.",
             "TOOEARLY": "You cannot move until the first player has placed two pieces.",
+            "TOOEARLY_libre": "You cannot move until four stones have been placed on the board.",
             "TOOFAR": "You can only move to an adjacent cell. {{to}} is not adjacent to {{from}}.",
             "TOOHIGH": "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
             "TRIPLESTACK": "You cannot move triple stacks."
@@ -3453,11 +3557,12 @@
             "NOPASS": "You may not make a move that does not change the board state (no passing).",
             "NOPIECE": "Trying to place a piece you don't have in your hand: {{piece}}.",
             "NOT_ADJ": "Pieces may only move one space orthogonally.",
-            "PARTIAL": "You may continue making moves, or click Complete Move to end your turn.",
+            "PARTIAL_one": "You may make {{count}} more move, or click Complete Move to end your turn.",
+            "PARTIAL_other": "You may make {{count}} more moves, or click Complete Move to end your turn.",
             "PARTIAL_MOVE": "Select the destination.",
             "PARTIAL_PLACE": "Click an empty cell to place the piece.",
             "PARTIAL_PLAY": "Continue placing your pieces.",
-            "PARTIAL_PUSH": "You must now complete the push.",
+            "PARTIAL_PUSH": "Complete the push by clicking on the piece doing the pushing.",
             "PARTIAL_FREE": "You may continue placing pieces, or click Complete Move to end your turn.",
             "PARTIAL_FREE_NO": "You may continue placing pieces, but you must place at least one rabbit, and you may not place any rabbits on the goal row.",
             "REPEAT": "You may not repeat a given position a third time.",
@@ -3563,6 +3668,10 @@
             "NO_CAPTURES": "You may not move onto a cell with another chevron.",
             "REORIENT": "Click a neighbouring cell or edge zone to select the direction you want to face.",
             "TOO_FAR": "You can't move further than your power of movement (currently {{pom}})."
+        },
+        "bamboo": {
+            "BAD_PLACE": "None of your groups may contain more stones than number of groups of your colour on the board.",
+            "INITIAL_INSTRUCTIONS": "Select an empty cell to place a stone."
         },
         "bao": {
             "BAD_TAX": "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",
@@ -4224,7 +4333,7 @@
             "INITIAL_INSTRUCTIONS": "Click an empty cell to add a piece to the board."
         },
 	"frogger": {
-            "ADDITIONAL_INSTRUCTIONS": "You may make up to three moves.  Choose another card or frog to start another move, or press the complete move button to finish your turn.",
+            "ADDITIONAL_INSTRUCTIONS": "You may make up to three moves. Choose another card or frog to start another move, or press the complete move button to finish your turn.",
             "CARD_FIRST": "Please select a hand card before moving a frog forward.",
             "CARD_NEXT": "You may click on a card in the draw pool to add it to your hand, or submit your move.",
             "CARD_NEXT_OR": "You may click on a card in the draw pool to add it to your hand, or start another move.",
@@ -4233,8 +4342,8 @@
             "INVALID_MARKET_CARD": "Your chosen pool card must not include the suit your frog landed on.",
             "INVALID_FROG": "You may only move your own frogs.",
             "INVALID_HOP_FORWARD": "When advancing, your frog must land on the first available spot of a given suit.",
-            "INVALID_HOP_FORWARD_ADVANCED": "Under the advanced rules, when playing a two-suited card from your hand, your frog must land on the first available spot of either suit (not your choice).  If both suits are present on the same board card (that is, in the same column), you may choose either spot.",
-            "INVALID_HOP_BACKWARD": "When hopping back, your frog must land on the nearest available card.  If there is more than one spot available in that column, you may choose any one of them.",
+            "INVALID_HOP_FORWARD_ADVANCED": "Under the advanced rules, when playing a two-suited card from your hand, your frog must land on the first available spot of either suit (not your choice). If both suits are present on the same board card (that is, in the same column), you may choose either spot.",
+            "INVALID_HOP_BACKWARD": "When hopping back, your frog must land on the nearest available card. If there is more than one spot available in that column, you may choose any one of them.",
             "INVALID_HOP_BACKWARD_EXCUSE": "Your frog cannot hop backward from the Excuse.",
             "INVALID_MOVE": "The move '{{move}}' could not be parsed.",
             "INVALID_NON-MOVE": "Unless you're blocked, you must move a frog on each of your moves.",
@@ -4247,26 +4356,26 @@
             "MUST_MOVE": "Your frog must move to a different card/column.",
             "MUST_PASS": "You must pass to allow another player to complete their turn.",
             "NO_CARDS_FOR_REFILL": "There are no cards left with which to refill the draw pool.",
-            "NO_CARDS_BLOCKED": "If, at the start of your turn, you have no hand cards, none of your frogs can move back, and the draw pool is empty, you must pass.",
+            "NO_CARDS_BLOCKED": "If, at the start of your turn, you have no hand cards, none of your frogs can move back, and if the draw pool is empty, you must pass.",
             "NO_CHOICE_BLOCKED": "If, at the start of your turn, you have no hand cards and none of your frogs can move back, you must draw a single card from the draw pool and end your turn.",
             "NO_MOVE_BLOCKED": "You cannot move after claiming a card for being blocked.",
-            "NO_PASSING": "There is no passing as such in Frogger.  If you are blocked, you must draw a single card from the draw pool.",
+            "NO_PASSING": "There is no passing as such in Frogger. If you are blocked, you must draw a single card from the draw pool.",
             "NO_REFILLS": "Refilling the draw pool is not allowed in this variant.",
             "NO_RETURN": "Frogs may not leave home once they've reached it.",
             "NO_SUCH_HAND_CARD": "The card \"{{card}}\" does not appear to be in your hand.",
             "NO_SUCH_MARKET_CARD": "The card \"{{card}}\" does not appear to be in the draw pool.",
             "NOT_BLOCKED": "You're not blocked, so you must move back before claiming a pool card.",
             "OCCUPIED": "Only one frog per suit space.",
-            "OFF_BOARD": "Frogs must be placed on locations with suits, at home, or at the Excuse.",
+            "OFF_BOARD": "Frogs must be placed at home, at the Excuse, or on locations with suits.",
             "OFFSIDES": "Please click on your desired suit space, not the informational icons on the top row.",
             "PIECE_NEXT": "Click on a frog to move it.",
             "PLACE_NEXT": "Click on a new location for your frog.",
-	    "TOO_HOPPY": "You may not make more than {{count}} moves on your turn.",
+	        "TOO_HOPPY": "You may not make more than {{count}} moves on your turn.",
             "TOO_EARLY_FOR_REFILL": "Please submit your refill request before making your remaining moves.",
-	    "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
-            "TOO_LATE_FOR_REFILL": "There is no need to force a refill of the draw pool after your third move.  It will refill automatically after you submit."
+	        "TOO_LATE_FOR_BLOCKED": "You do not count as blocked if you've already moved on this turn.",
+            "TOO_LATE_FOR_REFILL": "There is no need to force a refill of the draw pool after your third move. It will refill automatically after you submit.",
+            "VALID_REFILL": "Please submit your move to trigger the refill. The other player(s) will pass automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass)."
         },
-
         "furl": {
             "CAPTURE4UNFURL": "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
             "FURL4UNFURL": "You signalled a furl move with \"<\", but the selected stack has a height of {{size}}, which is greater than 1.",
@@ -4850,6 +4959,11 @@
             "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player.",
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent."
         },
+        "plurality": {
+            "INITIAL_INSTRUCTIONS": "Place a group of three orthogonal stones on empty cells. It is invalid to make a 2x2 shape of stones of any color configuration. First place two friendly pieces, then one opponent piece.",
+            "TABOO": "Place a tromino (orthogonal group of three stones), without making an occupied 2x2 area. The next click will start a new tromino.",
+            "INCOMPLETE_TURN": "To complete the turn you need two friendly placements, then an opponent placement."
+        },
         "pods": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space where you have more neighboring pieces, or select a piece to move around other pieces without passing through spaces controlled by the opponent.",
             "FIRST_MOVE_INSTRUCTIONS": "Place a piece onto any empty space on the board.",
@@ -5096,6 +5210,14 @@
             "ILLEGAL_PASS": "You may only pass if you have no legal moves.",
             "INITIAL_INSTRUCTIONS": "Select a cell to place a piece.",
             "INVALID_MOVE": "You may only place a piece where it will flip at least one of your opponent's pieces."
+        },
+        "rincala": {
+            "BAD_DIR": "That stack can't move in that direction.",
+            "CONTINUE": "You must continue playing until you capture or sow over an empty pit. Select a stack to sow.",
+            "INITIAL_INSTRUCTIONS": "Select a stack to sow.",
+            "LABEL_STASH": "Player {{playerNum}}'s captures",
+            "NO_MOVES": "That stack doesn't have any legal moves.",
+            "PARTIAL": "Select an adjacent pit to start sowing in that direction."
         },
         "rootbound": {
             "FIRST_MOVE_INSTRUCTIONS": "Place a piece anywhere on the board.",
@@ -5617,6 +5739,14 @@
             "SAME_START_END": "The start and end points are the same.",
             "SINGLE_LINE": "The {{range}} is not a straight unbroken line of your birds."
         },
+        "waldmeister": {
+            "INITIAL_INSTRUCTIONS_move": "Select a piece on the board to move.",
+            "INITIAL_INSTRUCTIONS_place": "Select one of your pieces to place on the board.",
+            "LABEL_STASH": "Player {{playerNum}}'s stash",
+            "PARTIAL_MOVE": "Select the destination.",
+            "PARTIAL_MOVE_PLACE": "Select a piece from your hand to place on the board.",
+            "PARTIAL_PLACE": "Select a space on the board to place your {{piece}} piece."
+        },
         "witch": {
             "2P_PRIVILEGE": "Only the second player may choose the pieces they wish to play.",
             "AFFILIATE": "Choose which piece you wish to play by clicking any sun or moon piece.",
@@ -5630,6 +5760,23 @@
             "ORTHOGONAL": "Lines of pieces must be horizontal or vertical, never diagonal.",
             "PARTIAL": "Select another empty space to remove the pieces in between.",
             "UNBROKEN": "Lines of pieces must be unbroken by empty cells."
+        },
+        "wunchunk": {
+            "BOARD_FULL": "The board is full.",
+            "INITIAL_INSTRUCTIONS_choose": "Use the buttons to choose whether to play first or second.",
+            "INITIAL_INSTRUCTIONS_play_one": "You may place up to {{count}} piece this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+            "INITIAL_INSTRUCTIONS_play_other": "You may place up to {{count}} pieces this turn. Click the piece at the side of the board and then an empty cell to place it. Or just click an empty cell to place one of your own pieces.",
+            "INITIAL_INSTRUCTIONS_setup_one": "Create a chunk (two adjacent pieces) for each colour anywhere on the board ({{count}} piece remaining).",
+            "INITIAL_INSTRUCTIONS_setup_other": "Create a chunk (two adjacent pieces) for each colour anywhere on the board ({{count}} pieces remaining).",
+            "INVALID_COLOUR": "The requested colour ({{colour}}) is invalid.",
+            "MUST_CHOOSE": "You must choose which side to play. Click the appropriate button, or type 'swap' to play first or 'pass' to play second.",
+            "PARTIAL": "Select where you want to place that piece.",
+            "SETUP_CHUNKS": "The pieces you place must be adjacent to each other (one chunk per player).",
+            "SETUP_TOOMANY": "You may only place one two-piece chunk for each player.",
+            "TOO_MANY_one": "You may only place up to {{count}} piece this turn.",
+            "TOO_MANY_other": "You may only place up to {{count}} pieces this turn.",
+            "VALID_BUT_one": "Valid so far. You can stop or place {{count}} more piece.",
+            "VALID_BUT_other": "Valid so far. You can stop or place {{count}} more pieces."
         },
         "wyke": {
             "CELL_CLAIMED": "The cell {{cell}} has already been claimed and cannot be interacted with further.",

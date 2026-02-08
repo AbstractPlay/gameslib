@@ -38,6 +38,7 @@ export class MixtourGame extends GameBase {
             {
                 type: "designer",
                 name: "Dieter Stein",
+                apid: "e7f53920-5be9-406a-9d5c-baa0316ab4f4",
                 urls: ["https://spielstein.com/"]
             },
             {
@@ -563,7 +564,7 @@ export class MixtourGame extends GameBase {
         return status;
     }
 
-     
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected getMoveList(): any[] {
         return this.getMovesAndResults(["pass", "move", "place", "eog", "winners"]);

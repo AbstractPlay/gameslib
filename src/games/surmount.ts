@@ -26,7 +26,8 @@ export class SurmountGame extends GameBase {
         name: "Surmount",
         uid: "surmount",
         playercounts: [2],
-        version: "20250313",
+        // version: "20250313",
+        version: "20260120",
         dateAdded: "2025-03-21",
         // i18next.t("apgames:descriptions.surmount")
         description: "apgames:descriptions.surmount",
@@ -141,11 +142,11 @@ export class SurmountGame extends GameBase {
             p = this.currplayer;
         }
         const captures: string[] = [];
-        const grpsP = this.getGroups(p);
+        const grpsMine = this.getGroups(p);
         const grpsOther = this.getGroups(p === 1 ? 2 : 1);
         if (grpsOther.length > 0) {
             const g = this.graph;
-            for (const group of grpsP) {
+            for (const group of grpsMine) {
                 const neighbours = new Set<string>();
                 for (const cell of group) {
                     for (const n of g.neighbours(cell)) {
@@ -165,6 +166,39 @@ export class SurmountGame extends GameBase {
         }
         return captures;
     }
+
+    // Used to help the new rules
+    // Only returns captures that are of strictly smaller groups
+    private strictlySmallerCaps(p?: playerid): string[] {
+        if (p === undefined) {
+            p = this.currplayer;
+        }
+        const captures: string[] = [];
+        const grpsMine = this.getGroups(p);
+        const grpsOther = this.getGroups(p === 1 ? 2 : 1);
+        if (grpsOther.length > 0) {
+            const g = this.graph;
+            for (const group of grpsMine) {
+                const neighbours = new Set<string>();
+                for (const cell of group) {
+                    for (const n of g.neighbours(cell)) {
+                        // by definition, any such cells are occupied by the opponent
+                        if (!group.includes(n) && this.board.has(n)) {
+                            neighbours.add(n);
+                        }
+                    }
+                }
+                for (const n of neighbours) {
+                    const grpOther = grpsOther.find(grp => grp.includes(n))!;
+                    if (group.length > grpOther.length) {
+                        captures.push(n);
+                    }
+                }
+            }
+        }
+        return captures;
+    }
+
 
     // Returns a list of valid initial placements (in this game, all empty cells)
     private initialPlacements(): string[] {
@@ -567,6 +601,25 @@ export class SurmountGame extends GameBase {
         }
     }
 
+    // to help with the new rules
+    // it's problematic because the notation is only telling you the enemy stone being captured
+    // so work back from that to find the capturing group, and then find all groups that touch it
+    private findOtherSmallerGroups(cell: string): string[][] {
+        const g = this.graph;
+        const ns = g.neighbours(cell);
+        const mine = this.getGroups(this.currplayer);
+        const found = mine.find(lst => ns.some(n => lst.includes(n)));
+        if (found === undefined) {
+            throw new Error(`Could not find a capturing group for ${cell}.`);
+        }
+        // get list of neighbouring cells
+        const surr = new Set<string>(found.map(c => g.neighbours(c)).flat());
+        const theirs = this.getGroups(this.currplayer === 1 ? 2 : 1);
+        const touching = theirs.filter(grp => grp.some(c => surr.has(c)));
+        const smaller = touching.filter(grp => grp.length < found.length);
+        return smaller;
+    }
+
     public move(m: string, {partial = false, trusted = false} = {}): SurmountGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
@@ -589,16 +642,39 @@ export class SurmountGame extends GameBase {
         } else {
             // initial capture
             if (m.startsWith("x")) {
-                const cell = m.substring(1);
-                const group = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!;
-                // capture all stones in the group
-                for (const stone of group) {
-                    this.board.delete(stone);
+                // old rules
+                if (this.stack[0]._version === "20250313") {
+                    const cell = m.substring(1);
+                    const group = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!;
+                    // capture all stones in the group
+                    for (const stone of group) {
+                        this.board.delete(stone);
+                    }
+                    this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
+                    // place at designated place
+                    this.board.set(cell, this.currplayer);
+                    this.results.push({type: "place", where: cell});
                 }
-                this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
-                // place at designated place
-                this.board.set(cell, this.currplayer);
-                this.results.push({type: "place", where: cell});
+                // new rules
+                else {
+                    const cell = m.substring(1);
+                    const toCapture = this.getGroups(this.currplayer === 1 ? 2 : 1).find(grp => grp.includes(cell))!;
+                    const groups: string[][] = [toCapture];
+                    // check if this capture is of a strictly smaller group
+                    if (this.strictlySmallerCaps().includes(cell)) {
+                        groups.push(...this.findOtherSmallerGroups(cell));
+                    }
+                    // capture all stones in the affected groups
+                    for (const group of groups) {
+                        for (const stone of group) {
+                            this.board.delete(stone);
+                        }
+                        this.results.push({ type: "capture", count: group.length, where: group.join(", ") });
+                    }
+                    // place at designated place
+                    this.board.set(cell, this.currplayer);
+                    this.results.push({type: "place", where: cell});
+                }
             }
             // placements
             else {

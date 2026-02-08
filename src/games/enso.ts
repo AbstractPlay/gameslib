@@ -7,8 +7,7 @@ import i18next from "i18next";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const deepclone = require("rfdc/default");
 
-export type playerid = 0|1|2;
-export type Size = 0|1|2|3;
+export type playerid = 1|2;
 export type ConnectionStatus = "enemy"|"self"|"isolated";
 
 export interface IMoveState extends IIndividualState {
@@ -28,7 +27,7 @@ export class EnsoGame extends GameBase {
         uid: "enso",
         playercounts: [2],
         version: "20260108",
-        dateAdded: "2026-01-08",
+        dateAdded: "2026-01-12",
         // i18next.t("apgames:descriptions.enso")
         description: "apgames:descriptions.enso",
         urls: [
@@ -39,6 +38,7 @@ export class EnsoGame extends GameBase {
             {
                 type: "designer",
                 name: "Dieter Stein",
+                apid: "e7f53920-5be9-406a-9d5c-baa0316ab4f4",
                 urls: ["https://spielstein.com/"]
             },
             {
@@ -54,7 +54,7 @@ export class EnsoGame extends GameBase {
             },
         ],
         categories: ["goal>isolate", "mechanic>move", "mechanic>capture", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["automove", "experimental"]
+        flags: ["automove"]
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -166,14 +166,14 @@ export class EnsoGame extends GameBase {
                         // this ray only contains contiguous empty spaces leading up
                         // to the first occupied space
                         ray = ray.slice(0, idx);
-                        for (const next of ray) {
-                            const cloned = this.clone();
-                            cloned.board.delete(pc);
-                            cloned.board.set(next, player);
-                            const status = cloned.connStatus(next);
-                            if (status === "isolated" || status === "enemy") {
-                                moves.push(`${pc}-${next}`);
-                            }
+                    }
+                    for (const next of ray) {
+                        const cloned = this.clone();
+                        cloned.board.delete(pc);
+                        cloned.board.set(next, player);
+                        const status = cloned.connStatus(next);
+                        if (status === "isolated" || status === "enemy") {
+                            moves.push(`${pc}-${next}`);
                         }
                     }
                 }
@@ -385,6 +385,9 @@ export class EnsoGame extends GameBase {
         } else if (ensoTwo) {
             this.gameover = true;
             this.winner = [2];
+        } else if (this.moves().length === 0) {
+            this.gameover = true;
+            this.winner = [this.currplayer === 1 ? 2 : 1];
         }
 
         if (this.gameover) {

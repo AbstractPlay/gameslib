@@ -1,7 +1,7 @@
 
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, BoardBasic, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, Glyph, MarkerFlood } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
@@ -21,6 +21,10 @@ export interface IBlastRadiusState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
 };
+
+interface ILegendObj {
+    [key: string]: Glyph|[Glyph, ...Glyph[]];
+}
 
 export class BlastRadiusGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -60,8 +64,9 @@ export class BlastRadiusGame extends GameBase {
                 group: "board",
             },
         ],
+        displays: [{uid: "nums"}],
         categories: ["goal>annihilate", "mechanic>place", "mechanic>stack", "mechanic>capture", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["pie", "automove"]
+        flags: ["pie", "automove"],
     };
     public numplayers = 2;
     public currplayer: playerid = 1;
@@ -352,10 +357,15 @@ export class BlastRadiusGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        let altDisplay: string|undefined;
+        if (opts !== undefined) {
+            altDisplay = opts.altDisplay;
+        }
+
         // Build piece string
         let pstr = "";
-        const cells = this.graph.listCells(true);
+        const cells = this.graph.listCells(true) as string[][];
         for (const row of cells) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -364,8 +374,12 @@ export class BlastRadiusGame extends GameBase {
             for (const cell of row) {
                 if (this.board.has(cell)) {
                     let str = this.board.get(cell)!.join("");
-                    str = str.replace(/1/g, "A");
-                    str = str.replace(/2/g, "B");
+                    if (altDisplay === "nums") {
+                        str = (str[0] === "1" ? "A" : "B") + str.length;
+                    } else {
+                        str = str.replace(/1/g, "A");
+                        str = str.replace(/2/g, "B");
+                    }
                     pieces.push(str);
                 } else {
                     pieces.push("-");
@@ -399,6 +413,40 @@ export class BlastRadiusGame extends GameBase {
                 });
             }
         }
+
+        let legend: ILegendObj = {
+            A: {
+                name: "piece",
+                colour: 1
+            },
+            B: {
+                name: "piece",
+                colour: 2
+            }
+        };
+        if (altDisplay === "nums") {
+            legend = {};
+            const pcs = new Set<string>(pstr.split(/[,\n]/));
+            for (const pc of pcs) {
+                if (pc !== "-") {
+                    legend[pc] = [
+                        {
+                            name: "piece",
+                            colour: pc[0] === "A" ? 1 : 2,
+                        },
+                        {
+                            text: pc.substring(1),
+                            colour: {
+                                func: "bestContrast",
+                                bg: pc[0] === "A" ? 1 : 2,
+                                fg: ["_context_fill", "_context_background", "_context_strokes", "_context_annotations"],
+                            },
+                        }
+                    ];
+                }
+            }
+        }
+
         const board: BoardBasic = {
             style: "hex-of-hex",
             minWidth: min,
@@ -406,18 +454,9 @@ export class BlastRadiusGame extends GameBase {
             markers,
         }
         const rep: APRenderRep =  {
-            renderer: "stacking-offset",
+            renderer: altDisplay === "nums" ? "default" : "stacking-offset",
             board,
-            legend: {
-                A: {
-                    name: "piece",
-                    colour: 1
-                },
-                B: {
-                    name: "piece",
-                    colour: 2
-                }
-            },
+            legend,
             pieces: pstr
         };
 

@@ -14,6 +14,7 @@ export class HexTriGraph implements IGraph {
     public readonly alternating: boolean;
     public readonly perimeter: number;
     public graph: UndirectedGraph
+    private _reverseLetters = false;
 
     constructor(minwidth: number, maxwidth: number, alternating = false) {
         if (minwidth >= maxwidth) {
@@ -40,8 +41,20 @@ export class HexTriGraph implements IGraph {
 
     public static directions: HexDir[] = ["NE","E","SE","SW","W","NW"];
 
+    public set reverseLetters(val: boolean) {
+        this._reverseLetters = val;
+    }
+
+    public get reverseLetters(): boolean {
+        return this._reverseLetters;
+    }
+
     public coords2algebraic(x: number, y: number): string {
-        return columnLabels[this.height - y - 1] + (x + 1).toString();
+        let idx = this.height - y - 1;
+        if (this.reverseLetters) {
+            idx = (this.height - 1) - idx;
+        }
+        return columnLabels[idx] + (x + 1).toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {
@@ -56,7 +69,10 @@ export class HexTriGraph implements IGraph {
             throw new Error(`The row label is invalid: ${pair[0]}`);
         }
 
-        const realY = this.height - y - 1;
+        let realY = this.height - y - 1;
+        if (this.reverseLetters) {
+            realY = (this.height - 1) - realY;
+        }
         const delta = Math.abs(realY - this.midrow);
         const rowWidth = this.maxwidth - delta;
         if ( (x < 0) || (x > rowWidth) ) {

@@ -57,7 +57,7 @@ export class EntropyGame extends GameBaseSimultaneous {
             },
         ],
         variants: [
-            // {uid: "6x6", group: "board"},
+            {uid: "6x6", group: "board"},
             {uid: "5x5", group: "board"},
         ],
         displays: [{uid: "piece-numbers"}],
@@ -637,6 +637,7 @@ export class EntropyGame extends GameBaseSimultaneous {
                             bg: i + 1,
                             fg: ["#000000", "#ffffff"],
                         },
+                        orientation: "vertical",
                     },
                 ] as [Glyph, ...Glyph[]];
             }

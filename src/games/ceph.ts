@@ -576,7 +576,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "1",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -587,7 +586,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "2",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -598,7 +596,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "3",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -609,7 +606,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "4",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -620,7 +616,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "5",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -631,7 +626,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "6",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -642,7 +636,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "7",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -653,7 +646,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "8",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -664,7 +656,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "9",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -675,7 +666,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "10",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -686,7 +676,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "11",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -697,7 +686,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "12",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -708,7 +696,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "1",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -719,7 +706,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "2",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -730,7 +716,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "3",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -741,7 +726,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "4",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -752,7 +736,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "5",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -763,7 +746,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "6",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -774,7 +756,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "7",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -785,7 +766,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "8",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -796,7 +776,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "9",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -807,7 +786,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "10",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -818,7 +796,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "11",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],
@@ -829,7 +806,6 @@ export class CephalopodGame extends GameBase {
                     },
                     {
                         text: "12",
-                        colour: "_context_fill",
 						scale: 0.5,
                     }
                 ],

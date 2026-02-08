@@ -51,6 +51,7 @@
         "buku": "{{count}} pieces were captured at {{where}}.",
         "c1": "{{player}} eliminates a tile at {{where}}.",
         "complete": "{{player}} captured a {{what}} at {{where}}.",
+        "crosshairs": "{{player}} shot down a plane at {{where}}.",
         "dameo_king": "{{player}} captured a king at {{where}}.",
         "dameo_soldier": "{{player}} captured a soldier at {{where}}.",
         "entrapment_opponent": "{{player}} captured an opponent's roamer at {{where}}.",
@@ -201,6 +202,7 @@
         "arimaa": "A {{colour}} {{what}} was trapped at {{where}}.",
         "armadas": "{{player}} sunk the enemy ship named {{name}}.",
         "bao": "The nyumba at {{pit}} was destroyed.",
+        "crosshairs": "{{player}}'s plane at {{where}} crashed.",
         "enemy": {
             "minimal_one": "{{count}} enemy piece was destroyed.",
             "minimal_other": "{{count}} enemy pieces were destroyed."
@@ -282,6 +284,9 @@
             "partial_one": "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
             "partial_other": "{{player}} moved {{count}} checkers from {{from}} to {{to}}."
         },
+        "crosshairs": "{{player}} moved a plane from {{from}} to {{to}}.",
+        "crosshairs_swoop": "{{player}}'s plane swooped from {{from}} to {{to}}.",
+        "crosshairs_power-dive": "{{player}}'s plane power-dived at {{from}}.",
         "camelot_castle_knight": "{{player}} made a castle move with a knight from {{from}} to {{to}}.",
         "camelot_castle": "{{player}} made a castle move with a man from {{from}} to {{to}}.",
         "camelot_plain_knight": "{{player}} made a plain move with a knight from {{from}} to {{to}}.",
@@ -339,6 +344,7 @@
     },
     "NULLIFY_CLAIM": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified.",
     "ORIENT": {
+        "crosshairs": "{{player}} turned a plane at {{where}} to face {{facing}}.",
         "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
     },
     "PASS": {
@@ -376,6 +382,8 @@
         "ccorridor": "{{player}} placed a tile at {{where}}.",
         "chase": "The chamber spit out a {{what}} at {{where}}.",
         "complete": "{{player}} placed a {{what}} at {{where}}.",
+        "crosshairs_plane": "{{player}} entered a plane at {{where}}.",
+        "crosshairs_cloud": "{{player}} placed a cloud at {{where}}.",
         "conhex": "{{player}} placed a piece at vertex {{where}}.",
         "connecticut": "{{player}} placed a triomino at {{where}}.",
         "boxes": "{{player}} adds a line at {{where}}.",

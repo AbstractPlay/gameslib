@@ -147,7 +147,7 @@ export class CrosshairsGame extends GameBase {
             },
         ],
         categories: ["goal>annihilate", "mechanic>move", "mechanic>capture", "mechanic>block", "board>shape>hex", "board>connect>hex", "components>special"],
-        flags: ["perspective", "custom-colours", "no-moves", "custom-randomization", "experimental"],
+        flags: ["no-moves", "custom-randomization", "experimental", "custom-rotation"],
         variants: [
             {
                 uid: "random-start",
@@ -2805,6 +2805,10 @@ export class CrosshairsGame extends GameBase {
             planesRemaining: [...this.planesRemaining],
             turnNumber: this.turnNumber,
         };
+    }
+
+    public getCustomRotation(): number {
+        return 0;
     }
 
     public render(opts?: IRenderOpts): APRenderRep {

@@ -58,7 +58,7 @@ export class PluralityGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["no-moves", "scores", "custom-buttons", "experimental"]
+        flags: ["scores", "custom-buttons", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -496,7 +496,10 @@ export class PluralityGame extends GameBase {
     }
 
     protected checkEOG(): PluralityGame {
-        this.gameover = this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass";
+        const allMoves = this.moves();
+        this.gameover = allMoves.length == 1 ||  // if only pass is possible, the game has ended
+                        (this.lastmove === "pass" && 
+                         this.stack[this.stack.length - 1].lastmove === "pass");
 
         if (this.gameover) {
             const terr = this.getTerritories();
@@ -582,7 +585,9 @@ export class PluralityGame extends GameBase {
         for (const t of territories) {
             if (t.owner !== undefined) {
                 const points = t.cells.map(c => this.algebraic2coords(c));
-                markers.push({type: "dots", colour: t.owner, points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
+                markers.push({type: "dots", 
+                              colour: t.owner == 3 ? "#fff" : t.owner, 
+                              points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
             }
         }
         if (markers.length > 0) {

@@ -374,14 +374,6 @@ export class AssemblyGame extends GameBaseSimultaneous {
                 },
                 {
                     text: "3",
-                    colour: {
-                        func: "bestContrast",
-                        bg: 1,
-                        fg: [
-                            "_context_strokes",
-                            "_context_fill",
-                        ]
-                    },
                 }
             ],
             B: [
@@ -391,14 +383,6 @@ export class AssemblyGame extends GameBaseSimultaneous {
                 },
                 {
                     text: "2",
-                    colour: {
-                        func: "bestContrast",
-                        bg: 2,
-                        fg: [
-                            "_context_strokes",
-                            "_context_fill",
-                        ]
-                    },
                 }
             ],
             G: [
@@ -408,14 +392,6 @@ export class AssemblyGame extends GameBaseSimultaneous {
                 },
                 {
                     text: "1",
-                    colour: {
-                        func: "bestContrast",
-                        bg: 3,
-                        fg: [
-                            "_context_strokes",
-                            "_context_fill",
-                        ]
-                    },
                 }
             ],
             Y: [
@@ -425,14 +401,6 @@ export class AssemblyGame extends GameBaseSimultaneous {
                 },
                 {
                     text: "-5",
-                    colour: {
-                        func: "bestContrast",
-                        bg: 4,
-                        fg: [
-                            "_context_strokes",
-                            "_context_fill",
-                        ]
-                    },
                 }
             ],
             X: {

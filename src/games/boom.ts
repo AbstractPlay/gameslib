@@ -539,7 +539,6 @@ export class BoomGame extends GameBase {
                         },
                         {
                             text: val.toString(),
-                            colour: "#000",
                             scale: 0.75,
                         }
                     ];

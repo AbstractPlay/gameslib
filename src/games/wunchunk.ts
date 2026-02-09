@@ -364,6 +364,15 @@ export class WunchunkGame extends GameBase {
             return result;
         }
 
+        // in open play, the only valid move in ply 2 is `pass` or `swap`
+        if (this.variants.includes("open") && this.stack.length === 2) {
+            if (m !== "pass" && m !== "swap") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.wunchunk.MUST_CHOOSE");
+                return result;
+            }
+        }
+
         const g = this.graph;
         const empties = [...g.listCells() as string[]].filter(c => !this.board.has(c));
         const steps = m.split(",").filter(Boolean);

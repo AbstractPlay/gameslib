@@ -123,12 +123,33 @@ Functions:
 * `move(m: string) => GameBase`
 * `undo() => GameBase`
 * `resign(player: number) => GameBase`
+* `timeout(player: number) => GameBase`
+* `draw() => GameBase`
+* `abandoned() => GameBase`
 
 The `move` function is the primary method of changing game state. Pass it a string representing a valid move and it will either throw an error or return the modified game state.
 
 The method `undo` removes the latest state of the stack and returns the game object. The engine persisting game states can do this itself by simply modifying the saved state as well.
 
 The `resign` function accepts a player number and removes that person from the game. This will usually result in the game ending. The modified game state is returned.
+
+The `timeout` function is similar to `resign` but indicates the player ran out of time. `draw` declares the game a draw. `abandoned` marks the game as abandoned. All return the modified game state.
+
+### User Interface
+
+Functions:
+
+* `handleClick(move: string, row: number, col: number, piece?: string) => IClickResult`
+* `statuses(isPartial: boolean, partialMove: string) => IStatus[]`
+* `getButtons() => ICustomButton[]`
+
+The `handleClick` function is the core of the interactive UI. It takes the current move string (which might be empty), the coordinates of the click, and optionally the piece clicked on. It returns an `IClickResult` object which contains the new move string, validity information, and potentially a message for the user.
+
+`statuses` returns a list of key-value pairs to display arbitrary status information to the user (e.g., "Game Phase", "Material Advantage"). This is usually information that is not tied to individual players.
+
+`getPlayersScores` is used to provide information that applies to each player but, despite the name, not just scores&mdash;for example, pieces in hand.
+
+`getButtons` returns a list of custom buttons to display for games flagged with `custom-buttons`.
 
 ### Game History
 
@@ -137,6 +158,7 @@ Functions:
 * `moveHistory() => string[][]`
 * `resultsHistory() => APMoveResult[][]`
 * `chatLog(players: string[]) => string[][]`
+* `chat(node: string[], player: string, results: APMoveResult[], r: APMoveResult) => boolean`
 * `genRecord(data: IRecordDetails) => APGameRecord | undefined`
 
 At any point during a game, you can request a compilation of all the moves made using `moveHistory()`. It returns a list of moves grouped by "round," meaning in a two player game, each array will contain the first and second player's moves together. **This is not the same as a formal game report (described further below).**
@@ -145,7 +167,7 @@ Sometimes things happen in a game that are not easily rendered on a static graph
 
 Results are things like `place` (for placing a piece), `deltaScore` (representing a change in the current player's score), and `eog` (signalling the game ended in this move). This sort of structured data can then be translated into localized written descriptions of state changes that make up a written game log.
 
-A localized chat log can also be generated. Optionally pass the function `chatLog()` the names of the players, in play order, and a narrative, translated record of the game results will be returned.
+A localized chat log can also be generated. Optionally pass the function `chatLog()` the names of the players, in play order, and a narrative, translated record of the game results will be returned. The `chat()` function is a hook used by `chatLog()` to allow individual games to override or augment the default chat generation for specific move results. It returns `true` if the result was handled, `false` otherwise. For most games, `chat()` is all you need to override. If you need the full `chatLog()`, then you need to handle *all* game messages.
 
 Formal game reports that match the RecRanks schema can be generated once the game has concluded through the `genRecord()` method. Because of the separation between the API logic and the game logic, there is a fair bit of metadata the server needs to give the game object to complete the report:
 

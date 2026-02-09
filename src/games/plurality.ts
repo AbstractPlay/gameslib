@@ -196,7 +196,7 @@ export class PluralityGame extends GameBase {
                     if (this.board.has(cell2)) continue;
                     // check for 2nd stone taboo
                     this.board.set(cell1, this.currplayer); // temporary add cell1 to check taboo
-                    let taboo = this.isTaboo(x2,y2);
+                    const taboo = this.isTaboo(x2,y2);
                     this.board.delete(cell1);               // remove it!
                     if (taboo) { continue; }
                     // ------------------- end check
@@ -506,7 +506,7 @@ export class PluralityGame extends GameBase {
             this.scores = [
                 terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0.0),
                 terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0.5),
-            ];              
+            ];
             this.winner = this.scores[0] > this.scores[1] ? [1] : [2]; // draws are not possible
             this.results.push(
                 {type: "eog"},
@@ -581,7 +581,7 @@ export class PluralityGame extends GameBase {
 
         // add territory dots
         const territories = this.getTerritories();
-        let markers: Array<MarkerDots> = []
+        const markers: Array<MarkerDots> = []
         for (const t of territories) {
             if (t.owner !== undefined) {
                 const points = t.cells.map(c => this.algebraic2coords(c));
@@ -609,7 +609,7 @@ export class PluralityGame extends GameBase {
     }
 
     public getPlayersScores(): IScores[] {
-        return [ { name: i18next.t("apgames:status.SCORES"), 
+        return [ { name: i18next.t("apgames:status.SCORES"),
                    scores: [this.getPlayerScore(1), this.getPlayerScore(2)] } ];
     }
 

@@ -321,7 +321,7 @@ export class CrosshairsGame extends GameBase {
     // a closing paren without an opening paren in between" - i.e., commas inside
     // parentheses (like shoot targets "(d4,c4)") are preserved.
     private splitActions(move: string): string[] {
-        return move.split(/,(?![^(]*\))/).filter(a => a.length > 0);
+        return move.split(/,\s*(?![^(]*\))/).filter(a => a.length > 0);
     }
 
     // Extract shooting targets from an action string (e.g., "g6vf7(e5)>e6" -> ["e5"])
@@ -540,11 +540,11 @@ export class CrosshairsGame extends GameBase {
         // Check if it's a crash (can't move forward and height <= 1)
         const [, dir, height] = planeInfo;
         if (!this.canMoveForward(cell, dir, applied.board) && height <= 1) {
-            return prefix ? `${prefix},${cell}X` : `${cell}X`;
+            return prefix ? `${prefix}, ${cell}X` : `${cell}X`;
         }
 
         // Regular plane selection
-        return prefix ? `${prefix},${cell}` : cell;
+        return prefix ? `${prefix}, ${cell}` : cell;
     }
 
     // Check if we can enter a new plane at the given cell
@@ -604,7 +604,7 @@ export class CrosshairsGame extends GameBase {
                     // Different direction - add it
                     actions[actions.length - 1] = `${fromCell}v${origSequence}${newDir}`;
                 }
-                return actions.join(",");
+                return actions.join(", ");
             }
             return move;
         }
@@ -637,7 +637,7 @@ export class CrosshairsGame extends GameBase {
                 // Append new step - origSequence already has shooting notation
                 actions[actions.length - 1] = `${fromCell}v${origSequence}>${newPartialStep}`;
             }
-            return actions.join(",");
+            return actions.join(", ");
         }
 
         return move;
@@ -1544,7 +1544,7 @@ export class CrosshairsGame extends GameBase {
                         const visualDir = this.getBearingAsVisualDir(entryCell, cell);
                         if (visualDir !== undefined) {
                             actions[actions.length - 1] = `enter:${entryCell}/${visualDir}`;
-                            newmove = actions.join(",");
+                            newmove = actions.join(", ");
                         } else {
                             newmove = move;
                         }
@@ -1564,7 +1564,7 @@ export class CrosshairsGame extends GameBase {
                                 } else {
                                     actions[actions.length - 1] = `${moveBase}/${visualDir}`;
                                 }
-                                newmove = actions.join(",");
+                                newmove = actions.join(", ");
                                 handled = true;
                             }
                         }
@@ -1572,7 +1572,7 @@ export class CrosshairsGame extends GameBase {
                         if (!handled) {
                             const clickedPlane = applied.board.get(cell);
                             if (clickedPlane !== undefined && clickedPlane[0] === this.currplayer && cell !== fromCell) {
-                                const partialSoFar = actions.slice(0, -1).join(",");
+                                const partialSoFar = actions.slice(0, -1).join(", ");
                                 newmove = this.trySelectPlane(partialSoFar, cell) || move;
                             } else {
                                 newmove = move;
@@ -1590,7 +1590,7 @@ export class CrosshairsGame extends GameBase {
                             // Clicked same cell again - enter dive mode
                             if (height > 0) {
                                 actions[actions.length - 1] = `${shotPrefix}${selectedCell}v`;
-                                newmove = actions.join(",");
+                                newmove = actions.join(", ");
                             }
                         } else {
                             // Try to determine move type based on destination
@@ -1601,13 +1601,13 @@ export class CrosshairsGame extends GameBase {
                                 if (oneAhead === cell) {
                                     // Climb: 1 space forward, needs direction selection
                                     actions[actions.length - 1] = `${shotPrefix}${selectedCell}+${cell}/`;
-                                    newmove = actions.join(",");
+                                    newmove = actions.join(", ");
                                 } else if (oneAhead !== undefined) {
                                     const twoAhead = this.moveForward(oneAhead, dir, applied.board);
                                     if (twoAhead === cell) {
                                         // Level flight: 2 spaces forward, needs direction selection
                                         actions[actions.length - 1] = `${shotPrefix}${selectedCell}-${cell}/`;
-                                        newmove = actions.join(",");
+                                        newmove = actions.join(", ");
                                     }
                                 }
                             }
@@ -1625,7 +1625,7 @@ export class CrosshairsGame extends GameBase {
                         if (newmove === "" && !applied.isPartial) {
                             newmove = this.trySelectPlane(move, cell);
                             if (newmove === "" && this.canEnterAt(cell, applied)) {
-                                newmove = `${move},enter:${cell}/`;
+                                newmove = `${move}, enter:${cell}/`;
                             }
                         }
                         // Leave newmove="" if unhandled so fallback can try shooting/switching
@@ -1639,7 +1639,7 @@ export class CrosshairsGame extends GameBase {
                             if (this.isInCrosshairsWithBoard(cell, this.currplayer, applied.board)) {
                                 const existingTargets = lastAction.slice(1, -1); // Remove parens
                                 actions[actions.length - 1] = `(${existingTargets},${cell})`;
-                                newmove = actions.join(",");
+                                newmove = actions.join(", ");
                             } else {
                                 newmove = move;
                             }
@@ -1677,7 +1677,7 @@ export class CrosshairsGame extends GameBase {
                         if (newmove === "") {
                             newmove = this.trySelectPlane(move, cell);
                             if (newmove === "" && this.canEnterAt(cell, applied)) {
-                                newmove = `${move},enter:${cell}/`;
+                                newmove = `${move}, enter:${cell}/`;
                             }
                         }
                         break;
@@ -1694,7 +1694,7 @@ export class CrosshairsGame extends GameBase {
                 if (clickedPlane !== undefined && clickedPlane[0] === this.currplayer) {
                     // Own plane clicked - try to switch if last action is partial
                     if (applied.isPartial) {
-                        const partialSoFar = actions.slice(0, -1).join(",");
+                        const partialSoFar = actions.slice(0, -1).join(", ");
                         newmove = this.trySelectPlane(partialSoFar, cell) || move;
                     } else {
                         newmove = move;
@@ -1709,7 +1709,7 @@ export class CrosshairsGame extends GameBase {
                             if (oneAhead === cell && currentHeight >= 1) {
                                 const lastAction = actions[actions.length - 1];
                                 actions[actions.length - 1] = `${lastAction}>${cell}/`;
-                                newmove = actions.join(",");
+                                newmove = actions.join(", ");
                             }
                         }
                     } else if (this.isInCrosshairsWithBoard(cell, this.currplayer, applied.board)) {
@@ -1724,7 +1724,7 @@ export class CrosshairsGame extends GameBase {
                             } else {
                                 actions[actions.length - 1] = `${lastAction}(${cell})`;
                             }
-                            newmove = actions.join(",");
+                            newmove = actions.join(", ");
                         } else {
                             newmove = move;
                         }
@@ -2819,7 +2819,7 @@ export class CrosshairsGame extends GameBase {
         const myLegend: { [key: string]: Glyph | [Glyph, ...Glyph[]] } = {};
 
         const altitudeColor = "#87CEEB"; // Light blue
-        const wedgeScale = 1.36;
+        const wedgeScale = 1.34;
 
         // Helper type for wedge specifications
         type WedgeSpec = {

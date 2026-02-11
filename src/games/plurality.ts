@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores } from "./_base";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -58,7 +58,7 @@ export class PluralityGame extends GameBase {
             { uid: "size-15", group: "board" },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["no-moves", "scores", "experimental"]
+        flags: ["scores", "custom-buttons", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -148,7 +148,7 @@ export class PluralityGame extends GameBase {
     private neighbors(x: number, y: number): number[][] {
         const result = [];
         for (const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
-            if (x+dx >= 0 && x+dx < this.boardSize &&
+            if (x+dx >= 0 && x+dx < this.boardSize && 
                 y+dy >= 0 && y+dy < this.boardSize) {
                 const cell = this.coords2algebraic(x+dx, y+dy);
                 if (! this.board.has(cell)) {
@@ -179,7 +179,7 @@ export class PluralityGame extends GameBase {
     }
 
     /**
-     * Generates a full list of valid moves from the current game state.
+     * Generates a full list of valid moves from the current game state. 
      */
     public moves(): string[] {
         if (this.gameover) { return []; }
@@ -230,6 +230,10 @@ export class PluralityGame extends GameBase {
         return moves[Math.floor(Math.random() * moves.length)];
     }
 
+    public getButtons(): ICustomButton[] {
+        return [{ label: "pass", move: "pass" }];
+    }
+
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             let newmove = "";
@@ -242,7 +246,7 @@ export class PluralityGame extends GameBase {
                 if (idx === -1) {
                     newmove = move + "," + cell; // if not, just add move
                 } else {
-                    cells.splice(idx);           // otherwise, remove/unplace it
+                    cells.splice(idx);           // otherwise, remove/unplace it 
                     newmove = cells.join(",");
                 }
             }
@@ -492,7 +496,10 @@ export class PluralityGame extends GameBase {
     }
 
     protected checkEOG(): PluralityGame {
-        this.gameover = this.lastmove === "pass" && this.stack[this.stack.length - 1].lastmove === "pass";
+        const allMoves = this.moves();
+        this.gameover = allMoves.length == 1 ||  // if only pass is possible, the game has ended
+                        (this.lastmove === "pass" && 
+                         this.stack[this.stack.length - 1].lastmove === "pass");
 
         if (this.gameover) {
             const terr = this.getTerritories();
@@ -578,7 +585,9 @@ export class PluralityGame extends GameBase {
         for (const t of territories) {
             if (t.owner !== undefined) {
                 const points = t.cells.map(c => this.algebraic2coords(c));
-                markers.push({type: "dots", colour: t.owner, points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
+                markers.push({type: "dots", 
+                              colour: t.owner == 3 ? "#fff" : t.owner, 
+                              points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
             }
         }
         if (markers.length > 0) {
@@ -605,7 +614,7 @@ export class PluralityGame extends GameBase {
     }
 
     public getPlayerScore(player: number): number {
-        const start = player == 2 ? 0.5 : 0.0;
+        const start = player == 1 ? 0.0 : 0.5;
         const terr = this.getTerritories();
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, start);
     }

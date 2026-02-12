@@ -869,7 +869,8 @@ export class FnapGame extends GameBaseSimultaneous {
                         },
                         {
                             "name": "piece-borderless",
-                            "scale": 0.45
+                            "scale": 0.45,
+                            "colour": "_context_background",
                         },
                         {
                             "text": val.toString(),

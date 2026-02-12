@@ -874,7 +874,8 @@ export class FnapGame extends GameBaseSimultaneous {
                         {
                             "text": val.toString(),
                             "scale": 0.35,
-                            "nudge": {dx: 0, dy: 20}
+                            "nudge": {dx: 0, dy: 20},
+                            "colour": "_context_fill",
                         }
                     ];
                 }

@@ -1,5 +1,16 @@
 {
     "ADD": {
-        "logger": "{{where}}’daki ağaç bir seviye büyüdü."
+        "logger": "{{where}}’daki ağaç bir seviye büyüdü.",
+        "add_one": "{{player}} {{where}} noktasına 1 parça ekledi.",
+        "add_other": "{{player}} {{where}} noktasına {{count}}  parça ekledi.",
+        "nonum": "{{player}} {{where}} noktasına bir parça ekledi.",
+        "twixt": "{{player}} {{where}} adresine bir bağlantı ekledi."
+    },
+    "ABANDONED": "Oyun iptal edildi.",
+    "AFFILIATE": {
+        "cifra_lt": "{{player}} üst sıradaki açık renkli taşları oynamayı seçti.",
+        "cifra_lb": "{{player}} alt sıradaki açık renkli taşları oynamayı seçti.",
+        "cifra_dt": "{{player}} üst sıradan siyah taşları oynamayı seçti.",
+        "cifra_db": "{{player}} üst sıradan siyah taşları oynamayı seçti."
     }
 }

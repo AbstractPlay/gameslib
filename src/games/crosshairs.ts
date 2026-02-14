@@ -199,7 +199,7 @@ export class CrosshairsGame extends GameBase {
                 currplayer: 1,
                 board: new Map(),
                 clouds,
-                planesRemaining: [5, 5],
+                planesRemaining: [6, 6],
                 turnNumber,
             };
             this.stack = [fresh];
@@ -382,10 +382,10 @@ export class CrosshairsGame extends GameBase {
     // Check if we're in entry phase (first few turns after clouds)
     private inEntryPhase(): boolean {
         if (this.inCloudPhase()) return false;
-        // Entry phase: turns 1-6 after cloud placement
-        // P1 gets turns 1,3,5 (1+3+5=9 actions), P2 gets turns 2,4,6 (2+4+5=11 actions)
-        // Both players get a 5-action turn to enter/move planes
-        return this.turnNumber <= 6;
+        // Entry phase: turns 1-7 after cloud placement
+        // P1 gets turns 1,3,5,7 (1+3+5+6=15 actions), P2 gets turns 2,4,6 (2+4+6=12 actions)
+        // Both players get a 6-action turn to enter/move planes
+        return this.turnNumber <= 7;
     }
 
     // Get number of planes to move/enter this turn (uses current board state)
@@ -394,7 +394,7 @@ export class CrosshairsGame extends GameBase {
         if (this.inEntryPhase()) {
             // Account for shot-down planes: can only move/enter planes you actually have
             const totalPlanes = this.countPlanesOnBoard(this.currplayer) + this.planesRemaining[this.currplayer - 1];
-            return Math.min(this.turnNumber, 5, totalPlanes);
+            return Math.min(this.turnNumber, 6, totalPlanes);
         }
         // After entry phase: move all planes currently on board (at start of turn)
         return this.countPlanesOnBoard(this.currplayer);
@@ -408,9 +408,9 @@ export class CrosshairsGame extends GameBase {
             .filter(info => info[0] === this.currplayer).length;
         const startOfTurnRemaining = (stackState.planesRemaining as [number, number])[this.currplayer - 1];
         if (this.inEntryPhase()) {
-            return Math.min(this.turnNumber, 5, startOfTurnPlaneCount + startOfTurnRemaining);
+            return Math.min(this.turnNumber, 6, startOfTurnPlaneCount + startOfTurnRemaining);
         }
-        return Math.min(startOfTurnPlaneCount, 5);
+        return Math.min(startOfTurnPlaneCount, 6);
     }
 
     // Count planes on board for a player
@@ -1788,7 +1788,7 @@ export class CrosshairsGame extends GameBase {
             return result;
         }
 
-        m = m.toLowerCase().replace(/\s+/g, "");
+        m = m.toLowerCase();
 
         // Cloud phase: single action per turn
         if (this.inCloudPhase()) {
@@ -2538,7 +2538,6 @@ export class CrosshairsGame extends GameBase {
         }
 
         m = m.toLowerCase();
-        m = m.replace(/\s+/g, "");
 
         if (!trusted) {
             const result = this.validateMove(m);
@@ -2879,7 +2878,7 @@ export class CrosshairsGame extends GameBase {
             ? {
                 name: "piece",
                 colour: "#ffffff",
-                opacity: 0.7,
+                opacity: 0.5,
             }
             : {
                 name: "cloud",

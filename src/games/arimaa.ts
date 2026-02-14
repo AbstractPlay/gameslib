@@ -1199,8 +1199,8 @@ export class ArimaaGame extends GameBase {
                         func: "bestContrast",
                         bg: this.getPlayerColour(colour),
                         fg: [
-                            "_context_strokes",
-                            "_context_fill"
+                            "#fff",
+                            "#000",
                         ]
                     },
                     // flipy: colour === 2 ? true : false,
@@ -1219,8 +1219,8 @@ export class ArimaaGame extends GameBase {
                             func: "bestContrast",
                             bg: this.getPlayerColour(colour),
                             fg: [
-                                "_context_strokes",
-                                "_context_fill"
+                                "#fff",
+                                "#000",
                             ]
                         },
                         // flipy: colour === 2 ? true : false,

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, MarkerDots, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, SquareOrthGraph } from "../common";
 
@@ -59,7 +59,7 @@ export class PluralityGame extends GameBase {
             { uid: "#board", },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["scores", "custom-buttons", "experimental"]
+        flags: ["pie", "scores", "custom-buttons", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -245,7 +245,7 @@ export class PluralityGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             if (this.isKomiTurn()) {
-                // Komi/Pie time, so no clicks are acceptable
+                // Komi time, so no clicks are acceptable
                 const dummyResult = this.validateMove("") as IClickResult;
                 dummyResult.move = "";
                 dummyResult.valid = false;
@@ -539,8 +539,10 @@ export class PluralityGame extends GameBase {
 
     protected checkEOG(): PluralityGame {
         const allMoves = this.moves();
-        this.gameover = allMoves.length == 1 ||  // if only pass is possible, the game has ended
-                        (this.lastmove === "pass" &&
+        //               if only pass is possible (after ply 2), the game has ended
+        this.gameover = (allMoves.length == 1 && this.stack.length > 2)
+                        || // or two consecutive passes occurred
+                        (this.lastmove === "pass" && 
                          this.stack[this.stack.length - 1].lastmove === "pass");
 
         if (this.gameover) {
@@ -634,7 +636,10 @@ export class PluralityGame extends GameBase {
                               points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
             }
         }
-
+        if (markers.length > 0) {
+            (rep.board as BoardBasic).markers = markers;
+        }
+            
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             rep.annotations = [];

@@ -151,7 +151,7 @@ export class PluralityGame extends GameBase {
     private neighbors(x: number, y: number): number[][] {
         const result = [];
         for (const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
-            if (x+dx >= 0 && x+dx < this.boardSize && 
+            if (x+dx >= 0 && x+dx < this.boardSize &&
                 y+dy >= 0 && y+dy < this.boardSize) {
                 const cell = this.coords2algebraic(x+dx, y+dy);
                 if (! this.board.has(cell)) {
@@ -186,7 +186,7 @@ export class PluralityGame extends GameBase {
     }
 
     /**
-     * Generates a full list of valid moves from the current game state. 
+     * Generates a full list of valid moves from the current game state.
      */
     public moves(): string[] {
         if (this.gameover) { return []; }
@@ -251,7 +251,7 @@ export class PluralityGame extends GameBase {
                 dummyResult.valid = false;
                 return dummyResult;
             }
-            
+
             let newmove = "";
             const cell = this.coords2algebraic(col, row);
             if (move === "") {
@@ -262,7 +262,7 @@ export class PluralityGame extends GameBase {
                 if (idx === -1) {
                     newmove = move + "," + cell; // if not, just add move
                 } else {
-                    cells.splice(idx);           // otherwise, remove/unplace it 
+                    cells.splice(idx);           // otherwise, remove/unplace it
                     newmove = cells.join(",");
                 }
             }
@@ -474,7 +474,7 @@ export class PluralityGame extends GameBase {
         }
 
         if (m.length === 0) { return this; }
-        
+
         const valid_moves = this.moves();
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -493,9 +493,9 @@ export class PluralityGame extends GameBase {
             // first move, get the Komi proposed value, and add komi to game state
             this.komi = parseInt(m, 10);
             this.results.push({type: "komi", value: this.komi});
-        } else if (m === "pass") {            
+        } else if (m === "pass") {
             this.results.push({type: "pass"});
-        } else { 
+        } else {
             // piece placement (after the Komi+Pie phase)
             const moves = m.split(",");
             this.results.push({ type: "place", where: moves[0] });
@@ -540,7 +540,7 @@ export class PluralityGame extends GameBase {
     protected checkEOG(): PluralityGame {
         const allMoves = this.moves();
         this.gameover = allMoves.length == 1 ||  // if only pass is possible, the game has ended
-                        (this.lastmove === "pass" && 
+                        (this.lastmove === "pass" &&
                          this.stack[this.stack.length - 1].lastmove === "pass");
 
         if (this.gameover) {
@@ -629,8 +629,8 @@ export class PluralityGame extends GameBase {
         for (const t of territories) {
             if (t.owner !== undefined) {
                 const points = t.cells.map(c => this.algebraic2coords(c));
-                markers.push({type: "dots", 
-                              colour: t.owner == 3 ? "#fff" : t.owner, 
+                markers.push({type: "dots",
+                              colour: t.owner == 3 ? "#fff" : t.owner,
                               points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
             }
         }
@@ -657,7 +657,7 @@ export class PluralityGame extends GameBase {
     public getPlayerScore(player: number): number {
         const start = player == 1 ? 0.0 : 0.5;
         const terr = this.getTerritories();
-        return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, start + komi);
+        return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, start + (this.komi ?? 0));
     }
 
     /**

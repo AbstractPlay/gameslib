@@ -2921,6 +2921,12 @@
                 "description": "Display the board using vertexes instead of hexes."
             }
         },
+        "crosshairs": {
+            "abstract": {
+                "description": "Use abstract glyphs for the planes and clouds.",
+                "name": "Abstract glyphs"
+            }
+        },
         "diffusion": {
             "pips": {
                 "description": "Display the stones as pips instead of as numerals.",

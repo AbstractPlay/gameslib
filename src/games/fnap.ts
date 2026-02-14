@@ -869,12 +869,14 @@ export class FnapGame extends GameBaseSimultaneous {
                         },
                         {
                             "name": "piece-borderless",
-                            "scale": 0.45
+                            "scale": 0.45,
+                            "colour": "_context_background",
                         },
                         {
                             "text": val.toString(),
                             "scale": 0.35,
-                            "nudge": {dx: 0, dy: 20}
+                            "nudge": {dx: 0, dy: 20},
+                            "colour": "_context_fill",
                         }
                     ];
                 }

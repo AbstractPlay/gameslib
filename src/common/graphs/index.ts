@@ -20,6 +20,7 @@ import { SquareDiag3DGraph } from "./square-diag-3d";
 import { HexFieldGraph } from "./hex-field";
 import { SquareDiamondsDirectedGraph } from "./square-diamonds-directed";
 import { PentaHexGraph } from "./penta-hex";
+export { RectTriGraph } from "./rect-tri";
 
 export { IGraph, IGraph3D, Square3DGraph, SquareGraph, SquareDirectedGraph,
         SquareOrth3DGraph, SquareOrthGraph, SquareOrthDirectedGraph, SquareDiag3DGraph,
@@ -136,7 +137,7 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
     for (const grp of components) {
         const bases: string[][] = [];
         const subset = g.copy();
-         
+
         for (const missing of g.nodes().filter(n => ! grp.includes(n))) {
             subset.dropNode(missing);
         }
@@ -188,7 +189,7 @@ export const fundamentalGraphCycles = (g: UndirectedGraph): string[][] => {
             const xord: number[] = [...first];
             for (const other of rest) {
                 for (let i = 0; i < other.length; i++) {
-                     
+
                     xord[i] = xord[i] ^ other[i];
                 }
             }

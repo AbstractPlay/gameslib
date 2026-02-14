@@ -53,7 +53,7 @@ export class WaldMeisterGame extends GameBase {
         uid: "waldmeister",
         playercounts: [2],
         version: "20260117",
-        dateAdded: "2026-01-17",
+        dateAdded: "2026-02-12",
         // version: "20231225",
         // i18next.t("apgames:descriptions.waldmeister")
         description: "apgames:descriptions.waldmeister",
@@ -74,7 +74,7 @@ export class WaldMeisterGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>share", "board>shape>hex", "board>connect>hex", "components>special"],
-        flags: ["experimental", "custom-colours", "scores"],
+        flags: ["custom-colours", "scores"],
     };
     public numplayers = 2;
     public currplayer!: playerid;

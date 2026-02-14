@@ -126,12 +126,11 @@ export class CrosshairsGame extends GameBase {
         name: "Crosshairs",
         uid: "crosshairs",
         playercounts: [2],
-        version: "20250117",
-        dateAdded: "2025-01-10",
+        version: "20260214",
+        dateAdded: "2026-01-10",
         description: "apgames:descriptions.crosshairs",
         urls: [
-            "https://nestorgames.com/#crosshairs_detail",
-            "https://boardgamegeek.com/boardgame/102395/crosshairs",
+            "http://mrraow.com/uploads/MyDesigns/Crosshairs2020.pdf",
         ],
         people: [
             {

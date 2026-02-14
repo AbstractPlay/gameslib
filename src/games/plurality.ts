@@ -626,19 +626,14 @@ export class PluralityGame extends GameBase {
         };
 
         // add territory dots
-        if (this.stack.length > 2) {
-            const territories = this.getTerritories();
-            const markers: Array<MarkerDots> = []
-            for (const t of territories) {
-                if (t.owner !== undefined) {
-                    const points = t.cells.map(c => this.algebraic2coords(c));
-                    markers.push({type: "dots", 
-                                  colour: t.owner == 3 ? "#fff" : t.owner, 
-                                  points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
-                }
-            }
-            if (markers.length > 0) {
-                (rep.board as BoardBasic).markers = markers;
+        const territories = this.getTerritories();
+        const markers: Array<MarkerDots> = []
+        for (const t of territories) {
+            if (t.owner !== undefined) {
+                const points = t.cells.map(c => this.algebraic2coords(c));
+                markers.push({type: "dots",
+                              colour: t.owner == 3 ? "#fff" : t.owner,
+                              points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
             }
         }
 
@@ -663,7 +658,6 @@ export class PluralityGame extends GameBase {
 
     public getPlayerScore(player: number): number {
         const start = player == 1 ? 0.0 : 0.5;
-        const komi = player == 1 || this.komi === undefined ? 0.0 : this.komi;
         const terr = this.getTerritories();
         return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, start + (this.komi ?? 0));
     }

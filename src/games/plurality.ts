@@ -245,7 +245,7 @@ export class PluralityGame extends GameBase {
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
             if (this.isKomiTurn()) {
-                // Komi/Pie time, so no clicks are acceptable
+                // Komi time, so no clicks are acceptable
                 const dummyResult = this.validateMove("") as IClickResult;
                 dummyResult.move = "";
                 dummyResult.valid = false;

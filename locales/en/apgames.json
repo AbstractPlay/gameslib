@@ -1909,10 +1909,10 @@
             }
         },
         "plurality": {
-            "#board": {
+            "size-13": {
                 "name": "13x13 board"
             },
-            "size-15": {
+            "#board": {
                 "name": "15x15 board"
             },
             "size-19": {
@@ -4966,9 +4966,13 @@
             "OPPONENT_CONTROL": "You cannot place onto the empty intersection {{cell}}. It is controlled by the opponent."
         },
         "plurality": {
-            "INITIAL_INSTRUCTIONS": "Place a group of three orthogonal stones on empty cells. It is invalid to make a 2x2 shape of stones of any color configuration. First place two friendly pieces, then one opponent piece.",
+            "INITIAL_SETUP": "Choose a number of points to add to the second player's score, and the next player will choose sides.",
+            "INSTRUCTIONS": "Place a group of three orthogonal stones on empty cells. It is invalid to make a 2x2 shape of stones of any color configuration. First place two friendly pieces, then one opponent piece.",
             "TABOO": "Place a tromino (orthogonal group of three stones), without making an occupied 2x2 area. The next click will start a new tromino.",
-            "INCOMPLETE_TURN": "To complete the turn you need two friendly placements, then an opponent placement."
+            "INCOMPLETE_TURN": "To complete the turn you need two friendly placements, then an opponent placement.",
+            "INVALID_KOMI": "You must choose an integer number of points to add to the second player's score.",
+            "INVALID_PIE": "You cannot accept or reject a pie offer now.",
+            "KOMI_CHOICE": "Invoke pie to play first or accept playing as second player."            
         },
         "pods": {
             "INITIAL_INSTRUCTIONS": "Place a piece onto an empty space where you have more neighboring pieces, or select a piece to move around other pieces without passing through spaces controlled by the opponent.",

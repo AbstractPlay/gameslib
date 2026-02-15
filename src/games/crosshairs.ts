@@ -1828,7 +1828,14 @@ export class CrosshairsGame extends GameBase {
         }
 
         // Use applyActions with inline validation
-        const applied = this.applyActions(m, { validate: true });
+        let applied;
+        try {
+            applied = this.applyActions(m, { validate: true });
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+            return result;
+        }
 
         if (applied.error) {
             result.valid = false;
@@ -1844,8 +1851,10 @@ export class CrosshairsGame extends GameBase {
             const action = this.removeShootNotation(lastAction);
             if (action.startsWith("enter:") && action.endsWith("/")) {
                 result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_ENTRY");
-            } else if ((action.includes("+") || action.includes("-")) && action.endsWith("/")) {
-                result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_MOVEMENT");
+            } else if (action.includes("+") || action.includes("-")) {
+                result.message = action.endsWith("/")
+                    ? i18next.t("apgames:validation.crosshairs.PARTIAL_MOVEMENT")
+                    : i18next.t("apgames:validation.crosshairs.PARTIAL_PLANE_MOVE");
             } else if (action.includes("v")) {
                 if (action.endsWith("/")) {
                     result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_DIVE_DIR");
@@ -1856,6 +1865,13 @@ export class CrosshairsGame extends GameBase {
                     }
                 }
             } else {
+                // Bare cell selection — only renderable if it's a valid cell
+                if (!this.graph.graph.hasNode(action)) {
+                    result.valid = false;
+                    result.canrender = false;
+                    result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+                    return result;
+                }
                 const planeInfo = applied.board.get(action);
                 if (planeInfo && planeInfo[2] >= 2) {
                     result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_PLANE_MOVE");
@@ -2439,12 +2455,17 @@ export class CrosshairsGame extends GameBase {
             }
             case "move_direction": {
                 const { targetCell, currentDir } = applied.partialState;
-                const [leftDir, rightDir] = adjacentDirs(currentDir);
-                addDirectionHints(targetCell, [currentDir, leftDir, rightDir]);
+                if (targetCell && this.graph.graph.hasNode(targetCell)) {
+                    const [leftDir, rightDir] = adjacentDirs(currentDir);
+                    addDirectionHints(targetCell, [currentDir, leftDir, rightDir]);
+                }
                 break;
             }
             case "plane_selected": {
                 const { selectedCell, dir, height } = applied.partialState;
+                if (!this.graph.graph.hasNode(selectedCell)) {
+                    break;
+                }
                 const [x, y] = this.graph.algebraic2coords(selectedCell);
                 const internalDir = visualToInternal.get(dir)!;
 

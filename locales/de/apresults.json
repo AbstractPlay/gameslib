@@ -1,1 +1,19 @@
-{}
+{
+    "ABANDONED": "Das Spiel wurde abgebrochen.",
+    "ADD": {
+        "add_one": "{{player}} hat 1 Stück zu {{where}} hinzugefügt.",
+        "add_other": "{{player}} hat {{count}} Teile zu {{where}} hinzugefügt.",
+        "logger": "Der Baum in {{where}} wuchs um eine Stufe.",
+        "nonum": "{{player}} hat ein Stück zu {{where}} hinzugefügt.",
+        "twixt": "{{player}} hat einen Link hinzugefügt bei {{where}}."
+    },
+    "AFFILIATE": {
+        "cifra_lt": "{{player}} entschied sich dafür, die hellen Stücke aus der obersten Reihe zu spielen.",
+        "cifra_lb": "{{player}} entschied sich dafür, die hellen Steine aus der unteren Reihe zu spielen.",
+        "cifra_dt": "{{player}} entschied sich dafür, die schwarzen Figuren aus der obersten Reihe zu spielen.",
+        "cifra_db": "{{player}} entschied sich dafür, die schwarzen Figuren aus der obersten Reihe zu spielen.",
+        "cifra_ll": "{{player}} entschied sich dafür, die hellen Figuren aus der linken Spalte zu spielen.",
+        "cifra_lr": "{{player}} entschied sich dafür, die hellen Figuren aus der rechten Spalte zu spielen.",
+        "cifra_dl": "{{player}} entschied sich dafür, die schwarzen Figuren aus der linken Spalte zu spielen."
+    }
+}

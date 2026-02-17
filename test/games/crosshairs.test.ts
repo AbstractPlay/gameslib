@@ -255,10 +255,10 @@ describe("Crosshairs", () => {
 
         it("A plane can only move once per turn", () => {
             // Set up a game in main phase with planes
-            g.turnNumber = 5;
+            g.turnNumber = 8;
             g.board.set('f5', [1, 'S', 0]);
             g.board.set('f8', [1, 'S', 0]);
-            g.planesRemaining = [3, 5];
+            g.planesRemaining = [4, 6];
             (g as unknown as { saveState: () => void }).saveState();
 
             // First move: f5 moves to f6
@@ -293,7 +293,7 @@ describe("Crosshairs", () => {
             for (const cell of cloudCells) {
                 g.clouds.add(cell);
             }
-            g.turnNumber = 5; // Main game phase
+            g.turnNumber = 8; // Main game phase
             g.planesRemaining = [0, 0];
             // Save state to stack so clone() works correctly
             (g as unknown as { saveState: () => void }).saveState();

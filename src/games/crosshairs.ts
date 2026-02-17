@@ -126,12 +126,11 @@ export class CrosshairsGame extends GameBase {
         name: "Crosshairs",
         uid: "crosshairs",
         playercounts: [2],
-        version: "20250117",
-        dateAdded: "2025-01-10",
+        version: "20260214",
+        dateAdded: "2026-01-10",
         description: "apgames:descriptions.crosshairs",
         urls: [
-            "https://nestorgames.com/#crosshairs_detail",
-            "https://boardgamegeek.com/boardgame/102395/crosshairs",
+            "http://mrraow.com/uploads/MyDesigns/Crosshairs2020.pdf",
         ],
         people: [
             {
@@ -199,7 +198,7 @@ export class CrosshairsGame extends GameBase {
                 currplayer: 1,
                 board: new Map(),
                 clouds,
-                planesRemaining: [5, 5],
+                planesRemaining: [6, 6],
                 turnNumber,
             };
             this.stack = [fresh];
@@ -382,10 +381,10 @@ export class CrosshairsGame extends GameBase {
     // Check if we're in entry phase (first few turns after clouds)
     private inEntryPhase(): boolean {
         if (this.inCloudPhase()) return false;
-        // Entry phase: turns 1-6 after cloud placement
-        // P1 gets turns 1,3,5 (1+3+5=9 actions), P2 gets turns 2,4,6 (2+4+5=11 actions)
-        // Both players get a 5-action turn to enter/move planes
-        return this.turnNumber <= 6;
+        // Entry phase: turns 1-7 after cloud placement
+        // P1 gets turns 1,3,5,7 (1+3+5+6=15 actions), P2 gets turns 2,4,6 (2+4+6=12 actions)
+        // Both players get a 6-action turn to enter/move planes
+        return this.turnNumber <= 7;
     }
 
     // Get number of planes to move/enter this turn (uses current board state)
@@ -394,7 +393,7 @@ export class CrosshairsGame extends GameBase {
         if (this.inEntryPhase()) {
             // Account for shot-down planes: can only move/enter planes you actually have
             const totalPlanes = this.countPlanesOnBoard(this.currplayer) + this.planesRemaining[this.currplayer - 1];
-            return Math.min(this.turnNumber, 5, totalPlanes);
+            return Math.min(this.turnNumber, 6, totalPlanes);
         }
         // After entry phase: move all planes currently on board (at start of turn)
         return this.countPlanesOnBoard(this.currplayer);
@@ -408,9 +407,9 @@ export class CrosshairsGame extends GameBase {
             .filter(info => info[0] === this.currplayer).length;
         const startOfTurnRemaining = (stackState.planesRemaining as [number, number])[this.currplayer - 1];
         if (this.inEntryPhase()) {
-            return Math.min(this.turnNumber, 5, startOfTurnPlaneCount + startOfTurnRemaining);
+            return Math.min(this.turnNumber, 6, startOfTurnPlaneCount + startOfTurnRemaining);
         }
-        return Math.min(startOfTurnPlaneCount, 5);
+        return Math.min(startOfTurnPlaneCount, 6);
     }
 
     // Count planes on board for a player
@@ -1788,7 +1787,7 @@ export class CrosshairsGame extends GameBase {
             return result;
         }
 
-        m = m.toLowerCase().replace(/\s+/g, "");
+        m = m.toLowerCase();
 
         // Cloud phase: single action per turn
         if (this.inCloudPhase()) {
@@ -1829,7 +1828,14 @@ export class CrosshairsGame extends GameBase {
         }
 
         // Use applyActions with inline validation
-        const applied = this.applyActions(m, { validate: true });
+        let applied;
+        try {
+            applied = this.applyActions(m, { validate: true });
+        } catch {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+            return result;
+        }
 
         if (applied.error) {
             result.valid = false;
@@ -1845,8 +1851,10 @@ export class CrosshairsGame extends GameBase {
             const action = this.removeShootNotation(lastAction);
             if (action.startsWith("enter:") && action.endsWith("/")) {
                 result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_ENTRY");
-            } else if ((action.includes("+") || action.includes("-")) && action.endsWith("/")) {
-                result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_MOVEMENT");
+            } else if (action.includes("+") || action.includes("-")) {
+                result.message = action.endsWith("/")
+                    ? i18next.t("apgames:validation.crosshairs.PARTIAL_MOVEMENT")
+                    : i18next.t("apgames:validation.crosshairs.PARTIAL_PLANE_MOVE");
             } else if (action.includes("v")) {
                 if (action.endsWith("/")) {
                     result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_DIVE_DIR");
@@ -1857,6 +1865,13 @@ export class CrosshairsGame extends GameBase {
                     }
                 }
             } else {
+                // Bare cell selection — only renderable if it's a valid cell
+                if (!this.graph.graph.hasNode(action)) {
+                    result.valid = false;
+                    result.canrender = false;
+                    result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+                    return result;
+                }
                 const planeInfo = applied.board.get(action);
                 if (planeInfo && planeInfo[2] >= 2) {
                     result.message = i18next.t("apgames:validation.crosshairs.PARTIAL_PLANE_MOVE");
@@ -2440,12 +2455,17 @@ export class CrosshairsGame extends GameBase {
             }
             case "move_direction": {
                 const { targetCell, currentDir } = applied.partialState;
-                const [leftDir, rightDir] = adjacentDirs(currentDir);
-                addDirectionHints(targetCell, [currentDir, leftDir, rightDir]);
+                if (targetCell && this.graph.graph.hasNode(targetCell)) {
+                    const [leftDir, rightDir] = adjacentDirs(currentDir);
+                    addDirectionHints(targetCell, [currentDir, leftDir, rightDir]);
+                }
                 break;
             }
             case "plane_selected": {
                 const { selectedCell, dir, height } = applied.partialState;
+                if (!this.graph.graph.hasNode(selectedCell)) {
+                    break;
+                }
                 const [x, y] = this.graph.algebraic2coords(selectedCell);
                 const internalDir = visualToInternal.get(dir)!;
 
@@ -2538,7 +2558,6 @@ export class CrosshairsGame extends GameBase {
         }
 
         m = m.toLowerCase();
-        m = m.replace(/\s+/g, "");
 
         if (!trusted) {
             const result = this.validateMove(m);
@@ -2879,7 +2898,7 @@ export class CrosshairsGame extends GameBase {
             ? {
                 name: "piece",
                 colour: "#ffffff",
-                opacity: 0.7,
+                opacity: 0.5,
             }
             : {
                 name: "cloud",

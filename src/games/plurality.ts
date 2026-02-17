@@ -60,7 +60,7 @@ export class PluralityGame extends GameBase {
             { uid: "#board", },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["scores", "custom-buttons"]
+        flags: ["scores", "custom-buttons", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {

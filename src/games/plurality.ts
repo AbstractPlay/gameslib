@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult, IScores } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
-import { APRenderRep, MarkerDots, BoardBasic, RowCol } from "@abstractplay/renderer/src/schemas/schema";
+import { APRenderRep, BoardBasic, MarkerDots, RowCol } from "@abstractplay/renderer/src/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError, SquareOrthGraph } from "../common";
 
@@ -21,6 +21,7 @@ export interface IMoveState extends IIndividualState {
     lastmove?: string;
     scores: [number, number];
     komi?: number;
+    swapped: boolean;
 };
 
 export interface IPluralityState extends IAPGameState {
@@ -59,7 +60,7 @@ export class PluralityGame extends GameBase {
             { uid: "#board", },
             { uid: "size-19", group: "board" },
         ],
-        flags: ["pie", "scores", "custom-buttons", "experimental"]
+        flags: ["scores", "custom-buttons", "experimental"]
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -80,6 +81,7 @@ export class PluralityGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public scores: [number, number] = [0, 0.5];
     public komi?: number;
+    public swapped = true;
 
     constructor(state?: IPluralityState | string, variants?: string[]) {
         super();
@@ -95,6 +97,7 @@ export class PluralityGame extends GameBase {
                 currplayer: 1,
                 board,
                 scores: [0, 0.5],
+                swapped: true
             };
             this.stack = [fresh];
         } else {
@@ -127,6 +130,13 @@ export class PluralityGame extends GameBase {
         this.boardSize = this.getBoardSize();
         this.scores = [...state.scores];
         this.komi = state.komi;
+        this.swapped = false;
+        // We have to check the first state because we store the updated version in later states
+        if (state.swapped === undefined) {
+            this.swapped = this.stack.length < 3 || this.stack[2].lastmove !== "play-second";
+        } else {
+            this.swapped = state.swapped;
+        }
         return this;
     }
 
@@ -185,6 +195,10 @@ export class PluralityGame extends GameBase {
         return this.stack.length === 1;
     }
 
+    public isPieTurn(): boolean {
+        return this.stack.length === 2;
+    }
+
     /**
      * Generates a full list of valid moves from the current game state.
      */
@@ -192,7 +206,13 @@ export class PluralityGame extends GameBase {
         if (this.gameover) { return []; }
         const moves: string[] = [];
 
-        moves.push("pass"); // no pass when deciding Komi, but validateMove() will filter it
+        if (this.isKomiTurn()) {
+            return [];
+        } else if (this.isPieTurn()) {
+            moves.push("play-second");
+        } else {
+            moves.push("pass");
+        }
 
         // can place on any empty space
         for (let y = 0; y < this.boardSize; y++) {
@@ -239,13 +259,16 @@ export class PluralityGame extends GameBase {
     }
 
     public getButtons(): ICustomButton[] {
-        return [{ label: "pass", move: "pass" }];
+        if (this.moves().includes("pass"))
+            return [{ label: "pass", move: "pass" }];
+        if (this.moves().includes("play-second"))
+            return [{ label: "playsecond", move: "play-second" }];
+        return []; // no buttons should appear when typing Komi at start
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
         try {
-            if (this.isKomiTurn()) {
-                // Komi time, so no clicks are acceptable
+            if (this.isKomiTurn()) { // Komi time, so no clicks are acceptable
                 const dummyResult = this.validateMove("") as IClickResult;
                 dummyResult.move = "";
                 dummyResult.valid = false;
@@ -294,14 +317,14 @@ export class PluralityGame extends GameBase {
                 return result;
             }
 
-            // player 1 typed something in the move textbox, check if it is an integer
+            // player typed something in the move textbox, check if it is an integer
             if (! /^-?\d+$/.test(m)) {
                 result.valid = false;
                 result.message = i18next.t("apgames:validation.plurality.INVALID_KOMI");
                 return result
             }
             result.valid = true;
-            result.complete = 1; // Pletore had a zero here, but move is completed after typing Komi
+            result.complete = 0; // partial because player can continue typing for abs(Komi) > 9
             result.message = i18next.t("apgames:validation.plurality.INSTRUCTIONS");
             return result;
         }
@@ -309,15 +332,40 @@ export class PluralityGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.plurality.INSTRUCTIONS")
+            if (this.isPieTurn()) {
+                result.message = i18next.t("apgames:validation.plurality.KOMI_CHOICE");
+            } else {
+                result.message = i18next.t("apgames:validation.plurality.INSTRUCTIONS")
+            }
             return result;
         }
 
-        if (m === "pass") {
-            result.valid = true;
-            result.complete = 1;
-            result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+        if (m === "play-second") {
+            if (this.isPieTurn()) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.plurality.INVALID_PLAYSECOND");
+            }
             return result;
+        }
+
+        // get all valid complete moves (so each move will be like "a1,b1,c1")
+        const allMoves = this.moves();
+
+        if (m === "pass") {
+            if (allMoves.includes("pass")) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.plurality.INVALID_PASS");
+                return result;
+            }
         }
 
         // a complete move corresponds to three placements, ie, three clicks
@@ -339,9 +387,6 @@ export class PluralityGame extends GameBase {
             result.message = i18next.t("apgames:validation._general.INVALIDCELL", { cell: currentMove });
             return result;
         }
-
-        // get all valid complete moves (so each move will be like "a1,b1,c1")
-        const allMoves = this.moves();
 
         // does any of these moves makes a taboo? A taboo will not be a prefix of any legal move
         if (! allMoves.some(legalMove => legalMove.startsWith(m))) {
@@ -388,7 +433,7 @@ export class PluralityGame extends GameBase {
 
     // --- These next methods are helpers to find territories and their eventual owners ---- //
 
-    public getGraph(): SquareOrthGraph { // NB: just orthogonal connections
+    public getGraph(): SquareOrthGraph { // just orthogonal connections
         return new SquareOrthGraph(this.boardSize, this.boardSize);
     }
 
@@ -484,7 +529,7 @@ export class PluralityGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! partial && this.stack.length > 1 && ! valid_moves.includes(m)) {
+            if (! partial && ! this.isKomiTurn() && ! valid_moves.includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
@@ -493,6 +538,11 @@ export class PluralityGame extends GameBase {
             // first move, get the Komi proposed value, and add komi to game state
             this.komi = parseInt(m, 10);
             this.results.push({type: "komi", value: this.komi});
+            this.komi *= -1; // Invert it for backwards compatibility reasons
+        } else if (m === "play-second") {
+            this.komi! *= -1;
+            this.swapped = false;
+            this.results.push({type: "play-second"});
         } else if (m === "pass") {
             this.results.push({type: "pass"});
         } else {
@@ -516,12 +566,7 @@ export class PluralityGame extends GameBase {
 
         // compute scores by computing current owned territories
         if ((m === "pass") || (m.split(",").length === 3)) {
-            const terr = this.getTerritories();
-            const komi = this.komi === undefined ? 0.0 : this.komi;
-            this.scores = [
-                terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0.0),
-                terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0.5) + komi,
-            ];
+            this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
         }
 
         // update currplayer
@@ -542,16 +587,11 @@ export class PluralityGame extends GameBase {
         //               if only pass is possible (after ply 2), the game has ended
         this.gameover = (allMoves.length == 1 && this.stack.length > 2)
                         || // or two consecutive passes occurred
-                        (this.lastmove === "pass" && 
+                        (this.lastmove === "pass" &&
                          this.stack[this.stack.length - 1].lastmove === "pass");
 
         if (this.gameover) {
-            const terr = this.getTerritories();
-            const komi = this.komi === undefined ? 0.0 : this.komi;
-            this.scores = [
-                terr.filter(t => t.owner === 1).reduce((prev, curr) => prev + curr.cells.length, 0.0),
-                terr.filter(t => t.owner === 2).reduce((prev, curr) => prev + curr.cells.length, 0.5) + komi,
-            ];
+            this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
             this.winner = this.scores[0] > this.scores[1] ? [1] : [2]; // draws are not possible
             this.results.push(
                 {type: "eog"},
@@ -581,8 +621,13 @@ export class PluralityGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             scores: [...this.scores],
-            komi: this.komi
+            komi: this.komi,
+            swapped: this.swapped
         };
+    }
+
+    public getPlayerColour(player: playerid): number | string {
+        return (player == 1 && !this.swapped) || (player == 2 && this.swapped) ? 1 : 2;
     }
 
     public render(): APRenderRep {
@@ -619,27 +664,29 @@ export class PluralityGame extends GameBase {
                 height: this.boardSize,
             },
             legend: {
-                A: [{ name: "piece", colour: 1 }],
-                B: [{ name: "piece", colour: 2 }],
+                A: [{ name: "piece", colour: this.getPlayerColour(1) }],
+                B: [{ name: "piece", colour: this.getPlayerColour(2) }],
             },
             pieces: pstr
         };
 
         // add territory dots
-        const territories = this.getTerritories();
-        const markers: Array<MarkerDots> = []
-        for (const t of territories) {
-            if (t.owner !== undefined) {
-                const points = t.cells.map(c => this.algebraic2coords(c));
-                markers.push({type: "dots",
-                              colour: t.owner == 3 ? "#fff" : t.owner,
-                              points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
+        if (this.stack.length > 2) {
+            const territories = this.getTerritories();
+            const markers: Array<MarkerDots> = []
+            for (const t of territories) {
+                if (t.owner !== undefined) {
+                    const points = t.cells.map(c => this.algebraic2coords(c));
+                    markers.push({type: "dots",
+                                  colour: t.owner == 3 ? "#fff" : this.getPlayerColour(t.owner),
+                                  points: points.map(p => { return {col: p[0], row: p[1]}; }) as [RowCol, ...RowCol[]]});
+                }
+            }
+            if (markers.length > 0) {
+                (rep.board as BoardBasic).markers = markers;
             }
         }
-        if (markers.length > 0) {
-            (rep.board as BoardBasic).markers = markers;
-        }
-            
+
         // Add annotations
         if (this.stack[this.stack.length - 1]._results.length > 0) {
             rep.annotations = [];
@@ -660,9 +707,14 @@ export class PluralityGame extends GameBase {
     }
 
     public getPlayerScore(player: number): number {
-        const start = player == 1 ? 0.0 : 0.5;
+        let komi = 0.0;
+        if (player === 1 && this.komi !== undefined && this.komi < 0)
+            komi = -this.komi + 0.5; // 0.5 is to prevent draws
+        if (player === 2 && this.komi !== undefined && this.komi > 0)
+            komi = this.komi + 0.5;
+
         const terr = this.getTerritories();
-        return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, start + (this.komi ?? 0));
+        return terr.filter(t => t.owner === player).reduce((prev, curr) => prev + curr.cells.length, komi);
     }
 
     /**

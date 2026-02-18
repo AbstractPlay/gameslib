@@ -1529,7 +1529,7 @@
         },
         "magnate": {
             "courtpawns": {
-		"description": "For variety, the roles of pawns and courts may be reversed.",
+				"description": "For variety, the roles of pawns and courts may be reversed.",
                 "name": "Courts for Pawns"
             },
             "courts": {
@@ -1541,15 +1541,15 @@
                 "name": "Acey deucey"
             },
             "mega": {
-		"description": "A scaled-up double-deck version of the game by Greg James, with nine districts, six-card hands, and two moves per turn.  The double taxanion variant is intended to go wdth this version.",
+				"description": "A scaled-up double-deck version of the game by Greg James, with nine districts, six-card hands, and two moves per turn.  The double taxanion variant is intended to go wdth this version.",
                 "name": "Mega-Magnate"
             },
             "stacked": {
-		"description": "To cut down on swinginess, the deck may be stacked to ensure a fair distribution of cards.",
+				"description": "Mega-Magnate only: to ensure a fair distribution of cards, each player draws from their own complete deck until those decks are exhausted.  The discards are shuffled into a single draw deck once, as usual.",
                 "name": "Stacked deck"
             },
             "taxtax": {
-		"description": "Two taxation dice are rolled, so two suits may be taxed.  (When they match, only a single suit is taxed.)",
+				"description": "Two taxation dice are rolled, so two suits may be taxed.  (When they match, only a single suit is taxed.)",
                 "name": "Double Taxation"
             }
         },

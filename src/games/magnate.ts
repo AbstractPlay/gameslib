@@ -2413,7 +2413,7 @@ export class MagnateGame extends GameBase {
 //                        colour: "#000",
                         nudge: {
                             dx: 0,
-                            dy: 100,
+                            dy: 125,
                         },
                         orientation: "vertical",
                     }

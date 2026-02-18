@@ -2358,6 +2358,17 @@ export class MagnateGame extends GameBase {
             legend["k" + card.uid] = glyph;
         }
 
+        // add glyph for unknown cards
+        legend["kUNKNOWN"] = {
+            name: "piece-square-borderless",
+            colour: {
+                func: "flatten",
+                fg: "_context_fill",
+                bg: "_context_background",
+                opacity: 0.5,
+            },
+        }
+        
         //Suit tokens
         
         for (let s = 0; s < 6; s++) {

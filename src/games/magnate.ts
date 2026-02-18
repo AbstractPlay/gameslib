@@ -1984,11 +1984,15 @@ export class MagnateGame extends GameBase {
             stack: [...this.stack]
         };
         if (opts !== undefined && opts.strip) {
+            const handCount = (this.variants.includes("mega") ? 6 : 3);
             state.stack = state.stack.map(mstate => {
                 for (let p = 1; p <= this.numplayers; p++) {
                     if (p === opts.player) { continue; }
-                    //Hide hands.
-                    mstate.hands[p - 1] = mstate.hands[p - 1].map(() => "");
+
+                    if (mstate.hands[p - 1].length === handCount) {
+                        //Hide hands until the last round of the game.
+                        mstate.hands[p - 1] = mstate.hands[p - 1].map(() => "");
+                    }
                     //Hide prefs.
                     mstate.deeds[p - 1].forEach( value => value.preferred = undefined );
                     //Tokens are public information.
@@ -2373,13 +2377,8 @@ export class MagnateGame extends GameBase {
         
         for (let s = 0; s < 6; s++) {
             const suit = suits[s];
-            
-   /*         legend["s" + suit.uid] = {
-                name: suit.glyph!,
-                scale: 0.5
-            }
-   */         
             const color = suitColors[s];
+
             for (let p = 0; p < 2; p++) {
                 const pcount = this.tokens[p][s];
                 const lname = "s" + suit.uid + (p + 1).toString();

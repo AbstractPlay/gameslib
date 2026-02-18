@@ -96,7 +96,7 @@ export class MagnateGame extends GameBase {
             { uid: "taxtax" }, //double taxation
         ],
         categories: ["goal>area", "goal>score>eog", "mechanic>place", "mechanic>economy", "mechanic>hidden", "mechanic>random>play", "board>none", "components>decktet"],
-        flags: ["custom-randomization", "no-explore", "no-moves", "perspective", "scores"],
+        flags: ["custom-randomization", "no-explore", "no-moves", "perspective", "scores", "experimental"],
     };
 
     //The UI is quite simple because we only need to specify a column.

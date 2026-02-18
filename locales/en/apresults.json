@@ -4,6 +4,7 @@
         "add_one": "{{player}} added 1 piece to {{where}}.",
         "add_other": "{{player}} added {{count}} pieces to {{where}}.",
         "logger": "The tree at {{where}} grew one stage.",
+        "magnate": "{{player}} added {{count}} token(s) to their deeded card {{where}}.",
         "nonum": "{{player}} added a piece to {{where}}.",
         "twixt": "{{player}} added a link at {{where}}."
     },
@@ -69,6 +70,7 @@
         "lasca_officer": "{{player}} captured an officer at {{where}}.",
         "lasca_soldier": "{{player}} captured a soldier at {{where}}.",
         "lifeline": "Dead pieces were removed at {{where}}.",
+        "magnate": "{{whose}} was taxed {{count}} {{where}} tokens.",
         "majorities": "{{count}} pieces were removed.",
         "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
         "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
@@ -140,6 +142,8 @@
         "frogger": "{{player}} was blocked and drew {{card}} from the draw pool.",
         "jacynth": "{{player}} exerted influence at {{where}}.",
         "logger": "{{player}} claimed a protestor from the tree felled at {{where}}.",
+        "magnate": "{{who}} gained {{what}}.",
+        "magnate_initial": "Players collected their Crown resources.",
         "majorities_line": "{{player}} claimed the line {{where}}.",
         "majorities_H": "{{player}} claimed the horizontal direction.",
         "majorities_A": "{{player}} claimed the ascending direction.",
@@ -155,6 +159,8 @@
     "CONVERT": {
         "complete": "{{player}} turned a {{what}} into a {{into}} at {{where}}.",
         "courtesan": "King and courtesan swapped positions at {{where}}.",
+        "magnate_deed": "{{player}} completed their deeded card {{what}} in district {{where}}.",
+        "magnate_trade": "{{player}} traded three {{what}} tokens in for one {{into}}.",
         "moonsquad": "{{player}} recruited a squad.",
         "pacru": "{{player}} converted {{where}}.",
         "paintbucket_one": "{{player}} converted 1 piece at {{where}}.",
@@ -172,6 +178,7 @@
         "emu_deck": "{{player}} drew a face-down card from the deck.",
         "emu_discard": "{{player}} drew the {{what}} from the top of the discard pile.",
         "frogger": "The draw pool was {{what}} refilled.",
+        "magnate": "The discards were shuffled.  There are no shuffles remaining.",
         "quincunx_one": "{{player}} drew {{count}} card.",
         "quincunx_other": "{{player}} drew {{count}} cards."
     },
@@ -403,6 +410,10 @@
         "logger_logger": "{{player}} placed their logger at {{where}}.",
         "logger_plant": "{{player}} planted a sapling at {{where}}.",
         "logger_spawn": "A new sapling sprouted at {{where}}.",
+        "magnate_buy": "{{player}} bought {{what}} for district {{where}}.",
+        "magnate_deed_start": "{{player}} deeded {{what}} in district {{where}}.",
+        "magnate_deed_end": "{{player}} completed their deeded card {{what}} in district {{where}}.",
+        "magnate_sell": "{{player}} sold {{what}}.",
         "mattock": "{{player}} placed a miner at {{where}}.",
         "meg_cap": "{{player}} placed a blocker at {{where}}.",
         "meg_cup": "{{player}} placed a receiver at {{where}}.",
@@ -515,6 +526,8 @@
     },
     "RESIGN": "{{player}} has resigned.",
     "ROLL": {
+        "magnate": "{{who}} rolled a {{values}}.",
+        "magnate_eight": "{{who}} rolled an {{values}}.",
         "single": "The die was rolled: {{values}}.",
         "tablero": "The dice were rolled: {{values}}."
     },

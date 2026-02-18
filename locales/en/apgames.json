@@ -116,6 +116,7 @@
         "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
         "logger": "A Looney pyramids game where the players vie to grow and harvest more trees than their opponents.",
         "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides at the start of their turn wins.",
+        "magnate": "An economic game for the Decktet in which players vie for control of five districts by developing sequences of cards.  Higher ranked cards cost more, but contribute more towards your income (even while only partly developed) and your score.  The (taxable) currency of the land is suit tokens, collected by selling unwanted cards, or earned from partly- or fully-developed cards on a roll of the dice, as in Catan.",
         "majorities": "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction wins that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
         "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
         "margo": "Margo is a stacking Go variant. Players may not pass. The game ends when one player is not able to move, and the player with the most balls on the board wins.",
@@ -253,6 +254,7 @@
         "konane": "Several competing opening protocols exist, but the most common ruleset is described in the BGG reference and is what is implemented here.",
         "lasca": "Maneuverability is a measure of how close your pieces are to promoting. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have an officer on top of that stack.",
         "loa": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
+        "magnate": "The terminology of some Magnate actions has been altered for clarity and brevity.  Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\".  (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll.  If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens.  The currently preferred token is circled in the UI, but your preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll.\nIn all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value.  Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suit(s) will be displayed underneath the resource result.  The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game).  Except for a \"Choose\", no user action is required; resources are added and/or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color.  The first tiebreaker score (total property value) is displayed in parentheses after the district score.  The second tiebreaker is total number of tokens remaining.",
         "mchess": "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         "murus": "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
@@ -1523,6 +1525,32 @@
             },
             "size-15": {
                 "name": "Size-15 board."
+            }
+        },
+        "magnate": {
+            "courtpawns": {
+		"description": "For variety, the roles of pawns and courts may be reversed.",
+                "name": "Courts for Pawns"
+            },
+            "courts": {
+                "description": "Include Courts in the deck.  Fully built Courts are worth ten points when scoring districts.  They cost ten suit tokens, with the usual restriction of at least one token in each suit.  Courts may be deeded for three suit tokens (one of each suit).",
+                "name": "Courts"
+            },
+            "deucey": {
+                "description": "Aces normally score one point per card of that suit in the player's own district, including the Ace itself.  In this variant, Aces score a point of all matching cards on both sides of the district as well as the Pawn, if applicable.",
+                "name": "Acey deucey"
+            },
+            "mega": {
+		"description": "A scaled-up double-deck version of the game by Greg James, with nine districts, six-card hands, and two moves per turn.  The double taxanion variant is intended to go wdth this version.",
+                "name": "Mega-Magnate"
+            },
+            "stacked": {
+		"description": "To cut down on swinginess, the deck may be stacked to ensure a fair distribution of cards.",
+                "name": "Stacked deck"
+            },
+            "taxtax": {
+		"description": "Two taxation dice are rolled, so two suits may be taxed.  (When they match, only a single suit is taxed.)",
+                "name": "Double Taxation"
             }
         },
         "majorities": {
@@ -4623,6 +4651,44 @@
             "INSUFFICIENT_LOS": "{{count}} directions with line of sight is required to capture the cell on {{cell}}.",
             "CAPTURE4PLACE": "You suffixed the cell with 'x' to indicate capture, but this is not a capture move. Try '{{cell}}'.",
             "OPPONENT_CONTROLLED": "The cell at {{where}} is controlled by your opponent."
+        },
+        "magnate": {
+            "BUTTON_INSTRUCTIONS": "Click a button to select your next action.",
+            "CARD_NOT_DONE_INSTRUCTIONS": "Click a hand card to buy, deed, or sell, click a deed to add tokens to it, or select tokens to trade.",
+            "CHOOSE_SUIT_INSTRUCTIONS": "Click the suit token to collect.",
+            "CHOICE_BUTTON_INSTRUCTIONS": "Click a highlighted deed card to choose which suit token to collect.",
+            "DEEDED_CARD_INSTRUCTIONS": "Click an already deeded card to add tokens to it, or to select your preferred suit.",
+            "DISTRICT_INSTRUCTIONS": "Click a district to add your card there.",
+            "HAND_CARD_INSTRUCTIONS": "Click a hand card to buy, deed, or sell.",
+            "INCOMPLETE_ACTION": "Please complete the previous action before starting another.",
+            "INITIAL_BUTTON_INSTRUCTIONS": "Click a button to select your first action.",
+            "INITIAL_PLACEMENT_INSTRUCTIONS": "Click a hand card to deed, buy, or sell.",
+            "INVALID_ACTION": "You cannot consume another card from your hand, so you may not take another Buy, Deed or Build action this turn.",
+            "INVALID_BUY": "You do not have the suit tokens necessary to buy this card.",
+            "INVALID_DEED_PAYMENT": "You do not have the suit tokens necessary to deed this card.",
+            "INVALID_DEED_TWO": "You cannot deed a card of rank 2; just buy it.",
+            "INVALID_MOVE": "The action '{{move}}' could not be parsed.",
+            "INVALID_OTHER_PAYMENT": "You do not have the selected suit tokens available.",
+            "INVALID_PAYMENT": "The selected token(s) cannot be used to buy or add to the selected card.",
+            "INVALID_PLACEMENT": "The selected card cannot be placed here because no suits match or a deed is already present.",
+            "INVALID_SUIT": "The selected suit does not appear on the card.",
+            "INVALID_TRADE": "You do not have three tokens of that suit available to trade.",
+            "LABEL_BOTH": "Player {{playerNum}}'s hand and suit tokens",
+            "LABEL_COLLECTION": "Player {{playerNum}}'s suit tokens",
+            "LABEL_DECK": "Cards in deck",
+            "LABEL_DISCARDS_NONE": "Discard pile (no shuffles left)",
+            "LABEL_DISCARDS_ONE": "Discard pile (one shuffle left)",
+            "LABEL_HAND": "Player {{playerNum}}'s hand",
+            "LABEL_STACKED_DECK": "Player {{playerNum}}'s deck",
+            "MALFORMED_TRADE": "You must choose three tokens of the same suit to begin a trade.",
+            "MUST_CHOOSE": "You must choose which deed resource(s) to receive before taking any other actions.",
+            "NOT_DEEDED": "The card you selected does not appear to be among your deeded cards.",
+            "NOT_IN_HAND": "The card you selected does not appear to be in your hand.",
+            "PREFER_SUIT_INSTRUCTIONS": "Click the suit you want to collect if this rank is rolled.",
+            "SPEND_INSTRUCTIONS": "Click the suit tokens you want to use.",
+            "TOKEN_ADD_INSTRUCTIONS": "Click the tokens to add to this deed.",
+            "TOKEN_TRADE_INSTRUCTIONS": "Click the suit you want in exchange.",
+            "VALID_PLACEMENT": "Looks like a good placement."
         },
         "majorities": {
             "INITIAL_INSTRUCTIONS": "Select two cells to place your pieces.",

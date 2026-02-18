@@ -54,7 +54,7 @@ export class PluralityGame extends GameBase {
                 apid: "9228bccd-a1bd-452b-b94f-d05380e6638f",
             },
         ],
-        categories: ["goal>area", "mechanic>place", "board>shape>rect"],
+        categories: ["goal>area", "mechanic>place", "board>shape>rect", "board>connect>rect"],
         variants: [
             { uid: "size-13", group: "board" },
             { uid: "#board", },

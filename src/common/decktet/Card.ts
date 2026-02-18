@@ -1,7 +1,7 @@
 import { Component, ranks, suits } from "./Component";
 import { Colourfuncs, Glyph } from "@abstractplay/renderer/src/schemas/schema";
 
-type Params = {
+export type Params = {
     name: string;
     rank: Component;
     suits: Component[];

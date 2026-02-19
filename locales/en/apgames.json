@@ -157,6 +157,7 @@
         "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
         "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
         "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
+        "product": "Players score by multiplying their two largest groups. Largest score wins. If tied, wins the second player.",
         "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         "pylon": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
         "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
@@ -1956,6 +1957,20 @@
             },
             "size-12": {
                 "name": "12x12 board"
+            }
+        },
+        "product": {
+            "size-4": {
+                "name": "Hexagonal board (base-4)"
+            },
+            "#board": {
+                "name": "Hexagonal board (base-5)"
+            },
+            "size-6": {
+                "name": "Hexagonal board (base-6)"
+            },
+            "size-7": {
+                "name": "Hexagonal board (base-7)"
             }
         },
         "pylon": {
@@ -5075,6 +5090,14 @@
             "TOO_BIG": "Islands cannot be larger than four tiles.",
             "TOO_CLOSE": "Islands may not diagonally touch other islands or sandbars of that colour.",
             "TOO_MANY": "You may not place more than two tiles."
+        },
+        "product": {
+            "INSTRUCTIONS": "Players place, on empty hexes, two stones of either color. The only exception is on the first turn, where the first player places just one stone of either color.",
+            "INCOMPLETE_TURN": "To complete the turn you need two placements.",
+            "INVALID_PLACEMENT": "Unable to interpret the move notation: {{move}}.",
+            "NORMALISE": "The move needs to be normalised. Try {{normalised}}.",
+            "TOO_MANY_MOVES": "Only two placements are allowed.",
+            "TOO_MANY_MOVES_START": "At the start, only one placement is allowed."
         },
         "prudh": {
             "INITIAL_INSTRUCTIONS": "Select a stack on a cell you control.",

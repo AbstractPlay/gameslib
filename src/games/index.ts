@@ -227,6 +227,7 @@ import { BambooGame, IBambooState } from "./bamboo";
 import { PluralityGame, IPluralityState } from "./plurality";
 import { CrosshairsGame, ICrosshairsState } from "./crosshairs";
 import { MagnateGame, IMagnateState } from "./magnate";
+import { ProductGame, IProductState } from "./product";
 
 export {
     APGamesInformation, GameBase, GameBaseSimultaneous, IAPGameState,
@@ -457,6 +458,7 @@ export {
     PluralityGame, IPluralityState,
     CrosshairsGame, ICrosshairsState,
     MagnateGame, IMagnateState,
+    ProductGame, IProductState,
 };
 
 const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof CannonGame |
@@ -536,7 +538,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
                               typeof RampartGame | typeof KrypteGame | typeof EnsoGame |
                               typeof RincalaGame | typeof WaldMeisterGame | typeof WunchunkGame |
                               typeof BambooGame | typeof PluralityGame | typeof CrosshairsGame |
-                              typeof MagnateGame
+                              typeof MagnateGame | typeof ProductGame
                 >();
 // Manually add each game to the following array
 [
@@ -571,7 +573,7 @@ const games = new Map<string, typeof AmazonsGame | typeof BlamGame | typeof Cann
     BloqueoGame, PilastriGame, TessellaGame, GorogoGame, BiscuitGame, QuincunxGame,
     SiegeOfJGame, StairsGame, EmuGame, DeckfishGame, BluestoneGame, SunspotGame, StawvsGame,
     LascaGame, EmergoGame, FroggerGame, ArimaaGame, RampartGame, KrypteGame, EnsoGame, RincalaGame,
-    WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame,
+    WaldMeisterGame, WunchunkGame, BambooGame, PluralityGame, CrosshairsGame, MagnateGame, ProductGame
 ].forEach((g) => {
     if (games.has(g.gameinfo.uid)) {
         throw new Error("Another game with the UID '" + g.gameinfo.uid + "' has already been used. Duplicates are not allowed.");
@@ -1033,10 +1035,12 @@ export const GameFactory = (game: string, ...args: any[]): GameBase|GameBaseSimu
             return new BambooGame(...args);
         case "plurality":
             return new PluralityGame(...args);
-	case "crosshairs":
+        case "crosshairs":
             return new CrosshairsGame(...args);
         case "magnate":
             return new MagnateGame(...args);
+        case "product":
+            return new ProductGame(...args);
     }
     return;
 }

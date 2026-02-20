@@ -13,7 +13,6 @@ export interface IMoveState extends IIndividualState {
     currplayer: playerid;
     board: Map<string, playerid>;
     lastmove?: string;
-    scores: [number, number];
 };
 
 export interface IProductState extends IAPGameState {
@@ -52,7 +51,7 @@ export class ProductGame extends GameBase {
             { uid: "size-6", group: "board" },
             { uid: "size-7", group: "board" },
         ],
-        flags: ["scores", "no-moves"]
+        flags: ["scores", "no-moves", "experimental"]
     };
 
     public numplayers = 2;
@@ -65,7 +64,6 @@ export class ProductGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public boardSize = 5;
-    public scores: [number, number] = [0, 0];
 
     constructor(state?: IProductState | string, variants?: string[]) {
         super();
@@ -79,7 +77,6 @@ export class ProductGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board: new Map(),
-                scores: [0, 0],
             };
             this.stack = [fresh];
         } else {
@@ -110,7 +107,6 @@ export class ProductGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.boardSize = this.getBoardSize();
-        this.scores = [...state.scores];
         this.buildGraph();
         return this;
     }
@@ -299,6 +295,10 @@ export class ProductGame extends GameBase {
         return move.split(",").sort((a, b) => this.sort(a, b)).join(",");
     }
 
+    public sameMove(move1: string, move2: string): boolean {
+        return this.normaliseMove(move1) === this.normaliseMove(move2);
+    }
+
     public validateMove(m: string): IValidationResult {
         const nMovesTurn = 2;
         const result: IValidationResult = {valid: false,
@@ -326,7 +326,7 @@ export class ProductGame extends GameBase {
         try {
             for (const move of moves) {
                 currentMove = move.slice(1);
-                const [, y] = this.graph.algebraic2coords(move.slice(1));
+                const [, y] = this.graph.algebraic2coords(currentMove);
                 // `algebraic2coords` does not check if the cell is on the board fully.
                 if (y < 0) { throw new Error("Invalid cell."); }
             }
@@ -357,7 +357,7 @@ export class ProductGame extends GameBase {
 
         // is move normalised? (sanity check, in case user types the move)
         const normalised = this.normaliseMove(m);
-        if (m !== normalised) {
+        if (! this.sameMove(m, normalised)) {
             result.valid = false;
             result.message = i18next.t("apgames:validation.product.NORMALISED", {move: normalised});
             return result;
@@ -433,8 +433,8 @@ export class ProductGame extends GameBase {
         this.gameover = this.spacesLeft() === 0;
 
         if (this.gameover) {
-            this.scores = [this.getPlayerScore(1), this.getPlayerScore(2)];
-            this.winner = this.scores[0] > this.scores[1] ? [1] : [2]; // tied scores is a P2 win
+            // tied scores is a P2 win
+            this.winner = this.getPlayerScore(1) > this.getPlayerScore(2) ? [1] : [2];
             this.results.push(
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
@@ -463,7 +463,6 @@ export class ProductGame extends GameBase {
             currplayer: this.currplayer,
             lastmove: this.lastmove,
             board: new Map(this.board),
-            scores: [...this.scores]
         };
     }
 

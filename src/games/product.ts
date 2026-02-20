@@ -5,7 +5,6 @@ import { APMoveResult } from "../schemas/moveresults";
 import { reviver, UserFacingError } from "../common";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs";
-import _ from "lodash";
 
 export type playerid = 1|2;
 
@@ -189,7 +188,7 @@ export class ProductGame extends GameBase {
         return groups.map(g => g.size).sort((a, b) => b - a);
     }
 
-    public moves(player?: playerid): string[] {
+    public moves(): string[] {
         if (this.gameover) { return []; }
         const moves: string[] = [];
 

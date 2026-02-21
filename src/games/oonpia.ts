@@ -64,7 +64,6 @@ export class OonpiaGame extends GameBase {
         flags: ["pie", "custom-buttons", "no-moves", "custom-randomization", "custom-colours"],
         categories: ["mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>hex", "board>connect>hex", "components>simple>2per"],
         variants: [
-            { uid: "size-4", group: "board" },
             { uid: "size-5", group: "board" },
             { uid: "#board", },
             { uid: "size-7", group: "board" },
@@ -396,7 +395,7 @@ export class OonpiaGame extends GameBase {
         if (possibleMoves.length === 0) {
             return {
                 valid: false,
-                message: i18next.t("apgames:validation.oonpia.INVALID_BOTH", {where: move.cell}),
+                message: i18next.t("apgames:validation.oonpia.INVALID_BOTH", {where: ms}),
                 move: ms
             }
         }
@@ -959,7 +958,7 @@ export class OonpiaGame extends GameBase {
         }
 
         const s = this.boardSize - 1;
-        const boardcol = "#e0bb6c"; // colours from besogo viewer together with 
+        const boardcol = this.usePalette ? 4 : "#e0bb6c";
         const boardEdgeW = 55;
 
         const hasPrison = this.prison.reduce((prev, curr) => prev + curr, 0) > 0;
@@ -1091,9 +1090,9 @@ export class OonpiaGame extends GameBase {
                             fg: ["#000000", "#ffffff"],
                         }, scale: 0.363, opacity: 0.5}
                 ],
-                E: {name: "piece-borderless", colour: p3, scale: 1.0},
+                E: {name: "piece-borderless", colour: p3, scale: 1.1},
                 F: [
-                    {name: "piece-borderless", colour: p3, scale: 1.0},
+                    {name: "piece-borderless", colour: p3, scale: 1.1},
                     {name: "piece-borderless", colour: {
                             func: "bestContrast",
                             bg: p3,
